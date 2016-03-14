@@ -84,6 +84,7 @@ import com.android.documentsui.Events;
 import com.android.documentsui.Events.MotionInputEvent;
 import com.android.documentsui.Menus;
 import com.android.documentsui.MessageBar;
+import com.android.documentsui.MimePredicate;
 import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
 import com.android.documentsui.RootsCache;

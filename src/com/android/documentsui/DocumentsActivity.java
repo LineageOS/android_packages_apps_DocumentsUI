@@ -95,7 +95,7 @@ public class DocumentsActivity extends BaseActivity {
         }
 
         if (mState.restored) {
-            refreshCurrentRootAndDirectory(ANIM_NONE);
+            refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         } else {
             // We set the activity title in AsyncTask.onPostExecute().
             // To prevent talkback from reading aloud the default title, we clear it here.

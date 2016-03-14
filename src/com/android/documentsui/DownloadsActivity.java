@@ -17,7 +17,6 @@
 package com.android.documentsui;
 
 import static com.android.documentsui.State.ACTION_MANAGE;
-import static com.android.documentsui.dirlist.DirectoryFragment.ANIM_NONE;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -35,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toolbar;
 
+import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.model.DocumentInfo;
@@ -70,7 +70,7 @@ public class DownloadsActivity extends BaseActivity {
             final Uri rootUri = getIntent().getData();
             new LoadRootTask(this, rootUri).executeOnExecutor(getExecutorForCurrentDirectory());
         } else {
-            refreshCurrentRootAndDirectory(ANIM_NONE);
+            refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         }
     }
 
