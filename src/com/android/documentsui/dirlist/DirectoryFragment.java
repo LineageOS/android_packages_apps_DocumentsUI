@@ -596,6 +596,7 @@ public class DirectoryFragment extends Fragment
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            Metrics.logMenuAction(getContext(), item.getItemId());
 
             Selection selection = mSelectionManager.getSelection(new Selection());
 
