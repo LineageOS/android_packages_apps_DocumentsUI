@@ -672,9 +672,9 @@ public final class MultiSelectManager {
         /**
          * Used by CREATOR.
          */
-        private Selection(String directoryKey, Set<String> selection) {
+        private Selection(String directoryKey, List<String> selection) {
             mDirectoryKey = directoryKey;
-            mSelection = selection;
+            mSelection = new HashSet<String>(selection);
             mProvisionalSelection = new HashSet<String>();
         }
 
@@ -887,7 +887,7 @@ public final class MultiSelectManager {
 
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(mDirectoryKey);
-            dest.writeStringList(new ArrayList<>(mSelection));
+            dest.writeList(new ArrayList<>(mSelection));
             // We don't include provisional selection since it is
             // typically coupled to some other runtime state (like a band).
         }
@@ -901,12 +901,9 @@ public final class MultiSelectManager {
 
             @Override
             public Selection createFromParcel(Parcel in, ClassLoader loader) {
-                String directoryKey = in.readString();
-
-                ArrayList<String> selected = new ArrayList<>();
-                in.readStringList(selected);
-
-                return new Selection(directoryKey, new HashSet<String>(selected));
+                return new Selection(
+                        in.readString(),
+                        in.readArrayList(loader));
             }
 
             @Override
