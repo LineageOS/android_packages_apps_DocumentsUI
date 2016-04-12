@@ -352,7 +352,10 @@ public class DirectoryFragment extends Fragment
     private boolean handleViewItem(String id) {
         final Cursor cursor = mModel.getItem(id);
 
-        assert(cursor != null);
+        if (cursor == null) {
+            Log.w(TAG, "Can't view item. Can't obtain cursor for modeId" + id);
+            return false;
+        }
 
         final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
         final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
@@ -466,11 +469,14 @@ public class DirectoryFragment extends Fragment
         public boolean onBeforeItemStateChange(String modelId, boolean selected) {
             if (selected) {
                 final Cursor cursor = mModel.getItem(modelId);
-
-                assert(cursor != null);
+                if (cursor == null) {
+                    Log.w(TAG, "Can't obtain cursor for modelId: " + modelId);
+                    return false;
+                }
 
                 final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
                 final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
+
                 return mTuner.canSelectType(docMimeType, docFlags);
             }
             return true;
@@ -480,7 +486,7 @@ public class DirectoryFragment extends Fragment
         public void onItemStateChanged(String modelId, boolean selected) {
             final Cursor cursor = mModel.getItem(modelId);
             if (cursor == null) {
-                Log.e(TAG, "Model returned null cursor for document: " + modelId
+                Log.w(TAG, "Model returned null cursor for document: " + modelId
                         + ". Ignoring state changed event.");
                 return;
             }
@@ -1105,6 +1111,10 @@ public class DirectoryFragment extends Fragment
         List<String> enabled = new ArrayList<String>();
         for (String id : mAdapter.getModelIds()) {
             Cursor cursor = getModel().getItem(id);
+            if (cursor != null) {
+                Log.w(TAG, "Skipping selection. Can't obtain cursor for modeId: " + id);
+                continue;
+            }
             String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
             int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
             if (isDocumentEnabled(docMimeType, docFlags)) {
@@ -1193,7 +1203,10 @@ public class DirectoryFragment extends Fragment
             String id = getModelId(v);
             if (id != null) {
                 Cursor dstCursor = mModel.getItem(id);
-                assert(dstCursor != null);
+                if (dstCursor != null) {
+                    Log.w(TAG, "Invalid destination. Can't obtain cursor for modelId: " + id);
+                    return null;
+                }
                 return DocumentInfo.fromDirectoryCursor(dstCursor);
             }
 
@@ -1266,8 +1279,10 @@ public class DirectoryFragment extends Fragment
         }
 
         final Cursor cursor = mModel.getItem(modelId);
-
-        assert(cursor != null);
+        if (cursor == null) {
+            Log.w(TAG, "Undraggable document. Can't obtain cursor for modelId " + modelId);
+            return Collections.EMPTY_LIST;
+        }
 
         return Lists.newArrayList(
                 DocumentInfo.fromDirectoryCursor(cursor));
