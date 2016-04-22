@@ -1225,8 +1225,10 @@ public class DirectoryFragment extends Fragment
             view.setOnDragListener(mOnDragListener);
         }
 
-        // Make all items draggable.
-        view.setOnLongClickListener(onLongClickListener);
+        if (mTuner.allowDragNDrop()) {
+            // Make all items draggable.
+            view.setOnLongClickListener(onLongClickListener);
+        }
     }
 
     private View.OnDragListener mOnDragListener = new View.OnDragListener() {
