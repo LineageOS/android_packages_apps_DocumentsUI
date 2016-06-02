@@ -171,12 +171,12 @@ public class FileOperationService extends Service implements Job.Listener {
             }
 
             mWakeLock.acquire();
-        }
 
-        assert(job != null);
-        if (DEBUG) Log.d(TAG, "Scheduling job " + job.id + ".");
-        Future<?> future = getExecutorService(operationType).submit(job);
-        mRunning.put(jobId, new JobRecord(job, future));
+            assert (job != null);
+            if (DEBUG) Log.d(TAG, "Scheduling job " + job.id + ".");
+            Future<?> future = getExecutorService(operationType).submit(job);
+            mRunning.put(jobId, new JobRecord(job, future));
+        }
     }
 
     /**
