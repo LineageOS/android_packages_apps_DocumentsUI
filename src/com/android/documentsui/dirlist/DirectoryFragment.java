@@ -1788,7 +1788,7 @@ public class DirectoryFragment extends Fragment
         updateLayout(state.derivedMode);
 
         if (mRestoredSelection != null) {
-            mSelectionManager.setItemsSelected(mRestoredSelection.toList(), true);
+            mSelectionManager.setItemsSelected(mRestoredSelection.getAll(), true);
             // Note, we'll take care of cleaning up retained selection
             // in the selection handler where we already have some
             // specialized code to handle when selection was restored.
