@@ -54,6 +54,7 @@ import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.DurableUtils;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperationService;
+import com.android.documentsui.sorting.SortController;
 
 import libcore.io.IoUtils;
 
@@ -405,7 +406,7 @@ public class DocumentsActivity extends BaseActivity {
     public FragmentTuner createFragmentTuner() {
         // Currently DocumentsTuner maintains a state specific to the fragment instance. Because of
         // that, we create a new instance everytime it is needed
-        return new DocumentsTuner(this, getDisplayState());
+        return new DocumentsTuner(this, getDisplayState(), getSortController());
     }
 
     @Override
