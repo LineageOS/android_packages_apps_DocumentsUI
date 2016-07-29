@@ -89,18 +89,28 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/dir_list"
-                android:scrollbars="vertical"
+            <LinearLayout
+                android:id="@+id/file_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="0dp"
-                android:paddingEnd="0dp"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:clipToPadding="false"
-                android:scrollbarStyle="outsideOverlay"
-                android:drawSelectorOnTop="true"/>
+                android:orientation="vertical">
+
+                <!-- column headers are empty on small screens or portrait mode. -->
+                <include layout="@layout/column_headers" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/dir_list"
+                    android:scrollbars="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingBottom="0dp"
+                    android:clipToPadding="false"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:drawSelectorOnTop="true"/>
+            </LinearLayout>
         </FrameLayout>
 
     </com.android.documentsui.dirlist.TouchSwipeRefreshLayout>

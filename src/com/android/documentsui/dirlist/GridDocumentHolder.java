@@ -151,7 +151,7 @@ final class GridDocumentHolder extends DocumentHolder {
             mDate.setText(Shared.formatTime(mContext, docLastModified));
         }
 
-        if (!state.showSize || Document.MIME_TYPE_DIR.equals(docMimeType) || docSize == -1) {
+        if (!state.getShowSize() || Document.MIME_TYPE_DIR.equals(docMimeType) || docSize == -1) {
             mSize.setVisibility(View.GONE);
         } else {
             mSize.setVisibility(View.VISIBLE);
