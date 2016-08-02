@@ -33,6 +33,17 @@ public final class Views {
         return view;
     }
 
+    /*
+     * Dummy View object with (x, y) coordinates
+     */
+    public static View createTestView(float x, float y) {
+        View view = createTestView();
+        Mockito.when(view.getX()).thenReturn(x);
+        Mockito.when(view.getY()).thenReturn(y);
+
+        return view;
+    }
+
     public static void setBackground(View testView, Drawable background) {
         Mockito.when(testView.getBackground()).thenReturn(background);
     }
