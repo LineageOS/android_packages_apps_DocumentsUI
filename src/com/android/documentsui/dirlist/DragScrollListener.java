@@ -16,8 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
-import android.content.Context;
 import android.graphics.Point;
+import android.support.annotation.VisibleForTesting;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
@@ -26,7 +26,6 @@ import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.ItemDragListener.DragHost;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
-import com.android.documentsui.R;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;
@@ -49,16 +48,16 @@ class DragScrollListener implements OnDragListener {
     private boolean mDragHappening;
     private @Nullable Point mCurrentPosition;
 
-    private DragScrollListener(
-            Context context,
+    @VisibleForTesting
+    DragScrollListener(
+            int autoScrollEdgeHeight,
             ItemDragListener<? extends DragHost> dragHandler,
             IntSupplier heightSupplier,
             BooleanSupplier scrollUpSupplier,
             BooleanSupplier scrollDownSupplier,
             ViewAutoScroller.ScrollActionDelegate actionDelegate) {
         mDragHandler = dragHandler;
-        mAutoScrollEdgeHeight = (int) context.getResources()
-                .getDimension(R.dimen.autoscroll_edge_height);
+        mAutoScrollEdgeHeight = autoScrollEdgeHeight;
         mHeight = heightSupplier;
         mCanScrollUp = scrollUpSupplier;
         mCanScrollDown = scrollDownSupplier;
@@ -85,7 +84,9 @@ class DragScrollListener implements OnDragListener {
     }
 
     static DragScrollListener create(
-            Context context, ItemDragListener<? extends DragHost> dragHandler, View scrollView) {
+            int autoScrollEdgeHeight,
+            ItemDragListener<? extends DragHost> dragHandler,
+            View scrollView) {
         ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
             @Override
             public void scrollBy(int dy) {
@@ -104,7 +105,7 @@ class DragScrollListener implements OnDragListener {
             }
         };
         DragScrollListener listener = new DragScrollListener(
-                context,
+                autoScrollEdgeHeight,
                 dragHandler,
                 scrollView::getHeight,
                 () -> {
