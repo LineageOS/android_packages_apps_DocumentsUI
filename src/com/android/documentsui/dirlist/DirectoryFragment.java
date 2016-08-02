@@ -215,8 +215,9 @@ public class DirectoryFragment extends Fragment
 
         mRecView.setItemAnimator(new DirectoryItemAnimator(getActivity()));
 
+        final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
         mOnDragListener = DragScrollListener.create(
-                getActivity(), new DirectoryDragListener(this), mRecView);
+                edgeHeight, new DirectoryDragListener(this), mRecView);
 
         // Make the recycler and the empty views responsive to drop events.
         mRecView.setOnDragListener(mOnDragListener);
