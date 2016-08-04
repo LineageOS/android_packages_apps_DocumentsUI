@@ -47,6 +47,8 @@ public final class UserInputHandler_TouchTest {
     private TestPredicate<InputEvent> mRightClickHandler;
     private TestPredicate<DocumentDetails> mActivateHandler;
     private TestPredicate<DocumentDetails> mDeleteHandler;
+    private TestPredicate<InputEvent> mDragAndDropHandler;
+    private TestPredicate<InputEvent> mMultiSelectHandler;
 
     private Builder mEvent;
 
@@ -75,7 +77,9 @@ public final class UserInputHandler_TouchTest {
                 mCanSelect,
                 mRightClickHandler::test,
                 mActivateHandler::test,
-                mDeleteHandler::test);
+                mDeleteHandler::test,
+                mDragAndDropHandler::test,
+                mMultiSelectHandler::test);
 
         mEvent = TestEvent.builder();
     }

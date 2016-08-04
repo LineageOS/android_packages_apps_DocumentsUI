@@ -155,7 +155,6 @@ public class DirectoryFragment extends Fragment
     private FocusManager mFocusManager;
 
     private IconHelper mIconHelper;
-
     private SwipeRefreshLayout mRefreshLayout;
     private View mEmptyView;
     private RecyclerView mRecView;
@@ -322,10 +321,21 @@ public class DirectoryFragment extends Fragment
                 this::onActivate,
                 (DocumentDetails ignored) -> {
                     return onDeleteSelectedDocuments();
-                });
+                },
+                this::onDragAndDrop,
+                this::onGestureMultiSelect);
+
+        final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
+        mMultiSelectHelper = GestureMultiSelectHelper.create(mColumnCount,
+                edgeHeight,
+                mAdapter::getModelId,
+                mSelectionMgr,
+                mRecView);
+        mMultiSelectHelper.setEnabled(state.derivedMode == MODE_GRID);
 
         mGestureDetector =
-                new ListeningGestureDetector(this.getContext(), mDragHelper, mInputHandler);
+                new ListeningGestureDetector(this.getContext(), mDragHelper,
+                        mInputHandler, mMultiSelectHelper);
 
         mRecView.addOnItemTouchListener(mGestureDetector);
         mEmptyView.setOnTouchListener(mGestureDetector);
@@ -530,6 +540,7 @@ public class DirectoryFragment extends Fragment
 
     private void updateDisplayState() {
         State state = getDisplayState();
+        mMultiSelectHelper.setEnabled(state.derivedMode == MODE_GRID);
         updateLayout(state.derivedMode);
         mRecView.setAdapter(mAdapter);
     }
@@ -1302,11 +1313,6 @@ public class DirectoryFragment extends Fragment
             // is handled at the list/grid view level.
             view.setOnDragListener(mOnDragListener);
         }
-
-        if (mTuner.dragAndDropEnabled()) {
-            // Make all items draggable.
-            view.setOnLongClickListener(onLongClickListener);
-        }
     }
 
     void dragStarted() {
@@ -1555,13 +1561,21 @@ public class DirectoryFragment extends Fragment
 
 
     private DragStartHelper mDragHelper = new DragStartHelper(null, mOnDragStartListener);
+    private GestureMultiSelectHelper mMultiSelectHelper;
 
-    private View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            return mDragHelper.onLongClick(v);
+    private boolean onDragAndDrop(InputEvent event) {
+        if (mTuner.dragAndDropEnabled()) {
+            View childView = mRecView.findChildViewUnder(event.getX(), event.getY());
+            return mDragHelper.onLongClick(childView);
         }
-    };
+        return false;
+    }
+
+    private boolean onGestureMultiSelect(InputEvent event) {
+        mMultiSelectHelper.start();
+
+        return true;
+    }
 
     private boolean canSelect(DocumentDetails doc) {
         return canSelect(doc.getModelId());

@@ -50,6 +50,8 @@ public final class UserInputHandler_RangeTest {
     private TestPredicate<InputEvent> mRightClickHandler;
     private TestPredicate<DocumentDetails> mActivateHandler;
     private TestPredicate<DocumentDetails> mDeleteHandler;
+    private TestPredicate<InputEvent> mDragAndDropHandler;
+    private TestPredicate<InputEvent> mGestureSelectHandler;
     private Builder mEvent;
 
     @Before
@@ -77,7 +79,9 @@ public final class UserInputHandler_RangeTest {
                 mCanSelect,
                 mRightClickHandler::test,
                 mActivateHandler::test,
-                mDeleteHandler::test);
+                mDeleteHandler::test,
+                mDragAndDropHandler::test,
+                mGestureSelectHandler::test);
 
         mEvent = TestEvent.builder().mouse();
     }

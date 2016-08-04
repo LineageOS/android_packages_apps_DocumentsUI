@@ -39,7 +39,7 @@
         android:background="@color/material_grey_50"
         android:visibility="gone"/>
 
-    <com.android.documentsui.dirlist.TouchSwipeRefreshLayout
+    <com.android.documentsui.dirlist.DocumentsSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -113,6 +113,6 @@
             </LinearLayout>
         </FrameLayout>
 
-    </com.android.documentsui.dirlist.TouchSwipeRefreshLayout>
+    </com.android.documentsui.dirlist.DocumentsSwipeRefreshLayout>
 
 </com.android.documentsui.dirlist.AnimationView>
