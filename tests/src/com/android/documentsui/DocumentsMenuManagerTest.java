@@ -25,6 +25,7 @@ import android.provider.DocumentsContract.Root;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestMenu;
@@ -92,6 +93,7 @@ public final class DocumentsMenuManagerTest {
         testRootInfo = new RootInfo();
         state.action = ACTION_CREATE;
         state.allowMultiple = true;
+        state.sortModel = SortModel.createModel();
     }
 
     @Test
@@ -141,7 +143,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testOptionMenu_hideSize() {
-        state.showSize = true;
+        state.setShowSize(true);
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
         mgr.updateOptionMenu(testMenu, directoryDetails);
 

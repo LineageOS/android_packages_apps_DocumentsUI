@@ -17,7 +17,6 @@
 package com.android.documentsui;
 
 import android.annotation.Nullable;
-import android.provider.DocumentsContract.Root;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -120,7 +119,7 @@ public abstract class MenuManager {
         // Search uses backend ranking; no sorting, recents doesn't support sort.
         sort.setEnabled(!directoryDetails.isInRecents() && !mSearchManager.isSearching());
         sort.setVisible(true);
-        sortSize.setVisible(mState.showSize); // Only sort by size when file sizes are visible
+        sortSize.setVisible(mState.getShowSize()); // Only sort by size when file sizes are visible
     }
 
     void updateAdvanced(MenuItem advanced, DirectoryDetails directoryDetails) {

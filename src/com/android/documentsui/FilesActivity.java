@@ -472,12 +472,12 @@ public class FilesActivity extends BaseActivity {
 
     @Override
     public FragmentTuner createFragmentTuner() {
-      return new FilesTuner(this, getDisplayState());
+        return new FilesTuner(this, getDisplayState(), getSortController());
     }
 
     @Override
     public MenuManager getMenuManager() {
-      return mMenuManager;
+        return mMenuManager;
     }
 
     @Override
