@@ -16,89 +16,129 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="2783841764617238354">"ເອ​ກະ​ສານ"</string>
-    <string name="files_label" msgid="6051402950202690279">"​ໄຟລ໌"</string>
-    <string name="downloads_label" msgid="959113951084633612">"ການດາວໂຫລດ"</string>
-    <string name="title_open" msgid="4353228937663917801">"ເປີດ​ຈາກ"</string>
-    <string name="title_save" msgid="2433679664882857999">"ບັນທຶກໄປທີ່"</string>
-    <string name="menu_create_dir" msgid="2547620241173881754">"ໂຟ​ລ​ເດີໃໝ່"</string>
-    <string name="menu_grid" msgid="6878021334497835259">"ມຸມມອງແບບຊ່ອງ"</string>
-    <string name="menu_list" msgid="7279285939892417279">"ມຸມມອງແບບລາຍຊື່"</string>
-    <string name="menu_sort" msgid="7677740407158414452">"ຮຽງລຳດັບຕາມ"</string>
-    <string name="menu_search" msgid="3816712084502856974">"ຊອກຫາ"</string>
-    <string name="menu_settings" msgid="6008033148948428823">"ການຕັ້ງຄ່າ"</string>
-    <string name="menu_open" msgid="432922957274920903">"ເປີດ"</string>
-    <string name="menu_save" msgid="2394743337684426338">"ບັນທຶກ"</string>
-    <string name="menu_share" msgid="3075149983979628146">"ແບ່ງປັນ"</string>
-    <string name="menu_delete" msgid="8138799623850614177">"ລຶບ"</string>
-    <string name="menu_select_all" msgid="8323579667348729928">"ເລືອກທັງຫມົດ"</string>
-    <string name="menu_copy" msgid="3612326052677229148">"ອັດ​ສຳ​ເນົາ​ໃສ່…"</string>
-    <string name="menu_move" msgid="1828090633118079817">"ຍ້າຍໄປໃສ່..."</string>
-    <string name="menu_new_window" msgid="1226032889278727538">"ໜ້າຈໍໃໝ່"</string>
-    <string name="menu_copy_to_clipboard" msgid="489311381979634291">"ສຳເນົາ"</string>
-    <string name="menu_paste_from_clipboard" msgid="2071583031180257091">"​ວາງໃສ່"</string>
-    <string name="menu_advanced_show" product="nosdcard" msgid="4693652895715631401">"ສະແດງ​ໂຕເກັບ​ຂໍ້ມູນພາຍໃນ"</string>
-    <string name="menu_advanced_show" product="default" msgid="5792182900084144261">"ສະແດງ SD Card"</string>
-    <string name="menu_advanced_hide" product="nosdcard" msgid="4218809952721972589">"ເຊື່ອງ​ໂຕ​ເກັບຂໍ້ມູນ​ພາຍໃນ"</string>
-    <string name="menu_advanced_hide" product="default" msgid="4845869969015718848">"ເຊື່ອງ SD Card"</string>
-    <string name="menu_file_size_show" msgid="3240323619260823076">"ສະແດງ​ຂະໜາດ​ໄຟລ໌"</string>
-    <string name="menu_file_size_hide" msgid="8881975928502581042">"ເຊື່ອງ​ຂະ​ຫນາດ​ໄຟລ໌"</string>
-    <string name="button_select" msgid="527196987259139214">"ເລືອກ"</string>
-    <string name="button_copy" msgid="8706475544635021302">"ສຳເນົາ"</string>
-    <string name="button_move" msgid="2202666023104202232">"ຍ້າຍ"</string>
-    <string name="button_dismiss" msgid="3714065566893946085">"ປິດໄວ້"</string>
-    <string name="button_retry" msgid="4392027584153752797">"​ລອງ​ໃໝ່​ອີກ​"</string>
-    <string name="sort_name" msgid="9183560467917256779">"ຕາມຊື່"</string>
-    <string name="sort_date" msgid="586080032956151448">"ຕາມວັນທີທີ່ແກ້ໄຂ"</string>
-    <string name="sort_size" msgid="3350681319735474741">"ຕາມຂະໜາດ"</string>
-    <string name="drawer_open" msgid="4545466532430226949">"ສະແດງ roots"</string>
-    <string name="drawer_close" msgid="7602734368552123318">"ເຊື່ອງ roots"</string>
-    <string name="save_error" msgid="6167009778003223664">"ການບັນທຶກເອກະສານລົ້ມເຫລວ"</string>
-    <string name="create_error" msgid="3735649141335444215">"ການ​ສ້າງ​ໂຟນ​ເດີລົ້ມເຫຼວ"</string>
-    <string name="query_error" msgid="1222448261663503501">"ການຊອກຫາເອກະສານລົ້ມເຫຼວ"</string>
-    <string name="root_recent" msgid="4470053704320518133">"ຫາກໍໃຊ້"</string>
-    <string name="root_available_bytes" msgid="8568452858617033281">"ຟຣີ <xliff:g id="SIZE">%1$s</xliff:g>"</string>
-    <string name="root_type_service" msgid="2178854894416775409">"ບໍລິການບ່ອນຈັດເກັບຂໍ້ມູນ"</string>
-    <string name="root_type_shortcut" msgid="3318760609471618093">"ທາງລັດ"</string>
-    <string name="root_type_device" msgid="7121342474653483538">"ອຸປະກອນ"</string>
-    <string name="root_type_apps" msgid="8838065367985945189">"ແອັບຯອື່ນໆ"</string>
-    <string name="empty" msgid="7858882803708117596">"ບໍ່ມີລາຍການ"</string>
-    <string name="toast_no_application" msgid="1339885974067891667">"ບໍ່ສາມດາເປີດໄຟລ໌ໄດ້"</string>
-    <string name="toast_failed_delete" msgid="2180678019407244069">"ບໍ່ສາມາດລຶບບາງເອກະສານໄດ້"</string>
-    <string name="share_via" msgid="8966594246261344259">"ແບ່ງປັນຜ່ານ"</string>
-    <string name="copy_notification_title" msgid="6374299806748219777">"ກຳ​ລັງ​ອັດ​ສຳ​ເນົາ​ໄຟ​ລ໌"</string>
-    <string name="move_notification_title" msgid="6193835179777284805">"ກຳ​ລັງ​ຍ້າຍ​ໄຟ​ລ໌"</string>
-    <string name="copy_remaining" msgid="6283790937387975095">"<xliff:g id="DURATION">%s</xliff:g> ຍັງ​ເຫຼືອ​ຢູ່"</string>
-    <plurals name="copy_begin" formatted="false" msgid="9071199452634086365">
-      <item quantity="other">ກຳ​ລັງ​ອັດ​ສຳ​ເນົາ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟ​ລ໌.</item>
-      <item quantity="one">ກຳ​ລັງ​ອັດ​ສຳ​ເນົາ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
+    <string name="app_label" msgid="3303317181319900082">"ໄຟລ໌"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"ດາວໂຫລດ"</string>
+    <string name="title_open" msgid="3165686459158020921">"ເປີດຈາກ"</string>
+    <string name="title_save" msgid="4384490653102710025">"ບັນທຶກໄປທີ່"</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"ໂຟນເດີໃໝ່"</string>
+    <string name="menu_grid" msgid="1453636521731880680">"ມຸມມອງແບບຊ່ອງ"</string>
+    <string name="menu_list" msgid="6714267452146410402">"ມຸມມອງແບບລາຍຊື່"</string>
+    <string name="menu_sort" msgid="6754410552665101834">"ຈັດຮຽງຕາມ"</string>
+    <string name="menu_search" msgid="1876699106790719849">"ຊອກຫາ"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"ການຕັ້ງຄ່າບ່ອນເກັບຂໍ້ມູນ"</string>
+    <string name="menu_open" msgid="9092138100049759315">"ເປີດ"</string>
+    <string name="menu_save" msgid="5195367497138965168">"ບັນທຶກ"</string>
+    <string name="menu_share" msgid="4307140947108068356">"ແບ່ງປັນ"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"ລຶບ"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"ເລືອກທັງຫມົດ"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"ສຳເນົາໄປໃສ່..."</string>
+    <string name="menu_move" msgid="2310760789561129882">"ຍ້າຍໄປໃສ່..."</string>
+    <string name="menu_new_window" msgid="2947837751796109126">"ໜ້າຈໍໃໝ່"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ຕັດ"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"ສຳເນົາ"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ວາງ"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"ສະແດງພື້ນທີ່ຈັດເກັບຂໍ້ມູນພາຍໃນ"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"ເຊື່ອງພື້ນທີ່ຈັດເກັບຂໍ້ມູນພາຍໃນ"</string>
+    <string name="menu_file_size_show" msgid="8035723306878852180">"ສະແດງຂະໜາດໄຟລ໌"</string>
+    <string name="menu_file_size_hide" msgid="8953697126109694855">"ເຊື່ອງຂະຫນາດໄຟລ໌"</string>
+    <string name="button_select" msgid="240863497069321364">"ເລືອກ"</string>
+    <string name="button_copy" msgid="8219059853840996027">"ສຳເນົາ"</string>
+    <string name="button_move" msgid="8596460499325291272">"ຍ້າຍ"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"ປິດໄວ້"</string>
+    <string name="button_retry" msgid="4011461781916631389">"ລອງໃໝ່ອີກເທື່ອໜຶ່ງ"</string>
+    <string name="sort_name" msgid="6790411054171883704">"ຕາມຊື່"</string>
+    <string name="sort_date" msgid="3237147045109806231">"ຕາມວັນທີແກ້ໄຂ"</string>
+    <string name="sort_size" msgid="5532930542340076266">"ຕາມຂະໜາດ"</string>
+    <string name="drawer_open" msgid="8071673398187261741">"ສະແດງ roots"</string>
+    <string name="drawer_close" msgid="4263880768630848848">"ເຊື່ອງ roots"</string>
+    <string name="save_error" msgid="8631128801982095782">"ການບັນທຶກເອກະສານບໍ່ສຳເລັດ"</string>
+    <string name="create_error" msgid="3092144450044861994">"ສ້າງໂຟນເດີບໍ່ສຳເລັດ"</string>
+    <string name="query_error" msgid="6625421453613879336">"ບໍ່ສາມາດໂຫຼດເນື້ອຫາໄດ້ໃນຂະນະນີ້"</string>
+    <string name="root_recent" msgid="1080156975424341623">"ຫຼ້າສຸດ"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"ຫວ່າງ <xliff:g id="SIZE">%1$s</xliff:g>"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"ບໍລິການບ່ອນຈັດເກັບຂໍ້ມູນ"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"ທາງລັດ"</string>
+    <string name="root_type_device" msgid="1713604128005476585">"ອຸປະກອນ"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"ແອັບເພີ່ມເຕີມ"</string>
+    <string name="empty" msgid="5300254272613103004">"ບໍ່ມີລາຍການ"</string>
+    <string name="no_results" msgid="2371026325236359209">"ບໍ່ພົບຂໍ້ມູນທີ່ກົງກັນໃນ %1$s"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"ບໍ່ສາມາດເປີດໄຟລ໌ໄດ້"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"ບໍ່ສາມາດລຶບບາງເອກະສານໄດ້"</string>
+    <string name="share_via" msgid="8725082736005677161">"ແບ່ງປັນຜ່ານ"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"ກຳລັງສຳເນົາໄຟລ໌"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"ກຳລັງຍ້າຍໄຟລ໌"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"ກຳລັງລຶບໄຟລ໌ອອກ"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"ຍັງເຫຼືອອີກ <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
+      <item quantity="other">ກຳລັງສຳເນົາໄຟລ໌ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌.</item>
+      <item quantity="one">ກຳລັງສຳເນົາໄຟລ໌ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="8430330882138871643">
-      <item quantity="other">ກຳ​ລັງ​ຍ້າຍ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟ​ລ໌.</item>
-      <item quantity="one">ກຳ​ລັງ​ຍ້າຍ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
+    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
+      <item quantity="other">ກຳລັງຍ້າຍ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌.</item>
+      <item quantity="one">ກຳລັງຍ້າຍ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="5054338566802559411">
-      <item quantity="other">ກຳ​ລັງ​ລຶບ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟ​ລ໌.</item>
-      <item quantity="one">ກຳ​ລັງ​ລຶບ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
+    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
+      <item quantity="other">ກຳລັງລຶບ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ອອກ.</item>
+      <item quantity="one">ກຳລັງລຶບ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌ອອກ.</item>
     </plurals>
-    <string name="undo" msgid="7905788502491742328">"ບໍ່​ເຮັດ"</string>
-    <string name="copy_preparing" msgid="3896202461003039386">"ກຳ​ລັງ​ກຽມ​ອັດ​ສຳ​ເນົາ…"</string>
-    <string name="move_preparing" msgid="2772219441375531410">"ກຳ​ລັງ​ກະ​ກຽມ​ຍ້າຍ…"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="5267616889076217261">
-      <item quantity="other">ບໍ່​ສາ​ມາດ​ອັດ​ສຳ​ເນົາ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟ​ລ໌​ໄດ້</item>
-      <item quantity="one">ບໍ່​ສາ​ມາດ​ອັດ​ສຳ​ເນົາ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌​ໄດ້</item>
+    <string name="undo" msgid="2902438994196400565">"ຍົກເລີກ"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"ກຳລັງກຽມການສຳເນົາ…"</string>
+    <string name="move_preparing" msgid="8742573245485449429">"ກຳລັງກະກຽມຍ້າຍ…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"ກຳລັງກະກຽມການລຶບ…"</string>
+    <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
+      <item quantity="other">ບໍ່ສາມາດສຳເນົາໄຟລ໌ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ໄດ້.</item>
+      <item quantity="one">ບໍ່ສາມາດສຳເນົາໄຟລ໌ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌ໄດ້.</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2779299594174898891">
-      <item quantity="other">ບໍ່​ສາ​ມາດ​ຍ້າຍ​ໄດ້ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟ​ລ໌</item>
-      <item quantity="one">ບໍ່​ສາ​ມາດ​ຍ້າຍ​ໄດ້ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌</item>
+    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
+      <item quantity="other">ບໍ່ສາມາດຍ້າຍ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ໄດ້</item>
+      <item quantity="one">ບໍ່ສາມາດຍ້າຍ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌ໄດ້</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="4483108577842961665">"ສຳ​ພັດເພື່ອເບິ່ງລາຍລະອຽດ"</string>
-    <string name="retry" msgid="7564024179122207376">"ລອງໃໝ່"</string>
-    <string name="copy_failure_alert_content" msgid="3715575000297709082">"ໄຟ​ລ໌​ເຫຼົ່າ​ນີ້​ບໍ່​ຖື​ກ​ອັດ​ສຳ​ເນົາ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="7151140279020481180">"ໄຟ​ລ໌​ເຫຼົ່າ​ນີ້​ບໍ່​ຖືກ​ຍ້າຍ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="855459017537058539">
-      <item quantity="other">ອັດ​ສຳ​ເນົາ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟ​ລ໌​ໃສ່​ຄ​ລິບບອດ​ແລ້ວ.</item>
-      <item quantity="one">ອັດ​ສຳ​ເນົາ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌​ໃສ່​ຄ​ລິບບອດ​ແລ້ວ.</item>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
+      <item quantity="other">ບໍ່ສາມາດລຶບໄຟລ໌ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ໄດ້.</item>
+      <item quantity="one">ບໍ່ສາມາດລຶບໄຟລ໌ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌ໄດ້.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="2878324825602325706">"ບໍ່​ສາ​ມາດ​ແປະ​ໄຟ​ລ໌​ເລືອກ​ໄວ້​ຢູ່​ໃນ​ທີ່​ຕັ້ງ​ນີ້​ໄດ້."</string>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"ແຕະເພື່ອເບິ່ງລາຍລະອຽດ"</string>
+    <string name="close" msgid="905969391788869975">"ປິດ"</string>
+    <string name="copy_failure_alert_content" msgid="161721873402101825">"ບໍ່ໄດ້ສຳເນົາໄຟລ໌ຕໍ່ໄປນີ້: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="move_failure_alert_content" msgid="6586182218105304719">"ບໍ່ໄດ້ຍ້າຍໄຟລ໌ເຫຼົ່ານີ້: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="delete_failure_alert_content" msgid="7856890428816304981">"ບໍ່ໄດ້ລຶບໄຟລ໌ເຫຼົ່ານີ້: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="copy_converted_warning_content" msgid="6481928162944612074">"ໄຟລ໌ເຫຼົ່ານີ້ໄດ້ຖືກປ່ຽນເປັນຮູບແບບອື່ນແລ້ວ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
+      <item quantity="other">ສຳເນົາໄຟລ໌ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ໃສ່ຄລິບບອດແລ້ວ.</item>
+      <item quantity="one">ສຳເນົາໄຟລ໌ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌ໃສ່ຄລິບບອດແລ້ວ.</item>
+    </plurals>
+    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"ບໍ່ສາມາດວາງໄຟລ໌ທີ່ເລືອກໄວ້ໃນບ່ອນນີ້ໄດ້."</string>
+    <string name="menu_rename" msgid="1883113442688817554">"ປ່ຽນຊື່"</string>
+    <string name="rename_error" msgid="6700093173508118635">"ປ່ຽນຊື່ເອກະສານບໍ່ສຳເລັດ"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"ຖອດອອກ"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ປ່ຽນແປງບາງໄຟລ໌ແລ້ວ"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"ອະນຸຍາດສິດເຂົ້າເຖິງໃຫ້ <xliff:g id="APPNAME"><b>^1</b></xliff:g> ເພື່ອເຂົ້າໄດເຣກທໍຣີ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ຢູ່ <xliff:g id="STORAGE"><i>^3</i></xliff:g> ບໍ?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"ອະນຸມັດ <xliff:g id="APPNAME"><b>^1</b></xliff:g> ໃຫ້ເຂົ້າຫາໄດເຣັກທໍຣີ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ບໍ?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"ອະນຸມັດ <xliff:g id="APPNAME"><b>^1</b></xliff:g> ໃຫ້ເຂົ້າເຖິງຂໍ້ມູນຂອງທ່ານ ຮວມທັງຮູບພາບ ແລະ ວິດີໂອໃນ <xliff:g id="STORAGE"><i>^2</i></xliff:g> ບໍ?"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"ບໍ່ຕ້ອງຖາມຄືນ"</string>
+    <string name="allow" msgid="1275746941353040309">"ອະນຸມັດ"</string>
+    <string name="deny" msgid="5127201668078153379">"ປະຕິເສດ"</string>
+    <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
+      <item quantity="other">ເລືອກ <xliff:g id="COUNT_1">%1$d</xliff:g> ລາຍການແລ້ວ</item>
+      <item quantity="one">ເລືອກ <xliff:g id="COUNT_0">%1$d</xliff:g> ລາຍການແລ້ວ</item>
+    </plurals>
+    <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ລາຍການ</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ລາຍການ</item>
+    </plurals>
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"ລຶບ \"<xliff:g id="NAME">%1$s</xliff:g>\" ອອກບໍ?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"ລຶບໂຟນເດີ \"<xliff:g id="NAME">%1$s</xliff:g>\" ແລະ ເນື້ອຫາຂອງມັນອອກບໍ?"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
+      <item quantity="other">ລຶບໄຟລ໌ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ອອກບໍ?</item>
+      <item quantity="one">ລຶບໄຟລ໌ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌ອອກບໍ?</item>
+    </plurals>
+    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
+      <item quantity="other">ລຶບ <xliff:g id="COUNT_1">%1$d</xliff:g> ໂຟນເດີ ແລະ ເນື້ອຫາຂອງມັນອອກບໍ?</item>
+      <item quantity="one">ລຶບ <xliff:g id="COUNT_0">%1$d</xliff:g> ໂຟນເດີ ແລະ ເນື້ອຫາຂອງມັນອອກບໍ?</item>
+    </plurals>
+    <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
+      <item quantity="other">ລຶບ <xliff:g id="COUNT_1">%1$d</xliff:g> ລາຍການອອກບໍ?</item>
+      <item quantity="one">ລຶບ <xliff:g id="COUNT_0">%1$d</xliff:g> ລາຍການອອກບໍ?</item>
+    </plurals>
 </resources>
