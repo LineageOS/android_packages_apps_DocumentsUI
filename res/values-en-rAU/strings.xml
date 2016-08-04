@@ -16,128 +16,128 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1551050262492398204">"Files"</string>
-    <string name="downloads_label" msgid="959113951084633612">"Downloads"</string>
-    <string name="title_open" msgid="4353228937663917801">"Open from"</string>
-    <string name="title_save" msgid="2433679664882857999">"Save to"</string>
-    <string name="menu_create_dir" msgid="2547620241173881754">"New folder"</string>
-    <string name="menu_grid" msgid="6878021334497835259">"Grid view"</string>
-    <string name="menu_list" msgid="7279285939892417279">"List view"</string>
-    <string name="menu_sort" msgid="7677740407158414452">"Sort by"</string>
-    <string name="menu_search" msgid="3816712084502856974">"Search"</string>
-    <string name="menu_settings" msgid="8239065133341597825">"Storage settings"</string>
-    <string name="menu_open" msgid="432922957274920903">"Open"</string>
-    <string name="menu_save" msgid="2394743337684426338">"Save"</string>
-    <string name="menu_share" msgid="3075149983979628146">"Share"</string>
-    <string name="menu_delete" msgid="8138799623850614177">"Delete"</string>
-    <string name="menu_select_all" msgid="8323579667348729928">"Select all"</string>
-    <string name="menu_copy" msgid="3612326052677229148">"Copy to…"</string>
-    <string name="menu_move" msgid="1828090633118079817">"Move to…"</string>
-    <string name="menu_new_window" msgid="1226032889278727538">"New window"</string>
-    <string name="menu_cut_to_clipboard" msgid="2467149185452488383">"Cut"</string>
-    <string name="menu_copy_to_clipboard" msgid="489311381979634291">"Copy"</string>
-    <string name="menu_paste_from_clipboard" msgid="2071583031180257091">"Paste"</string>
-    <string name="menu_advanced_show" msgid="4693652895715631401">"Show internal storage"</string>
-    <string name="menu_advanced_hide" msgid="4218809952721972589">"Hide internal storage"</string>
-    <string name="menu_file_size_show" msgid="3240323619260823076">"Show file size"</string>
-    <string name="menu_file_size_hide" msgid="8881975928502581042">"Hide file size"</string>
-    <string name="button_select" msgid="527196987259139214">"select"</string>
-    <string name="button_copy" msgid="8706475544635021302">"Copy"</string>
-    <string name="button_move" msgid="2202666023104202232">"Move"</string>
-    <string name="button_dismiss" msgid="3714065566893946085">"Dismiss"</string>
-    <string name="button_retry" msgid="4392027584153752797">"Try again"</string>
-    <string name="sort_name" msgid="9183560467917256779">"By name"</string>
-    <string name="sort_date" msgid="586080032956151448">"By date modified"</string>
-    <string name="sort_size" msgid="3350681319735474741">"By size"</string>
-    <string name="drawer_open" msgid="4545466532430226949">"Show roots"</string>
-    <string name="drawer_close" msgid="7602734368552123318">"Hide roots"</string>
-    <string name="save_error" msgid="6167009778003223664">"Failed to save document"</string>
-    <string name="create_error" msgid="3735649141335444215">"Failed to create folder"</string>
-    <string name="query_error" msgid="5999895349602476581">"Can’t load content at the moment"</string>
-    <string name="root_recent" msgid="4470053704320518133">"Recent"</string>
-    <string name="root_available_bytes" msgid="8568452858617033281">"<xliff:g id="SIZE">%1$s</xliff:g> free"</string>
-    <string name="root_type_service" msgid="2178854894416775409">"Storage services"</string>
-    <string name="root_type_shortcut" msgid="3318760609471618093">"Shortcuts"</string>
-    <string name="root_type_device" msgid="7121342474653483538">"Devices"</string>
-    <string name="root_type_apps" msgid="8838065367985945189">"More apps"</string>
-    <string name="empty" msgid="7858882803708117596">"No items"</string>
-    <string name="no_results" msgid="6622510343880730446">"No matches in %1$s"</string>
-    <string name="toast_no_application" msgid="4632640357724698144">"Can’t open file"</string>
-    <string name="toast_failed_delete" msgid="2180678019407244069">"Unable to delete some documents"</string>
-    <string name="share_via" msgid="8966594246261344259">"Share via"</string>
-    <string name="copy_notification_title" msgid="6374299806748219777">"Copying files"</string>
-    <string name="move_notification_title" msgid="6193835179777284805">"Moving files"</string>
-    <string name="delete_notification_title" msgid="3329403967712437496">"Deleting files"</string>
-    <string name="copy_remaining" msgid="6283790937387975095">"<xliff:g id="DURATION">%s</xliff:g> left"</string>
-    <plurals name="copy_begin" formatted="false" msgid="9071199452634086365">
+    <string name="app_label" msgid="3303317181319900082">"Files"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"Downloads"</string>
+    <string name="title_open" msgid="3165686459158020921">"Open from"</string>
+    <string name="title_save" msgid="4384490653102710025">"Save to"</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"New folder"</string>
+    <string name="menu_grid" msgid="1453636521731880680">"Grid view"</string>
+    <string name="menu_list" msgid="6714267452146410402">"List View"</string>
+    <string name="menu_sort" msgid="6754410552665101834">"Sort by"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Search"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"Storage settings"</string>
+    <string name="menu_open" msgid="9092138100049759315">"Open"</string>
+    <string name="menu_save" msgid="5195367497138965168">"Save"</string>
+    <string name="menu_share" msgid="4307140947108068356">"Shared"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"Delete"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Select all"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"Copy to…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"Move to…"</string>
+    <string name="menu_new_window" msgid="2947837751796109126">"New window"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Cut"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Copy"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Paste"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"Show internal storage"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"Hide internal storage"</string>
+    <string name="menu_file_size_show" msgid="8035723306878852180">"Show file size"</string>
+    <string name="menu_file_size_hide" msgid="8953697126109694855">"Hide file size"</string>
+    <string name="button_select" msgid="240863497069321364">"Select"</string>
+    <string name="button_copy" msgid="8219059853840996027">"Copy"</string>
+    <string name="button_move" msgid="8596460499325291272">"Move"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Dismiss"</string>
+    <string name="button_retry" msgid="4011461781916631389">"Try again"</string>
+    <string name="sort_name" msgid="6790411054171883704">"By name"</string>
+    <string name="sort_date" msgid="3237147045109806231">"By date modified"</string>
+    <string name="sort_size" msgid="5532930542340076266">"By size"</string>
+    <string name="drawer_open" msgid="8071673398187261741">"Show roots"</string>
+    <string name="drawer_close" msgid="4263880768630848848">"Hide roots"</string>
+    <string name="save_error" msgid="8631128801982095782">"Failed to save document"</string>
+    <string name="create_error" msgid="3092144450044861994">"Failed to create folder"</string>
+    <string name="query_error" msgid="6625421453613879336">"Can’t load content at the moment"</string>
+    <string name="root_recent" msgid="1080156975424341623">"Recent"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> free"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"Storage services"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"Shortcuts"</string>
+    <string name="root_type_device" msgid="1713604128005476585">"Devices"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"More apps"</string>
+    <string name="empty" msgid="5300254272613103004">"No items"</string>
+    <string name="no_results" msgid="2371026325236359209">"No matches in %1$s"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"Can’t open file"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"Unable to delete some documents"</string>
+    <string name="share_via" msgid="8725082736005677161">"Share via"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"Copying files"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"Moving files"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"Deleting files"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> left"</string>
+    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
       <item quantity="other">Copying <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
       <item quantity="one">Copying <xliff:g id="COUNT_0">%1$d</xliff:g> file.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="8430330882138871643">
+    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
       <item quantity="other">Moving <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
       <item quantity="one">Moving <xliff:g id="COUNT_0">%1$d</xliff:g> file.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="5054338566802559411">
+    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
       <item quantity="other">Deleting <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
       <item quantity="one">Deleting <xliff:g id="COUNT_0">%1$d</xliff:g> file.</item>
     </plurals>
-    <string name="undo" msgid="7905788502491742328">"Undo"</string>
-    <string name="copy_preparing" msgid="3896202461003039386">"Preparing for copy…"</string>
-    <string name="move_preparing" msgid="2772219441375531410">"Preparing for move…"</string>
-    <string name="delete_preparing" msgid="5655813182533491992">"Preparing to delete…"</string>
-    <string name="delete_progress" msgid="5399405983046157222">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7160447124922897689">
+    <string name="undo" msgid="2902438994196400565">"Undo"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"Preparing for copy…"</string>
+    <string name="move_preparing" msgid="8742573245485449429">"Preparing for move…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"Preparing to delete…"</string>
+    <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
       <item quantity="other">Couldn’t copy <xliff:g id="COUNT_1">%1$d</xliff:g> files</item>
       <item quantity="one">Couldn’t copy <xliff:g id="COUNT_0">%1$d</xliff:g> file</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2710901971014783012">
+    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
       <item quantity="other">Couldn’t move <xliff:g id="COUNT_1">%1$d</xliff:g> files</item>
       <item quantity="one">Couldn’t move <xliff:g id="COUNT_0">%1$d</xliff:g> file</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7228393157786591199">
+    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
       <item quantity="other">Couldn’t delete <xliff:g id="COUNT_1">%1$d</xliff:g> files</item>
       <item quantity="one">Couldn’t delete <xliff:g id="COUNT_0">%1$d</xliff:g> file</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="6268189413228855582">"Tap to view details"</string>
-    <string name="close" msgid="3043722427445528732">"Close"</string>
-    <string name="copy_failure_alert_content" msgid="4563147454522476183">"These files weren’t copied: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="2635075788682922861">"These files weren’t moved: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="892393767207938353">"These files weren’t deleted: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="5753861488218674361">"These files were converted to another format: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="855459017537058539">
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Tap to view details"</string>
+    <string name="close" msgid="905969391788869975">"Close"</string>
+    <string name="copy_failure_alert_content" msgid="161721873402101825">"These files weren’t copied: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="move_failure_alert_content" msgid="6586182218105304719">"These files weren’t moved: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="delete_failure_alert_content" msgid="7856890428816304981">"These files weren’t deleted: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="copy_converted_warning_content" msgid="6481928162944612074">"These files were converted to another format: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
       <item quantity="other">Copied <xliff:g id="COUNT_1">%1$d</xliff:g> files to clipboard.</item>
       <item quantity="one">Copied <xliff:g id="COUNT_0">%1$d</xliff:g> file to clipboard.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="2878324825602325706">"Cannot paste the selected files in this location."</string>
-    <string name="menu_rename" msgid="7678802479104285353">"Rename"</string>
-    <string name="rename_error" msgid="4203041674883412606">"Failed to rename document"</string>
-    <string name="menu_eject_root" msgid="2768224615494227325">"Eject"</string>
-    <string name="notification_copy_files_converted_title" msgid="3153573223054275181">"Some files were converted"</string>
-    <string name="open_external_dialog_request" msgid="5789329484285817629">"Grant <xliff:g id="APPNAME"><b>^1</b></xliff:g> access to <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> directory on <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
-    <string name="open_external_dialog_request_primary_volume" msgid="6635562535713428688">"Grant <xliff:g id="APPNAME"><b>^1</b></xliff:g> access to <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> directory?"</string>
-    <string name="open_external_dialog_root_request" msgid="8899108702926347720">"Grant <xliff:g id="APPNAME"><b>^1</b></xliff:g> access to your data, including photos and videos, on <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
-    <string name="never_ask_again" msgid="4295278542972859268">"Don\'t ask again"</string>
-    <string name="allow" msgid="7225948811296386551">"Allow"</string>
-    <string name="deny" msgid="2081879885755434506">"Deny"</string>
-    <plurals name="elements_selected" formatted="false" msgid="1376955402452875047">
+    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Cannot paste the selected files in this location."</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Rename"</string>
+    <string name="rename_error" msgid="6700093173508118635">"Failed to rename document"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"Eject"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Some files were converted"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"Grant <xliff:g id="APPNAME"><b>^1</b></xliff:g> access to <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> directory on <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Grant <xliff:g id="APPNAME"><b>^1</b></xliff:g> access to <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> directory?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Grant <xliff:g id="APPNAME"><b>^1</b></xliff:g> access to your data, including photos and videos, on <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"Don\'t ask again"</string>
+    <string name="allow" msgid="1275746941353040309">"Allow"</string>
+    <string name="deny" msgid="5127201668078153379">"Deny"</string>
+    <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> selected</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> selected</item>
     </plurals>
-    <plurals name="elements_dragged" formatted="false" msgid="3727204615215602228">
+    <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> items</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> item</item>
     </plurals>
-    <string name="delete_filename_confirmation_message" msgid="5312817725577537488">"Delete \"<xliff:g id="NAME">%1$s</xliff:g>\"?"</string>
-    <string name="delete_foldername_confirmation_message" msgid="5885501832257285329">"Delete folder \"<xliff:g id="NAME">%1$s</xliff:g>\" and its contents?"</string>
-    <plurals name="delete_files_confirmation_message" formatted="false" msgid="8417505791395471802">
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"Delete \"<xliff:g id="NAME">%1$s</xliff:g>\"?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"Delete folder \"<xliff:g id="NAME">%1$s</xliff:g>\" and its contents?"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
       <item quantity="other">Delete <xliff:g id="COUNT_1">%1$d</xliff:g> files?</item>
       <item quantity="one">Delete <xliff:g id="COUNT_0">%1$d</xliff:g> file?</item>
     </plurals>
-    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="9185648028213507769">
+    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
       <item quantity="other">Delete <xliff:g id="COUNT_1">%1$d</xliff:g> folders and their contents?</item>
       <item quantity="one">Delete <xliff:g id="COUNT_0">%1$d</xliff:g> folder and its contents?</item>
     </plurals>
-    <plurals name="delete_items_confirmation_message" formatted="false" msgid="5376214433530243459">
+    <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other">Delete <xliff:g id="COUNT_1">%1$d</xliff:g> items?</item>
       <item quantity="one">Delete <xliff:g id="COUNT_0">%1$d</xliff:g> item?</item>
     </plurals>

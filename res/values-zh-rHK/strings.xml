@@ -16,128 +16,128 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="1551050262492398204">"檔案"</string>
-    <string name="downloads_label" msgid="959113951084633612">"下載"</string>
-    <string name="title_open" msgid="4353228937663917801">"開啟檔案"</string>
-    <string name="title_save" msgid="2433679664882857999">"儲存至"</string>
-    <string name="menu_create_dir" msgid="2547620241173881754">"新增資料夾"</string>
-    <string name="menu_grid" msgid="6878021334497835259">"格狀檢視"</string>
-    <string name="menu_list" msgid="7279285939892417279">"清單檢視"</string>
-    <string name="menu_sort" msgid="7677740407158414452">"排序方式"</string>
-    <string name="menu_search" msgid="3816712084502856974">"搜尋"</string>
-    <string name="menu_settings" msgid="8239065133341597825">"儲存空間設定"</string>
-    <string name="menu_open" msgid="432922957274920903">"開啟"</string>
-    <string name="menu_save" msgid="2394743337684426338">"儲存"</string>
-    <string name="menu_share" msgid="3075149983979628146">"分享"</string>
-    <string name="menu_delete" msgid="8138799623850614177">"刪除"</string>
-    <string name="menu_select_all" msgid="8323579667348729928">"全部選取"</string>
-    <string name="menu_copy" msgid="3612326052677229148">"複製到…"</string>
-    <string name="menu_move" msgid="1828090633118079817">"移至…"</string>
-    <string name="menu_new_window" msgid="1226032889278727538">"新視窗"</string>
-    <string name="menu_cut_to_clipboard" msgid="2467149185452488383">"剪下"</string>
-    <string name="menu_copy_to_clipboard" msgid="489311381979634291">"複製"</string>
-    <string name="menu_paste_from_clipboard" msgid="2071583031180257091">"貼上"</string>
-    <string name="menu_advanced_show" msgid="4693652895715631401">"顯示內部儲存空間"</string>
-    <string name="menu_advanced_hide" msgid="4218809952721972589">"隱藏內部儲存空間"</string>
-    <string name="menu_file_size_show" msgid="3240323619260823076">"顯示檔案大小"</string>
-    <string name="menu_file_size_hide" msgid="8881975928502581042">"隱藏檔案大小"</string>
-    <string name="button_select" msgid="527196987259139214">"選取"</string>
-    <string name="button_copy" msgid="8706475544635021302">"複製"</string>
-    <string name="button_move" msgid="2202666023104202232">"移動"</string>
-    <string name="button_dismiss" msgid="3714065566893946085">"關閉"</string>
-    <string name="button_retry" msgid="4392027584153752797">"再試一次"</string>
-    <string name="sort_name" msgid="9183560467917256779">"按名稱"</string>
-    <string name="sort_date" msgid="586080032956151448">"按修改日期"</string>
-    <string name="sort_size" msgid="3350681319735474741">"按大小"</string>
-    <string name="drawer_open" msgid="4545466532430226949">"顯示根目錄"</string>
-    <string name="drawer_close" msgid="7602734368552123318">"隱藏根目錄"</string>
-    <string name="save_error" msgid="6167009778003223664">"無法儲存文件"</string>
-    <string name="create_error" msgid="3735649141335444215">"無法建立資料夾"</string>
-    <string name="query_error" msgid="5999895349602476581">"目前無法載入內容"</string>
-    <string name="root_recent" msgid="4470053704320518133">"最近"</string>
-    <string name="root_available_bytes" msgid="8568452858617033281">"可用空間：<xliff:g id="SIZE">%1$s</xliff:g>"</string>
-    <string name="root_type_service" msgid="2178854894416775409">"儲存空間服務"</string>
-    <string name="root_type_shortcut" msgid="3318760609471618093">"捷徑"</string>
-    <string name="root_type_device" msgid="7121342474653483538">"裝置"</string>
-    <string name="root_type_apps" msgid="8838065367985945189">"更多應用程式"</string>
-    <string name="empty" msgid="7858882803708117596">"沒有項目"</string>
-    <string name="no_results" msgid="6622510343880730446">"「%1$s」中沒有相符結果"</string>
-    <string name="toast_no_application" msgid="4632640357724698144">"無法開啟檔案"</string>
-    <string name="toast_failed_delete" msgid="2180678019407244069">"無法刪除部分文件"</string>
-    <string name="share_via" msgid="8966594246261344259">"分享方式："</string>
-    <string name="copy_notification_title" msgid="6374299806748219777">"正在複製檔案"</string>
-    <string name="move_notification_title" msgid="6193835179777284805">"正在移動檔案"</string>
-    <string name="delete_notification_title" msgid="3329403967712437496">"正在刪除檔案"</string>
-    <string name="copy_remaining" msgid="6283790937387975095">"剩餘 <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <plurals name="copy_begin" formatted="false" msgid="9071199452634086365">
+    <string name="app_label" msgid="3303317181319900082">"檔案"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"下載"</string>
+    <string name="title_open" msgid="3165686459158020921">"在以下位置開啟文件："</string>
+    <string name="title_save" msgid="4384490653102710025">"儲存至："</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"新資料夾"</string>
+    <string name="menu_grid" msgid="1453636521731880680">"格狀檢視"</string>
+    <string name="menu_list" msgid="6714267452146410402">"清單檢視"</string>
+    <string name="menu_sort" msgid="6754410552665101834">"排序方式"</string>
+    <string name="menu_search" msgid="1876699106790719849">"搜尋"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"儲存空間設定"</string>
+    <string name="menu_open" msgid="9092138100049759315">"開啟"</string>
+    <string name="menu_save" msgid="5195367497138965168">"儲存"</string>
+    <string name="menu_share" msgid="4307140947108068356">"分享"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"刪除"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"全選"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"複製到…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"移至…"</string>
+    <string name="menu_new_window" msgid="2947837751796109126">"新視窗"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"剪下"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"複製"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"貼上"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"顯示內部儲存空間"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"隱藏內部儲存空間"</string>
+    <string name="menu_file_size_show" msgid="8035723306878852180">"顯示檔案大小"</string>
+    <string name="menu_file_size_hide" msgid="8953697126109694855">"隱藏檔案大小"</string>
+    <string name="button_select" msgid="240863497069321364">"選取"</string>
+    <string name="button_copy" msgid="8219059853840996027">"複製"</string>
+    <string name="button_move" msgid="8596460499325291272">"移動"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"關閉"</string>
+    <string name="button_retry" msgid="4011461781916631389">"再試一次"</string>
+    <string name="sort_name" msgid="6790411054171883704">"按名稱"</string>
+    <string name="sort_date" msgid="3237147045109806231">"按修改日期"</string>
+    <string name="sort_size" msgid="5532930542340076266">"按大小"</string>
+    <string name="drawer_open" msgid="8071673398187261741">"顯示根目錄"</string>
+    <string name="drawer_close" msgid="4263880768630848848">"隱藏根目錄"</string>
+    <string name="save_error" msgid="8631128801982095782">"無法儲存文件"</string>
+    <string name="create_error" msgid="3092144450044861994">"無法建立資料夾"</string>
+    <string name="query_error" msgid="6625421453613879336">"目前無法載入內容"</string>
+    <string name="root_recent" msgid="1080156975424341623">"最近項目"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"可用空間：<xliff:g id="SIZE">%1$s</xliff:g>"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"儲存空間服務"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"捷徑"</string>
+    <string name="root_type_device" msgid="1713604128005476585">"裝置"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"更多應用程式"</string>
+    <string name="empty" msgid="5300254272613103004">"沒有項目"</string>
+    <string name="no_results" msgid="2371026325236359209">"「%1$s」中沒有相符結果"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"無法開啟檔案"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"無法刪除部分文件"</string>
+    <string name="share_via" msgid="8725082736005677161">"透過以下應用程式分享："</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"正在複製檔案"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"正在移動檔案"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"正在刪除檔案"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"剩餘 <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
       <item quantity="other">正在複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
       <item quantity="one">正在複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="8430330882138871643">
-      <item quantity="other">正在轉移 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
-      <item quantity="one">正在轉移 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
+    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
+      <item quantity="other">正在移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
+      <item quantity="one">正在移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="5054338566802559411">
+    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
       <item quantity="other">正在刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
       <item quantity="one">正在刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
     </plurals>
-    <string name="undo" msgid="7905788502491742328">"復原"</string>
-    <string name="copy_preparing" msgid="3896202461003039386">"正在準備複製…"</string>
-    <string name="move_preparing" msgid="2772219441375531410">"正在準備移動…"</string>
-    <string name="delete_preparing" msgid="5655813182533491992">"正在準備刪除…"</string>
-    <string name="delete_progress" msgid="5399405983046157222">"第 <xliff:g id="COUNT_0">%1$d</xliff:g> 個，共 <xliff:g id="TOTALCOUNT">%2$d</xliff:g> 個"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7160447124922897689">
+    <string name="undo" msgid="2902438994196400565">"復原"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"正在準備複製…"</string>
+    <string name="move_preparing" msgid="8742573245485449429">"正在準備移動…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"正在準備刪除…"</string>
+    <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
       <item quantity="other">無法複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
       <item quantity="one">無法複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="2710901971014783012">
+    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
       <item quantity="other">無法移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
       <item quantity="one">無法移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="7228393157786591199">
+    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
       <item quantity="other">無法刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
       <item quantity="one">無法刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="6268189413228855582">"輕按即可查看詳細資訊"</string>
-    <string name="close" msgid="3043722427445528732">"關閉"</string>
-    <string name="copy_failure_alert_content" msgid="4563147454522476183">"以下檔案未能複製：<xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="2635075788682922861">"以下檔案未能移動：<xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="892393767207938353">"無法刪除以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="5753861488218674361">"這些檔案已轉換成其他格式：<xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="855459017537058539">
-      <item quantity="other">已複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案到剪貼簿。</item>
-      <item quantity="one">已複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案到剪貼簿。</item>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"輕按即可查看詳細資訊"</string>
+    <string name="close" msgid="905969391788869975">"關閉"</string>
+    <string name="copy_failure_alert_content" msgid="161721873402101825">"未能複製以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="move_failure_alert_content" msgid="6586182218105304719">"未能移動以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="delete_failure_alert_content" msgid="7856890428816304981">"無法刪除以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="copy_converted_warning_content" msgid="6481928162944612074">"這些檔案已轉換成其他格式：<xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
+      <item quantity="other">已將 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案複製到剪貼簿。</item>
+      <item quantity="one">已將 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案複製到剪貼簿。</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="2878324825602325706">"無法在此位置貼上選取檔案。"</string>
-    <string name="menu_rename" msgid="7678802479104285353">"重新命名"</string>
-    <string name="rename_error" msgid="4203041674883412606">"無法重新命名文件"</string>
-    <string name="menu_eject_root" msgid="2768224615494227325">"逐出"</string>
-    <string name="notification_copy_files_converted_title" msgid="3153573223054275181">"部分檔案已轉換成其他格式"</string>
-    <string name="open_external_dialog_request" msgid="5789329484285817629">"要為「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放 <xliff:g id="STORAGE"><i>^3</i></xliff:g>上的「<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>」目錄存取權嗎？"</string>
-    <string name="open_external_dialog_request_primary_volume" msgid="6635562535713428688">"要為「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放「<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>」目錄的存取權嗎？"</string>
-    <string name="open_external_dialog_root_request" msgid="8899108702926347720">"要向「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放 <xliff:g id="STORAGE"><i>^2</i></xliff:g>上的相片和影片等資料的存取權嗎？"</string>
-    <string name="never_ask_again" msgid="4295278542972859268">"不要再詢問"</string>
-    <string name="allow" msgid="7225948811296386551">"允許"</string>
-    <string name="deny" msgid="2081879885755434506">"拒絕"</string>
-    <plurals name="elements_selected" formatted="false" msgid="1376955402452875047">
+    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"無法在此位置貼上選取檔案。"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"重新命名"</string>
+    <string name="rename_error" msgid="6700093173508118635">"無法重新命名文件"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"逐出"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"部分檔案已轉換成其他格式"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"要為「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放 <xliff:g id="STORAGE"><i>^3</i></xliff:g>上的「<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>」目錄存取權嗎？"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"要為「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放「<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>」目錄的存取權嗎？"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"要為「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放 <xliff:g id="STORAGE"><i>^2</i></xliff:g>上的相片和影片等資料的存取權嗎？"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"不要再詢問"</string>
+    <string name="allow" msgid="1275746941353040309">"允許"</string>
+    <string name="deny" msgid="5127201668078153379">"拒絕"</string>
+    <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="other">已選取 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目</item>
       <item quantity="one">已選取 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目</item>
     </plurals>
-    <plurals name="elements_dragged" formatted="false" msgid="3727204615215602228">
+    <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> 個項目</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> 個項目</item>
     </plurals>
-    <string name="delete_filename_confirmation_message" msgid="5312817725577537488">"要刪除「<xliff:g id="NAME">%1$s</xliff:g>」嗎？"</string>
-    <string name="delete_foldername_confirmation_message" msgid="5885501832257285329">"要刪除「<xliff:g id="NAME">%1$s</xliff:g>」資料夾及其內容嗎？"</string>
-    <plurals name="delete_files_confirmation_message" formatted="false" msgid="8417505791395471802">
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"要刪除「<xliff:g id="NAME">%1$s</xliff:g>」嗎？"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"要刪除「<xliff:g id="NAME">%1$s</xliff:g>」資料夾及其內容嗎？"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
       <item quantity="other">要刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案嗎？</item>
       <item quantity="one">要刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案嗎？</item>
     </plurals>
-    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="9185648028213507769">
+    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
       <item quantity="other">要刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個資料夾及其內容嗎？</item>
       <item quantity="one">要刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個資料夾及其內容嗎？</item>
     </plurals>
-    <plurals name="delete_items_confirmation_message" formatted="false" msgid="5376214433530243459">
+    <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other">要刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目嗎？</item>
       <item quantity="one">要刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目嗎？</item>
     </plurals>
