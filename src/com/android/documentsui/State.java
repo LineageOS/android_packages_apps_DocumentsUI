@@ -24,7 +24,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.View;
 
+import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.DocumentStack;
 import com.android.documentsui.model.DurableUtils;
@@ -83,6 +85,8 @@ public class State implements android.os.Parcelable {
     /** Derived from local preferences */
     public @ViewMode int derivedMode = MODE_GRID;
 
+    /** Current sort state */
+    public SortModel sortModel;
     /** Explicit user choice */
     public int userSortOrder = SORT_ORDER_UNKNOWN;
     /** Derived after loader */
@@ -90,7 +94,6 @@ public class State implements android.os.Parcelable {
 
     public boolean allowMultiple;
     public boolean forceSize;
-    public boolean showSize;
     public boolean localOnly;
     public boolean showAdvancedOption;
     public boolean showAdvanced;
@@ -118,6 +121,8 @@ public class State implements android.os.Parcelable {
     private boolean mStackTouched;
     private boolean mInitialRootChanged;
     private boolean mInitialDocChanged;
+
+    private boolean mShowSize;
 
     /** Instance state for every shown directory */
     public HashMap<String, SparseArray<Parcelable>> dirState = new HashMap<>();
@@ -165,6 +170,16 @@ public class State implements android.os.Parcelable {
         mStackTouched = true;
     }
 
+    public boolean getShowSize() {
+        return forceSize || mShowSize;
+    }
+
+    public void setShowSize(boolean display) {
+        mShowSize = display;
+        sortModel.setDimensionVisibility(
+                SortModel.SORT_DIMENSION_ID_SIZE, getShowSize() ? View.VISIBLE : View.GONE);
+    }
+
     // This will return true even when the initial location is set.
     // To get a read on if the user has changed something, use #hasInitialLocationChanged.
     public boolean hasLocationChanged() {
@@ -187,7 +202,7 @@ public class State implements android.os.Parcelable {
         out.writeInt(userSortOrder);
         out.writeInt(allowMultiple ? 1 : 0);
         out.writeInt(forceSize ? 1 : 0);
-        out.writeInt(showSize ? 1 : 0);
+        out.writeInt(mShowSize ? 1 : 0);
         out.writeInt(localOnly ? 1 : 0);
         out.writeInt(showAdvancedOption ? 1 : 0);
         out.writeInt(showAdvanced ? 1 : 0);
@@ -200,6 +215,7 @@ public class State implements android.os.Parcelable {
         out.writeInt(mStackTouched ? 1 : 0);
         out.writeInt(mInitialRootChanged ? 1 : 0);
         out.writeInt(mInitialDocChanged ? 1 : 0);
+        out.writeParcelable(sortModel, 0);
     }
 
     public static final ClassLoaderCreator<State> CREATOR = new ClassLoaderCreator<State>() {
@@ -216,7 +232,7 @@ public class State implements android.os.Parcelable {
             state.userSortOrder = in.readInt();
             state.allowMultiple = in.readInt() != 0;
             state.forceSize = in.readInt() != 0;
-            state.showSize = in.readInt() != 0;
+            state.mShowSize = in.readInt() != 0;
             state.localOnly = in.readInt() != 0;
             state.showAdvancedOption = in.readInt() != 0;
             state.showAdvanced = in.readInt() != 0;
@@ -229,6 +245,7 @@ public class State implements android.os.Parcelable {
             state.mStackTouched = in.readInt() != 0;
             state.mInitialRootChanged = in.readInt() != 0;
             state.mInitialDocChanged = in.readInt() != 0;
+            state.sortModel = in.readParcelable(getClass().getClassLoader());
             return state;
         }
 

@@ -160,7 +160,7 @@ final class ListDocumentHolder extends DocumentHolder {
                 mDate.setText(null);
             }
 
-            if (state.showSize && docSize > -1) {
+            if (state.getShowSize() && docSize > -1) {
                 hasDetails = true;
                 mSize.setVisibility(View.VISIBLE);
                 mSize.setText(Formatter.formatFileSize(mContext, docSize));

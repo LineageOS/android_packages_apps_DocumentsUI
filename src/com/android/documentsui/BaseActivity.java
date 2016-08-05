@@ -48,6 +48,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
@@ -62,6 +63,8 @@ import com.android.documentsui.model.DocumentStack;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
+import com.android.documentsui.sorting.SortController;
+import com.android.documentsui.sorting.SortModel;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -123,6 +126,8 @@ public abstract class BaseActivity extends Activity
     private boolean mNavDrawerHasFocus;
     private long mStartTime;
 
+    private SortController mSortController;
+
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);
     public abstract void onDocumentsPicked(List<DocumentInfo> docs);
     public abstract FragmentTuner createFragmentTuner();
@@ -177,6 +182,8 @@ public abstract class BaseActivity extends Activity
 
         mNavigator = new NavigationViewManager(mDrawer, toolbar, mState, this, breadcrumb);
 
+        mSortController = new SortController(mState.sortModel);
+
         // Base classes must update result in their onCreate.
         setResult(Activity.RESULT_CANCELED);
     }
@@ -207,6 +214,10 @@ public abstract class BaseActivity extends Activity
         super.onDestroy();
     }
 
+    SortController getSortController() {
+        return mSortController;
+    }
+
     private State getState(@Nullable Bundle icicle) {
         if (icicle != null) {
             State state = icicle.<State>getParcelable(Shared.EXTRA_STATE);
@@ -218,9 +229,10 @@ public abstract class BaseActivity extends Activity
 
         final Intent intent = getIntent();
 
+        state.sortModel = SortModel.createModel();
         state.localOnly = intent.getBooleanExtra(Intent.EXTRA_LOCAL_ONLY, false);
         state.forceSize = intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_FILESIZE, false);
-        state.showSize = state.forceSize || LocalPreferences.getDisplayFileSize(this);
+        state.setShowSize(state.forceSize || LocalPreferences.getDisplayFileSize(this));
         state.initAcceptMimes(intent);
         state.excludedAuthorities = getExcludedAuthorities();
 
@@ -259,6 +271,12 @@ public abstract class BaseActivity extends Activity
         }
 
         mState.derivedMode = LocalPreferences.getViewMode(this, root, MODE_GRID);
+
+        // Set summary header's visibility. Only recents and downloads root may have summary in
+        // their docs.
+        mState.sortModel.setDimensionVisibility(
+                SortModel.SORT_DIMENSION_ID_SUMMARY,
+                root.isRecents() || root.isDownloads() ? View.VISIBLE : View.INVISIBLE);
 
         // Clear entire backstack and start in new root
         mState.onRootChanged(root);
@@ -503,7 +521,7 @@ public abstract class BaseActivity extends Activity
                 display ? Metrics.USER_ACTION_SHOW_SIZE : Metrics.USER_ACTION_HIDE_SIZE);
 
         LocalPreferences.setDisplayFileSize(this, display);
-        mState.showSize = display;
+        mState.setShowSize(display);
         DirectoryFragment dir = getDirectoryFragment();
         if (dir != null) {
             dir.onDisplayStateChanged();
@@ -555,6 +573,8 @@ public abstract class BaseActivity extends Activity
         if (dir != null) {
             dir.onViewModeChanged();
         }
+
+        mSortController.onViewModeChanged(mode);
     }
 
     public void setPending(boolean pending) {

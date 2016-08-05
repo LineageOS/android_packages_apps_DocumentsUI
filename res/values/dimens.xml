@@ -48,4 +48,6 @@
 
     <dimen name="autoscroll_edge_height">32dp</dimen>
 
+    <dimen name="doc_header_sort_icon_size">16dp</dimen>
+    <dimen name="doc_header_height">60dp</dimen>
 </resources>

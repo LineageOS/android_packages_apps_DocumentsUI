@@ -98,12 +98,14 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.dirlist.UserInputHandler.DocumentDetails;
+import com.android.documentsui.dirlist.header.TableHeaderController;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
+import com.android.documentsui.sorting.SortController;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -157,6 +159,7 @@ public class DirectoryFragment extends Fragment
     private SwipeRefreshLayout mRefreshLayout;
     private View mEmptyView;
     private RecyclerView mRecView;
+    private View mFileList;
     private ListeningGestureDetector mGestureDetector;
 
     private String mStateKey;
@@ -191,6 +194,8 @@ public class DirectoryFragment extends Fragment
     private DragScrollListener mOnDragListener;
     private MenuManager mMenuManager;
 
+    private TableHeaderController mTableHeaderController;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -212,8 +217,8 @@ public class DirectoryFragment extends Fragment
                         cancelThumbnailTask(holder.itemView);
                     }
                 });
-
         mRecView.setItemAnimator(new DirectoryItemAnimator(getActivity()));
+        mFileList = view.findViewById(R.id.file_list);
 
         final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
         mOnDragListener = DragScrollListener.create(
@@ -222,6 +227,8 @@ public class DirectoryFragment extends Fragment
         // Make the recycler and the empty views responsive to drop events.
         mRecView.setOnDragListener(mOnDragListener);
         mEmptyView.setOnDragListener(mOnDragListener);
+
+        mTableHeaderController = TableHeaderController.create(view.findViewById(R.id.table_header));
 
         return view;
     }
@@ -336,6 +343,8 @@ public class DirectoryFragment extends Fragment
                 Context.ACTIVITY_SERVICE);
         boolean svelte = am.isLowRamDevice() && (mType == TYPE_RECENT_OPEN);
         mIconHelper.setThumbnailsEnabled(!svelte);
+
+        mTuner.mSortController.manage(mTableHeaderController, getDisplayState().derivedMode);
 
         // Kick off loader at least once
         getLoaderManager().restartLoader(LOADER_ID, null, this);
@@ -1154,12 +1163,12 @@ public class DirectoryFragment extends Fragment
 
         mEmptyView.setVisibility(View.VISIBLE);
         mEmptyView.requestFocus();
-        mRecView.setVisibility(View.GONE);
+        mFileList.setVisibility(View.GONE);
     }
 
     private void showDirectory() {
         mEmptyView.setVisibility(View.GONE);
-        mRecView.setVisibility(View.VISIBLE);
+        mFileList.setVisibility(View.VISIBLE);
         mRecView.requestFocus();
     }
 

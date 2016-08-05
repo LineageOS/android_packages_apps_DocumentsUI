@@ -90,6 +90,20 @@
     <!-- Mode that sorts documents by their file size in descending order; largest first [CHAR LIMIT=24] -->
     <string name="sort_size">By size</string>
 
+    <!-- Table header for file name [CHAR_LIMIT=24] -->
+    <string name="column_name">Name</string>
+    <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
+    <string name="column_summary">Summary</string>
+    <!-- Table header for last modified time. [CHAR_LIMIT=24] -->
+    <string name="column_date">Modified</string>
+    <!-- Table header for file size. [CHAR_LIMIT=24] -->
+    <string name="column_size">Size</string>
+
+    <!-- content description to describe ascending sorting used with upward arrow in table header. -->
+    <string name="sort_direction_ascending">Ascending</string>
+    <!-- content description to describe descending sorting used with downward arrow in table header. -->
+    <string name="sort_direction_descending">Descending</string>
+
     <!-- Accessibility title to open the drawer showing all roots where documents can be stored [CHAR LIMIT=32] -->
     <string name="drawer_open">Show roots</string>
     <!-- Accessibility title to close the drawer showing all roots where documents can be stored [CHAR LIMIT=32] -->

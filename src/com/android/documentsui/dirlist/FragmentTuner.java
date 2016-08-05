@@ -29,6 +29,7 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.MimePredicate;
 import com.android.documentsui.State;
 import com.android.documentsui.dirlist.DirectoryFragment.ResultType;
+import com.android.documentsui.sorting.SortController;
 
 /**
  * Providers support for specializing the DirectoryFragment to the "host" Activity.
@@ -38,10 +39,12 @@ public abstract class FragmentTuner {
 
     final Context mContext;
     final State mState;
+    final SortController mSortController;
 
-    public FragmentTuner(Context context, State state) {
+    public FragmentTuner(Context context, State state, SortController sortController) {
         mContext = context;
         mState = state;
+        mSortController = sortController;
     }
 
     // Subtly different from isDocumentEnabled. The reason may be illuminated as follows.
@@ -81,8 +84,8 @@ public abstract class FragmentTuner {
         // open the drawer on empty directories on first launch
         private boolean mModelPreviousLoaded;
 
-        public DocumentsTuner(Context context, State state) {
-            super(context, state);
+        public DocumentsTuner(Context context, State state, SortController sortController) {
+            super(context, state, sortController);
         }
 
         @Override
@@ -167,11 +170,9 @@ public abstract class FragmentTuner {
         // open the drawer on empty directories on first launch
         private boolean mModelPreviousLoaded;
 
-        public FilesTuner(Context context, State state) {
-            super(context, state);
+        public FilesTuner(Context context, State state, SortController sortController) {
+            super(context, state, sortController);
         }
-
-
 
         @Override
         void onModelLoaded(Model model, @ResultType int resultType, boolean isSearch) {
