@@ -76,6 +76,20 @@ public final class UserInputHandler<T extends InputEvent>
     }
 
     @Override
+    public boolean onDown(MotionEvent e) {
+        try (T event = mEventConverter.apply(e)) {
+            return onDown(event);
+        }
+    }
+
+    @VisibleForTesting
+    boolean onDown(T event) {
+        return event.isMouseEvent()
+                ? mMouseDelegate.onDown(event)
+                : mTouchDelegate.onDown(event);
+    }
+
+    @Override
     public boolean onSingleTapUp(MotionEvent e) {
         try (T event = mEventConverter.apply(e)) {
             return onSingleTapUp(event);
@@ -132,20 +146,18 @@ public final class UserInputHandler<T extends InputEvent>
         mTouchDelegate.onLongPress(event);
     }
 
-    public boolean onSingleRightClickUp(MotionEvent e) {
+    // Only events from RecyclerView are fed into UserInputHandler#onDown.
+    // ListeningGestureDetector#onTouch directly calls this method to support context menu in empty
+    // view
+    boolean onRightClick(MotionEvent e) {
         try (T event = mEventConverter.apply(e)) {
-            return mMouseDelegate.onSingleRightClickUp(event);
+            return mMouseDelegate.onRightClick(event);
         }
     }
 
     @Override
     public boolean onKey(DocumentHolder doc, int keyCode, KeyEvent event) {
         return mKeyListener.onKey(doc, keyCode, event);
-    }
-
-    // TODO: Isolate this hack...see if we can't get this solved at the platform level.
-    public void setLastButtonState(int state) {
-        mMouseDelegate.setLastButtonState(state);
     }
 
     private boolean activateDocument(DocumentDetails doc) {
@@ -168,6 +180,10 @@ public final class UserInputHandler<T extends InputEvent>
     }
 
     private final class TouchInputDelegate {
+
+        boolean onDown(T event) {
+            return false;
+        }
 
         boolean onSingleTapUp(T event) {
             if (!event.isOverItem()) {
@@ -220,25 +236,28 @@ public final class UserInputHandler<T extends InputEvent>
     }
 
     private final class MouseInputDelegate {
-
-        // From the RecyclerView, we get two events sent to
-        // ListeningGestureDetector#onInterceptTouchEvent on a mouse click; we first get an
-        // ACTION_DOWN Event for clicking on the mouse, and then an ACTION_UP event from releasing
-        // the mouse click. ACTION_UP event doesn't have information regarding the button (primary
-        // vs. secondary), so we have to save that somewhere first from ACTION_DOWN, and then reuse
-        // it later. The ACTION_DOWN event doesn't get forwarded to UserInputListener,
-        // so we have open up a public set method to set it.
-        private int mLastButtonState = -1;
-
-        // true when the previous event has consumed a right click motion event
-        private boolean mAteRightClick;
-
         // The event has been handled in onSingleTapUp
         private boolean mHandledTapUp;
+        // true when the previous event has consumed a right click motion event
+        private boolean mHandledOnDown;
+
+        boolean onDown(T event) {
+            if (event.isSecondaryButtonPressed()) {
+                assert(!mHandledOnDown);
+                mHandledOnDown = true;
+                return onRightClick(event);
+            }
+            return false;
+        }
 
         boolean onSingleTapUp(T event) {
-            if (eatRightClick()) {
-                return onSingleRightClickUp(event);
+
+            // See b/27377794. Since we don't get a button state back from UP events, we have to
+            // explicitly save this state to know whether something was previously handled by
+            // DOWN events or not.
+            if (mHandledOnDown) {
+                mHandledOnDown = false;
+                return false;
             }
 
             if (!event.isOverItem()) {
@@ -272,10 +291,6 @@ public final class UserInputHandler<T extends InputEvent>
         }
 
         boolean onSingleTapConfirmed(T event) {
-            if (mAteRightClick) {
-                mAteRightClick = false;
-                return false;
-            }
             if (mHandledTapUp) {
                 mHandledTapUp = false;
                 return false;
@@ -316,22 +331,8 @@ public final class UserInputHandler<T extends InputEvent>
             }
         }
 
-        private boolean onSingleRightClickUp(T event) {
+        private boolean onRightClick(T event) {
             return mRightClickHandler.apply(event);
-        }
-
-        // hack alert from here through end of class.
-        private void setLastButtonState(int state) {
-            mLastButtonState = state;
-        }
-
-        private boolean eatRightClick() {
-            if (mLastButtonState == MotionEvent.BUTTON_SECONDARY) {
-                mLastButtonState = -1;
-                mAteRightClick = true;
-                return true;
-            }
-            return false;
         }
     }
 

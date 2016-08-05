@@ -105,6 +105,13 @@ public class TestInputEvent implements Events.InputEvent {
         return e;
     }
 
+    public static TestInputEvent rightClick(int position) {
+        TestInputEvent e = new TestInputEvent(position);
+        e.mouseEvent = true;
+        e.secondaryButtonPressed = true;
+        return e;
+    }
+
     public static TestInputEvent shiftClick(int position) {
         TestInputEvent e = new TestInputEvent(position);
         e.mouseEvent = true;
