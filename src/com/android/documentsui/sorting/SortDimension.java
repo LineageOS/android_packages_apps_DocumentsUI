@@ -124,6 +124,41 @@ public class SortDimension implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof SortDimension)) {
+            return false;
+        }
+
+        if (this == o) {
+            return true;
+        }
+
+        SortDimension other = (SortDimension) o;
+
+        return mId == other.mId
+                && mLabelId == other.mLabelId
+                && mDataType == other.mDataType
+                && mSortCapability == other.mSortCapability
+                && mDefaultSortDirection == other.mDefaultSortDirection
+                && mSortDirection == other.mSortDirection
+                && mVisibility == other.mVisibility;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder().append("SortDimension{")
+                .append("id=").append(mId)
+                .append(", labelId=").append(mLabelId)
+                .append(", dataType=").append(mDataType)
+                .append(", sortCapability=").append(mSortCapability)
+                .append(", defaultSortDirection=").append(mDefaultSortDirection)
+                .append(", sortDirection=").append(mSortDirection)
+                .append(", visibility=").append(mVisibility)
+                .append("}")
+                .toString();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -145,13 +180,13 @@ public class SortDimension implements Parcelable {
         @Override
         public SortDimension createFromParcel(Parcel in) {
             int id = in.readInt();
-            @StringRes int lableId = in.readInt();
+            @StringRes int labelId = in.readInt();
             @DataType  int dataType = in.readInt();
             int sortCapability = in.readInt();
             int defaultSortDirection = in.readInt();
 
             SortDimension column =
-                    new SortDimension(id, lableId, dataType, sortCapability, defaultSortDirection);
+                    new SortDimension(id, labelId, dataType, sortCapability, defaultSortDirection);
 
             column.mSortDirection = in.readInt();
             column.mVisibility = in.readInt();

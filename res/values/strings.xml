@@ -83,21 +83,17 @@
     <string name="button_dismiss">Dismiss</string>
     <string name="button_retry">Try Again</string>
 
-    <!-- Mode that sorts documents by their display name alphabetically [CHAR LIMIT=24] -->
-    <string name="sort_name">By name</string>
-    <!-- Mode that sorts documents by their last modified time in descending order; most recent first [CHAR LIMIT=24] -->
-    <string name="sort_date">By date modified</string>
-    <!-- Mode that sorts documents by their file size in descending order; largest first [CHAR LIMIT=24] -->
-    <string name="sort_size">By size</string>
+    <!-- A phrase to indicate which dimension items should be sorted by, such as By Name, By Size etc. [CHAR_LIMIT=24] -->
+    <string name="sort_phrase">By <xliff:g id="dimension" example="Name">%1$s</xliff:g></string>
 
     <!-- Table header for file name [CHAR_LIMIT=24] -->
-    <string name="column_name">Name</string>
+    <string name="sort_dimension_name">Name</string>
     <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
-    <string name="column_summary">Summary</string>
-    <!-- Table header for last modified time. [CHAR_LIMIT=24] -->
-    <string name="column_date">Modified</string>
-    <!-- Table header for file size. [CHAR_LIMIT=24] -->
-    <string name="column_size">Size</string>
+    <string name="sort_dimension_summary">Summary</string>
+    <!-- Table header for last modified time. [CHAR_LIMIT=12] -->
+    <string name="sort_dimension_date">Modified</string>
+    <!-- Table header for file size. [CHAR_LIMIT=12] -->
+    <string name="sort_dimension_size">Size</string>
 
     <!-- content description to describe ascending sorting used with upward arrow in table header. -->
     <string name="sort_direction_ascending">Ascending</string>

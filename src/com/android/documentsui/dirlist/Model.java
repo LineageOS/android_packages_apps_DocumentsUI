@@ -17,9 +17,6 @@
 package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.State.SORT_ORDER_DISPLAY_NAME;
-import static com.android.documentsui.State.SORT_ORDER_LAST_MODIFIED;
-import static com.android.documentsui.State.SORT_ORDER_SIZE;
 import static com.android.documentsui.model.DocumentInfo.getCursorLong;
 import static com.android.documentsui.model.DocumentInfo.getCursorString;
 
@@ -38,6 +35,8 @@ import com.android.documentsui.RootCursorWrapper;
 import com.android.documentsui.Shared;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.sorting.SortDimension;
+import com.android.documentsui.sorting.SortModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,10 +58,10 @@ public class Model {
     private Map<String, Integer> mPositions = new HashMap<>();
     /**
      * A sorted array of model IDs for the files currently in the Model.  Sort order is determined
-     * by {@link #mSortOrder}
+     * by {@link #mSortModel}
      */
     private String mIds[] = new String[0];
-    private int mSortOrder = SORT_ORDER_DISPLAY_NAME;
+    private SortModel mSortModel;
 
     @Nullable String info;
     @Nullable String error;
@@ -104,7 +103,7 @@ public class Model {
 
         mCursor = result.cursor;
         mCursorCount = mCursor.getCount();
-        mSortOrder = result.sortOrder;
+        mSortModel = result.sortModel;
         doc = result.doc;
 
         updateModelData();
@@ -135,12 +134,13 @@ public class Model {
         String[] displayNames = null;
         long[] longValues = null;
 
-        switch (mSortOrder) {
-            case SORT_ORDER_DISPLAY_NAME:
+        final int id = mSortModel.getSortedDimensionId();
+        switch (id) {
+            case SortModel.SORT_DIMENSION_ID_TITLE:
                 displayNames = new String[mCursorCount];
                 break;
-            case SORT_ORDER_LAST_MODIFIED:
-            case SORT_ORDER_SIZE:
+            case SortModel.SORT_DIMENSION_ID_DATE:
+            case SortModel.SORT_DIMENSION_ID_SIZE:
                 longValues = new long[mCursorCount];
                 break;
         }
@@ -169,28 +169,29 @@ public class Model {
             mimeType = getCursorString(mCursor, Document.COLUMN_MIME_TYPE);
             isDirs[pos] = Document.MIME_TYPE_DIR.equals(mimeType);
 
-            switch(mSortOrder) {
-                case SORT_ORDER_DISPLAY_NAME:
+            switch(id) {
+                case SortModel.SORT_DIMENSION_ID_TITLE:
                     final String displayName = getCursorString(
                             mCursor, Document.COLUMN_DISPLAY_NAME);
                     displayNames[pos] = displayName;
                     break;
-                case SORT_ORDER_LAST_MODIFIED:
+                case SortModel.SORT_DIMENSION_ID_DATE:
                     longValues[pos] = getLastModified(mCursor);
                     break;
-                case SORT_ORDER_SIZE:
+                case SortModel.SORT_DIMENSION_ID_SIZE:
                     longValues[pos] = getCursorLong(mCursor, Document.COLUMN_SIZE);
                     break;
             }
         }
 
-        switch (mSortOrder) {
-            case SORT_ORDER_DISPLAY_NAME:
-                binarySort(displayNames, isDirs, positions, mIds);
+        final SortDimension dimension = mSortModel.getDimensionById(id);
+        switch (id) {
+            case SortModel.SORT_DIMENSION_ID_TITLE:
+                binarySort(displayNames, isDirs, positions, mIds, dimension.getSortDirection());
                 break;
-            case SORT_ORDER_LAST_MODIFIED:
-            case SORT_ORDER_SIZE:
-                binarySort(longValues, isDirs, positions, mIds);
+            case SortModel.SORT_DIMENSION_ID_DATE:
+            case SortModel.SORT_DIMENSION_ID_SIZE:
+                binarySort(longValues, isDirs, positions, mIds, dimension.getSortDirection());
                 break;
         }
 
@@ -211,7 +212,12 @@ public class Model {
      * @param positions Cursor positions to be sorted.
      * @param ids Model IDs to be sorted.
      */
-    private static void binarySort(String[] sortKey, boolean[] isDirs, int[] positions, String[] ids) {
+    private static void binarySort(
+            String[] sortKey,
+            boolean[] isDirs,
+            int[] positions,
+            String[] ids,
+            @SortDimension.SortDirection int direction) {
         final int count = positions.length;
         for (int start = 1; start < count; start++) {
             final int pivotPosition = positions[start];
@@ -235,7 +241,17 @@ public class Model {
                 } else {
                     final String lhs = pivotValue;
                     final String rhs = sortKey[mid];
-                    compare = Shared.compareToIgnoreCaseNullable(lhs, rhs);
+                    switch (direction) {
+                        case SortDimension.SORT_DIRECTION_ASCENDING:
+                            compare = Shared.compareToIgnoreCaseNullable(lhs, rhs);
+                            break;
+                        case SortDimension.SORT_DIRECTION_DESCENDING:
+                            compare = -Shared.compareToIgnoreCaseNullable(lhs, rhs);
+                            break;
+                        default:
+                            throw new IllegalArgumentException(
+                                    "Unknown sorting direction: " + direction);
+                    }
                 }
 
                 if (compare < 0) {
@@ -284,7 +300,11 @@ public class Model {
      * @param ids Model IDs to be sorted.
      */
     private static void binarySort(
-            long[] sortKey, boolean[] isDirs, int[] positions, String[] ids) {
+            long[] sortKey,
+            boolean[] isDirs,
+            int[] positions,
+            String[] ids,
+            @SortDimension.SortDirection int direction) {
         final int count = positions.length;
         for (int start = 1; start < count; start++) {
             final int pivotPosition = positions[start];
@@ -308,9 +328,17 @@ public class Model {
                 } else {
                     final long lhs = pivotValue;
                     final long rhs = sortKey[mid];
-                    // Sort in descending numerical order. This matches legacy behaviour, which
-                    // yields largest or most recent items on top.
-                    compare = -Long.compare(lhs, rhs);
+                    switch (direction) {
+                        case SortDimension.SORT_DIRECTION_ASCENDING:
+                            compare = Long.compare(lhs, rhs);
+                            break;
+                        case SortDimension.SORT_DIRECTION_DESCENDING:
+                            compare = -Long.compare(lhs, rhs);
+                            break;
+                        default:
+                            throw new IllegalArgumentException(
+                                    "Unknown sorting direction: " + direction);
+                    }
                 }
 
                 // If numerical comparison yields a tie, use document ID as a tie breaker.  This
@@ -358,7 +386,7 @@ public class Model {
     /**
      * @return Timestamp for the given document. Some docs (e.g. active downloads) have a null
      * timestamp - these will be replaced with MAX_LONG so that such files get sorted to the top
-     * when sorting by date.
+     * when sorting descending by date.
      */
     long getLastModified(Cursor cursor) {
         long l = getCursorLong(mCursor, Document.COLUMN_LAST_MODIFIED);
@@ -410,6 +438,14 @@ public class Model {
         return DocumentInfo.getUri(cursor);
     }
 
+    /**
+     * @return An ordered array of model IDs representing the documents in the model. It is sorted
+     *         according to the current sort order, which was set by the last model update.
+     */
+    public String[] getModelIds() {
+        return mIds;
+    }
+
     void addUpdateListener(UpdateListener listener) {
         mUpdateListeners.add(listener);
     }
@@ -418,7 +454,7 @@ public class Model {
         mUpdateListeners.remove(listener);
     }
 
-    static interface UpdateListener {
+    interface UpdateListener {
         /**
          * Called when a successful update has occurred.
          */
@@ -428,13 +464,5 @@ public class Model {
          * Called when an update has been attempted but failed.
          */
         void onModelUpdateFailed(Exception e);
-    }
-
-    /**
-     * @return An ordered array of model IDs representing the documents in the model. It is sorted
-     *         according to the current sort order, which was set by the last model update.
-     */
-    public String[] getModelIds() {
-        return mIds;
     }
 }

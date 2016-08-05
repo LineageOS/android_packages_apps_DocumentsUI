@@ -16,12 +16,6 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.Shared.TAG;
-import static com.android.documentsui.State.SORT_ORDER_DISPLAY_NAME;
-import static com.android.documentsui.State.SORT_ORDER_LAST_MODIFIED;
-import static com.android.documentsui.State.SORT_ORDER_SIZE;
-
 import android.content.AsyncTaskLoader;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -35,15 +29,17 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
-import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.sorting.SortModel;
 
 import libcore.io.IoUtils;
 
 import java.io.FileNotFoundException;
 
 public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
+
+    private static final String TAG = "DirectoryLoader";
 
     private static final String[] SEARCH_REJECT_MIMES = new String[] { Document.MIME_TYPE_DIR };
 
@@ -52,7 +48,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     private final int mType;
     private final RootInfo mRoot;
     private final Uri mUri;
-    private final int mUserSortOrder;
+    private final SortModel mModel;
     private final boolean mSearchMode;
 
     private DocumentInfo mDoc;
@@ -60,12 +56,12 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     private DirectoryResult mResult;
 
     public DirectoryLoader(Context context, int type, RootInfo root, DocumentInfo doc, Uri uri,
-            int userSortOrder, boolean inSearchMode) {
+            SortModel model, boolean inSearchMode) {
         super(context, ProviderExecutor.forAuthority(root.authority));
         mType = type;
         mRoot = root;
         mUri = uri;
-        mUserSortOrder = userSortOrder;
+        mModel = model;
         mDoc = doc;
         mSearchMode = inSearchMode;
     }
@@ -84,6 +80,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
         final DirectoryResult result = new DirectoryResult();
         result.doc = mDoc;
+        result.sortModel = mModel;
 
         // Use default document when searching
         if (mSearchMode) {
@@ -98,30 +95,12 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             }
         }
 
-        if (mUserSortOrder != State.SORT_ORDER_UNKNOWN) {
-            result.sortOrder = mUserSortOrder;
-        } else {
-            if ((mDoc.flags & Document.FLAG_DIR_PREFERS_LAST_MODIFIED) != 0) {
-                result.sortOrder = State.SORT_ORDER_LAST_MODIFIED;
-            } else {
-                result.sortOrder = State.SORT_ORDER_DISPLAY_NAME;
-            }
-        }
-
-        // Search always uses ranking from provider
-        if (mSearchMode) {
-            result.sortOrder = State.SORT_ORDER_UNKNOWN;
-        }
-
-        if (DEBUG)
-                Log.d(TAG, "userSortOrder=" + mUserSortOrder + ", sortOrder=" + result.sortOrder);
-
         ContentProviderClient client = null;
-        Cursor cursor = null;
+        Cursor cursor;
         try {
             client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
             cursor = client.query(
-                    mUri, null, null, null, getQuerySortOrder(result.sortOrder), mSignal);
+                    mUri, null, null, null, mModel.getDocumentSortQuery(), mSignal);
             if (cursor == null) {
                 throw new RemoteException("Provider returned null");
             }
@@ -210,18 +189,5 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         mResult = null;
 
         getContext().getContentResolver().unregisterContentObserver(mObserver);
-    }
-
-    public static String getQuerySortOrder(int sortOrder) {
-        switch (sortOrder) {
-            case SORT_ORDER_DISPLAY_NAME:
-                return Document.COLUMN_DISPLAY_NAME + " ASC";
-            case SORT_ORDER_LAST_MODIFIED:
-                return Document.COLUMN_LAST_MODIFIED + " DESC";
-            case SORT_ORDER_SIZE:
-                return Document.COLUMN_SIZE + " DESC";
-            default:
-                return null;
-        }
     }
 }

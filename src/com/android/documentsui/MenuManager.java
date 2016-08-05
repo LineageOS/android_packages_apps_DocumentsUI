@@ -53,9 +53,7 @@ public abstract class MenuManager {
         updateFileSize(menu.findItem(R.id.menu_file_size), directoryDetails);
         updateModePicker(menu.findItem(
                 R.id.menu_grid), menu.findItem(R.id.menu_list), directoryDetails);
-        updateSort(menu.findItem(R.id.menu_sort),
-                menu.findItem(R.id.menu_sort_size),
-                directoryDetails);
+        // Sort menu item is managed by SortMenuManager
         updateAdvanced(menu.findItem(R.id.menu_advanced), directoryDetails);
 
         Menus.disableHiddenItems(menu);
@@ -113,13 +111,6 @@ public abstract class MenuManager {
         fileSize.setVisible(!mState.forceSize);
         fileSize.setTitle(directoryDetails.getDisplayFileSize()
                 ? R.string.menu_file_size_hide : R.string.menu_file_size_show);
-    }
-
-    void updateSort(MenuItem sort, MenuItem sortSize, DirectoryDetails directoryDetails) {
-        // Search uses backend ranking; no sorting, recents doesn't support sort.
-        sort.setEnabled(!directoryDetails.isInRecents() && !mSearchManager.isSearching());
-        sort.setVisible(true);
-        sortSize.setVisible(mState.getShowSize()); // Only sort by size when file sizes are visible
     }
 
     void updateAdvanced(MenuItem advanced, DirectoryDetails directoryDetails) {

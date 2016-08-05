@@ -17,8 +17,10 @@
 package com.android.documentsui.sorting;
 
 import android.annotation.Nullable;
+import android.content.Context;
 import android.view.View;
 
+import com.android.documentsui.Metrics;
 import com.android.documentsui.State;
 import com.android.documentsui.dirlist.header.TableHeaderController;
 
@@ -32,22 +34,60 @@ public class SortController {
     private static final WidgetController DUMMY_CONTROLLER = new WidgetController() {};
 
     private final SortModel mModel;
-    private WidgetController mTableHeaderController = DUMMY_CONTROLLER;
+    private final Context mContext;
 
-    public SortController(SortModel model) {
+    private WidgetController mTableHeaderController = DUMMY_CONTROLLER;
+    private WidgetController mSortMenuController = DUMMY_CONTROLLER;
+
+    public SortController(SortModel model, Context context) {
         mModel = model;
+        mContext = context.getApplicationContext();
+
+        mModel.setMetricRecorder(this::recordSortMetric);
     }
 
     public void manage(
-            @Nullable TableHeaderController tableHeaderController, @State.ViewMode int mode) {
-        if (tableHeaderController == null) {
+            @Nullable TableHeaderController controller, @State.ViewMode int mode) {
+        assert(mTableHeaderController == DUMMY_CONTROLLER);
+
+        if (controller == null) {
             return;
         }
 
-        mTableHeaderController = tableHeaderController;
+        mTableHeaderController = controller;
         mTableHeaderController.setModel(mModel);
 
         setVisibilityPerViewMode(mTableHeaderController, mode, View.GONE, View.VISIBLE);
+    }
+
+    public void clean(@Nullable TableHeaderController controller) {
+        assert(controller == null || mTableHeaderController == controller);
+
+        if (controller != null) {
+            controller.setModel(null);
+        }
+
+        mTableHeaderController = DUMMY_CONTROLLER;
+    }
+
+    public void manage(SortMenuController controller) {
+        assert(mSortMenuController == DUMMY_CONTROLLER);
+
+        if (controller != null) {
+            controller.setModel(mModel);
+        }
+
+        mSortMenuController = controller;
+    }
+
+    public void clean(SortMenuController controller) {
+        assert(mSortMenuController == controller);
+
+        if (controller != null) {
+            controller.setModel(null);
+        }
+
+        mSortMenuController = DUMMY_CONTROLLER;
     }
 
     public void onViewModeChanged(@State.ViewMode int mode) {
@@ -68,6 +108,20 @@ public class SortController {
                 break;
             default:
                 throw new IllegalArgumentException("Unknown view mode: " + mode + ".");
+        }
+    }
+
+    private void recordSortMetric(SortDimension dimension) {
+        switch (dimension.getId()) {
+            case SortModel.SORT_DIMENSION_ID_TITLE:
+                Metrics.logUserAction(mContext, Metrics.USER_ACTION_SORT_NAME);
+                break;
+            case SortModel.SORT_DIMENSION_ID_SIZE:
+                Metrics.logUserAction(mContext, Metrics.USER_ACTION_SORT_SIZE);
+                break;
+            case SortModel.SORT_DIMENSION_ID_DATE:
+                Metrics.logUserAction(mContext, Metrics.USER_ACTION_SORT_DATE);
+                break;
         }
     }
 

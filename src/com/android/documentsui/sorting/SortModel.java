@@ -16,9 +16,14 @@
 
 package com.android.documentsui.sorting;
 
+import static com.android.documentsui.Shared.DEBUG;
+
 import android.annotation.IntDef;
+import android.annotation.Nullable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.DocumentsContract.Document;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -29,12 +34,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Sort model that contains all columns and their sorting state.
  */
 public class SortModel implements Parcelable {
     @IntDef({
+            SORT_DIMENSION_ID_UNKNOWN,
             SORT_DIMENSION_ID_TITLE,
             SORT_DIMENSION_ID_SUMMARY,
             SORT_DIMENSION_ID_DATE,
@@ -42,16 +49,48 @@ public class SortModel implements Parcelable {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface SortDimensionId {}
+    public static final int SORT_DIMENSION_ID_UNKNOWN = 0;
     public static final int SORT_DIMENSION_ID_TITLE = android.R.id.title;
     public static final int SORT_DIMENSION_ID_SUMMARY = android.R.id.summary;
     public static final int SORT_DIMENSION_ID_SIZE = R.id.size;
     public static final int SORT_DIMENSION_ID_DATE = R.id.date;
 
+    @IntDef({
+            UPDATE_TYPE_UNSPECIFIED,
+            UPDATE_TYPE_STATUS,
+            UPDATE_TYPE_VISIBILITY,
+            UPDATE_TYPE_SORTING
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface UpdateType {}
+    /**
+     * Default value for update type. Anything can be changed if the type is unspecified.
+     */
+    public static final int UPDATE_TYPE_UNSPECIFIED = 0;
+    /**
+     * Indicates the status of sorting has changed, i.e. whether soring is enabled.
+     */
+    public static final int UPDATE_TYPE_STATUS = 1;
+    /**
+     * Indicates the visibility of at least one dimension has changed.
+     */
+    public static final int UPDATE_TYPE_VISIBILITY = 2;
+    /**
+     * Indicates the sorting order has changed, either because the sorted dimension has changed or
+     * the sort direction has changed.
+     */
+    public static final int UPDATE_TYPE_SORTING = 3;
+
+    private static final String TAG = "SortModel";
+
     private final SparseArray<SortDimension> mDimensions;
 
     private transient final List<UpdateListener> mListeners;
+    private transient Consumer<SortDimension> mMetricRecorder;
 
-    private SortDimension mSortedDimension;
+    private int mDefaultDimensionId = SORT_DIMENSION_ID_UNKNOWN;
+    private boolean mIsUserSpecified = false;
+    private @Nullable SortDimension mSortedDimension;
 
     private boolean mIsSortEnabled = true;
 
@@ -59,6 +98,10 @@ public class SortModel implements Parcelable {
         mDimensions = new SparseArray<>(columns.size());
 
         for (SortDimension column : columns) {
+            if (column.getId() == SORT_DIMENSION_ID_UNKNOWN) {
+                throw new IllegalArgumentException(
+                        "SortDimension id can't be " + SORT_DIMENSION_ID_UNKNOWN + ".");
+            }
             if (mDimensions.get(column.getId()) != null) {
                 throw new IllegalStateException(
                         "SortDimension id must be unique. Duplicate id: " + column.getId());
@@ -77,40 +120,87 @@ public class SortModel implements Parcelable {
         return mDimensions.valueAt(index);
     }
 
-    public SortDimension getDimensionById(int id) {
+    public @Nullable SortDimension getDimensionById(int id) {
         return mDimensions.get(id);
     }
 
-    public SortDimension getSortedDimension() {
-        return mSortedDimension;
+    /**
+     * Gets the sorted dimension id.
+     * @return the sorted dimension id or {@link #SORT_DIMENSION_ID_UNKNOWN} if there is no sorted
+     * dimension.
+     */
+    public int getSortedDimensionId() {
+        return mSortedDimension != null ? mSortedDimension.getId() : SORT_DIMENSION_ID_UNKNOWN;
     }
 
     public void setSortEnabled(boolean enabled) {
-        if (!enabled) {
-            clearSortDirection();
-        }
         mIsSortEnabled = enabled;
 
-        notifyListeners();
+        notifyListeners(UPDATE_TYPE_STATUS);
     }
 
     public boolean isSortEnabled() {
         return mIsSortEnabled;
     }
 
-    public void sortBy(int columnId, @SortDimension.SortDirection int direction) {
+    /**
+     * Sort by the default direction of the given dimension if user has never specified any sort
+     * direction before.
+     * @param dimensionId the id of the dimension
+     */
+    public void setDefaultDimension(int dimensionId) {
+        final boolean mayNeedSorting = (mDefaultDimensionId != dimensionId);
+
+        mDefaultDimensionId = dimensionId;
+
+        if (mayNeedSorting) {
+            sortOnDefault();
+        }
+    }
+
+    void setMetricRecorder(Consumer<SortDimension> metricRecorder) {
+        mMetricRecorder = metricRecorder;
+    }
+
+    /**
+     * Sort by given dimension and direction. Should only be used when user explicitly asks to sort
+     * docs.
+     * @param dimensionId the id of the dimension
+     * @param direction the direction to sort docs in
+     */
+    public void sortByUser(int dimensionId, @SortDimension.SortDirection int direction) {
         if (!mIsSortEnabled) {
             throw new IllegalStateException("Sort is not enabled.");
         }
-        if (mDimensions.get(columnId) == null) {
-            throw new IllegalArgumentException("Unknown column id: " + columnId);
+
+        SortDimension dimension = mDimensions.get(dimensionId);
+        if (dimension == null) {
+            throw new IllegalArgumentException("Unknown column id: " + dimensionId);
         }
 
-        SortDimension newSortedDimension = mDimensions.get(columnId);
-        if ((direction & newSortedDimension.getSortCapability()) == 0) {
-            throw new IllegalStateException(
-                    "SortDimension " + columnId + " can't be sorted in direction " + direction);
+        sortByDimension(dimension, direction);
+
+        if (mMetricRecorder != null) {
+            mMetricRecorder.accept(dimension);
         }
+
+        mIsUserSpecified = true;
+    }
+
+    private void sortByDimension(
+            SortDimension newSortedDimension, @SortDimension.SortDirection int direction) {
+        if (newSortedDimension == mSortedDimension
+                && mSortedDimension.mSortDirection == direction) {
+            // Sort direction not changed, no need to proceed.
+            return;
+        }
+
+        if ((newSortedDimension.getSortCapability() & direction) == 0) {
+            throw new IllegalStateException(
+                    "Dimension with id: " + newSortedDimension.getId()
+                    + " can't be sorted in direction:" + direction);
+        }
+
         switch (direction) {
             case SortDimension.SORT_DIRECTION_ASCENDING:
             case SortDimension.SORT_DIRECTION_DESCENDING:
@@ -126,7 +216,7 @@ public class SortModel implements Parcelable {
 
         mSortedDimension = newSortedDimension;
 
-        notifyListeners();
+        notifyListeners(UPDATE_TYPE_SORTING);
     }
 
     public void setDimensionVisibility(int columnId, int visibility) {
@@ -134,12 +224,49 @@ public class SortModel implements Parcelable {
 
         mDimensions.get(columnId).mVisibility = visibility;
 
-        notifyListeners();
+        notifyListeners(UPDATE_TYPE_VISIBILITY);
     }
 
-    private void notifyListeners() {
+    public @Nullable String getDocumentSortQuery() {
+        final int id = getSortedDimensionId();
+        final String columnName;
+        switch (id) {
+            case SortModel.SORT_DIMENSION_ID_UNKNOWN:
+                return null;
+            case SortModel.SORT_DIMENSION_ID_TITLE:
+                columnName = Document.COLUMN_DISPLAY_NAME;
+                break;
+            case SortModel.SORT_DIMENSION_ID_DATE:
+                columnName = Document.COLUMN_LAST_MODIFIED;
+                break;
+            case SortModel.SORT_DIMENSION_ID_SIZE:
+                columnName = Document.COLUMN_SIZE;
+                break;
+            default:
+                throw new IllegalStateException(
+                        "Unexpected sort dimension id: " + id);
+        }
+
+        final SortDimension dimension = getDimensionById(id);
+        final String direction;
+        switch (dimension.getSortDirection()) {
+            case SortDimension.SORT_DIRECTION_ASCENDING:
+                direction = " ASC";
+                break;
+            case SortDimension.SORT_DIRECTION_DESCENDING:
+                direction = " DESC";
+                break;
+            default:
+                throw new IllegalStateException(
+                        "Unexpected sort direction: " + dimension.getSortDirection());
+        }
+
+        return columnName + direction;
+    }
+
+    private void notifyListeners(@UpdateType int updateType) {
         for (int i = mListeners.size() - 1; i >= 0; --i) {
-            mListeners.get(i).onModelUpdate(this);
+            mListeners.get(i).onModelUpdate(this, updateType);
         }
     }
 
@@ -156,6 +283,66 @@ public class SortModel implements Parcelable {
             mSortedDimension.mSortDirection = SortDimension.SORT_DIRECTION_NONE;
             mSortedDimension = null;
         }
+
+        mIsUserSpecified = false;
+
+        sortOnDefault();
+    }
+
+    /**
+     * Sort by default dimension and direction if there is no history of user specifying a sort
+     * order.
+     */
+    private void sortOnDefault() {
+        if (!mIsUserSpecified) {
+            SortDimension dimension = mDimensions.get(mDefaultDimensionId);
+            if (dimension == null) {
+                if (DEBUG) Log.d(TAG, "No default sort dimension.");
+                return;
+            }
+
+            sortByDimension(dimension, dimension.getDefaultSortDirection());
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || !(o instanceof SortModel)) {
+            return false;
+        }
+
+        if (this == o) {
+            return true;
+        }
+
+        SortModel other = (SortModel) o;
+        if (mDimensions.size() != other.mDimensions.size()) {
+            return false;
+        }
+        for (int i = 0; i < mDimensions.size(); ++i) {
+            final SortDimension dimension = mDimensions.valueAt(i);
+            final int id = dimension.getId();
+            if (!dimension.equals(other.getDimensionById(id))) {
+                return false;
+            }
+        }
+
+        return mDefaultDimensionId == other.mDefaultDimensionId
+                && mIsSortEnabled == other.mIsSortEnabled
+                && (mSortedDimension == other.mSortedDimension
+                    || mSortedDimension.equals(other.mSortedDimension));
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append("SortModel{")
+                .append("enabled=").append(mIsSortEnabled)
+                .append(", dimensions=").append(mDimensions)
+                .append(", defaultDimensionId=").append(mDefaultDimensionId)
+                .append(", sortedDimension=").append(mSortedDimension)
+                .append("}")
+                .toString();
     }
 
     @Override
@@ -169,18 +356,28 @@ public class SortModel implements Parcelable {
         for (int i = 0; i < mDimensions.size(); ++i) {
             out.writeParcelable(mDimensions.valueAt(i), flag);
         }
+
+        out.writeInt(mDefaultDimensionId);
+        out.writeInt(mIsSortEnabled ? 1 : 0);
+        out.writeInt(mSortedDimension.getId());
     }
 
     public static Parcelable.Creator<SortModel> CREATOR = new Parcelable.Creator<SortModel>() {
 
         @Override
         public SortModel createFromParcel(Parcel in) {
-            int size = in.readInt();
+            final int size = in.readInt();
             Collection<SortDimension> columns = new ArrayList<>(size);
             for (int i = 0; i < size; ++i) {
                 columns.add(in.readParcelable(getClass().getClassLoader()));
             }
-            return new SortModel(columns);
+            SortModel model = new SortModel(columns);
+
+            model.mDefaultDimensionId = in.readInt();
+            model.mIsSortEnabled = (in.readInt() == 1);
+            model.mSortedDimension = model.getDimensionById(in.readInt());
+
+            return model;
         }
 
         @Override
@@ -201,7 +398,7 @@ public class SortModel implements Parcelable {
         // Name column
         dimensions.add(builder
                 .withId(SORT_DIMENSION_ID_TITLE)
-                .withLabelId(R.string.column_name)
+                .withLabelId(R.string.sort_dimension_name)
                 .withDataType(SortDimension.DATA_TYPE_STRING)
                 .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
                 .withDefaultSortDirection(SortDimension.SORT_DIRECTION_ASCENDING)
@@ -213,7 +410,7 @@ public class SortModel implements Parcelable {
         // Summary is only visible in Downloads and Recents root.
         dimensions.add(builder
                 .withId(SORT_DIMENSION_ID_SUMMARY)
-                .withLabelId(R.string.column_summary)
+                .withLabelId(R.string.sort_dimension_summary)
                 .withDataType(SortDimension.DATA_TYPE_STRING)
                 .withSortCapability(SortDimension.SORT_CAPABILITY_NONE)
                 .withVisibility(View.INVISIBLE)
@@ -223,7 +420,7 @@ public class SortModel implements Parcelable {
         // Size column
         dimensions.add(builder
                 .withId(SORT_DIMENSION_ID_SIZE)
-                .withLabelId(R.string.column_size)
+                .withLabelId(R.string.sort_dimension_size)
                 .withDataType(SortDimension.DATA_TYPE_NUMBER)
                 .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
                 .withDefaultSortDirection(SortDimension.SORT_DIRECTION_ASCENDING)
@@ -234,7 +431,7 @@ public class SortModel implements Parcelable {
         // Date column
         dimensions.add(builder
                 .withId(SORT_DIMENSION_ID_DATE)
-                .withLabelId(R.string.column_date)
+                .withLabelId(R.string.sort_dimension_date)
                 .withDataType(SortDimension.DATA_TYPE_NUMBER)
                 .withSortCapability(SortDimension.SORT_CAPABILITY_BOTH_DIRECTION)
                 .withDefaultSortDirection(SortDimension.SORT_DIRECTION_DESCENDING)
@@ -246,6 +443,6 @@ public class SortModel implements Parcelable {
     }
 
     public interface UpdateListener {
-        void onModelUpdate(SortModel newModel);
+        void onModelUpdate(SortModel newModel, @UpdateType int updateType);
     }
 }
