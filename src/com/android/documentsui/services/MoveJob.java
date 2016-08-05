@@ -163,7 +163,9 @@ final class MoveJob extends CopyJob {
         byteCopyDocument(src, dest);
 
         // Remove the source document.
-        deleteDocument(src, srcParent);
+        if(!isCanceled()) {
+            deleteDocument(src, srcParent);
+        }
     }
 
     @Override
