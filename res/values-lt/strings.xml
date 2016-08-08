@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2013 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3303317181319900082">"Failai"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"Atsisiuntimai"</string>
+    <string name="title_open" msgid="3165686459158020921">"Atidaryti iš"</string>
+    <string name="title_save" msgid="4384490653102710025">"Išsaugoti į"</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"Naujas aplankas"</string>
+    <string name="menu_grid" msgid="1453636521731880680">"Tinklelio rodinys"</string>
+    <string name="menu_list" msgid="6714267452146410402">"Sąrašo rodinys"</string>
+    <string name="menu_sort" msgid="6754410552665101834">"Rūšiuoti pagal"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Ieškoti"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"Saugyklos nustatymai"</string>
+    <string name="menu_open" msgid="9092138100049759315">"Atidaryti"</string>
+    <string name="menu_save" msgid="5195367497138965168">"Išsaugoti"</string>
+    <string name="menu_share" msgid="4307140947108068356">"Bendrinti"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"Ištrinti"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Pasirinkti viską"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"Kopijuoti į..."</string>
+    <string name="menu_move" msgid="2310760789561129882">"Perkelti į…"</string>
+    <string name="menu_new_window" msgid="2947837751796109126">"Naujas langas"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Iškirpti"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopijuoti"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Įklijuoti"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"Rodyti vidinę atmintį"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"Slėpti vidinę atmintį"</string>
+    <string name="menu_file_size_show" msgid="8035723306878852180">"Rodyti failo dydį"</string>
+    <string name="menu_file_size_hide" msgid="8953697126109694855">"Slėpti failo dydį"</string>
+    <string name="button_select" msgid="240863497069321364">"Pasirinkti"</string>
+    <string name="button_copy" msgid="8219059853840996027">"Kopijuoti"</string>
+    <string name="button_move" msgid="8596460499325291272">"Perkelti"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Atsisakyti"</string>
+    <string name="button_retry" msgid="4011461781916631389">"Bandyti dar kartą"</string>
+    <string name="sort_name" msgid="6790411054171883704">"Pagal pavadinimą"</string>
+    <string name="sort_date" msgid="3237147045109806231">"Pagal keitimo datą"</string>
+    <string name="sort_size" msgid="5532930542340076266">"Pagal dydį"</string>
+    <string name="column_name" msgid="4078850838520640399">"Pavadinimas"</string>
+    <string name="column_summary" msgid="1540962781310003494">"Suvestinė"</string>
+    <string name="column_date" msgid="5244069131770543137">"Pakeista"</string>
+    <string name="column_size" msgid="3426180342785653748">"Dydis"</string>
+    <string name="sort_direction_ascending" msgid="5882787683763248102">"Didėjimo tvarka"</string>
+    <string name="sort_direction_descending" msgid="1729187589765894076">"Mažėjimo tvarka"</string>
+    <string name="drawer_open" msgid="8071673398187261741">"Rodyti šaknis"</string>
+    <string name="drawer_close" msgid="4263880768630848848">"Slėpti šaknis"</string>
+    <string name="save_error" msgid="8631128801982095782">"Nepavyko išsaugoti dokumento"</string>
+    <string name="create_error" msgid="3092144450044861994">"Nepavyko sukurti aplanko"</string>
+    <string name="query_error" msgid="6625421453613879336">"Šiuo metu nepavyksta įkelti turinio"</string>
+    <string name="root_recent" msgid="1080156975424341623">"Naujausi"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"Laisvos vietos: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"Saugyklos paslaugos"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"Spartieji klavišai"</string>
+    <string name="root_type_device" msgid="1713604128005476585">"Įrenginiai"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"Daugiau programų"</string>
+    <string name="empty" msgid="5300254272613103004">"Nėra jokių elementų"</string>
+    <string name="no_results" msgid="2371026325236359209">"Nėra atitikčių faile „%1$s“"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"Nepavyksta atidaryti failo"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"Nepavyko ištrinti kai kurių dokumentų"</string>
+    <string name="share_via" msgid="8725082736005677161">"Bendrinti naudojant"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"Kopijuojami failai"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"Perkeliami failai"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"Failų ištrynimas"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"Liko <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
+      <item quantity="one">Kopijuojamas <xliff:g id="COUNT_1">%1$d</xliff:g> failas.</item>
+      <item quantity="few">Kopijuojami <xliff:g id="COUNT_1">%1$d</xliff:g> failai.</item>
+      <item quantity="many">Kopijuojama <xliff:g id="COUNT_1">%1$d</xliff:g> failo.</item>
+      <item quantity="other">Kopijuojama <xliff:g id="COUNT_1">%1$d</xliff:g> failų.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
+      <item quantity="one">Perkeliamas <xliff:g id="COUNT_1">%1$d</xliff:g> failas.</item>
+      <item quantity="few">Perkeliami <xliff:g id="COUNT_1">%1$d</xliff:g> failai.</item>
+      <item quantity="many">Perkeliama <xliff:g id="COUNT_1">%1$d</xliff:g> failo.</item>
+      <item quantity="other">Perkeliama <xliff:g id="COUNT_1">%1$d</xliff:g> failų.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
+      <item quantity="one">Ištrinamas <xliff:g id="COUNT_1">%1$d</xliff:g> failas.</item>
+      <item quantity="few">Ištrinami <xliff:g id="COUNT_1">%1$d</xliff:g> failai.</item>
+      <item quantity="many">Ištrinama <xliff:g id="COUNT_1">%1$d</xliff:g> failo.</item>
+      <item quantity="other">Ištrinama <xliff:g id="COUNT_1">%1$d</xliff:g> failų.</item>
+    </plurals>
+    <string name="undo" msgid="2902438994196400565">"Anuliuoti"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"Ruošiamasi kopijuoti…"</string>
+    <string name="move_preparing" msgid="8742573245485449429">"Ruošiamasi perkelti…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"Ruošiama ištrinti…"</string>
+    <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
+      <item quantity="one">Nepavyko nukopijuoti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
+      <item quantity="few">Nepavyko nukopijuoti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
+      <item quantity="many">Nepavyko nukopijuoti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
+      <item quantity="other">Nepavyko nukopijuoti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
+      <item quantity="one">Nepavyko perkelti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
+      <item quantity="few">Nepavyko perkelti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
+      <item quantity="many">Nepavyko perkelti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
+      <item quantity="other">Nepavyko perkelti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
+      <item quantity="one">Nepavyko ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
+      <item quantity="few">Nepavyko ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
+      <item quantity="many">Nepavyko ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
+      <item quantity="other">Nepavyko ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
+    </plurals>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Palieskite, kad peržr. išsamią informaciją"</string>
+    <string name="close" msgid="905969391788869975">"Uždaryti"</string>
+    <string name="copy_failure_alert_content" msgid="161721873402101825">"Šie failai nebuvo nukopijuoti: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="move_failure_alert_content" msgid="6586182218105304719">"Šie failai nebuvo perkelti: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Šie failai nebuvo ištrinti: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Šie failai konvertuoti į kitą formatą: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
+      <item quantity="one">Į iškarpinę nukopijuotas <xliff:g id="COUNT_1">%1$d</xliff:g> failas.</item>
+      <item quantity="few">Į iškarpinę nukopijuoti <xliff:g id="COUNT_1">%1$d</xliff:g> failai.</item>
+      <item quantity="many">Į iškarpinę nukopijuota <xliff:g id="COUNT_1">%1$d</xliff:g> failo.</item>
+      <item quantity="other">Į iškarpinę nukopijuota <xliff:g id="COUNT_1">%1$d</xliff:g> failų.</item>
+    </plurals>
+    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Nepavyko įklijuoti pasirinktų failų šioje vietovėje."</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Pervardyti"</string>
+    <string name="rename_error" msgid="6700093173508118635">"Nepavyko pervardyti dokumento"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"Pašalinti"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Kai kurie failai buvo konvertuoti"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"Suteikti „<xliff:g id="APPNAME"><b>^1</b></xliff:g>“ prieigą prie katalogo „<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>“ <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Suteikti „<xliff:g id="APPNAME"><b>^1</b></xliff:g>“ prieigą prie katalogo „<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>“?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Suteikti programai „<xliff:g id="APPNAME"><b>^1</b></xliff:g>“ prieigą prie duomenų, įskaitant nuotraukas ir vaizdo įrašus, <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"Daugiau neklausti"</string>
+    <string name="allow" msgid="1275746941353040309">"Leisti"</string>
+    <string name="deny" msgid="5127201668078153379">"Atmesti"</string>
+    <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
+      <item quantity="one">Pasirinktas <xliff:g id="COUNT_1">%1$d</xliff:g> failas</item>
+      <item quantity="few">Pasirinkti <xliff:g id="COUNT_1">%1$d</xliff:g> failai</item>
+      <item quantity="many">Pasirinkta <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
+      <item quantity="other">Pasirinkta <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
+    </plurals>
+    <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> elementas</item>
+      <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> elementai</item>
+      <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> elemento</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementų</item>
+    </plurals>
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"Ištrinti failą „<xliff:g id="NAME">%1$s</xliff:g>“?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"Ištrinti aplanką „<xliff:g id="NAME">%1$s</xliff:g>“ ir jo turinį?"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
+      <item quantity="one">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> failą?</item>
+      <item quantity="few">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> failus?</item>
+      <item quantity="many">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> failo?</item>
+      <item quantity="other">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> failų?</item>
+    </plurals>
+    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
+      <item quantity="one">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> aplanką ir jų turinį?</item>
+      <item quantity="few">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> aplankus ir jų turinį?</item>
+      <item quantity="many">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> aplanko ir jų turinį?</item>
+      <item quantity="other">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> aplankų ir jų turinį?</item>
+    </plurals>
+    <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
+      <item quantity="one">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> elementą?</item>
+      <item quantity="few">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> elementus?</item>
+      <item quantity="many">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> elemento?</item>
+      <item quantity="other">Ištrinti <xliff:g id="COUNT_1">%1$d</xliff:g> elementų?</item>
+    </plurals>
+</resources>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2013 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3303317181319900082">"ফাইল"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"ডাউনলোড"</string>
+    <string name="title_open" msgid="3165686459158020921">"এখান থেকে খুলুন"</string>
+    <string name="title_save" msgid="4384490653102710025">"এতে সংরক্ষণ করুন"</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"নতুন ফোল্ডার"</string>
+    <string name="menu_grid" msgid="1453636521731880680">"গ্রিড দৃশ্য"</string>
+    <string name="menu_list" msgid="6714267452146410402">"তালিকা দৃশ্য"</string>
+    <string name="menu_sort" msgid="6754410552665101834">"এই অনুসারে সাজান"</string>
+    <string name="menu_search" msgid="1876699106790719849">"অনুসন্ধান করুন"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"সঞ্চয়স্থানের সেটিংস"</string>
+    <string name="menu_open" msgid="9092138100049759315">"খুলুন"</string>
+    <string name="menu_save" msgid="5195367497138965168">"সংরক্ষণ করুন"</string>
+    <string name="menu_share" msgid="4307140947108068356">"শেয়ার করুন"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"মুছুন"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"সবগুলি নির্বাচন করুন"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"এতে কপি করুন…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"এতে সরান…"</string>
+    <string name="menu_new_window" msgid="2947837751796109126">"নতুন উইন্ডো"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"কাট করুন"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"কপি করুন"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"পেস্ট করুন"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"অভ্যন্তরীণ সঞ্চয়স্থান দেখান"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"অভ্যন্তরীণ সঞ্চয়স্থান লুকান"</string>
+    <string name="menu_file_size_show" msgid="8035723306878852180">"ফাইলের আকার দেখান"</string>
+    <string name="menu_file_size_hide" msgid="8953697126109694855">"ফাইলের আকার লুকান"</string>
+    <string name="button_select" msgid="240863497069321364">"বেছে নিন"</string>
+    <string name="button_copy" msgid="8219059853840996027">"কপি করুন"</string>
+    <string name="button_move" msgid="8596460499325291272">"সরান"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"খারিজ করুন"</string>
+    <string name="button_retry" msgid="4011461781916631389">"আবার চেষ্টা করুন"</string>
+    <string name="sort_name" msgid="6790411054171883704">"নাম অনুযায়ী"</string>
+    <string name="sort_date" msgid="3237147045109806231">"পরিবর্তনের তারিখ অনুযায়ী"</string>
+    <string name="sort_size" msgid="5532930542340076266">"আকার অনুযায়ী"</string>
+    <string name="column_name" msgid="4078850838520640399">"নাম"</string>
+    <string name="column_summary" msgid="1540962781310003494">"সারাংশ"</string>
+    <string name="column_date" msgid="5244069131770543137">"শেষ সংশোধিত"</string>
+    <string name="column_size" msgid="3426180342785653748">"আকার"</string>
+    <string name="sort_direction_ascending" msgid="5882787683763248102">"ঊর্ধ্বক্রম"</string>
+    <string name="sort_direction_descending" msgid="1729187589765894076">"নিম্নক্রম"</string>
+    <string name="drawer_open" msgid="8071673398187261741">"রুটগুলি দেখান"</string>
+    <string name="drawer_close" msgid="4263880768630848848">"রুটগুলি লুকান"</string>
+    <string name="save_error" msgid="8631128801982095782">"দস্তাবেজ সংরক্ষণ করা গেল না"</string>
+    <string name="create_error" msgid="3092144450044861994">"ফোল্ডার তৈরি করা গেল না"</string>
+    <string name="query_error" msgid="6625421453613879336">"এই মুহূর্তে সামগ্রী লোড করা যাবে না"</string>
+    <string name="root_recent" msgid="1080156975424341623">"সাম্প্রতিক"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> খালি আছে"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"সঞ্চয়স্থানের পরিষেবা"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"শর্টকাট"</string>
+    <string name="root_type_device" msgid="1713604128005476585">"ডিভাইস"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"আরো অ্যাপ্স"</string>
+    <string name="empty" msgid="5300254272613103004">"কোনো আইটেম নেই"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s এ কোনো মিল নেই"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"ফাইল খোলা যাবে না"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"কিছু দস্তাবেজ মোছা গেল না"</string>
+    <string name="share_via" msgid="8725082736005677161">"এর মাধ্যমে শেয়ার করুন"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"ফাইলগুলি কপি করা হচ্ছে"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"ফাইলগুলি সরানো হচ্ছে"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"ফাইলগুলি মোছা হচ্ছে"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> বাকি"</string>
+    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল কপি করা হচ্ছে৷</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল কপি করা হচ্ছে৷</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল সরানো হচ্ছে৷</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল সরানো হচ্ছে৷</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল মোছা হচ্ছে।</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল মোছা হচ্ছে।</item>
+    </plurals>
+    <string name="undo" msgid="2902438994196400565">"পূর্বাবস্থায় ফিরুন"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"কপি করার জন্য প্রস্তুত হচ্ছে…"</string>
+    <string name="move_preparing" msgid="8742573245485449429">"সরানোর জন্য প্রস্তুত হচ্ছে…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"মোছার জন্য প্রস্তুত হচ্ছে…"</string>
+    <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল কপি করা গেল না</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল কপি করা গেল না</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল সরানো গেল না</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল সরানো গেল না</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল মোছা গেল না</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল মোছা গেল না</item>
+    </plurals>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"বিশদ বিবরণ দেখতে আলতো চাপুন"</string>
+    <string name="close" msgid="905969391788869975">"বন্ধ করুন"</string>
+    <string name="copy_failure_alert_content" msgid="161721873402101825">"এই ফাইলগুলির কপি করা হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="move_failure_alert_content" msgid="6586182218105304719">"এই ফাইলগুলি সরানো হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="delete_failure_alert_content" msgid="7856890428816304981">"এই ফাইলগুলি মোছা হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="copy_converted_warning_content" msgid="6481928162944612074">"এই ফাইলগুলিকে অন্য ফর্ম্যাটে রূপান্তর করা হয়েছে: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল ক্লিপবোর্ডে কপি করা হয়েছে।</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল ক্লিপবোর্ডে কপি করা হয়েছে।</item>
+    </plurals>
+    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"এই স্থানে নির্বাচিত ফাইলগুলি পেস্ট করা যাবে না।"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"পুনঃনামকরণ"</string>
+    <string name="rename_error" msgid="6700093173508118635">"দস্তাবেজের পুনঃনামকরণ করা গেল না"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"সরিয়ে দিন"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"কিছু ফাইল রূপান্তরিত হয়েছে"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> কে <xliff:g id="STORAGE"><i>^3</i></xliff:g> এ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> সংগ্রহ অ্যাক্সেস করার অনুমতি দেবেন?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> কে <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> সংগ্রহ অ্যাক্সেস করার অনুমতি দেবেন?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="STORAGE"><i>^2</i></xliff:g> এ থাকা ফটো ও ভিডিওগুলি সমেত <xliff:g id="APPNAME"><b>^1</b></xliff:g> কে আপনার ডেটা অ্যাক্সেস করার অনুমতি দেবেন?"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"আবার জিজ্ঞাসা করবেন না"</string>
+    <string name="allow" msgid="1275746941353040309">"অনুমতি দিন"</string>
+    <string name="deny" msgid="5127201668078153379">"প্রত্যাখ্যান করুন"</string>
+    <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি নির্বাচন করা হয়েছে</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি নির্বাচন করা হয়েছে</item>
+    </plurals>
+    <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম</item>
+    </plurals>
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" মুছবেন?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" ফোল্ডার এবং এটির সামগ্রীগুলি মুছবেন?"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল মুছবেন?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফোল্ডার এবং সেগুলির সামগ্রী মুছবেন?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফোল্ডার এবং সেগুলির সামগ্রী মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম মুছবেন?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম মুছবেন?</item>
+    </plurals>
+</resources>
