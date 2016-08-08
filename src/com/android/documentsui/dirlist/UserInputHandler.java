@@ -26,7 +26,6 @@ import android.view.MotionEvent;
 
 import com.android.documentsui.Events;
 import com.android.documentsui.Events.InputEvent;
-import com.android.documentsui.dirlist.DocumentHolder.KeyboardEventListener;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -36,7 +35,7 @@ import java.util.function.Predicate;
  */
 public final class UserInputHandler<T extends InputEvent>
         extends GestureDetector.SimpleOnGestureListener
-        implements KeyboardEventListener {
+        implements DocumentHolder.KeyboardEventListener {
 
     private static final String TAG = "UserInputHandler";
 
@@ -400,15 +399,6 @@ public final class UserInputHandler<T extends InputEvent>
 
             return mSelectable.test(doc);
         }
-    }
-
-    /**
-     * Class providing limited access to document view info.
-     */
-    public interface DocumentDetails {
-        String getModelId();
-        int getAdapterPosition();
-        boolean isInSelectionHotspot(InputEvent event);
     }
 
     @FunctionalInterface
