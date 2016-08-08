@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2013 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3303317181319900082">"Fayllar"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"Endirilənlər"</string>
+    <string name="title_open" msgid="3165686459158020921">"Bununla açın"</string>
+    <string name="title_save" msgid="4384490653102710025">"Burada saxlayın:"</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"Yeni qovluq"</string>
+    <string name="menu_grid" msgid="1453636521731880680">"Torlu görünüş"</string>
+    <string name="menu_list" msgid="6714267452146410402">"Siyahı görünüşü"</string>
+    <string name="menu_sort" msgid="6754410552665101834">"Bunlardan biri üzrə sıralayın"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Axtarın"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"Yaddaş ayarları"</string>
+    <string name="menu_open" msgid="9092138100049759315">"Açın"</string>
+    <string name="menu_save" msgid="5195367497138965168">"Yadda saxlayın"</string>
+    <string name="menu_share" msgid="4307140947108068356">"Paylaşın"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"Sil"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Hamısını seçin"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"Buraya kopyalayın:"</string>
+    <string name="menu_move" msgid="2310760789561129882">"Daşıyın..."</string>
+    <string name="menu_new_window" msgid="2947837751796109126">"Yeni pəncərə"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kəsin"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopyalayın"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Yerləşdirin"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"Daxili yaddaşı göstərin"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"Daxili yaddaşı gizlədin"</string>
+    <string name="menu_file_size_show" msgid="8035723306878852180">"Fayl ölçüsünü göstərin"</string>
+    <string name="menu_file_size_hide" msgid="8953697126109694855">"Fayl ölçüsünü gizlədin"</string>
+    <string name="button_select" msgid="240863497069321364">"Seçin"</string>
+    <string name="button_copy" msgid="8219059853840996027">"Kopyalayın"</string>
+    <string name="button_move" msgid="8596460499325291272">"Köçürün"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Yığışdırın"</string>
+    <string name="button_retry" msgid="4011461781916631389">"Yenidən cəhd edin"</string>
+    <string name="sort_name" msgid="6790411054171883704">"Ad üzrə"</string>
+    <string name="sort_date" msgid="3237147045109806231">"Tarix üzrə dəyişmiş"</string>
+    <string name="sort_size" msgid="5532930542340076266">"Ölçü üzrə"</string>
+    <string name="column_name" msgid="4078850838520640399">"Ad"</string>
+    <string name="column_summary" msgid="1540962781310003494">"Yekun"</string>
+    <string name="column_date" msgid="5244069131770543137">"Dəyişmiş"</string>
+    <string name="column_size" msgid="3426180342785653748">"Ölçü"</string>
+    <string name="sort_direction_ascending" msgid="5882787683763248102">"Artan sıra ilə"</string>
+    <string name="sort_direction_descending" msgid="1729187589765894076">"Azalan sıra ilə"</string>
+    <string name="drawer_open" msgid="8071673398187261741">"Kökləri göstərin"</string>
+    <string name="drawer_close" msgid="4263880768630848848">"Kökləri gizlədin"</string>
+    <string name="save_error" msgid="8631128801982095782">"Sənədi yadda saxlaya bilmədi"</string>
+    <string name="create_error" msgid="3092144450044861994">"Qovluq yaradıla bilmədi"</string>
+    <string name="query_error" msgid="6625421453613879336">"Məzmun hazırda yüklənmir"</string>
+    <string name="root_recent" msgid="1080156975424341623">"Son"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ödənişsiz"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"Saxlama xidmətləri"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"Qısa yollar"</string>
+    <string name="root_type_device" msgid="1713604128005476585">"Cihazlar"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"Digər tətbiqlər"</string>
+    <string name="empty" msgid="5300254272613103004">"Heç nə yoxdur"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s ilə heç bir uyğunluq yoxdur"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"Fayl açılmır"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"Bəzi sənədləri silə bilmir"</string>
+    <string name="share_via" msgid="8725082736005677161">"Bunun vasitəsilə paylaş:"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"Fayllar kopyalanır"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"Fayllar köçürülür"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"Fayllar silinir"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> qalır"</string>
+    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fayl kopyalanır.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fayl kopyalanır.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fayl köçürülür.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fayl köçürülür.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fayl silinir.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fayl silinir.</item>
+    </plurals>
+    <string name="undo" msgid="2902438994196400565">"Geri qaytarın"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"Kopyalanmaq üçün hazırlanır..."</string>
+    <string name="move_preparing" msgid="8742573245485449429">"Köçürmə üçün hazırlanır..."</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"Silmək üçün hazırlanır..."</string>
+    <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> fayl kopyalanmadı</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fayl kopyalanmadı</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> fayl köçürülmədi</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fayl köçürülmədi</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> fayl silinmədi</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fayl silinmədi</item>
+    </plurals>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Detallara baxmaq üçün basın"</string>
+    <string name="close" msgid="905969391788869975">"Bağlayın"</string>
+    <string name="copy_failure_alert_content" msgid="161721873402101825">"Bu fayllar kopyalanmadı: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="move_failure_alert_content" msgid="6586182218105304719">"Bu fayllar köçürülmədi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Bu fayllar silinmədi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Bu fayllar başqa formata konvertasiya edilib: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fayl buferə kopyalandı.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fayl buferə kopyalandı.</item>
+    </plurals>
+    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Seçilmiş faylları bu məkana yerləşdirmək olmaz."</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Adını dəyişdirin"</string>
+    <string name="rename_error" msgid="6700093173508118635">"Sənəd adını dəyişmək uğursuz oldu"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"Çıxarın"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Bəzi fayllar konvertasiya edilib"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="STORAGE"><i>^3</i></xliff:g> yaddaşında <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> kataloquna <xliff:g id="APPNAME"><b>^1</b></xliff:g> girişi təqdim edilsin?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> kataloquna <xliff:g id="APPNAME"><b>^1</b></xliff:g> girişi təqdim edilsin?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="STORAGE"><i>^2</i></xliff:g> yaddaşında foto və videolar daxil olmaqla datanıza <xliff:g id="APPNAME"><b>^1</b></xliff:g> girişi təmin edilsin?"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"Bir daha soruşmayın"</string>
+    <string name="allow" msgid="1275746941353040309">"İcazə verin"</string>
+    <string name="deny" msgid="5127201668078153379">"Rədd edin"</string>
+    <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> seçilib</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> seçilib</item>
+    </plurals>
+    <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> element</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> element</item>
+    </plurals>
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" silinsin?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" qovluğu və onun məzmunu silinsin?"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> fayl silinsin?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fayl silinsin?</item>
+    </plurals>
+    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> qovluq və onun məzmunu silinsin?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> qovluq və onun məzmunu silinsin?</item>
+    </plurals>
+    <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> element silinsin?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> element silinsin?</item>
+    </plurals>
+</resources>
