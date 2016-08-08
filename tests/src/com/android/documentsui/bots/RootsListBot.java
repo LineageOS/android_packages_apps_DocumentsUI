@@ -51,18 +51,12 @@ public class RootsListBot extends Bots.BaseBot {
     }
 
     private UiObject findRoot(String label) throws UiObjectNotFoundException {
+        // We might need to expand drawer if not visible
+        openDrawer();
+
         final UiSelector rootsList = new UiSelector().resourceId(
                 "com.android.documentsui:id/container_roots").childSelector(
                 new UiSelector().resourceId(ROOTS_LIST_ID));
-
-        // We might need to expand drawer if not visible
-        if (!new UiObject(rootsList).waitForExists(mTimeout)) {
-            Log.d(TAG, "Failed to find roots list; trying to expand");
-            final UiSelector hamburger = new UiSelector().resourceId(
-                    "com.android.documentsui:id/toolbar").childSelector(
-                    new UiSelector().className("android.widget.ImageButton").clickable(true));
-            new UiObject(hamburger).click();
-        }
 
         // Wait for the first list item to appear
         new UiObject(rootsList.childSelector(new UiSelector())).waitForExists(mTimeout);
@@ -76,6 +70,21 @@ public class RootsListBot extends Bots.BaseBot {
         findRoot(label).click();
         // Close the drawer in case we select a pre-selected root already
         closeDrawer();
+    }
+
+    public void openDrawer() throws UiObjectNotFoundException {
+        final UiSelector rootsList = new UiSelector().resourceId(
+                "com.android.documentsui:id/container_roots").childSelector(
+                new UiSelector().resourceId(ROOTS_LIST_ID));
+
+        // We might need to expand drawer if not visible
+        if (!new UiObject(rootsList).waitForExists(mTimeout)) {
+            Log.d(TAG, "Failed to find roots list; trying to expand");
+            final UiSelector hamburger = new UiSelector().resourceId(
+                    "com.android.documentsui:id/toolbar").childSelector(
+                    new UiSelector().className("android.widget.ImageButton").clickable(true));
+            new UiObject(hamburger).click();
+        }
     }
 
     public void closeDrawer() {

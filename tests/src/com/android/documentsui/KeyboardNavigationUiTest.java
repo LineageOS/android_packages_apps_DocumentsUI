@@ -51,6 +51,10 @@ public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
 
     // Tests that arrow keys do not switch focus away from the roots list.
     public void testKeyboard_arrowsRootsList() throws Exception {
+
+        // Open the drawer so we can ensure root list available even for phones
+        bots.roots.openDrawer();
+
         bots.keyboard.pressKey(KeyEvent.KEYCODE_TAB);
         for (int i = 0; i < 10; i++) {
             bots.keyboard.pressKey(KeyEvent.KEYCODE_DPAD_RIGHT);
