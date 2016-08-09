@@ -30,12 +30,9 @@ import android.view.ViewGroup;
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.R;
 import com.android.documentsui.State;
-import com.android.documentsui.dirlist.UserInputHandler.DocumentDetails;
 
 public abstract class DocumentHolder
-        extends RecyclerView.ViewHolder
-        implements View.OnKeyListener,
-        DocumentDetails {
+        extends RecyclerView.ViewHolder implements View.OnKeyListener, DocumentDetails {
 
     static final float DISABLED_ALPHA = 0.3f;
 
