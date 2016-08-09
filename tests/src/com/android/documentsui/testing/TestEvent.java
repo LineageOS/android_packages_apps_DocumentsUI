@@ -18,7 +18,7 @@ package com.android.documentsui.testing;
 
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.TestInputEvent;
-import com.android.documentsui.dirlist.UserInputHandler.DocumentDetails;
+import com.android.documentsui.dirlist.DocumentDetails;
 
 /**
  * Events and DocDetails are closely related. For the pursposes of this test

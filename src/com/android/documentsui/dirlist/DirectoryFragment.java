@@ -97,7 +97,6 @@ import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.dirlist.UserInputHandler.DocumentDetails;
 import com.android.documentsui.dirlist.header.TableHeaderController;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.RootInfo;
