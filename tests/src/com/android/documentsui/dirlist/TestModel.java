@@ -21,6 +21,7 @@ import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.RootCursorWrapper;
+import com.android.documentsui.testing.SortModels;
 
 import java.util.Random;
 
@@ -59,6 +60,7 @@ public class TestModel extends Model {
 
         DirectoryResult r = new DirectoryResult();
         r.cursor = c;
+        r.sortModel = SortModels.createTestSortModel();
         update(r);
     }
 

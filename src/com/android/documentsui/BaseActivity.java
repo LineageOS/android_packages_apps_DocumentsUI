@@ -64,6 +64,7 @@ import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortController;
+import com.android.documentsui.sorting.SortMenuController;
 import com.android.documentsui.sorting.SortModel;
 
 import java.io.FileNotFoundException;
@@ -127,6 +128,7 @@ public abstract class BaseActivity extends Activity
     private long mStartTime;
 
     private SortController mSortController;
+    private SortMenuController mSortMenuController;
 
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);
     public abstract void onDocumentsPicked(List<DocumentInfo> docs);
@@ -171,7 +173,7 @@ public abstract class BaseActivity extends Activity
         getContentResolver().registerContentObserver(
                 RootsCache.sNotificationUri, false, mRootsCacheObserver);
 
-        mSearchManager = new SearchViewManager(this, icicle);
+        mSearchManager = new SearchViewManager(this, icicle, mState.sortModel);
 
         DocumentsToolbar toolbar = (DocumentsToolbar) findViewById(R.id.toolbar);
         setActionBar(toolbar);
@@ -182,7 +184,9 @@ public abstract class BaseActivity extends Activity
 
         mNavigator = new NavigationViewManager(mDrawer, toolbar, mState, this, breadcrumb);
 
-        mSortController = new SortController(mState.sortModel);
+        mSortController = new SortController(mState.sortModel, this);
+        mSortMenuController = new SortMenuController(getResources());
+        mSortController.manage(mSortMenuController);
 
         // Base classes must update result in their onCreate.
         setResult(Activity.RESULT_CANCELED);
@@ -196,6 +200,8 @@ public abstract class BaseActivity extends Activity
         mNavigator.update();
         boolean fullBarSearch = getResources().getBoolean(R.bool.full_bar_search_view);
         mSearchManager.install((DocumentsToolbar) findViewById(R.id.toolbar), fullBarSearch);
+
+        mSortMenuController.install(menu.findItem(R.id.menu_sort));
 
         return showMenu;
     }
@@ -306,18 +312,6 @@ public abstract class BaseActivity extends Activity
             case R.id.menu_search:
                 // SearchViewManager listens for this directly.
                 return false;
-
-            case R.id.menu_sort_name:
-                setUserSortOrder(State.SORT_ORDER_DISPLAY_NAME);
-                return true;
-
-            case R.id.menu_sort_date:
-                setUserSortOrder(State.SORT_ORDER_LAST_MODIFIED);
-                return true;
-
-            case R.id.menu_sort_size:
-                setUserSortOrder(State.SORT_ORDER_SIZE);
-                return true;
 
             case R.id.menu_grid:
                 setViewMode(State.MODE_GRID);
@@ -527,29 +521,6 @@ public abstract class BaseActivity extends Activity
             dir.onDisplayStateChanged();
         }
         invalidateOptionsMenu();
-    }
-
-    /**
-     * Set state sort order based on explicit user action.
-     */
-    void setUserSortOrder(int sortOrder) {
-        switch(sortOrder) {
-            case State.SORT_ORDER_DISPLAY_NAME:
-                Metrics.logUserAction(this, Metrics.USER_ACTION_SORT_NAME);
-                break;
-            case State.SORT_ORDER_LAST_MODIFIED:
-                Metrics.logUserAction(this, Metrics.USER_ACTION_SORT_DATE);
-                break;
-            case State.SORT_ORDER_SIZE:
-                Metrics.logUserAction(this, Metrics.USER_ACTION_SORT_SIZE);
-                break;
-        }
-
-        mState.userSortOrder = sortOrder;
-        DirectoryFragment dir = getDirectoryFragment();
-        if (dir != null) {
-            dir.onSortOrderChanged();
-        }
     }
 
     /**

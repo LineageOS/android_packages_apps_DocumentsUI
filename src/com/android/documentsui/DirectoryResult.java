@@ -16,13 +16,11 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.State.MODE_UNKNOWN;
-import static com.android.documentsui.State.SORT_ORDER_UNKNOWN;
-
 import android.content.ContentProviderClient;
 import android.database.Cursor;
 
 import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.sorting.SortModel;
 
 import libcore.io.IoUtils;
 
@@ -31,8 +29,7 @@ public class DirectoryResult implements AutoCloseable {
     public Cursor cursor;
     public Exception exception;
     public DocumentInfo doc;
-
-    public int sortOrder = SORT_ORDER_UNKNOWN;
+    public SortModel sortModel;
 
     @Override
     public void close() {
@@ -40,5 +37,6 @@ public class DirectoryResult implements AutoCloseable {
         ContentProviderClient.releaseQuietly(client);
         cursor = null;
         client = null;
+        sortModel = null;
     }
 }

@@ -18,7 +18,6 @@ package com.android.documentsui;
 
 import static com.android.documentsui.Shared.DEBUG;
 import static com.android.documentsui.Shared.TAG;
-import static com.android.documentsui.State.SORT_ORDER_LAST_MODIFIED;
 
 import android.app.ActivityManager;
 import android.content.AsyncTaskLoader;
@@ -37,9 +36,9 @@ import android.util.Log;
 import com.android.documentsui.model.RootInfo;
 import com.android.internal.annotations.GuardedBy;
 
-import com.google.common.util.concurrent.AbstractFuture;
-
 import libcore.io.IoUtils;
+
+import com.google.common.util.concurrent.AbstractFuture;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -81,8 +80,6 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
     @GuardedBy("mTasks")
     private final HashMap<RootInfo, RecentsTask> mTasks = new HashMap<>();
-
-    private final int mSortOrder = State.SORT_ORDER_LAST_MODIFIED;
 
     private CountDownLatch mFirstPassLatch;
     private volatile boolean mFirstPassDone;
@@ -168,7 +165,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         final DirectoryResult result = new DirectoryResult();
-        result.sortOrder = SORT_ORDER_LAST_MODIFIED;
+        result.sortModel = mState.sortModel;
 
         final Cursor merged;
         if (cursors.size() > 0) {
@@ -288,7 +285,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
                 final Uri uri = DocumentsContract.buildRecentDocumentsUri(authority, rootId);
                 final Cursor cursor = client.query(
-                        uri, null, null, null, DirectoryLoader.getQuerySortOrder(mSortOrder));
+                        uri, null, null, null, mState.sortModel.getDocumentSortQuery());
                 mWithRoot = new RootCursorWrapper(authority, rootId, cursor, MAX_DOCS_FROM_ROOT);
 
             } catch (Exception e) {

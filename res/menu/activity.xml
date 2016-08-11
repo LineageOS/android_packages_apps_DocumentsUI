@@ -63,15 +63,7 @@
             android:icon="@drawable/ic_menu_sortby"
             android:showAsAction="ifRoom">
             <menu>
-                <item
-                    android:id="@+id/menu_sort_name"
-                    android:title="@string/sort_name" />
-                <item
-                    android:id="@+id/menu_sort_date"
-                    android:title="@string/sort_date" />
-                <item
-                    android:id="@+id/menu_sort_size"
-                    android:title="@string/sort_size" />
+                <!-- A submenu placeholder for SortMenuController to add menu item -->
             </menu>
         </item>
         <item

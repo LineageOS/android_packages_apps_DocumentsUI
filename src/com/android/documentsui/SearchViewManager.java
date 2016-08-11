@@ -33,6 +33,7 @@ import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
 import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.sorting.SortModel;
 
 /**
  * Manages searching UI behavior.
@@ -58,9 +59,14 @@ public class SearchViewManager implements
     private MenuItem mMenuItem;
     private SearchView mSearchView;
 
-    public SearchViewManager(SearchManagerListener listener, @Nullable Bundle savedState) {
+    // We need to disable sorting during search.
+    private SortModel mSortModel;
+
+    public SearchViewManager(
+            SearchManagerListener listener, @Nullable Bundle savedState, SortModel sortModel) {
         mListener = listener;
         mCurrentSearch = savedState != null ? savedState.getString(Shared.EXTRA_QUERY) : null;
+        mSortModel = sortModel;
     }
 
     public void setSearchMangerListener(SearchManagerListener listener) {
@@ -186,6 +192,8 @@ public class SearchViewManager implements
             Menu menu = mActionBar.getMenu();
             menu.setGroupVisible(R.id.group_hide_when_searching, false);
         }
+
+        mSortModel.setSortEnabled(false);
     }
 
     /**
@@ -213,6 +221,8 @@ public class SearchViewManager implements
             mMenuItem.collapseActionView();
         }
         mListener.onSearchFinished();
+
+        mSortModel.setSortEnabled(true);
 
         return false;
     }
