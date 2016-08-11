@@ -25,11 +25,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-import com.android.documentsui.Events;
-
-// Previously we listened to events with one class, only to bounce them forward
-// to GestureDetector. We're still doing that here, but with a single class
-// that reduces overall complexity in our glue code.
+// Receives event meant for both directory and empty view, and either pass them to
+// {@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
+// other types of gestures (drag n' drop)
 final class ListeningGestureDetector extends GestureDetector
         implements OnItemTouchListener, OnTouchListener {
 
@@ -51,7 +49,7 @@ final class ListeningGestureDetector extends GestureDetector
         if (itemView != null && mDragHelper.onTouch(itemView,  e)) {
             return true;
         }
-        // Forward unhandled events to the GestureDetector.
+        // Forward unhandled events to UserInputHandler.
         return onTouchEvent(e);
     }
 
@@ -68,12 +66,10 @@ final class ListeningGestureDetector extends GestureDetector
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
 
-    // For mEmptyView right-click context menu
+    // For mEmptyView events
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
-            return mInputHandler.onRightClick(event);
-        }
-        return false;
+        // Pass events to UserInputHandler.
+        return onTouchEvent(event);
     }
 }
