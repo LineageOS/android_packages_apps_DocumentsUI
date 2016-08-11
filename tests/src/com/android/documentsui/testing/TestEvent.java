@@ -125,6 +125,11 @@ public class TestEvent extends TestInputEvent implements DocumentDetails {
             return this;
         }
 
+        public Builder secondary() {
+            mState.secondaryButtonPressed = true;
+            return this;
+        }
+
         public TestEvent build() {
             // Return a copy, so nobody can mess w/ our internal state.
             TestEvent e = new TestEvent();
@@ -132,6 +137,7 @@ public class TestEvent extends TestInputEvent implements DocumentDetails {
             e.modelId = mState.modelId;
             e.shiftKeyDow = mState.shiftKeyDow;
             e.mouseEvent = mState.mouseEvent;
+            e.secondaryButtonPressed = mState.secondaryButtonPressed;
             return e;
         }
     }

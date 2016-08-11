@@ -87,6 +87,12 @@ public final class UserInputHandler_MouseTest {
     }
 
     @Test
+    public void testRightClickDown_StartsContextMenu() {
+        mInputHandler.onDown(mEvent.secondary().build());
+        mRightClickHandler.assertLastArgument(mEvent.secondary().build());
+    }
+
+    @Test
     public void testUnconfirmedClick_AddsToExistingSelection() {
         mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
 
