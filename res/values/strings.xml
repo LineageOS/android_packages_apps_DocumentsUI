@@ -36,7 +36,7 @@
     <string name="menu_sort">Sort by</string>
     <!-- Menu item that enters a mode to search for documents [CHAR LIMIT=24] -->
     <string name="menu_search">Search</string>
-    <!-- Menu item that enters activity to change settings for current root [CHAR LIMIT=24] -->
+    <!-- Menu item that opens settings/options for a device (like an SD card). [CHAR LIMIT=24] -->
     <string name="menu_settings">Storage settings</string>
 
     <!-- Menu item title that opens the selected documents [CHAR LIMIT=24] -->
@@ -63,9 +63,11 @@
     <!-- Menu item title that pastes files from the clipboard [CHAR LIMIT=24] -->
     <string name="menu_paste_from_clipboard">Paste</string>
 
-    <!-- Menu item that reveals internal storage built into the device [CHAR LIMIT=24] -->
+    <!-- Translators asked for a length exemption for the show/hide internal storage strings.
+         Thus the CHAR LIMIT=24/30 deviation is 'splained. -->
+    <!-- Menu item that reveals internal storage built into the device [CHAR LIMIT=30] -->
     <string name="menu_advanced_show">Show internal storage</string>
-    <!-- Menu item that hides internal storage built into the device [CHAR LIMIT=24] -->
+    <!-- Menu item that hides internal storage built into the device [CHAR LIMIT=30] -->
     <string name="menu_advanced_hide">Hide internal storage</string>
 
     <!-- Menu item that reveals the sizes of displayed files [CHAR LIMIT=24] -->
