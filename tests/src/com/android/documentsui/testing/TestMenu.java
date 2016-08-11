@@ -53,7 +53,6 @@ public abstract class TestMenu implements Menu {
                 R.id.menu_grid,
                 R.id.menu_list,
                 R.id.menu_sort,
-                R.id.menu_sort_size,
                 R.id.menu_advanced,
                 R.id.menu_eject_root);
     }

@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.State.ACTION_CREATE;
 import static com.android.documentsui.State.ACTION_OPEN;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -25,7 +26,6 @@ import android.provider.DocumentsContract.Root;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestMenu;
@@ -54,8 +54,6 @@ public final class DocumentsMenuManagerTest {
     private TestMenuItem cut;
     private TestMenuItem copy;
     private TestMenuItem paste;
-    private TestMenuItem sort;
-    private TestMenuItem sortSize;
     private TestMenuItem advanced;
     private TestMenuItem settings;
     private TestMenuItem eject;
@@ -81,8 +79,6 @@ public final class DocumentsMenuManagerTest {
         cut = testMenu.findItem(R.id.menu_cut_to_clipboard);
         copy = testMenu.findItem(R.id.menu_copy_to_clipboard);
         paste = testMenu.findItem(R.id.menu_paste_from_clipboard);
-        sort = testMenu.findItem(R.id.menu_sort);
-        sortSize = testMenu.findItem(R.id.menu_sort_size);
         advanced = testMenu.findItem(R.id.menu_advanced);
         settings = testMenu.findItem(R.id.menu_settings);
         eject = testMenu.findItem(R.id.menu_eject_root);
@@ -93,7 +89,6 @@ public final class DocumentsMenuManagerTest {
         testRootInfo = new RootInfo();
         state.action = ACTION_CREATE;
         state.allowMultiple = true;
-        state.sortModel = SortModel.createModel();
     }
 
     @Test
@@ -132,22 +127,11 @@ public final class DocumentsMenuManagerTest {
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
-        sort.assertEnabled();
-        sortSize.assertInvisible();
         advanced.assertInvisible();
         advanced.assertTitle(R.string.menu_advanced_show);
         createDir.assertDisabled();
         fileSize.assertInvisible();
         assertTrue(testSearchManager.showMenuCalled());
-    }
-
-    @Test
-    public void testOptionMenu_hideSize() {
-        state.setShowSize(true);
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
-        mgr.updateOptionMenu(testMenu, directoryDetails);
-
-        sortSize.assertVisible();
     }
 
     @Test
@@ -189,7 +173,6 @@ public final class DocumentsMenuManagerTest {
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
-        sort.assertDisabled();
         grid.assertInvisible();
         list.assertInvisible();
     }

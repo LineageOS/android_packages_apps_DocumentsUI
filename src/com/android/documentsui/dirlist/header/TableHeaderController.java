@@ -22,6 +22,7 @@ import android.view.View;
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.sorting.SortModel.UpdateType;
 import com.android.documentsui.sorting.SortModel.SortDimensionId;
 import com.android.documentsui.sorting.SortController;
 
@@ -63,7 +64,7 @@ public final class TableHeaderController implements SortController.WidgetControl
         mModel = model;
 
         if (mModel != null) {
-            onModelUpdate(mModel);
+            onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
 
             mModel.addListener(mModelUpdaterListener);
         }
@@ -74,7 +75,7 @@ public final class TableHeaderController implements SortController.WidgetControl
         mTableHeader.setVisibility(visibility);
     }
 
-    private void onModelUpdate(SortModel model) {
+    private void onModelUpdate(SortModel model, @UpdateType int updateType) {
         bindCell(mTitleCell, SortModel.SORT_DIMENSION_ID_TITLE);
         bindCell(mSummaryCell, SortModel.SORT_DIMENSION_ID_SUMMARY);
         bindCell(mSizeCell, SortModel.SORT_DIMENSION_ID_SIZE);
@@ -99,6 +100,6 @@ public final class TableHeaderController implements SortController.WidgetControl
     private void onCellClicked(View v) {
         SortDimension dimension = (SortDimension) v.getTag();
 
-        mModel.sortBy(dimension.getId(), dimension.getNextDirection());
+        mModel.sortByUser(dimension.getId(), dimension.getNextDirection());
     }
 }

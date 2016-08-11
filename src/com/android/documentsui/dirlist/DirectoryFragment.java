@@ -19,7 +19,6 @@ package com.android.documentsui.dirlist;
 import static com.android.documentsui.Shared.DEBUG;
 import static com.android.documentsui.State.MODE_GRID;
 import static com.android.documentsui.State.MODE_LIST;
-import static com.android.documentsui.State.SORT_ORDER_UNKNOWN;
 import static com.android.documentsui.model.DocumentInfo.getCursorInt;
 import static com.android.documentsui.model.DocumentInfo.getCursorString;
 
@@ -104,7 +103,9 @@ import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
-import com.android.documentsui.sorting.SortController;
+import com.android.documentsui.sorting.SortDimension;
+import com.android.documentsui.sorting.SortDimension.SortDirection;
+import com.android.documentsui.sorting.SortModel;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -163,7 +164,8 @@ public class DirectoryFragment extends Fragment
 
     private String mStateKey;
 
-    private int mLastSortOrder = SORT_ORDER_UNKNOWN;
+    private SortDimension mLastSortDimension;
+    private @SortDirection int mLastSortDirection;
     private DocumentsAdapter mAdapter;
     private FragmentTuner mTuner;
     private DocumentClipper mClipper;
@@ -194,6 +196,12 @@ public class DirectoryFragment extends Fragment
     private MenuManager mMenuManager;
 
     private TableHeaderController mTableHeaderController;
+    private SortModel.UpdateListener mSortListener = (model, updateType) -> {
+        // Only when sort order has changed do we need to trigger another loading.
+        if (updateType == SortModel.UPDATE_TYPE_SORTING) {
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
+        }
+    };
 
     @Override
     public View onCreateView(
@@ -343,10 +351,43 @@ public class DirectoryFragment extends Fragment
         boolean svelte = am.isLowRamDevice() && (mType == TYPE_RECENT_OPEN);
         mIconHelper.setThumbnailsEnabled(!svelte);
 
-        mTuner.mSortController.manage(mTableHeaderController, getDisplayState().derivedMode);
+        // If mDocument is null, we sort it by last modified by default because it's in Recents.
+        final boolean prefersLastModified =
+                (mDocument != null)
+                        ? (mDocument.flags & Document.FLAG_DIR_PREFERS_LAST_MODIFIED) != 0
+                        : true;
+        // Call this before adding the listener to avoid restarting the loader one more time
+        state.sortModel.setDefaultDimension(
+                prefersLastModified
+                        ? SortModel.SORT_DIMENSION_ID_DATE
+                        : SortModel.SORT_DIMENSION_ID_TITLE);
 
         // Kick off loader at least once
         getLoaderManager().restartLoader(LOADER_ID, null, this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mTuner.mSortController.manage(mTableHeaderController, getDisplayState().derivedMode);
+        // Add listener to update contents on sort model change
+        getDisplayState().sortModel.addListener(mSortListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove listener to avoid leak.
+        mTuner.mSortController.clean(mTableHeaderController);
+        getDisplayState().sortModel.removeListener(mSortListener);
+
+        // Remember last scroll location
+        final SparseArray<Parcelable> container = new SparseArray<Parcelable>();
+        getView().saveHierarchyState(container);
+        final State state = getDisplayState();
+        state.dirState.put(mStateKey, container);
     }
 
     public void retainState(RetainedState state) {
@@ -470,17 +511,6 @@ public class DirectoryFragment extends Fragment
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // Remember last scroll location
-        final SparseArray<Parcelable> container = new SparseArray<Parcelable>();
-        getView().saveHierarchyState(container);
-        final State state = getDisplayState();
-        state.dirState.put(mStateKey, container);
     }
 
     public void onDisplayStateChanged() {
@@ -1654,7 +1684,7 @@ public class DirectoryFragment extends Fragment
                     contentsUri = DocumentsContract.setManageMode(contentsUri);
                 }
                 return new DirectoryLoader(
-                        context, mType, mRoot, mDocument, contentsUri, state.userSortOrder,
+                        context, mType, mRoot, mDocument, contentsUri, state.sortModel,
                         mSearchMode);
             case TYPE_RECENT_OPEN:
                 final RootsCache roots = DocumentsApplication.getRootsCache(context);
@@ -1678,8 +1708,6 @@ public class DirectoryFragment extends Fragment
         mAdapter.notifyDataSetChanged();
         mModel.update(result);
 
-        state.derivedSortOrder = result.sortOrder;
-
         updateLayout(state.derivedMode);
 
         if (mRestoredSelection != null) {
@@ -1691,16 +1719,20 @@ public class DirectoryFragment extends Fragment
 
         // Restore any previous instance state
         final SparseArray<Parcelable> container = state.dirState.remove(mStateKey);
+        final int curSortedDimensionId = state.sortModel.getSortedDimensionId();
+        final SortDimension curSortedDimension =
+                state.sortModel.getDimensionById(curSortedDimensionId);
         if (container != null && !getArguments().getBoolean(Shared.EXTRA_IGNORE_STATE, false)) {
             getView().restoreHierarchyState(container);
-        } else if (mLastSortOrder != state.derivedSortOrder) {
-            // The derived sort order takes the user sort order into account, but applies
-            // directory-specific defaults when the user doesn't explicitly set the sort
-            // order. Scroll to the top if the sort order actually changed.
+        } else if (mLastSortDimension != curSortedDimension
+                || mLastSortDimension == null
+                || mLastSortDirection != curSortedDimension.getSortDirection()) {
+            // Scroll to the top if the sort order actually changed.
             mRecView.smoothScrollToPosition(0);
         }
 
-        mLastSortOrder = state.derivedSortOrder;
+        mLastSortDimension = curSortedDimension;
+        mLastSortDirection = curSortedDimension.getSortDirection();
 
         mTuner.onModelLoaded(mModel, mType, mSearchMode);
 

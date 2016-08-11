@@ -74,11 +74,6 @@ public class State implements android.os.Parcelable {
     public static final int MODE_LIST = 1;
     public static final int MODE_GRID = 2;
 
-    public static final int SORT_ORDER_UNKNOWN = 0;
-    public static final int SORT_ORDER_DISPLAY_NAME = 1;
-    public static final int SORT_ORDER_LAST_MODIFIED = 2;
-    public static final int SORT_ORDER_SIZE = 3;
-
     public @ActionType int action;
     public String[] acceptMimes;
 
@@ -87,10 +82,6 @@ public class State implements android.os.Parcelable {
 
     /** Current sort state */
     public SortModel sortModel;
-    /** Explicit user choice */
-    public int userSortOrder = SORT_ORDER_UNKNOWN;
-    /** Derived after loader */
-    public int derivedSortOrder = SORT_ORDER_DISPLAY_NAME;
 
     public boolean allowMultiple;
     public boolean forceSize;
@@ -199,7 +190,6 @@ public class State implements android.os.Parcelable {
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(action);
         out.writeStringArray(acceptMimes);
-        out.writeInt(userSortOrder);
         out.writeInt(allowMultiple ? 1 : 0);
         out.writeInt(forceSize ? 1 : 0);
         out.writeInt(mShowSize ? 1 : 0);
@@ -229,7 +219,6 @@ public class State implements android.os.Parcelable {
             final State state = new State();
             state.action = in.readInt();
             state.acceptMimes = in.readStringArray();
-            state.userSortOrder = in.readInt();
             state.allowMultiple = in.readInt() != 0;
             state.forceSize = in.readInt() != 0;
             state.mShowSize = in.readInt() != 0;

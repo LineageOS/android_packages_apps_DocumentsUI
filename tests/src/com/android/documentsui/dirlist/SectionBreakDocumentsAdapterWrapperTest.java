@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.RootCursorWrapper;
 import com.android.documentsui.State;
+import com.android.documentsui.testing.SortModels;
 
 @SmallTest
 public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
@@ -76,7 +77,7 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
         }
         DirectoryResult r = new DirectoryResult();
         r.cursor = c;
-        r.sortOrder = State.SORT_ORDER_SIZE;
+        r.sortModel = SortModels.createTestSortModel();
         mModel.update(r);
 
         assertEquals(mModel.getItemCount(), mAdapter.getItemCount());
@@ -102,7 +103,7 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
         }
         DirectoryResult r = new DirectoryResult();
         r.cursor = c;
-        r.sortOrder = State.SORT_ORDER_SIZE;
+        r.sortModel = SortModels.createTestSortModel();
         mModel.update(r);
 
         assertEquals(mModel.getItemCount() + 1, mAdapter.getItemCount());

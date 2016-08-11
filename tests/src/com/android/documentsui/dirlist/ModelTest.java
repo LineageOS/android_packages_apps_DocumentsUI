@@ -30,9 +30,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.RootCursorWrapper;
 import com.android.documentsui.Shared;
-import com.android.documentsui.State;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.sorting.SortDimension;
+import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.testing.SortModels;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -74,6 +76,7 @@ public class ModelTest extends AndroidTestCase {
     private Context context;
     private Model model;
     private TestContentProvider provider;
+    private SortModel sortModel;
 
     public void setUp() {
         setupTestContext();
@@ -92,9 +95,11 @@ public class ModelTest extends AndroidTestCase {
             row.add(Document.COLUMN_SIZE, rand.nextInt());
         }
         cursor = c;
+        sortModel = SortModels.createTestSortModel();
 
         DirectoryResult r = new DirectoryResult();
         r.cursor = cursor;
+        r.sortModel = sortModel;
 
         // Instantiate the model with a dummy view adapter and listener that (for now) do nothing.
         model = new Model();
@@ -140,6 +145,7 @@ public class ModelTest extends AndroidTestCase {
         // Update the model, then make sure it contains all the expected items.
         DirectoryResult r = new DirectoryResult();
         r.cursor = cIn;
+        r.sortModel = SortModels.createTestSortModel();
         model.update(r);
 
         assertEquals(ITEM_COUNT * 2, model.getItemCount());
@@ -178,14 +184,17 @@ public class ModelTest extends AndroidTestCase {
         }
     }
 
-    // Tests sorting by item name.
-    public void testSort_names() {
+    // Tests sorting ascending by item name.
+    public void testSort_names_ascending() {
         BitSet seen = new BitSet(ITEM_COUNT);
         List<String> names = new ArrayList<>();
 
+        sortModel.sortByUser(SortModel.SORT_DIMENSION_ID_TITLE,
+                SortDimension.SORT_DIRECTION_ASCENDING);
+
         DirectoryResult r = new DirectoryResult();
         r.cursor = cursor;
-        r.sortOrder = State.SORT_ORDER_DISPLAY_NAME;
+        r.sortModel = sortModel;
         model.update(r);
 
         for (String id: model.getModelIds()) {
@@ -200,11 +209,63 @@ public class ModelTest extends AndroidTestCase {
         }
     }
 
-    // Tests sorting by item size.
-    public void testSort_sizes() {
+    // Tests sorting descending by item name.
+    public void testSort_names_descending() {
+        BitSet seen = new BitSet(ITEM_COUNT);
+        List<String> names = new ArrayList<>();
+
+        sortModel.sortByUser(SortModel.SORT_DIMENSION_ID_TITLE,
+                SortDimension.SORT_DIRECTION_DESCENDING);
+
         DirectoryResult r = new DirectoryResult();
         r.cursor = cursor;
-        r.sortOrder = State.SORT_ORDER_SIZE;
+        r.sortModel = sortModel;
+        model.update(r);
+
+        for (String id: model.getModelIds()) {
+            Cursor c = model.getItem(id);
+            seen.set(c.getPosition());
+            names.add(DocumentInfo.getCursorString(c, Document.COLUMN_DISPLAY_NAME));
+        }
+
+        assertEquals(ITEM_COUNT, seen.cardinality());
+        for (int i = 0; i < names.size()-1; ++i) {
+            assertTrue(Shared.compareToIgnoreCaseNullable(names.get(i), names.get(i+1)) >= 0);
+        }
+    }
+
+    // Tests sorting by item size.
+    public void testSort_sizes_ascending() {
+        sortModel.sortByUser(SortModel.SORT_DIMENSION_ID_SIZE,
+                SortDimension.SORT_DIRECTION_ASCENDING);
+
+        DirectoryResult r = new DirectoryResult();
+        r.cursor = cursor;
+        r.sortModel = sortModel;
+        model.update(r);
+
+        BitSet seen = new BitSet(ITEM_COUNT);
+        int previousSize = Integer.MIN_VALUE;
+        for (String id: model.getModelIds()) {
+            Cursor c = model.getItem(id);
+            seen.set(c.getPosition());
+            // Check sort order - descending numerical
+            int size = DocumentInfo.getCursorInt(c, Document.COLUMN_SIZE);
+            assertTrue(previousSize <= size);
+            previousSize = size;
+        }
+        // Check that all items were accounted for.
+        assertEquals(ITEM_COUNT, seen.cardinality());
+    }
+
+    // Tests sorting by item size.
+    public void testSort_sizes_descending() {
+        sortModel.sortByUser(SortModel.SORT_DIMENSION_ID_SIZE,
+                SortDimension.SORT_DIRECTION_DESCENDING);
+
+        DirectoryResult r = new DirectoryResult();
+        r.cursor = cursor;
+        r.sortModel = sortModel;
         model.update(r);
 
         BitSet seen = new BitSet(ITEM_COUNT);
@@ -222,7 +283,7 @@ public class ModelTest extends AndroidTestCase {
     }
 
     // Tests that directories and files are properly bucketed when sorting by size
-    public void testSort_sizesWithBucketing() {
+    public void testSort_sizesWithBucketing_ascending() {
         MatrixCursor c = new MatrixCursor(COLUMNS);
 
         for (int i = 0; i < ITEM_COUNT; ++i) {
@@ -235,9 +296,65 @@ public class ModelTest extends AndroidTestCase {
             row.add(Document.COLUMN_MIME_TYPE, mimeType);
         }
 
+        sortModel.sortByUser(SortModel.SORT_DIMENSION_ID_SIZE,
+                SortDimension.SORT_DIRECTION_ASCENDING);
+
         DirectoryResult r = new DirectoryResult();
         r.cursor = c;
-        r.sortOrder = State.SORT_ORDER_SIZE;
+        r.sortModel = sortModel;
+        model.update(r);
+
+        boolean seenAllDirs = false;
+        int previousSize = Integer.MIN_VALUE;
+        BitSet seen = new BitSet(ITEM_COUNT);
+        // Iterate over items in sort order. Once we've encountered a document (i.e. not a
+        // directory), all subsequent items must also be documents. That is, all directories are
+        // bucketed at the front of the list, sorted by size, followed by documents, sorted by size.
+        for (String id: model.getModelIds()) {
+            Cursor cOut = model.getItem(id);
+            seen.set(cOut.getPosition());
+
+            String mimeType = DocumentInfo.getCursorString(cOut, Document.COLUMN_MIME_TYPE);
+            if (seenAllDirs) {
+                assertFalse(Document.MIME_TYPE_DIR.equals(mimeType));
+            } else {
+                if (!Document.MIME_TYPE_DIR.equals(mimeType)) {
+                    seenAllDirs = true;
+                    // Reset the previous size seen, because documents are bucketed separately by
+                    // the sort.
+                    previousSize = Integer.MIN_VALUE;
+                }
+            }
+            // Check sort order - descending numerical
+            int size = DocumentInfo.getCursorInt(c, Document.COLUMN_SIZE);
+            assertTrue(previousSize <= size);
+            previousSize = size;
+        }
+
+        // Check that all items were accounted for.
+        assertEquals(ITEM_COUNT, seen.cardinality());
+    }
+
+    // Tests that directories and files are properly bucketed when sorting by size
+    public void testSort_sizesWithBucketing_descending() {
+        MatrixCursor c = new MatrixCursor(COLUMNS);
+
+        for (int i = 0; i < ITEM_COUNT; ++i) {
+            MatrixCursor.RowBuilder row = c.newRow();
+            row.add(RootCursorWrapper.COLUMN_AUTHORITY, AUTHORITY);
+            row.add(Document.COLUMN_DOCUMENT_ID, Integer.toString(i));
+            row.add(Document.COLUMN_SIZE, i);
+            // Interleave directories and text files.
+            String mimeType =(i % 2 == 0) ? Document.MIME_TYPE_DIR : "text/*";
+            row.add(Document.COLUMN_MIME_TYPE, mimeType);
+        }
+
+        sortModel.sortByUser(SortModel.SORT_DIMENSION_ID_SIZE,
+                SortDimension.SORT_DIRECTION_DESCENDING);
+
+        DirectoryResult r = new DirectoryResult();
+        r.cursor = c;
+        r.sortModel = sortModel;
         model.update(r);
 
         boolean seenAllDirs = false;
@@ -271,7 +388,7 @@ public class ModelTest extends AndroidTestCase {
         assertEquals(ITEM_COUNT, seen.cardinality());
     }
 
-    public void testSort_time() {
+    public void testSort_time_ascending() {
         final int DL_COUNT = 3;
         MatrixCursor c = new MatrixCursor(COLUMNS);
         Set<String> currentDownloads = new HashSet<>();
@@ -292,9 +409,52 @@ public class ModelTest extends AndroidTestCase {
             currentDownloads.add(id);
         }
 
+        sortModel.sortByUser(SortModel.SORT_DIMENSION_ID_DATE,
+                SortDimension.SORT_DIRECTION_ASCENDING);
+
         DirectoryResult r = new DirectoryResult();
         r.cursor = c;
-        r.sortOrder = State.SORT_ORDER_LAST_MODIFIED;
+        r.sortModel = sortModel;
+        model.update(r);
+
+        String[] ids = model.getModelIds();
+
+        // Check that all items were accounted for
+        assertEquals(ITEM_COUNT + DL_COUNT, ids.length);
+
+        // Check that active downloads are sorted to the bottom.
+        for (int i = ITEM_COUNT; i < ITEM_COUNT + DL_COUNT; i++) {
+            assertTrue(currentDownloads.contains(ids[i]));
+        }
+    }
+
+    public void testSort_time_descending() {
+        final int DL_COUNT = 3;
+        MatrixCursor c = new MatrixCursor(COLUMNS);
+        Set<String> currentDownloads = new HashSet<>();
+
+        // Add some files
+        for (int i = 0; i < ITEM_COUNT; i++) {
+            MatrixCursor.RowBuilder row = c.newRow();
+            row.add(RootCursorWrapper.COLUMN_AUTHORITY, AUTHORITY);
+            row.add(Document.COLUMN_DOCUMENT_ID, Integer.toString(i));
+            row.add(Document.COLUMN_LAST_MODIFIED, System.currentTimeMillis());
+        }
+        // Add some current downloads (no timestamp)
+        for (int i = ITEM_COUNT; i < ITEM_COUNT + DL_COUNT; i++) {
+            MatrixCursor.RowBuilder row = c.newRow();
+            String id = Integer.toString(i);
+            row.add(RootCursorWrapper.COLUMN_AUTHORITY, AUTHORITY);
+            row.add(Document.COLUMN_DOCUMENT_ID, id);
+            currentDownloads.add(id);
+        }
+
+        sortModel.sortByUser(SortModel.SORT_DIMENSION_ID_DATE,
+                SortDimension.SORT_DIRECTION_DESCENDING);
+
+        DirectoryResult r = new DirectoryResult();
+        r.cursor = c;
+        r.sortModel = sortModel;
         model.update(r);
 
         String[] ids = model.getModelIds();
