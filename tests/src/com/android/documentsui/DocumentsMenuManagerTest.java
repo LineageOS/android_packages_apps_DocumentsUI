@@ -54,6 +54,7 @@ public final class DocumentsMenuManagerTest {
     private TestMenuItem cut;
     private TestMenuItem copy;
     private TestMenuItem paste;
+    private TestMenuItem pasteInto;
     private TestMenuItem advanced;
     private TestMenuItem settings;
     private TestMenuItem eject;
@@ -79,6 +80,8 @@ public final class DocumentsMenuManagerTest {
         cut = testMenu.findItem(R.id.menu_cut_to_clipboard);
         copy = testMenu.findItem(R.id.menu_copy_to_clipboard);
         paste = testMenu.findItem(R.id.menu_paste_from_clipboard);
+        pasteInto = testMenu.findItem(R.id.menu_paste_into_folder);
+
         advanced = testMenu.findItem(R.id.menu_advanced);
         settings = testMenu.findItem(R.id.menu_settings);
         eject = testMenu.findItem(R.id.menu_eject_root);
@@ -178,25 +181,44 @@ public final class DocumentsMenuManagerTest {
     }
 
     @Test
-    public void testContextMenu_NoSelection() {
+    public void testContextMenu_EmptyArea() {
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
-        mgr.updateContextMenu(testMenu, null, directoryDetails);
+        mgr.updateContextMenuForContainer(testMenu, directoryDetails);
         cut.assertVisible();
         copy.assertVisible();
         cut.assertDisabled();
         copy.assertDisabled();
         paste.assertVisible();
+        pasteInto.assertInvisible();
         createDir.assertVisible();
         delete.assertVisible();
     }
 
     @Test
-    public void testContextMenu_Selection() {
+    public void testContextMenu_OnFile() {
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
-        mgr.updateContextMenu(testMenu, selectionDetails, directoryDetails);
+        mgr.updateContextMenuForFile(testMenu, selectionDetails, directoryDetails);
         cut.assertVisible();
         copy.assertVisible();
         paste.assertVisible();
+        pasteInto.assertInvisible();
+        paste.assertDisabled();
+        rename.assertInvisible();
+        createDir.assertVisible();
+        delete.assertVisible();
+    }
+
+    @Test
+    public void testContextMenu_OnDirectory() {
+        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        selectionDetails.canPasteInto = true;
+        mgr.updateContextMenuForFile(testMenu, selectionDetails, directoryDetails);
+        cut.assertVisible();
+        copy.assertVisible();
+        // Doesn't matter if directory is selected, we don't want pasteInto for DocsActivity
+        paste.assertVisible();
+        pasteInto.assertInvisible();
+        pasteInto.assertDisabled();
         rename.assertInvisible();
         createDir.assertVisible();
         delete.assertVisible();

@@ -437,11 +437,13 @@ public class DirectoryFragment extends Fragment
         menu.add(Menu.NONE, R.id.menu_delete, Menu.NONE, R.string.menu_delete);
         menu.add(Menu.NONE, R.id.menu_rename, Menu.NONE, R.string.menu_rename);
 
-        if (v == mRecView || v == mEmptyView) {
-            mMenuManager.updateContextMenu(menu, null, getBaseActivity().getDirectoryDetails());
+        boolean mouseOverFile = !(v == mRecView || v == mEmptyView);
+        if (mouseOverFile) {
+            mMenuManager.updateContextMenuForFile(
+                    menu, mSelectionModeListener, getBaseActivity().getDirectoryDetails());
         } else {
-            mMenuManager.updateContextMenu(menu, mSelectionModeListener,
-                    getBaseActivity().getDirectoryDetails());
+           mMenuManager.updateContextMenuForContainer(
+                   menu, getBaseActivity().getDirectoryDetails());
         }
     }
 
@@ -615,6 +617,7 @@ public class DirectoryFragment extends Fragment
         // Partial files are files that haven't been fully downloaded.
         private int mPartialCount = 0;
         private int mDirectoryCount = 0;
+        private int mWritableDirectoryCount = 0;
         private int mNoDeleteCount = 0;
         private int mNoRenameCount = 0;
 
@@ -659,6 +662,9 @@ public class DirectoryFragment extends Fragment
             final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
             if ((docFlags & Document.FLAG_PARTIAL) != 0) {
                 mPartialCount += selected ? 1 : -1;
+            }
+            if ((docFlags & Document.FLAG_DIR_SUPPORTS_CREATE) != 0) {
+                mWritableDirectoryCount += selected ? 1 : -1;
             }
             if ((docFlags & Document.FLAG_SUPPORTS_DELETE) == 0) {
                 mNoDeleteCount += selected ? 1 : -1;
@@ -782,6 +788,12 @@ public class DirectoryFragment extends Fragment
             return mNoRenameCount == 0 && mSelectionMgr.getSelection().size() == 1;
         }
 
+        @Override
+        public boolean canPasteInto() {
+            return mDirectoryCount == 1 && mWritableDirectoryCount == 1
+                    && mSelectionMgr.getSelection().size() == 1;
+        }
+
         private void updateActionMenu() {
             assert(mMenu != null);
             mMenuManager.updateActionMenu(mMenu, this);
@@ -838,6 +850,10 @@ public class DirectoryFragment extends Fragment
 
             case R.id.menu_paste_from_clipboard:
                 pasteFromClipboard();
+                return true;
+
+            case R.id.menu_paste_into_folder:
+                pasteIntoFolder();
                 return true;
 
             case R.id.menu_select_all:
@@ -1267,6 +1283,22 @@ public class DirectoryFragment extends Fragment
 
         BaseActivity activity = (BaseActivity) getActivity();
         DocumentInfo destination = activity.getCurrentDirectory();
+        mClipper.copyFromClipboard(
+                destination, activity.getDisplayState().stack, activity.fileOpCallback);
+        getActivity().invalidateOptionsMenu();
+    }
+
+    public void pasteIntoFolder() {
+        assert (mSelectionMgr.getSelection().size() == 1);
+
+        String modelId = mSelectionMgr.getSelection().iterator().next();
+        Cursor dstCursor = mModel.getItem(modelId);
+        if (dstCursor == null) {
+            Log.w(TAG, "Invalid destination. Can't obtain cursor for modelId: " + modelId);
+            return;
+        }
+        BaseActivity activity = getBaseActivity();
+        DocumentInfo destination = DocumentInfo.fromDirectoryCursor(dstCursor);
         mClipper.copyFromClipboard(
                 destination, activity.getDisplayState().stack, activity.fileOpCallback);
         getActivity().invalidateOptionsMenu();
