@@ -53,8 +53,8 @@
     <string name="column_summary" msgid="1540962781310003494">"ਸਾਰਾਂਸ਼"</string>
     <string name="column_date" msgid="5244069131770543137">"ਸੋਧਣ ਦਾ ਸਮਾਂ"</string>
     <string name="column_size" msgid="3426180342785653748">"ਆਕਾਰ"</string>
-    <string name="sort_direction_ascending" msgid="5882787683763248102">"ਵੱਧਦਾ ਕ੍ਰਮ"</string>
-    <string name="sort_direction_descending" msgid="1729187589765894076">"ਘੱਟਦਾ ਕ੍ਰਮ"</string>
+    <string name="sort_direction_ascending" msgid="5882787683763248102">"ਵਧਦਾ ਕ੍ਰਮ"</string>
+    <string name="sort_direction_descending" msgid="1729187589765894076">"ਘਟਦਾ ਕ੍ਰਮ"</string>
     <string name="drawer_open" msgid="8071673398187261741">"ਰੂਟਾਂ ਨੂੰ ਵਿਖਾਓ"</string>
     <string name="drawer_close" msgid="4263880768630848848">"ਰੂਟਾਂ ਨੂੰ ਲੁਕਾਓ"</string>
     <string name="save_error" msgid="8631128801982095782">"ਦਸਾਤਵੇਜ਼ ਰੱਖਿਅਤ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ"</string>

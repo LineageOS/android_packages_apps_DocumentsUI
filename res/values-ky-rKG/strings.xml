@@ -69,7 +69,7 @@
     <string name="empty" msgid="5300254272613103004">"Эч нерсе жок"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s ичинде дал келүүлөр жок"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Файл ачылбай жатат"</string>
-    <string name="toast_failed_delete" msgid="3453846588205817591">"Кээ бир документтерди өчүрүү кыйрады"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"Кээ бир документтерди өчүрүү мүмкүн болбой жатат"</string>
     <string name="share_via" msgid="8725082736005677161">"Бул аркылуу бөлүшүү"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Файлдар көчүрүлүүдө"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Файлдар жылдырылууда"</string>
