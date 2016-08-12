@@ -54,7 +54,7 @@
     <string name="column_date" msgid="5244069131770543137">"सुधारित"</string>
     <string name="column_size" msgid="3426180342785653748">"आकार"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"चढत्या क्रमाने"</string>
-    <string name="sort_direction_descending" msgid="1729187589765894076">"अवरोही"</string>
+    <string name="sort_direction_descending" msgid="1729187589765894076">"उतरत्या क्रमाने"</string>
     <string name="drawer_open" msgid="8071673398187261741">"रूट दर्शवा"</string>
     <string name="drawer_close" msgid="4263880768630848848">"रूट लपवा"</string>
     <string name="save_error" msgid="8631128801982095782">"दस्तऐवज जतन करणे अयशस्वी झाले"</string>
@@ -71,9 +71,9 @@
     <string name="toast_no_application" msgid="7555319548595113121">"फाईल उघडू शकत नाही"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"काही दस्‍तऐवज हटविण्‍यात अक्षम"</string>
     <string name="share_via" msgid="8725082736005677161">"द्वारे सामायिक करा"</string>
-    <string name="copy_notification_title" msgid="52256435625098456">"फायली कॉपी करीत आहे"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"फायली कॉपी करणे"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"फायली हलविणे"</string>
-    <string name="delete_notification_title" msgid="2512757431856830792">"फायली हटवित आहे"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"फायली हटविणे"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> शिल्लक"</string>
     <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
       <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> फाईल कॉपी करीत आहे.</item>

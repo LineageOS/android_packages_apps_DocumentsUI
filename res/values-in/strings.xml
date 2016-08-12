@@ -53,8 +53,8 @@
     <string name="column_summary" msgid="1540962781310003494">"Ringkasan"</string>
     <string name="column_date" msgid="5244069131770543137">"Diubah"</string>
     <string name="column_size" msgid="3426180342785653748">"Ukuran"</string>
-    <string name="sort_direction_ascending" msgid="5882787683763248102">"Menanjak"</string>
-    <string name="sort_direction_descending" msgid="1729187589765894076">"Menurun"</string>
+    <string name="sort_direction_ascending" msgid="5882787683763248102">"Naik"</string>
+    <string name="sort_direction_descending" msgid="1729187589765894076">"Turun"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Tampilkan root"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Sembunyikan root"</string>
     <string name="save_error" msgid="8631128801982095782">"Gagal menyimpan dokumen"</string>
