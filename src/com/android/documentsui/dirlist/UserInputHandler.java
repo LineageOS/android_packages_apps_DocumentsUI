@@ -47,6 +47,8 @@ public final class UserInputHandler<T extends InputEvent>
     private final EventHandler mRightClickHandler;
     private final DocumentHandler mActivateHandler;
     private final DocumentHandler mDeleteHandler;
+    private final EventHandler mDragAndDropHandler;
+    private final EventHandler mGestureSelectHandler;
     private final TouchInputDelegate mTouchDelegate;
     private final MouseInputDelegate mMouseDelegate;
     private final KeyInputHandler mKeyListener;
@@ -59,7 +61,9 @@ public final class UserInputHandler<T extends InputEvent>
             Predicate<DocumentDetails> selectable,
             EventHandler rightClickHandler,
             DocumentHandler activateHandler,
-            DocumentHandler deleteHandler) {
+            DocumentHandler deleteHandler,
+            EventHandler dragAndDropHandler,
+            EventHandler gestureSelectHandler) {
 
         mSelectionMgr = selectionMgr;
         mFocusHandler = focusHandler;
@@ -69,6 +73,8 @@ public final class UserInputHandler<T extends InputEvent>
         mRightClickHandler = rightClickHandler;
         mActivateHandler = activateHandler;
         mDeleteHandler = deleteHandler;
+        mDragAndDropHandler = dragAndDropHandler;
+        mGestureSelectHandler = gestureSelectHandler;
 
         mTouchDelegate = new TouchInputDelegate();
         mMouseDelegate = new MouseInputDelegate();
@@ -230,7 +236,13 @@ public final class UserInputHandler<T extends InputEvent>
             if (isRangeExtension(event)) {
                 extendSelectionRange(event);
             } else {
-                selectDocument(mDocFinder.apply(event));
+                DocumentDetails doc = mDocFinder.apply(event);
+                if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
+                    selectDocument(mDocFinder.apply(event));
+                    mGestureSelectHandler.apply(event);
+                } else {
+                    mDragAndDropHandler.apply(event);
+                }
             }
         }
     }

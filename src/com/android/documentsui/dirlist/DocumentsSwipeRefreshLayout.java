@@ -26,18 +26,19 @@ import android.view.MotionEvent;
 import com.android.documentsui.Events;
 
 /**
- * A {@link SwipeRefreshLayout} that only refresh on touch events.
+ * A {@link SwipeRefreshLayout} that does not intercept any touch events. This relies on its nested
+ * view to scroll in order to cause a refresh.
  */
-public class TouchSwipeRefreshLayout extends SwipeRefreshLayout {
+public class DocumentsSwipeRefreshLayout extends SwipeRefreshLayout {
 
     private static final int[] COLOR_RES = new int[] { android.R.attr.colorAccent };
     private static int COLOR_ACCENT_INDEX = 0;
 
-    public TouchSwipeRefreshLayout(Context context) {
+    public DocumentsSwipeRefreshLayout(Context context) {
         this(context, null);
     }
 
-    public TouchSwipeRefreshLayout(Context context, AttributeSet attrs) {
+    public DocumentsSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray a = context.obtainStyledAttributes(COLOR_RES);
@@ -48,6 +49,6 @@ public class TouchSwipeRefreshLayout extends SwipeRefreshLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
-        return Events.isMouseEvent(e) ? false : super.onInterceptTouchEvent(e);
+        return false;
     }
 }

@@ -25,41 +25,51 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-// Receives event meant for both directory and empty view, and either pass them to
-// {@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
-// other types of gestures (drag n' drop)
+import com.android.documentsui.Events.InputEvent;
+
+//Receives event meant for both directory and empty view, and either pass them to
+//{@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
+//other types of gestures (drag n' drop)
 final class ListeningGestureDetector extends GestureDetector
         implements OnItemTouchListener, OnTouchListener {
-
-    private DragStartHelper mDragHelper;
-    private UserInputHandler mInputHandler;
+    private final DragStartHelper mDragHelper;
+    private final GestureMultiSelectHelper mGestureSelectHelper;
 
     public ListeningGestureDetector(
-            Context context, DragStartHelper dragHelper, UserInputHandler handler) {
+            Context context,
+            DragStartHelper dragHelper,
+            UserInputHandler<? extends InputEvent> handler,
+            GestureMultiSelectHelper gestureMultiSelectHelper) {
         super(context, handler);
         mDragHelper = dragHelper;
-        mInputHandler = handler;
+        mGestureSelectHelper = gestureMultiSelectHelper;
         setOnDoubleTapListener(handler);
     }
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        // Detect drag events. When a drag is detected, intercept the rest of the gesture.
+        // Detect drag events from mouse. When a drag is detected, intercept the rest of the
+        // gesture.
         View itemView = rv.findChildViewUnder(e.getX(), e.getY());
-        if (itemView != null && mDragHelper.onTouch(itemView,  e)) {
+        if (itemView != null && mDragHelper.onTouch(itemView, e)) {
             return true;
         }
+
+        if (mGestureSelectHelper.onInterceptTouchEvent(rv, e)) {
+            return true;
+        }
+
         // Forward unhandled events to UserInputHandler.
         return onTouchEvent(e);
     }
 
     @Override
     public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        View itemView = rv.findChildViewUnder(e.getX(), e.getY());
-        mDragHelper.onTouch(itemView,  e);
-        // Note: even though this event is being handled as part of a drag gesture, continue
-        // forwarding to the GestureDetector. The detector needs to see the entire cluster of
-        // events in order to properly interpret gestures.
+        mGestureSelectHelper.onTouchEvent(rv, e);
+
+        // Note: even though this event is being handled as part of gesture-multi select, continue
+        // forwarding to the GestureDetector. The detector needs to see the entire cluster of events
+        // in order to properly interpret other gestures, such as long press.
         onTouchEvent(e);
     }
 
