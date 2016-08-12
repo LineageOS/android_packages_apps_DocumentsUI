@@ -85,7 +85,7 @@
       <item quantity="one">Перамяшчаецца <xliff:g id="COUNT_1">%1$d</xliff:g> файл.</item>
       <item quantity="few">Перамяшчаюцца <xliff:g id="COUNT_1">%1$d</xliff:g> файлы.</item>
       <item quantity="many">Перамяшчаюцца <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
-      <item quantity="other">Перамяшчаюцца <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+      <item quantity="other">Перамяшчаецца <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
     </plurals>
     <plurals name="deleting" formatted="false" msgid="1347549374456757591">
       <item quantity="one">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
@@ -126,7 +126,7 @@
       <item quantity="one">У буфер абмену скапіраваны <xliff:g id="COUNT_1">%1$d</xliff:g> файл.</item>
       <item quantity="few">У буфер абмену скапіраваны <xliff:g id="COUNT_1">%1$d</xliff:g> файлы.</item>
       <item quantity="many">У буфер абмену скапіраваны <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
-      <item quantity="other">У буфер абмену скапіраваны <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+      <item quantity="other">У буфер абмену скапіравана <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
     </plurals>
     <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Немагчыма ўставіць выбраныя файлы ў гэта месца."</string>
     <string name="menu_rename" msgid="1883113442688817554">"Перайменаваць"</string>
@@ -142,8 +142,8 @@
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> выбраны</item>
       <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> выбраны</item>
-      <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> выбраны</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> выбраны</item>
+      <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> выбрана</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> выбрана</item>
     </plurals>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> элемент</item>
