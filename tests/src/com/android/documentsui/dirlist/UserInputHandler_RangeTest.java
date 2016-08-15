@@ -66,6 +66,8 @@ public final class UserInputHandler_RangeTest {
         mRightClickHandler = new TestPredicate<>();
         mActivateHandler = new TestPredicate<>();
         mDeleteHandler = new TestPredicate<>();
+        mDragAndDropHandler = new TestPredicate<>();
+        mGestureSelectHandler = new TestPredicate<>();
 
         mInputHandler = new UserInputHandler<>(
                 selectionMgr,

@@ -64,6 +64,8 @@ public final class UserInputHandler_MouseTest {
         mRightClickHandler = new TestPredicate<>();
         mActivateHandler = new TestPredicate<>();
         mDeleteHandler = new TestPredicate<>();
+        mDragAndDropHandler = new TestPredicate<>();
+        mGestureSelectHandler = new TestPredicate<>();
 
         mInputHandler = new UserInputHandler<>(
                 selectionMgr,
