@@ -46,13 +46,11 @@
     <string name="button_move" msgid="8596460499325291272">"移動"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"關閉"</string>
     <string name="button_retry" msgid="4011461781916631389">"再試一次"</string>
-    <string name="sort_name" msgid="6790411054171883704">"依名稱"</string>
-    <string name="sort_date" msgid="3237147045109806231">"依修改日期"</string>
-    <string name="sort_size" msgid="5532930542340076266">"依大小"</string>
-    <string name="column_name" msgid="4078850838520640399">"名稱"</string>
-    <string name="column_summary" msgid="1540962781310003494">"摘要"</string>
-    <string name="column_date" msgid="5244069131770543137">"上次修改時間"</string>
-    <string name="column_size" msgid="3426180342785653748">"大小"</string>
+    <string name="sort_phrase" msgid="210153998009960221">"按<xliff:g id="DIMENSION">%1$s</xliff:g>排序"</string>
+    <string name="sort_dimension_name" msgid="6325591541414177579">"名稱"</string>
+    <string name="sort_dimension_summary" msgid="7724534446881397860">"摘要"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"上次修改時間"</string>
+    <string name="sort_dimension_size" msgid="2190547351159472884">"大小"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"遞增"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"遞減"</string>
     <string name="drawer_open" msgid="8071673398187261741">"顯示根目錄"</string>

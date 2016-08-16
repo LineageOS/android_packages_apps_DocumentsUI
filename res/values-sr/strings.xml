@@ -46,13 +46,11 @@
     <string name="button_move" msgid="8596460499325291272">"Премести"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Одбаци"</string>
     <string name="button_retry" msgid="4011461781916631389">"Покушај поново"</string>
-    <string name="sort_name" msgid="6790411054171883704">"Према називу"</string>
-    <string name="sort_date" msgid="3237147045109806231">"Према датуму измене"</string>
-    <string name="sort_size" msgid="5532930542340076266">"Према величини"</string>
-    <string name="column_name" msgid="4078850838520640399">"Назив"</string>
-    <string name="column_summary" msgid="1540962781310003494">"Резиме"</string>
-    <string name="column_date" msgid="5244069131770543137">"Измењено"</string>
-    <string name="column_size" msgid="3426180342785653748">"Величина"</string>
+    <string name="sort_phrase" msgid="210153998009960221">"Према категорији <xliff:g id="DIMENSION">%1$s</xliff:g>"</string>
+    <string name="sort_dimension_name" msgid="6325591541414177579">"Назив"</string>
+    <string name="sort_dimension_summary" msgid="7724534446881397860">"Резиме"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Измењено"</string>
+    <string name="sort_dimension_size" msgid="2190547351159472884">"Величина"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Растуће"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Опадајуће"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Прикажи основне директоријуме"</string>
