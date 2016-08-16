@@ -46,13 +46,11 @@
     <string name="button_move" msgid="8596460499325291272">"Ilipat"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"I-dismiss"</string>
     <string name="button_retry" msgid="4011461781916631389">"Subukang Muli"</string>
-    <string name="sort_name" msgid="6790411054171883704">"Ayon sa pangalan"</string>
-    <string name="sort_date" msgid="3237147045109806231">"Ayon sa petsa ng pagbago"</string>
-    <string name="sort_size" msgid="5532930542340076266">"Ayon sa laki"</string>
-    <string name="column_name" msgid="4078850838520640399">"Pangalan"</string>
-    <string name="column_summary" msgid="1540962781310003494">"Buod"</string>
-    <string name="column_date" msgid="5244069131770543137">"Binago"</string>
-    <string name="column_size" msgid="3426180342785653748">"Laki"</string>
+    <string name="sort_phrase" msgid="210153998009960221">"Ayon sa <xliff:g id="DIMENSION">%1$s</xliff:g>"</string>
+    <string name="sort_dimension_name" msgid="6325591541414177579">"Pangalan"</string>
+    <string name="sort_dimension_summary" msgid="7724534446881397860">"Buod"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Binago"</string>
+    <string name="sort_dimension_size" msgid="2190547351159472884">"Laki"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Pataas"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Pababa"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Ipakita ang mga root"</string>
