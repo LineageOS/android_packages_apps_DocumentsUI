@@ -28,6 +28,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.android.documentsui.R;
+import com.android.documentsui.sorting.SortDimension.SortDirection;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -55,7 +56,8 @@ public class SortModel implements Parcelable {
     public static final int SORT_DIMENSION_ID_SIZE = R.id.size;
     public static final int SORT_DIMENSION_ID_DATE = R.id.date;
 
-    @IntDef({
+    @IntDef(flag = true, value = {
+            UPDATE_TYPE_NONE,
             UPDATE_TYPE_UNSPECIFIED,
             UPDATE_TYPE_STATUS,
             UPDATE_TYPE_VISIBILITY,
@@ -64,9 +66,9 @@ public class SortModel implements Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface UpdateType {}
     /**
-     * Default value for update type. Anything can be changed if the type is unspecified.
+     * Default value for update type. Nothing is updated.
      */
-    public static final int UPDATE_TYPE_UNSPECIFIED = 0;
+    public static final int UPDATE_TYPE_NONE = 0;
     /**
      * Indicates the status of sorting has changed, i.e. whether soring is enabled.
      */
@@ -74,12 +76,16 @@ public class SortModel implements Parcelable {
     /**
      * Indicates the visibility of at least one dimension has changed.
      */
-    public static final int UPDATE_TYPE_VISIBILITY = 2;
+    public static final int UPDATE_TYPE_VISIBILITY = 1 << 1;
     /**
      * Indicates the sorting order has changed, either because the sorted dimension has changed or
      * the sort direction has changed.
      */
-    public static final int UPDATE_TYPE_SORTING = 3;
+    public static final int UPDATE_TYPE_SORTING = 1 << 2;
+    /**
+     * Anything can be changed if the type is unspecified.
+     */
+    public static final int UPDATE_TYPE_UNSPECIFIED = -1;
 
     private static final String TAG = "SortModel";
 
@@ -133,6 +139,12 @@ public class SortModel implements Parcelable {
         return mSortedDimension != null ? mSortedDimension.getId() : SORT_DIMENSION_ID_UNKNOWN;
     }
 
+    public @SortDirection int getCurrentSortDirection() {
+        return mSortedDimension != null
+                ? mSortedDimension.getSortDirection()
+                : SortDimension.SORT_DIRECTION_NONE;
+    }
+
     public void setSortEnabled(boolean enabled) {
         mIsSortEnabled = enabled;
 
@@ -168,7 +180,7 @@ public class SortModel implements Parcelable {
      * @param dimensionId the id of the dimension
      * @param direction the direction to sort docs in
      */
-    public void sortByUser(int dimensionId, @SortDimension.SortDirection int direction) {
+    public void sortByUser(int dimensionId, @SortDirection int direction) {
         if (!mIsSortEnabled) {
             throw new IllegalStateException("Sort is not enabled.");
         }
@@ -188,7 +200,7 @@ public class SortModel implements Parcelable {
     }
 
     private void sortByDimension(
-            SortDimension newSortedDimension, @SortDimension.SortDirection int direction) {
+            SortDimension newSortedDimension, @SortDirection int direction) {
         if (newSortedDimension == mSortedDimension
                 && mSortedDimension.mSortDirection == direction) {
             // Sort direction not changed, no need to proceed.
@@ -231,7 +243,7 @@ public class SortModel implements Parcelable {
         final int id = getSortedDimensionId();
         final String columnName;
         switch (id) {
-            case SortModel.SORT_DIMENSION_ID_UNKNOWN:
+            case SORT_DIMENSION_ID_UNKNOWN:
                 return null;
             case SortModel.SORT_DIMENSION_ID_TITLE:
                 columnName = Document.COLUMN_DISPLAY_NAME;
@@ -359,7 +371,7 @@ public class SortModel implements Parcelable {
 
         out.writeInt(mDefaultDimensionId);
         out.writeInt(mIsSortEnabled ? 1 : 0);
-        out.writeInt(mSortedDimension.getId());
+        out.writeInt(getSortedDimensionId());
     }
 
     public static Parcelable.Creator<SortModel> CREATOR = new Parcelable.Creator<SortModel>() {

@@ -22,6 +22,8 @@ import android.view.View;
 
 import com.android.documentsui.Metrics;
 import com.android.documentsui.State;
+import com.android.documentsui.State.ViewMode;
+import com.android.documentsui.dirlist.DropdownSortWidgetController;
 import com.android.documentsui.dirlist.header.TableHeaderController;
 
 /**
@@ -37,7 +39,7 @@ public class SortController {
     private final Context mContext;
 
     private WidgetController mTableHeaderController = DUMMY_CONTROLLER;
-    private WidgetController mSortMenuController = DUMMY_CONTROLLER;
+    private WidgetController mDropdownController = DUMMY_CONTROLLER;
 
     public SortController(SortModel model, Context context) {
         mModel = model;
@@ -47,56 +49,55 @@ public class SortController {
     }
 
     public void manage(
-            @Nullable TableHeaderController controller, @State.ViewMode int mode) {
+            @Nullable TableHeaderController headerController,
+            @Nullable DropdownSortWidgetController gridController,
+            @ViewMode int mode) {
         assert(mTableHeaderController == DUMMY_CONTROLLER);
+        assert(mDropdownController == DUMMY_CONTROLLER);
 
-        if (controller == null) {
-            return;
+        if (headerController != null) {
+            mTableHeaderController = headerController;
+            mTableHeaderController.setModel(mModel);
         }
 
-        mTableHeaderController = controller;
-        mTableHeaderController.setModel(mModel);
+        if (gridController != null) {
+            mDropdownController = gridController;
+            mDropdownController.setModel(mModel);
+        }
 
-        setVisibilityPerViewMode(mTableHeaderController, mode, View.GONE, View.VISIBLE);
+        onViewModeChanged(mode);
     }
 
-    public void clean(@Nullable TableHeaderController controller) {
-        assert(controller == null || mTableHeaderController == controller);
+    public void clean(
+            @Nullable TableHeaderController headerController,
+            @Nullable DropdownSortWidgetController gridController) {
+        assert(headerController == null || mTableHeaderController == headerController);
+        assert(gridController == null || mDropdownController == gridController);
 
-        if (controller != null) {
-            controller.setModel(null);
+        if (headerController != null) {
+            headerController.setModel(null);
         }
-
         mTableHeaderController = DUMMY_CONTROLLER;
-    }
 
-    public void manage(SortMenuController controller) {
-        assert(mSortMenuController == DUMMY_CONTROLLER);
-
-        if (controller != null) {
-            controller.setModel(mModel);
+        if (gridController != null) {
+            gridController.setModel(null);
         }
-
-        mSortMenuController = controller;
+        mDropdownController = DUMMY_CONTROLLER;
     }
 
-    public void clean(SortMenuController controller) {
-        assert(mSortMenuController == controller);
-
-        if (controller != null) {
-            controller.setModel(null);
-        }
-
-        mSortMenuController = DUMMY_CONTROLLER;
-    }
-
-    public void onViewModeChanged(@State.ViewMode int mode) {
+    public void onViewModeChanged(@ViewMode int mode) {
         setVisibilityPerViewMode(mTableHeaderController, mode, View.GONE, View.VISIBLE);
+
+        if (mTableHeaderController == DUMMY_CONTROLLER) {
+            mDropdownController.setVisibility(View.VISIBLE);
+        } else {
+            setVisibilityPerViewMode(mDropdownController, mode, View.VISIBLE, View.GONE);
+        }
     }
 
     private static void setVisibilityPerViewMode(
             WidgetController controller,
-            @State.ViewMode int mode,
+            @ViewMode int mode,
             int visibilityInGrid,
             int visibilityInList) {
         switch (mode) {
