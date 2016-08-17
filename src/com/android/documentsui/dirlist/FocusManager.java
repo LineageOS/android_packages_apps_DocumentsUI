@@ -62,6 +62,8 @@ final class FocusManager implements FocusHandler {
     private int mLastFocusPosition = RecyclerView.NO_POSITION;
 
     public FocusManager(Context context, RecyclerView view, Model model) {
+        assert (view != null);
+        assert (model != null);
         mView = view;
         mAdapter = (DocumentsAdapter) view.getAdapter();
         mLayout = (GridLayoutManager) view.getLayoutManager();

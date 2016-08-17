@@ -35,6 +35,7 @@ import android.support.test.uiautomator.Until;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.widget.RelativeLayout;
 
 import com.android.documentsui.R;
 
@@ -183,6 +184,18 @@ public class DirectoryListBot extends Bots.BaseBot {
             }
         }
         return true;
+    }
+
+    public void assertFirstDocumentHasFocus() throws UiObjectNotFoundException {
+        final UiSelector docList = new UiSelector().resourceId(
+                "com.android.documentsui:id/container_directory").childSelector(
+                        new UiSelector().resourceId(DIR_LIST_ID));
+
+        // Wait for the first list item to appear
+        UiObject doc = new UiObject(docList.childSelector(new UiSelector()));
+        doc.waitForExists(mTimeout);
+
+        assertTrue(doc.isFocused());
     }
 
     public UiObject findDocumentsList() {

@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import android.net.Uri;
+import android.os.RemoteException;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.Suppress;
 import android.view.KeyEvent;
@@ -25,6 +27,17 @@ public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
 
     public KeyboardNavigationUiTest() {
         super(FilesActivity.class);
+    }
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        initTestFiles();
+    }
+
+    @Override
+    public void initTestFiles() throws RemoteException {
+        mDocsHelper.createDocument(rootDir0, "image/png", "file1.png");
     }
 
     // Tests that pressing tab switches focus between the roots and directory listings.
@@ -47,6 +60,19 @@ public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
             bots.keyboard.pressKey(KeyEvent.KEYCODE_DPAD_RIGHT);
             bots.directory.assertHasFocus();
         }
+    }
+
+    public void testKeyboard_tabFocuses() throws Exception {
+        bots.roots.closeDrawer();
+        if (bots.main.inFixedLayout()) {
+            // Tablet devices need to press one more tab since it focuses on root list first
+            bots.keyboard.pressKey(KeyEvent.KEYCODE_TAB);
+        }
+        bots.keyboard.pressKey(KeyEvent.KEYCODE_TAB);
+        bots.directory.assertFirstDocumentHasFocus();
+
+        // This should not cause any exceptions
+        bots.keyboard.pressKey(KeyEvent.KEYCODE_F);
     }
 
     // Tests that arrow keys do not switch focus away from the roots list.
