@@ -84,6 +84,10 @@ public class LocalPreferences {
     @Retention(RetentionPolicy.SOURCE)
     public @interface PermissionStatus {}
 
+    static void clearPackagePreferences(Context context, String packageName) {
+        clearScopedAccessPreferences(context, packageName);
+    }
+
     /**
      * Methods below are used to keep track of denied user requests on scoped directory access so
      * the dialog is not offered when user checked the 'Do not ask again' box
@@ -106,6 +110,16 @@ public class LocalPreferences {
             @Nullable String uuid, String directory, @PermissionStatus int status) {
       final String key = getScopedAccessDenialsKey(packageName, uuid, directory);
       getPrefs(context).edit().putInt(key, status).apply();
+    }
+
+    private static void clearScopedAccessPreferences(Context context, String packageName) {
+        final String keySubstring = "|" + packageName + "|";
+        final SharedPreferences prefs = getPrefs(context);
+        for (final String key : prefs.getAll().keySet()) {
+            if (key.contains(keySubstring)) {
+                prefs.edit().remove(key).apply();
+            }
+        }
     }
 
     private static String getScopedAccessDenialsKey(String packageName, String uuid,
