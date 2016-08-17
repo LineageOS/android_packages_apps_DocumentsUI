@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.android.documentsui.Events;
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.Events.MotionInputEvent;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
@@ -29,8 +30,6 @@ import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.IntSupplier;
 
@@ -72,11 +71,9 @@ class GestureMultiSelectHelper {
     private final int mAutoScrollEdgeHeight;
     private final int mColumnCount;
     private final IntSupplier mHeight;
-    private final Set<String> mCurrentSelectedIds = new HashSet<>();
-    private int mLastGlidedItemPos = -1;
     private int mLastStartedItemPos = -1;
     private boolean mEnabled = false;
-    private Point mLastStartedPoint;
+    private Point mLastDownPoint;
     private Point mLastInterceptedPoint;
     private @SelectType int mType = TYPE_NONE;
     private @GestureSelectIntent int mUserIntent = TYPE_UNKNOWN;
@@ -152,7 +149,7 @@ class GestureMultiSelectHelper {
 
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
 
-        if (!mEnabled) {
+        if (!mEnabled || Events.isMouseEvent(e)) {
             return false;
         }
 
@@ -196,10 +193,9 @@ class GestureMultiSelectHelper {
     private boolean handleInterceptedDownEvent(RecyclerView rv, MotionEvent e) {
         View itemView = rv.findChildViewUnder(e.getX(), e.getY());
         try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
-            mLastStartedPoint = event.getOrigin();
+            mLastDownPoint = event.getOrigin();
             if (itemView != null) {
                 mLastStartedItemPos = rv.getChildAdapterPosition(itemView);
-                mLastGlidedItemPos = mLastStartedItemPos;
                 String modelId = mModelIdFinder.apply(mLastStartedItemPos);
                 if (mSelectionMgr.getSelection().contains(modelId)) {
                     mType = TYPE_ERASE;
@@ -214,10 +210,7 @@ class GestureMultiSelectHelper {
     // Called when an ACTION_MOVE event is intercepted.
     private boolean handleInterceptedMoveEvent(RecyclerView rv, MotionEvent e) {
         if (shouldInterceptMoveEvent(rv, e)) {
-            View itemView = rv.findChildViewUnder(e.getX(), e.getY());
-            int pos = rv.getChildAdapterPosition(itemView);
-            String modelId = mModelIdFinder.apply(pos);
-            mCurrentSelectedIds.add(modelId);
+            mSelectionMgr.startRangeSelection(mLastStartedItemPos);
             return true;
         }
         return false;
@@ -227,11 +220,10 @@ class GestureMultiSelectHelper {
     // Essentially, since this means all gesture movement is over, reset everything.
     private boolean handleUpEvent(RecyclerView rv, MotionEvent e) {
         mType = TYPE_NONE;
-        mLastGlidedItemPos = -1;
         mLastStartedItemPos = -1;
-        mLastStartedPoint = null;
+        mLastDownPoint = null;
         mUserIntent = TYPE_UNKNOWN;
-        mCurrentSelectedIds.clear();
+        mSelectionMgr.getSelection().applyProvisionalSelection();
         return false;
     }
 
@@ -254,10 +246,8 @@ class GestureMultiSelectHelper {
             // item position.
             int lastGlidedItemPos = (bottomRight) ? rv.getAdapter().getItemCount() - 1
                     : rv.getChildAdapterPosition(rv.findChildViewUnder(e.getX(), e.getY()));
-            if (lastGlidedItemPos != RecyclerView.NO_POSITION
-                    && mLastGlidedItemPos != lastGlidedItemPos) {
-                doGestureMultiSelect(mLastStartedItemPos, lastGlidedItemPos);
-                mLastGlidedItemPos = lastGlidedItemPos;
+            if (lastGlidedItemPos != RecyclerView.NO_POSITION) {
+                doGestureMultiSelect(lastGlidedItemPos);
             }
             if (insideDragZone(rv)) {
                 mDragScroller.run();
@@ -269,34 +259,9 @@ class GestureMultiSelectHelper {
      * @param startPos The adapter position of the start item.
      * @param endPos  The adapter position of the end item.
      */
-    private void doGestureMultiSelect(int startPos, int endPos) {
-        boolean selectionMode = (mType == TYPE_SELECTION);
-
-        // First, reset everything that's currently selected/erased except the start item
-        mCurrentSelectedIds.remove(mModelIdFinder.apply(startPos));
-        mSelectionMgr.setItemsSelected(mCurrentSelectedIds, !selectionMode);
-
-        // Then clear the set
-        mCurrentSelectedIds.clear();
-
-        // Add everything to be selected/erased
-        if (startPos > endPos) {
-            addItemsToModelIds(endPos, startPos);
-        } else {
-            addItemsToModelIds(startPos, endPos);
-        }
-
-        mSelectionMgr.setItemsSelected(mCurrentSelectedIds, selectionMode);
-    }
-
-    // Helper for {@code doGestureMultiSelect (int, int)}. Add all items from startPos <= i <=
-    // endPos into mModelIds.
-    private void addItemsToModelIds(int startPos, int endPos) {
-        for (int i = startPos; i <= endPos; i++) {
-            String modelId = mModelIdFinder.apply(i);
-            if (modelId != null) {
-                mCurrentSelectedIds.add(modelId);
-            }
+    private void doGestureMultiSelect(int endPos) {
+        if (mType == TYPE_SELECTION) {
+            mSelectionMgr.snapProvisionalRangeSelection(endPos);
         }
     }
 
@@ -313,8 +278,8 @@ class GestureMultiSelectHelper {
                 return true;
             }
 
-            int startItemPos = rv.getChildAdapterPosition(rv.findChildViewUnder(mLastStartedPoint.x,
-                    mLastStartedPoint.y));
+            int startItemPos = rv.getChildAdapterPosition(rv.findChildViewUnder(mLastDownPoint.x,
+                    mLastDownPoint.y));
             int currentItemPos = rv
                     .getChildAdapterPosition(rv.findChildViewUnder(e.getX(), e.getY()));
             if (startItemPos == RecyclerView.NO_POSITION ||
@@ -326,7 +291,7 @@ class GestureMultiSelectHelper {
                 return false;
             }
 
-            if (mLastGlidedItemPos != currentItemPos) {
+            if (startItemPos != currentItemPos) {
                 int diff = Math.abs(startItemPos - currentItemPos);
                 if (diff == 1 && mSelectionMgr.hasSelection()) {
                     mUserIntent = TYPE_SELECT;
