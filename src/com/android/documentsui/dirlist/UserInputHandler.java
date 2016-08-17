@@ -255,7 +255,6 @@ public final class UserInputHandler<T extends InputEvent>
 
         boolean onDown(T event) {
             if (event.isSecondaryButtonPressed()) {
-                assert(!mHandledOnDown);
                 mHandledOnDown = true;
                 return onRightClick(event);
             }
