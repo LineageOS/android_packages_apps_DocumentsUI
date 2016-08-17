@@ -22,6 +22,7 @@ import android.annotation.IntDef;
 import android.annotation.Nullable;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.UserHandle;
 import android.preference.PreferenceManager;
 
@@ -84,6 +85,11 @@ public class LocalPreferences {
     @Retention(RetentionPolicy.SOURCE)
     public @interface PermissionStatus {}
 
+    /**
+     * Clears all preferences associated with a given package.
+     *
+     * <p>Typically called when a package is removed or when user asked to clear its data.
+     */
     static void clearPackagePreferences(Context context, String packageName) {
         clearScopedAccessPreferences(context, packageName);
     }
@@ -115,10 +121,17 @@ public class LocalPreferences {
     private static void clearScopedAccessPreferences(Context context, String packageName) {
         final String keySubstring = "|" + packageName + "|";
         final SharedPreferences prefs = getPrefs(context);
+        Editor editor = null;
         for (final String key : prefs.getAll().keySet()) {
             if (key.contains(keySubstring)) {
-                prefs.edit().remove(key).apply();
+                if (editor == null) {
+                    editor = prefs.edit();
+                }
+                editor.remove(key);
             }
+        }
+        if (editor != null) {
+            editor.apply();
         }
     }
 
