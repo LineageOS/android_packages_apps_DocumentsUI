@@ -147,11 +147,11 @@ public class DirectoryFragment extends Fragment
     private static final int CACHE_EVICT_LIMIT = 100;
     private static final int REFRESH_SPINNER_DISMISS_DELAY = 500;
 
-    private Model mModel;
+    private final Model mModel = new Model();
+    private final Model.UpdateListener mModelUpdateListener = new ModelUpdateListener();
+    private final SelectionModeListener mSelectionModeListener = new SelectionModeListener();
     private MultiSelectManager mSelectionMgr;
-    private Model.UpdateListener mModelUpdateListener = new ModelUpdateListener();
     private UserInputHandler<InputEvent> mInputHandler;
-    private SelectionModeListener mSelectionModeListener;
     private FocusManager mFocusManager;
 
     private IconHelper mIconHelper;
@@ -303,7 +303,10 @@ public class DirectoryFragment extends Fragment
                     ? MultiSelectManager.MODE_MULTIPLE
                     : MultiSelectManager.MODE_SINGLE);
 
-        // Make sure this is done after the RecyclerView is set up.
+        mModel.addUpdateListener(mAdapter);
+        mModel.addUpdateListener(mModelUpdateListener);
+
+        // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(context, mRecView, mModel);
 
         mInputHandler = new UserInputHandler<>(
@@ -344,12 +347,7 @@ public class DirectoryFragment extends Fragment
             mBandController = new BandController(mRecView, mAdapter, mSelectionMgr);
         }
 
-        mSelectionModeListener = new SelectionModeListener();
         mSelectionMgr.addCallback(mSelectionModeListener);
-
-        mModel = new Model();
-        mModel.addUpdateListener(mAdapter);
-        mModel.addUpdateListener(mModelUpdateListener);
 
         final BaseActivity activity = getBaseActivity();
         mTuner = activity.createFragmentTuner();
