@@ -102,7 +102,50 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelectionSize(29);
         mSelection.assertRangeSelected(15, 27);
         mSelection.assertRangeSelected(42, 57);
+    }
 
+    public void testProvisionalRangeSelection() {
+        mManager.startRangeSelection(13);
+        mManager.snapProvisionalRangeSelection(15);
+        mSelection.assertRangeSelection(13, 15);
+        mManager.getSelection().applyProvisionalSelection();
+        mManager.endRangeSelection();
+        mSelection.assertSelectionSize(3);
+    }
+
+    public void testProvisionalRangeSelection_endEarly() {
+        mManager.startRangeSelection(13);
+        mManager.snapProvisionalRangeSelection(15);
+        mSelection.assertRangeSelection(13, 15);
+
+        mManager.endRangeSelection();
+        // If we end range selection prematurely for provision selection, nothing should be selected
+        // except the first item
+        mSelection.assertSelectionSize(1);
+    }
+
+    public void testProvisionalRangeSelection_snapExpand() {
+        mManager.startRangeSelection(13);
+        mManager.snapProvisionalRangeSelection(15);
+        mSelection.assertRangeSelection(13, 15);
+        mManager.getSelection().applyProvisionalSelection();
+        mManager.snapRangeSelection(18);
+        mSelection.assertRangeSelection(13, 18);
+    }
+
+    public void testCombinationRangeSelection_IntersectsOldSelection() {
+        mManager.startRangeSelection(13);
+        mManager.snapRangeSelection(15);
+        mSelection.assertRangeSelection(13, 15);
+
+        mManager.startRangeSelection(11);
+        mManager.snapProvisionalRangeSelection(18);
+        mSelection.assertRangeSelected(11, 18);
+        mManager.endRangeSelection();
+
+        mSelection.assertRangeSelected(13, 15);
+        mSelection.assertRangeSelected(11, 11);
+        mSelection.assertSelectionSize(4);
     }
 
     public void testProvisionalSelection() {

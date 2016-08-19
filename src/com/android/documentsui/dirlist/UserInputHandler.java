@@ -182,7 +182,7 @@ public final class UserInputHandler<T extends InputEvent>
     }
 
     private void extendSelectionRange(T event) {
-        mSelectionMgr.snapSelection(event.getItemPosition());
+        mSelectionMgr.snapRangeSelection(event.getItemPosition());
     }
 
     private final class TouchInputDelegate {
@@ -200,7 +200,7 @@ public final class UserInputHandler<T extends InputEvent>
 
             if (mSelectionMgr.hasSelection()) {
                 if (isRangeExtension(event)) {
-                    mSelectionMgr.snapSelection(event.getItemPosition());
+                    mSelectionMgr.snapRangeSelection(event.getItemPosition());
                 } else {
                     selectDocument(mDocFinder.apply(event));
                 }
