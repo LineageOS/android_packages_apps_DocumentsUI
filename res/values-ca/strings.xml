@@ -46,16 +46,11 @@
     <string name="button_move" msgid="8596460499325291272">"Mou"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Ignora"</string>
     <string name="button_retry" msgid="4011461781916631389">"Torna-ho a provar"</string>
-    <!-- no translation found for sort_phrase (210153998009960221) -->
-    <skip />
-    <!-- no translation found for sort_dimension_name (6325591541414177579) -->
-    <skip />
-    <!-- no translation found for sort_dimension_summary (7724534446881397860) -->
-    <skip />
-    <!-- no translation found for sort_dimension_date (4231005651895254033) -->
-    <skip />
-    <!-- no translation found for sort_dimension_size (2190547351159472884) -->
-    <skip />
+    <string name="sort_phrase" msgid="210153998009960221">"Per <xliff:g id="DIMENSION">%1$s</xliff:g>"</string>
+    <string name="sort_dimension_name" msgid="6325591541414177579">"Nom"</string>
+    <string name="sort_dimension_summary" msgid="7724534446881397860">"Resum"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Últim canvi"</string>
+    <string name="sort_dimension_size" msgid="2190547351159472884">"Mida"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendent"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Descendent"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Mostra les arrels"</string>
