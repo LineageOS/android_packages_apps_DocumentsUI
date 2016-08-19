@@ -195,9 +195,10 @@ public class DirectoryFragment extends Fragment
     private MenuManager mMenuManager;
 
     private TableHeaderController mTableHeaderController;
+    private DropdownSortWidgetController mDropdownSortWidgetController;
     private SortModel.UpdateListener mSortListener = (model, updateType) -> {
         // Only when sort order has changed do we need to trigger another loading.
-        if (updateType == SortModel.UPDATE_TYPE_SORTING) {
+        if ((updateType & SortModel.UPDATE_TYPE_SORTING) != 0) {
             getLoaderManager().restartLoader(LOADER_ID, null, this);
         }
     };
@@ -235,6 +236,8 @@ public class DirectoryFragment extends Fragment
         mEmptyView.setOnDragListener(mOnDragListener);
 
         mTableHeaderController = TableHeaderController.create(view.findViewById(R.id.table_header));
+        mDropdownSortWidgetController =
+                DropdownSortWidgetController.create(view.findViewById(R.id.dropdown_sort_widget));
 
         return view;
     }
@@ -378,7 +381,10 @@ public class DirectoryFragment extends Fragment
     public void onStart() {
         super.onStart();
 
-        mTuner.mSortController.manage(mTableHeaderController, getDisplayState().derivedMode);
+        mTuner.mSortController.manage(
+                mTableHeaderController,
+                mDropdownSortWidgetController,
+                getDisplayState().derivedMode);
         // Add listener to update contents on sort model change
         getDisplayState().sortModel.addListener(mSortListener);
     }
@@ -388,7 +394,9 @@ public class DirectoryFragment extends Fragment
         super.onStop();
 
         // Remove listener to avoid leak.
-        mTuner.mSortController.clean(mTableHeaderController);
+        mTuner.mSortController.clean(
+                mTableHeaderController,
+                mDropdownSortWidgetController);
         getDisplayState().sortModel.removeListener(mSortListener);
 
         // Remember last scroll location

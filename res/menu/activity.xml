@@ -58,15 +58,6 @@
             android:showAsAction="never"
             android:visible="false" />
         <item
-            android:id="@+id/menu_sort"
-            android:title="@string/menu_sort"
-            android:icon="@drawable/ic_menu_sortby"
-            android:showAsAction="ifRoom">
-            <menu>
-                <!-- A submenu placeholder for SortMenuController to add menu item -->
-            </menu>
-        </item>
-        <item
             android:id="@+id/menu_file_size"
             android:showAsAction="never"
             android:visible="false" />

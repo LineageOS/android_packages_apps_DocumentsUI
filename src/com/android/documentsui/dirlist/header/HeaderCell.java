@@ -109,7 +109,7 @@ public class HeaderCell extends LinearLayout {
 
         ObjectAnimator animator =
                 (ObjectAnimator) AnimatorInflater.loadAnimator(getContext(), anim);
-        animator.setTarget(arrow.getDrawable());
+        animator.setTarget(arrow.getDrawable().mutate());
         animator.start();
     }
 

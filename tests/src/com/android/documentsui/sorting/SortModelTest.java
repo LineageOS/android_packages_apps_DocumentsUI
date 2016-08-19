@@ -18,12 +18,10 @@ package com.android.documentsui.sorting;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import android.os.Parcel;
 import android.support.annotation.Nullable;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -32,6 +30,7 @@ import android.view.View;
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortModel.UpdateListener;
 import com.android.documentsui.sorting.SortModel.UpdateType;
+import com.android.documentsui.testing.Parcelables;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -249,27 +248,12 @@ public class SortModelTest {
         mModel.sortByUser(DIMENSION_2.getId(), SortDimension.SORT_DIRECTION_DESCENDING);
         mModel.setDimensionVisibility(DIMENSION_3.getId(), View.GONE);
 
-        Parcel write = Parcel.obtain();
-        Parcel read = Parcel.obtain();
-        final SortModel restored;
-        try {
-            mModel.writeToParcel(write, 0);
-            final byte[] data = write.marshall();
+        Parcelables.testParceling(mModel, 0);
+    }
 
-            read.unmarshall(data, 0, data.length);
-            read.setDataPosition(0);
-            restored = SortModel.CREATOR.createFromParcel(read);
-        } finally {
-            write.recycle();
-            read.recycle();
-        }
-
-        assertNotNull(restored);
-        assertEquals(DIMENSIONS.length, restored.getSize());
-        for (SortDimension dimension : DIMENSIONS) {
-            assertEquals(dimension, restored.getDimensionById(dimension.getId()));
-        }
-        assertEquals(mModel.getSortedDimensionId(), restored.getSortedDimensionId());
+    @Test
+    public void testParceling_NoSortedDimension() {
+        Parcelables.testParceling(mModel, 0);
     }
 
     private @Nullable SortDimension getSortedDimension() {

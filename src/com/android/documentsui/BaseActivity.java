@@ -64,7 +64,6 @@ import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortController;
-import com.android.documentsui.sorting.SortMenuController;
 import com.android.documentsui.sorting.SortModel;
 
 import java.io.FileNotFoundException;
@@ -128,7 +127,6 @@ public abstract class BaseActivity extends Activity
     private long mStartTime;
 
     private SortController mSortController;
-    private SortMenuController mSortMenuController;
 
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);
     public abstract void onDocumentsPicked(List<DocumentInfo> docs);
@@ -185,8 +183,6 @@ public abstract class BaseActivity extends Activity
         mNavigator = new NavigationViewManager(mDrawer, toolbar, mState, this, breadcrumb);
 
         mSortController = new SortController(mState.sortModel, this);
-        mSortMenuController = new SortMenuController(getResources());
-        mSortController.manage(mSortMenuController);
 
         // Base classes must update result in their onCreate.
         setResult(Activity.RESULT_CANCELED);
@@ -200,8 +196,6 @@ public abstract class BaseActivity extends Activity
         mNavigator.update();
         boolean fullBarSearch = getResources().getBoolean(R.bool.full_bar_search_view);
         mSearchManager.install((DocumentsToolbar) findViewById(R.id.toolbar), fullBarSearch);
-
-        mSortMenuController.install(menu.findItem(R.id.menu_sort));
 
         return showMenu;
     }
