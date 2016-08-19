@@ -54,6 +54,15 @@ public final class MultiSelectManager {
     public static final int MODE_MULTIPLE = 0;
     public static final int MODE_SINGLE = 1;
 
+    @IntDef({
+            RANGE_REGULAR,
+            RANGE_PROVISIONAL
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface RangeType {}
+    public static final int RANGE_REGULAR = 0;
+    public static final int RANGE_PROVISIONAL = 1;
+
     private static final String TAG = "MultiSelectManager";
 
     private final Selection mSelection = new Selection();
@@ -222,15 +231,6 @@ public final class MultiSelectManager {
         }
     }
 
-    void snapSelection(int position) {
-        mRanger.snapSelection(position);
-
-        // We're being lazy here notifying even when something might not have changed.
-        // To make this more correct, we'd need to update the Ranger class to return
-        // information about what has changed.
-        notifySelectionChanged();
-    }
-
     /**
      * Toggles selection on the item with the given model ID.
      *
@@ -262,28 +262,47 @@ public final class MultiSelectManager {
         setSelectionRangeBegin(pos);
     }
 
+    void snapRangeSelection(int pos) {
+        snapRangeSelection(pos, RANGE_REGULAR);
+    }
+
+    void snapProvisionalRangeSelection(int pos) {
+        snapRangeSelection(pos, RANGE_PROVISIONAL);
+    }
+
     /**
      * Sets the end point for the current range selection, started by a call to
      * {@link #startRangeSelection(int)}. This function should only be called when a range selection
      * is active (see {@link #isRangeSelectionActive()}. Items in the range [anchor, end] will be
-     * selected.
+     * selected or in provisional select, depending on the type supplied. Note that if the type is
+     * provisional select, one should do {@link Selection#applyProvisionalSelection()} at some point
+     * before calling on {@link #endRangeSelection()}.
      *
      * @param pos The new end position for the selection range.
+     * @param type The type of selection the range should utilize.
      */
-    void snapRangeSelection(int pos) {
+    private void snapRangeSelection(int pos, @RangeType int type) {
         if (!isRangeSelectionActive()) {
             throw new IllegalStateException("Range start point not set.");
         }
 
-        mRanger.snapSelection(pos);
+        mRanger.snapSelection(pos, type);
+
+        // We're being lazy here notifying even when something might not have changed.
+        // To make this more correct, we'd need to update the Ranger class to return
+        // information about what has changed.
         notifySelectionChanged();
     }
 
     /**
-     * Stops an in-progress range selection.
+     * Stops an in-progress range selection. All selection done with
+     * {@link #snapRangeSelection(int, int)} with type RANGE_PROVISIONAL will be lost if
+     * {@link Selection#applyProvisionalSelection()} is not called beforehand.
      */
     void endRangeSelection() {
         mRanger = null;
+        // Clean up in case there was any leftover provisional selection
+        mSelection.cancelProvisionalSelection();
     }
 
     /**
@@ -297,9 +316,6 @@ public final class MultiSelectManager {
      * Sets the magic location at which a selection range begins (the selection anchor). This value
      * is consulted when determining how to extend, and modify selection ranges. Calling this when a
      * range selection is active will reset the range selection.
-     *
-     * @throws IllegalStateException if {@code position} is not already be selected
-     * @param position
      */
     void setSelectionRangeBegin(int position) {
         if (position == RecyclerView.NO_POSITION) {
@@ -307,38 +323,7 @@ public final class MultiSelectManager {
         }
 
         if (mSelection.contains(mAdapter.getModelId(position))) {
-            mRanger = new Range(position);
-        }
-    }
-
-    /**
-     * Try to set selection state for all elements in range. Not that callbacks can cancel selection
-     * of specific items, so some or even all items may not reflect the desired state after the
-     * update is complete.
-     *
-     * @param begin Adapter position for range start (inclusive).
-     * @param end Adapter position for range end (inclusive).
-     * @param selected New selection state.
-     */
-    private void updateRange(int begin, int end, boolean selected) {
-        assert(end >= begin);
-        for (int i = begin; i <= end; i++) {
-            String id = mAdapter.getModelId(i);
-            if (id == null) {
-                continue;
-            }
-
-            if (selected) {
-                boolean canSelect = notifyBeforeItemStateChange(id, true);
-                if (canSelect) {
-                    if (mSingleSelect && hasSelection()) {
-                        clearSelectionQuietly();
-                    }
-                    selectAndNotify(id);
-                }
-            } else {
-                attemptDeselect(id);
-            }
+            mRanger = new Range(this::updateForRange, position);
         }
     }
 
@@ -425,50 +410,103 @@ public final class MultiSelectManager {
         }
     }
 
+    private void updateForRange(int begin, int end, boolean selected, @RangeType int type) {
+        switch (type) {
+            case RANGE_REGULAR:
+                updateForRegularRange(begin, end, selected);
+                break;
+            case RANGE_PROVISIONAL:
+                updateForProvisionalRange(begin, end, selected);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid range type: " + type);
+        }
+    }
+
+    private void updateForRegularRange(int begin, int end, boolean selected) {
+        assert(end >= begin);
+        for (int i = begin; i <= end; i++) {
+            String id = mAdapter.getModelId(i);
+            if (id == null) {
+                continue;
+            }
+
+            if (selected) {
+                boolean canSelect = notifyBeforeItemStateChange(id, true);
+                if (canSelect) {
+                    if (mSingleSelect && hasSelection()) {
+                        clearSelectionQuietly();
+                    }
+                    selectAndNotify(id);
+                }
+            } else {
+                attemptDeselect(id);
+            }
+        }
+    }
+
+    private void updateForProvisionalRange(int begin, int end, boolean selected) {
+        assert (end >= begin);
+        for (int i = begin; i <= end; i++) {
+            String id = mAdapter.getModelId(i);
+            if (id == null) {
+                continue;
+            }
+            if (selected) {
+                mSelection.mProvisionalSelection.add(id);
+            } else {
+                mSelection.mProvisionalSelection.remove(id);
+            }
+            notifyItemStateChanged(id, selected);
+        }
+        notifySelectionChanged();
+    }
+
     /**
      * Class providing support for managing range selections.
      */
-    private final class Range {
+    private static final class Range {
         private static final int UNDEFINED = -1;
 
-        final int mBegin;
-        int mEnd = UNDEFINED;
+        private final RangeUpdater mUpdater;
+        private final int mBegin;
+        private int mEnd = UNDEFINED;
 
-        public Range(int begin) {
+        public Range(RangeUpdater updater, int begin) {
             if (DEBUG) Log.d(TAG, "New Ranger created beginning @ " + begin);
+            mUpdater = updater;
             mBegin = begin;
         }
 
-        private void snapSelection(int position) {
-            assert(mRanger != null);
+        private void snapSelection(int position, @RangeType int type) {
             assert(position != RecyclerView.NO_POSITION);
 
             if (mEnd == UNDEFINED || mEnd == mBegin) {
                 // Reset mEnd so it can be established in establishRange.
                 mEnd = UNDEFINED;
-                establishRange(position);
+                establishRange(position, type);
             } else {
-                reviseRange(position);
+                reviseRange(position, type);
             }
         }
 
-        private void establishRange(int position) {
-            assert(mRanger.mEnd == UNDEFINED);
+        private void establishRange(int position, @RangeType int type) {
+            assert(mEnd == UNDEFINED);
 
             if (position == mBegin) {
                 mEnd = position;
             }
 
             if (position > mBegin) {
-                updateRange(mBegin + 1, position, true);
+                updateRange(mBegin + 1, position, true, type);
             } else if (position < mBegin) {
-                updateRange(position, mBegin - 1, true);
+                updateRange(position, mBegin - 1, true, type);
             }
 
             mEnd = position;
         }
 
-        private void reviseRange(int position) {
+        private void reviseRange(int position, @RangeType int type) {
             assert(mEnd != UNDEFINED);
             assert(mBegin != mEnd);
 
@@ -477,9 +515,9 @@ public final class MultiSelectManager {
             }
 
             if (mEnd > mBegin) {
-                reviseAscendingRange(position);
+                reviseAscendingRange(position, type);
             } else if (mEnd < mBegin) {
-                reviseDescendingRange(position);
+                reviseDescendingRange(position, type);
             }
             // the "else" case is covered by checkState at beginning of method.
 
@@ -490,38 +528,60 @@ public final class MultiSelectManager {
          * Updates an existing ascending seleciton.
          * @param position
          */
-        private void reviseAscendingRange(int position) {
+        private void reviseAscendingRange(int position, @RangeType int type) {
             // Reducing or reversing the range....
             if (position < mEnd) {
                 if (position < mBegin) {
-                    updateRange(mBegin + 1, mEnd, false);
-                    updateRange(position, mBegin -1, true);
+                    updateRange(mBegin + 1, mEnd, false, type);
+                    updateRange(position, mBegin -1, true, type);
                 } else {
-                    updateRange(position + 1, mEnd, false);
+                    updateRange(position + 1, mEnd, false, type);
                 }
             }
 
             // Extending the range...
             else if (position > mEnd) {
-                updateRange(mEnd + 1, position, true);
+                updateRange(mEnd + 1, position, true, type);
             }
         }
 
-        private void reviseDescendingRange(int position) {
+        private void reviseDescendingRange(int position, @RangeType int type) {
             // Reducing or reversing the range....
             if (position > mEnd) {
                 if (position > mBegin) {
-                    updateRange(mEnd, mBegin - 1, false);
-                    updateRange(mBegin + 1, position, true);
+                    updateRange(mEnd, mBegin - 1, false, type);
+                    updateRange(mBegin + 1, position, true, type);
                 } else {
-                    updateRange(mEnd, position - 1, false);
+                    updateRange(mEnd, position - 1, false, type);
                 }
             }
 
             // Extending the range...
             else if (position < mEnd) {
-                updateRange(position, mEnd - 1, true);
+                updateRange(position, mEnd - 1, true, type);
             }
+        }
+
+        /**
+         * Try to set selection state for all elements in range. Not that callbacks can cancel
+         * selection of specific items, so some or even all items may not reflect the desired state
+         * after the update is complete.
+         *
+         * @param begin Adapter position for range start (inclusive).
+         * @param end Adapter position for range end (inclusive).
+         * @param selected New selection state.
+         */
+        private void updateRange(int begin, int end, boolean selected, @RangeType int type) {
+            mUpdater.updateForRange(begin, end, selected, type);
+        }
+
+        /*
+         * @see {@link MultiSelectManager#updateForRegularRange(int, int , boolean)} and {@link
+         * MultiSelectManager#updateForProvisionalRange(int, int, boolean)}
+         */
+        @FunctionalInterface
+        private interface RangeUpdater {
+            void updateForRange(int begin, int end, boolean selected, @RangeType int type);
         }
     }
 
