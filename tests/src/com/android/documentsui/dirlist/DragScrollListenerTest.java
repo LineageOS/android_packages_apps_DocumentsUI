@@ -34,7 +34,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Timer;
-import java.util.function.IntConsumer;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -61,15 +60,10 @@ public class DragScrollListenerTest {
         mListener = new DragScrollListener(
                 EDGE_HEIGHT,
                 mDragHandler,
-                () -> {
-                    return VIEW_HEIGHT;
-                },
-                () -> {
-                    return mCanScrollUp;
-                },
-                () -> {
-                    return mCanScrollDown;
-                },
+                () -> VIEW_HEIGHT,
+                view -> (view == mTestView),
+                () -> mCanScrollUp,
+                () -> mCanScrollDown,
                 mActionDelegate);
         mCanScrollUp = true;
         mCanScrollDown = true;

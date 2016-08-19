@@ -85,9 +85,8 @@
     <string name="button_dismiss">Dismiss</string>
     <string name="button_retry">Try Again</string>
 
-    <!-- A phrase to indicate which dimension items should be sorted by, such as By Name, By Size etc. [CHAR_LIMIT=24] -->
-    <string name="sort_phrase">By <xliff:g id="dimension" example="Name">%1$s</xliff:g></string>
-
+    <!-- A string used to show user that currently documents are not sorted in any given order. [CHAR_LIMIT=30] -->
+    <string name="not_sorted">Not sorted</string>
     <!-- Table header for file name [CHAR_LIMIT=24] -->
     <string name="sort_dimension_name">Name</string>
     <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
