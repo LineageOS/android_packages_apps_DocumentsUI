@@ -604,7 +604,6 @@ public final class MultiSelectManager {
         // selection must be tracked separately.
         private final Set<String> mSelection;
         private final Set<String> mProvisionalSelection;
-        private String mDirectoryKey;
 
         public Selection() {
             mSelection = new HashSet<String>();
@@ -614,8 +613,7 @@ public final class MultiSelectManager {
         /**
          * Used by CREATOR.
          */
-        private Selection(String directoryKey, Set<String> selection) {
-            mDirectoryKey = directoryKey;
+        private Selection(Set<String> selection) {
             mSelection = selection;
             mProvisionalSelection = new HashSet<String>();
         }
@@ -798,24 +796,6 @@ public final class MultiSelectManager {
                   mProvisionalSelection.equals(((Selection) that).mProvisionalSelection);
         }
 
-        /**
-         * Sets the state key for this selection, which allows us to match selections
-         * to particular states (of DirectoryFragment). Basically this lets us avoid
-         * loading a persisted selection in the wrong directory.
-         */
-        public void setDirectoryKey(String key) {
-            mDirectoryKey = key;
-        }
-
-        /**
-         * Sets the state key for this selection, which allows us to match selections
-         * to particular states (of DirectoryFragment). Basically this lets us avoid
-         * loading a persisted selection in the wrong directory.
-         */
-        public boolean hasDirectoryKey(String key) {
-            return key.equals(mDirectoryKey);
-        }
-
         @Override
         public int describeContents() {
             return 0;
@@ -823,7 +803,6 @@ public final class MultiSelectManager {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(mDirectoryKey);
             dest.writeStringList(new ArrayList<>(mSelection));
             // We don't include provisional selection since it is
             // typically coupled to some other runtime state (like a band).
@@ -838,12 +817,10 @@ public final class MultiSelectManager {
 
             @Override
             public Selection createFromParcel(Parcel in, ClassLoader loader) {
-                String directoryKey = in.readString();
-
                 ArrayList<String> selected = new ArrayList<>();
                 in.readStringList(selected);
 
-                return new Selection(directoryKey, new HashSet<String>(selected));
+                return new Selection(new HashSet<String>(selected));
             }
 
             @Override
