@@ -62,6 +62,8 @@
     <string name="menu_copy_to_clipboard">Copy</string>
     <!-- Menu item title that pastes files from the clipboard [CHAR LIMIT=24] -->
     <string name="menu_paste_from_clipboard">Paste</string>
+    <!-- Menu item title that pastes files into the selected folder [CHAR LIMIT=24] -->
+    <string name="menu_paste_into_folder">Paste into folder</string>
 
     <!-- Translators asked for a length exemption for the show/hide internal storage strings.
          Thus the CHAR LIMIT=24/30 deviation is 'splained. -->

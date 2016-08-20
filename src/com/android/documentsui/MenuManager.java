@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import android.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -59,39 +60,74 @@ public abstract class MenuManager {
         Menus.disableHiddenItems(menu);
     }
 
-    /** @See DirectoryFragment.onCreateContextMenu */
-    public void updateContextMenu(Menu menu,
-            @Nullable SelectionDetails selectionDetails,
+    /** @See DirectoryFragment.onCreateContextMenu
+     *
+     * Called when user tries to generate a context menu anchored to a file.
+     * */
+    public void updateContextMenuForFile(
+            Menu menu,
+            SelectionDetails selectionDetails,
             DirectoryDetails directoryDetails) {
+        assert(selectionDetails != null);
+
+        MenuItem cut = menu.findItem(R.id.menu_cut_to_clipboard);
+        MenuItem copy = menu.findItem(R.id.menu_copy_to_clipboard);
+        MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
+        MenuItem delete = menu.findItem(R.id.menu_delete);
+        MenuItem rename = menu.findItem(R.id.menu_rename);
+
+        copy.setEnabled(!selectionDetails.containsPartialFiles());
+        cut.setEnabled(
+                !selectionDetails.containsPartialFiles() && selectionDetails.canDelete());
+        updatePasteInto(pasteInto, selectionDetails);
+        updateRename(rename, selectionDetails);
+        updateDelete(delete, selectionDetails);
+
+        updateContextMenu(menu, directoryDetails);
+    }
+
+    /** @See DirectoryFragment.onCreateContextMenu
+     *
+     * Called when user tries to generate a context menu anchored to an empty pane.
+     * */
+    public void updateContextMenuForContainer(Menu menu, DirectoryDetails directoryDetails) {
+        MenuItem cut = menu.findItem(R.id.menu_cut_to_clipboard);
+        MenuItem copy = menu.findItem(R.id.menu_copy_to_clipboard);
+        MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
+        MenuItem delete = menu.findItem(R.id.menu_delete);
+        MenuItem rename = menu.findItem(R.id.menu_rename);
+
+        cut.setEnabled(false);
+        copy.setEnabled(false);
+        pasteInto.setEnabled(false);
+        rename.setEnabled(false);
+        delete.setEnabled(false);
+
+        updateContextMenu(menu, directoryDetails);
+    }
+
+    private void updateContextMenu(Menu menu, DirectoryDetails directoryDetails) {
 
         MenuItem cut = menu.findItem(R.id.menu_cut_to_clipboard);
         MenuItem copy = menu.findItem(R.id.menu_copy_to_clipboard);
         MenuItem paste = menu.findItem(R.id.menu_paste_from_clipboard);
+        MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
         MenuItem delete = menu.findItem(R.id.menu_delete);
-        MenuItem rename = menu.findItem(R.id.menu_rename);
         MenuItem createDir = menu.findItem(R.id.menu_create_dir);
 
-        if (selectionDetails == null) {
-            cut.setEnabled(false);
-            copy.setEnabled(false);
-            rename.setEnabled(false);
-            delete.setEnabled(false);
-        } else {
-            copy.setEnabled(!selectionDetails.containsPartialFiles());
-            cut.setEnabled(
-                    !selectionDetails.containsPartialFiles() && selectionDetails.canDelete());
-            updateRename(rename, selectionDetails);
-            updateDelete(delete, selectionDetails);
-        }
-        menu.findItem(R.id.menu_paste_from_clipboard)
-                .setEnabled(directoryDetails.hasItemsToPaste());
         updateCreateDir(createDir, directoryDetails);
+        paste.setEnabled(directoryDetails.hasItemsToPaste());
 
-        //Cut, Copy, Paste and Delete should always be visible
+        //Cut, Copy and Delete should always be visible
         cut.setVisible(true);
         copy.setVisible(true);
-        paste.setVisible(true);
         delete.setVisible(true);
+
+        // PasteInto should only show if it is enabled. If it's not enabled, Paste shows (regardless
+        // of whether it is enabled or not).
+        // Paste then hides itself whenever PasteInto is enabled/visible
+        pasteInto.setVisible(pasteInto.isEnabled());
+        paste.setVisible(!pasteInto.isVisible());
     }
 
     public void updateRootContextMenu(Menu menu, RootInfo root) {
@@ -159,6 +195,10 @@ public abstract class MenuManager {
         copyTo.setVisible(false);
     }
 
+    void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
+        pasteInto.setEnabled(false);
+    }
+
     abstract void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails);
     abstract void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails);
 
@@ -175,6 +215,8 @@ public abstract class MenuManager {
         boolean canDelete();
 
         boolean canRename();
+
+        boolean canPasteInto();
     }
 
     public static class DirectoryDetails {
