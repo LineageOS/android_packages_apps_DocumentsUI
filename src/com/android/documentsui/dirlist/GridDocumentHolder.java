@@ -95,6 +95,7 @@ final class GridDocumentHolder extends DocumentHolder {
         }
     }
 
+    @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
@@ -113,6 +114,7 @@ final class GridDocumentHolder extends DocumentHolder {
      * @param modelId The model ID of the item.
      * @param state Current display state.
      */
+    @Override
     public void bind(Cursor cursor, String modelId, State state) {
         assert(cursor != null);
 
@@ -151,7 +153,7 @@ final class GridDocumentHolder extends DocumentHolder {
             mDate.setText(Shared.formatTime(mContext, docLastModified));
         }
 
-        if (!state.getShowSize() || Document.MIME_TYPE_DIR.equals(docMimeType) || docSize == -1) {
+        if (Document.MIME_TYPE_DIR.equals(docMimeType) || docSize == -1) {
             mSize.setVisibility(View.GONE);
         } else {
             mSize.setVisibility(View.VISIBLE);

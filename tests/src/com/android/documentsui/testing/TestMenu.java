@@ -49,7 +49,6 @@ public abstract class TestMenu implements Menu {
                 R.id.menu_settings,
                 R.id.menu_new_window,
                 R.id.menu_select_all,
-                R.id.menu_file_size,
                 R.id.menu_grid,
                 R.id.menu_list,
                 R.id.menu_advanced,

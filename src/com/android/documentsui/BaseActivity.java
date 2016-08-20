@@ -231,8 +231,6 @@ public abstract class BaseActivity extends Activity
 
         state.sortModel = SortModel.createModel();
         state.localOnly = intent.getBooleanExtra(Intent.EXTRA_LOCAL_ONLY, false);
-        state.forceSize = intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_FILESIZE, false);
-        state.setShowSize(state.forceSize || LocalPreferences.getDisplayFileSize(this));
         state.initAcceptMimes(intent);
         state.excludedAuthorities = getExcludedAuthorities();
 
@@ -317,10 +315,6 @@ public abstract class BaseActivity extends Activity
 
             case R.id.menu_advanced:
                 setDisplayAdvancedDevices(!mState.showAdvanced);
-                return true;
-
-            case R.id.menu_file_size:
-                setDisplayFileSize(!LocalPreferences.getDisplayFileSize(this));
                 return true;
 
             default:
@@ -498,22 +492,6 @@ public abstract class BaseActivity extends Activity
         LocalPreferences.setShowDeviceRoot(this, mState.action, display);
         mState.showAdvanced = display;
         RootsFragment.get(getFragmentManager()).onDisplayStateChanged();
-        invalidateOptionsMenu();
-    }
-
-    /**
-     * Set file size visible based on explicit user action.
-     */
-    void setDisplayFileSize(boolean display) {
-        Metrics.logUserAction(this,
-                display ? Metrics.USER_ACTION_SHOW_SIZE : Metrics.USER_ACTION_HIDE_SIZE);
-
-        LocalPreferences.setDisplayFileSize(this, display);
-        mState.setShowSize(display);
-        DirectoryFragment dir = getDirectoryFragment();
-        if (dir != null) {
-            dir.onDisplayStateChanged();
-        }
         invalidateOptionsMenu();
     }
 

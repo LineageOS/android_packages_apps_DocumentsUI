@@ -48,7 +48,6 @@ public final class DocumentsMenuManagerTest {
     private TestMenuItem rename;
     private TestMenuItem selectAll;
     private TestMenuItem createDir;
-    private TestMenuItem fileSize;
     private TestMenuItem grid;
     private TestMenuItem list;
     private TestMenuItem cut;
@@ -73,7 +72,6 @@ public final class DocumentsMenuManagerTest {
         rename =  testMenu.findItem(R.id.menu_rename);
         selectAll = testMenu.findItem(R.id.menu_select_all);
         createDir = testMenu.findItem(R.id.menu_create_dir);
-        fileSize = testMenu.findItem(R.id.menu_file_size);
         grid = testMenu.findItem(R.id.menu_grid);
         list = testMenu.findItem(R.id.menu_list);
         cut = testMenu.findItem(R.id.menu_cut_to_clipboard);
@@ -130,7 +128,6 @@ public final class DocumentsMenuManagerTest {
         advanced.assertInvisible();
         advanced.assertTitle(R.string.menu_advanced_show);
         createDir.assertDisabled();
-        fileSize.assertInvisible();
         assertTrue(testSearchManager.showMenuCalled());
     }
 

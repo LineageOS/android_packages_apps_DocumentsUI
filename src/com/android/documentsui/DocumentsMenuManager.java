@@ -25,8 +25,6 @@ import static com.android.documentsui.State.ACTION_PICK_COPY_DESTINATION;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.documentsui.MenuManager.DirectoryDetails;
-
 final class DocumentsMenuManager extends MenuManager {
 
     private boolean mPicking;
@@ -58,12 +56,6 @@ final class DocumentsMenuManager extends MenuManager {
         } else {
             super.updateModePicker(grid, list, directoryDetails);
         }
-    }
-
-    @Override
-    void updateFileSize(MenuItem fileSize, DirectoryDetails directoryDetails) {
-        super.updateFileSize(fileSize, directoryDetails);
-        fileSize.setVisible(fileSize.isVisible() && !mPicking);
     }
 
     @Override

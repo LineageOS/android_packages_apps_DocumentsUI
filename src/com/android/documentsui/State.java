@@ -24,15 +24,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.View;
 
-import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.DocumentStack;
 import com.android.documentsui.model.DurableUtils;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
+import com.android.documentsui.sorting.SortModel;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -84,7 +83,6 @@ public class State implements android.os.Parcelable {
     public SortModel sortModel;
 
     public boolean allowMultiple;
-    public boolean forceSize;
     public boolean localOnly;
     public boolean showAdvancedOption;
     public boolean showAdvanced;
@@ -112,8 +110,6 @@ public class State implements android.os.Parcelable {
     private boolean mStackTouched;
     private boolean mInitialRootChanged;
     private boolean mInitialDocChanged;
-
-    private boolean mShowSize;
 
     /** Instance state for every shown directory */
     public HashMap<String, SparseArray<Parcelable>> dirState = new HashMap<>();
@@ -161,16 +157,6 @@ public class State implements android.os.Parcelable {
         mStackTouched = true;
     }
 
-    public boolean getShowSize() {
-        return forceSize || mShowSize;
-    }
-
-    public void setShowSize(boolean display) {
-        mShowSize = display;
-        sortModel.setDimensionVisibility(
-                SortModel.SORT_DIMENSION_ID_SIZE, getShowSize() ? View.VISIBLE : View.GONE);
-    }
-
     // This will return true even when the initial location is set.
     // To get a read on if the user has changed something, use #hasInitialLocationChanged.
     public boolean hasLocationChanged() {
@@ -191,8 +177,6 @@ public class State implements android.os.Parcelable {
         out.writeInt(action);
         out.writeStringArray(acceptMimes);
         out.writeInt(allowMultiple ? 1 : 0);
-        out.writeInt(forceSize ? 1 : 0);
-        out.writeInt(mShowSize ? 1 : 0);
         out.writeInt(localOnly ? 1 : 0);
         out.writeInt(showAdvancedOption ? 1 : 0);
         out.writeInt(showAdvanced ? 1 : 0);
@@ -220,8 +204,6 @@ public class State implements android.os.Parcelable {
             state.action = in.readInt();
             state.acceptMimes = in.readStringArray();
             state.allowMultiple = in.readInt() != 0;
-            state.forceSize = in.readInt() != 0;
-            state.mShowSize = in.readInt() != 0;
             state.localOnly = in.readInt() != 0;
             state.showAdvancedOption = in.readInt() != 0;
             state.showAdvanced = in.readInt() != 0;
