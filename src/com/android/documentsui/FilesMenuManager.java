@@ -70,6 +70,11 @@ final class FilesMenuManager extends MenuManager {
     }
 
     @Override
+    void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
+        pasteInto.setEnabled(selectionDetails.canPasteInto());
+    }
+
+    @Override
     void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails) {
         selectAll.setVisible(true);
     }
