@@ -45,7 +45,6 @@ public final class FilesMenuManagerTest {
     private TestMenuItem share;
     private TestMenuItem delete;
     private TestMenuItem createDir;
-    private TestMenuItem fileSize;
     private TestMenuItem settings;
     private TestMenuItem newWindow;
     private TestMenuItem cut;
@@ -69,7 +68,6 @@ public final class FilesMenuManagerTest {
         share = testMenu.findItem(R.id.menu_share);
         delete = testMenu.findItem(R.id.menu_delete);
         createDir = testMenu.findItem(R.id.menu_create_dir);
-        fileSize = testMenu.findItem(R.id.menu_file_size);
         settings = testMenu.findItem(R.id.menu_settings);
         newWindow = testMenu.findItem(R.id.menu_new_window);
         cut = testMenu.findItem(R.id.menu_cut_to_clipboard);
@@ -82,7 +80,6 @@ public final class FilesMenuManagerTest {
         // These items by default are visible
         testMenu.findItem(R.id.menu_select_all).setVisible(true);
         testMenu.findItem(R.id.menu_list).setVisible(true);
-        testMenu.findItem(R.id.menu_file_size).setVisible(true);
 
         selectionDetails = new TestSelectionDetails();
         directoryDetails = new TestDirectoryDetails();
@@ -155,7 +152,6 @@ public final class FilesMenuManagerTest {
         advanced.assertInvisible();
         advanced.assertTitle(R.string.menu_advanced_show);
         createDir.assertDisabled();
-        fileSize.assertVisible();
         assertTrue(testSearchManager.updateMenuCalled());
     }
 

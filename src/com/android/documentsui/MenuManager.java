@@ -51,7 +51,6 @@ public abstract class MenuManager {
         updateCreateDir(menu.findItem(R.id.menu_create_dir), directoryDetails);
         updateSettings(menu.findItem(R.id.menu_settings), directoryDetails);
         updateNewWindow(menu.findItem(R.id.menu_new_window), directoryDetails);
-        updateFileSize(menu.findItem(R.id.menu_file_size), directoryDetails);
         updateModePicker(menu.findItem(
                 R.id.menu_grid), menu.findItem(R.id.menu_list), directoryDetails);
         // Sort menu item is managed by SortMenuManager
@@ -141,12 +140,6 @@ public abstract class MenuManager {
     void updateModePicker(MenuItem grid, MenuItem list, DirectoryDetails directoryDetails) {
         grid.setVisible(mState.derivedMode != State.MODE_GRID);
         list.setVisible(mState.derivedMode != State.MODE_LIST);
-    }
-
-    void updateFileSize(MenuItem fileSize, DirectoryDetails directoryDetails) {
-        fileSize.setVisible(!mState.forceSize);
-        fileSize.setTitle(directoryDetails.getDisplayFileSize()
-                ? R.string.menu_file_size_hide : R.string.menu_file_size_show);
     }
 
     void updateAdvanced(MenuItem advanced, DirectoryDetails directoryDetails) {
@@ -244,10 +237,6 @@ public abstract class MenuManager {
 
         public boolean canCreateDirectory() {
             return mActivity.canCreateDirectory();
-        }
-
-        public boolean getDisplayFileSize() {
-            return LocalPreferences.getDisplayFileSize(mActivity);
         }
     }
 }

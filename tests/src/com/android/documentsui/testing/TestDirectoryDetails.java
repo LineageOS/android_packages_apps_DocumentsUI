@@ -58,9 +58,4 @@ public class TestDirectoryDetails extends DirectoryDetails {
     public boolean canCreateDirectory() {
         return canCreateDirectory;
     }
-
-    @Override
-    public boolean getDisplayFileSize() {
-        return getDisplayFileSize;
-    }
 }
