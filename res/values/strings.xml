@@ -72,11 +72,6 @@
     <!-- Menu item that hides internal storage built into the device [CHAR LIMIT=30] -->
     <string name="menu_advanced_hide">Hide internal storage</string>
 
-    <!-- Menu item that reveals the sizes of displayed files [CHAR LIMIT=24] -->
-    <string name="menu_file_size_show">Show file size</string>
-    <!-- Menu item that hides the sizes of displayed files [CHAR LIMIT=24] -->
-    <string name="menu_file_size_hide">Hide file size</string>
-
     <!-- Button label that select the current directory [CHAR LIMIT=24] -->
     <string name="button_select">Select</string>
     <!-- Button label that copies files to the current directory [CHAR LIMIT=24] -->

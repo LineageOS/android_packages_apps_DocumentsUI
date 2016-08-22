@@ -58,10 +58,6 @@
             android:showAsAction="never"
             android:visible="false" />
         <item
-            android:id="@+id/menu_file_size"
-            android:showAsAction="never"
-            android:visible="false" />
-        <item
             android:id="@+id/menu_advanced"
             android:showAsAction="never"
             android:visible="false" />

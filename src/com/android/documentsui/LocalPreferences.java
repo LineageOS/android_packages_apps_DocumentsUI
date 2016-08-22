@@ -34,21 +34,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class LocalPreferences {
-    private static final String KEY_FILE_SIZE = "fileSize";
     private static final String INCLUDE_DEVICE_ROOT = "includeDeviceRoot-";
     private static final String ROOT_VIEW_MODE_PREFIX = "rootViewMode-";
-
-    public static boolean getDisplayFileSize(Context context) {
-        return getPrefs(context).getBoolean(KEY_FILE_SIZE, false);
-    }
 
     public static @ViewMode int getViewMode(Context context, RootInfo root,
             @ViewMode int fallback) {
         return getPrefs(context).getInt(createKey(root), fallback);
-    }
-
-    public static void setDisplayFileSize(Context context, boolean display) {
-        getPrefs(context).edit().putBoolean(KEY_FILE_SIZE, display).apply();
     }
 
     public static boolean getShowDeviceRoot(Context context, @ActionType int action) {
