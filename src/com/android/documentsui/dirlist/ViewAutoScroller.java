@@ -20,7 +20,6 @@ package com.android.documentsui.dirlist;
 import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
 
-import java.util.function.IntSupplier;
 import java.util.function.LongSupplier;
 
 /**

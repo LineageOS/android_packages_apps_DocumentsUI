@@ -16,7 +16,6 @@
 
 package com.android.documentsui.dirlist;
 
-import android.annotation.IntDef;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
@@ -28,66 +27,28 @@ import com.android.documentsui.Events.MotionInputEvent;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.function.Function;
 import java.util.function.IntSupplier;
 
 /*
  * Helper class used to intercept events that could cause a gesture multi-select, and keeps
  * the interception going if necessary.
  */
-class GestureMultiSelectHelper {
-
-    // Gesture can be used to either select or erase file selections. These are used to define the
-    // type of on-going gestures.
-    @IntDef(flag = true, value = {
-            TYPE_NONE,
-            TYPE_SELECTION,
-            TYPE_ERASE
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface SelectType {}
-    public static final int TYPE_NONE = 0;
-    public static final int TYPE_SELECTION = 1;
-    public static final int TYPE_ERASE = 2;
-
-    // User intent. When intercepting an event, we can see if user intends to scroll, select, or
-    // the intent is unknown.
-    @IntDef(flag = true, value = {
-            TYPE_UNKNOWN,
-            TYPE_SELECT,
-            TYPE_SCROLL
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface GestureSelectIntent {}
-    public static final int TYPE_UNKNOWN = 0;
-    public static final int TYPE_SELECT = 1;
-    public static final int TYPE_SCROLL = 2;
+final class GestureSelector {
 
     private final MultiSelectManager mSelectionMgr;
     private final Runnable mDragScroller;
-    private final Function<Integer, String> mModelIdFinder;
     private final int mAutoScrollEdgeHeight;
-    private final int mColumnCount;
     private final IntSupplier mHeight;
     private int mLastStartedItemPos = -1;
-    private boolean mEnabled = false;
-    private Point mLastDownPoint;
+    private boolean mStarted = false;
     private Point mLastInterceptedPoint;
-    private @SelectType int mType = TYPE_NONE;
-    private @GestureSelectIntent int mUserIntent = TYPE_UNKNOWN;
 
-    GestureMultiSelectHelper(
-            int columnCount,
+    GestureSelector(
             int autoScrollEdgeHeight,
-            Function<Integer, String> modelIdFinder,
             MultiSelectManager selectionMgr,
             IntSupplier heightSupplier,
             ScrollActionDelegate actionDelegate) {
-        mColumnCount = columnCount;
         mAutoScrollEdgeHeight = autoScrollEdgeHeight;
-        mModelIdFinder = modelIdFinder;
         mSelectionMgr = selectionMgr;
         mHeight = heightSupplier;
 
@@ -104,7 +65,7 @@ class GestureMultiSelectHelper {
 
             @Override
             public boolean isActive() {
-                return mSelectionMgr.hasSelection();
+                return mStarted && mSelectionMgr.hasSelection();
             }
         };
 
@@ -112,10 +73,8 @@ class GestureMultiSelectHelper {
                 mAutoScrollEdgeHeight, distanceDelegate, actionDelegate);
     }
 
-    static GestureMultiSelectHelper create(
-            int columnCount,
+    static GestureSelector create(
             int autoScrollEdgeHeight,
-            Function<Integer, String> modelIdFinder,
             MultiSelectManager selectionMgr,
             View scrollView) {
         ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
@@ -127,7 +86,6 @@ class GestureMultiSelectHelper {
             @Override
             public void runAtNextFrame(Runnable r) {
                 scrollView.postOnAnimation(r);
-
             }
 
             @Override
@@ -135,42 +93,47 @@ class GestureMultiSelectHelper {
                 scrollView.removeCallbacks(r);
             }
         };
-        GestureMultiSelectHelper helper =
-                new GestureMultiSelectHelper(columnCount, autoScrollEdgeHeight, modelIdFinder,
-                        selectionMgr, scrollView::getHeight, actionDelegate);
+        GestureSelector helper =
+                new GestureSelector(
+                        autoScrollEdgeHeight, selectionMgr, scrollView::getHeight, actionDelegate);
 
         return helper;
     }
 
-    // Explicitly kick off a gesture multi-select without any second guessing
-    void start() {
-        mUserIntent = TYPE_SELECT;
+    // Explicitly kick off a gesture multi-select.
+    boolean start(InputEvent event) {
+        if (mStarted) {
+            return false;
+        }
+        mStarted = true;
+        return true;
     }
 
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
 
-        if (!mEnabled || Events.isMouseEvent(e)) {
+        if (Events.isMouseEvent(e)) {
             return false;
         }
 
         boolean handled = false;
+
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             handled = handleInterceptedDownEvent(rv, e);
-        }
-
-        if (e.getAction() == MotionEvent.ACTION_MOVE) {
-            handled = handleInterceptedMoveEvent(rv, e);
         }
 
         if (e.getAction() == MotionEvent.ACTION_UP) {
             handled = handleUpEvent(rv, e);
         }
 
+        if (e.getAction() == MotionEvent.ACTION_MOVE) {
+            handled = handleInterceptedMoveEvent(rv, e);
+        }
+
         return handled;
     }
 
     public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        if (!mEnabled) {
+        if (!mStarted) {
             return;
         }
 
@@ -183,25 +146,13 @@ class GestureMultiSelectHelper {
         }
     }
 
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
-    }
-
     // Called when an ACTION_DOWN event is intercepted.
-    // Sets mode to ERASE if the item below the MotionEvent is already selected
-    // Else, sets it to SELECTION mode.
+    // If down event happens on a file/doc, we mark that item's position as last started.
     private boolean handleInterceptedDownEvent(RecyclerView rv, MotionEvent e) {
         View itemView = rv.findChildViewUnder(e.getX(), e.getY());
         try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
-            mLastDownPoint = event.getOrigin();
             if (itemView != null) {
                 mLastStartedItemPos = rv.getChildAdapterPosition(itemView);
-                String modelId = mModelIdFinder.apply(mLastStartedItemPos);
-                if (mSelectionMgr.getSelection().contains(modelId)) {
-                    mType = TYPE_ERASE;
-                } else {
-                    mType = TYPE_SELECTION;
-                }
             }
         }
         return false;
@@ -209,9 +160,12 @@ class GestureMultiSelectHelper {
 
     // Called when an ACTION_MOVE event is intercepted.
     private boolean handleInterceptedMoveEvent(RecyclerView rv, MotionEvent e) {
-        if (shouldInterceptMoveEvent(rv, e)) {
-            mSelectionMgr.startRangeSelection(mLastStartedItemPos);
-            return true;
+        try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
+            mLastInterceptedPoint = event.getOrigin();
+            if (mStarted) {
+                mSelectionMgr.startRangeSelection(mLastStartedItemPos);
+                return true;
+            }
         }
         return false;
     }
@@ -219,10 +173,8 @@ class GestureMultiSelectHelper {
     // Called when ACTION_UP event is intercepted.
     // Essentially, since this means all gesture movement is over, reset everything.
     private boolean handleUpEvent(RecyclerView rv, MotionEvent e) {
-        mType = TYPE_NONE;
         mLastStartedItemPos = -1;
-        mLastDownPoint = null;
-        mUserIntent = TYPE_UNKNOWN;
+        mStarted = false;
         mSelectionMgr.getSelection().applyProvisionalSelection();
         return false;
     }
@@ -244,8 +196,9 @@ class GestureMultiSelectHelper {
             // number
             // of items in the adapter. Using the adapter is the for sure way to get the actual last
             // item position.
-            int lastGlidedItemPos = (bottomRight) ? rv.getAdapter().getItemCount() - 1
-                    : rv.getChildAdapterPosition(rv.findChildViewUnder(e.getX(), e.getY()));
+            final float inboundY = getInboundY(rv.getHeight(), e.getY());
+            final int lastGlidedItemPos = (bottomRight) ? rv.getAdapter().getItemCount() - 1
+                    : rv.getChildAdapterPosition(rv.findChildViewUnder(e.getX(), inboundY));
             if (lastGlidedItemPos != RecyclerView.NO_POSITION) {
                 doGestureMultiSelect(lastGlidedItemPos);
             }
@@ -255,53 +208,23 @@ class GestureMultiSelectHelper {
         }
     }
 
-    /* Given the start position and the end position, select or erase everything in-between.
-     * @param startPos The adapter position of the start item.
+    // It's possible for events to go over the top/bottom of the RecyclerView.
+    // We want to get a Y-coordinate within the RecyclerView so we can find the childView underneath
+    // correctly.
+    private float getInboundY(float max, float y) {
+        if (y < 0f) {
+            return 0f;
+        } else if (y > max) {
+            return max;
+        }
+        return y;
+    }
+
+    /* Given the end position, select everything in-between.
      * @param endPos  The adapter position of the end item.
      */
     private void doGestureMultiSelect(int endPos) {
-        if (mType == TYPE_SELECTION) {
-            mSelectionMgr.snapProvisionalRangeSelection(endPos);
-        }
-    }
-
-    // Logic dictating whether a particular ACTION_MOVE event should be intercepted or not.
-    // If user has already shown some clear intent to want to select, we will always return true.
-    // If user has moved to an adjacent item, two possible cases:
-    // 1. User moved left/right. Then it's explicit that they want to multi-select.
-    // 2. User moved top/bottom. Then it's explicit that they want to scroll/natural behavior.
-    private boolean shouldInterceptMoveEvent(RecyclerView rv, MotionEvent e) {
-        try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
-            mLastInterceptedPoint = event.getOrigin();
-
-            if (mUserIntent == TYPE_SELECT) {
-                return true;
-            }
-
-            int startItemPos = rv.getChildAdapterPosition(rv.findChildViewUnder(mLastDownPoint.x,
-                    mLastDownPoint.y));
-            int currentItemPos = rv
-                    .getChildAdapterPosition(rv.findChildViewUnder(e.getX(), e.getY()));
-            if (startItemPos == RecyclerView.NO_POSITION ||
-                    currentItemPos == RecyclerView.NO_POSITION) {
-                // It's possible that user either started gesture from an empty space, or is so far
-                // moving his finger to an empty space. Either way, we should not consume the event,
-                // so
-                // return false.
-                return false;
-            }
-
-            if (startItemPos != currentItemPos) {
-                int diff = Math.abs(startItemPos - currentItemPos);
-                if (diff == 1 && mSelectionMgr.hasSelection()) {
-                    mUserIntent = TYPE_SELECT;
-                    return true;
-                } else if (diff == mColumnCount) {
-                    mUserIntent = TYPE_SCROLL;
-                }
-            }
-        }
-        return false;
+        mSelectionMgr.snapProvisionalRangeSelection(endPos);
     }
 
     private boolean insideDragZone(View scrollView) {
