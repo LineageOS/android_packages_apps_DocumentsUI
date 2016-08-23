@@ -37,6 +37,8 @@
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"කපන්න"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"පිටපත් කරන්න"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"අලවන්න"</string>
+    <!-- no translation found for menu_paste_into_folder (8000644546983240101) -->
+    <skip />
     <string name="menu_advanced_show" msgid="7558626506462906726">"අභ්‍යන්තර ගබඩාව පෙන්වන්න"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"අභ්‍යන්තර ගබඩාව සඟවන්න"</string>
     <string name="menu_file_size_show" msgid="8035723306878852180">"ගොනු තරම පෙන්වන්න"</string>
@@ -46,7 +48,8 @@
     <string name="button_move" msgid="8596460499325291272">"ගෙන යන්න"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"අස් කරන්න"</string>
     <string name="button_retry" msgid="4011461781916631389">"නැවත උත්සාහ කරන්න"</string>
-    <string name="sort_phrase" msgid="210153998009960221">"<xliff:g id="DIMENSION">%1$s</xliff:g> විසින්"</string>
+    <!-- no translation found for not_sorted (7813496644889115530) -->
+    <skip />
     <string name="sort_dimension_name" msgid="6325591541414177579">"නම‍"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"සාරාංශය"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"වෙනස් කළේ"</string>
