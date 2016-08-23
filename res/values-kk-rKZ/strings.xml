@@ -37,6 +37,8 @@
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Қиып алу"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Көшіру"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Қою"</string>
+    <!-- no translation found for menu_paste_into_folder (8000644546983240101) -->
+    <skip />
     <string name="menu_advanced_show" msgid="7558626506462906726">"Ішкі жадты көрсету"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Ішкі жадты жасыру"</string>
     <string name="menu_file_size_show" msgid="8035723306878852180">"Файл өлшемін көрсету"</string>
@@ -46,7 +48,8 @@
     <string name="button_move" msgid="8596460499325291272">"Тасымалдау"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Жабу"</string>
     <string name="button_retry" msgid="4011461781916631389">"Әрекетті қайталау"</string>
-    <string name="sort_phrase" msgid="210153998009960221">"<xliff:g id="DIMENSION">%1$s</xliff:g> бойынша"</string>
+    <!-- no translation found for not_sorted (7813496644889115530) -->
+    <skip />
     <string name="sort_dimension_name" msgid="6325591541414177579">"Аты"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Жиынтық мәлімет"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Өзгертілген уақыты"</string>
