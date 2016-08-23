@@ -33,13 +33,13 @@ import com.android.documentsui.Events.InputEvent;
 final class ListeningGestureDetector extends GestureDetector
         implements OnItemTouchListener, OnTouchListener {
     private final DragStartHelper mDragHelper;
-    private final GestureMultiSelectHelper mGestureSelectHelper;
+    private final GestureSelector mGestureSelectHelper;
 
     public ListeningGestureDetector(
             Context context,
             DragStartHelper dragHelper,
             UserInputHandler<? extends InputEvent> handler,
-            GestureMultiSelectHelper gestureMultiSelectHelper) {
+            GestureSelector gestureMultiSelectHelper) {
         super(context, handler);
         mDragHelper = dragHelper;
         mGestureSelectHelper = gestureMultiSelectHelper;
