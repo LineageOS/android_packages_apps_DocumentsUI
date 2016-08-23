@@ -37,6 +37,8 @@
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"잘라내기"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"복사"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"붙여넣기"</string>
+    <!-- no translation found for menu_paste_into_folder (8000644546983240101) -->
+    <skip />
     <string name="menu_advanced_show" msgid="7558626506462906726">"내부 저장소 표시"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"내부 저장소 숨기기"</string>
     <string name="menu_file_size_show" msgid="8035723306878852180">"파일 크기 표시"</string>
@@ -46,7 +48,8 @@
     <string name="button_move" msgid="8596460499325291272">"이동"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"닫기"</string>
     <string name="button_retry" msgid="4011461781916631389">"다시 시도"</string>
-    <string name="sort_phrase" msgid="210153998009960221">"<xliff:g id="DIMENSION">%1$s</xliff:g> 기준"</string>
+    <!-- no translation found for not_sorted (7813496644889115530) -->
+    <skip />
     <string name="sort_dimension_name" msgid="6325591541414177579">"이름"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"요약"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"마지막 수정 시간"</string>
