@@ -324,6 +324,12 @@ public class FilesActivity extends BaseActivity {
     }
 
     @Override
+    void onDirectoryCreated(DocumentInfo doc) {
+        assert(doc.isDirectory());
+        getDirectoryFragment().getFocusManager().onDirectoryCreated(doc.documentId);
+    }
+
+    @Override
     public void springOpenDirectory(DocumentInfo doc) {
         assert(doc.isContainer());
         assert(!doc.isArchive());

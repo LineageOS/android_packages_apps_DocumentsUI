@@ -138,6 +138,7 @@ public abstract class BaseActivity extends Activity
     abstract void refreshDirectory(int anim);
     /** Allows sub-classes to include information in a newly created State instance. */
     abstract void includeState(State initialState);
+    abstract void onDirectoryCreated(DocumentInfo doc);
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
@@ -330,12 +331,6 @@ public abstract class BaseActivity extends Activity
         Metrics.logUserAction(this, Metrics.USER_ACTION_CREATE_DIR);
 
         CreateDirectoryFragment.show(getFragmentManager());
-    }
-
-    void onDirectoryCreated(DocumentInfo doc) {
-        // By default we do nothing, just let the new directory appear.
-        // DocumentsActivity auto-opens directories after creating them
-        // As that is more attuned to the "picker" use cases it supports.
     }
 
     /**
