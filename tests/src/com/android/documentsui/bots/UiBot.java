@@ -130,12 +130,17 @@ public class UiBot extends Bots.BaseBot {
         return !inFixedLayout();
     }
 
-    void switchViewMode() {
-        UiObject2 mode = menuGridMode();
-        if (mode != null) {
-            mode.click();
-        } else {
-            menuListMode().click();
+    public void switchToListMode() {
+        final UiObject2 listMode = menuListMode();
+        if (listMode != null) {
+            listMode.click();
+        }
+    }
+
+    public void switchToGridMode() {
+        final UiObject2 gridMode = menuGridMode();
+        if (gridMode != null) {
+            gridMode.click();
         }
     }
 

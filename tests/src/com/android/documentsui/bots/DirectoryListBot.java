@@ -16,13 +16,26 @@
 
 package com.android.documentsui.bots;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import static com.android.documentsui.sorting.SortDimension.SORT_DIRECTION_ASCENDING;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
+import static org.hamcrest.Matchers.allOf;
+
 import android.content.Context;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.matcher.ViewMatchers;
+import android.graphics.Rect;
+import android.support.annotation.StringRes;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.Configurator;
@@ -32,14 +45,19 @@ import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.widget.RelativeLayout;
+import android.view.View;
 
 import com.android.documentsui.R;
+import com.android.documentsui.sorting.SortDimension;
+import com.android.documentsui.sorting.SortDimension.SortDirection;
+import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
 import junit.framework.Assert;
+
+import org.hamcrest.Matcher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,13 +69,21 @@ import java.util.regex.Pattern;
  * and making assertions against the state of it.
  */
 public class DirectoryListBot extends Bots.BaseBot {
+    private static final String DIR_CONTAINER_ID = "com.android.documentsui:id/container_directory";
     private static final String DIR_LIST_ID = "com.android.documentsui:id/dir_list";
 
     private static final BySelector SNACK_DELETE =
             By.desc(Pattern.compile("^Deleting [0-9]+ file.+"));
 
+    private final SortModel mSortModel = SortModel.createModel();
+
+    private final DropdownSortBot mDropdownBot;
+    private final HeaderSortBot mHeaderBot;
+
     public DirectoryListBot(UiDevice device, Context context, int timeout) {
         super(device, context, timeout);
+        mDropdownBot = new DropdownSortBot();
+        mHeaderBot = new HeaderSortBot();
     }
 
     public void assertDocumentsCount(int count) throws UiObjectNotFoundException {
@@ -110,7 +136,7 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     private UiObject findMessageTextView() {
         return findObject(
-                "com.android.documentsui:id/container_directory",
+                DIR_CONTAINER_ID,
                 "com.android.documentsui:id/message");
     }
 
@@ -167,7 +193,7 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     public UiObject findDocument(String label) throws UiObjectNotFoundException {
         final UiSelector docList = new UiSelector().resourceId(
-                "com.android.documentsui:id/container_directory").childSelector(
+                DIR_CONTAINER_ID).childSelector(
                         new UiSelector().resourceId(DIR_LIST_ID));
 
         // Wait for the first list item to appear
@@ -188,7 +214,7 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     public void assertFirstDocumentHasFocus() throws UiObjectNotFoundException {
         final UiSelector docList = new UiSelector().resourceId(
-                "com.android.documentsui:id/container_directory").childSelector(
+                DIR_CONTAINER_ID).childSelector(
                         new UiSelector().resourceId(DIR_LIST_ID));
 
         // Wait for the first list item to appear
@@ -200,11 +226,148 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     public UiObject findDocumentsList() {
         return findObject(
-                "com.android.documentsui:id/container_directory",
+                DIR_CONTAINER_ID,
                 DIR_LIST_ID);
     }
 
     public void assertHasFocus() {
         assertHasFocus(DIR_LIST_ID);
+    }
+
+    public void sortBy(@SortDimensionId int id, @SortDirection int direction) {
+        assert(direction != SortDimension.SORT_DIRECTION_NONE);
+
+        final @StringRes int labelId = mSortModel.getDimensionById(id).getLabelId();
+        final String label = mContext.getString(labelId);
+        final boolean result;
+        if (Matchers.present(mDropdownBot.MATCHER)) {
+            result = mDropdownBot.sortBy(label, direction);
+        } else {
+            result = mHeaderBot.sortBy(label, direction);
+        }
+
+        assertTrue("Sorting by id: " + id + " in direction: " + direction + " failed.",
+                result);
+    }
+
+    public void assertOrder(String[] dirs, String[] files) throws UiObjectNotFoundException {
+        for (int i = 0; i < dirs.length - 1; ++i) {
+            assertOrder(dirs[i], dirs[i + 1]);
+        }
+
+        if (dirs.length > 0 && files.length > 0) {
+            assertOrder(dirs[dirs.length - 1], files[0]);
+        }
+
+        for (int i = 0; i < files.length - 1; ++i) {
+            assertOrder(files[i], files[i + 1]);
+        }
+    }
+
+    private void assertOrder(String first, String second) throws UiObjectNotFoundException {
+
+        final UiObject firstObj = findDocument(first);
+        final UiObject secondObj = findDocument(second);
+
+        final int layoutDirection = mContext.getResources().getConfiguration().getLayoutDirection();
+        final Rect firstBound = firstObj.getVisibleBounds();
+        final Rect secondBound = secondObj.getVisibleBounds();
+        if (layoutDirection == View.LAYOUT_DIRECTION_LTR) {
+            assertTrue(
+                    "\"" + first + "\" is not located above or to the left of \"" + second
+                            + "\" in LTR",
+                    firstBound.bottom < secondBound.top || firstBound.right < secondBound.left);
+        } else {
+            assertTrue(
+                    "\"" + first + "\" is not located above or to the right of \"" + second +
+                            "\" in RTL",
+                    firstBound.bottom < secondBound.top || firstBound.left > secondBound.right);
+        }
+    }
+
+    private static class DropdownSortBot {
+
+        private static final Matcher<View> MATCHER = withId(R.id.dropdown_sort_widget);
+        private static final Matcher<View> DROPDOWN_MATCHER = allOf(
+                withId(R.id.sort_dimen_dropdown),
+                withParent(MATCHER));
+        private static final Matcher<View> SORT_ARROW_MATCHER = allOf(
+                withId(R.id.sort_arrow),
+                withParent(MATCHER));
+
+        private boolean sortBy(String label, @SortDirection int direction) {
+            onView(DROPDOWN_MATCHER).perform(click());
+            onView(withText(label)).perform(click());
+
+            if (direction != getDirection()) {
+                onView(SORT_ARROW_MATCHER).perform(click());
+            }
+
+            return Matchers.present(allOf(
+                    DROPDOWN_MATCHER,
+                    withText(label)))
+                    && getDirection() == direction;
+        }
+
+        private @SortDirection int getDirection() {
+            final boolean ascending = Matchers.present(
+                    allOf(
+                            SORT_ARROW_MATCHER,
+                            withContentDescription(R.string.sort_direction_ascending)));
+
+            if (ascending) {
+                return SORT_DIRECTION_ASCENDING;
+            }
+
+            final boolean descending = Matchers.present(
+                    allOf(
+                            SORT_ARROW_MATCHER,
+                            withContentDescription(R.string.sort_direction_descending)));
+
+            return descending
+                    ? SortDimension.SORT_DIRECTION_DESCENDING
+                    : SortDimension.SORT_DIRECTION_NONE;
+        }
+    }
+
+    private static class HeaderSortBot {
+
+        private static final Matcher<View> MATCHER = withId(R.id.table_header);
+
+        private boolean sortBy(String label, @SortDirection int direction) {
+            final Matcher<View> cellMatcher = allOf(
+                    withChild(withText(label)),
+                    isDescendantOfA(MATCHER));
+            onView(cellMatcher).perform(click());
+
+            final @SortDirection int viewDirection = getDirection(cellMatcher);
+
+            if (viewDirection != direction) {
+                onView(cellMatcher).perform(click());
+            }
+
+            return getDirection(cellMatcher) == direction;
+        }
+
+        private @SortDirection int getDirection(Matcher<View> cellMatcher) {
+            final boolean ascending =
+                    Matchers.present(
+                            allOf(
+                                    withContentDescription(R.string.sort_direction_ascending),
+                                    withParent(cellMatcher)));
+            if (ascending) {
+                return SORT_DIRECTION_ASCENDING;
+            }
+
+            final boolean descending =
+                    Matchers.present(
+                            allOf(
+                                    withContentDescription(R.string.sort_direction_descending),
+                                    withParent(cellMatcher)));
+
+            return descending
+                    ? SortDimension.SORT_DIRECTION_DESCENDING
+                    : SortDimension.SORT_DIRECTION_NONE;
+        }
     }
 }

@@ -23,6 +23,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import android.support.test.espresso.ViewInteraction;
 import android.view.View;
 
+import junit.framework.AssertionFailedError;
+
 import org.hamcrest.Matcher;
 
 /**
@@ -41,7 +43,10 @@ public final class Matchers {
             vi.check(matches(matcher));
             vi.check(matches(isDisplayed()));
             return true;
-        } catch (Exception e) {
+        }
+        // Catch AssertionFailedError because vi.check(matches(isDisplayed())) throws that if
+        // assertion fails.
+        catch (Exception|AssertionFailedError e) {
             return false;
         }
     }
