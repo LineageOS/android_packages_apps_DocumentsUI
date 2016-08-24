@@ -36,7 +36,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            android:tint="@color/item_doc_grid_tint"
+            android:tintMode="src_over" />
 
         <com.android.documentsui.GridItemThumbnail
             android:id="@+id/icon_mime_lg"
