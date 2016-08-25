@@ -68,4 +68,8 @@ public class TestDocumentsAdapter extends DocumentsAdapter {
     public int getItemCount() {
         return mModelIds.size();
     }
+
+    public void updateTestModelIds(List<String> modelIds) {
+        mModelIds = modelIds;
+    }
 }

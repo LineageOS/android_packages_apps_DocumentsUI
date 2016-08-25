@@ -38,6 +38,10 @@ interface FocusHandler extends View.OnFocusChangeListener {
     @Override
     void onFocusChange(View v, boolean hasFocus);
 
+    void onLayoutCompleted();
+
+    void onDirectoryCreated(String modelId);
+
     /**
      * Requests focus on the item that last had focus. Scrolls to that item if necessary.
      */

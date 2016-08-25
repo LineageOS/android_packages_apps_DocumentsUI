@@ -290,7 +290,14 @@ public class DirectoryFragment extends Fragment
 
         mRecView.setAdapter(mAdapter);
 
-        mLayout = new GridLayoutManager(getContext(), mColumnCount);
+        mLayout = new GridLayoutManager(getContext(), mColumnCount) {
+            @Override
+            public void onLayoutCompleted(RecyclerView.State state) {
+                super.onLayoutCompleted(state);
+                mFocusManager.onLayoutCompleted();
+            }
+        };
+
         SpanSizeLookup lookup = mAdapter.createSpanSizeLookup();
         if (lookup != null) {
             mLayout.setSpanSizeLookup(lookup);
@@ -310,7 +317,7 @@ public class DirectoryFragment extends Fragment
         mModel.addUpdateListener(mModelUpdateListener);
 
         // Make sure this is done after the RecyclerView and the Model are set up.
-        mFocusManager = new FocusManager(context, mRecView, mModel);
+        mFocusManager = new FocusManager(mRecView, mModel, context.getColor(R.color.accent_dark));
 
         final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
         GestureSelector gestureSel = GestureSelector.create(
@@ -1189,6 +1196,10 @@ public class DirectoryFragment extends Fragment
     @Override
     public Model getModel() {
         return mModel;
+    }
+
+    public FocusManager getFocusManager() {
+        return mFocusManager;
     }
 
     @Override
