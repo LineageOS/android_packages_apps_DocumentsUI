@@ -41,4 +41,12 @@ public final class TestFocusHandler implements FocusHandler {
     public int getFocusPosition() {
         return 0;
     }
+
+    @Override
+    public void onDirectoryCreated(String modelId) {
+    }
+
+    @Override
+    public void onLayoutCompleted() {
+    }
 }

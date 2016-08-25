@@ -18,8 +18,8 @@ package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.model.DocumentInfo.getCursorString;
 
+import android.annotation.ColorRes;
 import android.annotation.Nullable;
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Handler;
 import android.os.Looper;
@@ -39,7 +39,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.documentsui.Events;
-import com.android.documentsui.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +48,7 @@ import java.util.TimerTask;
 /**
  * A class that handles navigation and focus within the DirectoryFragment.
  */
-final class FocusManager implements FocusHandler {
+public final class FocusManager implements FocusHandler {
     private static final String TAG = "FocusManager";
 
     private RecyclerView mView;
@@ -58,10 +57,11 @@ final class FocusManager implements FocusHandler {
 
     private TitleSearchHelper mSearchHelper;
     private Model mModel;
+    private @Nullable String mPendingFocusId;
 
     private int mLastFocusPosition = RecyclerView.NO_POSITION;
 
-    public FocusManager(Context context, RecyclerView view, Model model) {
+    public FocusManager(RecyclerView view, Model model, @ColorRes int color) {
         assert (view != null);
         assert (model != null);
         mView = view;
@@ -69,7 +69,7 @@ final class FocusManager implements FocusHandler {
         mLayout = (GridLayoutManager) view.getLayoutManager();
         mModel = model;
 
-        mSearchHelper = new TitleSearchHelper(context);
+        mSearchHelper = new TitleSearchHelper(color);
     }
 
     @Override
@@ -123,6 +123,38 @@ final class FocusManager implements FocusHandler {
         } else {
             // Focus the first visible item
             focusItem(mLayout.findFirstVisibleItemPosition());
+        }
+    }
+
+    /*
+     * Attempts to reset focus on the item corresponding to {@code mPendingFocusId} if it exists and
+     * has a valid position in the adapter. It then automatically resets {@code mPendingFocusId}.
+     */
+    @Override
+    public void onLayoutCompleted() {
+        if (mPendingFocusId == null) {
+            return;
+        }
+
+        int pos = mAdapter.getModelIds().indexOf(mPendingFocusId);
+        if (pos != -1) {
+            focusItem(pos);
+        }
+        mPendingFocusId = null;
+    }
+
+    /*
+     * Attempts to put focus on the document associated with the given modelId. If item does not
+     * exist yet in the layout, this sets a pending modelId to be used when
+     * {@code #applyPendingFocus()} is called next time.
+     */
+    @Override
+    public void onDirectoryCreated(String modelId) {
+        int pos = mAdapter.getModelIds().indexOf(modelId);
+        if (pos != -1 && mView.findViewHolderForAdapterPosition(pos) != null) {
+            focusItem(pos);
+        } else {
+            mPendingFocusId = modelId;
         }
     }
 
@@ -267,6 +299,11 @@ final class FocusManager implements FocusHandler {
      * @param callback A callback to call after the given item has been focused.
      */
     private void focusItem(final int pos, @Nullable final FocusCallback callback) {
+        if (mPendingFocusId != null) {
+            Log.v(TAG, "clearing pending focus id: " + mPendingFocusId);
+            mPendingFocusId = null;
+        }
+
         // If the item is already in view, focus it; otherwise, scroll to it and focus it.
         RecyclerView.ViewHolder vh = mView.findViewHolderForAdapterPosition(pos);
         if (vh != null) {
@@ -333,8 +370,8 @@ final class FocusManager implements FocusHandler {
         private KeyEvent mLastEvent;
         private Handler mUiRunner;
 
-        public TitleSearchHelper(Context context) {
-            mSpan = new BackgroundColorSpan(context.getColor(R.color.accent_dark));
+        public TitleSearchHelper(@ColorRes int color) {
+            mSpan = new BackgroundColorSpan(color);
             // Handler for running things on the main UI thread. Needed for updating the UI from a
             // timer (see #activate, below).
             mUiRunner = new Handler(Looper.getMainLooper());
