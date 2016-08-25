@@ -75,7 +75,8 @@ final class GridDocumentHolder extends DocumentHolder {
         // and this method will be called to setup initial state.
         float checkAlpha = selected ? 1f : 0f;
         if (animate) {
-            mIconCheck.animate().alpha(checkAlpha).start();
+            fade(mIconMimeSm, checkAlpha).start();
+            fade(mIconCheck, checkAlpha).start();
         } else {
             mIconCheck.setAlpha(checkAlpha);
         }
@@ -89,7 +90,7 @@ final class GridDocumentHolder extends DocumentHolder {
         super.setSelected(selected, animate);
 
         if (animate) {
-            mIconMimeSm.animate().alpha(1f - checkAlpha).start();
+            fade(mIconMimeSm, 1f - checkAlpha).start();
         } else {
             mIconMimeSm.setAlpha(1f - checkAlpha);
         }

@@ -26,9 +26,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
+import android.widget.ImageView;
 
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.R;
+import com.android.documentsui.Shared;
 import com.android.documentsui.State;
 
 public abstract class DocumentHolder
@@ -47,7 +50,6 @@ public abstract class DocumentHolder
     KeyboardEventListener mKeyEventListener;
 
     private View mSelectionHotspot;
-
 
     public DocumentHolder(Context context, ViewGroup parent, int layout) {
         this(context, inflateLayout(context, parent, layout));
@@ -157,6 +159,10 @@ public abstract class DocumentHolder
     private static View inflateLayout(Context context, ViewGroup parent, int layout) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         return inflater.inflate(layout, parent, false);
+    }
+
+    static ViewPropertyAnimator fade(ImageView view, float alpha) {
+        return view.animate().setDuration(Shared.CHECK_ANIMATION_DURATION).alpha(alpha);
     }
 
     /**

@@ -71,7 +71,7 @@ final class ListDocumentHolder extends DocumentHolder {
         // to be set to selected && be disabled.
         float checkAlpha = selected ? 1f : 0f;
         if (animate) {
-            mIconCheck.animate().alpha(checkAlpha).start();
+            fade(mIconCheck, checkAlpha).start();
         } else {
             mIconCheck.setAlpha(checkAlpha);
         }
@@ -84,8 +84,8 @@ final class ListDocumentHolder extends DocumentHolder {
         super.setSelected(selected, animate);
 
         if (animate) {
-            mIconMime.animate().alpha(1f - checkAlpha).start();
-            mIconThumb.animate().alpha(1f - checkAlpha).start();
+            fade(mIconMime, 1f - checkAlpha).start();
+            fade(mIconThumb, 1f - checkAlpha).start();
         } else {
             mIconMime.setAlpha(1f - checkAlpha);
             mIconThumb.setAlpha(1f - checkAlpha);
