@@ -114,6 +114,11 @@ public final class Shared {
      */
     public static final int MAX_DOCS_IN_INTENT = 500;
 
+    /**
+     * Animation duration of checkbox in directory list/grid in millis.
+     */
+    public static final int CHECK_ANIMATION_DURATION = 100;
+
     private static final Collator sCollator;
 
     static {

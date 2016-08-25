@@ -29,9 +29,11 @@ import com.android.documentsui.R;
 import com.android.documentsui.State;
 
 final class GridDirectoryHolder extends DocumentHolder {
+
     final TextView mTitle;
-    private ImageView mIconCheck;
-    private ImageView mIconMime;
+
+    private final ImageView mIconCheck;
+    private final ImageView mIconMime;
 
     public GridDirectoryHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_dir_grid);
@@ -47,8 +49,8 @@ final class GridDirectoryHolder extends DocumentHolder {
         float checkAlpha = selected ? 1f : 0f;
 
         if (animate) {
-            mIconCheck.animate().alpha(checkAlpha).start();
-            mIconMime.animate().alpha(1f - checkAlpha).start();
+            fade(mIconCheck, checkAlpha).start();
+            fade(mIconMime, 1f - checkAlpha).start();
         } else {
             mIconCheck.setAlpha(checkAlpha);
             mIconMime.setAlpha(1f - checkAlpha);
@@ -61,6 +63,7 @@ final class GridDirectoryHolder extends DocumentHolder {
      * @param modelId The model ID of the item.
      * @param state Current display state.
      */
+    @Override
     public void bind(Cursor cursor, String modelId, State state) {
         assert(cursor != null);
 
