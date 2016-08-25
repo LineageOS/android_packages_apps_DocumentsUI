@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import android.graphics.Point;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
@@ -189,7 +190,12 @@ final class GestureSelector {
             // last item of the recycler view), we would want to set that as the currentItemPos
             View lastItem = rv.getLayoutManager()
                     .getChildAt(rv.getLayoutManager().getChildCount() - 1);
-            boolean bottomRight = e.getX() > lastItem.getRight() && e.getY() > lastItem.getTop();
+            int direction = rv.getContext().getResources().getConfiguration().getLayoutDirection();
+            final boolean pastLastItem = isPastLastItem(lastItem.getTop(),
+                    lastItem.getLeft(),
+                    lastItem.getRight(),
+                    event,
+                    direction);
 
             // Since views get attached & detached from RecyclerView,
             // {@link LayoutManager#getChildCount} can return a different number from the actual
@@ -197,7 +203,7 @@ final class GestureSelector {
             // of items in the adapter. Using the adapter is the for sure way to get the actual last
             // item position.
             final float inboundY = getInboundY(rv.getHeight(), e.getY());
-            final int lastGlidedItemPos = (bottomRight) ? rv.getAdapter().getItemCount() - 1
+            final int lastGlidedItemPos = (pastLastItem) ? rv.getAdapter().getItemCount() - 1
                     : rv.getChildAdapterPosition(rv.findChildViewUnder(e.getX(), inboundY));
             if (lastGlidedItemPos != RecyclerView.NO_POSITION) {
                 doGestureMultiSelect(lastGlidedItemPos);
@@ -211,13 +217,27 @@ final class GestureSelector {
     // It's possible for events to go over the top/bottom of the RecyclerView.
     // We want to get a Y-coordinate within the RecyclerView so we can find the childView underneath
     // correctly.
-    private float getInboundY(float max, float y) {
+    private static float getInboundY(float max, float y) {
         if (y < 0f) {
             return 0f;
         } else if (y > max) {
             return max;
         }
         return y;
+    }
+
+    /*
+     * Check to see an InputEvent if past a particular item, i.e. to the right or to the bottom
+     * of the item.
+     * For RTL, it would to be to the left or to the bottom of the item.
+     */
+    @VisibleForTesting
+    static boolean isPastLastItem(int top, int left, int right, InputEvent e, int direction) {
+        if (direction == View.LAYOUT_DIRECTION_LTR) {
+            return e.getX() > right && e.getY() > top;
+        } else {
+            return e.getX() < left && e.getY() > top;
+        }
     }
 
     /* Given the end position, select everything in-between.
