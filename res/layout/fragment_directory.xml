@@ -23,21 +23,13 @@
     android:elevation="4dp"
     android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/progress_bar_height"
-        android:indeterminate="true"
-        style="@style/TrimmedHorizontalProgressBar"
-        android:visibility="gone"/>
-
     <FrameLayout
         android:id="@+id/container_message_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
+        android:elevation="1dp"
         android:background="@color/material_grey_50"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.android.documentsui.dirlist.DocumentsSwipeRefreshLayout
         android:id="@+id/refresh_layout"
@@ -47,6 +39,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <!-- The empty container view -->
             <FrameLayout
                 android:id="@android:id/empty"
@@ -94,12 +87,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <!-- dropdown sort widget shows when column headers doesn't. -->
-                <include layout="@layout/dropdown_sort_widget" />
-
-                <!-- column headers are empty on small screens, in portrait or in grid mode. -->
-                <include layout="@layout/column_headers"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/dir_list"

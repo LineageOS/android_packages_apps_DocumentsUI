@@ -111,6 +111,7 @@ public abstract class BaseActivity extends Activity
     DrawerController mDrawer;
     NavigationViewManager mNavigator;
     List<EventListener> mEventListeners = new ArrayList<>();
+    SortController mSortController;
 
     private final String mTag;
     private final ContentObserver mRootsCacheObserver = new ContentObserver(new Handler()) {
@@ -126,7 +127,6 @@ public abstract class BaseActivity extends Activity
     private boolean mNavDrawerHasFocus;
     private long mStartTime;
 
-    private SortController mSortController;
 
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);
     public abstract void onDocumentsPicked(List<DocumentInfo> docs);
@@ -183,7 +183,8 @@ public abstract class BaseActivity extends Activity
 
         mNavigator = new NavigationViewManager(mDrawer, toolbar, mState, this, breadcrumb);
 
-        mSortController = new SortController(mState.sortModel, this);
+        mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
+
 
         // Base classes must update result in their onCreate.
         setResult(Activity.RESULT_CANCELED);
@@ -213,10 +214,6 @@ public abstract class BaseActivity extends Activity
     protected void onDestroy() {
         getContentResolver().unregisterContentObserver(mRootsCacheObserver);
         super.onDestroy();
-    }
-
-    SortController getSortController() {
-        return mSortController;
     }
 
     private State getState(@Nullable Bundle icicle) {

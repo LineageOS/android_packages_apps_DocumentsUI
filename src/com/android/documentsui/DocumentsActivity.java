@@ -406,7 +406,7 @@ public class DocumentsActivity extends BaseActivity {
     public FragmentTuner createFragmentTuner() {
         // Currently DocumentsTuner maintains a state specific to the fragment instance. Because of
         // that, we create a new instance everytime it is needed
-        return new DocumentsTuner(this, getDisplayState(), getSortController());
+        return new DocumentsTuner(this, getDisplayState(), mSortController);
     }
 
     @Override

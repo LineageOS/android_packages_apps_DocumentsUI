@@ -194,8 +194,6 @@ public class DirectoryFragment extends Fragment
     private DragScrollListener mOnDragListener;
     private MenuManager mMenuManager;
 
-    private TableHeaderController mTableHeaderController;
-    private DropdownSortWidgetController mDropdownSortWidgetController;
     private SortModel.UpdateListener mSortListener = (model, updateType) -> {
         // Only when sort order has changed do we need to trigger another loading.
         if ((updateType & SortModel.UPDATE_TYPE_SORTING) != 0) {
@@ -210,7 +208,8 @@ public class DirectoryFragment extends Fragment
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
         mMessageBar = MessageBar.create(getChildFragmentManager());
-        mProgressBar = view.findViewById(R.id.progressbar);
+        mProgressBar = getActivity().findViewById(R.id.progressbar);
+        assert(mProgressBar != null);
 
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         mRefreshLayout.setOnRefreshListener(this);
@@ -234,10 +233,6 @@ public class DirectoryFragment extends Fragment
         // Make the recycler and the empty views responsive to drop events.
         mRecView.setOnDragListener(mOnDragListener);
         mEmptyView.setOnDragListener(mOnDragListener);
-
-        mTableHeaderController = TableHeaderController.create(view.findViewById(R.id.table_header));
-        mDropdownSortWidgetController =
-                DropdownSortWidgetController.create(view.findViewById(R.id.dropdown_sort_widget));
 
         return view;
     }
@@ -386,10 +381,6 @@ public class DirectoryFragment extends Fragment
     public void onStart() {
         super.onStart();
 
-        mTuner.mSortController.manage(
-                mTableHeaderController,
-                mDropdownSortWidgetController,
-                getDisplayState().derivedMode);
         // Add listener to update contents on sort model change
         getDisplayState().sortModel.addListener(mSortListener);
     }
@@ -398,10 +389,6 @@ public class DirectoryFragment extends Fragment
     public void onStop() {
         super.onStop();
 
-        // Remove listener to avoid leak.
-        mTuner.mSortController.clean(
-                mTableHeaderController,
-                mDropdownSortWidgetController);
         getDisplayState().sortModel.removeListener(mSortListener);
 
         // Remember last scroll location
@@ -690,15 +677,14 @@ public class DirectoryFragment extends Fragment
         public void onSelectionChanged() {
             mSelectionMgr.getSelection(mSelected);
             if (mSelected.size() > 0) {
-                if (DEBUG) Log.d(TAG, "Maybe starting action mode.");
-                if (mActionMode == null) {
-                    if (DEBUG) Log.d(TAG, "Yeah. Starting action mode.");
+                 if (mActionMode == null) {
+                    if (DEBUG) Log.d(TAG, "Starting action mode.");
                     mActionMode = getActivity().startActionMode(this);
                 }
                 updateActionMenu();
             } else {
-                if (DEBUG) Log.d(TAG, "Finishing action mode.");
                 if (mActionMode != null) {
+                    if (DEBUG) Log.d(TAG, "Finishing action mode.");
                     mActionMode.finish();
                 }
             }
@@ -1512,6 +1498,8 @@ public class DirectoryFragment extends Fragment
     private final class ModelUpdateListener implements Model.UpdateListener {
         @Override
         public void onModelUpdate(Model model) {
+            if (DEBUG) Log.d(TAG, "Received model update. Loading=" + model.isLoading());
+
             if (model.info != null || model.error != null) {
                 mMessageBar.setInfo(model.info);
                 mMessageBar.setError(model.error);
@@ -1637,6 +1625,7 @@ public class DirectoryFragment extends Fragment
 
     public static void showDirectory(
             FragmentManager fm, RootInfo root, DocumentInfo doc, int anim) {
+        if (DEBUG) Log.d(TAG, "Showing directory: " + doc.derivedUri);
         create(fm, TYPE_NORMAL, root, doc, null, anim);
     }
 
@@ -1657,6 +1646,7 @@ public class DirectoryFragment extends Fragment
 
     public static void reload(FragmentManager fm, int type, RootInfo root, DocumentInfo doc,
             String query) {
+        if (DEBUG) Log.d(TAG, "Reloading directory: " + doc.derivedUri);
         DirectoryFragment df = get(fm);
         df.mType = type;
         df.mQuery = query;
@@ -1668,6 +1658,7 @@ public class DirectoryFragment extends Fragment
 
     public static void create(FragmentManager fm, int type, RootInfo root, DocumentInfo doc,
             String query, int anim) {
+        if (DEBUG) Log.d(TAG, "Creating new fragment for directory: " + doc.derivedUri);
         final Bundle args = new Bundle();
         args.putInt(Shared.EXTRA_TYPE, type);
         args.putParcelable(Shared.EXTRA_ROOT, root);
@@ -1723,6 +1714,7 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
+        if (DEBUG) Log.d(TAG, "Creating new loader for: " + mDocument.derivedUri);
         Context context = getActivity();
         State state = getDisplayState();
 
@@ -1736,10 +1728,12 @@ public class DirectoryFragment extends Fragment
                 if (mTuner.managedModeEnabled()) {
                     contentsUri = DocumentsContract.setManageMode(contentsUri);
                 }
+                if (DEBUG) Log.d(TAG, "Creating new loader for: " + mDocument.derivedUri);
                 return new DirectoryLoader(
                         context, mType, mRoot, mDocument, contentsUri, state.sortModel,
                         mSearchMode);
             case TYPE_RECENT_OPEN:
+                if (DEBUG) Log.d(TAG, "Creating new loader recents.");
                 final RootsCache roots = DocumentsApplication.getRootsCache(context);
                 return new RecentsLoader(context, roots, state);
 
@@ -1750,6 +1744,9 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
+        if (DEBUG) Log.d(TAG, "Loader has finished for: " + mDocument.derivedUri);
+        assert(result != null);
+
         if (!isAdded()) return;
 
         if (mSearchMode) {
@@ -1798,7 +1795,8 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader<DirectoryResult> loader) {
-        mModel.update(null);
+        if (DEBUG) Log.d(TAG, "Resetting loader for: " + mDocument.derivedUri);
+        mModel.onLoaderReset();
 
         mRefreshLayout.setRefreshing(false);
     }

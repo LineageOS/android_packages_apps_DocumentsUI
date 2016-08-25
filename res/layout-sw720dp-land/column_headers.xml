@@ -23,6 +23,7 @@
     android:layout_height="@dimen/doc_header_height"
     android:background="@drawable/sort_widget_background"
     android:visibility="gone">
+
     <!-- Placeholder for focus indicator -->
     <View
         android:layout_width="4dp"

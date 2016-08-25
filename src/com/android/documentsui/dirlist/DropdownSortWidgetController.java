@@ -16,7 +16,6 @@
 
 package com.android.documentsui.dirlist;
 
-import android.annotation.Nullable;
 import android.annotation.StringRes;
 import android.view.Gravity;
 import android.view.Menu;
@@ -44,8 +43,7 @@ public final class DropdownSortWidgetController implements WidgetController {
     private static final int LEVEL_UPWARD = 0;
     private static final int LEVEL_DOWNWARD = 10000;
 
-    private SortModel mModel;
-
+    private final SortModel mModel;
     private final View mWidget;
     private final TextView mDimensionButton;
     private final PopupMenu mMenu;
@@ -55,7 +53,8 @@ public final class DropdownSortWidgetController implements WidgetController {
     private final OnClickListener mArrowClickListener = this::onChangeDirection;
     private final UpdateListener mUpdateListener = this::onModelUpdate;
 
-    private DropdownSortWidgetController(View widget) {
+    public DropdownSortWidgetController(SortModel model, View widget) {
+        mModel = model;
         mWidget = widget;
 
         mDimensionButton = (TextView) mWidget.findViewById(R.id.sort_dimen_dropdown);
@@ -63,26 +62,11 @@ public final class DropdownSortWidgetController implements WidgetController {
         mMenu.setOnMenuItemClickListener(this::onSelectDimension);
 
         mArrow = (ImageView) mWidget.findViewById(R.id.sort_arrow);
-    }
 
-    static @Nullable DropdownSortWidgetController create(@Nullable View widget) {
-        return widget == null ? null : new DropdownSortWidgetController(widget);
-    }
+        populateMenuItems();
+        onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
 
-    @Override
-    public void setModel(SortModel model) {
-        if (mModel != null) {
-            mModel.removeListener(mUpdateListener);
-        }
-
-        mModel = model;
-
-        if (mModel != null) {
-            populateMenuItems();
-            onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
-
-            mModel.addListener(mUpdateListener);
-        }
+        mModel.addListener(mUpdateListener);
     }
 
     @Override

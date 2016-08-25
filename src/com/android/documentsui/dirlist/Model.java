@@ -79,21 +79,28 @@ public class Model {
         }
     }
 
-    void update(DirectoryResult result) {
-        if (DEBUG) Log.i(TAG, "Updating model with new result set.");
-
-        if (result == null) {
-            mCursor = null;
-            mCursorCount = 0;
-            mIds = new String[0];
-            mPositions.clear();
-            info = null;
-            error = null;
-            doc = null;
-            mIsLoading = false;
-            notifyUpdateListeners();
-            return;
+    void onLoaderReset() {
+        if (mIsLoading) {
+            if (DEBUG) Log.w(TAG, "Received unexpected loader reset while in loading state.");
         }
+    }
+
+    private void reset() {
+        mCursor = null;
+        mCursorCount = 0;
+        mIds = new String[0];
+        mPositions.clear();
+        info = null;
+        error = null;
+        doc = null;
+        mIsLoading = false;
+        notifyUpdateListeners();
+    }
+
+    void update(DirectoryResult result) {
+        assert(result != null);
+
+        if (DEBUG) Log.i(TAG, "Updating model with new result set.");
 
         if (result.exception != null) {
             Log.e(TAG, "Error while loading directory contents", result.exception);

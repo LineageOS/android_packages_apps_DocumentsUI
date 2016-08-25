@@ -17,10 +17,11 @@
 package com.android.documentsui.sorting;
 
 import android.annotation.Nullable;
-import android.content.Context;
+import android.app.Activity;
 import android.view.View;
 
 import com.android.documentsui.Metrics;
+import com.android.documentsui.R;
 import com.android.documentsui.State;
 import com.android.documentsui.State.ViewMode;
 import com.android.documentsui.dirlist.DropdownSortWidgetController;
@@ -31,103 +32,73 @@ import com.android.documentsui.dirlist.header.TableHeaderController;
  * appear in different locations in the UI, like the menu, above the file list (pinned) and embedded
  * at the top of file list... and maybe other places too.
  */
-public class SortController {
+public final class SortController {
 
-    private static final WidgetController DUMMY_CONTROLLER = new WidgetController() {};
+    private final WidgetController mDropdownController;
+    private final @Nullable WidgetController mTableHeaderController;
 
-    private final SortModel mModel;
-    private final Context mContext;
+    public SortController(
+            WidgetController dropdownController,
+            @Nullable WidgetController tableHeaderController) {
 
-    private WidgetController mTableHeaderController = DUMMY_CONTROLLER;
-    private WidgetController mDropdownController = DUMMY_CONTROLLER;
-
-    public SortController(SortModel model, Context context) {
-        mModel = model;
-        mContext = context.getApplicationContext();
-
-        mModel.setMetricRecorder(this::recordSortMetric);
-    }
-
-    public void manage(
-            @Nullable TableHeaderController headerController,
-            @Nullable DropdownSortWidgetController gridController,
-            @ViewMode int mode) {
-        assert(mTableHeaderController == DUMMY_CONTROLLER);
-        assert(mDropdownController == DUMMY_CONTROLLER);
-
-        if (headerController != null) {
-            mTableHeaderController = headerController;
-            mTableHeaderController.setModel(mModel);
-        }
-
-        if (gridController != null) {
-            mDropdownController = gridController;
-            mDropdownController.setModel(mModel);
-        }
-
-        onViewModeChanged(mode);
-    }
-
-    public void clean(
-            @Nullable TableHeaderController headerController,
-            @Nullable DropdownSortWidgetController gridController) {
-        assert(headerController == null || mTableHeaderController == headerController);
-        assert(gridController == null || mDropdownController == gridController);
-
-        if (headerController != null) {
-            headerController.setModel(null);
-        }
-        mTableHeaderController = DUMMY_CONTROLLER;
-
-        if (gridController != null) {
-            gridController.setModel(null);
-        }
-        mDropdownController = DUMMY_CONTROLLER;
+        assert(dropdownController != null);
+        mDropdownController = dropdownController;
+        mTableHeaderController = tableHeaderController;
     }
 
     public void onViewModeChanged(@ViewMode int mode) {
-        setVisibilityPerViewMode(mTableHeaderController, mode, View.GONE, View.VISIBLE);
-
-        if (mTableHeaderController == DUMMY_CONTROLLER) {
+        // in phone layouts we only ever have the dropdown sort controller.
+        if (mTableHeaderController == null) {
             mDropdownController.setVisibility(View.VISIBLE);
-        } else {
-            setVisibilityPerViewMode(mDropdownController, mode, View.VISIBLE, View.GONE);
+            return;
         }
-    }
 
-    private static void setVisibilityPerViewMode(
-            WidgetController controller,
-            @ViewMode int mode,
-            int visibilityInGrid,
-            int visibilityInList) {
+        // in tablet mode, we have fancy pants tabular header.
         switch (mode) {
             case State.MODE_GRID:
-                controller.setVisibility(visibilityInGrid);
+            case State.MODE_UNKNOWN:
+                mTableHeaderController.setVisibility(View.GONE);
+                mDropdownController.setVisibility(View.VISIBLE);
                 break;
             case State.MODE_LIST:
-                controller.setVisibility(visibilityInList);
+                mTableHeaderController.setVisibility(View.VISIBLE);
+                mDropdownController.setVisibility(View.GONE);
                 break;
-            default:
-                throw new IllegalArgumentException("Unknown view mode: " + mode + ".");
         }
     }
 
-    private void recordSortMetric(SortDimension dimension) {
-        switch (dimension.getId()) {
-            case SortModel.SORT_DIMENSION_ID_TITLE:
-                Metrics.logUserAction(mContext, Metrics.USER_ACTION_SORT_NAME);
-                break;
-            case SortModel.SORT_DIMENSION_ID_SIZE:
-                Metrics.logUserAction(mContext, Metrics.USER_ACTION_SORT_SIZE);
-                break;
-            case SortModel.SORT_DIMENSION_ID_DATE:
-                Metrics.logUserAction(mContext, Metrics.USER_ACTION_SORT_DATE);
-                break;
-        }
+    public static SortController create(
+            Activity activity,
+            @ViewMode int initialMode,
+            SortModel sortModel) {
+
+        sortModel.setMetricRecorder((SortDimension dimension) -> {
+            switch (dimension.getId()) {
+                case SortModel.SORT_DIMENSION_ID_TITLE:
+                    Metrics.logUserAction(activity, Metrics.USER_ACTION_SORT_NAME);
+                    break;
+                case SortModel.SORT_DIMENSION_ID_SIZE:
+                    Metrics.logUserAction(activity, Metrics.USER_ACTION_SORT_SIZE);
+                    break;
+                case SortModel.SORT_DIMENSION_ID_DATE:
+                    Metrics.logUserAction(activity, Metrics.USER_ACTION_SORT_DATE);
+                    break;
+            }
+        });
+
+        SortController controller = new SortController(
+                new DropdownSortWidgetController(
+                        sortModel,
+                        activity.findViewById(R.id.dropdown_sort_widget)),
+                TableHeaderController.create(
+                        sortModel,
+                        activity.findViewById(R.id.table_header)));
+
+        controller.onViewModeChanged(initialMode);
+        return controller;
     }
 
     public interface WidgetController {
-        default void setModel(SortModel model) {}
         default void setVisibility(int visibility) {}
     }
 }
