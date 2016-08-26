@@ -16,15 +16,15 @@
 
 package com.android.documentsui.dirlist.header;
 
-import android.annotation.Nullable;
 import android.view.View;
 
 import com.android.documentsui.R;
+import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.sorting.SortModel.UpdateType;
 import com.android.documentsui.sorting.SortModel.SortDimensionId;
-import com.android.documentsui.sorting.SortController;
+
+import javax.annotation.Nullable;
 
 /**
  * View controller for table header that associates header cells in table header and columns.
@@ -37,37 +37,39 @@ public final class TableHeaderController implements SortController.WidgetControl
     private final HeaderCell mSizeCell;
     private final HeaderCell mDateCell;
 
-    private final SortModel.UpdateListener mModelUpdaterListener = this::onModelUpdate;
+    // We assign this here porque each method reference creates a new object
+    // instance (which is wasteful).
     private final View.OnClickListener mOnCellClickListener = this::onCellClicked;
 
-    private SortModel mModel;
+    private final SortModel mModel;
 
-    public static @Nullable TableHeaderController create(@Nullable View tableHeader) {
-        return (tableHeader == null) ? null : new TableHeaderController(tableHeader);
-    }
+    private TableHeaderController(SortModel sortModel, View tableHeader) {
+        assert(sortModel != null);
+        assert(tableHeader != null);
 
-    private TableHeaderController(View tableHeader) {
+        mModel = sortModel;
         mTableHeader = tableHeader;
 
         mTitleCell = (HeaderCell) tableHeader.findViewById(android.R.id.title);
         mSummaryCell = (HeaderCell) tableHeader.findViewById(android.R.id.summary);
         mSizeCell = (HeaderCell) tableHeader.findViewById(R.id.size);
         mDateCell = (HeaderCell) tableHeader.findViewById(R.id.date);
+
+        onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
+
+        mModel.addListener(this::onModelUpdate);
     }
 
-    @Override
-    public void setModel(@Nullable SortModel model) {
-        if (mModel != null) {
-            mModel.removeListener(mModelUpdaterListener);
-        }
+    private void onModelUpdate(SortModel model, int updateTypeUnspecified) {
+        bindCell(mTitleCell, SortModel.SORT_DIMENSION_ID_TITLE);
+        bindCell(mSummaryCell, SortModel.SORT_DIMENSION_ID_SUMMARY);
+        bindCell(mSizeCell, SortModel.SORT_DIMENSION_ID_SIZE);
+        bindCell(mDateCell, SortModel.SORT_DIMENSION_ID_DATE);
+    }
 
-        mModel = model;
-
-        if (mModel != null) {
-            onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
-
-            mModel.addListener(mModelUpdaterListener);
-        }
+    public static @Nullable TableHeaderController create(
+            SortModel sortModel, @Nullable View tableHeader) {
+        return (tableHeader == null) ? null : new TableHeaderController(sortModel, tableHeader);
     }
 
     @Override
@@ -75,14 +77,8 @@ public final class TableHeaderController implements SortController.WidgetControl
         mTableHeader.setVisibility(visibility);
     }
 
-    private void onModelUpdate(SortModel model, @UpdateType int updateType) {
-        bindCell(mTitleCell, SortModel.SORT_DIMENSION_ID_TITLE);
-        bindCell(mSummaryCell, SortModel.SORT_DIMENSION_ID_SUMMARY);
-        bindCell(mSizeCell, SortModel.SORT_DIMENSION_ID_SIZE);
-        bindCell(mDateCell, SortModel.SORT_DIMENSION_ID_DATE);
-    }
-
     private void bindCell(HeaderCell cell, @SortDimensionId int id) {
+        assert(cell != null);
         SortDimension dimension = mModel.getDimensionById(id);
 
         cell.setTag(dimension);
