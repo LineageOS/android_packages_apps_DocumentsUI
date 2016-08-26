@@ -483,7 +483,7 @@ public class FilesActivity extends BaseActivity {
 
     @Override
     public FragmentTuner createFragmentTuner() {
-        return new FilesTuner(this, getDisplayState(), getSortController());
+        return new FilesTuner(this, getDisplayState(), mSortController);
     }
 
     @Override

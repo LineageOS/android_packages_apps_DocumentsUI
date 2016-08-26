@@ -42,6 +42,10 @@ public abstract class FragmentTuner {
     final SortController mSortController;
 
     public FragmentTuner(Context context, State state, SortController sortController) {
+        assert(context != null);
+        assert(state != null);
+        assert(sortController != null);
+
         mContext = context;
         mState = state;
         mSortController = sortController;

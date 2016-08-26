@@ -46,8 +46,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_breadcrumb_arrow"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginLeft="3dp" />
+        android:layout_marginTop="2dp" />
 
 </LinearLayout>
