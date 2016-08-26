@@ -267,6 +267,7 @@ public abstract class BaseActivity extends Activity
         }
 
         mState.derivedMode = LocalPreferences.getViewMode(this, root, MODE_GRID);
+        mSortController.onViewModeChanged(mState.derivedMode);
 
         // Set summary header's visibility. Only recents and downloads root may have summary in
         // their docs.

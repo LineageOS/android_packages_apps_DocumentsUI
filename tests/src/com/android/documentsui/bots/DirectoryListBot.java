@@ -16,26 +16,13 @@
 
 package com.android.documentsui.bots;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
-import static com.android.documentsui.sorting.SortDimension.SORT_DIRECTION_ASCENDING;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-
-import static org.hamcrest.Matchers.allOf;
+import static junit.framework.Assert.fail;
 
 import android.content.Context;
 import android.graphics.Rect;
-import android.support.annotation.StringRes;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.Configurator;
@@ -48,16 +35,6 @@ import android.support.test.uiautomator.Until;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-
-import com.android.documentsui.R;
-import com.android.documentsui.sorting.SortDimension;
-import com.android.documentsui.sorting.SortDimension.SortDirection;
-import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.sorting.SortModel.SortDimensionId;
-
-import junit.framework.Assert;
-
-import org.hamcrest.Matcher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,15 +52,8 @@ public class DirectoryListBot extends Bots.BaseBot {
     private static final BySelector SNACK_DELETE =
             By.desc(Pattern.compile("^Deleting [0-9]+ file.+"));
 
-    private final SortModel mSortModel = SortModel.createModel();
-
-    private final DropdownSortBot mDropdownBot;
-    private final HeaderSortBot mHeaderBot;
-
     public DirectoryListBot(UiDevice device, Context context, int timeout) {
         super(device, context, timeout);
-        mDropdownBot = new DropdownSortBot();
-        mHeaderBot = new HeaderSortBot();
     }
 
     public void assertDocumentsCount(int count) throws UiObjectNotFoundException {
@@ -99,7 +69,7 @@ public class DirectoryListBot extends Bots.BaseBot {
             }
         }
         if (!absent.isEmpty()) {
-            Assert.fail("Expected documents " + Arrays.asList(labels)
+            fail("Expected documents " + Arrays.asList(labels)
                     + ", but missing " + absent);
         }
     }
@@ -112,7 +82,7 @@ public class DirectoryListBot extends Bots.BaseBot {
             }
         }
         if (!found.isEmpty()) {
-            Assert.fail("Expected documents not present" + Arrays.asList(labels)
+            fail("Expected documents not present" + Arrays.asList(labels)
                     + ", but present " + found);
         }
     }
@@ -234,22 +204,6 @@ public class DirectoryListBot extends Bots.BaseBot {
         assertHasFocus(DIR_LIST_ID);
     }
 
-    public void sortBy(@SortDimensionId int id, @SortDirection int direction) {
-        assert(direction != SortDimension.SORT_DIRECTION_NONE);
-
-        final @StringRes int labelId = mSortModel.getDimensionById(id).getLabelId();
-        final String label = mContext.getString(labelId);
-        final boolean result;
-        if (Matchers.present(mDropdownBot.MATCHER)) {
-            result = mDropdownBot.sortBy(label, direction);
-        } else {
-            result = mHeaderBot.sortBy(label, direction);
-        }
-
-        assertTrue("Sorting by id: " + id + " in direction: " + direction + " failed.",
-                result);
-    }
-
     public void assertOrder(String[] dirs, String[] files) throws UiObjectNotFoundException {
         for (int i = 0; i < dirs.length - 1; ++i) {
             assertOrder(dirs[i], dirs[i + 1]);
@@ -282,92 +236,6 @@ public class DirectoryListBot extends Bots.BaseBot {
                     "\"" + first + "\" is not located above or to the right of \"" + second +
                             "\" in RTL",
                     firstBound.bottom < secondBound.top || firstBound.left > secondBound.right);
-        }
-    }
-
-    private static class DropdownSortBot {
-
-        private static final Matcher<View> MATCHER = withId(R.id.dropdown_sort_widget);
-        private static final Matcher<View> DROPDOWN_MATCHER = allOf(
-                withId(R.id.sort_dimen_dropdown),
-                withParent(MATCHER));
-        private static final Matcher<View> SORT_ARROW_MATCHER = allOf(
-                withId(R.id.sort_arrow),
-                withParent(MATCHER));
-
-        private boolean sortBy(String label, @SortDirection int direction) {
-            onView(DROPDOWN_MATCHER).perform(click());
-            onView(withText(label)).perform(click());
-
-            if (direction != getDirection()) {
-                onView(SORT_ARROW_MATCHER).perform(click());
-            }
-
-            return Matchers.present(allOf(
-                    DROPDOWN_MATCHER,
-                    withText(label)))
-                    && getDirection() == direction;
-        }
-
-        private @SortDirection int getDirection() {
-            final boolean ascending = Matchers.present(
-                    allOf(
-                            SORT_ARROW_MATCHER,
-                            withContentDescription(R.string.sort_direction_ascending)));
-
-            if (ascending) {
-                return SORT_DIRECTION_ASCENDING;
-            }
-
-            final boolean descending = Matchers.present(
-                    allOf(
-                            SORT_ARROW_MATCHER,
-                            withContentDescription(R.string.sort_direction_descending)));
-
-            return descending
-                    ? SortDimension.SORT_DIRECTION_DESCENDING
-                    : SortDimension.SORT_DIRECTION_NONE;
-        }
-    }
-
-    private static class HeaderSortBot {
-
-        private static final Matcher<View> MATCHER = withId(R.id.table_header);
-
-        private boolean sortBy(String label, @SortDirection int direction) {
-            final Matcher<View> cellMatcher = allOf(
-                    withChild(withText(label)),
-                    isDescendantOfA(MATCHER));
-            onView(cellMatcher).perform(click());
-
-            final @SortDirection int viewDirection = getDirection(cellMatcher);
-
-            if (viewDirection != direction) {
-                onView(cellMatcher).perform(click());
-            }
-
-            return getDirection(cellMatcher) == direction;
-        }
-
-        private @SortDirection int getDirection(Matcher<View> cellMatcher) {
-            final boolean ascending =
-                    Matchers.present(
-                            allOf(
-                                    withContentDescription(R.string.sort_direction_ascending),
-                                    withParent(cellMatcher)));
-            if (ascending) {
-                return SORT_DIRECTION_ASCENDING;
-            }
-
-            final boolean descending =
-                    Matchers.present(
-                            allOf(
-                                    withContentDescription(R.string.sort_direction_descending),
-                                    withParent(cellMatcher)));
-
-            return descending
-                    ? SortDimension.SORT_DIRECTION_DESCENDING
-                    : SortDimension.SORT_DIRECTION_NONE;
         }
     }
 }
