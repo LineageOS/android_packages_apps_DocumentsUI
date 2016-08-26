@@ -96,7 +96,6 @@ import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.dirlist.header.TableHeaderController;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperation;
@@ -178,7 +177,8 @@ public class DirectoryFragment extends Fragment
     // Directory fragment state is defined by: root, document, query, type, selection
     private @ResultType int mType = TYPE_NORMAL;
     private RootInfo mRoot;
-    private DocumentInfo mDocument;
+    // Null when viewing Recents directory.
+    private @Nullable DocumentInfo mDocument;
     private String mQuery = null;
     // Note, we use !null to indicate that selection was restored (from rotation).
     // So don't fiddle with this field unless you've got the bigger picture in mind.
@@ -1625,7 +1625,7 @@ public class DirectoryFragment extends Fragment
 
     public static void showDirectory(
             FragmentManager fm, RootInfo root, DocumentInfo doc, int anim) {
-        if (DEBUG) Log.d(TAG, "Showing directory: " + doc.derivedUri);
+        if (DEBUG) Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
         create(fm, TYPE_NORMAL, root, doc, null, anim);
     }
 
@@ -1646,7 +1646,7 @@ public class DirectoryFragment extends Fragment
 
     public static void reload(FragmentManager fm, int type, RootInfo root, DocumentInfo doc,
             String query) {
-        if (DEBUG) Log.d(TAG, "Reloading directory: " + doc.derivedUri);
+        if (DEBUG) Log.d(TAG, "Reloading directory: " + DocumentInfo.debugString(doc));
         DirectoryFragment df = get(fm);
         df.mType = type;
         df.mQuery = query;
@@ -1656,9 +1656,22 @@ public class DirectoryFragment extends Fragment
         df.getLoaderManager().restartLoader(LOADER_ID, null, df);
     }
 
-    public static void create(FragmentManager fm, int type, RootInfo root, DocumentInfo doc,
-            String query, int anim) {
-        if (DEBUG) Log.d(TAG, "Creating new fragment for directory: " + doc.derivedUri);
+    public static void create(
+            FragmentManager fm,
+            int type,
+            RootInfo root,
+            @Nullable DocumentInfo doc,
+            String query,
+            int anim) {
+
+        if (DEBUG) {
+            if (doc == null) {
+                Log.d(TAG, "Creating new fragment null directory");
+            } else {
+                Log.d(TAG, "Creating new fragment for directory: " + DocumentInfo.debugString(doc));
+            }
+        }
+
         final Bundle args = new Bundle();
         args.putInt(Shared.EXTRA_TYPE, type);
         args.putParcelable(Shared.EXTRA_ROOT, root);
@@ -1714,7 +1727,7 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
-        if (DEBUG) Log.d(TAG, "Creating new loader for: " + mDocument.derivedUri);
+        if (DEBUG) Log.d(TAG, "Creating new loader for: " + DocumentInfo.debugString(mDocument));
         Context context = getActivity();
         State state = getDisplayState();
 
@@ -1744,7 +1757,7 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
-        if (DEBUG) Log.d(TAG, "Loader has finished for: " + mDocument.derivedUri);
+        if (DEBUG) Log.d(TAG, "Loader has finished for: " + DocumentInfo.debugString(mDocument));
         assert(result != null);
 
         if (!isAdded()) return;
@@ -1795,7 +1808,7 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader<DirectoryResult> loader) {
-        if (DEBUG) Log.d(TAG, "Resetting loader for: " + mDocument.derivedUri);
+        if (DEBUG) Log.d(TAG, "Resetting loader for: " + DocumentInfo.debugString(mDocument));
         mModel.onLoaderReset();
 
         mRefreshLayout.setRefreshing(false);

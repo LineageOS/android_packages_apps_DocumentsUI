@@ -46,13 +46,21 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         mDocsHelper.createDocument(rootDir1, "text/plain", "poodles.text");
     }
 
-    public void testFilesListed() throws Exception {
-        bots.directory.assertDocumentsPresent("file0.log", "file1.png", "file2.csv");
+    // Recents is a strange meta root that gathers entries from other providers.
+    // It is special cased in a variety of ways, which is why we just want
+    // to be able to click on it.
+    public void testClickRecent() throws Exception {
+        bots.roots.openRoot("Recent");
+        bots.main.assertWindowTitle("Recent");
     }
 
     public void testRootClick_SetsWindowTitle() throws Exception {
         bots.roots.openRoot("Images");
         bots.main.assertWindowTitle("Images");
+    }
+
+    public void testFilesListed() throws Exception {
+        bots.directory.assertDocumentsPresent("file0.log", "file1.png", "file2.csv");
     }
 
     public void testFilesList_LiveUpdate() throws Exception {

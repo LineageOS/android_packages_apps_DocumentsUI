@@ -99,6 +99,6 @@ public final class SortController {
     }
 
     public interface WidgetController {
-        default void setVisibility(int visibility) {}
+        void setVisibility(int visibility);
     }
 }

@@ -81,8 +81,12 @@ public class Model {
 
     void onLoaderReset() {
         if (mIsLoading) {
-            if (DEBUG) Log.w(TAG, "Received unexpected loader reset while in loading state.");
+            Log.w(TAG, "Received unexpected loader reset while in loading state for doc: "
+                    + DocumentInfo.debugString(doc));
+            return;
         }
+
+        reset();
     }
 
     private void reset() {
