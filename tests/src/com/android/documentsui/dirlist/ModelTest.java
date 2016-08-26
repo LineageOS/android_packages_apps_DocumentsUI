@@ -105,16 +105,6 @@ public class ModelTest extends AndroidTestCase {
         model.update(r);
     }
 
-    // Tests that the model is properly emptied out after a null update.
-    public void testNullUpdate() {
-        // see: b/31102312
-//        model.update(null);
-//
-//        assertTrue(model.isEmpty());
-//        assertEquals(0, model.getItemCount());
-//        assertEquals(0, model.getModelIds().length);
-    }
-
     // Tests that the item count is correct.
     public void testItemCount() {
         assertEquals(ITEM_COUNT, model.getItemCount());

@@ -67,11 +67,6 @@ public final class TableHeaderController implements SortController.WidgetControl
         bindCell(mDateCell, SortModel.SORT_DIMENSION_ID_DATE);
     }
 
-    public static @Nullable TableHeaderController create(
-            SortModel sortModel, @Nullable View tableHeader) {
-        return (tableHeader == null) ? null : new TableHeaderController(sortModel, tableHeader);
-    }
-
     @Override
     public void setVisibility(int visibility) {
         mTableHeader.setVisibility(visibility);
@@ -97,5 +92,10 @@ public final class TableHeaderController implements SortController.WidgetControl
         SortDimension dimension = (SortDimension) v.getTag();
 
         mModel.sortByUser(dimension.getId(), dimension.getNextDirection());
+    }
+
+    public static @Nullable TableHeaderController create(
+            SortModel sortModel, @Nullable View tableHeader) {
+        return (tableHeader == null) ? null : new TableHeaderController(sortModel, tableHeader);
     }
 }

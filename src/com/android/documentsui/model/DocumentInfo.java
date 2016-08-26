@@ -39,6 +39,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import libcore.io.IoUtils;
 
 /**
@@ -343,5 +345,17 @@ public class DocumentInfo implements Durable, Parcelable {
                 mimeTypes.addAll(Arrays.asList(streamTypes));
             }
         }
+    }
+
+    public static String debugString(@Nullable DocumentInfo doc) {
+        if (doc == null) {
+            return "<null DocumentInfo>";
+        }
+
+        if (doc.derivedUri == null) {
+            doc.deriveFields();
+            assert(doc.derivedUri != null);
+        }
+        return doc.derivedUri.toString();
     }
 }
