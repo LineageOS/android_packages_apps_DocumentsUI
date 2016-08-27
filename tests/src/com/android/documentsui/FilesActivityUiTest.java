@@ -83,4 +83,27 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         bots.breadcrumb.clickItem("TEST_ROOT_0");
         bots.directory.waitForDocument(dirName1);
     }
+
+    public void testRootChange_UpdatesSortHeader() throws Exception {
+
+        // switch to separate display modes for two separate roots. Each
+        // mode has its own distinct sort header. This should be remembered
+        // by files app.
+        bots.roots.openRoot("Images");
+        bots.main.switchToGridMode();
+        bots.roots.openRoot("Videos");
+        bots.main.switchToListMode();
+
+        // Now switch back and assert the correct mode sort header mode
+        // is restored when we load the root with that display mode.
+        bots.roots.openRoot("Images");
+        bots.sortHeader.assertDropdownMode();
+        if (bots.main.inFixedLayout()) {
+            bots.roots.openRoot("Videos");
+            bots.sortHeader.assertColumnMode();
+        } else {
+            bots.roots.openRoot("Videos");
+            bots.sortHeader.assertDropdownMode();
+        }
+    }
 }

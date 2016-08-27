@@ -36,6 +36,7 @@ public final class Bots {
 
     public final BreadBot breadcrumb;
     public final DirectoryListBot directory;
+    public final SortHeaderBot sortHeader;
     public final KeyboardBot keyboard;
     public final RootsListBot roots;
     public final SearchBot search;
@@ -46,6 +47,7 @@ public final class Bots {
         breadcrumb = new BreadBot(device, context, TIMEOUT, main);
         roots = new RootsListBot(device, context, TIMEOUT);
         directory = new DirectoryListBot(device, context, TIMEOUT);
+        sortHeader = new SortHeaderBot(device, context, TIMEOUT);
         keyboard = new KeyboardBot(device, context, TIMEOUT);
         search = new SearchBot(device, context, TIMEOUT);
     }
@@ -55,7 +57,7 @@ public final class Bots {
      * and making assertions against the state of it.
      */
     static abstract class BaseBot {
-        final UiDevice mDevice;
+        public final UiDevice mDevice;
         final Context mContext;
         final int mTimeout;
 
