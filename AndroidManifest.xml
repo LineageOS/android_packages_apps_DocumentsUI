@@ -96,8 +96,8 @@
         </activity>
 
         <provider
-            android:name=".RecentsProvider"
-            android:authorities="com.android.documentsui.recents"
+            android:name=".LastAccessedProvider"
+            android:authorities="com.android.documentsui.lastAccessed"
             android:exported="false"/>
 
         <receiver android:name=".PackageReceiver">

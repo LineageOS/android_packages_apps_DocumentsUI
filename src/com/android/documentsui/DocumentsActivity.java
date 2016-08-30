@@ -33,7 +33,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -43,25 +42,16 @@ import android.util.Log;
 import android.view.Menu;
 
 import com.android.documentsui.MenuManager.DirectoryDetails;
-import com.android.documentsui.RecentsProvider.RecentColumns;
-import com.android.documentsui.RecentsProvider.ResumeColumns;
-import com.android.documentsui.dirlist.AnimationView;
+import com.android.documentsui.LastAccessedProvider.Columns;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.FragmentTuner.DocumentsTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.DurableUtils;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperationService;
-import com.android.documentsui.sorting.SortController;
 
-import libcore.io.IoUtils;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class DocumentsActivity extends BaseActivity {
@@ -118,7 +108,7 @@ public class DocumentsActivity extends BaseActivity {
                 loadRoot(getDefaultRoot());
             } else {
                 if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
-                new LoadLastUsedStackTask(this).execute();
+                new LoadLastAccessedStackTask(this).execute();
             }
         }
     }
@@ -180,8 +170,8 @@ public class DocumentsActivity extends BaseActivity {
             // Remember that we last picked via external app
             final String packageName = getCallingPackageMaybeExtra();
             final ContentValues values = new ContentValues();
-            values.put(ResumeColumns.EXTERNAL, 1);
-            getContentResolver().insert(RecentsProvider.buildResume(packageName), values);
+            values.put(Columns.EXTERNAL, 1);
+            getContentResolver().insert(LastAccessedProvider.buildLastAccessed(packageName), values);
 
             // Pass back result to original caller
             setResult(resultCode, data);
@@ -242,9 +232,8 @@ public class DocumentsActivity extends BaseActivity {
         if (cwd == null) {
             // No directory means recents
             if (mState.action == ACTION_CREATE ||
-                mState.action == ACTION_OPEN_TREE ||
                 mState.action == ACTION_PICK_COPY_DESTINATION) {
-                RecentsCreateFragment.show(fm);
+                loadRoot(getDefaultRoot());
             } else {
                 DirectoryFragment.showRecentsOpen(fm, anim);
 
@@ -336,27 +325,9 @@ public class DocumentsActivity extends BaseActivity {
         new PickFinishTask(this, result).executeOnExecutor(getExecutorForCurrentDirectory());
     }
 
-    void writeStackToRecentsBlocking() {
-        final ContentResolver resolver = getContentResolver();
-        final ContentValues values = new ContentValues();
-
-        final byte[] rawStack = DurableUtils.writeToArrayOrNull(mState.stack);
-        if (mState.action == ACTION_CREATE ||
-            mState.action == ACTION_OPEN_TREE ||
-            mState.action == ACTION_PICK_COPY_DESTINATION) {
-            // Remember stack for last create
-            values.clear();
-            values.put(RecentColumns.KEY, mState.stack.buildKey());
-            values.put(RecentColumns.STACK, rawStack);
-            resolver.insert(RecentsProvider.buildRecent(), values);
-        }
-
-        // Remember location for next app launch
-        final String packageName = getCallingPackageMaybeExtra();
-        values.clear();
-        values.put(ResumeColumns.STACK, rawStack);
-        values.put(ResumeColumns.EXTERNAL, 0);
-        resolver.insert(RecentsProvider.buildResume(packageName), values);
+    void updateLastAccessed() {
+        LastAccessedProvider.setLastAccessed(
+                getContentResolver(), getCallingPackageMaybeExtra(), mState.stack);
     }
 
     @Override
@@ -419,73 +390,6 @@ public class DocumentsActivity extends BaseActivity {
         return mDetails;
     }
 
-    /**
-     * Loads the last used path (stack) from Recents (history).
-     * The path selected is based on the calling package name. So the last
-     * path for an app like Gmail can be different than the last path
-     * for an app like DropBox.
-     */
-    private static final class LoadLastUsedStackTask
-            extends PairedTask<DocumentsActivity, Void, Void> {
-
-        private volatile boolean mRestoredStack;
-        private volatile boolean mExternal;
-        private State mState;
-
-        public LoadLastUsedStackTask(DocumentsActivity activity) {
-            super(activity);
-            mState = activity.mState;
-        }
-
-        @Override
-        protected Void run(Void... params) {
-            if (DEBUG && !mState.stack.isEmpty()) {
-                Log.w(TAG, "Overwriting existing stack.");
-            }
-            RootsCache roots = DocumentsApplication.getRootsCache(mOwner);
-
-            String packageName = mOwner.getCallingPackageMaybeExtra();
-            Uri resumeUri = RecentsProvider.buildResume(packageName);
-            Cursor cursor = mOwner.getContentResolver().query(resumeUri, null, null, null, null);
-            try {
-                if (cursor.moveToFirst()) {
-                    mExternal = cursor.getInt(cursor.getColumnIndex(ResumeColumns.EXTERNAL)) != 0;
-                    final byte[] rawStack = cursor.getBlob(
-                            cursor.getColumnIndex(ResumeColumns.STACK));
-                    DurableUtils.readFromArray(rawStack, mState.stack);
-                    mRestoredStack = true;
-                }
-            } catch (IOException e) {
-                Log.w(TAG, "Failed to resume: " + e);
-            } finally {
-                IoUtils.closeQuietly(cursor);
-            }
-
-            if (mRestoredStack) {
-                // Update the restored stack to ensure we have freshest data
-                final Collection<RootInfo> matchingRoots = roots.getMatchingRootsBlocking(mState);
-                try {
-                    mState.stack.updateRoot(matchingRoots);
-                    mState.stack.updateDocuments(mOwner.getContentResolver());
-                } catch (FileNotFoundException e) {
-                    Log.w(TAG, "Failed to restore stack for package: " + packageName
-                            + " because of error: "+ e);
-                    mState.stack.reset();
-                    mRestoredStack = false;
-                }
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void finish(Void result) {
-            mState.restored = true;
-            mState.external = mExternal;
-            mOwner.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
-        }
-    }
-
     private static final class PickFinishTask extends PairedTask<DocumentsActivity, Void, Void> {
         private final Uri mUri;
 
@@ -496,7 +400,7 @@ public class DocumentsActivity extends BaseActivity {
 
         @Override
         protected Void run(Void... params) {
-            mOwner.writeStackToRecentsBlocking();
+            mOwner.updateLastAccessed();
             return null;
         }
 
@@ -516,7 +420,7 @@ public class DocumentsActivity extends BaseActivity {
 
         @Override
         protected Void run(Void... params) {
-            mOwner.writeStackToRecentsBlocking();
+            mOwner.updateLastAccessed();
             return null;
         }
 
@@ -563,7 +467,7 @@ public class DocumentsActivity extends BaseActivity {
             }
 
             if (childUri != null) {
-                mOwner.writeStackToRecentsBlocking();
+                mOwner.updateLastAccessed();
             }
 
             return childUri;

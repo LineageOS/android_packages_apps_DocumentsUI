@@ -23,7 +23,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 /**
- * Clean up {@link RecentsProvider} and {@link LocalPreferences} when packages are removed.
+ * Clean up {@link LastAccessedProvider} and {@link LocalPreferences} when packages are removed.
  */
 public class PackageReceiver extends BroadcastReceiver {
     @Override
@@ -35,13 +35,19 @@ public class PackageReceiver extends BroadcastReceiver {
         final String packageName = data == null ? null : data.getSchemeSpecificPart();
 
         if (Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(action)) {
-            resolver.call(RecentsProvider.buildRecent(), RecentsProvider.METHOD_PURGE, null, null);
+            resolver.call(
+                    LastAccessedProvider.buildLastAccessed(packageName),
+                    LastAccessedProvider.METHOD_PURGE,
+                    null,
+                    null);
             if (packageName != null) {
                 LocalPreferences.clearPackagePreferences(context, packageName);
             }
         } else if (Intent.ACTION_PACKAGE_DATA_CLEARED.equals(action)) {
             if (packageName != null) {
-                resolver.call(RecentsProvider.buildRecent(), RecentsProvider.METHOD_PURGE_PACKAGE,
+                resolver.call(
+                        LastAccessedProvider.buildLastAccessed(packageName),
+                        LastAccessedProvider.METHOD_PURGE_PACKAGE,
                         packageName, null);
                 LocalPreferences.clearPackagePreferences(context, packageName);
             }

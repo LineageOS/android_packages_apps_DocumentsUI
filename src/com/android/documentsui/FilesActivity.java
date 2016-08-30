@@ -23,8 +23,6 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,7 +36,6 @@ import android.view.MenuItem;
 
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.OperationDialogFragment.DialogType;
-import com.android.documentsui.RecentsProvider.ResumeColumns;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
@@ -47,7 +44,6 @@ import com.android.documentsui.dirlist.FragmentTuner.FilesTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.DocumentStack;
-import com.android.documentsui.model.DurableUtils;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperationService;
 
@@ -437,24 +433,6 @@ public class FilesActivity extends BaseActivity {
         }
 
         return false;
-    }
-
-    // Turns out only DocumentsActivity was ever calling saveStackBlocking.
-    // There may be a  case where we want to contribute entries from
-    // Behavior here in FilesActivity, but it isn't yet obvious.
-    // TODO: Contribute to recents, or remove this.
-    void writeStackToRecentsBlocking() {
-        final ContentResolver resolver = getContentResolver();
-        final ContentValues values = new ContentValues();
-
-        final byte[] rawStack = DurableUtils.writeToArrayOrNull(mState.stack);
-
-        // Remember location for next app launch
-        final String packageName = getCallingPackageMaybeExtra();
-        values.clear();
-        values.put(ResumeColumns.STACK, rawStack);
-        values.put(ResumeColumns.EXTERNAL, 0);
-        resolver.insert(RecentsProvider.buildResume(packageName), values);
     }
 
     @Override
