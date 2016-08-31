@@ -45,7 +45,6 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
-import android.support.v13.view.DragStartHelper;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
@@ -191,7 +190,8 @@ public class DirectoryFragment extends Fragment
     private @Nullable BandController mBandController;
     private @Nullable ActionMode mActionMode;
 
-    private DragScrollListener mOnDragListener;
+    private DragHoverListener mDragHoverListener;
+    private DragStartListener mDragStartListener;
     private MenuManager mMenuManager;
 
     private SortModel.UpdateListener mSortListener = (model, updateType) -> {
@@ -227,12 +227,12 @@ public class DirectoryFragment extends Fragment
         mFileList = view.findViewById(R.id.file_list);
 
         final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
-        mOnDragListener = DragScrollListener.create(
+        mDragHoverListener = DragHoverListener.create(
                 edgeHeight, new DirectoryDragListener(this), mRecView);
 
         // Make the recycler and the empty views responsive to drop events.
-        mRecView.setOnDragListener(mOnDragListener);
-        mEmptyView.setOnDragListener(mOnDragListener);
+        mRecView.setOnDragListener(mDragHoverListener);
+        mEmptyView.setOnDragListener(mDragHoverListener);
 
         return view;
     }
@@ -279,6 +279,7 @@ public class DirectoryFragment extends Fragment
         }
 
         mIconHelper = new IconHelper(context, MODE_GRID);
+        mClipper = DocumentsApplication.getDocumentClipper(getContext());
 
         mAdapter = new SectionBreakDocumentsAdapterWrapper(
                 this, new ModelBackedDocumentsAdapter(this, mIconHelper));
@@ -320,6 +321,10 @@ public class DirectoryFragment extends Fragment
                 mSelectionMgr,
                 mRecView);
 
+        if (state.allowMultiple) {
+            mBandController = new BandController(mRecView, mAdapter, mSelectionMgr);
+        }
+
         mInputHandler = new UserInputHandler<>(
                 mSelectionMgr,
                 mFocusManager,
@@ -339,23 +344,32 @@ public class DirectoryFragment extends Fragment
                 this::onDragAndDrop,
                 gestureSel::start);
 
-        mGestureDetector =
-                new ListeningGestureDetector(this.getContext(), mDragHelper,
-                        mInputHandler, gestureSel);
+        mDragStartListener = new DragStartListener(
+                mIconHelper,
+                getContext(),
+                mModel,
+                mSelectionMgr,
+                mClipper,
+                getDisplayState(),
+                this::getModelId,
+                mRecView::findChildViewUnder,
+                getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic));
 
-        mRecView.addOnItemTouchListener(mGestureDetector);
-        mEmptyView.setOnTouchListener(mGestureDetector);
 
-        if (state.allowMultiple) {
-            mBandController = new BandController(mRecView, mAdapter, mSelectionMgr);
-        }
+        mGestureDetector = new ListeningGestureDetector(
+                this.getContext(),
+                mRecView,
+                mEmptyView,
+                mDragStartListener,
+                gestureSel,
+                mInputHandler,
+                mBandController);
 
         mSelectionMgr.addCallback(mSelectionModeListener);
 
         final BaseActivity activity = getBaseActivity();
         mTuner = activity.createFragmentTuner();
         mMenuManager = activity.getMenuManager();
-        mClipper = DocumentsApplication.getDocumentClipper(getContext());
 
         final ActivityManager am = (ActivityManager) context.getSystemService(
                 Context.ACTIVITY_SERVICE);
@@ -1343,7 +1357,7 @@ public class DirectoryFragment extends Fragment
         if (Document.MIME_TYPE_DIR.equals(docMimeType)) {
             // Make a directory item a drop target. Drop on non-directories and empty space
             // is handled at the list/grid view level.
-            view.setOnDragListener(mOnDragListener);
+            view.setOnDragListener(mDragHoverListener);
         }
     }
 
@@ -1531,75 +1545,10 @@ public class DirectoryFragment extends Fragment
         }
     }
 
-    private Drawable getDragIcon(Selection selection) {
-        if (selection.size() == 1) {
-            DocumentInfo doc = getSingleSelectedDocument(selection);
-            return mIconHelper.getDocumentIcon(getContext(), doc);
-        }
-        return getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic);
-    }
-
-    private String getDragTitle(Selection selection) {
-        assert (!selection.isEmpty());
-        if (selection.size() == 1) {
-            DocumentInfo doc = getSingleSelectedDocument(selection);
-            return doc.displayName;
-        }
-
-        return Shared.getQuantityString(getContext(), R.plurals.elements_dragged, selection.size());
-    }
-
-    private DocumentInfo getSingleSelectedDocument(Selection selection) {
-        assert (selection.size() == 1);
-        final List<DocumentInfo> docs = mModel.getDocuments(mSelectionMgr.getSelection());
-        assert (docs.size() == 1);
-        return docs.get(0);
-    }
-
-    private DragStartHelper.OnDragStartListener mOnDragStartListener =
-            new DragStartHelper.OnDragStartListener() {
-                @Override
-                public boolean onDragStart(View v, DragStartHelper helper) {
-                    Selection selection = mSelectionMgr.getSelection();
-
-                    if (v == null) {
-                        Log.d(TAG, "Ignoring drag event, null view");
-                        return false;
-                    }
-                    if (!isSelected(getModelId(v))) {
-                        Log.d(TAG, "Ignoring drag event, unselected view.");
-                        return false;
-                    }
-
-                    // NOTE: Preparation of the ClipData object can require a lot of time
-                    // and ideally should be done in the background. Unfortunately
-                    // the current code layout and framework assumptions don't support
-                    // this. So for now, we could end up doing a bunch of i/o on main thread.
-                    v.startDragAndDrop(
-                            mClipper.getClipDataForDocuments(
-                                    mModel::getItemUri,
-                                    selection,
-                                    FileOperationService.OPERATION_COPY),
-                            new DragShadowBuilder(
-                                    getActivity(),
-                                    getDragTitle(selection),
-                                    getDragIcon(selection)),
-                            getDisplayState().stack.peek(),
-                            View.DRAG_FLAG_GLOBAL
-                                    | View.DRAG_FLAG_GLOBAL_URI_READ
-                                    | View.DRAG_FLAG_GLOBAL_URI_WRITE);
-
-                    return true;
-                }
-            };
-
-
-    private DragStartHelper mDragHelper = new DragStartHelper(null, mOnDragStartListener);
-
     private boolean onDragAndDrop(InputEvent event) {
         if (mTuner.dragAndDropEnabled()) {
             View childView = mRecView.findChildViewUnder(event.getX(), event.getY());
-            return mDragHelper.onLongClick(childView);
+            return mDragStartListener.startDrag(childView);
         }
         return false;
     }

@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
  * This class acts as a middle-man handler for potential auto-scrolling before passing the dragEvent
  * onto {@link DirectoryDragListener}.
  */
-class DragScrollListener implements OnDragListener {
+class DragHoverListener implements OnDragListener {
 
     private final ItemDragListener<? extends DragHost> mDragHandler;
     private final IntSupplier mHeight;
@@ -49,7 +49,7 @@ class DragScrollListener implements OnDragListener {
     /**
      * Predicate to tests whether it's the scroll view ({@link DirectoryFragment#mRecView}) itself.
      *
-     * {@link DragScrollListener} is used for both {@link DirectoryFragment#mRecView} and its
+     * {@link DragHoverListener} is used for both {@link DirectoryFragment#mRecView} and its
      * children. When we decide whether it's in the scroll zone we need to obtain the coordinate
      * relative to {@link DirectoryFragment#mRecView} so we need to transform the coordinate if the
      * view that gets drag and drop events is a child of {@link DirectoryFragment#mRecView}.
@@ -60,7 +60,7 @@ class DragScrollListener implements OnDragListener {
     private @Nullable Point mCurrentPosition;
 
     @VisibleForTesting
-    DragScrollListener(
+    DragHoverListener(
             int autoScrollEdgeHeight,
             ItemDragListener<? extends DragHost> dragHandler,
             IntSupplier heightSupplier,
@@ -96,7 +96,7 @@ class DragScrollListener implements OnDragListener {
                 mAutoScrollEdgeHeight, distanceDelegate, actionDelegate);
     }
 
-    static DragScrollListener create(
+    static DragHoverListener create(
             int autoScrollEdgeHeight,
             ItemDragListener<? extends DragHost> dragHandler,
             View scrollView) {
@@ -117,7 +117,7 @@ class DragScrollListener implements OnDragListener {
                 scrollView.removeCallbacks(r);
             }
         };
-        DragScrollListener listener = new DragScrollListener(
+        DragHoverListener listener = new DragHoverListener(
                 autoScrollEdgeHeight,
                 dragHandler,
                 scrollView::getHeight,

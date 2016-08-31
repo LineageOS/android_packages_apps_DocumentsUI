@@ -106,6 +106,10 @@ public final class Events {
         /** Returns true if the action is the final release of a mouse or touch. */
         boolean isActionUp();
 
+        /** Returns true if the action is neither the initial nor the final release of a mouse
+         * or touch. */
+        boolean isActionMove();
+
         // Eliminate the checked Exception from Autoclosable.
         @Override
         public void close();
@@ -217,6 +221,11 @@ public final class Events {
         @Override
         public boolean isActionUp() {
             return mEvent.getActionMasked() == MotionEvent.ACTION_UP;
+        }
+
+        @Override
+        public boolean isActionMove() {
+            return mEvent.getActionMasked() == MotionEvent.ACTION_MOVE;
         }
 
         @Override

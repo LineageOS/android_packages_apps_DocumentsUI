@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static org.junit.Assert.assertFalse;
+
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -90,6 +92,11 @@ public final class UserInputHandler_TouchTest {
     public void testTap_ActivatesWhenNoExistingSelection() {
         mInputHandler.onSingleTapUp(mEvent.at(11).build());
         mActivateHandler.assertLastArgument(mEvent.build());
+    }
+
+    @Test
+    public void testScroll_shouldNotBeTrapped() {
+        assertFalse(mInputHandler.onScroll(mEvent.build()));
     }
 
     @Test

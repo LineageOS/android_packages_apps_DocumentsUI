@@ -47,7 +47,7 @@ public class DragScrollListenerTest {
     private TestTimer mTestTimer;
     private TestDragHandler mDragHandler;
     private TestScrollActionDelegate mActionDelegate = new TestScrollActionDelegate();
-    private DragScrollListener mListener;
+    private DragHoverListener mListener;
     private boolean mCanScrollUp;
     private boolean mCanScrollDown;
 
@@ -57,7 +57,7 @@ public class DragScrollListenerTest {
         mTestTimer = new TestTimer();
         mTestDragHost = new TestDragHost();
         mDragHandler = new TestDragHandler(mTestDragHost, mTestTimer);
-        mListener = new DragScrollListener(
+        mListener = new DragHoverListener(
                 EDGE_HEIGHT,
                 mDragHandler,
                 () -> VIEW_HEIGHT,
