@@ -160,12 +160,12 @@ public class IconHelper {
             mImageAnimator = animator;
             mLastModified = lastModified;
             mSignal = new CancellationSignal();
-            if (DEBUG) Log.d(TAG, "Starting icon loader task for " + mUri);
+            if (DEBUG) Log.v(TAG, "Starting icon loader task for " + mUri);
         }
 
         @Override
         public void preempt() {
-            if (DEBUG) Log.d(TAG, "Icon loader task for " + mUri + " was cancelled.");
+            if (DEBUG) Log.v(TAG, "Icon loader task for " + mUri + " was cancelled.");
             cancel(false);
             mSignal.cancel();
         }
@@ -201,7 +201,7 @@ public class IconHelper {
 
         @Override
         protected void onPostExecute(Bitmap result) {
-            if (DEBUG) Log.d(TAG, "Loader task for " + mUri + " completed");
+            if (DEBUG) Log.v(TAG, "Loader task for " + mUri + " completed");
 
             if (mIconThumb.getTag() == this && result != null) {
                 mIconThumb.setTag(null);
@@ -264,7 +264,7 @@ public class IconHelper {
             iconThumb.setImageBitmap(cachedThumbnail);
 
             boolean stale = (docLastModified > result.getLastModified());
-            if (DEBUG) Log.d(TAG,
+            if (DEBUG) Log.v(TAG,
                     String.format("Load thumbnail for %s, got result %d and stale %b.",
                             uri.toString(), result.getStatus(), stale));
             if (!result.isExactHit() || stale) {
