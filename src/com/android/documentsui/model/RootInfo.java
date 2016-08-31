@@ -232,7 +232,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
             derivedType = TYPE_OTHER;
         }
 
-        if (DEBUG) Log.d(TAG, "Finished deriving fields: " + this);
+        if (DEBUG) Log.v(TAG, "Deriving fields: " + this);
     }
 
     public Uri getUri() {

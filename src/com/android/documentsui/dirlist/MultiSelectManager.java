@@ -511,7 +511,7 @@ public final class MultiSelectManager {
             assert(mBegin != mEnd);
 
             if (position == mEnd) {
-                if (DEBUG) Log.i(TAG, "Skipping no-op revision click on mEndRange.");
+                if (DEBUG) Log.v(TAG, "Ignoring no-op revision for range: " + this);
             }
 
             if (mEnd > mBegin) {
@@ -575,6 +575,10 @@ public final class MultiSelectManager {
             mUpdater.updateForRange(begin, end, selected, type);
         }
 
+        @Override
+        public String toString() {
+            return "Range{begin=" + mBegin + ", end=" + mEnd + "}";
+        }
         /*
          * @see {@link MultiSelectManager#updateForRegularRange(int, int , boolean)} and {@link
          * MultiSelectManager#updateForProvisionalRange(int, int, boolean)}
