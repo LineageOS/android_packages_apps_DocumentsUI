@@ -33,9 +33,9 @@ import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.sorting.SortModel;
 
-import libcore.io.IoUtils;
-
 import java.io.FileNotFoundException;
+
+import libcore.io.IoUtils;
 
 public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
@@ -45,7 +45,6 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private final ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
 
-    private final int mType;
     private final RootInfo mRoot;
     private final Uri mUri;
     private final SortModel mModel;
@@ -55,10 +54,15 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     private CancellationSignal mSignal;
     private DirectoryResult mResult;
 
-    public DirectoryLoader(Context context, int type, RootInfo root, DocumentInfo doc, Uri uri,
-            SortModel model, boolean inSearchMode) {
+    public DirectoryLoader(
+            Context context,
+            RootInfo root,
+            DocumentInfo doc,
+            Uri uri,
+            SortModel model,
+            boolean inSearchMode) {
+
         super(context, ProviderExecutor.forAuthority(root.authority));
-        mType = type;
         mRoot = root;
         mUri = uri;
         mModel = model;

@@ -114,7 +114,7 @@ public class RootsCache {
                 Log.w(TAG, "Received onChange event for null uri. Skipping.");
                 return;
             }
-            if (DEBUG) Log.d(TAG, "Updating roots due to change at " + uri);
+            if (DEBUG) Log.i(TAG, "Updating roots due to change at " + uri);
             updateAuthorityAsync(uri.getAuthority());
         }
     }
@@ -198,7 +198,6 @@ public class RootsCache {
         final ContentResolver resolver = mContext.getContentResolver();
         synchronized (mLock) {
             for (String authority : mStoppedAuthorities) {
-                if (DEBUG) Log.d(TAG, "Loading stopped authority " + authority);
                 mRoots.putAll(authority, loadRootsForAuthority(resolver, authority, true));
             }
             mStoppedAuthorities.clear();
@@ -215,9 +214,7 @@ public class RootsCache {
             if (!mStoppedAuthorities.contains(authority)) {
                 return;
             }
-            if (DEBUG) {
-                Log.d(TAG, "Loading stopped authority " + authority);
-            }
+            if (DEBUG) Log.d(TAG, "Loading stopped authority " + authority);
             mRoots.putAll(authority, loadRootsForAuthority(resolver, authority, true));
             mStoppedAuthorities.remove(authority);
         }
@@ -260,8 +257,8 @@ public class RootsCache {
             }
 
             final long delta = SystemClock.elapsedRealtime() - start;
-            if (DEBUG)
-                Log.d(TAG, "Update found " + mTaskRoots.size() + " roots in " + delta + "ms");
+            if (DEBUG) Log.v(TAG,
+                    "Update found " + mTaskRoots.size() + " roots in " + delta + "ms");
             synchronized (mLock) {
                 mFirstLoadDone = true;
                 if (mBootCompletedResult != null) {
@@ -280,7 +277,7 @@ public class RootsCache {
             // Ignore stopped packages for now; we might query them
             // later during UI interaction.
             if ((info.applicationInfo.flags & ApplicationInfo.FLAG_STOPPED) != 0) {
-                if (DEBUG) Log.d(TAG, "Ignoring stopped authority " + info.authority);
+                if (DEBUG) Log.v(TAG, "Ignoring stopped authority " + info.authority);
                 mTaskStoppedAuthorities.add(info.authority);
                 return;
             }
@@ -297,7 +294,7 @@ public class RootsCache {
      */
     private Collection<RootInfo> loadRootsForAuthority(ContentResolver resolver, String authority,
             boolean forceRefresh) {
-        if (DEBUG) Log.d(TAG, "Loading roots for " + authority);
+        if (DEBUG) Log.v(TAG, "Loading roots for " + authority);
 
         synchronized (mObservedAuthorities) {
             if (mObservedAuthorities.add(authority)) {
@@ -313,7 +310,7 @@ public class RootsCache {
             // long-lived system process.
             final Bundle systemCache = resolver.getCache(rootsUri);
             if (systemCache != null) {
-                if (DEBUG) Log.d(TAG, "System cache hit for " + authority);
+                if (DEBUG) Log.v(TAG, "System cache hit for " + authority);
                 return systemCache.getParcelableArrayList(TAG);
             }
         }
@@ -460,49 +457,47 @@ public class RootsCache {
         final List<RootInfo> matching = new ArrayList<>();
         for (RootInfo root : roots) {
 
-            if (DEBUG) Log.d(TAG, "Evaluating " + root);
-
             if (state.action == State.ACTION_CREATE && !root.supportsCreate()) {
-                if (DEBUG) Log.d(TAG, "Excluding read-only root because: ACTION_CREATE.");
+                if (DEBUG) Log.v(TAG, "Excluding read-only root because: ACTION_CREATE.");
                 continue;
             }
 
             if (state.action == State.ACTION_PICK_COPY_DESTINATION
                     && !root.supportsCreate()) {
-                if (DEBUG) Log.d(
+                if (DEBUG) Log.v(
                         TAG, "Excluding read-only root because: ACTION_PICK_COPY_DESTINATION.");
                 continue;
             }
 
             if (state.action == State.ACTION_OPEN_TREE && !root.supportsChildren()) {
-                if (DEBUG) Log.d(
+                if (DEBUG) Log.v(
                         TAG, "Excluding root !supportsChildren because: ACTION_OPEN_TREE.");
                 continue;
             }
 
             if (!state.showAdvanced && root.isAdvanced()) {
-                if (DEBUG) Log.d(TAG, "Excluding root because: unwanted advanced device.");
+                if (DEBUG) Log.v(TAG, "Excluding root because: unwanted advanced device.");
                 continue;
             }
 
             if (state.localOnly && !root.isLocalOnly()) {
-                if (DEBUG) Log.d(TAG, "Excluding root because: unwanted non-local device.");
+                if (DEBUG) Log.v(TAG, "Excluding root because: unwanted non-local device.");
                 continue;
             }
 
             if (state.directoryCopy && root.isDownloads()) {
-                if (DEBUG) Log.d(
+                if (DEBUG) Log.v(
                         TAG, "Excluding downloads root because: unsupported directory copy.");
                 continue;
             }
 
             if (state.action == State.ACTION_OPEN && root.isEmpty()) {
-                if (DEBUG) Log.d(TAG, "Excluding empty root because: ACTION_OPEN.");
+                if (DEBUG) Log.v(TAG, "Excluding empty root because: ACTION_OPEN.");
                 continue;
             }
 
             if (state.action == State.ACTION_GET_CONTENT && root.isEmpty()) {
-                if (DEBUG) Log.d(TAG, "Excluding empty root because: ACTION_GET_CONTENT.");
+                if (DEBUG) Log.v(TAG, "Excluding empty root because: ACTION_GET_CONTENT.");
                 continue;
             }
 
@@ -510,20 +505,21 @@ public class RootsCache {
                     MimePredicate.mimeMatches(root.derivedMimeTypes, state.acceptMimes) ||
                     MimePredicate.mimeMatches(state.acceptMimes, root.derivedMimeTypes);
             if (!overlap) {
-                if (DEBUG) Log.d(
+                if (DEBUG) Log.v(
                         TAG, "Excluding root because: unsupported content types > "
                         + state.acceptMimes);
                 continue;
             }
 
             if (state.excludedAuthorities.contains(root.authority)) {
-                if (DEBUG) Log.d(TAG, "Excluding root because: owned by calling package.");
+                if (DEBUG) Log.v(TAG, "Excluding root because: owned by calling package.");
                 continue;
             }
 
-            if (DEBUG) Log.d(TAG, "Including " + root);
             matching.add(root);
         }
+
+        if (DEBUG) Log.d(TAG, "Matched roots: " + matching);
         return matching;
     }
 }

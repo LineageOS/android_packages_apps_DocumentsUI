@@ -98,7 +98,7 @@ public class NavigationViewManager {
         if (mState.stack.size() <= 1) {
             mBreadcrumb.show(false);
             String title = mEnv.getCurrentRoot().title;
-            if (DEBUG) Log.d(TAG, "New toolbar title is: " + title);
+            if (DEBUG) Log.v(TAG, "New toolbar title is: " + title);
             mToolbar.setTitle(title);
         } else {
             mBreadcrumb.show(true);
@@ -106,7 +106,7 @@ public class NavigationViewManager {
             mBreadcrumb.postUpdate();
         }
 
-        if (DEBUG) Log.d(TAG, "Final toolbar title is: " + mToolbar.getTitle());
+        if (DEBUG) Log.v(TAG, "Final toolbar title is: " + mToolbar.getTitle());
     }
 
     // Hamburger if drawer is present, else sad nullness.

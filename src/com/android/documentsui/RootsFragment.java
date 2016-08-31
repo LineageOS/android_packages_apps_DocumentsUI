@@ -576,13 +576,12 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         }
 
         @Override
-        public void finish(DocumentInfo doc) {
+        public void finish(@Nullable DocumentInfo doc) {
             if (doc != null) {
-                DocumentClipper clipper =
-                        DocumentsApplication.getDocumentClipper(mContext);
+                DocumentClipper clipper = DocumentsApplication.getDocumentClipper(mContext);
                 clipper.copyFromClipData(mDstRoot, doc, mData, mCallback);
             } else {
-                Log.e(TAG, "Failed to get doc.");
+                Log.e(TAG, "Failed to get drop target document (root): " + mDstRoot.getUri());
             }
         }
     }
@@ -613,10 +612,8 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
                                 ((Activity) context).getIntent())) {
                     continue;
                 } else if (root.isLibrary()) {
-                    if (DEBUG) Log.d(TAG, "Adding " + root + " as library.");
                     libraries.add(item);
                 } else {
-                    if (DEBUG) Log.d(TAG, "Adding " + root + " as non-library.");
                     others.add(item);
                 }
             }
@@ -625,11 +622,14 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
             Collections.sort(libraries, comp);
             Collections.sort(others, comp);
 
+            if (DEBUG) Log.v(TAG, "Adding library roots: " + libraries);
             addAll(libraries);
             // Only add the spacer if it is actually separating something.
             if (!libraries.isEmpty() && !others.isEmpty()) {
                 add(new SpacerItem());
             }
+
+            if (DEBUG) Log.v(TAG, "Adding plain roots: " + libraries);
             addAll(others);
 
             // Include apps that can handle this intent too.
@@ -645,6 +645,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
          * special section at bottom).
          */
         private void includeHandlerApps(Context context, Intent handlerAppIntent) {
+            if (DEBUG) Log.v(TAG, "Adding handler apps for intent: " + handlerAppIntent);
             final PackageManager pm = context.getPackageManager();
             final List<ResolveInfo> infos = pm.queryIntentActivities(
                     handlerAppIntent, PackageManager.MATCH_DEFAULT_ONLY);

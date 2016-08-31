@@ -1727,7 +1727,6 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
-        if (DEBUG) Log.d(TAG, "Creating new loader for: " + DocumentInfo.debugString(mDocument));
         Context context = getActivity();
         State state = getDisplayState();
 
@@ -1741,9 +1740,10 @@ public class DirectoryFragment extends Fragment
                 if (mTuner.managedModeEnabled()) {
                     contentsUri = DocumentsContract.setManageMode(contentsUri);
                 }
-                if (DEBUG) Log.d(TAG, "Creating new loader for: " + mDocument.derivedUri);
+                if (DEBUG) Log.d(TAG, "Creating new directory loader for: "
+                        + DocumentInfo.debugString(mDocument));
                 return new DirectoryLoader(
-                        context, mType, mRoot, mDocument, contentsUri, state.sortModel,
+                        context, mRoot, mDocument, contentsUri, state.sortModel,
                         mSearchMode);
             case TYPE_RECENT_OPEN:
                 if (DEBUG) Log.d(TAG, "Creating new loader recents.");
