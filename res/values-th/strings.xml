@@ -37,19 +37,15 @@
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ตัด"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"คัดลอก"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"วาง"</string>
-    <!-- no translation found for menu_paste_into_folder (8000644546983240101) -->
-    <skip />
+    <string name="menu_paste_into_folder" msgid="8000644546983240101">"วางลงในโฟลเดอร์"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"แสดงที่จัดเก็บภายใน"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ซ่อนที่จัดเก็บภายใน"</string>
-    <string name="menu_file_size_show" msgid="8035723306878852180">"แสดงขนาดไฟล์"</string>
-    <string name="menu_file_size_hide" msgid="8953697126109694855">"ซ่อนขนาดไฟล์"</string>
     <string name="button_select" msgid="240863497069321364">"เลือก"</string>
     <string name="button_copy" msgid="8219059853840996027">"คัดลอก"</string>
     <string name="button_move" msgid="8596460499325291272">"ย้าย"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ปิด"</string>
     <string name="button_retry" msgid="4011461781916631389">"ลองใหม่"</string>
-    <!-- no translation found for not_sorted (7813496644889115530) -->
-    <skip />
+    <string name="not_sorted" msgid="7813496644889115530">"ไม่ได้จัดเรียง"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"ชื่อ"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"สรุป"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"แก้ไข"</string>

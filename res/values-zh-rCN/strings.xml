@@ -37,19 +37,15 @@
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"剪切"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"复制"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"粘贴"</string>
-    <!-- no translation found for menu_paste_into_folder (8000644546983240101) -->
-    <skip />
+    <string name="menu_paste_into_folder" msgid="8000644546983240101">"粘贴到文件夹中"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"显示内部存储设备"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"隐藏内部存储设备"</string>
-    <string name="menu_file_size_show" msgid="8035723306878852180">"显示文件大小"</string>
-    <string name="menu_file_size_hide" msgid="8953697126109694855">"隐藏文件大小"</string>
     <string name="button_select" msgid="240863497069321364">"选择"</string>
     <string name="button_copy" msgid="8219059853840996027">"复制"</string>
     <string name="button_move" msgid="8596460499325291272">"移动"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"关闭"</string>
     <string name="button_retry" msgid="4011461781916631389">"重试"</string>
-    <!-- no translation found for not_sorted (7813496644889115530) -->
-    <skip />
+    <string name="not_sorted" msgid="7813496644889115530">"未排序"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"名称"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"摘要"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"上次修改时间"</string>

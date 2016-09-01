@@ -37,19 +37,15 @@
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Vyjmout"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopírovat"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Vložit"</string>
-    <!-- no translation found for menu_paste_into_folder (8000644546983240101) -->
-    <skip />
+    <string name="menu_paste_into_folder" msgid="8000644546983240101">"Vložit do složky"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"Zobrazit inter. úložiště"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Skrýt interní úložiště"</string>
-    <string name="menu_file_size_show" msgid="8035723306878852180">"Zobr. velikost souboru"</string>
-    <string name="menu_file_size_hide" msgid="8953697126109694855">"Skrýt velikost souboru"</string>
     <string name="button_select" msgid="240863497069321364">"Vybrat"</string>
     <string name="button_copy" msgid="8219059853840996027">"Kopírovat"</string>
     <string name="button_move" msgid="8596460499325291272">"Přesunout"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Zavřít"</string>
     <string name="button_retry" msgid="4011461781916631389">"Zkusit znovu"</string>
-    <!-- no translation found for not_sorted (7813496644889115530) -->
-    <skip />
+    <string name="not_sorted" msgid="7813496644889115530">"Neřazeno"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Název"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Souhrn"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Změněno"</string>
