@@ -25,7 +25,7 @@ import java.util.function.LongSupplier;
 /**
  * Provides auto-scrolling upon request when user's interaction with the application
  * introduces a natural intent to scroll. Used by {@link BandController} and
- * {@link DragScrollListener} to allow auto scrolling when user either does band selection, or
+ * {@link DragHoverListener} to allow auto scrolling when user either does band selection, or
  * attempting to drag and drop files to somewhere off the current screen.
  */
 public final class ViewAutoScroller implements Runnable {

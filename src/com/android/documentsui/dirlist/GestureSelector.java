@@ -22,13 +22,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.Events;
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.Events.MotionInputEvent;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
 
 import java.util.function.IntSupplier;
+
+import javax.annotation.Nullable;
 
 /*
  * Helper class used to intercept events that could cause a gesture multi-select, and keeps
@@ -40,6 +41,7 @@ final class GestureSelector {
     private final Runnable mDragScroller;
     private final int mAutoScrollEdgeHeight;
     private final IntSupplier mHeight;
+    private final ViewFinder mViewFinder;
     private int mLastStartedItemPos = -1;
     private boolean mStarted = false;
     private Point mLastInterceptedPoint;
@@ -48,10 +50,12 @@ final class GestureSelector {
             int autoScrollEdgeHeight,
             MultiSelectManager selectionMgr,
             IntSupplier heightSupplier,
+            ViewFinder viewFinder,
             ScrollActionDelegate actionDelegate) {
         mAutoScrollEdgeHeight = autoScrollEdgeHeight;
         mSelectionMgr = selectionMgr;
         mHeight = heightSupplier;
+        mViewFinder = viewFinder;
 
         ScrollDistanceDelegate distanceDelegate = new ScrollDistanceDelegate() {
             @Override
@@ -77,7 +81,7 @@ final class GestureSelector {
     static GestureSelector create(
             int autoScrollEdgeHeight,
             MultiSelectManager selectionMgr,
-            View scrollView) {
+            RecyclerView scrollView) {
         ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
             @Override
             public void scrollBy(int dy) {
@@ -96,7 +100,8 @@ final class GestureSelector {
         };
         GestureSelector helper =
                 new GestureSelector(
-                        autoScrollEdgeHeight, selectionMgr, scrollView::getHeight, actionDelegate);
+                        autoScrollEdgeHeight, selectionMgr, scrollView::getHeight,
+                        scrollView::findChildViewUnder, actionDelegate);
 
         return helper;
     }
@@ -110,70 +115,65 @@ final class GestureSelector {
         return true;
     }
 
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
-        if (Events.isMouseEvent(e)) {
+    public boolean onInterceptTouchEvent(InputEvent e) {
+        if (e.isMouseEvent()) {
             return false;
         }
 
         boolean handled = false;
 
-        if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            handled = handleInterceptedDownEvent(rv, e);
+        if (e.isActionDown()) {
+            handled = handleInterceptedDownEvent(e);
         }
 
-        if (e.getAction() == MotionEvent.ACTION_UP) {
-            handled = handleUpEvent(rv, e);
+        if (e.isActionUp()) {
+            handled = handleUpEvent(e);
         }
 
-        if (e.getAction() == MotionEvent.ACTION_MOVE) {
-            handled = handleInterceptedMoveEvent(rv, e);
+        if (e.isActionMove()) {
+            handled = handleInterceptedMoveEvent(e);
         }
 
         return handled;
     }
 
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+    public void onTouchEvent(RecyclerView rv, InputEvent e) {
         if (!mStarted) {
             return;
         }
 
-        if (e.getAction() == MotionEvent.ACTION_UP) {
-            handleUpEvent(rv, e);
+        if (e.isActionUp()) {
+            handleUpEvent(e);
         }
 
-        if (e.getAction() == MotionEvent.ACTION_MOVE) {
+        if (e.isActionMove()) {
             handleOnTouchMoveEvent(rv, e);
         }
     }
 
     // Called when an ACTION_DOWN event is intercepted.
     // If down event happens on a file/doc, we mark that item's position as last started.
-    private boolean handleInterceptedDownEvent(RecyclerView rv, MotionEvent e) {
-        View itemView = rv.findChildViewUnder(e.getX(), e.getY());
-        try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
+    private boolean handleInterceptedDownEvent(InputEvent e) {
+        View itemView = mViewFinder.findView(e.getX(), e.getY());
             if (itemView != null) {
-                mLastStartedItemPos = rv.getChildAdapterPosition(itemView);
+                mLastStartedItemPos = e.getItemPosition();
             }
-        }
         return false;
     }
 
     // Called when an ACTION_MOVE event is intercepted.
-    private boolean handleInterceptedMoveEvent(RecyclerView rv, MotionEvent e) {
-        try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
-            mLastInterceptedPoint = event.getOrigin();
-            if (mStarted) {
-                mSelectionMgr.startRangeSelection(mLastStartedItemPos);
-                return true;
-            }
+    private boolean handleInterceptedMoveEvent(InputEvent e) {
+        mLastInterceptedPoint = e.getOrigin();
+        if (mStarted) {
+            mSelectionMgr.startRangeSelection(mLastStartedItemPos);
+            return true;
         }
         return false;
     }
 
     // Called when ACTION_UP event is intercepted.
     // Essentially, since this means all gesture movement is over, reset everything.
-    private boolean handleUpEvent(RecyclerView rv, MotionEvent e) {
+    private boolean handleUpEvent(InputEvent e) {
         mLastStartedItemPos = -1;
         mStarted = false;
         mSelectionMgr.getSelection().applyProvisionalSelection();
@@ -182,35 +182,33 @@ final class GestureSelector {
 
     // Call when an intercepted ACTION_MOVE event is passed down.
     // At this point, we are sure user wants to gesture multi-select.
-    private void handleOnTouchMoveEvent(RecyclerView rv, MotionEvent e) {
-        try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
-            mLastInterceptedPoint = event.getOrigin();
+    private void handleOnTouchMoveEvent(RecyclerView rv, InputEvent e) {
+        mLastInterceptedPoint = e.getOrigin();
 
-            // If user has moved his pointer to the bottom-right empty pane (ie. to the right of the
-            // last item of the recycler view), we would want to set that as the currentItemPos
-            View lastItem = rv.getLayoutManager()
-                    .getChildAt(rv.getLayoutManager().getChildCount() - 1);
-            int direction = rv.getContext().getResources().getConfiguration().getLayoutDirection();
-            final boolean pastLastItem = isPastLastItem(lastItem.getTop(),
-                    lastItem.getLeft(),
-                    lastItem.getRight(),
-                    event,
-                    direction);
+        // If user has moved his pointer to the bottom-right empty pane (ie. to the right of the
+        // last item of the recycler view), we would want to set that as the currentItemPos
+        View lastItem = rv.getLayoutManager()
+                .getChildAt(rv.getLayoutManager().getChildCount() - 1);
+        int direction = rv.getContext().getResources().getConfiguration().getLayoutDirection();
+        final boolean pastLastItem = isPastLastItem(lastItem.getTop(),
+                lastItem.getLeft(),
+                lastItem.getRight(),
+                e,
+                direction);
 
-            // Since views get attached & detached from RecyclerView,
-            // {@link LayoutManager#getChildCount} can return a different number from the actual
-            // number
-            // of items in the adapter. Using the adapter is the for sure way to get the actual last
-            // item position.
-            final float inboundY = getInboundY(rv.getHeight(), e.getY());
-            final int lastGlidedItemPos = (pastLastItem) ? rv.getAdapter().getItemCount() - 1
-                    : rv.getChildAdapterPosition(rv.findChildViewUnder(e.getX(), inboundY));
-            if (lastGlidedItemPos != RecyclerView.NO_POSITION) {
-                doGestureMultiSelect(lastGlidedItemPos);
-            }
-            if (insideDragZone(rv)) {
-                mDragScroller.run();
-            }
+        // Since views get attached & detached from RecyclerView,
+        // {@link LayoutManager#getChildCount} can return a different number from the actual
+        // number
+        // of items in the adapter. Using the adapter is the for sure way to get the actual last
+        // item position.
+        final float inboundY = getInboundY(rv.getHeight(), e.getY());
+        final int lastGlidedItemPos = (pastLastItem) ? rv.getAdapter().getItemCount() - 1
+                : rv.getChildAdapterPosition(rv.findChildViewUnder(e.getX(), inboundY));
+        if (lastGlidedItemPos != RecyclerView.NO_POSITION) {
+            doGestureMultiSelect(lastGlidedItemPos);
+        }
+        if (insideDragZone(rv)) {
+            mDragScroller.run();
         }
     }
 
@@ -257,5 +255,10 @@ final class GestureSelector {
         boolean shouldScrollDown = mLastInterceptedPoint.y > scrollView.getHeight() -
                 mAutoScrollEdgeHeight && scrollView.canScrollVertically(1);
         return shouldScrollUp || shouldScrollDown;
+    }
+
+    @FunctionalInterface
+    interface ViewFinder {
+        @Nullable View findView(float x, float y);
     }
 }

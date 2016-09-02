@@ -28,6 +28,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
@@ -55,7 +56,7 @@ import java.util.Set;
  * and {@link MultiSelectManager}. This class is responsible for rendering the band select
  * overlay and selecting overlaid items via MultiSelectManager.
  */
-public class BandController extends RecyclerView.OnScrollListener {
+public class BandController extends OnScrollListener {
 
     private static final String TAG = "BandController";
     private static final int AUTOSCROLL_EDGE_HEIGHT = 1;
@@ -79,26 +80,6 @@ public class BandController extends RecyclerView.OnScrollListener {
             DocumentsAdapter adapter,
             MultiSelectManager selectionManager) {
         this(new RuntimeSelectionEnvironment(view), adapter, selectionManager);
-
-        view.addOnItemTouchListener(
-                new RecyclerView.OnItemTouchListener() {
-                    @Override
-                    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                        try (InputEvent event = MotionInputEvent.obtain(e, view)) {
-                            return handleEvent(event);
-                        }
-                    }
-                    @Override
-                    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-                        if (Events.isMouseEvent(e)) {
-                            try (InputEvent event = MotionInputEvent.obtain(e, view)) {
-                                processInputEvent(event);
-                            }
-                        }
-                    }
-                    @Override
-                    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
-                });
     }
 
     private BandController(
@@ -199,26 +180,13 @@ public class BandController extends RecyclerView.OnScrollListener {
         mSelection = selection;
     }
 
-    private boolean handleEvent(InputEvent e) {
-        // Don't start, or extend bands on right click.
-        if (e.isSecondaryButtonPressed()) {
-            return false;
-        }
-
-        if (!e.isMouseEvent() && isActive()) {
-            // Weird things happen if we keep up band select
-            // when touch events happen.
-            endBandSelect();
-            return false;
-        }
-
+    boolean onInterceptTouchEvent(InputEvent e) {
         // b/23793622 notes the fact that we *never* receive ACTION_DOWN
         // events in onTouchEvent. Where it not for this issue, we'd
         // push start handling down into handleInputEvent.
         if (shouldStart(e)) {
-            // endBandSelect is handled in handleInputEvent.
             startBandSelect(e.getOrigin());
-        } else if (isActive() && e.isActionUp()) {
+        } else if (shouldStop(e)) {
             // Same issue here w b/23793622. The ACTION_UP event
             // is only evert dispatched to onTouchEvent when
             // there is some associated motion. If a user taps
@@ -226,9 +194,7 @@ public class BandController extends RecyclerView.OnScrollListener {
             // started BUT not ended. Causing phantom
             // bands to appear when the user later clicks to start
             // band select.
-            if (e.isMouseEvent()) {
-                processInputEvent(e);
-            }
+            endBandSelect();
         }
 
         return isActive();
@@ -248,14 +214,26 @@ public class BandController extends RecyclerView.OnScrollListener {
         }
     }
 
-    boolean shouldStart(InputEvent e) {
+    public boolean shouldStart(InputEvent e) {
+        // Don't start, or extend bands on right click.
+        if (e.isSecondaryButtonPressed()) {
+            return false;
+        }
+
+        if (!e.isMouseEvent() && isActive()) {
+            // Weird things happen if we keep up band select
+            // when touch events happen.
+            endBandSelect();
+            return false;
+        }
+
         return !isActive()
                 && e.isActionDown()  // the initial button press
                 && mAdapter.getItemCount() > 0
                 && e.getItemPosition() == RecyclerView.NO_ID;  // in empty space
     }
 
-    boolean shouldStop(InputEvent input) {
+    public boolean shouldStop(InputEvent input) {
         return isActive()
                 && input.isMouseEvent()
                 && input.isActionUp();
@@ -265,7 +243,7 @@ public class BandController extends RecyclerView.OnScrollListener {
      * Processes a MotionEvent by starting, ending, or resizing the band select overlay.
      * @param input
      */
-    private void processInputEvent(InputEvent input) {
+    void onTouchEvent(InputEvent input) {
         assert(input.isMouseEvent());
 
         if (shouldStop(input)) {
