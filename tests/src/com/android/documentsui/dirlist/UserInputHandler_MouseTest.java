@@ -16,6 +16,9 @@
 
 package com.android.documentsui.dirlist;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
@@ -96,6 +99,11 @@ public final class UserInputHandler_MouseTest {
     public void testRightClickDown_StartsContextMenu() {
         mInputHandler.onDown(mEvent.secondary().build());
         mRightClickHandler.assertLastArgument(mEvent.secondary().build());
+    }
+
+    @Test
+    public void testScroll_shouldTrap() {
+        assertTrue(mInputHandler.onScroll(mEvent.at(0).build()));
     }
 
     @Test

@@ -11,6 +11,7 @@ public class TestInputEvent implements Events.InputEvent {
     public boolean shiftKeyDow;
     public boolean actionDown;
     public boolean actionUp;
+    public boolean actionMove;
     public Point location;
     public Point rawLocation;
     public int position = Integer.MIN_VALUE;
@@ -49,6 +50,11 @@ public class TestInputEvent implements Events.InputEvent {
     @Override
     public boolean isActionUp() {
         return actionUp;
+    }
+
+    @Override
+    public boolean isActionMove() {
+        return actionMove;
     }
 
     @Override

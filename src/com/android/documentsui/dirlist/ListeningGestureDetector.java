@@ -16,8 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import android.annotation.Nullable;
 import android.content.Context;
-import android.support.v13.view.DragStartHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnItemTouchListener;
 import android.view.GestureDetector;
@@ -25,52 +25,104 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import com.android.documentsui.Events;
 import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.Events.MotionInputEvent;
 
 //Receives event meant for both directory and empty view, and either pass them to
 //{@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
 //other types of gestures (drag n' drop)
 final class ListeningGestureDetector extends GestureDetector
         implements OnItemTouchListener, OnTouchListener {
-    private final DragStartHelper mDragHelper;
-    private final GestureSelector mGestureSelectHelper;
+
+    private final GestureSelector mGestureSelector;
+    private final DragStartListener mDragListener;
+    private final BandController mBandController;
+    private final MouseDelegate mMouseDelegate = new MouseDelegate();
+    private final TouchDelegate mTouchDelegate = new TouchDelegate();
 
     public ListeningGestureDetector(
             Context context,
-            DragStartHelper dragHelper,
+            RecyclerView recView,
+            View emptyView,
+            DragStartListener dragListener,
+            GestureSelector gestureSelector,
             UserInputHandler<? extends InputEvent> handler,
-            GestureSelector gestureMultiSelectHelper) {
+            @Nullable BandController bandController) {
         super(context, handler);
-        mDragHelper = dragHelper;
-        mGestureSelectHelper = gestureMultiSelectHelper;
-        setOnDoubleTapListener(handler);
+        mDragListener = dragListener;
+        mGestureSelector = gestureSelector;
+        mBandController = bandController;
+        recView.addOnItemTouchListener(this);
+        emptyView.setOnTouchListener(this);
     }
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        // Detect drag events from mouse. When a drag is detected, intercept the rest of the
-        // gesture.
-        View itemView = rv.findChildViewUnder(e.getX(), e.getY());
-        if (itemView != null && mDragHelper.onTouch(itemView, e)) {
-            return true;
+        boolean handled = false;
+
+        try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
+            if (event.isMouseEvent()) {
+                handled |= mMouseDelegate.onInterceptTouchEvent(event);
+            } else {
+                handled |= mTouchDelegate.onInterceptTouchEvent(event);
+            }
         }
 
-        if (mGestureSelectHelper.onInterceptTouchEvent(rv, e)) {
-            return true;
-        }
+        // Forward all events to UserInputHandler.
+        // This is necessary since UserInputHandler needs to always see the first DOWN event. Or
+        // else all future UP events will be tossed.
+        handled |= onTouchEvent(e);
 
-        // Forward unhandled events to UserInputHandler.
-        return onTouchEvent(e);
+        return handled;
     }
 
     @Override
     public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        mGestureSelectHelper.onTouchEvent(rv, e);
+        try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
+            if (Events.isMouseEvent(e)) {
+                mMouseDelegate.onTouchEvent(event);
+            } else {
+                mTouchDelegate.onTouchEvent(rv, event);
+            }
+        }
 
-        // Note: even though this event is being handled as part of gesture-multi select, continue
-        // forwarding to the GestureDetector. The detector needs to see the entire cluster of events
-        // in order to properly interpret other gestures, such as long press.
+        // Note: even though this event is being handled as part of gestures such as drag and band,
+        // continue forwarding to the GestureDetector. The detector needs to see the entire cluster
+        // of events in order to properly interpret other gestures, such as long press.
         onTouchEvent(e);
+    }
+
+    private class MouseDelegate {
+        boolean onInterceptTouchEvent(InputEvent e) {
+            if (mDragListener.isDragEvent(e)) {
+                return mDragListener.onInterceptTouchEvent(e);
+            } else if (mBandController != null &&
+                    (mBandController.shouldStart(e) || mBandController.shouldStop(e))) {
+                return mBandController.onInterceptTouchEvent(e);
+            }
+            return false;
+        }
+
+        void onTouchEvent(InputEvent e) {
+            if (mBandController != null) {
+                mBandController.onTouchEvent(e);
+            }
+        }
+    }
+
+    private class TouchDelegate {
+        boolean onInterceptTouchEvent(InputEvent e) {
+            // Gesture Selector needs to be constantly fed events, so that when a long press does
+            // happen, we would have the last DOWN event that occurred to keep track of our anchor
+            // point
+            return mGestureSelector.onInterceptTouchEvent(e);
+        }
+
+        // TODO: Make this take just an InputEvent, no RecyclerView
+        void onTouchEvent(RecyclerView rv, InputEvent e) {
+            mGestureSelector.onTouchEvent(rv, e);
+        }
     }
 
     @Override

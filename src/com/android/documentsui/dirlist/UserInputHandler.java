@@ -96,6 +96,21 @@ public final class UserInputHandler<T extends InputEvent>
     }
 
     @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2,
+            float distanceX, float distanceY) {
+        try (T event = mEventConverter.apply(e2)) {
+            return onScroll(event);
+        }
+    }
+
+    @VisibleForTesting
+    boolean onScroll(T event) {
+        return event.isMouseEvent()
+                ? mMouseDelegate.onScroll(event)
+                : mTouchDelegate.onScroll(event);
+    }
+
+    @Override
     public boolean onSingleTapUp(MotionEvent e) {
         try (T event = mEventConverter.apply(e)) {
             return onSingleTapUp(event);
@@ -191,6 +206,11 @@ public final class UserInputHandler<T extends InputEvent>
             return false;
         }
 
+        // Don't consume so the RecyclerView will get the event and will get touch-based scrolling
+        boolean onScroll(T event) {
+            return false;
+        }
+
         boolean onSingleTapUp(T event) {
             if (!event.isOverItem()) {
                 if (DEBUG) Log.d(TAG, "Tap on non-item. Clearing selection.");
@@ -241,6 +261,8 @@ public final class UserInputHandler<T extends InputEvent>
                     selectDocument(mDocFinder.apply(event));
                     mGestureSelectHandler.apply(event);
                 } else {
+                    // We only initiate drag and drop on long press for touch to allow regular
+                    // touch-based scrolling
                     mDragAndDropHandler.apply(event);
                 }
             }
@@ -259,6 +281,11 @@ public final class UserInputHandler<T extends InputEvent>
                 return onRightClick(event);
             }
             return false;
+        }
+
+        // Don't scroll content window in response to mouse drag
+        boolean onScroll(T event) {
+            return true;
         }
 
         boolean onSingleTapUp(T event) {
