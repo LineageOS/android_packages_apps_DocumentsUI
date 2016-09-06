@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist.header;
+package com.android.documentsui.sorting;
 
 import android.view.View;
 
 import com.android.documentsui.R;
-import com.android.documentsui.sorting.SortController;
-import com.android.documentsui.sorting.SortDimension;
-import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
 import javax.annotation.Nullable;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.sorting;
 
 import android.annotation.StringRes;
 import android.view.Gravity;
