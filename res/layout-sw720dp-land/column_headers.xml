@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <com.android.documentsui.dirlist.header.HeaderCell
+            <com.android.documentsui.sorting.HeaderCell
                 android:id="@android:id/title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -65,9 +65,9 @@
                 android:animateLayoutChanges="true">
 
                 <include layout="@layout/shared_cell_content" />
-            </com.android.documentsui.dirlist.header.HeaderCell>
+            </com.android.documentsui.sorting.HeaderCell>
 
-            <com.android.documentsui.dirlist.header.HeaderCell
+            <com.android.documentsui.sorting.HeaderCell
                 android:id="@android:id/summary"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -79,9 +79,9 @@
                 android:animateLayoutChanges="true">
 
                 <include layout="@layout/shared_cell_content" />
-            </com.android.documentsui.dirlist.header.HeaderCell>
+            </com.android.documentsui.sorting.HeaderCell>
 
-            <com.android.documentsui.dirlist.header.HeaderCell
+            <com.android.documentsui.sorting.HeaderCell
                 android:id="@+id/size"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -93,9 +93,9 @@
                 android:animateLayoutChanges="true">
 
                 <include layout="@layout/shared_cell_content" />
-            </com.android.documentsui.dirlist.header.HeaderCell>
+            </com.android.documentsui.sorting.HeaderCell>
 
-            <com.android.documentsui.dirlist.header.HeaderCell
+            <com.android.documentsui.sorting.HeaderCell
                 android:id="@+id/date"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -107,7 +107,7 @@
                 android:animateLayoutChanges="true">
 
                 <include layout="@layout/shared_cell_content" />
-            </com.android.documentsui.dirlist.header.HeaderCell>
+            </com.android.documentsui.sorting.HeaderCell>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

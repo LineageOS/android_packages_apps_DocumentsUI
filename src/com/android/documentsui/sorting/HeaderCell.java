@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist.header;
+package com.android.documentsui.sorting;
 
 import android.animation.AnimatorInflater;
 import android.animation.LayoutTransition;
