@@ -24,8 +24,6 @@ import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.State;
 import com.android.documentsui.State.ViewMode;
-import com.android.documentsui.dirlist.DropdownSortWidgetController;
-import com.android.documentsui.dirlist.header.TableHeaderController;
 
 /**
  * A high level controller that manages sort widgets. This is useful when sort widgets can and will
