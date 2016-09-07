@@ -185,6 +185,9 @@ public class BandController extends OnScrollListener {
         // events in onTouchEvent. Where it not for this issue, we'd
         // push start handling down into handleInputEvent.
         if (shouldStart(e)) {
+            if (!e.isCtrlKeyDown()) {
+                mSelectionManager.clearSelection();
+            }
             startBandSelect(e.getOrigin());
         } else if (shouldStop(e)) {
             // Same issue here w b/23793622. The ACTION_UP event
