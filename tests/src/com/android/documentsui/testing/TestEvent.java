@@ -60,6 +60,11 @@ public class TestEvent extends TestInputEvent implements DocumentDetails {
         return this;
     }
 
+    public TestEvent ctrl() {
+        this.ctrlKeyDow = true;
+        return this;
+    }
+
     public DocumentDetails getDocument() {
         return this;
     }
@@ -115,6 +120,16 @@ public class TestEvent extends TestInputEvent implements DocumentDetails {
             return this;
         }
 
+        public Builder ctrl() {
+            mState.ctrlKeyDow = true;
+            return this;
+        }
+
+        public Builder unctrl() {
+            mState.ctrlKeyDow = false;
+            return this;
+        }
+
         public Builder inHotspot() {
             mState.inHotspot = true;
             return this;
@@ -136,6 +151,7 @@ public class TestEvent extends TestInputEvent implements DocumentDetails {
             e.position = mState.position;
             e.modelId = mState.modelId;
             e.shiftKeyDow = mState.shiftKeyDow;
+            e.ctrlKeyDow = mState.ctrlKeyDow;
             e.mouseEvent = mState.mouseEvent;
             e.secondaryButtonPressed = mState.secondaryButtonPressed;
             return e;

@@ -19,11 +19,9 @@ package com.android.documentsui.dirlist;
 import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.documentsui.Events.InputEvent;
-import com.android.documentsui.Events.MotionInputEvent;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
 

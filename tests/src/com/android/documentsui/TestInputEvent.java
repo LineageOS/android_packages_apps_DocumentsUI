@@ -9,6 +9,7 @@ public class TestInputEvent implements Events.InputEvent {
     public boolean primaryButtonPressed;
     public boolean secondaryButtonPressed;
     public boolean shiftKeyDow;
+    public boolean ctrlKeyDow;
     public boolean actionDown;
     public boolean actionUp;
     public boolean actionMove;
@@ -40,6 +41,11 @@ public class TestInputEvent implements Events.InputEvent {
     @Override
     public boolean isShiftKeyDown() {
         return shiftKeyDow;
+    }
+
+    @Override
+    public boolean isCtrlKeyDown() {
+        return ctrlKeyDow;
     }
 
     @Override

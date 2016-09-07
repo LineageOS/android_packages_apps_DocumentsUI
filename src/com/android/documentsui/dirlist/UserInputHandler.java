@@ -200,6 +200,10 @@ public final class UserInputHandler<T extends InputEvent>
         mSelectionMgr.snapRangeSelection(event.getItemPosition());
     }
 
+    private boolean shouldClearSelection(T event, DocumentDetails doc) {
+        return !event.isCtrlKeyDown() && !mSelectionMgr.getSelection().contains(doc.getModelId());
+    }
+
     private final class TouchInputDelegate {
 
         boolean onDown(T event) {
@@ -280,6 +284,7 @@ public final class UserInputHandler<T extends InputEvent>
                 mHandledOnDown = true;
                 return onRightClick(event);
             }
+
             return false;
         }
 
@@ -307,7 +312,11 @@ public final class UserInputHandler<T extends InputEvent>
                 if (isRangeExtension(event)) {
                     extendSelectionRange(event);
                 } else {
-                    selectDocument(mDocFinder.apply(event));
+                    DocumentDetails doc = mDocFinder.apply(event);
+                    if (shouldClearSelection(event, doc)) {
+                        mSelectionMgr.clearSelection();
+                    }
+                    selectDocument(doc);
                 }
                 mHandledTapUp = true;
                 return true;
