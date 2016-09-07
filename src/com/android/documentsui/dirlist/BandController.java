@@ -181,19 +181,9 @@ public class BandController extends OnScrollListener {
     }
 
     boolean onInterceptTouchEvent(InputEvent e) {
-        // b/23793622 notes the fact that we *never* receive ACTION_DOWN
-        // events in onTouchEvent. Where it not for this issue, we'd
-        // push start handling down into handleInputEvent.
         if (shouldStart(e)) {
             startBandSelect(e.getOrigin());
         } else if (shouldStop(e)) {
-            // Same issue here w b/23793622. The ACTION_UP event
-            // is only evert dispatched to onTouchEvent when
-            // there is some associated motion. If a user taps
-            // mouse, but doesn't move, then band select gets
-            // started BUT not ended. Causing phantom
-            // bands to appear when the user later clicks to start
-            // band select.
             endBandSelect();
         }
 
@@ -227,8 +217,12 @@ public class BandController extends OnScrollListener {
             return false;
         }
 
+        // b/30146357 && b/23793622. onInterceptTouchEvent does not dispatch events to onTouchEvent
+        // unless the event is != ACTION_DOWN. Thus, we need to actually start band selection when
+        // mouse moves, or else starting band selection on mouse down can cause problems as events
+        // don't get routed correctly to onTouchEvent.
         return !isActive()
-                && e.isActionDown()  // the initial button press
+                && e.isActionMove()  // the initial button move via mouse-touch (ie. down press)
                 && mAdapter.getItemCount() > 0
                 && e.getItemPosition() == RecyclerView.NO_ID;  // in empty space
     }
@@ -253,10 +247,12 @@ public class BandController extends OnScrollListener {
 
         // We shouldn't get any events in this method when band select is not active,
         // but it turns some guests show up late to the party.
+        // Probably happening when a re-layout is happening to the ReyclerView (ie. Pull-To-Refresh)
         if (!isActive()) {
             return;
         }
 
+        assert(input.isActionMove());
         mCurrentPosition = input.getOrigin();
         mModel.resizeSelection(input.getOrigin());
         scrollViewIfNecessary();
