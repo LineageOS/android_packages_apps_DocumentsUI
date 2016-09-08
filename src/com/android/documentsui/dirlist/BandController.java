@@ -182,6 +182,9 @@ public class BandController extends OnScrollListener {
 
     boolean onInterceptTouchEvent(InputEvent e) {
         if (shouldStart(e)) {
+            if (!e.isCtrlKeyDown()) {
+                mSelectionManager.clearSelection();
+            }
             startBandSelect(e.getOrigin());
         } else if (shouldStop(e)) {
             endBandSelect();

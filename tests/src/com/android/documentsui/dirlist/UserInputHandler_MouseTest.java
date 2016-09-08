@@ -107,11 +107,59 @@ public final class UserInputHandler_MouseTest {
     }
 
     @Test
-    public void testUnconfirmedClick_AddsToExistingSelection() {
+    public void testUnconfirmedClick_DoesNotAddToExistingSelection() {
         mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
 
         mInputHandler.onSingleTapUp(mEvent.at(11).build());
+        mSelection.assertSelection(11);
+    }
+
+    @Test
+    public void testUnconfirmedCtrlClick_AddsToExistingSelection() {
+        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+
+        mInputHandler.onSingleTapUp(mEvent.at(11).ctrl().build());
         mSelection.assertSelection(7, 11);
+    }
+
+    @Test
+    public void testUnconfirmedShiftClick_ExtendsSelection() {
+        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+
+        mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
+        mSelection.assertSelection(7, 8, 9, 10, 11);
+    }
+
+    @Test
+    public void testUnconfirmedShiftClick_RotatesAroundOrigin() {
+        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+
+        mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
+        mSelection.assertSelection(7, 8, 9, 10, 11);
+
+        mInputHandler.onSingleTapUp(mEvent.at(5).shift().build());
+        mSelection.assertSelection(5, 6, 7);
+        mSelection.assertNotSelected(8, 9, 10, 11);
+    }
+
+    @Test
+    public void testUnconfirmedShiftCtrlClick_Combination() {
+        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+
+        mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
+        mSelection.assertSelection(7, 8, 9, 10, 11);
+
+        mInputHandler.onSingleTapUp(mEvent.at(5).unshift().ctrl().build());
+
+        mSelection.assertSelection(5, 7, 8, 9, 10, 11);
+    }
+
+    @Test
+    public void testUnconfirmedShiftCtrlClick_ShiftTakesPriority() {
+        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+
+        mInputHandler.onSingleTapUp(mEvent.at(11).ctrl().shift().build());
+        mSelection.assertSelection(7, 8, 9, 10, 11);
     }
 
     @Test

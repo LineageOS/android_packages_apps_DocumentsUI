@@ -90,6 +90,10 @@ public final class Events {
         return (metaState & KeyEvent.META_SHIFT_ON) != 0;
     }
 
+    public static boolean hasCtrlBit(int metaState) {
+        return (metaState & KeyEvent.META_CTRL_ON) != 0;
+    }
+
     /**
      * A facade over MotionEvent primarily designed to permit for unit testing
      * of related code.
@@ -99,6 +103,7 @@ public final class Events {
         boolean isPrimaryButtonPressed();
         boolean isSecondaryButtonPressed();
         boolean isShiftKeyDown();
+        boolean isCtrlKeyDown();
 
         /** Returns true if the action is the initial press of a mouse or touch. */
         boolean isActionDown();
@@ -211,6 +216,11 @@ public final class Events {
         @Override
         public boolean isShiftKeyDown() {
             return Events.hasShiftBit(mEvent.getMetaState());
+        }
+
+        @Override
+        public boolean isCtrlKeyDown() {
+            return Events.hasCtrlBit(mEvent.getMetaState());
         }
 
         @Override
