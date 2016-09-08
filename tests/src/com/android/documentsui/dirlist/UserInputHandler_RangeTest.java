@@ -112,11 +112,9 @@ public final class UserInputHandler_RangeTest {
         mInputHandler.onSingleTapUp(mEvent.at(20).unshift().build());
         mInputHandler.onSingleTapUp(mEvent.at(25).shift().build());
 
-        mSelection.assertRangeSelected(7, 11);
+        mSelection.assertRangeNotSelected(7, 11);
         mSelection.assertRangeSelected(20, 25);
-
-        mSelection.assertRangeNotSelected(12, 19);
-        mSelection.assertSelectionSize(11);
+        mSelection.assertSelectionSize(6);
     }
 
     @Test
