@@ -34,6 +34,7 @@ import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 
+import java.util.List;
 import java.util.function.Function;
 
 import javax.annotation.Nullable;
@@ -70,6 +71,7 @@ interface DragStartListener {
         private final Function<View, String> mIdFinder;
         private final ClipDataFactory mClipFactory;
         private final Function<Selection, DragShadowBuilder> mShadowFactory;
+        private Function<Selection, List<DocumentInfo>> mDocsConverter;
 
         // use DragStartListener.create
         @VisibleForTesting
@@ -78,6 +80,7 @@ interface DragStartListener {
                 MultiSelectManager selectionMgr,
                 ViewFinder viewFinder,
                 Function<View, String> idFinder,
+                Function<Selection, List<DocumentInfo>> docsConverter,
                 ClipDataFactory clipFactory,
                 Function<Selection, DragShadowBuilder> shadowFactory) {
 
@@ -85,6 +88,7 @@ interface DragStartListener {
             mSelectionMgr = selectionMgr;
             mViewFinder = viewFinder;
             mIdFinder = idFinder;
+            mDocsConverter = docsConverter;
             mClipFactory = clipFactory;
             mShadowFactory = shadowFactory;
         }
@@ -133,6 +137,8 @@ interface DragStartListener {
                 mSelectionMgr.getSelection(selection);
             }
 
+            final List<DocumentInfo> invalidDest = mDocsConverter.apply(selection);
+            invalidDest.add(mState.stack.peek());
             // NOTE: Preparation of the ClipData object can require a lot of time
             // and ideally should be done in the background. Unfortunately
             // the current code layout and framework assumptions don't support
@@ -143,7 +149,7 @@ interface DragStartListener {
                             selection,
                             FileOperationService.OPERATION_COPY),
                     mShadowFactory.apply(selection),
-                    mState.stack.peek(),
+                    invalidDest,
                     View.DRAG_FLAG_GLOBAL
                             | View.DRAG_FLAG_GLOBAL_URI_READ
                             | View.DRAG_FLAG_GLOBAL_URI_WRITE);
@@ -159,10 +165,10 @@ interface DragStartListener {
                 View view,
                 ClipData data,
                 DragShadowBuilder shadowBuilder,
-                DocumentInfo currentDirectory,
+                Object localState,
                 int flags) {
 
-            view.startDragAndDrop(data, shadowBuilder, currentDirectory, flags);
+            view.startDragAndDrop(data, shadowBuilder, localState, flags);
         }
     }
 
@@ -185,6 +191,7 @@ interface DragStartListener {
                 selectionMgr,
                 viewFinder,
                 idFinder,
+                model::getDocuments,
                 (Selection selection, @OpType int operationType) -> {
                     return clipper.getClipDataForDocuments(
                             model::getItemUri,

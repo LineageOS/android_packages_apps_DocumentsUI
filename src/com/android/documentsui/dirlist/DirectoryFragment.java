@@ -1350,7 +1350,6 @@ public class DirectoryFragment extends Fragment
         if (getModelId(view) != null) {
            activity.springOpenDirectory(getDestination(view));
         }
-
         activity.setRootsDrawerOpen(false);
     }
 
@@ -1363,13 +1362,7 @@ public class DirectoryFragment extends Fragment
 
         assert(DocumentClipper.getOpType(clipData) == FileOperationService.OPERATION_COPY);
 
-        // Don't copy from the cwd into the cwd. Note: this currently doesn't work for
-        // multi-window drag, because localState isn't carried over from one process to
-        // another.
-        Object src = event.getLocalState();
-        DocumentInfo dst = getDestination(v);
-        if (Objects.equals(src, dst)) {
-            if (DEBUG) Log.d(TAG, "Drop target same as source. Ignoring.");
+        if (!shouldCopyTo(event.getLocalState(), v)) {
             return false;
         }
 
@@ -1379,10 +1372,28 @@ public class DirectoryFragment extends Fragment
         // The localState could also be null for copying from Recents in single window
         // mode, but Recents doesn't offer this functionality (no directories).
         Metrics.logUserAction(getContext(),
-                src == null ? Metrics.USER_ACTION_DRAG_N_DROP_MULTI_WINDOW
+                event.getLocalState() == null ? Metrics.USER_ACTION_DRAG_N_DROP_MULTI_WINDOW
                         : Metrics.USER_ACTION_DRAG_N_DROP);
 
+        DocumentInfo dst = getDestination(v);
         mClipper.copyFromClipData(dst, getDisplayState().stack, clipData, activity.fileOpCallback);
+        return true;
+    }
+
+    // Don't copy from the cwd into a provided list of prohibited directories. (ie. into cwd, into
+    // a selected directory). Note: this currently doesn't work for multi-window drag, because
+    // localState isn't carried over from one process to another.
+    boolean shouldCopyTo(Object dragLocalState, View destinationView) {
+        if (dragLocalState == null || !(dragLocalState instanceof List<?>)) {
+            if (DEBUG) Log.d(TAG, "Invalid local state object. Will allow copy.");
+            return true;
+        }
+        DocumentInfo dst = getDestination(destinationView);
+        List<?> src = (List<?>) dragLocalState;
+        if (src.contains(dst)) {
+            if (DEBUG) Log.d(TAG, "Drop target same as source. Ignoring.");
+            return false;
+        }
         return true;
     }
 
