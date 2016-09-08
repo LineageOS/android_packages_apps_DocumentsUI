@@ -37,7 +37,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -156,7 +155,6 @@ public class DirectoryFragment extends Fragment
     private View mEmptyView;
     private RecyclerView mRecView;
     private View mFileList;
-    private ListeningGestureDetector mGestureDetector;
 
     private String mStateKey;
 
@@ -327,19 +325,12 @@ public class DirectoryFragment extends Fragment
         mInputHandler = new UserInputHandler<>(
                 mSelectionMgr,
                 mFocusManager,
-                new Function<MotionEvent, InputEvent>() {
-                    @Override
-                    public InputEvent apply(MotionEvent t) {
-                        return MotionInputEvent.obtain(t, mRecView);
-                    }
-                },
+                (MotionEvent t) -> MotionInputEvent.obtain(t, mRecView),
                 this::getTarget,
                 this::canSelect,
                 this::onRightClick,
-                this::onActivate,
-                (DocumentDetails ignored) -> {
-                    return onDeleteSelectedDocuments();
-                },
+                (DocumentDetails doc) -> handleViewItem(doc.getModelId()), // activate handler
+                (DocumentDetails ignored) -> onDeleteSelectedDocuments(), // delete handler
                 this::onDragAndDrop,
                 gestureSel::start);
 
@@ -355,7 +346,7 @@ public class DirectoryFragment extends Fragment
                 getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic));
 
 
-        mGestureDetector = new ListeningGestureDetector(
+        new ListeningGestureDetector(
                 this.getContext(),
                 mRecView,
                 mEmptyView,
@@ -1003,16 +994,6 @@ public class DirectoryFragment extends Fragment
             deleteDocuments(mSelectionMgr.getSelection(new Selection()));
         }
         return false;
-    }
-
-    private boolean onActivate(DocumentDetails doc) {
-        // Toggle selection if we're in selection mode, othewise, view item.
-        if (mSelectionMgr.hasSelection()) {
-            mSelectionMgr.toggleSelection(doc.getModelId());
-        } else {
-            handleViewItem(doc.getModelId());
-        }
-        return true;
     }
 
     private void deleteDocuments(final Selection selected) {

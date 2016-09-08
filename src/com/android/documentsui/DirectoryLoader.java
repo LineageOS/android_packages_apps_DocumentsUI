@@ -86,19 +86,6 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         result.doc = mDoc;
         result.sortModel = mModel;
 
-        // Use default document when searching
-        if (mSearchMode) {
-            final Uri docUri = DocumentsContract.buildDocumentUri(
-                    mRoot.authority, mRoot.documentId);
-            try {
-                mDoc = DocumentInfo.fromUri(resolver, docUri);
-            } catch (FileNotFoundException e) {
-                Log.w(TAG, "Failed to query", e);
-                result.exception = e;
-                return result;
-            }
-        }
-
         ContentProviderClient client = null;
         Cursor cursor;
         try {
