@@ -110,7 +110,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
@@ -188,7 +187,6 @@ public class DirectoryFragment extends Fragment
     private @Nullable ActionMode mActionMode;
 
     private DragHoverListener mDragHoverListener;
-    private DragStartListener mDragStartListener;
     private MenuManager mMenuManager;
 
     private SortModel.UpdateListener mSortListener = (model, updateType) -> {
@@ -318,9 +316,25 @@ public class DirectoryFragment extends Fragment
                 mSelectionMgr,
                 mRecView);
 
+        mTuner = getBaseActivity().createFragmentTuner();
+        mMenuManager = getBaseActivity().getMenuManager();
+
         if (state.allowMultiple) {
             mBandController = new BandController(mRecView, mAdapter, mSelectionMgr);
         }
+
+        DragStartListener mDragStartListener = mTuner.dragAndDropEnabled()
+                ? DragStartListener.create(
+                        mIconHelper,
+                        getContext(),
+                        mModel,
+                        mSelectionMgr,
+                        mClipper,
+                        getDisplayState(),
+                        this::getModelId,
+                        mRecView::findChildViewUnder,
+                        getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic))
+                : DragStartListener.DUMMY;
 
         mInputHandler = new UserInputHandler<>(
                 mSelectionMgr,
@@ -331,35 +345,19 @@ public class DirectoryFragment extends Fragment
                 this::onRightClick,
                 (DocumentDetails doc) -> handleViewItem(doc.getModelId()), // activate handler
                 (DocumentDetails ignored) -> onDeleteSelectedDocuments(), // delete handler
-                this::onDragAndDrop,
+                mDragStartListener::onTouchDragEvent,
                 gestureSel::start);
-
-        mDragStartListener = new DragStartListener(
-                mIconHelper,
-                getContext(),
-                mModel,
-                mSelectionMgr,
-                mClipper,
-                getDisplayState(),
-                this::getModelId,
-                mRecView::findChildViewUnder,
-                getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic));
-
 
         new ListeningGestureDetector(
                 this.getContext(),
                 mRecView,
                 mEmptyView,
-                mDragStartListener,
+                mDragStartListener::onMouseDragEvent,
                 gestureSel,
                 mInputHandler,
                 mBandController);
 
         mSelectionMgr.addCallback(mSelectionModeListener);
-
-        final BaseActivity activity = getBaseActivity();
-        mTuner = activity.createFragmentTuner();
-        mMenuManager = activity.getMenuManager();
 
         final ActivityManager am = (ActivityManager) context.getSystemService(
                 Context.ACTIVITY_SERVICE);
@@ -1484,14 +1482,6 @@ public class DirectoryFragment extends Fragment
         public void onModelUpdateFailed(Exception e) {
             showQueryError();
         }
-    }
-
-    private boolean onDragAndDrop(InputEvent event) {
-        if (mTuner.dragAndDropEnabled()) {
-            View childView = mRecView.findChildViewUnder(event.getX(), event.getY());
-            return mDragStartListener.startDrag(childView);
-        }
-        return false;
     }
 
     private boolean canSelect(DocumentDetails doc) {

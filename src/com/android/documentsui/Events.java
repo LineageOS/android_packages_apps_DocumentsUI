@@ -61,6 +61,18 @@ public final class Events {
     }
 
     /**
+     * Returns true if the event is a mouse drag event.
+     * @param e
+     * @return
+     */
+    public static boolean isMouseDragEvent(InputEvent e) {
+        return e.isOverItem()
+                && e.isMouseEvent()
+                && e.isActionMove()
+                && e.isPrimaryButtonPressed();
+    }
+
+    /**
      * Whether or not the given keyCode represents a navigation keystroke (e.g. up, down, home).
      *
      * @param keyCode
@@ -289,5 +301,10 @@ public final class Events {
                     .append("}")
                     .toString();
         }
+    }
+
+    @FunctionalInterface
+    public interface EventHandler {
+        boolean apply(InputEvent event);
     }
 }
