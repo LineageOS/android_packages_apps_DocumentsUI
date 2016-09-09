@@ -17,15 +17,15 @@
 package com.android.documentsui.dirlist;
 
 import android.content.ClipData;
-import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.State;
-import com.android.documentsui.TestInputEvent;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.Views;
 
 import java.util.ArrayList;
@@ -33,11 +33,11 @@ import java.util.ArrayList;
 @SmallTest
 public class DragStartListenerTest extends AndroidTestCase {
 
-    private DragStartListener listener;
-    private TestInputEvent event;
+    private DragStartListener mListener;
+    private TestEvent.Builder mEvent;
     private MultiSelectManager mMultiSelectManager;
-    private String viewModelId;
-    private boolean dragStarted;
+    private String mViewModelId;
+    private boolean mDragStarted;
 
     @Override
     public void setUp() throws Exception {
@@ -46,7 +46,7 @@ public class DragStartListenerTest extends AndroidTestCase {
                 new TestDocumentsAdapter(new ArrayList<String>()),
                 MultiSelectManager.MODE_MULTIPLE);
 
-        listener = new DragStartListener.ActiveListener(
+        mListener = new DragStartListener.ActiveListener(
                 new State(),
                 mMultiSelectManager,
                 // view finder
@@ -55,7 +55,7 @@ public class DragStartListenerTest extends AndroidTestCase {
                 },
                 // model id finder
                 (View view) -> {
-                    return viewModelId;
+                    return mViewModelId;
                 },
                 // docInfo Converter
                 (Selection selection) -> {
@@ -78,57 +78,53 @@ public class DragStartListenerTest extends AndroidTestCase {
                     Object localState,
                     int flags) {
 
-                dragStarted = true;
+                mDragStarted = true;
             }
         };
 
-        dragStarted = false;
-        viewModelId = "1234";
+        mDragStarted = false;
+        mViewModelId = "1234";
 
-        event = new TestInputEvent();
-        event.mouseEvent = true;
-        event.primaryButtonPressed = true;
-        event.actionMove = true;
-        event.position = 1;
-        event.location = new Point();
-        event.location.x = 0;
-        event.location.y = 0;
+        mEvent = TestEvent.builder()
+                .action(MotionEvent.ACTION_MOVE)
+                .mouse()
+                .at(1)
+                .primary();
     }
 
     public void testDragStarted_OnMouseMove() {
-        assertTrue(listener.onMouseDragEvent(event));
-        assertTrue(dragStarted);
+        assertTrue(mListener.onMouseDragEvent(mEvent.build()));
+        assertTrue(mDragStarted);
     }
 
     public void testDragNotStarted_NonModelBackedView() {
-        viewModelId = null;
-        assertFalse(listener.onMouseDragEvent(event));
-        assertFalse(dragStarted);
+        mViewModelId = null;
+        assertFalse(mListener.onMouseDragEvent(mEvent.build()));
+        assertFalse(mDragStarted);
     }
 
     public void testThrows_OnNonMouseMove() {
-        event.mouseEvent = false;
-        assertThrows(event);
+        TestEvent e = TestEvent.builder()
+                .at(1)
+                .action(MotionEvent.ACTION_MOVE).build();
+        assertThrows(e);
     }
 
     public void testThrows_OnNonPrimaryMove() {
-        event.primaryButtonPressed = false;
-        assertThrows(event);
+        assertThrows(mEvent.pressButton(MotionEvent.BUTTON_PRIMARY).build());
     }
 
     public void testThrows_OnNonMove() {
-        event.actionMove = false;
-        assertThrows(event);
+        assertThrows(mEvent.action(MotionEvent.ACTION_UP).build());
     }
 
     public void testThrows_WhenNotOnItem() {
-        event.position = -1;
-        assertThrows(event);
+        assertThrows(mEvent.at(-1).build());
     }
 
-    private void assertThrows(TestInputEvent e) {
+    private void assertThrows(InputEvent e) {
         try {
-            assertFalse(listener.onMouseDragEvent(e));
+            assertFalse(mListener.onMouseDragEvent(e));
             fail();
         } catch (AssertionError expected) {}
     }

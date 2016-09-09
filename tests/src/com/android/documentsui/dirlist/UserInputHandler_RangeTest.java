@@ -144,4 +144,25 @@ public final class UserInputHandler_RangeTest {
         mInputHandler.onSingleTapUp(mEvent.at(0).shift().build());
         mSelection.assertRangeSelection(0, 7);
     }
+
+    @Test
+    public void testRightClickEstablishesRange() {
+
+        TestEvent fistClick = mEvent.at(7).secondary().build();
+        mInputHandler.onDown(fistClick);
+        // This next method call simulates the behavior of the system event dispatch code.
+        // UserInputHandler depends on a specific sequence of events for internal
+        // state to remain valid. It's not an awesome arrangement, but it is currently
+        // necessary.
+        //
+        // See: UserInputHandler.MouseDelegate#mHandledOnDown;
+        mInputHandler.onSingleTapUp(fistClick);
+
+        // Now we can send a subsequent event that should extend selection.
+        TestEvent secondClick = mEvent.at(11).primary().shift().build();
+        mInputHandler.onDown(secondClick);
+        mInputHandler.onSingleTapUp(secondClick);
+
+        mSelection.assertRangeSelection(7, 11);
+    }
 }

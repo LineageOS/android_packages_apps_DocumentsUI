@@ -107,7 +107,6 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -472,37 +471,26 @@ public class DirectoryFragment extends Fragment
     }
 
     protected boolean onRightClick(InputEvent e) {
-        if (e.getItemPosition() != RecyclerView.NO_POSITION) {
-            final DocumentHolder doc = getTarget(e);
-            if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
-                mSelectionMgr.replaceSelection(Collections.singleton(doc.getModelId()));
-                mSelectionMgr.setSelectionRangeBegin(doc.getAdapterPosition());
-            }
+        if (e.isOverModelItem()) {
+            DocumentHolder doc = (DocumentHolder) e.getDocumentDetails();
 
             // We are registering for context menu here so long-press doesn't trigger this
             // floating context menu, and then quickly unregister right afterwards
             registerForContextMenu(doc.itemView);
-            mRecView.showContextMenuForChild(doc.itemView,
+            mRecView.showContextMenuForChild(
+                    doc.itemView,
                     e.getX() - doc.itemView.getLeft(), e.getY() - doc.itemView.getTop());
             unregisterForContextMenu(doc.itemView);
             return true;
         }
 
-        // If there was no corresponding item pos, that means user right-clicked on the blank
-        // pane
-        // We would want to show different options then, and not select any item
-        // The blank pane could be the recyclerView or the emptyView, so we need to register
-        // according to whichever one is visible
-        if (mEmptyView.getVisibility() == View.VISIBLE) {
-            registerForContextMenu(mEmptyView);
-            mEmptyView.showContextMenu(e.getX(), e.getY());
-            unregisterForContextMenu(mEmptyView);
-            return true;
-        }
+        View v = (mEmptyView.getVisibility() == View.VISIBLE)
+                ? mEmptyView : mRecView;
 
-        registerForContextMenu(mRecView);
-        mRecView.showContextMenu(e.getX(), e.getY());
-        unregisterForContextMenu(mRecView);
+        registerForContextMenu(v);
+        v.showContextMenu(e.getX(), e.getY());
+        unregisterForContextMenu(v);
+
         return true;
     }
 
@@ -1426,13 +1414,6 @@ public class DirectoryFragment extends Fragment
                 ((DocumentHolder) vh).setHighlighted(highlight);
             }
         }
-    }
-
-    private @Nullable DocumentHolder getTarget(InputEvent e) {
-        View childView = mRecView.findChildViewUnder(e.getX(), e.getY());
-        return (childView != null)
-                ? (DocumentHolder) mRecView.getChildViewHolder(childView)
-                : null;
     }
 
     /**

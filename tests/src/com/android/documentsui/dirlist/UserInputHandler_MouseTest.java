@@ -161,7 +161,7 @@ public final class UserInputHandler_MouseTest {
     @Test
     public void testDoubleClick_Activates() {
         mInputHandler.onDoubleTap(mEvent.at(11).build());
-        mActivateHandler.assertLastArgument(mEvent.build());
+        mActivateHandler.assertLastArgument(mEvent.build().getDocumentDetails());
     }
 
     @Test

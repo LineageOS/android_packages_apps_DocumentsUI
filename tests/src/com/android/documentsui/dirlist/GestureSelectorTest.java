@@ -16,17 +16,16 @@
 
 package com.android.documentsui.dirlist;
 
-import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
-import com.android.documentsui.TestInputEvent;
+import com.android.documentsui.testing.TestEvent;
 
 @SmallTest
 public class GestureSelectorTest extends AndroidTestCase {
 
-    TestInputEvent e;
+    TestEvent.Builder e;
 
     // Simulate a (20, 20) box locating at (20, 20)
     static final int LEFT_BORDER = 20;
@@ -36,30 +35,29 @@ public class GestureSelectorTest extends AndroidTestCase {
 
     @Override
     public void setUp() throws Exception {
-        e = new TestInputEvent();
+        e = TestEvent.builder()
+                .location(100, 100);
     }
 
     public void testLTRPastLastItem() {
-        e.location = new Point(100, 100);
         assertTrue(GestureSelector.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e, View.LAYOUT_DIRECTION_LTR));
+                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_LTR));
     }
 
     public void testLTRPastLastItem_Inverse() {
-        e.location = new Point(10, 10);
+        e.location(10, 10);
         assertFalse(GestureSelector.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e, View.LAYOUT_DIRECTION_LTR));
+                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_LTR));
     }
 
     public void testRTLPastLastItem() {
-        e.location = new Point(10, 30);
+        e.location(10, 30);
         assertTrue(GestureSelector.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e, View.LAYOUT_DIRECTION_RTL));
+                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_RTL));
     }
 
     public void testRTLPastLastItem_Inverse() {
-        e.location = new Point(100, 100);
         assertFalse(GestureSelector.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e, View.LAYOUT_DIRECTION_RTL));
+                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_RTL));
     }
 }
