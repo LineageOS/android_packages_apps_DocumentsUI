@@ -3,6 +3,8 @@ package com.android.documentsui;
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.documentsui.dirlist.DocumentDetails;
+
 public class TestInputEvent implements Events.InputEvent {
 
     public boolean mouseEvent;
@@ -16,6 +18,7 @@ public class TestInputEvent implements Events.InputEvent {
     public Point location;
     public Point rawLocation;
     public int position = Integer.MIN_VALUE;
+    public DocumentDetails details;
 
     public TestInputEvent() {}
 
@@ -96,6 +99,11 @@ public class TestInputEvent implements Events.InputEvent {
     @Override
     public int getItemPosition() {
         return position;
+    }
+
+    @Override
+    public DocumentDetails getDocumentDetails() {
+        return details;
     }
 
     @Override

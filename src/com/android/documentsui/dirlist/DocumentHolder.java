@@ -22,6 +22,7 @@ import android.database.Cursor;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +40,7 @@ public abstract class DocumentHolder
 
     static final float DISABLED_ALPHA = 0.3f;
 
-    @Deprecated  // Public access is deprecated, use #getModelId.
-    public @Nullable String modelId;
+    protected @Nullable String modelId;
 
     final Context mContext;
     final @ColorInt int mDefaultBgColor;
@@ -75,6 +75,11 @@ public abstract class DocumentHolder
      * @param state
      */
     public abstract void bind(Cursor cursor, String modelId, State state);
+
+    @Override
+    public boolean hasModelId() {
+        return !TextUtils.isEmpty(modelId);
+    }
 
     @Override
     public String getModelId() {
