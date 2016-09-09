@@ -177,8 +177,8 @@ public class ItemDragListenerTest {
         }
 
         @Override
-        public TimerTask createOpenTask(View v) {
-            TimerTask task = super.createOpenTask(v);
+        public TimerTask createOpenTask(View v, DragEvent event) {
+            TimerTask task = super.createOpenTask(v, event);
             TestTimer.Task testTask = new TestTimer.Task(task);
 
             return testTask;

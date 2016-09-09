@@ -21,6 +21,10 @@ import android.view.View;
 
 import com.android.documentsui.ItemDragListener;
 
+import java.util.TimerTask;
+
+import javax.annotation.Nullable;
+
 class DirectoryDragListener extends ItemDragListener<DirectoryFragment> {
 
     DirectoryDragListener(DirectoryFragment fragment) {
@@ -44,5 +48,11 @@ class DirectoryDragListener extends ItemDragListener<DirectoryFragment> {
     @Override
     public boolean handleDropEventChecked(View v, DragEvent event) {
         return mDragHost.handleDropEvent(v, event);
+    }
+
+    @Override
+    public @Nullable TimerTask createOpenTask(final View v, DragEvent event) {
+        return mDragHost.shouldCopyTo(event.getLocalState(), v) ?
+                super.createOpenTask(v, event) : null;
     }
 }
