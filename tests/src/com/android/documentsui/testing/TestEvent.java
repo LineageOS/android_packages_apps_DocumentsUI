@@ -171,6 +171,11 @@ public class TestEvent implements InputEvent {
     }
 
     @Override
+    public boolean isOverDragHotspot() {
+        return mDetails.isOverInteractiveArea();
+    }
+
+    @Override
     public boolean isOverModelItem() {
         if (isOverItem()) {
             DocumentDetails doc = getDocumentDetails();
@@ -221,7 +226,8 @@ public class TestEvent implements InputEvent {
 
         private int mPosition;
         private String mModelId;
-        private boolean mInHotspot;
+        private boolean mInSelectionHotspot;
+        private boolean mInDragHotspot;
 
         public Details() {
            mPosition = Integer.MIN_VALUE;
@@ -230,11 +236,16 @@ public class TestEvent implements InputEvent {
         public Details(Details source) {
             mPosition = source.mPosition;
             mModelId = source.mModelId;
-            mInHotspot = source.mInHotspot;
+            mInSelectionHotspot = source.mInSelectionHotspot;
+            mInDragHotspot = source.mInDragHotspot;
         }
 
 
         private boolean isOverItem() {
+            return mPosition != Integer.MIN_VALUE && mPosition != RecyclerView.NO_POSITION;
+        }
+
+        private boolean isOverInteractiveArea() {
             return mPosition != Integer.MIN_VALUE && mPosition != RecyclerView.NO_POSITION;
         }
 
@@ -255,8 +266,14 @@ public class TestEvent implements InputEvent {
 
         @Override
         public boolean isInSelectionHotspot(InputEvent event) {
-            return mInHotspot;
+            return mInSelectionHotspot;
         }
+
+        @Override
+        public boolean isInDragHotspot(InputEvent event) {
+            return mInDragHotspot;
+        }
+
         @Override
         public int hashCode() {
             return mModelId != null ? mModelId.hashCode() : ACTION_UNSET;
@@ -366,8 +383,13 @@ public class TestEvent implements InputEvent {
             return this;
         }
 
-        public Builder inHotspot() {
-            mState.mDetails.mInHotspot = true;
+        public Builder inSelectionHotspot() {
+            mState.mDetails.mInSelectionHotspot = true;
+            return this;
+        }
+
+        public Builder inDragHotspot() {
+            mState.mDetails.mInDragHotspot = true;
             return this;
         }
 

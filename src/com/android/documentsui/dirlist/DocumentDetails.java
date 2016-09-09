@@ -26,4 +26,5 @@ public interface DocumentDetails {
     String getModelId();
     int getAdapterPosition();
     boolean isInSelectionHotspot(InputEvent event);
+    boolean isInDragHotspot(InputEvent event);
 }

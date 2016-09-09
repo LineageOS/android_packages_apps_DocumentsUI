@@ -36,6 +36,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.RootCursorWrapper;
 import com.android.documentsui.Shared;
 import com.android.documentsui.State;
+import com.android.documentsui.Events.InputEvent;
 
 final class GridDocumentHolder extends DocumentHolder {
 
@@ -107,6 +108,12 @@ final class GridDocumentHolder extends DocumentHolder {
         mIconMimeLg.setAlpha(imgAlpha);
         mIconMimeSm.setAlpha(imgAlpha);
         mIconThumb.setAlpha(imgAlpha);
+    }
+
+    @Override
+    public boolean isInDragHotspot(InputEvent event) {
+     // Entire grid box should be draggable
+        return true;
     }
 
     /**

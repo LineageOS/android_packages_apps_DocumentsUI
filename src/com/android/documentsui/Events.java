@@ -71,10 +71,10 @@ public final class Events {
      * @return
      */
     public static boolean isMouseDragEvent(InputEvent e) {
-        return e.isOverItem()
-                && e.isMouseEvent()
+        return e.isMouseEvent()
                 && e.isActionMove()
-                && e.isPrimaryButtonPressed();
+                && e.isPrimaryButtonPressed()
+                && e.isOverDragHotspot();
     }
 
     /**
@@ -151,6 +151,9 @@ public final class Events {
          * DocumentDetails and DocumentDetails#hasModelId should always return true
          */
         boolean isOverModelItem();
+
+        /** Returns true if the event is over an area that can be dragged via touch */
+        boolean isOverDragHotspot();
 
         /** Returns the adapter position of the item under the finger/cursor. */
         int getItemPosition();
@@ -273,6 +276,11 @@ public final class Events {
         @Override
         public float getRawY() {
             return mEvent.getRawY();
+        }
+
+        @Override
+        public boolean isOverDragHotspot() {
+            return isOverItem() ? getDocumentDetails().isInDragHotspot(this) : false;
         }
 
         @Override
