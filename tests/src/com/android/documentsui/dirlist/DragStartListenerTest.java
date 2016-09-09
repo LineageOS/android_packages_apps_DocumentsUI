@@ -57,6 +57,10 @@ public class DragStartListenerTest extends AndroidTestCase {
                 (View view) -> {
                     return viewModelId;
                 },
+                // docInfo Converter
+                (Selection selection) -> {
+                    return new ArrayList<>();
+                },
                 // ClipDataFactory
                 (Selection selection, int operationType) -> {
                     return null;
@@ -71,7 +75,7 @@ public class DragStartListenerTest extends AndroidTestCase {
                     View view,
                     ClipData data,
                     DragShadowBuilder shadowBuilder,
-                    DocumentInfo currentDirectory,
+                    Object localState,
                     int flags) {
 
                 dragStarted = true;

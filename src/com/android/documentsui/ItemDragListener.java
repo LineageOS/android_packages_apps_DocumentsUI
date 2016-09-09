@@ -29,6 +29,8 @@ import com.android.internal.annotations.VisibleForTesting;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.annotation.Nullable;
+
 /**
  * An {@link OnDragListener} that adds support for "spring loading views". Use this when you want
  * items to pop-open when user hovers on them during a drag n drop.
@@ -59,7 +61,7 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
             case DragEvent.ACTION_DRAG_STARTED:
                 return true;
             case DragEvent.ACTION_DRAG_ENTERED:
-                handleEnteredEvent(v);
+                handleEnteredEvent(v, event);
                 return true;
             case DragEvent.ACTION_DRAG_LOCATION:
                 handleLocationEvent(v, event.getX(), event.getY());
@@ -75,11 +77,12 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
         return false;
     }
 
-    private void handleEnteredEvent(View v) {
+    private void handleEnteredEvent(View v, DragEvent event) {
+        @Nullable TimerTask task = createOpenTask(v, event);
+        if (task == null) {
+            return;
+        }
         mDragHost.setDropTargetHighlight(v, true);
-
-        TimerTask task = createOpenTask(v);
-        assert (task != null);
         v.setTag(R.id.drag_hovering_tag, task);
         mHoverTimer.schedule(task, SPRING_TIMEOUT);
     }
@@ -110,8 +113,10 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
         return handleDropEventChecked(v, event);
     }
 
-    @VisibleForTesting
-    TimerTask createOpenTask(final View v) {
+    /**
+     * Sub-classes such as {@link DirectoryDragListener} can override this method and return null.
+     */
+    public @Nullable TimerTask createOpenTask(final View v, DragEvent event) {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
