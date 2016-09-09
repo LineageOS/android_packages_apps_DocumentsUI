@@ -27,6 +27,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
+import com.android.documentsui.Shared;
+import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.model.DocumentInfo;
+
+import java.util.List;
+import java.util.function.Function;
 
 final class DragShadowBuilder extends View.DragShadowBuilder {
 
@@ -64,5 +70,57 @@ final class DragShadowBuilder extends View.DragShadowBuilder {
                 View.MeasureSpec.makeMeasureSpec(r.top- r.bottom, View.MeasureSpec.EXACTLY));
         mShadowView.layout(r.left, r.top, r.right, r.bottom);
         mShadowView.draw(canvas);
+    }
+
+    /**
+     * Provides a means of fully isolating the mechanics of building drag shadows (and builders)
+     * in support of testing.
+     */
+    public static final class Factory implements Function<Selection, DragShadowBuilder> {
+
+        private final Context mContext;
+        private final IconHelper mIconHelper;
+        private final Drawable mDefaultDragIcon;
+        private Model mModel;
+
+        public Factory(
+                Context context, Model model, IconHelper iconHelper, Drawable defaultDragIcon) {
+            mContext = context;
+            mModel = model;
+            mIconHelper = iconHelper;
+            mDefaultDragIcon = defaultDragIcon;
+        }
+
+        @Override
+        public DragShadowBuilder apply(Selection selection) {
+            return new DragShadowBuilder(
+                    mContext,
+                    getDragTitle(selection),
+                    getDragIcon(selection));
+        }
+
+        private Drawable getDragIcon(Selection selection) {
+            if (selection.size() == 1) {
+                DocumentInfo doc = getSingleSelectedDocument(selection);
+                return mIconHelper.getDocumentIcon(mContext, doc);
+            }
+            return mDefaultDragIcon;
+        }
+
+        private String getDragTitle(Selection selection) {
+            assert (!selection.isEmpty());
+            if (selection.size() == 1) {
+                DocumentInfo doc = getSingleSelectedDocument(selection);
+                return doc.displayName;
+            }
+            return Shared.getQuantityString(mContext, R.plurals.elements_dragged, selection.size());
+        }
+
+        private DocumentInfo getSingleSelectedDocument(Selection selection) {
+            assert (selection.size() == 1);
+            final List<DocumentInfo> docs = mModel.getDocuments(selection);
+            assert (docs.size() == 1);
+            return docs.get(0);
+        }
     }
 }

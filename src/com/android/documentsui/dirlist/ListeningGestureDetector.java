@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.android.documentsui.Events;
+import com.android.documentsui.Events.EventHandler;
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.Events.MotionInputEvent;
 
@@ -36,7 +37,7 @@ final class ListeningGestureDetector extends GestureDetector
         implements OnItemTouchListener, OnTouchListener {
 
     private final GestureSelector mGestureSelector;
-    private final DragStartListener mDragListener;
+    private final EventHandler mMouseDragListener;
     private final BandController mBandController;
     private final MouseDelegate mMouseDelegate = new MouseDelegate();
     private final TouchDelegate mTouchDelegate = new TouchDelegate();
@@ -45,12 +46,12 @@ final class ListeningGestureDetector extends GestureDetector
             Context context,
             RecyclerView recView,
             View emptyView,
-            DragStartListener dragListener,
+            EventHandler mouseDragListener,
             GestureSelector gestureSelector,
             UserInputHandler<? extends InputEvent> handler,
             @Nullable BandController bandController) {
         super(context, handler);
-        mDragListener = dragListener;
+        mMouseDragListener = mouseDragListener;
         mGestureSelector = gestureSelector;
         mBandController = bandController;
         recView.addOnItemTouchListener(this);
@@ -95,8 +96,8 @@ final class ListeningGestureDetector extends GestureDetector
 
     private class MouseDelegate {
         boolean onInterceptTouchEvent(InputEvent e) {
-            if (mDragListener.isDragEvent(e)) {
-                return mDragListener.onInterceptTouchEvent(e);
+            if (Events.isMouseDragEvent(e)) {
+                return mMouseDragListener.apply(e);
             } else if (mBandController != null &&
                     (mBandController.shouldStart(e) || mBandController.shouldStop(e))) {
                 return mBandController.onInterceptTouchEvent(e);
