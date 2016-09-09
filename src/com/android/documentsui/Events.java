@@ -26,6 +26,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.DocumentHolder;
+
+import javax.annotation.Nullable;
+
 /**
  * Utility code for dealing with MotionEvents.
  */
@@ -142,19 +147,23 @@ public final class Events {
 
         /** Returns the adapter position of the item under the finger/cursor. */
         int getItemPosition();
+
+        /** Returns the DocumentDetails for the item under the event, or null. */
+        @Nullable DocumentDetails getDocumentDetails();
     }
 
     public static final class MotionInputEvent implements InputEvent {
         private static final String TAG = "MotionInputEvent";
 
+        private static final int UNSET_POSITION = RecyclerView.NO_POSITION - 1;
+
         private static final Pools.SimplePool<MotionInputEvent> sPool = new Pools.SimplePool<>(1);
 
         private MotionEvent mEvent;
-        interface PositionProvider {
-            int get(MotionEvent e);
-        }
+        private @Nullable RecyclerView mRecView;
 
-        private int mPosition;
+        private int mPosition = UNSET_POSITION;
+        private @Nullable DocumentDetails mDocDetails;
 
         private MotionInputEvent() {
             if (DEBUG) Log.i(TAG, "Created a new instance.");
@@ -167,25 +176,7 @@ public final class Events {
             instance = (instance != null ? instance : new MotionInputEvent());
 
             instance.mEvent = event;
-
-            // Consider determining position lazily as an optimization.
-            View child = view.findChildViewUnder(event.getX(), event.getY());
-            instance.mPosition = (child != null)
-                    ? view.getChildAdapterPosition(child)
-                    : RecyclerView.NO_POSITION;
-
-            return instance;
-        }
-
-        public static MotionInputEvent obtain(
-                MotionEvent event, PositionProvider positionProvider) {
-            Shared.checkMainLoop();
-
-            MotionInputEvent instance = sPool.acquire();
-            instance = (instance != null ? instance : new MotionInputEvent());
-
-            instance.mEvent = event;
-            instance.mPosition = positionProvider.get(event);
+            instance.mRecView = view;
 
             return instance;
         }
@@ -194,7 +185,9 @@ public final class Events {
             Shared.checkMainLoop();
 
             mEvent = null;
-            mPosition = -1;
+            mRecView = null;
+            mPosition = UNSET_POSITION;
+            mDocDetails = null;
 
             boolean released = sPool.release(this);
             // This assert is used to guarantee we won't generate too many instances that can't be
@@ -282,7 +275,24 @@ public final class Events {
 
         @Override
         public int getItemPosition() {
+            if (mPosition == UNSET_POSITION) {
+                View child = mRecView.findChildViewUnder(mEvent.getX(), mEvent.getY());
+                mPosition = (child != null)
+                        ? mRecView.getChildAdapterPosition(child)
+                        : RecyclerView.NO_POSITION;
+            }
             return mPosition;
+        }
+
+        @Override
+        public @Nullable DocumentDetails getDocumentDetails() {
+            if (mDocDetails == null) {
+                View childView = mRecView.findChildViewUnder(mEvent.getX(), mEvent.getY());
+                mDocDetails = (childView != null)
+                ? (DocumentHolder) mRecView.getChildViewHolder(childView)
+                        : null;
+            }
+            return mDocDetails;
         }
 
         @Override
@@ -298,6 +308,7 @@ public final class Events {
                     .append(" getOrigin=").append(getOrigin())
                     .append(" isOverItem=").append(isOverItem())
                     .append(" getItemPosition=").append(getItemPosition())
+                    .append(" getDocumentDetails=").append(getDocumentDetails())
                     .append("}")
                     .toString();
         }

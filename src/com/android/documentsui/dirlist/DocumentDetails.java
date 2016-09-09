@@ -22,6 +22,7 @@ import com.android.documentsui.Events.InputEvent;
  * Interface providing a loose coupling between DocumentHolder.
  */
 public interface DocumentDetails {
+    boolean hasModelId();
     String getModelId();
     int getAdapterPosition();
     boolean isInSelectionHotspot(InputEvent event);

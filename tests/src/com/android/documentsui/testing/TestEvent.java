@@ -29,6 +29,15 @@ public class TestEvent extends TestInputEvent implements DocumentDetails {
     private String modelId;
     private boolean inHotspot;
 
+    public TestEvent() {
+        details = this;
+    }
+
+    @Override
+    public boolean hasModelId() {
+        return modelId != null;
+    }
+
     @Override
     public String getModelId() {
         return modelId;
@@ -62,10 +71,6 @@ public class TestEvent extends TestInputEvent implements DocumentDetails {
 
     public TestEvent ctrl() {
         this.ctrlKeyDow = true;
-        return this;
-    }
-
-    public DocumentDetails getDocument() {
         return this;
     }
 

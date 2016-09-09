@@ -340,7 +340,6 @@ public class DirectoryFragment extends Fragment
                 mSelectionMgr,
                 mFocusManager,
                 (MotionEvent t) -> MotionInputEvent.obtain(t, mRecView),
-                this::getTarget,
                 this::canSelect,
                 this::onRightClick,
                 (DocumentDetails doc) -> handleViewItem(doc.getModelId()), // activate handler
@@ -475,8 +474,8 @@ public class DirectoryFragment extends Fragment
     protected boolean onRightClick(InputEvent e) {
         if (e.getItemPosition() != RecyclerView.NO_POSITION) {
             final DocumentHolder doc = getTarget(e);
-            if (!mSelectionMgr.getSelection().contains(doc.modelId)) {
-                mSelectionMgr.replaceSelection(Collections.singleton(doc.modelId));
+            if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
+                mSelectionMgr.replaceSelection(Collections.singleton(doc.getModelId()));
             }
 
             // We are registering for context menu here so long-press doesn't trigger this
@@ -1419,11 +1418,9 @@ public class DirectoryFragment extends Fragment
 
     private @Nullable DocumentHolder getTarget(InputEvent e) {
         View childView = mRecView.findChildViewUnder(e.getX(), e.getY());
-        if (childView != null) {
-            return (DocumentHolder) mRecView.getChildViewHolder(childView);
-        } else {
-            return null;
-        }
+        return (childView != null)
+                ? (DocumentHolder) mRecView.getChildViewHolder(childView)
+                : null;
     }
 
     /**
@@ -1437,7 +1434,7 @@ public class DirectoryFragment extends Fragment
         if (itemView != null) {
             RecyclerView.ViewHolder vh = mRecView.getChildViewHolder(itemView);
             if (vh instanceof DocumentHolder) {
-                return ((DocumentHolder) vh).modelId;
+                return ((DocumentHolder) vh).getModelId();
             }
         }
         return null;

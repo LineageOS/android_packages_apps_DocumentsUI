@@ -17,7 +17,6 @@
 package com.android.documentsui.dirlist;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -75,9 +74,6 @@ public final class UserInputHandler_MouseTest {
                 new TestFocusHandler(),
                 (MotionEvent event) -> {
                     throw new UnsupportedOperationException("Not exercised in tests.");
-                },
-                (TestEvent event) -> {
-                    return event.getDocument();
                 },
                 mCanSelect,
                 mRightClickHandler::test,

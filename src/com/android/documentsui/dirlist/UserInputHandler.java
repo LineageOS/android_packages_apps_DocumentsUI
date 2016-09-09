@@ -31,6 +31,8 @@ import com.android.documentsui.Events.InputEvent;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import javax.annotation.Nullable;
+
 /**
  * Grand unified-ish gesture/event listener for items in the directory list.
  */
@@ -43,7 +45,6 @@ public final class UserInputHandler<T extends InputEvent>
     private final MultiSelectManager mSelectionMgr;
     private final FocusHandler mFocusHandler;
     private final Function<MotionEvent, T> mEventConverter;
-    private final Function<T, DocumentDetails> mDocFinder;
     private final Predicate<DocumentDetails> mSelectable;
     private final EventHandler mRightClickHandler;
     private final DocumentHandler mActivateHandler;
@@ -58,7 +59,6 @@ public final class UserInputHandler<T extends InputEvent>
             MultiSelectManager selectionMgr,
             FocusHandler focusHandler,
             Function<MotionEvent, T> eventConverter,
-            Function<T, DocumentDetails> docFinder,
             Predicate<DocumentDetails> selectable,
             EventHandler rightClickHandler,
             DocumentHandler activateHandler,
@@ -69,7 +69,6 @@ public final class UserInputHandler<T extends InputEvent>
         mSelectionMgr = selectionMgr;
         mFocusHandler = focusHandler;
         mEventConverter = eventConverter;
-        mDocFinder = docFinder;
         mSelectable = selectable;
         mRightClickHandler = rightClickHandler;
         mActivateHandler = activateHandler;
@@ -164,8 +163,9 @@ public final class UserInputHandler<T extends InputEvent>
     void onLongPress(T event) {
         if (event.isMouseEvent()) {
             mMouseDelegate.onLongPress(event);
+        } else {
+            mTouchDelegate.onLongPress(event);
         }
-        mTouchDelegate.onLongPress(event);
     }
 
     // Only events from RecyclerView are fed into UserInputHandler#onDown.
@@ -188,21 +188,24 @@ public final class UserInputHandler<T extends InputEvent>
 
     private boolean selectDocument(DocumentDetails doc) {
         assert(doc != null);
+        assert(doc.hasModelId());
         mSelectionMgr.toggleSelection(doc.getModelId());
         mSelectionMgr.setSelectionRangeBegin(doc.getAdapterPosition());
         return true;
+    }
+
+    private void extendSelectionRange(DocumentDetails doc) {
+        mSelectionMgr.snapRangeSelection(doc.getAdapterPosition());
     }
 
     boolean isRangeExtension(T event) {
         return event.isShiftKeyDown() && mSelectionMgr.isRangeSelectionActive();
     }
 
-    private void extendSelectionRange(T event) {
-        mSelectionMgr.snapRangeSelection(event.getItemPosition());
-    }
-
     private boolean shouldClearSelection(T event, DocumentDetails doc) {
-        return !event.isCtrlKeyDown() && !mSelectionMgr.getSelection().contains(doc.getModelId());
+        return !event.isCtrlKeyDown()
+                && !doc.isInSelectionHotspot(event)
+                && !mSelectionMgr.getSelection().contains(doc.getModelId());
     }
 
     private final class TouchInputDelegate {
@@ -223,26 +226,26 @@ public final class UserInputHandler<T extends InputEvent>
                 return false;
             }
 
+            @Nullable DocumentDetails doc = event.getDocumentDetails();
+            if (doc == null || !doc.hasModelId()) {
+                Log.w(TAG, "Ignoring Single Tap Up. No document details associated w/ event.");
+                return false;
+            }
+
             if (mSelectionMgr.hasSelection()) {
                 if (isRangeExtension(event)) {
-                    mSelectionMgr.snapRangeSelection(event.getItemPosition());
+                    extendSelectionRange(doc);
                 } else {
-                    selectDocument(mDocFinder.apply(event));
+                    selectDocument(doc);
                 }
                 return true;
             }
 
-            // Give the DocumentHolder a crack at the event.
-            DocumentDetails doc = mDocFinder.apply(event);
-            if (doc != null) {
-                // Touch events select if they occur in the selection hotspot,
-                // otherwise they activate.
-                return doc.isInSelectionHotspot(event)
-                        ? selectDocument(doc)
-                        : activateDocument(doc);
-            }
-
-            return false;
+            // Touch events select if they occur in the selection hotspot,
+            // otherwise they activate.
+            return doc.isInSelectionHotspot(event)
+                    ? selectDocument(doc)
+                    : activateDocument(doc);
         }
 
         boolean onSingleTapConfirmed(T event) {
@@ -255,15 +258,21 @@ public final class UserInputHandler<T extends InputEvent>
 
         final void onLongPress(T event) {
             if (!event.isOverItem()) {
+                if (DEBUG) Log.d(TAG, "Ignoring Long Press on non-item.");
+                return;
+            }
+
+            @Nullable DocumentDetails doc = event.getDocumentDetails();
+            if (doc == null || !doc.hasModelId()) {
+                Log.w(TAG, "Ignoring Long Press. No document details associated w/ event.");
                 return;
             }
 
             if (isRangeExtension(event)) {
-                extendSelectionRange(event);
+                extendSelectionRange(doc);
             } else {
-                DocumentDetails doc = mDocFinder.apply(event);
                 if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
-                    selectDocument(mDocFinder.apply(event));
+                    selectDocument(doc);
                     mGestureSelectHandler.apply(event);
                 } else {
                     // We only initiate drag and drop on long press for touch to allow regular
@@ -305,15 +314,21 @@ public final class UserInputHandler<T extends InputEvent>
             }
 
             if (!event.isOverItem()) {
+                if (DEBUG) Log.d(TAG, "Tap on non-item. Clearing selection.");
                 mSelectionMgr.clearSelection();
+                return false;
+            }
+
+            @Nullable DocumentDetails doc = event.getDocumentDetails();
+            if (doc == null || !doc.hasModelId()) {
+                Log.w(TAG, "Ignoring Single Tap Up. No document details associated w/ event.");
                 return false;
             }
 
             if (mSelectionMgr.hasSelection()) {
                 if (isRangeExtension(event)) {
-                    extendSelectionRange(event);
+                    extendSelectionRange(doc);
                 } else {
-                    DocumentDetails doc = mDocFinder.apply(event);
                     if (shouldClearSelection(event, doc)) {
                         mSelectionMgr.clearSelection();
                     }
@@ -323,19 +338,7 @@ public final class UserInputHandler<T extends InputEvent>
                 return true;
             }
 
-            // We'll toggle selection in onSingleTapConfirmed
-            // This avoids flickering on/off action mode when an item is double clicked.
-            if (!mSelectionMgr.hasSelection()) {
-                return false;
-            }
-
-            DocumentDetails doc = mDocFinder.apply(event);
-            if (doc == null) {
-                return false;
-            }
-
-            mHandledTapUp = true;
-            return selectDocument(doc);
+            return false;
         }
 
         boolean onSingleTapConfirmed(T event) {
@@ -348,8 +351,14 @@ public final class UserInputHandler<T extends InputEvent>
                 return false;  // should have been handled by onSingleTapUp.
             }
 
-            DocumentDetails doc = mDocFinder.apply(event);
-            if (doc == null) {
+            if (!event.isOverItem()) {
+                if (DEBUG) Log.d(TAG, "Ignoring Confirmed Tap on non-item.");
+                return false;
+            }
+
+            @Nullable DocumentDetails doc = event.getDocumentDetails();
+            if (doc == null || !doc.hasModelId()) {
+                Log.w(TAG, "Ignoring Confirmed Tap. No document details associated w/ event.");
                 return false;
             }
 
@@ -358,25 +367,25 @@ public final class UserInputHandler<T extends InputEvent>
 
         boolean onDoubleTap(T event) {
             mHandledTapUp = false;
-            DocumentDetails doc = mDocFinder.apply(event);
-            if (doc != null) {
-                return mSelectionMgr.hasSelection()
-                        ? selectDocument(doc)
-                        : activateDocument(doc);
+
+            if (!event.isOverItem()) {
+                if (DEBUG) Log.d(TAG, "Ignoring DoubleTap on non-item.");
+                return false;
             }
-            return false;
+
+            @Nullable DocumentDetails doc = event.getDocumentDetails();
+            if (doc == null || !doc.hasModelId()) {
+                Log.w(TAG, "Ignoring Double Tap. No document details associated w/ event.");
+                return false;
+            }
+
+            return mSelectionMgr.hasSelection()
+                    ? selectDocument(doc)
+                    : activateDocument(doc);
         }
 
         final void onLongPress(T event) {
-            if (!event.isOverItem()) {
-                return;
-            }
-
-            if (isRangeExtension(event)) {
-                extendSelectionRange(event);
-            } else {
-                selectDocument(mDocFinder.apply(event));
-            }
+            return;
         }
 
         private boolean onRightClick(T event) {

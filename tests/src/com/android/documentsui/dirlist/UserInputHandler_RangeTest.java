@@ -75,9 +75,6 @@ public final class UserInputHandler_RangeTest {
                 (MotionEvent event) -> {
                     throw new UnsupportedOperationException("Not exercised in tests.");
                 },
-                (TestEvent event) -> {
-                    return event.getDocument();
-                },
                 mCanSelect,
                 mRightClickHandler::test,
                 mActivateHandler::test,
