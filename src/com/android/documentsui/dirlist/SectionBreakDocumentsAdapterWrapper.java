@@ -51,6 +51,7 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
         mDelegate.registerAdapterDataObserver(new EventRelay());
     }
 
+    @Override
     public GridLayoutManager.SpanSizeLookup createSpanSizeLookup() {
         return new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -178,19 +179,23 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
     // Listener we add to our delegate. This allows us to relay events published
     // by the delegate to our listeners (presumably RecyclerView) with adjusted positions.
     private final class EventRelay extends AdapterDataObserver {
+        @Override
         public void onChanged() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
             assert(itemCount == 1);
             notifyItemRangeChanged(toViewPosition(positionStart), itemCount, payload);
         }
 
+        @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
             assert(itemCount == 1);
             if (positionStart < mBreakPosition) {
@@ -199,6 +204,7 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
             notifyItemRangeInserted(toViewPosition(positionStart), itemCount);
         }
 
+        @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
             assert(itemCount == 1);
             if (positionStart < mBreakPosition) {
@@ -207,6 +213,7 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
             notifyItemRangeRemoved(toViewPosition(positionStart), itemCount);
         }
 
+        @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
             throw new UnsupportedOperationException();
         }
@@ -221,9 +228,8 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
         public EmptyDocumentHolder(Context context) {
             super(context, new Space(context));
 
-            // Per UX spec, this puts a bigger gap between the folders and documents in the grid.
             mVisibleHeight = context.getResources().getDimensionPixelSize(
-                    R.dimen.grid_item_margin);
+                    R.dimen.grid_section_separator_height);
         }
 
         public void bind(State state) {
