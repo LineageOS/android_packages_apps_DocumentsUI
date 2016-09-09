@@ -25,6 +25,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.android.documentsui.Events;
+import com.android.documentsui.Events.EventHandler;
 import com.android.documentsui.Events.InputEvent;
 
 import java.util.function.Function;
@@ -47,7 +48,7 @@ public final class UserInputHandler<T extends InputEvent>
     private final EventHandler mRightClickHandler;
     private final DocumentHandler mActivateHandler;
     private final DocumentHandler mDeleteHandler;
-    private final EventHandler mDragAndDropHandler;
+    private final EventHandler mTouchDragListener;
     private final EventHandler mGestureSelectHandler;
     private final TouchInputDelegate mTouchDelegate;
     private final MouseInputDelegate mMouseDelegate;
@@ -62,7 +63,7 @@ public final class UserInputHandler<T extends InputEvent>
             EventHandler rightClickHandler,
             DocumentHandler activateHandler,
             DocumentHandler deleteHandler,
-            EventHandler dragAndDropHandler,
+            EventHandler touchDragListener,
             EventHandler gestureSelectHandler) {
 
         mSelectionMgr = selectionMgr;
@@ -73,7 +74,7 @@ public final class UserInputHandler<T extends InputEvent>
         mRightClickHandler = rightClickHandler;
         mActivateHandler = activateHandler;
         mDeleteHandler = deleteHandler;
-        mDragAndDropHandler = dragAndDropHandler;
+        mTouchDragListener = touchDragListener;
         mGestureSelectHandler = gestureSelectHandler;
 
         mTouchDelegate = new TouchInputDelegate();
@@ -267,7 +268,7 @@ public final class UserInputHandler<T extends InputEvent>
                 } else {
                     // We only initiate drag and drop on long press for touch to allow regular
                     // touch-based scrolling
-                    mDragAndDropHandler.apply(event);
+                    mTouchDragListener.apply(event);
                 }
             }
         }
@@ -447,11 +448,6 @@ public final class UserInputHandler<T extends InputEvent>
 
             return mSelectable.test(doc);
         }
-    }
-
-    @FunctionalInterface
-    interface EventHandler {
-        boolean apply(InputEvent event);
     }
 
     @FunctionalInterface

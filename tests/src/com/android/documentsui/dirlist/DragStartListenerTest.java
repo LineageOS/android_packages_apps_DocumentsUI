@@ -16,43 +16,72 @@
 
 package com.android.documentsui.dirlist;
 
+import android.content.ClipData;
 import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
+import com.android.documentsui.State;
 import com.android.documentsui.TestInputEvent;
+import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.testing.Views;
 
 import java.util.ArrayList;
 
 @SmallTest
 public class DragStartListenerTest extends AndroidTestCase {
 
-    DragStartListener listener;
-    TestInputEvent event = new TestInputEvent();
-    boolean dragStarted;
+    private DragStartListener listener;
+    private TestInputEvent event;
+    private MultiSelectManager mMultiSelectManager;
+    private String viewModelId;
+    private boolean dragStarted;
 
     @Override
     public void setUp() throws Exception {
-        listener = new DragStartListener(
-                null,
-                null,
-                new TestModel(""),
-                new MultiSelectManager(new TestDocumentsAdapter(new ArrayList<String>()),
-                        MultiSelectManager.MODE_MULTIPLE),
-                null,
-                null,
-                (View view) -> "",
-                (float x, float y) -> null,
-                null) {
+
+        mMultiSelectManager = new MultiSelectManager(
+                new TestDocumentsAdapter(new ArrayList<String>()),
+                MultiSelectManager.MODE_MULTIPLE);
+
+        listener = new DragStartListener.ActiveListener(
+                new State(),
+                mMultiSelectManager,
+                // view finder
+                (float x, float y) -> {
+                    return Views.createTestView(x, y);
+                },
+                // model id finder
+                (View view) -> {
+                    return viewModelId;
+                },
+                // ClipDataFactory
+                (Selection selection, int operationType) -> {
+                    return null;
+                },
+                // shawdowBuilderFactory
+                (Selection selection) -> {
+                    return null;
+                }) {
+
             @Override
-            boolean startDrag(View v) {
+            void startDragAndDrop(
+                    View view,
+                    ClipData data,
+                    DragShadowBuilder shadowBuilder,
+                    DocumentInfo currentDirectory,
+                    int flags) {
+
                 dragStarted = true;
-                return true;
             }
         };
 
         dragStarted = false;
+        viewModelId = "1234";
+
+        event = new TestInputEvent();
         event.mouseEvent = true;
         event.primaryButtonPressed = true;
         event.actionMove = true;
@@ -62,32 +91,41 @@ public class DragStartListenerTest extends AndroidTestCase {
         event.location.y = 0;
     }
 
-    public void testDrag_StartsOnMouseMove() {
-        assertTrue(listener.onInterceptTouchEvent(event));
+    public void testDragStarted_OnMouseMove() {
+        assertTrue(listener.onMouseDragEvent(event));
         assertTrue(dragStarted);
     }
 
-    public void testDrag_DoesNotStartsOnNonMouseMove() {
+    public void testDragNotStarted_NonModelBackedView() {
+        viewModelId = null;
+        assertFalse(listener.onMouseDragEvent(event));
+        assertFalse(dragStarted);
+    }
+
+    public void testThrows_OnNonMouseMove() {
         event.mouseEvent = false;
-        assertFalse(listener.onInterceptTouchEvent(event));
-        assertFalse(dragStarted);
+        assertThrows(event);
     }
 
-    public void testDrag_DoesNotStartsOnNonPrimaryMove() {
+    public void testThrows_OnNonPrimaryMove() {
         event.primaryButtonPressed = false;
-        assertFalse(listener.onInterceptTouchEvent(event));
-        assertFalse(dragStarted);
+        assertThrows(event);
     }
 
-    public void testDrag_DoesNotStartsOnNonMove() {
+    public void testThrows_OnNonMove() {
         event.actionMove = false;
-        assertFalse(listener.onInterceptTouchEvent(event));
-        assertFalse(dragStarted);
+        assertThrows(event);
     }
 
-    public void testDrag_DoesNotStartsWhenNotOnItem() {
+    public void testThrows_WhenNotOnItem() {
         event.position = -1;
-        assertFalse(listener.onInterceptTouchEvent(event));
-        assertFalse(dragStarted);
+        assertThrows(event);
+    }
+
+    private void assertThrows(TestInputEvent e) {
+        try {
+            assertFalse(listener.onMouseDragEvent(e));
+            fail();
+        } catch (AssertionError expected) {}
     }
 }
