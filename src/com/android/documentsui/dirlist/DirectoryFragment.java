@@ -476,6 +476,7 @@ public class DirectoryFragment extends Fragment
             final DocumentHolder doc = getTarget(e);
             if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
                 mSelectionMgr.replaceSelection(Collections.singleton(doc.getModelId()));
+                mSelectionMgr.setSelectionRangeBegin(doc.getAdapterPosition());
             }
 
             // We are registering for context menu here so long-press doesn't trigger this
