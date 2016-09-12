@@ -22,7 +22,6 @@ import static com.android.documentsui.model.DocumentInfo.getCursorString;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;

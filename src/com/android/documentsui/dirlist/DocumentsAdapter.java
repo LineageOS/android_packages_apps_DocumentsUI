@@ -35,7 +35,7 @@ import java.util.List;
  * dummy layout objects was error prone when interspersed with the core mode / adapter code.
  *
  * @see ModelBackedDocumentsAdapter
- * @see SectionBreakDocumentsAdapter
+ * @see SectionBreakDocumentsAdapterWrapper
  */
 abstract class DocumentsAdapter
         extends RecyclerView.Adapter<DocumentHolder>

@@ -16,16 +16,24 @@
 
 package com.android.documentsui.dirlist;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import static junit.framework.Assert.fail;
 
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
+
+import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.dirlist.SelectionProbe;
 import com.android.documentsui.testing.dirlist.TestSelectionListener;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.List;
 
+@RunWith(AndroidJUnit4.class)
 @SmallTest
-public class MultiSelectManager_SingleSelectTest extends AndroidTestCase {
+public class MultiSelectManager_SingleSelectTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
@@ -34,16 +42,16 @@ public class MultiSelectManager_SingleSelectTest extends AndroidTestCase {
     private TestDocumentsAdapter mAdapter;
     private SelectionProbe mSelection;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
         mCallback = new TestSelectionListener();
-        mAdapter = new TestDocumentsAdapter(ITEMS);
-        mManager = new MultiSelectManager(mAdapter, MultiSelectManager.MODE_SINGLE);
+        mManager = MultiSelectManagers.createTestInstance(ITEMS, MultiSelectManager.MODE_SINGLE);
         mManager.addCallback(mCallback);
 
         mSelection = new SelectionProbe(mManager);
     }
 
+    @Test
     public void testSimpleSelect() {
         mManager.toggleSelection(ITEMS.get(3));
         mManager.toggleSelection(ITEMS.get(4));
@@ -51,6 +59,7 @@ public class MultiSelectManager_SingleSelectTest extends AndroidTestCase {
         mSelection.assertSelection(4);
     }
 
+    @Test
     public void testRangeSelectionNotEstablished() {
         mManager.toggleSelection(ITEMS.get(3));
         mCallback.reset();

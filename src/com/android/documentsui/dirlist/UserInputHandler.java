@@ -25,8 +25,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.android.documentsui.Events;
-import com.android.documentsui.Events.EventHandler;
 import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.FunctionalInterfaces.EventHandler;
 
 import java.util.Collections;
 import java.util.function.Function;
@@ -47,11 +47,11 @@ public final class UserInputHandler<T extends InputEvent>
     private final FocusHandler mFocusHandler;
     private final Function<MotionEvent, T> mEventConverter;
     private final Predicate<DocumentDetails> mSelectable;
-    private final EventHandler mRightClickHandler;
+    private final EventHandler<InputEvent> mRightClickHandler;
     private final DocumentHandler mActivateHandler;
     private final DocumentHandler mDeleteHandler;
-    private final EventHandler mTouchDragListener;
-    private final EventHandler mGestureSelectHandler;
+    private final EventHandler<InputEvent> mTouchDragListener;
+    private final EventHandler<InputEvent> mGestureSelectHandler;
     private final TouchInputDelegate mTouchDelegate;
     private final MouseInputDelegate mMouseDelegate;
     private final KeyInputHandler mKeyListener;
@@ -61,11 +61,11 @@ public final class UserInputHandler<T extends InputEvent>
             FocusHandler focusHandler,
             Function<MotionEvent, T> eventConverter,
             Predicate<DocumentDetails> selectable,
-            EventHandler rightClickHandler,
+            EventHandler<InputEvent> rightClickHandler,
             DocumentHandler activateHandler,
             DocumentHandler deleteHandler,
-            EventHandler touchDragListener,
-            EventHandler gestureSelectHandler) {
+            EventHandler<InputEvent> touchDragListener,
+            EventHandler<InputEvent> gestureSelectHandler) {
 
         mSelectionMgr = selectionMgr;
         mFocusHandler = focusHandler;

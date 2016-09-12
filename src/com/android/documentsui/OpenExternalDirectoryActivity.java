@@ -17,12 +17,10 @@
 package com.android.documentsui;
 
 import static android.os.Environment.isStandardDirectory;
-import static android.os.Environment.STANDARD_DIRECTORIES;
 import static android.os.storage.StorageVolume.EXTRA_DIRECTORY_NAME;
 import static android.os.storage.StorageVolume.EXTRA_STORAGE_VOLUME;
 
 import static com.android.documentsui.LocalPreferences.getScopedAccessPermissionStatus;
-import static com.android.documentsui.LocalPreferences.PERMISSION_ASK;
 import static com.android.documentsui.LocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.LocalPreferences.PERMISSION_NEVER_ASK;
 import static com.android.documentsui.LocalPreferences.setScopedAccessPermissionStatus;

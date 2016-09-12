@@ -33,12 +33,9 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
-import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.Events;
 import com.android.documentsui.Events.InputEvent;
-import com.android.documentsui.Events.MotionInputEvent;
 import com.android.documentsui.R;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
@@ -328,7 +325,7 @@ public class BandController extends OnScrollListener {
     }
 
     private boolean onBeforeItemStateChange(String id, boolean nextState) {
-        return mSelectionManager.notifyBeforeItemStateChange(id, nextState);
+        return mSelectionManager.canSetState(id, nextState);
     }
 
     @Override
