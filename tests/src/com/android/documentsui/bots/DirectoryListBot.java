@@ -127,9 +127,12 @@ public class DirectoryListBot extends Bots.BaseBot {
     }
 
     public UiObject selectDocument(String label) throws UiObjectNotFoundException {
+        int toolType = Configurator.getInstance().getToolType();
+        Configurator.getInstance().setToolType(MotionEvent.TOOL_TYPE_FINGER);
         waitForDocument(label);
         UiObject doc = findDocument(label);
         doc.longClick();
+        Configurator.getInstance().setToolType(toolType);
         return doc;
     }
 
