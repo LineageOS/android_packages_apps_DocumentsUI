@@ -142,8 +142,15 @@ public final class Events {
         float getRawX();
         float getRawY();
 
-        /** Returns true if the there is an item under the finger/cursor. */
+        /** Returns true if there is an item under the finger/cursor. */
         boolean isOverItem();
+
+        /**
+         * Returns true if there is a model backed item under the finger/cursor.
+         * Resulting calls on the event instance should never return a null
+         * DocumentDetails and DocumentDetails#hasModelId should always return true
+         */
+        boolean isOverModelItem();
 
         /** Returns the adapter position of the item under the finger/cursor. */
         int getItemPosition();
@@ -274,6 +281,11 @@ public final class Events {
         }
 
         @Override
+        public boolean isOverModelItem() {
+            return isOverItem() && getDocumentDetails().hasModelId();
+        }
+
+        @Override
         public int getItemPosition() {
             if (mPosition == UNSET_POSITION) {
                 View child = mRecView.findChildViewUnder(mEvent.getX(), mEvent.getY());
@@ -291,6 +303,9 @@ public final class Events {
                 mDocDetails = (childView != null)
                 ? (DocumentHolder) mRecView.getChildViewHolder(childView)
                         : null;
+            }
+            if (isOverItem()) {
+                assert(mDocDetails != null);
             }
             return mDocDetails;
         }

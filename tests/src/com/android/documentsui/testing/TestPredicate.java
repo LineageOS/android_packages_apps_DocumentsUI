@@ -17,6 +17,7 @@
 package com.android.documentsui.testing;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.function.Predicate;
 
@@ -30,15 +31,21 @@ public class TestPredicate<T> implements Predicate<T> {
 
     private @Nullable T lastValue;
     private boolean nextReturnValue;
+    private boolean called;
 
     @Override
     public boolean test(T t) {
+        called = true;
         lastValue = t;
         return nextReturnValue;
     }
 
     public void assertLastArgument(@Nullable T expected) {
         assertEquals(expected, lastValue);
+    }
+
+    public void assertCalled() {
+        assertTrue(called);
     }
 
     public void nextReturn(boolean value) {

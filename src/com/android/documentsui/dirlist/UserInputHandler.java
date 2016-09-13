@@ -28,6 +28,7 @@ import com.android.documentsui.Events;
 import com.android.documentsui.Events.EventHandler;
 import com.android.documentsui.Events.InputEvent;
 
+import java.util.Collections;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -208,30 +209,29 @@ public final class UserInputHandler<T extends InputEvent>
                 && !mSelectionMgr.getSelection().contains(doc.getModelId());
     }
 
+    private static final String TTAG = "TouchInputDelegate";
     private final class TouchInputDelegate {
 
         boolean onDown(T event) {
+            if (DEBUG) Log.v(TTAG, "Delegated onDown event.");
             return false;
         }
 
         // Don't consume so the RecyclerView will get the event and will get touch-based scrolling
         boolean onScroll(T event) {
+            if (DEBUG) Log.v(TTAG, "Delegated onScroll event.");
             return false;
         }
 
         boolean onSingleTapUp(T event) {
-            if (!event.isOverItem()) {
-                if (DEBUG) Log.d(TAG, "Tap on non-item. Clearing selection.");
+            if (DEBUG) Log.v(TTAG, "Delegated onSingleTapUp event.");
+            if (!event.isOverModelItem()) {
+                if (DEBUG) Log.d(TTAG, "Tap not associated w/ model item. Clearing selection.");
                 mSelectionMgr.clearSelection();
                 return false;
             }
 
-            @Nullable DocumentDetails doc = event.getDocumentDetails();
-            if (doc == null || !doc.hasModelId()) {
-                Log.w(TAG, "Ignoring Single Tap Up. No document details associated w/ event.");
-                return false;
-            }
-
+            DocumentDetails doc = event.getDocumentDetails();
             if (mSelectionMgr.hasSelection()) {
                 if (isRangeExtension(event)) {
                     extendSelectionRange(doc);
@@ -249,25 +249,23 @@ public final class UserInputHandler<T extends InputEvent>
         }
 
         boolean onSingleTapConfirmed(T event) {
+            if (DEBUG) Log.v(TTAG, "Delegated onSingleTapConfirmed event.");
             return false;
         }
 
         boolean onDoubleTap(T event) {
+            if (DEBUG) Log.v(TTAG, "Delegated onDoubleTap event.");
             return false;
         }
 
         final void onLongPress(T event) {
-            if (!event.isOverItem()) {
-                if (DEBUG) Log.d(TAG, "Ignoring Long Press on non-item.");
+            if (DEBUG) Log.v(TTAG, "Delegated onLongPress event.");
+            if (!event.isOverModelItem()) {
+                if (DEBUG) Log.d(TTAG, "Ignoring LongPress on non-model-backed item.");
                 return;
             }
 
-            @Nullable DocumentDetails doc = event.getDocumentDetails();
-            if (doc == null || !doc.hasModelId()) {
-                Log.w(TAG, "Ignoring Long Press. No document details associated w/ event.");
-                return;
-            }
-
+            DocumentDetails doc = event.getDocumentDetails();
             if (isRangeExtension(event)) {
                 extendSelectionRange(doc);
             } else {
@@ -283,6 +281,7 @@ public final class UserInputHandler<T extends InputEvent>
         }
     }
 
+    private static final String MTAG = "MouseInputDelegate";
     private final class MouseInputDelegate {
         // The event has been handled in onSingleTapUp
         private boolean mHandledTapUp;
@@ -290,6 +289,7 @@ public final class UserInputHandler<T extends InputEvent>
         private boolean mHandledOnDown;
 
         boolean onDown(T event) {
+            if (DEBUG) Log.v(MTAG, "Delegated onDown event.");
             if (event.isSecondaryButtonPressed()) {
                 mHandledOnDown = true;
                 return onRightClick(event);
@@ -300,31 +300,29 @@ public final class UserInputHandler<T extends InputEvent>
 
         // Don't scroll content window in response to mouse drag
         boolean onScroll(T event) {
+            if (DEBUG) Log.v(MTAG, "Delegated onScroll event.");
             return true;
         }
 
         boolean onSingleTapUp(T event) {
+            if (DEBUG) Log.v(MTAG, "Delegated onSingleTapUp event.");
 
             // See b/27377794. Since we don't get a button state back from UP events, we have to
             // explicitly save this state to know whether something was previously handled by
             // DOWN events or not.
             if (mHandledOnDown) {
+                if (DEBUG) Log.v(MTAG, "Ignoring onSingleTapUp, previously handled in onDown.");
                 mHandledOnDown = false;
                 return false;
             }
 
-            if (!event.isOverItem()) {
-                if (DEBUG) Log.d(TAG, "Tap on non-item. Clearing selection.");
+            if (!event.isOverModelItem()) {
+                if (DEBUG) Log.d(MTAG, "Tap not associated w/ model item. Clearing selection.");
                 mSelectionMgr.clearSelection();
                 return false;
             }
 
-            @Nullable DocumentDetails doc = event.getDocumentDetails();
-            if (doc == null || !doc.hasModelId()) {
-                Log.w(TAG, "Ignoring Single Tap Up. No document details associated w/ event.");
-                return false;
-            }
-
+            DocumentDetails doc = event.getDocumentDetails();
             if (mSelectionMgr.hasSelection()) {
                 if (isRangeExtension(event)) {
                     extendSelectionRange(doc);
@@ -342,7 +340,9 @@ public final class UserInputHandler<T extends InputEvent>
         }
 
         boolean onSingleTapConfirmed(T event) {
+            if (DEBUG) Log.v(MTAG, "Delegated onSingleTapConfirmed event.");
             if (mHandledTapUp) {
+                if (DEBUG) Log.v(MTAG, "Ignoring onSingleTapConfirmed, previously handled in onSingleTapUp.");
                 mHandledTapUp = false;
                 return false;
             }
@@ -352,13 +352,13 @@ public final class UserInputHandler<T extends InputEvent>
             }
 
             if (!event.isOverItem()) {
-                if (DEBUG) Log.d(TAG, "Ignoring Confirmed Tap on non-item.");
+                if (DEBUG) Log.d(MTAG, "Ignoring Confirmed Tap on non-item.");
                 return false;
             }
 
             @Nullable DocumentDetails doc = event.getDocumentDetails();
             if (doc == null || !doc.hasModelId()) {
-                Log.w(TAG, "Ignoring Confirmed Tap. No document details associated w/ event.");
+                Log.w(MTAG, "Ignoring Confirmed Tap. No document details associated w/ event.");
                 return false;
             }
 
@@ -366,29 +366,38 @@ public final class UserInputHandler<T extends InputEvent>
         }
 
         boolean onDoubleTap(T event) {
+            if (DEBUG) Log.v(MTAG, "Delegated onDoubleTap event.");
             mHandledTapUp = false;
 
-            if (!event.isOverItem()) {
-                if (DEBUG) Log.d(TAG, "Ignoring DoubleTap on non-item.");
+            if (!event.isOverModelItem()) {
+                if (DEBUG) Log.d(MTAG, "Ignoring DoubleTap on non-model-backed item.");
                 return false;
             }
 
-            @Nullable DocumentDetails doc = event.getDocumentDetails();
-            if (doc == null || !doc.hasModelId()) {
-                Log.w(TAG, "Ignoring Double Tap. No document details associated w/ event.");
-                return false;
-            }
-
+            DocumentDetails doc = event.getDocumentDetails();
             return mSelectionMgr.hasSelection()
                     ? selectDocument(doc)
                     : activateDocument(doc);
         }
 
         final void onLongPress(T event) {
+            if (DEBUG) Log.v(MTAG, "Delegated onLongPress event.");
             return;
         }
 
         private boolean onRightClick(T event) {
+            if (DEBUG) Log.v(MTAG, "Delegated onRightClick event.");
+            if (event.isOverModelItem()) {
+                DocumentDetails doc = event.getDocumentDetails();
+                if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
+                    mSelectionMgr.replaceSelection(Collections.singleton(doc.getModelId()));
+                    mSelectionMgr.setSelectionRangeBegin(doc.getAdapterPosition());
+                }
+            }
+
+            // We always delegate final handling of the event,
+            // since the handler might want to show a context menu
+            // in an empty area or some other weirdo view.
             return mRightClickHandler.apply(event);
         }
     }

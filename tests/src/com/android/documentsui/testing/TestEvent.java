@@ -16,67 +16,185 @@
 
 package com.android.documentsui.testing;
 
+import android.annotation.IntDef;
+import android.graphics.Point;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+
 import com.android.documentsui.Events.InputEvent;
-import com.android.documentsui.TestInputEvent;
 import com.android.documentsui.dirlist.DocumentDetails;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Events and DocDetails are closely related. For the pursposes of this test
  * we coalesce the two in a single, handy-dandy test class.
  */
-public class TestEvent extends TestInputEvent implements DocumentDetails {
+public class TestEvent implements InputEvent {
+    private static final int ACTION_UNSET = -1;
 
-    private String modelId;
-    private boolean inHotspot;
+    // Add other actions from MotionEvent.ACTION_ as needed.
+    @IntDef(flag = true, value = {
+            MotionEvent.ACTION_DOWN,
+            MotionEvent.ACTION_MOVE,
+            MotionEvent.ACTION_UP
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Action {}
 
-    public TestEvent() {
-        details = this;
+    // Add other types from MotionEvent.TOOL_TYPE_ as needed.
+    @IntDef(flag = true, value = {
+            MotionEvent.TOOL_TYPE_FINGER,
+            MotionEvent.TOOL_TYPE_MOUSE,
+            MotionEvent.TOOL_TYPE_STYLUS,
+            MotionEvent.TOOL_TYPE_UNKNOWN
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ToolType {}
+
+    @IntDef(flag = true, value = {
+            MotionEvent.BUTTON_PRIMARY,
+            MotionEvent.BUTTON_SECONDARY
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Button {}
+
+    @IntDef(flag = true, value = {
+            KeyEvent.META_SHIFT_ON,
+            KeyEvent.META_CTRL_ON
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Key {}
+
+    private @Action int mAction;
+    private @ToolType int mToolType;
+    private Set<Integer> mButtons;
+    private Set<Integer> mKeys;
+    private Point mLocation;
+    private Point mRawLocation;
+    private Details mDetails;
+
+    private TestEvent() {
+        mAction = ACTION_UNSET;  // somebody has to set this, else we'll barf later.
+        mToolType = MotionEvent.TOOL_TYPE_UNKNOWN;
+        mButtons = new HashSet<>();
+        mKeys = new HashSet<>();
+        mLocation = new Point(0, 0);
+        mRawLocation = new Point(0, 0);
+        mDetails = new Details();
+    }
+
+    private TestEvent(TestEvent source) {
+        assert(source.mAction != ACTION_UNSET);
+        mAction = source.mAction;
+        mToolType = source.mToolType;
+        mButtons = source.mButtons;
+        mKeys = source.mKeys;
+        mLocation = source.mLocation;
+        mRawLocation = source.mRawLocation;
+        mDetails = new Details(source.mDetails);
     }
 
     @Override
-    public boolean hasModelId() {
-        return modelId != null;
+    public Point getOrigin() {
+        return mLocation;
     }
 
     @Override
-    public String getModelId() {
-        return modelId;
+    public float getX() {
+        return mLocation.x;
     }
 
     @Override
-    public int getAdapterPosition() {
-        return getItemPosition();
+    public float getY() {
+        return mLocation.y;
     }
 
     @Override
-    public boolean isInSelectionHotspot(InputEvent event) {
-        return inHotspot;
+    public float getRawX() {
+        return mRawLocation.x;
     }
 
-    public TestEvent at(int position) {
-        this.position = position;  // this is both "adapter position" and "item position".
-        modelId = String.valueOf(position);
-        return this;
+    @Override
+    public float getRawY() {
+        return mRawLocation.y;
     }
 
-    public TestEvent shift() {
-        this.shiftKeyDow = true;
-        return this;
+    @Override
+    public boolean isMouseEvent() {
+        return mToolType == MotionEvent.TOOL_TYPE_MOUSE;
     }
 
-    public TestEvent inHotspot() {
-        this.inHotspot = true;
-        return this;
+    @Override
+    public boolean isPrimaryButtonPressed() {
+        return mButtons.contains(MotionEvent.BUTTON_PRIMARY);
     }
 
-    public TestEvent ctrl() {
-        this.ctrlKeyDow = true;
-        return this;
+    @Override
+    public boolean isSecondaryButtonPressed() {
+        return mButtons.contains(MotionEvent.BUTTON_SECONDARY);
     }
+
+    @Override
+    public boolean isShiftKeyDown() {
+        return mKeys.contains(KeyEvent.META_SHIFT_ON);
+    }
+
+    @Override
+    public boolean isCtrlKeyDown() {
+        return mKeys.contains(KeyEvent.META_CTRL_ON);
+    }
+
+    @Override
+    public boolean isActionDown() {
+        return mAction == MotionEvent.ACTION_DOWN;
+    }
+
+    @Override
+    public boolean isActionUp() {
+        return mAction == MotionEvent.ACTION_UP;
+    }
+
+    @Override
+    public boolean isActionMove() {
+        return mAction == MotionEvent.ACTION_MOVE;
+    }
+
+    @Override
+    public boolean isOverItem() {
+        return mDetails.isOverItem();
+    }
+
+    @Override
+    public boolean isOverModelItem() {
+        if (isOverItem()) {
+            DocumentDetails doc = getDocumentDetails();
+            return doc != null && doc.hasModelId();
+        }
+        return false;
+    }
+
+    @Override
+    public int getItemPosition() {
+        return mDetails.mPosition;
+    }
+
+    @Override
+    public DocumentDetails getDocumentDetails() {
+        return mDetails;
+    }
+
+    @Override
+    public void close() {}
 
     @Override
     public int hashCode() {
-        return modelId != null ? modelId.hashCode() : -1;
+        return mDetails.hashCode();
     }
 
     @Override
@@ -90,76 +208,223 @@ public class TestEvent extends TestInputEvent implements DocumentDetails {
       }
 
       TestEvent other = (TestEvent) o;
-      return position == other.position
-              && modelId == other.modelId
-              && shiftKeyDow == other.shiftKeyDow
-              && mouseEvent == other.mouseEvent;
+      return mAction == other.mAction
+              && mToolType == other.mToolType
+              && mButtons.equals(other.mButtons)
+              && mKeys.equals(other.mKeys)
+              && mLocation.equals(other.mLocation)
+              && mRawLocation.equals(other.mRawLocation)
+              && mDetails.equals(other.mDetails);
+    }
+
+    private static final class Details implements DocumentDetails {
+
+        private int mPosition;
+        private String mModelId;
+        private boolean mInHotspot;
+
+        public Details() {
+           mPosition = Integer.MIN_VALUE;
+        }
+
+        public Details(Details source) {
+            mPosition = source.mPosition;
+            mModelId = source.mModelId;
+            mInHotspot = source.mInHotspot;
+        }
+
+
+        private boolean isOverItem() {
+            return mPosition != Integer.MIN_VALUE && mPosition != RecyclerView.NO_POSITION;
+        }
+
+        @Override
+        public boolean hasModelId() {
+            return !TextUtils.isEmpty(mModelId);
+        }
+
+        @Override
+        public String getModelId() {
+            return mModelId;
+        }
+
+        @Override
+        public int getAdapterPosition() {
+            return mPosition;
+        }
+
+        @Override
+        public boolean isInSelectionHotspot(InputEvent event) {
+            return mInHotspot;
+        }
+        @Override
+        public int hashCode() {
+            return mModelId != null ? mModelId.hashCode() : ACTION_UNSET;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+          if (this == o) {
+              return true;
+          }
+
+          if (!(o instanceof Details)) {
+              return false;
+          }
+
+          Details other = (Details) o;
+          return mPosition == other.mPosition
+                  && mModelId == other.mModelId;
+        }
     }
 
     public static final Builder builder() {
         return new Builder();
     }
 
+    /**
+     * Test event builder with convenience methods for common event attrs.
+     */
     public static final class Builder {
 
         private TestEvent mState = new TestEvent();
+
+        public Builder() {
+        }
+
+        public Builder(TestEvent state) {
+            mState = new TestEvent(state);
+        }
+
+        /**
+         * @param action Any action specified in {@link MotionEvent}.
+         * @return
+         */
+        public Builder action(int action) {
+            mState.mAction = action;
+            return this;
+        }
+
+        public Builder type(@ToolType int type) {
+            mState.mToolType = type;
+            return this;
+        }
+
+        public Builder location(int x, int y) {
+            mState.mLocation = new Point(x, y);
+            return this;
+        }
+
+        public Builder rawLocation(int x, int y) {
+            mState.mRawLocation = new Point(x, y);
+            return this;
+        }
+
+        /**
+         * Adds one or more button press attributes.
+         */
+        public Builder pressButton(@Button int... buttons) {
+            for (int button : buttons) {
+                mState.mButtons.add(button);
+            }
+            return this;
+        }
+
+        /**
+         * Removes one or more button press attributes.
+         */
+        public Builder releaseButton(@Button int... buttons) {
+            for (int button : buttons) {
+                mState.mButtons.remove(button);
+            }
+            return this;
+        }
+
+        /**
+         * Adds one or more key press attributes.
+         */
+        public Builder pressKey(@Key int... keys) {
+            for (int key : keys) {
+                mState.mKeys.add(key);
+            }
+            return this;
+        }
+
+        /**
+         * Removes one or more key press attributes.
+         */
+        public Builder releaseKey(@Button int... keys) {
+            for (int key : keys) {
+                mState.mKeys.remove(key);
+            }
+            return this;
+        }
+
+        public Builder at(int position) {
+            mState.mDetails.mPosition = position;  // this is both "adapter position" and "item position".
+            mState.mDetails.mModelId = String.valueOf(position);
+            return this;
+        }
+
+        public Builder inHotspot() {
+            mState.mDetails.mInHotspot = true;
+            return this;
+        }
+
+        public Builder touch() {
+            type(MotionEvent.TOOL_TYPE_FINGER);
+            return this;
+        }
+
+        public Builder mouse() {
+            type(MotionEvent.TOOL_TYPE_MOUSE);
+            return this;
+        }
+
+        public Builder shift() {
+            pressKey(KeyEvent.META_SHIFT_ON);
+            return this;
+        }
+
+        /**
+         * Use {@link #remove(@Attribute int...)}
+         */
+        @Deprecated
+        public Builder unshift() {
+            releaseKey(KeyEvent.META_SHIFT_ON);
+            return this;
+        }
+
+        public Builder ctrl() {
+            pressKey(KeyEvent.META_CTRL_ON);
+            return this;
+        }
+
+        public Builder primary() {
+            pressButton(MotionEvent.BUTTON_PRIMARY);
+            releaseButton(MotionEvent.BUTTON_SECONDARY);
+            return this;
+        }
+
+        public Builder secondary() {
+            pressButton(MotionEvent.BUTTON_SECONDARY);
+            releaseButton(MotionEvent.BUTTON_PRIMARY);
+            return this;
+        }
 
         public Builder reset() {
             mState = new TestEvent();
             return this;
         }
 
-        public Builder at(int position) {
-            mState.position = position;  // this is both "adapter position" and "item position".
-            mState.modelId = String.valueOf(position);
-            return this;
-        }
-
-        public Builder shift() {
-            mState.shiftKeyDow = true;
-            return this;
-        }
-
-        public Builder unshift() {
-            mState.shiftKeyDow = false;
-            return this;
-        }
-
-        public Builder ctrl() {
-            mState.ctrlKeyDow = true;
-            return this;
-        }
-
-        public Builder unctrl() {
-            mState.ctrlKeyDow = false;
-            return this;
-        }
-
-        public Builder inHotspot() {
-            mState.inHotspot = true;
-            return this;
-        }
-
-        public Builder mouse() {
-            mState.mouseEvent = true;
-            return this;
-        }
-
-        public Builder secondary() {
-            mState.secondaryButtonPressed = true;
-            return this;
+        @Override
+        public Builder clone() {
+            return new Builder(build());
         }
 
         public TestEvent build() {
             // Return a copy, so nobody can mess w/ our internal state.
-            TestEvent e = new TestEvent();
-            e.position = mState.position;
-            e.modelId = mState.modelId;
-            e.shiftKeyDow = mState.shiftKeyDow;
-            e.ctrlKeyDow = mState.ctrlKeyDow;
-            e.mouseEvent = mState.mouseEvent;
-            e.secondaryButtonPressed = mState.secondaryButtonPressed;
-            return e;
+            return new TestEvent(mState);
         }
     }
 }
