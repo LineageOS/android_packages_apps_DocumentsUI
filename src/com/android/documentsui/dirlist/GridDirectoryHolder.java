@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.State;
+import com.android.documentsui.Events.InputEvent;
 
 final class GridDirectoryHolder extends DocumentHolder {
 
@@ -55,6 +56,12 @@ final class GridDirectoryHolder extends DocumentHolder {
             mIconCheck.setAlpha(checkAlpha);
             mIconMime.setAlpha(1f - checkAlpha);
         }
+    }
+
+    @Override
+    public boolean isInDragHotspot(InputEvent event) {
+        // Entire grid box should be draggable
+        return true;
     }
 
     /**

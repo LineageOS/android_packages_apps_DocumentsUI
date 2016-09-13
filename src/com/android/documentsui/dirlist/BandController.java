@@ -227,7 +227,7 @@ public class BandController extends OnScrollListener {
         return !isActive()
                 && e.isActionMove()  // the initial button move via mouse-touch (ie. down press)
                 && mAdapter.getItemCount() > 0
-                && e.getItemPosition() == RecyclerView.NO_ID;  // in empty space
+                && !e.isOverDragHotspot();
     }
 
     public boolean shouldStop(InputEvent input) {

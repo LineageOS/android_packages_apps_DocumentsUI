@@ -22,6 +22,7 @@ import static com.android.documentsui.model.DocumentInfo.getCursorString;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -36,6 +37,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.RootCursorWrapper;
 import com.android.documentsui.Shared;
 import com.android.documentsui.State;
+import com.android.documentsui.Events.InputEvent;
 
 final class ListDocumentHolder extends DocumentHolder {
     final TextView mTitle;
@@ -47,17 +49,19 @@ final class ListDocumentHolder extends DocumentHolder {
     final ImageView mIconThumb;
     final ImageView mIconCheck;
     final IconHelper mIconHelper;
+    final View mIconLayout;
 
     public ListDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper) {
         super(context, parent, R.layout.item_doc_list);
 
-        mTitle = (TextView) itemView.findViewById(android.R.id.title);
-        mDate = (TextView) itemView.findViewById(R.id.date);
-        mSize = (TextView) itemView.findViewById(R.id.size);
-        mSummary = (TextView) itemView.findViewById(android.R.id.summary);
+        mIconLayout = itemView.findViewById(android.R.id.icon);
         mIconMime = (ImageView) itemView.findViewById(R.id.icon_mime);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
+        mTitle = (TextView) itemView.findViewById(android.R.id.title);
+        mSummary = (TextView) itemView.findViewById(android.R.id.summary);
+        mSize = (TextView) itemView.findViewById(R.id.size);
+        mDate = (TextView) itemView.findViewById(R.id.date);
         // Warning: mDetails view doesn't exists in layout-sw720dp-land layout
         mDetails = (LinearLayout) itemView.findViewById(R.id.line2);
 
@@ -100,6 +104,31 @@ final class ListDocumentHolder extends DocumentHolder {
         final float imgAlpha = enabled ? 1f : DISABLED_ALPHA;
         mIconMime.setAlpha(imgAlpha);
         mIconThumb.setAlpha(imgAlpha);
+    }
+
+    @Override
+    public boolean isInDragHotspot(InputEvent event) {
+        // If itemView is activated = selected, then whole region is interactive
+        if (itemView.isActivated()) {
+            return true;
+        }
+
+        // Do everything in global coordinates - it makes things simpler.
+        int[] coords = new int[2];
+        mIconLayout.getLocationOnScreen(coords);
+
+        Rect textBounds = new Rect();
+        mTitle.getPaint().getTextBounds(
+                mTitle.getText().toString(), 0, mTitle.getText().length(), textBounds);
+
+        Rect rect = new Rect(
+                coords[0],
+                coords[1],
+                coords[0] + mIconLayout.getWidth() + textBounds.width(),
+                coords[1] + Math.max(mIconLayout.getHeight(), textBounds.height()));
+
+        // If the tap occurred inside icon or the text, these are interactive spots.
+        return rect.contains((int) event.getRawX(), (int) event.getRawY());
     }
 
     /**

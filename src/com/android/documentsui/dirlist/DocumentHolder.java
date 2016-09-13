@@ -148,9 +148,15 @@ public abstract class DocumentHolder
         return rect.contains((int) event.getRawX(), (int) event.getRawY());
     }
 
-        static void setEnabledRecursive(View itemView, boolean enabled) {
-        if (itemView == null) return;
-        if (itemView.isEnabled() == enabled) return;
+    @Override
+    public boolean isInDragHotspot(InputEvent event) {
+        return false;
+    }
+
+    static void setEnabledRecursive(View itemView, boolean enabled) {
+        if (itemView == null || itemView.isEnabled() == enabled) {
+            return;
+        }
         itemView.setEnabled(enabled);
 
         if (itemView instanceof ViewGroup) {
