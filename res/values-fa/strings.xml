@@ -118,7 +118,7 @@
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"بعضی از فایل‌ها تبدیل شدند"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه داده شود به فهرست راهنمای <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> در <xliff:g id="STORAGE"><i>^3</i></xliff:g> دسترسی داشته باشد؟"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه داده شود به فهرست راهنمای <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> دسترسی داشته باشد؟"</string>
-    <string name="open_external_dialog_root_request" msgid="6776729293982633">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه می‌دهید به داده‌هایتان دسترسی پیدا کند، از جمله عکس‌ها و ویدیوهایتان در <xliff:g id="STORAGE"><i>^2</i></xliff:g>؟"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه می‌دهید به داده‌هایتان دسترسی پیدا کند، از جمله عکس‌ها و ویدئوهایتان در <xliff:g id="STORAGE"><i>^2</i></xliff:g>؟"</string>
     <string name="never_ask_again" msgid="525908236522201138">"دوباره سؤال نشود"</string>
     <string name="allow" msgid="1275746941353040309">"اجازه دادن"</string>
     <string name="deny" msgid="5127201668078153379">"اجازه ندارد"</string>
