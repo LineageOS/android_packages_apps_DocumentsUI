@@ -157,6 +157,7 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
     }
 
     private void clickRename() throws UiObjectNotFoundException {
+        device.waitForIdle();
         bots.main.clickActionbarOverflowItem("Rename");
         device.waitForIdle();
     }
