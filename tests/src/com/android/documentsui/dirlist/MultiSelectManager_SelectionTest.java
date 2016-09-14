@@ -84,6 +84,7 @@ public class MultiSelectManager_SelectionTest {
         assertTrue(selection.isEmpty());
     }
 
+    @Test
     public void testSize() {
         Selection other = new Selection();
         for (int i = 0; i < selection.size(); i++) {
@@ -92,10 +93,12 @@ public class MultiSelectManager_SelectionTest {
         assertEquals(selection.size(), other.size());
     }
 
+    @Test
     public void testEqualsSelf() {
         assertEquals(selection, selection);
     }
 
+    @Test
     public void testEqualsOther() {
         Selection other = new Selection();
         other.add(ids[0]);
@@ -105,6 +108,7 @@ public class MultiSelectManager_SelectionTest {
         assertEquals(selection.hashCode(), other.hashCode());
     }
 
+    @Test
     public void testEqualsCopy() {
         Selection other = new Selection();
         other.copyFrom(selection);
@@ -112,30 +116,35 @@ public class MultiSelectManager_SelectionTest {
         assertEquals(selection.hashCode(), other.hashCode());
     }
 
+    @Test
     public void testNotEquals() {
         Selection other = new Selection();
         other.add("foobar");
         assertFalse(selection.equals(other));
     }
 
+    @Test
     public void testIntersection_empty0() {
         Selection testSelection = new Selection();
         testSelection.intersect(new HashSet<String>());
         assertTrue(testSelection.isEmpty());
     }
 
+    @Test
     public void testIntersection_empty1() {
         Selection testSelection = new Selection();
         testSelection.intersect(Sets.newHashSet("foo"));
         assertTrue(testSelection.isEmpty());
     }
 
+    @Test
     public void testIntersection_empty2() {
         assertFalse(selection.isEmpty());
         selection.intersect(new HashSet<String>());
         assertTrue(selection.isEmpty());
     }
 
+    @Test
     public void testIntersection_exclusive() {
         String[] ids0 = new String[]{"foo", "bar", "baz"};
         String[] ids1 = new String[]{"0", "1", "2"};
@@ -151,6 +160,7 @@ public class MultiSelectManager_SelectionTest {
         assertTrue(testSelection.isEmpty());
     }
 
+    @Test
     public void testIntersection_subset() {
         String[] ids0 = new String[]{"foo", "bar", "baz"};
         String[] ids1 = new String[]{"0", "baz", "1", "foo", "2"};
@@ -167,6 +177,7 @@ public class MultiSelectManager_SelectionTest {
         assertTrue(testSelection.contains("baz"));
     }
 
+    @Test
     public void testIntersection_all() {
         String[] ids0 = new String[]{"foo", "bar", "baz"};
         String[] ids1 = new String[]{"0", "baz", "1", "foo", "2", "bar"};
