@@ -26,9 +26,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 import com.android.documentsui.Events;
-import com.android.documentsui.Events.EventHandler;
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.Events.MotionInputEvent;
+import com.android.documentsui.base.FunctionalInterfaces.EventHandler;
 
 //Receives event meant for both directory and empty view, and either pass them to
 //{@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
@@ -37,7 +37,7 @@ final class ListeningGestureDetector extends GestureDetector
         implements OnItemTouchListener, OnTouchListener {
 
     private final GestureSelector mGestureSelector;
-    private final EventHandler mMouseDragListener;
+    private final EventHandler<InputEvent> mMouseDragListener;
     private final BandController mBandController;
     private final MouseDelegate mMouseDelegate = new MouseDelegate();
     private final TouchDelegate mTouchDelegate = new TouchDelegate();
@@ -46,7 +46,7 @@ final class ListeningGestureDetector extends GestureDetector
             Context context,
             RecyclerView recView,
             View emptyView,
-            EventHandler mouseDragListener,
+            EventHandler<InputEvent> mouseDragListener,
             GestureSelector gestureSelector,
             UserInputHandler<? extends InputEvent> handler,
             @Nullable BandController bandController) {

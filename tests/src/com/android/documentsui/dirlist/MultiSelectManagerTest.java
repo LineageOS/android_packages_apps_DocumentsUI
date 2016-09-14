@@ -16,38 +16,49 @@
 
 package com.android.documentsui.dirlist;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseBooleanArray;
 
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.dirlist.SelectionProbe;
 import com.android.documentsui.testing.dirlist.TestSelectionListener;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@RunWith(AndroidJUnit4.class)
 @SmallTest
-public class MultiSelectManagerTest extends AndroidTestCase {
+public class MultiSelectManagerTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
+    private final Set<String> mIgnored = new HashSet<>();
     private MultiSelectManager mManager;
     private TestSelectionListener mCallback;
-    private TestDocumentsAdapter mAdapter;
     private SelectionProbe mSelection;
 
-    @Override
+    @Before
     public void setUp() throws Exception {
         mCallback = new TestSelectionListener();
-        mAdapter = new TestDocumentsAdapter(ITEMS);
-        mManager = new MultiSelectManager(mAdapter, MultiSelectManager.MODE_MULTIPLE);
+        mManager = MultiSelectManagers.createTestInstance(
+                ITEMS,
+                MultiSelectManager.MODE_MULTIPLE,
+                (String id, boolean nextState) -> (!nextState || !mIgnored.contains(id)));
         mManager.addCallback(mCallback);
 
         mSelection = new SelectionProbe(mManager);
+
+        mIgnored.clear();
     }
 
+    @Test
     public void testSelection() {
         // Check selection.
         mManager.toggleSelection(ITEMS.get(7));
@@ -57,6 +68,15 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertNoSelection();
     }
 
+    @Test
+    public void testSelection_DoNothingOnUnselectableItem() {
+        mIgnored.add(ITEMS.get(7));
+
+        mManager.toggleSelection(ITEMS.get(7));
+        mSelection.assertNoSelection();
+    }
+
+    @Test
     public void testSelection_NotifiesSelectionChanged() {
         // Selection should notify.
         mManager.toggleSelection(ITEMS.get(7));
@@ -66,12 +86,26 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mCallback.assertSelectionChanged();
     }
 
+    @Test
     public void testRangeSelection() {
         mManager.startRangeSelection(15);
         mManager.snapRangeSelection(19);
         mSelection.assertRangeSelection(15, 19);
     }
 
+    @Test
+    public void testRangeSelection_SkipUnselectableItem() {
+        mIgnored.add(ITEMS.get(17));
+
+        mManager.startRangeSelection(15);
+        mManager.snapRangeSelection(19);
+
+        mSelection.assertRangeSelected(15, 16);
+        mSelection.assertNotSelected(17);
+        mSelection.assertRangeSelected(18, 19);
+    }
+
+    @Test
     public void testRangeSelection_snapExpand() {
         mManager.startRangeSelection(15);
         mManager.snapRangeSelection(19);
@@ -79,6 +113,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertRangeSelection(15, 27);
     }
 
+    @Test
     public void testRangeSelection_snapContract() {
         mManager.startRangeSelection(15);
         mManager.snapRangeSelection(27);
@@ -86,6 +121,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertRangeSelection(15, 19);
     }
 
+    @Test
     public void testRangeSelection_snapInvert() {
         mManager.startRangeSelection(15);
         mManager.snapRangeSelection(27);
@@ -93,6 +129,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertRangeSelection(3, 15);
     }
 
+    @Test
     public void testRangeSelection_multiple() {
         mManager.startRangeSelection(15);
         mManager.snapRangeSelection(27);
@@ -104,6 +141,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertRangeSelected(42, 57);
     }
 
+    @Test
     public void testProvisionalRangeSelection() {
         mManager.startRangeSelection(13);
         mManager.snapProvisionalRangeSelection(15);
@@ -113,6 +151,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelectionSize(3);
     }
 
+    @Test
     public void testProvisionalRangeSelection_endEarly() {
         mManager.startRangeSelection(13);
         mManager.snapProvisionalRangeSelection(15);
@@ -124,6 +163,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelectionSize(1);
     }
 
+    @Test
     public void testProvisionalRangeSelection_snapExpand() {
         mManager.startRangeSelection(13);
         mManager.snapProvisionalRangeSelection(15);
@@ -133,6 +173,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertRangeSelection(13, 18);
     }
 
+    @Test
     public void testCombinationRangeSelection_IntersectsOldSelection() {
         mManager.startRangeSelection(13);
         mManager.snapRangeSelection(15);
@@ -148,6 +189,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelectionSize(4);
     }
 
+    @Test
     public void testProvisionalSelection() {
         Selection s = mManager.getSelection();
         mSelection.assertNoSelection();
@@ -159,6 +201,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelection(1, 2);
     }
 
+    @Test
     public void testProvisionalSelection_Replace() {
         Selection s = mManager.getSelection();
 
@@ -174,6 +217,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelection(3, 4);
     }
 
+    @Test
     public void testProvisionalSelection_IntersectsExistingProvisionalSelection() {
         Selection s = mManager.getSelection();
 
@@ -188,6 +232,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelection(1);
     }
 
+    @Test
     public void testProvisionalSelection_Apply() {
         Selection s = mManager.getSelection();
 
@@ -199,6 +244,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelection(1, 2);
     }
 
+    @Test
     public void testProvisionalSelection_Cancel() {
         mManager.toggleSelection(ITEMS.get(1));
         mManager.toggleSelection(ITEMS.get(2));
@@ -214,6 +260,7 @@ public class MultiSelectManagerTest extends AndroidTestCase {
         mSelection.assertSelection(1, 2);
     }
 
+    @Test
     public void testProvisionalSelection_IntersectsAppliedSelection() {
         mManager.toggleSelection(ITEMS.get(1));
         mManager.toggleSelection(ITEMS.get(2));

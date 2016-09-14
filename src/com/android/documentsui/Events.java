@@ -336,9 +336,4 @@ public final class Events {
                     .toString();
         }
     }
-
-    @FunctionalInterface
-    public interface EventHandler {
-        boolean apply(InputEvent event);
-    }
 }

@@ -50,13 +50,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.RecyclerListener;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.BidiFormatter;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.DragEvent;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -66,7 +63,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DirectoryLoader;
@@ -77,10 +73,8 @@ import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.Events.MotionInputEvent;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.MenuManager;
-import com.android.documentsui.Menus;
 import com.android.documentsui.MessageBar;
 import com.android.documentsui.Metrics;
-import com.android.documentsui.MimePredicate;
 import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
 import com.android.documentsui.RetainedState;
@@ -108,7 +102,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -143,8 +136,9 @@ public class DirectoryFragment extends Fragment
 
     private final Model mModel = new Model();
     private final Model.UpdateListener mModelUpdateListener = new ModelUpdateListener();
-    private final SelectionModeListener mSelectionModeListener = new SelectionModeListener();
     private MultiSelectManager mSelectionMgr;
+    private ActionModeController mActionModeController;
+    private SelectionMetadata mSelectionMetadata;
     private UserInputHandler<InputEvent> mInputHandler;
     private FocusManager mFocusManager;
 
@@ -183,7 +177,6 @@ public class DirectoryFragment extends Fragment
     private boolean mSearchMode = false;
 
     private @Nullable BandController mBandController;
-    private @Nullable ActionMode mActionMode;
 
     private DragHoverListener mDragHoverListener;
     private MenuManager mMenuManager;
@@ -301,7 +294,10 @@ public class DirectoryFragment extends Fragment
                 mAdapter,
                 state.allowMultiple
                     ? MultiSelectManager.MODE_MULTIPLE
-                    : MultiSelectManager.MODE_SINGLE);
+                    : MultiSelectManager.MODE_SINGLE,
+                this::canSetSelectionState);
+        mSelectionMetadata = new SelectionMetadata(mSelectionMgr, mModel::getItem);
+        mSelectionMgr.addItemCallback(mSelectionMetadata);
 
         mModel.addUpdateListener(mAdapter);
         mModel.addUpdateListener(mModelUpdateListener);
@@ -355,7 +351,19 @@ public class DirectoryFragment extends Fragment
                 mInputHandler,
                 mBandController);
 
-        mSelectionMgr.addCallback(mSelectionModeListener);
+        final BaseActivity activity = getBaseActivity();
+        mTuner = activity.createFragmentTuner();
+        mMenuManager = activity.getMenuManager();
+
+        mActionModeController = ActionModeController.create(
+                getContext(),
+                mSelectionMgr,
+                mMenuManager,
+                mSelectionMetadata,
+                getActivity(),
+                mRecView,
+                this::handleMenuItemClick);
+        mSelectionMgr.addCallback(mActionModeController);
 
         final ActivityManager am = (ActivityManager) context.getSystemService(
                 Context.ACTIVITY_SERVICE);
@@ -440,7 +448,9 @@ public class DirectoryFragment extends Fragment
         boolean mouseOverFile = !(v == mRecView || v == mEmptyView);
         if (mouseOverFile) {
             mMenuManager.updateContextMenuForFile(
-                    menu, mSelectionModeListener, getBaseActivity().getDirectoryDetails());
+                    menu,
+                    mSelectionMetadata,
+                    getBaseActivity().getDirectoryDetails());
         } else {
            mMenuManager.updateContextMenuForContainer(
                    menu, getBaseActivity().getDirectoryDetails());
@@ -593,220 +603,19 @@ public class DirectoryFragment extends Fragment
         return (BaseActivity) getActivity();
     }
 
-    /**
-     * Manages the integration between our ActionMode and MultiSelectManager, initiating
-     * ActionMode when there is a selection, canceling it when there is no selection,
-     * and clearing selection when action mode is explicitly exited by the user.
-     */
-    private final class SelectionModeListener implements MultiSelectManager.Callback,
-            ActionMode.Callback, MenuManager.SelectionDetails {
-
-        private Selection mSelected = new Selection();
-
-        // Partial files are files that haven't been fully downloaded.
-        private int mPartialCount = 0;
-        private int mDirectoryCount = 0;
-        private int mWritableDirectoryCount = 0;
-        private int mNoDeleteCount = 0;
-        private int mNoRenameCount = 0;
-
-        private Menu mMenu;
-
-        @Override
-        public boolean onBeforeItemStateChange(String modelId, boolean selected) {
-            if (selected) {
-                final Cursor cursor = mModel.getItem(modelId);
-                if (cursor == null) {
-                    Log.w(TAG, "Can't obtain cursor for modelId: " + modelId);
-                    return false;
-                }
-
-                final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
-                final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-                if (!mTuner.canSelectType(docMimeType, docFlags)) {
-                    return false;
-                }
-                return mTuner.canSelectType(docMimeType, docFlags);
-            }
-            return true;
-        }
-
-        @Override
-        public void onItemStateChanged(String modelId, boolean selected) {
-            final Cursor cursor = mModel.getItem(modelId);
-            if (cursor == null) {
-                Log.w(TAG, "Model returned null cursor for document: " + modelId
-                        + ". Ignoring state changed event.");
-                return;
-            }
-
-            // TODO: Should this be happening in onSelectionChanged? Technically this callback is
-            // triggered on "silent" selection updates (i.e. we might be reacting to unfinalized
-            // selection changes here)
-            final String mimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
-            if (MimePredicate.isDirectoryType(mimeType)) {
-                mDirectoryCount += selected ? 1 : -1;
-            }
-
-            final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-            if ((docFlags & Document.FLAG_PARTIAL) != 0) {
-                mPartialCount += selected ? 1 : -1;
-            }
-            if ((docFlags & Document.FLAG_DIR_SUPPORTS_CREATE) != 0) {
-                mWritableDirectoryCount += selected ? 1 : -1;
-            }
-            if ((docFlags & Document.FLAG_SUPPORTS_DELETE) == 0) {
-                mNoDeleteCount += selected ? 1 : -1;
-            }
-            if ((docFlags & Document.FLAG_SUPPORTS_RENAME) == 0) {
-                mNoRenameCount += selected ? 1 : -1;
-            }
-        }
-
-        @Override
-        public void onSelectionChanged() {
-            mSelectionMgr.getSelection(mSelected);
-            if (mSelected.size() > 0) {
-                 if (mActionMode == null) {
-                    if (DEBUG) Log.d(TAG, "Starting action mode.");
-                    mActionMode = getActivity().startActionMode(this);
-                }
-                updateActionMenu();
-            } else {
-                if (mActionMode != null) {
-                    if (DEBUG) Log.d(TAG, "Finishing action mode.");
-                    mActionMode.finish();
-                }
-            }
-
-            if (mActionMode != null) {
-                assert(!mSelected.isEmpty());
-                final String title = Shared.getQuantityString(getActivity(),
-                        R.plurals.elements_selected, mSelected.size());
-                mActionMode.setTitle(title);
-                mRecView.announceForAccessibility(title);
-            }
-        }
-
-        // Called when the user exits the action mode
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            if (DEBUG) Log.d(TAG, "Handling action mode destroyed.");
-            mActionMode = null;
-            // clear selection
-            mSelectionMgr.clearSelection();
-            mSelected.clear();
-
-            mDirectoryCount = 0;
-            mPartialCount = 0;
-            mNoDeleteCount = 0;
-            mNoRenameCount = 0;
-
-            // Re-enable TalkBack for the toolbars, as they are no longer covered by action mode.
-            final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-            toolbar.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
-
-            // This toolbar is not present in the fixed_layout
-            final Toolbar rootsToolbar = (Toolbar) getActivity().findViewById(R.id.roots_toolbar);
-            if (rootsToolbar != null) {
-                rootsToolbar.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
-            }
-        }
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            if (mRestoredSelection != null) {
-                // This is a careful little song and dance to avoid haptic feedback
-                // when selection has been restored after rotation. We're
-                // also responsible for cleaning up restored selection so the
-                // object dones't unnecessarily hang around.
-                mRestoredSelection = null;
-            } else {
-                mRecView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            }
-
-            int size = mSelectionMgr.getSelection().size();
-            mode.getMenuInflater().inflate(R.menu.mode_directory, menu);
-            mode.setTitle(TextUtils.formatSelectedCount(size));
-
-            if (size > 0) {
-                // Hide the toolbars if action mode is enabled, so TalkBack doesn't navigate to
-                // these controls when using linear navigation.
-                final Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-                toolbar.setImportantForAccessibility(
-                        View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-
-                // This toolbar is not present in the fixed_layout
-                final Toolbar rootsToolbar = (Toolbar) getActivity().findViewById(
-                        R.id.roots_toolbar);
-                if (rootsToolbar != null) {
-                    rootsToolbar.setImportantForAccessibility(
-                            View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-                }
-                return true;
-            }
-
-            return false;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mMenu = menu;
-            updateActionMenu();
-            return true;
-        }
-
-        @Override
-        public boolean containsDirectories() {
-            return mDirectoryCount > 0;
-        }
-
-        @Override
-        public boolean containsPartialFiles() {
-            return mPartialCount > 0;
-        }
-
-        @Override
-        public boolean canDelete() {
-            return mNoDeleteCount == 0;
-        }
-
-        @Override
-        public boolean canRename() {
-            return mNoRenameCount == 0 && mSelectionMgr.getSelection().size() == 1;
-        }
-
-        @Override
-        public boolean canPasteInto() {
-            return mDirectoryCount == 1 && mWritableDirectoryCount == 1
-                    && mSelectionMgr.getSelection().size() == 1;
-        }
-
-        private void updateActionMenu() {
-            assert(mMenu != null);
-            mMenuManager.updateActionMenu(mMenu, this);
-            Menus.disableHiddenItems(mMenu);
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return handleMenuItemClick(item);
-        }
-    }
-
     private boolean handleMenuItemClick(MenuItem item) {
         Selection selection = mSelectionMgr.getSelection(new Selection());
 
         switch (item.getItemId()) {
             case R.id.menu_open:
                 openDocuments(selection);
-                mActionMode.finish();
+                mActionModeController.finishActionMode();
                 return true;
 
             case R.id.menu_share:
                 shareDocuments(selection);
                 // TODO: Only finish selection if share action is completed.
-                mActionMode.finish();
+                mActionModeController.finishActionMode();
                 return true;
 
             case R.id.menu_delete:
@@ -819,12 +628,12 @@ public class DirectoryFragment extends Fragment
                 transferDocuments(selection, FileOperationService.OPERATION_COPY);
                 // TODO: Only finish selection mode if copy-to is not canceled.
                 // Need to plum down into handling the way we do with deleteDocuments.
-                mActionMode.finish();
+                mActionModeController.finishActionMode();
                 return true;
 
             case R.id.menu_move_to:
                 // Exit selection mode first, so we avoid deselecting deleted documents.
-                mActionMode.finish();
+                mActionModeController.finishActionMode();
                 transferDocuments(selection, FileOperationService.OPERATION_MOVE);
                 return true;
 
@@ -851,7 +660,7 @@ public class DirectoryFragment extends Fragment
             case R.id.menu_rename:
                 // Exit selection mode first, so we avoid deselecting deleted
                 // (renamed) documents.
-                mActionMode.finish();
+                mActionModeController.finishActionMode();
                 renameDocuments(selection);
                 return true;
 
@@ -1013,11 +822,7 @@ public class DirectoryFragment extends Fragment
                         // This is done here, rather in the onActionItemClicked
                         // so we can avoid de-selecting items in the case where
                         // the user cancels the delete.
-                        if (mActionMode != null) {
-                            mActionMode.finish();
-                        } else {
-                            Log.w(TAG, "Action mode is null before deleting documents.");
-                        }
+                        mActionModeController.finishActionMode();
 
                         UrisSupplier srcs;
                         try {
@@ -1312,9 +1117,7 @@ public class DirectoryFragment extends Fragment
         // When files are selected for dragging, ActionMode is started. This obscures the breadcrumb
         // with an ActionBar. In order to make drag and drop to the breadcrumb possible, we first
         // end ActionMode so the breadcrumb is visible to the user.
-        if (mActionMode != null) {
-            mActionMode.finish();
-        }
+        mActionModeController.finishActionMode();
     }
 
     void dragStopped(boolean result) {
@@ -1475,22 +1278,25 @@ public class DirectoryFragment extends Fragment
     }
 
     private boolean canSelect(DocumentDetails doc) {
-        return canSelect(doc.getModelId());
+        return canSetSelectionState(doc.getModelId(), true);
     }
 
-    private boolean canSelect(String modelId) {
+    private boolean canSetSelectionState(String modelId, boolean nextState) {
+        if (nextState) {
+            // Check if an item can be selected
+            final Cursor cursor = mModel.getItem(modelId);
+            if (cursor == null) {
+                Log.w(TAG, "Couldn't obtain cursor for modelId: " + modelId);
+                return false;
+            }
 
-        // TODO: Combine this method with onBeforeItemStateChange, as both of them are almost
-        // the same, and responsible for the same thing (whether to select or not).
-        final Cursor cursor = mModel.getItem(modelId);
-        if (cursor == null) {
-            Log.w(TAG, "Couldn't obtain cursor for modelId: " + modelId);
-            return false;
+            final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
+            final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
+            return mTuner.canSelectType(docMimeType, docFlags);
+        } else {
+            // Right now all selected items can be deselected.
+            return true;
         }
-
-        final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
-        final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-        return mTuner.canSelectType(docMimeType, docFlags);
     }
 
     public static void showDirectory(
