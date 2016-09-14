@@ -28,7 +28,7 @@ import android.view.View.OnTouchListener;
 import com.android.documentsui.Events;
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.Events.MotionInputEvent;
-import com.android.documentsui.base.FunctionalInterfaces.EventHandler;
+import com.android.documentsui.base.EventHandler;
 
 //Receives event meant for both directory and empty view, and either pass them to
 //{@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
