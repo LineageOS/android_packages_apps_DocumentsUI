@@ -212,7 +212,10 @@ public final class MultiSelectManager {
     private boolean setItemsSelectedQuietly(Iterable<String> ids, boolean selected) {
         boolean changed = false;
         for (String id: ids) {
-            final boolean itemChanged = selected ? mSelection.add(id) : mSelection.remove(id);
+            final boolean itemChanged =
+                    selected
+                    ? canSetState(id, true) && mSelection.add(id)
+                    : canSetState(id, false) && mSelection.remove(id);
             if (itemChanged) {
                 notifyItemStateChanged(id, selected);
             }

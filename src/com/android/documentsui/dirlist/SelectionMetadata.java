@@ -35,19 +35,18 @@ class SelectionMetadata implements MenuManager.SelectionDetails, MultiSelectMana
 
     private static final String TAG = "SelectionMetadata";
 
-    private final MultiSelectManager mSelectionMgr;
     private final Function<String, Cursor> mDocFinder;
+
+    private int mDirectoryCount = 0;
+    private int mFileCount = 0;
 
     // Partial files are files that haven't been fully downloaded.
     private int mPartialCount = 0;
-    private int mDirectoryCount = 0;
     private int mWritableDirectoryCount = 0;
     private int mNoDeleteCount = 0;
     private int mNoRenameCount = 0;
 
-    SelectionMetadata(
-            MultiSelectManager selectionMgr, Function<String, Cursor> docFinder) {
-        mSelectionMgr = selectionMgr;
+    SelectionMetadata(Function<String, Cursor> docFinder) {
         mDocFinder = docFinder;
     }
 
@@ -60,23 +59,27 @@ class SelectionMetadata implements MenuManager.SelectionDetails, MultiSelectMana
             return;
         }
 
+        final int delta = selected ? 1 : -1;
+
         final String mimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
         if (MimePredicate.isDirectoryType(mimeType)) {
-            mDirectoryCount += selected ? 1 : -1;
+            mDirectoryCount += delta;
+        } else {
+            mFileCount += delta;
         }
 
         final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
         if ((docFlags & Document.FLAG_PARTIAL) != 0) {
-            mPartialCount += selected ? 1 : -1;
+            mPartialCount += delta;
         }
         if ((docFlags & Document.FLAG_DIR_SUPPORTS_CREATE) != 0) {
-            mWritableDirectoryCount += selected ? 1 : -1;
+            mWritableDirectoryCount += delta;
         }
         if ((docFlags & Document.FLAG_SUPPORTS_DELETE) == 0) {
-            mNoDeleteCount += selected ? 1 : -1;
+            mNoDeleteCount += delta;
         }
         if ((docFlags & Document.FLAG_SUPPORTS_RENAME) == 0) {
-            mNoRenameCount += selected ? 1 : -1;
+            mNoRenameCount += delta;
         }
     }
 
@@ -86,23 +89,32 @@ class SelectionMetadata implements MenuManager.SelectionDetails, MultiSelectMana
     }
 
     @Override
+    public boolean containsFiles() {
+        return mFileCount > 0;
+    }
+
+    @Override
+    public int size() {
+        return mDirectoryCount + mFileCount;
+    }
+
+    @Override
     public boolean containsPartialFiles() {
         return mPartialCount > 0;
     }
 
     @Override
     public boolean canDelete() {
-        return mNoDeleteCount == 0;
+        return size() > 0 && mNoDeleteCount == 0;
     }
 
     @Override
     public boolean canRename() {
-        return mNoRenameCount == 0 && mSelectionMgr.getSelection().size() == 1;
+        return mNoRenameCount == 0 && size() == 1;
     }
 
     @Override
     public boolean canPasteInto() {
-        return mDirectoryCount == 1 && mWritableDirectoryCount == 1
-                && mSelectionMgr.getSelection().size() == 1;
+        return mDirectoryCount == 1 && mWritableDirectoryCount == 1 && size() == 1;
     }
 }

@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,6 +85,24 @@ public class MultiSelectManagerTest {
         // Deselection should notify.
         mManager.toggleSelection(ITEMS.get(7));
         mCallback.assertSelectionChanged();
+    }
+
+    @Test
+    public void testSetItemsSelected() {
+        mManager.setItemsSelected(getStringIds(6, 7, 8), true);
+
+        mSelection.assertRangeSelected(6, 8);
+    }
+
+    @Test
+    public void testSetItemsSelected_SkipUnselectableItem() {
+        mIgnored.add(ITEMS.get(7));
+
+        mManager.setItemsSelected(getStringIds(6, 7, 8), true);
+
+        mSelection.assertSelected(6);
+        mSelection.assertNotSelected(7);
+        mSelection.assertSelected(8);
     }
 
     @Test
@@ -282,5 +301,13 @@ public class MultiSelectManagerTest {
         }
 
         return ids;
+    }
+
+    private static Iterable<String> getStringIds(int... ids) {
+        List<String> stringIds = new ArrayList<>(ids.length);
+        for (int id : ids) {
+            stringIds.add(ITEMS.get(id));
+        }
+        return stringIds;
     }
 }

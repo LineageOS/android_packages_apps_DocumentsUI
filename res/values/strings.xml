@@ -32,8 +32,6 @@
     <string name="menu_grid">Grid view</string>
     <!-- Menu item that switches view to show documents as a list [CHAR LIMIT=24] -->
     <string name="menu_list">List view</string>
-    <!-- Menu item that switches the criteria with which documents are sorted [CHAR LIMIT=24] -->
-    <string name="menu_sort">Sort by</string>
     <!-- Menu item that enters a mode to search for documents [CHAR LIMIT=24] -->
     <string name="menu_search">Search</string>
     <!-- Menu item that opens settings/options for a device (like an SD card). [CHAR LIMIT=24] -->
@@ -41,6 +39,10 @@
 
     <!-- Menu item title that opens the selected documents [CHAR LIMIT=24] -->
     <string name="menu_open">Open</string>
+    <!-- Menu item title that shows a chooser to user to pick the app to open the selected documents. [CHAR LIMIT=24] -->
+    <string name="menu_open_with">Open with</string>
+    <!-- Menu item title that opens a doc in new window. [CHAR LIMIT=24] -->
+    <string name="menu_open_in_new_window">Open in new window</string>
     <!-- Menu item title that saves the current document [CHAR LIMIT=24] -->
     <string name="menu_save">Save</string>
     <!-- Menu item title that shares the selected documents [CHAR LIMIT=24] -->
@@ -53,6 +55,8 @@
     <string name="menu_copy">Copy to\u2026</string>
     <!-- Menu item title that moves the selected documents [CHAR LIMIT=24] -->
     <string name="menu_move">Move to\u2026</string>
+    <!-- Menu item that renames the selected document [CHAR LIMIT=24] -->
+    <string name="menu_rename">Rename</string>
 
     <!-- Menu item title that creates a new window in the activity [CHAR LIMIT=24] -->
     <string name="menu_new_window">New window</string>
@@ -203,8 +207,6 @@
     </plurals>
     <!-- Toast shown when a user tries to paste files into an unsupported location. -->
     <string name="clipboard_files_cannot_paste">Cannot paste the selected files in this location.</string>
-    <!-- Menu item that renames the selected document [CHAR LIMIT=24] -->
-    <string name="menu_rename">Rename</string>
     <!-- Toast shown when renaming document failed with an error [CHAR LIMIT=48] -->
     <string name="rename_error">Failed to rename document</string>
     <!-- Context Menu item that ejects the root selected [CHAR LIMIT=24] -->

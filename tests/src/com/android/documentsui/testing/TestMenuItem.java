@@ -43,6 +43,10 @@ public abstract class TestMenuItem implements MenuItem {
         final TestMenuItem mockMenuItem = Mockito.mock(TestMenuItem.class,
                 Mockito.withSettings().defaultAnswer(Mockito.CALLS_REAL_METHODS));
 
+        // By default all menu items are enabled and visible.
+        mockMenuItem.enabled = true;
+        mockMenuItem.visible = true;
+
         return mockMenuItem;
     }
 

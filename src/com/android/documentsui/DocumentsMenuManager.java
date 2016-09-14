@@ -59,7 +59,7 @@ public final class DocumentsMenuManager extends MenuManager {
     }
 
     @Override
-    void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails) {
+    void updateSelectAll(MenuItem selectAll) {
         selectAll.setVisible(mState.allowMultiple);
     }
 
@@ -70,8 +70,18 @@ public final class DocumentsMenuManager extends MenuManager {
     }
 
     @Override
-    void updateOpen(MenuItem open, SelectionDetails selectionDetails) {
+    void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
+        updateOpen(open, selectionDetails);
+    }
+
+    @Override
+    void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
+        updateOpen(open, selectionDetails);
+    }
+
+    private void updateOpen(MenuItem open, SelectionDetails selectionDetails) {
         open.setVisible(mState.action == ACTION_GET_CONTENT
                 || mState.action == ACTION_OPEN);
+        open.setEnabled(selectionDetails.size() > 0);
     }
 }
