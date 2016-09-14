@@ -33,8 +33,8 @@ import android.view.View;
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.Menus;
 import com.android.documentsui.R;
-import com.android.documentsui.base.FunctionalInterfaces.EventHandler;
 import com.android.documentsui.Shared;
+import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 
 import java.util.function.Consumer;

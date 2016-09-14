@@ -26,7 +26,7 @@ import android.view.MotionEvent;
 
 import com.android.documentsui.Events;
 import com.android.documentsui.Events.InputEvent;
-import com.android.documentsui.base.FunctionalInterfaces.EventHandler;
+import com.android.documentsui.base.EventHandler;
 
 import java.util.Collections;
 import java.util.function.Function;

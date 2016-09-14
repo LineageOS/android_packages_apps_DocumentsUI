@@ -17,20 +17,10 @@
 package com.android.documentsui.base;
 
 /**
- * A container class that contains common functional interfaces used in DocumentsUI.
- *
- * This class should never be instantiated.
+ * A functional interface that handles an event and returns a boolean to indicate if the event
+ * is consumed.
  */
-public class FunctionalInterfaces {
-
-    private FunctionalInterfaces() {}
-
-    /**
-     * A functional interface that handles an event and returns a boolean to indicate if the event
-     * is consumed.
-     */
-    @FunctionalInterface
-    public interface EventHandler<T> {
-        boolean apply(T event);
-    }
+@FunctionalInterface
+public interface EventHandler<T> {
+    boolean apply(T event);
 }
