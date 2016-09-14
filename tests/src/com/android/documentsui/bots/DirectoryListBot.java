@@ -35,6 +35,7 @@ import android.support.test.uiautomator.Until;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,14 +127,25 @@ public class DirectoryListBot extends Bots.BaseBot {
         findDocument(label).click();
     }
 
-    public UiObject selectDocument(String label) throws UiObjectNotFoundException {
-        int toolType = Configurator.getInstance().getToolType();
-        Configurator.getInstance().setToolType(MotionEvent.TOOL_TYPE_FINGER);
+    public void selectDocument(String label) throws UiObjectNotFoundException {
         waitForDocument(label);
-        UiObject doc = findDocument(label);
-        doc.longClick();
-        Configurator.getInstance().setToolType(toolType);
-        return doc;
+        UiObject2 selectionHotspot = findSelectionHotspot(label);
+        selectionHotspot.click();
+    }
+
+    public UiObject2 findSelectionHotspot(String label) {
+        final BySelector list = By.res(DIR_LIST_ID);
+
+        BySelector selector = By.hasChild(By.text(label));
+        UiObject2 parent = mDevice.findObject(list).findObject(selector);
+        if (parent.getClassName().equals("android.widget.LinearLayout")) {
+            // For list mode, the parent of the textView does not contain the selector icon, but the
+            // grandparent of the textView does
+            // Gotta go one more level up
+            selector = By.hasDescendant(By.text(label).depth(2));
+            parent = mDevice.findObject(list).findObject(selector);
+        }
+        return parent.findObject(By.clazz(ImageView.class));
     }
 
     public void copyFilesToClipboard(String...labels) throws UiObjectNotFoundException {
