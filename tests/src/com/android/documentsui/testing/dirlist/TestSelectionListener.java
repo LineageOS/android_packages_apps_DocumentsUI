@@ -21,26 +21,17 @@ import static org.junit.Assert.assertTrue;
 
 import com.android.documentsui.dirlist.MultiSelectManager;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public final class TestSelectionListener implements MultiSelectManager.Callback {
 
-    Set<String> ignored = new HashSet<>();
     private boolean mSelectionChanged = false;
-
-    @Override
-    public void onItemStateChanged(String modelId, boolean selected) {}
-
-    @Override
-    public boolean onBeforeItemStateChange(String modelId, boolean selected) {
-        return !ignored.contains(modelId);
-    }
 
     @Override
     public void onSelectionChanged() {
         mSelectionChanged = true;
     }
+
+    @Override
+    public void onSelectionRestored() {}
 
     public void reset() {
         mSelectionChanged = false;

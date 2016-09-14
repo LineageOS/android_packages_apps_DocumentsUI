@@ -16,8 +16,6 @@
 
 package com.android.documentsui;
 
-import android.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 

@@ -26,6 +26,7 @@ import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.State;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.testing.TestEvent;
+import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.Views;
 
 import java.util.ArrayList;
@@ -41,10 +42,7 @@ public class DragStartListenerTest extends AndroidTestCase {
 
     @Override
     public void setUp() throws Exception {
-
-        mMultiSelectManager = new MultiSelectManager(
-                new TestDocumentsAdapter(new ArrayList<String>()),
-                MultiSelectManager.MODE_MULTIPLE);
+        mMultiSelectManager = MultiSelectManagers.createTestInstance();
 
         mListener = new DragStartListener.ActiveListener(
                 new State(),

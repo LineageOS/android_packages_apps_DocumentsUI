@@ -68,16 +68,24 @@ public final class MultiSelectManager {
     private final Selection mSelection = new Selection();
 
     private final DocumentsAdapter mAdapter;
-    private final List<MultiSelectManager.Callback> mCallbacks = new ArrayList<>(1);
+    private final List<Callback> mCallbacks = new ArrayList<>(1);
+    private final List<ItemCallback> mItemCallbacks = new ArrayList<>(1);
 
     private @Nullable Range mRanger;
     private boolean mSingleSelect;
 
-    public MultiSelectManager(DocumentsAdapter adapter, @SelectionMode int mode) {
+    private final SelectionPredicate mCanSetState;
+
+    public MultiSelectManager(
+            DocumentsAdapter adapter,
+            @SelectionMode int mode,
+            SelectionPredicate canSetState) {
 
         assert(adapter != null);
 
         mAdapter = adapter;
+
+        mCanSetState = canSetState;
 
         mSingleSelect = mode == MODE_SINGLE;
         mAdapter.registerAdapterDataObserver(
@@ -133,8 +141,14 @@ public final class MultiSelectManager {
      *
      * @param callback
      */
-    public void addCallback(MultiSelectManager.Callback callback) {
+    public void addCallback(Callback callback) {
+        assert(callback != null);
         mCallbacks.add(callback);
+    }
+
+    public void addItemCallback(ItemCallback itemCallback) {
+        assert(itemCallback != null);
+        mItemCallbacks.add(itemCallback);
     }
 
     public boolean hasSelection() {
@@ -172,12 +186,13 @@ public final class MultiSelectManager {
     }
 
     /**
-     * Returns an unordered array of selected positions, including any
-     * provisional selection currently in effect.
+     * Restores the selected state of specified items. Used in cases such as restore the selection
+     * after rotation etc.
      */
     public void restoreSelection(Selection other) {
-        setItemsSelected(other.mSelection, true);
+        setItemsSelectedQuietly(other.mSelection, true);
         // NOTE: We intentionally don't restore provisional selection. It's provisional.
+        notifySelectionRestored();
     }
 
     /**
@@ -189,15 +204,20 @@ public final class MultiSelectManager {
      * @return
      */
     public boolean setItemsSelected(Iterable<String> ids, boolean selected) {
+        final boolean changed = setItemsSelectedQuietly(ids, selected);
+        notifySelectionChanged();
+        return changed;
+    }
+
+    private boolean setItemsSelectedQuietly(Iterable<String> ids, boolean selected) {
         boolean changed = false;
         for (String id: ids) {
-            boolean itemChanged = selected ? mSelection.add(id) : mSelection.remove(id);
+            final boolean itemChanged = selected ? mSelection.add(id) : mSelection.remove(id);
             if (itemChanged) {
                 notifyItemStateChanged(id, selected);
             }
             changed |= itemChanged;
         }
-        notifySelectionChanged();
         return changed;
     }
 
@@ -239,12 +259,10 @@ public final class MultiSelectManager {
     public void toggleSelection(String modelId) {
         assert(modelId != null);
 
-        boolean changed = false;
-        if (mSelection.contains(modelId)) {
-            changed = attemptDeselect(modelId);
-        } else {
-            changed = attemptSelect(modelId);
-        }
+        final boolean changed =
+                mSelection.contains(modelId)
+                ? attemptDeselect(modelId)
+                : attemptSelect(modelId);
 
         if (changed) {
             notifySelectionChanged();
@@ -345,7 +363,7 @@ public final class MultiSelectManager {
      */
     private boolean attemptDeselect(String id) {
         assert(id != null);
-        if (notifyBeforeItemStateChange(id, false)) {
+        if (canSetState(id, false)) {
             mSelection.remove(id);
             notifyItemStateChanged(id, false);
             if (DEBUG) Log.d(TAG, "Selection after deselect: " + mSelection);
@@ -362,7 +380,7 @@ public final class MultiSelectManager {
      */
     private boolean attemptSelect(String id) {
         assert(id != null);
-        boolean canSelect = notifyBeforeItemStateChange(id, true);
+        boolean canSelect = canSetState(id, true);
         if (!canSelect) {
             return false;
         }
@@ -374,14 +392,8 @@ public final class MultiSelectManager {
         return true;
     }
 
-    boolean notifyBeforeItemStateChange(String id, boolean nextState) {
-        int lastListener = mCallbacks.size() - 1;
-        for (int i = lastListener; i > -1; i--) {
-            if (!mCallbacks.get(i).onBeforeItemStateChange(id, nextState)) {
-                return false;
-            }
-        }
-        return true;
+    boolean canSetState(String id, boolean nextState) {
+        return mCanSetState.test(id, nextState);
     }
 
     /**
@@ -390,9 +402,9 @@ public final class MultiSelectManager {
      */
     void notifyItemStateChanged(String id, boolean selected) {
         assert(id != null);
-        int lastListener = mCallbacks.size() - 1;
-        for (int i = lastListener; i > -1; i--) {
-            mCallbacks.get(i).onItemStateChanged(id, selected);
+        int lastListener = mItemCallbacks.size() - 1;
+        for (int i = lastListener; i >= 0; i--) {
+            mItemCallbacks.get(i).onItemStateChanged(id, selected);
         }
         mAdapter.onItemSelectionChanged(id);
     }
@@ -407,6 +419,13 @@ public final class MultiSelectManager {
         int lastListener = mCallbacks.size() - 1;
         for (int i = lastListener; i > -1; i--) {
             mCallbacks.get(i).onSelectionChanged();
+        }
+    }
+
+    private void notifySelectionRestored() {
+        int lastListener = mCallbacks.size() - 1;
+        for (int i = lastListener; i > -1; i--) {
+            mCallbacks.get(i).onSelectionRestored();
         }
     }
 
@@ -432,7 +451,7 @@ public final class MultiSelectManager {
             }
 
             if (selected) {
-                boolean canSelect = notifyBeforeItemStateChange(id, true);
+                boolean canSelect = canSetState(id, true);
                 if (canSelect) {
                     if (mSingleSelect && hasSelection()) {
                         clearSelectionQuietly();
@@ -453,7 +472,10 @@ public final class MultiSelectManager {
                 continue;
             }
             if (selected) {
-                mSelection.mProvisionalSelection.add(id);
+                boolean canSelect = canSetState(id, true);
+                if (canSelect) {
+                    mSelection.mProvisionalSelection.add(id);
+                }
             } else {
                 mSelection.mProvisionalSelection.remove(id);
             }
@@ -834,29 +856,24 @@ public final class MultiSelectManager {
         };
     }
 
+    public interface ItemCallback {
+        void onItemStateChanged(String id, boolean selected);
+    }
+
     public interface Callback {
-        /**
-         * Called when an item is selected or unselected while in selection mode.
-         *
-         * @param position Adapter position of the item that was checked or unchecked
-         * @param selected <code>true</code> if the item is now selected, <code>false</code>
-         *                if the item is now unselected.
-         */
-        public void onItemStateChanged(String id, boolean selected);
-
-        /**
-         * Called prior to an item changing state. Callbacks can cancel
-         * the change at {@code position} by returning {@code false}.
-         *
-         * @param id Adapter position of the item that was checked or unchecked
-         * @param selected <code>true</code> if the item is to be selected, <code>false</code>
-         *                if the item is to be unselected.
-         */
-        public boolean onBeforeItemStateChange(String id, boolean selected);
-
         /**
          * Called immediately after completion of any set of changes.
          */
-        public void onSelectionChanged();
+        void onSelectionChanged();
+
+        /**
+         * Called immediately after selection is restored.
+         */
+        void onSelectionRestored();
+    }
+
+    @FunctionalInterface
+    public interface SelectionPredicate {
+        boolean test(String id, boolean nextState);
     }
 }

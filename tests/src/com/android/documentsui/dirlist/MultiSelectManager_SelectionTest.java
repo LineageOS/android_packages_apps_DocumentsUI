@@ -16,17 +16,27 @@
 
 package com.android.documentsui.dirlist;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+
 import com.google.common.collect.Sets;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@RunWith(AndroidJUnit4.class)
 @SmallTest
-public class MultiSelectManager_SelectionTest extends AndroidTestCase {
+public class MultiSelectManager_SelectionTest {
 
     private Selection selection;
 
@@ -36,7 +46,7 @@ public class MultiSelectManager_SelectionTest extends AndroidTestCase {
             "auth|id=@53di*/f3#d"
     };
 
-    @Override
+    @Before
     public void setUp() throws Exception {
         selection = new Selection();
         selection.add(ids[0]);
@@ -44,6 +54,7 @@ public class MultiSelectManager_SelectionTest extends AndroidTestCase {
         selection.add(ids[2]);
     }
 
+    @Test
     public void testAdd() {
         // We added in setUp.
         assertEquals(3, selection.size());
@@ -52,6 +63,7 @@ public class MultiSelectManager_SelectionTest extends AndroidTestCase {
         assertContains(ids[2]);
     }
 
+    @Test
     public void testRemove() {
         selection.remove(ids[0]);
         selection.remove(ids[2]);
@@ -59,11 +71,13 @@ public class MultiSelectManager_SelectionTest extends AndroidTestCase {
         assertContains(ids[1]);
     }
 
+    @Test
     public void testClear() {
         selection.clear();
         assertEquals(0, selection.size());
     }
 
+    @Test
     public void testIsEmpty() {
         assertTrue(new Selection().isEmpty());
         selection.clear();
