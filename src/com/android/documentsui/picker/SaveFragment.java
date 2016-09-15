@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.picker;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -33,12 +33,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.android.documentsui.IconUtils;
+import com.android.documentsui.R;
 import com.android.documentsui.model.DocumentInfo;
 
 /**
  * Display document title editor and save button.
  */
-public class SaveFragment extends Fragment {
+class SaveFragment extends Fragment {
     public static final String TAG = "SaveFragment";
 
     private DocumentInfo mReplaceTarget;
@@ -50,7 +52,7 @@ public class SaveFragment extends Fragment {
     private static final String EXTRA_MIME_TYPE = "mime_type";
     private static final String EXTRA_DISPLAY_NAME = "display_name";
 
-    public static void show(FragmentManager fm, String mimeType, String displayName) {
+    static void show(FragmentManager fm, String mimeType, String displayName) {
         final Bundle args = new Bundle();
         args.putString(EXTRA_MIME_TYPE, mimeType);
         args.putString(EXTRA_DISPLAY_NAME, displayName);
@@ -147,7 +149,7 @@ public class SaveFragment extends Fragment {
     };
 
     private void performSave() {
-        final DocumentsActivity activity = DocumentsActivity.get(SaveFragment.this);
+        final PickActivity activity = PickActivity.get(SaveFragment.this);
         if (mReplaceTarget != null) {
             activity.onSaveRequested(mReplaceTarget);
         } else {

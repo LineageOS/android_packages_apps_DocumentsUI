@@ -19,11 +19,12 @@ package com.android.documentsui;
 import android.net.Uri;
 import android.support.test.filters.LargeTest;
 
+import com.android.documentsui.manager.ManageActivity;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 
 @LargeTest
-public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
+public class SortDocumentUiTest extends ActivityTest<ManageActivity> {
 
     private static final String DIR_1 = "folder_1";
     private static final String DIR_2 = "dir_2";
@@ -47,7 +48,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
     private static final String[] FILES_IN_MODIFIED_DESC = reverse(FILES);
 
     public SortDocumentUiTest() {
-        super(FilesActivity.class);
+        super(ManageActivity.class);
     }
 
     @Override

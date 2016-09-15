@@ -104,14 +104,16 @@ public abstract class BaseActivity extends Activity
 
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
 
-    State mState;
-    @Nullable RetainedState mRetainedState;
-    RootsCache mRoots;
-    SearchViewManager mSearchManager;
-    DrawerController mDrawer;
-    NavigationViewManager mNavigator;
+    protected SearchViewManager mSearchManager;
+    // TODO: Unpublic this by injecting it into LoadLastAccessedStackTask
+    public State mState;
+
+    protected @Nullable RetainedState mRetainedState;
+    protected RootsCache mRoots;
+    protected DrawerController mDrawer;
+    protected NavigationViewManager mNavigator;
     List<EventListener> mEventListeners = new ArrayList<>();
-    SortController mSortController;
+    protected SortController mSortController;
 
     private final String mTag;
     private final ContentObserver mRootsCacheObserver = new ContentObserver(new Handler()) {
@@ -134,11 +136,11 @@ public abstract class BaseActivity extends Activity
     public abstract MenuManager getMenuManager();
     public abstract DirectoryDetails getDirectoryDetails();
 
-    abstract void onTaskFinished(Uri... uris);
-    abstract void refreshDirectory(int anim);
+    protected abstract void onTaskFinished(Uri... uris);
+    protected abstract void refreshDirectory(int anim);
     /** Allows sub-classes to include information in a newly created State instance. */
-    abstract void includeState(State initialState);
-    abstract void onDirectoryCreated(DocumentInfo doc);
+    protected abstract void includeState(State initialState);
+    protected abstract void onDirectoryCreated(DocumentInfo doc);
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
@@ -321,11 +323,11 @@ public abstract class BaseActivity extends Activity
         }
     }
 
-    final @Nullable DirectoryFragment getDirectoryFragment() {
+    protected final @Nullable DirectoryFragment getDirectoryFragment() {
         return DirectoryFragment.get(getFragmentManager());
     }
 
-    void showCreateDirectoryDialog() {
+    protected void showCreateDirectoryDialog() {
         Metrics.logUserAction(this, Metrics.USER_ACTION_CREATE_DIR);
 
         CreateDirectoryFragment.show(getFragmentManager());
@@ -335,7 +337,7 @@ public abstract class BaseActivity extends Activity
      * Returns true if a directory can be created in the current location.
      * @return
      */
-    boolean canCreateDirectory() {
+    protected boolean canCreateDirectory() {
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
         return cwd != null
@@ -345,7 +347,7 @@ public abstract class BaseActivity extends Activity
                 && !root.isDownloads();
     }
 
-    void openContainerDocument(DocumentInfo doc) {
+    protected void openContainerDocument(DocumentInfo doc) {
         assert(doc.isContainer());
 
         notifyDirectoryNavigated(doc.derivedUri);
@@ -379,7 +381,7 @@ public abstract class BaseActivity extends Activity
         invalidateOptionsMenu();
     }
 
-    final void loadRoot(final Uri uri) {
+    protected final void loadRoot(final Uri uri) {
         new LoadRootTask(this, uri).executeOnExecutor(
                 ProviderExecutor.forAuthority(uri.getAuthority()));
     }
@@ -417,7 +419,7 @@ public abstract class BaseActivity extends Activity
         DirectoryFragment.reloadSearch(fm, root, cwd, query);
     }
 
-    final List<String> getExcludedAuthorities() {
+    private final List<String> getExcludedAuthorities() {
         List<String> authorities = new ArrayList<>();
         if (getIntent().getBooleanExtra(DocumentsContract.EXTRA_EXCLUDE_SELF, false)) {
             // Exclude roots provided by the calling package.
@@ -440,7 +442,7 @@ public abstract class BaseActivity extends Activity
         return (root.flags & Root.FLAG_SUPPORTS_SEARCH) != 0;
     }
 
-    final String getCallingPackageMaybeExtra() {
+    public final String getCallingPackageMaybeExtra() {
         String callingPackage = getCallingPackage();
         // System apps can set the calling package name using an extra.
         try {
@@ -514,10 +516,7 @@ public abstract class BaseActivity extends Activity
     }
 
     public void setPending(boolean pending) {
-        final SaveFragment save = SaveFragment.get(getFragmentManager());
-        if (save != null) {
-            save.setPending(pending);
-        }
+        // TODO: Isolate this behavior to PickActivity.
     }
 
     @Override
@@ -601,7 +600,7 @@ public abstract class BaseActivity extends Activity
         super.onBackPressed();
     }
 
-    boolean onBeforePopDir() {
+    protected boolean onBeforePopDir() {
         // Files app overrides this with some fancy logic.
         return false;
     }

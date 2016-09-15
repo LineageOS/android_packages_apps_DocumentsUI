@@ -21,7 +21,7 @@ import android.view.MenuItem;
 
 import com.android.documentsui.model.RootInfo;
 
-final class FilesMenuManager extends MenuManager {
+public final class FilesMenuManager extends MenuManager {
 
     public FilesMenuManager(SearchViewManager searchManager, State displayState) {
         super(searchManager, displayState);

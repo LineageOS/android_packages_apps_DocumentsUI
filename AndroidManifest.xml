@@ -15,7 +15,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".DocumentsActivity"
+            android:name=".picker.PickActivity"
             android:theme="@style/DocumentsTheme"
             android:icon="@drawable/picker_icon">
             <intent-filter>
@@ -43,18 +43,26 @@
         </activity>
 
         <activity
-            android:name=".LauncherActivity"
+            android:name=".manager.LauncherActivity"
             android:label="@string/downloads_label"
             android:icon="@drawable/files_icon"
             android:theme="@android:style/Theme.NoDisplay">
+        </activity>
+
+        <!--  Preserve original launcher activity from Nougat. -->
+        <activity-alias
+            android:name=".Launcher"
+            android:targetActivity=".manager.LauncherActivity"
+            android:label="@string/downloads_label"
+            android:icon="@drawable/files_icon" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
 
         <activity
-            android:name=".FilesActivity"
+            android:name=".manager.ManageActivity"
             android:label="@string/downloads_label"
             android:icon="@drawable/files_icon"
             android:documentLaunchMode="intoExisting"

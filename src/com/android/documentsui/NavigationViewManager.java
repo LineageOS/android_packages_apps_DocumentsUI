@@ -81,7 +81,7 @@ public class NavigationViewManager {
         }
     }
 
-    void update() {
+    public void update() {
 
         // TODO: Looks to me like this block is never getting hit.
         if (mEnv.isSearchExpanded()) {

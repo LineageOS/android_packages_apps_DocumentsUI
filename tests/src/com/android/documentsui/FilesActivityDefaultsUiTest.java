@@ -23,13 +23,14 @@ import android.content.Intent;
 import android.provider.DocumentsContract;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.android.documentsui.manager.ManageActivity;
 import com.android.documentsui.model.RootInfo;
 
 @LargeTest
-public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
+public class FilesActivityDefaultsUiTest extends ActivityTest<ManageActivity> {
 
     public FilesActivityDefaultsUiTest() {
-        super(FilesActivity.class);
+        super(ManageActivity.class);
     }
 
     @Override

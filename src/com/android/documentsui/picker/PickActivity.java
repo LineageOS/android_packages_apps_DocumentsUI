@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.picker;
 
 import static com.android.documentsui.Shared.DEBUG;
 import static com.android.documentsui.State.ACTION_CREATE;
@@ -41,8 +41,21 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.Menu;
 
-import com.android.documentsui.MenuManager.DirectoryDetails;
+import com.android.documentsui.BaseActivity;
+import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DocumentsMenuManager;
+import com.android.documentsui.LastAccessedProvider;
 import com.android.documentsui.LastAccessedProvider.Columns;
+import com.android.documentsui.MenuManager;
+import com.android.documentsui.MenuManager.DirectoryDetails;
+import com.android.documentsui.MimePredicate;
+import com.android.documentsui.PairedTask;
+import com.android.documentsui.PickFragment;
+import com.android.documentsui.R;
+import com.android.documentsui.RootsFragment;
+import com.android.documentsui.Shared;
+import com.android.documentsui.Snackbars;
+import com.android.documentsui.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.FragmentTuner.DocumentsTuner;
@@ -54,13 +67,13 @@ import com.android.documentsui.services.FileOperationService;
 import java.util.Arrays;
 import java.util.List;
 
-public class DocumentsActivity extends BaseActivity {
+public class PickActivity extends BaseActivity {
     private static final int CODE_FORWARD = 42;
     private static final String TAG = "DocumentsActivity";
     private DocumentsMenuManager mMenuManager;
     private DirectoryDetails mDetails;
 
-    public DocumentsActivity() {
+    public PickActivity() {
         super(R.layout.documents_activity, TAG);
     }
 
@@ -114,7 +127,7 @@ public class DocumentsActivity extends BaseActivity {
     }
 
     @Override
-    void includeState(State state) {
+    protected void includeState(State state) {
         final Intent intent = getIntent();
         final String action = intent.getAction();
         if (Intent.ACTION_OPEN_DOCUMENT.equals(action)) {
@@ -224,7 +237,7 @@ public class DocumentsActivity extends BaseActivity {
     }
 
     @Override
-    void refreshDirectory(int anim) {
+    protected void refreshDirectory(int anim) {
         final FragmentManager fm = getFragmentManager();
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
@@ -273,7 +286,15 @@ public class DocumentsActivity extends BaseActivity {
     }
 
     @Override
-    void onDirectoryCreated(DocumentInfo doc) {
+    public void setPending(boolean pending) {
+        final SaveFragment save = SaveFragment.get(getFragmentManager());
+        if (save != null) {
+            save.setPending(pending);
+        }
+    }
+
+    @Override
+    protected void onDirectoryCreated(DocumentInfo doc) {
         assert(doc.isDirectory());
         openContainerDocument(doc);
     }
@@ -331,7 +352,7 @@ public class DocumentsActivity extends BaseActivity {
     }
 
     @Override
-    void onTaskFinished(Uri... uris) {
+    protected void onTaskFinished(Uri... uris) {
         if (DEBUG) Log.d(TAG, "onFinished() " + Arrays.toString(uris));
 
         final Intent intent = new Intent();
@@ -369,8 +390,8 @@ public class DocumentsActivity extends BaseActivity {
     }
 
 
-    public static DocumentsActivity get(Fragment fragment) {
-        return (DocumentsActivity) fragment.getActivity();
+    public static PickActivity get(Fragment fragment) {
+        return (PickActivity) fragment.getActivity();
     }
 
     @Override
@@ -390,10 +411,10 @@ public class DocumentsActivity extends BaseActivity {
         return mDetails;
     }
 
-    private static final class PickFinishTask extends PairedTask<DocumentsActivity, Void, Void> {
+    private static final class PickFinishTask extends PairedTask<PickActivity, Void, Void> {
         private final Uri mUri;
 
-        public PickFinishTask(DocumentsActivity activity, Uri uri) {
+        public PickFinishTask(PickActivity activity, Uri uri) {
             super(activity);
             mUri = uri;
         }
@@ -410,10 +431,10 @@ public class DocumentsActivity extends BaseActivity {
         }
     }
 
-    private static final class ExistingFinishTask extends PairedTask<DocumentsActivity, Void, Void> {
+    private static final class ExistingFinishTask extends PairedTask<PickActivity, Void, Void> {
         private final Uri[] mUris;
 
-        public ExistingFinishTask(DocumentsActivity activity, Uri... uris) {
+        public ExistingFinishTask(PickActivity activity, Uri... uris) {
             super(activity);
             mUris = uris;
         }
@@ -433,11 +454,11 @@ public class DocumentsActivity extends BaseActivity {
     /**
      * Task that creates a new document in the background.
      */
-    private static final class CreateFinishTask extends PairedTask<DocumentsActivity, Void, Uri> {
+    private static final class CreateFinishTask extends PairedTask<PickActivity, Void, Uri> {
         private final String mMimeType;
         private final String mDisplayName;
 
-        public CreateFinishTask(DocumentsActivity activity, String mimeType, String displayName) {
+        public CreateFinishTask(PickActivity activity, String mimeType, String displayName) {
             super(activity);
             mMimeType = mimeType;
             mDisplayName = displayName;

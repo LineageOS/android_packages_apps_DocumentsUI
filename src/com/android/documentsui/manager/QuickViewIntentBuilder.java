@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.manager;
 
 import static com.android.documentsui.Shared.DEBUG;
 import static com.android.documentsui.Shared.MAX_DOCS_IN_INTENT;
@@ -35,6 +35,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Range;
 
+import com.android.documentsui.R;
+import com.android.documentsui.RootCursorWrapper;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.model.DocumentInfo;
 

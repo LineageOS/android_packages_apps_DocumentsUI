@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.services.FileOperationService.OpType;
 
 /**
@@ -81,7 +82,7 @@ public class PickFragment extends Fragment {
     private View.OnClickListener mPickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final DocumentsActivity activity = DocumentsActivity.get(PickFragment.this);
+            final PickActivity activity = PickActivity.get(PickFragment.this);
             activity.onPickRequested(mPickTarget);
         }
     };

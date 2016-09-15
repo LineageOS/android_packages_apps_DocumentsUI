@@ -27,7 +27,6 @@ import android.provider.DocumentsContract;
 import android.support.test.uiautomator.UiDevice;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
 
 import java.util.Arrays;
 import java.util.List;
