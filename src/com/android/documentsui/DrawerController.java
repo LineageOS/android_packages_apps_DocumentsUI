@@ -36,7 +36,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  * @see DrawerController#create(DrawerLayout)
  */
-abstract class DrawerController implements DrawerListener {
+public abstract class DrawerController implements DrawerListener {
     public static final String TAG = "DrawerController";
 
     // Drawer opening triggered by tapping the navigation icon
@@ -54,11 +54,12 @@ abstract class DrawerController implements DrawerListener {
     @Retention(RetentionPolicy.SOURCE)
     public @interface Trigger {}
 
+    public abstract void update();
     /**
      * Toggles the drawer and sets the OPENED_OTHER as the action that causes opening the drawer.
      * @param open
      */
-    abstract void setOpen(boolean open);
+    public abstract void setOpen(boolean open);
 
     /**
      * Toggles the drawer.
@@ -66,10 +67,9 @@ abstract class DrawerController implements DrawerListener {
      * @param trigger Indicates what action caused opening the drawer. It is ignored for closing.
      */
     abstract void setOpen(boolean open, @Trigger int trigger);
-    abstract boolean isPresent();
-    abstract boolean isOpen();
+    public abstract boolean isPresent();
+    public abstract boolean isOpen();
     abstract void setTitle(String title);
-    abstract void update();
 
     /**
      * Returns a controller suitable for {@code Layout}.
@@ -166,7 +166,7 @@ abstract class DrawerController implements DrawerListener {
         }
 
         @Override
-        void setOpen(boolean open) {
+        public void setOpen(boolean open) {
             setOpen(open, OPENED_OTHER);
         }
 
@@ -181,12 +181,12 @@ abstract class DrawerController implements DrawerListener {
         }
 
         @Override
-        boolean isOpen() {
+        public boolean isOpen() {
             return mLayout.isDrawerOpen(mDrawer);
         }
 
         @Override
-        boolean isPresent() {
+        public boolean isPresent() {
             return true;
         }
 
@@ -196,7 +196,7 @@ abstract class DrawerController implements DrawerListener {
         }
 
         @Override
-        void update() {
+        public void update() {
             mToggle.syncState();
         }
 
@@ -232,18 +232,18 @@ abstract class DrawerController implements DrawerListener {
     private static final class DummyDrawerController extends DrawerController {
 
         @Override
-        void setOpen(boolean open) {}
+        public void setOpen(boolean open) {}
 
         @Override
-        void setOpen(boolean open, @Trigger int trigger) {}
+        public void setOpen(boolean open, @Trigger int trigger) {}
 
         @Override
-        boolean isOpen() {
+        public boolean isOpen() {
             return false;
         }
 
         @Override
-        boolean isPresent() {
+        public boolean isPresent() {
             return false;
         }
 
@@ -251,7 +251,7 @@ abstract class DrawerController implements DrawerListener {
         void setTitle(String title) {}
 
         @Override
-        void update() {}
+        public void update() {}
 
         @Override
         public void onDrawerSlide(View drawerView, float slideOffset) {}

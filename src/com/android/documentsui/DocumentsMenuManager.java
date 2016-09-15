@@ -25,7 +25,7 @@ import static com.android.documentsui.State.ACTION_PICK_COPY_DESTINATION;
 import android.view.Menu;
 import android.view.MenuItem;
 
-final class DocumentsMenuManager extends MenuManager {
+public final class DocumentsMenuManager extends MenuManager {
 
     private boolean mPicking;
 

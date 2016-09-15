@@ -41,13 +41,13 @@ abstract class CheckedTask<Input, Output>
     }
 
     /** Called prior to run being executed. Analogous to {@link AsyncTask#onPreExecute} */
-    void prepare() {}
+    protected void prepare() {}
 
     /** Analogous to {@link AsyncTask#doInBackground} */
-    abstract Output run(Input... input);
+    protected abstract Output run(Input... input);
 
     /** Analogous to {@link AsyncTask#onPostExecute} */
-    abstract void finish(Output output);
+    protected abstract void finish(Output output);
 
     @Override
     final protected void onPreExecute() {

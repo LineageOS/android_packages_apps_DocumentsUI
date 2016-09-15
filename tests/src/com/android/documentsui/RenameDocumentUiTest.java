@@ -19,13 +19,15 @@ package com.android.documentsui;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.android.documentsui.manager.ManageActivity;
+
 @LargeTest
-public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
+public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
 
     private final String newName = "kitties.log";
 
     public RenameDocumentUiTest() {
-        super(FilesActivity.class);
+        super(ManageActivity.class);
     }
 
     @Override

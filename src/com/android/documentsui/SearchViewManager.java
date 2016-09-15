@@ -295,12 +295,11 @@ public class SearchViewManager implements
         return mCurrentSearch;
     }
 
-    boolean isSearching() {
+    public boolean isSearching() {
         return mCurrentSearch != null;
     }
 
     boolean isExpanded() {
         return mSearchExpanded;
     }
-
 }

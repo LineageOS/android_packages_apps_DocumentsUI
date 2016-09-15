@@ -25,11 +25,13 @@ import android.support.test.filters.Suppress;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.KeyEvent;
 
+import com.android.documentsui.manager.ManageActivity;
+
 @LargeTest
-public class FileManagementUiTest extends ActivityTest<FilesActivity> {
+public class FileManagementUiTest extends ActivityTest<ManageActivity> {
 
     public FileManagementUiTest() {
-        super(FilesActivity.class);
+        super(ManageActivity.class);
     }
 
     @Override

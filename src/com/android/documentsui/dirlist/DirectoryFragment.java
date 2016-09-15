@@ -67,7 +67,6 @@ import android.widget.TextView;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DirectoryLoader;
 import com.android.documentsui.DirectoryResult;
-import com.android.documentsui.DocumentsActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.Events.MotionInputEvent;
@@ -89,6 +88,7 @@ import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -862,7 +862,7 @@ public class DirectoryFragment extends Fragment
                 Shared.ACTION_PICK_COPY_DESTINATION,
                 Uri.EMPTY,
                 getActivity(),
-                DocumentsActivity.class);
+                PickActivity.class);
 
         UrisSupplier srcs;
         try {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.picker;
 
 import static com.android.documentsui.Shared.DEBUG;
 
@@ -22,7 +22,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.LastAccessedProvider;
 import com.android.documentsui.LastAccessedProvider.Columns;
+import com.android.documentsui.PairedTask;
+import com.android.documentsui.RootsCache;
+import com.android.documentsui.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.model.DurableUtils;
 import com.android.documentsui.model.RootInfo;
@@ -40,14 +45,14 @@ import java.util.Collection;
  * for an app like DropBox.
  */
 final class LoadLastAccessedStackTask
-        extends PairedTask<DocumentsActivity, Void, Void> {
+        extends PairedTask<PickActivity, Void, Void> {
 
     private static final String TAG = "LoadLastAccessedStackTask";
     private volatile boolean mRestoredStack;
     private volatile boolean mExternal;
     private State mState;
 
-    public LoadLastAccessedStackTask(DocumentsActivity activity) {
+    public LoadLastAccessedStackTask(PickActivity activity) {
         super(activity);
         mState = activity.mState;
     }

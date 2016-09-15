@@ -17,7 +17,6 @@
 package com.android.documentsui;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 
 /**
  * An {@link CheckedTask} that guards work with checks that a paired {@link Activity}
@@ -27,7 +26,7 @@ import android.os.AsyncTask;
  * @template Input input type
  * @template Output output type
  */
-abstract class PairedTask<Owner extends Activity, Input, Output>
+public abstract class PairedTask<Owner extends Activity, Input, Output>
         extends CheckedTask<Input, Output> {
 
     protected final Owner mOwner;
