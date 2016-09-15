@@ -32,11 +32,11 @@ import android.view.View;
 
 import com.android.documentsui.R;
 
+import junit.framework.Assert;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import junit.framework.Assert;
 
 /**
  * A test helper class that provides support for controlling and asserting against
