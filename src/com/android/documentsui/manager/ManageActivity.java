@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.manager;
 
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOWN;
 import static com.android.documentsui.Shared.DEBUG;
@@ -34,8 +34,22 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.documentsui.BaseActivity;
+import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.FilesMenuManager;
+import com.android.documentsui.MenuManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
+import com.android.documentsui.Metrics;
+import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
+import com.android.documentsui.PairedTask;
+import com.android.documentsui.ProviderExecutor;
+import com.android.documentsui.R;
+import com.android.documentsui.RootsCache;
+import com.android.documentsui.RootsFragment;
+import com.android.documentsui.Shared;
+import com.android.documentsui.Snackbars;
+import com.android.documentsui.State;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
@@ -56,7 +70,7 @@ import java.util.List;
 /**
  * Standalone file management activity.
  */
-public class FilesActivity extends BaseActivity {
+public class ManageActivity extends BaseActivity {
 
     public static final String TAG = "FilesActivity";
 
@@ -70,7 +84,7 @@ public class FilesActivity extends BaseActivity {
     private FilesMenuManager mMenuManager;
     private DirectoryDetails mDetails;
 
-    public FilesActivity() {
+    public ManageActivity() {
         super(R.layout.files_activity, TAG);
     }
 
@@ -150,7 +164,7 @@ public class FilesActivity extends BaseActivity {
     }
 
     @Override
-    void includeState(State state) {
+    public void includeState(State state) {
         final Intent intent = getIntent();
 
         state.action = State.ACTION_BROWSE;
@@ -261,7 +275,7 @@ public class FilesActivity extends BaseActivity {
     }
 
     @Override
-    void refreshDirectory(int anim) {
+    public void refreshDirectory(int anim) {
         final FragmentManager fm = getFragmentManager();
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
@@ -320,7 +334,7 @@ public class FilesActivity extends BaseActivity {
     }
 
     @Override
-    void onDirectoryCreated(DocumentInfo doc) {
+    public void onDirectoryCreated(DocumentInfo doc) {
         assert(doc.isDirectory());
         getDirectoryFragment().getFocusManager().onDirectoryCreated(doc.documentId);
     }
@@ -416,7 +430,7 @@ public class FilesActivity extends BaseActivity {
     // do it if user already hit back recently and we recently
     // did some fiddling.
     @Override
-    boolean onBeforePopDir() {
+    protected boolean onBeforePopDir() {
         int size = mState.stack.size();
 
         if (mDrawer.isPresent()
@@ -446,7 +460,7 @@ public class FilesActivity extends BaseActivity {
     }
 
     @Override
-    void onTaskFinished(Uri... uris) {
+    public void onTaskFinished(Uri... uris) {
         if (DEBUG) Log.d(TAG, "onFinished() " + Arrays.toString(uris));
 
         final Intent intent = new Intent();
@@ -489,10 +503,10 @@ public class FilesActivity extends BaseActivity {
      * to know which root to select. Also, the stack doesn't contain intermediate directories.
      * It's primarly used for opening ZIP archives from Downloads app.
      */
-    private static final class OpenUriForViewTask extends PairedTask<FilesActivity, Uri, Void> {
+    private static final class OpenUriForViewTask extends PairedTask<ManageActivity, Uri, Void> {
 
         private final State mState;
-        public OpenUriForViewTask(FilesActivity activity) {
+        public OpenUriForViewTask(ManageActivity activity) {
             super(activity);
             mState = activity.mState;
         }

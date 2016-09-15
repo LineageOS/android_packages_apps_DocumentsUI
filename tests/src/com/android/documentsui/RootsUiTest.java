@@ -22,13 +22,15 @@ import static com.android.documentsui.StubProvider.ROOT_1_ID;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.Suppress;
 
+import com.android.documentsui.manager.ManageActivity;
+
 @LargeTest
-public class RootsUiTest extends ActivityTest<FilesActivity> {
+public class RootsUiTest extends ActivityTest<ManageActivity> {
 
     private static final String TAG = "RootUiTest";
 
     public RootsUiTest() {
-        super(FilesActivity.class);
+        super(ManageActivity.class);
     }
 
     @Override
@@ -53,5 +55,4 @@ public class RootsUiTest extends ActivityTest<FilesActivity> {
         bots.roots.openRoot(ROOT_1_ID);
         bots.main.assertInActionMode(false);
     }
-
 }

@@ -33,8 +33,8 @@ import android.support.test.jank.GfxMonitor;
 import android.support.test.uiautomator.UiScrollable;
 import android.util.Log;
 
-import com.android.documentsui.FilesActivity;
 import com.android.documentsui.bots.RootsListBot;
+import com.android.documentsui.manager.ManageActivity;
 import com.android.documentsui.bots.DirectoryListBot;
 
 @LargeTest
@@ -53,7 +53,7 @@ public class FilesJankPerfTest extends JankTestBase {
         mRootsListBot = new RootsListBot(device, context, BOT_TIMEOUT);
         mDirListBot = new DirectoryListBot(device, context, BOT_TIMEOUT);
 
-        final Intent intent = new Intent(context, FilesActivity.class);
+        final Intent intent = new Intent(context, ManageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mActivity = getInstrumentation().startActivitySync(intent);
         try {

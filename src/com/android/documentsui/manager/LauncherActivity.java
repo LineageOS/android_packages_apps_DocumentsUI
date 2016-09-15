@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.manager;
 
 import static com.android.documentsui.Shared.DEBUG;
 
@@ -28,6 +28,8 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.android.documentsui.Shared;
 
 import java.util.List;
 
@@ -97,7 +99,7 @@ public class LauncherActivity extends Activity {
     }
 
     static final Intent createLaunchIntent(Activity activity) {
-        Intent intent = new Intent(activity, FilesActivity.class);
+        Intent intent = new Intent(activity, ManageActivity.class);
         intent.setData(buildLaunchUri());
 
         // Relay any config overrides bits present in the original intent.
@@ -128,7 +130,7 @@ public class LauncherActivity extends Activity {
                 .build();
     }
 
-    static boolean isLaunchUri(@Nullable Uri uri) {
+    public static boolean isLaunchUri(@Nullable Uri uri) {
         boolean result = uri != null && LAUNCH_CONTROL_AUTHORITY.equals(uri.getAuthority());
         return result;
     }

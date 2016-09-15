@@ -63,6 +63,7 @@ import com.android.documentsui.CheckedTask.Check;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.services.FileOperations;
 
 import java.util.ArrayList;
@@ -549,7 +550,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
 
         @Override
         void open(RootsFragment fragment) {
-            DocumentsActivity activity = DocumentsActivity.get(fragment);
+            PickActivity activity = PickActivity.get(fragment);
             Metrics.logAppVisited(fragment.getActivity(), info);
             activity.onAppPicked(info);
         }

@@ -30,6 +30,7 @@ import android.view.KeyEvent;
 
 import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.EventListener;
+import com.android.documentsui.manager.ManageActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 @LargeTest
-public class FilesActivityPerfTest extends ActivityTest<FilesActivity> {
+public class FilesActivityPerfTest extends ActivityTest<ManageActivity> {
 
     // Constants starting with KEY_ are used to report metrics to APCT.
     private static final String KEY_FILES_LISTED_PERFORMANCE_FIRST =
@@ -53,7 +54,7 @@ public class FilesActivityPerfTest extends ActivityTest<FilesActivity> {
     private static final int NUM_MEASUREMENTS = 10;
 
     public FilesActivityPerfTest() {
-        super(FilesActivity.class);
+        super(ManageActivity.class);
     }
 
     @Override
