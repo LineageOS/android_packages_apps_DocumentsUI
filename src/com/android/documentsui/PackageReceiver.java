@@ -22,6 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.android.documentsui.picker.LastAccessedProvider;
+
 /**
  * Clean up {@link LastAccessedProvider} and {@link LocalPreferences} when packages are removed.
  */

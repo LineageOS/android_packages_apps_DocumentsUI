@@ -19,7 +19,7 @@ package com.android.documentsui;
 import static android.provider.DocumentsContract.buildChildDocumentsUri;
 import static android.provider.DocumentsContract.buildDocumentUri;
 import static android.provider.DocumentsContract.buildRootsUri;
-import static com.android.documentsui.model.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.internal.util.Preconditions.checkArgument;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -40,8 +40,8 @@ import android.support.annotation.Nullable;
 import android.test.MoreAsserts;
 import android.text.TextUtils;
 
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.RootInfo;
 
 import com.google.android.collect.Lists;
 

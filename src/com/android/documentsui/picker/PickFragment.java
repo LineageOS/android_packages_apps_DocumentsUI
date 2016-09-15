@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.picker;
 
 import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
@@ -30,8 +30,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.picker.PickActivity;
+import com.android.documentsui.BaseActivity;
+import com.android.documentsui.R;
+import com.android.documentsui.State;
+import com.android.documentsui.R.id;
+import com.android.documentsui.R.layout;
+import com.android.documentsui.R.string;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.services.FileOperationService.OpType;
 
 /**

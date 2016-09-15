@@ -29,8 +29,8 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.sorting.SortModel;
 
 import java.io.FileNotFoundException;

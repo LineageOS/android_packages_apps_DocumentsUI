@@ -40,7 +40,7 @@ import android.provider.DocumentsProvider;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.RootInfo;
 import com.android.internal.annotations.GuardedBy;
 
 import libcore.io.IoUtils;

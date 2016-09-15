@@ -27,10 +27,10 @@ import android.view.View;
 
 import com.android.documentsui.Events;
 import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.State;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 

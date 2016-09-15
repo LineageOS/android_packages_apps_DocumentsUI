@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.functional;
 
 import static com.android.documentsui.StubProvider.DEFAULT_AUTHORITY;
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
@@ -33,9 +33,10 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.MotionEvent;
 
+import com.android.documentsui.DocumentsProviderHelper;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.bots.Bots;
 import com.android.documentsui.bots.UiBot;
-import com.android.documentsui.model.RootInfo;
 
 import javax.annotation.Nullable;
 
@@ -64,9 +65,9 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
 
     public RootInfo rootDir0;
     public RootInfo rootDir1;
-    ContentResolver mResolver;
-    DocumentsProviderHelper mDocsHelper;
-    ContentProviderClient mClient;
+    protected ContentResolver mResolver;
+    protected DocumentsProviderHelper mDocsHelper;
+    protected ContentProviderClient mClient;
 
     public ActivityTest(Class<T> activityClass) {
         super(activityClass);
@@ -133,7 +134,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         super.tearDown();
     }
 
-    void launchActivity() {
+    private void launchActivity() {
         final Intent intent = context.getPackageManager().getLaunchIntentForPackage(
                 UiBot.TARGET_PKG);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -144,12 +145,12 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         getActivity();  // Launch the activity.
     }
 
-    void resetStorage() throws RemoteException {
+    protected void resetStorage() throws RemoteException {
         mClient.call("clear", null, null);
         device.waitForIdle();
     }
 
-    void initTestFiles() throws RemoteException {
+    protected void initTestFiles() throws RemoteException {
         mDocsHelper.createFolder(rootDir0, dirName1);
         mDocsHelper.createDocument(rootDir0, "text/plain", fileName1);
         mDocsHelper.createDocument(rootDir0, "image/png", fileName2);

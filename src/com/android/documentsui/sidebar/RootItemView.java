@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.sidebar;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+
+import com.android.documentsui.R;
 
 public final class RootItemView extends LinearLayout {
     private static final int[] STATE_HIGHLIGHTED = {R.attr.state_highlighted};

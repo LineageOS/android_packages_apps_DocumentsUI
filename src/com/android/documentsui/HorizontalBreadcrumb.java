@@ -29,8 +29,8 @@ import android.widget.ImageView;
 
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.NavigationViewManager.Environment;
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.RootInfo;
 
 import java.util.function.Consumer;
 

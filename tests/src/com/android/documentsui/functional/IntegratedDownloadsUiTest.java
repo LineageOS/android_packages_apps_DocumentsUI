@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.functional;
 
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;

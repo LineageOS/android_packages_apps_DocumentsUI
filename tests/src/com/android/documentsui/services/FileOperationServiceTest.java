@@ -32,9 +32,9 @@ import android.os.Parcelable;
 import android.test.ServiceTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.clipping.UrisSupplier;
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.DocumentStack;
 import com.android.documentsui.testing.DocsProviders;
 import com.android.documentsui.testing.TestHandler;
 import com.android.documentsui.testing.TestScheduledExecutorService;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.functional;
 
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
@@ -23,8 +23,9 @@ import android.content.Intent;
 import android.provider.DocumentsContract;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.android.documentsui.Shared;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.manager.ManageActivity;
-import com.android.documentsui.model.RootInfo;
 
 @LargeTest
 public class FilesActivityDefaultsUiTest extends ActivityTest<ManageActivity> {

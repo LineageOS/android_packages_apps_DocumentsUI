@@ -48,7 +48,7 @@ import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.Shared;
 import com.android.documentsui.Snackbars;
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 
 /**
  * Dialog to rename file or directory.

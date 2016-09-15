@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.picker;
 
-import static com.android.documentsui.model.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -33,8 +33,8 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
-import com.android.documentsui.model.DocumentStack;
-import com.android.documentsui.model.DurableUtils;
+import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.DurableUtils;
 import com.android.internal.util.Predicate;
 
 import com.google.android.collect.Sets;

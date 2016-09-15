@@ -19,7 +19,7 @@ package com.android.documentsui;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 
 @SmallTest
 public class StateTest extends AndroidTestCase {

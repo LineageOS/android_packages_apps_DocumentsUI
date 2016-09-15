@@ -17,8 +17,8 @@
 package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.model.DocumentInfo.getCursorLong;
-import static com.android.documentsui.model.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.DocumentInfo.getCursorLong;
+import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.database.Cursor;
 import android.database.MergeCursor;
@@ -33,8 +33,8 @@ import android.util.Log;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.RootCursorWrapper;
 import com.android.documentsui.Shared;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.model.DocumentInfo;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 

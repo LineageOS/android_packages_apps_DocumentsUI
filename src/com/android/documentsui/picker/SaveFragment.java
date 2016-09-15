@@ -35,7 +35,7 @@ import android.widget.ProgressBar;
 
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 
 /**
  * Display document title editor and save button.

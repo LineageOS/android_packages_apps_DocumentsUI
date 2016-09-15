@@ -25,8 +25,8 @@ import android.content.Context;
 
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.R;
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.DocumentStack;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.services.FileOperationService.OpType;
 
 import java.text.NumberFormat;

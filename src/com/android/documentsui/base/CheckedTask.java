@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
 
 import android.os.AsyncTask;
 
@@ -31,7 +31,7 @@ import android.os.AsyncTask;
  * @template Input input type
  * @template Output output type
  */
-abstract class CheckedTask<Input, Output>
+public abstract class CheckedTask<Input, Output>
         extends AsyncTask<Input, Void, Output> {
 
     private Check mCheck;
@@ -74,7 +74,7 @@ abstract class CheckedTask<Input, Output>
     }
 
     @FunctionalInterface
-    interface Check {
+    public interface Check {
         boolean stop();
     }
 }

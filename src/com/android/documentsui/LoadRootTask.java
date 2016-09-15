@@ -20,7 +20,8 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.PairedTask;
+import com.android.documentsui.base.RootInfo;
 
 final class LoadRootTask extends PairedTask<BaseActivity, Void, RootInfo> {
     private static final String TAG = "RestoreRootTask";

@@ -104,7 +104,7 @@
         </activity>
 
         <provider
-            android:name=".LastAccessedProvider"
+            android:name=".picker.LastAccessedProvider"
             android:authorities="com.android.documentsui.lastAccessed"
             android:exported="false"/>
 
