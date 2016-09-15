@@ -40,6 +40,7 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.support.test.uiautomator.Until;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toolbar;
@@ -101,8 +102,7 @@ public class UiBot extends Bots.BaseBot {
     }
 
     public void assertInActionMode(boolean inActionMode) {
-        UiObject actionModeBar = findActionModeBar();
-        assertEquals(inActionMode, actionModeBar.exists());
+        assertEquals(inActionMode, waitForActionModeBarToAppear());
     }
 
     public UiObject openOverflowMenu() throws UiObjectNotFoundException {
@@ -177,10 +177,10 @@ public class UiBot extends Bots.BaseBot {
         onView(withText(label)).perform(click());
     }
 
-    UiObject findActionModeBar() {
-        UiObject bar = findObject("android:id/action_mode_bar");
-        bar.waitForExists(mTimeout);
-        return bar;
+    public boolean waitForActionModeBarToAppear() {
+        UiObject2 bar =
+                mDevice.wait(Until.findObject(By.res("android:id/action_mode_bar")), mTimeout);
+        return (bar != null);
     }
 
     public UiObject findDownloadRetryDialog() {
