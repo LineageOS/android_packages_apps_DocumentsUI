@@ -26,8 +26,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ViewGroup;
 
 import com.android.documentsui.DirectoryResult;
-import com.android.documentsui.RootCursorWrapper;
-import com.android.documentsui.State;
+import com.android.documentsui.base.State;
+import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.testing.SortModels;
 
 @SmallTest

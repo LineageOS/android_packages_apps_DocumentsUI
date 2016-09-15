@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.roots;
 
-import static com.android.documentsui.RootsCache.getMatchingRoots;
+import static com.android.documentsui.roots.RootsCache.getMatchingRoots;
 import static com.google.common.collect.Lists.newArrayList;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 
 import com.google.common.collect.Lists;
 

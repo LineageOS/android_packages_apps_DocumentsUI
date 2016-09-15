@@ -22,8 +22,8 @@ import android.view.View;
 
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
-import com.android.documentsui.State;
-import com.android.documentsui.State.ViewMode;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.State.ViewMode;
 
 /**
  * A high level controller that manages sort widgets. This is useful when sort widgets can and will

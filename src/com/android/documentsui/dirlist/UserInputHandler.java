@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
@@ -24,9 +24,9 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.android.documentsui.Events;
-import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.base.EventHandler;
+import com.android.documentsui.base.Events;
+import com.android.documentsui.base.Events.InputEvent;
 
 import java.util.Collections;
 import java.util.function.Function;

@@ -26,6 +26,8 @@ import android.util.LruCache;
 import android.util.Pair;
 import android.util.Pools;
 
+import com.android.documentsui.base.Shared;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Comparator;

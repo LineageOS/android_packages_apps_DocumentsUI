@@ -17,7 +17,7 @@
 package com.android.documentsui;
 
 import static android.os.Environment.STANDARD_DIRECTORIES;
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;
@@ -30,9 +30,10 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
-import com.android.documentsui.State.ActionType;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.State.ActionType;
 import com.android.documentsui.manager.LauncherActivity;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;

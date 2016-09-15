@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
 
 import android.annotation.Nullable;
 import android.provider.DocumentsContract.Document;
 
-import com.android.documentsui.base.DocumentInfo;
 import com.android.internal.util.Predicate;
 
 public class MimePredicate implements Predicate<DocumentInfo> {

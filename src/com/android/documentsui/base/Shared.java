@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -28,6 +28,9 @@ import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.WindowManager;
+
+import com.android.documentsui.R;
+import com.android.documentsui.R.bool;
 
 import java.text.Collator;
 import java.util.ArrayList;

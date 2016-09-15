@@ -23,7 +23,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 
-import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.TestEvent.Builder;

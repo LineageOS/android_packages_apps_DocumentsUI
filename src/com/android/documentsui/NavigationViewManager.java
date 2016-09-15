@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.Nullable;
 import android.graphics.drawable.Drawable;
@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 
 import java.util.function.Consumer;

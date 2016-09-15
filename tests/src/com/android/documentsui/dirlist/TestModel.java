@@ -20,7 +20,7 @@ import android.database.MatrixCursor;
 import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.DirectoryResult;
-import com.android.documentsui.RootCursorWrapper;
+import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.testing.SortModels;
 
 import java.util.Random;

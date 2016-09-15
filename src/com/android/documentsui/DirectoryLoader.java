@@ -30,7 +30,9 @@ import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
 
 import java.io.FileNotFoundException;

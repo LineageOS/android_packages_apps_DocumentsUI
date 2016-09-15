@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.Shared.TAG;
+import static com.android.documentsui.base.Shared.TAG;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -46,9 +46,9 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
-import com.android.documentsui.Shared;
 import com.android.documentsui.Snackbars;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Shared;
 
 /**
  * Dialog to rename file or directory.

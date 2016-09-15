@@ -25,10 +25,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
-import android.view.KeyEvent;
 
-import com.android.documentsui.EventListener;
+import com.android.documentsui.BaseActivity.EventListener;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.functional.ActivityTest;
 import com.android.documentsui.manager.ManageActivity;
@@ -36,7 +34,6 @@ import com.android.documentsui.manager.ManageActivity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 @LargeTest

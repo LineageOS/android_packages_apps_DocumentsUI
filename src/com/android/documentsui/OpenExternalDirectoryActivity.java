@@ -19,11 +19,6 @@ package com.android.documentsui;
 import static android.os.Environment.isStandardDirectory;
 import static android.os.storage.StorageVolume.EXTRA_DIRECTORY_NAME;
 import static android.os.storage.StorageVolume.EXTRA_STORAGE_VOLUME;
-
-import static com.android.documentsui.LocalPreferences.getScopedAccessPermissionStatus;
-import static com.android.documentsui.LocalPreferences.PERMISSION_ASK_AGAIN;
-import static com.android.documentsui.LocalPreferences.PERMISSION_NEVER_ASK;
-import static com.android.documentsui.LocalPreferences.setScopedAccessPermissionStatus;
 import static com.android.documentsui.Metrics.SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED;
 import static com.android.documentsui.Metrics.SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED;
 import static com.android.documentsui.Metrics.SCOPED_DIRECTORY_ACCESS_DENIED;
@@ -34,7 +29,11 @@ import static com.android.documentsui.Metrics.SCOPED_DIRECTORY_ACCESS_INVALID_AR
 import static com.android.documentsui.Metrics.SCOPED_DIRECTORY_ACCESS_INVALID_DIRECTORY;
 import static com.android.documentsui.Metrics.logInvalidScopedAccessRequest;
 import static com.android.documentsui.Metrics.logValidScopedAccessRequest;
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.LocalPreferences.PERMISSION_ASK_AGAIN;
+import static com.android.documentsui.base.LocalPreferences.PERMISSION_NEVER_ASK;
+import static com.android.documentsui.base.LocalPreferences.getScopedAccessPermissionStatus;
+import static com.android.documentsui.base.LocalPreferences.setScopedAccessPermissionStatus;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

@@ -32,11 +32,11 @@ import android.widget.Button;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
-import com.android.documentsui.State;
 import com.android.documentsui.R.id;
 import com.android.documentsui.R.layout;
 import com.android.documentsui.R.string;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.services.FileOperationService.OpType;
 
 /**

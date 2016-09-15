@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
 
-import static com.android.documentsui.State.MODE_UNKNOWN;
+import static com.android.documentsui.base.State.MODE_UNKNOWN;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;
@@ -26,9 +26,8 @@ import android.content.SharedPreferences.Editor;
 import android.os.UserHandle;
 import android.preference.PreferenceManager;
 
-import com.android.documentsui.State.ActionType;
-import com.android.documentsui.State.ViewMode;
-import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State.ActionType;
+import com.android.documentsui.base.State.ViewMode;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -81,7 +80,7 @@ public class LocalPreferences {
      *
      * <p>Typically called when a package is removed or when user asked to clear its data.
      */
-    static void clearPackagePreferences(Context context, String packageName) {
+    public static void clearPackagePreferences(Context context, String packageName) {
         clearScopedAccessPreferences(context, packageName);
     }
 
@@ -97,13 +96,13 @@ public class LocalPreferences {
      * (typically the emulated volume used for primary storage
      * </ol>
      */
-    static @PermissionStatus int getScopedAccessPermissionStatus(Context context,
+    public static @PermissionStatus int getScopedAccessPermissionStatus(Context context,
             String packageName, @Nullable String uuid, String directory) {
         final String key = getScopedAccessDenialsKey(packageName, uuid, directory);
         return getPrefs(context).getInt(key, PERMISSION_ASK);
     }
 
-    static void setScopedAccessPermissionStatus(Context context, String packageName,
+    public static void setScopedAccessPermissionStatus(Context context, String packageName,
             @Nullable String uuid, String directory, @PermissionStatus int status) {
       final String key = getScopedAccessDenialsKey(packageName, uuid, directory);
       getPrefs(context).edit().putInt(key, status).apply();

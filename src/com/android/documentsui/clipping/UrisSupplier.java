@@ -29,7 +29,7 @@ import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.Shared;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.services.FileOperation;
 

@@ -16,18 +16,18 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.State.ACTION_CREATE;
-import static com.android.documentsui.State.ACTION_GET_CONTENT;
-import static com.android.documentsui.State.ACTION_OPEN;
-import static com.android.documentsui.State.ACTION_OPEN_TREE;
-import static com.android.documentsui.State.ACTION_PICK_COPY_DESTINATION;
+import static com.android.documentsui.base.State.ACTION_CREATE;
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_OPEN;
+import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
+import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.content.Context;
 import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.BaseActivity;
-import com.android.documentsui.MimePredicate;
-import com.android.documentsui.State;
+import com.android.documentsui.base.MimePredicate;
+import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment.ResultType;
 import com.android.documentsui.sorting.SortController;
 

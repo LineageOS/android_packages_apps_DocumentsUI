@@ -23,8 +23,8 @@ import android.content.Intent;
 import android.provider.DocumentsContract;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import com.android.documentsui.Shared;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.manager.ManageActivity;
 
 @LargeTest

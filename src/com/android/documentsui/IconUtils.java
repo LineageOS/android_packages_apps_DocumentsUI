@@ -23,6 +23,8 @@ import android.graphics.drawable.Drawable;
 import android.provider.DocumentsContract.Document;
 import android.util.TypedValue;
 
+import com.android.documentsui.base.State;
+
 public class IconUtils {
     public static Drawable loadPackageIcon(Context context, String authority, int icon) {
         if (icon != 0) {
