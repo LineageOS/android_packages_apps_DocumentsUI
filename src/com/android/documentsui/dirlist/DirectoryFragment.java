@@ -441,43 +441,11 @@ public class DirectoryFragment extends Fragment
 
         final String modelId = getModelId(v);
         if (modelId == null) {
-            inflater.inflate(R.menu.container_context_menu, menu);
-            mMenuManager.updateContextMenuForContainer(
-                    menu, getBaseActivity().getDirectoryDetails());
-            return;
+            mMenuManager.inflateContextMenuForContainer(
+                    menu, inflater, getBaseActivity().getDirectoryDetails());
+        } else {
+            mMenuManager.inflateContextMenuForDocs(menu, inflater, mSelectionMetadata);
         }
-
-        final boolean hasDir = mSelectionMetadata.containsDirectories();
-        final boolean hasFile = mSelectionMetadata.containsFiles();
-        if (!hasDir && !hasFile) {
-            // User triggered a context menu on a doc without any selection. This is a legitimate
-            // case in pickers while user right clicks on an unselectable item.
-            final String mimeType = DocumentInfo.getCursorString(
-                    mModel.getItem(modelId), Document.COLUMN_MIME_TYPE);
-            if (Document.MIME_TYPE_DIR.equals(mimeType)) {
-                inflater.inflate(R.menu.dir_context_menu, menu);
-                mMenuManager.updateContextMenuForDirs(menu, mSelectionMetadata);
-            } else {
-                inflater.inflate(R.menu.file_context_menu, menu);
-                mMenuManager.updateContextMenuForFiles(menu, mSelectionMetadata);
-            }
-            return;
-        }
-
-        if (!hasDir) {
-            inflater.inflate(R.menu.file_context_menu, menu);
-            mMenuManager.updateContextMenuForFiles(menu, mSelectionMetadata);
-            return;
-        }
-
-        if (!hasFile) {
-            inflater.inflate(R.menu.dir_context_menu, menu);
-            mMenuManager.updateContextMenuForDirs(menu, mSelectionMetadata);
-            return;
-        }
-
-        inflater.inflate(R.menu.mixed_context_menu, menu);
-        mMenuManager.updateContextMenu(menu, mSelectionMetadata);
     }
 
     @Override
@@ -504,25 +472,23 @@ public class DirectoryFragment extends Fragment
     }
 
     protected boolean onRightClick(InputEvent e) {
+        final View v;
+        final float x, y;
         if (e.isOverModelItem()) {
             DocumentHolder doc = (DocumentHolder) e.getDocumentDetails();
 
-            // We are registering for context menu here so long-press doesn't trigger this
-            // floating context menu, and then quickly unregister right afterwards
-            registerForContextMenu(doc.itemView);
-            mRecView.showContextMenuForChild(
-                    doc.itemView,
-                    e.getX() - doc.itemView.getLeft(), e.getY() - doc.itemView.getTop());
-            unregisterForContextMenu(doc.itemView);
-            return true;
+            v = doc.itemView;
+            x = e.getX() - v.getLeft();
+            y = e.getY() - v.getTop();
+        } else {
+            v = (mEmptyView.getVisibility() == View.VISIBLE)
+                    ? mEmptyView
+                    : mRecView;
+            x = e.getX();
+            y = e.getY();
         }
 
-        View v = (mEmptyView.getVisibility() == View.VISIBLE)
-                ? mEmptyView : mRecView;
-
-        registerForContextMenu(v);
-        v.showContextMenu(e.getX(), e.getY());
-        unregisterForContextMenu(v);
+        mMenuManager.showContextMenu(this, v, x, y);
 
         return true;
     }
@@ -625,6 +591,14 @@ public class DirectoryFragment extends Fragment
                 mActionModeController.finishActionMode();
                 return true;
 
+            case R.id.menu_open_with:
+                showChooserForDoc(selection);
+                return true;
+
+            case R.id.menu_open_in_new_window:
+                openInNewWindow(selection);
+                return true;
+
             case R.id.menu_share:
                 shareDocuments(selection);
                 // TODO: Only finish selection if share action is completed.
@@ -715,6 +689,22 @@ public class DirectoryFragment extends Fragment
         } else {
             activity.onDocumentPicked(docs.get(0), mModel);
         }
+    }
+
+    private void showChooserForDoc(final Selection selected) {
+        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_OPEN);
+
+        assert(selected.size() == 1);
+        DocumentInfo doc =
+                DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
+        mTuner.showChooserForDoc(doc);
+    }
+
+    private void openInNewWindow(final Selection selected) {
+        assert(selected.size() == 1);
+        DocumentInfo doc =
+                DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
+        mTuner.openInNewWindow(getDisplayState().stack, doc);
     }
 
     private void shareDocuments(final Selection selected) {

@@ -19,6 +19,7 @@ package com.android.documentsui.manager;
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOWN;
 import static com.android.documentsui.base.Shared.DEBUG;
 
+import android.annotation.Nullable;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ActivityNotFoundException;
@@ -42,22 +43,22 @@ import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
+import com.android.documentsui.ProviderExecutor;
+import com.android.documentsui.R;
+import com.android.documentsui.Snackbars;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.ProviderExecutor;
-import com.android.documentsui.R;
-import com.android.documentsui.Snackbars;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.FragmentTuner.FilesTuner;
-import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 
@@ -233,7 +234,7 @@ public class ManageActivity extends BaseActivity {
                 showCreateDirectoryDialog();
                 break;
             case R.id.menu_new_window:
-                createNewWindow();
+                openInNewWindow(mState.stack, null);
                 break;
             case R.id.menu_paste_from_clipboard:
                 DirectoryFragment dir = getDirectoryFragment();
@@ -258,11 +259,17 @@ public class ManageActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    private void createNewWindow() {
+    /**
+     * Opens a new window at given location. If doc is null then it opens the stack. If doc is not
+     * null it pushes the doc to the stack and opens it.
+     */
+    public void openInNewWindow(DocumentStack stack, @Nullable DocumentInfo doc) {
         Metrics.logUserAction(this, Metrics.USER_ACTION_NEW_WINDOW);
 
         Intent intent = LauncherActivity.createLaunchIntent(this);
-        intent.putExtra(Shared.EXTRA_STACK, (Parcelable) mState.stack);
+
+        stack = (doc == null) ? stack : new DocumentStack(stack, doc);
+        intent.putExtra(Shared.EXTRA_STACK, (Parcelable) stack);
 
         // With new multi-window mode we have to pick how we are launched.
         // By default we'd be launched in-place above the existing app.
@@ -297,33 +304,8 @@ public class ManageActivity extends BaseActivity {
 
     @Override
     public void onDocumentPicked(DocumentInfo doc, Model model) {
-        // Anything on downloads goes through the back through downloads manager
-        // (that's the MANAGE_DOCUMENT bit).
-        // This is done for two reasons:
-        // 1) The file in question might be a failed/queued or otherwise have some
-        //    specialized download handling.
-        // 2) For APKs, the download manager will add on some important security stuff
-        //    like origin URL.
-        // All other files not on downloads, event APKs, would get no benefit from this
-        // treatment, thusly the "isDownloads" check.
-
-        // Launch MANAGE_DOCUMENTS only for the root level files, so it's not called for
-        // files in archives. Also, if the activity is already browsing a ZIP from downloads,
-        // then skip MANAGE_DOCUMENTS.
-        final boolean isViewing = Intent.ACTION_VIEW.equals(getIntent().getAction());
-        final boolean isInArchive = mState.stack.size() > 1;
-        if (getCurrentRoot().isDownloads() && !isInArchive && !isViewing) {
-            // First try managing the document; we expect manager to filter
-            // based on authority, so we don't grant.
-            final Intent manage = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENT);
-            manage.setData(doc.derivedUri);
-
-            try {
-                startActivity(manage);
-                return;
-            } catch (ActivityNotFoundException ex) {
-                // fall back to regular handling below.
-            }
+        if (manageDocument(doc)) {
+            return;
         }
 
         if (doc.isContainer()) {
@@ -346,6 +328,65 @@ public class ManageActivity extends BaseActivity {
         openContainerDocument(doc);
     }
 
+    public void showChooserForDoc(DocumentInfo doc) {
+        assert(!doc.isContainer());
+
+        if (manageDocument(doc)) {
+            // TODO(b/31551845): support it.
+            Log.w(TAG, "Open with is not yet supported for managed doc.");
+        }
+
+        Intent intent = Intent.createChooser(buildViewIntent(doc), null);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Snackbars.makeSnackbar(
+                    this, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean manageDocument(DocumentInfo doc) {
+        if (isManagedDocument()) {
+            // First try managing the document; we expect manager to filter
+            // based on authority, so we don't grant.
+            Intent manage = buildManageIntent(doc);
+            try {
+                startActivity(manage);
+                return true;
+            } catch (ActivityNotFoundException ex) {
+                // Fall back to regular handling.
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isManagedDocument() {
+        // Anything on downloads goes through the back through downloads manager
+        // (that's the MANAGE_DOCUMENT bit).
+        // This is done for two reasons:
+        // 1) The file in question might be a failed/queued or otherwise have some
+        //    specialized download handling.
+        // 2) For APKs, the download manager will add on some important security stuff
+        //    like origin URL.
+        // All other files not on downloads, event APKs, would get no benefit from this
+        // treatment, thusly the "isDownloads" check.
+
+        // Launch MANAGE_DOCUMENTS only for the root level files, so it's not called for
+        // files in archives. Also, if the activity is already browsing a ZIP from downloads,
+        // then skip MANAGE_DOCUMENTS.
+        final boolean isViewing = Intent.ACTION_VIEW.equals(getIntent().getAction());
+        final boolean isInArchive = mState.stack.size() > 1;
+        return getCurrentRoot().isDownloads() && !isInArchive && !isViewing;
+    }
+
+    private Intent buildManageIntent(DocumentInfo doc) {
+        final Intent manage = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENT);
+        manage.setData(doc.derivedUri);
+
+        return manage;
+    }
+
     /**
      * Launches an intent to view the specified document.
      */
@@ -365,7 +406,21 @@ public class ManageActivity extends BaseActivity {
         }
 
         // Fall back to traditional VIEW action...
-        intent = new Intent(Intent.ACTION_VIEW);
+        intent = buildViewIntent(doc);
+        if (DEBUG && intent.getClipData() != null) {
+            Log.d(TAG, "Starting intent w/ clip data: " + intent.getClipData());
+        }
+
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Snackbars.makeSnackbar(
+                    this, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    private Intent buildViewIntent(DocumentInfo doc) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(doc.derivedUri, doc.mimeType);
 
         // Downloads has traditionally added the WRITE permission
@@ -379,16 +434,7 @@ public class ManageActivity extends BaseActivity {
         }
         intent.setFlags(flags);
 
-        if (DEBUG && intent.getClipData() != null) {
-            Log.d(TAG, "Starting intent w/ clip data: " + intent.getClipData());
-        }
-
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Snackbars.makeSnackbar(
-                    this, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
-        }
+        return intent;
     }
 
     @Override

@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static junit.framework.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 
 import android.provider.DocumentsContract.Root;
@@ -26,6 +28,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestMenu;
+import com.android.documentsui.testing.TestMenuInflater;
 import com.android.documentsui.testing.TestMenuItem;
 import com.android.documentsui.testing.TestSearchViewManager;
 import com.android.documentsui.testing.TestSelectionDetails;
@@ -200,6 +203,42 @@ public final class FilesMenuManagerTest {
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
         newWindow.assertVisible();
+    }
+
+    @Test
+    public void testInflateContextMenu_Files() {
+        TestMenuInflater inflater = new TestMenuInflater();
+        FilesMenuManager mgr = new FilesMenuManager(testSearchManager, state);
+
+        selectionDetails.containFiles = true;
+        selectionDetails.containDirectories = false;
+        mgr.inflateContextMenuForDocs(testMenu, inflater, selectionDetails);
+
+        assertEquals(R.menu.file_context_menu, inflater.lastInflatedMenuId);
+    }
+
+    @Test
+    public void testInflateContextMenu_Dirs() {
+        TestMenuInflater inflater = new TestMenuInflater();
+        FilesMenuManager mgr = new FilesMenuManager(testSearchManager, state);
+
+        selectionDetails.containFiles = false;
+        selectionDetails.containDirectories = true;
+        mgr.inflateContextMenuForDocs(testMenu, inflater, selectionDetails);
+
+        assertEquals(R.menu.dir_context_menu, inflater.lastInflatedMenuId);
+    }
+
+    @Test
+    public void testInflateContextMenu_Mixed() {
+        TestMenuInflater inflater = new TestMenuInflater();
+        FilesMenuManager mgr = new FilesMenuManager(testSearchManager, state);
+
+        selectionDetails.containFiles = true;
+        selectionDetails.containDirectories = true;
+        mgr.inflateContextMenuForDocs(testMenu, inflater, selectionDetails);
+
+        assertEquals(R.menu.mixed_context_menu, inflater.lastInflatedMenuId);
     }
 
     @Test
