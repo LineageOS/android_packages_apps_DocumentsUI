@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.functional;
+package com.android.documentsui;
 
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.test.suitebuilder.annotation.LargeTest;
+
 import com.android.documentsui.manager.ManageActivity;
 
 @LargeTest
