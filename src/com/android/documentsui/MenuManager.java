@@ -19,7 +19,10 @@ package com.android.documentsui;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
 
 public abstract class MenuManager {

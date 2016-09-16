@@ -16,18 +16,18 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.State.MODE_GRID;
-import static com.android.documentsui.State.MODE_LIST;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.State.MODE_GRID;
+import static com.android.documentsui.base.State.MODE_LIST;
 
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import com.android.documentsui.State;
+import com.android.documentsui.base.State;
 
 import java.util.ArrayList;
 import java.util.HashSet;

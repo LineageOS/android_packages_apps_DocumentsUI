@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IdRes;
 import android.annotation.Nullable;
@@ -31,10 +31,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.MenuManager;
-import com.android.documentsui.Menus;
 import com.android.documentsui.R;
-import com.android.documentsui.Shared;
 import com.android.documentsui.base.EventHandler;
+import com.android.documentsui.base.Menus;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 
 import java.util.function.Consumer;

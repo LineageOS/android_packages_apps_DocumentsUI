@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.roots;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 
 import java.util.Collection;
 

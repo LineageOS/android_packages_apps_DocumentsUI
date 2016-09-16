@@ -27,7 +27,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.Shared;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.testing.TestScheduledExecutorService;
 
 import org.junit.AfterClass;

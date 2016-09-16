@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;

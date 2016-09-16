@@ -24,7 +24,7 @@ import android.provider.DocumentsContract.Document;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.android.documentsui.State;
+import com.android.documentsui.base.State;
 
 import java.util.List;
 

@@ -24,7 +24,7 @@ import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
 import com.android.documentsui.MenuManager;
-import com.android.documentsui.MimePredicate;
+import com.android.documentsui.base.MimePredicate;
 
 import java.util.function.Function;
 

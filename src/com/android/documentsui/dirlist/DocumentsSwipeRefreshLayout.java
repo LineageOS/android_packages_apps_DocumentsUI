@@ -23,7 +23,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.android.documentsui.Events;
+import com.android.documentsui.base.Events;
 
 /**
  * A {@link SwipeRefreshLayout} that does not intercept any touch events. This relies on its nested

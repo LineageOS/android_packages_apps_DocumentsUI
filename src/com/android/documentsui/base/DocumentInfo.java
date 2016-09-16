@@ -28,7 +28,7 @@ import android.provider.DocumentsProvider;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.RootCursorWrapper;
+import com.android.documentsui.roots.RootCursorWrapper;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

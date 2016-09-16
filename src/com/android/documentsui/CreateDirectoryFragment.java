@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.Shared.TAG;
+import static com.android.documentsui.base.Shared.TAG;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Shared;
 
 /**
  * Dialog to create a new directory.

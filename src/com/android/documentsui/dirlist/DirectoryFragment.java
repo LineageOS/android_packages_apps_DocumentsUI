@@ -16,11 +16,11 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.State.MODE_GRID;
-import static com.android.documentsui.State.MODE_LIST;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.State.MODE_GRID;
+import static com.android.documentsui.base.State.MODE_LIST;
 
 import android.annotation.IntDef;
 import android.annotation.StringRes;
@@ -64,30 +64,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.BaseActivity;
+import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryLoader;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.Events.InputEvent;
-import com.android.documentsui.Events.MotionInputEvent;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.MessageBar;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
-import com.android.documentsui.RetainedState;
-import com.android.documentsui.RootsCache;
-import com.android.documentsui.Shared;
 import com.android.documentsui.Snackbars;
-import com.android.documentsui.State;
-import com.android.documentsui.State.ViewMode;
-import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.ThumbnailCache;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.base.Events.MotionInputEvent;
+import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.picker.PickActivity;
+import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;

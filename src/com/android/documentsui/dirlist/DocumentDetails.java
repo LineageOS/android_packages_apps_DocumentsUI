@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.Events.InputEvent;
 
 /**
  * Interface providing a loose coupling between DocumentHolder.

@@ -24,8 +24,8 @@ import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.Shared;
 import com.android.documentsui.base.CheckedTask;
+import com.android.documentsui.base.Shared;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;

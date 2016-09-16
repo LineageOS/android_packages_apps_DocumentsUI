@@ -30,10 +30,10 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 
-import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.R;
-import com.android.documentsui.Shared;
-import com.android.documentsui.State;
 
 public abstract class DocumentHolder
         extends RecyclerView.ViewHolder implements View.OnKeyListener, DocumentDetails {

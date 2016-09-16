@@ -60,7 +60,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
 
     @Override
     public void setup(Environment env,
-            com.android.documentsui.State state,
+            com.android.documentsui.base.State state,
             Consumer<Integer> listener) {
 
         mListener = listener;
@@ -145,12 +145,12 @@ public final class HorizontalBreadcrumb extends RecyclerView
             extends RecyclerView.Adapter<BreadcrumbHolder> {
 
         private final Environment mEnv;
-        private final com.android.documentsui.State mState;
+        private final com.android.documentsui.base.State mState;
         private final OnDragListener mDragListener;
         // We keep the old item size so the breadcrumb will only re-render views that are necessary
         private int mLastItemSize;
 
-        public BreadcrumbAdapter(com.android.documentsui.State state,
+        public BreadcrumbAdapter(com.android.documentsui.base.State state,
                 Environment env,
                 OnDragListener dragListener) {
             mState = state;

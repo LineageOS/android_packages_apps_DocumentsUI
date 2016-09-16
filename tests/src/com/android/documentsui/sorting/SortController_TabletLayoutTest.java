@@ -19,7 +19,7 @@ package com.android.documentsui.sorting;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.State;
+import com.android.documentsui.base.State;
 import com.android.documentsui.sorting.SortControllerTest.TestWidget;
 
 import org.junit.Before;

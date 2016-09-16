@@ -16,7 +16,7 @@
 
 package com.android.documentsui.sorting;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;

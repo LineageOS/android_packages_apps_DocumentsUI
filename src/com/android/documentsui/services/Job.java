@@ -45,9 +45,9 @@ import com.android.documentsui.manager.ManageActivity;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.R;
-import com.android.documentsui.Shared;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.services.FileOperationService.OpType;
 
 import java.lang.annotation.Retention;

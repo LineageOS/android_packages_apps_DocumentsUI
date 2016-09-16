@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -25,10 +25,10 @@ import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.View;
 
-import com.android.documentsui.Events;
-import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.State;
+import com.android.documentsui.base.Events;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.services.FileOperationService;

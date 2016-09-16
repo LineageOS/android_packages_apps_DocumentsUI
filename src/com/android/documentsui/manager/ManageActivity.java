@@ -17,7 +17,7 @@
 package com.android.documentsui.manager;
 
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOWN;
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -46,17 +46,17 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
-import com.android.documentsui.RootsCache;
-import com.android.documentsui.Shared;
 import com.android.documentsui.Snackbars;
-import com.android.documentsui.State;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.FragmentTuner.FilesTuner;
+import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;

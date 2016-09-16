@@ -16,9 +16,9 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.State.MODE_GRID;
-import static com.android.documentsui.State.MODE_LIST;
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.State.MODE_GRID;
+import static com.android.documentsui.base.State.MODE_LIST;
 
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -39,15 +39,15 @@ import android.widget.ImageView;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.IconUtils;
-import com.android.documentsui.MimePredicate;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.ProviderExecutor.Preemptable;
 import com.android.documentsui.R;
-import com.android.documentsui.State;
-import com.android.documentsui.State.ViewMode;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.ThumbnailCache.Result;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.MimePredicate;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.State.ViewMode;
 
 import java.util.function.BiConsumer;
 

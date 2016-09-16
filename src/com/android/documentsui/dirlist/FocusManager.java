@@ -38,7 +38,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.documentsui.Events;
+import com.android.documentsui.base.Events;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,20 +16,20 @@
 
 package com.android.documentsui.picker;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.RootsCache;
-import com.android.documentsui.State;
 import com.android.documentsui.base.DurableUtils;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
+import com.android.documentsui.roots.RootsCache;
 
 import libcore.io.IoUtils;
 
@@ -49,11 +49,11 @@ final class LoadLastAccessedStackTask
     private static final String TAG = "LoadLastAccessedStackTask";
     private volatile boolean mRestoredStack;
     private volatile boolean mExternal;
-    private State mState;
+    private final State mState;
 
-    public LoadLastAccessedStackTask(PickActivity activity) {
+    public LoadLastAccessedStackTask(PickActivity activity, State state) {
         super(activity);
-        mState = activity.mState;
+        mState = state;
     }
 
     @Override

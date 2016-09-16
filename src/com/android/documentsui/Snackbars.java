@@ -21,6 +21,8 @@ import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.android.documentsui.base.Shared;
+
 public final class Snackbars {
     private Snackbars() {}
 

@@ -23,7 +23,7 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ViewGroup;
 
-import com.android.documentsui.State;
+import com.android.documentsui.base.State;
 
 @SmallTest
 public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
