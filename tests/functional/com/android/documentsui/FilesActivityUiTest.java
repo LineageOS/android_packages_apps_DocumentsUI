@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.functional;
+package com.android.documentsui;
 
 import android.net.Uri;
 import android.os.RemoteException;

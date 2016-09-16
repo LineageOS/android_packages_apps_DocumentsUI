@@ -28,7 +28,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.android.documentsui.BaseActivity.EventListener;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.functional.ActivityTest;
+import com.android.documentsui.ActivityTest;
 import com.android.documentsui.manager.ManageActivity;
 
 import java.util.ArrayList;
