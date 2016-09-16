@@ -16,7 +16,7 @@
 
 package com.android.documentsui.manager;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -29,7 +29,7 @@ import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.android.documentsui.Shared;
+import com.android.documentsui.base.Shared;
 
 import java.util.List;
 

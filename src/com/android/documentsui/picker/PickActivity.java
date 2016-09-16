@@ -16,12 +16,12 @@
 
 package com.android.documentsui.picker;
 
-import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.State.ACTION_CREATE;
-import static com.android.documentsui.State.ACTION_GET_CONTENT;
-import static com.android.documentsui.State.ACTION_OPEN;
-import static com.android.documentsui.State.ACTION_OPEN_TREE;
-import static com.android.documentsui.State.ACTION_PICK_COPY_DESTINATION;
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.State.ACTION_CREATE;
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_OPEN;
+import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
+import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -47,13 +47,13 @@ import com.android.documentsui.DocumentsMenuManager;
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.MimePredicate;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
 import com.android.documentsui.R;
-import com.android.documentsui.Shared;
 import com.android.documentsui.Snackbars;
-import com.android.documentsui.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.FragmentTuner.DocumentsTuner;
@@ -119,7 +119,7 @@ public class PickActivity extends BaseActivity {
                 loadRoot(getDefaultRoot());
             } else {
                 if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
-                new LoadLastAccessedStackTask(this).execute();
+                new LoadLastAccessedStackTask(this, mState).execute();
             }
         }
     }

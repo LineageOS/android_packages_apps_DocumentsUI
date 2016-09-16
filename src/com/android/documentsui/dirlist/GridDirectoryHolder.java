@@ -26,8 +26,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
-import com.android.documentsui.State;
-import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.Events.InputEvent;
 
 final class GridDirectoryHolder extends DocumentHolder {
 

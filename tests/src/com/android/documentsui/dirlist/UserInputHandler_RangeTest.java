@@ -20,7 +20,7 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.MotionEvent;
 
-import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.TestEvent.Builder;

@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.roots;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.android.documentsui.DocumentsApplication;
 
 /**
  * Prime {@link RootsCache} when the system is booted.

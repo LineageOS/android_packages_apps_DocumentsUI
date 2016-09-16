@@ -16,14 +16,14 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.Shared.EXTRA_BENCHMARK;
-import static com.android.documentsui.State.ACTION_CREATE;
-import static com.android.documentsui.State.ACTION_GET_CONTENT;
-import static com.android.documentsui.State.ACTION_OPEN;
-import static com.android.documentsui.State.ACTION_OPEN_TREE;
-import static com.android.documentsui.State.ACTION_PICK_COPY_DESTINATION;
-import static com.android.documentsui.State.MODE_GRID;
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
+import static com.android.documentsui.base.State.ACTION_CREATE;
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_OPEN;
+import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
+import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
+import static com.android.documentsui.base.State.MODE_GRID;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -44,6 +44,7 @@ import android.provider.DocumentsContract.Root;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -53,15 +54,22 @@ import android.view.View;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.SearchViewManager.SearchManagerListener;
-import com.android.documentsui.State.ViewMode;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Events;
+import com.android.documentsui.base.LocalPreferences;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.roots.LoadRootTask;
+import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sidebar.RootsFragment;
@@ -107,8 +115,7 @@ public abstract class BaseActivity extends Activity
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
 
     protected SearchViewManager mSearchManager;
-    // TODO: Unpublic this by injecting it into LoadLastAccessedStackTask
-    public State mState;
+    protected State mState;
 
     protected @Nullable RetainedState mRetainedState;
     protected RootsCache mRoots;
@@ -384,7 +391,7 @@ public abstract class BaseActivity extends Activity
     }
 
     protected final void loadRoot(final Uri uri) {
-        new LoadRootTask(this, uri).executeOnExecutor(
+        new LoadRootTask(this, mRoots, mState, uri).executeOnExecutor(
                 ProviderExecutor.forAuthority(uri.getAuthority()));
     }
 
@@ -819,5 +826,26 @@ public abstract class BaseActivity extends Activity
                 mOwner.openContainerDocument(mDefaultRootDocument);
             }
         }
+    }
+
+    public final class RetainedState {
+        public @Nullable Selection selection;
+
+        public boolean hasSelection() {
+            return selection != null;
+        }
+    }
+
+    @VisibleForTesting
+    protected interface EventListener {
+        /**
+         * @param uri Uri navigated to. If recents, then null.
+         */
+        void onDirectoryNavigated(@Nullable Uri uri);
+
+        /**
+         * @param uri Uri of the loaded directory. If recents, then null.
+         */
+        void onDirectoryLoaded(@Nullable Uri uri);
     }
 }

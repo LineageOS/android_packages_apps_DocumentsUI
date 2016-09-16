@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Space;
 
 import com.android.documentsui.R;
-import com.android.documentsui.State;
+import com.android.documentsui.base.State;
 
 import java.util.List;
 

@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
-
-import static com.android.documentsui.Shared.DEBUG;
+package com.android.documentsui.roots;
 
 import android.content.BroadcastReceiver.PendingResult;
+
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -40,7 +41,13 @@ import android.provider.DocumentsProvider;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
+import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.R;
+import com.android.documentsui.R.drawable;
+import com.android.documentsui.R.string;
+import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.internal.annotations.GuardedBy;
 
 import libcore.io.IoUtils;

@@ -23,7 +23,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.dirlist.DocumentDetails;
 
 import java.lang.annotation.Retention;

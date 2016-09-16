@@ -22,8 +22,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.Events.InputEvent;
-import com.android.documentsui.State;
+import com.android.documentsui.base.State;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.MultiSelectManagers;

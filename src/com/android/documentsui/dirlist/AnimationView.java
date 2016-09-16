@@ -24,7 +24,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.android.documentsui.R;
-import com.android.documentsui.Shared;
+import com.android.documentsui.base.Shared;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

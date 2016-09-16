@@ -21,7 +21,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.android.documentsui.Events.InputEvent;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
 

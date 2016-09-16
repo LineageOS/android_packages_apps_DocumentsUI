@@ -16,11 +16,11 @@
 
 package com.android.documentsui.base;
 
-import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.Shared.compareToIgnoreCaseNullable;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;

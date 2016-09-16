@@ -22,7 +22,7 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
-import com.android.documentsui.State;
+import com.android.documentsui.base.State;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -16,8 +16,8 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.Shared.DEBUG;
-import static com.android.documentsui.Shared.TAG;
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.TAG;
 
 import android.app.ActivityManager;
 import android.content.AsyncTaskLoader;
@@ -33,7 +33,11 @@ import android.provider.DocumentsContract.Document;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
+import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.documentsui.roots.RootsCache;
 import com.android.internal.annotations.GuardedBy;
 
 import libcore.io.IoUtils;

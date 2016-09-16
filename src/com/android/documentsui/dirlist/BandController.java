@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.dirlist.ModelBackedDocumentsAdapter.ITEM_TYPE_DIRECTORY;
 import static com.android.documentsui.dirlist.ModelBackedDocumentsAdapter.ITEM_TYPE_DOCUMENT;
 import static com.android.documentsui.dirlist.ViewAutoScroller.NOT_SET;
@@ -35,8 +35,8 @@ import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.view.View;
 
-import com.android.documentsui.Events.InputEvent;
 import com.android.documentsui.R;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;

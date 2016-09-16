@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.content.Intent;
@@ -25,10 +25,6 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.util.SparseArray;
 
-import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.DocumentStack;
-import com.android.documentsui.base.DurableUtils;
-import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.sorting.SortModel;

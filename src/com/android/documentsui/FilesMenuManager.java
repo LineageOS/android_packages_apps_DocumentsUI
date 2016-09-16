@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 
 public final class FilesMenuManager extends MenuManager {
 

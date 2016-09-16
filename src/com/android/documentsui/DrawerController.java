@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.app.Activity;
@@ -27,6 +27,8 @@ import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toolbar;
+
+import com.android.documentsui.base.Display;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

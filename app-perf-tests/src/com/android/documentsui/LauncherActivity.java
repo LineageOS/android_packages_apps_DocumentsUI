@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.Shared.EXTRA_BENCHMARK;
+import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
 
 import android.app.Activity;
 import android.content.Intent;

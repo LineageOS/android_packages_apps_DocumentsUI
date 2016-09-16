@@ -16,14 +16,16 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.State.ACTION_CREATE;
-import static com.android.documentsui.State.ACTION_GET_CONTENT;
-import static com.android.documentsui.State.ACTION_OPEN;
-import static com.android.documentsui.State.ACTION_OPEN_TREE;
-import static com.android.documentsui.State.ACTION_PICK_COPY_DESTINATION;
+import static com.android.documentsui.base.State.ACTION_CREATE;
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_OPEN;
+import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
+import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.android.documentsui.base.State;
 
 public final class DocumentsMenuManager extends MenuManager {
 

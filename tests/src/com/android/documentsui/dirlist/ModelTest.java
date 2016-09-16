@@ -27,9 +27,9 @@ import android.test.mock.MockContentResolver;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.DirectoryResult;
-import com.android.documentsui.RootCursorWrapper;
-import com.android.documentsui.Shared;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.testing.SortModels;

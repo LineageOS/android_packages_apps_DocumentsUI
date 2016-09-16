@@ -14,34 +14,41 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.roots;
 
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
+import com.android.documentsui.BaseActivity;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 
-final class LoadRootTask extends PairedTask<BaseActivity, Void, RootInfo> {
-    private static final String TAG = "RestoreRootTask";
+public final class LoadRootTask extends PairedTask<BaseActivity, Void, RootInfo> {
+    private static final String TAG = "LoadRootTask";
 
+    private final State mState;
+    private final RootsCache mRoots;
     private final Uri mRootUri;
 
-    public LoadRootTask(BaseActivity activity, Uri rootUri) {
+
+    public LoadRootTask(BaseActivity activity, RootsCache roots, State state, Uri rootUri) {
         super(activity);
+        mState = state;
+        mRoots = roots;
         mRootUri = rootUri;
     }
 
     @Override
     protected RootInfo run(Void... params) {
         String rootId = DocumentsContract.getRootId(mRootUri);
-        return mOwner.mRoots.getRootOneshot(mRootUri.getAuthority(), rootId);
+        return mRoots.getRootOneshot(mRootUri.getAuthority(), rootId);
     }
 
     @Override
     protected void finish(RootInfo root) {
-        mOwner.mState.restored = true;
+        mState.restored = true;
 
         if (root != null) {
             mOwner.onRootPicked(root);

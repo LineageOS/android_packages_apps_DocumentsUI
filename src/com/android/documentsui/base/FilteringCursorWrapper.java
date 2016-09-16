@@ -14,53 +14,61 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
+
+import static com.android.documentsui.base.DocumentInfo.getCursorLong;
+import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.TAG;
 
 import android.database.AbstractCursor;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.DocumentsContract.Document;
+import android.util.Log;
 
 /**
- * Cursor wrapper that adds columns to identify which root a document came from.
+ * Cursor wrapper that filters MIME types not matching given list.
  */
-public class RootCursorWrapper extends AbstractCursor {
-    private final String mAuthority;
-    private final String mRootId;
-
+public class FilteringCursorWrapper extends AbstractCursor {
     private final Cursor mCursor;
-    private final int mCount;
 
-    private final String[] mColumnNames;
+    private final int[] mPosition;
+    private int mCount;
 
-    private final int mAuthorityIndex;
-    private final int mRootIdIndex;
+    public FilteringCursorWrapper(Cursor cursor, String[] acceptMimes) {
+        this(cursor, acceptMimes, null, Long.MIN_VALUE);
+    }
 
-    public static final String COLUMN_AUTHORITY = "android:authority";
-    public static final String COLUMN_ROOT_ID = "android:rootId";
+    public FilteringCursorWrapper(Cursor cursor, String[] acceptMimes, String[] rejectMimes) {
+        this(cursor, acceptMimes, rejectMimes, Long.MIN_VALUE);
+    }
 
-    public RootCursorWrapper(String authority, String rootId, Cursor cursor, int maxCount) {
-        mAuthority = authority;
-        mRootId = rootId;
+    public FilteringCursorWrapper(
+            Cursor cursor, String[] acceptMimes, String[] rejectMimes, long rejectBefore) {
         mCursor = cursor;
 
         final int count = cursor.getCount();
-        if (maxCount > 0 && count > maxCount) {
-            mCount = maxCount;
-        } else {
-            mCount = count;
+        mPosition = new int[count];
+
+        cursor.moveToPosition(-1);
+        while (cursor.moveToNext() && mCount < count) {
+            final String mimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
+            final long lastModified = getCursorLong(cursor, Document.COLUMN_LAST_MODIFIED);
+            if (rejectMimes != null && MimePredicate.mimeMatches(rejectMimes, mimeType)) {
+                continue;
+            }
+            if (lastModified < rejectBefore) {
+                continue;
+            }
+            if (MimePredicate.mimeMatches(acceptMimes, mimeType)) {
+                mPosition[mCount++] = cursor.getPosition();
+            }
         }
 
-        if (cursor.getColumnIndex(COLUMN_AUTHORITY) != -1
-                || cursor.getColumnIndex(COLUMN_ROOT_ID) != -1) {
-            throw new IllegalArgumentException("Cursor contains internal columns!");
+        if (DEBUG && mCount != cursor.getCount()) {
+            Log.d(TAG, "Before filtering " + cursor.getCount() + ", after " + mCount);
         }
-        final String[] before = cursor.getColumnNames();
-        mColumnNames = new String[before.length + 2];
-        System.arraycopy(before, 0, mColumnNames, 0, before.length);
-        mAuthorityIndex = before.length;
-        mRootIdIndex = before.length + 1;
-        mColumnNames[mAuthorityIndex] = COLUMN_AUTHORITY;
-        mColumnNames[mRootIdIndex] = COLUMN_ROOT_ID;
     }
 
     @Override
@@ -76,12 +84,12 @@ public class RootCursorWrapper extends AbstractCursor {
 
     @Override
     public boolean onMove(int oldPosition, int newPosition) {
-        return mCursor.moveToPosition(newPosition);
+        return mCursor.moveToPosition(mPosition[newPosition]);
     }
 
     @Override
     public String[] getColumnNames() {
-        return mColumnNames;
+        return mCursor.getColumnNames();
     }
 
     @Override
@@ -116,13 +124,7 @@ public class RootCursorWrapper extends AbstractCursor {
 
     @Override
     public String getString(int column) {
-        if (column == mAuthorityIndex) {
-            return mAuthority;
-        } else if (column == mRootIdIndex) {
-            return mRootId;
-        } else {
-            return mCursor.getString(column);
-        }
+        return mCursor.getString(column);
     }
 
     @Override

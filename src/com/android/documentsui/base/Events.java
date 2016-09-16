@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;

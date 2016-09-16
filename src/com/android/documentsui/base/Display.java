@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.base;
 
 import android.app.Activity;
 import android.content.Context;

@@ -42,6 +42,7 @@ import android.text.TextUtils;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.roots.RootCursorWrapper;
 
 import com.google.android.collect.Lists;
 

@@ -23,9 +23,9 @@ import static android.provider.DocumentsContract.getDocumentId;
 import static android.provider.DocumentsContract.isChildDocument;
 
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_CONVERTED;
-import static com.android.documentsui.Shared.DEBUG;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.services.FileOperationService.EXTRA_DIALOG_TYPE;
 import static com.android.documentsui.services.FileOperationService.EXTRA_OPERATION_TYPE;
 import static com.android.documentsui.services.FileOperationService.EXTRA_SRC_LIST;
@@ -54,11 +54,11 @@ import android.webkit.MimeTypeMap;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
-import com.android.documentsui.RootsCache;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
+import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.services.FileOperationService.OpType;
 
 import libcore.io.IoUtils;

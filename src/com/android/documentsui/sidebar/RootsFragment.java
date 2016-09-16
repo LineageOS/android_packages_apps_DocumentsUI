@@ -16,7 +16,7 @@
 
 package com.android.documentsui.sidebar;
 
-import static com.android.documentsui.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.LayoutRes;
 import android.app.Activity;
@@ -61,15 +61,10 @@ import android.widget.TextView;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.Events;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
-import com.android.documentsui.RootsCache;
-import com.android.documentsui.RootsLoader;
-import com.android.documentsui.Shared;
-import com.android.documentsui.State;
 import com.android.documentsui.ItemDragListener.DragHost;
 import com.android.documentsui.R.id;
 import com.android.documentsui.R.layout;
@@ -77,10 +72,15 @@ import com.android.documentsui.R.menu;
 import com.android.documentsui.R.string;
 import com.android.documentsui.base.CheckedTask;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Events;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
 import com.android.documentsui.base.CheckedTask.Check;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.picker.PickActivity;
+import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.roots.RootsLoader;
 import com.android.documentsui.services.FileOperations;
 
 import java.util.ArrayList;
