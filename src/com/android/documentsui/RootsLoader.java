@@ -19,7 +19,7 @@ package com.android.documentsui;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.RootInfo;
 
 import java.util.Collection;
 

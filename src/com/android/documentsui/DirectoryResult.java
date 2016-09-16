@@ -19,7 +19,7 @@ package com.android.documentsui;
 import android.content.ContentProviderClient;
 import android.database.Cursor;
 
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.sorting.SortModel;
 
 import libcore.io.IoUtils;

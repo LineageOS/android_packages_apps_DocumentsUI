@@ -16,9 +16,9 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.model.DocumentInfo.getCursorInt;
-import static com.android.documentsui.model.DocumentInfo.getCursorLong;
-import static com.android.documentsui.model.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.DocumentInfo.getCursorInt;
+import static com.android.documentsui.base.DocumentInfo.getCursorLong;
+import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.content.Context;
 import android.database.Cursor;

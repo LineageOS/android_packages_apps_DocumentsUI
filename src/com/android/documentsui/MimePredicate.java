@@ -19,7 +19,7 @@ package com.android.documentsui;
 import android.annotation.Nullable;
 import android.provider.DocumentsContract.Document;
 
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.internal.util.Predicate;
 
 public class MimePredicate implements Predicate<DocumentInfo> {

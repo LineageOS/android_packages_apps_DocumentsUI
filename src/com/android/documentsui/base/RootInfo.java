@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.model;
+package com.android.documentsui.base;
 
 import static com.android.documentsui.Shared.DEBUG;
 import static com.android.documentsui.Shared.compareToIgnoreCaseNullable;
-import static com.android.documentsui.model.DocumentInfo.getCursorInt;
-import static com.android.documentsui.model.DocumentInfo.getCursorLong;
-import static com.android.documentsui.model.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.DocumentInfo.getCursorInt;
+import static com.android.documentsui.base.DocumentInfo.getCursorLong;
+import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;

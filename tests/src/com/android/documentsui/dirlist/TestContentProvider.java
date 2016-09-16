@@ -21,7 +21,7 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.test.mock.MockContentProvider;
 
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 
 import java.util.ArrayList;
 import java.util.List;

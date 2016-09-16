@@ -30,9 +30,9 @@ import android.test.suitebuilder.annotation.MediumTest;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.DocumentsProviderHelper;
 import com.android.documentsui.StubProvider;
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.DocumentStack;
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.testing.DocsProviders;
 

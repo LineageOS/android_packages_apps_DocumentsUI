@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.functional;
 
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.android.documentsui.R;
+import com.android.documentsui.R.string;
 import com.android.documentsui.manager.ManageActivity;
 
 @LargeTest

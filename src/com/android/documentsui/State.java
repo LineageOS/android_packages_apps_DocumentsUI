@@ -25,10 +25,10 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.util.SparseArray;
 
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.DocumentStack;
-import com.android.documentsui.model.DurableUtils;
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.DurableUtils;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.sorting.SortModel;

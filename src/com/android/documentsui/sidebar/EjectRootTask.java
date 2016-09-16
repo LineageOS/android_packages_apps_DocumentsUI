@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.sidebar;
 
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -22,6 +22,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
+
+import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.Shared;
+import com.android.documentsui.base.CheckedTask;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;

@@ -33,7 +33,7 @@ import android.support.test.jank.GfxMonitor;
 import android.support.test.uiautomator.UiScrollable;
 import android.util.Log;
 
-import com.android.documentsui.bots.RootsListBot;
+import com.android.documentsui.bots.SidebarBot;
 import com.android.documentsui.manager.ManageActivity;
 import com.android.documentsui.bots.DirectoryListBot;
 
@@ -43,14 +43,14 @@ public class FilesJankPerfTest extends JankTestBase {
     private static final int MAX_FLINGS = 10;
     private static final int BOT_TIMEOUT = 5000;
 
-    private RootsListBot mRootsListBot;
+    private SidebarBot mRootsListBot;
     private DirectoryListBot mDirListBot;
     private Activity mActivity = null;
 
     public void setUpInLoop() {
         final UiDevice device = UiDevice.getInstance(getInstrumentation());
         final Context context = getInstrumentation().getTargetContext();
-        mRootsListBot = new RootsListBot(device, context, BOT_TIMEOUT);
+        mRootsListBot = new SidebarBot(device, context, BOT_TIMEOUT);
         mDirListBot = new DirectoryListBot(device, context, BOT_TIMEOUT);
 
         final Intent intent = new Intent(context, ManageActivity.class);

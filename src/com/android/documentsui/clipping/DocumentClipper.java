@@ -28,10 +28,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.android.documentsui.Shared;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.DocumentStack;
-import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;

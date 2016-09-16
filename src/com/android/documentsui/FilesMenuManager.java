@@ -19,7 +19,7 @@ package com.android.documentsui;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.RootInfo;
 
 public final class FilesMenuManager extends MenuManager {
 

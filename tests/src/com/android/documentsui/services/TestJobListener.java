@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
 
 import android.support.annotation.Nullable;
 
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 
 import java.util.ArrayList;
 import java.util.List;

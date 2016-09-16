@@ -22,7 +22,7 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.test.suitebuilder.annotation.MediumTest;
 
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.services.FileOperationService.OpType;
 
 import java.util.List;

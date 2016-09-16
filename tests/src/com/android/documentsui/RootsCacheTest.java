@@ -22,7 +22,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.RootInfo;
 
 import com.google.common.collect.Lists;
 

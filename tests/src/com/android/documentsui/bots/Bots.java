@@ -38,14 +38,14 @@ public final class Bots {
     public final DirectoryListBot directory;
     public final SortHeaderBot sortHeader;
     public final KeyboardBot keyboard;
-    public final RootsListBot roots;
+    public final SidebarBot roots;
     public final SearchBot search;
     public final UiBot main;
 
     public Bots(UiDevice device, Context context, int timeout) {
         main = new UiBot(device, context, TIMEOUT);
         breadcrumb = new BreadBot(device, context, TIMEOUT, main);
-        roots = new RootsListBot(device, context, TIMEOUT);
+        roots = new SidebarBot(device, context, TIMEOUT);
         directory = new DirectoryListBot(device, context, TIMEOUT);
         sortHeader = new SortHeaderBot(device, context, TIMEOUT);
         keyboard = new KeyboardBot(device, context, TIMEOUT);

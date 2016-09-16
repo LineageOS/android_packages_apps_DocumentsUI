@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.model;
+package com.android.documentsui.base;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.android.documentsui.base.DocumentInfo;
 
 @SmallTest
 public class DocumentInfoTest extends AndroidTestCase {

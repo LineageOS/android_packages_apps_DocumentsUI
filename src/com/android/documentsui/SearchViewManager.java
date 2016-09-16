@@ -32,7 +32,7 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.sorting.SortModel;
 
 /**

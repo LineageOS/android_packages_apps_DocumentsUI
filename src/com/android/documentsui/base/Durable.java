@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.model;
+package com.android.documentsui.base;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

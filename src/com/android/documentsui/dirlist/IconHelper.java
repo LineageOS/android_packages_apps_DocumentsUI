@@ -47,7 +47,7 @@ import com.android.documentsui.State;
 import com.android.documentsui.State.ViewMode;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.ThumbnailCache.Result;
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 
 import java.util.function.BiConsumer;
 

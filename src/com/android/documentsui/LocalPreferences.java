@@ -28,7 +28,7 @@ import android.preference.PreferenceManager;
 
 import com.android.documentsui.State.ActionType;
 import com.android.documentsui.State.ViewMode;
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.base.RootInfo;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

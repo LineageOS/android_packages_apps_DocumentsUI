@@ -54,15 +54,17 @@ import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.State.ViewMode;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.PairedTask;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.DocumentStack;
-import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
+import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
@@ -259,7 +261,7 @@ public abstract class BaseActivity extends Activity
         mNavigator.revealRootsDrawer(open);
     }
 
-    void onRootPicked(RootInfo root) {
+    public void onRootPicked(RootInfo root) {
         // Clicking on the current root removes search
         mSearchManager.cancelSearch();
 

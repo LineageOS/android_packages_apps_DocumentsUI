@@ -23,8 +23,8 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.AnimationView;
-import com.android.documentsui.model.RootInfo;
 
 import java.util.function.Consumer;
 

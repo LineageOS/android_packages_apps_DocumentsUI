@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.model.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.annotation.ColorRes;
 import android.annotation.Nullable;

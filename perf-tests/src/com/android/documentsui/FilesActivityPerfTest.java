@@ -28,8 +28,9 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.util.Log;
 import android.view.KeyEvent;
 
-import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.EventListener;
+import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.functional.ActivityTest;
 import com.android.documentsui.manager.ManageActivity;
 
 import java.util.ArrayList;

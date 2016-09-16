@@ -26,8 +26,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Html;
 
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.DocumentStack;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 

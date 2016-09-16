@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.functional;
 
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
@@ -25,6 +25,8 @@ import android.support.test.filters.Suppress;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.KeyEvent;
 
+import com.android.documentsui.R;
+import com.android.documentsui.R.id;
 import com.android.documentsui.manager.ManageActivity;
 
 @LargeTest

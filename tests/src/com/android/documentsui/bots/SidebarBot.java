@@ -42,11 +42,11 @@ import junit.framework.Assert;
  * A test helper class that provides support for controlling and asserting against
  * the roots list drawer.
  */
-public class RootsListBot extends Bots.BaseBot {
+public class SidebarBot extends Bots.BaseBot {
     private static final String ROOTS_LIST_ID = "com.android.documentsui:id/roots_list";
     private static final String TAG = "RootsListBot";
 
-    public RootsListBot(UiDevice device, Context context, int timeout) {
+    public SidebarBot(UiDevice device, Context context, int timeout) {
         super(device, context, timeout);
     }
 

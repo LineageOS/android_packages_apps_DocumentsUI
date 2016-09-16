@@ -23,14 +23,13 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.LastAccessedProvider;
-import com.android.documentsui.LastAccessedProvider.Columns;
-import com.android.documentsui.PairedTask;
 import com.android.documentsui.RootsCache;
 import com.android.documentsui.State;
+import com.android.documentsui.base.DurableUtils;
+import com.android.documentsui.base.PairedTask;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.AnimationView;
-import com.android.documentsui.model.DurableUtils;
-import com.android.documentsui.model.RootInfo;
+import com.android.documentsui.picker.LastAccessedProvider.Columns;
 
 import libcore.io.IoUtils;
 

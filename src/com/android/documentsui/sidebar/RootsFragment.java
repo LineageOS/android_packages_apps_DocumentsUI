@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.sidebar;
 
 import static com.android.documentsui.Shared.DEBUG;
 
@@ -59,10 +59,27 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.android.documentsui.CheckedTask.Check;
+import com.android.documentsui.BaseActivity;
+import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.Events;
+import com.android.documentsui.ItemDragListener;
+import com.android.documentsui.Metrics;
+import com.android.documentsui.ProviderExecutor;
+import com.android.documentsui.R;
+import com.android.documentsui.RootsCache;
+import com.android.documentsui.RootsLoader;
+import com.android.documentsui.Shared;
+import com.android.documentsui.State;
+import com.android.documentsui.ItemDragListener.DragHost;
+import com.android.documentsui.R.id;
+import com.android.documentsui.R.layout;
+import com.android.documentsui.R.menu;
+import com.android.documentsui.R.string;
+import com.android.documentsui.base.CheckedTask;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.CheckedTask.Check;
 import com.android.documentsui.clipping.DocumentClipper;
-import com.android.documentsui.model.DocumentInfo;
-import com.android.documentsui.model.RootInfo;
 import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.services.FileOperations;
 

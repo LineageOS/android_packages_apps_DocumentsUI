@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.functional;
 
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
@@ -25,11 +25,11 @@ import android.test.suitebuilder.annotation.Suppress;
 import com.android.documentsui.manager.ManageActivity;
 
 @LargeTest
-public class RootsUiTest extends ActivityTest<ManageActivity> {
+public class SidebarUiTest extends ActivityTest<ManageActivity> {
 
     private static final String TAG = "RootUiTest";
 
-    public RootsUiTest() {
+    public SidebarUiTest() {
         super(ManageActivity.class);
     }
 

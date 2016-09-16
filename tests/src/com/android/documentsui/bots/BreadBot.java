@@ -36,7 +36,7 @@ import android.view.View;
 import com.android.documentsui.DragOverTextView;
 import com.android.documentsui.DropdownBreadcrumb;
 import com.android.documentsui.R;
-import com.android.documentsui.model.DocumentInfo;
+import com.android.documentsui.base.DocumentInfo;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
