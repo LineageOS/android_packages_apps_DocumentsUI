@@ -24,7 +24,9 @@ import android.view.ViewGroup;
 import android.widget.Space;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.Model.Update;
 
 import java.util.List;
 
@@ -39,6 +41,7 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
 
     private final Environment mEnv;
     private final DocumentsAdapter mDelegate;
+    private final EventListener<Update> mModelUpdateListener;
 
     private int mBreakPosition = -1;
 
@@ -49,6 +52,26 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
         // Relay events published by our delegate to our listeners (presumably RecyclerView)
         // with adjusted positions.
         mDelegate.registerAdapterDataObserver(new EventRelay());
+
+        mModelUpdateListener = new EventListener<Model.Update>() {
+            @Override
+            public void accept(Update event) {
+                // make sure the delegate handles the update before we do.
+                // This isn't ideal since the delegate might be listening
+                // the updates itself. But this is the safe thing to do
+                // since we read model ids from the delegate
+                // in our update handler.
+                mDelegate.getModelUpdateListener().accept(event);
+                if (!event.hasError()) {
+                    onModelUpdate(mEnv.getModel());
+                }
+            }
+        };
+    }
+
+    @Override
+    EventListener<Update> getModelUpdateListener() {
+        return mModelUpdateListener;
     }
 
     @Override
@@ -101,9 +124,7 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
                 : mDelegate.getItemCount() + 1;
     }
 
-    @Override
-    public void onModelUpdate(Model model) {
-        mDelegate.onModelUpdate(model);
+    private void onModelUpdate(Model model) {
         mBreakPosition = -1;
 
         // Walk down the list of IDs till we encounter something that's not a directory, and
@@ -122,11 +143,6 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
                 break;
             }
         }
-    }
-
-    @Override
-    public void onModelUpdateFailed(Exception e) {
-        mDelegate.onModelUpdateFailed(e);
     }
 
     @Override

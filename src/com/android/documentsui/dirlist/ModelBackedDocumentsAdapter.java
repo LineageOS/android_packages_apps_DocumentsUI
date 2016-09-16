@@ -27,7 +27,9 @@ import android.provider.DocumentsContract.Document;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.Model.Update;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -53,6 +55,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
      * the UI, and where.
      */
     private List<String> mModelIds = new ArrayList<>();
+    private EventListener<Model.Update> mModelUpdateListener;
 
     // List of files that have been deleted. Some transient directory updates
     // may happen while files are being deleted. During this time we don't
@@ -66,6 +69,22 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
     public ModelBackedDocumentsAdapter(Environment env, IconHelper iconHelper) {
         mEnv = env;
         mIconHelper = iconHelper;
+
+        mModelUpdateListener = new EventListener<Model.Update>() {
+            @Override
+            public void accept(Update event) {
+                if (event.hasError()) {
+                    onModelUpdateFailed(event.getError());
+                } else {
+                    onModelUpdate(mEnv.getModel());
+                }
+            }
+        };
+    }
+
+    @Override
+    EventListener<Update> getModelUpdateListener() {
+        return mModelUpdateListener;
     }
 
     @Override
@@ -131,8 +150,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
         return mModelIds.size();
     }
 
-    @Override
-    public void onModelUpdate(Model model) {
+    private void onModelUpdate(Model model) {
         if (DEBUG && mHiddenIds.size() > 0) {
             Log.d(TAG, "Updating model with hidden ids: " + mHiddenIds);
         }
@@ -152,8 +170,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
         mHiddenIds.retainAll(mModelIds);
     }
 
-    @Override
-    public void onModelUpdateFailed(Exception e) {
+    private void onModelUpdateFailed(Exception e) {
         Log.w(TAG, "Model update failed.", e);
         mModelIds.clear();
     }

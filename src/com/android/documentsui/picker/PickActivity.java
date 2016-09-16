@@ -44,18 +44,18 @@ import android.view.Menu;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.MenuManager.DirectoryDetails;
+import com.android.documentsui.R;
+import com.android.documentsui.Snackbars;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.R;
-import com.android.documentsui.Snackbars;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
-import com.android.documentsui.dirlist.FragmentTuner.DocumentsTuner;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
@@ -64,9 +64,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PickActivity extends BaseActivity {
+
     private static final int CODE_FORWARD = 42;
     private static final String TAG = "DocumentsActivity";
     private MenuManager mMenuManager;
+    private Tuner mTuner;
     private DirectoryDetails mDetails;
 
     public PickActivity() {
@@ -76,7 +78,8 @@ public class PickActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        mMenuManager = new MenuManager(mSearchManager, getDisplayState());
+        mTuner = new Tuner(this, mState);
+        mMenuManager = new MenuManager(mSearchManager, mState);
         mDetails = new DirectoryDetails(this);
 
         if (mState.action == ACTION_CREATE) {
@@ -391,10 +394,11 @@ public class PickActivity extends BaseActivity {
     }
 
     @Override
-    public FragmentTuner createFragmentTuner() {
-        // Currently DocumentsTuner maintains a state specific to the fragment instance. Because of
-        // that, we create a new instance everytime it is needed
-        return new DocumentsTuner(this, getDisplayState(), mSortController);
+    public FragmentTuner getFragmentTuner(
+            Model model,
+            MultiSelectManager selectionMgr,
+            boolean mSearchMode) {
+        return mTuner.reset(model, selectionMgr, mSearchMode);
     }
 
     @Override

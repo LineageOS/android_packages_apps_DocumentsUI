@@ -38,7 +38,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events;
+import com.android.documentsui.dirlist.Model.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -516,15 +518,9 @@ public final class FocusManager implements FocusHandler {
             mIndex = index;
         }
 
-        private Model.UpdateListener mModelListener = new Model.UpdateListener() {
+        private EventListener<Model.Update> mModelListener = new EventListener<Model.Update>() {
             @Override
-            public void onModelUpdate(Model model) {
-                // Invalidate the search index when the model updates.
-                mIndex = null;
-            }
-
-            @Override
-            public void onModelUpdateFailed(Exception e) {
+            public void accept(Update event) {
                 // Invalidate the search index when the model updates.
                 mIndex = null;
             }

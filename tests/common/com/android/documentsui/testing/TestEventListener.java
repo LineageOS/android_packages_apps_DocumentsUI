@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.base;
+package com.android.documentsui.testing;
+
+import com.android.documentsui.base.EventHandler;
+import com.android.documentsui.base.EventListener;
 
 /**
- * A functional interface that handles an event and returns a boolean to indicate if the event
- * is consumed.
+ * Test {@link EventHandler} that can be used to spy on,  control responses from,
+ * and make assertions against values tested.
  */
-@FunctionalInterface
-public interface EventHandler<T> {
-    boolean accept(T event);
+public class TestEventListener<T> extends TestPredicate<T> implements EventListener<T> {
+
+    @Override
+    public void accept(T event) {
+        test(event);
+    }
 }

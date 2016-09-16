@@ -54,8 +54,8 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
-import com.android.documentsui.dirlist.FragmentTuner.FilesTuner;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
@@ -79,9 +79,10 @@ public class ManageActivity extends BaseActivity {
     // Track the time we opened the drawer in response to back being pressed.
     // We use the time gap to figure out whether to close app or reopen the drawer.
     private long mDrawerLastFiddled;
-    private DocumentClipper mClipper;
+    private Tuner mTuner;
     private MenuManager mMenuManager;
     private DirectoryDetails mDetails;
+    private DocumentClipper mClipper;
 
     public ManageActivity() {
         super(R.layout.files_activity, TAG);
@@ -92,13 +93,15 @@ public class ManageActivity extends BaseActivity {
         super.onCreate(icicle);
 
         mClipper = DocumentsApplication.getDocumentClipper(this);
-        mMenuManager = new MenuManager(mSearchManager, getDisplayState());
+        mMenuManager = new MenuManager(mSearchManager, mState);
+        mTuner = new Tuner(this, mState);
         mDetails = new DirectoryDetails(this) {
             @Override
             public boolean hasItemsToPaste() {
                 return mClipper.hasItemsToPaste();
             }
         };
+        mClipper = DocumentsApplication.getDocumentClipper(this);
 
         RootsFragment.show(getFragmentManager(), this::openRootSettings);
 
@@ -528,8 +531,11 @@ public class ManageActivity extends BaseActivity {
     }
 
     @Override
-    public FragmentTuner createFragmentTuner() {
-        return new FilesTuner(this, getDisplayState(), mSortController);
+    public FragmentTuner getFragmentTuner(
+            Model model,
+            MultiSelectManager selectionMgr,
+            boolean mSearchMode) {
+        return mTuner.reset(model, selectionMgr, mSearchMode);
     }
 
     @Override

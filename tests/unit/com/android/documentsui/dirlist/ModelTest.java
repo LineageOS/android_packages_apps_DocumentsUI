@@ -33,6 +33,7 @@ import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.testing.SortModels;
+import com.android.documentsui.testing.TestEventListener;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -101,7 +102,8 @@ public class ModelTest extends AndroidTestCase {
 
         // Instantiate the model with a dummy view adapter and listener that (for now) do nothing.
         model = new Model();
-        model.addUpdateListener(new DummyListener());
+        // not sure why we add a listener here at all.
+        model.addUpdateListener(new TestEventListener<>());
         model.update(r);
     }
 
@@ -467,12 +469,5 @@ public class ModelTest extends AndroidTestCase {
         };
         provider = new TestContentProvider();
         resolver.addProvider(AUTHORITY, provider);
-    }
-
-    private static class DummyListener implements Model.UpdateListener {
-        @Override
-        public void onModelUpdate(Model model) {}
-        @Override
-        public void onModelUpdateFailed(Exception e) {}
     }
 }

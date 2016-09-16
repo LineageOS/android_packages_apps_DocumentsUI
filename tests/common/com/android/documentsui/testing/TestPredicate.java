@@ -24,8 +24,8 @@ import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 /**
- * Test predicate that can be used to spy control responses and make
- * assertions against values tested.
+ * Test {@link Predicate} that can be used to spy on,  control responses from,
+ * and make assertions against values tested.
  */
 public class TestPredicate<T> implements Predicate<T> {
 

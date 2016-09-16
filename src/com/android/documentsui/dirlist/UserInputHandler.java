@@ -48,10 +48,12 @@ public final class UserInputHandler<T extends InputEvent>
     private final Function<MotionEvent, T> mEventConverter;
     private final Predicate<DocumentDetails> mSelectable;
     private final EventHandler<InputEvent> mRightClickHandler;
-    private final DocumentHandler mActivateHandler;
-    private final DocumentHandler mDeleteHandler;
+    private final EventHandler<DocumentDetails> mPickHandler;
+    private final EventHandler<DocumentDetails> mPreviewHandler;
+    private final EventHandler<DocumentDetails> mDeleteHandler;
     private final EventHandler<InputEvent> mTouchDragListener;
     private final EventHandler<InputEvent> mGestureSelectHandler;
+
     private final TouchInputDelegate mTouchDelegate;
     private final MouseInputDelegate mMouseDelegate;
     private final KeyInputHandler mKeyListener;
@@ -62,8 +64,9 @@ public final class UserInputHandler<T extends InputEvent>
             Function<MotionEvent, T> eventConverter,
             Predicate<DocumentDetails> selectable,
             EventHandler<InputEvent> rightClickHandler,
-            DocumentHandler activateHandler,
-            DocumentHandler deleteHandler,
+            EventHandler<DocumentDetails> pickHandler,
+            EventHandler<DocumentDetails> previewHandler,
+            EventHandler<DocumentDetails> deleteHandler,
             EventHandler<InputEvent> touchDragListener,
             EventHandler<InputEvent> gestureSelectHandler) {
 
@@ -72,7 +75,8 @@ public final class UserInputHandler<T extends InputEvent>
         mEventConverter = eventConverter;
         mSelectable = selectable;
         mRightClickHandler = rightClickHandler;
-        mActivateHandler = activateHandler;
+        mPickHandler = pickHandler;
+        mPreviewHandler = previewHandler;
         mDeleteHandler = deleteHandler;
         mTouchDragListener = touchDragListener;
         mGestureSelectHandler = gestureSelectHandler;
@@ -183,8 +187,12 @@ public final class UserInputHandler<T extends InputEvent>
         return mKeyListener.onKey(doc, keyCode, event);
     }
 
-    private boolean activateDocument(DocumentDetails doc) {
-        return mActivateHandler.accept(doc);
+    private boolean pickDocument(DocumentDetails doc) {
+        return mPickHandler.accept(doc);
+    }
+
+    private boolean previewDocument(DocumentDetails doc) {
+        return mPreviewHandler.accept(doc);
     }
 
     private boolean selectDocument(DocumentDetails doc) {
@@ -245,7 +253,7 @@ public final class UserInputHandler<T extends InputEvent>
             // otherwise they activate.
             return doc.isInSelectionHotspot(event)
                     ? selectDocument(doc)
-                    : activateDocument(doc);
+                    : pickDocument(doc);
         }
 
         boolean onSingleTapConfirmed(T event) {
@@ -271,11 +279,11 @@ public final class UserInputHandler<T extends InputEvent>
             } else {
                 if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
                     selectDocument(doc);
-                    mGestureSelectHandler.apply(event);
+                    mGestureSelectHandler.accept(event);
                 } else {
                     // We only initiate drag and drop on long press for touch to allow regular
                     // touch-based scrolling
-                    mTouchDragListener.apply(event);
+                    mTouchDragListener.accept(event);
                 }
             }
         }
@@ -377,7 +385,7 @@ public final class UserInputHandler<T extends InputEvent>
             DocumentDetails doc = event.getDocumentDetails();
             return mSelectionMgr.hasSelection()
                     ? selectDocument(doc)
-                    : activateDocument(doc);
+                    : pickDocument(doc);
         }
 
         final void onLongPress(T event) {
@@ -398,7 +406,7 @@ public final class UserInputHandler<T extends InputEvent>
             // We always delegate final handling of the event,
             // since the handler might want to show a context menu
             // in an empty area or some other weirdo view.
-            return mRightClickHandler.apply(event);
+            return mRightClickHandler.accept(event);
         }
     }
 
@@ -443,7 +451,7 @@ public final class UserInputHandler<T extends InputEvent>
                     // For non-shifted enter keypresses, fall through.
                 case KeyEvent.KEYCODE_DPAD_CENTER:
                 case KeyEvent.KEYCODE_BUTTON_A:
-                    return activateDocument(doc);
+                    return pickDocument(doc);
                 case KeyEvent.KEYCODE_FORWARD_DEL:
                     // This has to be handled here instead of in a keyboard shortcut, because
                     // keyboard shortcuts all have to be modified with the 'Ctrl' key.
@@ -466,10 +474,5 @@ public final class UserInputHandler<T extends InputEvent>
 
             return mSelectable.test(doc);
         }
-    }
-
-    @FunctionalInterface
-    interface DocumentHandler {
-        boolean accept(DocumentDetails doc);
     }
 }

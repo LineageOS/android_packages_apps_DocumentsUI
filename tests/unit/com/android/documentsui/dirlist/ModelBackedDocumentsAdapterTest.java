@@ -18,10 +18,8 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.view.ViewGroup;
 
 import com.android.documentsui.base.State;
 
@@ -55,7 +53,7 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
         mAdapter = new ModelBackedDocumentsAdapter(
                 env, new IconHelper(testContext, State.MODE_GRID));
-        mAdapter.onModelUpdate(mModel);
+        mAdapter.getModelUpdateListener().accept(Model.Update.UPDATE);
     }
 
     // Tests that the item count is correct.
@@ -105,18 +103,5 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
         @Override
         public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {}
-    }
-
-    private static class DummyListener implements Model.UpdateListener {
-        public void onModelUpdate(Model model) {}
-        public void onModelUpdateFailed(Exception e) {}
-    }
-
-    private static class DummyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        public int getItemCount() { return 0; }
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {}
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
-        }
     }
 }

@@ -67,6 +67,7 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.RootsCache;
@@ -138,12 +139,27 @@ public abstract class BaseActivity extends Activity
     private boolean mNavDrawerHasFocus;
     private long mStartTime;
 
+    /**
+     * Provides Activity a means of injection into and specialization of
+     * DirectoryFragment.
+     */
+    public abstract FragmentTuner getFragmentTuner(
+            Model model, MultiSelectManager selectionMgr, boolean mSearchMode);
+
+    /**
+     * Provides Activity a means of injection into and specialization of
+     * DirectoryFragment hosted menus.
+     */
+    public abstract MenuManager getMenuManager();
+
+    /**
+     * Provides Activity a means of injection into and specialization of
+     * DirectoryFragment.
+     */
+    public abstract DirectoryDetails getDirectoryDetails();
 
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);
     public abstract void onDocumentsPicked(List<DocumentInfo> docs);
-    public abstract FragmentTuner createFragmentTuner();
-    public abstract MenuManager getMenuManager();
-    public abstract DirectoryDetails getDirectoryDetails();
 
     protected abstract void onTaskFinished(Uri... uris);
     protected abstract void refreshDirectory(int anim);
