@@ -40,6 +40,7 @@ public final class Bots {
     public final KeyboardBot keyboard;
     public final SidebarBot roots;
     public final SearchBot search;
+    public final GestureBot gesture;
     public final UiBot main;
 
     public Bots(UiDevice device, Context context, int timeout) {
@@ -50,6 +51,7 @@ public final class Bots {
         sortHeader = new SortHeaderBot(device, context, TIMEOUT);
         keyboard = new KeyboardBot(device, context, TIMEOUT);
         search = new SearchBot(device, context, TIMEOUT);
+        gesture = new GestureBot(device, context, TIMEOUT);
     }
 
     /**

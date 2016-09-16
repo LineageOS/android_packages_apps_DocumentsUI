@@ -22,6 +22,7 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.BySelector;
@@ -217,6 +218,13 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     public void assertHasFocus() {
         assertHasFocus(DIR_LIST_ID);
+    }
+
+    public void assertSelection(int numSelected) {
+        String assertSelectionText = numSelected + " selected";
+        UiObject2 selectionText = mDevice.wait(
+                Until.findObject(By.text(assertSelectionText)), mTimeout);
+        assertTrue(selectionText != null);
     }
 
     public void assertOrder(String[] dirs, String[] files) throws UiObjectNotFoundException {
