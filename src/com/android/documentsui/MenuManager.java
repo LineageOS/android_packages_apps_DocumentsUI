@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.dirlist.DirectoryFragment;
 
 public abstract class MenuManager {
 
@@ -31,20 +32,20 @@ public abstract class MenuManager {
         mState = displayState;
     }
 
-    /** @See DirectoryFragment.SelectionModeListener#updateActionMenu */
+    /** @see ActionModeController */
     public void updateActionMenu(Menu menu, SelectionDetails selection) {
-        updateOpen(menu.findItem(R.id.menu_open), selection);
+        updateOpenInActionMode(menu.findItem(R.id.menu_open), selection);
         updateDelete(menu.findItem(R.id.menu_delete), selection);
         updateShare(menu.findItem(R.id.menu_share), selection);
         updateRename(menu.findItem(R.id.menu_rename), selection);
-        updateSelectAll(menu.findItem(R.id.menu_select_all), selection);
+        updateSelectAll(menu.findItem(R.id.menu_select_all));
         updateMoveTo(menu.findItem(R.id.menu_move_to), selection);
         updateCopyTo(menu.findItem(R.id.menu_copy_to), selection);
 
         Menus.disableHiddenItems(menu);
     }
 
-    /** @See Activity#onPrepareOptionsMenu */
+    /** @see BaseActivity#onPrepareOptionsMenu */
     public void updateOptionMenu(Menu menu, DirectoryDetails directoryDetails) {
         updateCreateDir(menu.findItem(R.id.menu_create_dir), directoryDetails);
         updateSettings(menu.findItem(R.id.menu_settings), directoryDetails);
@@ -57,76 +58,92 @@ public abstract class MenuManager {
         Menus.disableHiddenItems(menu);
     }
 
-    /** @See DirectoryFragment.onCreateContextMenu
+    /**
+     * @see DirectoryFragment#onCreateContextMenu
      *
-     * Called when user tries to generate a context menu anchored to a file.
-     * */
-    public void updateContextMenuForFile(
-            Menu menu,
-            SelectionDetails selectionDetails,
-            DirectoryDetails directoryDetails) {
+     * Called when user tries to generate a context menu anchored to a file when the selection
+     * doesn't contain any folder.
+     *
+     * @param selectionDetails
+     *      containsFiles may return false because this may be called when user right clicks on an
+     *      unselectable item in pickers
+     */
+    public void updateContextMenuForFiles(Menu menu, SelectionDetails selectionDetails) {
+        assert(selectionDetails != null);
+
+        MenuItem share = menu.findItem(R.id.menu_share);
+        MenuItem open = menu.findItem(R.id.menu_open);
+        MenuItem openWith = menu.findItem(R.id.menu_open_with);
+        MenuItem rename = menu.findItem(R.id.menu_rename);
+
+        updateShare(share, selectionDetails);
+        updateOpenInContextMenu(open, selectionDetails);
+        updateOpenWith(openWith, selectionDetails);
+        updateRename(rename, selectionDetails);
+
+        updateContextMenu(menu, selectionDetails);
+    }
+
+    /**
+     * @see DirectoryFragment#onCreateContextMenu
+     *
+     * Called when user tries to generate a context menu anchored to a folder when the selection
+     * doesn't contain any file.
+     *
+     * @param selectionDetails
+     *      containDirectories may return false because this may be called when user right clicks on
+     *      an unselectable item in pickers
+     */
+    public void updateContextMenuForDirs(Menu menu, SelectionDetails selectionDetails) {
+        assert(selectionDetails != null);
+
+        MenuItem openInNewWindow = menu.findItem(R.id.menu_open_in_new_window);
+        MenuItem rename = menu.findItem(R.id.menu_rename);
+        MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
+
+        updateOpenInNewWindow(openInNewWindow, selectionDetails);
+        updateRename(rename, selectionDetails);
+        updatePasteInto(pasteInto, selectionDetails);
+
+        updateContextMenu(menu, selectionDetails);
+    }
+
+    /**
+     * @see DirectoryFragment#onCreateContextMenu
+     *
+     * Update shared context menu items of both files and folders context menus.
+     */
+    public void updateContextMenu(Menu menu, SelectionDetails selectionDetails) {
         assert(selectionDetails != null);
 
         MenuItem cut = menu.findItem(R.id.menu_cut_to_clipboard);
         MenuItem copy = menu.findItem(R.id.menu_copy_to_clipboard);
-        MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
         MenuItem delete = menu.findItem(R.id.menu_delete);
-        MenuItem rename = menu.findItem(R.id.menu_rename);
 
-        copy.setEnabled(!selectionDetails.containsPartialFiles());
-        cut.setEnabled(
-                !selectionDetails.containsPartialFiles() && selectionDetails.canDelete());
-        updatePasteInto(pasteInto, selectionDetails);
-        updateRename(rename, selectionDetails);
-        updateDelete(delete, selectionDetails);
-
-        updateContextMenu(menu, directoryDetails);
+        final boolean canCopy =
+                selectionDetails.size() > 0 && !selectionDetails.containsPartialFiles();
+        final boolean canDelete = selectionDetails.canDelete();
+        cut.setEnabled(canCopy && canDelete);
+        copy.setEnabled(canCopy);
+        delete.setEnabled(canDelete);
     }
 
-    /** @See DirectoryFragment.onCreateContextMenu
+    /**
+     * @see DirectoryFragment#onCreateContextMenu
      *
      * Called when user tries to generate a context menu anchored to an empty pane.
-     * */
+     */
     public void updateContextMenuForContainer(Menu menu, DirectoryDetails directoryDetails) {
-        MenuItem cut = menu.findItem(R.id.menu_cut_to_clipboard);
-        MenuItem copy = menu.findItem(R.id.menu_copy_to_clipboard);
-        MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
-        MenuItem delete = menu.findItem(R.id.menu_delete);
-        MenuItem rename = menu.findItem(R.id.menu_rename);
-
-        cut.setEnabled(false);
-        copy.setEnabled(false);
-        pasteInto.setEnabled(false);
-        rename.setEnabled(false);
-        delete.setEnabled(false);
-
-        updateContextMenu(menu, directoryDetails);
-    }
-
-    private void updateContextMenu(Menu menu, DirectoryDetails directoryDetails) {
-
-        MenuItem cut = menu.findItem(R.id.menu_cut_to_clipboard);
-        MenuItem copy = menu.findItem(R.id.menu_copy_to_clipboard);
         MenuItem paste = menu.findItem(R.id.menu_paste_from_clipboard);
-        MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
-        MenuItem delete = menu.findItem(R.id.menu_delete);
-        MenuItem createDir = menu.findItem(R.id.menu_create_dir);
+        MenuItem selectAll = menu.findItem(R.id.menu_select_all);
 
-        updateCreateDir(createDir, directoryDetails);
-        paste.setEnabled(directoryDetails.hasItemsToPaste());
-
-        //Cut, Copy and Delete should always be visible
-        cut.setVisible(true);
-        copy.setVisible(true);
-        delete.setVisible(true);
-
-        // PasteInto should only show if it is enabled. If it's not enabled, Paste shows (regardless
-        // of whether it is enabled or not).
-        // Paste then hides itself whenever PasteInto is enabled/visible
-        pasteInto.setVisible(pasteInto.isEnabled());
-        paste.setVisible(!pasteInto.isVisible());
+        paste.setEnabled(directoryDetails.hasItemsToPaste() && directoryDetails.canCreateDoc());
+        updateSelectAll(selectAll);
     }
 
+    /**
+     * @see RootsFragment#onCreateContextMenu
+     */
     public void updateRootContextMenu(Menu menu, RootInfo root) {
         MenuItem settings = menu.findItem(R.id.menu_settings);
         MenuItem eject = menu.findItem(R.id.menu_eject_root);
@@ -162,8 +179,16 @@ public abstract class MenuManager {
         newWindow.setVisible(false);
     }
 
-    void updateOpen(MenuItem open, SelectionDetails selectionDetails) {
+    void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
         open.setVisible(false);
+    }
+
+    void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
+        openWith.setVisible(false);
+    }
+
+    void updateOpenInNewWindow(MenuItem openInNewWindow, SelectionDetails selectionDetails) {
+        openInNewWindow.setVisible(false);
     }
 
     void updateShare(MenuItem share, SelectionDetails selectionDetails) {
@@ -187,10 +212,11 @@ public abstract class MenuManager {
     }
 
     void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
-        pasteInto.setEnabled(false);
+        pasteInto.setVisible(false);
     }
 
-    abstract void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails);
+    abstract void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails);
+    abstract void updateSelectAll(MenuItem selectAll);
     abstract void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails);
 
     /**
@@ -198,6 +224,10 @@ public abstract class MenuManager {
      */
     public interface SelectionDetails {
         boolean containsDirectories();
+
+        boolean containsFiles();
+
+        int size();
 
         boolean containsPartialFiles();
 
@@ -227,6 +257,10 @@ public abstract class MenuManager {
 
         public boolean hasItemsToPaste() {
             return false;
+        }
+
+        public boolean canCreateDoc() {
+            return isInRecents() ? false : mActivity.getCurrentDirectory().isCreateSupported();
         }
 
         public boolean isInRecents() {

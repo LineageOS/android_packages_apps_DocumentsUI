@@ -23,15 +23,22 @@ import com.android.documentsui.MenuManager.SelectionDetails;
  */
 public class TestSelectionDetails implements SelectionDetails {
 
+    public int size;
     public boolean canRename;
     public boolean canDelete;
     public boolean containPartial;
     public boolean containDirectories;
+    public boolean containFiles;
     public boolean canPasteInto;
 
      @Override
      public boolean containsPartialFiles() {
          return containPartial;
+     }
+
+     @Override
+     public boolean containsFiles() {
+         return containFiles;
      }
 
      @Override
@@ -52,5 +59,10 @@ public class TestSelectionDetails implements SelectionDetails {
     @Override
     public boolean canPasteInto() {
         return canPasteInto;
+    }
+
+    @Override
+    public int size() {
+        return size;
     }
  }

@@ -36,7 +36,10 @@ public abstract class TestMenu implements Menu {
     private SparseArray<TestMenuItem> items = new SparseArray<>();
 
     public static TestMenu create() {
-        return create(R.id.menu_open,
+        return create(
+                R.id.menu_open,
+                R.id.menu_open_in_new_window,
+                R.id.menu_open_with,
                 R.id.menu_rename,
                 R.id.menu_move_to,
                 R.id.menu_copy_to,
@@ -62,7 +65,7 @@ public abstract class TestMenu implements Menu {
         menu.items = new SparseArray<>();
         for (int id : ids) {
             TestMenuItem item = TestMenuItem.create(id);
-             menu.addMenuItem(id, item);
+            menu.addMenuItem(id, item);
         }
         return menu;
     }

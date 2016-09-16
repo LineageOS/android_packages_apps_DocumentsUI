@@ -43,6 +43,8 @@ public final class DocumentsMenuManagerTest {
 
     private TestMenu testMenu;
     private TestMenuItem open;
+    private TestMenuItem openInNewWindow;
+    private TestMenuItem openWith;
     private TestMenuItem share;
     private TestMenuItem delete;
     private TestMenuItem rename;
@@ -68,6 +70,8 @@ public final class DocumentsMenuManagerTest {
     public void setUp() {
         testMenu = TestMenu.create();
         open = testMenu.findItem(R.id.menu_open);
+        openInNewWindow = testMenu.findItem(R.id.menu_open_in_new_window);
+        openWith = testMenu.findItem(R.id.menu_open_with);
         share = testMenu.findItem(R.id.menu_share);
         delete = testMenu.findItem(R.id.menu_delete);
         rename =  testMenu.findItem(R.id.menu_rename);
@@ -149,8 +153,8 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testOptionMenu_canCreateDirectory() {
-        directoryDetails.canCreateDirectory = true;
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        directoryDetails.canCreateDirectory = true;
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
         createDir.assertEnabled();
@@ -169,8 +173,8 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testOptionMenu_inRecents() {
-        directoryDetails.isInRecents = true;
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        directoryDetails.isInRecents = true;
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
         grid.assertInvisible();
@@ -181,27 +185,22 @@ public final class DocumentsMenuManagerTest {
     public void testContextMenu_EmptyArea() {
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
         mgr.updateContextMenuForContainer(testMenu, directoryDetails);
-        cut.assertVisible();
-        copy.assertVisible();
-        cut.assertDisabled();
-        copy.assertDisabled();
+        selectAll.assertVisible();
         paste.assertVisible();
-        pasteInto.assertInvisible();
         createDir.assertVisible();
-        delete.assertVisible();
     }
 
     @Test
     public void testContextMenu_OnFile() {
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
-        mgr.updateContextMenuForFile(testMenu, selectionDetails, directoryDetails);
+        mgr.updateContextMenuForFiles(testMenu, selectionDetails);
+        // We don't want share in pickers.
+        share.assertInvisible();
+        // We don't want openWith in pickers.
+        openWith.assertInvisible();
         cut.assertVisible();
         copy.assertVisible();
-        paste.assertVisible();
-        pasteInto.assertInvisible();
-        paste.assertDisabled();
         rename.assertInvisible();
-        createDir.assertVisible();
         delete.assertVisible();
     }
 
@@ -209,15 +208,14 @@ public final class DocumentsMenuManagerTest {
     public void testContextMenu_OnDirectory() {
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
         selectionDetails.canPasteInto = true;
-        mgr.updateContextMenuForFile(testMenu, selectionDetails, directoryDetails);
+        mgr.updateContextMenuForDirs(testMenu, selectionDetails);
+        // We don't want openInNewWindow in pickers
+        openInNewWindow.assertInvisible();
         cut.assertVisible();
         copy.assertVisible();
         // Doesn't matter if directory is selected, we don't want pasteInto for DocsActivity
-        paste.assertVisible();
         pasteInto.assertInvisible();
-        pasteInto.assertDisabled();
         rename.assertInvisible();
-        createDir.assertVisible();
         delete.assertVisible();
     }
 
@@ -232,8 +230,8 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testRootContextMenu_hasRootSettings() {
-        testRootInfo.flags = Root.FLAG_HAS_SETTINGS;
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        testRootInfo.flags = Root.FLAG_HAS_SETTINGS;
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 
         settings.assertInvisible();
@@ -241,8 +239,8 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testRootContextMenu_canEject() {
-        testRootInfo.flags = Root.FLAG_SUPPORTS_EJECT;
         DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        testRootInfo.flags = Root.FLAG_SUPPORTS_EJECT;
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 
         eject.assertInvisible();

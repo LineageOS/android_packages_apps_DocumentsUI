@@ -55,7 +55,6 @@ import android.util.SparseArray;
 import android.view.ContextMenu;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -296,7 +295,7 @@ public class DirectoryFragment extends Fragment
                     ? MultiSelectManager.MODE_MULTIPLE
                     : MultiSelectManager.MODE_SINGLE,
                 this::canSetSelectionState);
-        mSelectionMetadata = new SelectionMetadata(mSelectionMgr, mModel::getItem);
+        mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addItemCallback(mSelectionMetadata);
 
         mModel.addUpdateListener(mAdapter);
@@ -438,23 +437,47 @@ public class DirectoryFragment extends Fragment
             View v,
             ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.context_menu, menu);
+        final MenuInflater inflater = getActivity().getMenuInflater();
 
-        menu.add(Menu.NONE, R.id.menu_create_dir, Menu.NONE, R.string.menu_create_dir);
-        menu.add(Menu.NONE, R.id.menu_delete, Menu.NONE, R.string.menu_delete);
-        menu.add(Menu.NONE, R.id.menu_rename, Menu.NONE, R.string.menu_rename);
-
-        boolean mouseOverFile = !(v == mRecView || v == mEmptyView);
-        if (mouseOverFile) {
-            mMenuManager.updateContextMenuForFile(
-                    menu,
-                    mSelectionMetadata,
-                    getBaseActivity().getDirectoryDetails());
-        } else {
-           mMenuManager.updateContextMenuForContainer(
-                   menu, getBaseActivity().getDirectoryDetails());
+        final String modelId = getModelId(v);
+        if (modelId == null) {
+            inflater.inflate(R.menu.container_context_menu, menu);
+            mMenuManager.updateContextMenuForContainer(
+                    menu, getBaseActivity().getDirectoryDetails());
+            return;
         }
+
+        final boolean hasDir = mSelectionMetadata.containsDirectories();
+        final boolean hasFile = mSelectionMetadata.containsFiles();
+        if (!hasDir && !hasFile) {
+            // User triggered a context menu on a doc without any selection. This is a legitimate
+            // case in pickers while user right clicks on an unselectable item.
+            final String mimeType = DocumentInfo.getCursorString(
+                    mModel.getItem(modelId), Document.COLUMN_MIME_TYPE);
+            if (Document.MIME_TYPE_DIR.equals(mimeType)) {
+                inflater.inflate(R.menu.dir_context_menu, menu);
+                mMenuManager.updateContextMenuForDirs(menu, mSelectionMetadata);
+            } else {
+                inflater.inflate(R.menu.file_context_menu, menu);
+                mMenuManager.updateContextMenuForFiles(menu, mSelectionMetadata);
+            }
+            return;
+        }
+
+        if (!hasDir) {
+            inflater.inflate(R.menu.file_context_menu, menu);
+            mMenuManager.updateContextMenuForFiles(menu, mSelectionMetadata);
+            return;
+        }
+
+        if (!hasFile) {
+            inflater.inflate(R.menu.dir_context_menu, menu);
+            mMenuManager.updateContextMenuForDirs(menu, mSelectionMetadata);
+            return;
+        }
+
+        inflater.inflate(R.menu.mixed_context_menu, menu);
+        mMenuManager.updateContextMenu(menu, mSelectionMetadata);
     }
 
     @Override
@@ -521,16 +544,6 @@ public class DirectoryFragment extends Fragment
             return true;
         }
         return false;
-    }
-
-    public void onDisplayStateChanged() {
-        updateDisplayState();
-    }
-
-    public void onSortOrderChanged() {
-        // Sort order is implemented as a sorting wrapper around directory
-        // results. So when sort order changes, we force a reload of the directory.
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
     public void onViewModeChanged() {
@@ -696,7 +709,12 @@ public class DirectoryFragment extends Fragment
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.getDocuments(selected);
-        BaseActivity.get(DirectoryFragment.this).onDocumentsPicked(docs);
+        BaseActivity activity = getBaseActivity();
+        if (docs.size() > 1) {
+            activity.onDocumentsPicked(docs);
+        } else {
+            activity.onDocumentPicked(docs.get(0), mModel);
+        }
     }
 
     private void shareDocuments(final Selection selected) {

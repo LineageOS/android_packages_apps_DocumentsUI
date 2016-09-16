@@ -58,6 +58,24 @@ public final class FilesMenuManager extends MenuManager {
     }
 
     @Override
+    void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
+        open.setEnabled(selectionDetails.size() == 1
+                && !selectionDetails.containsPartialFiles());
+    }
+
+    @Override
+    void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
+        openWith.setEnabled(selectionDetails.size() == 1
+                && !selectionDetails.containsPartialFiles());
+    }
+
+    @Override
+    void updateOpenInNewWindow(MenuItem openInNewWindow, SelectionDetails selectionDetails) {
+        openInNewWindow.setEnabled(selectionDetails.size() == 1
+            && !selectionDetails.containsPartialFiles());
+    }
+
+    @Override
     void updateMoveTo(MenuItem moveTo, SelectionDetails selectionDetails) {
         moveTo.setVisible(true);
         moveTo.setEnabled(!selectionDetails.containsPartialFiles() && selectionDetails.canDelete());
@@ -75,7 +93,7 @@ public final class FilesMenuManager extends MenuManager {
     }
 
     @Override
-    void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails) {
+    void updateSelectAll(MenuItem selectAll) {
         selectAll.setVisible(true);
     }
 
