@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.functional;
-
-import static com.android.documentsui.StubProvider.DEFAULT_AUTHORITY;
-import static com.android.documentsui.StubProvider.ROOT_0_ID;
-import static com.android.documentsui.StubProvider.ROOT_1_ID;
+package com.android.documentsui;
 
 import android.app.Activity;
 import android.content.ContentProviderClient;
@@ -32,8 +28,8 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.MotionEvent;
-
 import com.android.documentsui.DocumentsProviderHelper;
+import com.android.documentsui.StubProvider;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.bots.Bots;
 import com.android.documentsui.bots.UiBot;
@@ -89,15 +85,15 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
      * @return Authority of the provider.
      */
     protected String getTestingProviderAuthority() {
-        return DEFAULT_AUTHORITY;
+        return StubProvider.DEFAULT_AUTHORITY;
     }
 
     /**
      * Resolves testing roots.
      */
     protected void setupTestingRoots() throws RemoteException {
-        rootDir0 = mDocsHelper.getRoot(ROOT_0_ID);
-        rootDir1 = mDocsHelper.getRoot(ROOT_1_ID);
+        rootDir0 = mDocsHelper.getRoot(StubProvider.ROOT_0_ID);
+        rootDir1 = mDocsHelper.getRoot(StubProvider.ROOT_1_ID);
     }
 
     @Override

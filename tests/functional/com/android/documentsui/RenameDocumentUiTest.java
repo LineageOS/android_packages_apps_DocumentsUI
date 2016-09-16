@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.functional;
+package com.android.documentsui;
 
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.suitebuilder.annotation.LargeTest;

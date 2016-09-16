@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.functional;
+package com.android.documentsui;
 
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;

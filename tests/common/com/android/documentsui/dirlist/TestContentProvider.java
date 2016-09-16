@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static org.junit.Assert.assertTrue;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
@@ -45,6 +47,6 @@ class TestContentProvider extends MockContentProvider {
     }
 
     public void assertWasDeleted(DocumentInfo doc) {
-        ModelTest.assertTrue(mDeleted.contains(doc.derivedUri));
+        assertTrue(mDeleted.contains(doc.derivedUri));
     }
 }
