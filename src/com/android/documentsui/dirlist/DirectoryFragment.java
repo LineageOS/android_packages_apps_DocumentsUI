@@ -1117,7 +1117,12 @@ public class DirectoryFragment extends Fragment
         // When files are selected for dragging, ActionMode is started. This obscures the breadcrumb
         // with an ActionBar. In order to make drag and drop to the breadcrumb possible, we first
         // end ActionMode so the breadcrumb is visible to the user.
-        mActionModeController.finishActionMode();
+        //
+        // mActionModeController is null when dragStarted() is called on spring loaded
+        // folders/roots.
+        if (mActionModeController != null) {
+            mActionModeController.finishActionMode();
+        }
     }
 
     void dragStopped(boolean result) {
