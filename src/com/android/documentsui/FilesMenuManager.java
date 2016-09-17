@@ -16,8 +16,11 @@
 
 package com.android.documentsui;
 
+import android.app.Fragment;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -34,6 +37,44 @@ public final class FilesMenuManager extends MenuManager {
 
         // It hides icon if searching in progress
         mSearchManager.updateMenu();
+    }
+
+    @Override
+    public void showContextMenu(Fragment f, View v, float x, float y) {
+        // Register context menu here so long-press doesn't trigger this context floating menu.
+        f.registerForContextMenu(v);
+        v.showContextMenu(x, y);
+        f.unregisterForContextMenu(v);
+    }
+
+    @Override
+    public void inflateContextMenuForContainer(
+            Menu menu, MenuInflater inflater, DirectoryDetails directoryDetails) {
+        inflater.inflate(R.menu.container_context_menu, menu);
+        updateContextMenuForContainer(menu, directoryDetails);
+    }
+
+    @Override
+    public void inflateContextMenuForDocs(
+            Menu menu, MenuInflater inflater, SelectionDetails selectionDetails) {
+        final boolean hasDir = selectionDetails.containsDirectories();
+        final boolean hasFile = selectionDetails.containsFiles();
+
+        assert(hasDir || hasFile);
+        if (!hasDir) {
+            inflater.inflate(R.menu.file_context_menu, menu);
+            updateContextMenuForFiles(menu, selectionDetails);
+            return;
+        }
+
+        if (!hasFile) {
+            inflater.inflate(R.menu.dir_context_menu, menu);
+            updateContextMenuForDirs(menu, selectionDetails);
+            return;
+        }
+
+        inflater.inflate(R.menu.mixed_context_menu, menu);
+        updateContextMenu(menu, selectionDetails);
     }
 
     @Override

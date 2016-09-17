@@ -16,14 +16,18 @@
 
 package com.android.documentsui;
 
+import android.app.Fragment;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.internal.annotations.VisibleForTesting;
 
 public abstract class MenuManager {
 
@@ -62,6 +66,28 @@ public abstract class MenuManager {
     }
 
     /**
+     * Called when we needs {@link MenuManager} to ask Android to show context menu for us.
+     * {@link MenuManager} can choose to defeat this request.
+     *
+     * {@link #inflateContextMenuForDocs} and {@link #inflateContextMenuForContainer} are called
+     * afterwards when Android asks us to provide the content of context menus, so they're not
+     * correct locations to suppress context menus.
+     */
+    public void showContextMenu(Fragment f, View v, float x, float y) {
+        // Pickers don't have any context menu at this moment.
+    }
+
+    public void inflateContextMenuForContainer(
+            Menu menu, MenuInflater inflater, DirectoryDetails directoryDetails) {
+        throw new UnsupportedOperationException("Pickers don't allow context menu.");
+    }
+
+    public void inflateContextMenuForDocs(
+            Menu menu, MenuInflater inflater, SelectionDetails selectionDetails) {
+        throw new UnsupportedOperationException("Pickers don't allow context menu.");
+    }
+
+    /**
      * @see DirectoryFragment#onCreateContextMenu
      *
      * Called when user tries to generate a context menu anchored to a file when the selection
@@ -71,7 +97,8 @@ public abstract class MenuManager {
      *      containsFiles may return false because this may be called when user right clicks on an
      *      unselectable item in pickers
      */
-    public void updateContextMenuForFiles(Menu menu, SelectionDetails selectionDetails) {
+    @VisibleForTesting
+    void updateContextMenuForFiles(Menu menu, SelectionDetails selectionDetails) {
         assert(selectionDetails != null);
 
         MenuItem share = menu.findItem(R.id.menu_share);
@@ -97,7 +124,8 @@ public abstract class MenuManager {
      *      containDirectories may return false because this may be called when user right clicks on
      *      an unselectable item in pickers
      */
-    public void updateContextMenuForDirs(Menu menu, SelectionDetails selectionDetails) {
+    @VisibleForTesting
+    void updateContextMenuForDirs(Menu menu, SelectionDetails selectionDetails) {
         assert(selectionDetails != null);
 
         MenuItem openInNewWindow = menu.findItem(R.id.menu_open_in_new_window);
@@ -116,7 +144,8 @@ public abstract class MenuManager {
      *
      * Update shared context menu items of both files and folders context menus.
      */
-    public void updateContextMenu(Menu menu, SelectionDetails selectionDetails) {
+    @VisibleForTesting
+    void updateContextMenu(Menu menu, SelectionDetails selectionDetails) {
         assert(selectionDetails != null);
 
         MenuItem cut = menu.findItem(R.id.menu_cut_to_clipboard);
@@ -136,7 +165,8 @@ public abstract class MenuManager {
      *
      * Called when user tries to generate a context menu anchored to an empty pane.
      */
-    public void updateContextMenuForContainer(Menu menu, DirectoryDetails directoryDetails) {
+    @VisibleForTesting
+    void updateContextMenuForContainer(Menu menu, DirectoryDetails directoryDetails) {
         MenuItem paste = menu.findItem(R.id.menu_paste_from_clipboard);
         MenuItem selectAll = menu.findItem(R.id.menu_select_all);
 

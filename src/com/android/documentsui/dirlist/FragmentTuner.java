@@ -26,9 +26,12 @@ import android.content.Context;
 import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.BaseActivity;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment.ResultType;
+import com.android.documentsui.manager.ManageActivity;
 import com.android.documentsui.sorting.SortController;
 
 /**
@@ -78,6 +81,14 @@ public abstract class FragmentTuner {
     }
 
     abstract void onModelLoaded(Model model, @ResultType int resultType, boolean isSearch);
+
+    void showChooserForDoc(DocumentInfo doc) {
+        throw new UnsupportedOperationException("Show chooser not supported!");
+    }
+
+    void openInNewWindow(DocumentStack stack, DocumentInfo doc) {
+        throw new UnsupportedOperationException("Open in new window not supported!");
+    }
 
     /**
      * Provides support for Platform specific specializations of DirectoryFragment.
@@ -203,6 +214,16 @@ public abstract class FragmentTuner {
         @Override
         public boolean dragAndDropEnabled() {
             return true;
+        }
+
+        @Override
+        public void showChooserForDoc(DocumentInfo doc) {
+            ((ManageActivity) mContext).showChooserForDoc(doc);
+        }
+
+        @Override
+        public void openInNewWindow(DocumentStack stack, DocumentInfo doc) {
+            ((ManageActivity) mContext).openInNewWindow(stack, doc);
         }
     }
 }
