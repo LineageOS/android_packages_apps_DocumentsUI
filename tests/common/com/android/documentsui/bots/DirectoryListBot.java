@@ -21,9 +21,11 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
+import android.app.UiAutomation;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.SystemClock;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.BySelector;
 import android.support.test.uiautomator.Configurator;
@@ -33,6 +35,7 @@ import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,9 +56,12 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     private static final BySelector SNACK_DELETE =
             By.desc(Pattern.compile("^Deleting [0-9]+ file.+"));
+    private UiAutomation mAutomation;
 
-    public DirectoryListBot(UiDevice device, Context context, int timeout) {
+    public DirectoryListBot(
+            UiDevice device, UiAutomation automation, Context context, int timeout) {
         super(device, context, timeout);
+        mAutomation = automation;
     }
 
     public void assertDocumentsCount(int count) throws UiObjectNotFoundException {
@@ -239,6 +245,67 @@ public class DirectoryListBot extends Bots.BaseBot {
         for (int i = 0; i < files.length - 1; ++i) {
             assertOrder(files[i], files[i + 1]);
         }
+    }
+
+    public void rightClickDocument(String label) throws UiObjectNotFoundException {
+        Rect startCoord = findDocument(label).getBounds();
+        rightClickDocument(new Point(startCoord.centerX(), startCoord.centerY()));
+    }
+
+    public void rightClickDocument(Point point) throws UiObjectNotFoundException {
+        //TODO: Use Espresso instead of doing the events mock ourselves
+        MotionEvent motionDown = getTestMotionEvent(
+                MotionEvent.ACTION_DOWN,
+                MotionEvent.BUTTON_SECONDARY,
+                MotionEvent.TOOL_TYPE_MOUSE,
+                InputDevice.SOURCE_MOUSE,
+                point.x,
+                point.y);
+        mAutomation.injectInputEvent(motionDown, true);
+        SystemClock.sleep(100);
+
+        MotionEvent motionUp = getTestMotionEvent(
+                MotionEvent.ACTION_UP,
+                MotionEvent.BUTTON_SECONDARY,
+                MotionEvent.TOOL_TYPE_MOUSE,
+                InputDevice.SOURCE_MOUSE,
+                point.x,
+                point.y);
+
+        mAutomation.injectInputEvent(motionUp, true);
+    }
+
+    private MotionEvent getTestMotionEvent(
+            int action, int buttonState, int toolType, int source, int x, int y) {
+        long eventTime = SystemClock.uptimeMillis();
+
+        MotionEvent.PointerProperties[] pp = {new MotionEvent.PointerProperties()};
+        pp[0].clear();
+        pp[0].id = 0;
+        pp[0].toolType = toolType;
+
+        MotionEvent.PointerCoords[] pointerCoords = {new MotionEvent.PointerCoords()};
+        pointerCoords[0].clear();
+        pointerCoords[0].x = x;
+        pointerCoords[0].y = y;
+        pointerCoords[0].pressure = 0;
+        pointerCoords[0].size = 1;
+
+        return MotionEvent.obtain(
+                eventTime,
+                eventTime,
+                action,
+                1,
+                pp,
+                pointerCoords,
+                0,
+                buttonState,
+                1f,
+                1f,
+                0,
+                0,
+                source,
+                0);
     }
 
     private void assertOrder(String first, String second) throws UiObjectNotFoundException {

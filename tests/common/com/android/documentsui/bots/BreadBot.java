@@ -38,6 +38,8 @@ import com.android.documentsui.DropdownBreadcrumb;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 
+import junit.framework.Assert;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
@@ -45,8 +47,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-
-import junit.framework.Assert;
 
 /**
  * A test helper class that provides support for controlling the UI Breadcrumb
@@ -71,7 +71,8 @@ public class BreadBot extends Bots.BaseBot {
 
     private UiBot mMain;
 
-    public BreadBot(UiDevice device, Context context, int timeout, UiBot main) {
+    public BreadBot(
+            UiDevice device, Context context, int timeout, UiBot main) {
         super(device, context, timeout);
         mMain = main;
     }

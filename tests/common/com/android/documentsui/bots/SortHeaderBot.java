@@ -29,6 +29,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.allOf;
 
+import android.app.UiAutomation;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.test.uiautomator.UiDevice;
