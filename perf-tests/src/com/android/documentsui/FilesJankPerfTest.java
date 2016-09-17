@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.os.RemoteException;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import android.app.UiAutomation;
 import android.content.Intent;
 import android.content.Context;
 import android.support.test.jank.JankTest;
@@ -50,8 +51,9 @@ public class FilesJankPerfTest extends JankTestBase {
     public void setUpInLoop() {
         final UiDevice device = UiDevice.getInstance(getInstrumentation());
         final Context context = getInstrumentation().getTargetContext();
+        final UiAutomation automation = getInstrumentation().getUiAutomation();
         mRootsListBot = new SidebarBot(device, context, BOT_TIMEOUT);
-        mDirListBot = new DirectoryListBot(device, context, BOT_TIMEOUT);
+        mDirListBot = new DirectoryListBot(device, automation, context, BOT_TIMEOUT);
 
         final Intent intent = new Intent(context, ManageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

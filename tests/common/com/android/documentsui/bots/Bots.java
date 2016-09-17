@@ -18,6 +18,7 @@ package com.android.documentsui.bots;
 
 import static junit.framework.Assert.assertNotNull;
 
+import android.app.UiAutomation;
 import android.content.Context;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.BySelector;
@@ -41,17 +42,19 @@ public final class Bots {
     public final SidebarBot roots;
     public final SearchBot search;
     public final GestureBot gesture;
+    public final MenuBot menu;
     public final UiBot main;
 
-    public Bots(UiDevice device, Context context, int timeout) {
+    public Bots(UiDevice device, UiAutomation automation, Context context, int timeout) {
         main = new UiBot(device, context, TIMEOUT);
         breadcrumb = new BreadBot(device, context, TIMEOUT, main);
         roots = new SidebarBot(device, context, TIMEOUT);
-        directory = new DirectoryListBot(device, context, TIMEOUT);
+        directory = new DirectoryListBot(device, automation, context, TIMEOUT);
         sortHeader = new SortHeaderBot(device, context, TIMEOUT);
         keyboard = new KeyboardBot(device, context, TIMEOUT);
         search = new SearchBot(device, context, TIMEOUT);
         gesture = new GestureBot(device, context, TIMEOUT);
+        menu = new MenuBot(device, context, TIMEOUT);
     }
 
     /**

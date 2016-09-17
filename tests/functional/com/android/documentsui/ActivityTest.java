@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import android.app.Activity;
+import android.app.UiAutomation;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -58,6 +59,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
     public Bots bots;
     public UiDevice device;
     public Context context;
+    public UiAutomation automation;
 
     public RootInfo rootDir0;
     public RootInfo rootDir1;
@@ -101,8 +103,9 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         device = UiDevice.getInstance(getInstrumentation());
         // NOTE: Must be the "target" context, else security checks in content provider will fail.
         context = getInstrumentation().getTargetContext();
+        automation = getInstrumentation().getUiAutomation();
 
-        bots = new Bots(device, context, TIMEOUT);
+        bots = new Bots(device, automation, context, TIMEOUT);
 
         Configurator.getInstance().setToolType(MotionEvent.TOOL_TYPE_MOUSE);
 

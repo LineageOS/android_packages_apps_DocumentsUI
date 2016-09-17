@@ -26,7 +26,6 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.view.KeyEvent;
 
 import com.android.documentsui.R;
-import com.android.documentsui.R.id;
 import com.android.documentsui.manager.ManageActivity;
 
 @LargeTest
