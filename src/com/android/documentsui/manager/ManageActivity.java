@@ -37,8 +37,6 @@ import android.view.MenuItem;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.FilesMenuManager;
-import com.android.documentsui.MenuManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.OperationDialogFragment;
@@ -82,7 +80,7 @@ public class ManageActivity extends BaseActivity {
     // We use the time gap to figure out whether to close app or reopen the drawer.
     private long mDrawerLastFiddled;
     private DocumentClipper mClipper;
-    private FilesMenuManager mMenuManager;
+    private MenuManager mMenuManager;
     private DirectoryDetails mDetails;
 
     public ManageActivity() {
@@ -94,7 +92,7 @@ public class ManageActivity extends BaseActivity {
         super.onCreate(icicle);
 
         mClipper = DocumentsApplication.getDocumentClipper(this);
-        mMenuManager = new FilesMenuManager(mSearchManager, getDisplayState());
+        mMenuManager = new MenuManager(mSearchManager, getDisplayState());
         mDetails = new DirectoryDetails(this) {
             @Override
             public boolean hasItemsToPaste() {

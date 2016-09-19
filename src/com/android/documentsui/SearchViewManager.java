@@ -136,7 +136,7 @@ public class SearchViewManager implements
                 && ((root.flags & Root.FLAG_SUPPORTS_SEARCH) != 0));
     }
 
-    protected void showMenu(boolean visible) {
+    public void showMenu(boolean visible) {
         if (mMenuItem == null) {
             if (DEBUG) Log.d(TAG, "showMenu called before Search MenuItem installed.");
             return;

@@ -43,8 +43,6 @@ import android.view.Menu;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.DocumentsMenuManager;
-import com.android.documentsui.MenuManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.MimePredicate;
@@ -68,7 +66,7 @@ import java.util.List;
 public class PickActivity extends BaseActivity {
     private static final int CODE_FORWARD = 42;
     private static final String TAG = "DocumentsActivity";
-    private DocumentsMenuManager mMenuManager;
+    private MenuManager mMenuManager;
     private DirectoryDetails mDetails;
 
     public PickActivity() {
@@ -78,7 +76,7 @@ public class PickActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        mMenuManager = new DocumentsMenuManager(mSearchManager, getDisplayState());
+        mMenuManager = new MenuManager(mSearchManager, getDisplayState());
         mDetails = new DirectoryDetails(this);
 
         if (mState.action == ACTION_CREATE) {

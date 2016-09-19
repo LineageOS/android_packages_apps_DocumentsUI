@@ -31,8 +31,8 @@ import com.android.internal.annotations.VisibleForTesting;
 
 public abstract class MenuManager {
 
-    final State mState;
-    final SearchViewManager mSearchManager;
+    final protected State mState;
+    final protected SearchViewManager mSearchManager;
 
     public MenuManager(SearchViewManager searchManager, State displayState) {
         mSearchManager = searchManager;
@@ -98,7 +98,7 @@ public abstract class MenuManager {
      *      unselectable item in pickers
      */
     @VisibleForTesting
-    void updateContextMenuForFiles(Menu menu, SelectionDetails selectionDetails) {
+    public void updateContextMenuForFiles(Menu menu, SelectionDetails selectionDetails) {
         assert(selectionDetails != null);
 
         MenuItem share = menu.findItem(R.id.menu_share);
@@ -125,7 +125,7 @@ public abstract class MenuManager {
      *      an unselectable item in pickers
      */
     @VisibleForTesting
-    void updateContextMenuForDirs(Menu menu, SelectionDetails selectionDetails) {
+    public void updateContextMenuForDirs(Menu menu, SelectionDetails selectionDetails) {
         assert(selectionDetails != null);
 
         MenuItem openInNewWindow = menu.findItem(R.id.menu_open_in_new_window);
@@ -145,7 +145,7 @@ public abstract class MenuManager {
      * Update shared context menu items of both files and folders context menus.
      */
     @VisibleForTesting
-    void updateContextMenu(Menu menu, SelectionDetails selectionDetails) {
+    public void updateContextMenu(Menu menu, SelectionDetails selectionDetails) {
         assert(selectionDetails != null);
 
         MenuItem cut = menu.findItem(R.id.menu_cut_to_clipboard);
@@ -166,7 +166,7 @@ public abstract class MenuManager {
      * Called when user tries to generate a context menu anchored to an empty pane.
      */
     @VisibleForTesting
-    void updateContextMenuForContainer(Menu menu, DirectoryDetails directoryDetails) {
+    public void updateContextMenuForContainer(Menu menu, DirectoryDetails directoryDetails) {
         MenuItem paste = menu.findItem(R.id.menu_paste_from_clipboard);
         MenuItem selectAll = menu.findItem(R.id.menu_select_all);
 
@@ -185,72 +185,75 @@ public abstract class MenuManager {
         updateEject(eject, root);
     }
 
-    void updateModePicker(MenuItem grid, MenuItem list, DirectoryDetails directoryDetails) {
+    protected void updateModePicker(
+            MenuItem grid, MenuItem list, DirectoryDetails directoryDetails) {
         grid.setVisible(mState.derivedMode != State.MODE_GRID);
         list.setVisible(mState.derivedMode != State.MODE_LIST);
     }
 
-    void updateAdvanced(MenuItem advanced, DirectoryDetails directoryDetails) {
+    protected void updateAdvanced(MenuItem advanced, DirectoryDetails directoryDetails) {
         advanced.setVisible(mState.showAdvancedOption);
         advanced.setTitle(mState.showAdvancedOption && mState.showAdvanced
                 ? R.string.menu_advanced_hide : R.string.menu_advanced_show);
     }
 
-    void updateSettings(MenuItem settings, DirectoryDetails directoryDetails) {
+    protected void updateSettings(MenuItem settings, DirectoryDetails directoryDetails) {
         settings.setVisible(false);
     }
 
-    void updateSettings(MenuItem settings, RootInfo root) {
+    protected void updateSettings(MenuItem settings, RootInfo root) {
         settings.setVisible(false);
     }
 
-    void updateEject(MenuItem eject, RootInfo root) {
+    protected void updateEject(MenuItem eject, RootInfo root) {
         eject.setVisible(false);
     }
 
-    void updateNewWindow(MenuItem newWindow, DirectoryDetails directoryDetails) {
+    protected void updateNewWindow(MenuItem newWindow, DirectoryDetails directoryDetails) {
         newWindow.setVisible(false);
     }
 
-    void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
+    protected void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
         open.setVisible(false);
     }
 
-    void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
+    protected void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
         openWith.setVisible(false);
     }
 
-    void updateOpenInNewWindow(MenuItem openInNewWindow, SelectionDetails selectionDetails) {
+    protected void updateOpenInNewWindow(
+            MenuItem openInNewWindow, SelectionDetails selectionDetails) {
         openInNewWindow.setVisible(false);
     }
 
-    void updateShare(MenuItem share, SelectionDetails selectionDetails) {
+    protected void updateShare(MenuItem share, SelectionDetails selectionDetails) {
         share.setVisible(false);
     }
 
-    void updateDelete(MenuItem delete, SelectionDetails selectionDetails) {
+    protected void updateDelete(MenuItem delete, SelectionDetails selectionDetails) {
         delete.setVisible(false);
     }
 
-    void updateRename(MenuItem rename, SelectionDetails selectionDetails) {
+    protected void updateRename(MenuItem rename, SelectionDetails selectionDetails) {
         rename.setVisible(false);
     }
 
-    void updateMoveTo(MenuItem moveTo, SelectionDetails selectionDetails) {
+    protected void updateMoveTo(MenuItem moveTo, SelectionDetails selectionDetails) {
         moveTo.setVisible(false);
     }
 
-    void updateCopyTo(MenuItem copyTo, SelectionDetails selectionDetails) {
+    protected void updateCopyTo(MenuItem copyTo, SelectionDetails selectionDetails) {
         copyTo.setVisible(false);
     }
 
-    void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
+    protected void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
         pasteInto.setVisible(false);
     }
 
-    abstract void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails);
-    abstract void updateSelectAll(MenuItem selectAll);
-    abstract void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails);
+    protected abstract void updateOpenInContextMenu(
+            MenuItem open, SelectionDetails selectionDetails);
+    protected abstract void updateSelectAll(MenuItem selectAll);
+    protected abstract void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails);
 
     /**
      * Access to meta data about the selection.
