@@ -49,7 +49,7 @@ public class SidebarUiTest extends ActivityTest<ManageActivity> {
 
     @Suppress
     public void testRootChanged_ClearSelection() throws Exception {
-        bots.directory.selectDocument(fileName1);
+        bots.directory.selectDocument(fileName1, 1);
         bots.main.assertInActionMode(true);
 
         bots.roots.openRoot(ROOT_1_ID);

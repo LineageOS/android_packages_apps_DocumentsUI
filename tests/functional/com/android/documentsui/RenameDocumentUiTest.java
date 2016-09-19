@@ -18,7 +18,6 @@ package com.android.documentsui;
 
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.suitebuilder.annotation.LargeTest;
-
 import com.android.documentsui.R;
 import com.android.documentsui.R.string;
 import com.android.documentsui.manager.ManageActivity;
@@ -41,7 +40,7 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
 
     // TODO: Move this over to the FilesMenuManagerTest.
     public void testRenameEnabled_SingleSelection() throws Exception {
-        bots.directory.selectDocument(fileName1);
+        bots.directory.selectDocument(fileName1, 1);
         bots.main.openOverflowMenu();
         bots.main.assertMenuEnabled(R.string.menu_rename, true);
 
@@ -51,7 +50,7 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
 
     // TODO: Move this over to the FilesMenuManagerTest.
     public void testNoRenameSupport_SingleSelection() throws Exception {
-        bots.directory.selectDocument(fileNameNoRename);
+        bots.directory.selectDocument(fileNameNoRename, 1);
         bots.main.openOverflowMenu();
         bots.main.assertMenuEnabled(R.string.menu_rename, false);
 
@@ -61,8 +60,8 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
 
     // TODO: Move this over to the FilesMenuManagerTest.
     public void testOneHasRenameSupport_MultipleSelection() throws Exception {
-        bots.directory.selectDocument(fileName1);
-        bots.directory.selectDocument(fileNameNoRename);
+        bots.directory.selectDocument(fileName1, 1);
+        bots.directory.selectDocument(fileNameNoRename, 2);
         bots.main.openOverflowMenu();
         bots.main.assertMenuEnabled(R.string.menu_rename, false);
 
@@ -72,8 +71,8 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
 
     // TODO: Move this over to the FilesMenuManagerTest.
     public void testRenameDisabled_MultipleSelection() throws Exception {
-        bots.directory.selectDocument(fileName1);
-        bots.directory.selectDocument(fileName2);
+        bots.directory.selectDocument(fileName1, 1);
+        bots.directory.selectDocument(fileName2, 2);
         bots.main.openOverflowMenu();
         bots.main.assertMenuEnabled(R.string.menu_rename, false);
 
@@ -82,7 +81,7 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
     }
 
     public void testRenameFile_OkButton() throws Exception {
-        bots.directory.selectDocument(fileName1);
+        bots.directory.selectDocument(fileName1, 1);
 
         clickRename();
 
@@ -98,7 +97,7 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
     }
 
     public void testRenameFile_Enter() throws Exception {
-        bots.directory.selectDocument(fileName1);
+        bots.directory.selectDocument(fileName1, 1);
 
         clickRename();
 
@@ -114,7 +113,7 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
     }
 
     public void testRenameFile_Cancel() throws Exception {
-        bots.directory.selectDocument(fileName1);
+        bots.directory.selectDocument(fileName1, 1);
 
         clickRename();
 
@@ -130,7 +129,7 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
     public void testRenameDir() throws Exception {
         String oldName = "Dir1";
         String newName = "Dir123";
-        bots.directory.selectDocument(oldName);
+        bots.directory.selectDocument(oldName, 1);
 
         clickRename();
 
@@ -146,7 +145,7 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
     public void testRename_NameExists() throws Exception {
         // Check that document with the new name exists
         bots.directory.assertDocumentsPresent(fileName2);
-        bots.directory.selectDocument(fileName1);
+        bots.directory.selectDocument(fileName1, 1);
 
         clickRename();
 

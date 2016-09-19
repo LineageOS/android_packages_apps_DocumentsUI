@@ -40,6 +40,7 @@ public class ContextMenuUiTest extends ActivityTest<ManageActivity> {
     public void setUp() throws Exception {
         super.setUp();
         initTestFiles();
+        bots.roots.closeDrawer();
         menuItems = new HashMap<>();
 
         menuItems.put("Share", false);
@@ -96,9 +97,8 @@ public class ContextMenuUiTest extends ActivityTest<ManageActivity> {
         menuItems.put("Cut", true);
         menuItems.put("Copy", true);
         menuItems.put("Delete", true);
-        bots.directory.selectDocument("file1.png");
-        bots.directory.selectDocument("Dir1");
-        bots.directory.assertSelection(2); //wait until selection is fully done
+        bots.directory.selectDocument("file1.png", 1);
+        bots.directory.selectDocument("Dir1", 2);
         bots.directory.rightClickDocument("Dir1");
         bots.menu.assertPresentMenuItems(menuItems);
     }

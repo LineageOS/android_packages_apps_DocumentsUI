@@ -134,10 +134,18 @@ public class DirectoryListBot extends Bots.BaseBot {
         findDocument(label).click();
     }
 
-    public void selectDocument(String label) throws UiObjectNotFoundException {
+    /**
+     * @param label The filename of the document
+     * @param number Which nth document it is. The number corresponding to "n selected"
+     */
+    public void selectDocument(String label, int number) throws UiObjectNotFoundException {
         waitForDocument(label);
         UiObject2 selectionHotspot = findSelectionHotspot(label);
         selectionHotspot.click();
+
+        // wait until selection is fully done to avoid future click being registered as double
+        // clicking
+        assertSelection(number);
     }
 
     public UiObject2 findSelectionHotspot(String label) {
