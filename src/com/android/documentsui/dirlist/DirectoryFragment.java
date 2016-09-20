@@ -77,6 +77,7 @@ import com.android.documentsui.RecentsLoader;
 import com.android.documentsui.Snackbars;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Events.MotionInputEvent;
@@ -332,6 +333,9 @@ public class DirectoryFragment extends Fragment
                         getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic))
                 : DragStartListener.DUMMY;
 
+        EventHandler<InputEvent> gestureHandler = state.allowMultiple
+                ? gestureSel::start
+                : EventHandler.createStub(false);
         mInputHandler = new UserInputHandler<>(
                 mSelectionMgr,
                 mFocusManager,
@@ -345,7 +349,7 @@ public class DirectoryFragment extends Fragment
                 (DocumentDetails details) -> mTuner.onDocumentPicked(details.getModelId()),
                 (DocumentDetails ignored) -> onDeleteSelectedDocuments(), // delete handler
                 mDragStartListener::onTouchDragEvent,
-                gestureSel::start);
+                gestureHandler);
 
         new ListeningGestureDetector(
                 this.getContext(),

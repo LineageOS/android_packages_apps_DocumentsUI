@@ -23,4 +23,22 @@ package com.android.documentsui.base;
 @FunctionalInterface
 public interface EventHandler<T> {
     boolean accept(T event);
+
+    public static <T> EventHandler<T> createStub(boolean reply) {
+        return new Stub<T>(reply);
+    }
+
+    public static final class Stub<T> implements EventHandler<T> {
+
+        private boolean mReply;
+
+        private Stub(boolean reply) {
+            mReply = reply;}
+
+        @Override
+        public boolean accept(T event) {
+            return mReply;
+        }
+
+    }
 }
