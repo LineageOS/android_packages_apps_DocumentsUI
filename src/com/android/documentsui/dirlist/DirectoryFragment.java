@@ -448,8 +448,7 @@ public class DirectoryFragment extends Fragment
             // TODO: inject DirectoryDetails into MenuManager constructor
             // Since both classes are supplied by Activity and created
             // at the same time.
-            mMenuManager.inflateContextMenuForContainer(
-                    menu, inflater, getBaseActivity().getDirectoryDetails());
+            mMenuManager.inflateContextMenuForContainer(menu, inflater);
         } else {
             mMenuManager.inflateContextMenuForDocs(menu, inflater, mSelectionMetadata);
         }

@@ -31,12 +31,17 @@ import com.android.internal.annotations.VisibleForTesting;
 
 public abstract class MenuManager {
 
-    final protected State mState;
     final protected SearchViewManager mSearchManager;
+    final protected State mState;
+    final protected DirectoryDetails mDirDetails;
 
-    public MenuManager(SearchViewManager searchManager, State displayState) {
+    public MenuManager(
+            SearchViewManager searchManager,
+            State displayState,
+            DirectoryDetails dirDetails) {
         mSearchManager = searchManager;
         mState = displayState;
+        mDirDetails = dirDetails;
     }
 
     /** @see ActionModeController */
@@ -53,14 +58,13 @@ public abstract class MenuManager {
     }
 
     /** @see BaseActivity#onPrepareOptionsMenu */
-    public void updateOptionMenu(Menu menu, DirectoryDetails directoryDetails) {
-        updateCreateDir(menu.findItem(R.id.menu_create_dir), directoryDetails);
-        updateSettings(menu.findItem(R.id.menu_settings), directoryDetails);
-        updateNewWindow(menu.findItem(R.id.menu_new_window), directoryDetails);
-        updateModePicker(menu.findItem(
-                R.id.menu_grid), menu.findItem(R.id.menu_list), directoryDetails);
+    public void updateOptionMenu(Menu menu) {
+        updateCreateDir(menu.findItem(R.id.menu_create_dir));
+        updateSettings(menu.findItem(R.id.menu_settings));
+        updateNewWindow(menu.findItem(R.id.menu_new_window));
+        updateModePicker(menu.findItem(R.id.menu_grid), menu.findItem(R.id.menu_list));
         // Sort menu item is managed by SortMenuManager
-        updateAdvanced(menu.findItem(R.id.menu_advanced), directoryDetails);
+        updateAdvanced(menu.findItem(R.id.menu_advanced));
 
         Menus.disableHiddenItems(menu);
     }
@@ -77,8 +81,7 @@ public abstract class MenuManager {
         // Pickers don't have any context menu at this moment.
     }
 
-    public void inflateContextMenuForContainer(
-            Menu menu, MenuInflater inflater, DirectoryDetails directoryDetails) {
+    public void inflateContextMenuForContainer(Menu menu, MenuInflater inflater) {
         throw new UnsupportedOperationException("Pickers don't allow context menu.");
     }
 
@@ -166,11 +169,11 @@ public abstract class MenuManager {
      * Called when user tries to generate a context menu anchored to an empty pane.
      */
     @VisibleForTesting
-    public void updateContextMenuForContainer(Menu menu, DirectoryDetails directoryDetails) {
+    public void updateContextMenuForContainer(Menu menu) {
         MenuItem paste = menu.findItem(R.id.menu_paste_from_clipboard);
         MenuItem selectAll = menu.findItem(R.id.menu_select_all);
 
-        paste.setEnabled(directoryDetails.hasItemsToPaste() && directoryDetails.canCreateDoc());
+        paste.setEnabled(mDirDetails.hasItemsToPaste() && mDirDetails.canCreateDoc());
         updateSelectAll(selectAll);
     }
 
@@ -185,19 +188,18 @@ public abstract class MenuManager {
         updateEject(eject, root);
     }
 
-    protected void updateModePicker(
-            MenuItem grid, MenuItem list, DirectoryDetails directoryDetails) {
+    protected void updateModePicker(MenuItem grid, MenuItem list) {
         grid.setVisible(mState.derivedMode != State.MODE_GRID);
         list.setVisible(mState.derivedMode != State.MODE_LIST);
     }
 
-    protected void updateAdvanced(MenuItem advanced, DirectoryDetails directoryDetails) {
+    protected void updateAdvanced(MenuItem advanced) {
         advanced.setVisible(mState.showAdvancedOption);
         advanced.setTitle(mState.showAdvancedOption && mState.showAdvanced
                 ? R.string.menu_advanced_hide : R.string.menu_advanced_show);
     }
 
-    protected void updateSettings(MenuItem settings, DirectoryDetails directoryDetails) {
+    protected void updateSettings(MenuItem settings) {
         settings.setVisible(false);
     }
 
@@ -209,7 +211,7 @@ public abstract class MenuManager {
         eject.setVisible(false);
     }
 
-    protected void updateNewWindow(MenuItem newWindow, DirectoryDetails directoryDetails) {
+    protected void updateNewWindow(MenuItem newWindow) {
         newWindow.setVisible(false);
     }
 
@@ -253,7 +255,7 @@ public abstract class MenuManager {
     protected abstract void updateOpenInContextMenu(
             MenuItem open, SelectionDetails selectionDetails);
     protected abstract void updateSelectAll(MenuItem selectAll);
-    protected abstract void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails);
+    protected abstract void updateCreateDir(MenuItem createDir);
 
     /**
      * Access to meta data about the selection.

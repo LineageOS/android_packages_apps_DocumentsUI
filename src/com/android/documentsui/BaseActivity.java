@@ -152,12 +152,6 @@ public abstract class BaseActivity extends Activity
      */
     public abstract MenuManager getMenuManager();
 
-    /**
-     * Provides Activity a means of injection into and specialization of
-     * DirectoryFragment.
-     */
-    public abstract DirectoryDetails getDirectoryDetails();
-
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);
     public abstract void onDocumentsPicked(List<DocumentInfo> docs);
 
