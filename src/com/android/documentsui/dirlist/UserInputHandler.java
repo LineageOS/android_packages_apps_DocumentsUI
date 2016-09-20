@@ -279,7 +279,11 @@ public final class UserInputHandler<T extends InputEvent>
             } else {
                 if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
                     selectDocument(doc);
-                    mGestureSelectHandler.accept(event);
+                    // If we cannot select it, we didn't apply anchoring - therefore should not
+                    // start gesture selection
+                    if (mSelectable.test(doc)) {
+                        mGestureSelectHandler.accept(event);
+                    }
                 } else {
                     // We only initiate drag and drop on long press for touch to allow regular
                     // touch-based scrolling
