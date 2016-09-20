@@ -30,7 +30,6 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.documentsui.R;
-import com.android.documentsui.R.bool;
 
 import java.text.Collator;
 import java.util.ArrayList;
