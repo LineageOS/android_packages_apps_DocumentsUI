@@ -17,10 +17,9 @@
 package com.android.documentsui.base;
 
 /**
- * A functional interface that handles an event and returns a boolean to indicate if the event
- * is consumed.
+ * A functional interface that listens to an event without returning any information.
  */
 @FunctionalInterface
-public interface EventHandler<T> {
-    boolean accept(T event);
+public interface EventListener<T> {
+    void accept(T event);
 }

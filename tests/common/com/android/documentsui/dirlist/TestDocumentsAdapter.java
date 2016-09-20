@@ -18,6 +18,10 @@ package com.android.documentsui.dirlist;
 
 import android.view.ViewGroup;
 
+import com.android.documentsui.base.EventListener;
+import com.android.documentsui.dirlist.Model.Update;
+import com.android.documentsui.testing.TestEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,17 +31,15 @@ import java.util.List;
 public class TestDocumentsAdapter extends DocumentsAdapter {
 
     List<String> mModelIds = new ArrayList<>();
+    final TestEventListener<Update> mModelListener = new TestEventListener<>();
 
     public TestDocumentsAdapter(List<String> modelIds) {
         mModelIds = modelIds;
     }
 
     @Override
-    public void onModelUpdate(Model model) {
-    }
-
-    @Override
-    public void onModelUpdateFailed(Exception e) {
+    EventListener<Update> getModelUpdateListener() {
+        return mModelListener;
     }
 
     @Override

@@ -20,6 +20,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
 
+import android.annotation.IntDef;
 import android.database.Cursor;
 import android.database.MergeCursor;
 import android.net.Uri;
@@ -32,12 +33,15 @@ import android.util.Log;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +55,7 @@ public class Model {
     private static final String TAG = "Model";
 
     private boolean mIsLoading;
-    private List<UpdateListener> mUpdateListeners = new ArrayList<>();
+    private List<EventListener<Update>> mUpdateListeners = new ArrayList<>();
     @Nullable private Cursor mCursor;
     private int mCursorCount;
     /** Maps Model ID to cursor positions, for looking up items by Model ID. */
@@ -67,15 +71,24 @@ public class Model {
     @Nullable String error;
     @Nullable DocumentInfo doc;
 
+    public void addUpdateListener(EventListener<Update> listener) {
+        mUpdateListeners.add(listener);
+    }
+
+    public void removeUpdateListener(EventListener<Update> listener) {
+        mUpdateListeners.remove(listener);
+    }
+
     private void notifyUpdateListeners() {
-        for (UpdateListener listener: mUpdateListeners) {
-            listener.onModelUpdate(this);
+        for (EventListener<Update> handler: mUpdateListeners) {
+            handler.accept(Update.UPDATE);
         }
     }
 
     private void notifyUpdateListeners(Exception e) {
-        for (UpdateListener listener: mUpdateListeners) {
-            listener.onModelUpdateFailed(e);
+        Update error = new Update(e);
+        for (EventListener<Update> handler: mUpdateListeners) {
+            handler.accept(error);
         }
     }
 
@@ -420,7 +433,7 @@ public class Model {
         return mCursor;
     }
 
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return mCursorCount == 0;
     }
 
@@ -434,14 +447,21 @@ public class Model {
         final List<DocumentInfo> docs =  new ArrayList<>(size);
         // NOTE: That as this now iterates over only final (non-provisional) selection.
         for (String modelId: selection) {
-            final Cursor cursor = getItem(modelId);
-            if (cursor == null) {
-                Log.w(TAG, "Skipping document. Unabled to obtain cursor for modelId: " + modelId);
+            DocumentInfo doc = getDocument(modelId);
+            if (doc == null) {
+                Log.w(TAG, "Unable to obtain document for modelId: " + modelId);
                 continue;
             }
-            docs.add(DocumentInfo.fromDirectoryCursor(cursor));
+            docs.add(doc);
         }
         return docs;
+    }
+
+    public @Nullable DocumentInfo getDocument(String modelId) {
+        final Cursor cursor = getItem(modelId);
+        return (cursor == null)
+                ? null
+                : DocumentInfo.fromDirectoryCursor(cursor);
     }
 
     public Uri getItemUri(String modelId) {
@@ -457,23 +477,43 @@ public class Model {
         return mIds;
     }
 
-    void addUpdateListener(UpdateListener listener) {
-        mUpdateListeners.add(listener);
-    }
+    public static class Update {
 
-    void removeUpdateListener(UpdateListener listener) {
-        mUpdateListeners.remove(listener);
-    }
+        public static final Update UPDATE = new Update();
 
-    interface UpdateListener {
-        /**
-         * Called when a successful update has occurred.
-         */
-        void onModelUpdate(Model model);
+        @IntDef(value = {
+                TYPE_UPDATE,
+                TYPE_UPDATE_ERROR
+        })
+        @Retention(RetentionPolicy.SOURCE)
+        public @interface UpdateType {}
+        public static final int TYPE_UPDATE = 0;
+        public static final int TYPE_UPDATE_ERROR = 1;
 
-        /**
-         * Called when an update has been attempted but failed.
-         */
-        void onModelUpdateFailed(Exception e);
+        private final @UpdateType int mType;
+        private final @Nullable Exception mException;
+
+        private Update() {
+            mType = TYPE_UPDATE;
+            mException = null;
+        }
+
+        public Update(Exception exception) {
+            assert(exception != null);
+            mType = TYPE_UPDATE_ERROR;
+            mException = exception;
+        }
+
+        public boolean isUpdate() {
+            return mType == TYPE_UPDATE;
+        }
+
+        public boolean hasError() {
+            return mType == TYPE_UPDATE_ERROR;
+        }
+
+        public @Nullable Exception getError() {
+            return mException;
+        }
     }
 }

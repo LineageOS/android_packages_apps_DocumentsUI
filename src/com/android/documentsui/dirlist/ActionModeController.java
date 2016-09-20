@@ -195,7 +195,7 @@ class ActionModeController implements MultiSelectManager.Callback, ActionMode.Ca
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        return mMenuItemClicker.apply(item);
+        return mMenuItemClicker.accept(item);
     }
 
     static ActionModeController create(

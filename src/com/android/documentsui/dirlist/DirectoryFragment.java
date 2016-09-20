@@ -77,6 +77,7 @@ import com.android.documentsui.RecentsLoader;
 import com.android.documentsui.Snackbars;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Events.MotionInputEvent;
 import com.android.documentsui.base.RootInfo;
@@ -134,7 +135,7 @@ public class DirectoryFragment extends Fragment
     private static final int REFRESH_SPINNER_DISMISS_DELAY = 500;
 
     private final Model mModel = new Model();
-    private final Model.UpdateListener mModelUpdateListener = new ModelUpdateListener();
+    private final EventListener<Model.Update> mModelUpdateListener = new ModelUpdateListener();
     private MultiSelectManager mSelectionMgr;
     private ActionModeController mActionModeController;
     private SelectionMetadata mSelectionMetadata;
@@ -298,7 +299,7 @@ public class DirectoryFragment extends Fragment
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addItemCallback(mSelectionMetadata);
 
-        mModel.addUpdateListener(mAdapter);
+        mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
         // Make sure this is done after the RecyclerView and the Model are set up.
@@ -310,8 +311,9 @@ public class DirectoryFragment extends Fragment
                 mSelectionMgr,
                 mRecView);
 
-        mTuner = getBaseActivity().createFragmentTuner();
-        mMenuManager = getBaseActivity().getMenuManager();
+        final BaseActivity activity = getBaseActivity();
+        mTuner = activity.getFragmentTuner(mModel, mSelectionMgr, mSearchMode);
+        mMenuManager = activity.getMenuManager();
 
         if (state.allowMultiple) {
             mBandController = new BandController(mRecView, mAdapter, mSelectionMgr);
@@ -336,7 +338,11 @@ public class DirectoryFragment extends Fragment
                 (MotionEvent t) -> MotionInputEvent.obtain(t, mRecView),
                 this::canSelect,
                 this::onRightClick,
-                (DocumentDetails doc) -> handleViewItem(doc.getModelId()), // activate handler
+                // TODO: consider injecting the tuner directly into the handler for
+                // less middle-man action.
+                (DocumentDetails details) -> mTuner.onDocumentPicked(details.getModelId()),
+                // TODO: replace this with a previewHandler
+                (DocumentDetails details) -> mTuner.onDocumentPicked(details.getModelId()),
                 (DocumentDetails ignored) -> onDeleteSelectedDocuments(), // delete handler
                 mDragStartListener::onTouchDragEvent,
                 gestureSel::start);
@@ -350,8 +356,6 @@ public class DirectoryFragment extends Fragment
                 mInputHandler,
                 mBandController);
 
-        final BaseActivity activity = getBaseActivity();
-        mTuner = activity.createFragmentTuner();
         mMenuManager = activity.getMenuManager();
 
         mActionModeController = ActionModeController.create(
@@ -441,6 +445,9 @@ public class DirectoryFragment extends Fragment
 
         final String modelId = getModelId(v);
         if (modelId == null) {
+            // TODO: inject DirectoryDetails into MenuManager constructor
+            // Since both classes are supplied by Activity and created
+            // at the same time.
             mMenuManager.inflateContextMenuForContainer(
                     menu, inflater, getBaseActivity().getDirectoryDetails());
         } else {
@@ -491,25 +498,6 @@ public class DirectoryFragment extends Fragment
         mMenuManager.showContextMenu(this, v, x, y);
 
         return true;
-    }
-
-    private boolean handleViewItem(String id) {
-        final Cursor cursor = mModel.getItem(id);
-
-        if (cursor == null) {
-            Log.w(TAG, "Can't view item. Can't obtain cursor for modeId" + id);
-            return false;
-        }
-
-        final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
-        final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-        if (mTuner.isDocumentEnabled(docMimeType, docFlags)) {
-            final DocumentInfo doc = DocumentInfo.fromDirectoryCursor(cursor);
-            getBaseActivity().onDocumentPicked(doc, mModel);
-            mSelectionMgr.clearSelection();
-            return true;
-        }
-        return false;
     }
 
     public void onViewModeChanged() {
@@ -1254,20 +1242,26 @@ public class DirectoryFragment extends Fragment
         return mSelectionMgr.getSelection().contains(modelId);
     }
 
-    private final class ModelUpdateListener implements Model.UpdateListener {
-        @Override
-        public void onModelUpdate(Model model) {
-            if (DEBUG) Log.d(TAG, "Received model update. Loading=" + model.isLoading());
+    private final class ModelUpdateListener implements EventListener<Model.Update> {
 
-            if (model.info != null || model.error != null) {
-                mMessageBar.setInfo(model.info);
-                mMessageBar.setError(model.error);
+        @Override
+        public void accept(Model.Update update) {
+            if (update.hasError()) {
+                showQueryError();
+                return;
+            }
+
+            if (DEBUG) Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
+
+            if (mModel.info != null || mModel.error != null) {
+                mMessageBar.setInfo(mModel.info);
+                mMessageBar.setError(mModel.error);
                 mMessageBar.show();
             }
 
-            mProgressBar.setVisibility(model.isLoading() ? View.VISIBLE : View.GONE);
+            mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
 
-            if (model.isEmpty()) {
+            if (mModel.isEmpty()) {
                 if (mSearchMode) {
                     showNoResults(getDisplayState().stack.root);
                 } else {
@@ -1278,15 +1272,10 @@ public class DirectoryFragment extends Fragment
                 mAdapter.notifyDataSetChanged();
             }
 
-            if (!model.isLoading()) {
+            if (!mModel.isLoading()) {
                 getBaseActivity().notifyDirectoryLoaded(
-                    model.doc != null ? model.doc.derivedUri : null);
+                        mModel.doc != null ? mModel.doc.derivedUri : null);
             }
-        }
-
-        @Override
-        public void onModelUpdateFailed(Exception e) {
-            showQueryError();
         }
     }
 
@@ -1485,8 +1474,6 @@ public class DirectoryFragment extends Fragment
 
         mLastSortDimension = curSortedDimension;
         mLastSortDirection = curSortedDimension.getSortDirection();
-
-        mTuner.onModelLoaded(mModel, mType, mSearchMode);
 
         if (mRefreshLayout.isRefreshing()) {
             new Handler().postDelayed(

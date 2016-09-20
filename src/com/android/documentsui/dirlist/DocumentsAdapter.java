@@ -24,6 +24,7 @@ import android.provider.DocumentsContract.Document;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.State;
 
 import java.util.List;
@@ -38,8 +39,7 @@ import java.util.List;
  * @see SectionBreakDocumentsAdapterWrapper
  */
 abstract class DocumentsAdapter
-        extends RecyclerView.Adapter<DocumentHolder>
-        implements Model.UpdateListener {
+        extends RecyclerView.Adapter<DocumentHolder> {
 
     // Payloads for notifyItemChange to distinguish between selection and other events.
     static final String SELECTION_CHANGED_MARKER = "Selection-Changed";
@@ -62,6 +62,8 @@ abstract class DocumentsAdapter
      * @return The model ID of the item at the given adapter position.
      */
     abstract String getModelId(int position);
+
+    abstract EventListener<Model.Update> getModelUpdateListener();
 
     /**
      * Returns a class that yields the span size for a particular element. This is

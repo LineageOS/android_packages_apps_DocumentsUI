@@ -61,7 +61,7 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
             new ModelBackedDocumentsAdapter(
                 env, new IconHelper(testContext, State.MODE_GRID)));
 
-        mModel.addUpdateListener(mAdapter);
+        mModel.addUpdateListener(mAdapter.getModelUpdateListener());
     }
 
     // Tests that the item count is correct for a directory containing only subdirs.
@@ -151,11 +151,6 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
 
         @Override
         public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {}
-    }
-
-    private static class DummyListener implements Model.UpdateListener {
-        public void onModelUpdate(Model model) {}
-        public void onModelUpdateFailed(Exception e) {}
     }
 
     private static class DummyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

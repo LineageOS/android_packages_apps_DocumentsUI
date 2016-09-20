@@ -97,7 +97,7 @@ final class ListeningGestureDetector extends GestureDetector
     private class MouseDelegate {
         boolean onInterceptTouchEvent(InputEvent e) {
             if (Events.isMouseDragEvent(e)) {
-                return mMouseDragListener.apply(e);
+                return mMouseDragListener.accept(e);
             } else if (mBandController != null &&
                     (mBandController.shouldStart(e) || mBandController.shouldStop(e))) {
                 return mBandController.onInterceptTouchEvent(e);
