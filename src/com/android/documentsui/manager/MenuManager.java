@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.manager;
 
 import android.app.Fragment;
 import android.view.Menu;
@@ -22,12 +22,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.documentsui.R;
+import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 
-public final class FilesMenuManager extends MenuManager {
+public final class MenuManager extends com.android.documentsui.MenuManager {
 
-    public FilesMenuManager(SearchViewManager searchManager, State displayState) {
+    public MenuManager(SearchViewManager searchManager, State displayState) {
         super(searchManager, displayState);
     }
 
@@ -78,86 +80,87 @@ public final class FilesMenuManager extends MenuManager {
     }
 
     @Override
-    void updateSettings(MenuItem settings, RootInfo root) {
+    protected void updateSettings(MenuItem settings, RootInfo root) {
         settings.setVisible(true);
         settings.setEnabled(root.hasSettings());
     }
 
     @Override
-    void updateEject(MenuItem eject, RootInfo root) {
+    protected void updateEject(MenuItem eject, RootInfo root) {
         eject.setVisible(true);
         eject.setEnabled(root.supportsEject() && !root.ejecting);
     }
 
     @Override
-    void updateSettings(MenuItem settings, DirectoryDetails directoryDetails) {
+    protected void updateSettings(MenuItem settings, DirectoryDetails directoryDetails) {
         settings.setVisible(directoryDetails.hasRootSettings());
     }
 
     @Override
-    void updateNewWindow(MenuItem newWindow, DirectoryDetails directoryDetails) {
+    protected void updateNewWindow(MenuItem newWindow, DirectoryDetails directoryDetails) {
         newWindow.setVisible(directoryDetails.shouldShowFancyFeatures());
     }
 
     @Override
-    void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
+    protected void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
         open.setEnabled(selectionDetails.size() == 1
                 && !selectionDetails.containsPartialFiles());
     }
 
     @Override
-    void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
+    protected void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
         openWith.setEnabled(selectionDetails.size() == 1
                 && !selectionDetails.containsPartialFiles());
     }
 
     @Override
-    void updateOpenInNewWindow(MenuItem openInNewWindow, SelectionDetails selectionDetails) {
+    protected void updateOpenInNewWindow(
+            MenuItem openInNewWindow, SelectionDetails selectionDetails) {
         openInNewWindow.setEnabled(selectionDetails.size() == 1
             && !selectionDetails.containsPartialFiles());
     }
 
     @Override
-    void updateMoveTo(MenuItem moveTo, SelectionDetails selectionDetails) {
+    protected void updateMoveTo(MenuItem moveTo, SelectionDetails selectionDetails) {
         moveTo.setVisible(true);
         moveTo.setEnabled(!selectionDetails.containsPartialFiles() && selectionDetails.canDelete());
     }
 
     @Override
-    void updateCopyTo(MenuItem copyTo, SelectionDetails selectionDetails) {
+    protected void updateCopyTo(MenuItem copyTo, SelectionDetails selectionDetails) {
         copyTo.setVisible(true);
         copyTo.setEnabled(!selectionDetails.containsPartialFiles());
     }
 
     @Override
-    void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
+    protected void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
         pasteInto.setEnabled(selectionDetails.canPasteInto());
     }
 
     @Override
-    void updateSelectAll(MenuItem selectAll) {
+    protected void updateSelectAll(MenuItem selectAll) {
         selectAll.setVisible(true);
     }
 
     @Override
-    void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails) {
+    protected void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails) {
         createDir.setVisible(true);
         createDir.setEnabled(directoryDetails.canCreateDirectory());
     }
 
     @Override
-    void updateShare(MenuItem share, SelectionDetails selectionDetails) {
+    protected void updateShare(MenuItem share, SelectionDetails selectionDetails) {
         share.setVisible(!selectionDetails.containsDirectories()
                 && !selectionDetails.containsPartialFiles());
     }
 
     @Override
-    void updateDelete(MenuItem delete, SelectionDetails selectionDetails) {
+    protected void updateDelete(MenuItem delete, SelectionDetails selectionDetails) {
         delete.setVisible(selectionDetails.canDelete());
     }
 
     @Override
-    void updateRename(MenuItem rename, SelectionDetails selectionDetails) {
+    protected void updateRename(MenuItem rename, SelectionDetails selectionDetails) {
         rename.setVisible(true);
         rename.setEnabled(!selectionDetails.containsPartialFiles() && selectionDetails.canRename());
     }

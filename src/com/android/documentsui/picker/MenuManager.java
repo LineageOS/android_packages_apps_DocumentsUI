@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.State.ACTION_CREATE;
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
@@ -25,13 +25,14 @@ import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.State;
 
-public final class DocumentsMenuManager extends MenuManager {
+public final class MenuManager extends com.android.documentsui.MenuManager {
 
     private boolean mPicking;
 
-    public DocumentsMenuManager(SearchViewManager searchManager, State displayState) {
+    public MenuManager(SearchViewManager searchManager, State displayState) {
         super(searchManager, displayState);
 
         mPicking = mState.action == ACTION_CREATE
@@ -50,7 +51,8 @@ public final class DocumentsMenuManager extends MenuManager {
     }
 
     @Override
-    void updateModePicker(MenuItem grid, MenuItem list, DirectoryDetails directoryDetails) {
+    protected void updateModePicker(
+            MenuItem grid, MenuItem list, DirectoryDetails directoryDetails) {
         // No display options in recent directories
         if (mPicking && directoryDetails.isInRecents()) {
             grid.setVisible(false);
@@ -61,23 +63,23 @@ public final class DocumentsMenuManager extends MenuManager {
     }
 
     @Override
-    void updateSelectAll(MenuItem selectAll) {
+    protected void updateSelectAll(MenuItem selectAll) {
         selectAll.setVisible(mState.allowMultiple);
     }
 
     @Override
-    void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails) {
+    protected void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails) {
         createDir.setVisible(mPicking);
         createDir.setEnabled(mPicking && directoryDetails.canCreateDirectory());
     }
 
     @Override
-    void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
+    protected void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
         updateOpen(open, selectionDetails);
     }
 
     @Override
-    void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
+    protected void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
         updateOpen(open, selectionDetails);
     }
 

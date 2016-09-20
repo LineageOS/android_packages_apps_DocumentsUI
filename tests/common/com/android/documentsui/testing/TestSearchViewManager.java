@@ -42,7 +42,7 @@ public class TestSearchViewManager extends SearchViewManager {
     }
 
     @Override
-    protected void showMenu(boolean visible) {
+    public void showMenu(boolean visible) {
         showMenuCalled = true;
     }
 

@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.State.ACTION_CREATE;
 import static com.android.documentsui.base.State.ACTION_OPEN;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -25,6 +26,7 @@ import android.provider.DocumentsContract.Root;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestDirectoryDetails;
@@ -39,7 +41,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public final class DocumentsMenuManagerTest {
+public final class MenuManagerTest {
 
     private TestMenu testMenu;
     private TestMenuItem open;
@@ -98,7 +100,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testActionMenu() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         open.assertInvisible();
@@ -111,7 +113,7 @@ public final class DocumentsMenuManagerTest {
     @Test
     public void testActionMenu_openAction() {
         state.action = ACTION_OPEN;
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         open.assertVisible();
@@ -121,7 +123,7 @@ public final class DocumentsMenuManagerTest {
     @Test
     public void testActionMenu_notAllowMultiple() {
         state.allowMultiple = false;
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         selectAll.assertInvisible();
@@ -129,7 +131,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testOptionMenu() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
         advanced.assertInvisible();
@@ -142,7 +144,7 @@ public final class DocumentsMenuManagerTest {
     public void testOptionMenu_notPicking() {
         state.action = ACTION_OPEN;
         state.derivedMode = State.MODE_LIST;
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
         createDir.assertInvisible();
@@ -153,7 +155,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testOptionMenu_canCreateDirectory() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         directoryDetails.canCreateDirectory = true;
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
@@ -164,7 +166,7 @@ public final class DocumentsMenuManagerTest {
     public void testOptionMenu_showAdvanced() {
         state.showAdvanced = true;
         state.showAdvancedOption = true;
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
         advanced.assertVisible();
@@ -173,7 +175,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testOptionMenu_inRecents() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         directoryDetails.isInRecents = true;
         mgr.updateOptionMenu(testMenu, directoryDetails);
 
@@ -183,7 +185,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testContextMenu_EmptyArea() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateContextMenuForContainer(testMenu, directoryDetails);
         selectAll.assertVisible();
         paste.assertVisible();
@@ -192,7 +194,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testContextMenu_OnFile() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateContextMenuForFiles(testMenu, selectionDetails);
         // We don't want share in pickers.
         share.assertInvisible();
@@ -206,7 +208,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testContextMenu_OnDirectory() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         selectionDetails.canPasteInto = true;
         mgr.updateContextMenuForDirs(testMenu, selectionDetails);
         // We don't want openInNewWindow in pickers
@@ -220,8 +222,54 @@ public final class DocumentsMenuManagerTest {
     }
 
     @Test
+    public void testContextMenu_OnMixedDocs() {
+        MenuManager mgr = new MenuManager(testSearchManager, state);
+        selectionDetails.containDirectories = true;
+        selectionDetails.containFiles = true;
+        selectionDetails.size = 2;
+        selectionDetails.canDelete = true;
+        mgr.updateContextMenu(testMenu, selectionDetails);
+        cut.assertVisible();
+        copy.assertVisible();
+        delete.assertVisible();
+    }
+
+    @Test
+    public void testContextMenu_OnMixedDocs_hasPartialFile() {
+        MenuManager mgr = new MenuManager(testSearchManager, state);
+        selectionDetails.containDirectories = true;
+        selectionDetails.containFiles = true;
+        selectionDetails.size = 2;
+        selectionDetails.containPartial = true;
+        selectionDetails.canDelete = true;
+        mgr.updateContextMenu(testMenu, selectionDetails);
+        cut.assertVisible();
+        cut.assertDisabled();
+        copy.assertVisible();
+        copy.assertDisabled();
+        delete.assertVisible();
+        delete.assertEnabled();
+    }
+
+    @Test
+    public void testContextMenu_OnMixedDocs_hasUndeletableFile() {
+        MenuManager mgr = new MenuManager(testSearchManager, state);
+        selectionDetails.containDirectories = true;
+        selectionDetails.containFiles = true;
+        selectionDetails.size = 2;
+        selectionDetails.canDelete = false;
+        mgr.updateContextMenu(testMenu, selectionDetails);
+        cut.assertVisible();
+        cut.assertDisabled();
+        copy.assertVisible();
+        copy.assertEnabled();
+        delete.assertVisible();
+        delete.assertDisabled();
+    }
+
+    @Test
     public void testRootContextMenu() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 
         eject.assertInvisible();
@@ -230,7 +278,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testRootContextMenu_hasRootSettings() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         testRootInfo.flags = Root.FLAG_HAS_SETTINGS;
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 
@@ -239,7 +287,7 @@ public final class DocumentsMenuManagerTest {
 
     @Test
     public void testRootContextMenu_canEject() {
-        DocumentsMenuManager mgr = new DocumentsMenuManager(testSearchManager, state);
+        MenuManager mgr = new MenuManager(testSearchManager, state);
         testRootInfo.flags = Root.FLAG_SUPPORTS_EJECT;
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 

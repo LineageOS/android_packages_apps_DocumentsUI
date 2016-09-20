@@ -18,8 +18,8 @@ package com.android.documentsui;
 
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.suitebuilder.annotation.LargeTest;
+
 import com.android.documentsui.R;
-import com.android.documentsui.R.string;
 import com.android.documentsui.manager.ManageActivity;
 
 @LargeTest
@@ -38,7 +38,6 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
         bots.roots.closeDrawer();
     }
 
-    // TODO: Move this over to the FilesMenuManagerTest.
     public void testRenameEnabled_SingleSelection() throws Exception {
         bots.directory.selectDocument(fileName1, 1);
         bots.main.openOverflowMenu();
@@ -48,7 +47,6 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
         device.pressBack();
     }
 
-    // TODO: Move this over to the FilesMenuManagerTest.
     public void testNoRenameSupport_SingleSelection() throws Exception {
         bots.directory.selectDocument(fileNameNoRename, 1);
         bots.main.openOverflowMenu();
@@ -58,7 +56,6 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
         device.pressBack();
     }
 
-    // TODO: Move this over to the FilesMenuManagerTest.
     public void testOneHasRenameSupport_MultipleSelection() throws Exception {
         bots.directory.selectDocument(fileName1, 1);
         bots.directory.selectDocument(fileNameNoRename, 2);
@@ -69,7 +66,6 @@ public class RenameDocumentUiTest extends ActivityTest<ManageActivity> {
         device.pressBack();
     }
 
-    // TODO: Move this over to the FilesMenuManagerTest.
     public void testRenameDisabled_MultipleSelection() throws Exception {
         bots.directory.selectDocument(fileName1, 1);
         bots.directory.selectDocument(fileName2, 2);
