@@ -136,24 +136,27 @@ public class DirectoryFragment extends Fragment
 
     private final Model mModel = new Model();
     private final EventListener<Model.Update> mModelUpdateListener = new ModelUpdateListener();
+
+    // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    private FragmentTuner mTuner;
+
+    // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    private MenuManager mMenuManager;
+
     private MultiSelectManager mSelectionMgr;
     private ActionModeController mActionModeController;
     private SelectionMetadata mSelectionMetadata;
     private UserInputHandler<InputEvent> mInputHandler;
     private FocusManager mFocusManager;
-
+    private @Nullable BandController mBandController;
+    private DragHoverListener mDragHoverListener;
     private IconHelper mIconHelper;
     private SwipeRefreshLayout mRefreshLayout;
     private View mEmptyView;
     private RecyclerView mRecView;
     private View mFileList;
 
-    private String mStateKey;
-
-    private SortDimension mLastSortDimension;
-    private @SortDirection int mLastSortDirection;
     private DocumentsAdapter mAdapter;
-    private FragmentTuner mTuner;
     private DocumentClipper mClipper;
     private GridLayoutManager mLayout;
     private int mColumnCount = 1;  // This will get updated when layout changes.
@@ -162,24 +165,11 @@ public class DirectoryFragment extends Fragment
     private MessageBar mMessageBar;
     private View mProgressBar;
 
-    // Directory fragment state is defined by: root, document, query, type, selection
-    private @ResultType int mType = TYPE_NORMAL;
-    private RootInfo mRoot;
-    // Null when viewing Recents directory.
-    private @Nullable DocumentInfo mDocument;
-    private String mQuery = null;
+    private DirState mDirState;
+
     // Note, we use !null to indicate that selection was restored (from rotation).
     // So don't fiddle with this field unless you've got the bigger picture in mind.
     private @Nullable Selection mRestoredSelection = null;
-    // Here we save the clip details of moveTo/copyTo actions when picker shows up.
-    // This will be written to saved instance.
-    private @Nullable FileOperation mPendingOperation;
-    private boolean mSearchMode = false;
-
-    private @Nullable BandController mBandController;
-
-    private DragHoverListener mDragHoverListener;
-    private MenuManager mMenuManager;
 
     private SortModel.UpdateListener mSortListener = (model, updateType) -> {
         // Only when sort order has changed do we need to trigger another loading.
@@ -248,13 +238,9 @@ public class DirectoryFragment extends Fragment
         // Read arguments when object created for the first time.
         // Restore state if fragment recreated.
         Bundle args = savedInstanceState == null ? getArguments() : savedInstanceState;
-        mRoot = args.getParcelable(Shared.EXTRA_ROOT);
-        mDocument = args.getParcelable(Shared.EXTRA_DOC);
-        mStateKey = buildStateKey(mRoot, mDocument);
-        mQuery = args.getString(Shared.EXTRA_QUERY);
-        mType = args.getInt(Shared.EXTRA_TYPE);
-        mSearchMode = args.getBoolean(Shared.EXTRA_SEARCH_MODE);
-        mPendingOperation = args.getParcelable(FileOperationService.EXTRA_OPERATION);
+
+        mDirState = new DirState();
+        mDirState.restore(args);
 
         // Restore any selection we may have squirreled away in retained state.
         @Nullable RetainedState retained = getBaseActivity().getRetainedState();
@@ -312,7 +298,7 @@ public class DirectoryFragment extends Fragment
                 mRecView);
 
         final BaseActivity activity = getBaseActivity();
-        mTuner = activity.getFragmentTuner(mModel, mSelectionMgr, mSearchMode);
+        mTuner = activity.getFragmentTuner(mModel, mSelectionMgr, mDirState.mSearchMode);
         mMenuManager = activity.getMenuManager();
 
         if (state.allowMultiple) {
@@ -370,13 +356,13 @@ public class DirectoryFragment extends Fragment
 
         final ActivityManager am = (ActivityManager) context.getSystemService(
                 Context.ACTIVITY_SERVICE);
-        boolean svelte = am.isLowRamDevice() && (mType == TYPE_RECENT_OPEN);
+        boolean svelte = am.isLowRamDevice() && (mDirState.mType == TYPE_RECENT_OPEN);
         mIconHelper.setThumbnailsEnabled(!svelte);
 
         // If mDocument is null, we sort it by last modified by default because it's in Recents.
         final boolean prefersLastModified =
-                (mDocument != null)
-                        ? (mDocument.flags & Document.FLAG_DIR_PREFERS_LAST_MODIFIED) != 0
+                (mDirState.mDocument != null)
+                        ? (mDirState.mDocument.flags & Document.FLAG_DIR_PREFERS_LAST_MODIFIED) != 0
                         : true;
         // Call this before adding the listener to avoid restarting the loader one more time
         state.sortModel.setDefaultDimension(
@@ -406,7 +392,7 @@ public class DirectoryFragment extends Fragment
         final SparseArray<Parcelable> container = new SparseArray<Parcelable>();
         getView().saveHierarchyState(container);
         final State state = getDisplayState();
-        state.dirState.put(mStateKey, container);
+        state.dirState.put(mDirState.getStateKey(), container);
     }
 
     public void retainState(RetainedState state) {
@@ -417,12 +403,7 @@ public class DirectoryFragment extends Fragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Shared.EXTRA_TYPE, mType);
-        outState.putParcelable(Shared.EXTRA_ROOT, mRoot);
-        outState.putParcelable(Shared.EXTRA_DOC, mDocument);
-        outState.putString(Shared.EXTRA_QUERY, mQuery);
-        outState.putBoolean(Shared.EXTRA_SEARCH_MODE, mSearchMode);
-        outState.putParcelable(FileOperationService.EXTRA_OPERATION, mPendingOperation);
+        mDirState.save(outState);
     }
 
     @Override
@@ -461,8 +442,7 @@ public class DirectoryFragment extends Fragment
 
     private void handleCopyResult(int resultCode, Intent data) {
 
-        FileOperation operation = mPendingOperation;
-        mPendingOperation = null;
+        FileOperation operation = mDirState.claimPendingOperation();
 
         if (resultCode == Activity.RESULT_CANCELED || data == null) {
             // User pressed the back button or otherwise cancelled the destination pick. Don't
@@ -867,7 +847,7 @@ public class DirectoryFragment extends Fragment
         }
 
         Uri srcParent = getDisplayState().stack.peek().derivedUri;
-        mPendingOperation = new FileOperation.Builder()
+        mDirState.mPendingOperation = new FileOperation.Builder()
                 .withOpType(mode)
                 .withSrcParent(srcParent)
                 .withSrcs(srcs)
@@ -1261,7 +1241,7 @@ public class DirectoryFragment extends Fragment
             mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
 
             if (mModel.isEmpty()) {
-                if (mSearchMode) {
+                if (mDirState.mSearchMode) {
                     showNoResults(getDisplayState().stack.root);
                 } else {
                     showEmptyDirectory();
@@ -1314,10 +1294,7 @@ public class DirectoryFragment extends Fragment
             String query) {
         DirectoryFragment df = get(fm);
 
-        df.mQuery = query;
-        df.mRoot = root;
-        df.mDocument = doc;
-        df.mSearchMode =  query != null;
+        df.mDirState.update(root, doc, query);
         df.getLoaderManager().restartLoader(LOADER_ID, null, df);
     }
 
@@ -1325,11 +1302,8 @@ public class DirectoryFragment extends Fragment
             String query) {
         if (DEBUG) Log.d(TAG, "Reloading directory: " + DocumentInfo.debugString(doc));
         DirectoryFragment df = get(fm);
-        df.mType = type;
-        df.mQuery = query;
-        df.mRoot = root;
-        df.mDocument = doc;
-        df.mSearchMode =  query != null;
+
+        df.mDirState.update(type, root, doc, query);
         df.getLoaderManager().restartLoader(LOADER_ID, null, df);
     }
 
@@ -1366,14 +1340,6 @@ public class DirectoryFragment extends Fragment
         ft.commitAllowingStateLoss();
     }
 
-    private static String buildStateKey(RootInfo root, DocumentInfo doc) {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(root != null ? root.authority : "null").append(';');
-        builder.append(root != null ? root.rootId : "null").append(';');
-        builder.append(doc != null ? doc.documentId : "null");
-        return builder.toString();
-    }
-
     public static @Nullable DirectoryFragment get(FragmentManager fm) {
         // TODO: deal with multiple directories shown at once
         Fragment fragment = fm.findFragmentById(getFragmentId());
@@ -1408,38 +1374,39 @@ public class DirectoryFragment extends Fragment
         State state = getDisplayState();
 
         Uri contentsUri;
-        switch (mType) {
+        switch (mDirState.mType) {
             case TYPE_NORMAL:
-                contentsUri = mSearchMode ? DocumentsContract.buildSearchDocumentsUri(
-                        mRoot.authority, mRoot.rootId, mQuery)
+                contentsUri = mDirState.mSearchMode ? DocumentsContract.buildSearchDocumentsUri(
+                        mDirState.mRoot.authority, mDirState.mRoot.rootId, mDirState.mQuery)
                         : DocumentsContract.buildChildDocumentsUri(
-                                mDocument.authority, mDocument.documentId);
+                                mDirState.mDocument.authority, mDirState.mDocument.documentId);
                 if (mTuner.managedModeEnabled()) {
                     contentsUri = DocumentsContract.setManageMode(contentsUri);
                 }
                 if (DEBUG) Log.d(TAG, "Creating new directory loader for: "
-                        + DocumentInfo.debugString(mDocument));
+                        + DocumentInfo.debugString(mDirState.mDocument));
                 return new DirectoryLoader(
-                        context, mRoot, mDocument, contentsUri, state.sortModel,
-                        mSearchMode);
+                        context, mDirState.mRoot, mDirState.mDocument, contentsUri, state.sortModel,
+                        mDirState.mSearchMode);
             case TYPE_RECENT_OPEN:
                 if (DEBUG) Log.d(TAG, "Creating new loader recents.");
                 final RootsCache roots = DocumentsApplication.getRootsCache(context);
                 return new RecentsLoader(context, roots, state);
 
             default:
-                throw new IllegalStateException("Unknown type " + mType);
+                throw new IllegalStateException("Unknown type " + mDirState.mType);
         }
     }
 
     @Override
     public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
-        if (DEBUG) Log.d(TAG, "Loader has finished for: " + DocumentInfo.debugString(mDocument));
+        if (DEBUG) Log.d(TAG, "Loader has finished for: "
+                + DocumentInfo.debugString(mDirState.mDocument));
         assert(result != null);
 
         if (!isAdded()) return;
 
-        if (mSearchMode) {
+        if (mDirState.mSearchMode) {
             Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SEARCH);
         }
 
@@ -1458,21 +1425,22 @@ public class DirectoryFragment extends Fragment
         }
 
         // Restore any previous instance state
-        final SparseArray<Parcelable> container = state.dirState.remove(mStateKey);
+        final SparseArray<Parcelable> container = state.dirState.remove(mDirState.getStateKey());
         final int curSortedDimensionId = state.sortModel.getSortedDimensionId();
+
         final SortDimension curSortedDimension =
                 state.sortModel.getDimensionById(curSortedDimensionId);
         if (container != null && !getArguments().getBoolean(Shared.EXTRA_IGNORE_STATE, false)) {
             getView().restoreHierarchyState(container);
-        } else if (mLastSortDimension != curSortedDimension
-                || mLastSortDimension == null
-                || mLastSortDirection != curSortedDimension.getSortDirection()) {
+        } else if (mDirState.mLastSortDimensionId != curSortedDimension.getId()
+                || mDirState.mLastSortDimensionId == SortModel.SORT_DIMENSION_ID_UNKNOWN
+                || mDirState.mLastSortDirection != curSortedDimension.getSortDirection()) {
             // Scroll to the top if the sort order actually changed.
             mRecView.smoothScrollToPosition(0);
         }
 
-        mLastSortDimension = curSortedDimension;
-        mLastSortDirection = curSortedDimension.getSortDirection();
+        mDirState.mLastSortDimensionId = curSortedDimension.getId();
+        mDirState.mLastSortDirection = curSortedDimension.getSortDirection();
 
         if (mRefreshLayout.isRefreshing()) {
             new Handler().postDelayed(
@@ -1483,9 +1451,82 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader<DirectoryResult> loader) {
-        if (DEBUG) Log.d(TAG, "Resetting loader for: " + DocumentInfo.debugString(mDocument));
+        if (DEBUG) Log.d(TAG, "Resetting loader for: "
+                + DocumentInfo.debugString(mDirState.mDocument));
         mModel.onLoaderReset();
 
         mRefreshLayout.setRefreshing(false);
     }
-  }
+
+    private static final class DirState {
+
+        private static final String EXTRA_SORT_DIMENSION_ID = "sortDimensionId";
+        private static final String EXTRA_SORT_DIRECTION = "sortDirection";
+
+        // Directory fragment state is defined by: root, document, query, type, selection
+        private @ResultType int mType = TYPE_NORMAL;
+        private RootInfo mRoot;
+        // Null when viewing Recents directory.
+        private @Nullable DocumentInfo mDocument;
+        private String mQuery = null;
+        // Here we save the clip details of moveTo/copyTo actions when picker shows up.
+        // This will be written to saved instance.
+        private @Nullable FileOperation mPendingOperation;
+        private boolean mSearchMode;
+        private int mLastSortDimensionId = SortModel.SORT_DIMENSION_ID_UNKNOWN;
+        private @SortDirection int mLastSortDirection;
+
+        private String mStateKey;
+
+        public void restore(Bundle bundle) {
+            mRoot = bundle.getParcelable(Shared.EXTRA_ROOT);
+            mDocument = bundle.getParcelable(Shared.EXTRA_DOC);
+            mQuery = bundle.getString(Shared.EXTRA_QUERY);
+            mType = bundle.getInt(Shared.EXTRA_TYPE);
+            mSearchMode = bundle.getBoolean(Shared.EXTRA_SEARCH_MODE);
+            mPendingOperation = bundle.getParcelable(FileOperationService.EXTRA_OPERATION);
+            mLastSortDimensionId = bundle.getInt(EXTRA_SORT_DIMENSION_ID);
+            mLastSortDirection = bundle.getInt(EXTRA_SORT_DIRECTION);
+        }
+
+        public void save(Bundle bundle) {
+            bundle.putInt(Shared.EXTRA_TYPE, mType);
+            bundle.putParcelable(Shared.EXTRA_ROOT, mRoot);
+            bundle.putParcelable(Shared.EXTRA_DOC, mDocument);
+            bundle.putString(Shared.EXTRA_QUERY, mQuery);
+            bundle.putBoolean(Shared.EXTRA_SEARCH_MODE, mSearchMode);
+            bundle.putParcelable(FileOperationService.EXTRA_OPERATION, mPendingOperation);
+            bundle.putInt(EXTRA_SORT_DIMENSION_ID, mLastSortDimensionId);
+            bundle.putInt(EXTRA_SORT_DIRECTION, mLastSortDirection);
+        }
+
+        public FileOperation claimPendingOperation() {
+            FileOperation op = mPendingOperation;
+            mPendingOperation = null;
+            return op;
+        }
+
+        public void update(int type, RootInfo root, DocumentInfo doc, String query) {
+            mType = type;
+            update(root, doc, query);
+        }
+
+        public void update(RootInfo root, DocumentInfo doc, String query) {
+            mQuery = query;
+            mRoot = root;
+            mDocument = doc;
+            mSearchMode =  query != null;
+        }
+
+        private String getStateKey() {
+            if (mStateKey == null) {
+                final StringBuilder builder = new StringBuilder();
+                builder.append(mRoot != null ? mRoot.authority : "null").append(';');
+                builder.append(mRoot != null ? mRoot.rootId : "null").append(';');
+                builder.append(mDocument != null ? mDocument.documentId : "null");
+                mStateKey = builder.toString();
+            }
+            return mStateKey;
+        }
+    }
+}
