@@ -69,7 +69,6 @@ public class PickActivity extends BaseActivity {
     private static final String TAG = "DocumentsActivity";
     private MenuManager mMenuManager;
     private Tuner mTuner;
-    private DirectoryDetails mDetails;
 
     public PickActivity() {
         super(R.layout.documents_activity, TAG);
@@ -79,8 +78,7 @@ public class PickActivity extends BaseActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         mTuner = new Tuner(this, mState);
-        mMenuManager = new MenuManager(mSearchManager, mState);
-        mDetails = new DirectoryDetails(this);
+        mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
 
         if (mState.action == ACTION_CREATE) {
             final String mimeType = getIntent().getType();
@@ -223,7 +221,7 @@ public class PickActivity extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        mMenuManager.updateOptionMenu(menu, mDetails);
+        mMenuManager.updateOptionMenu(menu);
 
         final DocumentInfo cwd = getCurrentDirectory();
 
@@ -404,11 +402,6 @@ public class PickActivity extends BaseActivity {
     @Override
     public MenuManager getMenuManager() {
         return mMenuManager;
-    }
-
-    @Override
-    public DirectoryDetails getDirectoryDetails() {
-        return mDetails;
     }
 
     private static final class PickFinishTask extends PairedTask<PickActivity, Void, Void> {

@@ -81,7 +81,6 @@ public class ManageActivity extends BaseActivity {
     private long mDrawerLastFiddled;
     private Tuner mTuner;
     private MenuManager mMenuManager;
-    private DirectoryDetails mDetails;
     private DocumentClipper mClipper;
 
     public ManageActivity() {
@@ -93,14 +92,16 @@ public class ManageActivity extends BaseActivity {
         super.onCreate(icicle);
 
         mClipper = DocumentsApplication.getDocumentClipper(this);
-        mMenuManager = new MenuManager(mSearchManager, mState);
+        mMenuManager = new MenuManager(
+                mSearchManager,
+                mState,
+                new DirectoryDetails(this) {
+                    @Override
+                    public boolean hasItemsToPaste() {
+                        return mClipper.hasItemsToPaste();
+                    }
+                });
         mTuner = new Tuner(this, mState);
-        mDetails = new DirectoryDetails(this) {
-            @Override
-            public boolean hasItemsToPaste() {
-                return mClipper.hasItemsToPaste();
-            }
-        };
         mClipper = DocumentsApplication.getDocumentClipper(this);
 
         RootsFragment.show(getFragmentManager(), this::openRootSettings);
@@ -223,7 +224,7 @@ public class ManageActivity extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        mMenuManager.updateOptionMenu(menu, mDetails);
+        mMenuManager.updateOptionMenu(menu);
         return true;
     }
 
@@ -541,11 +542,6 @@ public class ManageActivity extends BaseActivity {
     @Override
     public MenuManager getMenuManager() {
         return mMenuManager;
-    }
-
-    @Override
-    public DirectoryDetails getDirectoryDetails() {
-        return mDetails;
     }
 
     /**

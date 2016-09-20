@@ -29,13 +29,16 @@ import com.android.documentsui.base.State;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
-    public MenuManager(SearchViewManager searchManager, State displayState) {
-        super(searchManager, displayState);
+    public MenuManager(
+            SearchViewManager searchManager,
+            State displayState,
+            DirectoryDetails dirDetails) {
+        super(searchManager, displayState, dirDetails);
     }
 
     @Override
-    public void updateOptionMenu(Menu menu, DirectoryDetails details) {
-        super.updateOptionMenu(menu, details);
+    public void updateOptionMenu(Menu menu) {
+        super.updateOptionMenu(menu);
 
         // It hides icon if searching in progress
         mSearchManager.updateMenu();
@@ -50,10 +53,9 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    public void inflateContextMenuForContainer(
-            Menu menu, MenuInflater inflater, DirectoryDetails directoryDetails) {
+    public void inflateContextMenuForContainer(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.container_context_menu, menu);
-        updateContextMenuForContainer(menu, directoryDetails);
+        updateContextMenuForContainer(menu);
     }
 
     @Override
@@ -92,13 +94,13 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateSettings(MenuItem settings, DirectoryDetails directoryDetails) {
-        settings.setVisible(directoryDetails.hasRootSettings());
+    protected void updateSettings(MenuItem settings) {
+        settings.setVisible(mDirDetails.hasRootSettings());
     }
 
     @Override
-    protected void updateNewWindow(MenuItem newWindow, DirectoryDetails directoryDetails) {
-        newWindow.setVisible(directoryDetails.shouldShowFancyFeatures());
+    protected void updateNewWindow(MenuItem newWindow) {
+        newWindow.setVisible(mDirDetails.shouldShowFancyFeatures());
     }
 
     @Override
@@ -143,9 +145,9 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails) {
+    protected void updateCreateDir(MenuItem createDir) {
         createDir.setVisible(true);
-        createDir.setEnabled(directoryDetails.canCreateDirectory());
+        createDir.setEnabled(mDirDetails.canCreateDirectory());
     }
 
     @Override

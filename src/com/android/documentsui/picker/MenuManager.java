@@ -30,20 +30,21 @@ import com.android.documentsui.base.State;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
-    private boolean mPicking;
+    public MenuManager(SearchViewManager searchManager, State displayState, DirectoryDetails dirDetails) {
+        super(searchManager, displayState, dirDetails);
 
-    public MenuManager(SearchViewManager searchManager, State displayState) {
-        super(searchManager, displayState);
+    }
 
-        mPicking = mState.action == ACTION_CREATE
+    private boolean picking() {
+        return mState.action == ACTION_CREATE
                 || mState.action == ACTION_OPEN_TREE
                 || mState.action == ACTION_PICK_COPY_DESTINATION;
     }
 
     @Override
-    public void updateOptionMenu(Menu menu, DirectoryDetails details) {
-        super.updateOptionMenu(menu, details);
-        if (mPicking) {
+    public void updateOptionMenu(Menu menu) {
+        super.updateOptionMenu(menu);
+        if (picking()) {
             // May already be hidden because the root
             // doesn't support search.
             mSearchManager.showMenu(false);
@@ -51,14 +52,13 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateModePicker(
-            MenuItem grid, MenuItem list, DirectoryDetails directoryDetails) {
+    protected void updateModePicker(MenuItem grid, MenuItem list) {
         // No display options in recent directories
-        if (mPicking && directoryDetails.isInRecents()) {
+        if (picking() && mDirDetails.isInRecents()) {
             grid.setVisible(false);
             list.setVisible(false);
         } else {
-            super.updateModePicker(grid, list, directoryDetails);
+            super.updateModePicker(grid, list);
         }
     }
 
@@ -68,9 +68,9 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateCreateDir(MenuItem createDir, DirectoryDetails directoryDetails) {
-        createDir.setVisible(mPicking);
-        createDir.setEnabled(mPicking && directoryDetails.canCreateDirectory());
+    protected void updateCreateDir(MenuItem createDir) {
+        createDir.setVisible(picking());
+        createDir.setEnabled(picking() && mDirDetails.canCreateDirectory());
     }
 
     @Override
