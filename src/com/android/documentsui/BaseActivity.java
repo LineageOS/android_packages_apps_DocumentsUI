@@ -55,7 +55,6 @@ import android.view.View;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.LocalPreferences;
 import com.android.documentsui.base.PairedTask;
@@ -77,7 +76,6 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -157,6 +155,12 @@ public abstract class BaseActivity extends Activity
      * DirectoryFragment hosted menus.
      */
     public abstract MenuManager getMenuManager();
+
+    /**
+     * Provides Activity a means of injection into and specialization of
+     * fragment actions.
+     */
+    public abstract ActionHandler<? extends BaseActivity> getActionHandler();
 
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);
     public abstract void onDocumentsPicked(List<DocumentInfo> docs);
@@ -311,7 +315,11 @@ public abstract class BaseActivity extends Activity
         if (mRoots.isRecentsRoot(root)) {
             refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         } else {
-            new PickRootTask(this, root).executeOnExecutor(getExecutorForCurrentDirectory());
+            new GetRootDocumentTask(
+                    root,
+                    this,
+                    this::openContainerDocument)
+                    .executeOnExecutor(getExecutorForCurrentDirectory());
         }
     }
 
@@ -630,18 +638,6 @@ public abstract class BaseActivity extends Activity
         return false;
     }
 
-    public void onStackPicked(DocumentStack stack) {
-        try {
-            // Update the restored stack to ensure we have freshest data
-            stack.updateDocuments(getContentResolver());
-            mState.setStack(stack);
-            refreshCurrentRootAndDirectory(AnimationView.ANIM_SIDE);
-
-        } catch (FileNotFoundException e) {
-            Log.w(mTag, "Failed to restore stack: " + e);
-        }
-    }
-
     /**
      * Declare a global key handler to route key events when there isn't a specific focus view. This
      * covers the scenario where a user opens DocumentsUI and just starts typing.
@@ -759,33 +755,8 @@ public abstract class BaseActivity extends Activity
                         return false;
                     }
                 });
-                new Handler().post(new Runnable() {
-                    @Override public void run() {
-                    }
-                });
             }
         });
-    }
-
-    private static final class PickRootTask extends PairedTask<BaseActivity, Void, DocumentInfo> {
-        private RootInfo mRoot;
-
-        public PickRootTask(BaseActivity activity, RootInfo root) {
-            super(activity);
-            mRoot = root;
-        }
-
-        @Override
-        protected DocumentInfo run(Void... params) {
-            return mRoot.getRootDocumentBlocking(mOwner);
-        }
-
-        @Override
-        protected void finish(DocumentInfo result) {
-            if (result != null) {
-                mOwner.openContainerDocument(result);
-            }
-        }
     }
 
     private static final class HandleRootsChangedTask

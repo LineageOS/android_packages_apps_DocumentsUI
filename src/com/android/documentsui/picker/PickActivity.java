@@ -72,6 +72,7 @@ public class PickActivity extends BaseActivity {
     private Tuner mTuner;
     private FocusManager mFocusManager;
     private MenuManager mMenuManager;
+    private ActionHandler mActionHandler;
 
     public PickActivity() {
         super(R.layout.documents_activity, TAG);
@@ -84,6 +85,7 @@ public class PickActivity extends BaseActivity {
         // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
+        mActionHandler = new ActionHandler(this);
 
         if (mState.action == ACTION_CREATE) {
             final String mimeType = getIntent().getType();
@@ -412,6 +414,11 @@ public class PickActivity extends BaseActivity {
     @Override
     public MenuManager getMenuManager() {
         return mMenuManager;
+    }
+
+    @Override
+    public ActionHandler getActionHandler() {
+        return mActionHandler;
     }
 
     private static final class PickFinishTask extends PairedTask<PickActivity, Void, Void> {
