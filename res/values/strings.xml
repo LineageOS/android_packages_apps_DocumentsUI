@@ -92,7 +92,7 @@
     <string name="sort_dimension_name">Name</string>
     <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
     <string name="sort_dimension_summary">Summary</string>
-    <!-- Table header for last modified time. [CHAR_LIMIT=12] -->
+    <!-- Table header for last modified time. [CHAR_LIMIT=18] -->
     <string name="sort_dimension_date">Modified</string>
     <!-- Table header for file size. [CHAR_LIMIT=12] -->
     <string name="sort_dimension_size">Size</string>
