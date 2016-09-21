@@ -84,6 +84,7 @@ public class ManageActivity extends BaseActivity {
     private Tuner mTuner;
     private MenuManager mMenuManager;
     private FocusManager mFocusManager;
+    private ActionHandler mActionHandler;
     private DocumentClipper mClipper;
 
     public ManageActivity() {
@@ -107,9 +108,10 @@ public class ManageActivity extends BaseActivity {
         mTuner = new Tuner(this, mState);
         // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
+        mActionHandler = new ActionHandler(this);
         mClipper = DocumentsApplication.getDocumentClipper(this);
 
-        RootsFragment.show(getFragmentManager(), this::openRootSettings);
+        RootsFragment.show(getFragmentManager(), null);
 
         final Intent intent = getIntent();
         final Uri uri = intent.getData();
@@ -580,6 +582,10 @@ public class ManageActivity extends BaseActivity {
         return mMenuManager;
     }
 
+    @Override
+    public ActionHandler getActionHandler() {
+        return mActionHandler;
+    }
     /**
      * Builds a stack for the specific Uris. Multi roots are not supported, as it's impossible
      * to know which root to select. Also, the stack doesn't contain intermediate directories.

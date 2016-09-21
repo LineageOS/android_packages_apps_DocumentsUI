@@ -30,7 +30,7 @@ import com.android.documentsui.base.Shared;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
-final class EjectRootTask extends CheckedTask<Void, Boolean> {
+public final class EjectRootTask extends CheckedTask<Void, Boolean> {
     private final String mAuthority;
     private final String mRootId;
     private final Consumer<Boolean> mCallback;
