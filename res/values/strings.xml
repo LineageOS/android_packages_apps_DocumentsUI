@@ -26,47 +26,47 @@
     <!-- Action bar title prompting user to choose a location to save a document to [CHAR LIMIT=32] -->
     <string name="title_save">Save to</string>
 
-    <!-- Menu item that creates a new directory/folder at the current location [CHAR LIMIT=24] -->
+    <!-- Menu item that creates a new directory/folder at the current location [CHAR LIMIT=28] -->
     <string name="menu_create_dir">New folder</string>
-    <!-- Menu item that switches view to show documents as a large-format grid of thumbnails [CHAR LIMIT=24] -->
+    <!-- Menu item that switches view to show documents as a large-format grid of thumbnails [CHAR LIMIT=28] -->
     <string name="menu_grid">Grid view</string>
-    <!-- Menu item that switches view to show documents as a list [CHAR LIMIT=24] -->
+    <!-- Menu item that switches view to show documents as a list [CHAR LIMIT=28] -->
     <string name="menu_list">List view</string>
-    <!-- Menu item that enters a mode to search for documents [CHAR LIMIT=24] -->
+    <!-- Menu item that enters a mode to search for documents [CHAR LIMIT=28] -->
     <string name="menu_search">Search</string>
-    <!-- Menu item that opens settings/options for a device (like an SD card). [CHAR LIMIT=24] -->
+    <!-- Menu item that opens settings/options for a device (like an SD card). [CHAR LIMIT=28] -->
     <string name="menu_settings">Storage settings</string>
 
-    <!-- Menu item title that opens the selected documents [CHAR LIMIT=24] -->
+    <!-- Menu item title that opens the selected documents [CHAR LIMIT=28] -->
     <string name="menu_open">Open</string>
-    <!-- Menu item title that shows a chooser to user to pick the app to open the selected documents. [CHAR LIMIT=24] -->
+    <!-- Menu item title that shows a chooser to user to pick the app to open the selected documents. [CHAR LIMIT=28] -->
     <string name="menu_open_with">Open with</string>
-    <!-- Menu item title that opens a doc in new window. [CHAR LIMIT=24] -->
+    <!-- Menu item title that opens a doc in new window. [CHAR LIMIT=28] -->
     <string name="menu_open_in_new_window">Open in new window</string>
-    <!-- Menu item title that saves the current document [CHAR LIMIT=24] -->
+    <!-- Menu item title that saves the current document [CHAR LIMIT=28] -->
     <string name="menu_save">Save</string>
-    <!-- Menu item title that shares the selected documents [CHAR LIMIT=24] -->
+    <!-- Menu item title that shares the selected documents [CHAR LIMIT=28] -->
     <string name="menu_share">Share</string>
-    <!-- Menu item title that deletes the selected documents [CHAR LIMIT=24] -->
+    <!-- Menu item title that deletes the selected documents [CHAR LIMIT=28] -->
     <string name="menu_delete">Delete</string>
-    <!-- Menu item title that selects all documents in the current directory [CHAR LIMIT=24] -->
+    <!-- Menu item title that selects all documents in the current directory [CHAR LIMIT=28] -->
     <string name="menu_select_all">Select all</string>
-    <!-- Menu item title that copies the selected documents [CHAR LIMIT=24] -->
+    <!-- Menu item title that copies the selected documents [CHAR LIMIT=28] -->
     <string name="menu_copy">Copy to\u2026</string>
-    <!-- Menu item title that moves the selected documents [CHAR LIMIT=24] -->
+    <!-- Menu item title that moves the selected documents [CHAR LIMIT=28] -->
     <string name="menu_move">Move to\u2026</string>
-    <!-- Menu item that renames the selected document [CHAR LIMIT=24] -->
+    <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_rename">Rename</string>
 
-    <!-- Menu item title that creates a new window in the activity [CHAR LIMIT=24] -->
+    <!-- Menu item title that creates a new window in the activity [CHAR LIMIT=28] -->
     <string name="menu_new_window">New window</string>
-    <!-- Menu item title that cuts the selected documents to clipboard [CHAR LIMIT=24] -->
+    <!-- Menu item title that cuts the selected documents to clipboard [CHAR LIMIT=28] -->
     <string name="menu_cut_to_clipboard">Cut</string>
-    <!-- Menu item title that copies the selected documents to clipboard [CHAR LIMIT=24] -->
+    <!-- Menu item title that copies the selected documents to clipboard [CHAR LIMIT=28] -->
     <string name="menu_copy_to_clipboard">Copy</string>
-    <!-- Menu item title that pastes files from the clipboard [CHAR LIMIT=24] -->
+    <!-- Menu item title that pastes files from the clipboard [CHAR LIMIT=28] -->
     <string name="menu_paste_from_clipboard">Paste</string>
-    <!-- Menu item title that pastes files into the selected folder [CHAR LIMIT=24] -->
+    <!-- Menu item title that pastes files into the selected folder [CHAR LIMIT=28] -->
     <string name="menu_paste_into_folder">Paste into folder</string>
 
     <!-- Translators asked for a length exemption for the show/hide internal storage strings.
