@@ -96,7 +96,6 @@ public class Model {
         if (mIsLoading) {
             Log.w(TAG, "Received unexpected loader reset while in loading state for doc: "
                     + DocumentInfo.debugString(doc));
-            return;
         }
 
         reset();
