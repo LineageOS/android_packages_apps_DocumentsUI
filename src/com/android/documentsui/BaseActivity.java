@@ -82,8 +82,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-public abstract class BaseActivity extends Activity
-        implements SearchManagerListener, NavigationViewManager.Environment {
+public abstract class BaseActivity extends Activity implements NavigationViewManager.Environment {
 
     public final FileOperations.Callback fileOpCallback = (status, opType, docCount) -> {
         if (status == FileOperations.Callback.STATUS_REJECTED) {
@@ -203,7 +202,6 @@ public abstract class BaseActivity extends Activity
         getContentResolver().registerContentObserver(
                 RootsCache.sNotificationUri, false, mRootsCacheObserver);
 
-        mSearchManager = new SearchViewManager(this, icicle, mState.sortModel);
 
         DocumentsToolbar toolbar = (DocumentsToolbar) findViewById(R.id.toolbar);
         setActionBar(toolbar);
@@ -213,7 +211,32 @@ public abstract class BaseActivity extends Activity
         assert(breadcrumb != null);
 
         mNavigator = new NavigationViewManager(mDrawer, toolbar, mState, this, breadcrumb);
+        SearchManagerListener searchListener = new SearchManagerListener() {
+            /**
+             * Called when search results changed. Refreshes the content of the directory. It
+             * doesn't refresh elements on the action bar. e.g. The current directory name displayed
+             * on the action bar won't get updated.
+             */
+            @Override
+            public void onSearchChanged(@Nullable String query) {
+                // We should not get here if root is not searchable
+                assert (canSearchRoot());
+                reloadSearch(query);
+            }
 
+            @Override
+            public void onSearchFinished() {
+                // Restores menu icons state
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onSearchViewChanged(boolean opened) {
+                mState.sortModel.setSortEnabled(!opened);
+                mNavigator.update();
+            }
+        };
+        mSearchManager = new SearchViewManager(searchListener, icicle);
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
 
@@ -424,24 +447,6 @@ public abstract class BaseActivity extends Activity
      * folder that accepts drop. We should only open a container that's not an archive.
      */
     public void springOpenDirectory(DocumentInfo doc) {
-    }
-
-    /**
-     * Called when search results changed.
-     * Refreshes the content of the directory. It doesn't refresh elements on the action bar.
-     * e.g. The current directory name displayed on the action bar won't get updated.
-     */
-    @Override
-    public void onSearchChanged(@Nullable String query) {
-        // We should not get here if root is not searchable
-        assert(canSearchRoot());
-        reloadSearch(query);
-    }
-
-    @Override
-    public void onSearchFinished() {
-        // Restores menu icons state
-        invalidateOptionsMenu();
     }
 
     private void reloadSearch(String query) {
