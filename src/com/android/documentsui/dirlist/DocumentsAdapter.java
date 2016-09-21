@@ -38,7 +38,7 @@ import java.util.List;
  * @see ModelBackedDocumentsAdapter
  * @see SectionBreakDocumentsAdapterWrapper
  */
-abstract class DocumentsAdapter
+public abstract class DocumentsAdapter
         extends RecyclerView.Adapter<DocumentHolder> {
 
     // Payloads for notifyItemChange to distinguish between selection and other events.
@@ -50,7 +50,7 @@ abstract class DocumentsAdapter
      *
      * @return A list of Model IDs.
      */
-    abstract List<String> getModelIds();
+    public abstract List<String> getModelIds();
 
     /**
      * Triggers item-change notifications by stable ID (as opposed to position).
@@ -61,7 +61,7 @@ abstract class DocumentsAdapter
     /**
      * @return The model ID of the item at the given adapter position.
      */
-    abstract String getModelId(int position);
+    public abstract String getModelId(int position);
 
     abstract EventListener<Model.Update> getModelUpdateListener();
 

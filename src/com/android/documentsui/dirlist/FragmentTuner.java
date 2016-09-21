@@ -59,5 +59,13 @@ public abstract class FragmentTuner {
         throw new UnsupportedOperationException("Open in new window not supported!");
     }
 
-    protected abstract boolean onDocumentPicked(String id);
+    protected boolean viewDocument(String id) {
+        throw new UnsupportedOperationException("Direct view not supported!");
+    }
+
+    protected boolean previewDocument(String id) {
+        throw new UnsupportedOperationException("Preview not supported!");
+    }
+
+    protected abstract boolean openDocument(String id);
 }

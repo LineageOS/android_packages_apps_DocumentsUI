@@ -68,6 +68,7 @@ import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryLoader;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.FocusManager;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.MessageBar;
@@ -289,9 +290,6 @@ public class DirectoryFragment extends Fragment
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        // Make sure this is done after the RecyclerView and the Model are set up.
-        mFocusManager = new FocusManager(mRecView, mModel, context.getColor(R.color.accent_dark));
-
         final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
         GestureSelector gestureSel = GestureSelector.create(
                 edgeHeight,
@@ -300,6 +298,7 @@ public class DirectoryFragment extends Fragment
 
         final BaseActivity activity = getBaseActivity();
         mTuner = activity.getFragmentTuner(mModel, mSelectionMgr, mConfig.mSearchMode);
+        mFocusManager = activity.getFocusManager(mRecView, mModel);
         mMenuManager = activity.getMenuManager();
 
         if (state.allowMultiple) {
@@ -330,9 +329,9 @@ public class DirectoryFragment extends Fragment
                 this::onRightClick,
                 // TODO: consider injecting the tuner directly into the handler for
                 // less middle-man action.
-                (DocumentDetails details) -> mTuner.onDocumentPicked(details.getModelId()),
-                // TODO: replace this with a previewHandler
-                (DocumentDetails details) -> mTuner.onDocumentPicked(details.getModelId()),
+                (DocumentDetails details) -> mTuner.openDocument(details.getModelId()),
+                (DocumentDetails details) -> mTuner.viewDocument(details.getModelId()),
+                (DocumentDetails details) -> mTuner.previewDocument(details.getModelId()),
                 (DocumentDetails ignored) -> onDeleteSelectedDocuments(), // delete handler
                 mDragStartListener::onTouchDragEvent,
                 gestureHandler);
@@ -393,7 +392,7 @@ public class DirectoryFragment extends Fragment
         getDisplayState().sortModel.removeListener(mSortListener);
 
         // Remember last scroll location
-        final SparseArray<Parcelable> container = new SparseArray<Parcelable>();
+        final SparseArray<Parcelable> container = new SparseArray<>();
         getView().saveHierarchyState(container);
         final State state = getDisplayState();
         state.dirConfigs.put(mConfig.getConfigKey(), container);
@@ -929,10 +928,6 @@ public class DirectoryFragment extends Fragment
         return mModel;
     }
 
-    public FocusManager getFocusManager() {
-        return mFocusManager;
-    }
-
     @Override
     public boolean isDocumentEnabled(String docMimeType, int docFlags) {
         return mTuner.isDocumentEnabled(docMimeType, docFlags);
@@ -1055,7 +1050,7 @@ public class DirectoryFragment extends Fragment
         Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SELECT_ALL);
 
         // Exclude disabled files
-        List<String> enabled = new ArrayList<String>();
+        List<String> enabled = new ArrayList<>();
         for (String id : mAdapter.getModelIds()) {
             Cursor cursor = getModel().getItem(id);
             if (cursor == null) {

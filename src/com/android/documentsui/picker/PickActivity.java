@@ -38,11 +38,13 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.R;
 import com.android.documentsui.Snackbars;
@@ -67,8 +69,9 @@ public class PickActivity extends BaseActivity {
 
     private static final int CODE_FORWARD = 42;
     private static final String TAG = "DocumentsActivity";
-    private MenuManager mMenuManager;
     private Tuner mTuner;
+    private FocusManager mFocusManager;
+    private MenuManager mMenuManager;
 
     public PickActivity() {
         super(R.layout.documents_activity, TAG);
@@ -78,6 +81,8 @@ public class PickActivity extends BaseActivity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         mTuner = new Tuner(this, mState);
+        // Make sure this is done after the RecyclerView and the Model are set up.
+        mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
 
         if (mState.action == ACTION_CREATE) {
@@ -397,6 +402,11 @@ public class PickActivity extends BaseActivity {
             MultiSelectManager selectionMgr,
             boolean mSearchMode) {
         return mTuner.reset(model, selectionMgr, mSearchMode);
+    }
+
+    @Override
+    public FocusManager getFocusManager(RecyclerView view, Model model) {
+        return mFocusManager.reset(view, model);
     }
 
     @Override

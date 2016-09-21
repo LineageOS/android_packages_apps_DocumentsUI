@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.android.documentsui.dirlist.TestData;
+import com.android.documentsui.dirlist.TestModel;
 import com.android.documentsui.testing.TestRecyclerView;
-import com.android.documentsui.testing.dirlist.SelectionProbe;
-import com.android.documentsui.testing.dirlist.TestSelectionListener;
 
 import java.util.List;
 
@@ -38,16 +38,16 @@ public class FocusManagerTest extends AndroidTestCase {
     @Override
     public void setUp() throws Exception {
         mView = TestRecyclerView.create(ITEMS);
-        mManager = new FocusManager(mView, new TestModel(TEST_AUTHORITY), 0);
+        mManager = new FocusManager(0).reset(mView, new TestModel(TEST_AUTHORITY));
     }
 
     public void testFocus() {
-        mManager.onDirectoryCreated(Integer.toString(3));
+        mManager.focusDocument(Integer.toString(3));
         mView.assertItemViewFocused(3);
      }
 
     public void testPendingFocus() {
-       mManager.onDirectoryCreated(Integer.toString(10));
+       mManager.focusDocument(Integer.toString(10));
        List<String> mutableItems = TestData.create(11);
        mView.setItems(mutableItems);
        mManager.onLayoutCompleted();

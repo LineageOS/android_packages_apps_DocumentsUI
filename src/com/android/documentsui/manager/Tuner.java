@@ -39,7 +39,7 @@ public final class Tuner extends FragmentTuner {
     private final ManageActivity mActivity;
     private final State mState;
 
-    private FragState mFragState = new FragState(this::onModelLoaded);
+    private Config mConfig = new Config(this::onModelLoaded);
 
     public Tuner(ManageActivity activity, State state) {
 
@@ -51,13 +51,13 @@ public final class Tuner extends FragmentTuner {
     }
 
     private void onModelLoaded(Model.Update update) {
-        mFragState.modelLoadObserved = true;
+        mConfig.modelLoadObserved = true;
 
         // When launched into empty root, open drawer.
-        if (mFragState.model.isEmpty()
+        if (mConfig.model.isEmpty()
                 && !mState.hasInitialLocationChanged()
-                && !mFragState.searchMode
-                && !mFragState.modelLoadObserved) {
+                && !mConfig.searchMode
+                && !mConfig.modelLoadObserved) {
             // Opens the drawer *if* an openable drawer is present
             // else this is a no-op.
             mActivity.setRootsDrawerOpen(true);
@@ -91,27 +91,42 @@ public final class Tuner extends FragmentTuner {
     }
 
     @Override
-    protected boolean onDocumentPicked(String id) {
-        DocumentInfo doc = mFragState.model.getDocument(id);
+    protected boolean openDocument(String id) {
+        DocumentInfo doc = mConfig.model.getDocument(id);
         if (doc == null) {
             Log.w(TAG, "Can't view item. No Document available for modeId: " + id);
             return false;
         }
 
         if (isDocumentEnabled(doc.mimeType, doc.flags)) {
-            mActivity.onDocumentPicked(doc, mFragState.model);
-            mFragState.selectionMgr.clearSelection();
+            mActivity.onDocumentPicked(doc, mConfig.model);
+            mConfig.selectionMgr.clearSelection();
             return true;
         }
         return false;
     }
 
+    @Override
+    protected boolean viewDocument(String id) {
+        DocumentInfo doc = mConfig.model.getDocument(id);
+        return mActivity.viewDocument(doc);
+    }
+
+    @Override
+    protected boolean previewDocument(String id) {
+        DocumentInfo doc = mConfig.model.getDocument(id);
+        if (doc.isContainer()) {
+            return false;
+        }
+        return mActivity.previewDocument(doc, mConfig.model);
+    }
+
     Tuner reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
-        mFragState.reset(model, selectionMgr, searchMode);
+        mConfig.reset(model, selectionMgr, searchMode);
         return this;
     }
 
-    private static final class FragState {
+    private static final class Config {
 
         @Nullable Model model;
         @Nullable MultiSelectManager selectionMgr;
@@ -119,7 +134,7 @@ public final class Tuner extends FragmentTuner {
 
         private final EventListener<Update> mModelUpdateListener;
 
-        public FragState(EventListener<Update> modelUpdateListener) {
+        public Config(EventListener<Update> modelUpdateListener) {
             mModelUpdateListener = modelUpdateListener;
         }
 

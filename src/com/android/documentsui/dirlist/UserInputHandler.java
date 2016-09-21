@@ -48,7 +48,8 @@ public final class UserInputHandler<T extends InputEvent>
     private final Function<MotionEvent, T> mEventConverter;
     private final Predicate<DocumentDetails> mSelectable;
     private final EventHandler<InputEvent> mRightClickHandler;
-    private final EventHandler<DocumentDetails> mPickHandler;
+    private final EventHandler<DocumentDetails> mOpenHandler;
+    private final EventHandler<DocumentDetails> mViewHandler;
     private final EventHandler<DocumentDetails> mPreviewHandler;
     private final EventHandler<DocumentDetails> mDeleteHandler;
     private final EventHandler<InputEvent> mTouchDragListener;
@@ -64,7 +65,8 @@ public final class UserInputHandler<T extends InputEvent>
             Function<MotionEvent, T> eventConverter,
             Predicate<DocumentDetails> selectable,
             EventHandler<InputEvent> rightClickHandler,
-            EventHandler<DocumentDetails> pickHandler,
+            EventHandler<DocumentDetails> openHandler,
+            EventHandler<DocumentDetails> viewHandler,
             EventHandler<DocumentDetails> previewHandler,
             EventHandler<DocumentDetails> deleteHandler,
             EventHandler<InputEvent> touchDragListener,
@@ -75,7 +77,8 @@ public final class UserInputHandler<T extends InputEvent>
         mEventConverter = eventConverter;
         mSelectable = selectable;
         mRightClickHandler = rightClickHandler;
-        mPickHandler = pickHandler;
+        mOpenHandler = openHandler;
+        mViewHandler = viewHandler;
         mPreviewHandler = previewHandler;
         mDeleteHandler = deleteHandler;
         mTouchDragListener = touchDragListener;
@@ -187,8 +190,12 @@ public final class UserInputHandler<T extends InputEvent>
         return mKeyListener.onKey(doc, keyCode, event);
     }
 
-    private boolean pickDocument(DocumentDetails doc) {
-        return mPickHandler.accept(doc);
+    private boolean openDocument(DocumentDetails doc) {
+        return mOpenHandler.accept(doc);
+    }
+
+    private boolean viewDocument(DocumentDetails doc) {
+        return mViewHandler.accept(doc);
     }
 
     private boolean previewDocument(DocumentDetails doc) {
@@ -253,7 +260,7 @@ public final class UserInputHandler<T extends InputEvent>
             // otherwise they activate.
             return doc.isInSelectionHotspot(event)
                     ? selectDocument(doc)
-                    : pickDocument(doc);
+                    : openDocument(doc);
         }
 
         boolean onSingleTapConfirmed(T event) {
@@ -387,9 +394,7 @@ public final class UserInputHandler<T extends InputEvent>
             }
 
             DocumentDetails doc = event.getDocumentDetails();
-            return mSelectionMgr.hasSelection()
-                    ? selectDocument(doc)
-                    : pickDocument(doc);
+            return viewDocument(doc);
         }
 
         final void onLongPress(T event) {
@@ -455,7 +460,9 @@ public final class UserInputHandler<T extends InputEvent>
                     // For non-shifted enter keypresses, fall through.
                 case KeyEvent.KEYCODE_DPAD_CENTER:
                 case KeyEvent.KEYCODE_BUTTON_A:
-                    return pickDocument(doc);
+                    return viewDocument(doc);
+                case KeyEvent.KEYCODE_SPACE:
+                    return previewDocument(doc);
                 case KeyEvent.KEYCODE_FORWARD_DEL:
                     // This has to be handled here instead of in a keyboard shortcut, because
                     // keyboard shortcuts all have to be modified with the 'Ctrl' key.

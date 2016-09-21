@@ -43,7 +43,7 @@ public class TestDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    List<String> getModelIds() {
+    public List<String> getModelIds() {
         return mModelIds;
     }
 
@@ -52,7 +52,7 @@ public class TestDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    String getModelId(int position) {
+    public String getModelId(int position) {
         return mModelIds.get(position);
     }
 

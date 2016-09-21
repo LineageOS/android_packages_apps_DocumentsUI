@@ -178,12 +178,12 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
     }
 
     @Override
-    List<String> getModelIds() {
+    public List<String> getModelIds() {
         return mDelegate.getModelIds();
     }
 
     @Override
-    String getModelId(int p) {
+    public String getModelId(int p) {
         return (p == mBreakPosition) ? null : mDelegate.getModelId(toDelegatePosition(p));
     }
 

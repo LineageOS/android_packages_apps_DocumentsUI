@@ -80,10 +80,11 @@ final class QuickViewIntentBuilder {
         if (!TextUtils.isEmpty(trustedPkg)) {
             Intent intent = new Intent(Intent.ACTION_QUICK_VIEW);
             intent.setDataAndType(mDocument.derivedUri, mDocument.mimeType);
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setPackage(trustedPkg);
             if (hasRegisteredHandler(intent)) {
-                final ArrayList<Uri> uris = new ArrayList<Uri>();
+                final ArrayList<Uri> uris = new ArrayList<>();
                 final int documentLocation = collectViewableUris(uris);
                 final Range<Integer> range = computeSiblingsRange(uris, documentLocation);
 

@@ -50,6 +50,7 @@ public final class UserInputHandler_RangeTest {
     private TestPredicate<DocumentDetails> mCanSelect;
     private TestEventHandler<InputEvent> mRightClickHandler;
     private TestEventHandler<DocumentDetails> mPickHandler;
+    private TestEventHandler<DocumentDetails> mViewHandler;
     private TestEventHandler<DocumentDetails> mPreviewHandler;
     private TestEventHandler<DocumentDetails> mDeleteHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
@@ -65,6 +66,7 @@ public final class UserInputHandler_RangeTest {
         mCanSelect = new TestPredicate<>();
         mRightClickHandler = new TestEventHandler<>();
         mPickHandler = new TestEventHandler<>();
+        mViewHandler = new TestEventHandler<>();
         mPreviewHandler = new TestEventHandler<>();
         mDeleteHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
@@ -79,6 +81,7 @@ public final class UserInputHandler_RangeTest {
                 mCanSelect,
                 mRightClickHandler::accept,
                 mPickHandler::accept,
+                mViewHandler::accept,
                 mPreviewHandler::accept,
                 mDeleteHandler::accept,
                 mDragAndDropHandler::accept,
