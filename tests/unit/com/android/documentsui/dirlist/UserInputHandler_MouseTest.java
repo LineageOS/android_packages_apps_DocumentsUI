@@ -49,6 +49,7 @@ public final class UserInputHandler_MouseTest {
     private TestPredicate<DocumentDetails> mCanSelect;
     private TestEventHandler<InputEvent> mRightClickHandler;
     private TestEventHandler<DocumentDetails> mPickHandler;
+    private TestEventHandler<DocumentDetails> mViewHandler;
     private TestEventHandler<DocumentDetails> mPreviewHandler;
     private TestEventHandler<DocumentDetails> mDeleteHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
@@ -65,6 +66,7 @@ public final class UserInputHandler_MouseTest {
         mCanSelect = new TestPredicate<>();
         mRightClickHandler = new TestEventHandler<>();
         mPickHandler = new TestEventHandler<>();
+        mViewHandler = new TestEventHandler<>();
         mPreviewHandler = new TestEventHandler<>();
         mDeleteHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
@@ -79,6 +81,7 @@ public final class UserInputHandler_MouseTest {
                 mCanSelect,
                 mRightClickHandler::accept,
                 mPickHandler::accept,
+                mViewHandler::accept,
                 mPreviewHandler::accept,
                 mDeleteHandler::accept,
                 mDragAndDropHandler::accept,
@@ -160,10 +163,13 @@ public final class UserInputHandler_MouseTest {
         mSelection.assertSelection(7, 8, 9, 10, 11);
     }
 
+    // TODO: Add testSpaceBar_Previews, but we need to set a system property
+    // to have a deterministic state.
+
     @Test
-    public void testDoubleClick_Activates() {
+    public void testDoubleClick_Views() {
         mInputHandler.onDoubleTap(mEvent.at(11).build());
-        mPickHandler.assertLastArgument(mEvent.build().getDocumentDetails());
+        mViewHandler.assertLastArgument(mEvent.build().getDocumentDetails());
     }
 
     @Test

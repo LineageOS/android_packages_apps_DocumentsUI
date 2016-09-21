@@ -22,7 +22,7 @@ import android.view.View;
 /**
  * A class that handles navigation and focus within the DirectoryFragment.
  */
-interface FocusHandler extends View.OnFocusChangeListener {
+public interface FocusHandler extends View.OnFocusChangeListener {
 
     /**
      * Handles navigation (setting focus, adjusting selection if needed) arising from incoming key
@@ -40,7 +40,7 @@ interface FocusHandler extends View.OnFocusChangeListener {
 
     void onLayoutCompleted();
 
-    void onDirectoryCreated(String modelId);
+    void focusDocument(String modelId);
 
     /**
      * Requests focus on the item that last had focus. Scrolls to that item if necessary.

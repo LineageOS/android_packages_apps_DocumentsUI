@@ -49,6 +49,7 @@ public final class UserInputHandler_TouchTest {
     private TestPredicate<DocumentDetails> mCanSelect;
     private TestEventHandler<InputEvent> mRightClickHandler;
     private TestEventHandler<DocumentDetails> mPickHandler;
+    private TestEventHandler<DocumentDetails> mViewHandler;
     private TestEventHandler<DocumentDetails> mPreviewHandler;
     private TestEventHandler<DocumentDetails> mDeleteHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
@@ -64,6 +65,7 @@ public final class UserInputHandler_TouchTest {
         mCanSelect = new TestPredicate<>();
         mRightClickHandler = new TestEventHandler<>();
         mPickHandler = new TestEventHandler<>();
+        mViewHandler = new TestEventHandler<>();
         mPreviewHandler = new TestEventHandler<>();
         mDeleteHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
@@ -79,6 +81,7 @@ public final class UserInputHandler_TouchTest {
                 mRightClickHandler::accept,
                 mPickHandler::accept,
                 mPreviewHandler::accept,
+                mViewHandler::accept,
                 mDeleteHandler::accept,
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept);

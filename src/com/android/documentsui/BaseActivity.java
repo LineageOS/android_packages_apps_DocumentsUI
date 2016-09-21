@@ -45,13 +45,13 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.base.DocumentInfo;
@@ -145,6 +145,12 @@ public abstract class BaseActivity extends Activity
      */
     public abstract FragmentTuner getFragmentTuner(
             Model model, MultiSelectManager selectionMgr, boolean mSearchMode);
+
+    /**
+     * Provides Activity a means of injection into and specialization of
+     * DirectoryFragment.
+     */
+    public abstract FocusManager getFocusManager(RecyclerView view, Model model);
 
     /**
      * Provides Activity a means of injection into and specialization of

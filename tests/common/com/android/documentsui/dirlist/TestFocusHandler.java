@@ -43,7 +43,7 @@ public final class TestFocusHandler implements FocusHandler {
     }
 
     @Override
-    public void onDirectoryCreated(String modelId) {
+    public void focusDocument(String modelId) {
     }
 
     @Override

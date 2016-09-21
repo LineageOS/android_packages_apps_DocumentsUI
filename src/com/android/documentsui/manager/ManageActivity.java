@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -37,6 +38,7 @@ import android.view.MenuItem;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.OperationDialogFragment;
@@ -81,6 +83,7 @@ public class ManageActivity extends BaseActivity {
     private long mDrawerLastFiddled;
     private Tuner mTuner;
     private MenuManager mMenuManager;
+    private FocusManager mFocusManager;
     private DocumentClipper mClipper;
 
     public ManageActivity() {
@@ -102,6 +105,8 @@ public class ManageActivity extends BaseActivity {
                     }
                 });
         mTuner = new Tuner(this, mState);
+        // Make sure this is done after the RecyclerView and the Model are set up.
+        mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mClipper = DocumentsApplication.getDocumentClipper(this);
 
         RootsFragment.show(getFragmentManager(), this::openRootSettings);
@@ -306,21 +311,26 @@ public class ManageActivity extends BaseActivity {
 
     @Override
     public void onDocumentPicked(DocumentInfo doc, Model model) {
+        if (doc.isContainer()) {
+            openContainerDocument(doc);
+            return;
+        }
+
         if (manageDocument(doc)) {
             return;
         }
 
-        if (doc.isContainer()) {
-            openContainerDocument(doc);
-        } else {
-            openDocument(doc, model);
+        if (previewDocument(doc, model)) {
+            return;
         }
+
+        viewDocument(doc);
     }
 
     @Override
     public void onDirectoryCreated(DocumentInfo doc) {
         assert(doc.isDirectory());
-        getDirectoryFragment().getFocusManager().onDirectoryCreated(doc.documentId);
+        mFocusManager.focusDocument(doc.documentId);
     }
 
     @Override
@@ -334,8 +344,8 @@ public class ManageActivity extends BaseActivity {
         assert(!doc.isContainer());
 
         if (manageDocument(doc)) {
-            // TODO(b/31551845): support it.
             Log.w(TAG, "Open with is not yet supported for managed doc.");
+            return;
         }
 
         Intent intent = Intent.createChooser(buildViewIntent(doc), null);
@@ -347,11 +357,67 @@ public class ManageActivity extends BaseActivity {
         }
     }
 
+    boolean viewDocument(DocumentInfo doc) {
+        if (doc.isPartial()) {
+            Log.w(TAG, "Can't view partial file.");
+            return false;
+        }
+
+        if (doc.isContainer()) {
+            openContainerDocument(doc);
+            return true;
+        }
+
+        // this is a redundant check.
+        if (manageDocument(doc)) {
+            return true;
+        }
+
+        // Fall back to traditional VIEW action...
+        Intent intent = buildViewIntent(doc);
+        if (DEBUG && intent.getClipData() != null) {
+            Log.d(TAG, "Starting intent w/ clip data: " + intent.getClipData());
+        }
+
+        try {
+            startActivity(intent);
+            return true;
+        } catch (ActivityNotFoundException e) {
+            Snackbars.makeSnackbar(
+                    this, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    boolean previewDocument(DocumentInfo doc, Model model) {
+        if (doc.isPartial()) {
+            Log.w(TAG, "Can't view partial file.");
+            return false;
+        }
+
+        Intent intent = new QuickViewIntentBuilder(
+                getPackageManager(), getResources(), doc, model).build();
+
+        if (intent != null) {
+            // TODO: un-work around issue b/24963914. Should be fixed soon.
+            try {
+                startActivity(intent);
+                return true;
+            } catch (SecurityException e) {
+                // Carry on to regular view mode.
+                Log.e(TAG, "Caught security error: " + e.getLocalizedMessage());
+            }
+        }
+
+        return false;
+    }
+
     private boolean manageDocument(DocumentInfo doc) {
-        if (isManagedDocument()) {
+        if (isManagedDocument(doc)) {
             // First try managing the document; we expect manager to filter
             // based on authority, so we don't grant.
-            Intent manage = buildManageIntent(doc);
+            Intent manage = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENT);
+            manage.setData(doc.derivedUri);
             try {
                 startActivity(manage);
                 return true;
@@ -363,7 +429,7 @@ public class ManageActivity extends BaseActivity {
         return false;
     }
 
-    private boolean isManagedDocument() {
+    private boolean isManagedDocument(DocumentInfo doc) {
         // Anything on downloads goes through the back through downloads manager
         // (that's the MANAGE_DOCUMENT bit).
         // This is done for two reasons:
@@ -377,48 +443,13 @@ public class ManageActivity extends BaseActivity {
         // Launch MANAGE_DOCUMENTS only for the root level files, so it's not called for
         // files in archives. Also, if the activity is already browsing a ZIP from downloads,
         // then skip MANAGE_DOCUMENTS.
+        // Oh, and only launch for APKs.
         final boolean isViewing = Intent.ACTION_VIEW.equals(getIntent().getAction());
         final boolean isInArchive = mState.stack.size() > 1;
-        return getCurrentRoot().isDownloads() && !isInArchive && !isViewing;
-    }
-
-    private Intent buildManageIntent(DocumentInfo doc) {
-        final Intent manage = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENT);
-        manage.setData(doc.derivedUri);
-
-        return manage;
-    }
-
-    /**
-     * Launches an intent to view the specified document.
-     */
-    private void openDocument(DocumentInfo doc, Model model) {
-        Intent intent = new QuickViewIntentBuilder(
-                getPackageManager(), getResources(), doc, model).build();
-
-        if (intent != null) {
-            // TODO: un-work around issue b/24963914. Should be fixed soon.
-            try {
-                startActivity(intent);
-                return;
-            } catch (SecurityException e) {
-                // Carry on to regular view mode.
-                Log.e(TAG, "Caught security error: " + e.getLocalizedMessage());
-            }
-        }
-
-        // Fall back to traditional VIEW action...
-        intent = buildViewIntent(doc);
-        if (DEBUG && intent.getClipData() != null) {
-            Log.d(TAG, "Starting intent w/ clip data: " + intent.getClipData());
-        }
-
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Snackbars.makeSnackbar(
-                    this, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
-        }
+        return getCurrentRoot().isDownloads()
+                && "application/vnd.android.package-archive".equals(doc.mimeType)
+                && !isInArchive
+                && !isViewing;
     }
 
     private Intent buildViewIntent(DocumentInfo doc) {
@@ -537,6 +568,11 @@ public class ManageActivity extends BaseActivity {
             MultiSelectManager selectionMgr,
             boolean mSearchMode) {
         return mTuner.reset(model, selectionMgr, mSearchMode);
+    }
+
+    @Override
+    public FocusManager getFocusManager(RecyclerView view, Model model) {
+        return mFocusManager.reset(view, model);
     }
 
     @Override
