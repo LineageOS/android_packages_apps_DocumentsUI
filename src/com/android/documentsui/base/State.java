@@ -107,8 +107,8 @@ public class State implements android.os.Parcelable {
     private boolean mInitialRootChanged;
     private boolean mInitialDocChanged;
 
-    /** Instance state for every shown directory */
-    public HashMap<String, SparseArray<Parcelable>> dirState = new HashMap<>();
+    /** Instance configs for every shown directory */
+    public HashMap<String, SparseArray<Parcelable>> dirConfigs = new HashMap<>();
 
     /** Name of the package that started DocsUI */
     public List<String> excludedAuthorities = new ArrayList<>();
@@ -179,7 +179,7 @@ public class State implements android.os.Parcelable {
         out.writeInt(restored ? 1 : 0);
         out.writeInt(external ? 1 : 0);
         DurableUtils.writeToParcel(out, stack);
-        out.writeMap(dirState);
+        out.writeMap(dirConfigs);
         out.writeList(excludedAuthorities);
         out.writeInt(openableOnly ? 1 : 0);
         out.writeInt(mStackTouched ? 1 : 0);
@@ -206,7 +206,7 @@ public class State implements android.os.Parcelable {
             state.restored = in.readInt() != 0;
             state.external = in.readInt() != 0;
             DurableUtils.readFromParcel(in, state.stack);
-            in.readMap(state.dirState, loader);
+            in.readMap(state.dirConfigs, loader);
             in.readList(state.excludedAuthorities, loader);
             state.openableOnly = in.readInt() != 0;
             state.mStackTouched = in.readInt() != 0;
