@@ -626,21 +626,11 @@ public abstract class BaseActivity extends Activity implements NavigationViewMan
             return;
         }
 
-        if (!mState.hasLocationChanged()) {
-            super.onBackPressed();
-            return;
-        }
-
-        if (onBeforePopDir() || popDir()) {
+        if (popDir()) {
             return;
         }
 
         super.onBackPressed();
-    }
-
-    protected boolean onBeforePopDir() {
-        // Files app overrides this with some fancy logic.
-        return false;
     }
 
     /**
