@@ -30,7 +30,6 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
-import com.android.documentsui.dirlist.MultiSelectManager;
 
 import javax.annotation.Nullable;
 
@@ -135,7 +134,6 @@ final class Tuner extends FragmentTuner {
     private static final class Config {
 
         @Nullable Model model;
-        @Nullable MultiSelectManager selectionMgr;
         boolean searchMode;
 
         private final EventListener<Update> mModelUpdateListener;
@@ -149,12 +147,10 @@ final class Tuner extends FragmentTuner {
         private boolean modelLoadObserved;
 
         public void reset(Model model, boolean searchMode) {
-            this.searchMode = searchMode;
             assert(model != null);
-            assert(selectionMgr != null);
 
+            this.searchMode = searchMode;
             this.model = model;
-            this.selectionMgr = selectionMgr;
 
             model.addUpdateListener(mModelUpdateListener);
             modelLoadObserved = false;
