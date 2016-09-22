@@ -34,7 +34,6 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.sorting.SortModel;
 
 /**
  * Manages searching UI behavior.
@@ -46,11 +45,12 @@ public class SearchViewManager implements
     public interface SearchManagerListener {
         void onSearchChanged(@Nullable String query);
         void onSearchFinished();
+        void onSearchViewChanged(boolean opened);
     }
 
     private static final String TAG = "SearchManager";
+    private final SearchManagerListener mListener;
 
-    private SearchManagerListener mListener;
     private boolean mSearchExpanded;
     private String mCurrentSearch;
     private boolean mIgnoreNextClose;
@@ -60,18 +60,12 @@ public class SearchViewManager implements
     private MenuItem mMenuItem;
     private SearchView mSearchView;
 
-    // We need to disable sorting during search.
-    private SortModel mSortModel;
-
     public SearchViewManager(
-            SearchManagerListener listener, @Nullable Bundle savedState, SortModel sortModel) {
+            SearchManagerListener listener,
+            @Nullable Bundle savedState) {
+        assert (listener != null);
         mListener = listener;
         mCurrentSearch = savedState != null ? savedState.getString(Shared.EXTRA_QUERY) : null;
-        mSortModel = sortModel;
-    }
-
-    public void setSearchMangerListener(SearchManagerListener listener) {
-        mListener = listener;
     }
 
     public void install(DocumentsToolbar actionBar, boolean isFullBarSearch) {
@@ -194,7 +188,7 @@ public class SearchViewManager implements
             menu.setGroupVisible(R.id.group_hide_when_searching, false);
         }
 
-        mSortModel.setSortEnabled(false);
+        mListener.onSearchViewChanged(true);
     }
 
     /**
@@ -213,9 +207,7 @@ public class SearchViewManager implements
         // Refresh the directory if a search was done
         if (mCurrentSearch != null) {
             mCurrentSearch = null;
-            if (mListener != null) {
-                mListener.onSearchChanged(mCurrentSearch);
-            }
+            mListener.onSearchChanged(mCurrentSearch);
         }
 
         if(mFullBar) {
@@ -223,7 +215,7 @@ public class SearchViewManager implements
         }
         mListener.onSearchFinished();
 
-        mSortModel.setSortEnabled(true);
+        mListener.onSearchViewChanged(false);
 
         return false;
     }
@@ -249,9 +241,7 @@ public class SearchViewManager implements
     public boolean onQueryTextSubmit(String query) {
         mCurrentSearch = query;
         mSearchView.clearFocus();
-        if (mListener != null) {
-            mListener.onSearchChanged(mCurrentSearch);
-        }
+        mListener.onSearchChanged(mCurrentSearch);
         return true;
     }
 

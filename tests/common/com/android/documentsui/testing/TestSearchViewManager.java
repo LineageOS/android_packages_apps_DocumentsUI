@@ -16,10 +16,7 @@
 
 package com.android.documentsui.testing;
 
-import android.os.Bundle;
-
 import com.android.documentsui.SearchViewManager;
-import com.android.documentsui.sorting.SortModel;
 
 /**
  * Test copy of {@link com.android.documentsui.SearchViewManager}
@@ -32,13 +29,17 @@ public class TestSearchViewManager extends SearchViewManager {
     boolean updateMenuCalled;
     boolean showMenuCalled;
 
-    public TestSearchViewManager(
-            SearchManagerListener listener, Bundle savedState, SortModel sortModel) {
-        super(listener, savedState, sortModel);
-    }
-
     public TestSearchViewManager() {
-        super(null, null, null);
+        super(
+                new SearchManagerListener() {
+                    @Override
+                    public void onSearchChanged(String query) { }
+                    @Override
+                    public void onSearchFinished() { }
+                    @Override
+                    public void onSearchViewChanged(boolean opened) { }
+                },
+                null);
     }
 
     @Override
