@@ -18,50 +18,45 @@ package com.android.documentsui.sidebar;
 
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.base.CheckedTask;
+import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.Shared;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
+public final class EjectRootTask extends AsyncTask<Void, Void, Boolean> {
 
-public final class EjectRootTask extends CheckedTask<Void, Boolean> {
+    private final ContentResolver mResolver;
     private final String mAuthority;
     private final String mRootId;
-    private final Consumer<Boolean> mCallback;
-    private Context mContext;
+    private final BooleanConsumer mCallback;
 
     /**
      * @param ejectCanceledCheck The method reference we use to see whether eject should be stopped
      * at any point
      * @param finishCallback The end callback necessary when the eject task finishes
      */
-    public EjectRootTask(Context context,
+    public EjectRootTask(
+            ContentResolver resolver,
             String authority,
             String rootId,
-            BooleanSupplier ejectCanceledCheck,
-            Consumer<Boolean> finishCallback) {
-        super(ejectCanceledCheck::getAsBoolean);
+            BooleanConsumer finishCallback) {
+        mResolver = resolver;
         mAuthority = authority;
         mRootId = rootId;
-        mContext = context;
         mCallback = finishCallback;
     }
 
     @Override
-    protected Boolean run(Void... params) {
-        final ContentResolver resolver = mContext.getContentResolver();
-
+    protected Boolean doInBackground(Void... args) {
         Uri rootUri = DocumentsContract.buildRootUri(mAuthority, mRootId);
         ContentProviderClient client = null;
         try {
             client = DocumentsApplication.acquireUnstableProviderOrThrow(
-                    resolver, mAuthority);
+                    mResolver, mAuthority);
             return DocumentsContract.ejectRoot(client, rootUri);
         } catch (Exception e) {
             Log.w(Shared.TAG, "Failed to eject root", e);
@@ -73,7 +68,7 @@ public final class EjectRootTask extends CheckedTask<Void, Boolean> {
     }
 
     @Override
-    protected void finish(Boolean ejected) {
+    protected void onPostExecute(Boolean ejected) {
         mCallback.accept(ejected);
     }
 }

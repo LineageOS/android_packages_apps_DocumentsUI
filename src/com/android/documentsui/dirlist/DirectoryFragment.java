@@ -79,6 +79,7 @@ import com.android.documentsui.RecentsLoader;
 import com.android.documentsui.Snackbars;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events.InputEvent;
@@ -147,7 +148,7 @@ public class DirectoryFragment extends Fragment
     private FocusManager mFocusManager;
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
-    private ActionHandler<?> mActionHandler;
+    private ActionHandler mActionHandler;
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
     private MenuManager mMenuManager;
@@ -671,11 +672,14 @@ public class DirectoryFragment extends Fragment
         mTuner.showChooserForDoc(doc);
     }
 
+    // TODO: Once selection manager is activity owned, move this logic into
+    // a new method: ActionHandler#openWindowOnSelectedDocument
     private void openInNewWindow(final Selection selected) {
         assert(selected.size() == 1);
         DocumentInfo doc =
                 DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
-        mTuner.openInNewWindow(getDisplayState().stack, doc);
+        assert(doc != null);
+        mActionHandler.openInNewWindow(new DocumentStack(getDisplayState().stack, doc));
     }
 
     private void shareDocuments(final Selection selected) {

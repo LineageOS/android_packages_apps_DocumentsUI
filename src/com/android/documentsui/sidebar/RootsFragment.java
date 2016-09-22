@@ -51,6 +51,8 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
+import com.android.documentsui.base.BooleanConsumer;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -64,7 +66,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 /**
  * Display list of known storage backend roots.
@@ -107,7 +108,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     private ListView mList;
     private RootsAdapter mAdapter;
     private LoaderCallbacks<Collection<RootInfo>> mCallbacks;
-    private ActionHandler<?> mActionHandler;
+    private ActionHandler mActionHandler;
 
     public static RootsFragment show(FragmentManager fm, Intent includeApps) {
         final Bundle args = new Bundle();
@@ -374,7 +375,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
                 ejectClicked(ejectIcon, rootItem.root, mActionHandler);
                 return true;
             case R.id.menu_open_in_new_window:
-                mActionHandler.openInNewWindow(rootItem.root);
+                mActionHandler.openInNewWindow(new DocumentStack(rootItem.root));
                 return true;
             case R.id.menu_paste_into_folder:
                 mActionHandler.pasteIntoFolder(rootItem.root);
@@ -388,19 +389,24 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         }
     }
 
-    static void ejectClicked(View ejectIcon, RootInfo root, ActionHandler<?> actionHandler) {
+    static void ejectClicked(View ejectIcon, RootInfo root, ActionHandler actionHandler) {
         assert(ejectIcon != null);
         assert(!root.ejecting);
         ejectIcon.setEnabled(false);
         root.ejecting = true;
         actionHandler.ejectRoot(
                 root,
-                () -> ejectIcon.getVisibility() != View.VISIBLE,
-                new Consumer<Boolean>() {
+                new BooleanConsumer() {
                     @Override
-                    public void accept(Boolean ejected) {
-                        ejectIcon.setEnabled(!ejected);
+                    public void accept(boolean ejected) {
+                        // Event if ejected is false, we should reset, since the op failed.
+                        // Either way, we are no longer attempting to eject the device.
                         root.ejecting = false;
+
+                        // If the view is still visible, we update its state.
+                        if (ejectIcon.getVisibility() == View.VISIBLE) {
+                            ejectIcon.setEnabled(!ejected);
+                        }
                     }
                 });
     }

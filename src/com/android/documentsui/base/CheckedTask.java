@@ -50,7 +50,7 @@ public abstract class CheckedTask<Input, Output>
     protected abstract void finish(Output output);
 
     @Override
-    final protected void onPreExecute() {
+    protected final void onPreExecute() {
         if (mCheck.stop()) {
             return;
         }
@@ -58,7 +58,7 @@ public abstract class CheckedTask<Input, Output>
     }
 
     @Override
-    final protected Output doInBackground(Input... input) {
+    protected final Output doInBackground(Input... input) {
         if (mCheck.stop()) {
             return null;
         }
@@ -66,7 +66,7 @@ public abstract class CheckedTask<Input, Output>
     }
 
     @Override
-    final protected void onPostExecute(Output result) {
+    protected final void onPostExecute(Output result) {
         if (mCheck.stop()) {
             return;
         }

@@ -16,11 +16,11 @@
 
 package com.android.documentsui.testing;
 
-import com.android.documentsui.ActionHandler;
-import com.android.documentsui.BaseActivity;
+import com.android.documentsui.AbstractActionHandler;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 
-public class TestActionHandler extends ActionHandler<BaseActivity> {
+public class TestActionHandler extends AbstractActionHandler {
 
     public final TestEventHandler<DocumentDetails> open = new TestEventHandler<>();
     public final TestEventHandler<DocumentDetails> view = new TestEventHandler<>();
@@ -43,5 +43,10 @@ public class TestActionHandler extends ActionHandler<BaseActivity> {
     @Override
     public boolean previewDocument(DocumentDetails doc) {
         return preview.accept(doc);
+    }
+
+    @Override
+    public void openRoot(RootInfo root) {
+        throw new UnsupportedOperationException();
     }
 }

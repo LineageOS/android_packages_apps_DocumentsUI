@@ -19,7 +19,6 @@ package com.android.documentsui.manager;
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOWN;
 import static com.android.documentsui.base.Shared.DEBUG;
 
-import android.annotation.Nullable;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ActivityNotFoundException;
@@ -27,7 +26,6 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +38,6 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
-import com.android.documentsui.Metrics;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.ProviderExecutor;
@@ -102,7 +99,7 @@ public class ManageActivity extends BaseActivity {
         mTuner = new Tuner(this, mState);
         // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
-        mActionHandler = new ActionHandler(this, mTuner);
+        mActionHandler = new ActionHandler(this, mTuner, mClipper);
         mClipper = DocumentsApplication.getDocumentClipper(this);
 
         RootsFragment.show(getFragmentManager(), null);
@@ -112,7 +109,7 @@ public class ManageActivity extends BaseActivity {
 
         if (mState.restored) {
             if (DEBUG) Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
-        } else if (!mState.stack.isEmpty()) {
+        } else if (mState.stack.root != null) {
             // If a non-empty stack is present in our state, it was read (presumably)
             // from EXTRA_STACK intent extra. In this case, we'll skip other means of
             // loading or restoring the stack (like URI).
@@ -124,16 +121,22 @@ public class ManageActivity extends BaseActivity {
             //
             // Any other URI is *sorta* unexpected...except when browsing an archive
             // in downloads.
-            if(uri != null
-                    && uri.getAuthority() != null
-                    && !uri.equals(mState.stack.peek())
-                    && !LauncherActivity.isLaunchUri(uri)) {
-                if (DEBUG) Log.w(TAG,
-                        "Launching with non-empty stack. Ignoring unexpected uri: " + uri);
-            } else {
-                if (DEBUG) Log.d(TAG, "Launching with non-empty stack.");
+            if (DEBUG) {
+                if (uri != null
+                        && uri.getAuthority() != null
+                        && !uri.equals(mState.stack.peek())
+                        && !LauncherActivity.isLaunchUri(uri)) {
+                    Log.w(TAG, "Launching with non-empty stack. Ignoring unexpected uri: " + uri);
+                } else {
+                    Log.d(TAG, "Launching with non-empty stack.");
+                }
             }
-            refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+
+            if (!mState.stack.isEmpty()) {
+                refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+            } else {
+                onRootPicked(mState.stack.root);
+            }
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             assert(uri != null);
             new OpenUriForViewTask(this).executeOnExecutor(
@@ -237,7 +240,7 @@ public class ManageActivity extends BaseActivity {
                 showCreateDirectoryDialog();
                 break;
             case R.id.menu_new_window:
-                openInNewWindow(mState.stack, null);
+                mActionHandler.openInNewWindow(mState.stack);
                 break;
             case R.id.menu_paste_from_clipboard:
                 DirectoryFragment dir = getDirectoryFragment();
@@ -246,42 +249,12 @@ public class ManageActivity extends BaseActivity {
                 }
                 break;
             case R.id.menu_settings:
-                final RootInfo root = getCurrentRoot();
-                openRootSettings(root);
+                mActionHandler.openSettings(getCurrentRoot());
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }
-
-    void openRootSettings(RootInfo root) {
-        Metrics.logUserAction(this, Metrics.USER_ACTION_SETTINGS);
-        final Intent intent = new Intent(DocumentsContract.ACTION_DOCUMENT_ROOT_SETTINGS);
-        intent.setDataAndType(root.getUri(), DocumentsContract.Root.MIME_TYPE_ITEM);
-        startActivity(intent);
-    }
-
-    /**
-     * Opens a new window at given location. If doc is null then it opens the stack. If doc is not
-     * null it pushes the doc to the stack and opens it.
-     */
-    public void openInNewWindow(DocumentStack stack, @Nullable DocumentInfo doc) {
-        Metrics.logUserAction(this, Metrics.USER_ACTION_NEW_WINDOW);
-
-        Intent intent = LauncherActivity.createLaunchIntent(this);
-
-        stack = (doc == null) ? stack : new DocumentStack(stack, doc);
-        intent.putExtra(Shared.EXTRA_STACK, (Parcelable) stack);
-
-        // With new multi-window mode we have to pick how we are launched.
-        // By default we'd be launched in-place above the existing app.
-        // By setting launch-to-side ActivityManager will open us to side.
-        if (isInMultiWindowMode()) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_LAUNCH_ADJACENT);
-        }
-
-        startActivity(intent);
     }
 
     @Override
