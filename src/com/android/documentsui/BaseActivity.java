@@ -140,8 +140,7 @@ public abstract class BaseActivity extends Activity implements NavigationViewMan
      * Provides Activity a means of injection into and specialization of
      * DirectoryFragment.
      */
-    public abstract FragmentTuner getFragmentTuner(
-            Model model, MultiSelectManager selectionMgr, boolean mSearchMode);
+    public abstract FragmentTuner getFragmentTuner(Model model, boolean mSearchMode);
 
     /**
      * Provides Activity a means of injection into and specialization of
@@ -158,8 +157,12 @@ public abstract class BaseActivity extends Activity implements NavigationViewMan
     /**
      * Provides Activity a means of injection into and specialization of
      * fragment actions.
+     *
+     * Args can be nullable when called from a contact without this information such as
+     * RootsFragment.
      */
-    public abstract ActionHandler<? extends BaseActivity> getActionHandler();
+    public abstract ActionHandler<? extends BaseActivity> getActionHandler(
+            @Nullable Model model, @Nullable MultiSelectManager selectionMgr);
 
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);
     public abstract void onDocumentsPicked(List<DocumentInfo> docs);

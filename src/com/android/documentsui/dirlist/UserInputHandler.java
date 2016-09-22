@@ -24,6 +24,7 @@ import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import com.android.documentsui.ActionHandler;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;
@@ -43,15 +44,15 @@ public final class UserInputHandler<T extends InputEvent>
 
     private static final String TAG = "UserInputHandler";
 
-    private final MultiSelectManager mSelectionMgr;
+    private ActionHandler<?> mActionHandler;
     private final FocusHandler mFocusHandler;
+    private final MultiSelectManager mSelectionMgr;
     private final Function<MotionEvent, T> mEventConverter;
     private final Predicate<DocumentDetails> mSelectable;
+
     private final EventHandler<InputEvent> mRightClickHandler;
-    private final EventHandler<DocumentDetails> mOpenHandler;
-    private final EventHandler<DocumentDetails> mViewHandler;
-    private final EventHandler<DocumentDetails> mPreviewHandler;
     private final EventHandler<DocumentDetails> mDeleteHandler;
+
     private final EventHandler<InputEvent> mTouchDragListener;
     private final EventHandler<InputEvent> mGestureSelectHandler;
 
@@ -60,26 +61,22 @@ public final class UserInputHandler<T extends InputEvent>
     private final KeyInputHandler mKeyListener;
 
     public UserInputHandler(
-            MultiSelectManager selectionMgr,
+            ActionHandler<?> actionHandler,
             FocusHandler focusHandler,
+            MultiSelectManager selectionMgr,
             Function<MotionEvent, T> eventConverter,
             Predicate<DocumentDetails> selectable,
             EventHandler<InputEvent> rightClickHandler,
-            EventHandler<DocumentDetails> openHandler,
-            EventHandler<DocumentDetails> viewHandler,
-            EventHandler<DocumentDetails> previewHandler,
             EventHandler<DocumentDetails> deleteHandler,
             EventHandler<InputEvent> touchDragListener,
             EventHandler<InputEvent> gestureSelectHandler) {
 
-        mSelectionMgr = selectionMgr;
+        mActionHandler = actionHandler;
         mFocusHandler = focusHandler;
+        mSelectionMgr = selectionMgr;
         mEventConverter = eventConverter;
         mSelectable = selectable;
         mRightClickHandler = rightClickHandler;
-        mOpenHandler = openHandler;
-        mViewHandler = viewHandler;
-        mPreviewHandler = previewHandler;
         mDeleteHandler = deleteHandler;
         mTouchDragListener = touchDragListener;
         mGestureSelectHandler = gestureSelectHandler;
@@ -190,18 +187,6 @@ public final class UserInputHandler<T extends InputEvent>
         return mKeyListener.onKey(doc, keyCode, event);
     }
 
-    private boolean openDocument(DocumentDetails doc) {
-        return mOpenHandler.accept(doc);
-    }
-
-    private boolean viewDocument(DocumentDetails doc) {
-        return mViewHandler.accept(doc);
-    }
-
-    private boolean previewDocument(DocumentDetails doc) {
-        return mPreviewHandler.accept(doc);
-    }
-
     private boolean selectDocument(DocumentDetails doc) {
         assert(doc != null);
         assert(doc.hasModelId());
@@ -260,7 +245,7 @@ public final class UserInputHandler<T extends InputEvent>
             // otherwise they activate.
             return doc.isInSelectionHotspot(event)
                     ? selectDocument(doc)
-                    : openDocument(doc);
+                    : mActionHandler.openDocument(doc);
         }
 
         boolean onSingleTapConfirmed(T event) {
@@ -394,7 +379,7 @@ public final class UserInputHandler<T extends InputEvent>
             }
 
             DocumentDetails doc = event.getDocumentDetails();
-            return viewDocument(doc);
+            return mActionHandler.viewDocument(doc);
         }
 
         final void onLongPress(T event) {
@@ -460,9 +445,9 @@ public final class UserInputHandler<T extends InputEvent>
                     // For non-shifted enter keypresses, fall through.
                 case KeyEvent.KEYCODE_DPAD_CENTER:
                 case KeyEvent.KEYCODE_BUTTON_A:
-                    return viewDocument(doc);
+                    return mActionHandler.viewDocument(doc);
                 case KeyEvent.KEYCODE_SPACE:
-                    return previewDocument(doc);
+                    return mActionHandler.previewDocument(doc);
                 case KeyEvent.KEYCODE_FORWARD_DEL:
                     // This has to be handled here instead of in a keyboard shortcut, because
                     // keyboard shortcuts all have to be modified with the 'Ctrl' key.

@@ -46,11 +46,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
+import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
-import com.android.documentsui.ActionHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -166,7 +166,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         final RootsCache roots = DocumentsApplication.getRootsCache(activity);
         final State state = activity.getDisplayState();
 
-        mActionHandler = activity.getActionHandler();
+        mActionHandler = activity.getActionHandler(null, null);
 
         mCallbacks = new LoaderCallbacks<Collection<RootInfo>>() {
             @Override

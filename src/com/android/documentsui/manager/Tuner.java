@@ -16,8 +16,6 @@
 
 package com.android.documentsui.manager;
 
-import android.util.Log;
-
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
@@ -25,7 +23,6 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
-import com.android.documentsui.dirlist.MultiSelectManager;
 
 import javax.annotation.Nullable;
 
@@ -80,56 +77,26 @@ public final class Tuner extends FragmentTuner {
         return true;
     }
 
+    // TODO: Move to action handler.
     @Override
     public void showChooserForDoc(DocumentInfo doc) {
         mActivity.showChooserForDoc(doc);
     }
 
+    // TODO: Move to action handler.
     @Override
     public void openInNewWindow(DocumentStack stack, DocumentInfo doc) {
         mActivity.openInNewWindow(stack, doc);
     }
 
-    @Override
-    protected boolean openDocument(String id) {
-        DocumentInfo doc = mConfig.model.getDocument(id);
-        if (doc == null) {
-            Log.w(TAG, "Can't view item. No Document available for modeId: " + id);
-            return false;
-        }
-
-        if (isDocumentEnabled(doc.mimeType, doc.flags)) {
-            mActivity.onDocumentPicked(doc, mConfig.model);
-            mConfig.selectionMgr.clearSelection();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    protected boolean viewDocument(String id) {
-        DocumentInfo doc = mConfig.model.getDocument(id);
-        return mActivity.viewDocument(doc);
-    }
-
-    @Override
-    protected boolean previewDocument(String id) {
-        DocumentInfo doc = mConfig.model.getDocument(id);
-        if (doc.isContainer()) {
-            return false;
-        }
-        return mActivity.previewDocument(doc, mConfig.model);
-    }
-
-    Tuner reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
-        mConfig.reset(model, selectionMgr, searchMode);
+    Tuner reset(Model model, boolean searchMode) {
+        mConfig.reset(model, searchMode);
         return this;
     }
 
     private static final class Config {
 
         @Nullable Model model;
-        @Nullable MultiSelectManager selectionMgr;
         boolean searchMode;
 
         private final EventListener<Update> mModelUpdateListener;
@@ -142,13 +109,11 @@ public final class Tuner extends FragmentTuner {
         // open the drawer on empty directories on first launch
         private boolean modelLoadObserved;
 
-        public void reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+        public void reset(Model model, boolean searchMode) {
             this.searchMode = searchMode;
             assert(model != null);
-            assert(selectionMgr != null);
 
             this.model = model;
-            this.selectionMgr = selectionMgr;
 
             model.addUpdateListener(mModelUpdateListener);
             modelLoadObserved = false;
