@@ -23,16 +23,18 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"కొత్త ఫోల్డర్"</string>
     <string name="menu_grid" msgid="1453636521731880680">"గ్రిడ్ వీక్షణ"</string>
     <string name="menu_list" msgid="6714267452146410402">"జాబితా వీక్షణ"</string>
-    <string name="menu_sort" msgid="6754410552665101834">"ఇలా క్రమబద్ధీకరించు"</string>
     <string name="menu_search" msgid="1876699106790719849">"శోధించు"</string>
     <string name="menu_settings" msgid="6520844520117939047">"నిల్వ సెట్టింగ్‌లు"</string>
     <string name="menu_open" msgid="9092138100049759315">"తెరువు"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"దీనితో తెరువు"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరువు"</string>
     <string name="menu_save" msgid="5195367497138965168">"సేవ్ చేయి"</string>
     <string name="menu_share" msgid="4307140947108068356">"భాగస్వామ్యం చేయి"</string>
     <string name="menu_delete" msgid="1022254131543256626">"తొలగించు"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"అన్నింటినీ ఎంచుకోండి"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ఇక్కడికి కాపీ చేయి…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ఇక్కడికి తరలించు..."</string>
+    <string name="menu_rename" msgid="1883113442688817554">"పేరు మార్చు"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"కొత్త విండో"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"కత్తిరించు"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"కాపీ చేయి"</string>
@@ -112,7 +114,6 @@
       <item quantity="one">క్లిప్‌బోర్డ్‌కి <xliff:g id="COUNT_0">%1$d</xliff:g> ఫైల్‌ని కాపీ చేసారు.</item>
     </plurals>
     <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"ఎంచుకున్న ఫైల్‌లను ఈ స్థానంలో అతికించడం సాధ్యపడదు."</string>
-    <string name="menu_rename" msgid="1883113442688817554">"పేరు మార్చు"</string>
     <string name="rename_error" msgid="6700093173508118635">"పత్రం పేరు మార్చడంలో విఫలమైంది"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"తీసివేయి"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"కొన్ని పైల్‌లు మార్చబడ్డాయి"</string>

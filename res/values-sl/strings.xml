@@ -23,16 +23,18 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"Nova mapa"</string>
     <string name="menu_grid" msgid="1453636521731880680">"Mrežni pogled"</string>
     <string name="menu_list" msgid="6714267452146410402">"Pogled seznama"</string>
-    <string name="menu_sort" msgid="6754410552665101834">"Razvrsti glede na"</string>
     <string name="menu_search" msgid="1876699106790719849">"Iskanje"</string>
     <string name="menu_settings" msgid="6520844520117939047">"Nastavitve shrambe"</string>
     <string name="menu_open" msgid="9092138100049759315">"Odpri"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"Odpiranje z aplikacijo"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"Odpri v novem oknu"</string>
     <string name="menu_save" msgid="5195367497138965168">"Shrani"</string>
     <string name="menu_share" msgid="4307140947108068356">"Deli z drugimi"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Izbriši"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Izberi vse"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopiraj v …"</string>
     <string name="menu_move" msgid="2310760789561129882">"Premakni v ..."</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Preimenuj"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Novo okno"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Izreži"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopiraj"</string>
@@ -126,7 +128,6 @@
       <item quantity="other">V odložišče je bilo kopiranih <xliff:g id="COUNT_1">%1$d</xliff:g> datotek.</item>
     </plurals>
     <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Izbranih datotek ni mogoče prilepiti sem."</string>
-    <string name="menu_rename" msgid="1883113442688817554">"Preimenuj"</string>
     <string name="rename_error" msgid="6700093173508118635">"Dokumenta ni bilo mogoče preimenovati"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Izvrzi"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Nekatere datoteke so bile pretvorjene"</string>
