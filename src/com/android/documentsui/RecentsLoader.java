@@ -40,9 +40,9 @@ import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.roots.RootsCache;
 import com.android.internal.annotations.GuardedBy;
 
-import libcore.io.IoUtils;
-
 import com.google.common.util.concurrent.AbstractFuture;
+
+import libcore.io.IoUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
@@ -83,7 +84,8 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
     private final State mState;
 
     @GuardedBy("mTasks")
-    private final HashMap<RootInfo, RecentsTask> mTasks = new HashMap<>();
+    /** A authority -> RecentsTask map */
+    private final Map<String, RecentsTask> mTasks = new HashMap<>();
 
     private CountDownLatch mFirstPassLatch;
     private volatile boolean mFirstPassDone;
@@ -114,12 +116,10 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         if (mFirstPassLatch == null) {
             // First time through we kick off all the recent tasks, and wait
             // around to see if everyone finishes quickly.
+            Map<String, List<String>> rootsIndex = indexRecentsRoots();
 
-            final Collection<RootInfo> roots = mRoots.getMatchingRootsBlocking(mState);
-            for (RootInfo root : roots) {
-                if (root.supportsRecents()) {
-                    mTasks.put(root, new RecentsTask(root.authority, root.rootId));
-                }
+            for (String authority : rootsIndex.keySet()) {
+                mTasks.put(authority, new RecentsTask(authority, rootsIndex.get(authority)));
             }
 
             mFirstPassLatch = new CountDownLatch(mTasks.size());
@@ -139,21 +139,31 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
         // Collect all finished tasks
         boolean allDone = true;
+        int totalQuerySize = 0;
         List<Cursor> cursors = new ArrayList<>();
         for (RecentsTask task : mTasks.values()) {
             if (task.isDone()) {
                 try {
-                    final Cursor cursor = task.get();
-                    if (cursor == null) continue;
+                    final Cursor[] taskCursors = task.get();
+                    if (taskCursors == null || taskCursors.length == 0) continue;
 
-                    final FilteringCursorWrapper filtered = new FilteringCursorWrapper(
-                            cursor, mState.acceptMimes, RECENT_REJECT_MIMES, rejectBefore) {
-                        @Override
-                        public void close() {
-                            // Ignored, since we manage cursor lifecycle internally
+                    totalQuerySize += taskCursors.length;
+                    for (Cursor cursor : taskCursors) {
+                        if (cursor == null) {
+                            // It's possible given an authority, some roots fail to return a cursor
+                            // after a query.
+                            continue;
                         }
-                    };
-                    cursors.add(filtered);
+                        final FilteringCursorWrapper filtered = new FilteringCursorWrapper(
+                                cursor, mState.acceptMimes, RECENT_REJECT_MIMES, rejectBefore) {
+                            @Override
+                            public void close() {
+                                // Ignored, since we manage cursor lifecycle internally
+                            }
+                        };
+                        cursors.add(filtered);
+                    }
+
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 } catch (ExecutionException e) {
@@ -165,7 +175,8 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         if (DEBUG) {
-            Log.d(TAG, "Found " + cursors.size() + " of " + mTasks.size() + " recent queries done");
+            Log.d(TAG,
+                    "Found " + cursors.size() + " of " + totalQuerySize + " recent queries done");
         }
 
         final DirectoryResult result = new DirectoryResult();
@@ -188,6 +199,26 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         result.cursor = merged;
 
         return result;
+    }
+
+    /**
+     * Returns a map of Authority -> rootIds
+     */
+    private Map<String, List<String>> indexRecentsRoots() {
+        final Collection<RootInfo> roots = mRoots.getMatchingRootsBlocking(mState);
+        HashMap<String, List<String>> rootsIndex = new HashMap<>();
+        for (RootInfo root : roots) {
+            if (!root.supportsRecents()) {
+                continue;
+            }
+
+            if (!rootsIndex.containsKey(root.authority)) {
+                rootsIndex.put(root.authority, new ArrayList<>());
+            }
+            rootsIndex.get(root.authority).add(root.rootId);
+        }
+
+        return rootsIndex;
     }
 
     @Override
@@ -253,15 +284,15 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
     // TODO: create better transfer of ownership around cursor to ensure its
     // closed in all edge cases.
 
-    public class RecentsTask extends AbstractFuture<Cursor> implements Runnable, Closeable {
+    public class RecentsTask extends AbstractFuture<Cursor[]> implements Runnable, Closeable {
         public final String authority;
-        public final String rootId;
+        public final List<String> rootIds;
 
-        private Cursor mWithRoot;
+        private Cursor[] mCursors;
 
-        public RecentsTask(String authority, String rootId) {
+        public RecentsTask(String authority, List<String> rootIds) {
             this.authority = authority;
-            this.rootId = rootId;
+            this.rootIds = rootIds;
         }
 
         @Override
@@ -287,18 +318,28 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
                 client = DocumentsApplication.acquireUnstableProviderOrThrow(
                         getContext().getContentResolver(), authority);
 
-                final Uri uri = DocumentsContract.buildRecentDocumentsUri(authority, rootId);
-                final Cursor cursor = client.query(
-                        uri, null, null, null, mState.sortModel.getDocumentSortQuery());
-                mWithRoot = new RootCursorWrapper(authority, rootId, cursor, MAX_DOCS_FROM_ROOT);
+                final Cursor[] res = new Cursor[rootIds.size()];
+                mCursors = new Cursor[rootIds.size()];
+                for (int i = 0; i < rootIds.size(); i++) {
+                    final Uri uri = DocumentsContract.buildRecentDocumentsUri(authority,
+                            rootIds.get(i));
+                    try {
+                        res[i] = client.query(
+                                uri, null, null, null, mState.sortModel.getDocumentSortQuery());
+                        mCursors[i] = new RootCursorWrapper(authority, rootIds.get(i), res[i],
+                                MAX_DOCS_FROM_ROOT);
+                    } catch (Exception e) {
+                        Log.w(TAG, "Failed to load " + authority + ", " + rootIds.get(i), e);
+                    }
+                }
 
             } catch (Exception e) {
-                Log.w(TAG, "Failed to load " + authority + ", " + rootId, e);
+                Log.w(TAG, "Failed to acquire content resolver for authority: " + authority);
             } finally {
                 ContentProviderClient.releaseQuietly(client);
             }
 
-            set(mWithRoot);
+            set(mCursors);
 
             mFirstPassLatch.countDown();
             if (mFirstPassDone) {
@@ -308,7 +349,9 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
         @Override
         public void close() throws IOException {
-            IoUtils.closeQuietly(mWithRoot);
+            for (Cursor cursor : mCursors) {
+                IoUtils.closeQuietly(cursor);
+            }
         }
     }
 }
