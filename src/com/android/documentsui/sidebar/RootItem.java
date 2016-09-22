@@ -99,7 +99,7 @@ class RootItem extends Item {
 
     @Override
     void open() {
-        mActionHandler.open(root);
+        mActionHandler.openRoot(root);
     }
 
     @Override

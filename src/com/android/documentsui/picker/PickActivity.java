@@ -85,7 +85,7 @@ public class PickActivity extends BaseActivity {
         // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
-        mActionHandler = new ActionHandler(this);
+        mActionHandler = new ActionHandler(this, mTuner);
 
         if (mState.action == ACTION_CREATE) {
             final String mimeType = getIntent().getType();
@@ -399,11 +399,8 @@ public class PickActivity extends BaseActivity {
     }
 
     @Override
-    public FragmentTuner getFragmentTuner(
-            Model model,
-            MultiSelectManager selectionMgr,
-            boolean mSearchMode) {
-        return mTuner.reset(model, selectionMgr, mSearchMode);
+    public FragmentTuner getFragmentTuner(Model model, boolean mSearchMode) {
+        return mTuner.reset(model, mSearchMode);
     }
 
     @Override
@@ -417,8 +414,16 @@ public class PickActivity extends BaseActivity {
     }
 
     @Override
-    public ActionHandler getActionHandler() {
-        return mActionHandler;
+    public ActionHandler getActionHandler(
+            Model model, MultiSelectManager selectionMgr) {
+
+        // provide our friend, RootsFragment, early access to this special feature!
+        if (model == null || selectionMgr == null) {
+            assert(model == null);
+            assert(selectionMgr == null);
+            return mActionHandler;
+        }
+        return mActionHandler.reset(model, selectionMgr);
     }
 
     private static final class PickFinishTask extends PairedTask<PickActivity, Void, Void> {

@@ -51,21 +51,15 @@ public abstract class FragmentTuner {
         return false;
     }
 
+    // TODO: Move to action handler.
+    @Deprecated
     protected void showChooserForDoc(DocumentInfo doc) {
         throw new UnsupportedOperationException("Show chooser not supported!");
     }
 
+    // TODO: Move to action handler.
+    @Deprecated
     protected void openInNewWindow(DocumentStack stack, DocumentInfo doc) {
         throw new UnsupportedOperationException("Open in new window not supported!");
     }
-
-    protected boolean viewDocument(String id) {
-        throw new UnsupportedOperationException("Direct view not supported!");
-    }
-
-    protected boolean previewDocument(String id) {
-        throw new UnsupportedOperationException("Preview not supported!");
-    }
-
-    protected abstract boolean openDocument(String id);
 }

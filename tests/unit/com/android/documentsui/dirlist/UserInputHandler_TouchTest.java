@@ -25,6 +25,7 @@ import android.view.MotionEvent;
 
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.testing.MultiSelectManagers;
+import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.TestEvent.Builder;
 import com.android.documentsui.testing.TestEventHandler;
@@ -44,13 +45,11 @@ public final class UserInputHandler_TouchTest {
     private static final List<String> ITEMS = TestData.create(100);
 
     private UserInputHandler<TestEvent> mInputHandler;
+    private TestActionHandler mActionHandler;
 
     private SelectionProbe mSelection;
     private TestPredicate<DocumentDetails> mCanSelect;
     private TestEventHandler<InputEvent> mRightClickHandler;
-    private TestEventHandler<DocumentDetails> mPickHandler;
-    private TestEventHandler<DocumentDetails> mViewHandler;
-    private TestEventHandler<DocumentDetails> mPreviewHandler;
     private TestEventHandler<DocumentDetails> mDeleteHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
     private TestEventHandler<InputEvent> mGestureSelectHandler;
@@ -61,27 +60,24 @@ public final class UserInputHandler_TouchTest {
     public void setUp() {
         MultiSelectManager selectionMgr = MultiSelectManagers.createTestInstance(ITEMS);
 
+        mActionHandler = new TestActionHandler();
+
         mSelection = new SelectionProbe(selectionMgr);
         mCanSelect = new TestPredicate<>();
         mRightClickHandler = new TestEventHandler<>();
-        mPickHandler = new TestEventHandler<>();
-        mViewHandler = new TestEventHandler<>();
-        mPreviewHandler = new TestEventHandler<>();
         mDeleteHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
         mGestureSelectHandler = new TestEventHandler<>();
 
         mInputHandler = new UserInputHandler<>(
-                selectionMgr,
+                mActionHandler,
                 new TestFocusHandler(),
+                selectionMgr,
                 (MotionEvent event) -> {
                     throw new UnsupportedOperationException("Not exercised in tests.");
                 },
                 mCanSelect,
                 mRightClickHandler::accept,
-                mPickHandler::accept,
-                mPreviewHandler::accept,
-                mViewHandler::accept,
                 mDeleteHandler::accept,
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept);
@@ -92,7 +88,7 @@ public final class UserInputHandler_TouchTest {
     @Test
     public void testTap_ActivatesWhenNoExistingSelection() {
         mInputHandler.onSingleTapUp(mEvent.at(11).build());
-        mPickHandler.assertLastArgument(mEvent.build().getDocumentDetails());
+        mActionHandler.open.assertLastArgument(mEvent.build().getDocumentDetails());
     }
 
     @Test

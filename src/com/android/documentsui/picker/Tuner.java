@@ -23,9 +23,7 @@ import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.provider.DocumentsContract.Document;
-import android.util.Log;
 
-import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.State;
@@ -129,24 +127,8 @@ final class Tuner extends FragmentTuner {
         }
     }
 
-    @Override
-    protected boolean openDocument(String id) {
-        DocumentInfo doc = mConfig.model.getDocument(id);
-        if (doc == null) {
-            Log.w(TAG, "Can't view item. No Document available for modeId: " + id);
-            return false;
-        }
-
-        if (isDocumentEnabled(doc.mimeType, doc.flags)) {
-            mActivity.onDocumentPicked(doc, mConfig.model);
-            mConfig.selectionMgr.clearSelection();
-            return true;
-        }
-        return false;
-    }
-
-    Tuner reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
-        mConfig.reset(model, selectionMgr, searchMode);
+    Tuner reset(Model model, boolean searchMode) {
+        mConfig.reset(model, searchMode);
         return this;
     }
 
@@ -166,7 +148,7 @@ final class Tuner extends FragmentTuner {
         // open the drawer on empty directories on first launch
         private boolean modelLoadObserved;
 
-        public void reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+        public void reset(Model model, boolean searchMode) {
             this.searchMode = searchMode;
             assert(model != null);
             assert(selectionMgr != null);

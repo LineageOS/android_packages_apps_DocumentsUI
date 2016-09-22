@@ -20,16 +20,31 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.Settings;
+import android.util.Log;
 
 import com.android.documentsui.Metrics;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.FragmentTuner;
+import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.dirlist.MultiSelectManager;
+
+import javax.annotation.Nullable;
 
 /**
  * Provides {@link PickActivity} action specializations to fragments.
  */
 class ActionHandler extends com.android.documentsui.ActionHandler<PickActivity> {
 
-    ActionHandler(PickActivity activity) {
+    private static final String TAG = "PickerActionHandler";
+
+    private final FragmentTuner mTuner;
+    private final Config mConfig;
+
+    ActionHandler(PickActivity activity, FragmentTuner tuner) {
         super(activity);
+        mTuner = tuner;
+        mConfig = new Config();
     }
 
     @Override
@@ -41,8 +56,44 @@ class ActionHandler extends com.android.documentsui.ActionHandler<PickActivity> 
     }
 
     @Override
-    public void open(ResolveInfo info) {
+    public void openRoot(ResolveInfo info) {
         Metrics.logAppVisited(mActivity, info);
         mActivity.onAppPicked(info);
+    }
+
+    @Override
+    public boolean openDocument(DocumentDetails details) {
+        DocumentInfo doc = mConfig.model.getDocument(details.getModelId());
+        if (doc == null) {
+            Log.w(TAG,
+                    "Can't view item. No Document available for modeId: " + details.getModelId());
+            return false;
+        }
+
+        if (mTuner.isDocumentEnabled(doc.mimeType, doc.flags)) {
+            mActivity.onDocumentPicked(doc, mConfig.model);
+            mConfig.selectionMgr.clearSelection();
+            return true;
+        }
+        return false;
+    }
+
+    ActionHandler reset(Model model, MultiSelectManager selectionMgr) {
+        mConfig.reset(model, selectionMgr);
+        return this;
+    }
+
+    private static final class Config {
+
+        @Nullable Model model;
+        @Nullable MultiSelectManager selectionMgr;
+
+        public void reset(Model model, MultiSelectManager selectionMgr) {
+            assert(model != null);
+            assert(selectionMgr != null);
+
+            this.model = model;
+            this.selectionMgr = selectionMgr;
+        }
     }
 }

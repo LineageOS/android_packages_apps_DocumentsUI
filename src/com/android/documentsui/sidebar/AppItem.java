@@ -81,6 +81,6 @@ class AppItem extends Item {
 
     @Override
     void open() {
-        mActionHandler.open(info);
+        mActionHandler.openRoot(info);
     }
 }
