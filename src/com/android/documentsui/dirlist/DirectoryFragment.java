@@ -63,6 +63,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryLoader;
@@ -143,13 +144,18 @@ public class DirectoryFragment extends Fragment
     private FragmentTuner mTuner;
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    private FocusManager mFocusManager;
+
+    // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    private ActionHandler<?> mActionHandler;
+
+    // This dependency is informally "injected" from the owning Activity in our onCreate method.
     private MenuManager mMenuManager;
 
     private MultiSelectManager mSelectionMgr;
     private ActionModeController mActionModeController;
     private SelectionMetadata mSelectionMetadata;
     private UserInputHandler<InputEvent> mInputHandler;
-    private FocusManager mFocusManager;
     private @Nullable BandController mBandController;
     private DragHoverListener mDragHoverListener;
     private IconHelper mIconHelper;
@@ -292,13 +298,12 @@ public class DirectoryFragment extends Fragment
 
         final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
         GestureSelector gestureSel = GestureSelector.create(
-                edgeHeight,
-                mSelectionMgr,
-                mRecView);
+                edgeHeight, mSelectionMgr, mRecView);
 
         final BaseActivity activity = getBaseActivity();
-        mTuner = activity.getFragmentTuner(mModel, mSelectionMgr, mConfig.mSearchMode);
+        mTuner = activity.getFragmentTuner(mModel, mConfig.mSearchMode);
         mFocusManager = activity.getFocusManager(mRecView, mModel);
+        mActionHandler = activity.getActionHandler(mModel, mSelectionMgr);
         mMenuManager = activity.getMenuManager();
 
         if (state.allowMultiple) {
@@ -322,16 +327,12 @@ public class DirectoryFragment extends Fragment
                 ? gestureSel::start
                 : EventHandler.createStub(false);
         mInputHandler = new UserInputHandler<>(
-                mSelectionMgr,
+                mActionHandler,
                 mFocusManager,
+                mSelectionMgr,
                 (MotionEvent t) -> MotionInputEvent.obtain(t, mRecView),
                 this::canSelect,
                 this::onRightClick,
-                // TODO: consider injecting the tuner directly into the handler for
-                // less middle-man action.
-                (DocumentDetails details) -> mTuner.openDocument(details.getModelId()),
-                (DocumentDetails details) -> mTuner.viewDocument(details.getModelId()),
-                (DocumentDetails details) -> mTuner.previewDocument(details.getModelId()),
                 (DocumentDetails ignored) -> onDeleteSelectedDocuments(), // delete handler
                 mDragStartListener::onTouchDragEvent,
                 gestureHandler);

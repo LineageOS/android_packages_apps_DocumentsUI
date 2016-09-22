@@ -22,6 +22,7 @@ import android.content.pm.ResolveInfo;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.DocumentClipper;
+import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.sidebar.EjectRootTask;
 import com.android.documentsui.sidebar.RootsFragment;
 
@@ -31,7 +32,7 @@ import java.util.function.Consumer;
 /**
  * Provides support for specializing the actions (openDocument etc.) to the host activity.
  */
-public class ActionHandler<T extends BaseActivity> {
+public abstract class ActionHandler<T extends BaseActivity> {
 
     protected T mActivity;
 
@@ -85,12 +86,22 @@ public class ActionHandler<T extends BaseActivity> {
         throw new UnsupportedOperationException("Can't show app details.");
     }
 
-    public void open(RootInfo root) {
+    public void openRoot(RootInfo root) {
         Metrics.logRootVisited(mActivity, root);
         mActivity.onRootPicked(root);
     }
 
-    public void open(ResolveInfo app) {
+    public void openRoot(ResolveInfo app) {
         throw new UnsupportedOperationException("Can't open an app.");
     }
+
+    public boolean viewDocument(DocumentDetails doc) {
+        throw new UnsupportedOperationException("Direct view not supported!");
+    }
+
+    public boolean previewDocument(DocumentDetails doc) {
+        throw new UnsupportedOperationException("Preview not supported!");
+    }
+
+    public abstract boolean openDocument(DocumentDetails doc);
 }
