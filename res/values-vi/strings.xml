@@ -23,16 +23,18 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"Thư mục mới"</string>
     <string name="menu_grid" msgid="1453636521731880680">"Chế độ xem lưới"</string>
     <string name="menu_list" msgid="6714267452146410402">"Chế độ xem danh sách"</string>
-    <string name="menu_sort" msgid="6754410552665101834">"Sắp xếp theo"</string>
     <string name="menu_search" msgid="1876699106790719849">"Tìm kiếm"</string>
     <string name="menu_settings" msgid="6520844520117939047">"Cài đặt bộ nhớ"</string>
     <string name="menu_open" msgid="9092138100049759315">"Mở"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"Mở bằng"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"Mở trong cửa sổ mới"</string>
     <string name="menu_save" msgid="5195367497138965168">"Lưu"</string>
     <string name="menu_share" msgid="4307140947108068356">"Chia sẻ"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Xóa"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Chọn tất cả"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Sao chép vào…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Chuyển tới..."</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Đổi tên"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Cửa sổ mới"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Cắt"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Sao chép"</string>
@@ -112,7 +114,6 @@
       <item quantity="one">Đã sao chép <xliff:g id="COUNT_0">%1$d</xliff:g> tệp vào khay nhớ tạm.</item>
     </plurals>
     <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Không thể dán các tệp đã chọn vào vị trí này."</string>
-    <string name="menu_rename" msgid="1883113442688817554">"Đổi tên"</string>
     <string name="rename_error" msgid="6700093173508118635">"Không đổi được tên tài liệu"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Đẩy ra"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Đã chuyển đổi một số tệp"</string>

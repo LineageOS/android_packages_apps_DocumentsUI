@@ -23,16 +23,18 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"پوشهٔ جدید"</string>
     <string name="menu_grid" msgid="1453636521731880680">"نمای جدولی"</string>
     <string name="menu_list" msgid="6714267452146410402">"نمای فهرست"</string>
-    <string name="menu_sort" msgid="6754410552665101834">"مرتب‌سازی براساس"</string>
     <string name="menu_search" msgid="1876699106790719849">"جستجو"</string>
     <string name="menu_settings" msgid="6520844520117939047">"تنظیمات ذخیره‌سازی"</string>
     <string name="menu_open" msgid="9092138100049759315">"باز"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"باز کردن با"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"باز کردن در پنجرهٔ جدید"</string>
     <string name="menu_save" msgid="5195367497138965168">"ذخیره‌"</string>
     <string name="menu_share" msgid="4307140947108068356">"اشتراک‌گذاری"</string>
     <string name="menu_delete" msgid="1022254131543256626">"حذف"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"انتخاب همه"</string>
     <string name="menu_copy" msgid="7404820171352314754">"کپی در..."</string>
     <string name="menu_move" msgid="2310760789561129882">"انتقال به…"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"تغییر نام"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"پنجره جدید"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"برش"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"کپی"</string>
@@ -112,7 +114,6 @@
       <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل در کلیپ‌بورد کپی شد.</item>
     </plurals>
     <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"نمی‌توان فایل‌های انتخابی را در این مکان جای‌گذاری کرد."</string>
-    <string name="menu_rename" msgid="1883113442688817554">"تغییر نام"</string>
     <string name="rename_error" msgid="6700093173508118635">"نام سند تغییر نکرد"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"بیرون راندن"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"بعضی از فایل‌ها تبدیل شدند"</string>
