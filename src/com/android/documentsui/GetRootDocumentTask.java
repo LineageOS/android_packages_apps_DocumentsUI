@@ -51,7 +51,7 @@ public class GetRootDocumentTask extends CheckedTask<Void, DocumentInfo> {
         this(rootInfo, fragment.getContext(), fragment::isDetached, callback);
     }
 
-    private GetRootDocumentTask(
+    public GetRootDocumentTask(
             RootInfo rootInfo, Context context, Check check, Consumer<DocumentInfo> callback) {
         super(check);
         mRootInfo = rootInfo;

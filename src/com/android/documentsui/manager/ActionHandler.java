@@ -18,8 +18,13 @@ package com.android.documentsui.manager;
 
 import android.util.Log;
 
+import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.GetRootDocumentTask;
+import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
@@ -46,6 +51,36 @@ public class ActionHandler extends com.android.documentsui.ActionHandler<ManageA
     @Override
     public void openSettings(RootInfo root) {
         mActivity.openRootSettings(root);
+    }
+
+    @Override
+    public void openInNewWindow(RootInfo root) {
+        new GetRootDocumentTask(
+                root,
+                mActivity,
+                mActivity::isDestroyed,
+                (DocumentInfo doc) -> openInNewWindow(root, doc)
+        ).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+    }
+
+    private void openInNewWindow(RootInfo root, DocumentInfo doc) {
+        mActivity.openInNewWindow(new DocumentStack(root), doc);
+    }
+
+    @Override
+    public void pasteIntoFolder(RootInfo root) {
+        new GetRootDocumentTask(
+                root,
+                mActivity,
+                mActivity::isDestroyed,
+                (DocumentInfo doc) -> pasteIntoFolder(root, doc)
+        ).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+    }
+
+    private void pasteIntoFolder(RootInfo root, DocumentInfo doc) {
+        DocumentClipper clipper = DocumentsApplication.getDocumentClipper(mActivity);
+        DocumentStack stack = new DocumentStack(root, doc);
+        clipper.copyFromClipboard(doc, stack, mActivity.fileOpCallback);
     }
 
     @Override

@@ -27,6 +27,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.sidebar.RootsFragment;
 import com.android.internal.annotations.VisibleForTesting;
 
 public abstract class MenuManager {
@@ -181,11 +182,15 @@ public abstract class MenuManager {
      * @see RootsFragment#onCreateContextMenu
      */
     public void updateRootContextMenu(Menu menu, RootInfo root) {
-        MenuItem settings = menu.findItem(R.id.menu_settings);
         MenuItem eject = menu.findItem(R.id.menu_eject_root);
+        MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
+        MenuItem openInNewWindow = menu.findItem(R.id.menu_open_in_new_window);
+        MenuItem settings = menu.findItem(R.id.menu_settings);
 
-        updateSettings(settings, root);
         updateEject(eject, root);
+        updatePasteInto(pasteInto, root);
+        updateOpenInNewWindow(openInNewWindow, root);
+        updateSettings(settings, root);
     }
 
     protected void updateModePicker(MenuItem grid, MenuItem list) {
@@ -228,6 +233,11 @@ public abstract class MenuManager {
         openInNewWindow.setVisible(false);
     }
 
+    protected void updateOpenInNewWindow(
+            MenuItem openInNewWindow, RootInfo root) {
+        openInNewWindow.setVisible(false);
+    }
+
     protected void updateShare(MenuItem share, SelectionDetails selectionDetails) {
         share.setVisible(false);
     }
@@ -249,6 +259,10 @@ public abstract class MenuManager {
     }
 
     protected void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
+        pasteInto.setVisible(false);
+    }
+
+    protected void updatePasteInto(MenuItem pasteInto, RootInfo root) {
         pasteInto.setVisible(false);
     }
 

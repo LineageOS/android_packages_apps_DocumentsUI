@@ -89,8 +89,8 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateEject(MenuItem eject, RootInfo root) {
-        eject.setVisible(true);
-        eject.setEnabled(root.supportsEject() && !root.ejecting);
+        eject.setVisible(root.supportsEject());
+        eject.setEnabled(!root.ejecting);
     }
 
     @Override
@@ -123,6 +123,11 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
+    protected void updateOpenInNewWindow(MenuItem openInNewWindow, RootInfo root) {
+        assert(openInNewWindow.isVisible() && openInNewWindow.isEnabled());
+    }
+
+    @Override
     protected void updateMoveTo(MenuItem moveTo, SelectionDetails selectionDetails) {
         moveTo.setVisible(true);
         moveTo.setEnabled(!selectionDetails.containsPartialFiles() && selectionDetails.canDelete());
@@ -136,7 +141,13 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
-        pasteInto.setEnabled(selectionDetails.canPasteInto());
+        pasteInto.setEnabled(selectionDetails.canPasteInto() && mDirDetails.hasItemsToPaste());
+    }
+
+    @Override
+    protected void updatePasteInto(MenuItem pasteInto, RootInfo root) {
+        // TODO(b/31658763): Check the root document as well.
+        pasteInto.setEnabled(root.supportsCreate() && mDirDetails.hasItemsToPaste());
     }
 
     @Override
