@@ -54,7 +54,7 @@ class AppItem extends Item {
     }
 
     @Override
-    boolean showAppDetails(RootsFragment fragment) {
+    boolean showAppDetails() {
         mActionHandler.showAppDetails(info);
         return true;
     }

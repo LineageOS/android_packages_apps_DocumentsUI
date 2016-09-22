@@ -269,6 +269,7 @@ public final class MenuManagerTest {
     public void testContextMenu_OnWritableDirectory() {
         selectionDetails.size = 1;
         selectionDetails.canPasteInto = true;
+        dirDetails.hasItemsToPaste = true;
         mgr.updateContextMenuForDirs(testMenu, selectionDetails);
         openInNewWindow.assertVisible();
         openInNewWindow.assertEnabled();
@@ -293,6 +294,16 @@ public final class MenuManagerTest {
         pasteInto.assertDisabled();
         rename.assertVisible();
         delete.assertVisible();
+    }
+
+    @Test
+    public void testContextMenu_OnWritableDirectory_NothingToPaste() {
+        selectionDetails.canPasteInto = true;
+        selectionDetails.size = 1;
+        dirDetails.hasItemsToPaste = false;
+        mgr.updateContextMenuForDirs(testMenu, selectionDetails);
+        pasteInto.assertVisible();
+        pasteInto.assertDisabled();
     }
 
     @Test
@@ -351,10 +362,17 @@ public final class MenuManagerTest {
 
     @Test
     public void testRootContextMenu() {
+        testRootInfo.flags = Root.FLAG_SUPPORTS_CREATE;
+
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 
-        eject.assertVisible();
-        eject.assertDisabled();
+        eject.assertInvisible();
+
+        openInNewWindow.assertVisible();
+        openInNewWindow.assertEnabled();
+
+        pasteInto.assertVisible();
+        pasteInto.assertDisabled();
 
         settings.assertVisible();
         settings.assertDisabled();
@@ -366,6 +384,25 @@ public final class MenuManagerTest {
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 
         settings.assertEnabled();
+    }
+
+    @Test
+    public void testRootContextMenu_nonWritableRoot() {
+        dirDetails.hasItemsToPaste = true;
+        mgr.updateRootContextMenu(testMenu, testRootInfo);
+
+        pasteInto.assertVisible();
+        pasteInto.assertDisabled();
+    }
+
+    @Test
+    public void testRootContextMenu_nothingToPaste() {
+        testRootInfo.flags = Root.FLAG_SUPPORTS_CREATE;
+        dirDetails.hasItemsToPaste = false;
+        mgr.updateRootContextMenu(testMenu, testRootInfo);
+
+        pasteInto.assertVisible();
+        pasteInto.assertDisabled();
     }
 
     @Test

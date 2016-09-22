@@ -28,9 +28,10 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.documentsui.ActionHandler;
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.R;
-import com.android.documentsui.ActionHandler;
+import com.android.documentsui.base.CheckedTask.Check;
 import com.android.documentsui.base.RootInfo;
 
 /**
@@ -103,8 +104,8 @@ class RootItem extends Item {
     }
 
     @Override
-    boolean dropOn(ClipData data, RootsFragment fragment) {
-        return mActionHandler.dropOn(data, fragment, root);
+    boolean dropOn(ClipData data) {
+        return mActionHandler.dropOn(data, root);
     }
 
     @Override

@@ -82,7 +82,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
 
             assert(item.isDropTarget());
 
-            return item.dropOn(event.getClipData(), RootsFragment.this);
+            return item.dropOn(event.getClipData());
         }
     };
 
@@ -100,7 +100,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
             final Item item = mAdapter.getItem(position);
-            return item.showAppDetails(RootsFragment.this);
+            return item.showAppDetails();
         }
     };
 
@@ -146,9 +146,8 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
             public boolean onGenericMotion(View v, MotionEvent event) {
                 if (Events.isMouseEvent(event)
                         && event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
-                    registerForContextMenu(v);
-                    v.showContextMenu(event.getX(), event.getY());
-                    unregisterForContextMenu(v);
+                    getBaseActivity().getMenuManager().showContextMenu(
+                            RootsFragment.this, v, event.getX(), event.getY());
                     return true;
                 }
                 return false;
@@ -373,6 +372,12 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
             case R.id.menu_eject_root:
                 final View ejectIcon = adapterMenuInfo.targetView.findViewById(R.id.eject_icon);
                 ejectClicked(ejectIcon, rootItem.root, mActionHandler);
+                return true;
+            case R.id.menu_open_in_new_window:
+                mActionHandler.openInNewWindow(rootItem.root);
+                return true;
+            case R.id.menu_paste_into_folder:
+                mActionHandler.pasteIntoFolder(rootItem.root);
                 return true;
             case R.id.menu_settings:
                 mActionHandler.openSettings(rootItem.root);

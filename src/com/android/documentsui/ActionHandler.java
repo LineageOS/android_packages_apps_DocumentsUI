@@ -19,18 +19,18 @@ package com.android.documentsui;
 import android.content.ClipData;
 import android.content.pm.ResolveInfo;
 
+import com.android.documentsui.base.CheckedTask.Check;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.sidebar.EjectRootTask;
-import com.android.documentsui.sidebar.RootsFragment;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 /**
- * Provides support for specializing the actions (openDocument etc.) to the host activity.
+ * Provides support for specializing the actions (viewDocument etc.) to the host activity.
  */
 public abstract class ActionHandler<T extends BaseActivity> {
 
@@ -44,10 +44,15 @@ public abstract class ActionHandler<T extends BaseActivity> {
         throw new UnsupportedOperationException("Can't open settings.");
     }
 
-    public boolean dropOn(ClipData data, RootsFragment fragment, RootInfo root) {
+    /**
+     * Drops documents on a root.
+     * @param check The check to make sure RootsFragment is not detached from activity.
+     */
+    public boolean dropOn(ClipData data, RootInfo root) {
         new GetRootDocumentTask(
                 root,
-                fragment,
+                mActivity,
+                mActivity::isDestroyed,
                 (DocumentInfo doc) -> dropOn(data, root, doc)
         ).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
         return true;
@@ -93,6 +98,14 @@ public abstract class ActionHandler<T extends BaseActivity> {
 
     public void openRoot(ResolveInfo app) {
         throw new UnsupportedOperationException("Can't open an app.");
+    }
+
+    public void openInNewWindow(RootInfo root) {
+        throw new UnsupportedOperationException("Can't open in new window");
+    }
+
+    public void pasteIntoFolder(RootInfo root) {
+        throw new UnsupportedOperationException("Can't paste into folder.");
     }
 
     public boolean viewDocument(DocumentDetails doc) {

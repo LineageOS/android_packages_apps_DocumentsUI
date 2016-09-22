@@ -261,6 +261,8 @@ public final class MenuManagerTest {
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 
         eject.assertInvisible();
+        openInNewWindow.assertInvisible();
+        pasteInto.assertInvisible();
         settings.assertInvisible();
     }
 
@@ -270,6 +272,23 @@ public final class MenuManagerTest {
         mgr.updateRootContextMenu(testMenu, testRootInfo);
 
         settings.assertInvisible();
+    }
+
+    @Test
+    public void testRootContextMenu_nonWritableRoot() {
+        dirDetails.hasItemsToPaste = true;
+        mgr.updateRootContextMenu(testMenu, testRootInfo);
+
+        pasteInto.assertInvisible();
+    }
+
+    @Test
+    public void testRootContextMenu_nothingToPaste() {
+        testRootInfo.flags = Root.FLAG_SUPPORTS_CREATE;
+        dirDetails.hasItemsToPaste = false;
+        mgr.updateRootContextMenu(testMenu, testRootInfo);
+
+        pasteInto.assertInvisible();
     }
 
     @Test
