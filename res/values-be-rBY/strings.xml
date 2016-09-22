@@ -23,16 +23,18 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"Новая папка"</string>
     <string name="menu_grid" msgid="1453636521731880680">"У выглядзе табліцы"</string>
     <string name="menu_list" msgid="6714267452146410402">"У выглядзе спіса"</string>
-    <string name="menu_sort" msgid="6754410552665101834">"Сартаваць па"</string>
     <string name="menu_search" msgid="1876699106790719849">"Пошук"</string>
     <string name="menu_settings" msgid="6520844520117939047">"Налады сховішча"</string>
     <string name="menu_open" msgid="9092138100049759315">"Адкрыць"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"Адкрыць з дапамогай"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"Адкрыць у новым акне"</string>
     <string name="menu_save" msgid="5195367497138965168">"Захаваць"</string>
     <string name="menu_share" msgid="4307140947108068356">"Абагуліць"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Выдаліць"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Выбраць усе"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Капіраваць у…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Перамясціць у…"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Перайменаваць"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Новае акно"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Выразаць"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Капіраваць"</string>
@@ -126,7 +128,6 @@
       <item quantity="other">У буфер абмену скапіравана <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
     </plurals>
     <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Немагчыма ўставіць выбраныя файлы ў гэта месца."</string>
-    <string name="menu_rename" msgid="1883113442688817554">"Перайменаваць"</string>
     <string name="rename_error" msgid="6700093173508118635">"Не атрымалася перайменаваць дакумент"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Выняць"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Некаторыя файлы былі пераўтвораны"</string>

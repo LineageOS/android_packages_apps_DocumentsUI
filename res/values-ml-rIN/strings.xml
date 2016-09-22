@@ -23,16 +23,18 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"പുതിയ ഫോൾഡർ"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ഗ്രിഡ് കാഴ്‌ച"</string>
     <string name="menu_list" msgid="6714267452146410402">"ലിസ്റ്റ് കാഴ്‌ച"</string>
-    <string name="menu_sort" msgid="6754410552665101834">"ഇതുപ്രകാരം അടുക്കുക"</string>
     <string name="menu_search" msgid="1876699106790719849">"തിരയുക"</string>
     <string name="menu_settings" msgid="6520844520117939047">"സ്റ്റോറേജ് ക്രമീകരണം"</string>
     <string name="menu_open" msgid="9092138100049759315">"തുറക്കുക"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"ഇത് ഉപയോഗിച്ച് തുറക്കുക"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"ഒരു പുതിയ വിന്‍‌ഡോയില്‍‌ തുറക്കുക"</string>
     <string name="menu_save" msgid="5195367497138965168">"സംരക്ഷിക്കുക"</string>
     <string name="menu_share" msgid="4307140947108068356">"പങ്കിടുക"</string>
     <string name="menu_delete" msgid="1022254131543256626">"ഇല്ലാതാക്കുക"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"എല്ലാം തിരഞ്ഞെടുക്കുക"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ഇതിൽ പകർത്തുക…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ഇതിലേക്ക് നീക്കുക..."</string>
+    <string name="menu_rename" msgid="1883113442688817554">"പേരുമാറ്റുക"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"പുതിയ വിന്‍‍ഡോ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"മുറിക്കുക"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"പകര്‍ത്തുക"</string>
@@ -112,7 +114,6 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ഫയൽ ക്ലിപ്പ്‌ബോർഡിലേക്ക് പകർത്തി.</item>
     </plurals>
     <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"തിരഞ്ഞെടുത്ത ഫയലുകൾ ഈ ലൊക്കേഷനിൽ ഒട്ടിക്കാനാകുന്നില്ല."</string>
-    <string name="menu_rename" msgid="1883113442688817554">"പേരുമാറ്റുക"</string>
     <string name="rename_error" msgid="6700093173508118635">"ഡോക്യുമെന്റിന്റെ പേരുമാറ്റുന്നത് പരാജയപ്പെട്ടു"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ഒഴിവാക്കുക"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ചില ഫയലുകൾ പരിവർത്തനം ചെയ്യപ്പെട്ടു"</string>
