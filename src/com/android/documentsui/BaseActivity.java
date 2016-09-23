@@ -52,6 +52,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.base.DocumentInfo;
@@ -70,11 +71,10 @@ import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.RootsCache;
-import com.android.documentsui.services.FileOperationService;
-import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.ui.DialogController;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,33 +82,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-public abstract class BaseActivity extends Activity implements NavigationViewManager.Environment {
-
-    public final FileOperations.Callback fileOpCallback = (status, opType, docCount) -> {
-        if (status == FileOperations.Callback.STATUS_REJECTED) {
-            Snackbars.showPasteFailed(this);
-            return;
-        }
-
-        if (docCount == 0) {
-            // Nothing has been pasted, so there is no need to show a snackbar.
-            return;
-        }
-
-        switch (opType) {
-            case FileOperationService.OPERATION_MOVE:
-                Snackbars.showMove(this, docCount);
-                break;
-            case FileOperationService.OPERATION_COPY:
-                Snackbars.showCopy(this, docCount);
-                break;
-            case FileOperationService.OPERATION_DELETE:
-                // We don't show anything for deletion.
-                break;
-            default:
-                throw new UnsupportedOperationException("Unsupported Operation: " + opType);
-        }
-    };
+public abstract class BaseActivity
+        extends Activity implements CommonAddons, NavigationViewManager.Environment {
 
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
 
@@ -136,6 +111,12 @@ public abstract class BaseActivity extends Activity implements NavigationViewMan
     private boolean mNavDrawerHasFocus;
     private long mStartTime;
 
+    protected abstract void onTaskFinished(Uri... uris);
+    protected abstract void refreshDirectory(int anim);
+    /** Allows sub-classes to include information in a newly created State instance. */
+    protected abstract void includeState(State initialState);
+    protected abstract void onDirectoryCreated(DocumentInfo doc);
+
     /**
      * Provides Activity a means of injection into and specialization of
      * DirectoryFragment.
@@ -156,21 +137,18 @@ public abstract class BaseActivity extends Activity implements NavigationViewMan
 
     /**
      * Provides Activity a means of injection into and specialization of
+     * DirectoryFragment.
+     */
+    public abstract DialogController getDialogController();
+
+    /**
+     * Provides Activity a means of injection into and specialization of
      * fragment actions.
      *
      * Args can be nullable when called from a context lacking them, such as RootsFragment.
      */
     public abstract ActionHandler getActionHandler(
             @Nullable Model model, @Nullable MultiSelectManager selectionMgr);
-
-    public abstract void onDocumentPicked(DocumentInfo doc, Model model);
-    public abstract void onDocumentsPicked(List<DocumentInfo> docs);
-
-    protected abstract void onTaskFinished(Uri... uris);
-    protected abstract void refreshDirectory(int anim);
-    /** Allows sub-classes to include information in a newly created State instance. */
-    protected abstract void includeState(State initialState);
-    protected abstract void onDirectoryCreated(DocumentInfo doc);
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
@@ -313,6 +291,7 @@ public abstract class BaseActivity extends Activity implements NavigationViewMan
         mNavigator.revealRootsDrawer(open);
     }
 
+    @Override
     public void onRootPicked(RootInfo root) {
         // Clicking on the current root removes search
         mSearchManager.cancelSearch();

@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
  *          - [symlink] 1 > primary # copying to location X
  *          - [symlink] 2 > primary # copying to location Y
  */
-public final class ClipStorage {
+public final class ClipStorage implements ClipStore {
 
     public static final int NO_SELECTION_TAG = -1;
 
@@ -62,7 +62,7 @@ public final class ClipStorage {
 
     private static final long STALENESS_THRESHOLD = TimeUnit.DAYS.toMillis(2);
 
-    private static final String NEXT_POS_TAG = "NextPosTag";
+    private static final String NEXT_AVAIL_SLOT = "NextAvailableSlot";
     private static final String PRIMARY_DATA_FILE_NAME = "primary";
 
     private static final byte[] LINE_SEPARATOR = System.lineSeparator().getBytes();
@@ -71,7 +71,7 @@ public final class ClipStorage {
     private final SharedPreferences mPref;
 
     private final File[] mSlots = new File[NUM_OF_SLOTS];
-    private int mNextPos;
+    private int mNextSlot;
 
     /**
      * @param outDir see {@link #prepareStorage(File)}.
@@ -81,7 +81,7 @@ public final class ClipStorage {
         mOutDir = outDir;
         mPref = pref;
 
-        mNextPos = mPref.getInt(NEXT_POS_TAG, 0);
+        mNextSlot = mPref.getInt(NEXT_AVAIL_SLOT, 0);
     }
 
     /**
@@ -97,32 +97,35 @@ public final class ClipStorage {
      *     <li>Having more than {@link #NUM_OF_SLOTS} queued jumbo file operations, one or more clip
      *     file may be overwritten.</li>
      * </ul>
+     *
+     * Implementations should take caution to serialize access.
      */
+    @VisibleForTesting
     synchronized int claimStorageSlot() {
-        int curPos = mNextPos;
-        for (int i = 0; i < NUM_OF_SLOTS; ++i, curPos = (curPos + 1) % NUM_OF_SLOTS) {
-            createSlotFileObject(curPos);
+        int curSlot = mNextSlot;
+        for (int i = 0; i < NUM_OF_SLOTS; ++i, curSlot = (curSlot + 1) % NUM_OF_SLOTS) {
+            createSlotFileObject(curSlot);
 
-            if (!mSlots[curPos].exists()) {
+            if (!mSlots[curSlot].exists()) {
                 break;
             }
 
             // No file or only primary file exists, we deem it available.
-            if (mSlots[curPos].list().length <= 1) {
+            if (mSlots[curSlot].list().length <= 1) {
                 break;
             }
             // This slot doesn't seem available, but still need to check if it's a legacy of
             // service being killed or a service crash etc. If it's stale, it's available.
-            else if (checkStaleFiles(curPos)) {
+            else if (checkStaleFiles(curSlot)) {
                 break;
             }
         }
 
-        prepareSlot(curPos);
+        prepareSlot(curSlot);
 
-        mNextPos = (curPos + 1) % NUM_OF_SLOTS;
-        mPref.edit().putInt(NEXT_POS_TAG, mNextPos).commit();
-        return curPos;
+        mNextSlot = (curSlot + 1) % NUM_OF_SLOTS;
+        mPref.edit().putInt(NEXT_AVAIL_SLOT, mNextSlot).commit();
+        return curSlot;
     }
 
     private boolean checkStaleFiles(int pos) {
@@ -144,25 +147,19 @@ public final class ClipStorage {
     /**
      * Returns a writer. Callers must close the writer when finished.
      */
-    private Writer createWriter(int tag) throws IOException {
-        File file = toSlotDataFile(tag);
+    private Writer createWriter(int slot) throws IOException {
+        File file = toSlotDataFile(slot);
         return new Writer(file);
     }
 
-    /**
-     * Gets a {@link File} instance given a tag.
-     *
-     * This method creates a symbolic link in the slot folder to the data file as a reference
-     * counting method. When someone is done using this symlink, it's responsible to delete it.
-     * Therefore we can have a neat way to track how many things are still using this slot.
-     */
-    public synchronized File getFile(int tag) throws IOException {
-        createSlotFileObject(tag);
+    @Override
+    public synchronized File getFile(int slot) throws IOException {
+        createSlotFileObject(slot);
 
-        File primary = toSlotDataFile(tag);
+        File primary = toSlotDataFile(slot);
 
-        String linkFileName = Integer.toString(mSlots[tag].list().length);
-        File link = new File(mSlots[tag], linkFileName);
+        String linkFileName = Integer.toString(mSlots[slot].list().length);
+        File link = new File(mSlots[slot], linkFileName);
 
         try {
             Os.symlink(primary.getAbsolutePath(), link.getAbsolutePath());
@@ -172,10 +169,8 @@ public final class ClipStorage {
         return link;
     }
 
-    /**
-     * Returns a Reader. Callers must close the reader when finished.
-     */
-    ClipStorageReader createReader(File file) throws IOException {
+    @Override
+    public ClipStorageReader createReader(File file) throws IOException {
         assert(file.getParentFile().getParentFile().equals(mOutDir));
         return new ClipStorageReader(file);
     }
@@ -206,7 +201,7 @@ public final class ClipStorage {
         return new File(cacheDir, "clippings");
     }
 
-    private static final class Writer implements Closeable {
+    public static final class Writer implements Closeable {
 
         private final FileOutputStream mOut;
         private final FileLock mLock;
@@ -238,24 +233,36 @@ public final class ClipStorage {
         }
     }
 
+    @Override
+    public int persistUris(Iterable<Uri> uris) {
+        int slot = claimStorageSlot();
+        persistUris(uris, slot);
+        return slot;
+    }
+
+    @VisibleForTesting
+    void persistUris(Iterable<Uri> uris, int slot) {
+        new PersistTask(this, uris, slot).execute();
+    }
+
     /**
      * An {@link AsyncTask} that persists doc uris in {@link ClipStorage}.
      */
-    static final class PersistTask extends AsyncTask<Void, Void, Void> {
+    private static final class PersistTask extends AsyncTask<Void, Void, Void> {
 
-        private final ClipStorage mClipStorage;
+        private final ClipStorage mClipStore;
         private final Iterable<Uri> mUris;
-        private final int mTag;
+        private final int mSlot;
 
-        PersistTask(ClipStorage clipStorage, Iterable<Uri> uris, int tag) {
-            mClipStorage = clipStorage;
+        PersistTask(ClipStorage clipStore, Iterable<Uri> uris, int slot) {
+            mClipStore = clipStore;
             mUris = uris;
-            mTag = tag;
+            mSlot = slot;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            try(Writer writer = mClipStorage.createWriter(mTag)){
+            try(Writer writer = mClipStore.createWriter(mSlot)){
                 for (Uri uri: mUris) {
                     assert(uri != null);
                     writer.write(uri);

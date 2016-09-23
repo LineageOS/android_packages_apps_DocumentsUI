@@ -16,6 +16,7 @@
 
 package com.android.documentsui.picker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -31,20 +32,21 @@ import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
+import com.android.documentsui.picker.ActionHandler.Addons;
 
 import javax.annotation.Nullable;
 
 /**
  * Provides {@link PickActivity} action specializations to fragments.
  */
-class ActionHandler extends AbstractActionHandler<PickActivity> {
+class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T> {
 
     private static final String TAG = "PickerActionHandler";
 
     private final FragmentTuner mTuner;
     private final Config mConfig;
 
-    ActionHandler(PickActivity activity, FragmentTuner tuner) {
+    ActionHandler(T activity, FragmentTuner tuner) {
         super(activity);
         mTuner = tuner;
         mConfig = new Config();
@@ -78,7 +80,6 @@ class ActionHandler extends AbstractActionHandler<PickActivity> {
         mActivity.onAppPicked(info);
     }
 
-
     @Override
     public boolean viewDocument(DocumentDetails details) {
         return openDocument(details);
@@ -101,7 +102,7 @@ class ActionHandler extends AbstractActionHandler<PickActivity> {
         return false;
     }
 
-    ActionHandler reset(Model model, MultiSelectManager selectionMgr) {
+    ActionHandler<T> reset(Model model, MultiSelectManager selectionMgr) {
         mConfig.reset(model, selectionMgr);
         return this;
     }
@@ -118,5 +119,9 @@ class ActionHandler extends AbstractActionHandler<PickActivity> {
             this.model = model;
             this.selectionMgr = selectionMgr;
         }
+    }
+
+    public interface Addons extends CommonAddons {
+        void onAppPicked(ResolveInfo info);
     }
 }

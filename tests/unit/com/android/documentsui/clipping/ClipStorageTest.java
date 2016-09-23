@@ -17,7 +17,6 @@
 package com.android.documentsui.clipping;
 
 import static com.android.documentsui.clipping.ClipStorage.NUM_OF_SLOTS;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -58,7 +57,7 @@ public class ClipStorageTest {
     private TestScheduledExecutorService mExecutor;
     private ClipStorage mStorage;
 
-    private int mTag;
+    private int mSlot;
 
     @Before
     public void setUp() {
@@ -69,7 +68,7 @@ public class ClipStorageTest {
         mExecutor = new TestScheduledExecutorService();
         AsyncTask.setDefaultExecutor(mExecutor);
 
-        mTag = mStorage.claimStorageSlot();
+        mSlot = mStorage.claimStorageSlot();
     }
 
     @AfterClass
@@ -79,15 +78,15 @@ public class ClipStorageTest {
 
     @Test
     public void testWrite() throws Exception {
-        writeAll(mTag, TEST_URIS);
+        writeAll(mSlot, TEST_URIS);
     }
 
     @Test
     public void testRead() throws Exception {
-        writeAll(mTag, TEST_URIS);
+        writeAll(mSlot, TEST_URIS);
         List<Uri> uris = new ArrayList<>();
 
-        File copy = mStorage.getFile(mTag);
+        File copy = mStorage.getFile(mSlot);
         try(ClipStorageReader provider = mStorage.createReader(copy)) {
             for (Uri uri : provider) {
                 uris.add(uri);
@@ -98,26 +97,26 @@ public class ClipStorageTest {
 
     @Test
     public void testClaimStorageSlot_NoAvailableSlot() throws Exception {
-        int firstTag = mStorage.claimStorageSlot();
-        writeAll(firstTag, TEST_URIS);
-        mStorage.getFile(firstTag);
+        int firstSlot = mStorage.claimStorageSlot();
+        writeAll(firstSlot, TEST_URIS);
+        mStorage.getFile(firstSlot);
         for (int i = 0; i < NUM_OF_SLOTS - 1; ++i) {
-            int tag = mStorage.claimStorageSlot();
-            writeAll(tag, TEST_URIS);
-            mStorage.getFile(tag);
+            int slot = mStorage.claimStorageSlot();
+            writeAll(slot, TEST_URIS);
+            mStorage.getFile(slot);
         }
 
-        assertEquals(firstTag, mStorage.claimStorageSlot());
+        assertEquals(firstSlot, mStorage.claimStorageSlot());
     }
 
     @Test
     public void testReadConcurrently() throws Exception {
-        writeAll(mTag, TEST_URIS);
+        writeAll(mSlot, TEST_URIS);
         List<Uri> uris = new ArrayList<>();
         List<Uri> uris2 = new ArrayList<>();
 
-        File copy = mStorage.getFile(mTag);
-        File copy2 = mStorage.getFile(mTag);
+        File copy = mStorage.getFile(mSlot);
+        File copy2 = mStorage.getFile(mSlot);
         try(ClipStorageReader reader = mStorage.createReader(copy)) {
             try(ClipStorageReader reader2 = mStorage.createReader(copy2)){
                 Iterator<Uri> iter = reader.iterator();
@@ -144,8 +143,8 @@ public class ClipStorageTest {
         assertFalse(clipDir.equals(folder.getRoot()));
     }
 
-    private void writeAll(int tag, List<Uri> uris) {
-        new ClipStorage.PersistTask(mStorage, uris, tag).execute();
+    private void writeAll(int slot, List<Uri> uris) {
+        mStorage.persistUris(uris, slot);
         mExecutor.runAll();
     }
 

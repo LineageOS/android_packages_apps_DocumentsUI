@@ -47,7 +47,6 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.R;
-import com.android.documentsui.Snackbars;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.PairedTask;
@@ -61,18 +60,20 @@ import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
+import com.android.documentsui.ui.DialogController;
+import com.android.documentsui.ui.Snackbars;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class PickActivity extends BaseActivity {
+public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     private static final int CODE_FORWARD = 42;
     private static final String TAG = "DocumentsActivity";
     private Tuner mTuner;
     private FocusManager mFocusManager;
     private MenuManager mMenuManager;
-    private ActionHandler mActionHandler;
+    private ActionHandler<PickActivity> mActionHandler;
 
     public PickActivity() {
         super(R.layout.documents_activity, TAG);
@@ -85,7 +86,7 @@ public class PickActivity extends BaseActivity {
         mTuner = new Tuner(this, mState);
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
-        mActionHandler = new ActionHandler(this, mTuner);
+        mActionHandler = new ActionHandler<>(this, mTuner);
 
         if (mState.action == ACTION_CREATE) {
             final String mimeType = getIntent().getType();
@@ -168,6 +169,7 @@ public class PickActivity extends BaseActivity {
         }
     }
 
+    @Override
     public void onAppPicked(ResolveInfo info) {
         final Intent intent = new Intent(getIntent());
         intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_FORWARD_RESULT);
@@ -414,7 +416,7 @@ public class PickActivity extends BaseActivity {
     }
 
     @Override
-    public ActionHandler getActionHandler(
+    public ActionHandler<PickActivity> getActionHandler(
             Model model, MultiSelectManager selectionMgr) {
 
         // provide our friend, RootsFragment, early access to this special feature!
@@ -424,6 +426,14 @@ public class PickActivity extends BaseActivity {
             return mActionHandler;
         }
         return mActionHandler.reset(model, selectionMgr);
+    }
+
+    /* (non-Javadoc)
+     * @see com.android.documentsui.BaseActivity#getDialogController()
+     */
+    @Override
+    public DialogController getDialogController() {
+        return DialogController.STUB;
     }
 
     private static final class PickFinishTask extends PairedTask<PickActivity, Void, Void> {

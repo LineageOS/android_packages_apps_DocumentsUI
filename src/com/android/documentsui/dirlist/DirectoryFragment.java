@@ -26,14 +26,12 @@ import android.annotation.IntDef;
 import android.annotation.StringRes;
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ClipData;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -49,7 +47,6 @@ import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.RecyclerListener;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.text.BidiFormatter;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextMenu;
@@ -76,7 +73,6 @@ import com.android.documentsui.MessageBar;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
-import com.android.documentsui.Snackbars;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -88,6 +84,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
+import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
@@ -100,6 +97,8 @@ import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
 import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.ui.DialogController;
+import com.android.documentsui.ui.Snackbars;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -148,10 +147,13 @@ public class DirectoryFragment extends Fragment
     private FocusManager mFocusManager;
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
-    private ActionHandler mActionHandler;
+    private ActionHandler mActions;
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
     private MenuManager mMenuManager;
+
+    // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    private DialogController mDialogs;
 
     private MultiSelectManager mSelectionMgr;
     private ActionModeController mActionModeController;
@@ -304,8 +306,9 @@ public class DirectoryFragment extends Fragment
         final BaseActivity activity = getBaseActivity();
         mTuner = activity.getFragmentTuner(mModel, mConfig.mSearchMode);
         mFocusManager = activity.getFocusManager(mRecView, mModel);
-        mActionHandler = activity.getActionHandler(mModel, mSelectionMgr);
+        mActions = activity.getActionHandler(mModel, mSelectionMgr);
         mMenuManager = activity.getMenuManager();
+        mDialogs = activity.getDialogController();
 
         if (state.allowMultiple) {
             mBandController = new BandController(mRecView, mAdapter, mSelectionMgr);
@@ -328,7 +331,7 @@ public class DirectoryFragment extends Fragment
                 ? gestureSel::start
                 : EventHandler.createStub(false);
         mInputHandler = new UserInputHandler<>(
-                mActionHandler,
+                mActions,
                 mFocusManager,
                 mSelectionMgr,
                 (MotionEvent t) -> MotionInputEvent.obtain(t, mRecView),
@@ -458,8 +461,7 @@ public class DirectoryFragment extends Fragment
 
         operation.setDestination(data.getParcelableExtra(Shared.EXTRA_STACK));
 
-        BaseActivity activity = getBaseActivity();
-        FileOperations.start(activity, operation, activity.fileOpCallback);
+        FileOperations.start(getBaseActivity(), operation, mDialogs::showFileOperationFailures);
     }
 
     protected boolean onRightClick(InputEvent e) {
@@ -580,7 +582,8 @@ public class DirectoryFragment extends Fragment
             case R.id.menu_delete:
                 // deleteDocuments will end action mode if the documents are deleted.
                 // It won't end action mode if user cancels the delete.
-                deleteDocuments(selection);
+                mActions.deleteDocuments(
+                        mModel, selection, mActionModeController::finishOnConfirmed);
                 return true;
 
             case R.id.menu_copy_to:
@@ -679,7 +682,7 @@ public class DirectoryFragment extends Fragment
         DocumentInfo doc =
                 DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
         assert(doc != null);
-        mActionHandler.openInNewWindow(new DocumentStack(getDisplayState().stack, doc));
+        mActions.openInNewWindow(new DocumentStack(getDisplayState().stack, doc));
     }
 
     private void shareDocuments(final Selection selected) {
@@ -730,106 +733,13 @@ public class DirectoryFragment extends Fragment
         startActivity(intent);
     }
 
-    private String generateDeleteMessage(final List<DocumentInfo> docs) {
-        String message;
-        int dirsCount = 0;
-
-        for (DocumentInfo doc : docs) {
-            if (doc.isDirectory()) {
-                ++dirsCount;
-            }
-        }
-
-        if (docs.size() == 1) {
-            // Deleteing 1 file xor 1 folder in cwd
-
-            // Address b/28772371, where including user strings in message can result in
-            // broken bidirectional support.
-            String displayName = BidiFormatter.getInstance().unicodeWrap(docs.get(0).displayName);
-            message = dirsCount == 0
-                    ? getActivity().getString(R.string.delete_filename_confirmation_message,
-                            displayName)
-                    : getActivity().getString(R.string.delete_foldername_confirmation_message,
-                            displayName);
-        } else if (dirsCount == 0) {
-            // Deleting only files in cwd
-            message = Shared.getQuantityString(getActivity(),
-                    R.plurals.delete_files_confirmation_message, docs.size());
-        } else if (dirsCount == docs.size()) {
-            // Deleting only folders in cwd
-            message = Shared.getQuantityString(getActivity(),
-                    R.plurals.delete_folders_confirmation_message, docs.size());
-        } else {
-            // Deleting mixed items (files and folders) in cwd
-            message = Shared.getQuantityString(getActivity(),
-                    R.plurals.delete_items_confirmation_message, docs.size());
-        }
-        return message;
-    }
-
     private boolean onDeleteSelectedDocuments() {
         if (mSelectionMgr.hasSelection()) {
-            deleteDocuments(mSelectionMgr.getSelection(new Selection()));
+            Selection selection = mSelectionMgr.getSelection(new Selection());
+            mActions.deleteDocuments(
+                    mModel, selection, mActionModeController::finishOnConfirmed);
         }
         return false;
-    }
-
-    private void deleteDocuments(final Selection selected) {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_DELETE);
-
-        assert(!selected.isEmpty());
-
-        final DocumentInfo srcParent = getDisplayState().stack.peek();
-
-        // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
-        List<DocumentInfo> docs = mModel.getDocuments(selected);
-
-        TextView message =
-                (TextView) mInflater.inflate(R.layout.dialog_delete_confirmation, null);
-        message.setText(generateDeleteMessage(docs));
-
-        // For now, we implement this dialog NOT
-        // as a fragment (which can survive rotation and have its own state),
-        // but as a simple runtime dialog. So rotating a device with an
-        // active delete dialog...results in that dialog disappearing.
-        // We can do better, but don't have cycles for it now.
-        new AlertDialog.Builder(getActivity())
-            .setView(message)
-            .setPositiveButton(
-                 android.R.string.ok,
-                 new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Finish selection mode first which clears selection so we
-                        // don't end up trying to deselect deleted documents.
-                        // This is done here, rather in the onActionItemClicked
-                        // so we can avoid de-selecting items in the case where
-                        // the user cancels the delete.
-                        mActionModeController.finishActionMode();
-
-                        UrisSupplier srcs;
-                        try {
-                            srcs = UrisSupplier.create(
-                                    selected,
-                                    mModel::getItemUri,
-                                    getContext());
-                        } catch(IOException e) {
-                            throw new RuntimeException("Failed to create uri supplier.", e);
-                        }
-
-                        FileOperation operation = new FileOperation.Builder()
-                                .withOpType(FileOperationService.OPERATION_DELETE)
-                                .withDestination(getDisplayState().stack)
-                                .withSrcs(srcs)
-                                .withSrcParent(srcParent.derivedUri)
-                                .build();
-
-                        BaseActivity activity = getBaseActivity();
-                        FileOperations.start(activity, operation, activity.fileOpCallback);
-                    }
-                })
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
     }
 
     private void transferDocuments(final Selection selected, final @OpType int mode) {
@@ -849,7 +759,8 @@ public class DirectoryFragment extends Fragment
 
         UrisSupplier srcs;
         try {
-            srcs = UrisSupplier.create(selected, mModel::getItemUri, getContext());
+            ClipStore clipStorage = DocumentsApplication.getClipStore(getContext());
+            srcs = UrisSupplier.create(selected, mModel::getItemUri, clipStorage);
         } catch(IOException e) {
             throw new RuntimeException("Failed to create uri supplier.", e);
         }
@@ -1031,7 +942,7 @@ public class DirectoryFragment extends Fragment
         BaseActivity activity = (BaseActivity) getActivity();
         DocumentInfo destination = activity.getCurrentDirectory();
         mClipper.copyFromClipboard(
-                destination, activity.getDisplayState().stack, activity.fileOpCallback);
+                destination, activity.getDisplayState().stack, mDialogs::showFileOperationFailures);
         getActivity().invalidateOptionsMenu();
     }
 
@@ -1047,7 +958,7 @@ public class DirectoryFragment extends Fragment
         BaseActivity activity = getBaseActivity();
         DocumentInfo destination = DocumentInfo.fromDirectoryCursor(dstCursor);
         mClipper.copyFromClipboard(
-                destination, activity.getDisplayState().stack, activity.fileOpCallback);
+                destination, activity.getDisplayState().stack, mDialogs::showFileOperationFailures);
         getActivity().invalidateOptionsMenu();
     }
 
@@ -1152,7 +1063,8 @@ public class DirectoryFragment extends Fragment
                         : Metrics.USER_ACTION_DRAG_N_DROP);
 
         DocumentInfo dst = getDestination(v);
-        mClipper.copyFromClipData(dst, getDisplayState().stack, clipData, activity.fileOpCallback);
+        mClipper.copyFromClipData(
+                dst, getDisplayState().stack, clipData, mDialogs::showFileOperationFailures);
         return true;
     }
 
