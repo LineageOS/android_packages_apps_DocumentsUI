@@ -78,6 +78,12 @@ class ActionHandler extends AbstractActionHandler<PickActivity> {
         mActivity.onAppPicked(info);
     }
 
+
+    @Override
+    public boolean viewDocument(DocumentDetails details) {
+        return openDocument(details);
+    }
+
     @Override
     public boolean openDocument(DocumentDetails details) {
         DocumentInfo doc = mConfig.model.getDocument(details.getModelId());
