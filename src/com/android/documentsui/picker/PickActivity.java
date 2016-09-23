@@ -81,8 +81,8 @@ public class PickActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+
         mTuner = new Tuner(this, mState);
-        // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
         mActionHandler = new ActionHandler(this, mTuner);

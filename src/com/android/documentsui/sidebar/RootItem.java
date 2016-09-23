@@ -31,7 +31,6 @@ import android.widget.TextView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.R;
-import com.android.documentsui.base.CheckedTask.Check;
 import com.android.documentsui.base.RootInfo;
 
 /**
@@ -42,9 +41,9 @@ class RootItem extends Item {
 
     public final RootInfo root;
 
-    private final ActionHandler<?> mActionHandler;
+    private final ActionHandler mActionHandler;
 
-    public RootItem(RootInfo root, ActionHandler<?> actionHandler) {
+    public RootItem(RootInfo root, ActionHandler actionHandler) {
         super(R.layout.item_root, getStringId(root));
         this.root = root;
         mActionHandler = actionHandler;

@@ -16,10 +16,15 @@
 
 package com.android.documentsui.manager;
 
+import android.content.ClipData;
+import android.content.Intent;
+import android.provider.DocumentsContract;
 import android.util.Log;
 
+import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.GetRootDocumentTask;
+import com.android.documentsui.Metrics;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -35,36 +40,40 @@ import javax.annotation.Nullable;
 /**
  * Provides {@link ManageActivity} action specializations to fragments.
  */
-public class ActionHandler extends com.android.documentsui.ActionHandler<ManageActivity> {
+public class ActionHandler extends AbstractActionHandler<ManageActivity> {
 
     private static final String TAG = "ManagerActionHandler";
 
     private final FragmentTuner mTuner;
+    private final DocumentClipper mClipper;
     private final Config mConfig;
 
-    ActionHandler(ManageActivity activity, FragmentTuner tuner) {
+
+    ActionHandler(ManageActivity activity, FragmentTuner tuner, DocumentClipper clipper) {
         super(activity);
         mTuner = tuner;
+        mClipper = clipper;
         mConfig = new Config();
     }
 
     @Override
-    public void openSettings(RootInfo root) {
-        mActivity.openRootSettings(root);
-    }
-
-    @Override
-    public void openInNewWindow(RootInfo root) {
+    public boolean dropOn(ClipData data, RootInfo root) {
         new GetRootDocumentTask(
                 root,
                 mActivity,
                 mActivity::isDestroyed,
-                (DocumentInfo doc) -> openInNewWindow(root, doc)
+                (DocumentInfo doc) -> mClipper.copyFromClipData(
+                        root, doc, data, mActivity.fileOpCallback)
         ).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+        return true;
     }
 
-    private void openInNewWindow(RootInfo root, DocumentInfo doc) {
-        mActivity.openInNewWindow(new DocumentStack(root), doc);
+    @Override
+    public void openSettings(RootInfo root) {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_SETTINGS);
+        final Intent intent = new Intent(DocumentsContract.ACTION_DOCUMENT_ROOT_SETTINGS);
+        intent.setDataAndType(root.getUri(), DocumentsContract.Root.MIME_TYPE_ITEM);
+        mActivity.startActivity(intent);
     }
 
     @Override
@@ -81,6 +90,12 @@ public class ActionHandler extends com.android.documentsui.ActionHandler<ManageA
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(mActivity);
         DocumentStack stack = new DocumentStack(root, doc);
         clipper.copyFromClipboard(doc, stack, mActivity.fileOpCallback);
+    }
+
+    @Override
+    public void openRoot(RootInfo root) {
+        Metrics.logRootVisited(mActivity, root);
+        mActivity.onRootPicked(root);
     }
 
     @Override

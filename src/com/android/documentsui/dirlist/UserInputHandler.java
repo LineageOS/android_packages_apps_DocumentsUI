@@ -44,7 +44,7 @@ public final class UserInputHandler<T extends InputEvent>
 
     private static final String TAG = "UserInputHandler";
 
-    private ActionHandler<?> mActionHandler;
+    private ActionHandler mActionHandler;
     private final FocusHandler mFocusHandler;
     private final MultiSelectManager mSelectionMgr;
     private final Function<MotionEvent, T> mEventConverter;
@@ -61,7 +61,7 @@ public final class UserInputHandler<T extends InputEvent>
     private final KeyInputHandler mKeyListener;
 
     public UserInputHandler(
-            ActionHandler<?> actionHandler,
+            ActionHandler actionHandler,
             FocusHandler focusHandler,
             MultiSelectManager selectionMgr,
             Function<MotionEvent, T> eventConverter,

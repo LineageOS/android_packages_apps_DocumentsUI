@@ -158,10 +158,9 @@ public abstract class BaseActivity extends Activity implements NavigationViewMan
      * Provides Activity a means of injection into and specialization of
      * fragment actions.
      *
-     * Args can be nullable when called from a contact without this information such as
-     * RootsFragment.
+     * Args can be nullable when called from a context lacking them, such as RootsFragment.
      */
-    public abstract ActionHandler<? extends BaseActivity> getActionHandler(
+    public abstract ActionHandler getActionHandler(
             @Nullable Model model, @Nullable MultiSelectManager selectionMgr);
 
     public abstract void onDocumentPicked(DocumentInfo doc, Model model);

@@ -22,8 +22,11 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
@@ -34,7 +37,7 @@ import javax.annotation.Nullable;
 /**
  * Provides {@link PickActivity} action specializations to fragments.
  */
-class ActionHandler extends com.android.documentsui.ActionHandler<PickActivity> {
+class ActionHandler extends AbstractActionHandler<PickActivity> {
 
     private static final String TAG = "PickerActionHandler";
 
@@ -53,6 +56,20 @@ class ActionHandler extends com.android.documentsui.ActionHandler<PickActivity> 
         intent.setData(Uri.fromParts("package", info.activityInfo.packageName, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         mActivity.startActivity(intent);
+    }
+
+    @Override
+    public void openInNewWindow(DocumentStack path) {
+        // Open new window support only depends on vanilla Activity, so it is
+        // implemented in our parent class. But we don't support that in
+        // picking. So as a matter of defensiveness, we override that here.
+        throw new UnsupportedOperationException("Can't open in new window");
+    }
+
+    @Override
+    public void openRoot(RootInfo root) {
+        Metrics.logRootVisited(mActivity, root);
+        mActivity.onRootPicked(root);
     }
 
     @Override

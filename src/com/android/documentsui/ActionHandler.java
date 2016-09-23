@@ -19,102 +19,39 @@ package com.android.documentsui;
 import android.content.ClipData;
 import android.content.pm.ResolveInfo;
 
-import com.android.documentsui.base.CheckedTask.Check;
-import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.BooleanConsumer;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.sidebar.EjectRootTask;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
+public interface ActionHandler {
 
-/**
- * Provides support for specializing the actions (viewDocument etc.) to the host activity.
- */
-public abstract class ActionHandler<T extends BaseActivity> {
-
-    protected T mActivity;
-
-    public ActionHandler(T activity) {
-        mActivity = activity;
-    }
-
-    public void openSettings(RootInfo root) {
-        throw new UnsupportedOperationException("Can't open settings.");
-    }
+    void openSettings(RootInfo root);
 
     /**
      * Drops documents on a root.
      * @param check The check to make sure RootsFragment is not detached from activity.
      */
-    public boolean dropOn(ClipData data, RootInfo root) {
-        new GetRootDocumentTask(
-                root,
-                mActivity,
-                mActivity::isDestroyed,
-                (DocumentInfo doc) -> dropOn(data, root, doc)
-        ).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
-        return true;
-    }
+    boolean dropOn(ClipData data, RootInfo root);
 
-    private void dropOn(ClipData data, RootInfo root, DocumentInfo doc) {
-        DocumentClipper clipper
-                = DocumentsApplication.getDocumentClipper(mActivity);
-        clipper.copyFromClipData(root, doc, data, mActivity.fileOpCallback);
-    }
+    /**
+     * Attempts to eject the identified root. Returns a boolean answer to listener.
+     */
+    void ejectRoot(RootInfo root, BooleanConsumer listener);
 
-    public void ejectRoot(
-            RootInfo root, BooleanSupplier ejectCanceledCheck, Consumer<Boolean> listener) {
-        assert(ejectCanceledCheck != null);
-        ejectRoot(
-                root.authority,
-                root.rootId,
-                ejectCanceledCheck,
-                listener);
-    }
+    void showAppDetails(ResolveInfo info);
 
-    private void ejectRoot(
-            String authority,
-            String rootId,
-            BooleanSupplier ejectCanceledCheck,
-            Consumer<Boolean> listener) {
-        new EjectRootTask(
-                mActivity,
-                authority,
-                rootId,
-                ejectCanceledCheck,
-                listener).executeOnExecutor(ProviderExecutor.forAuthority(authority));
-    }
+    void openRoot(RootInfo root);
 
-    public void showAppDetails(ResolveInfo info) {
-        throw new UnsupportedOperationException("Can't show app details.");
-    }
+    void openRoot(ResolveInfo app);
 
-    public void openRoot(RootInfo root) {
-        Metrics.logRootVisited(mActivity, root);
-        mActivity.onRootPicked(root);
-    }
+    void openInNewWindow(DocumentStack path);
 
-    public void openRoot(ResolveInfo app) {
-        throw new UnsupportedOperationException("Can't open an app.");
-    }
+    void pasteIntoFolder(RootInfo root);
 
-    public void openInNewWindow(RootInfo root) {
-        throw new UnsupportedOperationException("Can't open in new window");
-    }
+    boolean viewDocument(DocumentDetails doc);
 
-    public void pasteIntoFolder(RootInfo root) {
-        throw new UnsupportedOperationException("Can't paste into folder.");
-    }
+    boolean previewDocument(DocumentDetails doc);
 
-    public boolean viewDocument(DocumentDetails doc) {
-        throw new UnsupportedOperationException("Direct view not supported!");
-    }
-
-    public boolean previewDocument(DocumentDetails doc) {
-        throw new UnsupportedOperationException("Preview not supported!");
-    }
-
-    public abstract boolean openDocument(DocumentDetails doc);
+    boolean openDocument(DocumentDetails doc);
 }

@@ -17,7 +17,6 @@
 package com.android.documentsui.manager;
 
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.FragmentTuner;
@@ -30,8 +29,6 @@ import javax.annotation.Nullable;
  * Provides support for Files activity specific specializations of DirectoryFragment.
  */
 public final class Tuner extends FragmentTuner {
-
-    private static final String TAG = "ManageTuner";
 
     private final ManageActivity mActivity;
     private final State mState;
@@ -81,12 +78,6 @@ public final class Tuner extends FragmentTuner {
     @Override
     public void showChooserForDoc(DocumentInfo doc) {
         mActivity.showChooserForDoc(doc);
-    }
-
-    // TODO: Move to action handler.
-    @Override
-    public void openInNewWindow(DocumentStack stack, DocumentInfo doc) {
-        mActivity.openInNewWindow(stack, doc);
     }
 
     Tuner reset(Model model, boolean searchMode) {

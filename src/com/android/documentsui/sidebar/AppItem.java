@@ -24,8 +24,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.documentsui.R;
 import com.android.documentsui.ActionHandler;
+import com.android.documentsui.R;
 
 /**
  * An {@link Item} for apps that supports some picking actions like
@@ -36,9 +36,9 @@ class AppItem extends Item {
 
     public final ResolveInfo info;
 
-    private final ActionHandler<?> mActionHandler;
+    private final ActionHandler mActionHandler;
 
-    public AppItem(ResolveInfo info, ActionHandler<?> actionHandler) {
+    public AppItem(ResolveInfo info, ActionHandler actionHandler) {
         super(R.layout.item_root, getStringId(info));
         this.info = info;
 

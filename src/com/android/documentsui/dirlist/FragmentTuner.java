@@ -17,7 +17,6 @@
 package com.android.documentsui.dirlist;
 
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.DocumentStack;
 
 /**
  * Providers support for specializing the DirectoryFragment to the "host" Activity.
@@ -55,11 +54,5 @@ public abstract class FragmentTuner {
     @Deprecated
     protected void showChooserForDoc(DocumentInfo doc) {
         throw new UnsupportedOperationException("Show chooser not supported!");
-    }
-
-    // TODO: Move to action handler.
-    @Deprecated
-    protected void openInNewWindow(DocumentStack stack, DocumentInfo doc) {
-        throw new UnsupportedOperationException("Open in new window not supported!");
     }
 }

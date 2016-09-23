@@ -98,7 +98,7 @@ public class LauncherActivity extends Activity {
         startActivity(intent);
     }
 
-    static final Intent createLaunchIntent(Activity activity) {
+    public static final Intent createLaunchIntent(Activity activity) {
         Intent intent = new Intent(activity, ManageActivity.class);
         intent.setData(buildLaunchUri());
 
