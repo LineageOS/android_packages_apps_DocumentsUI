@@ -24,6 +24,7 @@ import android.view.View;
 
 import com.android.documentsui.R;
 import com.android.documentsui.SearchViewManager;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 
@@ -145,9 +146,11 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updatePasteInto(MenuItem pasteInto, RootInfo root) {
-        // TODO(b/31658763): Check the root document as well.
-        pasteInto.setEnabled(root.supportsCreate() && mDirDetails.hasItemsToPaste());
+    protected void updatePasteInto(MenuItem pasteInto, RootInfo root, DocumentInfo docInfo) {
+        pasteInto.setEnabled(root.supportsCreate()
+                && docInfo != null
+                && docInfo.isCreateSupported()
+                && mDirDetails.hasItemsToPaste());
     }
 
     @Override
