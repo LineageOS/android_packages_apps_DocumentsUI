@@ -17,14 +17,15 @@
 package com.android.documentsui.manager;
 
 import static junit.framework.Assert.assertEquals;
-
 import static org.junit.Assert.assertTrue;
 
+import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestDirectoryDetails;
@@ -65,6 +66,7 @@ public final class MenuManagerTest {
     private TestDirectoryDetails dirDetails;
     private TestSearchViewManager testSearchManager;
     private RootInfo testRootInfo;
+    private DocumentInfo testDocInfo;
     private State state = new State();
     private MenuManager mgr;
 
@@ -100,6 +102,7 @@ public final class MenuManagerTest {
         mgr = new MenuManager(testSearchManager, state, dirDetails);
 
         testRootInfo = new RootInfo();
+        testDocInfo = new DocumentInfo();
     }
 
     @Test
@@ -364,7 +367,7 @@ public final class MenuManagerTest {
     public void testRootContextMenu() {
         testRootInfo.flags = Root.FLAG_SUPPORTS_CREATE;
 
-        mgr.updateRootContextMenu(testMenu, testRootInfo);
+        mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
         eject.assertInvisible();
 
@@ -381,7 +384,7 @@ public final class MenuManagerTest {
     @Test
     public void testRootContextMenu_hasRootSettings() {
         testRootInfo.flags = Root.FLAG_HAS_SETTINGS;
-        mgr.updateRootContextMenu(testMenu, testRootInfo);
+        mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
         settings.assertEnabled();
     }
@@ -389,7 +392,7 @@ public final class MenuManagerTest {
     @Test
     public void testRootContextMenu_nonWritableRoot() {
         dirDetails.hasItemsToPaste = true;
-        mgr.updateRootContextMenu(testMenu, testRootInfo);
+        mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
         pasteInto.assertVisible();
         pasteInto.assertDisabled();
@@ -398,17 +401,29 @@ public final class MenuManagerTest {
     @Test
     public void testRootContextMenu_nothingToPaste() {
         testRootInfo.flags = Root.FLAG_SUPPORTS_CREATE;
+        testDocInfo.flags = Document.FLAG_DIR_SUPPORTS_CREATE;
         dirDetails.hasItemsToPaste = false;
-        mgr.updateRootContextMenu(testMenu, testRootInfo);
+        mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
         pasteInto.assertVisible();
         pasteInto.assertDisabled();
     }
 
     @Test
+    public void testRootContextMenu_pasteIntoWritableRoot() {
+        testRootInfo.flags = Root.FLAG_SUPPORTS_CREATE;
+        testDocInfo.flags = Document.FLAG_DIR_SUPPORTS_CREATE;
+        dirDetails.hasItemsToPaste = true;
+        mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
+
+        pasteInto.assertVisible();
+        pasteInto.assertEnabled();
+    }
+
+    @Test
     public void testRootContextMenu_eject() {
         testRootInfo.flags = Root.FLAG_SUPPORTS_EJECT;
-        mgr.updateRootContextMenu(testMenu, testRootInfo);
+        mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
         eject.assertEnabled();
     }
@@ -417,7 +432,7 @@ public final class MenuManagerTest {
     public void testRootContextMenu_ejectInProcess() {
         testRootInfo.flags = Root.FLAG_SUPPORTS_EJECT;
         testRootInfo.ejecting = true;
-        mgr.updateRootContextMenu(testMenu, testRootInfo);
+        mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
         eject.assertDisabled();
     }

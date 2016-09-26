@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -181,14 +182,14 @@ public abstract class MenuManager {
     /**
      * @see RootsFragment#onCreateContextMenu
      */
-    public void updateRootContextMenu(Menu menu, RootInfo root) {
+    public void updateRootContextMenu(Menu menu, RootInfo root, DocumentInfo docInfo) {
         MenuItem eject = menu.findItem(R.id.menu_eject_root);
         MenuItem pasteInto = menu.findItem(R.id.menu_paste_into_folder);
         MenuItem openInNewWindow = menu.findItem(R.id.menu_open_in_new_window);
         MenuItem settings = menu.findItem(R.id.menu_settings);
 
         updateEject(eject, root);
-        updatePasteInto(pasteInto, root);
+        updatePasteInto(pasteInto, root, docInfo);
         updateOpenInNewWindow(openInNewWindow, root);
         updateSettings(settings, root);
     }
@@ -262,7 +263,7 @@ public abstract class MenuManager {
         pasteInto.setVisible(false);
     }
 
-    protected void updatePasteInto(MenuItem pasteInto, RootInfo root) {
+    protected void updatePasteInto(MenuItem pasteInto, RootInfo root, DocumentInfo docInfo) {
         pasteInto.setVisible(false);
     }
 

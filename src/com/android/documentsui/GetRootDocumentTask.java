@@ -33,13 +33,14 @@ import java.util.function.Consumer;
  * {@link DocumentInfo} of its root document and call supplied callback to handle the
  * {@link DocumentInfo}.
  */
-public class GetRootDocumentTask extends CheckedTask<Void, DocumentInfo> {
+public class GetRootDocumentTask extends TimeoutTask<Void, DocumentInfo> {
 
     private final static String TAG = "GetRootDocumentTask";
 
     private final RootInfo mRootInfo;
     private final Context mContext;
     private final Consumer<DocumentInfo> mCallback;
+    private boolean mForceCallback;
 
     public GetRootDocumentTask(
             RootInfo rootInfo, Activity activity, Consumer<DocumentInfo> callback) {
@@ -59,6 +60,10 @@ public class GetRootDocumentTask extends CheckedTask<Void, DocumentInfo> {
         mCallback = callback;
     }
 
+    public void setForceCallback(boolean forceCallback) {
+        mForceCallback = forceCallback;
+    }
+
     @Override
     public @Nullable DocumentInfo run(Void... rootInfo) {
         return mRootInfo.getRootDocumentBlocking(mContext);
@@ -66,10 +71,13 @@ public class GetRootDocumentTask extends CheckedTask<Void, DocumentInfo> {
 
     @Override
     public void finish(@Nullable DocumentInfo documentInfo) {
-        if (documentInfo != null) {
+        if (documentInfo == null) {
+            Log.e(TAG,
+                    "Cannot find document info for root: " + mRootInfo + " in the given timeout");
+        }
+
+        if (documentInfo != null || mForceCallback) {
             mCallback.accept(documentInfo);
-        } else {
-            Log.e(TAG, "Cannot find document info for root: " + mRootInfo);
         }
     }
 }

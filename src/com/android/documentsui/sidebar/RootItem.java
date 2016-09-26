@@ -16,6 +16,7 @@
 
 package com.android.documentsui.sidebar;
 
+import android.annotation.Nullable;
 import android.content.ClipData;
 import android.content.Context;
 import android.provider.DocumentsProvider;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.R;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 
 /**
@@ -40,6 +42,7 @@ class RootItem extends Item {
     private static final String STRING_ID_FORMAT = "RootItem{%s/%s}";
 
     public final RootInfo root;
+    public @Nullable DocumentInfo docInfo;
 
     private final ActionHandler mActionHandler;
 
@@ -110,6 +113,6 @@ class RootItem extends Item {
     @Override
     void createContextMenu(Menu menu, MenuInflater inflater, MenuManager menuManager) {
         inflater.inflate(R.menu.root_context_menu, menu);
-        menuManager.updateRootContextMenu(menu, root);
+        menuManager.updateRootContextMenu(menu, root, docInfo);
     }
 }
