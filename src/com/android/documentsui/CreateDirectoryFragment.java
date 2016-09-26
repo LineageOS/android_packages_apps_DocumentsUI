@@ -45,6 +45,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.ui.Snackbars;
 
 /**
  * Dialog to create a new directory.

@@ -32,6 +32,8 @@ import android.view.View;
 
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.R;
+import com.android.documentsui.base.ConfirmationCallback;
+import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.Shared;
@@ -44,7 +46,7 @@ import java.util.function.IntConsumer;
 /**
  * A controller that listens to selection changes and manages life cycles of action modes.
  */
-class ActionModeController implements MultiSelectManager.Callback, ActionMode.Callback {
+public class ActionModeController implements MultiSelectManager.Callback, ActionMode.Callback {
 
     private static final String TAG = "ActionModeController";
 
@@ -233,5 +235,11 @@ class ActionModeController implements MultiSelectManager.Callback, ActionMode.Ca
     @FunctionalInterface
     private interface AccessibilityImportanceSetter {
         void setAccessibilityImportance(int accessibilityImportance, @IdRes int... viewIds);
+    }
+
+    public void finishOnConfirmed(@Result int code) {
+        if (code == ConfirmationCallback.CONFIRM) {
+            finishActionMode();
+        }
     }
 }

@@ -635,8 +635,8 @@ public final class MultiSelectManager {
         private final Set<String> mProvisionalSelection;
 
         public Selection() {
-            mSelection = new HashSet<String>();
-            mProvisionalSelection = new HashSet<String>();
+            mSelection = new HashSet<>();
+            mProvisionalSelection = new HashSet<>();
         }
 
         /**
@@ -644,7 +644,7 @@ public final class MultiSelectManager {
          */
         private Selection(Set<String> selection) {
             mSelection = selection;
-            mProvisionalSelection = new HashSet<String>();
+            mProvisionalSelection = new HashSet<>();
         }
 
         /**
@@ -751,7 +751,7 @@ public final class MultiSelectManager {
 
         /** @hide */
         @VisibleForTesting
-        boolean add(String id) {
+        public boolean add(String id) {
             if (!mSelection.contains(id)) {
                 mSelection.add(id);
                 return true;
@@ -849,7 +849,7 @@ public final class MultiSelectManager {
                 ArrayList<String> selected = new ArrayList<>();
                 in.readStringList(selected);
 
-                return new Selection(new HashSet<String>(selected));
+                return new Selection(new HashSet<>(selected));
             }
 
             @Override

@@ -58,11 +58,11 @@ public abstract class UrisSupplier implements Parcelable {
      * @param context We need context to obtain {@link ClipStorage}. It can't be sent in a parcel.
      */
     public Iterable<Uri> getUris(Context context) throws IOException {
-        return getUris(DocumentsApplication.getClipStorage(context));
+        return getUris(DocumentsApplication.getClipStore(context));
     }
 
     @VisibleForTesting
-    abstract Iterable<Uri> getUris(ClipStorage storage) throws IOException;
+    abstract Iterable<Uri> getUris(ClipStore storage) throws IOException;
 
     public void dispose() {}
 
@@ -71,11 +71,11 @@ public abstract class UrisSupplier implements Parcelable {
         return 0;
     }
 
-    public static UrisSupplier create(ClipData clipData, Context context) throws IOException {
+    public static UrisSupplier create(ClipData clipData, ClipStore storage) throws IOException {
         UrisSupplier uris;
         PersistableBundle bundle = clipData.getDescription().getExtras();
         if (bundle.containsKey(OP_JUMBO_SELECTION_TAG)) {
-            uris = new JumboUrisSupplier(clipData, context);
+            uris = new JumboUrisSupplier(clipData, storage);
         } else {
             uris = new StandardUrisSupplier(clipData);
         }
@@ -84,10 +84,8 @@ public abstract class UrisSupplier implements Parcelable {
     }
 
     public static UrisSupplier create(
-            Selection selection, Function<String, Uri> uriBuilder, Context context)
+            Selection selection, Function<String, Uri> uriBuilder, ClipStore storage)
             throws IOException {
-
-        ClipStorage storage = DocumentsApplication.getClipStorage(context);
 
         List<Uri> uris = new ArrayList<>(selection.size());
         for (String id : selection) {
@@ -98,7 +96,7 @@ public abstract class UrisSupplier implements Parcelable {
     }
 
     @VisibleForTesting
-    static UrisSupplier create(List<Uri> uris, ClipStorage storage) throws IOException {
+    static UrisSupplier create(List<Uri> uris, ClipStore storage) throws IOException {
         UrisSupplier urisSupplier = (uris.size() > Shared.MAX_DOCS_IN_INTENT)
                 ? new JumboUrisSupplier(uris, storage)
                 : new StandardUrisSupplier(uris);
@@ -115,26 +113,25 @@ public abstract class UrisSupplier implements Parcelable {
         private final transient AtomicReference<ClipStorageReader> mReader =
                 new AtomicReference<>();
 
-        private JumboUrisSupplier(ClipData clipData, Context context) throws IOException {
+        private JumboUrisSupplier(ClipData clipData, ClipStore storage) throws IOException {
             PersistableBundle bundle = clipData.getDescription().getExtras();
             final int tag = bundle.getInt(OP_JUMBO_SELECTION_TAG, ClipStorage.NO_SELECTION_TAG);
             assert(tag != ClipStorage.NO_SELECTION_TAG);
-            mFile = DocumentsApplication.getClipStorage(context).getFile(tag);
+            mFile = storage.getFile(tag);
             assert(mFile.exists());
 
             mSelectionSize = bundle.getInt(OP_JUMBO_SELECTION_SIZE);
             assert(mSelectionSize > Shared.MAX_DOCS_IN_INTENT);
         }
 
-        private JumboUrisSupplier(Collection<Uri> uris, ClipStorage storage) throws IOException {
-            final int tag = storage.claimStorageSlot();
-            new ClipStorage.PersistTask(storage, uris, tag).execute();
+        private JumboUrisSupplier(Collection<Uri> uris, ClipStore clipStore) throws IOException {
+            final int tag = clipStore.persistUris(uris);
 
             // There is a tiny race condition here. A job may starts to read before persist task
             // starts to write, but it has to beat an IPC and background task schedule, which is
             // pretty rare. Creating a symlink doesn't need that file to exist, but we can't assert
             // on its existence.
-            mFile = storage.getFile(tag);
+            mFile = clipStore.getFile(tag);
             mSelectionSize = uris.size();
         }
 
@@ -144,7 +141,7 @@ public abstract class UrisSupplier implements Parcelable {
         }
 
         @Override
-        Iterable<Uri> getUris(ClipStorage storage) throws IOException {
+        Iterable<Uri> getUris(ClipStore storage) throws IOException {
             ClipStorageReader reader = mReader.getAndSet(storage.createReader(mFile));
             if (reader != null) {
                 reader.close();
@@ -243,7 +240,7 @@ public abstract class UrisSupplier implements Parcelable {
         }
 
         @Override
-        Iterable<Uri> getUris(ClipStorage storage) {
+        Iterable<Uri> getUris(ClipStore storage) {
             return mDocs;
         }
 

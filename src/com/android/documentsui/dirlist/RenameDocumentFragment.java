@@ -46,9 +46,9 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
-import com.android.documentsui.Snackbars;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.ui.Snackbars;
 
 /**
  * Dialog to rename file or directory.

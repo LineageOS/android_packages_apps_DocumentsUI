@@ -16,6 +16,7 @@
 
 package com.android.documentsui.manager;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.provider.DocumentsContract;
@@ -26,33 +27,61 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.GetRootDocumentTask;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.ProviderExecutor;
+import com.android.documentsui.base.ConfirmationCallback;
+import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
+import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
+import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
+import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.manager.ActionHandler.Addons;
+import com.android.documentsui.services.FileOperation;
+import com.android.documentsui.services.FileOperationService;
+import com.android.documentsui.services.FileOperations;
+import com.android.documentsui.ui.DialogController;
+
+import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
 /**
  * Provides {@link ManageActivity} action specializations to fragments.
  */
-public class ActionHandler extends AbstractActionHandler<ManageActivity> {
+public class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T> {
 
     private static final String TAG = "ManagerActionHandler";
 
+    private final DialogController mDialogs;
+    private final State mState;
     private final FragmentTuner mTuner;
     private final DocumentClipper mClipper;
+    private final ClipStore mClipStore;
+
     private final Config mConfig;
 
-
-    ActionHandler(ManageActivity activity, FragmentTuner tuner, DocumentClipper clipper) {
+    ActionHandler(
+            T activity,
+            DialogController dialogs,
+            State state,
+            FragmentTuner tuner,
+            DocumentClipper clipper,
+            ClipStore clipStore) {
         super(activity);
+
+        mDialogs = dialogs;
+        mState = state;
         mTuner = tuner;
         mClipper = clipper;
+        mClipStore = clipStore;
+
         mConfig = new Config();
     }
 
@@ -63,7 +92,7 @@ public class ActionHandler extends AbstractActionHandler<ManageActivity> {
                 mActivity,
                 mActivity::isDestroyed,
                 (DocumentInfo doc) -> mClipper.copyFromClipData(
-                        root, doc, data, mActivity.fileOpCallback)
+                        root, doc, data, mDialogs::showFileOperationFailures)
         ).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
         return true;
     }
@@ -89,7 +118,7 @@ public class ActionHandler extends AbstractActionHandler<ManageActivity> {
     private void pasteIntoFolder(RootInfo root, DocumentInfo doc) {
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(mActivity);
         DocumentStack stack = new DocumentStack(root, doc);
-        clipper.copyFromClipboard(doc, stack, mActivity.fileOpCallback);
+        clipper.copyFromClipboard(doc, stack, mDialogs::showFileOperationFailures);
     }
 
     @Override
@@ -130,7 +159,49 @@ public class ActionHandler extends AbstractActionHandler<ManageActivity> {
         return mActivity.previewDocument(doc, mConfig.model);
     }
 
-    ActionHandler reset(Model model, MultiSelectManager selectionMgr) {
+    @Override
+    public void deleteDocuments(Model model, Selection selected, ConfirmationCallback callback) {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_DELETE);
+
+        assert(!selected.isEmpty());
+
+        final DocumentInfo srcParent = mState.stack.peek();
+
+        // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
+        List<DocumentInfo> docs = model.getDocuments(selected);
+
+        ConfirmationCallback result = (@Result int code) -> {
+            // share the news with our caller, be it good or bad.
+            callback.accept(code);
+
+            if (code != ConfirmationCallback.CONFIRM) {
+                return;
+            }
+
+            UrisSupplier srcs;
+            try {
+                srcs = UrisSupplier.create(
+                        selected,
+                        model::getItemUri,
+                        mClipStore);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to create uri supplier.", e);
+            }
+
+            FileOperation operation = new FileOperation.Builder()
+                    .withOpType(FileOperationService.OPERATION_DELETE)
+                    .withDestination(mState.stack)
+                    .withSrcs(srcs)
+                    .withSrcParent(srcParent.derivedUri)
+                    .build();
+
+            FileOperations.start(mActivity, operation, mDialogs::showFileOperationFailures);
+        };
+
+        mDialogs.confirmDelete(docs, result);
+    }
+
+    ActionHandler<T> reset(Model model, MultiSelectManager selectionMgr) {
         mConfig.reset(model, selectionMgr);
         return this;
     }
@@ -147,5 +218,10 @@ public class ActionHandler extends AbstractActionHandler<ManageActivity> {
             this.model = model;
             this.selectionMgr = selectionMgr;
         }
+    }
+
+    public interface Addons extends CommonAddons {
+        boolean viewDocument(DocumentInfo doc);
+        boolean previewDocument(DocumentInfo doc, Model model);
     }
 }
