@@ -29,7 +29,9 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.DragEvent;
@@ -49,9 +51,11 @@ import android.widget.ListView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.GetRootDocumentTask;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
 import com.android.documentsui.base.BooleanConsumer;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.RootInfo;
@@ -74,6 +78,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
 
     private static final String TAG = "RootsFragment";
     private static final String EXTRA_INCLUDE_APPS = "includeApps";
+    private static final int CONTEXT_MENU_ITEM_TIMEOUT = 500;
 
     private final OnDragListener mDragListener = new ItemDragListener<RootsFragment>(this) {
         @Override
@@ -143,19 +148,51 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         // All other motion events will then get passed to OnItemClickListener.
         mList.setOnGenericMotionListener(
                 new OnGenericMotionListener() {
-            @Override
-            public boolean onGenericMotion(View v, MotionEvent event) {
-                if (Events.isMouseEvent(event)
-                        && event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
-                    getBaseActivity().getMenuManager().showContextMenu(
-                            RootsFragment.this, v, event.getX(), event.getY());
-                    return true;
-                }
-                return false;
+                    @Override
+                    public boolean onGenericMotion(View v, MotionEvent event) {
+                        if (Events.isMouseEvent(event)
+                                && event.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                            int x = (int) event.getX();
+                            int y = (int) event.getY();
+                            return onRightClick(v, x, y, () -> {
+                                getBaseActivity().getMenuManager()
+                                        .showContextMenu(RootsFragment.this, v, x, y);
+                            });
+                        }
+                        return false;
             }
         });
         mList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return view;
+    }
+
+    private boolean onRightClick(View v, int x, int y, Runnable callback) {
+        int pos = mList.pointToPosition(x, y);
+        final Item item = mAdapter.getItem(pos);
+        if (!(item instanceof RootItem)) {
+            return false;
+        }
+        final RootItem rootItem = (RootItem) item;
+
+        if (!rootItem.root.supportsCreate()) {
+            // If a read-only root, no need to see if top level is writable (it's not)
+            callback.run();
+            return true;
+        }
+        // We need to start a GetRootDocumentTask so we can know whether items can be directly
+        // pasted into root
+        GetRootDocumentTask task = new GetRootDocumentTask(
+                rootItem.root,
+                getBaseActivity(),
+                (DocumentInfo doc) -> {
+                    rootItem.docInfo = doc;
+                    callback.run();
+                });
+        task.setTimeout(CONTEXT_MENU_ITEM_TIMEOUT);
+        task.setForceCallback(true);
+        task.executeOnExecutor(getBaseActivity().getExecutorForCurrentDirectory());
+
+        return true;
     }
 
     @Override
