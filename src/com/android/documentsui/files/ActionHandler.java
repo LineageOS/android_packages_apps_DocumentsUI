@@ -41,6 +41,7 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
+import com.android.documentsui.ProviderAccess;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.ClipStore;
@@ -86,6 +87,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            ProviderAccess providers,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
@@ -95,7 +97,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             DocumentClipper clipper,
             ClipStore clipStore) {
 
-        super(activity, state, roots, docs, selectionMgr, searchMgr, executors);
+        super(activity, state, roots, docs, providers, selectionMgr, searchMgr, executors);
 
         mActionModeAddons = actionModeAddons;
         mDialogs = dialogs;
@@ -297,11 +299,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return;
         }
 
-        if (launchToDocument(intent)) {
-            if (DEBUG) Log.d(TAG, "Launched to root for viewing (likely a ZIP).");
-            return;
-        }
-
         if (launchToRoot(intent)) {
             if (DEBUG) Log.d(TAG, "Launched to root for browsing.");
             return;
@@ -334,19 +331,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
 
         return true;
-    }
-
-    // Zips in downloads are not opened inline, because of Downloads no-folders policy.
-    // So we're registered to handle VIEWs of zips.
-    private boolean launchToDocument(Intent intent) {
-        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            Uri uri = intent.getData();
-            assert(uri != null);
-            loadDocument(uri);
-            return true;
-        }
-
-        return false;
     }
 
     private boolean launchToRoot(Intent intent) {

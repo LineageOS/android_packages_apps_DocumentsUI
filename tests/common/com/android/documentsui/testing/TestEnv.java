@@ -19,7 +19,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract.Document;
 
-import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestModel;
@@ -51,9 +50,10 @@ public class TestEnv {
     public final State state = new State();
     public final TestRootsAccess roots = new TestRootsAccess();
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
+    public final TestProviderAccess providers = new TestProviderAccess();
     public final TestModel model;
     public final SelectionManager selectionMgr;
-    public final SearchViewManager searchViewManager;
+    public final TestSearchViewManager searchViewManager;
 
     private TestEnv(String authority) {
         mExecutor = new TestScheduledExecutorService();

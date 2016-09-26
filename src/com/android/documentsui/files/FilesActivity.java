@@ -112,6 +112,7 @@ public class FilesActivity
                 mState,
                 mRoots,
                 mDocs,
+                DocumentsApplication.getProviderAccess(this),
                 mSelectionMgr,
                 mSearchManager,
                 ProviderExecutor::forAuthority,

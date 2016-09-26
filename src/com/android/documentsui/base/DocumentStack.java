@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.ProtocolException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Representation of a stack of {@link DocumentInfo}, usually the result of a
@@ -46,6 +47,14 @@ public class DocumentStack extends LinkedList<DocumentInfo> implements Durable, 
      * parameters, i.e. the last document will be at the top of the stack.
      */
     public DocumentStack(RootInfo root, DocumentInfo... docs) {
+        for (DocumentInfo doc : docs) {
+            push(doc);
+        }
+
+        this.root = root;
+    }
+
+    public DocumentStack(RootInfo root, List<DocumentInfo> docs) {
         for (DocumentInfo doc : docs) {
             push(doc);
         }

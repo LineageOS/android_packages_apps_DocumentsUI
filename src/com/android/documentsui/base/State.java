@@ -147,6 +147,14 @@ public class State implements android.os.Parcelable {
         mStackTouched = true;
     }
 
+    public void popDocumentsToRoot() {
+        if (DEBUG) Log.d(TAG, "Popping docs to root folder.");
+        while (stack.size() > 1) {
+            stack.pop();
+        }
+        mStackTouched = true;
+    }
+
     public void setStack(DocumentStack stack) {
         if (DEBUG) Log.d(TAG, "Setting the whole darn stack to: " + stack);
         this.stack = stack;

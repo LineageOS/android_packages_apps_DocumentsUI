@@ -96,6 +96,7 @@ public class TestModel extends Model {
         DocumentInfo doc = new DocumentInfo();
         doc.authority = mAuthority;
         doc.documentId = Integer.toString(++mLastId);
+        doc.derivedUri = DocumentsContract.buildDocumentUri(doc.authority, doc.documentId);
         doc.displayName = name;
         doc.mimeType = mimeType;
         doc.flags = flags;

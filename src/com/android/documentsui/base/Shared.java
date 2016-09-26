@@ -47,6 +47,8 @@ public final class Shared {
 
     public static final boolean DEBUG = true;
 
+    public static final boolean ENABLE_OMC_API_FEATURES = true;
+
     /** Intent action name to pick a copy destination. */
     public static final String ACTION_PICK_COPY_DESTINATION =
             "com.android.documentsui.PICK_COPY_DESTINATION";
@@ -59,7 +61,7 @@ public final class Shared {
     public static final String EXTRA_PRODUCTIVITY_MODE = "com.android.documentsui.PRODUCTIVITY";
 
     /**
-     * Extra boolean flag for {@link ACTION_PICK_COPY_DESTINATION}, which
+     * Extra boolean flag for {@link #ACTION_PICK_COPY_DESTINATION}, which
      * specifies if the destination directory needs to create new directory or not.
      */
     public static final String EXTRA_DIRECTORY_COPY = "com.android.documentsui.DIRECTORY_COPY";
