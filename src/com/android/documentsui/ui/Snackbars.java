@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.ui;
 
 import android.annotation.StringRes;
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
 
 public final class Snackbars {

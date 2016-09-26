@@ -20,9 +20,12 @@ import android.content.ClipData;
 import android.content.pm.ResolveInfo;
 
 import com.android.documentsui.base.BooleanConsumer;
+import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 
 public interface ActionHandler {
 
@@ -54,4 +57,6 @@ public interface ActionHandler {
     boolean previewDocument(DocumentDetails doc);
 
     boolean openDocument(DocumentDetails doc);
+
+    void deleteDocuments(Model model, Selection selection, ConfirmationCallback callback);
 }

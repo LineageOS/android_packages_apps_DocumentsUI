@@ -22,28 +22,32 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Parcelable;
 
+import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.BooleanConsumer;
+import com.android.documentsui.base.ConfirmationCallback;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.manager.LauncherActivity;
 import com.android.documentsui.sidebar.EjectRootTask;
+
+import java.util.List;
 
 /**
  * Provides support for specializing the actions (viewDocument etc.) to the host activity.
  */
-public abstract class AbstractActionHandler<T extends Activity> implements ActionHandler {
+public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
+        implements ActionHandler {
 
     protected final T mActivity;
 
     public AbstractActionHandler(T activity) {
+        assert(activity != null);
         mActivity = activity;
-    }
-
-    @Override
-    public void openSettings(RootInfo root) {
-        throw new UnsupportedOperationException("Can't open settings.");
     }
 
     @Override
@@ -53,21 +57,6 @@ public abstract class AbstractActionHandler<T extends Activity> implements Actio
                 root.authority,
                 root.rootId,
                 listener).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
-    }
-
-    @Override
-    public void openRoot(ResolveInfo app) {
-        throw new UnsupportedOperationException("Can't open an app.");
-    }
-
-    @Override
-    public void showAppDetails(ResolveInfo info) {
-        throw new UnsupportedOperationException("Can't show app details.");
-    }
-
-    @Override
-    public boolean dropOn(ClipData data, RootInfo root) {
-        throw new UnsupportedOperationException("Can't open an app.");
     }
 
     @Override
@@ -88,6 +77,26 @@ public abstract class AbstractActionHandler<T extends Activity> implements Actio
     }
 
     @Override
+    public void openSettings(RootInfo root) {
+        throw new UnsupportedOperationException("Can't open settings.");
+    }
+
+    @Override
+    public void openRoot(ResolveInfo app) {
+        throw new UnsupportedOperationException("Can't open an app.");
+    }
+
+    @Override
+    public void showAppDetails(ResolveInfo info) {
+        throw new UnsupportedOperationException("Can't show app details.");
+    }
+
+    @Override
+    public boolean dropOn(ClipData data, RootInfo root) {
+        throw new UnsupportedOperationException("Can't open an app.");
+    }
+
+    @Override
     public void pasteIntoFolder(RootInfo root) {
         throw new UnsupportedOperationException("Can't paste into folder.");
     }
@@ -100,5 +109,21 @@ public abstract class AbstractActionHandler<T extends Activity> implements Actio
     @Override
     public boolean previewDocument(DocumentDetails doc) {
         throw new UnsupportedOperationException("Preview not supported!");
+    }
+
+    @Override
+    public void deleteDocuments(Model model, Selection selection, ConfirmationCallback callback) {
+        throw new UnsupportedOperationException("Delete not supported!");
+    }
+
+    /**
+     * A class primarily for the support of isolating our tests
+     * from our concrete activity implementations.
+     */
+    public interface CommonAddons {
+       void onRootPicked(RootInfo root);
+       void onDocumentPicked(DocumentInfo doc, Model model);
+       // TODO: Move this to PickAddons.
+       void onDocumentsPicked(List<DocumentInfo> docs);
     }
 }

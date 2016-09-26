@@ -42,7 +42,6 @@ import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
-import com.android.documentsui.Snackbars;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.PairedTask;
@@ -58,6 +57,8 @@ import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
+import com.android.documentsui.ui.DialogController;
+import com.android.documentsui.ui.Snackbars;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -68,14 +69,15 @@ import java.util.List;
 /**
  * Standalone file management activity.
  */
-public class ManageActivity extends BaseActivity {
+public class ManageActivity extends BaseActivity implements ActionHandler.Addons {
 
     public static final String TAG = "FilesActivity";
 
     private Tuner mTuner;
     private MenuManager mMenuManager;
     private FocusManager mFocusManager;
-    private ActionHandler mActionHandler;
+    private ActionHandler<ManageActivity> mActionHandler;
+    private DialogController mDialogs;
     private DocumentClipper mClipper;
 
     public ManageActivity() {
@@ -96,11 +98,18 @@ public class ManageActivity extends BaseActivity {
                         return mClipper.hasItemsToPaste();
                     }
                 });
+
         mTuner = new Tuner(this, mState);
         // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
-        mActionHandler = new ActionHandler(this, mTuner, mClipper);
-        mClipper = DocumentsApplication.getDocumentClipper(this);
+        mDialogs = DialogController.create(this);
+        mActionHandler = new ActionHandler<>(
+                this,
+                mDialogs,
+                mState,
+                mTuner,
+                mClipper,
+                DocumentsApplication.getClipStore(this));
 
         RootsFragment.show(getFragmentManager(), null);
 
@@ -326,7 +335,9 @@ public class ManageActivity extends BaseActivity {
         }
     }
 
-    boolean viewDocument(DocumentInfo doc) {
+    // TODO: Move to ActionHandler.
+    @Override
+    public boolean viewDocument(DocumentInfo doc) {
         if (doc.isPartial()) {
             Log.w(TAG, "Can't view partial file.");
             return false;
@@ -358,7 +369,9 @@ public class ManageActivity extends BaseActivity {
         return false;
     }
 
-    boolean previewDocument(DocumentInfo doc, Model model) {
+    // TODO: Move to ActionHandler.
+    @Override
+    public boolean previewDocument(DocumentInfo doc, Model model) {
         if (doc.isPartial()) {
             Log.w(TAG, "Can't view partial file.");
             return false;
@@ -514,7 +527,7 @@ public class ManageActivity extends BaseActivity {
     }
 
     @Override
-    public ActionHandler getActionHandler(
+    public ActionHandler<ManageActivity> getActionHandler(
             Model model, MultiSelectManager selectionMgr) {
 
         // provide our friend, RootsFragment, early access to this special feature!
@@ -524,6 +537,11 @@ public class ManageActivity extends BaseActivity {
             return mActionHandler;
         }
         return mActionHandler.reset(model, selectionMgr);
+    }
+
+    @Override
+    public DialogController getDialogController() {
+        return mDialogs;
     }
 
     /**

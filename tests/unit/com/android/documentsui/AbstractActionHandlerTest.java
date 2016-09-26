@@ -33,6 +33,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * A unit test *for* AbstractActionHandler, not an abstract test baseclass.
+ */
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class AbstractActionHandlerTest {

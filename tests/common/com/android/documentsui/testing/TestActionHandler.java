@@ -20,14 +20,14 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 
-public class TestActionHandler extends AbstractActionHandler {
+public class TestActionHandler extends AbstractActionHandler<TestActivity> {
 
     public final TestEventHandler<DocumentDetails> open = new TestEventHandler<>();
     public final TestEventHandler<DocumentDetails> view = new TestEventHandler<>();
     public final TestEventHandler<DocumentDetails> preview = new TestEventHandler<>();
 
     public TestActionHandler() {
-        super(null);
+        super(TestActivity.create());
     }
 
     @Override

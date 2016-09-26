@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.testing;
+package com.android.documentsui.manager;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 
-import android.app.Activity;
 import android.content.Intent;
 
-import com.android.documentsui.AbstractActionHandler.CommonAddons;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.dirlist.Model;
 
 import org.mockito.Mockito;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
-/**
- * Abstract to avoid having to implement unnecessary Activity stuff.
- * Instances are created using {@link #create()}.
- */
-public abstract class TestActivity extends Activity implements CommonAddons {
+public abstract class TestActivity extends com.android.documentsui.testing.TestActivity
+        implements ActionHandler.Addons {
 
     private @Nullable Intent mLastStarted;
 
@@ -54,8 +55,34 @@ public abstract class TestActivity extends Activity implements CommonAddons {
         assertEquals(expected, mLastStarted);
     }
 
+    public void assertSomethingStarted() {
+        assertNotNull(mLastStarted);
+    }
+
+    public void assertNothingStarted() {
+        assertNull(mLastStarted);
+    }
+
     @Override
     public void onRootPicked(RootInfo root) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void onDocumentPicked(DocumentInfo doc, Model model) {
+    }
+
+    @Override
+    public void onDocumentsPicked(List<DocumentInfo> docs) {
+    }
+
+    @Override
+    public boolean viewDocument(DocumentInfo doc) {
+        return false;
+    }
+
+    @Override
+    public boolean previewDocument(DocumentInfo doc, Model model) {
+        return false;
     }
 }

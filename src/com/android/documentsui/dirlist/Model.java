@@ -440,7 +440,7 @@ public class Model {
         return mIsLoading;
     }
 
-    List<DocumentInfo> getDocuments(Selection selection) {
+    public List<DocumentInfo> getDocuments(Selection selection) {
         final int size = (selection != null) ? selection.size() : 0;
 
         final List<DocumentInfo> docs =  new ArrayList<>(size);

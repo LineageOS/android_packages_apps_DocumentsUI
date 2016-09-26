@@ -28,8 +28,9 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.text.format.DateUtils;
 
-import com.android.documentsui.clipping.ClipStorage;
+import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
+import com.android.documentsui.clipping.ClipStorage;
 import com.android.documentsui.roots.RootsCache;
 
 public class DocumentsApplication extends Application {
@@ -38,7 +39,7 @@ public class DocumentsApplication extends Application {
     private RootsCache mRoots;
 
     private ThumbnailCache mThumbnailCache;
-    private ClipStorage mClipStorage;
+    private ClipStorage mClipStore;
     private DocumentClipper mClipper;
 
     public static RootsCache getRootsCache(Context context) {
@@ -65,8 +66,8 @@ public class DocumentsApplication extends Application {
         return ((DocumentsApplication) context.getApplicationContext()).mClipper;
     }
 
-    public static ClipStorage getClipStorage(Context context) {
-        return ((DocumentsApplication) context.getApplicationContext()).mClipStorage;
+    public static ClipStore getClipStore(Context context) {
+        return ((DocumentsApplication) context.getApplicationContext()).mClipStore;
     }
 
     @Override
@@ -81,10 +82,10 @@ public class DocumentsApplication extends Application {
 
         mThumbnailCache = new ThumbnailCache(memoryClassBytes / 4);
 
-        mClipStorage = new ClipStorage(
+        mClipStore = new ClipStorage(
                 ClipStorage.prepareStorage(getCacheDir()),
                 getSharedPreferences(ClipStorage.PREF_NAME, 0));
-        mClipper = new DocumentClipper(this, mClipStorage);
+        mClipper = new DocumentClipper(this, mClipStore);
 
         final IntentFilter packageFilter = new IntentFilter();
         packageFilter.addAction(Intent.ACTION_PACKAGE_ADDED);

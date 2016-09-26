@@ -58,12 +58,12 @@ public final class DocumentClipper {
     static final String OP_JUMBO_SELECTION_TAG = "jumboSelection-tag";
 
     private final Context mContext;
-    private final ClipStorage mClipStorage;
+    private final ClipStore mClipStore;
     private final ClipboardManager mClipboard;
 
-    public DocumentClipper(Context context, ClipStorage storage) {
+    public DocumentClipper(Context context, ClipStore clipStore) {
         mContext = context;
-        mClipStorage = storage;
+        mClipStore = clipStore;
         mClipboard = context.getSystemService(ClipboardManager.class);
     }
 
@@ -173,17 +173,14 @@ public final class DocumentClipper {
         bundle.putInt(OP_TYPE_KEY, opType);
         bundle.putInt(OP_JUMBO_SELECTION_SIZE, selection.size());
 
-        // Creates a clip tag
-        int tag = mClipStorage.claimStorageSlot();
+        // Persists clip items and gets the slot they were saved under.
+        int tag = mClipStore.persistUris(uris);
         bundle.putInt(OP_JUMBO_SELECTION_TAG, tag);
 
         ClipDescription description = new ClipDescription(
                 "", // Currently "label" is not displayed anywhere in the UI.
                 clipTypes.toArray(new String[0]));
         description.setExtras(bundle);
-
-        // Persists clip items
-        new ClipStorage.PersistTask(mClipStorage, uris, tag).execute();
 
         return new ClipData(description, clipItems);
     }
@@ -287,7 +284,7 @@ public final class DocumentClipper {
                 return;
             }
 
-            UrisSupplier uris = UrisSupplier.create(clipData, mContext);
+            UrisSupplier uris = UrisSupplier.create(clipData, mClipStore);
             if (uris.getItemCount() == 0) {
                 callback.onOperationResult(
                         FileOperations.Callback.STATUS_ACCEPTED, opType, 0);

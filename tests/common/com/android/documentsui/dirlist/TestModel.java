@@ -43,7 +43,7 @@ public class TestModel extends Model {
         mAuthority = authority;
     }
 
-    void update(String... names) {
+    public void update(String... names) {
         Random rand = new Random();
 
         MatrixCursor c = new MatrixCursor(COLUMNS);
