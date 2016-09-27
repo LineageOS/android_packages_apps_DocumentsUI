@@ -126,6 +126,11 @@ public final class HorizontalBreadcrumb extends RecyclerView
     }
 
     @Override
+    public void onDragEntered(View v) {
+        // do nothing
+    }
+
+    @Override
     public void onViewHovered(View v) {
         int pos = getChildAdapterPosition(v);
         if (pos != mAdapter.getItemCount() - 1) {
