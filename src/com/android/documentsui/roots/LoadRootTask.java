@@ -16,24 +16,28 @@
 
 package com.android.documentsui.roots;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
+import android.app.Activity;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
-import com.android.documentsui.BaseActivity;
+import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 
-public final class LoadRootTask extends PairedTask<BaseActivity, Void, RootInfo> {
+public final class LoadRootTask<T extends Activity & CommonAddons>
+        extends PairedTask<T, Void, RootInfo> {
     private static final String TAG = "LoadRootTask";
 
     private final State mState;
-    private final RootsCache mRoots;
+    private final RootsAccess mRoots;
     private final Uri mRootUri;
 
 
-    public LoadRootTask(BaseActivity activity, RootsCache roots, State state, Uri rootUri) {
+    public LoadRootTask(T activity, RootsAccess roots, State state, Uri rootUri) {
         super(activity);
         mState = state;
         mRoots = roots;
@@ -42,6 +46,8 @@ public final class LoadRootTask extends PairedTask<BaseActivity, Void, RootInfo>
 
     @Override
     protected RootInfo run(Void... params) {
+        if (DEBUG) Log.d(TAG, "Loading root: " + mRootUri);
+
         String rootId = DocumentsContract.getRootId(mRootUri);
         return mRoots.getRootOneshot(mRootUri.getAuthority(), rootId);
     }
@@ -51,6 +57,7 @@ public final class LoadRootTask extends PairedTask<BaseActivity, Void, RootInfo>
         mState.restored = true;
 
         if (root != null) {
+            if (DEBUG) Log.d(TAG, "Loaded root: " + root);
             mOwner.onRootPicked(root);
         } else {
             Log.w(TAG, "Failed to find root: " + mRootUri);

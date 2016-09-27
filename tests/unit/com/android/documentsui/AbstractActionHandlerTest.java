@@ -16,9 +16,11 @@
 
 package com.android.documentsui;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.Intent;
 import android.os.Parcelable;
-import android.support.test.filters.SmallTest;
+import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.DocumentStack;
@@ -27,7 +29,7 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.manager.LauncherActivity;
 import com.android.documentsui.testing.Roots;
-import com.android.documentsui.testing.TestActivity;
+import com.android.documentsui.testing.TestEnv;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,16 +39,22 @@ import org.junit.runner.RunWith;
  * A unit test *for* AbstractActionHandler, not an abstract test baseclass.
  */
 @RunWith(AndroidJUnit4.class)
-@SmallTest
+@MediumTest
 public class AbstractActionHandlerTest {
 
     private TestActivity mActivity;
+    private TestEnv mEnv;
     private AbstractActionHandler<TestActivity> mHandler;
 
     @Before
     public void setUp() {
         mActivity = TestActivity.create();
-        mHandler = new AbstractActionHandler<TestActivity>(mActivity) {
+        mEnv = TestEnv.create();
+        mHandler = new AbstractActionHandler<TestActivity>(
+                mActivity,
+                mEnv.state,
+                mEnv.roots,
+                mEnv::lookupExecutor) {
 
             @Override
             public void openRoot(RootInfo root) {
@@ -55,6 +63,11 @@ public class AbstractActionHandlerTest {
 
             @Override
             public boolean openDocument(DocumentDetails doc) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void initLocation(Intent intent) {
                 throw new UnsupportedOperationException();
             }
         };
@@ -67,6 +80,7 @@ public class AbstractActionHandlerTest {
 
         Intent expected = LauncherActivity.createLaunchIntent(mActivity);
         expected.putExtra(Shared.EXTRA_STACK, (Parcelable) path);
-        mActivity.assertStarted(expected);
+        Intent actual = mActivity.startActivity.getLastValue();
+        assertEquals(expected.toString(), actual.toString());
     }
 }

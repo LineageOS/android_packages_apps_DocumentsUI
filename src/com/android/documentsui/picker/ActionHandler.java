@@ -16,6 +16,9 @@
 
 package com.android.documentsui.picker;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -27,12 +30,17 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.picker.ActionHandler.Addons;
+import com.android.documentsui.roots.RootsAccess;
+
+import java.util.concurrent.Executor;
 
 import javax.annotation.Nullable;
 
@@ -46,10 +54,41 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     private final FragmentTuner mTuner;
     private final Config mConfig;
 
-    ActionHandler(T activity, FragmentTuner tuner) {
-        super(activity);
+    ActionHandler(
+            T activity,
+            State state,
+            RootsAccess roots,
+            Lookup<String, Executor> executors,
+            FragmentTuner tuner) {
+
+        super(activity, state, roots, executors);
+
         mTuner = tuner;
         mConfig = new Config();
+    }
+
+    @Override
+    public void initLocation(Intent intent) {
+        if (mState.restored) {
+            if (DEBUG) Log.d(TAG, "Stack already resolved");
+        } else {
+            // We set the activity title in AsyncTask.onPostExecute().
+            // To prevent talkback from reading aloud the default title, we clear it here.
+            mActivity.setTitle("");
+
+            // As a matter of policy we don't load the last used stack for the copy
+            // destination picker (user is already in Files app).
+            // Concensus was that the experice was too confusing.
+            // In all other cases, where the user is visiting us from another app
+            // we restore the stack as last used from that app.
+            if (mState.action == ACTION_PICK_COPY_DESTINATION) {
+                if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
+                loadHomeDir();
+            } else {
+                if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
+                new LoadLastAccessedStackTask<>(mActivity, mState, mRoots).execute();
+            }
+        }
     }
 
     @Override

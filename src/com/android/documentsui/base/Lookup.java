@@ -13,21 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.android.documentsui.base;
 
-package com.android.documentsui.manager;
+import java.util.function.Function;
 
-import org.mockito.Mockito;
+import javax.annotation.Nullable;
 
-public abstract class TestActivity extends AbstractBase {
-
-    public static TestActivity create() {
-        TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
-        activity.init();
-        return activity;
-    }
+/**
+ * A {@link Function}-like interface for looking up information.
+ */
+@FunctionalInterface
+public interface Lookup<T, R> {
+    @Nullable R lookup(T key);
 }
-
-// Trick Mockito into finding our Addons methods correctly. W/o this
-// hack, Mockito thinks Addons methods are not implemented.
-abstract class AbstractBase extends com.android.documentsui.TestActivity
-        implements ActionHandler.Addons {}

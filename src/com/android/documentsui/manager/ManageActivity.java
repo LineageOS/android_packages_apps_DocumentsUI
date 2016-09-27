@@ -38,32 +38,30 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
+import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
-import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView;
+import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
-import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.Snackbars;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -76,7 +74,7 @@ public class ManageActivity extends BaseActivity implements ActionHandler.Addons
     private Tuner mTuner;
     private MenuManager mMenuManager;
     private FocusManager mFocusManager;
-    private ActionHandler<ManageActivity> mActionHandler;
+    private ActionHandler<ManageActivity> mActions;
     private DialogController mDialogs;
     private DocumentClipper mClipper;
 
@@ -103,10 +101,12 @@ public class ManageActivity extends BaseActivity implements ActionHandler.Addons
         // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mDialogs = DialogController.create(this);
-        mActionHandler = new ActionHandler<>(
+        mActions = new ActionHandler<>(
                 this,
-                mDialogs,
                 mState,
+                mRoots,
+                ProviderExecutor::forAuthority,
+                mDialogs,
                 mTuner,
                 mClipper,
                 DocumentsApplication.getClipStore(this));
@@ -114,52 +114,12 @@ public class ManageActivity extends BaseActivity implements ActionHandler.Addons
         RootsFragment.show(getFragmentManager(), null);
 
         final Intent intent = getIntent();
-        final Uri uri = intent.getData();
 
-        if (mState.restored) {
-            if (DEBUG) Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
-        } else if (mState.stack.root != null) {
-            // If a non-empty stack is present in our state, it was read (presumably)
-            // from EXTRA_STACK intent extra. In this case, we'll skip other means of
-            // loading or restoring the stack (like URI).
-            //
-            // When restoring from a stack, if a URI is present, it should only ever be:
-            // -- a launch URI: Launch URIs support sensible activity management,
-            //    but don't specify a real content target)
-            // -- a fake Uri from notifications. These URIs have no authority (TODO: details).
-            //
-            // Any other URI is *sorta* unexpected...except when browsing an archive
-            // in downloads.
-            if (DEBUG) {
-                if (uri != null
-                        && uri.getAuthority() != null
-                        && !uri.equals(mState.stack.peek())
-                        && !LauncherActivity.isLaunchUri(uri)) {
-                    Log.w(TAG, "Launching with non-empty stack. Ignoring unexpected uri: " + uri);
-                } else {
-                    Log.d(TAG, "Launching with non-empty stack.");
-                }
-            }
+        mActions.initLocation(intent);
+        presentFileErrors(icicle, intent);
+    }
 
-            if (!mState.stack.isEmpty()) {
-                refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
-            } else {
-                onRootPicked(mState.stack.root);
-            }
-        } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            assert(uri != null);
-            new OpenUriForViewTask(this).executeOnExecutor(
-                    ProviderExecutor.forAuthority(uri.getAuthority()), uri);
-        } else if (DocumentsContract.isRootUri(this, uri)) {
-            if (DEBUG) Log.d(TAG, "Launching with root URI.");
-            // If we've got a specific root to display, restore that root using a dedicated
-            // authority. That way a misbehaving provider won't result in an ANR.
-            loadRoot(uri);
-        } else {
-            if (DEBUG) Log.d(TAG, "All other means skipped. Launching into default directory.");
-            loadRoot(getDefaultRoot());
-        }
-
+    private void presentFileErrors(Bundle icicle, final Intent intent) {
         final @DialogType int dialogType = intent.getIntExtra(
                 FileOperationService.EXTRA_DIALOG_TYPE, DIALOG_TYPE_UNKNOWN);
         // DialogFragment takes care of restoring the dialog on configuration change.
@@ -249,7 +209,7 @@ public class ManageActivity extends BaseActivity implements ActionHandler.Addons
                 showCreateDirectoryDialog();
                 break;
             case R.id.menu_new_window:
-                mActionHandler.openInNewWindow(mState.stack);
+                mActions.openInNewWindow(mState.stack);
                 break;
             case R.id.menu_paste_from_clipboard:
                 DirectoryFragment dir = getDirectoryFragment();
@@ -258,7 +218,7 @@ public class ManageActivity extends BaseActivity implements ActionHandler.Addons
                 }
                 break;
             case R.id.menu_settings:
-                mActionHandler.openSettings(getCurrentRoot());
+                mActions.openSettings(getCurrentRoot());
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -267,7 +227,7 @@ public class ManageActivity extends BaseActivity implements ActionHandler.Addons
     }
 
     @Override
-    public void refreshDirectory(int anim) {
+    public void refreshDirectory(@AnimationType int anim) {
         final FragmentManager fm = getFragmentManager();
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
@@ -534,57 +494,13 @@ public class ManageActivity extends BaseActivity implements ActionHandler.Addons
         if (model == null || selectionMgr == null) {
             assert(model == null);
             assert(selectionMgr == null);
-            return mActionHandler;
+            return mActions;
         }
-        return mActionHandler.reset(model, selectionMgr);
+        return mActions.reset(model, selectionMgr);
     }
 
     @Override
     public DialogController getDialogController() {
         return mDialogs;
-    }
-
-    /**
-     * Builds a stack for the specific Uris. Multi roots are not supported, as it's impossible
-     * to know which root to select. Also, the stack doesn't contain intermediate directories.
-     * It's primarly used for opening ZIP archives from Downloads app.
-     */
-    private static final class OpenUriForViewTask extends PairedTask<ManageActivity, Uri, Void> {
-
-        private final State mState;
-        public OpenUriForViewTask(ManageActivity activity) {
-            super(activity);
-            mState = activity.mState;
-        }
-
-        @Override
-        public Void run(Uri... params) {
-            final Uri uri = params[0];
-
-            final RootsCache rootsCache = DocumentsApplication.getRootsCache(mOwner);
-            final String authority = uri.getAuthority();
-
-            final Collection<RootInfo> roots =
-                    rootsCache.getRootsForAuthorityBlocking(authority);
-            if (roots.isEmpty()) {
-                Log.e(TAG, "Failed to find root for the requested Uri: " + uri);
-                return null;
-            }
-
-            final RootInfo root = roots.iterator().next();
-            mState.stack.root = root;
-            try {
-                mState.stack.add(DocumentInfo.fromUri(mOwner.getContentResolver(), uri));
-            } catch (FileNotFoundException e) {
-                Log.e(TAG, "Failed to resolve DocumentInfo from Uri: " + uri);
-            }
-            mState.stack.add(root.getRootDocumentBlocking(mOwner));
-            return null;
-        }
-
-        @Override
-        public void finish(Void result) {
-            mOwner.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
-        }
     }
 }

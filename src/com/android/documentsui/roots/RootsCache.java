@@ -16,10 +16,9 @@
 
 package com.android.documentsui.roots;
 
-import android.content.BroadcastReceiver.PendingResult;
-
 import static com.android.documentsui.base.Shared.DEBUG;
 
+import android.content.BroadcastReceiver.PendingResult;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -37,23 +36,18 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Root;
-import android.provider.DocumentsProvider;
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
-import com.android.documentsui.R.drawable;
-import com.android.documentsui.R.string;
-import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.internal.annotations.GuardedBy;
 
-import libcore.io.IoUtils;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
+import libcore.io.IoUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,7 +61,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Cache of known storage backends and their roots.
  */
-public class RootsCache {
+public class RootsCache implements RootsAccess {
     public static final Uri sNotificationUri = Uri.parse(
             "content://com.android.documentsui.roots/");
 
@@ -125,9 +119,6 @@ public class RootsCache {
         }
     }
 
-    /**
-     * Gather roots from all known storage providers.
-     */
     public void updateAsync(boolean forceRefreshAll) {
 
         // NOTE: This method is called when the UI language changes.
@@ -147,16 +138,10 @@ public class RootsCache {
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    /**
-     * Gather roots from storage providers belonging to given package name.
-     */
     public void updatePackageAsync(String packageName) {
         new UpdateTask(false, packageName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    /**
-     * Gather roots from storage providers belonging to given authority.
-     */
     public void updateAuthorityAsync(String authority) {
         final ProviderInfo info = mContext.getPackageManager().resolveContentProvider(authority, 0);
         if (info != null) {
@@ -164,7 +149,7 @@ public class RootsCache {
         }
     }
 
-    public void setBootCompletedResult(PendingResult result) {
+    void setBootCompletedResult(PendingResult result) {
         synchronized (mLock) {
             // Quickly check if we've already finished loading, otherwise hang
             // out until first pass is finished.
@@ -222,6 +207,140 @@ public class RootsCache {
             mRoots.putAll(authority, loadRootsForAuthority(resolver, authority, true));
             mStoppedAuthorities.remove(authority);
         }
+    }
+
+    /**
+     * Bring up requested provider and query for all active roots.
+     */
+    private Collection<RootInfo> loadRootsForAuthority(ContentResolver resolver, String authority,
+            boolean forceRefresh) {
+        if (DEBUG) Log.v(TAG, "Loading roots for " + authority);
+
+        synchronized (mObservedAuthorities) {
+            if (mObservedAuthorities.add(authority)) {
+                // Watch for any future updates
+                final Uri rootsUri = DocumentsContract.buildRootsUri(authority);
+                mContext.getContentResolver().registerContentObserver(rootsUri, true, mObserver);
+            }
+        }
+
+        final Uri rootsUri = DocumentsContract.buildRootsUri(authority);
+        if (!forceRefresh) {
+            // Look for roots data that we might have cached for ourselves in the
+            // long-lived system process.
+            final Bundle systemCache = resolver.getCache(rootsUri);
+            if (systemCache != null) {
+                if (DEBUG) Log.v(TAG, "System cache hit for " + authority);
+                return systemCache.getParcelableArrayList(TAG);
+            }
+        }
+
+        final ArrayList<RootInfo> roots = new ArrayList<>();
+        ContentProviderClient client = null;
+        Cursor cursor = null;
+        try {
+            client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
+            cursor = client.query(rootsUri, null, null, null, null);
+            while (cursor.moveToNext()) {
+                final RootInfo root = RootInfo.fromRootsCursor(authority, cursor);
+                roots.add(root);
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to load some roots from " + authority + ": " + e);
+        } finally {
+            IoUtils.closeQuietly(cursor);
+            ContentProviderClient.releaseQuietly(client);
+        }
+
+        // Cache these freshly parsed roots over in the long-lived system
+        // process, in case our process goes away. The system takes care of
+        // invalidating the cache if the package or Uri changes.
+        final Bundle systemCache = new Bundle();
+        systemCache.putParcelableArrayList(TAG, roots);
+        resolver.putCache(rootsUri, systemCache);
+
+        return roots;
+    }
+
+    /* (non-Javadoc)
+     * @see com.android.documentsui.roots.RootsCache#getRootOneshot(java.lang.String, java.lang.String)
+     */
+    @Override
+    public RootInfo getRootOneshot(String authority, String rootId) {
+        return getRootOneshot(authority, rootId, false);
+    }
+
+    public RootInfo getRootOneshot(String authority, String rootId, boolean forceRefresh) {
+        synchronized (mLock) {
+            RootInfo root = forceRefresh ? null : getRootLocked(authority, rootId);
+            if (root == null) {
+                mRoots.putAll(authority, loadRootsForAuthority(
+                                mContext.getContentResolver(), authority, forceRefresh));
+                root = getRootLocked(authority, rootId);
+            }
+            return root;
+        }
+    }
+
+    public RootInfo getRootBlocking(String authority, String rootId) {
+        waitForFirstLoad();
+        loadStoppedAuthorities();
+        synchronized (mLock) {
+            return getRootLocked(authority, rootId);
+        }
+    }
+
+    private RootInfo getRootLocked(String authority, String rootId) {
+        for (RootInfo root : mRoots.get(authority)) {
+            if (Objects.equals(root.rootId, rootId)) {
+                return root;
+            }
+        }
+        return null;
+    }
+
+    public RootInfo getRecentsRoot() {
+        return mRecentsRoot;
+    }
+
+    public boolean isRecentsRoot(RootInfo root) {
+        return mRecentsRoot.equals(root);
+    }
+
+    public Collection<RootInfo> getRootsBlocking() {
+        waitForFirstLoad();
+        loadStoppedAuthorities();
+        synchronized (mLock) {
+            return mRoots.values();
+        }
+    }
+
+    @Override
+    public Collection<RootInfo> getMatchingRootsBlocking(State state) {
+        waitForFirstLoad();
+        loadStoppedAuthorities();
+        synchronized (mLock) {
+            return RootsAccess.getMatchingRoots(mRoots.values(), state);
+        }
+    }
+
+    @Override
+    public Collection<RootInfo> getRootsForAuthorityBlocking(String authority) {
+        waitForFirstLoad();
+        loadStoppedAuthority(authority);
+        synchronized (mLock) {
+            final Collection<RootInfo> roots = mRoots.get(authority);
+            return roots != null ? roots : Collections.<RootInfo>emptyList();
+        }
+    }
+
+    public RootInfo getDefaultRootBlocking(State state) {
+        for (RootInfo root : RootsAccess.getMatchingRoots(getRootsBlocking(), state)) {
+            if (root.isDownloads()) {
+                return root;
+            }
+        }
+        return mRecentsRoot;
     }
 
     private class UpdateTask extends AsyncTask<Void, Void, Void> {
@@ -291,239 +410,5 @@ public class RootsCache {
             mTaskRoots.putAll(info.authority, loadRootsForAuthority(mContext.getContentResolver(),
                     info.authority, forceRefresh));
         }
-    }
-
-    /**
-     * Bring up requested provider and query for all active roots.
-     */
-    private Collection<RootInfo> loadRootsForAuthority(ContentResolver resolver, String authority,
-            boolean forceRefresh) {
-        if (DEBUG) Log.v(TAG, "Loading roots for " + authority);
-
-        synchronized (mObservedAuthorities) {
-            if (mObservedAuthorities.add(authority)) {
-                // Watch for any future updates
-                final Uri rootsUri = DocumentsContract.buildRootsUri(authority);
-                mContext.getContentResolver().registerContentObserver(rootsUri, true, mObserver);
-            }
-        }
-
-        final Uri rootsUri = DocumentsContract.buildRootsUri(authority);
-        if (!forceRefresh) {
-            // Look for roots data that we might have cached for ourselves in the
-            // long-lived system process.
-            final Bundle systemCache = resolver.getCache(rootsUri);
-            if (systemCache != null) {
-                if (DEBUG) Log.v(TAG, "System cache hit for " + authority);
-                return systemCache.getParcelableArrayList(TAG);
-            }
-        }
-
-        final ArrayList<RootInfo> roots = new ArrayList<>();
-        ContentProviderClient client = null;
-        Cursor cursor = null;
-        try {
-            client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
-            cursor = client.query(rootsUri, null, null, null, null);
-            while (cursor.moveToNext()) {
-                final RootInfo root = RootInfo.fromRootsCursor(authority, cursor);
-                roots.add(root);
-            }
-        } catch (Exception e) {
-            Log.w(TAG, "Failed to load some roots from " + authority + ": " + e);
-        } finally {
-            IoUtils.closeQuietly(cursor);
-            ContentProviderClient.releaseQuietly(client);
-        }
-
-        // Cache these freshly parsed roots over in the long-lived system
-        // process, in case our process goes away. The system takes care of
-        // invalidating the cache if the package or Uri changes.
-        final Bundle systemCache = new Bundle();
-        systemCache.putParcelableArrayList(TAG, roots);
-        resolver.putCache(rootsUri, systemCache);
-
-        return roots;
-    }
-
-    /**
-     * Return the requested {@link RootInfo}, but only loading the roots for the
-     * requested authority. This is useful when we want to load fast without
-     * waiting for all the other roots to come back.
-     */
-    public RootInfo getRootOneshot(String authority, String rootId) {
-        return getRootOneshot(authority, rootId, false);
-    }
-
-    /**
-     * Return the requested {@link RootInfo}, but only loading the roots of the requested authority.
-     * It always fetches from {@link DocumentsProvider} if forceRefresh is true, which is used to
-     * get the most up-to-date free space before starting copy operations.
-     */
-    public RootInfo getRootOneshot(String authority, String rootId, boolean forceRefresh) {
-        synchronized (mLock) {
-            RootInfo root = forceRefresh ? null : getRootLocked(authority, rootId);
-            if (root == null) {
-                mRoots.putAll(authority, loadRootsForAuthority(
-                                mContext.getContentResolver(), authority, forceRefresh));
-                root = getRootLocked(authority, rootId);
-            }
-            return root;
-        }
-    }
-
-    public RootInfo getRootBlocking(String authority, String rootId) {
-        waitForFirstLoad();
-        loadStoppedAuthorities();
-        synchronized (mLock) {
-            return getRootLocked(authority, rootId);
-        }
-    }
-
-    private RootInfo getRootLocked(String authority, String rootId) {
-        for (RootInfo root : mRoots.get(authority)) {
-            if (Objects.equals(root.rootId, rootId)) {
-                return root;
-            }
-        }
-        return null;
-    }
-
-    public boolean isIconUniqueBlocking(RootInfo root) {
-        waitForFirstLoad();
-        loadStoppedAuthorities();
-        synchronized (mLock) {
-            final int rootIcon = root.derivedIcon != 0 ? root.derivedIcon : root.icon;
-            for (RootInfo test : mRoots.get(root.authority)) {
-                if (Objects.equals(test.rootId, root.rootId)) {
-                    continue;
-                }
-                final int testIcon = test.derivedIcon != 0 ? test.derivedIcon : test.icon;
-                if (testIcon == rootIcon) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-
-    public RootInfo getRecentsRoot() {
-        return mRecentsRoot;
-    }
-
-    public boolean isRecentsRoot(RootInfo root) {
-        return mRecentsRoot.equals(root);
-    }
-
-    public Collection<RootInfo> getRootsBlocking() {
-        waitForFirstLoad();
-        loadStoppedAuthorities();
-        synchronized (mLock) {
-            return mRoots.values();
-        }
-    }
-
-    public Collection<RootInfo> getMatchingRootsBlocking(State state) {
-        waitForFirstLoad();
-        loadStoppedAuthorities();
-        synchronized (mLock) {
-            return getMatchingRoots(mRoots.values(), state);
-        }
-    }
-
-    /**
-     * Returns a list of roots for the specified authority. If not found, then
-     * an empty list is returned.
-     */
-    public Collection<RootInfo> getRootsForAuthorityBlocking(String authority) {
-        waitForFirstLoad();
-        loadStoppedAuthority(authority);
-        synchronized (mLock) {
-            final Collection<RootInfo> roots = mRoots.get(authority);
-            return roots != null ? roots : Collections.<RootInfo>emptyList();
-        }
-    }
-
-    /**
-     * Returns the default root for the specified state.
-     */
-    public RootInfo getDefaultRootBlocking(State state) {
-        for (RootInfo root : getMatchingRoots(getRootsBlocking(), state)) {
-            if (root.isDownloads()) {
-                return root;
-            }
-        }
-        return mRecentsRoot;
-    }
-
-    @VisibleForTesting
-    static List<RootInfo> getMatchingRoots(Collection<RootInfo> roots, State state) {
-        final List<RootInfo> matching = new ArrayList<>();
-        for (RootInfo root : roots) {
-
-            if (state.action == State.ACTION_CREATE && !root.supportsCreate()) {
-                if (DEBUG) Log.v(TAG, "Excluding read-only root because: ACTION_CREATE.");
-                continue;
-            }
-
-            if (state.action == State.ACTION_PICK_COPY_DESTINATION
-                    && !root.supportsCreate()) {
-                if (DEBUG) Log.v(
-                        TAG, "Excluding read-only root because: ACTION_PICK_COPY_DESTINATION.");
-                continue;
-            }
-
-            if (state.action == State.ACTION_OPEN_TREE && !root.supportsChildren()) {
-                if (DEBUG) Log.v(
-                        TAG, "Excluding root !supportsChildren because: ACTION_OPEN_TREE.");
-                continue;
-            }
-
-            if (!state.showAdvanced && root.isAdvanced()) {
-                if (DEBUG) Log.v(TAG, "Excluding root because: unwanted advanced device.");
-                continue;
-            }
-
-            if (state.localOnly && !root.isLocalOnly()) {
-                if (DEBUG) Log.v(TAG, "Excluding root because: unwanted non-local device.");
-                continue;
-            }
-
-            if (state.directoryCopy && root.isDownloads()) {
-                if (DEBUG) Log.v(
-                        TAG, "Excluding downloads root because: unsupported directory copy.");
-                continue;
-            }
-
-            if (state.action == State.ACTION_OPEN && root.isEmpty()) {
-                if (DEBUG) Log.v(TAG, "Excluding empty root because: ACTION_OPEN.");
-                continue;
-            }
-
-            if (state.action == State.ACTION_GET_CONTENT && root.isEmpty()) {
-                if (DEBUG) Log.v(TAG, "Excluding empty root because: ACTION_GET_CONTENT.");
-                continue;
-            }
-
-            final boolean overlap =
-                    MimePredicate.mimeMatches(root.derivedMimeTypes, state.acceptMimes) ||
-                    MimePredicate.mimeMatches(state.acceptMimes, root.derivedMimeTypes);
-            if (!overlap) {
-                if (DEBUG) Log.v(
-                        TAG, "Excluding root because: unsupported content types > "
-                        + state.acceptMimes);
-                continue;
-            }
-
-            if (state.excludedAuthorities.contains(root.authority)) {
-                if (DEBUG) Log.v(TAG, "Excluding root because: owned by calling package.");
-                continue;
-            }
-
-            matching.add(root);
-        }
-
-        if (DEBUG) Log.d(TAG, "Matched roots: " + matching);
-        return matching;
     }
 }

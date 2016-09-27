@@ -132,6 +132,7 @@ public class NavigationViewManager {
     interface Environment {
         RootInfo getCurrentRoot();
         String getDrawerTitle();
+        @Deprecated  // Use CommonAddones#refreshCurrentRootAndDirectory
         void refreshCurrentRootAndDirectory(int animation);
         boolean isSearchExpanded();
     }

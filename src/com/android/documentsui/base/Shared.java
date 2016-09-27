@@ -20,7 +20,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
@@ -163,7 +165,7 @@ public final class Shared {
     public static <T> ArrayList<T> asArrayList(List<T> list) {
         return list instanceof ArrayList
             ? (ArrayList<T>) list
-            : new ArrayList<T>(list);
+            : new ArrayList<>(list);
     }
 
     /**
@@ -180,6 +182,40 @@ public final class Shared {
         if (rightEmpty) return 1;
 
         return sCollator.compare(lhs, rhs);
+    }
+
+    /**
+     * Returns the calling package, possibly overridden by EXTRA_PACKAGE_NAME.
+     * @param activity
+     * @return
+     */
+    public static String getCallingPackageName(Activity activity) {
+        String callingPackage = activity.getCallingPackage();
+        // System apps can set the calling package name using an extra.
+        try {
+            ApplicationInfo info =
+                    activity.getPackageManager().getApplicationInfo(callingPackage, 0);
+            if (info.isSystemApp() || info.isUpdatedSystemApp()) {
+                final String extra = activity.getIntent().getStringExtra(
+                        DocumentsContract.EXTRA_PACKAGE_NAME);
+                if (extra != null) {
+                    callingPackage = extra;
+                }
+            }
+        } finally {
+            return callingPackage;
+        }
+    }
+
+    /**
+     * Returns the default directory to be presented after starting the activity.
+     * Method can be overridden if the change of the behavior of the the child activity is needed.
+     */
+    public static Uri getDefaultRootUri(Activity activity) {
+        return shouldShowDocumentsRoot(activity, activity.getIntent())
+                ? DocumentsContract.buildHomeUri()
+                : DocumentsContract.buildRootUri(
+                        "com.android.providers.downloads.documents", "downloads");
     }
 
     public static boolean isHardwareKeyboardAvailable(Context context) {

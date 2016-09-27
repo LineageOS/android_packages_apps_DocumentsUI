@@ -17,7 +17,9 @@
 package com.android.documentsui;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.ConfirmationCallback;
@@ -48,6 +50,8 @@ public interface ActionHandler {
 
     void openRoot(ResolveInfo app);
 
+    void loadRoot(Uri uri);
+
     void openInNewWindow(DocumentStack path);
 
     void pasteIntoFolder(RootInfo root);
@@ -59,4 +63,11 @@ public interface ActionHandler {
     boolean openDocument(DocumentDetails doc);
 
     void deleteDocuments(Model model, Selection selection, ConfirmationCallback callback);
+
+    /**
+     * Called when initial activity setup is complete. Implementations
+     * should override this method to set the initial location of the
+     * app.
+     */
+    void initLocation(Intent intent);
 }
