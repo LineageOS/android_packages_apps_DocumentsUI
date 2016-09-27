@@ -40,7 +40,8 @@ import java.util.Timer;
 public class DragScrollListenerTest {
 
     private static final int VIEW_HEIGHT = 100;
-    private static final int EDGE_HEIGHT = 10;
+    private static final int TOP_Y_POINT = 0;
+    private static final int BOTTOM_Y_POINT = VIEW_HEIGHT;
 
     private View mTestView;
     private TestDragHost mTestDragHost;
@@ -58,7 +59,6 @@ public class DragScrollListenerTest {
         mTestDragHost = new TestDragHost();
         mDragHandler = new TestDragHandler(mTestDragHost, mTestTimer);
         mListener = new DragHoverListener(
-                EDGE_HEIGHT,
                 mDragHandler,
                 () -> VIEW_HEIGHT,
                 view -> (view == mTestView),
@@ -89,19 +89,19 @@ public class DragScrollListenerTest {
         triggerDragEvent(DragEvent.ACTION_DRAG_STARTED);
 
         // Not in hotspot
-        triggerDragLocationEvent(0, 50);
+        triggerDragLocationEvent(0, VIEW_HEIGHT / 2);
         assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_LOCATION);
 
         // Can't scroll up
         mCanScrollUp = false;
         mCanScrollDown = true;
-        triggerDragLocationEvent(0, 5);
+        triggerDragLocationEvent(0, TOP_Y_POINT);
         assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_LOCATION);
 
         // Can't scroll Down
         mCanScrollDown = false;
         mCanScrollUp = true;
-        triggerDragLocationEvent(0, 95);
+        triggerDragLocationEvent(0, BOTTOM_Y_POINT);
         assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_LOCATION);
 
         triggerDragEvent(DragEvent.ACTION_DRAG_ENDED);
@@ -120,14 +120,14 @@ public class DragScrollListenerTest {
         // Can't scroll up
         mCanScrollUp = false;
         mCanScrollDown = true;
-        triggerDragLocationEvent(0, 5);
+        triggerDragLocationEvent(0, TOP_Y_POINT);
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
         assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_ENTERED);
 
         // Can't scroll Down
         mCanScrollDown = false;
         mCanScrollUp = true;
-        triggerDragLocationEvent(0, 95);
+        triggerDragLocationEvent(0, BOTTOM_Y_POINT);
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
         assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_ENTERED);
 
@@ -137,11 +137,11 @@ public class DragScrollListenerTest {
     // Make sure given correct location/enter events, DragScrollListener handle them itself
     @Test
     public void testDragScrollEvent_Handled() {
-        triggerDragLocationEvent(0, 5);
+        triggerDragLocationEvent(0, TOP_Y_POINT);
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
         assertTrue(mDragHandler.mLastDropEvent == null);
 
-        triggerDragLocationEvent(0, 95);
+        triggerDragLocationEvent(0, BOTTOM_Y_POINT);
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
         assertTrue(mDragHandler.mLastDropEvent == null);
     }
@@ -153,12 +153,12 @@ public class DragScrollListenerTest {
     public void testActualDragScrolldEvents() {
         triggerDragEvent(DragEvent.ACTION_DRAG_STARTED);
 
-        triggerDragLocationEvent(0, 5);
+        triggerDragLocationEvent(0, TOP_Y_POINT);
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
         assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_STARTED);
         mActionDelegate.assertScrollNegative();
 
-        triggerDragLocationEvent(0, 95);
+        triggerDragLocationEvent(0, BOTTOM_Y_POINT);
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
 
         triggerDragEvent(DragEvent.ACTION_DRAG_ENDED);
@@ -226,11 +226,11 @@ public class DragScrollListenerTest {
         }
 
         public void assertScrollPositive() {
-            assertTrue(mDy > 0);
+            assertTrue("actual: " + mDy, mDy > 0);
         }
 
         public void assertScrollNegative() {
-            assertTrue(mDy < 0);
+            assertTrue("actual: " + mDy, mDy < 0);
         }
     };
 }

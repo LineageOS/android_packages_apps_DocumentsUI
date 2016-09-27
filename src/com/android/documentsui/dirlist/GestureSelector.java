@@ -37,7 +37,6 @@ final class GestureSelector {
 
     private final MultiSelectManager mSelectionMgr;
     private final Runnable mDragScroller;
-    private final int mAutoScrollEdgeHeight;
     private final IntSupplier mHeight;
     private final ViewFinder mViewFinder;
     private int mLastStartedItemPos = -1;
@@ -45,12 +44,10 @@ final class GestureSelector {
     private Point mLastInterceptedPoint;
 
     GestureSelector(
-            int autoScrollEdgeHeight,
             MultiSelectManager selectionMgr,
             IntSupplier heightSupplier,
             ViewFinder viewFinder,
             ScrollActionDelegate actionDelegate) {
-        mAutoScrollEdgeHeight = autoScrollEdgeHeight;
         mSelectionMgr = selectionMgr;
         mHeight = heightSupplier;
         mViewFinder = viewFinder;
@@ -72,12 +69,10 @@ final class GestureSelector {
             }
         };
 
-        mDragScroller = new ViewAutoScroller(
-                mAutoScrollEdgeHeight, distanceDelegate, actionDelegate);
+        mDragScroller = new ViewAutoScroller(distanceDelegate, actionDelegate);
     }
 
     static GestureSelector create(
-            int autoScrollEdgeHeight,
             MultiSelectManager selectionMgr,
             RecyclerView scrollView) {
         ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
@@ -98,8 +93,10 @@ final class GestureSelector {
         };
         GestureSelector helper =
                 new GestureSelector(
-                        autoScrollEdgeHeight, selectionMgr, scrollView::getHeight,
-                        scrollView::findChildViewUnder, actionDelegate);
+                        selectionMgr,
+                        scrollView::getHeight,
+                        scrollView::findChildViewUnder,
+                        actionDelegate);
 
         return helper;
     }
@@ -205,9 +202,7 @@ final class GestureSelector {
         if (lastGlidedItemPos != RecyclerView.NO_POSITION) {
             doGestureMultiSelect(lastGlidedItemPos);
         }
-        if (insideDragZone(rv)) {
-            mDragScroller.run();
-        }
+        scrollIfNecessary();
     }
 
     // It's possible for events to go over the top/bottom of the RecyclerView.
@@ -243,16 +238,8 @@ final class GestureSelector {
         mSelectionMgr.snapProvisionalRangeSelection(endPos);
     }
 
-    private boolean insideDragZone(View scrollView) {
-        if (mLastInterceptedPoint == null) {
-            return false;
-        }
-
-        boolean shouldScrollUp = mLastInterceptedPoint.y < mAutoScrollEdgeHeight
-                && scrollView.canScrollVertically(-1);
-        boolean shouldScrollDown = mLastInterceptedPoint.y > scrollView.getHeight() -
-                mAutoScrollEdgeHeight && scrollView.canScrollVertically(1);
-        return shouldScrollUp || shouldScrollDown;
+    private void scrollIfNecessary() {
+        mDragScroller.run();
     }
 
     @FunctionalInterface

@@ -215,9 +215,7 @@ public class DirectoryFragment extends Fragment
         mRecView.setItemAnimator(new DirectoryItemAnimator(getActivity()));
         mFileList = view.findViewById(R.id.file_list);
 
-        final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
-        mDragHoverListener = DragHoverListener.create(
-                edgeHeight, new DirectoryDragListener(this), mRecView);
+        mDragHoverListener = DragHoverListener.create(new DirectoryDragListener(this), mRecView);
 
         // Make the recycler and the empty views responsive to drop events.
         mRecView.setOnDragListener(mDragHoverListener);
@@ -300,9 +298,7 @@ public class DirectoryFragment extends Fragment
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        final int edgeHeight = (int) getResources().getDimension(R.dimen.autoscroll_edge_height);
-        GestureSelector gestureSel = GestureSelector.create(
-                edgeHeight, mSelectionMgr, mRecView);
+        GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView);
 
         final BaseActivity activity = getBaseActivity();
         mTuner = activity.getFragmentTuner(mModel, mConfig.mSearchMode);
