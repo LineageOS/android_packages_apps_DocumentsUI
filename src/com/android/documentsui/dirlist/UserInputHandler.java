@@ -432,6 +432,7 @@ public final class UserInputHandler<T extends InputEvent>
                     mSelectionMgr.snapRangeSelection(mFocusHandler.getFocusPosition());
                 } else {
                     mSelectionMgr.endRangeSelection();
+                    mSelectionMgr.clearSelection();
                 }
                 return true;
             }
