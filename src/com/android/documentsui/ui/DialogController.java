@@ -18,6 +18,8 @@ package com.android.documentsui.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
@@ -73,18 +75,27 @@ public interface DialogController {
             // but as a simple runtime dialog. So rotating a device with an
             // active delete dialog...results in that dialog disappearing.
             // We can do better, but don't have cycles for it now.
-            new AlertDialog.Builder(mActivity)
-                .setView(message)
-                .setPositiveButton(
-                     android.R.string.ok,
-                     new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            callback.accept(ConfirmationCallback.CONFIRM);
-                        }
-                    })
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
+            final AlertDialog alertDialog = new AlertDialog.Builder(mActivity)
+                    .setView(message)
+                    .setPositiveButton(
+                            android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    callback.accept(ConfirmationCallback.CONFIRM);
+                                }
+                            })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .create();
+
+            alertDialog.setOnShowListener(
+                    (DialogInterface) -> {
+                        Button positive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        positive.setFocusable(true);
+                        positive.setFocusableInTouchMode(true);
+                        positive.requestFocus();
+                    });
+            alertDialog.show();
         }
 
         @Override
