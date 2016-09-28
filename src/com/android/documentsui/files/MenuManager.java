@@ -17,16 +17,23 @@
 package com.android.documentsui.files;
 
 import android.app.Fragment;
+import android.view.KeyEvent;
+import android.view.KeyboardShortcutGroup;
+import android.view.KeyboardShortcutInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
 import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+
+import java.util.List;
+import java.util.function.IntFunction;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
@@ -43,6 +50,31 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
         // It hides icon if searching in progress
         mSearchManager.updateMenu();
+    }
+
+    /**
+     * @see FilesActivity#onProvideKeyboardShortcuts(List, Menu, int)
+     */
+    public void updateKeyboardShortcutsMenu(
+            List<KeyboardShortcutGroup> data, IntFunction<String> stringSupplier) {
+        KeyboardShortcutGroup group = new KeyboardShortcutGroup(
+                stringSupplier.apply(R.string.app_label));
+        group.addItem(new KeyboardShortcutInfo(
+                stringSupplier.apply(R.string.menu_cut_to_clipboard), KeyEvent.KEYCODE_X,
+                KeyEvent.META_CTRL_ON));
+        group.addItem(new KeyboardShortcutInfo(
+                stringSupplier.apply(R.string.menu_copy_to_clipboard), KeyEvent.KEYCODE_C,
+                KeyEvent.META_CTRL_ON));
+        group.addItem(new KeyboardShortcutInfo(
+                stringSupplier.apply(R.string.menu_paste_from_clipboard), KeyEvent.KEYCODE_V,
+                KeyEvent.META_CTRL_ON));
+        group.addItem(new KeyboardShortcutInfo(
+                stringSupplier.apply(R.string.menu_select_all), KeyEvent.KEYCODE_A,
+                KeyEvent.META_CTRL_ON));
+        group.addItem(new KeyboardShortcutInfo(
+                stringSupplier.apply(R.string.menu_new_window), KeyEvent.KEYCODE_N,
+                KeyEvent.META_CTRL_ON));
+        data.add(group);
     }
 
     @Override

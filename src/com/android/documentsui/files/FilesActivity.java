@@ -31,6 +31,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -222,6 +223,12 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    @Override
+    public void onProvideKeyboardShortcuts(
+            List<KeyboardShortcutGroup> data, Menu menu, int deviceId) {
+        getMenuManager().updateKeyboardShortcutsMenu(data, this::getString);
     }
 
     @Override
