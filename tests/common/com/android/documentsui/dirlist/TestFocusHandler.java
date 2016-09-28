@@ -24,9 +24,11 @@ import android.view.View;
  */
 public final class TestFocusHandler implements FocusHandler {
 
+    public boolean handleKey;
+
     @Override
     public boolean handleKey(DocumentHolder doc, int keyCode, KeyEvent event) {
-        return false;
+        return handleKey;
     }
 
     @Override
