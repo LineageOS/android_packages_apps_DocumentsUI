@@ -22,15 +22,15 @@ import static com.android.documentsui.StubProvider.ROOT_1_ID;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.Suppress;
 
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
-public class SidebarUiTest extends ActivityTest<ManageActivity> {
+public class SidebarUiTest extends ActivityTest<FilesActivity> {
 
     private static final String TAG = "RootUiTest";
 
     public SidebarUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

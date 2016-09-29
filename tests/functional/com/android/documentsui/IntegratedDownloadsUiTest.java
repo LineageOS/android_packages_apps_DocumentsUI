@@ -26,14 +26,14 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.Suppress;
 import android.view.MotionEvent;
 
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 // TODO: As of this writing all tests in this class are disabled. Please fix.
 @LargeTest
-public class IntegratedDownloadsUiTest extends ActivityTest<ManageActivity> {
+public class IntegratedDownloadsUiTest extends ActivityTest<FilesActivity> {
 
     public IntegratedDownloadsUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     // We don't really need to test the entirety of download support

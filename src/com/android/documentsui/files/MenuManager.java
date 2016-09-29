@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.manager;
+package com.android.documentsui.files;
 
 import android.app.Fragment;
 import android.view.Menu;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.manager;
+package com.android.documentsui.files;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
@@ -30,12 +30,12 @@ import javax.annotation.Nullable;
  */
 public final class Tuner extends FragmentTuner {
 
-    private final ManageActivity mActivity;
+    private final FilesActivity mActivity;
     private final State mState;
 
     private Config mConfig = new Config(this::onModelLoaded);
 
-    public Tuner(ManageActivity activity, State state) {
+    public Tuner(FilesActivity activity, State state) {
 
         assert(activity != null);
         assert(state != null);

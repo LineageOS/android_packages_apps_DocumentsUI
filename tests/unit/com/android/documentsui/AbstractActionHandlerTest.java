@@ -27,7 +27,7 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.manager.LauncherActivity;
+import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestEnv;
 

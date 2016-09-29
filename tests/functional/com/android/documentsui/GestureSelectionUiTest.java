@@ -18,13 +18,13 @@ package com.android.documentsui;
 
 import android.test.suitebuilder.annotation.LargeTest;
 
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
-public class GestureSelectionUiTest extends ActivityTest<ManageActivity> {
+public class GestureSelectionUiTest extends ActivityTest<FilesActivity> {
 
     public GestureSelectionUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

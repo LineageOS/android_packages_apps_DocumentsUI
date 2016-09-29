@@ -20,13 +20,13 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
-public class BandSelectionUiTest extends ActivityTest<ManageActivity> {
+public class BandSelectionUiTest extends ActivityTest<FilesActivity> {
 
     public BandSelectionUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

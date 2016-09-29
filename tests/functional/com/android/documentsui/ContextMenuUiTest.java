@@ -22,18 +22,18 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.support.test.filters.LargeTest;
 
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @LargeTest
-public class ContextMenuUiTest extends ActivityTest<ManageActivity> {
+public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
 
     private Map<String, Boolean> menuItems;
 
     public ContextMenuUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

@@ -35,7 +35,7 @@ import android.support.test.uiautomator.UiScrollable;
 import android.util.Log;
 
 import com.android.documentsui.bots.SidebarBot;
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.bots.DirectoryListBot;
 
 @LargeTest
@@ -55,7 +55,7 @@ public class FilesJankPerfTest extends JankTestBase {
         mRootsListBot = new SidebarBot(device, context, BOT_TIMEOUT);
         mDirListBot = new DirectoryListBot(device, automation, context, BOT_TIMEOUT);
 
-        final Intent intent = new Intent(context, ManageActivity.class);
+        final Intent intent = new Intent(context, FilesActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mActivity = getInstrumentation().startActivitySync(intent);
         try {

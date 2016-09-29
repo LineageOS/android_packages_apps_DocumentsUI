@@ -26,13 +26,13 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.view.KeyEvent;
 
 import com.android.documentsui.R;
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
-public class FileManagementUiTest extends ActivityTest<ManageActivity> {
+public class FileManagementUiTest extends ActivityTest<FilesActivity> {
 
     public FileManagementUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

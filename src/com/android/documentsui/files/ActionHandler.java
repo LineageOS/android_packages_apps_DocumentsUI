@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.manager;
+package com.android.documentsui.files;
 
 import static com.android.documentsui.base.Shared.DEBUG;
 
@@ -46,7 +46,7 @@ import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.manager.ActionHandler.Addons;
+import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -60,7 +60,7 @@ import java.util.concurrent.Executor;
 import javax.annotation.Nullable;
 
 /**
- * Provides {@link ManageActivity} action specializations to fragments.
+ * Provides {@link FilesActivity} action specializations to fragments.
  */
 public class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T> {
 

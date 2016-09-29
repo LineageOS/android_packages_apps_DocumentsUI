@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.manager;
+package com.android.documentsui.files;
+
+import com.android.documentsui.files.ActionHandler;
 
 import org.mockito.Mockito;
 

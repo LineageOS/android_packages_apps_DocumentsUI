@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.manager;
+package com.android.documentsui.files;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -55,7 +55,7 @@ final class OpenUriForViewTask<T extends Activity & CommonAddons>
         final Collection<RootInfo> roots =
                 rootsCache.getRootsForAuthorityBlocking(authority);
         if (roots.isEmpty()) {
-            Log.e(ManageActivity.TAG, "Failed to find root for the requested Uri: " + uri);
+            Log.e(FilesActivity.TAG, "Failed to find root for the requested Uri: " + uri);
             return null;
         }
 
@@ -65,7 +65,7 @@ final class OpenUriForViewTask<T extends Activity & CommonAddons>
         try {
             mState.stack.add(DocumentInfo.fromUri(mOwner.getContentResolver(), uri));
         } catch (FileNotFoundException e) {
-            Log.e(ManageActivity.TAG, "Failed to resolve DocumentInfo from Uri: " + uri);
+            Log.e(FilesActivity.TAG, "Failed to resolve DocumentInfo from Uri: " + uri);
         }
 
         return null;
