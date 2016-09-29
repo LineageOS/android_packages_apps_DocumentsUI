@@ -1030,11 +1030,21 @@ public class DirectoryFragment extends Fragment
     /**
      * {@inheritDoc}
      *
+     * In DirectoryFragment, we close the roots drawer right away.
+     */
+    @Override
+    public void onDragEntered(View view) {
+        getBaseActivity().setRootsDrawerOpen(false);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * In DirectoryFragment, we spring loads the hovered folder.
      */
     @Override
     public void onViewHovered(View view) {
-        BaseActivity activity = (BaseActivity) getActivity();
+        BaseActivity activity = getBaseActivity();
         if (getModelId(view) != null) {
            activity.springOpenDirectory(getDestination(view));
         }

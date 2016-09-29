@@ -362,6 +362,15 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     /**
      * {@inheritDoc}
      *
+     * In RootsFragment we don't do anything
+     */
+    @Override
+    public void onDragEntered(View v) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * In RootsFragment we open the hovered root.
      */
     @Override
