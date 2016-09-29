@@ -18,18 +18,20 @@ package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.Shared.DEBUG;
 
+import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DurableUtils;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
-import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.roots.RootsAccess;
 
 import libcore.io.IoUtils;
 
@@ -43,17 +45,19 @@ import java.util.Collection;
  * path for an app like Gmail can be different than the last path
  * for an app like DropBox.
  */
-final class LoadLastAccessedStackTask
-        extends PairedTask<PickActivity, Void, Void> {
+final class LoadLastAccessedStackTask<T extends Activity & CommonAddons>
+        extends PairedTask<T, Void, Void> {
 
     private static final String TAG = "LoadLastAccessedStackTask";
     private volatile boolean mRestoredStack;
     private volatile boolean mExternal;
     private final State mState;
+    private RootsAccess mRoots;
 
-    public LoadLastAccessedStackTask(PickActivity activity, State state) {
+    public LoadLastAccessedStackTask(T activity, State state, RootsAccess roots) {
         super(activity);
         mState = state;
+        mRoots = roots;
     }
 
     @Override
@@ -61,10 +65,9 @@ final class LoadLastAccessedStackTask
         if (DEBUG && !mState.stack.isEmpty()) {
             Log.w(TAG, "Overwriting existing stack.");
         }
-        RootsCache roots = DocumentsApplication.getRootsCache(mOwner);
-
-        String packageName = mOwner.getCallingPackageMaybeExtra();
-        Uri resumeUri = LastAccessedProvider.buildLastAccessed(packageName);
+        String callingPackage = Shared.getCallingPackageName(mOwner);
+        Uri resumeUri = LastAccessedProvider.buildLastAccessed(
+                callingPackage);
         Cursor cursor = mOwner.getContentResolver().query(resumeUri, null, null, null, null);
         try {
             if (cursor.moveToFirst()) {
@@ -82,12 +85,12 @@ final class LoadLastAccessedStackTask
 
         if (mRestoredStack) {
             // Update the restored stack to ensure we have freshest data
-            final Collection<RootInfo> matchingRoots = roots.getMatchingRootsBlocking(mState);
+            final Collection<RootInfo> matchingRoots = mRoots.getMatchingRootsBlocking(mState);
             try {
                 mState.stack.updateRoot(matchingRoots);
                 mState.stack.updateDocuments(mOwner.getContentResolver());
             } catch (FileNotFoundException e) {
-                Log.w(TAG, "Failed to restore stack for package: " + packageName
+                Log.w(TAG, "Failed to restore stack for package: " + callingPackage
                         + " because of error: "+ e);
                 mState.stack.reset();
                 mRestoredStack = false;

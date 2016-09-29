@@ -16,7 +16,10 @@
 
 package com.android.documentsui.testing;
 
+import android.content.Intent;
+
 import com.android.documentsui.AbstractActionHandler;
+import com.android.documentsui.TestActivity;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 
@@ -27,7 +30,11 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     public final TestEventHandler<DocumentDetails> preview = new TestEventHandler<>();
 
     public TestActionHandler() {
-        super(TestActivity.create());
+        this(TestEnv.create());
+    }
+
+    public TestActionHandler(TestEnv env) {
+        super(TestActivity.create(), env.state, env.roots, (String authority) -> null);
     }
 
     @Override
@@ -47,6 +54,11 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
 
     @Override
     public void openRoot(RootInfo root) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void initLocation(Intent intent) {
         throw new UnsupportedOperationException();
     }
 }

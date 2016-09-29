@@ -37,7 +37,7 @@ import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.roots.RootsAccess;
 import com.android.internal.annotations.GuardedBy;
 
 import com.google.common.util.concurrent.AbstractFuture;
@@ -80,7 +80,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private final Semaphore mQueryPermits;
 
-    private final RootsCache mRoots;
+    private final RootsAccess mRoots;
     private final State mState;
 
     @GuardedBy("mTasks")
@@ -92,7 +92,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private DirectoryResult mResult;
 
-    public RecentsLoader(Context context, RootsCache roots, State state) {
+    public RecentsLoader(Context context, RootsAccess roots, State state) {
         super(context);
         mRoots = roots;
         mState = state;

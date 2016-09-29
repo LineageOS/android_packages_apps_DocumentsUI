@@ -16,7 +16,6 @@
 
 package com.android.documentsui.roots;
 
-import static com.android.documentsui.roots.RootsCache.getMatchingRoots;
 import static com.google.common.collect.Lists.newArrayList;
 
 import android.test.AndroidTestCase;
@@ -64,7 +63,7 @@ public class RootsCacheTest extends AndroidTestCase {
         mState.acceptMimes = new String[] { "*/*" };
         assertContainsExactly(
                 newArrayList(mNull, mWild, mImages, mAudio, mDocs, mMalformed1, mMalformed2),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testMatchingRoots_DirectoryCopy() throws Exception {
@@ -78,56 +77,56 @@ public class RootsCacheTest extends AndroidTestCase {
         // basically we're asserting that the results don't contain downloads
         assertContainsExactly(
                 newArrayList(mNull, mWild, mImages, mAudio, mDocs, mMalformed1, mMalformed2),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testMatchingRoots_PngOrWild() throws Exception {
         mState.acceptMimes = new String[] { "image/png", "*/*" };
         assertContainsExactly(
                 newArrayList(mNull, mWild, mImages, mAudio, mDocs, mMalformed1, mMalformed2),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testMatchingRoots_AudioWild() throws Exception {
         mState.acceptMimes = new String[] { "audio/*" };
         assertContainsExactly(
                 newArrayList(mNull, mWild, mAudio),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testMatchingRoots_AudioWildOrImageWild() throws Exception {
         mState.acceptMimes = new String[] { "audio/*", "image/*" };
         assertContainsExactly(
                 newArrayList(mNull, mWild, mAudio, mImages),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testMatchingRoots_AudioSpecific() throws Exception {
         mState.acceptMimes = new String[] { "audio/mpeg" };
         assertContainsExactly(
                 newArrayList(mNull, mWild, mAudio),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testMatchingRoots_Document() throws Exception {
         mState.acceptMimes = new String[] { "application/msword" };
         assertContainsExactly(
                 newArrayList(mNull, mWild, mDocs),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testMatchingRoots_Application() throws Exception {
         mState.acceptMimes = new String[] { "application/*" };
         assertContainsExactly(
                 newArrayList(mNull, mWild, mAudio, mDocs),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testMatchingRoots_FlacOrPng() throws Exception {
         mState.acceptMimes = new String[] { "application/x-flac", "image/png" };
         assertContainsExactly(
                 newArrayList(mNull, mWild, mAudio, mImages),
-                getMatchingRoots(mRoots, mState));
+                RootsAccess.getMatchingRoots(mRoots, mState));
     }
 
     public void testExcludedAuthorities() throws Exception {
@@ -152,7 +151,7 @@ public class RootsCacheTest extends AndroidTestCase {
 
         assertContainsExactly(
             allowedRoots,
-            getMatchingRoots(roots, mState));
+            RootsAccess.getMatchingRoots(roots, mState));
     }
 
     private static void assertContainsExactly(List<?> expected, List<?> actual) {
