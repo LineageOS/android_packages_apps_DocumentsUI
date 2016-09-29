@@ -20,13 +20,13 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
-public class FilesActivityUiTest extends ActivityTest<ManageActivity> {
+public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
 
     public FilesActivityUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

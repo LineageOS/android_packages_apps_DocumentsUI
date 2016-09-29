@@ -23,13 +23,13 @@ import android.support.test.filters.Suppress;
 import android.support.v7.recyclerview.R;
 import android.test.suitebuilder.annotation.LargeTest;
 
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
-public class SearchViewUiTest extends ActivityTest<ManageActivity> {
+public class SearchViewUiTest extends ActivityTest<FilesActivity> {
 
     public SearchViewUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

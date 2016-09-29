@@ -22,13 +22,13 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.test.suitebuilder.annotation.Suppress;
 import android.view.KeyEvent;
 
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
-public class KeyboardNavigationUiTest extends ActivityTest<ManageActivity> {
+public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
 
     public KeyboardNavigationUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

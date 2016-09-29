@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.manager;
+package com.android.documentsui.files;
 
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOWN;
 import static com.android.documentsui.base.Shared.DEBUG;
@@ -38,7 +38,6 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
-import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.ProviderExecutor;
@@ -49,7 +48,6 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.DocumentClipper;
-import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.FragmentTuner;
@@ -67,18 +65,18 @@ import java.util.List;
 /**
  * Standalone file management activity.
  */
-public class ManageActivity extends BaseActivity implements ActionHandler.Addons {
+public class FilesActivity extends BaseActivity implements ActionHandler.Addons {
 
     public static final String TAG = "FilesActivity";
 
     private Tuner mTuner;
     private MenuManager mMenuManager;
     private FocusManager mFocusManager;
-    private ActionHandler<ManageActivity> mActions;
+    private ActionHandler<FilesActivity> mActions;
     private DialogController mDialogs;
     private DocumentClipper mClipper;
 
-    public ManageActivity() {
+    public FilesActivity() {
         super(R.layout.files_activity, TAG);
     }
 
@@ -487,7 +485,7 @@ public class ManageActivity extends BaseActivity implements ActionHandler.Addons
     }
 
     @Override
-    public ActionHandler<ManageActivity> getActionHandler(
+    public ActionHandler<FilesActivity> getActionHandler(
             Model model, MultiSelectManager selectionMgr) {
 
         // provide our friend, RootsFragment, early access to this special feature!

@@ -25,13 +25,13 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
-public class FilesActivityDefaultsUiTest extends ActivityTest<ManageActivity> {
+public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
 
     public FilesActivityDefaultsUiTest() {
-        super(ManageActivity.class);
+        super(FilesActivity.class);
     }
 
     @Override

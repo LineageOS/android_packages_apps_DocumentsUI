@@ -70,7 +70,7 @@ import java.util.List;
 public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     private static final int CODE_FORWARD = 42;
-    private static final String TAG = "DocumentsActivity";
+    private static final String TAG = "PickActivity";
     private Tuner mTuner;
     private FocusManager mFocusManager;
     private MenuManager mMenuManager;

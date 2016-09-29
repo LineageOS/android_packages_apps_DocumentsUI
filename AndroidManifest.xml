@@ -43,7 +43,7 @@
         </activity>
 
         <activity
-            android:name=".manager.LauncherActivity"
+            android:name=".files.LauncherActivity"
             android:label="@string/downloads_label"
             android:icon="@drawable/files_icon"
             android:theme="@android:style/Theme.NoDisplay">
@@ -52,7 +52,7 @@
         <!--  Preserve original launcher activity from Nougat. -->
         <activity-alias
             android:name=".Launcher"
-            android:targetActivity=".manager.LauncherActivity"
+            android:targetActivity=".files.LauncherActivity"
             android:label="@string/downloads_label"
             android:icon="@drawable/files_icon" >
             <intent-filter>
@@ -62,7 +62,7 @@
         </activity-alias>
 
         <activity
-            android:name=".manager.ManageActivity"
+            android:name=".files.FilesActivity"
             android:label="@string/downloads_label"
             android:icon="@drawable/files_icon"
             android:documentLaunchMode="intoExisting"

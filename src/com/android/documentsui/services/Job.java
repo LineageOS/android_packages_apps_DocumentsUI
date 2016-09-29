@@ -41,7 +41,7 @@ import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.android.documentsui.clipping.UrisSupplier;
-import com.android.documentsui.manager.ManageActivity;
+import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.R;
@@ -298,7 +298,7 @@ abstract public class Job implements Runnable {
      * Creates an intent for navigating back to the destination directory.
      */
     Intent buildNavigateIntent(String tag) {
-        Intent intent = new Intent(service, ManageActivity.class);
+        Intent intent = new Intent(service, FilesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(DocumentsContract.ACTION_BROWSE);
         intent.setData(getDataUriForIntent(tag));

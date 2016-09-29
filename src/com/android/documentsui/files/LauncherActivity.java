@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.manager;
+package com.android.documentsui.files;
 
 import static com.android.documentsui.base.Shared.DEBUG;
 
@@ -99,7 +99,7 @@ public class LauncherActivity extends Activity {
     }
 
     public static final Intent createLaunchIntent(Activity activity) {
-        Intent intent = new Intent(activity, ManageActivity.class);
+        Intent intent = new Intent(activity, FilesActivity.class);
         intent.setData(buildLaunchUri());
 
         // Relay any config overrides bits present in the original intent.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.manager;
+package com.android.documentsui.files;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,6 +27,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.files.ActionHandler;
 import com.android.documentsui.testing.TestConfirmationCallback;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.ui.TestDialogController;
