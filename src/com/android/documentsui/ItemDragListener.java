@@ -40,7 +40,7 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
     private static final String TAG = "ItemDragListener";
 
     @VisibleForTesting
-    static final int SPRING_TIMEOUT = 1000;
+    static final int SPRING_TIMEOUT = 1500;
 
     protected final H mDragHost;
     private final Timer mHoverTimer;
@@ -78,6 +78,7 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
     }
 
     private void handleEnteredEvent(View v, DragEvent event) {
+        mDragHost.onDragEntered(v);
         @Nullable TimerTask task = createOpenTask(v, event);
         if (task == null) {
             return;
@@ -162,5 +163,11 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
          * @param v the view being hovered
          */
         void onViewHovered(View v);
+
+        /**
+         * Notifies right away when drag shadow enters the view
+         * @param v the view which drop shadow just entered
+         */
+        void onDragEntered(View v);
     }
 }

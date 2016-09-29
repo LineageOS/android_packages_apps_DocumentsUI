@@ -116,7 +116,8 @@ public class ItemDragListenerTest {
 
         mTestTimer.fastForwardTo(DELAY_AFTER_HOVERING);
 
-        assertSame(mTestView, mTestDragHost.mLastOpenedView);
+        assertSame(mTestView, mTestDragHost.mLastEnteredView);
+        assertSame(mTestView, mTestDragHost.mLastHoveredView);
     }
 
     @Test
@@ -127,7 +128,8 @@ public class ItemDragListenerTest {
 
         mTestTimer.fastForwardTo(DELAY_AFTER_HOVERING);
 
-        assertNull(mTestDragHost.mLastOpenedView);
+        assertSame(mTestView, mTestDragHost.mLastEnteredView);
+        assertNull(mTestDragHost.mLastHoveredView);
     }
 
     @Test
@@ -138,7 +140,8 @@ public class ItemDragListenerTest {
 
         mTestTimer.fastForwardTo(DELAY_AFTER_HOVERING);
 
-        assertNull(mTestDragHost.mLastOpenedView);
+        assertSame(mTestView, mTestDragHost.mLastEnteredView);
+        assertNull(mTestDragHost.mLastHoveredView);
     }
 
     @Test
@@ -195,7 +198,8 @@ public class ItemDragListenerTest {
 
     private static class TestDragHost implements ItemDragListener.DragHost {
         private View mHighlightedView;
-        private View mLastOpenedView;
+        private View mLastHoveredView;
+        private View mLastEnteredView;
 
         @Override
         public void setDropTargetHighlight(View v, boolean highlight) {
@@ -209,7 +213,12 @@ public class ItemDragListenerTest {
 
         @Override
         public void onViewHovered(View v) {
-            mLastOpenedView = v;
+            mLastHoveredView = v;
+        }
+
+        @Override
+        public void onDragEntered(View v) {
+            mLastEnteredView = v;
         }
     }
 }

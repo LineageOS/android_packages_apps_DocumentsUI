@@ -153,18 +153,17 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void setDropTargetHighlight(View v, boolean highlight) {
+        }
+
+        @Override
+        public void onDragEntered(View v) {
             assert (v.getId() == R.id.drawer_edge);
 
-            @ColorRes int id = highlight ? R.color.item_doc_background_selected :
-                android.R.color.transparent;
-            v.setBackgroundColor(id);
+            setOpen(true);
         }
 
         @Override
         public void onViewHovered(View v) {
-            assert (v.getId() == R.id.drawer_edge);
-
-            setOpen(true);
         }
 
         @Override
