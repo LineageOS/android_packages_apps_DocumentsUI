@@ -19,6 +19,7 @@ package com.android.documentsui.bots;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasFocus;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -31,6 +32,7 @@ import static org.hamcrest.Matchers.endsWith;
 
 import android.content.Context;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -188,6 +190,11 @@ public class UiBot extends Bots.BaseBot {
         UiObject title = mDevice.findObject(selector);
         title.waitForExists(mTimeout);
         return title;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void assertDialogOkButtonFocused() {
+        onView(withId(android.R.id.button1)).check(matches(hasFocus()));
     }
 
     public void clickDialogOkButton() {
