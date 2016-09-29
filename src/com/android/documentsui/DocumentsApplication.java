@@ -28,9 +28,9 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.text.format.DateUtils;
 
+import com.android.documentsui.clipping.ClipStorage;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
-import com.android.documentsui.clipping.ClipStorage;
 import com.android.documentsui.roots.RootsCache;
 
 public class DocumentsApplication extends Application {

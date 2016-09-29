@@ -16,16 +16,21 @@
 
 package com.android.documentsui.manager;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import android.net.Uri;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.base.State;
+import com.android.documentsui.R;
+import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.dirlist.TestModel;
 import com.android.documentsui.testing.TestConfirmationCallback;
+import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.ui.TestDialogController;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,39 +39,32 @@ import org.junit.runner.RunWith;
 @MediumTest
 public class ActionHandlerTest {
 
-    private static final String AUTHORITY = "voltron";
-
+    private TestEnv mEnv;
     private TestActivity mActivity;
     private TestDialogController mDialogs;
-    private State mState;
-    private TestModel mModel;
     private TestConfirmationCallback mCallback;
-
     private ActionHandler<TestActivity> mHandler;
-
     private Selection mSelection;
 
     @Before
     public void setUp() {
+        mEnv = TestEnv.create();
         mActivity = TestActivity.create();
-        Assert.assertNotNull(mActivity);
-        mState = new State();
-        mModel = new TestModel(AUTHORITY);
-        mCallback = new TestConfirmationCallback();
         mDialogs = new TestDialogController();
+        mCallback = new TestConfirmationCallback();
 
         mHandler = new ActionHandler<>(
                 mActivity,
+                mEnv.state,
+                mEnv.roots,
+                mEnv::lookupExecutor,
                 mDialogs,
-                mState,
                 null,  // tuner, not currently used.
                 null,  // clipper, only used in drag/drop
                 null  // clip storage, not utilized unless we venture into *jumbo* clip terratory.
                 );
 
-        mModel.update("a", "b");
         mDialogs.confirmNext();
-        mState.stack.push(mModel.getDocument("1"));
 
         mSelection = new Selection();
         mSelection.add("1");
@@ -74,18 +72,35 @@ public class ActionHandlerTest {
 
     @Test
     public void testDeleteDocuments() {
-        mHandler.deleteDocuments(mModel, mSelection, mCallback);
+        mHandler.deleteDocuments(mEnv.model, mSelection, mCallback);
         mDialogs.assertNoFileFailures();
-        mActivity.assertSomethingStarted();
+        mActivity.startService.assertCalled();
         mCallback.assertConfirmed();
     }
 
     @Test
     public void testDeleteDocuments_Cancelable() {
         mDialogs.rejectNext();
-        mHandler.deleteDocuments(mModel, mSelection, mCallback);
+        mHandler.deleteDocuments(mEnv.model, mSelection, mCallback);
         mDialogs.assertNoFileFailures();
-        mActivity.assertNothingStarted();
+        mActivity.startService.assertNotCalled();
         mCallback.assertRejected();
+    }
+
+    @Test
+    public void testInitLocation_DefaultsToHome() throws Exception {
+        mActivity.resources.bools.put(R.bool.productivity_device, true);
+
+        mHandler.initLocation(mActivity.getIntent());
+        assertRootPicked(Shared.getDefaultRootUri(mActivity));
+    }
+
+    private void assertRootPicked(Uri expectedUri) throws Exception {
+        mEnv.beforeAsserts();
+
+        mActivity.rootPicked.assertCalled();
+        RootInfo root = mActivity.rootPicked.getLastValue();
+        assertNotNull(root);
+        assertEquals(expectedUri, root.getUri());
     }
 }

@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Parcelable;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
@@ -27,15 +28,21 @@ import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.manager.LauncherActivity;
+import com.android.documentsui.roots.LoadRootTask;
+import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.sidebar.EjectRootTask;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 /**
  * Provides support for specializing the actions (viewDocument etc.) to the host activity.
@@ -44,10 +51,24 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         implements ActionHandler {
 
     protected final T mActivity;
+    protected final State mState;
+    protected final RootsAccess mRoots;
+    protected final Lookup<String, Executor> mExecutors;
 
-    public AbstractActionHandler(T activity) {
+    public AbstractActionHandler(
+            T activity,
+            State state,
+            RootsAccess roots,
+            Lookup<String, Executor> executors) {
+
         assert(activity != null);
+        assert(state != null);
+        assert(roots != null);
+
         mActivity = activity;
+        mState = state;
+        mRoots = roots;
+        mExecutors = executors;
     }
 
     @Override
@@ -116,14 +137,25 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         throw new UnsupportedOperationException("Delete not supported!");
     }
 
+    @Override
+    public final void loadRoot(Uri uri) {
+        new LoadRootTask<>(mActivity, mRoots, mState, uri).executeOnExecutor(
+                mExecutors.lookup(uri.getAuthority()));
+    }
+
+    protected final void loadHomeDir() {
+        loadRoot(Shared.getDefaultRootUri(mActivity));
+    }
+
     /**
      * A class primarily for the support of isolating our tests
      * from our concrete activity implementations.
      */
     public interface CommonAddons {
        void onRootPicked(RootInfo root);
-       void onDocumentPicked(DocumentInfo doc, Model model);
        // TODO: Move this to PickAddons.
        void onDocumentsPicked(List<DocumentInfo> docs);
+       void onDocumentPicked(DocumentInfo doc, Model model);
+       void refreshCurrentRootAndDirectory(@AnimationType int anim);
     }
 }

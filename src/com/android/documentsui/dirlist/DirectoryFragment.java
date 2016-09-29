@@ -87,9 +87,10 @@ import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
+import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.picker.PickActivity;
-import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -1229,7 +1230,7 @@ public class DirectoryFragment extends Fragment
             RootInfo root,
             @Nullable DocumentInfo doc,
             String query,
-            int anim) {
+            @AnimationType int anim) {
 
         if (DEBUG) {
             if (doc == null) {
@@ -1306,7 +1307,7 @@ public class DirectoryFragment extends Fragment
                         mConfig.mSearchMode);
             case TYPE_RECENT_OPEN:
                 if (DEBUG) Log.d(TAG, "Creating new loader recents.");
-                final RootsCache roots = DocumentsApplication.getRootsCache(context);
+                final RootsAccess roots = DocumentsApplication.getRootsCache(context);
                 return new RecentsLoader(context, roots, state);
 
             default:

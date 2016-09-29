@@ -16,16 +16,48 @@
 
 package com.android.documentsui.testing;
 
+import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import com.android.documentsui.base.EventHandler;
+
+import javax.annotation.Nullable;
 
 /**
  * Test {@link EventHandler} that can be used to spy on,  control responses from,
  * and make assertions against values tested.
  */
-public class TestEventHandler<T> extends TestPredicate<T> implements EventHandler<T> {
+public class TestEventHandler<T> implements EventHandler<T> {
+
+    private @Nullable T lastValue;
+    private boolean nextReturnValue;
+    private boolean called;
 
     @Override
     public boolean accept(T event) {
-        return test(event);
+        called = true;
+        lastValue = event;
+        return nextReturnValue;
+    }
+
+    public void assertLastArgument(@Nullable T expected) {
+        assertEquals(expected, lastValue);
+    }
+
+    public void assertCalled() {
+        assertTrue(called);
+    }
+
+    public void assertNotCalled() {
+        assertFalse(called);
+    }
+
+    public void nextReturn(boolean value) {
+        nextReturnValue = value;
+    }
+
+    public @Nullable T getLastValue() {
+        return lastValue;
     }
 }

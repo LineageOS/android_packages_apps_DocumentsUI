@@ -46,6 +46,7 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
+import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.MimePredicate;
@@ -86,11 +87,23 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         mTuner = new Tuner(this, mState);
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
-        mActionHandler = new ActionHandler<>(this, mTuner);
+        mActionHandler = new ActionHandler<>(
+                this,
+                mState,
+                DocumentsApplication.getRootsCache(this),
+                ProviderExecutor::forAuthority,
+                mTuner);
 
+        Intent intent = getIntent();
+
+        setupLayout(intent);
+        mActionHandler.initLocation(intent);
+    }
+
+    private void setupLayout(Intent intent) {
         if (mState.action == ACTION_CREATE) {
-            final String mimeType = getIntent().getType();
-            final String title = getIntent().getStringExtra(Intent.EXTRA_TITLE);
+            final String mimeType = intent.getType();
+            final String title = intent.getStringExtra(Intent.EXTRA_TITLE);
             SaveFragment.show(getFragmentManager(), mimeType, title);
         } else if (mState.action == ACTION_OPEN_TREE ||
                    mState.action == ACTION_PICK_COPY_DESTINATION) {
@@ -98,7 +111,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         }
 
         if (mState.action == ACTION_GET_CONTENT) {
-            final Intent moreApps = new Intent(getIntent());
+            final Intent moreApps = new Intent(intent);
             moreApps.setComponent(null);
             moreApps.setPackage(null);
             RootsFragment.show(getFragmentManager(), moreApps);
@@ -107,27 +120,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                    mState.action == ACTION_OPEN_TREE ||
                    mState.action == ACTION_PICK_COPY_DESTINATION) {
             RootsFragment.show(getFragmentManager(), (Intent) null);
-        }
-
-        if (mState.restored) {
-            if (DEBUG) Log.d(TAG, "Stack already resolved");
-        } else {
-            // We set the activity title in AsyncTask.onPostExecute().
-            // To prevent talkback from reading aloud the default title, we clear it here.
-            setTitle("");
-
-            // As a matter of policy we don't load the last used stack for the copy
-            // destination picker (user is already in Files app).
-            // Concensus was that the experice was too confusing.
-            // In all other cases, where the user is visiting us from another app
-            // we restore the stack as last used from that app.
-            if (mState.action == ACTION_PICK_COPY_DESTINATION) {
-                if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
-                loadRoot(getDefaultRoot());
-            } else {
-                if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
-                new LoadLastAccessedStackTask(this, mState).execute();
-            }
         }
     }
 
@@ -187,7 +179,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         if (requestCode == CODE_FORWARD && resultCode != RESULT_CANCELED) {
 
             // Remember that we last picked via external app
-            final String packageName = getCallingPackageMaybeExtra();
+            final String packageName = Shared.getCallingPackageName(this);
             final ContentValues values = new ContentValues();
             values.put(Columns.EXTERNAL, 1);
             getContentResolver().insert(LastAccessedProvider.buildLastAccessed(packageName), values);
@@ -252,7 +244,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             // No directory means recents
             if (mState.action == ACTION_CREATE ||
                 mState.action == ACTION_PICK_COPY_DESTINATION) {
-                loadRoot(getDefaultRoot());
+                mActionHandler.loadRoot(Shared.getDefaultRootUri(this));
             } else {
                 DirectoryFragment.showRecentsOpen(fm, anim);
 
@@ -354,7 +346,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     void updateLastAccessed() {
         LastAccessedProvider.setLastAccessed(
-                getContentResolver(), getCallingPackageMaybeExtra(), mState.stack);
+                getContentResolver(), Shared.getCallingPackageName(this), mState.stack);
     }
 
     @Override

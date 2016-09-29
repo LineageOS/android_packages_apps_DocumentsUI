@@ -29,7 +29,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
@@ -69,7 +68,6 @@ import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
@@ -181,7 +179,6 @@ public abstract class BaseActivity
 
         getContentResolver().registerContentObserver(
                 RootsCache.sNotificationUri, false, mRootsCacheObserver);
-
 
         DocumentsToolbar toolbar = (DocumentsToolbar) findViewById(R.id.toolbar);
         setActionBar(toolbar);
@@ -418,11 +415,6 @@ public abstract class BaseActivity
         invalidateOptionsMenu();
     }
 
-    protected final void loadRoot(final Uri uri) {
-        new LoadRootTask(this, mRoots, mState, uri).executeOnExecutor(
-                ProviderExecutor.forAuthority(uri.getAuthority()));
-    }
-
     /**
      * This is called when user hovers over a doc for enough time during a drag n' drop, to open a
      * folder that accepts drop. We should only open a container that's not an archive.
@@ -442,7 +434,7 @@ public abstract class BaseActivity
         List<String> authorities = new ArrayList<>();
         if (getIntent().getBooleanExtra(DocumentsContract.EXTRA_EXCLUDE_SELF, false)) {
             // Exclude roots provided by the calling package.
-            String packageName = getCallingPackageMaybeExtra();
+            String packageName = Shared.getCallingPackageName(this);
             try {
                 PackageInfo pkgInfo = getPackageManager().getPackageInfo(packageName,
                         PackageManager.GET_PROVIDERS);
@@ -461,39 +453,12 @@ public abstract class BaseActivity
         return (root.flags & Root.FLAG_SUPPORTS_SEARCH) != 0;
     }
 
-    public final String getCallingPackageMaybeExtra() {
-        String callingPackage = getCallingPackage();
-        // System apps can set the calling package name using an extra.
-        try {
-            ApplicationInfo info = getPackageManager().getApplicationInfo(callingPackage, 0);
-            if (info.isSystemApp() || info.isUpdatedSystemApp()) {
-                final String extra = getIntent().getStringExtra(DocumentsContract.EXTRA_PACKAGE_NAME);
-                if (extra != null) {
-                    callingPackage = extra;
-                }
-            }
-        } finally {
-            return callingPackage;
-        }
-    }
-
     public static BaseActivity get(Fragment fragment) {
         return (BaseActivity) fragment.getActivity();
     }
 
     public State getDisplayState() {
         return mState;
-    }
-
-    /*
-     * Get the default directory to be presented after starting the activity.
-     * Method can be overridden if the change of the behavior of the the child activity is needed.
-     */
-    public Uri getDefaultRoot() {
-        return Shared.shouldShowDocumentsRoot(this, getIntent())
-                ? DocumentsContract.buildHomeUri()
-                : DocumentsContract.buildRootUri(
-                        "com.android.providers.downloads.documents", "downloads");
     }
 
     /**

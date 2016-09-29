@@ -21,7 +21,6 @@ import static android.provider.DocumentsContract.buildChildDocumentsUri;
 import static android.provider.DocumentsContract.buildDocumentUri;
 import static android.provider.DocumentsContract.getDocumentId;
 import static android.provider.DocumentsContract.isChildDocument;
-
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_CONVERTED;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;

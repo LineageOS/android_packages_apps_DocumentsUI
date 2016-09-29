@@ -16,9 +16,12 @@
 
 package com.android.documentsui.manager;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
@@ -31,17 +34,20 @@ import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
+import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.manager.ActionHandler.Addons;
+import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
@@ -49,6 +55,7 @@ import com.android.documentsui.ui.DialogController;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import javax.annotation.Nullable;
 
@@ -60,7 +67,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private static final String TAG = "ManagerActionHandler";
 
     private final DialogController mDialogs;
-    private final State mState;
     private final FragmentTuner mTuner;
     private final DocumentClipper mClipper;
     private final ClipStore mClipStore;
@@ -69,15 +75,17 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     ActionHandler(
             T activity,
-            DialogController dialogs,
             State state,
+            RootsAccess roots,
+            Lookup<String, Executor> executors,
+            DialogController dialogs,
             FragmentTuner tuner,
             DocumentClipper clipper,
             ClipStore clipStore) {
-        super(activity);
+
+        super(activity, state, roots, executors);
 
         mDialogs = dialogs;
-        mState = state;
         mTuner = tuner;
         mClipper = clipper;
         mClipStore = clipStore;
@@ -199,6 +207,87 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         };
 
         mDialogs.confirmDelete(docs, result);
+    }
+
+    @Override
+    public void initLocation(Intent intent) {
+        assert(intent != null);
+
+        if (mState.restored) {
+            if (DEBUG) Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
+            return;
+        }
+
+        if (launchToStackLocation(mState.stack)) {
+            if (DEBUG) Log.d(TAG, "Launched to location from stack.");
+            return;
+        }
+
+        if (launchToDocument(intent)) {
+            if (DEBUG) Log.d(TAG, "Launched to root for viewing (likely a ZIP).");
+            return;
+        }
+
+        if (launchToRoot(intent)) {
+            if (DEBUG) Log.d(TAG, "Launched to root for browsing.");
+            return;
+        }
+
+        if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
+        loadHomeDir();
+    }
+
+    // If a non-empty stack is present in our state, it was read (presumably)
+    // from EXTRA_STACK intent extra. In this case, we'll skip other means of
+    // loading or restoring the stack (like URI).
+    //
+    // When restoring from a stack, if a URI is present, it should only ever be:
+    // -- a launch URI: Launch URIs support sensible activity management,
+    //    but don't specify a real content target)
+    // -- a fake Uri from notifications. These URIs have no authority (TODO: details).
+    //
+    // Any other URI is *sorta* unexpected...except when browsing an archive
+    // in downloads.
+    private boolean launchToStackLocation(DocumentStack stack) {
+        if (stack == null || stack.root == null) {
+            return false;
+        }
+
+        if (mState.stack.isEmpty()) {
+            mActivity.onRootPicked(mState.stack.root);
+        } else {
+            mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+        }
+
+        return true;
+    }
+
+    // Zips in downloads are not opened inline, because of Downloads no-folders policy.
+    // So we're registered to handle VIEWs of zips.
+    private boolean launchToDocument(Intent intent) {
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            assert(uri != null);
+            new OpenUriForViewTask<>(mActivity, mState).executeOnExecutor(
+                    ProviderExecutor.forAuthority(uri.getAuthority()), uri);
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean launchToRoot(Intent intent) {
+        if (DocumentsContract.ACTION_BROWSE.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            if (DocumentsContract.isRootUri(mActivity, uri)) {
+                if (DEBUG) Log.d(TAG, "Launching with root URI.");
+                // If we've got a specific root to display, restore that root using a dedicated
+                // authority. That way a misbehaving provider won't result in an ANR.
+                loadRoot(uri);
+                return true;
+            }
+        }
+        return false;
     }
 
     ActionHandler<T> reset(Model model, MultiSelectManager selectionMgr) {
