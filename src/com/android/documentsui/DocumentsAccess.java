@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 
@@ -35,6 +36,7 @@ public interface DocumentsAccess {
     @Nullable DocumentInfo getRootDocument(RootInfo root);
     @Nullable DocumentInfo getRootDocument(Uri uri);
     @Nullable DocumentInfo getDocument(Uri uri);
+    @Nullable DocumentInfo getArchiveDocument(Uri uri);
 
     public static DocumentsAccess create(Context context) {
         return new RuntimeDocumentAccess(context);
@@ -75,6 +77,11 @@ public interface DocumentsAccess {
             }
 
             return null;
+        }
+
+        @Override
+        public DocumentInfo getArchiveDocument(Uri uri) {
+            return getDocument(ArchivesProvider.buildUriForArchive(uri));
         }
     }
 }

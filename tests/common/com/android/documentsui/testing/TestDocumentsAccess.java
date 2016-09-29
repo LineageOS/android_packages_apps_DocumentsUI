@@ -42,4 +42,9 @@ public class TestDocumentsAccess implements DocumentsAccess {
     public DocumentInfo getDocument(Uri uri) {
         return nextDocument;
     }
+
+    @Override
+    public DocumentInfo getArchiveDocument(Uri uri) {
+        return nextDocument;
+    }
 }

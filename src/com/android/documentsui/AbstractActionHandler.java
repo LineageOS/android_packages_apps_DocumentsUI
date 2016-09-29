@@ -25,6 +25,7 @@ import android.os.Parcelable;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -32,8 +33,8 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
+import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.files.OpenUriForViewTask;
@@ -158,10 +159,20 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     @Override
     public void openContainerDocument(DocumentInfo doc) {
         assert(doc.isContainer());
+        DocumentInfo currentDoc = null;
 
-        mActivity.notifyDirectoryNavigated(doc.derivedUri);
+        if (doc.isDirectory()) {
+            // Regular directory.
+            currentDoc = doc;
+        } else if (doc.isArchive()) {
+            // Archive.
+            currentDoc = mDocs.getArchiveDocument(doc.derivedUri);
+        }
 
-        mState.pushDocument(doc);
+        assert(currentDoc != null);
+        mActivity.notifyDirectoryNavigated(currentDoc.derivedUri);
+        mState.pushDocument(currentDoc);
+
         // Show an opening animation only if pressing "back" would get us back to the
         // previous directory. Especially after opening a root document, pressing
         // back, wouldn't go to the previous root, but close the activity.

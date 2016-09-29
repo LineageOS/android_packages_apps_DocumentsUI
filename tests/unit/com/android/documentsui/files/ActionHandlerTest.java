@@ -220,6 +220,7 @@ public class ActionHandlerTest {
     @Test
     public void testDocumentPicked_OpensArchives() throws Exception {
         mActivity.currentRoot = TestRootsAccess.HOME;
+        mEnv.docs.nextDocument = TestEnv.FILE_ARCHIVE;
 
         mHandler.onDocumentPicked(TestEnv.FILE_ARCHIVE);
         assertEquals(TestEnv.FILE_ARCHIVE, mEnv.state.stack.peek());

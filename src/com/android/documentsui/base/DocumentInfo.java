@@ -28,6 +28,7 @@ import android.provider.DocumentsProvider;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import java.io.DataInputStream;
@@ -256,7 +257,7 @@ public class DocumentInfo implements Durable, Parcelable {
     }
 
     public boolean isArchive() {
-        return (flags & Document.FLAG_ARCHIVE) != 0;
+        return ArchivesProvider.isSupportedArchiveType(mimeType);
     }
 
     public boolean isPartial() {
