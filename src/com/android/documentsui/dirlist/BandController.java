@@ -56,7 +56,6 @@ import java.util.Set;
 public class BandController extends OnScrollListener {
 
     private static final String TAG = "BandController";
-    private static final int AUTOSCROLL_EDGE_HEIGHT = 1;
 
     private final Runnable mModelBuilder;
     private final SelectionEnvironment mEnvironment;
@@ -92,7 +91,6 @@ public class BandController extends OnScrollListener {
 
         mEnvironment.addOnScrollListener(this);
         mViewScroller = new ViewAutoScroller(
-                AUTOSCROLL_EDGE_HEIGHT,
                 new ScrollDistanceDelegate() {
                     @Override
                     public Point getCurrentPosition() {

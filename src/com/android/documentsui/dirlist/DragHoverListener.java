@@ -43,7 +43,6 @@ class DragHoverListener implements OnDragListener {
     private final IntSupplier mHeight;
     private final BooleanSupplier mCanScrollUp;
     private final BooleanSupplier mCanScrollDown;
-    private final int mAutoScrollEdgeHeight;
     private final Runnable mDragScroller;
 
     /**
@@ -61,7 +60,6 @@ class DragHoverListener implements OnDragListener {
 
     @VisibleForTesting
     DragHoverListener(
-            int autoScrollEdgeHeight,
             ItemDragListener<? extends DragHost> dragHandler,
             IntSupplier heightSupplier,
             Predicate<View> isScrollView,
@@ -69,7 +67,6 @@ class DragHoverListener implements OnDragListener {
             BooleanSupplier scrollDownSupplier,
             ViewAutoScroller.ScrollActionDelegate actionDelegate) {
         mDragHandler = dragHandler;
-        mAutoScrollEdgeHeight = autoScrollEdgeHeight;
         mHeight = heightSupplier;
         mIsScrollView = isScrollView;
         mCanScrollUp = scrollUpSupplier;
@@ -92,12 +89,10 @@ class DragHoverListener implements OnDragListener {
             }
         };
 
-        mDragScroller = new ViewAutoScroller(
-                mAutoScrollEdgeHeight, distanceDelegate, actionDelegate);
+        mDragScroller = new ViewAutoScroller(distanceDelegate, actionDelegate);
     }
 
     static DragHoverListener create(
-            int autoScrollEdgeHeight,
             ItemDragListener<? extends DragHost> dragHandler,
             View scrollView) {
         ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
@@ -118,7 +113,6 @@ class DragHoverListener implements OnDragListener {
             }
         };
         DragHoverListener listener = new DragHoverListener(
-                autoScrollEdgeHeight,
                 dragHandler,
                 scrollView::getHeight,
                 (view) -> (scrollView == view),
@@ -179,9 +173,11 @@ class DragHoverListener implements OnDragListener {
             return false;
         }
 
-        boolean shouldScrollUp = mCurrentPosition.y < mAutoScrollEdgeHeight
+        float topBottomRegionHeight = mHeight.getAsInt()
+                * ViewAutoScroller.TOP_BOTTOM_THRESHOLD_RATIO;
+        boolean shouldScrollUp = mCurrentPosition.y < topBottomRegionHeight
                 && mCanScrollUp.getAsBoolean();
-        boolean shouldScrollDown = mCurrentPosition.y > mHeight.getAsInt() - mAutoScrollEdgeHeight
+        boolean shouldScrollDown = mCurrentPosition.y > mHeight.getAsInt() - topBottomRegionHeight
                 && mCanScrollDown.getAsBoolean();
         return shouldScrollUp || shouldScrollDown;
     }
