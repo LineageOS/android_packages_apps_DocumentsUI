@@ -69,6 +69,9 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
                 stringSupplier.apply(R.string.menu_paste_from_clipboard), KeyEvent.KEYCODE_V,
                 KeyEvent.META_CTRL_ON));
         group.addItem(new KeyboardShortcutInfo(
+                stringSupplier.apply(R.string.menu_create_dir), KeyEvent.KEYCODE_E,
+                KeyEvent.META_CTRL_ON));
+        group.addItem(new KeyboardShortcutInfo(
                 stringSupplier.apply(R.string.menu_select_all), KeyEvent.KEYCODE_A,
                 KeyEvent.META_CTRL_ON));
         group.addItem(new KeyboardShortcutInfo(

@@ -166,6 +166,11 @@ public class TestEvent implements InputEvent {
     }
 
     @Override
+    public boolean isActionCancel() {
+        return mAction == MotionEvent.ACTION_CANCEL;
+    }
+
+    @Override
     public boolean isOverItem() {
         return mDetails.isOverItem();
     }

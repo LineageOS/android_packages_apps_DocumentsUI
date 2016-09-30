@@ -132,6 +132,9 @@ public final class Events {
          * or touch. */
         boolean isActionMove();
 
+        /** Returns true if the action is cancel. */
+        boolean isActionCancel();
+
         // Eliminate the checked Exception from Autoclosable.
         @Override
         public void close();
@@ -254,6 +257,11 @@ public final class Events {
         }
 
         @Override
+        public boolean isActionCancel() {
+            return mEvent.getActionMasked() == MotionEvent.ACTION_CANCEL;
+        }
+
+        @Override
         public Point getOrigin() {
             return new Point((int) mEvent.getX(), (int) mEvent.getY());
         }
@@ -326,8 +334,8 @@ public final class Events {
                     .append(" isPrimaryButtonPressed=").append(isPrimaryButtonPressed())
                     .append(" isSecondaryButtonPressed=").append(isSecondaryButtonPressed())
                     .append(" isShiftKeyDown=").append(isShiftKeyDown())
-                    .append(" isActionDown=").append(isActionDown())
-                    .append(" isActionUp=").append(isActionUp())
+                    .append(" action(decoded)=").append(
+                            MotionEvent.actionToString(mEvent.getActionMasked()))
                     .append(" getOrigin=").append(getOrigin())
                     .append(" isOverItem=").append(isOverItem())
                     .append(" getItemPosition=").append(getItemPosition())
