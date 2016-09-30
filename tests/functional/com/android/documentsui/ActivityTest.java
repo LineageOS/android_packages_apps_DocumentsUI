@@ -23,14 +23,14 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.support.test.uiautomator.Configurator;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.MotionEvent;
-import com.android.documentsui.DocumentsProviderHelper;
-import com.android.documentsui.StubProvider;
+
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.bots.Bots;
 import com.android.documentsui.bots.UiBot;
@@ -138,6 +138,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
                 UiBot.TARGET_PKG);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         if (getInitialRoot() != null) {
+            intent.setAction(DocumentsContract.ACTION_BROWSE);
             intent.setData(getInitialRoot().getUri());
         }
         setActivityIntent(intent);
