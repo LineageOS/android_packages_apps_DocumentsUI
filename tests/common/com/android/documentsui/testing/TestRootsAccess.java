@@ -18,6 +18,7 @@ package com.android.documentsui.testing;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.testing.android.TestPackageManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +32,8 @@ public class TestRootsAccess implements RootsAccess {
 
     public static final RootInfo DOWNLOADS;
     public static final RootInfo HOME;
+    public static final RootInfo HAMMY;
+    public static final RootInfo PICKLES;
 
     static {
         DOWNLOADS = new RootInfo();
@@ -40,6 +43,14 @@ public class TestRootsAccess implements RootsAccess {
         HOME = new RootInfo();
         HOME.authority = "com.android.externalstorage.documents";
         HOME.rootId = "home";
+
+        HAMMY = new RootInfo();
+        HAMMY.authority = "yummies";
+        HAMMY.rootId = "hamsandwich";
+
+        PICKLES = new RootInfo();
+        PICKLES.authority = "yummies";
+        PICKLES.rootId = "pickles";
     }
 
     public final Map<String, Collection<RootInfo>> roots = new HashMap<>();
@@ -48,13 +59,22 @@ public class TestRootsAccess implements RootsAccess {
     public TestRootsAccess() {
         add(DOWNLOADS);
         add(HOME);
+        add(HAMMY);
+        add(PICKLES);
     }
 
-    public void add(RootInfo root) {
+    private void add(RootInfo root) {
         if (!roots.containsKey(root.authority)) {
             roots.put(root.authority, new ArrayList<>());
         }
         roots.get(root.authority).add(root);
+    }
+
+    public void configurePm(TestPackageManager pm) {
+        pm.addStubContentProviderForRoot(TestRootsAccess.DOWNLOADS);
+        pm.addStubContentProviderForRoot(TestRootsAccess.HOME);
+        pm.addStubContentProviderForRoot(TestRootsAccess.HAMMY);
+        pm.addStubContentProviderForRoot(TestRootsAccess.PICKLES);
     }
 
     @Override
