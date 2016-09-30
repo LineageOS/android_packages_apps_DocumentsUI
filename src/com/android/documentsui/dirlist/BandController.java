@@ -230,7 +230,7 @@ public class BandController extends OnScrollListener {
     public boolean shouldStop(InputEvent input) {
         return isActive()
                 && input.isMouseEvent()
-                && input.isActionUp();
+                && (input.isActionUp() || input.isActionCancel());
     }
 
     /**
