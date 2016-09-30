@@ -34,7 +34,12 @@ import java.util.function.IntConsumer;
 public final class ViewAutoScrollerTest {
 
     private static final int VIEW_HEIGHT = 100;
-    private static final int EDGE_HEIGHT = 10;
+    private static final int TOP_Y_POINT = (int) (VIEW_HEIGHT
+            * ViewAutoScroller.TOP_BOTTOM_THRESHOLD_RATIO) - 1;
+    private static final int BOTTOM_Y_POINT = VIEW_HEIGHT
+            - (int) (VIEW_HEIGHT * ViewAutoScroller.TOP_BOTTOM_THRESHOLD_RATIO)
+            + 1;
+    private static final int EDGE_HEIGHT = 5;
 
     private ViewAutoScroller mAutoScroller;
     private Point mPoint;
@@ -77,8 +82,7 @@ public final class ViewAutoScrollerTest {
             public void removeCallback(Runnable r) {
             }
         };
-        mAutoScroller = new ViewAutoScroller(
-                EDGE_HEIGHT, mDistanceDelegate, mActionDelegate, new TestClock()::getCurrentTime);
+        mAutoScroller = new ViewAutoScroller(mDistanceDelegate, mActionDelegate);
     }
 
     @Test
@@ -95,7 +99,7 @@ public final class ViewAutoScrollerTest {
     @Test
     public void testCursorInScrollZone_notActive() {
         mActive = false;
-        mPoint = new Point(0, EDGE_HEIGHT - 1);
+        mPoint = new Point(0, TOP_Y_POINT);
         mScrollAssert = (int dy) -> {
             // Should not have called this method
             fail("Received unexpected scroll event");
@@ -107,8 +111,8 @@ public final class ViewAutoScrollerTest {
     @Test
     public void testCursorInScrollZone_top() {
         mActive = true;
-        mPoint = new Point(0, EDGE_HEIGHT - 1);
-        int expectedScrollDistance = mAutoScroller.computeScrollDistance(-1, 1);
+        mPoint = new Point(0, TOP_Y_POINT);
+        int expectedScrollDistance = mAutoScroller.computeScrollDistance(-1);
         mScrollAssert = (int dy) -> {
             assertTrue(dy == expectedScrollDistance);
         };
@@ -118,19 +122,11 @@ public final class ViewAutoScrollerTest {
     @Test
     public void testCursorInScrollZone_bottom() {
         mActive = true;
-        mPoint = new Point(0, VIEW_HEIGHT - EDGE_HEIGHT + 1);
-        int expectedScrollDistance = mAutoScroller.computeScrollDistance(1, 1);
+        mPoint = new Point(0, BOTTOM_Y_POINT);
+        int expectedScrollDistance = mAutoScroller.computeScrollDistance(1);
         mScrollAssert = (int dy) -> {
             assertTrue(dy == expectedScrollDistance);
         };
         mAutoScroller.run();
-    }
-
-    class TestClock {
-        private int timesCalled = 0;
-
-        public long getCurrentTime() {
-            return ++timesCalled;
-        }
     }
 }
