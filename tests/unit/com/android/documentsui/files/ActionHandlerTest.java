@@ -19,17 +19,18 @@ package com.android.documentsui.files;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import android.content.Intent;
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.files.ActionHandler;
 import com.android.documentsui.testing.TestConfirmationCallback;
 import com.android.documentsui.testing.TestEnv;
+import com.android.documentsui.testing.TestRootsAccess;
 import com.android.documentsui.ui.TestDialogController;
 
 import org.junit.Before;
@@ -53,6 +54,7 @@ public class ActionHandlerTest {
         mActivity = TestActivity.create();
         mDialogs = new TestDialogController();
         mCallback = new TestConfirmationCallback();
+        mEnv.roots.configurePm(mActivity.packageMgr);
 
         mHandler = new ActionHandler<>(
                 mActivity,
@@ -89,11 +91,35 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testInitLocation_DefaultsToHome() throws Exception {
+    public void testInitLocation_DefaultsToDownloads() throws Exception {
+        mActivity.resources.bools.put(R.bool.productivity_device, false);
+
+        mHandler.initLocation(mActivity.getIntent());
+        assertRootPicked(TestRootsAccess.DOWNLOADS.getUri());
+    }
+
+    @Test
+    public void testInitLocation_ProductivityDefaultsToHome() throws Exception {
         mActivity.resources.bools.put(R.bool.productivity_device, true);
 
         mHandler.initLocation(mActivity.getIntent());
-        assertRootPicked(Shared.getDefaultRootUri(mActivity));
+        assertRootPicked(TestRootsAccess.HOME.getUri());
+    }
+
+    @Test
+    public void testInitLocation_LoadsFromRootUri() throws Exception {
+        mActivity.resources.bools.put(R.bool.productivity_device, true);
+
+        Intent intent = mActivity.getIntent();
+        intent.setAction(DocumentsContract.ACTION_BROWSE);
+        intent.setData(TestRootsAccess.PICKLES.getUri());
+
+        mHandler.initLocation(intent);
+        assertRootPicked(TestRootsAccess.PICKLES);
+    }
+
+    private void assertRootPicked(RootInfo root) throws Exception {
+        assertRootPicked(root.getUri());
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {

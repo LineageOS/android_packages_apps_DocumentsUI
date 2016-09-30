@@ -19,11 +19,13 @@ package com.android.documentsui;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.testing.TestEventListener;
+import com.android.documentsui.testing.android.TestPackageManager;
 import com.android.documentsui.testing.android.TestResources;
 
 import org.mockito.Mockito;
@@ -35,6 +37,7 @@ import org.mockito.Mockito;
 public abstract class TestActivity extends AbstractBase {
 
     public TestResources resources;
+    public TestPackageManager packageMgr;
     public Intent intent;
 
     public TestEventListener<Intent> startActivity;
@@ -49,6 +52,7 @@ public abstract class TestActivity extends AbstractBase {
 
    public void init() {
        resources = TestResources.create();
+       packageMgr = TestPackageManager.create();
        intent = new Intent();
 
        startActivity = new TestEventListener<>();
@@ -80,6 +84,11 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final Resources getResources() {
         return resources;
+    }
+
+    @Override
+    public PackageManager getPackageManager() {
+        return packageMgr;
     }
 
     @Override
