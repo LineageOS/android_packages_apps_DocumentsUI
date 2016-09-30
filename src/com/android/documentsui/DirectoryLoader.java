@@ -25,7 +25,6 @@ import android.net.Uri;
 import android.os.CancellationSignal;
 import android.os.OperationCanceledException;
 import android.os.RemoteException;
-import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
@@ -34,8 +33,6 @@ import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
-
-import java.io.FileNotFoundException;
 
 import libcore.io.IoUtils;
 
@@ -86,7 +83,6 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
         final DirectoryResult result = new DirectoryResult();
         result.doc = mDoc;
-        result.sortModel = mModel;
 
         ContentProviderClient client = null;
         Cursor cursor;
@@ -106,6 +102,8 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
                 // Filter directories out of search results, for now
                 cursor = new FilteringCursorWrapper(cursor, null, SEARCH_REJECT_MIMES);
             }
+
+            cursor = mModel.sortCursor(cursor);
 
             result.client = client;
             result.cursor = cursor;

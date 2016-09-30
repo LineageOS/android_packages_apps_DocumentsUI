@@ -40,9 +40,9 @@ import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.internal.annotations.GuardedBy;
 
-import com.google.common.util.concurrent.AbstractFuture;
-
 import libcore.io.IoUtils;
+
+import com.google.common.util.concurrent.AbstractFuture;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -180,7 +180,6 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         final DirectoryResult result = new DirectoryResult();
-        result.sortModel = mState.sortModel;
 
         final Cursor merged;
         if (cursors.size() > 0) {
@@ -190,13 +189,16 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
             merged = new MatrixCursor(new String[0]);
         }
 
+
+        final Cursor sorted = mState.sortModel.sortCursor(merged);
+
         // Tell the UI if this is an in-progress result. When loading is complete, another update is
         // sent with EXTRA_LOADING set to false.
         Bundle extras = new Bundle();
         extras.putBoolean(DocumentsContract.EXTRA_LOADING, !allDone);
-        merged.setExtras(extras);
+        sorted.setExtras(extras);
 
-        result.cursor = merged;
+        result.cursor = sorted;
 
         return result;
     }

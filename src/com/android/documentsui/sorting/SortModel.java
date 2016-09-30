@@ -20,6 +20,7 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.DocumentsContract.Document;
@@ -237,6 +238,14 @@ public class SortModel implements Parcelable {
         mDimensions.get(columnId).mVisibility = visibility;
 
         notifyListeners(UPDATE_TYPE_VISIBILITY);
+    }
+
+    public Cursor sortCursor(Cursor cursor) {
+        if (mSortedDimension != null) {
+            return new SortingCursorWrapper(cursor, mSortedDimension);
+        } else {
+            return cursor;
+        }
     }
 
     public @Nullable String getDocumentSortQuery() {
