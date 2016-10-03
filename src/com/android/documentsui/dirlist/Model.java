@@ -16,7 +16,6 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
 
@@ -34,11 +33,8 @@ import android.util.Log;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.sorting.SortDimension;
-import com.android.documentsui.sorting.SortModel;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -60,12 +56,7 @@ public class Model {
     private int mCursorCount;
     /** Maps Model ID to cursor positions, for looking up items by Model ID. */
     private Map<String, Integer> mPositions = new HashMap<>();
-    /**
-     * A sorted array of model IDs for the files currently in the Model.  Sort order is determined
-     * by {@link #mSortModel}
-     */
     private String mIds[] = new String[0];
-    private SortModel mSortModel;
 
     @Nullable String info;
     @Nullable String error;
@@ -126,7 +117,6 @@ public class Model {
 
         mCursor = result.cursor;
         mCursorCount = mCursor.getCount();
-        mSortModel = result.sortModel;
         doc = result.doc;
 
         updateModelData();
@@ -151,24 +141,7 @@ public class Model {
      * according to the current sort order.
      */
     private void updateModelData() {
-        int[] positions = new int[mCursorCount];
         mIds = new String[mCursorCount];
-        boolean[] isDirs = new boolean[mCursorCount];
-        String[] displayNames = null;
-        long[] longValues = null;
-
-        final int id = mSortModel.getSortedDimensionId();
-        switch (id) {
-            case SortModel.SORT_DIMENSION_ID_TITLE:
-                displayNames = new String[mCursorCount];
-                break;
-            case SortModel.SORT_DIMENSION_ID_DATE:
-            case SortModel.SORT_DIMENSION_ID_SIZE:
-                longValues = new long[mCursorCount];
-                break;
-        }
-
-        String mimeType;
 
         mCursor.moveToPosition(-1);
         for (int pos = 0; pos < mCursorCount; ++pos) {
@@ -176,244 +149,23 @@ public class Model {
                 Log.e(TAG, "Fail to move cursor to next pos: " + pos);
                 return;
             }
-            positions[pos] = pos;
-
             // Generates a Model ID for a cursor entry that refers to a document. The Model ID is a
             // unique string that can be used to identify the document referred to by the cursor.
             // If the cursor is a merged cursor over multiple authorities, then prefix the ids
             // with the authority to avoid collisions.
             if (mCursor instanceof MergeCursor) {
-                mIds[pos] = getCursorString(mCursor, RootCursorWrapper.COLUMN_AUTHORITY) + "|" +
-                        getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
+                mIds[pos] = getCursorString(mCursor, RootCursorWrapper.COLUMN_AUTHORITY)
+                        + "|" + getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
             } else {
                 mIds[pos] = getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
             }
-
-            mimeType = getCursorString(mCursor, Document.COLUMN_MIME_TYPE);
-            isDirs[pos] = Document.MIME_TYPE_DIR.equals(mimeType);
-
-            switch(id) {
-                case SortModel.SORT_DIMENSION_ID_TITLE:
-                    final String displayName = getCursorString(
-                            mCursor, Document.COLUMN_DISPLAY_NAME);
-                    displayNames[pos] = displayName;
-                    break;
-                case SortModel.SORT_DIMENSION_ID_DATE:
-                    longValues[pos] = getLastModified(mCursor);
-                    break;
-                case SortModel.SORT_DIMENSION_ID_SIZE:
-                    longValues[pos] = getCursorLong(mCursor, Document.COLUMN_SIZE);
-                    break;
-            }
-        }
-
-        final SortDimension dimension = mSortModel.getDimensionById(id);
-        switch (id) {
-            case SortModel.SORT_DIMENSION_ID_TITLE:
-                binarySort(displayNames, isDirs, positions, mIds, dimension.getSortDirection());
-                break;
-            case SortModel.SORT_DIMENSION_ID_DATE:
-            case SortModel.SORT_DIMENSION_ID_SIZE:
-                binarySort(longValues, isDirs, positions, mIds, dimension.getSortDirection());
-                break;
         }
 
         // Populate the positions.
         mPositions.clear();
         for (int i = 0; i < mCursorCount; ++i) {
-            mPositions.put(mIds[i], positions[i]);
+            mPositions.put(mIds[i], i);
         }
-    }
-
-    /**
-     * Sorts model data. Takes three columns of index-corresponded data. The first column is the
-     * sort key. Rows are sorted in ascending alphabetical order on the sort key.
-     * Directories are always shown first. This code is based on TimSort.binarySort().
-     *
-     * @param sortKey Data is sorted in ascending alphabetical order.
-     * @param isDirs Array saying whether an item is a directory or not.
-     * @param positions Cursor positions to be sorted.
-     * @param ids Model IDs to be sorted.
-     */
-    private static void binarySort(
-            String[] sortKey,
-            boolean[] isDirs,
-            int[] positions,
-            String[] ids,
-            @SortDimension.SortDirection int direction) {
-        final int count = positions.length;
-        for (int start = 1; start < count; start++) {
-            final int pivotPosition = positions[start];
-            final String pivotValue = sortKey[start];
-            final boolean pivotIsDir = isDirs[start];
-            final String pivotId = ids[start];
-
-            int left = 0;
-            int right = start;
-
-            while (left < right) {
-                int mid = (left + right) >>> 1;
-
-                // Directories always go in front.
-                int compare = 0;
-                final boolean rhsIsDir = isDirs[mid];
-                if (pivotIsDir && !rhsIsDir) {
-                    compare = -1;
-                } else if (!pivotIsDir && rhsIsDir) {
-                    compare = 1;
-                } else {
-                    final String lhs = pivotValue;
-                    final String rhs = sortKey[mid];
-                    switch (direction) {
-                        case SortDimension.SORT_DIRECTION_ASCENDING:
-                            compare = Shared.compareToIgnoreCaseNullable(lhs, rhs);
-                            break;
-                        case SortDimension.SORT_DIRECTION_DESCENDING:
-                            compare = -Shared.compareToIgnoreCaseNullable(lhs, rhs);
-                            break;
-                        default:
-                            throw new IllegalArgumentException(
-                                    "Unknown sorting direction: " + direction);
-                    }
-                }
-
-                if (compare < 0) {
-                    right = mid;
-                } else {
-                    left = mid + 1;
-                }
-            }
-
-            int n = start - left;
-            switch (n) {
-                case 2:
-                    positions[left + 2] = positions[left + 1];
-                    sortKey[left + 2] = sortKey[left + 1];
-                    isDirs[left + 2] = isDirs[left + 1];
-                    ids[left + 2] = ids[left + 1];
-                case 1:
-                    positions[left + 1] = positions[left];
-                    sortKey[left + 1] = sortKey[left];
-                    isDirs[left + 1] = isDirs[left];
-                    ids[left + 1] = ids[left];
-                    break;
-                default:
-                    System.arraycopy(positions, left, positions, left + 1, n);
-                    System.arraycopy(sortKey, left, sortKey, left + 1, n);
-                    System.arraycopy(isDirs, left, isDirs, left + 1, n);
-                    System.arraycopy(ids, left, ids, left + 1, n);
-            }
-
-            positions[left] = pivotPosition;
-            sortKey[left] = pivotValue;
-            isDirs[left] = pivotIsDir;
-            ids[left] = pivotId;
-        }
-    }
-
-    /**
-     * Sorts model data. Takes four columns of index-corresponded data. The first column is the sort
-     * key, and the second is an array of mime types. The rows are first bucketed by mime type
-     * (directories vs documents) and then each bucket is sorted independently in descending
-     * numerical order on the sort key. This code is based on TimSort.binarySort().
-     *
-     * @param sortKey Data is sorted in descending numerical order.
-     * @param isDirs Array saying whether an item is a directory or not.
-     * @param positions Cursor positions to be sorted.
-     * @param ids Model IDs to be sorted.
-     */
-    private static void binarySort(
-            long[] sortKey,
-            boolean[] isDirs,
-            int[] positions,
-            String[] ids,
-            @SortDimension.SortDirection int direction) {
-        final int count = positions.length;
-        for (int start = 1; start < count; start++) {
-            final int pivotPosition = positions[start];
-            final long pivotValue = sortKey[start];
-            final boolean pivotIsDir = isDirs[start];
-            final String pivotId = ids[start];
-
-            int left = 0;
-            int right = start;
-
-            while (left < right) {
-                int mid = ((left + right) >>> 1);
-
-                // Directories always go in front.
-                int compare = 0;
-                final boolean rhsIsDir = isDirs[mid];
-                if (pivotIsDir && !rhsIsDir) {
-                    compare = -1;
-                } else if (!pivotIsDir && rhsIsDir) {
-                    compare = 1;
-                } else {
-                    final long lhs = pivotValue;
-                    final long rhs = sortKey[mid];
-                    switch (direction) {
-                        case SortDimension.SORT_DIRECTION_ASCENDING:
-                            compare = Long.compare(lhs, rhs);
-                            break;
-                        case SortDimension.SORT_DIRECTION_DESCENDING:
-                            compare = -Long.compare(lhs, rhs);
-                            break;
-                        default:
-                            throw new IllegalArgumentException(
-                                    "Unknown sorting direction: " + direction);
-                    }
-                }
-
-                // If numerical comparison yields a tie, use document ID as a tie breaker.  This
-                // will yield stable results even if incoming items are continually shuffling and
-                // have identical numerical sort keys.  One common example of this scenario is seen
-                // when sorting a set of active downloads by mod time.
-                if (compare == 0) {
-                    compare = pivotId.compareTo(ids[mid]);
-                }
-
-                if (compare < 0) {
-                    right = mid;
-                } else {
-                    left = mid + 1;
-                }
-            }
-
-            int n = start - left;
-            switch (n) {
-                case 2:
-                    positions[left + 2] = positions[left + 1];
-                    sortKey[left + 2] = sortKey[left + 1];
-                    isDirs[left + 2] = isDirs[left + 1];
-                    ids[left + 2] = ids[left + 1];
-                case 1:
-                    positions[left + 1] = positions[left];
-                    sortKey[left + 1] = sortKey[left];
-                    isDirs[left + 1] = isDirs[left];
-                    ids[left + 1] = ids[left];
-                    break;
-                default:
-                    System.arraycopy(positions, left, positions, left + 1, n);
-                    System.arraycopy(sortKey, left, sortKey, left + 1, n);
-                    System.arraycopy(isDirs, left, isDirs, left + 1, n);
-                    System.arraycopy(ids, left, ids, left + 1, n);
-            }
-
-            positions[left] = pivotPosition;
-            sortKey[left] = pivotValue;
-            isDirs[left] = pivotIsDir;
-            ids[left] = pivotId;
-        }
-    }
-
-    /**
-     * @return Timestamp for the given document. Some docs (e.g. active downloads) have a null
-     * timestamp - these will be replaced with MAX_LONG so that such files get sorted to the top
-     * when sorting descending by date.
-     */
-    long getLastModified(Cursor cursor) {
-        long l = getCursorLong(mCursor, Document.COLUMN_LAST_MODIFIED);
-        return (l == -1) ? Long.MAX_VALUE : l;
     }
 
     public @Nullable Cursor getItem(String modelId) {

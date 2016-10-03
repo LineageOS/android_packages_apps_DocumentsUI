@@ -77,7 +77,6 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
         }
         DirectoryResult r = new DirectoryResult();
         r.cursor = c;
-        r.sortModel = SortModels.createTestSortModel();
         mModel.update(r);
 
         assertEquals(mModel.getItemCount(), mAdapter.getItemCount());
@@ -103,7 +102,6 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
         }
         DirectoryResult r = new DirectoryResult();
         r.cursor = c;
-        r.sortModel = SortModels.createTestSortModel();
         mModel.update(r);
 
         assertEquals(mModel.getItemCount() + 1, mAdapter.getItemCount());

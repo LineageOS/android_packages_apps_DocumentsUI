@@ -20,7 +20,6 @@ import android.content.ContentProviderClient;
 import android.database.Cursor;
 
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.sorting.SortModel;
 
 import libcore.io.IoUtils;
 
@@ -29,7 +28,6 @@ public class DirectoryResult implements AutoCloseable {
     public Cursor cursor;
     public Exception exception;
     public DocumentInfo doc;
-    public SortModel sortModel;
 
     @Override
     public void close() {
@@ -37,6 +35,6 @@ public class DirectoryResult implements AutoCloseable {
         ContentProviderClient.releaseQuietly(client);
         cursor = null;
         client = null;
-        sortModel = null;
+        doc = null;
     }
 }
