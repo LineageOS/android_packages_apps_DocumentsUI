@@ -26,10 +26,9 @@ import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler;
+import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.GetRootDocumentTask;
 import com.android.documentsui.Metrics;
-import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.DocumentInfo;
@@ -47,6 +46,7 @@ import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.files.ActionHandler.Addons;
+import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -77,13 +77,14 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             T activity,
             State state,
             RootsAccess roots,
+            DocumentsAccess docs,
             Lookup<String, Executor> executors,
             DialogController dialogs,
             FragmentTuner tuner,
             DocumentClipper clipper,
             ClipStore clipStore) {
 
-        super(activity, state, roots, executors);
+        super(activity, state, roots, docs, executors);
 
         mDialogs = dialogs;
         mTuner = tuner;
@@ -101,7 +102,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                 mActivity::isDestroyed,
                 (DocumentInfo doc) -> mClipper.copyFromClipData(
                         root, doc, data, mDialogs::showFileOperationFailures)
-        ).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+        ).executeOnExecutor(mExecutors.lookup(root.authority));
         return true;
     }
 
@@ -120,7 +121,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                 mActivity,
                 mActivity::isDestroyed,
                 (DocumentInfo doc) -> pasteIntoFolder(root, doc)
-        ).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+        ).executeOnExecutor(mExecutors.lookup(root.authority));
     }
 
     private void pasteIntoFolder(RootInfo root, DocumentInfo doc) {
@@ -174,6 +175,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         assert(!selected.isEmpty());
 
         final DocumentInfo srcParent = mState.stack.peek();
+        assert(srcParent != null);
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = model.getDocuments(selected);
@@ -268,8 +270,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri uri = intent.getData();
             assert(uri != null);
-            new OpenUriForViewTask<>(mActivity, mState).executeOnExecutor(
-                    ProviderExecutor.forAuthority(uri.getAuthority()), uri);
+            loadDocument(uri);
             return true;
         }
 

@@ -20,7 +20,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
-import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
@@ -28,44 +28,58 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.roots.RootsAccess;
 
-import java.io.FileNotFoundException;
 import java.util.Collection;
+
+import javax.annotation.Nullable;
 
 /**
  * Builds a stack for the specific Uris. Multi roots are not supported, as it's impossible
  * to know which root to select. Also, the stack doesn't contain intermediate directories.
  * It's primarly used for opening ZIP archives from Downloads app.
  */
-final class OpenUriForViewTask<T extends Activity & CommonAddons>
-        extends PairedTask<T, Uri, Void> {
+public final class OpenUriForViewTask<T extends Activity & CommonAddons>
+        extends PairedTask<T, Void, Void> {
 
+    private static final String TAG = "OpenUriForViewTask";
+
+    private final T mActivity;
     private final State mState;
-    public OpenUriForViewTask(T activity, State state) {
+    private final RootsAccess mRoots;
+    private final DocumentsAccess mDocs;
+    private final Uri mUri;
+
+    public OpenUriForViewTask(
+            T activity, State state, RootsAccess roots, DocumentsAccess docs, Uri uri) {
         super(activity);
+        mActivity = activity;
         mState = state;
+        mRoots = roots;
+        mDocs = docs;
+        mUri = uri;
     }
 
     @Override
-    public Void run(Uri... params) {
-        final Uri uri = params[0];
+    public Void run(Void... params) {
 
-        final RootsAccess rootsCache = DocumentsApplication.getRootsCache(mOwner);
-        final String authority = uri.getAuthority();
+        final String authority = mUri.getAuthority();
+        final Collection<RootInfo> roots = mRoots.getRootsForAuthorityBlocking(authority);
 
-        final Collection<RootInfo> roots =
-                rootsCache.getRootsForAuthorityBlocking(authority);
         if (roots.isEmpty()) {
-            Log.e(FilesActivity.TAG, "Failed to find root for the requested Uri: " + uri);
+            Log.e(TAG, "Failed to find root for the requested Uri: " + mUri);
             return null;
         }
 
+        assert(mState.stack.isEmpty());
+
+        // NOTE: There's no guarantee that this root will be the correct root for the doc.
         final RootInfo root = roots.iterator().next();
         mState.stack.root = root;
-        mState.stack.add(root.getRootDocumentBlocking(mOwner));
-        try {
-            mState.stack.add(DocumentInfo.fromUri(mOwner.getContentResolver(), uri));
-        } catch (FileNotFoundException e) {
-            Log.e(FilesActivity.TAG, "Failed to resolve DocumentInfo from Uri: " + uri);
+        mState.stack.add(mDocs.getRootDocument(root));
+        @Nullable DocumentInfo doc = mDocs.getDocument(mUri);
+        if (doc == null) {
+            Log.e(TAG, "Failed to resolve DocumentInfo from Uri: " + mUri);
+        } else {
+            mState.stack.add(doc);
         }
 
         return null;
@@ -73,6 +87,6 @@ final class OpenUriForViewTask<T extends Activity & CommonAddons>
 
     @Override
     public void finish(Void result) {
-        mOwner.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+        mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
     }
 }

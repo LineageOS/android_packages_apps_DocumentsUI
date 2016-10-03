@@ -26,6 +26,7 @@ import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.testing.TestConfirmationCallback;
@@ -60,6 +61,7 @@ public class ActionHandlerTest {
                 mActivity,
                 mEnv.state,
                 mEnv.roots,
+                mEnv.docs,
                 mEnv::lookupExecutor,
                 mDialogs,
                 null,  // tuner, not currently used.
@@ -107,19 +109,41 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testInitLocation_LoadsFromRootUri() throws Exception {
-        mActivity.resources.bools.put(R.bool.productivity_device, true);
+    public void testInitLocation_ViewDocument() throws Exception {
+        Intent intent = mActivity.getIntent();
+        intent.setAction(Intent.ACTION_VIEW);
 
+        DocumentInfo destDoc = mEnv.model.getDocument("2");
+
+        // configure DocumentsAccess to return something.
+        mEnv.docs.nextRootDocument = mEnv.model.getDocument("1");
+        mEnv.docs.nextDocument = destDoc;
+
+        Uri destUri = mEnv.model.getItemUri(destDoc.documentId);
+        intent.setData(destUri);
+
+        mEnv.state.stack.clear();  // Stack must be clear, we've even got an assert!
+        mHandler.initLocation(intent);
+        assertDocumentPicked(destUri);
+    }
+
+    private void assertDocumentPicked(Uri expectedUri) throws Exception {
+        mEnv.beforeAsserts();
+
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+        DocumentInfo doc = mEnv.state.stack.peekLast();
+        Uri actualUri = mEnv.model.getItemUri(doc.documentId);
+        assertEquals(expectedUri, actualUri);
+    }
+
+    @Test
+    public void testInitLocation_BrowseRoot() throws Exception {
         Intent intent = mActivity.getIntent();
         intent.setAction(DocumentsContract.ACTION_BROWSE);
         intent.setData(TestRootsAccess.PICKLES.getUri());
 
         mHandler.initLocation(intent);
-        assertRootPicked(TestRootsAccess.PICKLES);
-    }
-
-    private void assertRootPicked(RootInfo root) throws Exception {
-        assertRootPicked(root.getUri());
+        assertRootPicked(TestRootsAccess.PICKLES.getUri());
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {

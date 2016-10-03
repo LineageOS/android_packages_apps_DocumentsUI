@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.roots;
 
 import android.annotation.Nullable;
 import android.app.Activity;
@@ -22,6 +22,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.documentsui.TimeoutTask;
 import com.android.documentsui.base.CheckedTask;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;

@@ -18,93 +18,57 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.provider.DocumentsContract.Document;
+import android.support.test.filters.SmallTest;
 import android.support.v7.widget.RecyclerView;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ViewGroup;
 
-import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.State;
-import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.testing.SortModels;
+import com.android.documentsui.testing.TestEnv;
 
 @SmallTest
 public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
 
     private static final String AUTHORITY = "test_authority";
-    private static final String[] NAMES = new String[] {
-            "4",
-            "foo",
-            "1",
-            "bar",
-            "*(Ljifl;a",
-            "0",
-            "baz",
-            "2",
-            "3",
-            "%$%VD"
-    };
 
-    private TestModel mModel;
+    private TestEnv mEnv;
     private SectionBreakDocumentsAdapterWrapper mAdapter;
 
     public void setUp() {
 
+        mEnv = TestEnv.create(AUTHORITY);
+        mEnv.clear();
+
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
         DocumentsAdapter.Environment env = new TestEnvironment(testContext);
 
-        mModel = new TestModel(AUTHORITY);
         mAdapter = new SectionBreakDocumentsAdapterWrapper(
             env,
             new ModelBackedDocumentsAdapter(
-                env, new IconHelper(testContext, State.MODE_GRID)));
+                    env, new IconHelper(testContext, State.MODE_GRID)));
 
-        mModel.addUpdateListener(mAdapter.getModelUpdateListener());
-    }
-
-    // Tests that the item count is correct for a directory containing only subdirs.
-    public void testItemCount_allDirs() {
-        MatrixCursor c = new MatrixCursor(TestModel.COLUMNS);
-
-        for (int i = 0; i < 5; ++i) {
-            MatrixCursor.RowBuilder row = c.newRow();
-            row.add(RootCursorWrapper.COLUMN_AUTHORITY, AUTHORITY);
-            row.add(Document.COLUMN_DOCUMENT_ID, Integer.toString(i));
-            row.add(Document.COLUMN_SIZE, i);
-            row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
-        }
-        DirectoryResult r = new DirectoryResult();
-        r.cursor = c;
-        mModel.update(r);
-
-        assertEquals(mModel.getItemCount(), mAdapter.getItemCount());
-    }
-
-    // Tests that the item count is correct for a directory containing only files.
-    public void testItemCount_allFiles() {
-        mModel.update(NAMES);
-        assertEquals(mModel.getItemCount(), mAdapter.getItemCount());
+        mEnv.model.addUpdateListener(mAdapter.getModelUpdateListener());
     }
 
     // Tests that the item count is correct for a directory containing files and subdirs.
     public void testItemCount_mixed() {
-        MatrixCursor c = new MatrixCursor(TestModel.COLUMNS);
+        mEnv.reset();  // creates a mix of folders and files for us.
 
-        for (int i = 0; i < 5; ++i) {
-            MatrixCursor.RowBuilder row = c.newRow();
-            row.add(RootCursorWrapper.COLUMN_AUTHORITY, AUTHORITY);
-            row.add(Document.COLUMN_DOCUMENT_ID, Integer.toString(i));
-            row.add(Document.COLUMN_SIZE, i);
-            String mimeType =(i < 2) ? Document.MIME_TYPE_DIR : "text/*";
-            row.add(Document.COLUMN_MIME_TYPE, mimeType);
-        }
-        DirectoryResult r = new DirectoryResult();
-        r.cursor = c;
-        mModel.update(r);
+        assertEquals(mEnv.model.getItemCount() + 1, mAdapter.getItemCount());
+    }
 
-        assertEquals(mModel.getItemCount() + 1, mAdapter.getItemCount());
+    // Tests that the item count is correct for a directory containing only subdirs.
+    public void testItemCount_allDirs() {
+        mEnv.model.createFolders("Trader Joe's", "Alphabeta", "Lucky", "Vons", "Gelson's");
+        mEnv.model.update();
+        assertEquals(mEnv.model.getItemCount(), mAdapter.getItemCount());
+    }
+
+    // Tests that the item count is correct for a directory containing only files.
+    public void testItemCount_allFiles() {
+        mEnv.model.createFiles("123.txt", "234.jpg", "abc.pdf");
+        mEnv.model.update();
+        assertEquals(mEnv.model.getItemCount(), mAdapter.getItemCount());
     }
 
     private final class TestEnvironment implements DocumentsAdapter.Environment {
@@ -129,7 +93,7 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
 
         @Override
         public Model getModel() {
-            return mModel;
+            return mEnv.model;
         }
 
         @Override
