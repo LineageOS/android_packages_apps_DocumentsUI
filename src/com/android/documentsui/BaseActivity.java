@@ -209,7 +209,6 @@ public abstract class BaseActivity
 
             @Override
             public void onSearchViewChanged(boolean opened) {
-                mState.sortModel.setSortEnabled(!opened);
                 mNavigator.update();
             }
         };

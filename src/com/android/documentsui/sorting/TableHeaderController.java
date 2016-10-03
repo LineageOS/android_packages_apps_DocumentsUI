@@ -76,8 +76,7 @@ public final class TableHeaderController implements SortController.WidgetControl
         cell.setTag(dimension);
 
         cell.onBind(dimension);
-        if (mModel.isSortEnabled()
-                && dimension.getVisibility() == View.VISIBLE
+        if (dimension.getVisibility() == View.VISIBLE
                 && dimension.getSortCapability() != SortDimension.SORT_CAPABILITY_NONE) {
             cell.setOnClickListener(mOnCellClickListener);
         } else {
