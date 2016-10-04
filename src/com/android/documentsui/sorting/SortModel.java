@@ -60,7 +60,6 @@ public class SortModel implements Parcelable {
     @IntDef(flag = true, value = {
             UPDATE_TYPE_NONE,
             UPDATE_TYPE_UNSPECIFIED,
-            UPDATE_TYPE_STATUS,
             UPDATE_TYPE_VISIBILITY,
             UPDATE_TYPE_SORTING
     })
@@ -71,18 +70,14 @@ public class SortModel implements Parcelable {
      */
     public static final int UPDATE_TYPE_NONE = 0;
     /**
-     * Indicates the status of sorting has changed, i.e. whether soring is enabled.
-     */
-    public static final int UPDATE_TYPE_STATUS = 1;
-    /**
      * Indicates the visibility of at least one dimension has changed.
      */
-    public static final int UPDATE_TYPE_VISIBILITY = 1 << 1;
+    public static final int UPDATE_TYPE_VISIBILITY = 1;
     /**
      * Indicates the sorting order has changed, either because the sorted dimension has changed or
      * the sort direction has changed.
      */
-    public static final int UPDATE_TYPE_SORTING = 1 << 2;
+    public static final int UPDATE_TYPE_SORTING = 1 << 1;
     /**
      * Anything can be changed if the type is unspecified.
      */
@@ -98,8 +93,6 @@ public class SortModel implements Parcelable {
     private int mDefaultDimensionId = SORT_DIMENSION_ID_UNKNOWN;
     private boolean mIsUserSpecified = false;
     private @Nullable SortDimension mSortedDimension;
-
-    private boolean mIsSortEnabled = true;
 
     public SortModel(Collection<SortDimension> columns) {
         mDimensions = new SparseArray<>(columns.size());
@@ -146,16 +139,6 @@ public class SortModel implements Parcelable {
                 : SortDimension.SORT_DIRECTION_NONE;
     }
 
-    public void setSortEnabled(boolean enabled) {
-        mIsSortEnabled = enabled;
-
-        notifyListeners(UPDATE_TYPE_STATUS);
-    }
-
-    public boolean isSortEnabled() {
-        return mIsSortEnabled;
-    }
-
     /**
      * Sort by the default direction of the given dimension if user has never specified any sort
      * direction before.
@@ -182,10 +165,6 @@ public class SortModel implements Parcelable {
      * @param direction the direction to sort docs in
      */
     public void sortByUser(int dimensionId, @SortDirection int direction) {
-        if (!mIsSortEnabled) {
-            throw new IllegalStateException("Sort is not enabled.");
-        }
-
         SortDimension dimension = mDimensions.get(dimensionId);
         if (dimension == null) {
             throw new IllegalArgumentException("Unknown column id: " + dimensionId);
@@ -299,17 +278,6 @@ public class SortModel implements Parcelable {
         mListeners.remove(listener);
     }
 
-    public void clearSortDirection() {
-        if (mSortedDimension != null) {
-            mSortedDimension.mSortDirection = SortDimension.SORT_DIRECTION_NONE;
-            mSortedDimension = null;
-        }
-
-        mIsUserSpecified = false;
-
-        sortOnDefault();
-    }
-
     /**
      * Sort by default dimension and direction if there is no history of user specifying a sort
      * order.
@@ -349,7 +317,6 @@ public class SortModel implements Parcelable {
         }
 
         return mDefaultDimensionId == other.mDefaultDimensionId
-                && mIsSortEnabled == other.mIsSortEnabled
                 && (mSortedDimension == other.mSortedDimension
                     || mSortedDimension.equals(other.mSortedDimension));
     }
@@ -358,8 +325,7 @@ public class SortModel implements Parcelable {
     public String toString() {
         return new StringBuilder()
                 .append("SortModel{")
-                .append("enabled=").append(mIsSortEnabled)
-                .append(", dimensions=").append(mDimensions)
+                .append("dimensions=").append(mDimensions)
                 .append(", defaultDimensionId=").append(mDefaultDimensionId)
                 .append(", sortedDimension=").append(mSortedDimension)
                 .append("}")
@@ -379,7 +345,6 @@ public class SortModel implements Parcelable {
         }
 
         out.writeInt(mDefaultDimensionId);
-        out.writeInt(mIsSortEnabled ? 1 : 0);
         out.writeInt(getSortedDimensionId());
     }
 
@@ -395,7 +360,6 @@ public class SortModel implements Parcelable {
             SortModel model = new SortModel(columns);
 
             model.mDefaultDimensionId = in.readInt();
-            model.mIsSortEnabled = (in.readInt() == 1);
             model.mSortedDimension = model.getDimensionById(in.readInt());
 
             return model;

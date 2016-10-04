@@ -17,9 +17,7 @@
 package com.android.documentsui.sorting;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import android.support.annotation.Nullable;
@@ -79,11 +77,6 @@ public class SortModelTest {
     public void setUp() {
         mModel = new SortModel(Arrays.asList(DIMENSIONS));
         mModel.addListener(DUMMY_LISTENER);
-    }
-
-    @Test
-    public void testEnabledByDefault() {
-        assertTrue(mModel.isSortEnabled());
     }
 
     @Test
@@ -190,36 +183,6 @@ public class SortModelTest {
         SortDimension sortedDimension = getSortedDimension();
         assertSame(DIMENSION_1, sortedDimension);
         assertEquals(SortDimension.SORT_DIRECTION_ASCENDING, sortedDimension.getSortDirection());
-    }
-
-    @Test
-    public void testSetSortEnabled() {
-        mModel.setSortEnabled(false);
-
-        assertFalse(mModel.isSortEnabled());
-    }
-
-    @Test
-    public void testSetDefaultDimension_sortDisabled() {
-        mModel.setSortEnabled(false);
-
-        mModel.setDefaultDimension(DIMENSION_1.getId());
-
-        SortDimension sortedDimension = getSortedDimension();
-        assertSame(DIMENSION_1, sortedDimension);
-        assertEquals(DIMENSION_1.getDefaultSortDirection(), sortedDimension.getSortDirection());
-    }
-
-    @Test
-    public void testSortByUser_sortDisabled() {
-        mModel.setSortEnabled(false);
-
-        try {
-            mModel.sortByUser(DIMENSION_1.getId(), SortDimension.SORT_DIRECTION_ASCENDING);
-            fail("Expect exception but not raised.");
-        } catch(IllegalStateException expected) {
-            // Expected
-        }
     }
 
     @Test

@@ -21,18 +21,14 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortController.WidgetController;
-import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
-import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.sorting.SortModel.SortDimensionId;
-import com.android.documentsui.sorting.SortModel.UpdateListener;
 import com.android.documentsui.sorting.SortModel.UpdateType;
 
 /**
@@ -49,24 +45,23 @@ public final class DropdownSortWidgetController implements WidgetController {
     private final PopupMenu mMenu;
     private final ImageView mArrow;
 
-    private final OnClickListener mDimensionButtonClickListener = this::showMenu;
-    private final OnClickListener mArrowClickListener = this::onChangeDirection;
-    private final UpdateListener mUpdateListener = this::onModelUpdate;
-
     public DropdownSortWidgetController(SortModel model, View widget) {
         mModel = model;
         mWidget = widget;
 
         mDimensionButton = (TextView) mWidget.findViewById(R.id.sort_dimen_dropdown);
+        mDimensionButton.setOnClickListener(this::showMenu);
+
         mMenu = new PopupMenu(widget.getContext(), mDimensionButton, Gravity.END | Gravity.TOP);
         mMenu.setOnMenuItemClickListener(this::onSelectDimension);
 
         mArrow = (ImageView) mWidget.findViewById(R.id.sort_arrow);
+        mArrow.setOnClickListener(this::onChangeDirection);
 
         populateMenuItems();
         onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
 
-        mModel.addListener(mUpdateListener);
+        mModel.addListener(this::onModelUpdate);
     }
 
     @Override
@@ -92,10 +87,6 @@ public final class DropdownSortWidgetController implements WidgetController {
     private void onModelUpdate(SortModel model, @UpdateType int updateType) {
         final @SortDimensionId int sortedId = model.getSortedDimensionId();
 
-        if ((updateType & SortModel.UPDATE_TYPE_STATUS) != 0) {
-            setEnabled(mModel.isSortEnabled());
-        }
-
         if ((updateType & SortModel.UPDATE_TYPE_VISIBILITY) != 0) {
             updateVisibility();
         }
@@ -103,17 +94,6 @@ public final class DropdownSortWidgetController implements WidgetController {
         if ((updateType & SortModel.UPDATE_TYPE_SORTING) != 0) {
             bindSortedDimension(sortedId);
             bindSortDirection(sortedId);
-        }
-    }
-
-    private void setEnabled(boolean enabled) {
-        if (enabled) {
-            mDimensionButton.setOnClickListener(mDimensionButtonClickListener);
-            mArrow.setOnClickListener(mArrowClickListener);
-        } else {
-            mMenu.dismiss();
-            mDimensionButton.setOnClickListener(null);
-            mArrow.setOnClickListener(null);
         }
     }
 
