@@ -659,7 +659,7 @@ public class DirectoryFragment extends Fragment
         if (docs.size() > 1) {
             activity.onDocumentsPicked(docs);
         } else {
-            activity.onDocumentPicked(docs.get(0), mModel);
+            activity.onDocumentPicked(docs.get(0));
         }
     }
 

@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static junit.framework.Assert.assertEquals;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -23,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.testing.TestEventListener;
 import com.android.documentsui.testing.android.TestPackageManager;
@@ -39,10 +42,12 @@ public abstract class TestActivity extends AbstractBase {
     public TestResources resources;
     public TestPackageManager packageMgr;
     public Intent intent;
+    public RootInfo currentRoot;
 
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Intent> startService;
     public TestEventListener<RootInfo> rootPicked;
+    public TestEventListener<DocumentInfo> openContainer;
     public TestEventListener<Integer> refreshCurrentRootAndDirectory;
 
     public static TestActivity create() {
@@ -59,6 +64,7 @@ public abstract class TestActivity extends AbstractBase {
        startActivity = new TestEventListener<>();
        startService = new TestEventListener<>();
        rootPicked = new TestEventListener<>();
+       openContainer = new TestEventListener<>();
        refreshCurrentRootAndDirectory =  new TestEventListener<>();
    }
 
@@ -72,10 +78,18 @@ public abstract class TestActivity extends AbstractBase {
         startActivity.accept(intent);
     }
 
+    public final void assertActivityStarted(String expectedAction) {
+        assertEquals(expectedAction, startActivity.getLastValue().getAction());
+    }
+
     @Override
     public final ComponentName startService(Intent intent) {
         startService.accept(intent);
         return null;
+    }
+
+    public final void assertServiceStarted(String expectedAction) {
+        assertEquals(expectedAction, startService.getLastValue().getAction());
     }
 
     @Override
@@ -89,7 +103,7 @@ public abstract class TestActivity extends AbstractBase {
     }
 
     @Override
-    public PackageManager getPackageManager() {
+    public final PackageManager getPackageManager() {
         return packageMgr;
     }
 
@@ -99,8 +113,23 @@ public abstract class TestActivity extends AbstractBase {
     }
 
     @Override
+    public final void onDocumentPicked(DocumentInfo doc) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public final void openContainerDocument(DocumentInfo doc) {
+        openContainer.accept(doc);
+    }
+
+    @Override
     public final void refreshCurrentRootAndDirectory(int anim) {
         refreshCurrentRootAndDirectory.accept(anim);
+    }
+
+    @Override
+    public final RootInfo getCurrentRoot() {
+        return currentRoot;
     }
 }
 

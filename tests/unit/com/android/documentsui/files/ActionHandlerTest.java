@@ -73,10 +73,14 @@ public class ActionHandlerTest {
 
         mSelection = new Selection();
         mSelection.add("1");
+
+        mHandler.reset(mEnv.model, null);
     }
 
     @Test
     public void testDeleteDocuments() {
+        mEnv.populateStack();
+
         mHandler.deleteDocuments(mEnv.model, mSelection, mCallback);
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertCalled();
@@ -85,11 +89,70 @@ public class ActionHandlerTest {
 
     @Test
     public void testDeleteDocuments_Cancelable() {
+        mEnv.populateStack();
+
         mDialogs.rejectNext();
         mHandler.deleteDocuments(mEnv.model, mSelection, mCallback);
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertNotCalled();
         mCallback.assertRejected();
+    }
+
+    @Test
+    public void testDocumentPicked_DefaultsToView() throws Exception {
+        mActivity.currentRoot = TestRootsAccess.HOME;
+
+        mHandler.onDocumentPicked(TestEnv.FILE_GIF);
+        mActivity.assertActivityStarted(Intent.ACTION_VIEW);
+    }
+
+    @Test
+    public void testDocumentPicked_PreviewsWhenResourceSet() throws Exception {
+        mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
+        mActivity.currentRoot = TestRootsAccess.HOME;
+
+        mHandler.onDocumentPicked(TestEnv.FILE_GIF);
+        mActivity.assertActivityStarted(Intent.ACTION_QUICK_VIEW);
+    }
+
+    @Test
+    public void testDocumentPicked_Downloads_ManagesApks() throws Exception {
+        mActivity.currentRoot = TestRootsAccess.DOWNLOADS;
+
+        mHandler.onDocumentPicked(TestEnv.FILE_APK);
+        mActivity.assertActivityStarted(DocumentsContract.ACTION_MANAGE_DOCUMENT);
+    }
+
+    @Test
+    public void testDocumentPicked_Downloads_ManagesPartialFiles() throws Exception {
+        mActivity.currentRoot = TestRootsAccess.DOWNLOADS;
+
+        mHandler.onDocumentPicked(TestEnv.FILE_PARTIAL);
+        mActivity.assertActivityStarted(DocumentsContract.ACTION_MANAGE_DOCUMENT);
+    }
+
+    @Test
+    public void testDocumentPicked_OpensArchives() throws Exception {
+        mActivity.currentRoot = TestRootsAccess.HOME;
+
+        mHandler.onDocumentPicked(TestEnv.FILE_ARCHIVE);
+        mActivity.openContainer.assertLastArgument(TestEnv.FILE_ARCHIVE);
+    }
+
+    @Test
+    public void testDocumentPicked_OpensDirectories() throws Exception {
+        mActivity.currentRoot = TestRootsAccess.HOME;
+
+        mHandler.onDocumentPicked(TestEnv.FOLDER_1);
+        mActivity.openContainer.assertLastArgument(TestEnv.FOLDER_1);
+    }
+
+    @Test
+    public void testShowChooser() throws Exception {
+        mActivity.currentRoot = TestRootsAccess.DOWNLOADS;
+
+        mHandler.showChooserForDoc(TestEnv.FILE_PDF);
+        mActivity.assertActivityStarted(Intent.ACTION_CHOOSER);
     }
 
     @Test
@@ -113,13 +176,11 @@ public class ActionHandlerTest {
         Intent intent = mActivity.getIntent();
         intent.setAction(Intent.ACTION_VIEW);
 
-        DocumentInfo destDoc = mEnv.model.getDocument("2");
-
         // configure DocumentsAccess to return something.
-        mEnv.docs.nextRootDocument = mEnv.model.getDocument("1");
-        mEnv.docs.nextDocument = destDoc;
+        mEnv.docs.nextRootDocument = TestEnv.FOLDER_0;
+        mEnv.docs.nextDocument = TestEnv.FILE_GIF;
 
-        Uri destUri = mEnv.model.getItemUri(destDoc.documentId);
+        Uri destUri = mEnv.model.getItemUri(TestEnv.FILE_GIF.documentId);
         intent.setData(destUri);
 
         mEnv.state.stack.clear();  // Stack must be clear, we've even got an assert!

@@ -18,7 +18,7 @@ package com.android.documentsui.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
+import android.support.design.widget.Snackbar;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -45,10 +45,16 @@ public interface DialogController {
         public void showFileOperationFailures(int status, int opType, int docCount) {
             throw new UnsupportedOperationException();
         }
+
+        @Override
+        public void showNoApplicationFound() {
+            throw new UnsupportedOperationException();
+        }
     };
 
     void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback);
     void showFileOperationFailures(int status, int opType, int docCount);
+    void showNoApplicationFound();
 
     // Should be private, but Java doesn't like me treating an interface like a mini-package.
     public static final class RuntimeDialogController implements DialogController {
@@ -99,7 +105,8 @@ public interface DialogController {
         }
 
         @Override
-        public void showFileOperationFailures(@Status int status, @OpType int opType, int docCount) {
+        public void showFileOperationFailures(
+                @Status int status, @OpType int opType, int docCount) {
             if (status == FileOperations.Callback.STATUS_REJECTED) {
                 Snackbars.showPasteFailed(mActivity);
                 return;
@@ -123,7 +130,13 @@ public interface DialogController {
                 default:
                     throw new UnsupportedOperationException("Unsupported Operation: " + opType);
             }
-        };
+        }
+
+        @Override
+        public void showNoApplicationFound() {
+            Snackbars.makeSnackbar(
+                    mActivity, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     static DialogController create(Activity activity) {
