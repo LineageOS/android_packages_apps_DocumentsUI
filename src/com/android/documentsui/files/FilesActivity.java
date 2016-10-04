@@ -21,13 +21,10 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -58,7 +55,6 @@ import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
-import com.android.documentsui.ui.Snackbars;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -254,22 +250,13 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * @deprecated use {@link ActionHandler#onDocumentPicked(DocumentInfo)}
+     * @param doc
+     */
     @Override
-    public void onDocumentPicked(DocumentInfo doc, Model model) {
-        if (doc.isContainer()) {
-            openContainerDocument(doc);
-            return;
-        }
-
-        if (manageDocument(doc)) {
-            return;
-        }
-
-        if (previewDocument(doc, model)) {
-            return;
-        }
-
-        viewDocument(doc);
+    public void onDocumentPicked(DocumentInfo doc) {
+        mActions.onDocumentPicked(doc);
     }
 
     @Override
@@ -285,138 +272,13 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         openContainerDocument(doc);
     }
 
+    /**
+     * @deprecated use {@link ActionHandler#showChooserForDoc(DocumentInfo)}
+     * @param doc
+     */
+    @Deprecated
     public void showChooserForDoc(DocumentInfo doc) {
-        assert(!doc.isContainer());
-
-        if (manageDocument(doc)) {
-            Log.w(TAG, "Open with is not yet supported for managed doc.");
-            return;
-        }
-
-        Intent intent = Intent.createChooser(buildViewIntent(doc), null);
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Snackbars.makeSnackbar(
-                    this, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    // TODO: Move to ActionHandler.
-    @Override
-    public boolean viewDocument(DocumentInfo doc) {
-        if (doc.isPartial()) {
-            Log.w(TAG, "Can't view partial file.");
-            return false;
-        }
-
-        if (doc.isContainer()) {
-            openContainerDocument(doc);
-            return true;
-        }
-
-        // this is a redundant check.
-        if (manageDocument(doc)) {
-            return true;
-        }
-
-        // Fall back to traditional VIEW action...
-        Intent intent = buildViewIntent(doc);
-        if (DEBUG && intent.getClipData() != null) {
-            Log.d(TAG, "Starting intent w/ clip data: " + intent.getClipData());
-        }
-
-        try {
-            startActivity(intent);
-            return true;
-        } catch (ActivityNotFoundException e) {
-            Snackbars.makeSnackbar(
-                    this, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
-        }
-        return false;
-    }
-
-    // TODO: Move to ActionHandler.
-    @Override
-    public boolean previewDocument(DocumentInfo doc, Model model) {
-        if (doc.isPartial()) {
-            Log.w(TAG, "Can't view partial file.");
-            return false;
-        }
-
-        Intent intent = new QuickViewIntentBuilder(
-                getPackageManager(), getResources(), doc, model).build();
-
-        if (intent != null) {
-            // TODO: un-work around issue b/24963914. Should be fixed soon.
-            try {
-                startActivity(intent);
-                return true;
-            } catch (SecurityException e) {
-                // Carry on to regular view mode.
-                Log.e(TAG, "Caught security error: " + e.getLocalizedMessage());
-            }
-        }
-
-        return false;
-    }
-
-    private boolean manageDocument(DocumentInfo doc) {
-        if (isManagedDocument(doc)) {
-            // First try managing the document; we expect manager to filter
-            // based on authority, so we don't grant.
-            Intent manage = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENT);
-            manage.setData(doc.derivedUri);
-            try {
-                startActivity(manage);
-                return true;
-            } catch (ActivityNotFoundException ex) {
-                // Fall back to regular handling.
-            }
-        }
-
-        return false;
-    }
-
-    private boolean isManagedDocument(DocumentInfo doc) {
-        // Anything on downloads goes through the back through downloads manager
-        // (that's the MANAGE_DOCUMENT bit).
-        // This is done for two reasons:
-        // 1) The file in question might be a failed/queued or otherwise have some
-        //    specialized download handling.
-        // 2) For APKs, the download manager will add on some important security stuff
-        //    like origin URL.
-        // All other files not on downloads, event APKs, would get no benefit from this
-        // treatment, thusly the "isDownloads" check.
-
-        // Launch MANAGE_DOCUMENTS only for the root level files, so it's not called for
-        // files in archives. Also, if the activity is already browsing a ZIP from downloads,
-        // then skip MANAGE_DOCUMENTS.
-        // Oh, and only launch for APKs.
-        final boolean isViewing = Intent.ACTION_VIEW.equals(getIntent().getAction());
-        final boolean isInArchive = mState.stack.size() > 1;
-        return getCurrentRoot().isDownloads()
-                && "application/vnd.android.package-archive".equals(doc.mimeType)
-                && !isInArchive
-                && !isViewing;
-    }
-
-    private Intent buildViewIntent(DocumentInfo doc) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(doc.derivedUri, doc.mimeType);
-
-        // Downloads has traditionally added the WRITE permission
-        // in the TrampolineActivity. Since this behavior is long
-        // established, we set the same permission for non-managed files
-        // This ensures consistent behavior between the Downloads root
-        // and other roots.
-        int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
-        if (doc.isWriteSupported()) {
-            flags |= Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-        }
-        intent.setFlags(flags);
-
-        return intent;
+        mActions.showChooserForDoc(doc);
     }
 
     @Override

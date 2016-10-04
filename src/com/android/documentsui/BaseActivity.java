@@ -381,7 +381,9 @@ public abstract class BaseActivity
                 && !root.isDownloads();
     }
 
-    protected void openContainerDocument(DocumentInfo doc) {
+    // TODO: Move to ActionHandler...currently blocked by the notifyDirectory....business.
+    @Override
+    public void openContainerDocument(DocumentInfo doc) {
         assert(doc.isContainer());
 
         notifyDirectoryNavigated(doc.derivedUri);
@@ -547,6 +549,7 @@ public abstract class BaseActivity
         }
     }
 
+    @Override
     public DocumentInfo getCurrentDirectory() {
         return mState.stack.peek();
     }

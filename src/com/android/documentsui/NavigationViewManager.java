@@ -130,6 +130,7 @@ public class NavigationViewManager {
     }
 
     interface Environment {
+        @Deprecated  // Use CommonAddones#getCurrentRoot
         RootInfo getCurrentRoot();
         String getDrawerTitle();
         @Deprecated  // Use CommonAddones#refreshCurrentRootAndDirectory

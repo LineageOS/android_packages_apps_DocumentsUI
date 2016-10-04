@@ -18,13 +18,13 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.test.filters.SmallTest;
+import android.support.test.filters.MediumTest;
 import android.test.AndroidTestCase;
 
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestEnv;
 
-@SmallTest
+@MediumTest
 public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
     private static final String AUTHORITY = "test_authority";

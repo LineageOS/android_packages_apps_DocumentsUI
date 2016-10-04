@@ -21,6 +21,7 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.DirectoryResult;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import libcore.net.MimeUtils;
@@ -60,40 +61,59 @@ public class TestModel extends Model {
         super.update(r);
     }
 
-    public void createFolders(String... names) {
-        for (int i = 0; i < names.length; i++) {
-            createFolder(i, names[i]);
-        }
-    }
-
-    public void createFiles(String... names) {
-        for (int i = 0; i < names.length; i++) {
-            create(++mLastId, names[i], guessMimeType(names[i]));
-        }
-    }
-
-    private void createFolder(int i, String name) {
-        create(
-                ++mLastId,
+    public DocumentInfo createFile(String name) {
+        return createFile(
                 name,
-                DocumentsContract.Document.MIME_TYPE_DIR,
-                Document.FLAG_SUPPORTS_DELETE
-                        | Document.FLAG_SUPPORTS_WRITE
+                Document.FLAG_SUPPORTS_WRITE
+                        | Document.FLAG_SUPPORTS_DELETE
+                        | Document.FLAG_SUPPORTS_RENAME);
+    }
+
+    public DocumentInfo createFile(String name, int flags) {
+        return createDocument(
+                name,
+                guessMimeType(name),
+                flags);
+    }
+
+    public DocumentInfo createFolder(String name) {
+        return createFolder(
+                name,
+                Document.FLAG_SUPPORTS_WRITE
+                        | Document.FLAG_SUPPORTS_DELETE
+                        | Document.FLAG_SUPPORTS_REMOVE
                         | Document.FLAG_DIR_SUPPORTS_CREATE);
     }
 
-    private void create(int id, String name, String mimeType) {
-        create(id, name, mimeType, Document.FLAG_SUPPORTS_DELETE);
+    public DocumentInfo createFolder(String name, int flags) {
+        return createDocument(
+                name,
+                DocumentsContract.Document.MIME_TYPE_DIR,
+                flags);
     }
 
-    public void create(int id, String name, String mimeType, int flags) {
+    public DocumentInfo createDocument(String name, String mimeType, int flags) {
+        DocumentInfo doc = new DocumentInfo();
+        doc.authority = mAuthority;
+        doc.documentId = Integer.toString(++mLastId);
+        doc.displayName = name;
+        doc.mimeType = mimeType;
+        doc.flags = flags;
+        doc.size = mRand.nextInt();
+
+        addToCursor(doc);
+
+        return doc;
+    }
+
+    private void addToCursor(DocumentInfo doc) {
         MatrixCursor.RowBuilder row = mCursor.newRow();
-        row.add(Document.COLUMN_DOCUMENT_ID, Integer.toString(id));
-        row.add(RootCursorWrapper.COLUMN_AUTHORITY, mAuthority);
-        row.add(Document.COLUMN_DISPLAY_NAME, name);
-        row.add(Document.COLUMN_MIME_TYPE, mimeType);
-        row.add(Document.COLUMN_FLAGS, flags);
-        row.add(Document.COLUMN_SIZE, mRand.nextInt());
+        row.add(Document.COLUMN_DOCUMENT_ID, doc.documentId);
+        row.add(RootCursorWrapper.COLUMN_AUTHORITY, doc.authority);
+        row.add(Document.COLUMN_DISPLAY_NAME, doc.displayName);
+        row.add(Document.COLUMN_MIME_TYPE, doc.mimeType);
+        row.add(Document.COLUMN_FLAGS, doc.flags);
+        row.add(Document.COLUMN_SIZE, doc.size);
     }
 
     private static String guessMimeType(String name) {

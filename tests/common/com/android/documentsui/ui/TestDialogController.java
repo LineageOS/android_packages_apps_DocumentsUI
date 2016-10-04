@@ -27,6 +27,7 @@ public class TestDialogController implements DialogController {
 
     public int mNextConfirmationCode;
     private boolean mFileOpFailed;
+    private boolean mNoApplicationFound;
 
     public TestDialogController() {
         // by default, always confirm
@@ -45,8 +46,17 @@ public class TestDialogController implements DialogController {
         }
     }
 
+    @Override
+    public void showNoApplicationFound() {
+        mNoApplicationFound = true;
+    }
+
     public void assertNoFileFailures() {
         Assert.assertFalse(mFileOpFailed);
+    }
+
+    public void assertNoAppFoundShown() {
+        Assert.assertFalse(mNoApplicationFound);
     }
 
     public void confirmNext() {

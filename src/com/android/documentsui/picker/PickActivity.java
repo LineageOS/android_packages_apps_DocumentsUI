@@ -305,7 +305,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     }
 
     @Override
-    public void onDocumentPicked(DocumentInfo doc, Model model) {
+    public void onDocumentPicked(DocumentInfo doc) {
         final FragmentManager fm = getFragmentManager();
         if (doc.isContainer()) {
             openContainerDocument(doc);
