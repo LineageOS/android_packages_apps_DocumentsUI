@@ -24,8 +24,9 @@ import android.view.View.OnDragListener;
 
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.ItemDragListener.DragHost;
-import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
-import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
+import com.android.documentsui.ui.ViewAutoScroller;
+import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
+import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.IntSupplier;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.selection;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -23,7 +23,7 @@ import static junit.framework.Assert.assertTrue;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.Selection;
 
 import com.google.common.collect.Sets;
 
@@ -36,7 +36,7 @@ import java.util.Set;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class MultiSelectManager_SelectionTest {
+public class SelectionTest {
 
     private Selection selection;
 

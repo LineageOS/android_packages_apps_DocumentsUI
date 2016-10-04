@@ -30,7 +30,7 @@ import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperation;
 
 import java.io.File;

@@ -16,10 +16,10 @@
 
 package com.android.documentsui.testing;
 
-import com.android.documentsui.dirlist.MultiSelectManager;
-import com.android.documentsui.dirlist.MultiSelectManager.SelectionMode;
-import com.android.documentsui.dirlist.MultiSelectManager.SelectionPredicate;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionManager.SelectionMode;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,15 +27,15 @@ import java.util.List;
 public class MultiSelectManagers {
     private MultiSelectManagers() {}
 
-    public static MultiSelectManager createTestInstance() {
+    public static SelectionManager createTestInstance() {
         return createTestInstance(Collections.emptyList());
     }
 
-    public static MultiSelectManager createTestInstance(List<String> docs) {
-        return createTestInstance(docs, MultiSelectManager.MODE_MULTIPLE);
+    public static SelectionManager createTestInstance(List<String> docs) {
+        return createTestInstance(docs, SelectionManager.MODE_MULTIPLE);
     }
 
-    public static MultiSelectManager createTestInstance(
+    public static SelectionManager createTestInstance(
             List<String> docs, @SelectionMode int mode) {
         return createTestInstance(
                 docs,
@@ -43,13 +43,11 @@ public class MultiSelectManagers {
                 (String id, boolean nextState) -> true);
     }
 
-    public static MultiSelectManager createTestInstance(
+    public static SelectionManager createTestInstance(
             List<String> docs, @SelectionMode int mode, SelectionPredicate canSetState) {
         TestDocumentsAdapter adapter = new TestDocumentsAdapter(docs);
-        MultiSelectManager manager = new MultiSelectManager(
-                adapter,
-                mode,
-                canSetState);
+        SelectionManager manager = new SelectionManager(mode);
+        manager.reset(adapter, canSetState);
 
         return manager;
     }

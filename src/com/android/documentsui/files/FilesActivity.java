@@ -50,8 +50,10 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.dirlist.MultiSelectManager;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
@@ -68,6 +70,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     public static final String TAG = "FilesActivity";
 
     private final Config mConfig = new Config();
+    private SelectionManager mSelectionMgr;
     private MenuManager mMenuManager;
     private FocusManager mFocusManager;
     private ActionHandler<FilesActivity> mActions;
@@ -83,6 +86,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         super.onCreate(icicle);
 
         mClipper = DocumentsApplication.getDocumentClipper(this);
+        mSelectionMgr = new SelectionManager(SelectionManager.MODE_MULTIPLE);
         mMenuManager = new MenuManager(
                 mSearchManager,
                 mState,
@@ -344,6 +348,11 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         return mConfig;
     }
 
+    public SelectionManager getSelectionManager(
+            DocumentsAdapter adapter, SelectionPredicate canSetState) {
+        return mSelectionMgr.reset(adapter, canSetState);
+    }
+
     @Override
     public FocusManager getFocusManager(RecyclerView view, Model model) {
         return mFocusManager.reset(view, model);
@@ -356,7 +365,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
     @Override
     public ActionHandler<FilesActivity> getActionHandler(
-            Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+            Model model, SelectionManager selectionMgr, boolean searchMode) {
 
         // provide our friend, RootsFragment, early access to this special feature!
         if (model == null || selectionMgr == null) {

@@ -15,14 +15,14 @@
  */
 
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.ui;
 
 import android.graphics.Point;
 
 /**
  * Provides auto-scrolling upon request when user's interaction with the application
- * introduces a natural intent to scroll. Used by {@link BandController}, {@link GestureSelector}
- * and {@link DragHoverListener} to allow auto scrolling when user either does band selection,
+ * introduces a natural intent to scroll. Used by BandController, GestureSelector,
+ * and DragHoverListener to allow auto scrolling when user either does band selection,
  * attempting to drag and drop files to somewhere off the current screen, or trying to motion select
  * past top/bottom of the screen.
  */
@@ -131,7 +131,7 @@ public final class ViewAutoScroller implements Runnable {
      * Used by {@link run} to properly calculate the proper amount of pixels to scroll given time
      * passed since scroll started, and to properly scroll / proper listener clean up if necessary.
      */
-    interface ScrollDistanceDelegate {
+    public interface ScrollDistanceDelegate {
         public Point getCurrentPosition();
         public int getViewHeight();
         public boolean isActive();
@@ -140,7 +140,7 @@ public final class ViewAutoScroller implements Runnable {
     /**
      * Used by {@link run} to do UI tasks, such as scrolling and rerunning at next UI cycle.
      */
-    interface ScrollActionDelegate {
+    public interface ScrollActionDelegate {
         public void scrollBy(int dy);
         public void runAtNextFrame(Runnable r);
         public void removeCallback(Runnable r);

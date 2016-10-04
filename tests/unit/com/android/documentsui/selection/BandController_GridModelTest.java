@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.selection;
 
-import static com.android.documentsui.dirlist.BandController.GridModel.NOT_SET;
+import static com.android.documentsui.selection.BandController.GridModel.NOT_SET;
 
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -24,7 +24,8 @@ import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.android.documentsui.dirlist.BandController.GridModel;
+import com.android.documentsui.dirlist.TestDocumentsAdapter;
+import com.android.documentsui.selection.BandController.GridModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         };
 
         viewWidth = VIEW_PADDING_PX + numColumns * (VIEW_PADDING_PX + CHILD_VIEW_EDGE_PX);
-        model = new GridModel(env, adapter);
+        model = new GridModel(env, (int pos) -> true, adapter);
         model.addOnSelectionChangedListener(
                 new GridModel.OnSelectionChangedListener() {
                     @Override
@@ -441,11 +442,6 @@ public class BandController_GridModelTest extends AndroidTestCase {
         @Override
         public void removeCallback(Runnable r) {
             throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public boolean isLayoutItem(int adapterPosition) {
-            return false;
         }
 
         @Override

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.selection;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
@@ -31,7 +31,8 @@ import java.util.function.Function;
 /**
  * A class that holds metadata
  */
-class SelectionMetadata implements MenuManager.SelectionDetails, MultiSelectManager.ItemCallback {
+public class SelectionMetadata
+        implements MenuManager.SelectionDetails, SelectionManager.ItemCallback {
 
     private static final String TAG = "SelectionMetadata";
 
@@ -46,7 +47,7 @@ class SelectionMetadata implements MenuManager.SelectionDetails, MultiSelectMana
     private int mNoDeleteCount = 0;
     private int mNoRenameCount = 0;
 
-    SelectionMetadata(Function<String, Cursor> docFinder) {
+    public SelectionMetadata(Function<String, Cursor> docFinder) {
         mDocFinder = docFinder;
     }
 

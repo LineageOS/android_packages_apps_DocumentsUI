@@ -35,11 +35,11 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.files.OpenUriForViewTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.sidebar.EjectRootTask;
 
 import java.util.List;

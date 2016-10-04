@@ -192,6 +192,19 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
                 : ITEM_TYPE_DOCUMENT;
     }
 
+    /**
+     * @return true if the item type is either document or directory, false for all other
+     * possible types.
+     */
+    public static boolean isContentType(int type) {
+        switch (type) {
+            case ModelBackedDocumentsAdapter.ITEM_TYPE_DOCUMENT:
+            case ModelBackedDocumentsAdapter.ITEM_TYPE_DIRECTORY:
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public void onItemSelectionChanged(String id) {
         int position = mModelIds.indexOf(id);

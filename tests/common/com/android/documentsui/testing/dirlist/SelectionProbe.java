@@ -20,17 +20,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.android.documentsui.dirlist.MultiSelectManager;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.Selection;
 
 /**
  * Helper class for making assertions against the state of a MultiSelectManager instance.
  */
 public final class SelectionProbe {
 
-    private final MultiSelectManager mMgr;
+    private final SelectionManager mMgr;
 
-    public SelectionProbe(MultiSelectManager mgr) {
+    public SelectionProbe(SelectionManager mgr) {
         mMgr = mgr;
     }
 

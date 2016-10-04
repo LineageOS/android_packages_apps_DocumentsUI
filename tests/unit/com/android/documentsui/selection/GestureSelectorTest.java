@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.selection;
 
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
+import com.android.documentsui.selection.GestureSelector;
 import com.android.documentsui.testing.TestEvent;
 
 @SmallTest

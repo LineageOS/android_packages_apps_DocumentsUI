@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.selection;
 
 import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
@@ -22,8 +22,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.android.documentsui.base.Events.InputEvent;
-import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
-import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
+import com.android.documentsui.ui.ViewAutoScroller;
+import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
+import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
 
 import java.util.function.IntSupplier;
 
@@ -33,9 +34,9 @@ import javax.annotation.Nullable;
  * Helper class used to intercept events that could cause a gesture multi-select, and keeps
  * the interception going if necessary.
  */
-final class GestureSelector {
+public final class GestureSelector {
 
-    private final MultiSelectManager mSelectionMgr;
+    private final SelectionManager mSelectionMgr;
     private final Runnable mDragScroller;
     private final IntSupplier mHeight;
     private final ViewFinder mViewFinder;
@@ -44,7 +45,7 @@ final class GestureSelector {
     private Point mLastInterceptedPoint;
 
     GestureSelector(
-            MultiSelectManager selectionMgr,
+            SelectionManager selectionMgr,
             IntSupplier heightSupplier,
             ViewFinder viewFinder,
             ScrollActionDelegate actionDelegate) {
@@ -72,8 +73,8 @@ final class GestureSelector {
         mDragScroller = new ViewAutoScroller(distanceDelegate, actionDelegate);
     }
 
-    static GestureSelector create(
-            MultiSelectManager selectionMgr,
+    public static GestureSelector create(
+            SelectionManager selectionMgr,
             RecyclerView scrollView) {
         ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
             @Override
@@ -102,7 +103,7 @@ final class GestureSelector {
     }
 
     // Explicitly kick off a gesture multi-select.
-    boolean start(InputEvent event) {
+    public boolean start(InputEvent event) {
         if (mStarted) {
             return false;
         }

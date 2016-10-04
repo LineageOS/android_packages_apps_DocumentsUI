@@ -28,7 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.testing.TestConfirmationCallback;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestRootsAccess;

@@ -89,9 +89,13 @@ import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.selection.BandController;
+import com.android.documentsui.selection.GestureSelector;
+import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionMetadata;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -146,6 +150,9 @@ public class DirectoryFragment extends Fragment
     private ActivityConfig mActivityConfig;
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    private SelectionManager mSelectionMgr;
+
+    // This dependency is informally "injected" from the owning Activity in our onCreate method.
     private FocusManager mFocusManager;
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
@@ -157,7 +164,6 @@ public class DirectoryFragment extends Fragment
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
     private DialogController mDialogs;
 
-    private MultiSelectManager mSelectionMgr;
     private ActionModeController mActionModeController;
     private SelectionMetadata mSelectionMetadata;
     private UserInputHandler<InputEvent> mInputHandler;
@@ -286,31 +292,33 @@ public class DirectoryFragment extends Fragment
         }
         mRecView.setLayoutManager(mLayout);
 
-        // TODO: instead of inserting the view into the constructor, extract listener-creation code
-        // and set the listener on the view after the fact.  Then the view doesn't need to be passed
-        // into the selection manager.
-        mSelectionMgr = new MultiSelectManager(
-                mAdapter,
-                state.allowMultiple
-                    ? MultiSelectManager.MODE_MULTIPLE
-                    : MultiSelectManager.MODE_SINGLE,
-                this::canSetSelectionState);
-        mSelectionMetadata = new SelectionMetadata(mModel::getItem);
-        mSelectionMgr.addItemCallback(mSelectionMetadata);
-
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView);
 
         final BaseActivity activity = getBaseActivity();
+        mSelectionMgr = activity.getSelectionManager(mAdapter, this::canSetSelectionState);
         mFocusManager = activity.getFocusManager(mRecView, mModel);
         mActions = activity.getActionHandler(mModel, mSelectionMgr, mConfig.mSearchMode);
         mMenuManager = activity.getMenuManager();
         mDialogs = activity.getDialogController();
 
+        mSelectionMetadata = new SelectionMetadata(mModel::getItem);
+        mSelectionMgr.addItemCallback(mSelectionMetadata);
+
+        GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView);
+
         if (state.allowMultiple) {
-            mBandController = new BandController(mRecView, mAdapter, mSelectionMgr);
+            mBandController = new BandController(
+                    mRecView,
+                    mAdapter,
+                    mSelectionMgr,
+                    (int pos) -> {
+                        // The band selection model only operates on documents and directories.
+                        // Exclude other types of adapter items like whitespace and dividers.
+                        RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(pos);
+                        return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
+                    });
         }
 
         DragStartListener mDragStartListener = mActivityConfig.dragAndDropEnabled()
@@ -1171,10 +1179,12 @@ public class DirectoryFragment extends Fragment
         }
     }
 
+    // TODO: Move to activities when Model becomes activity level object.
     private boolean canSelect(DocumentDetails doc) {
         return canSetSelectionState(doc.getModelId(), true);
     }
 
+    // TODO: Move to activities when Model becomes activity level object.
     private boolean canSetSelectionState(String modelId, boolean nextState) {
         if (nextState) {
             // Check if an item can be selected

@@ -57,9 +57,11 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
@@ -73,6 +75,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     private static final int CODE_FORWARD = 42;
     private static final String TAG = "PickActivity";
     private final Config mConfig = new Config();
+
+    private SelectionManager mSelectionMgr;
     private FocusManager mFocusManager;
     private MenuManager mMenuManager;
     private ActionHandler<PickActivity> mActionHandler;
@@ -85,6 +89,10 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
+        mSelectionMgr = new SelectionManager(
+                mState.allowMultiple
+                        ? SelectionManager.MODE_MULTIPLE
+                        : SelectionManager.MODE_SINGLE);
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
         mActionHandler = new ActionHandler<>(
@@ -398,6 +406,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         return mConfig;
     }
 
+    public SelectionManager getSelectionManager(
+            DocumentsAdapter adapter, SelectionPredicate canSetState) {
+        return mSelectionMgr.reset(adapter, canSetState);
+    }
+
     @Override
     public FocusManager getFocusManager(RecyclerView view, Model model) {
         return mFocusManager.reset(view, model);
@@ -410,7 +423,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     @Override
     public ActionHandler<PickActivity> getActionHandler(
-            Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+            Model model, SelectionManager selectionMgr, boolean searchMode) {
 
         // provide our friend, RootsFragment, early access to this special feature!
         if (model == null || selectionMgr == null) {

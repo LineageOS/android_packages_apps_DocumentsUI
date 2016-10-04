@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.Selection;
 
 import java.util.List;
 import java.util.function.Function;

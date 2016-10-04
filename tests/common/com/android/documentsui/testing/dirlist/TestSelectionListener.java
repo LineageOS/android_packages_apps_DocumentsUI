@@ -19,9 +19,9 @@ package com.android.documentsui.testing.dirlist;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.android.documentsui.dirlist.MultiSelectManager;
+import com.android.documentsui.selection.SelectionManager;
 
-public final class TestSelectionListener implements MultiSelectManager.Callback {
+public final class TestSelectionListener implements SelectionManager.Callback {
 
     private boolean mSelectionChanged = false;
 
