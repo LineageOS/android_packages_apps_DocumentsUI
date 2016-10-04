@@ -32,9 +32,6 @@ import android.widget.Button;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
-import com.android.documentsui.R.id;
-import com.android.documentsui.R.layout;
-import com.android.documentsui.R.string;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -44,6 +41,27 @@ import com.android.documentsui.services.FileOperationService.OpType;
  */
 public class PickFragment extends Fragment {
     public static final String TAG = "PickFragment";
+
+    private static final String ACTION_KEY = "action";
+    private static final String COPY_OPERATION_SUBTYPE_KEY = "copyOperationSubType";
+    private static final String PICK_TARGET_KEY = "pickTarget";
+
+    private final View.OnClickListener mPickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final PickActivity activity = PickActivity.get(PickFragment.this);
+            activity.onPickRequested(mPickTarget);
+        }
+    };
+
+    private final View.OnClickListener mCancelListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final BaseActivity activity = BaseActivity.get(PickFragment.this);
+            activity.setResult(Activity.RESULT_CANCELED);
+            activity.finish();
+        }
+    };
 
     private int mAction;
     // Only legal values are OPERATION_COPY, OPERATION_MOVE, and unset (OPERATION_UNKNOWN).
@@ -84,22 +102,26 @@ public class PickFragment extends Fragment {
         return mContainer;
     }
 
-    private View.OnClickListener mPickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final PickActivity activity = PickActivity.get(PickFragment.this);
-            activity.onPickRequested(mPickTarget);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore status
+            mAction = savedInstanceState.getInt(ACTION_KEY);
+            mCopyOperationSubType =
+                    savedInstanceState.getInt(COPY_OPERATION_SUBTYPE_KEY);
+            mPickTarget = savedInstanceState.getParcelable(PICK_TARGET_KEY);
+            updateView();
         }
-    };
+    }
 
-    private View.OnClickListener mCancelListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            final BaseActivity activity = BaseActivity.get(PickFragment.this);
-            activity.setResult(Activity.RESULT_CANCELED);
-            activity.finish();
-        }
-    };
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(ACTION_KEY, mAction);
+        outState.putInt(COPY_OPERATION_SUBTYPE_KEY, mCopyOperationSubType);
+        outState.putParcelable(PICK_TARGET_KEY, mPickTarget);
+    }
 
     /**
      * @param action Which action defined in State is the picker shown for.
