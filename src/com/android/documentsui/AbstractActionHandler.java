@@ -163,13 +163,13 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
      * from our concrete activity implementations.
      */
     public interface CommonAddons {
-       void refreshCurrentRootAndDirectory(@AnimationType int anim);
-       void onRootPicked(RootInfo root);
-       // TODO: Move this to PickAddons as multi-document picking is exclusive to that activity.
-       void onDocumentsPicked(List<DocumentInfo> docs);
-       void onDocumentPicked(DocumentInfo doc);
-       void openContainerDocument(DocumentInfo doc);
-       RootInfo getCurrentRoot();
-       DocumentInfo getCurrentDirectory();
+        void refreshCurrentRootAndDirectory(@AnimationType int anim);
+        void onRootPicked(RootInfo root);
+        // TODO: Move this to PickAddons as multi-document picking is exclusive to that activity.
+        void onDocumentsPicked(List<DocumentInfo> docs);
+        void onDocumentPicked(DocumentInfo doc);
+        void openContainerDocument(DocumentInfo doc);
+        RootInfo getCurrentRoot();
+        DocumentInfo getCurrentDirectory();
     }
 }

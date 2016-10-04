@@ -23,6 +23,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;

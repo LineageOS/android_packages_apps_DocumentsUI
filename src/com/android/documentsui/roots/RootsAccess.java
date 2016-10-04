@@ -42,6 +42,10 @@ public interface RootsAccess {
 
     Collection<RootInfo> getMatchingRootsBlocking(State state);
 
+    Collection<RootInfo> getRootsBlocking();
+
+    RootInfo getDefaultRootBlocking(State state);
+
     /**
      * Returns a list of roots for the specified authority. If not found, then
      * an empty list is returned.

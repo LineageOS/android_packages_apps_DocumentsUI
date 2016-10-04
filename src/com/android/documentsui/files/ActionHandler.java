@@ -461,8 +461,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
         public void reset(Model model, MultiSelectManager selectionMgr) {
             assert(model != null);
-            // Allowed to be null in testing, for now.
-            // assert(selectionMgr != null);
 
             this.model = model;
             this.selectionMgr = selectionMgr;

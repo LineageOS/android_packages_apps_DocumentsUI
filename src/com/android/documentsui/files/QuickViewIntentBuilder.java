@@ -49,9 +49,10 @@ import java.util.List;
 public final class QuickViewIntentBuilder {
 
     // trusted quick view package can be set via system property on debug builds.
-    // Unfortunately when the value is set, it interferes with testing.
+    // Unfortunately when the value is set, it interferes with testing (supercedes
+    // any value set in the resource system).
     // For that reason when trusted quick view package is set to this magic value
-    // we won't the system property. It's a gross hack, but stuff's gotta get done.
+    // we won't honor the system property.
     public static final String IGNORE_DEBUG_PROP = "*disabled*";
 
     private static final String TAG = "QuickViewIntentBuilder";
