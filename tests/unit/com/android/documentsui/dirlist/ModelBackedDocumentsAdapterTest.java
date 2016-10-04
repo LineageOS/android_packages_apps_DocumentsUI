@@ -18,36 +18,24 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.support.test.filters.SmallTest;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.base.State;
+import com.android.documentsui.testing.TestEnv;
 
 @SmallTest
 public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
     private static final String AUTHORITY = "test_authority";
-    private static final String[] NAMES = new String[] {
-            "4",
-            "foo",
-            "1",
-            "bar",
-            "*(Ljifl;a",
-            "0",
-            "baz",
-            "2",
-            "3",
-            "%$%VD"
-    };
 
-    private TestModel mModel;
+    private TestEnv mEnv;
     private ModelBackedDocumentsAdapter mAdapter;
 
     public void setUp() {
 
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
-        mModel = new TestModel(AUTHORITY);
-        mModel.update(NAMES);
+        mEnv = TestEnv.create(AUTHORITY);
 
         DocumentsAdapter.Environment env = new TestEnvironment(testContext);
 
@@ -58,7 +46,7 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
     // Tests that the item count is correct.
     public void testItemCount() {
-        assertEquals(mModel.getItemCount(), mAdapter.getItemCount());
+        assertEquals(mEnv.model.getItemCount(), mAdapter.getItemCount());
     }
 
     private final class TestEnvironment implements DocumentsAdapter.Environment {
@@ -83,7 +71,7 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
         @Override
         public Model getModel() {
-            return mModel;
+            return mEnv.model;
         }
 
         @Override

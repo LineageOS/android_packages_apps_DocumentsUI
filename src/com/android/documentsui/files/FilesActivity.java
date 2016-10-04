@@ -36,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.documentsui.BaseActivity;
+import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
@@ -104,6 +105,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 this,
                 mState,
                 mRoots,
+                DocumentsAccess.create(this),
                 ProviderExecutor::forAuthority,
                 mDialogs,
                 mTuner,

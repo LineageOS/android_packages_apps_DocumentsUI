@@ -43,6 +43,7 @@ public abstract class TestActivity extends AbstractBase {
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Intent> startService;
     public TestEventListener<RootInfo> rootPicked;
+    public TestEventListener<Integer> refreshCurrentRootAndDirectory;
 
     public static TestActivity create() {
         TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
@@ -58,6 +59,7 @@ public abstract class TestActivity extends AbstractBase {
        startActivity = new TestEventListener<>();
        startService = new TestEventListener<>();
        rootPicked = new TestEventListener<>();
+       refreshCurrentRootAndDirectory =  new TestEventListener<>();
    }
 
     @Override
@@ -94,6 +96,11 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final void onRootPicked(RootInfo root) {
         rootPicked.accept(root);
+    }
+
+    @Override
+    public final void refreshCurrentRootAndDirectory(int anim) {
+        refreshCurrentRootAndDirectory.accept(anim);
     }
 }
 

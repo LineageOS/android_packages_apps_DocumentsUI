@@ -54,6 +54,7 @@ public class AbstractActionHandlerTest {
                 mActivity,
                 mEnv.state,
                 mEnv.roots,
+                mEnv.docs,
                 mEnv::lookupExecutor) {
 
             @Override

@@ -37,6 +37,7 @@ import android.util.Log;
 
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
+import com.android.documentsui.roots.RootsAccess;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -349,8 +350,9 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     }
 
     /**
-     * Gets the {@link DocumentInfo} of the root folder of this root.
+     * @deprecate use {@link RootsAccess#getRootDocumentBlocking}.
      */
+    @Deprecated
     public @Nullable DocumentInfo getRootDocumentBlocking(Context context) {
         try {
             final Uri uri = DocumentsContract.buildDocumentUri(authority, documentId);
