@@ -17,6 +17,7 @@ package com.android.documentsui.testing;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
@@ -29,23 +30,18 @@ import java.util.concurrent.Executor;
 
 public class TestEnv {
 
-    public static final String[] FOLDERS = {
-            "My Root Doc",
-            "Things",
-            "Others"
-    };
-
-    public static final String[] FILES = {
-            "abc.txt",
-            "def.png",
-            "ghi.jpg",
-            "jkl.gif",
-            "mno.psd",
-            "pqr.tiff",
-            "stu.nef",
-            "vwx.tar.gz",
-            "yx.012"
-    };
+    public static DocumentInfo FOLDER_0;
+    public static DocumentInfo FOLDER_1;
+    public static DocumentInfo FOLDER_2;
+    public static DocumentInfo FILE_TXT;
+    public static DocumentInfo FILE_PNG;
+    public static DocumentInfo FILE_JPG;
+    public static DocumentInfo FILE_GIF;
+    public static DocumentInfo FILE_PDF;
+    public static DocumentInfo FILE_APK;
+    public static DocumentInfo FILE_PARTIAL;
+    public static DocumentInfo FILE_ARCHIVE;
+    public static DocumentInfo FILE_VIRTUAL;
 
     public final TestScheduledExecutorService mExecutor;
     public final State state = new State();
@@ -75,14 +71,39 @@ public class TestEnv {
 
     public void reset() {
         model.reset();
-        model.createFolders(FOLDERS);
-        model.createFiles(FILES);
+        FOLDER_0 = model.createFolder("folder 0");
+        FOLDER_1 = model.createFolder("folder 1");
+        FOLDER_2 = model.createFolder("folder 2");
+        FILE_TXT = model.createFile("woowoo.txt");
+        FILE_PNG = model.createFile("peppey.png");
+        FILE_JPG = model.createFile("jiffy.jpg");
+        FILE_GIF = model.createFile("glibby.gif");
+        FILE_PDF = model.createFile("busy.pdf");
+        FILE_APK = model.createFile("becareful.apk");
+        FILE_PARTIAL = model.createFile(
+                "UbuntuFlappyBird.iso",
+                Document.FLAG_SUPPORTS_DELETE
+                        | Document.FLAG_PARTIAL);
+        FILE_ARCHIVE = model.createFile(
+                "whatsinthere.zip",
+                Document.FLAG_ARCHIVE
+                        | Document.FLAG_SUPPORTS_DELETE);
+        FILE_VIRTUAL = model.createDocument(
+                "virtualdoc.vnd",
+                "application/vnd.google-apps.document",
+                Document.FLAG_VIRTUAL_DOCUMENT
+                        | Document.FLAG_SUPPORTS_DELETE
+                        | Document.FLAG_SUPPORTS_RENAME);
 
         model.update();
+    }
 
+    public void populateStack() {
         DocumentInfo rootDoc = model.getDocument("1");
         Assert.assertNotNull(rootDoc);
-        Assert.assertEquals(rootDoc.displayName, FOLDERS[0]);
+        Assert.assertEquals(rootDoc.displayName, FOLDER_0.displayName);
+
+        state.stack.root = TestRootsAccess.HOME;
         state.stack.push(rootDoc);
     }
 

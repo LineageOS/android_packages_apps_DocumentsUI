@@ -16,7 +16,10 @@
 
 package com.android.documentsui.testing.android;
 
+import android.annotation.UserIdInt;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
@@ -38,8 +41,6 @@ public abstract class TestPackageManager extends PackageManager {
 
     public Map<String, ResolveInfo> contentProviders;
 
-    private TestPackageManager() {}
-
     public void addStubContentProviderForRoot(RootInfo... roots) {
         for (RootInfo root : roots) {
             // only one entry per authority is required.
@@ -60,9 +61,24 @@ public abstract class TestPackageManager extends PackageManager {
     }
 
     @Override
-    public List<ResolveInfo> queryIntentContentProviders(Intent intent, int flags) {
+    public final List<ResolveInfo> queryIntentContentProviders(Intent intent, int flags) {
         List<ResolveInfo> result = new ArrayList<>();
         result.addAll(contentProviders.values());
         return result;
+    }
+
+    public final ResolveInfo resolveActivity(Intent intent, int flags) {
+        ResolveInfo info = new ResolveInfo();
+        info.activityInfo = new ActivityInfo();
+        info.activityInfo.packageName = intent.getPackage();
+        info.activityInfo.applicationInfo = new ApplicationInfo();
+        info.activityInfo.applicationInfo.packageName = intent.getPackage();
+        info.activityInfo.name = "Fake Quick Viewer";
+        return info;
+    }
+
+    public final ResolveInfo resolveActivityAsUser(
+            Intent intent, int flags, @UserIdInt int userId) {
+        return resolveActivity(intent, flags);
     }
 }

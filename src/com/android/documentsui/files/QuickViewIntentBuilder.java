@@ -46,23 +46,34 @@ import java.util.List;
 /**
  * Provides support for gather a list of quick-viewable files into a quick view intent.
  */
-final class QuickViewIntentBuilder {
+public final class QuickViewIntentBuilder {
+
+    // trusted quick view package can be set via system property on debug builds.
+    // Unfortunately when the value is set, it interferes with testing.
+    // For that reason when trusted quick view package is set to this magic value
+    // we won't the system property. It's a gross hack, but stuff's gotta get done.
+    public static final String IGNORE_DEBUG_PROP = "*disabled*";
 
     private static final String TAG = "QuickViewIntentBuilder";
 
     private final DocumentInfo mDocument;
     private final Model mModel;
 
-    private final PackageManager mPkgManager;
+    private final PackageManager mPackageMgr;
     private final Resources mResources;
 
     public QuickViewIntentBuilder(
-            PackageManager pkgManager,
+            PackageManager packageMgr,
             Resources resources,
             DocumentInfo doc,
             Model model) {
 
-        mPkgManager = pkgManager;
+        assert(packageMgr != null);
+        assert(resources != null);
+        assert(doc != null);
+        assert(model != null);
+
+        mPackageMgr = packageMgr;
         mResources = resources;
         mDocument = doc;
         mModel = model;
@@ -121,9 +132,15 @@ final class QuickViewIntentBuilder {
 
     private String getQuickViewPackage() {
         String resValue = mResources.getString(R.string.trusted_quick_viewer_package);
-        if (Build.IS_DEBUGGABLE ) {
-            // Allow users of debug devices to override default quick viewer
-            // for the purposes of testing.
+
+        // Allow automated tests to hard-disable quick viewing.
+        if (IGNORE_DEBUG_PROP.equals(resValue)) {
+            return "";
+        }
+
+        // Allow users of debug devices to override default quick viewer
+        // for the purposes of testing.
+        if (Build.IS_DEBUGGABLE) {
             return android.os.SystemProperties.get("debug.quick_viewer", resValue);
         }
         return resValue;
@@ -196,6 +213,6 @@ final class QuickViewIntentBuilder {
 
     private boolean hasRegisteredHandler(Intent intent) {
         // Try to resolve the intent. If a matching app isn't installed, it won't resolve.
-        return intent.resolveActivity(mPkgManager) != null;
+        return intent.resolveActivity(mPackageMgr) != null;
     }
 }

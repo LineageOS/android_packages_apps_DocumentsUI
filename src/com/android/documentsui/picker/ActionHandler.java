@@ -136,7 +136,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         }
 
         if (mTuner.isDocumentEnabled(doc.mimeType, doc.flags)) {
-            mActivity.onDocumentPicked(doc, mConfig.model);
+            mActivity.onDocumentPicked(doc);
             mConfig.selectionMgr.clearSelection();
             return true;
         }
@@ -164,5 +164,6 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     public interface Addons extends CommonAddons {
         void onAppPicked(ResolveInfo info);
+        void onDocumentPicked(DocumentInfo doc);
     }
 }

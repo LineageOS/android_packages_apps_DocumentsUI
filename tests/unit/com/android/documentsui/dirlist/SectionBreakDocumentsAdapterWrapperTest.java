@@ -18,7 +18,7 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.test.filters.SmallTest;
+import android.support.test.filters.MediumTest;
 import android.support.v7.widget.RecyclerView;
 import android.test.AndroidTestCase;
 import android.view.ViewGroup;
@@ -26,7 +26,7 @@ import android.view.ViewGroup;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestEnv;
 
-@SmallTest
+@MediumTest
 public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
 
     private static final String AUTHORITY = "test_authority";
@@ -59,14 +59,20 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
 
     // Tests that the item count is correct for a directory containing only subdirs.
     public void testItemCount_allDirs() {
-        mEnv.model.createFolders("Trader Joe's", "Alphabeta", "Lucky", "Vons", "Gelson's");
+        String[] names = {"Trader Joe's", "Alphabeta", "Lucky", "Vons", "Gelson's"};
+        for (String name : names) {
+            mEnv.model.createFolder(name);
+        }
         mEnv.model.update();
         assertEquals(mEnv.model.getItemCount(), mAdapter.getItemCount());
     }
 
     // Tests that the item count is correct for a directory containing only files.
     public void testItemCount_allFiles() {
-        mEnv.model.createFiles("123.txt", "234.jpg", "abc.pdf");
+        String[] names = {"123.txt", "234.jpg", "abc.pdf"};
+        for (String name : names) {
+            mEnv.model.createFile(name);
+        }
         mEnv.model.update();
         assertEquals(mEnv.model.getItemCount(), mAdapter.getItemCount());
     }

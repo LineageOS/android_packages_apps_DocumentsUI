@@ -16,10 +16,19 @@
 
 package com.android.documentsui.testing.android;
 
+import android.annotation.BoolRes;
+import android.annotation.NonNull;
+import android.annotation.StringRes;
 import android.content.res.Resources;
+import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 
+import com.android.documentsui.R;
+import com.android.documentsui.files.QuickViewIntentBuilder;
+
 import org.mockito.Mockito;
+
+import javax.annotation.Nullable;
 
 /**
  * Abstract to avoid having to implement unnecessary Activity stuff.
@@ -28,20 +37,48 @@ import org.mockito.Mockito;
 public abstract class TestResources extends Resources {
 
     public SparseBooleanArray bools;
+    public SparseArray<String> strings;
 
     public TestResources() {
         super(ClassLoader.getSystemClassLoader());
     }
 
     public static TestResources create() {
-        TestResources resources = Mockito.mock(
+        TestResources res = Mockito.mock(
                 TestResources.class, Mockito.CALLS_REAL_METHODS);
-        resources.bools = new SparseBooleanArray();
-        return resources;
+        res.bools = new SparseBooleanArray();
+        res.strings = new SparseArray<>();
+
+        res.setProductivityDeviceEnabled(false);
+
+        // quick view package can be set via system property on debug builds.
+        // unfortunately that interfers with testing. For that reason we have
+        // this little hack....QuickViewIntentBuilder will check for this value
+        // and ignore
+        res.setQuickViewerPackage(QuickViewIntentBuilder.IGNORE_DEBUG_PROP);
+        return res;
+    }
+
+    public void setQuickViewerPackage(String packageName) {
+        strings.put(R.string.trusted_quick_viewer_package, packageName);
+    }
+
+    public void setProductivityDeviceEnabled(boolean enabled) {
+        bools.put(R.bool.productivity_device, enabled);
     }
 
     @Override
-    public boolean getBoolean(int id) throws NotFoundException {
+    public final boolean getBoolean(@BoolRes int id) throws NotFoundException {
         return bools.get(id);
+    }
+
+    @Override
+    public final @Nullable String getString(@StringRes int id) throws NotFoundException {
+        return strings.get(id);
+    }
+
+    @NonNull
+    public final String getString(@StringRes int id, Object... formatArgs) throws NotFoundException {
+        return getString(id);
     }
 }

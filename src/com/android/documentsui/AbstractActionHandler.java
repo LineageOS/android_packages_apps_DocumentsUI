@@ -167,6 +167,9 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
        void onRootPicked(RootInfo root);
        // TODO: Move this to PickAddons as multi-document picking is exclusive to that activity.
        void onDocumentsPicked(List<DocumentInfo> docs);
-       void onDocumentPicked(DocumentInfo doc, Model model);
+       void onDocumentPicked(DocumentInfo doc);
+       void openContainerDocument(DocumentInfo doc);
+       RootInfo getCurrentRoot();
+       DocumentInfo getCurrentDirectory();
     }
 }
