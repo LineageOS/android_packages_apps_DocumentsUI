@@ -642,7 +642,7 @@ public class BandController extends OnScrollListener {
          */
         private boolean canSelect(String id) {
             // TODO: Simplify the logic, so the check whether we can select is done in one place.
-            // Consider injecting FragmentTuner, or move the checks from MultiSelectManager to
+            // Consider injecting ActivityConfig, or move the checks from MultiSelectManager to
             // Selection.
             for (GridModel.OnSelectionChangedListener listener : mOnSelectionChangedListeners) {
                 if (!listener.onBeforeItemStateChange(id, true)) {

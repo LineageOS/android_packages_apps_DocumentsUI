@@ -16,6 +16,9 @@
 
 package com.android.documentsui.picker;
 
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -67,7 +70,36 @@ public class ActionHandlerTest {
         mSelection = new Selection();
         mSelection.add("1");
 
-        mHandler.reset(mEnv.model, null);
+        mHandler.reset(mEnv.model, null, false);
+    }
+
+    @Test
+    public void testOpenDrawerOnLaunchingEmptyRoot() {
+        mEnv.model.reset();
+        // state should not say we've changed our location
+
+        mEnv.model.update();
+
+        mActivity.setRootsDrawerOpen.assertLastArgument(true);
+    }
+
+    @Test
+    public void testOpenDrawerOnGettingContent() {
+        mEnv.state.external = true;
+        mEnv.state.action = ACTION_GET_CONTENT;
+
+        mEnv.model.update();
+
+        mActivity.setRootsDrawerOpen.assertLastArgument(true);
+    }
+
+    @Test
+    public void testOpenDrawerOnPickingCopyDestination() {
+        mEnv.state.action = ACTION_PICK_COPY_DESTINATION;
+
+        mEnv.model.update();
+
+        mActivity.setRootsDrawerOpen.assertLastArgument(true);
     }
 
     @Test

@@ -23,6 +23,7 @@ import android.net.Uri;
 
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.ConfirmationCallback;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
@@ -35,7 +36,6 @@ public interface ActionHandler {
 
     /**
      * Drops documents on a root.
-     * @param check The check to make sure RootsFragment is not detached from activity.
      */
     boolean dropOn(ClipData data, RootInfo root);
 
@@ -63,6 +63,8 @@ public interface ActionHandler {
     boolean previewDocument(DocumentDetails doc);
 
     boolean openDocument(DocumentDetails doc);
+
+    void showChooserForDoc(DocumentInfo doc);
 
     void deleteDocuments(Model model, Selection selection, ConfirmationCallback callback);
 

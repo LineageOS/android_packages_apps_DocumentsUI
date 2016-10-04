@@ -59,6 +59,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.GetRootDocumentTask;
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.roots.RootsLoader;
 
@@ -77,18 +78,6 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     private static final String TAG = "RootsFragment";
     private static final String EXTRA_INCLUDE_APPS = "includeApps";
     private static final int CONTEXT_MENU_ITEM_TIMEOUT = 500;
-
-    private final OnDragListener mDragListener = new ItemDragListener<RootsFragment>(this) {
-        @Override
-        public boolean handleDropEventChecked(View v, DragEvent event) {
-            final int position = (Integer) v.getTag(R.id.item_position_tag);
-            final Item item = mAdapter.getItem(position);
-
-            assert(item.isDropTarget());
-
-            return item.dropOn(event.getClipData());
-        }
-    };
 
     private final OnItemClickListener mItemListener = new OnItemClickListener() {
         @Override
@@ -111,7 +100,13 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     private ListView mList;
     private RootsAdapter mAdapter;
     private LoaderCallbacks<Collection<RootInfo>> mCallbacks;
+    private @Nullable OnDragListener mDragListener;
+
+    // This dependency is informally "injected" from the owning Activity in our onCreate method.
     private ActionHandler mActionHandler;
+
+    // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    private ActivityConfig mActivityConfig;
 
     public static RootsFragment show(FragmentManager fm, Intent includeApps) {
         final Bundle args = new Bundle();
@@ -201,7 +196,23 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         final RootsCache roots = DocumentsApplication.getRootsCache(activity);
         final State state = activity.getDisplayState();
 
-        mActionHandler = activity.getActionHandler(null, null);
+        mActionHandler = activity.getActionHandler(null, null, false);
+        mActivityConfig = activity.getActivityConfig();
+
+        if (mActivityConfig.dragAndDropEnabled()) {
+            mDragListener = new ItemDragListener<RootsFragment>(this) {
+                @Override
+                public boolean handleDropEventChecked(View v, DragEvent event) {
+                    final int position = (Integer) v.getTag(R.id.item_position_tag);
+                    final Item item = mAdapter.getItem(position);
+
+                    assert (item.isDropTarget());
+
+                    return item.dropOn(event.getClipData());
+                }
+            };
+        }
+
 
         mCallbacks = new LoaderCallbacks<Collection<RootInfo>>() {
             @Override

@@ -138,6 +138,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
+    public void showChooserForDoc(DocumentInfo doc) {
+        throw new UnsupportedOperationException("Show chooser for doc not supported!");
+    }
+
+    @Override
     public void deleteDocuments(Model model, Selection selection, ConfirmationCallback callback) {
         throw new UnsupportedOperationException("Delete not supported!");
     }
@@ -171,5 +176,6 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         void openContainerDocument(DocumentInfo doc);
         RootInfo getCurrentRoot();
         DocumentInfo getCurrentDirectory();
+        void setRootsDrawerOpen(boolean open);
     }
 }

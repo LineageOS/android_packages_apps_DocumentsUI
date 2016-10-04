@@ -20,7 +20,6 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.app.Activity;
-import android.support.annotation.ColorRes;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
@@ -76,7 +75,7 @@ public abstract class DrawerController implements DrawerListener {
     /**
      * Returns a controller suitable for {@code Layout}.
      */
-    static DrawerController create(Activity activity) {
+    public static DrawerController create(Activity activity, ActivityConfig activityConfig) {
 
         DrawerLayout layout = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 
@@ -96,7 +95,7 @@ public abstract class DrawerController implements DrawerListener {
                 R.string.drawer_open,
                 R.string.drawer_close);
 
-        return new RuntimeDrawerController(layout, drawer, toggle, toolbar);
+        return new RuntimeDrawerController(layout, drawer, toggle, toolbar, activityConfig);
     }
 
     /**
@@ -131,8 +130,11 @@ public abstract class DrawerController implements DrawerListener {
         private @Trigger int mTrigger = OPENED_OTHER;
 
         public RuntimeDrawerController(
-                DrawerLayout layout, View drawer, ActionBarDrawerToggle toggle,
-                Toolbar drawerToolbar) {
+                DrawerLayout layout,
+                View drawer,
+                ActionBarDrawerToggle toggle,
+                Toolbar drawerToolbar,
+                ActivityConfig activityConfig) {
             mToolbar = drawerToolbar;
             assert(layout != null);
 
@@ -142,8 +144,10 @@ public abstract class DrawerController implements DrawerListener {
 
             mLayout.setDrawerListener(this);
 
-            View edge = layout.findViewById(R.id.drawer_edge);
-            edge.setOnDragListener(new ItemDragListener<>(this));
+            if (activityConfig.dragAndDropEnabled()) {
+                View edge = layout.findViewById(R.id.drawer_edge);
+                edge.setOnDragListener(new ItemDragListener<>(this));
+            }
         }
 
         @Override
