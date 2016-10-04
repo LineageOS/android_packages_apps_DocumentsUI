@@ -104,6 +104,12 @@ public class DragScrollListenerTest {
         triggerDragLocationEvent(0, BOTTOM_Y_POINT);
         assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_LOCATION);
 
+        triggerDragLocationEvent(0, TOP_Y_POINT);
+        assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_LOCATION);
+
+        triggerDragLocationEvent(0, BOTTOM_Y_POINT);
+        assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_LOCATION);
+
         triggerDragEvent(DragEvent.ACTION_DRAG_ENDED);
     }
 
@@ -134,18 +140,6 @@ public class DragScrollListenerTest {
         triggerDragEvent(DragEvent.ACTION_DRAG_ENDED);
     }
 
-    // Make sure given correct location/enter events, DragScrollListener handle them itself
-    @Test
-    public void testDragScrollEvent_Handled() {
-        triggerDragLocationEvent(0, TOP_Y_POINT);
-        triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
-        assertTrue(mDragHandler.mLastDropEvent == null);
-
-        triggerDragLocationEvent(0, BOTTOM_Y_POINT);
-        triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
-        assertTrue(mDragHandler.mLastDropEvent == null);
-    }
-
     // A correct Auto-scroll happens in the sequence of:
     // Started -> LocationChanged -> Scroll -> Enter -> Exit
     // This test to make sure scroll actually happens in the right direction given correct sequence
@@ -155,14 +149,12 @@ public class DragScrollListenerTest {
 
         triggerDragLocationEvent(0, TOP_Y_POINT);
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
-        assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_STARTED);
         mActionDelegate.assertScrollNegative();
 
         triggerDragLocationEvent(0, BOTTOM_Y_POINT);
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
 
         triggerDragEvent(DragEvent.ACTION_DRAG_ENDED);
-        assertTrue(mDragHandler.mLastDropEvent.getAction() == DragEvent.ACTION_DRAG_ENDED);
         mActionDelegate.assertScrollPositive();
     }
 

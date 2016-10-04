@@ -124,7 +124,6 @@ class DragHoverListener implements OnDragListener {
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
-        boolean handled = false;
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
                 mDragHappening = true;
@@ -132,21 +131,15 @@ class DragHoverListener implements OnDragListener {
             case DragEvent.ACTION_DRAG_ENDED:
                 mDragHappening = false;
                 break;
-            case DragEvent.ACTION_DRAG_ENTERED:
-                handled = insideDragZone();
-                break;
             case DragEvent.ACTION_DRAG_LOCATION:
-                handled = handleLocationEvent(v, event.getX(), event.getY());
+                handleLocationEvent(v, event.getX(), event.getY());
                 break;
             default:
                 break;
         }
 
-        if (!handled) {
-            handled = mDragHandler.onDrag(v, event);
-        }
-
-        return handled;
+        // Always forward events to the drag handler for item highlight, spring load, etc.
+        return mDragHandler.onDrag(v, event);
     }
 
     private boolean handleLocationEvent(View v, float x, float y) {
