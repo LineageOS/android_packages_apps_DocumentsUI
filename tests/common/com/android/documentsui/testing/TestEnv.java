@@ -18,34 +18,72 @@ package com.android.documentsui.testing;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestModel;
+
+import junit.framework.Assert;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
 public class TestEnv {
 
-    public static final String AUTHORITY = "hullabaloo";
+    public static final String[] FOLDERS = {
+            "My Root Doc",
+            "Things",
+            "Others"
+    };
+
+    public static final String[] FILES = {
+            "abc.txt",
+            "def.png",
+            "ghi.jpg",
+            "jkl.gif",
+            "mno.psd",
+            "pqr.tiff",
+            "stu.nef",
+            "vwx.tar.gz",
+            "yx.012"
+    };
 
     public final TestScheduledExecutorService mExecutor;
     public final State state = new State();
     public final TestRootsAccess roots = new TestRootsAccess();
-    public final TestModel model = new TestModel(AUTHORITY);
+    public final TestDocumentsAccess docs = new TestDocumentsAccess();
+    public final TestModel model;
 
-    private TestEnv() {
+    private TestEnv(String authority) {
         mExecutor = new TestScheduledExecutorService();
+        model = new TestModel(authority);
     }
 
     public static TestEnv create() {
-        TestEnv env = new TestEnv();
+        return create(TestRootsAccess.HOME.authority);
+    }
+
+    public static TestEnv create(String authority) {
+        TestEnv env = new TestEnv(authority);
         env.reset();
         return env;
     }
 
+    public void clear() {
+        model.reset();
+        model.update();
+    }
+
     public void reset() {
-        model.update("a", "b", "c", "x", "y", "z");
-        state.stack.push(model.getDocument("1"));
+        model.reset();
+        model.createFolders(FOLDERS);
+        model.createFiles(FILES);
+
+        model.update();
+
+        DocumentInfo rootDoc = model.getDocument("1");
+        Assert.assertNotNull(rootDoc);
+        Assert.assertEquals(rootDoc.displayName, FOLDERS[0]);
+        state.stack.push(rootDoc);
     }
 
     public void beforeAsserts() throws Exception {

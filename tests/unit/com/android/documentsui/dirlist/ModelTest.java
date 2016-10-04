@@ -22,9 +22,9 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.provider.DocumentsContract.Document;
+import android.support.test.filters.SmallTest;
 import android.test.AndroidTestCase;
 import android.test.mock.MockContentResolver;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentInfo;

@@ -37,6 +37,7 @@ import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.files.LauncherActivity;
+import com.android.documentsui.files.OpenUriForViewTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.sidebar.EjectRootTask;
@@ -53,21 +54,25 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final T mActivity;
     protected final State mState;
     protected final RootsAccess mRoots;
+    protected final DocumentsAccess mDocs;
     protected final Lookup<String, Executor> mExecutors;
 
     public AbstractActionHandler(
             T activity,
             State state,
             RootsAccess roots,
+            DocumentsAccess docs,
             Lookup<String, Executor> executors) {
 
         assert(activity != null);
         assert(state != null);
         assert(roots != null);
+        assert(docs != null);
 
         mActivity = activity;
         mState = state;
         mRoots = roots;
+        mDocs = docs;
         mExecutors = executors;
     }
 
@@ -138,9 +143,15 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
+    public final void loadDocument(Uri uri) {
+        new OpenUriForViewTask<>(mActivity, mState, mRoots, mDocs, uri)
+                .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
+    }
+
+    @Override
     public final void loadRoot(Uri uri) {
-        new LoadRootTask<>(mActivity, mRoots, mState, uri).executeOnExecutor(
-                mExecutors.lookup(uri.getAuthority()));
+        new LoadRootTask<>(mActivity, mRoots, mState, uri)
+                .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
     }
 
     protected final void loadHomeDir() {
@@ -152,10 +163,10 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
      * from our concrete activity implementations.
      */
     public interface CommonAddons {
+       void refreshCurrentRootAndDirectory(@AnimationType int anim);
        void onRootPicked(RootInfo root);
-       // TODO: Move this to PickAddons.
+       // TODO: Move this to PickAddons as multi-document picking is exclusive to that activity.
        void onDocumentsPicked(List<DocumentInfo> docs);
        void onDocumentPicked(DocumentInfo doc, Model model);
-       void refreshCurrentRootAndDirectory(@AnimationType int anim);
     }
 }

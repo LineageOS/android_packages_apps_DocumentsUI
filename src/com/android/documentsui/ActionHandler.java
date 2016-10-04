@@ -52,6 +52,8 @@ public interface ActionHandler {
 
     void loadRoot(Uri uri);
 
+    void loadDocument(Uri uri);
+
     void openInNewWindow(DocumentStack path);
 
     void pasteIntoFolder(RootInfo root);

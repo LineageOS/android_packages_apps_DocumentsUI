@@ -17,10 +17,13 @@
 package com.android.documentsui.dirlist;
 
 import android.database.MatrixCursor;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.roots.RootCursorWrapper;
+
+import libcore.net.MimeUtils;
 
 import java.util.Random;
 
@@ -36,33 +39,75 @@ public class TestModel extends Model {
     };
 
     private final String mAuthority;
+    private int mLastId = 0;
+    private Random mRand = new Random();
+    private MatrixCursor mCursor;
 
     public TestModel(String authority) {
         super();
         mAuthority = authority;
+        reset();
     }
 
-    public void update(String... names) {
-        Random rand = new Random();
+    public void reset() {
+        mLastId = 0;
+        mCursor = new MatrixCursor(COLUMNS);
+    }
 
-        MatrixCursor c = new MatrixCursor(COLUMNS);
+    public void update() {
+        DirectoryResult r = new DirectoryResult();
+        r.cursor = mCursor;
+        super.update(r);
+    }
+
+    public void createFolders(String... names) {
         for (int i = 0; i < names.length; i++) {
-            MatrixCursor.RowBuilder row = c.newRow();
-            row.add(RootCursorWrapper.COLUMN_AUTHORITY, mAuthority);
-            row.add(Document.COLUMN_DOCUMENT_ID, Integer.toString(i));
-            row.add(Document.COLUMN_FLAGS, Document.FLAG_SUPPORTS_DELETE);
-            // Generate random document names and sizes. This forces the model's internal sort code
-            // to actually do something.
-            row.add(Document.COLUMN_DISPLAY_NAME, names[i]);
-            row.add(Document.COLUMN_SIZE, rand.nextInt());
+            createFolder(i, names[i]);
+        }
+    }
+
+    public void createFiles(String... names) {
+        for (int i = 0; i < names.length; i++) {
+            create(++mLastId, names[i], guessMimeType(names[i]));
+        }
+    }
+
+    private void createFolder(int i, String name) {
+        create(
+                ++mLastId,
+                name,
+                DocumentsContract.Document.MIME_TYPE_DIR,
+                Document.FLAG_SUPPORTS_DELETE
+                        | Document.FLAG_SUPPORTS_WRITE
+                        | Document.FLAG_DIR_SUPPORTS_CREATE);
+    }
+
+    private void create(int id, String name, String mimeType) {
+        create(id, name, mimeType, Document.FLAG_SUPPORTS_DELETE);
+    }
+
+    public void create(int id, String name, String mimeType, int flags) {
+        MatrixCursor.RowBuilder row = mCursor.newRow();
+        row.add(Document.COLUMN_DOCUMENT_ID, Integer.toString(id));
+        row.add(RootCursorWrapper.COLUMN_AUTHORITY, mAuthority);
+        row.add(Document.COLUMN_DISPLAY_NAME, name);
+        row.add(Document.COLUMN_MIME_TYPE, mimeType);
+        row.add(Document.COLUMN_FLAGS, flags);
+        row.add(Document.COLUMN_SIZE, mRand.nextInt());
+    }
+
+    private static String guessMimeType(String name) {
+        int i = name.indexOf('.');
+
+        while(i != -1) {
+            name = name.substring(i + 1);
+            String type = MimeUtils.guessMimeTypeFromExtension(name);
+            if (type != null) {
+                return type;
+            }
+            i = name.indexOf('.');
         }
 
-        DirectoryResult r = new DirectoryResult();
-        r.cursor = c;
-        update(r);
-    }
-
-    String idForPosition(int p) {
-        return Integer.toString(p);
+        return "text/plain";
     }
 }

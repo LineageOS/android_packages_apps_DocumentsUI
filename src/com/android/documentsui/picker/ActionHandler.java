@@ -27,6 +27,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler;
+import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -58,10 +59,11 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             T activity,
             State state,
             RootsAccess roots,
+            DocumentsAccess docs,
             Lookup<String, Executor> executors,
             FragmentTuner tuner) {
 
-        super(activity, state, roots, executors);
+        super(activity, state, roots, docs, executors);
 
         mTuner = tuner;
         mConfig = new Config();

@@ -34,7 +34,7 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     }
 
     public TestActionHandler(TestEnv env) {
-        super(TestActivity.create(), env.state, env.roots, (String authority) -> null);
+        super(TestActivity.create(), env.state, env.roots, env.docs, (String authority) -> null);
     }
 
     @Override

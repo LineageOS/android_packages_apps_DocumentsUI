@@ -49,7 +49,6 @@ import android.widget.ListView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.GetRootDocumentTask;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
 import com.android.documentsui.base.BooleanConsumer;
@@ -59,6 +58,7 @@ import com.android.documentsui.base.Events;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.roots.RootsLoader;
 
