@@ -307,6 +307,7 @@ public class RootsCache implements RootsAccess {
         return mRecentsRoot.equals(root);
     }
 
+    @Override
     public Collection<RootInfo> getRootsBlocking() {
         waitForFirstLoad();
         loadStoppedAuthorities();

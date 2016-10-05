@@ -102,4 +102,18 @@ public class TestRootsAccess implements RootsAccess {
     public Collection<RootInfo> getRootsForAuthorityBlocking(String authority) {
         return roots.get(authority);
     }
+
+    @Override
+    public Collection<RootInfo> getRootsBlocking() {
+        List<RootInfo> result = new ArrayList<>();
+        for (Collection<RootInfo> vals : roots.values()) {
+            result.addAll(vals);
+        }
+        return result;
+    }
+
+    @Override
+    public RootInfo getDefaultRootBlocking(State state) {
+        return DOWNLOADS;
+    }
 }
