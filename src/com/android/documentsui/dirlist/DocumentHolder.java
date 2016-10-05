@@ -106,10 +106,15 @@ public abstract class DocumentHolder
     }
 
     /**
-     * Highlights the associated item view.
+     * Highlights the associated item view to indicate it's droppable.
      * @param highlighted
      */
-    public void setHighlighted(boolean highlighted) {
+    public void setDroppableHighlight(boolean highlighted) {
+        // If item is already selected, its droppable highlight should not be changed.
+        if (itemView.isActivated()) {
+            return;
+        }
+
         itemView.setBackgroundColor(highlighted ? mSelectedBgColor : mDefaultBgColor);
     }
 

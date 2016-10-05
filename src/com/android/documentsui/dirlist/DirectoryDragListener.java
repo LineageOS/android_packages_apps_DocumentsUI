@@ -35,9 +35,7 @@ class DirectoryDragListener extends ItemDragListener<DirectoryFragment> {
     public boolean onDrag(View v, DragEvent event) {
         final boolean result = super.onDrag(v, event);
 
-        if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
-            mDragHost.dragStarted();
-        } else if (event.getAction() == DragEvent.ACTION_DRAG_ENDED) {
+        if (event.getAction() == DragEvent.ACTION_DRAG_ENDED) {
             // getResult() is true if drag was accepted
             mDragHost.dragStopped(event.getResult());
         }
