@@ -17,7 +17,6 @@
 package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,6 +32,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FragmentTuner;
@@ -83,7 +83,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             // Concensus was that the experice was too confusing.
             // In all other cases, where the user is visiting us from another app
             // we restore the stack as last used from that app.
-            if (mState.action == ACTION_PICK_COPY_DESTINATION) {
+            if (Shared.ACTION_PICK_COPY_DESTINATION.equals(intent.getAction())) {
                 if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
                 loadHomeDir();
             } else {
@@ -155,7 +155,6 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
         public void reset(Model model, MultiSelectManager selectionMgr) {
             assert(model != null);
-            assert(selectionMgr != null);
 
             this.model = model;
             this.selectionMgr = selectionMgr;

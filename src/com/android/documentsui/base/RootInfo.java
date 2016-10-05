@@ -35,9 +35,9 @@ import android.provider.DocumentsContract.Root;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
-import com.android.documentsui.roots.RootsAccess;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -350,7 +350,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     }
 
     /**
-     * @deprecate use {@link RootsAccess#getRootDocumentBlocking}.
+     * @deprecate use {@link DocumentsAccess#getRootDocumentBlocking}.
      */
     @Deprecated
     public @Nullable DocumentInfo getRootDocumentBlocking(Context context) {

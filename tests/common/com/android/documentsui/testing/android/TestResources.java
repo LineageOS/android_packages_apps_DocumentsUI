@@ -78,7 +78,8 @@ public abstract class TestResources extends Resources {
     }
 
     @NonNull
-    public final String getString(@StringRes int id, Object... formatArgs) throws NotFoundException {
+    public final String getString(
+            @StringRes int id, Object... formatArgs) throws NotFoundException {
         return getString(id);
     }
 }
