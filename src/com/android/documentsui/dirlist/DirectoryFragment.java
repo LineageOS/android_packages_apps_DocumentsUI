@@ -1002,18 +1002,6 @@ public class DirectoryFragment extends Fragment
         }
     }
 
-    void dragStarted() {
-        // When files are selected for dragging, ActionMode is started. This obscures the breadcrumb
-        // with an ActionBar. In order to make drag and drop to the breadcrumb possible, we first
-        // end ActionMode so the breadcrumb is visible to the user.
-        //
-        // mActionModeController is null when dragStarted() is called on spring loaded
-        // folders/roots.
-        if (mActionModeController != null) {
-            mActionModeController.finishActionMode();
-        }
-    }
-
     void dragStopped(boolean result) {
         if (result) {
             mSelectionMgr.clearSelection();
@@ -1119,7 +1107,7 @@ public class DirectoryFragment extends Fragment
         if (v.getParent() == mRecView) {
             RecyclerView.ViewHolder vh = mRecView.getChildViewHolder(v);
             if (vh instanceof DocumentHolder) {
-                ((DocumentHolder) vh).setHighlighted(highlight);
+                ((DocumentHolder) vh).setDroppableHighlight(highlight);
             }
         }
     }
