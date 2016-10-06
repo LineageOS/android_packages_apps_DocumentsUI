@@ -50,6 +50,7 @@ public abstract class TestActivity extends AbstractBase {
     public TestEventListener<RootInfo> rootPicked;
     public TestEventListener<DocumentInfo> openContainer;
     public TestEventListener<Integer> refreshCurrentRootAndDirectory;
+    public TestEventListener<Boolean> setRootsDrawerOpen;
 
     public static TestActivity create() {
         TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
@@ -67,6 +68,7 @@ public abstract class TestActivity extends AbstractBase {
        rootPicked = new TestEventListener<>();
        openContainer = new TestEventListener<>();
        refreshCurrentRootAndDirectory =  new TestEventListener<>();
+       setRootsDrawerOpen = new TestEventListener<>();
    }
 
     @Override
@@ -131,6 +133,11 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final RootInfo getCurrentRoot() {
         return currentRoot;
+    }
+
+    @Override
+    public final void setRootsDrawerOpen(boolean open) {
+        setRootsDrawerOpen.accept(open);
     }
 }
 

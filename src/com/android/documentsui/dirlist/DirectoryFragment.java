@@ -61,6 +61,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.ActionHandler;
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryLoader;
@@ -142,7 +143,7 @@ public class DirectoryFragment extends Fragment
     private final EventListener<Model.Update> mModelUpdateListener = new ModelUpdateListener();
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
-    private FragmentTuner mTuner;
+    private ActivityConfig mActivityConfig;
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
     private FocusManager mFocusManager;
@@ -161,7 +162,7 @@ public class DirectoryFragment extends Fragment
     private SelectionMetadata mSelectionMetadata;
     private UserInputHandler<InputEvent> mInputHandler;
     private @Nullable BandController mBandController;
-    private DragHoverListener mDragHoverListener;
+    private @Nullable DragHoverListener mDragHoverListener;
     private IconHelper mIconHelper;
     private SwipeRefreshLayout mRefreshLayout;
     private View mEmptyView;
@@ -173,7 +174,6 @@ public class DirectoryFragment extends Fragment
     private GridLayoutManager mLayout;
     private int mColumnCount = 1;  // This will get updated when layout changes.
 
-    private LayoutInflater mInflater;
     private MessageBar mMessageBar;
     private View mProgressBar;
 
@@ -193,7 +193,7 @@ public class DirectoryFragment extends Fragment
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mInflater = inflater;
+
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
         mMessageBar = MessageBar.create(getChildFragmentManager());
@@ -215,9 +215,12 @@ public class DirectoryFragment extends Fragment
         mRecView.setItemAnimator(new DirectoryItemAnimator(getActivity()));
         mFileList = view.findViewById(R.id.file_list);
 
-        mDragHoverListener = DragHoverListener.create(new DirectoryDragListener(this), mRecView);
+        mActivityConfig = getBaseActivity().getActivityConfig();
+        mDragHoverListener = mActivityConfig.dragAndDropEnabled()
+                ? DragHoverListener.create(new DirectoryDragListener(this), mRecView)
+                : null;
 
-        // Make the recycler and the empty views responsive to drop events.
+        // Make the recycler and the empty views responsive to drop events when allowed.
         mRecView.setOnDragListener(mDragHoverListener);
         mEmptyView.setOnDragListener(mDragHoverListener);
 
@@ -301,9 +304,8 @@ public class DirectoryFragment extends Fragment
         GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView);
 
         final BaseActivity activity = getBaseActivity();
-        mTuner = activity.getFragmentTuner(mModel, mConfig.mSearchMode);
         mFocusManager = activity.getFocusManager(mRecView, mModel);
-        mActions = activity.getActionHandler(mModel, mSelectionMgr);
+        mActions = activity.getActionHandler(mModel, mSelectionMgr, mConfig.mSearchMode);
         mMenuManager = activity.getMenuManager();
         mDialogs = activity.getDialogController();
 
@@ -311,7 +313,7 @@ public class DirectoryFragment extends Fragment
             mBandController = new BandController(mRecView, mAdapter, mSelectionMgr);
         }
 
-        DragStartListener mDragStartListener = mTuner.dragAndDropEnabled()
+        DragStartListener mDragStartListener = mActivityConfig.dragAndDropEnabled()
                 ? DragStartListener.create(
                         mIconHelper,
                         getContext(),
@@ -669,7 +671,7 @@ public class DirectoryFragment extends Fragment
         assert(selected.size() == 1);
         DocumentInfo doc =
                 DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
-        mTuner.showChooserForDoc(doc);
+        mActions.showChooserForDoc(doc);
     }
 
     // TODO: Once selection manager is activity owned, move this logic into
@@ -843,7 +845,7 @@ public class DirectoryFragment extends Fragment
 
     @Override
     public boolean isDocumentEnabled(String docMimeType, int docFlags) {
-        return mTuner.isDocumentEnabled(docMimeType, docFlags);
+        return mActivityConfig.isDocumentEnabled(docMimeType, docFlags, getDisplayState());
     }
 
     private void showEmptyDirectory() {
@@ -1196,7 +1198,7 @@ public class DirectoryFragment extends Fragment
 
             final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
             final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-            return mTuner.canSelectType(docMimeType, docFlags);
+            return mActivityConfig.canSelectType(docMimeType, docFlags, getDisplayState());
         } else {
             // Right now all selected items can be deselected.
             return true;
@@ -1303,7 +1305,7 @@ public class DirectoryFragment extends Fragment
                         mConfig.mRoot.authority, mConfig.mRoot.rootId, mConfig.mQuery)
                         : DocumentsContract.buildChildDocumentsUri(
                                 mConfig.mDocument.authority, mConfig.mDocument.documentId);
-                if (mTuner.managedModeEnabled()) {
+                if (mActivityConfig.managedModeEnabled(state.stack)) {
                     contentsUri = DocumentsContract.setManageMode(contentsUri);
                 }
                 if (DEBUG) Log.d(TAG, "Creating new directory loader for: "

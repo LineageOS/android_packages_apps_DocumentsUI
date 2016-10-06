@@ -47,9 +47,9 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.DocumentClipper;
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.services.FileOperationService;
@@ -67,7 +67,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
     public static final String TAG = "FilesActivity";
 
-    private Tuner mTuner;
+    private final Config mConfig = new Config();
     private MenuManager mMenuManager;
     private FocusManager mFocusManager;
     private ActionHandler<FilesActivity> mActions;
@@ -93,7 +93,6 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                     }
                 });
 
-        mTuner = new Tuner(this, mState);
         // Make sure this is done after the RecyclerView and the Model are set up.
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mDialogs = DialogController.create(this);
@@ -104,7 +103,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 DocumentsAccess.create(this),
                 ProviderExecutor::forAuthority,
                 mDialogs,
-                mTuner,
+                mConfig,
                 mClipper,
                 DocumentsApplication.getClipStore(this));
 
@@ -341,8 +340,8 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     }
 
     @Override
-    public FragmentTuner getFragmentTuner(Model model, boolean mSearchMode) {
-        return mTuner.reset(model, mSearchMode);
+    public ActivityConfig getActivityConfig() {
+        return mConfig;
     }
 
     @Override
@@ -357,7 +356,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
     @Override
     public ActionHandler<FilesActivity> getActionHandler(
-            Model model, MultiSelectManager selectionMgr) {
+            Model model, MultiSelectManager selectionMgr, boolean searchMode) {
 
         // provide our friend, RootsFragment, early access to this special feature!
         if (model == null || selectionMgr == null) {
@@ -365,7 +364,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
             assert(selectionMgr == null);
             return mActions;
         }
-        return mActions.reset(model, selectionMgr);
+        return mActions.reset(model, selectionMgr, searchMode);
     }
 
     @Override

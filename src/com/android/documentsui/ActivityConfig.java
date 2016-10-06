@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,25 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui;
 
-import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.State;
 
 /**
  * Providers support for specializing the DirectoryFragment to the "host" Activity.
  * Feel free to expand the role of this class to handle other specializations.
  */
-public abstract class FragmentTuner {
+public abstract class ActivityConfig {
 
     // Subtly different from isDocumentEnabled. The reason may be illuminated as follows.
     // A folder is enabled such that it may be double clicked, even in settings
     // when the folder itself cannot be selected. This may also be true of container types.
-    public boolean canSelectType(String docMimeType, int docFlags) {
+    public boolean canSelectType(String docMimeType, int docFlags, State state) {
         return true;
     }
 
-    public boolean isDocumentEnabled(String docMimeType, int docFlags) {
+    public boolean isDocumentEnabled(String docMimeType, int docFlags, State state) {
         return true;
     }
 
@@ -39,20 +40,14 @@ public abstract class FragmentTuner {
      * When managed mode is enabled, active downloads will be visible in the UI.
      * Presumably this should only be true when in the downloads directory.
      */
-    protected boolean managedModeEnabled() {
+    public boolean managedModeEnabled(DocumentStack stack) {
         return false;
     }
 
     /**
      * Whether drag n' drop is allowed in this context
      */
-    protected boolean dragAndDropEnabled() {
+    public boolean dragAndDropEnabled() {
         return false;
-    }
-
-    // TODO: Move to action handler.
-    @Deprecated
-    protected void showChooserForDoc(DocumentInfo doc) {
-        throw new UnsupportedOperationException("Show chooser not supported!");
     }
 }

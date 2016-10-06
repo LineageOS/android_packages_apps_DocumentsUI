@@ -55,8 +55,8 @@ import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
@@ -72,7 +72,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     private static final int CODE_FORWARD = 42;
     private static final String TAG = "PickActivity";
-    private Tuner mTuner;
+    private final Config mConfig = new Config();
     private FocusManager mFocusManager;
     private MenuManager mMenuManager;
     private ActionHandler<PickActivity> mActionHandler;
@@ -85,7 +85,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
 
-        mTuner = new Tuner(this, mState);
         mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
         mActionHandler = new ActionHandler<>(
@@ -94,7 +93,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 DocumentsApplication.getRootsCache(this),
                 DocumentsAccess.create(this),
                 ProviderExecutor::forAuthority,
-                mTuner);
+                mConfig);
 
         Intent intent = getIntent();
 
@@ -395,8 +394,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     }
 
     @Override
-    public FragmentTuner getFragmentTuner(Model model, boolean mSearchMode) {
-        return mTuner.reset(model, mSearchMode);
+    public ActivityConfig getActivityConfig() {
+        return mConfig;
     }
 
     @Override
@@ -411,7 +410,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     @Override
     public ActionHandler<PickActivity> getActionHandler(
-            Model model, MultiSelectManager selectionMgr) {
+            Model model, MultiSelectManager selectionMgr, boolean searchMode) {
 
         // provide our friend, RootsFragment, early access to this special feature!
         if (model == null || selectionMgr == null) {
@@ -419,7 +418,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             assert(selectionMgr == null);
             return mActionHandler;
         }
-        return mActionHandler.reset(model, selectionMgr);
+        return mActionHandler.reset(model, selectionMgr, searchMode);
     }
 
     /* (non-Javadoc)

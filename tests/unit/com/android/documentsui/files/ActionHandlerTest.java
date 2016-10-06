@@ -74,7 +74,17 @@ public class ActionHandlerTest {
         mSelection = new Selection();
         mSelection.add("1");
 
-        mHandler.reset(mEnv.model, null);
+        mHandler.reset(mEnv.model, null, false);
+    }
+
+    @Test
+    public void testOpenDrawerOnLaunchingEmptyRoot() {
+        mEnv.model.reset();
+        // state should not say we've changed our location
+
+        mEnv.model.update();
+
+        mActivity.setRootsDrawerOpen.assertLastArgument(true);
     }
 
     @Test

@@ -64,7 +64,6 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.dirlist.MultiSelectManager.Selection;
@@ -120,7 +119,7 @@ public abstract class BaseActivity
      * Provides Activity a means of injection into and specialization of
      * DirectoryFragment.
      */
-    public abstract FragmentTuner getFragmentTuner(Model model, boolean mSearchMode);
+    public abstract ActivityConfig getActivityConfig();
 
     /**
      * Provides Activity a means of injection into and specialization of
@@ -144,10 +143,10 @@ public abstract class BaseActivity
      * Provides Activity a means of injection into and specialization of
      * fragment actions.
      *
-     * Args can be nullable when called from a context lacking them, such as RootsFragment.
+     * Args can be null when called from a context lacking fragment, such as RootsFragment.
      */
     public abstract ActionHandler getActionHandler(
-            @Nullable Model model, @Nullable MultiSelectManager selectionMgr);
+            @Nullable Model model, @Nullable MultiSelectManager selectionMgr, boolean searchMode);
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
@@ -168,8 +167,8 @@ public abstract class BaseActivity
 
         setContentView(mLayoutId);
 
-        mDrawer = DrawerController.create(this);
         mState = getState(icicle);
+        mDrawer = DrawerController.create(this, getActivityConfig());
         Metrics.logActivityLaunch(this, mState, intent);
 
         // we're really interested in retainining state in our very complex
@@ -215,7 +214,6 @@ public abstract class BaseActivity
         };
         mSearchManager = new SearchViewManager(searchListener, icicle);
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
-
 
         // Base classes must update result in their onCreate.
         setResult(Activity.RESULT_CANCELED);
@@ -284,6 +282,7 @@ public abstract class BaseActivity
         return state;
     }
 
+    @Override
     public void setRootsDrawerOpen(boolean open) {
         mNavigator.revealRootsDrawer(open);
     }

@@ -17,6 +17,8 @@
 package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,13 +32,16 @@ import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.dirlist.FragmentTuner;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.dirlist.Model.Update;
 import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.roots.RootsAccess;
@@ -52,7 +57,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     private static final String TAG = "PickerActionHandler";
 
-    private final FragmentTuner mTuner;
+    private final ActivityConfig mActivityConfig;
     private final Config mConfig;
 
     ActionHandler(
@@ -61,12 +66,12 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             RootsAccess roots,
             DocumentsAccess docs,
             Lookup<String, Executor> executors,
-            FragmentTuner tuner) {
+            ActivityConfig activityConfig) {
 
         super(activity, state, roots, docs, executors);
 
-        mTuner = tuner;
-        mConfig = new Config();
+        mActivityConfig = activityConfig;
+        mConfig = new Config(this::onModelLoaded);
     }
 
     @Override
@@ -135,7 +140,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             return false;
         }
 
-        if (mTuner.isDocumentEnabled(doc.mimeType, doc.flags)) {
+        if (mActivityConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
             mActivity.onDocumentPicked(doc);
             mConfig.selectionMgr.clearSelection();
             return true;
@@ -143,8 +148,35 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         return false;
     }
 
-    ActionHandler<T> reset(Model model, MultiSelectManager selectionMgr) {
-        mConfig.reset(model, selectionMgr);
+    private void onModelLoaded(Model.Update update) {
+        boolean showDrawer = false;
+
+        if (MimePredicate.mimeMatches(MimePredicate.VISUAL_MIMES, mState.acceptMimes)) {
+            showDrawer = false;
+        }
+        if (mState.external && mState.action == ACTION_GET_CONTENT) {
+            showDrawer = true;
+        }
+        if (mState.action == ACTION_PICK_COPY_DESTINATION) {
+            showDrawer = true;
+        }
+
+        // When launched into empty root, open drawer.
+        if (mConfig.model.isEmpty()) {
+            showDrawer = true;
+        }
+
+        if (showDrawer && !mState.hasInitialLocationChanged() && !mConfig.searchMode
+                && !mConfig.modelLoadObserved) {
+            // This noops on layouts without drawer, so no need to guard.
+            mActivity.setRootsDrawerOpen(true);
+        }
+
+        mConfig.modelLoadObserved = true;
+    }
+
+    ActionHandler<T> reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+        mConfig.reset(model, selectionMgr, searchMode);
         return this;
     }
 
@@ -152,12 +184,26 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
         @Nullable Model model;
         @Nullable MultiSelectManager selectionMgr;
+        boolean searchMode;
 
-        public void reset(Model model, MultiSelectManager selectionMgr) {
+        // We use this to keep track of whether a model has been previously loaded or not so we can
+        // open the drawer on empty directories on first launch
+        private boolean modelLoadObserved;
+
+        private final EventListener<Update> mModelUpdateListener;
+
+        public Config(EventListener<Update> modelUpdateListener) {
+            mModelUpdateListener = modelUpdateListener;
+        }
+
+        public void reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
             assert(model != null);
 
             this.model = model;
             this.selectionMgr = selectionMgr;
+            this.searchMode = searchMode;
+
+            model.addUpdateListener(mModelUpdateListener);
         }
     }
 
