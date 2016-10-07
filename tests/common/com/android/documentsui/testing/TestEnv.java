@@ -22,6 +22,7 @@ import android.provider.DocumentsContract.Document;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestModel;
+import com.android.documentsui.selection.SelectionManager;
 
 import junit.framework.Assert;
 
@@ -48,10 +49,12 @@ public class TestEnv {
     public final TestRootsAccess roots = new TestRootsAccess();
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
     public final TestModel model;
+    public final SelectionManager selectionMgr;
 
     private TestEnv(String authority) {
         mExecutor = new TestScheduledExecutorService();
         model = new TestModel(authority);
+        selectionMgr = SelectionManagers.createTestInstance();
     }
 
     public static TestEnv create() {

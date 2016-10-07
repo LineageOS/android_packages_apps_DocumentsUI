@@ -76,7 +76,6 @@ import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events.InputEvent;
@@ -299,7 +298,7 @@ public class DirectoryFragment extends Fragment
         final BaseActivity activity = getBaseActivity();
         mSelectionMgr = activity.getSelectionManager(mAdapter, this::canSetSelectionState);
         mFocusManager = activity.getFocusManager(mRecView, mModel);
-        mActions = activity.getActionHandler(mModel, mSelectionMgr, mConfig.mSearchMode);
+        mActions = activity.getActionHandler(mModel, mConfig.mSearchMode);
         mMenuManager = activity.getMenuManager();
         mDialogs = activity.getDialogController();
 
@@ -359,14 +358,11 @@ public class DirectoryFragment extends Fragment
 
         mMenuManager = activity.getMenuManager();
 
-        mActionModeController = ActionModeController.create(
-                getContext(),
-                mSelectionMgr,
-                mMenuManager,
+        mActionModeController = activity.getActionModeController(
                 mSelectionMetadata,
-                getActivity(),
-                mRecView,
-                this::handleMenuItemClick);
+                this::handleMenuItemClick,
+                mRecView);
+
         mSelectionMgr.addCallback(mActionModeController);
 
         final ActivityManager am = (ActivityManager) context.getSystemService(
@@ -577,7 +573,7 @@ public class DirectoryFragment extends Fragment
                 return true;
 
             case R.id.menu_open_in_new_window:
-                openInNewWindow(selection);
+                mActions.openSelectedInNewWindow();
                 return true;
 
             case R.id.menu_share:
@@ -589,8 +585,8 @@ public class DirectoryFragment extends Fragment
             case R.id.menu_delete:
                 // deleteDocuments will end action mode if the documents are deleted.
                 // It won't end action mode if user cancels the delete.
-                mActions.deleteDocuments(
-                        mModel, selection, mActionModeController::finishOnConfirmed);
+                mActions.deleteSelectedDocuments(
+                        mModel, mActionModeController::finishOnConfirmed);
                 return true;
 
             case R.id.menu_copy_to:
@@ -682,16 +678,6 @@ public class DirectoryFragment extends Fragment
         mActions.showChooserForDoc(doc);
     }
 
-    // TODO: Once selection manager is activity owned, move this logic into
-    // a new method: ActionHandler#openWindowOnSelectedDocument
-    private void openInNewWindow(final Selection selected) {
-        assert(selected.size() == 1);
-        DocumentInfo doc =
-                DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
-        assert(doc != null);
-        mActions.openInNewWindow(new DocumentStack(getDisplayState().stack, doc));
-    }
-
     private void shareDocuments(final Selection selected) {
         Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SHARE);
 
@@ -742,9 +728,7 @@ public class DirectoryFragment extends Fragment
 
     private boolean onDeleteSelectedDocuments() {
         if (mSelectionMgr.hasSelection()) {
-            Selection selection = mSelectionMgr.getSelection(new Selection());
-            mActions.deleteDocuments(
-                    mModel, selection, mActionModeController::finishOnConfirmed);
+            mActions.deleteSelectedDocuments(mModel, mActionModeController::finishOnConfirmed);
         }
         return false;
     }

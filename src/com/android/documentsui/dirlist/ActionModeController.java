@@ -21,7 +21,6 @@ import static com.android.documentsui.base.Shared.DEBUG;
 import android.annotation.IdRes;
 import android.annotation.Nullable;
 import android.app.Activity;
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
@@ -31,17 +30,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.MenuManager;
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.R;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Menus;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.ui.MessageBuilder;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.IntConsumer;
 
 /**
@@ -51,42 +50,27 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
 
     private static final String TAG = "ActionModeController";
 
-    private final Context mContext;
+    private final Activity mActivity;
     private final SelectionManager mSelectionMgr;
     private final MenuManager mMenuManager;
-    private final MenuManager.SelectionDetails mSelectionDetails;
+    private final MessageBuilder mMessages;
 
-    private final Function<ActionMode.Callback, ActionMode> mActionModeFactory;
-    private final EventHandler<MenuItem> mMenuItemClicker;
-    private final IntConsumer mHapticPerformer;
-    private final Consumer<CharSequence> mAccessibilityAnnouncer;
-    private final AccessibilityImportanceSetter mAccessibilityImportanceSetter;
-
+    private final Config mConfig = new Config();
     private final Selection mSelected = new Selection();
 
     private @Nullable ActionMode mActionMode;
     private @Nullable Menu mMenu;
 
-    private ActionModeController(
-            Context context,
+    public ActionModeController(
+            Activity activity,
             SelectionManager selectionMgr,
             MenuManager menuManager,
-            MenuManager.SelectionDetails selectionDetails,
-            Function<ActionMode.Callback, ActionMode> actionModeFactory,
-            EventHandler<MenuItem> menuItemClicker,
-            IntConsumer hapticPerformer,
-            Consumer<CharSequence> accessibilityAnnouncer,
-            AccessibilityImportanceSetter accessibilityImportanceSetter) {
-        mContext = context;
+            MessageBuilder messages) {
+
+        mActivity = activity;
         mSelectionMgr = selectionMgr;
         mMenuManager = menuManager;
-        mSelectionDetails = selectionDetails;
-
-        mActionModeFactory = actionModeFactory;
-        mMenuItemClicker = menuItemClicker;
-        mHapticPerformer = hapticPerformer;
-        mAccessibilityAnnouncer = accessibilityAnnouncer;
-        mAccessibilityImportanceSetter = accessibilityImportanceSetter;
+        mMessages = messages;
     }
 
     @Override
@@ -95,8 +79,8 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
         if (mSelected.size() > 0) {
             if (mActionMode == null) {
                 if (DEBUG) Log.d(TAG, "Starting action mode.");
-                mActionMode = mActionModeFactory.apply(this);
-                mHapticPerformer.accept(HapticFeedbackConstants.LONG_PRESS);
+                mActionMode = mActivity.startActionMode(this);
+                mConfig.hapticPerformer.accept(HapticFeedbackConstants.LONG_PRESS);
             }
             updateActionMenu();
         } else {
@@ -108,10 +92,10 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
 
         if (mActionMode != null) {
             assert(!mSelected.isEmpty());
-            final String title = Shared.getQuantityString(mContext,
+            final String title = mMessages.getQuantityString(
                     R.plurals.elements_selected, mSelected.size());
             mActionMode.setTitle(title);
-            mAccessibilityAnnouncer.accept(title);
+            mConfig.accessibilityAnnouncer.accept(title);
         }
     }
 
@@ -121,7 +105,7 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
         if (mSelected.size() > 0) {
             if (mActionMode == null) {
                 if (DEBUG) Log.d(TAG, "Starting action mode.");
-                mActionMode = mActionModeFactory.apply(this);
+                mActionMode = mActivity.startActionMode(this);
             }
             updateActionMenu();
         } else {
@@ -133,10 +117,10 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
 
         if (mActionMode != null) {
             assert(!mSelected.isEmpty());
-            final String title = Shared.getQuantityString(mContext,
+            final String title = mMessages.getQuantityString(
                     R.plurals.elements_selected, mSelected.size());
             mActionMode.setTitle(title);
-            mAccessibilityAnnouncer.accept(title);
+            mConfig.accessibilityAnnouncer.accept(title);
         }
     }
 
@@ -167,7 +151,7 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
         mSelected.clear();
 
         // Re-enable TalkBack for the toolbars, as they are no longer covered by action mode.
-        mAccessibilityImportanceSetter.setAccessibilityImportance(
+        mConfig.accessibilityImportanceSetter.setAccessibilityImportance(
                 View.IMPORTANT_FOR_ACCESSIBILITY_AUTO, R.id.toolbar, R.id.roots_toolbar);
     }
 
@@ -181,7 +165,7 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
 
             // Hide the toolbars if action mode is enabled, so TalkBack doesn't navigate to
             // these controls when using linear navigation.
-            mAccessibilityImportanceSetter.setAccessibilityImportance(
+            mConfig.accessibilityImportanceSetter.setAccessibilityImportance(
                     View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS,
                     R.id.toolbar,
                     R.id.roots_toolbar);
@@ -200,35 +184,13 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
 
     private void updateActionMenu() {
         assert(mMenu != null);
-        mMenuManager.updateActionMenu(mMenu, mSelectionDetails);
+        mMenuManager.updateActionMenu(mMenu, mConfig.selectionDetails);
         Menus.disableHiddenItems(mMenu);
     }
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        return mMenuItemClicker.accept(item);
-    }
-
-    static ActionModeController create(
-            Context context,
-            SelectionManager selectionMgr,
-            MenuManager menuManager,
-            MenuManager.SelectionDetails selectionDetails,
-            Activity activity,
-            View view,
-            EventHandler<MenuItem> menuItemClicker) {
-        return new ActionModeController(
-                context,
-                selectionMgr,
-                menuManager,
-                selectionDetails,
-                activity::startActionMode,
-                menuItemClicker,
-                view::performHapticFeedback,
-                view::announceForAccessibility,
-                (int accessibilityImportance, @IdRes int[] viewIds) -> {
-                    setImportantForAccessibility(activity, accessibilityImportance, viewIds);
-                });
+        return mConfig.menuItemClicker.accept(item);
     }
 
     private static void setImportantForAccessibility(
@@ -250,5 +212,31 @@ public class ActionModeController implements SelectionManager.Callback, ActionMo
         if (code == ConfirmationCallback.CONFIRM) {
             finishActionMode();
         }
+    }
+
+    public ActionModeController reset(
+            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view) {
+        assert(mActionMode == null);
+        assert(mMenu == null);
+
+        mConfig.menuItemClicker = menuItemClicker;
+        mConfig.selectionDetails = selectionDetails;
+        mConfig.hapticPerformer = view::performHapticFeedback;
+        mConfig.accessibilityAnnouncer = view::announceForAccessibility;
+        mConfig.accessibilityImportanceSetter =
+                (int accessibilityImportance, @IdRes int[] viewIds) -> {
+                    setImportantForAccessibility(
+                            mActivity, accessibilityImportance, viewIds);
+                };
+
+        return this;
+    }
+
+    private static final class Config {
+        private EventHandler<MenuItem> menuItemClicker;
+        private SelectionDetails selectionDetails;
+        private IntConsumer hapticPerformer;
+        private Consumer<CharSequence> accessibilityAnnouncer;
+        private AccessibilityImportanceSetter accessibilityImportanceSetter;
     }
 }

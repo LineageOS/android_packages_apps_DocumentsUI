@@ -62,9 +62,9 @@ public interface DialogController {
         private final Activity mActivity;
         private final MessageBuilder mMessages;
 
-        public RuntimeDialogController(Activity activity) {
+        public RuntimeDialogController(Activity activity, MessageBuilder messages) {
             mActivity = activity;
-            mMessages = new MessageBuilder(mActivity);
+            mMessages = messages;
         }
 
         @Override
@@ -139,7 +139,7 @@ public interface DialogController {
         }
     }
 
-    static DialogController create(Activity activity) {
-        return new RuntimeDialogController(activity);
+    static DialogController create(Activity activity, MessageBuilder messages) {
+        return new RuntimeDialogController(activity, messages);
     }
 }

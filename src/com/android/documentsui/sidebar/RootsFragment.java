@@ -47,6 +47,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.android.documentsui.ActionHandler;
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.ItemDragListener;
@@ -59,7 +60,6 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.GetRootDocumentTask;
-import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.roots.RootsLoader;
 
@@ -196,7 +196,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         final RootsCache roots = DocumentsApplication.getRootsCache(activity);
         final State state = activity.getDisplayState();
 
-        mActionHandler = activity.getActionHandler(null, null, false);
+        mActionHandler = activity.getActionHandler(null, false);
         mActivityConfig = activity.getActivityConfig();
 
         if (mActivityConfig.dragAndDropEnabled()) {

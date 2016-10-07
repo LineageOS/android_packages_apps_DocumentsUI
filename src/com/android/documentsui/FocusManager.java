@@ -57,11 +57,8 @@ import java.util.TimerTask;
 public final class FocusManager implements FocusHandler {
     private static final String TAG = "FocusManager";
 
-    private final Config mConfig = new Config();
-    @Nullable TitleSearchHelper mSearchHelper;
-    private @Nullable String mPendingFocusId;
-
-    private int mLastFocusPosition = RecyclerView.NO_POSITION;
+    private final ContentScope mScope = new ContentScope();
+    private final TitleSearchHelper mSearchHelper;
 
     public FocusManager(@ColorRes int color) {
         mSearchHelper = new TitleSearchHelper(color);
@@ -91,24 +88,24 @@ public final class FocusManager implements FocusHandler {
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         // Remember focus events on items.
-        if (hasFocus && v.getParent() == mConfig.mView) {
-            mLastFocusPosition = mConfig.mView.getChildAdapterPosition(v);
+        if (hasFocus && v.getParent() == mScope.view) {
+            mScope.lastFocusPosition = mScope.view.getChildAdapterPosition(v);
         }
     }
 
     @Override
     public void restoreLastFocus() {
-        if (mConfig.mAdapter.getItemCount() == 0) {
+        if (mScope.adapter.getItemCount() == 0) {
             // Nothing to focus.
             return;
         }
 
-        if (mLastFocusPosition != RecyclerView.NO_POSITION) {
+        if (mScope.lastFocusPosition != RecyclerView.NO_POSITION) {
             // The system takes care of situations when a view is no longer on screen, etc,
-            focusItem(mLastFocusPosition);
+            focusItem(mScope.lastFocusPosition);
         } else {
             // Focus the first visible item
-            focusItem(mConfig.mLayout.findFirstVisibleItemPosition());
+            focusItem(mScope.layout.findFirstVisibleItemPosition());
         }
     }
 
@@ -118,15 +115,15 @@ public final class FocusManager implements FocusHandler {
      */
     @Override
     public void onLayoutCompleted() {
-        if (mPendingFocusId == null) {
+        if (mScope.pendingFocusId == null) {
             return;
         }
 
-        int pos = mConfig.mAdapter.getModelIds().indexOf(mPendingFocusId);
+        int pos = mScope.adapter.getModelIds().indexOf(mScope.pendingFocusId);
         if (pos != -1) {
             focusItem(pos);
         }
-        mPendingFocusId = null;
+        mScope.pendingFocusId = null;
     }
 
     /*
@@ -136,17 +133,17 @@ public final class FocusManager implements FocusHandler {
      */
     @Override
     public void focusDocument(String modelId) {
-        int pos = mConfig.mAdapter.getModelIds().indexOf(modelId);
-        if (pos != -1 && mConfig.mView.findViewHolderForAdapterPosition(pos) != null) {
+        int pos = mScope.adapter.getModelIds().indexOf(modelId);
+        if (pos != -1 && mScope.view.findViewHolderForAdapterPosition(pos) != null) {
             focusItem(pos);
         } else {
-            mPendingFocusId = modelId;
+            mScope.pendingFocusId = modelId;
         }
     }
 
     @Override
     public int getFocusPosition() {
-        return mLastFocusPosition;
+        return mScope.lastFocusPosition;
     }
 
     /**
@@ -162,7 +159,7 @@ public final class FocusManager implements FocusHandler {
             case KeyEvent.KEYCODE_MOVE_HOME:
                 return 0;
             case KeyEvent.KEYCODE_MOVE_END:
-                return mConfig.mAdapter.getItemCount() - 1;
+                return mScope.adapter.getItemCount() - 1;
             case KeyEvent.KEYCODE_PAGE_UP:
             case KeyEvent.KEYCODE_PAGE_DOWN:
                 return findPagedTargetPosition(view, keyCode, event);
@@ -180,7 +177,7 @@ public final class FocusManager implements FocusHandler {
         }
 
         if (inGridMode()) {
-            int currentPosition = mConfig.mView.getChildAdapterPosition(view);
+            int currentPosition = mScope.view.getChildAdapterPosition(view);
             // Left and right arrow keys only work in grid mode.
             switch (keyCode) {
                 case KeyEvent.KEYCODE_DPAD_LEFT:
@@ -191,7 +188,7 @@ public final class FocusManager implements FocusHandler {
                     }
                     break;
                 case KeyEvent.KEYCODE_DPAD_RIGHT:
-                    if (currentPosition < mConfig.mAdapter.getItemCount() - 1) {
+                    if (currentPosition < mScope.adapter.getItemCount() - 1) {
                         // Stop forward focus search at the last item, otherwise focus will wrap
                         // around to the first visible item.
                         searchDir = View.FOCUS_FORWARD;
@@ -206,15 +203,15 @@ public final class FocusManager implements FocusHandler {
             // events that cause a UI rebuild (like rotating the device). Compromise: turn focusable
             // off while performing the focus search.
             // TODO: Revisit this when RV focus issues are resolved.
-            mConfig.mView.setFocusable(false);
+            mScope.view.setFocusable(false);
             View targetView = view.focusSearch(searchDir);
-            mConfig.mView.setFocusable(true);
+            mScope.view.setFocusable(true);
             // TargetView can be null, for example, if the user pressed <down> at the bottom
             // of the list.
             if (targetView != null) {
                 // Ignore navigation targets that aren't items in the RecyclerView.
-                if (targetView.getParent() == mConfig.mView) {
-                    return mConfig.mView.getChildAdapterPosition(targetView);
+                if (targetView.getParent() == mScope.view) {
+                    return mScope.view.getChildAdapterPosition(targetView);
                 }
             }
         }
@@ -236,9 +233,9 @@ public final class FocusManager implements FocusHandler {
      * @return The adapter position of the target item.
      */
     private int findPagedTargetPosition(View view, int keyCode, KeyEvent event) {
-        int first = mConfig.mLayout.findFirstVisibleItemPosition();
-        int last = mConfig.mLayout.findLastVisibleItemPosition();
-        int current = mConfig.mView.getChildAdapterPosition(view);
+        int first = mScope.layout.findFirstVisibleItemPosition();
+        int last = mScope.layout.findLastVisibleItemPosition();
+        int current = mScope.view.getChildAdapterPosition(view);
         int pageSize = last - first + 1;
 
         if (keyCode == KeyEvent.KEYCODE_PAGE_UP) {
@@ -259,7 +256,7 @@ public final class FocusManager implements FocusHandler {
             } else {
                 // If the current item is the last item, target the item one page down.
                 int target = current + pageSize;
-                int max = mConfig.mAdapter.getItemCount() - 1;
+                int max = mScope.adapter.getItemCount() - 1;
                 return target < max ? target : max;
             }
         }
@@ -285,20 +282,20 @@ public final class FocusManager implements FocusHandler {
      * @param callback A callback to call after the given item has been focused.
      */
     private void focusItem(final int pos, @Nullable final FocusCallback callback) {
-        if (mPendingFocusId != null) {
-            Log.v(TAG, "clearing pending focus id: " + mPendingFocusId);
-            mPendingFocusId = null;
+        if (mScope.pendingFocusId != null) {
+            Log.v(TAG, "clearing pending focus id: " + mScope.pendingFocusId);
+            mScope.pendingFocusId = null;
         }
 
         // If the item is already in view, focus it; otherwise, scroll to it and focus it.
-        RecyclerView.ViewHolder vh = mConfig.mView.findViewHolderForAdapterPosition(pos);
+        RecyclerView.ViewHolder vh = mScope.view.findViewHolderForAdapterPosition(pos);
         if (vh != null) {
             if (vh.itemView.requestFocus() && callback != null) {
                 callback.onFocus(vh.itemView);
             }
         } else {
             // Set a one-time listener to request focus when the scroll has completed.
-            mConfig.mView.addOnScrollListener(
+            mScope.view.addOnScrollListener(
                     new RecyclerView.OnScrollListener() {
                         @Override
                         public void onScrollStateChanged(RecyclerView view, int newState) {
@@ -320,7 +317,7 @@ public final class FocusManager implements FocusHandler {
                             }
                         }
                     });
-            mConfig.mView.smoothScrollToPosition(pos);
+            mScope.view.smoothScrollToPosition(pos);
         }
     }
 
@@ -328,7 +325,7 @@ public final class FocusManager implements FocusHandler {
      * @return Whether the layout manager is currently in a grid-configuration.
      */
     private boolean inGridMode() {
-        return mConfig.mLayout.getSpanCount() > 1;
+        return mScope.layout.getSpanCount() > 1;
     }
 
     private interface FocusCallback {
@@ -428,7 +425,7 @@ public final class FocusManager implements FocusHandler {
         private void search() {
             if (!mActive) {
                 // The model listener invalidates the search index when the model changes.
-                mConfig.mModel.addUpdateListener(mModelListener);
+                mScope.model.addUpdateListener(mModelListener);
 
                 // Used to keep the current search alive until the timeout expires. If the user
                 // presses another key within that time, that keystroke is added to the current
@@ -470,7 +467,7 @@ public final class FocusManager implements FocusHandler {
          */
         private void endSearch() {
             if (mActive) {
-                mConfig.mModel.removeUpdateListener(mModelListener);
+                mScope.model.removeUpdateListener(mModelListener);
                 mTimer.cancel();
             }
 
@@ -486,11 +483,11 @@ public final class FocusManager implements FocusHandler {
          * must be set up before calling this method.
          */
         private void buildIndex() {
-            int itemCount = mConfig.mAdapter.getItemCount();
+            int itemCount = mScope.adapter.getItemCount();
             List<String> index = new ArrayList<>(itemCount);
             for (int i = 0; i < itemCount; i++) {
-                String modelId = mConfig.mAdapter.getModelId(i);
-                Cursor cursor = mConfig.mModel.getItem(modelId);
+                String modelId = mScope.adapter.getModelId(i);
+                Cursor cursor = mScope.model.getItem(modelId);
                 if (modelId != null && cursor != null) {
                     String title = getCursorString(cursor, Document.COLUMN_DISPLAY_NAME);
                     // Perform case-insensitive search.
@@ -568,25 +565,26 @@ public final class FocusManager implements FocusHandler {
     }
 
     public FocusManager reset(RecyclerView view, Model model) {
-        mConfig.reset(view, model);
+        assert (view != null);
+        assert (model != null);
+        mScope.view = view;
+        mScope.adapter = (DocumentsAdapter) view.getAdapter();
+        mScope.layout = (GridLayoutManager) view.getLayoutManager();
+        mScope.model = model;
+
+        mScope.lastFocusPosition = RecyclerView.NO_POSITION;
+        mScope.pendingFocusId = null;
+
         return this;
     }
 
-    private static final class Config {
+    private static final class ContentScope {
+        private @Nullable RecyclerView view;
+        private @Nullable DocumentsAdapter adapter;
+        private @Nullable GridLayoutManager layout;
+        private @Nullable Model model;
 
-        @Nullable RecyclerView mView;
-        @Nullable DocumentsAdapter mAdapter;
-        @Nullable GridLayoutManager mLayout;
-
-        private Model mModel;
-
-        public void reset(RecyclerView view, Model model) {
-            assert (view != null);
-            assert (model != null);
-            mView = view;
-            mAdapter = (DocumentsAdapter) view.getAdapter();
-            mLayout = (GridLayoutManager) view.getLayoutManager();
-            mModel = model;
-        }
+        private @Nullable String pendingFocusId;
+        private int lastFocusPosition = RecyclerView.NO_POSITION;
     }
 }

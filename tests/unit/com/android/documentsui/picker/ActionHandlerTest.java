@@ -18,7 +18,6 @@ package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -30,7 +29,6 @@ import android.support.test.runner.AndroidJUnit4;
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.selection.Selection;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestRootsAccess;
 import com.android.documentsui.ui.TestDialogController;
@@ -47,7 +45,6 @@ public class ActionHandlerTest {
     private TestActivity mActivity;
     private TestDialogController mDialogs;
     private ActionHandler<TestActivity> mHandler;
-    private Selection mSelection;
 
     @Before
     public void setUp() {
@@ -61,16 +58,16 @@ public class ActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
+                mEnv.selectionMgr,
                 mEnv::lookupExecutor,
                 null  // tuner, not currently used.
                 );
 
         mDialogs.confirmNext();
 
-        mSelection = new Selection();
-        mSelection.add("1");
+        mEnv.selectionMgr.toggleSelection("1");
 
-        mHandler.reset(mEnv.model, null, false);
+        mHandler.reset(mEnv.model, false);
     }
 
     @Test

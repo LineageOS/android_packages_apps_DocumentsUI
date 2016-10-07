@@ -24,8 +24,8 @@ import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import java.util.Collections;
 import java.util.List;
 
-public class MultiSelectManagers {
-    private MultiSelectManagers() {}
+public class SelectionManagers {
+    private SelectionManagers() {}
 
     public static SelectionManager createTestInstance() {
         return createTestInstance(Collections.emptyList());

@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.ui;
 
+import android.annotation.PluralsRes;
 import android.content.Context;
 import android.text.BidiFormatter;
 
@@ -67,5 +68,12 @@ public class MessageBuilder {
                     R.plurals.delete_items_confirmation_message, docs.size());
         }
         return message;
+    }
+
+    /**
+     * Generates a formatted quantity string.
+     */
+    public String getQuantityString(@PluralsRes int stringId, int quantity) {
+        return Shared.getQuantityString(mContext, stringId, quantity);
     }
 }

@@ -52,9 +52,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.LocalPreferences;
 import com.android.documentsui.base.PairedTask;
@@ -62,19 +64,21 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
+import com.android.documentsui.dirlist.ActionModeController;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
-import com.android.documentsui.selection.Selection;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.ui.DialogController;
+import com.android.documentsui.ui.MessageBuilder;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,11 +96,13 @@ public abstract class BaseActivity
 
     protected @Nullable RetainedState mRetainedState;
     protected RootsCache mRoots;
+    protected MessageBuilder mMessages;
     protected DrawerController mDrawer;
     protected NavigationViewManager mNavigator;
-    List<EventListener> mEventListeners = new ArrayList<>();
+    protected FocusManager mFocusManager;
     protected SortController mSortController;
 
+    private final List<EventListener> mEventListeners = new ArrayList<>();
     private final String mTag;
     private final ContentObserver mRootsCacheObserver = new ContentObserver(
             new Handler()) {
@@ -133,12 +139,6 @@ public abstract class BaseActivity
 
     /**
      * Provides Activity a means of injection into and specialization of
-     * DirectoryFragment.
-     */
-    public abstract FocusManager getFocusManager(RecyclerView view, Model model);
-
-    /**
-     * Provides Activity a means of injection into and specialization of
      * DirectoryFragment hosted menus.
      */
     public abstract MenuManager getMenuManager();
@@ -155,8 +155,24 @@ public abstract class BaseActivity
      *
      * Args can be null when called from a context lacking fragment, such as RootsFragment.
      */
-    public abstract ActionHandler getActionHandler(
-            @Nullable Model model, @Nullable SelectionManager selectionMgr, boolean searchMode);
+    public abstract ActionHandler getActionHandler(@Nullable Model model, boolean searchMode);
+
+    /**
+     * Provides Activity a means of injection into and specialization of
+     * DirectoryFragment.
+     */
+    public abstract ActionModeController getActionModeController(
+            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view);
+
+    public final FocusManager getFocusManager(RecyclerView view, Model model) {
+        assert(mFocusManager != null);
+        return mFocusManager.reset(view, model);
+    }
+
+    public final MessageBuilder getMessages() {
+        assert(mMessages != null);
+        return mMessages;
+    }
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
@@ -178,6 +194,7 @@ public abstract class BaseActivity
         setContentView(mLayoutId);
 
         mState = getState(icicle);
+        mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mDrawer = DrawerController.create(this, getActivityConfig());
         Metrics.logActivityLaunch(this, mState, intent);
 
@@ -186,7 +203,7 @@ public abstract class BaseActivity
         // support to that fragment.
         mRetainedState = (RetainedState) getLastNonConfigurationInstance();
         mRoots = DocumentsApplication.getRootsCache(this);
-
+        mMessages = new MessageBuilder(this);
         getContentResolver().registerContentObserver(
                 RootsCache.sNotificationUri, false, mRootsCacheObserver);
 

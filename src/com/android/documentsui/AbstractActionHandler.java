@@ -40,6 +40,7 @@ import com.android.documentsui.files.OpenUriForViewTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.sidebar.EjectRootTask;
 
 import java.util.List;
@@ -55,6 +56,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final State mState;
     protected final RootsAccess mRoots;
     protected final DocumentsAccess mDocs;
+    protected final SelectionManager mSelectionMgr;
     protected final Lookup<String, Executor> mExecutors;
 
     public AbstractActionHandler(
@@ -62,17 +64,20 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            SelectionManager selectionMgr,
             Lookup<String, Executor> executors) {
 
         assert(activity != null);
         assert(state != null);
         assert(roots != null);
+        assert(selectionMgr != null);
         assert(docs != null);
 
         mActivity = activity;
         mState = state;
         mRoots = roots;
         mDocs = docs;
+        mSelectionMgr = selectionMgr;
         mExecutors = executors;
     }
 
@@ -83,6 +88,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                 root.authority,
                 root.rootId,
                 listener).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+    }
+
+    @Override
+    public void openSelectedInNewWindow() {
+        throw new UnsupportedOperationException("Can't open in new window.");
     }
 
     @Override
@@ -143,7 +153,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
-    public void deleteDocuments(Model model, Selection selection, ConfirmationCallback callback) {
+    public void deleteSelectedDocuments(Model model, ConfirmationCallback callback) {
         throw new UnsupportedOperationException("Delete not supported!");
     }
 
@@ -163,6 +173,9 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         loadRoot(Shared.getDefaultRootUri(mActivity));
     }
 
+    protected Selection getStableSelection() {
+        return mSelectionMgr.getSelection(new Selection());
+    }
     /**
      * A class primarily for the support of isolating our tests
      * from our concrete activity implementations.
