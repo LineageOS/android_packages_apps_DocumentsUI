@@ -126,7 +126,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
     }
 
     @Override
-    public void onDragEntered(View v) {
+    public void onDragEntered(View v, Object localState) {
         // do nothing
     }
 

@@ -25,13 +25,14 @@ import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.View;
 
+import com.android.documentsui.DragShadowBuilder;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events;
-import com.android.documentsui.base.State;
 import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.DocumentClipper;
-import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 
@@ -190,10 +191,15 @@ interface DragStartListener {
             State state,
             Function<View, String> idFinder,
             ViewFinder viewFinder,
-            Drawable defaultDragIcon) {
+            Drawable defaultDragIcon,
+            DragShadowBuilder shadowBuilder) {
 
-        DragShadowBuilder.Factory shadowFactory =
-                new DragShadowBuilder.Factory(context, model, iconHelper, defaultDragIcon);
+        DragShadowBuilder.Updater shadowFactory = new DragShadowBuilder.Updater(
+                context,
+                shadowBuilder,
+                model,
+                iconHelper,
+                defaultDragIcon);
 
         return new ActiveListener(
                 state,

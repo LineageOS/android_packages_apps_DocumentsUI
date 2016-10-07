@@ -376,7 +376,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
      * In RootsFragment we don't do anything
      */
     @Override
-    public void onDragEntered(View v) {
+    public void onDragEntered(View v, Object localState) {
     }
 
     /**

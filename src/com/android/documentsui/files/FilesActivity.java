@@ -37,6 +37,7 @@ import com.android.documentsui.ActionModeController;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DragShadowBuilder;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.OperationDialogFragment;
@@ -79,6 +80,7 @@ public class FilesActivity
     private DocumentClipper mClipper;
     private ActionModeController mActionModeController;
     private ActivityInputHandler mActivityInputHandler;
+    private DragShadowBuilder mShadowBuilder;
 
     public FilesActivity() {
         super(R.layout.files_activity, TAG);
@@ -99,9 +101,9 @@ public class FilesActivity
                         return mClipper.hasItemsToPaste();
                     }
                 });
-
         mDialogs = DialogController.create(this, getMessages());
 
+        mShadowBuilder = new DragShadowBuilder(this);
         mActionModeController = new ActionModeController(
                 this,
                 mSelectionMgr,
@@ -293,6 +295,11 @@ public class FilesActivity
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return mActivityInputHandler.onKeyDown(keyCode, event) ? true
                 : super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public DragShadowBuilder getShadowBuilder() {
+        return mShadowBuilder;
     }
 
     @Override

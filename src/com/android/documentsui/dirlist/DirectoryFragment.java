@@ -335,7 +335,8 @@ public class DirectoryFragment extends Fragment
                         mState,
                         this::getModelId,
                         mRecView::findChildViewUnder,
-                        getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic))
+                        getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic),
+                        mActivity.getShadowBuilder())
                 : DragStartListener.DUMMY;
 
         EventHandler<InputEvent> gestureHandler = mState.allowMultiple
@@ -880,6 +881,12 @@ public class DirectoryFragment extends Fragment
         }
     }
 
+    void dragExited(View v) {
+        // For now, just always reset drag shadow when drag exits
+        mActivity.getShadowBuilder().resetBackground();
+        v.updateDragShadow(mActivity.getShadowBuilder());
+    }
+
     void dragStopped(boolean result) {
         if (result) {
             mSelectionMgr.clearSelection();
@@ -897,8 +904,15 @@ public class DirectoryFragment extends Fragment
      * In DirectoryFragment, we close the roots drawer right away.
      */
     @Override
-    public void onDragEntered(View view) {
-        mActivity.setRootsDrawerOpen(false);
+    public void onDragEntered(View v, Object localState) {
+    mActivity.setRootsDrawerOpen(false);
+
+        if (canCopyTo(localState, v)) {
+            mActivity.getShadowBuilder().resetBackground();
+        } else {
+            mActivity.getShadowBuilder().setNoDropBackground();
+        }
+        v.updateDragShadow(mActivity.getShadowBuilder());
     }
 
     /**
@@ -924,7 +938,7 @@ public class DirectoryFragment extends Fragment
 
         assert(DocumentClipper.getOpType(clipData) == FileOperationService.OPERATION_COPY);
 
-        if (!shouldCopyTo(event.getLocalState(), v)) {
+        if (!canCopyTo(event.getLocalState(), v)) {
             return false;
         }
 
@@ -946,7 +960,7 @@ public class DirectoryFragment extends Fragment
     // Don't copy from the cwd into a provided list of prohibited directories. (ie. into cwd, into
     // a selected directory). Note: this currently doesn't work for multi-window drag, because
     // localState isn't carried over from one process to another.
-    boolean shouldCopyTo(Object dragLocalState, View destinationView) {
+    boolean canCopyTo(Object dragLocalState, View destinationView) {
         if (dragLocalState == null || !(dragLocalState instanceof List<?>)) {
             if (DEBUG) Log.d(TAG, "Invalid local state object. Will allow copy.");
             return true;

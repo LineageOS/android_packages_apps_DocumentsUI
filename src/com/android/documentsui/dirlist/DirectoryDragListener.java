@@ -35,9 +35,17 @@ class DirectoryDragListener extends ItemDragListener<DirectoryFragment> {
     public boolean onDrag(View v, DragEvent event) {
         final boolean result = super.onDrag(v, event);
 
-        if (event.getAction() == DragEvent.ACTION_DRAG_ENDED) {
-            // getResult() is true if drag was accepted
-            mDragHost.dragStopped(event.getResult());
+        switch (event.getAction()) {
+            case DragEvent.ACTION_DRAG_EXITED:
+                // If drag exits, we want to update drag and drop status on the drop shadow
+                mDragHost.dragExited(v);
+                break;
+            case DragEvent.ACTION_DRAG_ENDED:
+                // getResult() is true if drag was accepted
+                mDragHost.dragStopped(event.getResult());
+                break;
+            default:
+                break;
         }
 
         return result;
@@ -50,7 +58,7 @@ class DirectoryDragListener extends ItemDragListener<DirectoryFragment> {
 
     @Override
     public @Nullable TimerTask createOpenTask(final View v, DragEvent event) {
-        return mDragHost.shouldCopyTo(event.getLocalState(), v) ?
+        return mDragHost.canCopyTo(event.getLocalState(), v) ?
                 super.createOpenTask(v, event) : null;
     }
 }

@@ -479,6 +479,11 @@ public abstract class BaseActivity<T extends ActionHandler>
         return mState;
     }
 
+    public DragShadowBuilder getShadowBuilder() {
+        throw new UnsupportedOperationException(
+                "Drag and drop not supported, can't get shadow builder");
+    }
+
     /**
      * Set internal storage visible based on explicit user action.
      */

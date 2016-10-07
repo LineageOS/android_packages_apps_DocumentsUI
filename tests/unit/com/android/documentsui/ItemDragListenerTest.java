@@ -217,7 +217,7 @@ public class ItemDragListenerTest {
         }
 
         @Override
-        public void onDragEntered(View v) {
+        public void onDragEntered(View v, Object localState) {
             mLastEnteredView = v;
         }
     }
