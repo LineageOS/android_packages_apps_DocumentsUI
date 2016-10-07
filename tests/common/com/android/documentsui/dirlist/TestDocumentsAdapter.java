@@ -48,7 +48,7 @@ public class TestDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    void onItemSelectionChanged(String id) {
+    public void onItemSelectionChanged(String id) {
     }
 
     @Override

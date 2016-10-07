@@ -28,6 +28,7 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.selection.SelectionManager;
 
 import java.util.Collections;
 import java.util.function.Function;
@@ -46,7 +47,7 @@ public final class UserInputHandler<T extends InputEvent>
 
     private ActionHandler mActionHandler;
     private final FocusHandler mFocusHandler;
-    private final MultiSelectManager mSelectionMgr;
+    private final SelectionManager mSelectionMgr;
     private final Function<MotionEvent, T> mEventConverter;
     private final Predicate<DocumentDetails> mSelectable;
 
@@ -63,7 +64,7 @@ public final class UserInputHandler<T extends InputEvent>
     public UserInputHandler(
             ActionHandler actionHandler,
             FocusHandler focusHandler,
-            MultiSelectManager selectionMgr,
+            SelectionManager selectionMgr,
             Function<MotionEvent, T> eventConverter,
             Predicate<DocumentDetails> selectable,
             EventHandler<InputEvent> rightClickHandler,

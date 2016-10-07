@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 
 import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEvent;
@@ -58,7 +59,7 @@ public final class UserInputHandler_MouseTest {
     @Before
     public void setUp() {
 
-        MultiSelectManager selectionMgr = MultiSelectManagers.createTestInstance(ITEMS);
+        SelectionManager selectionMgr = MultiSelectManagers.createTestInstance(ITEMS);
         mActionHandler = new TestActionHandler();
 
         mSelection = new SelectionProbe(selectionMgr);

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.ui;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -22,6 +22,8 @@ import static org.junit.Assert.fail;
 import android.graphics.Point;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.android.documentsui.ui.ViewAutoScroller;
 
 import org.junit.Before;
 import org.junit.Test;

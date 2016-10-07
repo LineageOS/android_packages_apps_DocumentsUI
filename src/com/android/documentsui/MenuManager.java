@@ -17,7 +17,6 @@
 package com.android.documentsui;
 
 import android.app.Fragment;
-import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,9 +31,6 @@ import com.android.documentsui.dirlist.ActionModeController;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.internal.annotations.VisibleForTesting;
-
-import java.util.List;
-import java.util.function.IntFunction;
 
 public abstract class MenuManager {
 

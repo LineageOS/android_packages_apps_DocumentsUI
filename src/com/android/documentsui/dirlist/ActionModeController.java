@@ -37,7 +37,8 @@ import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.SelectionManager;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -46,12 +47,12 @@ import java.util.function.IntConsumer;
 /**
  * A controller that listens to selection changes and manages life cycles of action modes.
  */
-public class ActionModeController implements MultiSelectManager.Callback, ActionMode.Callback {
+public class ActionModeController implements SelectionManager.Callback, ActionMode.Callback {
 
     private static final String TAG = "ActionModeController";
 
     private final Context mContext;
-    private final MultiSelectManager mSelectionMgr;
+    private final SelectionManager mSelectionMgr;
     private final MenuManager mMenuManager;
     private final MenuManager.SelectionDetails mSelectionDetails;
 
@@ -68,7 +69,7 @@ public class ActionModeController implements MultiSelectManager.Callback, Action
 
     private ActionModeController(
             Context context,
-            MultiSelectManager selectionMgr,
+            SelectionManager selectionMgr,
             MenuManager menuManager,
             MenuManager.SelectionDetails selectionDetails,
             Function<ActionMode.Callback, ActionMode> actionModeFactory,
@@ -151,8 +152,16 @@ public class ActionModeController implements MultiSelectManager.Callback, Action
     // Called when the user exits the action mode
     @Override
     public void onDestroyActionMode(ActionMode mode) {
+        if (mActionMode == null) {
+            if (DEBUG) Log.w(TAG, "Received call to destroy action mode on alien mode object.");
+        }
+
+        assert(mActionMode.equals(mode));
+
         if (DEBUG) Log.d(TAG, "Handling action mode destroyed.");
         mActionMode = null;
+        mMenu = null;
+
         // clear selection
         mSelectionMgr.clearSelection();
         mSelected.clear();
@@ -202,7 +211,7 @@ public class ActionModeController implements MultiSelectManager.Callback, Action
 
     static ActionModeController create(
             Context context,
-            MultiSelectManager selectionMgr,
+            SelectionManager selectionMgr,
             MenuManager menuManager,
             MenuManager.SelectionDetails selectionDetails,
             Activity activity,

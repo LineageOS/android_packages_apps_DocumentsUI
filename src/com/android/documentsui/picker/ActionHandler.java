@@ -28,6 +28,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler;
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.base.DocumentInfo;
@@ -38,13 +39,12 @@ import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
-import com.android.documentsui.dirlist.MultiSelectManager;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.selection.SelectionManager;
 
 import java.util.concurrent.Executor;
 
@@ -175,7 +175,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         mConfig.modelLoadObserved = true;
     }
 
-    ActionHandler<T> reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+    ActionHandler<T> reset(Model model, SelectionManager selectionMgr, boolean searchMode) {
         mConfig.reset(model, selectionMgr, searchMode);
         return this;
     }
@@ -183,7 +183,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     private static final class Config {
 
         @Nullable Model model;
-        @Nullable MultiSelectManager selectionMgr;
+        @Nullable SelectionManager selectionMgr;
         boolean searchMode;
 
         // We use this to keep track of whether a model has been previously loaded or not so we can
@@ -196,7 +196,8 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             mModelUpdateListener = modelUpdateListener;
         }
 
-        public void reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+
+        public void reset(Model model, SelectionManager selectionMgr, boolean searchMode) {
             assert(model != null);
 
             this.model = model;

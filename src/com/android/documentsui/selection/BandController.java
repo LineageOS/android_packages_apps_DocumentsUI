@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.selection;
 
 import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.dirlist.ModelBackedDocumentsAdapter.ITEM_TYPE_DIRECTORY;
-import static com.android.documentsui.dirlist.ModelBackedDocumentsAdapter.ITEM_TYPE_DOCUMENT;
-import static com.android.documentsui.dirlist.ViewAutoScroller.NOT_SET;
+import static com.android.documentsui.ui.ViewAutoScroller.NOT_SET;
 
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -37,9 +35,10 @@ import android.view.View;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.Events.InputEvent;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
-import com.android.documentsui.dirlist.ViewAutoScroller.ScrollActionDelegate;
-import com.android.documentsui.dirlist.ViewAutoScroller.ScrollDistanceDelegate;
+import com.android.documentsui.dirlist.DocumentsAdapter;
+import com.android.documentsui.ui.ViewAutoScroller;
+import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
+import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,11 +46,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.IntPredicate;
 
 /**
  * Provides mouse driven band-select support when used in conjunction with {@link RecyclerView}
- * and {@link MultiSelectManager}. This class is responsible for rendering the band select
- * overlay and selecting overlaid items via MultiSelectManager.
+ * and {@link SelectionManager}. This class is responsible for rendering the band select
+ * overlay and selecting overlaid items via SelectionManager.
  */
 public class BandController extends OnScrollListener {
 
@@ -60,7 +60,7 @@ public class BandController extends OnScrollListener {
     private final Runnable mModelBuilder;
     private final SelectionEnvironment mEnvironment;
     private final DocumentsAdapter mAdapter;
-    private final MultiSelectManager mSelectionManager;
+    private final SelectionManager mSelectionManager;
     private final Runnable mViewScroller;
     private final GridModel.OnSelectionChangedListener mGridListener;
 
@@ -74,14 +74,16 @@ public class BandController extends OnScrollListener {
     public BandController(
             final RecyclerView view,
             DocumentsAdapter adapter,
-            MultiSelectManager selectionManager) {
-        this(new RuntimeSelectionEnvironment(view), adapter, selectionManager);
+            SelectionManager selectionManager,
+            IntPredicate gridItemTester) {
+        this(new RuntimeSelectionEnvironment(view), adapter, selectionManager, gridItemTester);
     }
 
     private BandController(
             SelectionEnvironment env,
             DocumentsAdapter adapter,
-            MultiSelectManager selectionManager) {
+            SelectionManager selectionManager,
+            IntPredicate gridItemTester) {
 
         selectionManager.bindContoller(this);
 
@@ -161,7 +163,7 @@ public class BandController extends OnScrollListener {
         mModelBuilder = new Runnable() {
             @Override
             public void run() {
-                mModel = new GridModel(mEnvironment, mAdapter);
+                mModel = new GridModel(mEnvironment, gridItemTester, mAdapter);
                 mModel.addOnSelectionChangedListener(mGridListener);
             }
         };
@@ -175,7 +177,7 @@ public class BandController extends OnScrollListener {
         mSelection = selection;
     }
 
-    boolean onInterceptTouchEvent(InputEvent e) {
+    public boolean onInterceptTouchEvent(InputEvent e) {
         if (shouldStart(e)) {
             if (!e.isCtrlKeyDown()) {
                 mSelectionManager.clearSelection();
@@ -235,7 +237,7 @@ public class BandController extends OnScrollListener {
      * Processes a MotionEvent by starting, ending, or resizing the band select overlay.
      * @param input
      */
-    void onTouchEvent(InputEvent input) {
+    public void onTouchEvent(InputEvent input) {
         assert(input.isMouseEvent());
 
         if (shouldStop(input)) {
@@ -359,6 +361,7 @@ public class BandController extends OnScrollListener {
         private static final int LOWER_RIGHT = LOWER | RIGHT;
 
         private final SelectionEnvironment mHelper;
+        private final IntPredicate mGridItemTester;
         private final DocumentsAdapter mAdapter;
 
         private final List<GridModel.OnSelectionChangedListener> mOnSelectionChangedListeners =
@@ -398,9 +401,10 @@ public class BandController extends OnScrollListener {
         // should expand from when Shift+click is used.
         private int mPositionNearestOrigin = NOT_SET;
 
-        GridModel(SelectionEnvironment helper, DocumentsAdapter adapter) {
+        GridModel(SelectionEnvironment helper, IntPredicate gridItemTester, DocumentsAdapter adapter) {
             mHelper = helper;
             mAdapter = adapter;
+            mGridItemTester = gridItemTester;
             mHelper.addOnScrollListener(this);
         }
 
@@ -485,7 +489,7 @@ public class BandController extends OnScrollListener {
                 // synchronously, while views are attached asynchronously. As a result items which
                 // are in the adapter may not actually have a corresponding view (yet).
                 if (mHelper.hasView(adapterPosition) &&
-                        !mHelper.isLayoutItem(adapterPosition) &&
+                        mGridItemTester.test(adapterPosition) &&
                         !mKnownPositions.get(adapterPosition)) {
                     mKnownPositions.put(adapterPosition, true);
                     recordItemData(mHelper.getAbsoluteRectForChildViewAt(i), adapterPosition);
@@ -1008,10 +1012,6 @@ public class BandController extends OnScrollListener {
         int getChildCount();
         int getVisibleChildCount();
         /**
-         * Layout items are excluded from the GridModel.
-         */
-        boolean isLayoutItem(int adapterPosition);
-        /**
          * Items may be in the adapter, but without an attached view.
          */
         boolean hasView(int adapterPosition);
@@ -1121,20 +1121,6 @@ public class BandController extends OnScrollListener {
         @Override
         public void hideBand() {
             mView.getOverlay().remove(mBand);
-        }
-
-        @Override
-        public boolean isLayoutItem(int pos) {
-            // The band selection model only operates on documents and directories. Exclude other
-            // types of adapter items (e.g. whitespace items like dividers).
-            RecyclerView.ViewHolder vh = mView.findViewHolderForAdapterPosition(pos);
-            switch (vh.getItemViewType()) {
-                case ITEM_TYPE_DOCUMENT:
-                case ITEM_TYPE_DIRECTORY:
-                    return false;
-                default:
-                    return true;
-            }
         }
 
         @Override

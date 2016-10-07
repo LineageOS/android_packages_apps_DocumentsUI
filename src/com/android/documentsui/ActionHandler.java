@@ -28,7 +28,7 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.Selection;
 
 public interface ActionHandler {
 

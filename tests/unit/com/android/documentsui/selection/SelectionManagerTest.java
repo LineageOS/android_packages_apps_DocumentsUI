@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.selection;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseBooleanArray;
 
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.dirlist.TestData;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.dirlist.SelectionProbe;
 import com.android.documentsui.testing.dirlist.TestSelectionListener;
@@ -36,12 +38,12 @@ import java.util.Set;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class MultiSelectManagerTest {
+public class SelectionManagerTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
     private final Set<String> mIgnored = new HashSet<>();
-    private MultiSelectManager mManager;
+    private SelectionManager mManager;
     private TestSelectionListener mCallback;
     private SelectionProbe mSelection;
 
@@ -50,7 +52,7 @@ public class MultiSelectManagerTest {
         mCallback = new TestSelectionListener();
         mManager = MultiSelectManagers.createTestInstance(
                 ITEMS,
-                MultiSelectManager.MODE_MULTIPLE,
+                SelectionManager.MODE_MULTIPLE,
                 (String id, boolean nextState) -> (!nextState || !mIgnored.contains(id)));
         mManager.addCallback(mCallback);
 

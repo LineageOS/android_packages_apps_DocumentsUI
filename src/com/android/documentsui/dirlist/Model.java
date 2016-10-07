@@ -33,8 +33,8 @@ import android.util.Log;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.documentsui.selection.Selection;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

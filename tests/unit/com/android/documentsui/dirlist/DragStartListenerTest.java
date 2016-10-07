@@ -24,7 +24,8 @@ import android.view.View;
 
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.Events.InputEvent;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.Views;
@@ -36,7 +37,7 @@ public class DragStartListenerTest extends AndroidTestCase {
 
     private DragStartListener mListener;
     private TestEvent.Builder mEvent;
-    private MultiSelectManager mMultiSelectManager;
+    private SelectionManager mMultiSelectManager;
     private String mViewModelId;
     private boolean mDragStarted;
 

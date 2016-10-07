@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui.selection;
 
 import static junit.framework.Assert.fail;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.dirlist.TestData;
+import com.android.documentsui.dirlist.TestDocumentsAdapter;
+import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.testing.MultiSelectManagers;
 import com.android.documentsui.testing.dirlist.SelectionProbe;
 import com.android.documentsui.testing.dirlist.TestSelectionListener;
@@ -33,11 +36,11 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class MultiSelectManager_SingleSelectTest {
+public class SelectionManager_SingleSelectTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
-    private MultiSelectManager mManager;
+    private SelectionManager mManager;
     private TestSelectionListener mCallback;
     private TestDocumentsAdapter mAdapter;
     private SelectionProbe mSelection;
@@ -45,7 +48,7 @@ public class MultiSelectManager_SingleSelectTest {
     @Before
     public void setUp() throws Exception {
         mCallback = new TestSelectionListener();
-        mManager = MultiSelectManagers.createTestInstance(ITEMS, MultiSelectManager.MODE_SINGLE);
+        mManager = MultiSelectManagers.createTestInstance(ITEMS, SelectionManager.MODE_SINGLE);
         mManager.addCallback(mCallback);
 
         mSelection = new SelectionProbe(mManager);

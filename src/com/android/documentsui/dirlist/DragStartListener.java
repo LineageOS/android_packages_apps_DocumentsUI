@@ -30,7 +30,8 @@ import com.android.documentsui.base.Events;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.clipping.DocumentClipper;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 
@@ -66,7 +67,7 @@ interface DragStartListener {
         private static String TAG = "DragStartListener";
 
         private final State mState;
-        private final MultiSelectManager mSelectionMgr;
+        private final SelectionManager mSelectionMgr;
         private final ViewFinder mViewFinder;
         private final Function<View, String> mIdFinder;
         private final ClipDataFactory mClipFactory;
@@ -77,7 +78,7 @@ interface DragStartListener {
         @VisibleForTesting
         public ActiveListener(
                 State state,
-                MultiSelectManager selectionMgr,
+                SelectionManager selectionMgr,
                 ViewFinder viewFinder,
                 Function<View, String> idFinder,
                 Function<Selection, List<DocumentInfo>> docsConverter,
@@ -176,7 +177,7 @@ interface DragStartListener {
             IconHelper iconHelper,
             Context context,
             Model model,
-            MultiSelectManager selectionMgr,
+            SelectionManager selectionMgr,
             DocumentClipper clipper,
             State state,
             Function<View, String> idFinder,

@@ -56,7 +56,7 @@ public abstract class DocumentsAdapter
      * Triggers item-change notifications by stable ID (as opposed to position).
      * Passing an unrecognized ID will result in a warning in logcat, but no other error.
      */
-    abstract void onItemSelectionChanged(String id);
+    public abstract void onItemSelectionChanged(String id);
 
     /**
      * @return The model ID of the item at the given adapter position.

@@ -46,11 +46,13 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
-import com.android.documentsui.dirlist.MultiSelectManager;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
+import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
@@ -466,7 +468,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         mConfig.modelLoadObserved = true;
     }
 
-    ActionHandler<T> reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+    ActionHandler<T> reset(Model model, SelectionManager selectionMgr, boolean searchMode) {
         mConfig.reset(model, selectionMgr, searchMode);
         return this;
     }
@@ -474,7 +476,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private static final class Config {
 
         @Nullable Model model;
-        @Nullable MultiSelectManager selectionMgr;
+        @Nullable SelectionManager selectionMgr;
         boolean searchMode;
 
         private final EventListener<Update> mModelUpdateListener;
@@ -487,7 +489,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             mModelUpdateListener = modelUpdateListener;
         }
 
-        public void reset(Model model, MultiSelectManager selectionMgr, boolean searchMode) {
+        public void reset(Model model, SelectionManager selectionMgr, boolean searchMode) {
             assert(model != null);
 
             this.model = model;

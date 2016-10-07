@@ -64,11 +64,13 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.dirlist.MultiSelectManager;
-import com.android.documentsui.dirlist.MultiSelectManager.Selection;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
@@ -96,12 +98,13 @@ public abstract class BaseActivity
     protected SortController mSortController;
 
     private final String mTag;
-    private final ContentObserver mRootsCacheObserver = new ContentObserver(new Handler()) {
-        @Override
-        public void onChange(boolean selfChange) {
-            new HandleRootsChangedTask(BaseActivity.this).execute(getCurrentRoot());
-        }
-    };
+    private final ContentObserver mRootsCacheObserver = new ContentObserver(
+            new Handler()) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    new HandleRootsChangedTask(BaseActivity.this).execute(getCurrentRoot());
+                }
+            };
 
     @LayoutRes
     private int mLayoutId;
@@ -120,6 +123,13 @@ public abstract class BaseActivity
      * DirectoryFragment.
      */
     public abstract ActivityConfig getActivityConfig();
+
+    /**
+     * Provides Activity a means of injection into and specialization of
+     * DirectoryFragment.
+     */
+    public abstract SelectionManager getSelectionManager(
+            DocumentsAdapter adapter, SelectionPredicate canSetState);
 
     /**
      * Provides Activity a means of injection into and specialization of
@@ -146,7 +156,7 @@ public abstract class BaseActivity
      * Args can be null when called from a context lacking fragment, such as RootsFragment.
      */
     public abstract ActionHandler getActionHandler(
-            @Nullable Model model, @Nullable MultiSelectManager selectionMgr, boolean searchMode);
+            @Nullable Model model, @Nullable SelectionManager selectionMgr, boolean searchMode);
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
