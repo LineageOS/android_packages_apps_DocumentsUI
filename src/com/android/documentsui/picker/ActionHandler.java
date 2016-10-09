@@ -57,21 +57,22 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     private static final String TAG = "PickerActionHandler";
 
-    private final ActivityConfig mActivityConfig;
-    private final Config mConfig;
+    private final ActivityConfig mConfig;
+    private final ContentScope mScope;
 
     ActionHandler(
             T activity,
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            SelectionManager selectionMgr,
             Lookup<String, Executor> executors,
             ActivityConfig activityConfig) {
 
-        super(activity, state, roots, docs, executors);
+        super(activity, state, roots, docs, selectionMgr, executors);
 
-        mActivityConfig = activityConfig;
-        mConfig = new Config(this::onModelLoaded);
+        mConfig = activityConfig;
+        mScope = new ContentScope(this::onModelLoaded);
     }
 
     @Override
@@ -133,16 +134,16 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     @Override
     public boolean openDocument(DocumentDetails details) {
-        DocumentInfo doc = mConfig.model.getDocument(details.getModelId());
+        DocumentInfo doc = mScope.model.getDocument(details.getModelId());
         if (doc == null) {
             Log.w(TAG,
                     "Can't view item. No Document available for modeId: " + details.getModelId());
             return false;
         }
 
-        if (mActivityConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
+        if (mConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
             mActivity.onDocumentPicked(doc);
-            mConfig.selectionMgr.clearSelection();
+            mSelectionMgr.clearSelection();
             return true;
         }
         return false;
@@ -162,49 +163,42 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         }
 
         // When launched into empty root, open drawer.
-        if (mConfig.model.isEmpty()) {
+        if (mScope.model.isEmpty()) {
             showDrawer = true;
         }
 
-        if (showDrawer && !mState.hasInitialLocationChanged() && !mConfig.searchMode
-                && !mConfig.modelLoadObserved) {
+        if (showDrawer && !mState.hasInitialLocationChanged() && !mScope.searchMode
+                && !mScope.modelLoadObserved) {
             // This noops on layouts without drawer, so no need to guard.
             mActivity.setRootsDrawerOpen(true);
         }
 
-        mConfig.modelLoadObserved = true;
+        mScope.modelLoadObserved = true;
     }
 
-    ActionHandler<T> reset(Model model, SelectionManager selectionMgr, boolean searchMode) {
-        mConfig.reset(model, selectionMgr, searchMode);
+    ActionHandler<T> reset(Model model, boolean searchMode) {
+        assert(model != null);
+
+        mScope.model = model;
+        mScope.searchMode = searchMode;
+
+        model.addUpdateListener(mScope.modelUpdateListener);
         return this;
     }
 
-    private static final class Config {
+    private static final class ContentScope {
 
         @Nullable Model model;
-        @Nullable SelectionManager selectionMgr;
         boolean searchMode;
 
         // We use this to keep track of whether a model has been previously loaded or not so we can
         // open the drawer on empty directories on first launch
         private boolean modelLoadObserved;
 
-        private final EventListener<Update> mModelUpdateListener;
+        private final EventListener<Update> modelUpdateListener;
 
-        public Config(EventListener<Update> modelUpdateListener) {
-            mModelUpdateListener = modelUpdateListener;
-        }
-
-
-        public void reset(Model model, SelectionManager selectionMgr, boolean searchMode) {
-            assert(model != null);
-
-            this.model = model;
-            this.selectionMgr = selectionMgr;
-            this.searchMode = searchMode;
-
-            model.addUpdateListener(mModelUpdateListener);
+        public ContentScope(EventListener<Update> modelUpdateListener) {
+            this.modelUpdateListener = modelUpdateListener;
         }
     }
 

@@ -27,6 +27,7 @@ import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler;
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Metrics;
@@ -41,18 +42,15 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
-import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
-import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsAccess;
-import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
@@ -72,31 +70,31 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private static final String TAG = "ManagerActionHandler";
 
     private final DialogController mDialogs;
-    private final ActivityConfig mTuner;
+    private final ActivityConfig mActConfig;
     private final DocumentClipper mClipper;
     private final ClipStore mClipStore;
-
-    private final Config mConfig;
+    private final ContentScope mScope;
 
     ActionHandler(
             T activity,
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            SelectionManager selectionMgr,
             Lookup<String, Executor> executors,
             DialogController dialogs,
             ActivityConfig tuner,
             DocumentClipper clipper,
             ClipStore clipStore) {
 
-        super(activity, state, roots, docs, executors);
+        super(activity, state, roots, docs, selectionMgr, executors);
 
         mDialogs = dialogs;
-        mTuner = tuner;
+        mActConfig = tuner;
         mClipper = clipper;
         mClipStore = clipStore;
 
-        mConfig = new Config(this::onModelLoaded);
+        mScope = new ContentScope(this::onModelLoaded);
     }
 
     @Override
@@ -109,6 +107,15 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                         root, doc, data, mDialogs::showFileOperationFailures)
         ).executeOnExecutor(mExecutors.lookup(root.authority));
         return true;
+    }
+
+    @Override
+    public void openSelectedInNewWindow() {
+        Selection selection = getStableSelection();
+        assert(selection.size() == 1);
+        DocumentInfo doc = mScope.model.getDocument(selection.iterator().next());
+        assert(doc != null);
+        openInNewWindow(new DocumentStack(mState.stack, doc));
     }
 
     @Override
@@ -143,16 +150,16 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public boolean openDocument(DocumentDetails details) {
-        DocumentInfo doc = mConfig.model.getDocument(details.getModelId());
+        DocumentInfo doc = mScope.model.getDocument(details.getModelId());
         if (doc == null) {
             Log.w(TAG,
                     "Can't view item. No Document available for modeId: " + details.getModelId());
             return false;
         }
 
-        if (mTuner.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
+        if (mActConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
             onDocumentPicked(doc);
-            mConfig.selectionMgr.clearSelection();
+            mSelectionMgr.clearSelection();
             return true;
         }
         return false;
@@ -160,13 +167,13 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public boolean viewDocument(DocumentDetails details) {
-        DocumentInfo doc = mConfig.model.getDocument(details.getModelId());
+        DocumentInfo doc = mScope.model.getDocument(details.getModelId());
         return viewDocument(doc);
     }
 
     @Override
     public boolean previewDocument(DocumentDetails details) {
-        DocumentInfo doc = mConfig.model.getDocument(details.getModelId());
+        DocumentInfo doc = mScope.model.getDocument(details.getModelId());
         if (doc.isContainer()) {
             return false;
         }
@@ -174,16 +181,19 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     @Override
-    public void deleteDocuments(Model model, Selection selected, ConfirmationCallback callback) {
+    public void deleteSelectedDocuments(Model model, ConfirmationCallback callback) {
+        assert(mSelectionMgr.hasSelection());
+
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_DELETE);
 
-        assert(!selected.isEmpty());
+        Selection selection = getStableSelection();
+        assert(!selection.isEmpty());
 
         final DocumentInfo srcParent = mState.stack.peek();
         assert(srcParent != null);
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
-        List<DocumentInfo> docs = model.getDocuments(selected);
+        List<DocumentInfo> docs = model.getDocuments(selection);
 
         ConfirmationCallback result = (@Result int code) -> {
             // share the news with our caller, be it good or bad.
@@ -196,7 +206,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             UrisSupplier srcs;
             try {
                 srcs = UrisSupplier.create(
-                        selected,
+                        selection,
                         model::getItemUri,
                         mClipStore);
             } catch (IOException e) {
@@ -371,7 +381,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                 mActivity.getPackageManager(),
                 mActivity.getResources(),
                 doc,
-                mConfig.model).build();
+                mScope.model).build();
 
         if (intent != null) {
             // TODO: un-work around issue b/24963914. Should be fixed soon.
@@ -456,49 +466,44 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     private void onModelLoaded(Model.Update update) {
         // When launched into empty root, open drawer.
-        if (mConfig.model.isEmpty()
+        if (mScope.model.isEmpty()
                 && !mState.hasInitialLocationChanged()
-                && !mConfig.searchMode
-                && !mConfig.modelLoadObserved) {
+                && !mScope.searchMode
+                && !mScope.modelLoadObserved) {
             // Opens the drawer *if* an openable drawer is present
             // else this is a no-op.
             mActivity.setRootsDrawerOpen(true);
         }
 
-        mConfig.modelLoadObserved = true;
+        mScope.modelLoadObserved = true;
     }
 
-    ActionHandler<T> reset(Model model, SelectionManager selectionMgr, boolean searchMode) {
-        mConfig.reset(model, selectionMgr, searchMode);
+    ActionHandler<T> reset(Model model, boolean searchMode) {
+        assert(model != null);
+
+        mScope.model = model;
+        mScope.modelLoadObserved = false;
+        mScope.searchMode = searchMode;
+
+        model.addUpdateListener(mScope.modelUpdateListener);
+        mScope.modelLoadObserved = false;
+
         return this;
     }
 
-    private static final class Config {
+    private static final class ContentScope {
 
         @Nullable Model model;
-        @Nullable SelectionManager selectionMgr;
         boolean searchMode;
 
-        private final EventListener<Update> mModelUpdateListener;
+        private final EventListener<Update> modelUpdateListener;
 
         // We use this to keep track of whether a model has been previously loaded or not so we can
         // open the drawer on empty directories on first launch
         private boolean modelLoadObserved;
 
-        public Config(EventListener<Update> modelUpdateListener) {
-            mModelUpdateListener = modelUpdateListener;
-        }
-
-        public void reset(Model model, SelectionManager selectionMgr, boolean searchMode) {
-            assert(model != null);
-
-            this.model = model;
-            this.selectionMgr = selectionMgr;
-            this.modelLoadObserved = false;
-            this.searchMode = searchMode;
-
-            model.addUpdateListener(mModelUpdateListener);
-            modelLoadObserved = false;
+        public ContentScope(EventListener<Update> modelUpdateListener) {
+            this.modelUpdateListener = modelUpdateListener;
         }
     }
 

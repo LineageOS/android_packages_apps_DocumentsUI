@@ -24,7 +24,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.testing.MultiSelectManagers;
+import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.dirlist.SelectionProbe;
 import com.android.documentsui.testing.dirlist.TestSelectionListener;
 
@@ -48,7 +48,7 @@ public class SelectionManager_SingleSelectTest {
     @Before
     public void setUp() throws Exception {
         mCallback = new TestSelectionListener();
-        mManager = MultiSelectManagers.createTestInstance(ITEMS, SelectionManager.MODE_SINGLE);
+        mManager = SelectionManagers.createTestInstance(ITEMS, SelectionManager.MODE_SINGLE);
         mManager.addCallback(mCallback);
 
         mSelection = new SelectionProbe(mManager);

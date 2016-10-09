@@ -21,14 +21,17 @@ import static org.junit.Assert.assertNotNull;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.selection.Selection;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestConfirmationCallback;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestRootsAccess;
@@ -47,7 +50,6 @@ public class ActionHandlerTest {
     private TestDialogController mDialogs;
     private TestConfirmationCallback mCallback;
     private ActionHandler<TestActivity> mHandler;
-    private Selection mSelection;
 
     @Before
     public void setUp() {
@@ -62,6 +64,7 @@ public class ActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
+                mEnv.selectionMgr,
                 mEnv::lookupExecutor,
                 mDialogs,
                 null,  // tuner, not currently used.
@@ -71,10 +74,22 @@ public class ActionHandlerTest {
 
         mDialogs.confirmNext();
 
-        mSelection = new Selection();
-        mSelection.add("1");
+        mEnv.selectionMgr.toggleSelection("1");
 
-        mHandler.reset(mEnv.model, null, false);
+        mHandler.reset(mEnv.model, false);
+    }
+
+    @Test
+    public void testOpenSelectedInNewWindow() {
+        mHandler.openSelectedInNewWindow();
+
+        DocumentStack path = new DocumentStack(Roots.create("123"), mEnv.model.getDocument("1"));
+
+        Intent expected = LauncherActivity.createLaunchIntent(mActivity);
+        expected.putExtra(Shared.EXTRA_STACK, (Parcelable) path);
+
+        Intent actual = mActivity.startActivity.getLastValue();
+        assertEquals(expected.toString(), actual.toString());
     }
 
     @Test
@@ -91,7 +106,7 @@ public class ActionHandlerTest {
     public void testDeleteDocuments() {
         mEnv.populateStack();
 
-        mHandler.deleteDocuments(mEnv.model, mSelection, mCallback);
+        mHandler.deleteSelectedDocuments(mEnv.model, mCallback);
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertCalled();
         mCallback.assertConfirmed();
@@ -102,7 +117,7 @@ public class ActionHandlerTest {
         mEnv.populateStack();
 
         mDialogs.rejectNext();
-        mHandler.deleteDocuments(mEnv.model, mSelection, mCallback);
+        mHandler.deleteSelectedDocuments(mEnv.model, mCallback);
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertNotCalled();
         mCallback.assertRejected();

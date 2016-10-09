@@ -16,6 +16,7 @@
 
 package com.android.documentsui.base;
 
+import android.annotation.PluralsRes;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -131,9 +132,10 @@ public final class Shared {
     }
 
     /**
-     * Generates a formatted quantity string.
+     * @deprecated use {@ link MessageBuilder#getQuantityString}
      */
-    public static final String getQuantityString(Context context, int resourceId, int quantity) {
+    @Deprecated
+    public static final String getQuantityString(Context context, @PluralsRes int resourceId, int quantity) {
         return context.getResources().getQuantityString(resourceId, quantity, quantity);
     }
 

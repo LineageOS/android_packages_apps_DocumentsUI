@@ -23,7 +23,7 @@ import android.view.MotionEvent;
 
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.testing.MultiSelectManagers;
+import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.TestEventHandler;
@@ -58,7 +58,7 @@ public final class UserInputHandler_KeyboardTest {
 
     @Before
     public void setUp() {
-        SelectionManager selectionMgr = MultiSelectManagers.createTestInstance(ITEMS);
+        SelectionManager selectionMgr = SelectionManagers.createTestInstance(ITEMS);
 
         mActionHandler = new TestActionHandler();
         mSelection = new SelectionProbe(selectionMgr);

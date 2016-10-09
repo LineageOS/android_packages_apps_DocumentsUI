@@ -38,24 +38,27 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
+import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.MimePredicate;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.ActivityConfig;
+import com.android.documentsui.dirlist.ActionModeController;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
@@ -77,9 +80,9 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     private final Config mConfig = new Config();
 
     private SelectionManager mSelectionMgr;
-    private FocusManager mFocusManager;
     private MenuManager mMenuManager;
     private ActionHandler<PickActivity> mActionHandler;
+    private ActionModeController mActionModeController;
 
     public PickActivity() {
         super(R.layout.documents_activity, TAG);
@@ -93,15 +96,21 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mState.allowMultiple
                         ? SelectionManager.MODE_MULTIPLE
                         : SelectionManager.MODE_SINGLE);
-        mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
         mActionHandler = new ActionHandler<>(
                 this,
                 mState,
                 DocumentsApplication.getRootsCache(this),
                 DocumentsAccess.create(this),
+                mSelectionMgr,
                 ProviderExecutor::forAuthority,
                 mConfig);
+
+        mActionModeController = new ActionModeController(
+                this,
+                mSelectionMgr,
+                mMenuManager,
+                getMessages());
 
         Intent intent = getIntent();
 
@@ -412,31 +421,27 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     }
 
     @Override
-    public FocusManager getFocusManager(RecyclerView view, Model model) {
-        return mFocusManager.reset(view, model);
-    }
-
-    @Override
     public MenuManager getMenuManager() {
         return mMenuManager;
     }
 
     @Override
-    public ActionHandler<PickActivity> getActionHandler(
-            Model model, SelectionManager selectionMgr, boolean searchMode) {
-
-        // provide our friend, RootsFragment, early access to this special feature!
-        if (model == null || selectionMgr == null) {
-            assert(model == null);
-            assert(selectionMgr == null);
-            return mActionHandler;
-        }
-        return mActionHandler.reset(model, selectionMgr, searchMode);
+    public ActionModeController getActionModeController(
+            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view) {
+        return mActionModeController.reset(selectionDetails, menuItemClicker, view);
     }
 
-    /* (non-Javadoc)
-     * @see com.android.documentsui.BaseActivity#getDialogController()
-     */
+    @Override
+    public ActionHandler<PickActivity> getActionHandler(Model model, boolean searchMode) {
+
+        // provide our friend, RootsFragment, early access to this special feature!
+        if (model == null) {
+            return mActionHandler;
+        }
+
+        return mActionHandler.reset(model, searchMode);
+    }
+
     @Override
     public DialogController getDialogController() {
         return DialogController.STUB;

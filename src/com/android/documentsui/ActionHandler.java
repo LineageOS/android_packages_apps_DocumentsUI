@@ -28,7 +28,6 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.selection.Selection;
 
 public interface ActionHandler {
 
@@ -54,6 +53,8 @@ public interface ActionHandler {
 
     void loadDocument(Uri uri);
 
+    void openSelectedInNewWindow();
+
     void openInNewWindow(DocumentStack path);
 
     void pasteIntoFolder(RootInfo root);
@@ -66,7 +67,7 @@ public interface ActionHandler {
 
     void showChooserForDoc(DocumentInfo doc);
 
-    void deleteDocuments(Model model, Selection selection, ConfirmationCallback callback);
+    void deleteSelectedDocuments(Model model, ConfirmationCallback callback);
 
     /**
      * Called when initial activity setup is complete. Implementations
