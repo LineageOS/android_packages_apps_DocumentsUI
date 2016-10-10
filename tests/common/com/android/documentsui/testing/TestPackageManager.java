@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.testing.android;
+package com.android.documentsui.testing;
 
 import android.annotation.UserIdInt;
 import android.content.Intent;

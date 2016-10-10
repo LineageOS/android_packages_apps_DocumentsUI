@@ -25,13 +25,13 @@ import android.view.MotionEvent;
 
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionProbe;
 import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.TestEvent.Builder;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestPredicate;
-import com.android.documentsui.testing.dirlist.SelectionProbe;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +51,6 @@ public final class UserInputHandler_TouchTest {
     private SelectionProbe mSelection;
     private TestPredicate<DocumentDetails> mCanSelect;
     private TestEventHandler<InputEvent> mRightClickHandler;
-    private TestEventHandler<DocumentDetails> mDeleteHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
     private TestEventHandler<InputEvent> mGestureSelectHandler;
 
@@ -66,7 +65,6 @@ public final class UserInputHandler_TouchTest {
         mSelection = new SelectionProbe(selectionMgr);
         mCanSelect = new TestPredicate<>();
         mRightClickHandler = new TestEventHandler<>();
-        mDeleteHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
         mGestureSelectHandler = new TestEventHandler<>();
 
@@ -79,7 +77,6 @@ public final class UserInputHandler_TouchTest {
                 },
                 mCanSelect,
                 mRightClickHandler::accept,
-                mDeleteHandler::accept,
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept);
 

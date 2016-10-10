@@ -45,14 +45,13 @@ public final class UserInputHandler<T extends InputEvent>
 
     private static final String TAG = "UserInputHandler";
 
-    private ActionHandler mActionHandler;
+    private ActionHandler mActions;
     private final FocusHandler mFocusHandler;
     private final SelectionManager mSelectionMgr;
     private final Function<MotionEvent, T> mEventConverter;
     private final Predicate<DocumentDetails> mSelectable;
 
     private final EventHandler<InputEvent> mRightClickHandler;
-    private final EventHandler<DocumentDetails> mDeleteHandler;
 
     private final EventHandler<InputEvent> mTouchDragListener;
     private final EventHandler<InputEvent> mGestureSelectHandler;
@@ -62,23 +61,21 @@ public final class UserInputHandler<T extends InputEvent>
     private final KeyInputHandler mKeyListener;
 
     public UserInputHandler(
-            ActionHandler actionHandler,
+            ActionHandler actions,
             FocusHandler focusHandler,
             SelectionManager selectionMgr,
             Function<MotionEvent, T> eventConverter,
             Predicate<DocumentDetails> selectable,
             EventHandler<InputEvent> rightClickHandler,
-            EventHandler<DocumentDetails> deleteHandler,
             EventHandler<InputEvent> touchDragListener,
             EventHandler<InputEvent> gestureSelectHandler) {
 
-        mActionHandler = actionHandler;
+        mActions = actions;
         mFocusHandler = focusHandler;
         mSelectionMgr = selectionMgr;
         mEventConverter = eventConverter;
         mSelectable = selectable;
         mRightClickHandler = rightClickHandler;
-        mDeleteHandler = deleteHandler;
         mTouchDragListener = touchDragListener;
         mGestureSelectHandler = gestureSelectHandler;
 
@@ -246,7 +243,7 @@ public final class UserInputHandler<T extends InputEvent>
             // otherwise they activate.
             return doc.isInSelectionHotspot(event)
                     ? selectDocument(doc)
-                    : mActionHandler.openDocument(doc);
+                    : mActions.openDocument(doc);
         }
 
         boolean onSingleTapConfirmed(T event) {
@@ -380,7 +377,7 @@ public final class UserInputHandler<T extends InputEvent>
             }
 
             DocumentDetails doc = event.getDocumentDetails();
-            return mActionHandler.viewDocument(doc);
+            return mActions.viewDocument(doc);
         }
 
         final void onLongPress(T event) {
@@ -447,14 +444,14 @@ public final class UserInputHandler<T extends InputEvent>
                     // For non-shifted enter keypresses, fall through.
                 case KeyEvent.KEYCODE_DPAD_CENTER:
                 case KeyEvent.KEYCODE_BUTTON_A:
-                    return mActionHandler.viewDocument(doc);
+                    return mActions.viewDocument(doc);
                 case KeyEvent.KEYCODE_SPACE:
-                    return mActionHandler.previewDocument(doc);
+                    return mActions.previewDocument(doc);
                 case KeyEvent.KEYCODE_FORWARD_DEL:
                     // This has to be handled here instead of in a keyboard shortcut, because
                     // keyboard shortcuts all have to be modified with the 'Ctrl' key.
                     if (mSelectionMgr.hasSelection()) {
-                        mDeleteHandler.accept(doc);
+                        mActions.deleteSelectedDocuments();
                     }
                     // Always handle the key, even if there was nothing to delete. This is a
                     // precaution to prevent other handlers from potentially picking up the event

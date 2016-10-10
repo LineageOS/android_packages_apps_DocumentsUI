@@ -29,8 +29,8 @@ import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.testing.TestEventListener;
-import com.android.documentsui.testing.android.TestPackageManager;
-import com.android.documentsui.testing.android.TestResources;
+import com.android.documentsui.testing.TestPackageManager;
+import com.android.documentsui.testing.TestResources;
 
 import org.mockito.Mockito;
 
