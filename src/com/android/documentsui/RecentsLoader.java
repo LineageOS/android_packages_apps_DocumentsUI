@@ -140,7 +140,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         // Collect all finished tasks
         boolean allDone = true;
         int totalQuerySize = 0;
-        List<Cursor> cursors = new ArrayList<>();
+        List<Cursor> cursors = new ArrayList<>(mTasks.size());
         for (RecentsTask task : mTasks.values()) {
             if (task.isDone()) {
                 try {
@@ -168,6 +168,10 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
                     throw new RuntimeException(e);
                 } catch (ExecutionException e) {
                     // We already logged on other side
+                } catch (Exception e) {
+                    // Catch exceptions thrown when we read the cursor.
+                    Log.e(TAG, "Failed to query Recents for authority: " + task.authority
+                            + ". Skip this authority in Recents.", e);
                 }
             } else {
                 allDone = false;
@@ -188,7 +192,6 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
             // Return something when nobody is ready
             merged = new MatrixCursor(new String[0]);
         }
-
 
         final Cursor sorted = mState.sortModel.sortCursor(merged);
 
