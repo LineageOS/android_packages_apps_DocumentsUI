@@ -27,8 +27,8 @@ public class TestDirectoryDetails extends DirectoryDetails {
     public boolean isInRecents;
     public boolean hasRootSettings;
     public boolean hasItemsToPaste;
+    public boolean canCreateDoc;
     public boolean canCreateDirectory;
-    public boolean getDisplayFileSize;
 
     public TestDirectoryDetails() {
         super(null);
@@ -52,6 +52,11 @@ public class TestDirectoryDetails extends DirectoryDetails {
     @Override
     public boolean isInRecents() {
         return isInRecents;
+    }
+
+    @Override
+    public boolean canCreateDoc() {
+        return canCreateDoc;
     }
 
     @Override
