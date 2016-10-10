@@ -17,6 +17,7 @@
 package com.android.documentsui.files;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 
 import android.provider.DocumentsContract.Document;
@@ -62,6 +63,8 @@ public final class MenuManagerTest {
     private TestMenuItem pasteInto;
     private TestMenuItem advanced;
     private TestMenuItem eject;
+
+    private TestActivity testActivity;
     private TestSelectionDetails selectionDetails;
     private TestDirectoryDetails dirDetails;
     private TestSearchViewManager testSearchManager;
@@ -239,8 +242,70 @@ public final class MenuManagerTest {
         mgr.updateContextMenuForContainer(testMenu);
 
         selectAll.assertVisible();
+        selectAll.assertEnabled();
         paste.assertVisible();
+        paste.assertDisabled();
         createDir.assertVisible();
+        createDir.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_NoItemToPaste() {
+        dirDetails.hasItemsToPaste = false;
+        dirDetails.canCreateDoc = true;
+
+        mgr.updateContextMenuForContainer(testMenu);
+
+        selectAll.assertVisible();
+        selectAll.assertEnabled();
+        paste.assertVisible();
+        paste.assertDisabled();
+        createDir.assertVisible();
+        createDir.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_CantCreateDoc() {
+        dirDetails.hasItemsToPaste = true;
+        dirDetails.canCreateDoc = false;
+
+        mgr.updateContextMenuForContainer(testMenu);
+
+        selectAll.assertVisible();
+        selectAll.assertEnabled();
+        paste.assertVisible();
+        paste.assertDisabled();
+        createDir.assertVisible();
+        createDir.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_CanPaste() {
+        dirDetails.hasItemsToPaste = true;
+        dirDetails.canCreateDoc = true;
+
+        mgr.updateContextMenuForContainer(testMenu);
+
+        selectAll.assertVisible();
+        selectAll.assertEnabled();
+        paste.assertVisible();
+        paste.assertEnabled();
+        createDir.assertVisible();
+        createDir.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_CanCreateDirectory() {
+        dirDetails.canCreateDirectory = true;
+
+        mgr.updateContextMenuForContainer(testMenu);
+
+        selectAll.assertVisible();
+        selectAll.assertEnabled();
+        paste.assertVisible();
+        paste.assertDisabled();
+        createDir.assertVisible();
+        createDir.assertEnabled();
     }
 
     @Test
