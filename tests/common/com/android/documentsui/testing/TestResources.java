@@ -82,4 +82,8 @@ public abstract class TestResources extends Resources {
             @StringRes int id, Object... formatArgs) throws NotFoundException {
         return getString(id);
     }
+
+    public final CharSequence getText(@StringRes int resId) {
+        return getString(resId);
+    }
 }

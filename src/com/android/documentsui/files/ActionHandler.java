@@ -32,12 +32,14 @@ import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Metrics;
+import com.android.documentsui.R;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.ClipStore;
@@ -58,6 +60,7 @@ import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.ui.DialogController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -228,6 +231,54 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         };
 
         mDialogs.confirmDelete(docs, result);
+    }
+
+    @Override
+    public void shareSelectedDocuments() {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_SHARE);
+
+        Selection selection = getStableSelection();
+
+        assert(!selection.isEmpty());
+
+        // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
+        List<DocumentInfo> docs =
+                mScope.model.loadDocuments(selection, Model.CONCRETE_FILE_FILTER);
+
+        Intent intent;
+
+        if (docs.size() == 1) {
+            final DocumentInfo doc = docs.get(0);
+
+            intent = new Intent(Intent.ACTION_SEND);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.setType(doc.mimeType);
+            intent.putExtra(Intent.EXTRA_STREAM, doc.derivedUri);
+
+        } else if (docs.size() > 1) {
+            intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+
+            final ArrayList<String> mimeTypes = new ArrayList<>();
+            final ArrayList<Uri> uris = new ArrayList<>();
+            for (DocumentInfo doc : docs) {
+                mimeTypes.add(doc.mimeType);
+                uris.add(doc.derivedUri);
+            }
+
+            intent.setType(MimeTypes.findCommonMimeType(mimeTypes));
+            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+        } else {
+            return;
+        }
+
+        Intent chooserIntent = Intent.createChooser(
+                intent, mActivity.getResources().getText(R.string.share_via));
+
+        mActivity.startActivity(chooserIntent);
     }
 
     @Override
@@ -440,10 +491,10 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return false;
         }
 
-        // managament is only supported in downloads.
+        // management is only supported in downloads.
         if (mActivity.getCurrentRoot().isDownloads()) {
             // and only and only on APKs or partial files.
-            return "application/vnd.android.package-archive".equals(doc.mimeType)
+            return MimeTypes.isApkType(doc.mimeType)
                     || doc.isPartial();
         }
 

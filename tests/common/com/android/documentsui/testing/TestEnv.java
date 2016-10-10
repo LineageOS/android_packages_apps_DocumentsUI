@@ -26,6 +26,8 @@ import com.android.documentsui.selection.SelectionManager;
 
 import junit.framework.Assert;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
@@ -126,5 +128,11 @@ public class TestEnv {
 
     public Executor lookupExecutor(String authority) {
         return mExecutor;
+    }
+
+    public void selectDocument(DocumentInfo info) {
+        List<String> ids = new ArrayList<>(1);
+        ids.add(info.documentId);
+        selectionMgr.setItemsSelected(ids, true);
     }
 }

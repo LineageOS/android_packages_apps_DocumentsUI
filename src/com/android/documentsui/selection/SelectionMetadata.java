@@ -24,7 +24,7 @@ import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
 import com.android.documentsui.MenuManager;
-import com.android.documentsui.base.MimePredicate;
+import com.android.documentsui.base.MimeTypes;
 
 import java.util.function.Function;
 
@@ -63,7 +63,7 @@ public class SelectionMetadata
         final int delta = selected ? 1 : -1;
 
         final String mimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
-        if (MimePredicate.isDirectoryType(mimeType)) {
+        if (MimeTypes.isDirectoryType(mimeType)) {
             mDirectoryCount += delta;
         } else {
             mFileCount += delta;
