@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.testing.dirlist;
+package com.android.documentsui.selection;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

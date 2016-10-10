@@ -27,7 +27,6 @@ import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.dirlist.ActionModeController;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.internal.annotations.VisibleForTesting;

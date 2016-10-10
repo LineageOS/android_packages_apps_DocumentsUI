@@ -18,7 +18,6 @@ package com.android.documentsui.testing;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootsAccess;
-import com.android.documentsui.testing.android.TestPackageManager;
 
 import java.util.ArrayList;
 import java.util.Collection;

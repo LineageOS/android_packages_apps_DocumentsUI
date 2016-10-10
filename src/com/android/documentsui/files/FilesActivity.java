@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.documentsui.ActionModeController;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsAccess;
@@ -49,7 +50,6 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.DocumentClipper;
-import com.android.documentsui.dirlist.ActionModeController;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.DocumentsAdapter;
@@ -100,6 +100,13 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 });
 
         mDialogs = DialogController.create(this, getMessages());
+
+        mActionModeController = new ActionModeController(
+                this,
+                mSelectionMgr,
+                mMenuManager,
+                getMessages());
+
         mActions = new ActionHandler<>(
                 this,
                 mState,
@@ -107,16 +114,11 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 DocumentsAccess.create(this),
                 mSelectionMgr,
                 ProviderExecutor::forAuthority,
+                mActionModeController,
                 mDialogs,
                 mConfig,
                 mClipper,
                 DocumentsApplication.getClipStore(this));
-
-        mActionModeController = new ActionModeController(
-                this,
-                mSelectionMgr,
-                mMenuManager,
-                getMessages());
 
         RootsFragment.show(getFragmentManager(), null);
 

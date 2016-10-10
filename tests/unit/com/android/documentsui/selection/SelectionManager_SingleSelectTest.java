@@ -25,8 +25,6 @@ import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.testing.SelectionManagers;
-import com.android.documentsui.testing.dirlist.SelectionProbe;
-import com.android.documentsui.testing.dirlist.TestSelectionListener;
 
 import org.junit.Before;
 import org.junit.Test;

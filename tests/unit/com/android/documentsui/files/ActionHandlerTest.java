@@ -27,6 +27,7 @@ import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
+import com.android.documentsui.TestActionModeAddons;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
@@ -47,6 +48,7 @@ public class ActionHandlerTest {
 
     private TestEnv mEnv;
     private TestActivity mActivity;
+    private TestActionModeAddons mActionModeAddons;
     private TestDialogController mDialogs;
     private TestConfirmationCallback mCallback;
     private ActionHandler<TestActivity> mHandler;
@@ -55,6 +57,7 @@ public class ActionHandlerTest {
     public void setUp() {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create();
+        mActionModeAddons = new TestActionModeAddons();
         mDialogs = new TestDialogController();
         mCallback = new TestConfirmationCallback();
         mEnv.roots.configurePm(mActivity.packageMgr);
@@ -66,6 +69,7 @@ public class ActionHandlerTest {
                 mEnv.docs,
                 mEnv.selectionMgr,
                 mEnv::lookupExecutor,
+                mActionModeAddons,
                 mDialogs,
                 null,  // tuner, not currently used.
                 null,  // clipper, only used in drag/drop
@@ -106,10 +110,10 @@ public class ActionHandlerTest {
     public void testDeleteDocuments() {
         mEnv.populateStack();
 
-        mHandler.deleteSelectedDocuments(mEnv.model, mCallback);
+        mHandler.deleteSelectedDocuments();
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertCalled();
-        mCallback.assertConfirmed();
+        mActionModeAddons.finishOnConfimed.assertConfirmed();
     }
 
     @Test
@@ -117,10 +121,10 @@ public class ActionHandlerTest {
         mEnv.populateStack();
 
         mDialogs.rejectNext();
-        mHandler.deleteSelectedDocuments(mEnv.model, mCallback);
+        mHandler.deleteSelectedDocuments();
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertNotCalled();
-        mCallback.assertRejected();
+        mActionModeAddons.finishOnConfimed.assertRejected();
     }
 
     @Test

@@ -25,7 +25,6 @@ import android.os.Parcelable;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.BooleanConsumer;
-import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
@@ -34,7 +33,6 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.files.OpenUriForViewTask;
 import com.android.documentsui.roots.LoadRootTask;
@@ -153,7 +151,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
-    public void deleteSelectedDocuments(Model model, ConfirmationCallback callback) {
+    public void deleteSelectedDocuments() {
         throw new UnsupportedOperationException("Delete not supported!");
     }
 

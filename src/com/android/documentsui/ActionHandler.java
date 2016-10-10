@@ -22,12 +22,10 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
 import com.android.documentsui.base.BooleanConsumer;
-import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.dirlist.Model;
 
 public interface ActionHandler {
 
@@ -67,7 +65,7 @@ public interface ActionHandler {
 
     void showChooserForDoc(DocumentInfo doc);
 
-    void deleteSelectedDocuments(Model model, ConfirmationCallback callback);
+    void deleteSelectedDocuments();
 
     /**
      * Called when initial activity setup is complete. Implementations

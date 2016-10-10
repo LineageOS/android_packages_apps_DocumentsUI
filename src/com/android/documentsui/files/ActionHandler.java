@@ -27,6 +27,7 @@ import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler;
+import com.android.documentsui.ActionModeAddons;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
@@ -69,6 +70,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     private static final String TAG = "ManagerActionHandler";
 
+    private final ActionModeAddons mActionModeAddons;
     private final DialogController mDialogs;
     private final ActivityConfig mActConfig;
     private final DocumentClipper mClipper;
@@ -82,6 +84,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             DocumentsAccess docs,
             SelectionManager selectionMgr,
             Lookup<String, Executor> executors,
+            ActionModeAddons actionModeAddons,
             DialogController dialogs,
             ActivityConfig tuner,
             DocumentClipper clipper,
@@ -89,6 +92,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
         super(activity, state, roots, docs, selectionMgr, executors);
 
+        mActionModeAddons = actionModeAddons;
         mDialogs = dialogs;
         mActConfig = tuner;
         mClipper = clipper;
@@ -181,7 +185,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     @Override
-    public void deleteSelectedDocuments(Model model, ConfirmationCallback callback) {
+    public void deleteSelectedDocuments() {
         assert(mSelectionMgr.hasSelection());
 
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_DELETE);
@@ -193,11 +197,11 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         assert(srcParent != null);
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
-        List<DocumentInfo> docs = model.getDocuments(selection);
+        List<DocumentInfo> docs = mScope.model.getDocuments(selection);
 
         ConfirmationCallback result = (@Result int code) -> {
             // share the news with our caller, be it good or bad.
-            callback.accept(code);
+            mActionModeAddons.finishOnConfirmed(code);
 
             if (code != ConfirmationCallback.CONFIRM) {
                 return;
@@ -207,7 +211,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             try {
                 srcs = UrisSupplier.create(
                         selection,
-                        model::getItemUri,
+                        mScope.model::getItemUri,
                         mClipStore);
             } catch (IOException e) {
                 throw new RuntimeException("Failed to create uri supplier.", e);
