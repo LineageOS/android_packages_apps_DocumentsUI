@@ -108,6 +108,13 @@
             android:authorities="com.android.documentsui.lastAccessed"
             android:exported="false"/>
 
+        <provider
+            android:name=".archives.ArchivesProvider"
+            android:authorities="com.android.documentsui.archives"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS"
+            android:exported="true"/>
+
         <receiver android:name=".PackageReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />

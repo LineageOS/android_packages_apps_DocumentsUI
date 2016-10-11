@@ -55,6 +55,7 @@ import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.SearchViewManager.SearchManagerListener;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
@@ -79,6 +80,7 @@ import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -410,10 +412,26 @@ public abstract class BaseActivity
     @Override
     public void openContainerDocument(DocumentInfo doc) {
         assert(doc.isContainer());
+        DocumentInfo currentDoc = null;
 
-        notifyDirectoryNavigated(doc.derivedUri);
+        if (doc.isDirectory()) {
+            // Regular directory.
+            currentDoc = doc;
+        } else if (doc.isArchive()) {
+            // Archive.
+            try {
+                currentDoc = DocumentInfo.fromUri(getContentResolver(),
+                        ArchivesProvider.buildUriForArchive(doc.derivedUri));
+            } catch (FileNotFoundException e) {
+                // Should never happen, as queryDocument() on ArchivesProvider's root
+                // document never throws.
+            }
+        }
 
-        mState.pushDocument(doc);
+        assert(currentDoc != null);
+        notifyDirectoryNavigated(currentDoc.derivedUri);
+        mState.pushDocument(currentDoc);
+
         // Show an opening animation only if pressing "back" would get us back to the
         // previous directory. Especially after opening a root document, pressing
         // back, wouldn't go to the previous root, but close the activity.
