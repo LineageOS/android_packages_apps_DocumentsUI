@@ -132,14 +132,14 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> item</item>
     </plurals>
     <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\'<xliff:g id="NAME">%1$s</xliff:g>\' verwijderen?"</string>
-    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"Map \'<xliff:g id="NAME">%1$s</xliff:g>\' en de bijbehorende inhoud verwijderen?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"Map \'<xliff:g id="NAME">%1$s</xliff:g>\' en de bijbehorende content verwijderen?"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> bestanden verwijderen?</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> bestand verwijderen?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> mappen en de bijbehorende inhoud verwijderen?</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> map en de bijbehorende inhoud verwijderen?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> mappen en de bijbehorende content verwijderen?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> map en de bijbehorende content verwijderen?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> items verwijderen?</item>
