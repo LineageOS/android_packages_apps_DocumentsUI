@@ -46,7 +46,7 @@
     <string name="button_copy" msgid="8219059853840996027">"Kopiraj"</string>
     <string name="button_move" msgid="8596460499325291272">"Premesti"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Odbaci"</string>
-    <string name="button_retry" msgid="4011461781916631389">"Pokušaj ponovo"</string>
+    <string name="button_retry" msgid="4011461781916631389">"Probaj ponovo"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Nisu sortirani"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Naziv"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Rezime"</string>
