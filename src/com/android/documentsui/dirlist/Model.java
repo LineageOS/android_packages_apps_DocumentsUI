@@ -42,12 +42,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /**
  * The data model for the current loaded directory.
  */
 @VisibleForTesting
 public class Model {
+
+    /**
+     * Filter that passes (returns true) all non-virtual, non-partial files.
+     */
+    public static final Predicate<Cursor> CONCRETE_FILE_FILTER = (Cursor c) -> {
+        int flags = DocumentInfo.getCursorInt(c, Document.COLUMN_FLAGS);
+        return (flags & Document.FLAG_VIRTUAL_DOCUMENT) == 0
+                && (flags & Document.FLAG_PARTIAL) == 0;
+    };
+
     private static final String TAG = "Model";
 
     private boolean mIsLoading;
@@ -213,6 +224,35 @@ public class Model {
         return (cursor == null)
                 ? null
                 : DocumentInfo.fromDirectoryCursor(cursor);
+    }
+
+    public List<DocumentInfo> loadDocuments(Selection selection, Predicate<Cursor> filter) {
+        final int size = (selection != null) ? selection.size() : 0;
+
+        final List<DocumentInfo> docs =  new ArrayList<>(size);
+        for (String modelId: selection) {
+            loadDocument(docs, modelId, filter);
+        }
+        return docs;
+    }
+
+    /**
+     * @param docs
+     * @return DocumentInfo, or null. If filter returns false, null will be returned.
+     */
+    private void loadDocument(
+            List<DocumentInfo> docs, String modelId, Predicate<Cursor> filter) {
+        final Cursor cursor = getItem(modelId);
+
+        if (cursor == null) {
+            Log.w(TAG, "Unable to obtain document for modelId: " + modelId);
+        }
+
+        if (filter.test(cursor)) {
+            docs.add(DocumentInfo.fromDirectoryCursor(cursor));
+        } else {
+            if (DEBUG) Log.v(TAG, "Filtered document from results: " + modelId);
+        }
     }
 
     public Uri getItemUri(String modelId) {

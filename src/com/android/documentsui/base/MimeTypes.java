@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Android Open Source Project
+ * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.android.documentsui.base;
 
 import android.annotation.Nullable;
 import android.provider.DocumentsContract.Document;
 
-import com.android.internal.util.Predicate;
+import java.util.List;
 
-public class MimePredicate implements Predicate<DocumentInfo> {
-    private final String[] mFilters;
+public final class MimeTypes {
+
+    private MimeTypes() {}
 
     private static final String APK_TYPE = "application/vnd.android.package-archive";
     /**
@@ -31,19 +31,28 @@ public class MimePredicate implements Predicate<DocumentInfo> {
      */
     public static final String[] VISUAL_MIMES = new String[] { "image/*", "video/*" };
 
-    public MimePredicate(String[] filters) {
-        mFilters = filters;
-    }
+    public static String findCommonMimeType(List<String> mimeTypes) {
+        String[] commonType = mimeTypes.get(0).split("/");
+        if (commonType.length != 2) {
+            return "*/*";
+        }
 
-    @Override
-    public boolean apply(DocumentInfo doc) {
-        if (doc.isDirectory()) {
-            return true;
+        for (int i = 1; i < mimeTypes.size(); i++) {
+            String[] type = mimeTypes.get(i).split("/");
+            if (type.length != 2) continue;
+
+            if (!commonType[1].equals(type[1])) {
+                commonType[1] = "*";
+            }
+
+            if (!commonType[0].equals(type[0])) {
+                commonType[0] = "*";
+                commonType[1] = "*";
+                break;
+            }
         }
-        if (mimeMatches(mFilters, doc.mimeType)) {
-            return true;
-        }
-        return false;
+
+        return commonType[0] + "/" + commonType[1];
     }
 
     public static boolean mimeMatches(String[] filters, String[] tests) {

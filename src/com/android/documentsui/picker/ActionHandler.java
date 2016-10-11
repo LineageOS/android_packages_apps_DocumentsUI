@@ -35,7 +35,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
-import com.android.documentsui.base.MimePredicate;
+import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -152,7 +152,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     private void onModelLoaded(Model.Update update) {
         boolean showDrawer = false;
 
-        if (MimePredicate.mimeMatches(MimePredicate.VISUAL_MIMES, mState.acceptMimes)) {
+        if (MimeTypes.mimeMatches(MimeTypes.VISUAL_MIMES, mState.acceptMimes)) {
             showDrawer = false;
         }
         if (mState.external && mState.action == ACTION_GET_CONTENT) {

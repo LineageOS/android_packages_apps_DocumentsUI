@@ -67,6 +67,8 @@ public interface ActionHandler {
 
     void deleteSelectedDocuments();
 
+    void shareSelectedDocuments();
+
     /**
      * Called when initial activity setup is complete. Implementations
      * should override this method to set the initial location of the

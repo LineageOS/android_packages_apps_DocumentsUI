@@ -54,7 +54,7 @@ import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventHandler;
-import com.android.documentsui.base.MimePredicate;
+import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -270,8 +270,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 // picking GRID for visual types. We intentionally don't
                 // consult a user's saved preferences here since they are
                 // set per root (not per root and per mimetype).
-                boolean visualMimes = MimePredicate.mimeMatches(
-                        MimePredicate.VISUAL_MIMES, mState.acceptMimes);
+                boolean visualMimes = MimeTypes.mimeMatches(
+                        MimeTypes.VISUAL_MIMES, mState.acceptMimes);
                 mState.derivedMode = visualMimes ? State.MODE_GRID : State.MODE_LIST;
             }
         } else {

@@ -156,6 +156,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
+    public void shareSelectedDocuments() {
+        throw new UnsupportedOperationException("Share not supported!");
+    }
+
+    @Override
     public final void loadDocument(Uri uri) {
         new OpenUriForViewTask<>(mActivity, mState, mRoots, mDocs, uri)
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));

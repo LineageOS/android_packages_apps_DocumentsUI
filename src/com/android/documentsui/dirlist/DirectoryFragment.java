@@ -117,8 +117,7 @@ import javax.annotation.Nullable;
  * Display the documents inside a single directory.
  */
 public class DirectoryFragment extends Fragment
-        implements DocumentsAdapter.Environment, LoaderCallbacks<DirectoryResult>,
-        ItemDragListener.DragHost, SwipeRefreshLayout.OnRefreshListener {
+        implements ItemDragListener.DragHost, SwipeRefreshLayout.OnRefreshListener {
 
     @IntDef(flag = true, value = {
             TYPE_NORMAL,
@@ -142,8 +141,12 @@ public class DirectoryFragment extends Fragment
     private static final int CACHE_EVICT_LIMIT = 100;
     private static final int REFRESH_SPINNER_DISMISS_DELAY = 500;
 
+    private BaseActivity mActivity;
+    private State mState;
     private final Model mModel = new Model();
     private final EventListener<Model.Update> mModelUpdateListener = new ModelUpdateListener();
+    private final DocumentsAdapter.Environment mAdapterEnv = new AdapterEnvironment();
+    private final LoaderCallbacks<DirectoryResult> mLoaderCallbacks = new LoaderBindings();
 
     // This dependency is informally "injected" from the owning Activity in our onCreate method.
     private ActivityConfig mActivityConfig;
@@ -191,7 +194,7 @@ public class DirectoryFragment extends Fragment
     private SortModel.UpdateListener mSortListener = (model, updateType) -> {
         // Only when sort order has changed do we need to trigger another loading.
         if ((updateType & SortModel.UPDATE_TYPE_SORTING) != 0) {
-            getLoaderManager().restartLoader(LOADER_ID, null, this);
+            getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
         }
     };
 
@@ -199,10 +202,11 @@ public class DirectoryFragment extends Fragment
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        BaseActivity activity = (BaseActivity) getActivity();
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
         mMessageBar = MessageBar.create(getChildFragmentManager());
-        mProgressBar = getActivity().findViewById(R.id.progressbar);
+        mProgressBar = activity.findViewById(R.id.progressbar);
         assert(mProgressBar != null);
 
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
@@ -217,10 +221,10 @@ public class DirectoryFragment extends Fragment
                         cancelThumbnailTask(holder.itemView);
                     }
                 });
-        mRecView.setItemAnimator(new DirectoryItemAnimator(getActivity()));
+        mRecView.setItemAnimator(new DirectoryItemAnimator(activity));
         mFileList = view.findViewById(R.id.file_list);
 
-        mActivityConfig = getBaseActivity().getActivityConfig();
+        mActivityConfig = activity.getActivityConfig();
         mDragHoverListener = mActivityConfig.dragAndDropEnabled()
                 ? DragHoverListener.create(new DirectoryDragListener(this), mRecView)
                 : null;
@@ -250,8 +254,8 @@ public class DirectoryFragment extends Fragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        final Context context = getActivity();
-        final State state = getDisplayState();
+        mActivity = (BaseActivity) getActivity();
+        mState = mActivity.getDisplayState();
 
         // Read arguments when object created for the first time.
         // Restore state if fragment recreated.
@@ -261,7 +265,7 @@ public class DirectoryFragment extends Fragment
         mLocalState.restore(args);
 
         // Restore any selection we may have squirreled away in retained state.
-        @Nullable RetainedState retained = getBaseActivity().getRetainedState();
+        @Nullable RetainedState retained = mActivity.getRetainedState();
         if (retained != null && retained.hasSelection()) {
             // We claim the selection for ourselves and null it out once used
             // so we don't have a rando selection hanging around in RetainedState.
@@ -269,11 +273,11 @@ public class DirectoryFragment extends Fragment
             retained.selection = null;
         }
 
-        mIconHelper = new IconHelper(context, MODE_GRID);
+        mIconHelper = new IconHelper(mActivity, MODE_GRID);
         mClipper = DocumentsApplication.getDocumentClipper(getContext());
 
         mAdapter = new SectionBreakDocumentsAdapterWrapper(
-                this, new ModelBackedDocumentsAdapter(this, mIconHelper));
+                mAdapterEnv, new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper));
 
         mRecView.setAdapter(mAdapter);
 
@@ -295,19 +299,18 @@ public class DirectoryFragment extends Fragment
         mModel.addUpdateListener(mModelUpdateListener);
 
 
-        final BaseActivity activity = getBaseActivity();
-        mSelectionMgr = activity.getSelectionManager(mAdapter, this::canSetSelectionState);
-        mFocusManager = activity.getFocusManager(mRecView, mModel);
-        mActions = activity.getActionHandler(mModel, mLocalState.mSearchMode);
-        mMenuManager = activity.getMenuManager();
-        mDialogs = activity.getDialogController();
+        mSelectionMgr = mActivity.getSelectionManager(mAdapter, this::canSetSelectionState);
+        mFocusManager = mActivity.getFocusManager(mRecView, mModel);
+        mActions = mActivity.getActionHandler(mModel, mLocalState.mSearchMode);
+        mMenuManager = mActivity.getMenuManager();
+        mDialogs = mActivity.getDialogController();
 
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addItemCallback(mSelectionMetadata);
 
         GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView);
 
-        if (state.allowMultiple) {
+        if (mState.allowMultiple) {
             mBandController = new BandController(
                     mRecView,
                     mAdapter,
@@ -323,17 +326,17 @@ public class DirectoryFragment extends Fragment
         DragStartListener mDragStartListener = mActivityConfig.dragAndDropEnabled()
                 ? DragStartListener.create(
                         mIconHelper,
-                        getContext(),
+                        mActivity,
                         mModel,
                         mSelectionMgr,
                         mClipper,
-                        getDisplayState(),
+                        mState,
                         this::getModelId,
                         mRecView::findChildViewUnder,
                         getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic))
                 : DragStartListener.DUMMY;
 
-        EventHandler<InputEvent> gestureHandler = state.allowMultiple
+        EventHandler<InputEvent> gestureHandler = mState.allowMultiple
                 ? gestureSel::start
                 : EventHandler.createStub(false);
         mInputHandler = new UserInputHandler<>(
@@ -355,16 +358,16 @@ public class DirectoryFragment extends Fragment
                 mInputHandler,
                 mBandController);
 
-        mMenuManager = activity.getMenuManager();
+        mMenuManager = mActivity.getMenuManager();
 
-        mActionModeController = activity.getActionModeController(
+        mActionModeController = mActivity.getActionModeController(
                 mSelectionMetadata,
                 this::handleMenuItemClick,
                 mRecView);
 
         mSelectionMgr.addCallback(mActionModeController);
 
-        final ActivityManager am = (ActivityManager) context.getSystemService(
+        final ActivityManager am = (ActivityManager) mActivity.getSystemService(
                 Context.ACTIVITY_SERVICE);
         boolean svelte = am.isLowRamDevice() && (mLocalState.mType == TYPE_RECENT_OPEN);
         mIconHelper.setThumbnailsEnabled(!svelte);
@@ -375,13 +378,13 @@ public class DirectoryFragment extends Fragment
                         ? (mLocalState.mDocument.flags & Document.FLAG_DIR_PREFERS_LAST_MODIFIED) != 0
                         : true;
         // Call this before adding the listener to avoid restarting the loader one more time
-        state.sortModel.setDefaultDimension(
+        mState.sortModel.setDefaultDimension(
                 prefersLastModified
                         ? SortModel.SORT_DIMENSION_ID_DATE
                         : SortModel.SORT_DIMENSION_ID_TITLE);
 
         // Kick off loader at least once
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
+        getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
     }
 
     @Override
@@ -389,20 +392,19 @@ public class DirectoryFragment extends Fragment
         super.onStart();
 
         // Add listener to update contents on sort model change
-        getDisplayState().sortModel.addListener(mSortListener);
+        mState.sortModel.addListener(mSortListener);
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        getDisplayState().sortModel.removeListener(mSortListener);
+        mState.sortModel.removeListener(mSortListener);
 
         // Remember last scroll location
         final SparseArray<Parcelable> container = new SparseArray<>();
         getView().saveHierarchyState(container);
-        final State state = getDisplayState();
-        state.dirConfigs.put(mLocalState.getConfigKey(), container);
+        mState.dirConfigs.put(mLocalState.getConfigKey(), container);
     }
 
     public void retainState(RetainedState state) {
@@ -414,17 +416,6 @@ public class DirectoryFragment extends Fragment
         super.onSaveInstanceState(outState);
 
         mLocalState.save(outState);
-    }
-
-    @Override
-    public void onActivityResult(@RequestCode int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_COPY_DESTINATION:
-                handleCopyResult(resultCode, data);
-                break;
-            default:
-                throw new UnsupportedOperationException("Unknown request code: " + requestCode);
-        }
     }
 
     @Override
@@ -463,7 +454,7 @@ public class DirectoryFragment extends Fragment
 
         operation.setDestination(data.getParcelableExtra(Shared.EXTRA_STACK));
 
-        FileOperations.start(getBaseActivity(), operation, mDialogs::showFileOperationFailures);
+        FileOperations.start(mActivity, operation, mDialogs::showFileOperationFailures);
     }
 
     protected boolean onRightClick(InputEvent e) {
@@ -494,8 +485,7 @@ public class DirectoryFragment extends Fragment
     }
 
     private void updateDisplayState() {
-        State state = getDisplayState();
-        updateLayout(state.derivedMode);
+        updateLayout(mState.derivedMode);
         mRecView.setAdapter(mAdapter);
     }
 
@@ -547,17 +537,6 @@ public class DirectoryFragment extends Fragment
         }
     }
 
-    @Override
-    public int getColumnCount() {
-        return mColumnCount;
-    }
-
-    // Support method to replace getOwner().foo() with something
-    // slightly less clumsy like: getOwner().foo().
-    private BaseActivity getBaseActivity() {
-        return (BaseActivity) getActivity();
-    }
-
     private boolean handleMenuItemClick(MenuItem item) {
         Selection selection = mSelectionMgr.getSelection(new Selection());
 
@@ -576,7 +555,7 @@ public class DirectoryFragment extends Fragment
                 return true;
 
             case R.id.menu_share:
-                shareDocuments(selection);
+                mActions.shareSelectedDocuments();
                 // TODO: Only finish selection if share action is completed.
                 mActionModeController.finishActionMode();
                 return true;
@@ -629,7 +608,7 @@ public class DirectoryFragment extends Fragment
 
             default:
                 // See if BaseActivity can handle this particular MenuItem
-                if (!getBaseActivity().onOptionsItemSelected(item)) {
+                if (!mActivity.onOptionsItemSelected(item)) {
                     if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
                     return false;
                 }
@@ -659,7 +638,7 @@ public class DirectoryFragment extends Fragment
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.getDocuments(selected);
-        BaseActivity activity = getBaseActivity();
+        BaseActivity activity = mActivity;
         if (docs.size() > 1) {
             activity.onDocumentsPicked(docs);
         } else {
@@ -674,54 +653,6 @@ public class DirectoryFragment extends Fragment
         DocumentInfo doc =
                 DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
         mActions.showChooserForDoc(doc);
-    }
-
-    private void shareDocuments(final Selection selected) {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SHARE);
-
-        // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
-        List<DocumentInfo> docs = mModel.getDocuments(selected);
-
-        Intent intent;
-
-        // Filter out directories and virtual files - those can't be shared.
-        List<DocumentInfo> docsForSend = new ArrayList<>();
-        for (DocumentInfo doc: docs) {
-            if (!doc.isDirectory() && !doc.isVirtualDocument()) {
-                docsForSend.add(doc);
-            }
-        }
-
-        if (docsForSend.size() == 1) {
-            final DocumentInfo doc = docsForSend.get(0);
-
-            intent = new Intent(Intent.ACTION_SEND);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.addCategory(Intent.CATEGORY_DEFAULT);
-            intent.setType(doc.mimeType);
-            intent.putExtra(Intent.EXTRA_STREAM, doc.derivedUri);
-
-        } else if (docsForSend.size() > 1) {
-            intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            intent.addCategory(Intent.CATEGORY_DEFAULT);
-
-            final ArrayList<String> mimeTypes = new ArrayList<>();
-            final ArrayList<Uri> uris = new ArrayList<>();
-            for (DocumentInfo doc : docsForSend) {
-                mimeTypes.add(doc.mimeType);
-                uris.add(doc.derivedUri);
-            }
-
-            intent.setType(findCommonMimeType(mimeTypes));
-            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-
-        } else {
-            return;
-        }
-
-        intent = Intent.createChooser(intent, getActivity().getText(R.string.share_via));
-        startActivity(intent);
     }
 
     private void transferDocuments(final Selection selected, final @OpType int mode) {
@@ -747,7 +678,7 @@ public class DirectoryFragment extends Fragment
             throw new RuntimeException("Failed to create uri supplier.", e);
         }
 
-        Uri srcParent = getDisplayState().stack.peek().derivedUri;
+        Uri srcParent = mState.stack.peek().derivedUri;
         mLocalState.mPendingOperation = new FileOperation.Builder()
                 .withOpType(mode)
                 .withSrcParent(srcParent)
@@ -784,6 +715,17 @@ public class DirectoryFragment extends Fragment
         startActivityForResult(intent, REQUEST_COPY_DESTINATION);
     }
 
+    @Override
+    public void onActivityResult(@RequestCode int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_COPY_DESTINATION:
+                handleCopyResult(resultCode, data);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown request code: " + requestCode);
+        }
+    }
+
     private static boolean hasDirectory(List<DocumentInfo> docs) {
         for (DocumentInfo info : docs) {
             if (Document.MIME_TYPE_DIR.equals(info.mimeType)) {
@@ -805,30 +747,8 @@ public class DirectoryFragment extends Fragment
         RenameDocumentFragment.show(getFragmentManager(), docs.get(0));
     }
 
-    @Override
-    public void initDocumentHolder(DocumentHolder holder) {
-        holder.addKeyEventListener(mInputHandler);
-        holder.itemView.setOnFocusChangeListener(mFocusManager);
-    }
-
-    @Override
-    public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
-        setupDragAndDropOnDocumentView(holder.itemView, cursor);
-    }
-
-    @Override
-    public State getDisplayState() {
-        return getBaseActivity().getDisplayState();
-    }
-
-    @Override
-    public Model getModel() {
-        return mModel;
-    }
-
-    @Override
-    public boolean isDocumentEnabled(String docMimeType, int docFlags) {
-        return mActivityConfig.isDocumentEnabled(docMimeType, docFlags, getDisplayState());
+    private boolean isDocumentEnabled(String mimeType, int flags) {
+        return mActivityConfig.isDocumentEnabled(mimeType, flags, mState);
     }
 
     private void showEmptyDirectory() {
@@ -866,30 +786,6 @@ public class DirectoryFragment extends Fragment
         mRecView.requestFocus();
     }
 
-    private String findCommonMimeType(List<String> mimeTypes) {
-        String[] commonType = mimeTypes.get(0).split("/");
-        if (commonType.length != 2) {
-            return "*/*";
-        }
-
-        for (int i = 1; i < mimeTypes.size(); i++) {
-            String[] type = mimeTypes.get(i).split("/");
-            if (type.length != 2) continue;
-
-            if (!commonType[1].equals(type[1])) {
-                commonType[1] = "*";
-            }
-
-            if (!commonType[0].equals(type[0])) {
-                commonType[0] = "*";
-                commonType[1] = "*";
-                break;
-            }
-        }
-
-        return commonType[0] + "/" + commonType[1];
-    }
-
     public void copySelectedToClipboard() {
         Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COPY_CLIPBOARD);
 
@@ -913,7 +809,7 @@ public class DirectoryFragment extends Fragment
         }
         mSelectionMgr.clearSelection();
 
-        mClipper.clipDocumentsForCut(mModel::getItemUri, selection, getDisplayState().stack.peek());
+        mClipper.clipDocumentsForCut(mModel::getItemUri, selection, mState.stack.peek());
 
         Snackbars.showDocumentsClipped(getActivity(), selection.size());
     }
@@ -924,7 +820,7 @@ public class DirectoryFragment extends Fragment
         BaseActivity activity = (BaseActivity) getActivity();
         DocumentInfo destination = activity.getCurrentDirectory();
         mClipper.copyFromClipboard(
-                destination, activity.getDisplayState().stack, mDialogs::showFileOperationFailures);
+                destination, mState.stack, mDialogs::showFileOperationFailures);
         getActivity().invalidateOptionsMenu();
     }
 
@@ -937,10 +833,10 @@ public class DirectoryFragment extends Fragment
             Log.w(TAG, "Invalid destination. Can't obtain cursor for modelId: " + modelId);
             return;
         }
-        BaseActivity activity = getBaseActivity();
+        BaseActivity activity = mActivity;
         DocumentInfo destination = DocumentInfo.fromDirectoryCursor(dstCursor);
         mClipper.copyFromClipboard(
-                destination, activity.getDisplayState().stack, mDialogs::showFileOperationFailures);
+                destination, mState.stack, mDialogs::showFileOperationFailures);
         getActivity().invalidateOptionsMenu();
     }
 
@@ -950,7 +846,7 @@ public class DirectoryFragment extends Fragment
         // Exclude disabled files
         List<String> enabled = new ArrayList<>();
         for (String id : mAdapter.getModelIds()) {
-            Cursor cursor = getModel().getItem(id);
+            Cursor cursor = mModel.getItem(id);
             if (cursor == null) {
                 Log.w(TAG, "Skipping selection. Can't obtain cursor for modeId: " + id);
                 continue;
@@ -1003,7 +899,7 @@ public class DirectoryFragment extends Fragment
      */
     @Override
     public void onDragEntered(View view) {
-        getBaseActivity().setRootsDrawerOpen(false);
+        mActivity.setRootsDrawerOpen(false);
     }
 
     /**
@@ -1013,7 +909,7 @@ public class DirectoryFragment extends Fragment
      */
     @Override
     public void onViewHovered(View view) {
-        BaseActivity activity = getBaseActivity();
+        BaseActivity activity = mActivity;
         if (getModelId(view) != null) {
            activity.springOpenDirectory(getDestination(view));
         }
@@ -1044,7 +940,7 @@ public class DirectoryFragment extends Fragment
 
         DocumentInfo dst = getDestination(v);
         mClipper.copyFromClipData(
-                dst, getDisplayState().stack, clipData, mDialogs::showFileOperationFailures);
+                dst, mState.stack, clipData, mDialogs::showFileOperationFailures);
         return true;
     }
 
@@ -1077,7 +973,7 @@ public class DirectoryFragment extends Fragment
         }
 
         if (v == mRecView || v == mEmptyView) {
-            return getDisplayState().stack.peek();
+            return mState.stack.peek();
         }
 
         return null;
@@ -1112,48 +1008,6 @@ public class DirectoryFragment extends Fragment
         return null;
     }
 
-    @Override
-    public boolean isSelected(String modelId) {
-        return mSelectionMgr.getSelection().contains(modelId);
-    }
-
-    private final class ModelUpdateListener implements EventListener<Model.Update> {
-
-        @Override
-        public void accept(Model.Update update) {
-            if (update.hasError()) {
-                showQueryError();
-                return;
-            }
-
-            if (DEBUG) Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
-
-            if (mModel.info != null || mModel.error != null) {
-                mMessageBar.setInfo(mModel.info);
-                mMessageBar.setError(mModel.error);
-                mMessageBar.show();
-            }
-
-            mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
-
-            if (mModel.isEmpty()) {
-                if (mLocalState.mSearchMode) {
-                    showNoResults(getDisplayState().stack.root);
-                } else {
-                    showEmptyDirectory();
-                }
-            } else {
-                showDirectory();
-                mAdapter.notifyDataSetChanged();
-            }
-
-            if (!mModel.isLoading()) {
-                getBaseActivity().notifyDirectoryLoaded(
-                        mModel.doc != null ? mModel.doc.derivedUri : null);
-            }
-        }
-    }
-
     // TODO: Move to activities when Model becomes activity level object.
     private boolean canSelect(DocumentDetails doc) {
         return canSetSelectionState(doc.getModelId(), true);
@@ -1171,7 +1025,7 @@ public class DirectoryFragment extends Fragment
 
             final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
             final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-            return mActivityConfig.canSelectType(docMimeType, docFlags, getDisplayState());
+            return mActivityConfig.canSelectType(docMimeType, docFlags, mState);
         } else {
             // Right now all selected items can be deselected.
             return true;
@@ -1193,7 +1047,7 @@ public class DirectoryFragment extends Fragment
         DirectoryFragment df = get(fm);
 
         df.mLocalState.update(root, doc, query);
-        df.getLoaderManager().restartLoader(LOADER_ID, null, df);
+        df.getLoaderManager().restartLoader(LOADER_ID, null, df.mLoaderCallbacks);
     }
 
     public static void reload(FragmentManager fm, int type, RootInfo root, DocumentInfo doc,
@@ -1202,7 +1056,7 @@ public class DirectoryFragment extends Fragment
         DirectoryFragment df = get(fm);
 
         df.mLocalState.update(type, root, doc, query);
-        df.getLoaderManager().restartLoader(LOADER_ID, null, df);
+        df.getLoaderManager().restartLoader(LOADER_ID, null, df.mLoaderCallbacks);
     }
 
     public static void create(
@@ -1263,96 +1117,192 @@ public class DirectoryFragment extends Fragment
         }
 
         // Trigger loading
-        getLoaderManager().restartLoader(LOADER_ID, null, this);
+        getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
     }
 
-    @Override
-    public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
-        Context context = getActivity();
-        State state = getDisplayState();
+    private final class ModelUpdateListener implements EventListener<Model.Update> {
 
-        Uri contentsUri;
-        switch (mLocalState.mType) {
-            case TYPE_NORMAL:
-                contentsUri = mLocalState.mSearchMode ? DocumentsContract.buildSearchDocumentsUri(
-                        mLocalState.mRoot.authority, mLocalState.mRoot.rootId, mLocalState.mQuery)
-                        : DocumentsContract.buildChildDocumentsUri(
-                                mLocalState.mDocument.authority, mLocalState.mDocument.documentId);
-                if (mActivityConfig.managedModeEnabled(state.stack)) {
-                    contentsUri = DocumentsContract.setManageMode(contentsUri);
+        @Override
+        public void accept(Model.Update update) {
+            if (update.hasError()) {
+                showQueryError();
+                return;
+            }
+
+            if (DEBUG) Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
+
+            if (mModel.info != null || mModel.error != null) {
+                mMessageBar.setInfo(mModel.info);
+                mMessageBar.setError(mModel.error);
+                mMessageBar.show();
+            }
+
+            mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
+
+            if (mModel.isEmpty()) {
+                if (mLocalState.mSearchMode) {
+                    showNoResults(mState.stack.root);
+                } else {
+                    showEmptyDirectory();
                 }
-                if (DEBUG) Log.d(TAG, "Creating new directory loader for: "
-                        + DocumentInfo.debugString(mLocalState.mDocument));
-                return new DirectoryLoader(
-                        context, mLocalState.mRoot, mLocalState.mDocument, contentsUri, state.sortModel,
-                        mLocalState.mSearchMode);
-            case TYPE_RECENT_OPEN:
-                if (DEBUG) Log.d(TAG, "Creating new loader recents.");
-                final RootsAccess roots = DocumentsApplication.getRootsCache(context);
-                return new RecentsLoader(context, roots, state);
+            } else {
+                showDirectory();
+                mAdapter.notifyDataSetChanged();
+            }
 
-            default:
-                throw new IllegalStateException("Unknown type " + mLocalState.mType);
+            if (!mModel.isLoading()) {
+                mActivity.notifyDirectoryLoaded(
+                        mModel.doc != null ? mModel.doc.derivedUri : null);
+            }
         }
     }
 
-    @Override
-    public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
-        if (DEBUG) Log.d(TAG, "Loader has finished for: "
-                + DocumentInfo.debugString(mLocalState.mDocument));
-        assert(result != null);
+    private final class AdapterEnvironment implements DocumentsAdapter.Environment {
 
-        if (!isAdded()) return;
-
-        if (mLocalState.mSearchMode) {
-            Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SEARCH);
+        @Override
+        public Context getContext() {
+            return mActivity;
         }
 
-        State state = getDisplayState();
-
-        mAdapter.notifyDataSetChanged();
-        mModel.update(result);
-
-        updateLayout(state.derivedMode);
-
-        if (mRestoredSelection != null) {
-            mSelectionMgr.restoreSelection(mRestoredSelection);
-            // Note, we'll take care of cleaning up retained selection
-            // in the selection handler where we already have some
-            // specialized code to handle when selection was restored.
+        @Override
+        public State getDisplayState() {
+            return mState;
         }
 
-        // Restore any previous instance state
-        final SparseArray<Parcelable> container = state.dirConfigs.remove(mLocalState.getConfigKey());
-        final int curSortedDimensionId = state.sortModel.getSortedDimensionId();
-
-        final SortDimension curSortedDimension =
-                state.sortModel.getDimensionById(curSortedDimensionId);
-        if (container != null && !getArguments().getBoolean(Shared.EXTRA_IGNORE_STATE, false)) {
-            getView().restoreHierarchyState(container);
-        } else if (mLocalState.mLastSortDimensionId != curSortedDimension.getId()
-                || mLocalState.mLastSortDimensionId == SortModel.SORT_DIMENSION_ID_UNKNOWN
-                || mLocalState.mLastSortDirection != curSortedDimension.getSortDirection()) {
-            // Scroll to the top if the sort order actually changed.
-            mRecView.smoothScrollToPosition(0);
+        @Override
+        public Model getModel() {
+            return mModel;
         }
 
-        mLocalState.mLastSortDimensionId = curSortedDimension.getId();
-        mLocalState.mLastSortDirection = curSortedDimension.getSortDirection();
+        @Override
+        public int getColumnCount() {
+            return mColumnCount;
+        }
 
-        if (mRefreshLayout.isRefreshing()) {
-            new Handler().postDelayed(
-                    () -> mRefreshLayout.setRefreshing(false),
-                    REFRESH_SPINNER_DISMISS_DELAY);
+        @Override
+        public boolean isSelected(String id) {
+            return mSelectionMgr.getSelection().contains(id);
+        }
+
+        @Override
+        public boolean isDocumentEnabled(String mimeType, int flags) {
+            return mActivityConfig.isDocumentEnabled(mimeType, flags, mState);
+        }
+
+        @Override
+        public void initDocumentHolder(DocumentHolder holder) {
+            holder.addKeyEventListener(mInputHandler);
+            holder.itemView.setOnFocusChangeListener(mFocusManager);
+        }
+
+        @Override
+        public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
+            setupDragAndDropOnDocumentView(holder.itemView, cursor);
         }
     }
 
-    @Override
-    public void onLoaderReset(Loader<DirectoryResult> loader) {
-        if (DEBUG) Log.d(TAG, "Resetting loader for: "
-                + DocumentInfo.debugString(mLocalState.mDocument));
-        mModel.onLoaderReset();
+    private final class LoaderBindings implements LoaderCallbacks<DirectoryResult> {
 
-        mRefreshLayout.setRefreshing(false);
+        @Override
+        public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
+            Context context = getActivity();
+
+            Uri contentsUri;
+            switch (mLocalState.mType) {
+                case TYPE_NORMAL:
+                    contentsUri = mLocalState.mSearchMode
+                            ? DocumentsContract.buildSearchDocumentsUri(
+                                    mLocalState.mRoot.authority,
+                                    mLocalState.mRoot.rootId,
+                                    mLocalState.mQuery)
+                            : DocumentsContract.buildChildDocumentsUri(
+                                    mLocalState.mDocument.authority,
+                                    mLocalState.mDocument.documentId);
+
+                    if (mActivityConfig.managedModeEnabled(mState.stack)) {
+                        contentsUri = DocumentsContract.setManageMode(contentsUri);
+                    }
+
+                    if (DEBUG) Log.d(TAG,
+                            "Creating new directory loader for: "
+                            + DocumentInfo.debugString(mLocalState.mDocument));
+
+                    return new DirectoryLoader(
+                            context,
+                            mLocalState.mRoot,
+                            mLocalState.mDocument,
+                            contentsUri,
+                            mState.sortModel,
+                            mLocalState.mSearchMode);
+
+                case TYPE_RECENT_OPEN:
+                    if (DEBUG) Log.d(TAG, "Creating new loader recents.");
+                    final RootsAccess roots = DocumentsApplication.getRootsCache(context);
+                    return new RecentsLoader(context, roots, mState);
+
+                default:
+                    throw new IllegalStateException("Unknown type " + mLocalState.mType);
+            }
+        }
+
+        @Override
+        public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
+            if (DEBUG) Log.d(TAG, "Loader has finished for: "
+                    + DocumentInfo.debugString(mLocalState.mDocument));
+            assert(result != null);
+
+            if (!isAdded()) return;
+
+            if (mLocalState.mSearchMode) {
+                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SEARCH);
+            }
+
+            mAdapter.notifyDataSetChanged();
+            mModel.update(result);
+
+            updateLayout(mState.derivedMode);
+
+            if (mRestoredSelection != null) {
+                mSelectionMgr.restoreSelection(mRestoredSelection);
+                // Note, we'll take care of cleaning up retained selection
+                // in the selection handler where we already have some
+                // specialized code to handle when selection was restored.
+            }
+
+            // Restore any previous instance state
+            final SparseArray<Parcelable> container =
+                    mState.dirConfigs.remove(mLocalState.getConfigKey());
+            final int curSortedDimensionId = mState.sortModel.getSortedDimensionId();
+
+            final SortDimension curSortedDimension =
+                    mState.sortModel.getDimensionById(curSortedDimensionId);
+            if (container != null
+                    && !getArguments().getBoolean(Shared.EXTRA_IGNORE_STATE, false)) {
+                getView().restoreHierarchyState(container);
+            } else if (mLocalState.mLastSortDimensionId != curSortedDimension.getId()
+                    || mLocalState.mLastSortDimensionId == SortModel.SORT_DIMENSION_ID_UNKNOWN
+                    || mLocalState.mLastSortDirection != curSortedDimension.getSortDirection()) {
+                // Scroll to the top if the sort order actually changed.
+                mRecView.smoothScrollToPosition(0);
+            }
+
+            mLocalState.mLastSortDimensionId = curSortedDimension.getId();
+            mLocalState.mLastSortDirection = curSortedDimension.getSortDirection();
+
+            if (mRefreshLayout.isRefreshing()) {
+                new Handler().postDelayed(
+                        () -> mRefreshLayout.setRefreshing(false),
+                        REFRESH_SPINNER_DISMISS_DELAY);
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<DirectoryResult> loader) {
+            if (DEBUG) Log.d(TAG, "Resetting loader for: "
+                    + DocumentInfo.debugString(mLocalState.mDocument));
+            mModel.onLoaderReset();
+
+            mRefreshLayout.setRefreshing(false);
+        }
     }
 }

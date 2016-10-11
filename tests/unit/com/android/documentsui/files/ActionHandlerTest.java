@@ -16,6 +16,10 @@
 
 package com.android.documentsui.files;
 
+import static com.android.documentsui.testing.IntentAsserts.assertHasAction;
+import static com.android.documentsui.testing.IntentAsserts.assertHasExtraIntent;
+import static com.android.documentsui.testing.IntentAsserts.assertHasExtraList;
+import static com.android.documentsui.testing.IntentAsserts.assertHasExtraUri;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -78,7 +82,7 @@ public class ActionHandlerTest {
 
         mDialogs.confirmNext();
 
-        mEnv.selectionMgr.toggleSelection("1");
+        mEnv.selectDocument(TestEnv.FILE_GIF);
 
         mHandler.reset(mEnv.model, false);
     }
@@ -107,24 +111,76 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testDeleteDocuments() {
+    public void testDeleteSelectedDocuments() {
         mEnv.populateStack();
 
         mHandler.deleteSelectedDocuments();
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertCalled();
-        mActionModeAddons.finishOnConfimed.assertConfirmed();
+        mActionModeAddons.finishOnConfirmed.assertConfirmed();
     }
 
     @Test
-    public void testDeleteDocuments_Cancelable() {
+    public void testDeleteSelectedDocuments_Cancelable() {
         mEnv.populateStack();
 
         mDialogs.rejectNext();
         mHandler.deleteSelectedDocuments();
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertNotCalled();
-        mActionModeAddons.finishOnConfimed.assertRejected();
+        mActionModeAddons.finishOnConfirmed.assertRejected();
+    }
+
+    @Test
+    public void testShareSelectedDocuments_ShowsChooser() {
+        mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");
+        mHandler.shareSelectedDocuments();
+
+        mActivity.assertActivityStarted(Intent.ACTION_CHOOSER);
+    }
+
+    @Test
+    public void testShareSelectedDocuments_Single() {
+        mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");
+        mHandler.shareSelectedDocuments();
+
+        Intent intent = assertHasExtraIntent(mActivity.startActivity.getLastValue());
+        assertHasAction(intent, Intent.ACTION_SEND);
+        assertHasExtraUri(intent, Intent.EXTRA_STREAM);
+    }
+
+    @Test
+    public void testShareSelectedDocuments_Multiple() {
+        mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");
+        mEnv.selectDocument(TestEnv.FILE_PDF);
+        mHandler.shareSelectedDocuments();
+
+        Intent intent = assertHasExtraIntent(mActivity.startActivity.getLastValue());
+        assertHasAction(intent, Intent.ACTION_SEND_MULTIPLE);
+        assertHasExtraList(intent, Intent.EXTRA_STREAM, 2);
+    }
+
+    @Test
+    public void testShareSelectedDocuments_OmitsVirtualFiles() {
+        mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");
+        mEnv.selectDocument(TestEnv.FILE_VIRTUAL);
+        mHandler.shareSelectedDocuments();
+
+        Intent intent = assertHasExtraIntent(mActivity.startActivity.getLastValue());
+        assertHasAction(intent, Intent.ACTION_SEND);
+        assertHasExtraUri(intent, Intent.EXTRA_STREAM);
+    }
+
+    @Test
+    public void testShareSelectedDocuments_OmitsPartialFiles() {
+        mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");
+        mEnv.selectDocument(TestEnv.FILE_PARTIAL);
+        mEnv.selectDocument(TestEnv.FILE_PNG);
+        mHandler.shareSelectedDocuments();
+
+        Intent intent = assertHasExtraIntent(mActivity.startActivity.getLastValue());
+        assertHasAction(intent, Intent.ACTION_SEND_MULTIPLE);
+        assertHasExtraList(intent, Intent.EXTRA_STREAM, 2);
     }
 
     @Test

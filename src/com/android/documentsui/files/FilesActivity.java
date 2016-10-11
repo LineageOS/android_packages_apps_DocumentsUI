@@ -77,7 +77,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     private ActionHandler<FilesActivity> mActions;
     private DialogController mDialogs;
     private DocumentClipper mClipper;
-    protected ActionModeController mActionModeController;
+    private ActionModeController mActionModeController;
 
     public FilesActivity() {
         super(R.layout.files_activity, TAG);
@@ -357,6 +357,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         return mConfig;
     }
 
+    @Override
     public SelectionManager getSelectionManager(
             DocumentsAdapter adapter, SelectionPredicate canSetState) {
         return mSelectionMgr.reset(adapter, canSetState);
