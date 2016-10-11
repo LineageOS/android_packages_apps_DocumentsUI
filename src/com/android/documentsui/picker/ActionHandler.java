@@ -31,6 +31,7 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Metrics;
+import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
@@ -66,10 +67,11 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             RootsAccess roots,
             DocumentsAccess docs,
             SelectionManager selectionMgr,
+            SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
             ActivityConfig activityConfig) {
 
-        super(activity, state, roots, docs, selectionMgr, executors);
+        super(activity, state, roots, docs, selectionMgr, searchMgr, executors);
 
         mConfig = activityConfig;
         mScope = new ContentScope(this::onModelLoaded);

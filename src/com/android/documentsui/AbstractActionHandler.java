@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.support.annotation.VisibleForTesting;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.BooleanConsumer;
@@ -31,6 +32,7 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.LauncherActivity;
@@ -55,6 +57,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final RootsAccess mRoots;
     protected final DocumentsAccess mDocs;
     protected final SelectionManager mSelectionMgr;
+    protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
 
     public AbstractActionHandler(
@@ -63,6 +66,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
             RootsAccess roots,
             DocumentsAccess docs,
             SelectionManager selectionMgr,
+            SearchViewManager searchMgr,
             Lookup<String, Executor> executors) {
 
         assert(activity != null);
@@ -76,6 +80,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         mRoots = roots;
         mDocs = docs;
         mSelectionMgr = selectionMgr;
+        mSearchMgr = searchMgr;
         mExecutors = executors;
     }
 
@@ -151,6 +156,21 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
+    public void openContainerDocument(DocumentInfo doc) {
+        assert(doc.isContainer());
+
+        mActivity.notifyDirectoryNavigated(doc.derivedUri);
+
+        mState.pushDocument(doc);
+        // Show an opening animation only if pressing "back" would get us back to the
+        // previous directory. Especially after opening a root document, pressing
+        // back, wouldn't go to the previous root, but close the activity.
+        final int anim = (mState.hasLocationChanged() && mState.stack.size() > 1)
+                ? AnimationView.ANIM_ENTER : AnimationView.ANIM_NONE;
+        mActivity.refreshCurrentRootAndDirectory(anim);
+    }
+
+    @Override
     public void deleteSelectedDocuments() {
         throw new UnsupportedOperationException("Delete not supported!");
     }
@@ -179,6 +199,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected Selection getStableSelection() {
         return mSelectionMgr.getSelection(new Selection());
     }
+
     /**
      * A class primarily for the support of isolating our tests
      * from our concrete activity implementations.
@@ -189,9 +210,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         // TODO: Move this to PickAddons as multi-document picking is exclusive to that activity.
         void onDocumentsPicked(List<DocumentInfo> docs);
         void onDocumentPicked(DocumentInfo doc);
-        void openContainerDocument(DocumentInfo doc);
         RootInfo getCurrentRoot();
         DocumentInfo getCurrentDirectory();
         void setRootsDrawerOpen(boolean open);
+
+        @VisibleForTesting
+        void notifyDirectoryNavigated(Uri docUri);
     }
 }

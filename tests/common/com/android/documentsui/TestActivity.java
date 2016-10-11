@@ -48,9 +48,9 @@ public abstract class TestActivity extends AbstractBase {
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Intent> startService;
     public TestEventListener<RootInfo> rootPicked;
-    public TestEventListener<DocumentInfo> openContainer;
     public TestEventListener<Integer> refreshCurrentRootAndDirectory;
     public TestEventListener<Boolean> setRootsDrawerOpen;
+    public TestEventListener<Uri> notifyDirectoryNavigated;
 
     public static TestActivity create() {
         TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
@@ -66,9 +66,9 @@ public abstract class TestActivity extends AbstractBase {
        startActivity = new TestEventListener<>();
        startService = new TestEventListener<>();
        rootPicked = new TestEventListener<>();
-       openContainer = new TestEventListener<>();
        refreshCurrentRootAndDirectory =  new TestEventListener<>();
        setRootsDrawerOpen = new TestEventListener<>();
+       notifyDirectoryNavigated = new TestEventListener<>();
    }
 
     @Override
@@ -121,8 +121,8 @@ public abstract class TestActivity extends AbstractBase {
     }
 
     @Override
-    public final void openContainerDocument(DocumentInfo doc) {
-        openContainer.accept(doc);
+    public final void notifyDirectoryNavigated(Uri uri) {
+        notifyDirectoryNavigated.accept(uri);
     }
 
     @Override

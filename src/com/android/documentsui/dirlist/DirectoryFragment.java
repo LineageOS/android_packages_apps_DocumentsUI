@@ -141,7 +141,7 @@ public class DirectoryFragment extends Fragment
     private static final int CACHE_EVICT_LIMIT = 100;
     private static final int REFRESH_SPINNER_DISMISS_DELAY = 500;
 
-    private BaseActivity mActivity;
+    private BaseActivity<?> mActivity;
     private State mState;
     private final Model mModel = new Model();
     private final EventListener<Model.Update> mModelUpdateListener = new ModelUpdateListener();
@@ -202,7 +202,7 @@ public class DirectoryFragment extends Fragment
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        BaseActivity activity = (BaseActivity) getActivity();
+        BaseActivity activity = (BaseActivity<?>) getActivity();
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
         mMessageBar = MessageBar.create(getChildFragmentManager());
@@ -297,7 +297,6 @@ public class DirectoryFragment extends Fragment
 
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
-
 
         mSelectionMgr = mActivity.getSelectionManager(mAdapter, this::canSetSelectionState);
         mFocusManager = mActivity.getFocusManager(mRecView, mModel);

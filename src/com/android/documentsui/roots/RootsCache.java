@@ -44,10 +44,10 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.internal.annotations.GuardedBy;
 
+import libcore.io.IoUtils;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
-import libcore.io.IoUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,9 +62,6 @@ import java.util.concurrent.TimeUnit;
  * Cache of known storage backends and their roots.
  */
 public class RootsCache implements RootsAccess {
-    public static final Uri sNotificationUri = Uri.parse(
-            "content://com.android.documentsui.roots/");
-
     private static final String TAG = "RootsCache";
 
     private final Context mContext;
@@ -393,7 +390,7 @@ public class RootsCache implements RootsAccess {
                 mStoppedAuthorities = mTaskStoppedAuthorities;
             }
             mFirstLoad.countDown();
-            resolver.notifyChange(sNotificationUri, null, false);
+            resolver.notifyChange(NOTIFICATION_URI, null, false);
             return null;
         }
 

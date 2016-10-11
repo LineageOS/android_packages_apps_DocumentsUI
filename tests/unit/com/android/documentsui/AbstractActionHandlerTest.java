@@ -56,6 +56,7 @@ public class AbstractActionHandlerTest {
                 mEnv.roots,
                 mEnv.docs,
                 mEnv.selectionMgr,
+                mEnv.searchViewManager,
                 mEnv::lookupExecutor) {
 
             @Override
