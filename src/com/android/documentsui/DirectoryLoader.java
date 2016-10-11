@@ -20,9 +20,11 @@ import android.content.AsyncTaskLoader;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.CancellationSignal;
+import android.os.Handler;
 import android.os.OperationCanceledException;
 import android.os.RemoteException;
 import android.provider.DocumentsContract.Document;
@@ -42,8 +44,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private static final String[] SEARCH_REJECT_MIMES = new String[] { Document.MIME_TYPE_DIR };
 
-    private final ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
-
+    private final LockingContentObserver mObserver;
     private final RootInfo mRoot;
     private final Uri mUri;
     private final SortModel mModel;
@@ -59,6 +60,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             DocumentInfo doc,
             Uri uri,
             SortModel model,
+            DirectoryReloadLock lock,
             boolean inSearchMode) {
 
         super(context, ProviderExecutor.forAuthority(root.authority));
@@ -67,6 +69,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         mModel = model;
         mDoc = doc;
         mSearchMode = inSearchMode;
+        mObserver = new LockingContentObserver(lock, this::onContentChanged);
     }
 
     @Override
@@ -180,5 +183,26 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         mResult = null;
 
         getContext().getContentResolver().unregisterContentObserver(mObserver);
+    }
+
+    private static final class LockingContentObserver extends ContentObserver {
+        private final DirectoryReloadLock mLock;
+        private final Runnable mContentChangedCallback;
+
+        public LockingContentObserver(DirectoryReloadLock lock, Runnable contentChangedCallback) {
+            super(new Handler());
+            mLock = lock;
+            mContentChangedCallback = contentChangedCallback;
+        }
+
+        @Override
+        public boolean deliverSelfNotifications() {
+            return true;
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            mLock.tryUpdate(mContentChangedCallback);
+        }
     }
 }

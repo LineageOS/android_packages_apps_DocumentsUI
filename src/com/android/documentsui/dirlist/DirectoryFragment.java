@@ -67,6 +67,7 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryLoader;
 import com.android.documentsui.DirectoryResult;
+import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.ItemDragListener;
@@ -186,6 +187,7 @@ public class DirectoryFragment extends Fragment
     private View mProgressBar;
 
     private DirectoryState mLocalState;
+    private DirectoryReloadLock mReloadLock = new DirectoryReloadLock();
 
     // Note, we use !null to indicate that selection was restored (from rotation).
     // So don't fiddle with this field unless you've got the bigger picture in mind.
@@ -308,13 +310,14 @@ public class DirectoryFragment extends Fragment
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addItemCallback(mSelectionMetadata);
 
-        GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView);
+        GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView, mReloadLock);
 
         if (mState.allowMultiple) {
             mBandController = new BandController(
                     mRecView,
                     mAdapter,
                     mSelectionMgr,
+                    mReloadLock,
                     (int pos) -> {
                         // The band selection model only operates on documents and directories.
                         // Exclude other types of adapter items like whitespace and dividers.
@@ -1233,6 +1236,7 @@ public class DirectoryFragment extends Fragment
                             mLocalState.mDocument,
                             contentsUri,
                             mState.sortModel,
+                            mReloadLock,
                             mLocalState.mSearchMode);
 
                 case TYPE_RECENT_OPEN:

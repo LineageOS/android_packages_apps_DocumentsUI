@@ -21,6 +21,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.ui.ViewAutoScroller;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
@@ -40,6 +41,7 @@ public final class GestureSelector {
     private final Runnable mDragScroller;
     private final IntSupplier mHeight;
     private final ViewFinder mViewFinder;
+    private final DirectoryReloadLock mLock;
     private int mLastStartedItemPos = -1;
     private boolean mStarted = false;
     private Point mLastInterceptedPoint;
@@ -48,10 +50,12 @@ public final class GestureSelector {
             SelectionManager selectionMgr,
             IntSupplier heightSupplier,
             ViewFinder viewFinder,
-            ScrollActionDelegate actionDelegate) {
+            ScrollActionDelegate actionDelegate,
+            DirectoryReloadLock lock) {
         mSelectionMgr = selectionMgr;
         mHeight = heightSupplier;
         mViewFinder = viewFinder;
+        mLock = lock;
 
         ScrollDistanceDelegate distanceDelegate = new ScrollDistanceDelegate() {
             @Override
@@ -75,7 +79,8 @@ public final class GestureSelector {
 
     public static GestureSelector create(
             SelectionManager selectionMgr,
-            RecyclerView scrollView) {
+            RecyclerView scrollView,
+            DirectoryReloadLock lock) {
         ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
             @Override
             public void scrollBy(int dy) {
@@ -97,7 +102,8 @@ public final class GestureSelector {
                         selectionMgr,
                         scrollView::getHeight,
                         scrollView::findChildViewUnder,
-                        actionDelegate);
+                        actionDelegate,
+                        lock);
 
         return helper;
     }
@@ -162,6 +168,8 @@ public final class GestureSelector {
         mLastInterceptedPoint = e.getOrigin();
         if (mStarted) {
             mSelectionMgr.startRangeSelection(mLastStartedItemPos);
+            // Gesture Selection about to start
+            mLock.block();
             return true;
         }
         return false;
@@ -173,6 +181,7 @@ public final class GestureSelector {
         mLastStartedItemPos = -1;
         mStarted = false;
         mSelectionMgr.getSelection().applyProvisionalSelection();
+        mLock.unblock();
         return false;
     }
 
