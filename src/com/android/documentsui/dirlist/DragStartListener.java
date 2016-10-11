@@ -97,18 +97,18 @@ interface DragStartListener {
         @Override
         public final boolean onMouseDragEvent(InputEvent event) {
             assert(Events.isMouseDragEvent(event));
-            return startDrag(mViewFinder.findView(event.getX(), event.getY()));
+            return startDrag(mViewFinder.findView(event.getX(), event.getY()), event);
         }
 
         @Override
         public final boolean onTouchDragEvent(InputEvent event) {
-            return startDrag(mViewFinder.findView(event.getX(), event.getY()));
+            return startDrag(mViewFinder.findView(event.getX(), event.getY()), event);
         }
 
         /**
          * May be called externally when drag is initiated from other event handling code.
          */
-        private final boolean startDrag(@Nullable View view) {
+        private final boolean startDrag(@Nullable View view, InputEvent event) {
 
             if (view == null) {
                 if (DEBUG) Log.d(TAG, "Ignoring drag event, null view.");
@@ -121,22 +121,7 @@ interface DragStartListener {
                 return false;
             }
 
-
-            Selection selection = new Selection();
-
-            // User can drag an unselected item. Ideally if CTRL key was pressed
-            // we'd extend the selection, if not, the selection would be cleared.
-            // Buuuuuut, there's an impedance mismatch between event-handling policies,
-            // and drag and drop. So we only initiate drag of a single item when
-            // drag starts on an item that is unselected. This behavior
-            // would look like a bug, if it were not for the implicitly coupled
-            // behavior where we clear the selection in the UI (finish action mode)
-            // in DirectoryFragment#onDragStart.
-            if (!mSelectionMgr.getSelection().contains(modelId)) {
-                selection.add(modelId);
-            } else {
-                mSelectionMgr.getSelection(selection);
-            }
+            Selection selection = getSelectionToBeCopied(modelId, event);
 
             final List<DocumentInfo> invalidDest = mDocsConverter.apply(selection);
             invalidDest.add(mState.stack.peek());
@@ -156,6 +141,29 @@ interface DragStartListener {
                             | View.DRAG_FLAG_GLOBAL_URI_WRITE);
 
             return true;
+        }
+
+        /**
+         * Given the InputEvent (for CTRL case) and modelId of the view associated with the
+         * coordinates of the event, return a valid selection for drag and drop operation
+         */
+        @VisibleForTesting
+        Selection getSelectionToBeCopied(String modelId, InputEvent event) {
+            Selection selection = new Selection();
+            // If CTRL-key is held down and there's other existing selection, add item to
+            // selection (if not already selected)
+            if (event.isCtrlKeyDown() && !mSelectionMgr.getSelection().contains(modelId)
+                    && mSelectionMgr.hasSelection()) {
+                mSelectionMgr.toggleSelection(modelId);
+            }
+
+            if (mSelectionMgr.getSelection().contains(modelId)) {
+                mSelectionMgr.getSelection(selection);
+            } else {
+                selection.add(modelId);
+                mSelectionMgr.clearSelection();
+            }
+            return selection;
         }
 
         /**
