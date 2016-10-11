@@ -171,6 +171,7 @@ public class Archive implements Closeable {
             @Nullable Uri notificationUri)
             throws IOException {
         File snapshotFile = null;
+        // TODO: Do not create a snapshot if a seekable file descriptor is passed.
         try {
             // Create a copy of the archive, as ZipFile doesn't operate on streams.
             // Moreover, ZipInputStream would be inefficient for large files on
@@ -265,6 +266,14 @@ public class Archive implements Closeable {
         final ZipEntry entry = mEntries.get(parsedId.mPath);
         if (entry == null) {
             return false;
+        }
+
+        // TODO: Include the fake '/' entry in mEntries, and remove this check.
+        // Fake entries are for directories which do not have entries in the ZIP
+        // archive, but are reachable. Eg. /a, /a/b and /a/b/c for a single-entry
+        // archive containing /a/b/c/file.txt.
+        if (parsedParentId.mPath.equals("/")) {
+            return true;
         }
 
         final ZipEntry parentEntry = mEntries.get(parsedParentId.mPath);
