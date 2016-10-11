@@ -20,7 +20,7 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.util.Log;
 
-import com.android.documentsui.base.MimePredicate;
+import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 
@@ -104,8 +104,8 @@ public interface RootsAccess {
             }
 
             final boolean overlap =
-                    MimePredicate.mimeMatches(root.derivedMimeTypes, state.acceptMimes) ||
-                    MimePredicate.mimeMatches(state.acceptMimes, root.derivedMimeTypes);
+                    MimeTypes.mimeMatches(root.derivedMimeTypes, state.acceptMimes) ||
+                    MimeTypes.mimeMatches(state.acceptMimes, root.derivedMimeTypes);
             if (!overlap) {
                 if (DEBUG) Log.v(
                         tag, "Excluding root because: unsupported content types > "

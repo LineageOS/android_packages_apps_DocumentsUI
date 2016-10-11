@@ -24,9 +24,9 @@ import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.provider.DocumentsContract.Document;
 
-import com.android.documentsui.base.MimePredicate;
-import com.android.documentsui.base.State;
 import com.android.documentsui.ActivityConfig;
+import com.android.documentsui.base.MimeTypes;
+import com.android.documentsui.base.State;
 
 /**
  * Provides support for Platform specific specializations of DirectoryFragment.
@@ -39,7 +39,7 @@ final class Config extends ActivityConfig {
             return false;
         }
 
-        if (MimePredicate.isDirectoryType(docMimeType)) {
+        if (MimeTypes.isDirectoryType(docMimeType)) {
             return false;
         }
 
@@ -56,7 +56,7 @@ final class Config extends ActivityConfig {
     @Override
     public boolean isDocumentEnabled(String mimeType, int docFlags, State state) {
         // Directories are always enabled.
-        if (MimePredicate.isDirectoryType(mimeType)) {
+        if (MimeTypes.isDirectoryType(mimeType)) {
             return true;
         }
 
@@ -74,6 +74,6 @@ final class Config extends ActivityConfig {
                 }
         }
 
-        return MimePredicate.mimeMatches(state.acceptMimes, mimeType);
+        return MimeTypes.mimeMatches(state.acceptMimes, mimeType);
     }
 }

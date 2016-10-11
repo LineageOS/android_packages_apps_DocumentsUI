@@ -45,7 +45,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.ThumbnailCache.Result;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.MimePredicate;
+import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 
@@ -233,7 +233,7 @@ public class IconHelper {
 
         final boolean supportsThumbnail = (docFlags & Document.FLAG_SUPPORTS_THUMBNAIL) != 0;
         final boolean allowThumbnail = (mMode == MODE_GRID)
-                || MimePredicate.mimeMatches(MimePredicate.VISUAL_MIMES, mimeType);
+                || MimeTypes.mimeMatches(MimeTypes.VISUAL_MIMES, mimeType);
         final boolean showThumbnail = supportsThumbnail && allowThumbnail && mThumbnailsEnabled;
         if (showThumbnail) {
             loadedThumbnail =
