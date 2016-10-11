@@ -174,9 +174,11 @@ public abstract class MenuManager {
     public void updateContextMenuForContainer(Menu menu) {
         MenuItem paste = menu.findItem(R.id.menu_paste_from_clipboard);
         MenuItem selectAll = menu.findItem(R.id.menu_select_all);
+        MenuItem createDir = menu.findItem(R.id.menu_create_dir);
 
         paste.setEnabled(mDirDetails.hasItemsToPaste() && mDirDetails.canCreateDoc());
         updateSelectAll(selectAll);
+        updateCreateDir(createDir);
     }
 
     /**

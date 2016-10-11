@@ -182,10 +182,77 @@ public final class MenuManagerTest {
 
     @Test
     public void testContextMenu_EmptyArea() {
+        dirDetails.hasItemsToPaste = false;
+        dirDetails.canCreateDoc = false;
+        dirDetails.canCreateDirectory = false;
+
         mgr.updateContextMenuForContainer(testMenu);
+
         selectAll.assertVisible();
+        selectAll.assertEnabled();
         paste.assertVisible();
+        paste.assertDisabled();
         createDir.assertVisible();
+        createDir.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_NoItemToPaste() {
+        dirDetails.hasItemsToPaste = false;
+        dirDetails.canCreateDoc = true;
+
+        mgr.updateContextMenuForContainer(testMenu);
+
+        selectAll.assertVisible();
+        selectAll.assertEnabled();
+        paste.assertVisible();
+        paste.assertDisabled();
+        createDir.assertVisible();
+        createDir.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_CantCreateDoc() {
+        dirDetails.hasItemsToPaste = true;
+        dirDetails.canCreateDoc = false;
+
+        mgr.updateContextMenuForContainer(testMenu);
+
+        selectAll.assertVisible();
+        selectAll.assertEnabled();
+        paste.assertVisible();
+        paste.assertDisabled();
+        createDir.assertVisible();
+        createDir.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_canPaste() {
+        dirDetails.hasItemsToPaste = true;
+        dirDetails.canCreateDoc = true;
+
+        mgr.updateContextMenuForContainer(testMenu);
+
+        selectAll.assertVisible();
+        selectAll.assertEnabled();
+        paste.assertVisible();
+        paste.assertEnabled();
+        createDir.assertVisible();
+        createDir.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_CanCreateDirectory() {
+        dirDetails.canCreateDirectory = true;
+
+        mgr.updateContextMenuForContainer(testMenu);
+
+        selectAll.assertVisible();
+        selectAll.assertEnabled();
+        paste.assertVisible();
+        paste.assertDisabled();
+        createDir.assertVisible();
+        createDir.assertEnabled();
     }
 
     @Test
