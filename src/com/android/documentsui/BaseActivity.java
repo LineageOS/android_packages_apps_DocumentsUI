@@ -32,11 +32,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
-import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.MessageQueue.IdleHandler;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Root;
@@ -60,7 +58,6 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.LocalPreferences;
-import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -82,12 +79,11 @@ import com.android.documentsui.ui.MessageBuilder;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-public abstract class BaseActivity
+public abstract class BaseActivity<T extends ActionHandler>
         extends Activity implements CommonAddons, NavigationViewManager.Environment {
 
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
@@ -97,24 +93,22 @@ public abstract class BaseActivity
 
     protected @Nullable RetainedState mRetainedState;
     protected RootsCache mRoots;
+    protected DocumentsAccess mDocs;
     protected MessageBuilder mMessages;
     protected DrawerController mDrawer;
     protected NavigationViewManager mNavigator;
     protected FocusManager mFocusManager;
     protected SortController mSortController;
 
+    protected T mActions;
+
     private final List<EventListener> mEventListeners = new ArrayList<>();
     private final String mTag;
-    private final ContentObserver mRootsCacheObserver = new ContentObserver(
-            new Handler()) {
-                @Override
-                public void onChange(boolean selfChange) {
-                    new HandleRootsChangedTask(BaseActivity.this).execute(getCurrentRoot());
-                }
-            };
 
     @LayoutRes
     private int mLayoutId;
+
+    private RootsMonitor<BaseActivity> mRootsMonitor;
 
     private boolean mNavDrawerHasFocus;
     private long mStartTime;
@@ -204,9 +198,8 @@ public abstract class BaseActivity
         // support to that fragment.
         mRetainedState = (RetainedState) getLastNonConfigurationInstance();
         mRoots = DocumentsApplication.getRootsCache(this);
+        mDocs = DocumentsAccess.create(this);
         mMessages = new MessageBuilder(this);
-        getContentResolver().registerContentObserver(
-                RootsCache.sNotificationUri, false, mRootsCacheObserver);
 
         DocumentsToolbar toolbar = (DocumentsToolbar) findViewById(R.id.toolbar);
         setActionBar(toolbar);
@@ -248,6 +241,20 @@ public abstract class BaseActivity
     }
 
     @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        mRootsMonitor = new RootsMonitor<>(
+                this,
+                mActions,
+                mRoots,
+                mDocs,
+                mState,
+                mSearchManager);
+        mRootsMonitor.start();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         boolean showMenu = super.onCreateOptionsMenu(menu);
 
@@ -269,7 +276,7 @@ public abstract class BaseActivity
 
     @Override
     protected void onDestroy() {
-        getContentResolver().unregisterContentObserver(mRootsCacheObserver);
+        mRootsMonitor.stop();
         super.onDestroy();
     }
 
@@ -346,7 +353,7 @@ public abstract class BaseActivity
             new GetRootDocumentTask(
                     root,
                     this,
-                    this::openContainerDocument)
+                    mActions::openContainerDocument)
                     .executeOnExecutor(getExecutorForCurrentDirectory());
         }
     }
@@ -406,38 +413,6 @@ public abstract class BaseActivity
                 && !mSearchManager.isSearching()
                 && !root.isRecents()
                 && !root.isDownloads();
-    }
-
-    // TODO: Move to ActionHandler...currently blocked by the notifyDirectory....business.
-    @Override
-    public void openContainerDocument(DocumentInfo doc) {
-        assert(doc.isContainer());
-        DocumentInfo currentDoc = null;
-
-        if (doc.isDirectory()) {
-            // Regular directory.
-            currentDoc = doc;
-        } else if (doc.isArchive()) {
-            // Archive.
-            try {
-                currentDoc = DocumentInfo.fromUri(getContentResolver(),
-                        ArchivesProvider.buildUriForArchive(doc.derivedUri));
-            } catch (FileNotFoundException e) {
-                // Should never happen, as queryDocument() on ArchivesProvider's root
-                // document never throws.
-            }
-        }
-
-        assert(currentDoc != null);
-        notifyDirectoryNavigated(currentDoc.derivedUri);
-        mState.pushDocument(currentDoc);
-
-        // Show an opening animation only if pressing "back" would get us back to the
-        // previous directory. Especially after opening a root document, pressing
-        // back, wouldn't go to the previous root, but close the activity.
-        final int anim = (mState.hasLocationChanged() && mState.stack.size() > 1)
-                ? AnimationView.ANIM_ENTER : AnimationView.ANIM_NONE;
-        refreshCurrentRootAndDirectory(anim);
     }
 
     /**
@@ -656,21 +631,26 @@ public abstract class BaseActivity
         return super.onKeyDown(keyCode, event);
     }
 
+    @VisibleForTesting
     public void addEventListener(EventListener listener) {
         mEventListeners.add(listener);
     }
 
+    @VisibleForTesting
     public void removeEventListener(EventListener listener) {
         mEventListeners.remove(listener);
     }
 
+    @VisibleForTesting
     public void notifyDirectoryLoaded(Uri uri) {
         for (EventListener listener : mEventListeners) {
             listener.onDirectoryLoaded(uri);
         }
     }
 
-    void notifyDirectoryNavigated(Uri uri) {
+    @VisibleForTesting
+    @Override
+    public void notifyDirectoryNavigated(Uri uri) {
         for (EventListener listener : mEventListeners) {
             listener.onDirectoryNavigated(uri);
         }
@@ -744,62 +724,6 @@ public abstract class BaseActivity
                 });
             }
         });
-    }
-
-    private static final class HandleRootsChangedTask
-            extends PairedTask<BaseActivity, RootInfo, RootInfo> {
-        RootInfo mCurrentRoot;
-        DocumentInfo mDefaultRootDocument;
-
-        public HandleRootsChangedTask(BaseActivity activity) {
-            super(activity);
-        }
-
-        @Override
-        protected RootInfo run(RootInfo... roots) {
-            assert(roots.length == 1);
-            mCurrentRoot = roots[0];
-            final Collection<RootInfo> cachedRoots = mOwner.mRoots.getRootsBlocking();
-            for (final RootInfo root : cachedRoots) {
-                if (root.getUri().equals(mCurrentRoot.getUri())) {
-                    // We don't need to change the current root as the current root was not removed.
-                    return null;
-                }
-            }
-
-            // Choose the default root.
-            final RootInfo defaultRoot = mOwner.mRoots.getDefaultRootBlocking(mOwner.mState);
-            assert(defaultRoot != null);
-            if (!defaultRoot.isRecents()) {
-                mDefaultRootDocument = defaultRoot.getRootDocumentBlocking(mOwner);
-            }
-            return defaultRoot;
-        }
-
-        @Override
-        protected void finish(RootInfo defaultRoot) {
-            if (defaultRoot == null) {
-                return;
-            }
-
-            // If the activity has been launched for the specific root and it is removed, finish the
-            // activity.
-            final Uri uri = mOwner.getIntent().getData();
-            if (uri != null && uri.equals(mCurrentRoot.getUri())) {
-                mOwner.finish();
-                return;
-            }
-
-            // Clear entire backstack and start in new root.
-            mOwner.mState.onRootChanged(defaultRoot);
-            mOwner.mSearchManager.update(defaultRoot);
-
-            if (defaultRoot.isRecents()) {
-                mOwner.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
-            } else {
-                mOwner.openContainerDocument(mDefaultRootDocument);
-            }
-        }
     }
 
     public final class RetainedState {

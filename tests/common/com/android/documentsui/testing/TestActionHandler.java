@@ -40,6 +40,7 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
                 env.roots,
                 env.docs,
                 env.selectionMgr,
+                env.searchViewManager,
                 (String authority) -> null);
     }
 

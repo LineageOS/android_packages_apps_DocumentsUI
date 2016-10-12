@@ -65,6 +65,8 @@ public interface ActionHandler {
 
     void showChooserForDoc(DocumentInfo doc);
 
+    void openContainerDocument(DocumentInfo doc);
+
     void deleteSelectedDocuments();
 
     void shareSelectedDocuments();

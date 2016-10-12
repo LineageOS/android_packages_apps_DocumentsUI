@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract.Document;
 
+import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestModel;
@@ -52,11 +53,13 @@ public class TestEnv {
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
     public final TestModel model;
     public final SelectionManager selectionMgr;
+    public final SearchViewManager searchViewManager;
 
     private TestEnv(String authority) {
         mExecutor = new TestScheduledExecutorService();
         model = new TestModel(authority);
         selectionMgr = SelectionManagers.createTestInstance();
+        searchViewManager = new TestSearchViewManager();
     }
 
     public static TestEnv create() {

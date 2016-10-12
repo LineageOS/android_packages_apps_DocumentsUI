@@ -72,6 +72,7 @@ public class ActionHandlerTest {
                 mEnv.roots,
                 mEnv.docs,
                 mEnv.selectionMgr,
+                mEnv.searchViewManager,
                 mEnv::lookupExecutor,
                 mActionModeAddons,
                 mDialogs,
@@ -219,9 +220,10 @@ public class ActionHandlerTest {
     @Test
     public void testDocumentPicked_OpensArchives() throws Exception {
         mActivity.currentRoot = TestRootsAccess.HOME;
+        mEnv.docs.nextDocument = TestEnv.FILE_ARCHIVE;
 
         mHandler.onDocumentPicked(TestEnv.FILE_ARCHIVE);
-        mActivity.openContainer.assertLastArgument(TestEnv.FILE_ARCHIVE);
+        assertEquals(TestEnv.FILE_ARCHIVE, mEnv.state.stack.peek());
     }
 
     @Test
@@ -229,7 +231,7 @@ public class ActionHandlerTest {
         mActivity.currentRoot = TestRootsAccess.HOME;
 
         mHandler.onDocumentPicked(TestEnv.FOLDER_1);
-        mActivity.openContainer.assertLastArgument(TestEnv.FOLDER_1);
+        assertEquals(TestEnv.FOLDER_1, mEnv.state.stack.peek());
     }
 
     @Test

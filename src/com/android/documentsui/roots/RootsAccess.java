@@ -18,6 +18,7 @@ package com.android.documentsui.roots;
 
 import static com.android.documentsui.base.Shared.DEBUG;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.android.documentsui.base.MimeTypes;
@@ -32,6 +33,8 @@ import java.util.List;
  * Provides testable access to key {@link RootsCache} methods.
  */
 public interface RootsAccess {
+
+    Uri NOTIFICATION_URI = Uri.parse("content://com.android.documentsui.roots/");
 
     /**
      * Return the requested {@link RootInfo}, but only loading the roots for the
