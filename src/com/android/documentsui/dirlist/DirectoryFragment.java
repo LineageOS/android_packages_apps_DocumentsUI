@@ -638,11 +638,10 @@ public class DirectoryFragment extends Fragment
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.getDocuments(selected);
-        BaseActivity activity = mActivity;
         if (docs.size() > 1) {
-            activity.onDocumentsPicked(docs);
+            mActivity.onDocumentsPicked(docs);
         } else {
-            activity.onDocumentPicked(docs.get(0));
+            mActivity.onDocumentPicked(docs.get(0));
         }
     }
 

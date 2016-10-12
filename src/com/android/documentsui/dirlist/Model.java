@@ -59,6 +59,8 @@ public class Model {
                 && (flags & Document.FLAG_PARTIAL) == 0;
     };
 
+    private static final Predicate<Cursor> ANY_FILE_FILTER = (Cursor c) -> true;
+
     private static final String TAG = "Model";
 
     private boolean mIsLoading;
@@ -204,19 +206,7 @@ public class Model {
     }
 
     public List<DocumentInfo> getDocuments(Selection selection) {
-        final int size = (selection != null) ? selection.size() : 0;
-
-        final List<DocumentInfo> docs =  new ArrayList<>(size);
-        // NOTE: That as this now iterates over only final (non-provisional) selection.
-        for (String modelId: selection) {
-            DocumentInfo doc = getDocument(modelId);
-            if (doc == null) {
-                Log.w(TAG, "Unable to obtain document for modelId: " + modelId);
-                continue;
-            }
-            docs.add(doc);
-        }
-        return docs;
+        return loadDocuments(selection, ANY_FILE_FILTER);
     }
 
     public @Nullable DocumentInfo getDocument(String modelId) {
