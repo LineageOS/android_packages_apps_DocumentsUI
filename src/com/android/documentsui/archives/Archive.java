@@ -34,6 +34,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
+import android.system.Os;
+import android.system.OsConstants;
+import android.system.ErrnoException;
+
 import libcore.io.IoUtils;
 
 import com.android.internal.util.Preconditions;
@@ -70,6 +74,10 @@ import java.util.zip.ZipInputStream;
  */
 public class Archive implements Closeable {
     private static final String TAG = "Archive";
+
+    // Stores file representations of file descriptors. Used to open pipes
+    // by path.
+    private static final String PROC_FD_PATH = "/proc/self/fd/";
 
     public static final String[] DEFAULT_PROJECTION = new String[] {
             Document.COLUMN_DOCUMENT_ID,
@@ -158,8 +166,23 @@ public class Archive implements Closeable {
     }
 
     /**
+     * Returns true if the file descriptor is seekable.
+     * @param descriptor File descriptor to check.
+     */
+    public static boolean canSeek(ParcelFileDescriptor descriptor) {
+        try {
+            return Os.lseek(descriptor.getFileDescriptor(), 0,
+                    OsConstants.SEEK_SET) == 0;
+        } catch (ErrnoException e) {
+            return false;
+        }
+    }
+
+    /**
      * Creates a DocumentsArchive instance for opening, browsing and accessing
      * documents within the archive passed as a file descriptor.
+     *
+     * If the file descriptor is not seekable, then a snapshot will be created.
      *
      * @param context Context of the provider.
      * @param descriptor File descriptor for the archive's contents.
@@ -170,8 +193,13 @@ public class Archive implements Closeable {
             Context context, ParcelFileDescriptor descriptor, Uri archiveUri,
             @Nullable Uri notificationUri)
             throws IOException {
+        if (canSeek(descriptor)) {
+            return new Archive(context, new File(PROC_FD_PATH + descriptor.getFd()),
+                    archiveUri, notificationUri);
+        }
+
+        // Fallback for non-seekable file descriptors.
         File snapshotFile = null;
-        // TODO: Do not create a snapshot if a seekable file descriptor is passed.
         try {
             // Create a copy of the archive, as ZipFile doesn't operate on streams.
             // Moreover, ZipInputStream would be inefficient for large files on

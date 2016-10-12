@@ -33,26 +33,50 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @MediumTest
 public class ArchiveTest extends AndroidTestCase {
     private static final Uri ARCHIVE_URI = Uri.parse("content://i/love/strawberries");
     private static final String NOTIFICATION_URI = "content://notification-uri";
+    private ExecutorService mExecutor = null;
+    private Context mContext = null;
     private Archive mArchive = null;
-    private ArchiveId mArchiveId;
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        mContext = InstrumentationRegistry.getTargetContext();
+        mExecutor = Executors.newSingleThreadExecutor();
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        mExecutor.shutdown();
+        assertTrue(mExecutor.awaitTermination(3 /* timeout */, TimeUnit.SECONDS));
+        if (mArchive != null) {
+            mArchive.close();
+        }
+        super.tearDown();
+    }
 
     public static ArchiveId createArchiveId(String path) {
         return new ArchiveId(ARCHIVE_URI, path);
     }
 
-    public void loadArchive(int resource) {
+    /**
+     * Opens a resource and returns the contents via file descriptor to a local
+     * snapshot file.
+     */
+    public ParcelFileDescriptor getSeekableDescriptor(int resource) {
         // Extract the file from resources.
         File file = null;
-        final Context context = InstrumentationRegistry.getTargetContext();
         final Context testContext = InstrumentationRegistry.getContext();
         try {
             file = File.createTempFile("com.android.documentsui.archives.tests{",
-                    "}.zip", context.getCacheDir());
+                    "}.zip", mContext.getCacheDir());
             try (
                 final FileOutputStream outputStream =
                         new ParcelFileDescriptor.AutoCloseOutputStream(
@@ -69,13 +93,10 @@ public class ArchiveTest extends AndroidTestCase {
                 outputStream.flush();
 
             }
-            mArchive = Archive.createForParcelFileDescriptor(
-                  context,
-                  ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY),
-                  ARCHIVE_URI,
-                  Uri.parse(NOTIFICATION_URI));
+            return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
         } catch (IOException e) {
             fail(String.valueOf(e));
+            return null;
         } finally {
             // On UNIX the file will be still available for processes which opened it, even
             // after deleting it. Remove it ASAP, as it won't be used by anyone else.
@@ -85,15 +106,53 @@ public class ArchiveTest extends AndroidTestCase {
         }
     }
 
-    @Override
-    public void tearDown() {
-        if (mArchive != null) {
-            mArchive.close();
+    /**
+     * Opens a resource and returns the contents via a pipe.
+     */
+    public ParcelFileDescriptor getNonSeekableDescriptor(int resource) {
+        ParcelFileDescriptor[] pipe = null;
+        final Context testContext = InstrumentationRegistry.getContext();
+        try {
+            pipe = ParcelFileDescriptor.createPipe();
+            final ParcelFileDescriptor finalOutputPipe = pipe[1];
+            mExecutor.execute(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            try (
+                                final ParcelFileDescriptor.AutoCloseOutputStream outputStream =
+                                        new ParcelFileDescriptor.
+                                                AutoCloseOutputStream(finalOutputPipe);
+                                final InputStream inputStream =
+                                        testContext.getResources().openRawResource(resource);
+                            ) {
+                                final byte[] buffer = new byte[32 * 1024];
+                                int bytes;
+                                while ((bytes = inputStream.read(buffer)) != -1) {
+                                    outputStream.write(buffer, 0, bytes);
+                                }
+                            } catch (IOException e) {
+                              fail(String.valueOf(e));
+                            }
+                        }
+                    });
+            return pipe[0];
+        } catch (IOException e) {
+            fail(String.valueOf(e));
+            return null;
         }
     }
 
+    public void loadArchive(ParcelFileDescriptor descriptor) throws IOException {
+        mArchive = Archive.createForParcelFileDescriptor(
+                mContext,
+                descriptor,
+                ARCHIVE_URI,
+                Uri.parse(NOTIFICATION_URI));
+    }
+
     public void testQueryChildDocument() throws IOException {
-        loadArchive(R.raw.archive);
+        loadArchive(getNonSeekableDescriptor(R.raw.archive));
         final Cursor cursor = mArchive.queryChildDocuments(
                 new ArchiveId(ARCHIVE_URI, "/").toDocumentId(), null, null);
 
@@ -151,7 +210,7 @@ public class ArchiveTest extends AndroidTestCase {
     }
 
     public void testQueryChildDocument_NoDirs() throws IOException {
-        loadArchive(R.raw.no_dirs);
+        loadArchive(getNonSeekableDescriptor(R.raw.no_dirs));
         final Cursor cursor = mArchive.queryChildDocuments(
             new ArchiveId(ARCHIVE_URI, "/").toDocumentId(), null, null);
 
@@ -198,7 +257,7 @@ public class ArchiveTest extends AndroidTestCase {
     }
 
     public void testQueryChildDocument_EmptyDirs() throws IOException {
-        loadArchive(R.raw.empty_dirs);
+        loadArchive(getNonSeekableDescriptor(R.raw.empty_dirs));
         final Cursor cursor = mArchive.queryChildDocuments(
                 new ArchiveId(ARCHIVE_URI, "/").toDocumentId(), null, null);
 
@@ -258,7 +317,7 @@ public class ArchiveTest extends AndroidTestCase {
     }
 
     public void testGetDocumentType() throws IOException {
-        loadArchive(R.raw.archive);
+        loadArchive(getNonSeekableDescriptor(R.raw.archive));
         assertEquals(Document.MIME_TYPE_DIR, mArchive.getDocumentType(
                 new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId()));
         assertEquals("text/plain", mArchive.getDocumentType(
@@ -266,7 +325,7 @@ public class ArchiveTest extends AndroidTestCase {
     }
 
     public void testIsChildDocument() throws IOException {
-        loadArchive(R.raw.archive);
+        loadArchive(getNonSeekableDescriptor(R.raw.archive));
         final String documentId = new ArchiveId(ARCHIVE_URI, "/").toDocumentId();
         assertTrue(mArchive.isChildDocument(documentId,
                 new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId()));
@@ -280,7 +339,7 @@ public class ArchiveTest extends AndroidTestCase {
     }
 
     public void testQueryDocument() throws IOException {
-        loadArchive(R.raw.archive);
+        loadArchive(getNonSeekableDescriptor(R.raw.archive));
         final Cursor cursor = mArchive.queryDocument(
                 new ArchiveId(ARCHIVE_URI, "dir2/strawberries.txt").toDocumentId(),
                 null);
@@ -298,7 +357,17 @@ public class ArchiveTest extends AndroidTestCase {
     }
 
     public void testOpenDocument() throws IOException {
-        loadArchive(R.raw.archive);
+        loadArchive(getSeekableDescriptor(R.raw.archive));
+        commonTestOpenDocument();
+    }
+
+    public void testOpenDocument_NonSeekable() throws IOException {
+        loadArchive(getNonSeekableDescriptor(R.raw.archive));
+        commonTestOpenDocument();
+    }
+
+    // Common part of testOpenDocument and testOpenDocument_NonSeekable.
+    void commonTestOpenDocument() throws IOException {
         final ParcelFileDescriptor descriptor = mArchive.openDocument(
                 new ArchiveId(ARCHIVE_URI, "dir2/strawberries.txt").toDocumentId(),
                 "r", null /* signal */);
@@ -306,5 +375,10 @@ public class ArchiveTest extends AndroidTestCase {
                 new ParcelFileDescriptor.AutoCloseInputStream(descriptor)) {
             assertEquals("I love strawberries!", new Scanner(inputStream).nextLine());
         }
+    }
+
+    public void testCanSeek() throws IOException {
+        assertTrue(Archive.canSeek(getSeekableDescriptor(R.raw.archive)));
+        assertFalse(Archive.canSeek(getNonSeekableDescriptor(R.raw.archive)));
     }
 }
