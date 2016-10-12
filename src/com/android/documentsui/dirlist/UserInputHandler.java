@@ -51,7 +51,7 @@ public final class UserInputHandler<T extends InputEvent>
     private final Function<MotionEvent, T> mEventConverter;
     private final Predicate<DocumentDetails> mSelectable;
 
-    private final EventHandler<InputEvent> mRightClickHandler;
+    private final EventHandler<InputEvent> mContextMenuClickHandler;
 
     private final EventHandler<InputEvent> mTouchDragListener;
     private final EventHandler<InputEvent> mGestureSelectHandler;
@@ -66,7 +66,7 @@ public final class UserInputHandler<T extends InputEvent>
             SelectionManager selectionMgr,
             Function<MotionEvent, T> eventConverter,
             Predicate<DocumentDetails> selectable,
-            EventHandler<InputEvent> rightClickHandler,
+            EventHandler<InputEvent> contextMenuClickHandler,
             EventHandler<InputEvent> touchDragListener,
             EventHandler<InputEvent> gestureSelectHandler) {
 
@@ -75,7 +75,7 @@ public final class UserInputHandler<T extends InputEvent>
         mSelectionMgr = selectionMgr;
         mEventConverter = eventConverter;
         mSelectable = selectable;
-        mRightClickHandler = rightClickHandler;
+        mContextMenuClickHandler = contextMenuClickHandler;
         mTouchDragListener = touchDragListener;
         mGestureSelectHandler = gestureSelectHandler;
 
@@ -292,7 +292,8 @@ public final class UserInputHandler<T extends InputEvent>
 
         boolean onDown(T event) {
             if (DEBUG) Log.v(MTAG, "Delegated onDown event.");
-            if (event.isSecondaryButtonPressed()) {
+            if (event.isSecondaryButtonPressed()
+                    || (event.isAltKeyDown() && event.isPrimaryButtonPressed())) {
                 mHandledOnDown = true;
                 return onRightClick(event);
             }
@@ -321,6 +322,11 @@ public final class UserInputHandler<T extends InputEvent>
             if (!event.isOverModelItem()) {
                 if (DEBUG) Log.d(MTAG, "Tap not associated w/ model item. Clearing selection.");
                 mSelectionMgr.clearSelection();
+                return false;
+            }
+
+            if (event.isTertiaryButtonPressed()) {
+                if (DEBUG) Log.d(MTAG, "Ignoring middle click");
                 return false;
             }
 
@@ -358,6 +364,11 @@ public final class UserInputHandler<T extends InputEvent>
                 return false;
             }
 
+            if (event.isTertiaryButtonPressed()) {
+                if (DEBUG) Log.d(MTAG, "Ignoring middle click");
+                return false;
+            }
+
             @Nullable DocumentDetails doc = event.getDocumentDetails();
             if (doc == null || !doc.hasModelId()) {
                 Log.w(MTAG, "Ignoring Confirmed Tap. No document details associated w/ event.");
@@ -373,6 +384,11 @@ public final class UserInputHandler<T extends InputEvent>
 
             if (!event.isOverModelItem()) {
                 if (DEBUG) Log.d(MTAG, "Ignoring DoubleTap on non-model-backed item.");
+                return false;
+            }
+
+            if (event.isTertiaryButtonPressed()) {
+                if (DEBUG) Log.d(MTAG, "Ignoring middle click");
                 return false;
             }
 
@@ -398,7 +414,7 @@ public final class UserInputHandler<T extends InputEvent>
             // We always delegate final handling of the event,
             // since the handler might want to show a context menu
             // in an empty area or some other weirdo view.
-            return mRightClickHandler.accept(event);
+            return mContextMenuClickHandler.accept(event);
         }
     }
 
@@ -447,16 +463,6 @@ public final class UserInputHandler<T extends InputEvent>
                     return mActions.viewDocument(doc);
                 case KeyEvent.KEYCODE_SPACE:
                     return mActions.previewDocument(doc);
-                case KeyEvent.KEYCODE_FORWARD_DEL:
-                    // This has to be handled here instead of in a keyboard shortcut, because
-                    // keyboard shortcuts all have to be modified with the 'Ctrl' key.
-                    if (mSelectionMgr.hasSelection()) {
-                        mActions.deleteSelectedDocuments();
-                    }
-                    // Always handle the key, even if there was nothing to delete. This is a
-                    // precaution to prevent other handlers from potentially picking up the event
-                    // and triggering extra behaviors.
-                    return true;
             }
 
             return false;

@@ -25,6 +25,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.KeyboardShortcutGroup;
@@ -282,6 +283,21 @@ public class FilesActivity
         assert(doc.isContainer());
         assert(!doc.isArchive());
         mActions.openContainerDocument(doc);
+    }
+
+    @CallSuper
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_DEL && event.isAltPressed())
+                || keyCode == KeyEvent.KEYCODE_FORWARD_DEL) {
+            if (mSelectionMgr.hasSelection()) {
+                mActions.deleteSelectedDocuments();
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

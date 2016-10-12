@@ -111,6 +111,10 @@ public final class Events {
         return (metaState & KeyEvent.META_CTRL_ON) != 0;
     }
 
+    public static boolean hasAltBit(int metaState) {
+        return (metaState & KeyEvent.META_ALT_ON) != 0;
+    }
+
     /**
      * A facade over MotionEvent primarily designed to permit for unit testing
      * of related code.
@@ -119,6 +123,8 @@ public final class Events {
         boolean isMouseEvent();
         boolean isPrimaryButtonPressed();
         boolean isSecondaryButtonPressed();
+        boolean isTertiaryButtonPressed();
+        boolean isAltKeyDown();
         boolean isShiftKeyDown();
         boolean isCtrlKeyDown();
 
@@ -232,6 +238,16 @@ public final class Events {
         }
 
         @Override
+        public boolean isTertiaryButtonPressed() {
+            return mEvent.isButtonPressed(MotionEvent.BUTTON_TERTIARY);
+        }
+
+        @Override
+        public boolean isAltKeyDown() {
+            return Events.hasAltBit(mEvent.getMetaState());
+        }
+
+        @Override
         public boolean isShiftKeyDown() {
             return Events.hasShiftBit(mEvent.getMetaState());
         }
@@ -334,6 +350,7 @@ public final class Events {
                     .append(" isPrimaryButtonPressed=").append(isPrimaryButtonPressed())
                     .append(" isSecondaryButtonPressed=").append(isSecondaryButtonPressed())
                     .append(" isShiftKeyDown=").append(isShiftKeyDown())
+                    .append(" isAltKeyDown=").append(isAltKeyDown())
                     .append(" action(decoded)=").append(
                             MotionEvent.actionToString(mEvent.getActionMasked()))
                     .append(" getOrigin=").append(getOrigin())

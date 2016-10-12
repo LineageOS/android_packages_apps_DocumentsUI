@@ -347,7 +347,7 @@ public class DirectoryFragment extends Fragment
                 mSelectionMgr,
                 (MotionEvent t) -> MotionInputEvent.obtain(t, mRecView),
                 this::canSelect,
-                this::onRightClick,
+                this::onContextMenuClick,
                 mDragStartListener::onTouchDragEvent,
                 gestureHandler);
 
@@ -459,7 +459,7 @@ public class DirectoryFragment extends Fragment
         FileOperations.start(mActivity, operation, mDialogs::showFileOperationFailures);
     }
 
-    protected boolean onRightClick(InputEvent e) {
+    protected boolean onContextMenuClick(InputEvent e) {
         final View v;
         final float x, y;
         if (e.isOverModelItem()) {
@@ -558,8 +558,6 @@ public class DirectoryFragment extends Fragment
 
             case R.id.menu_share:
                 mActions.shareSelectedDocuments();
-                // TODO: Only finish selection if share action is completed.
-                mActionModeController.finishActionMode();
                 return true;
 
             case R.id.menu_delete:
