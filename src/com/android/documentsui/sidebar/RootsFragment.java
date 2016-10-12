@@ -361,8 +361,8 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         mList.requestFocus();
     }
 
-    private BaseActivity getBaseActivity() {
-        return (BaseActivity) getActivity();
+    private BaseActivity<?> getBaseActivity() {
+        return (BaseActivity<?>) getActivity();
     }
 
     @Override
@@ -409,7 +409,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         AdapterContextMenuInfo adapterMenuInfo = (AdapterContextMenuInfo) menuInfo;
         final Item item = mAdapter.getItem(adapterMenuInfo.position);
 
-        BaseActivity activity = getBaseActivity();
+        BaseActivity<?> activity = getBaseActivity();
         item.createContextMenu(menu, activity.getMenuInflater(), activity.getMenuManager());
     }
 

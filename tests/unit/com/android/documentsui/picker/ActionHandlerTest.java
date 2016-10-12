@@ -18,6 +18,7 @@ package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -59,6 +60,7 @@ public class ActionHandlerTest {
                 mEnv.roots,
                 mEnv.docs,
                 mEnv.selectionMgr,
+                mEnv.searchViewManager,
                 mEnv::lookupExecutor,
                 null  // tuner, not currently used.
                 );
@@ -117,6 +119,15 @@ public class ActionHandlerTest {
         intent.setAction(Shared.ACTION_PICK_COPY_DESTINATION);
         mHandler.initLocation(intent);
         assertRootPicked(TestRootsAccess.HOME.getUri());
+    }
+
+    @Test
+    public void testOpenContainerDocument() {
+        mHandler.openContainerDocument(TestEnv.FOLDER_0);
+
+        assertEquals(TestEnv.FOLDER_0, mEnv.state.stack.peek());
+
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {

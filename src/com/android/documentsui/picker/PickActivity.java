@@ -46,7 +46,6 @@ import android.view.View;
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
-import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.MenuManager.SelectionDetails;
@@ -73,7 +72,8 @@ import com.android.documentsui.ui.Snackbars;
 import java.util.Arrays;
 import java.util.List;
 
-public class PickActivity extends BaseActivity implements ActionHandler.Addons {
+public class PickActivity
+        extends BaseActivity<ActionHandler<PickActivity>> implements ActionHandler.Addons {
 
     private static final int CODE_FORWARD = 42;
     private static final String TAG = "PickActivity";
@@ -81,7 +81,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     private SelectionManager mSelectionMgr;
     private MenuManager mMenuManager;
-    private ActionHandler<PickActivity> mActionHandler;
     private ActionModeController mActionModeController;
 
     public PickActivity() {
@@ -97,12 +96,13 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                         ? SelectionManager.MODE_MULTIPLE
                         : SelectionManager.MODE_SINGLE);
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
-        mActionHandler = new ActionHandler<>(
+        mActions = new ActionHandler<>(
                 this,
                 mState,
-                DocumentsApplication.getRootsCache(this),
-                DocumentsAccess.create(this),
+                mRoots,
+                mDocs,
                 mSelectionMgr,
+                mSearchManager,
                 ProviderExecutor::forAuthority,
                 mConfig);
 
@@ -115,7 +115,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         Intent intent = getIntent();
 
         setupLayout(intent);
-        mActionHandler.initLocation(intent);
+        mActions.initLocation(intent);
     }
 
     private void setupLayout(Intent intent) {
@@ -262,7 +262,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             // No directory means recents
             if (mState.action == ACTION_CREATE ||
                 mState.action == ACTION_PICK_COPY_DESTINATION) {
-                mActionHandler.loadRoot(Shared.getDefaultRootUri(this));
+                mActions.loadRoot(Shared.getDefaultRootUri(this));
             } else {
                 DirectoryFragment.showRecentsOpen(fm, anim);
 
@@ -312,7 +312,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @Override
     protected void onDirectoryCreated(DocumentInfo doc) {
         assert(doc.isDirectory());
-        openContainerDocument(doc);
+        mActions.openContainerDocument(doc);
     }
 
     void onSaveRequested(String mimeType, String displayName) {
@@ -324,7 +324,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     public void onDocumentPicked(DocumentInfo doc) {
         final FragmentManager fm = getFragmentManager();
         if (doc.isContainer()) {
-            openContainerDocument(doc);
+            mActions.openContainerDocument(doc);
         } else if (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT) {
             // Explicit file picked, return
             new ExistingFinishTask(this, doc.derivedUri)
@@ -436,10 +436,10 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
         // provide our friend, RootsFragment, early access to this special feature!
         if (model == null) {
-            return mActionHandler;
+            return mActions;
         }
 
-        return mActionHandler.reset(model, searchMode);
+        return mActions.reset(model, searchMode);
     }
 
     @Override

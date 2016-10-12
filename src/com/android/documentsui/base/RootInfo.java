@@ -350,7 +350,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     }
 
     /**
-     * @deprecate use {@link DocumentsAccess#getRootDocumentBlocking}.
+     * @deprecate use {@link DocumentsAccess#getRootDocument}.
      */
     @Deprecated
     public @Nullable DocumentInfo getRootDocumentBlocking(Context context) {

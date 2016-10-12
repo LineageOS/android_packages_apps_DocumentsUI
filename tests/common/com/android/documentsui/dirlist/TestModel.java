@@ -22,13 +22,10 @@ import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.EventListener;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import libcore.net.MimeUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class TestModel extends Model {
@@ -46,7 +43,6 @@ public class TestModel extends Model {
     private int mLastId = 0;
     private Random mRand = new Random();
     private MatrixCursor mCursor;
-    private List<EventListener<Update>> mUpdateListeners = new ArrayList<>();
 
     public TestModel(String authority) {
         super();

@@ -33,6 +33,7 @@ import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
+import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.DocumentInfo;
@@ -86,6 +87,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             RootsAccess roots,
             DocumentsAccess docs,
             SelectionManager selectionMgr,
+            SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
             ActionModeAddons actionModeAddons,
             DialogController dialogs,
@@ -93,7 +95,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             DocumentClipper clipper,
             ClipStore clipStore) {
 
-        super(activity, state, roots, docs, selectionMgr, executors);
+        super(activity, state, roots, docs, selectionMgr, searchMgr, executors);
 
         mActionModeAddons = actionModeAddons;
         mDialogs = dialogs;
@@ -380,7 +382,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     public void onDocumentPicked(DocumentInfo doc) {
         if (doc.isContainer()) {
-            mActivity.openContainerDocument(doc);
+            openContainerDocument(doc);
             return;
         }
 
@@ -402,7 +404,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
 
         if (doc.isContainer()) {
-            mActivity.openContainerDocument(doc);
+            openContainerDocument(doc);
             return true;
         }
 

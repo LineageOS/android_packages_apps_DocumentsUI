@@ -38,7 +38,7 @@ public class RootsLoader extends AsyncTaskLoader<Collection<RootInfo>> {
         mState = state;
 
         context.getContentResolver().registerContentObserver(
-                RootsCache.sNotificationUri, false, mObserver);
+                RootsAccess.NOTIFICATION_URI, false, mObserver);
     }
 
     @Override

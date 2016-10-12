@@ -35,7 +35,6 @@ import android.view.View;
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
-import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.MenuManager.SelectionDetails;
@@ -67,14 +66,14 @@ import java.util.List;
 /**
  * Standalone file management activity.
  */
-public class FilesActivity extends BaseActivity implements ActionHandler.Addons {
+public class FilesActivity
+        extends BaseActivity<ActionHandler<FilesActivity>> implements ActionHandler.Addons {
 
     public static final String TAG = "FilesActivity";
 
     private final Config mConfig = new Config();
     private SelectionManager mSelectionMgr;
     private MenuManager mMenuManager;
-    private ActionHandler<FilesActivity> mActions;
     private DialogController mDialogs;
     private DocumentClipper mClipper;
     private ActionModeController mActionModeController;
@@ -111,8 +110,9 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 this,
                 mState,
                 mRoots,
-                DocumentsAccess.create(this),
+                mDocs,
                 mSelectionMgr,
+                mSearchManager,
                 ProviderExecutor::forAuthority,
                 mActionModeController,
                 mDialogs,
@@ -281,16 +281,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     public void springOpenDirectory(DocumentInfo doc) {
         assert(doc.isContainer());
         assert(!doc.isArchive());
-        openContainerDocument(doc);
-    }
-
-    /**
-     * @deprecated use {@link ActionHandler#showChooserForDoc(DocumentInfo)}
-     * @param doc
-     */
-    @Deprecated
-    public void showChooserForDoc(DocumentInfo doc) {
-        mActions.showChooserForDoc(doc);
+        mActions.openContainerDocument(doc);
     }
 
     @Override
