@@ -33,6 +33,7 @@ import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.view.View;
 
+import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.dirlist.DocumentsAdapter;
@@ -61,6 +62,7 @@ public class BandController extends OnScrollListener {
     private final SelectionEnvironment mEnvironment;
     private final DocumentsAdapter mAdapter;
     private final SelectionManager mSelectionManager;
+    private final DirectoryReloadLock mLock;
     private final Runnable mViewScroller;
     private final GridModel.OnSelectionChangedListener mGridListener;
 
@@ -75,16 +77,19 @@ public class BandController extends OnScrollListener {
             final RecyclerView view,
             DocumentsAdapter adapter,
             SelectionManager selectionManager,
+            DirectoryReloadLock lock,
             IntPredicate gridItemTester) {
-        this(new RuntimeSelectionEnvironment(view), adapter, selectionManager, gridItemTester);
+        this(new RuntimeSelectionEnvironment(view), adapter, selectionManager, lock, gridItemTester);
     }
 
     private BandController(
             SelectionEnvironment env,
             DocumentsAdapter adapter,
             SelectionManager selectionManager,
+            DirectoryReloadLock lock,
             IntPredicate gridItemTester) {
 
+        mLock = lock;
         selectionManager.bindContoller(this);
 
         mEnvironment = env;
@@ -265,6 +270,7 @@ public class BandController extends OnScrollListener {
     private void startBandSelect(Point origin) {
         if (DEBUG) Log.d(TAG, "Starting band select @ " + origin);
 
+        mLock.block();
         mOrigin = origin;
         mModelBuilder.run();  // Creates a new selection model.
         mModel.startSelection(mOrigin);
@@ -314,6 +320,7 @@ public class BandController extends OnScrollListener {
 
         mModel = null;
         mOrigin = null;
+        mLock.unblock();
     }
 
     private void onSelectionChanged(Set<String> updatedSelection) {
