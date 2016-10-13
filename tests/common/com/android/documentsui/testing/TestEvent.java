@@ -141,6 +141,11 @@ public class TestEvent implements InputEvent {
     }
 
     @Override
+    public boolean isTertiaryButtonPressed() {
+        return mButtons.contains(MotionEvent.BUTTON_TERTIARY);
+    }
+
+    @Override
     public boolean isShiftKeyDown() {
         return mKeys.contains(KeyEvent.META_SHIFT_ON);
     }
@@ -148,6 +153,11 @@ public class TestEvent implements InputEvent {
     @Override
     public boolean isCtrlKeyDown() {
         return mKeys.contains(KeyEvent.META_CTRL_ON);
+    }
+
+    @Override
+    public boolean isAltKeyDown() {
+        return mKeys.contains(KeyEvent.META_ALT_ON);
     }
 
     @Override
@@ -427,15 +437,29 @@ public class TestEvent implements InputEvent {
             return this;
         }
 
+        public Builder alt() {
+            pressKey(KeyEvent.META_ALT_ON);
+            return this;
+        }
+
         public Builder primary() {
             pressButton(MotionEvent.BUTTON_PRIMARY);
             releaseButton(MotionEvent.BUTTON_SECONDARY);
+            releaseButton(MotionEvent.BUTTON_TERTIARY);
             return this;
         }
 
         public Builder secondary() {
             pressButton(MotionEvent.BUTTON_SECONDARY);
             releaseButton(MotionEvent.BUTTON_PRIMARY);
+            releaseButton(MotionEvent.BUTTON_TERTIARY);
+            return this;
+        }
+
+        public Builder tertiary() {
+            pressButton(MotionEvent.BUTTON_TERTIARY);
+            releaseButton(MotionEvent.BUTTON_PRIMARY);
+            releaseButton(MotionEvent.BUTTON_SECONDARY);
             return this;
         }
 
