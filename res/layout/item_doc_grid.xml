@@ -98,7 +98,7 @@
             android:textColor="@color/item_title" />
 
         <TextView
-            android:id="@+id/size"
+            android:id="@+id/details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/icon_mime_sm"
@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
-            android:layout_toEndOf="@id/size"
+            android:layout_toEndOf="@id/details"
             android:singleLine="true"
             android:ellipsize="end"
             android:textAlignment="viewStart"
