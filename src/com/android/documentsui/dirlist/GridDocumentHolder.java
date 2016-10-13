@@ -44,7 +44,7 @@ final class GridDocumentHolder extends DocumentHolder {
 
     final TextView mTitle;
     final TextView mDate;
-    final TextView mSize;
+    final TextView mDetails;
     final ImageView mIconMimeLg;
     final ImageView mIconMimeSm;
     final ImageView mIconThumb;
@@ -60,7 +60,7 @@ final class GridDocumentHolder extends DocumentHolder {
 
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
         mDate = (TextView) itemView.findViewById(R.id.date);
-        mSize = (TextView) itemView.findViewById(R.id.size);
+        mDetails = (TextView) itemView.findViewById(R.id.details);
         mIconMimeLg = (ImageView) itemView.findViewById(R.id.icon_mime_lg);
         mIconMimeSm = (ImageView) itemView.findViewById(R.id.icon_mime_sm);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
@@ -135,7 +135,6 @@ final class GridDocumentHolder extends DocumentHolder {
         final long docLastModified = getCursorLong(cursor, Document.COLUMN_LAST_MODIFIED);
         final int docIcon = getCursorInt(cursor, Document.COLUMN_ICON);
         final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-        final long docSize = getCursorLong(cursor, Document.COLUMN_SIZE);
 
         mIconHelper.stopLoading(mIconThumb);
 
@@ -155,17 +154,27 @@ final class GridDocumentHolder extends DocumentHolder {
             mTitle.setVisibility(View.VISIBLE);
         }
 
-        if (docLastModified == -1) {
+        // If file is partial, we want to show summary field as that's more relevant than fileSize
+        // and date
+        if ((docFlags & Document.FLAG_PARTIAL) != 0) {
+            final String docSummary = getCursorString(cursor, Document.COLUMN_SUMMARY);
+            mDetails.setVisibility(View.VISIBLE);
             mDate.setText(null);
+            mDetails.setText(docSummary);
         } else {
-            mDate.setText(Shared.formatTime(mContext, docLastModified));
-        }
+            if (docLastModified == -1) {
+                mDate.setText(null);
+            } else {
+                mDate.setText(Shared.formatTime(mContext, docLastModified));
+            }
 
-        if (Document.MIME_TYPE_DIR.equals(docMimeType) || docSize == -1) {
-            mSize.setVisibility(View.GONE);
-        } else {
-            mSize.setVisibility(View.VISIBLE);
-            mSize.setText(Formatter.formatFileSize(mContext, docSize));
+            final long docSize = getCursorLong(cursor, Document.COLUMN_SIZE);
+            if (Document.MIME_TYPE_DIR.equals(docMimeType) || docSize == -1) {
+                mDetails.setVisibility(View.GONE);
+            } else {
+                mDetails.setVisibility(View.VISIBLE);
+                mDetails.setText(Formatter.formatFileSize(mContext, docSize));
+            }
         }
     }
 }
