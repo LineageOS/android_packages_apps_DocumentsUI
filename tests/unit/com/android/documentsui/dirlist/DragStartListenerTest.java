@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.DragStartListener.ActiveListener;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.Selection;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 @SmallTest
 public class DragStartListenerTest extends AndroidTestCase {
 
-    private DragStartListener mListener;
+    private ActiveListener mListener;
     private TestEvent.Builder mEvent;
     private SelectionManager mMultiSelectManager;
     private String mViewModelId;
@@ -91,6 +92,11 @@ public class DragStartListenerTest extends AndroidTestCase {
                 .primary();
     }
 
+    @Override
+    protected void tearDown() throws Exception {
+        mMultiSelectManager.clearSelection();
+    }
+
     public void testDragStarted_OnMouseMove() {
         assertTrue(mListener.onMouseDragEvent(mEvent.build()));
         assertTrue(mDragStarted);
@@ -119,6 +125,51 @@ public class DragStartListenerTest extends AndroidTestCase {
 
     public void testThrows_WhenNotOnItem() {
         assertThrows(mEvent.at(-1).build());
+    }
+
+    public void testDragStart_nonSelectedItem() {
+        Selection selection = mListener.getSelectionToBeCopied("1234",
+                mEvent.action(MotionEvent.ACTION_MOVE).build());
+        assertTrue(selection.size() == 1);
+        assertTrue(selection.contains("1234"));
+    }
+
+    public void testDragStart_selectedItem() {
+        Selection selection = new Selection();
+        selection.add("1234");
+        selection.add("5678");
+        mMultiSelectManager.replaceSelection(selection);
+
+        selection = mListener.getSelectionToBeCopied("1234",
+                mEvent.action(MotionEvent.ACTION_MOVE).build());
+        assertTrue(selection.size() == 2);
+        assertTrue(selection.contains("1234"));
+        assertTrue(selection.contains("5678"));
+    }
+
+    public void testDragStart_newNonSelectedItem() {
+        Selection selection = new Selection();
+        selection.add("5678");
+        mMultiSelectManager.replaceSelection(selection);
+
+        selection = mListener.getSelectionToBeCopied("1234",
+                mEvent.action(MotionEvent.ACTION_MOVE).build());
+        assertTrue(selection.size() == 1);
+        assertTrue(selection.contains("1234"));
+        // After this, selection should be cleared
+        assertFalse(mMultiSelectManager.hasSelection());
+    }
+
+    public void testCtrlDragStart_newNonSelectedItem() {
+        Selection selection = new Selection();
+        selection.add("5678");
+        mMultiSelectManager.replaceSelection(selection);
+
+        selection = mListener.getSelectionToBeCopied("1234",
+                mEvent.action(MotionEvent.ACTION_MOVE).ctrl().build());
+        assertTrue(selection.size() == 2);
+        assertTrue(selection.contains("1234"));
+        assertTrue(selection.contains("5678"));
     }
 
     private void assertThrows(InputEvent e) {
