@@ -49,7 +49,7 @@ public final class UserInputHandler_MouseTest {
     private TestActionHandler mActionHandler;
     private SelectionProbe mSelection;
     private TestPredicate<DocumentDetails> mCanSelect;
-    private TestEventHandler<InputEvent> mRightClickHandler;
+    private TestEventHandler<InputEvent> mContextMenuClickHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
     private TestEventHandler<InputEvent> mGestureSelectHandler;
 
@@ -63,7 +63,7 @@ public final class UserInputHandler_MouseTest {
 
         mSelection = new SelectionProbe(selectionMgr);
         mCanSelect = new TestPredicate<>();
-        mRightClickHandler = new TestEventHandler<>();
+        mContextMenuClickHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
         mGestureSelectHandler = new TestEventHandler<>();
 
@@ -75,7 +75,7 @@ public final class UserInputHandler_MouseTest {
                     throw new UnsupportedOperationException("Not exercised in tests.");
                 },
                 mCanSelect,
-                mRightClickHandler::accept,
+                mContextMenuClickHandler::accept,
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept);
 
@@ -91,7 +91,13 @@ public final class UserInputHandler_MouseTest {
     @Test
     public void testRightClickDown_StartsContextMenu() {
         mInputHandler.onDown(mEvent.secondary().build());
-        mRightClickHandler.assertLastArgument(mEvent.secondary().build());
+        mContextMenuClickHandler.assertLastArgument(mEvent.secondary().build());
+    }
+
+    @Test
+    public void testAltClickDown_StartsContextMenu() {
+        mInputHandler.onDown(mEvent.primary().alt().build());
+        mContextMenuClickHandler.assertLastArgument(mEvent.primary().alt().build());
     }
 
     @Test
@@ -162,6 +168,12 @@ public final class UserInputHandler_MouseTest {
     public void testDoubleClick_Views() {
         mInputHandler.onDoubleTap(mEvent.at(11).build());
         mActionHandler.view.assertLastArgument(mEvent.build().getDocumentDetails());
+    }
+
+    @Test
+    public void testMiddleClick_DoesNothing() {
+        mInputHandler.onSingleTapConfirmed(mEvent.at(11).tertiary().build());
+        mSelection.assertNoSelection();
     }
 
     @Test
