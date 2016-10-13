@@ -40,7 +40,7 @@ import com.android.documentsui.base.DocumentInfo;
 /**
  * Display document title editor and save button.
  */
-class SaveFragment extends Fragment {
+public class SaveFragment extends Fragment {
     public static final String TAG = "SaveFragment";
 
     private DocumentInfo mReplaceTarget;
