@@ -373,6 +373,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
 
         Intent intent = Intent.createChooser(buildViewIntent(doc), null);
+        intent.putExtra(Intent.EXTRA_AUTO_LAUNCH_SINGLE_CHOICE, false);
         try {
             mActivity.startActivity(intent);
         } catch (ActivityNotFoundException e) {
