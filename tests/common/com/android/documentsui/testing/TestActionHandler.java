@@ -28,6 +28,7 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     public final TestEventHandler<DocumentDetails> open = new TestEventHandler<>();
     public final TestEventHandler<DocumentDetails> view = new TestEventHandler<>();
     public final TestEventHandler<DocumentDetails> preview = new TestEventHandler<>();
+    public boolean mDeleteHappened;
 
     public TestActionHandler() {
         this(TestEnv.create());
@@ -57,6 +58,11 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     @Override
     public boolean previewDocument(DocumentDetails doc) {
         return preview.accept(doc);
+    }
+
+    @Override
+    public void deleteSelectedDocuments() {
+        mDeleteHappened = true;
     }
 
     @Override

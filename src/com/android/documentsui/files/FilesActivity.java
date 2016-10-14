@@ -78,6 +78,7 @@ public class FilesActivity
     private DialogController mDialogs;
     private DocumentClipper mClipper;
     private ActionModeController mActionModeController;
+    private ActivityInputHandler mActivityInputHandler;
 
     public FilesActivity() {
         super(R.layout.files_activity, TAG);
@@ -120,6 +121,8 @@ public class FilesActivity
                 mConfig,
                 mClipper,
                 DocumentsApplication.getClipStore(this));
+
+        mActivityInputHandler = new ActivityInputHandler(mSelectionMgr, mActions);
 
         RootsFragment.show(getFragmentManager(), null);
 
@@ -288,16 +291,8 @@ public class FilesActivity
     @CallSuper
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_DEL && event.isAltPressed())
-                || keyCode == KeyEvent.KEYCODE_FORWARD_DEL) {
-            if (mSelectionMgr.hasSelection()) {
-                mActions.deleteSelectedDocuments();
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
+        return mActivityInputHandler.onKeyDown(keyCode, event) ? true
+                : super.onKeyDown(keyCode, event);
     }
 
     @Override
