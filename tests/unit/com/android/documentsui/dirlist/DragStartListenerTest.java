@@ -92,11 +92,6 @@ public class DragStartListenerTest extends AndroidTestCase {
                 .primary();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        mMultiSelectManager.clearSelection();
-    }
-
     public void testDragStarted_OnMouseMove() {
         assertTrue(mListener.onMouseDragEvent(mEvent.build()));
         assertTrue(mDragStarted);
