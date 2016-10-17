@@ -109,26 +109,29 @@ public class Archive implements Closeable {
 
         // Build the tree structure in memory.
         mTree = new HashMap<String, List<ZipEntry>>();
-        mTree.put("/", new ArrayList<ZipEntry>());
 
         mEntries = new HashMap<String, ZipEntry>();
         ZipEntry entry;
         final List<? extends ZipEntry> entries = Collections.list(mZipFile.entries());
         final Stack<ZipEntry> stack = new Stack<>();
+        String entryPath;
         for (int i = entries.size() - 1; i >= 0; i--) {
             entry = entries.get(i);
             if (entry.isDirectory() != entry.getName().endsWith("/")) {
                 throw new IOException(
                         "Directories must have a trailing slash, and files must not.");
             }
-            if (mEntries.containsKey(entry.getName())) {
+            entryPath = getEntryPath(entry);
+            if (mEntries.containsKey(entryPath)) {
                 throw new IOException("Multiple entries with the same name are not supported.");
             }
-            mEntries.put(entry.getName(), entry);
+            mEntries.put(entryPath, entry);
             if (entry.isDirectory()) {
-                mTree.put(entry.getName(), new ArrayList<ZipEntry>());
+                mTree.put(entryPath, new ArrayList<ZipEntry>());
             }
-            stack.push(entry);
+            if (!"/".equals(entryPath)) { // Skip root, as it doesn't have a parent.
+                stack.push(entry);
+            }
         }
 
         int delimiterIndex;
@@ -136,32 +139,48 @@ public class Archive implements Closeable {
         ZipEntry parentEntry;
         List<ZipEntry> parentList;
 
+        // Go through all directories recursively and build a tree structure.
         while (stack.size() > 0) {
             entry = stack.pop();
 
-            delimiterIndex = entry.getName().lastIndexOf('/', entry.isDirectory()
-                    ? entry.getName().length() - 2 : entry.getName().length() - 1);
-            parentPath =
-                    delimiterIndex != -1 ? entry.getName().substring(0, delimiterIndex) + "/" : "/";
+            entryPath = getEntryPath(entry);
+            delimiterIndex = entryPath.lastIndexOf('/', entry.isDirectory()
+                    ? entryPath.length() - 2 : entryPath.length() - 1);
+            parentPath = entryPath.substring(0, delimiterIndex) + "/";
+
             parentList = mTree.get(parentPath);
 
             if (parentList == null) {
-                parentEntry = mEntries.get(parentPath);
-                if (parentEntry == null) {
-                    // The ZIP file doesn't contain all directories leading to the entry.
-                    // It's rare, but can happen in a valid ZIP archive. In such case create a
-                    // fake ZipEntry and add it on top of the stack to process it next.
-                    parentEntry = new ZipEntry(parentPath);
-                    parentEntry.setSize(0);
-                    parentEntry.setTime(entry.getTime());
-                    mEntries.put(parentPath, parentEntry);
+                // The ZIP file doesn't contain all directories leading to the entry.
+                // It's rare, but can happen in a valid ZIP archive. In such case create a
+                // fake ZipEntry and add it on top of the stack to process it next.
+                parentEntry = new ZipEntry(parentPath);
+                parentEntry.setSize(0);
+                parentEntry.setTime(entry.getTime());
+                mEntries.put(parentPath, parentEntry);
+
+                if (!"/".equals(parentPath)) {
                     stack.push(parentEntry);
                 }
+
                 parentList = new ArrayList<ZipEntry>();
                 mTree.put(parentPath, parentList);
             }
 
             parentList.add(entry);
+        }
+    }
+
+    /**
+     * Returns a valid, normalized path for an entry.
+     */
+    public static String getEntryPath(ZipEntry entry) {
+        Preconditions.checkArgument(entry.isDirectory() == entry.getName().endsWith("/"),
+                "Ill-formated ZIP-file.");
+        if (entry.getName().startsWith("/")) {
+            return entry.getName();
+        } else {
+            return "/" + entry.getName();
         }
     }
 
@@ -296,25 +315,18 @@ public class Archive implements Closeable {
             return false;
         }
 
-        // TODO: Include the fake '/' entry in mEntries, and remove this check.
-        // Fake entries are for directories which do not have entries in the ZIP
-        // archive, but are reachable. Eg. /a, /a/b and /a/b/c for a single-entry
-        // archive containing /a/b/c/file.txt.
-        if (parsedParentId.mPath.equals("/")) {
-            return true;
-        }
-
         final ZipEntry parentEntry = mEntries.get(parsedParentId.mPath);
         if (parentEntry == null || !parentEntry.isDirectory()) {
             return false;
         }
 
-        final String parentPath = entry.getName();
-
         // Add a trailing slash even if it's not a directory, so it's easy to check if the
         // entry is a descendant.
-        final String pathWithSlash = entry.isDirectory() ? entry.getName() : entry.getName() + "/";
-        return pathWithSlash.startsWith(parentPath) && !parentPath.equals(pathWithSlash);
+        String pathWithSlash = entry.isDirectory() ? getEntryPath(entry)
+                : getEntryPath(entry) + "/";
+
+        return pathWithSlash.startsWith(parsedParentId.mPath) &&
+                !parsedParentId.mPath.equals(pathWithSlash);
     }
 
     /**
@@ -489,7 +501,7 @@ public class Archive implements Closeable {
 
     private void addCursorRow(MatrixCursor cursor, ZipEntry entry) {
         final MatrixCursor.RowBuilder row = cursor.newRow();
-        final ArchiveId parsedId = new ArchiveId(mArchiveUri, entry.getName());
+        final ArchiveId parsedId = new ArchiveId(mArchiveUri, getEntryPath(entry));
         row.add(Document.COLUMN_DOCUMENT_ID, parsedId.toDocumentId());
 
         final File file = new File(entry.getName());
