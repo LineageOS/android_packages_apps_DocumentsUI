@@ -157,7 +157,7 @@ public class ArchiveTest extends AndroidTestCase {
                 new ArchiveId(ARCHIVE_URI, "/").toDocumentId(), null, null);
 
         assertTrue(cursor.moveToFirst());
-        assertEquals(new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId(),
+        assertEquals(new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId(),
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
         assertEquals("dir1",
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)));
@@ -168,7 +168,7 @@ public class ArchiveTest extends AndroidTestCase {
 
         assertTrue(cursor.moveToNext());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir2/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir2/").toDocumentId(),
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
         assertEquals("dir2",
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)));
@@ -179,7 +179,7 @@ public class ArchiveTest extends AndroidTestCase {
 
         assertTrue(cursor.moveToNext());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "file1.txt").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/file1.txt").toDocumentId(),
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
         assertEquals("file1.txt",
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)));
@@ -192,11 +192,11 @@ public class ArchiveTest extends AndroidTestCase {
 
         // Check if querying children works too.
         final Cursor childCursor = mArchive.queryChildDocuments(
-                new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId(), null, null);
+                new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId(), null, null);
 
         assertTrue(childCursor.moveToFirst());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir1/cherries.txt").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/cherries.txt").toDocumentId(),
                 childCursor.getString(childCursor.getColumnIndexOrThrow(
                         Document.COLUMN_DOCUMENT_ID)));
         assertEquals("cherries.txt",
@@ -216,7 +216,7 @@ public class ArchiveTest extends AndroidTestCase {
 
         assertTrue(cursor.moveToFirst());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId(),
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
         assertEquals("dir1",
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)));
@@ -227,11 +227,11 @@ public class ArchiveTest extends AndroidTestCase {
         assertFalse(cursor.moveToNext());
 
         final Cursor childCursor = mArchive.queryChildDocuments(
-                new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId(), null, null);
+                new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId(), null, null);
 
         assertTrue(childCursor.moveToFirst());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir1/dir2/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/dir2/").toDocumentId(),
                 childCursor.getString(childCursor.getColumnIndexOrThrow(
                         Document.COLUMN_DOCUMENT_ID)));
         assertEquals("dir2",
@@ -245,12 +245,12 @@ public class ArchiveTest extends AndroidTestCase {
         assertFalse(childCursor.moveToNext());
 
         final Cursor childCursor2 = mArchive.queryChildDocuments(
-                new ArchiveId(ARCHIVE_URI, "dir1/dir2/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/dir2/").toDocumentId(),
                 null, null);
 
         assertTrue(childCursor2.moveToFirst());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir1/dir2/cherries.txt").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/dir2/cherries.txt").toDocumentId(),
                 childCursor2.getString(childCursor.getColumnIndexOrThrow(
                         Document.COLUMN_DOCUMENT_ID)));
         assertFalse(childCursor2.moveToNext());
@@ -263,7 +263,7 @@ public class ArchiveTest extends AndroidTestCase {
 
         assertTrue(cursor.moveToFirst());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId(),
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
         assertEquals("dir1",
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)));
@@ -274,11 +274,11 @@ public class ArchiveTest extends AndroidTestCase {
         assertFalse(cursor.moveToNext());
 
         final Cursor childCursor = mArchive.queryChildDocuments(
-                new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId(), null, null);
+                new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId(), null, null);
 
         assertTrue(childCursor.moveToFirst());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir1/dir2/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/dir2/").toDocumentId(),
                 childCursor.getString(childCursor.getColumnIndexOrThrow(
                         Document.COLUMN_DOCUMENT_ID)));
         assertEquals("dir2",
@@ -292,7 +292,7 @@ public class ArchiveTest extends AndroidTestCase {
 
         assertTrue(childCursor.moveToNext());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir1/dir3/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/dir3/").toDocumentId(),
                 childCursor.getString(childCursor.getColumnIndexOrThrow(
                         Document.COLUMN_DOCUMENT_ID)));
         assertEquals("dir3",
@@ -306,12 +306,12 @@ public class ArchiveTest extends AndroidTestCase {
         assertFalse(cursor.moveToNext());
 
         final Cursor childCursor2 = mArchive.queryChildDocuments(
-                new ArchiveId(ARCHIVE_URI, "dir1/dir2/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/dir2/").toDocumentId(),
                 null, null);
         assertFalse(childCursor2.moveToFirst());
 
         final Cursor childCursor3 = mArchive.queryChildDocuments(
-                new ArchiveId(ARCHIVE_URI, "dir1/dir3/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/dir3/").toDocumentId(),
                 null, null);
         assertFalse(childCursor3.moveToFirst());
     }
@@ -319,34 +319,34 @@ public class ArchiveTest extends AndroidTestCase {
     public void testGetDocumentType() throws IOException {
         loadArchive(getNonSeekableDescriptor(R.raw.archive));
         assertEquals(Document.MIME_TYPE_DIR, mArchive.getDocumentType(
-                new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId()));
+                new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId()));
         assertEquals("text/plain", mArchive.getDocumentType(
-                new ArchiveId(ARCHIVE_URI, "file1.txt").toDocumentId()));
+                new ArchiveId(ARCHIVE_URI, "/file1.txt").toDocumentId()));
     }
 
     public void testIsChildDocument() throws IOException {
         loadArchive(getNonSeekableDescriptor(R.raw.archive));
         final String documentId = new ArchiveId(ARCHIVE_URI, "/").toDocumentId();
         assertTrue(mArchive.isChildDocument(documentId,
-                new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId()));
+                new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId()));
         assertFalse(mArchive.isChildDocument(documentId,
-                new ArchiveId(ARCHIVE_URI, "this-does-not-exist").toDocumentId()));
+                new ArchiveId(ARCHIVE_URI, "/this-does-not-exist").toDocumentId()));
         assertTrue(mArchive.isChildDocument(
-                new ArchiveId(ARCHIVE_URI, "dir1/").toDocumentId(),
-                new ArchiveId(ARCHIVE_URI, "dir1/cherries.txt").toDocumentId()));
+                new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir1/cherries.txt").toDocumentId()));
         assertTrue(mArchive.isChildDocument(documentId,
-                new ArchiveId(ARCHIVE_URI, "dir1/cherries.txt").toDocumentId()));
+                new ArchiveId(ARCHIVE_URI, "/dir1/cherries.txt").toDocumentId()));
     }
 
     public void testQueryDocument() throws IOException {
         loadArchive(getNonSeekableDescriptor(R.raw.archive));
         final Cursor cursor = mArchive.queryDocument(
-                new ArchiveId(ARCHIVE_URI, "dir2/strawberries.txt").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir2/strawberries.txt").toDocumentId(),
                 null);
 
         assertTrue(cursor.moveToFirst());
         assertEquals(
-                new ArchiveId(ARCHIVE_URI, "dir2/strawberries.txt").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir2/strawberries.txt").toDocumentId(),
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
         assertEquals("strawberries.txt",
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)));
@@ -369,7 +369,7 @@ public class ArchiveTest extends AndroidTestCase {
     // Common part of testOpenDocument and testOpenDocument_NonSeekable.
     void commonTestOpenDocument() throws IOException {
         final ParcelFileDescriptor descriptor = mArchive.openDocument(
-                new ArchiveId(ARCHIVE_URI, "dir2/strawberries.txt").toDocumentId(),
+                new ArchiveId(ARCHIVE_URI, "/dir2/strawberries.txt").toDocumentId(),
                 "r", null /* signal */);
         try (final ParcelFileDescriptor.AutoCloseInputStream inputStream =
                 new ParcelFileDescriptor.AutoCloseInputStream(descriptor)) {
