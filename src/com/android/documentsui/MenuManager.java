@@ -296,9 +296,9 @@ public abstract class MenuManager {
     }
 
     public static class DirectoryDetails {
-        private final BaseActivity mActivity;
+        private final BaseActivity<?> mActivity;
 
-        public DirectoryDetails(BaseActivity activity) {
+        public DirectoryDetails(BaseActivity<?> activity) {
             mActivity = activity;
         }
 

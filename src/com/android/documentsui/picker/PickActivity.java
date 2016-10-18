@@ -56,6 +56,7 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.ScopedPreferences;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
@@ -75,10 +76,13 @@ import java.util.List;
 public class PickActivity
         extends BaseActivity<ActionHandler<PickActivity>> implements ActionHandler.Addons {
 
-    private static final int CODE_FORWARD = 42;
     private static final String TAG = "PickActivity";
+    private static final String PREFERENCES_SCOPE = "picker";
+    private static final int CODE_FORWARD = 42;
+
     private final Config mConfig = new Config();
 
+    private ScopedPreferences mPrefs;
     private SelectionManager mSelectionMgr;
     private MenuManager mMenuManager;
     private ActionModeController mActionModeController;
@@ -89,6 +93,11 @@ public class PickActivity
 
     @Override
     public void onCreate(Bundle icicle) {
+
+        // must be initialized before calling super.onCreate because prefs
+        // are used in State initialization.
+        mPrefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
+
         super.onCreate(icicle);
 
         mSelectionMgr = new SelectionManager(
@@ -414,6 +423,11 @@ public class PickActivity
     @Override
     public ActivityConfig getActivityConfig() {
         return mConfig;
+    }
+
+    @Override
+    public ScopedPreferences getScopedPreferences() {
+        return mPrefs;
     }
 
     public SelectionManager getSelectionManager(

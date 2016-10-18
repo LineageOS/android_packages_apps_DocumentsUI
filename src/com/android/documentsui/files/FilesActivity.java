@@ -48,6 +48,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.ScopedPreferences;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.DocumentClipper;
@@ -71,9 +72,12 @@ import java.util.List;
 public class FilesActivity
         extends BaseActivity<ActionHandler<FilesActivity>> implements ActionHandler.Addons {
 
-    public static final String TAG = "FilesActivity";
+    private static final String TAG = "FilesActivity";
+    private static final String PREFERENCES_SCOPE = "files";
 
     private final Config mConfig = new Config();
+
+    private ScopedPreferences mPrefs;
     private SelectionManager mSelectionMgr;
     private MenuManager mMenuManager;
     private DialogController mDialogs;
@@ -88,6 +92,11 @@ public class FilesActivity
 
     @Override
     public void onCreate(Bundle icicle) {
+
+        // must be initialized before calling super.onCreate because prefs
+        // are used in State initialization.
+        mPrefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
+
         super.onCreate(icicle);
 
         mClipper = DocumentsApplication.getDocumentClipper(this);
@@ -365,6 +374,11 @@ public class FilesActivity
     @Override
     public ActivityConfig getActivityConfig() {
         return mConfig;
+    }
+
+    @Override
+    public ScopedPreferences getScopedPreferences() {
+        return mPrefs;
     }
 
     @Override

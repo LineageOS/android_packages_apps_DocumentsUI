@@ -25,7 +25,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
 import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.DocumentInfo;

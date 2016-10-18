@@ -18,11 +18,6 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
-import static com.android.documentsui.base.State.ACTION_CREATE;
-import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
-import static com.android.documentsui.base.State.ACTION_OPEN;
-import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
-import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 import static com.android.documentsui.base.State.MODE_GRID;
 
 import android.app.Activity;
@@ -58,6 +53,7 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.LocalPreferences;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.ScopedPreferences;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
@@ -106,10 +102,15 @@ public abstract class BaseActivity<T extends ActionHandler>
     @LayoutRes
     private int mLayoutId;
 
-    private RootsMonitor<BaseActivity> mRootsMonitor;
+    private RootsMonitor<BaseActivity<?>> mRootsMonitor;
 
     private boolean mNavDrawerHasFocus;
     private long mStartTime;
+
+    public BaseActivity(@LayoutRes int layoutId, String tag) {
+        mLayoutId = layoutId;
+        mTag = tag;
+    }
 
     protected abstract void onTaskFinished(Uri... uris);
     protected abstract void refreshDirectory(int anim);
@@ -122,6 +123,12 @@ public abstract class BaseActivity<T extends ActionHandler>
      * DirectoryFragment.
      */
     public abstract ActivityConfig getActivityConfig();
+
+    /**
+     * Provides Activity a means of injection into and specialization of
+     * DirectoryFragment.
+     */
+    public abstract ScopedPreferences getScopedPreferences();
 
     /**
      * Provides Activity a means of injection into and specialization of
@@ -165,11 +172,6 @@ public abstract class BaseActivity<T extends ActionHandler>
     public final MessageBuilder getMessages() {
         assert(mMessages != null);
         return mMessages;
-    }
-
-    public BaseActivity(@LayoutRes int layoutId, String tag) {
-        mLayoutId = layoutId;
-        mTag = tag;
     }
 
     @CallSuper
@@ -296,19 +298,11 @@ public abstract class BaseActivity<T extends ActionHandler>
 
         includeState(state);
 
-        // Advanced roots are shown by default without menu option if forced by config or intent.
-        boolean forceAdvanced = Shared.shouldShowDeviceRoot(this, intent);
-        boolean chosenAdvanced = LocalPreferences.getShowDeviceRoot(this, state.action);
-        state.showAdvanced = forceAdvanced || chosenAdvanced;
+        state.showAdvanced =
+                Shared.mustShowDeviceRoot(intent) || getScopedPreferences().getShowDeviceRoot();
 
-        // Menu option is shown for whitelisted intents if advanced roots are not shown by default.
-        state.showAdvancedOption = !forceAdvanced && (
-                Shared.shouldShowFancyFeatures(this)
-                || state.action == ACTION_OPEN
-                || state.action == ACTION_CREATE
-                || state.action == ACTION_OPEN_TREE
-                || state.action == ACTION_PICK_COPY_DESTINATION
-                || state.action == ACTION_GET_CONTENT);
+        // Only show the toggle if advanced isn't forced enabled.
+        state.showAdvancedOption = !Shared.mustShowDeviceRoot(intent);
 
         if (DEBUG) Log.d(mTag, "Created new state object: " + state);
 
@@ -477,8 +471,8 @@ public abstract class BaseActivity<T extends ActionHandler>
         return (root.flags & Root.FLAG_SUPPORTS_SEARCH) != 0;
     }
 
-    public static BaseActivity get(Fragment fragment) {
-        return (BaseActivity) fragment.getActivity();
+    public static BaseActivity<?> get(Fragment fragment) {
+        return (BaseActivity<?>) fragment.getActivity();
     }
 
     public State getDisplayState() {
@@ -497,7 +491,7 @@ public abstract class BaseActivity<T extends ActionHandler>
         Metrics.logUserAction(this,
                 display ? Metrics.USER_ACTION_SHOW_ADVANCED : Metrics.USER_ACTION_HIDE_ADVANCED);
 
-        LocalPreferences.setShowDeviceRoot(this, mState.action, display);
+        getScopedPreferences().setShowDeviceRoot(display);
         mState.showAdvanced = display;
         RootsFragment.get(getFragmentManager()).onDisplayStateChanged();
         invalidateOptionsMenu();
