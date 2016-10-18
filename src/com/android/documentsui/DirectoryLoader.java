@@ -33,6 +33,7 @@ import android.util.Log;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
 
@@ -101,8 +102,8 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
             cursor = new RootCursorWrapper(mUri.getAuthority(), mRoot.rootId, cursor, -1);
 
-            if (mSearchMode) {
-                // Filter directories out of search results, for now
+            if (mSearchMode && !Shared.ENABLE_OMC_API_FEATURES) {
+                // There is no findPath API. Enable filtering on folders in search mode.
                 cursor = new FilteringCursorWrapper(cursor, null, SEARCH_REJECT_MIMES);
             }
 

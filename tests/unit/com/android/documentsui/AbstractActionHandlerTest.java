@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
 import android.os.Parcelable;
+import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -30,10 +31,13 @@ import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestEnv;
+import com.android.documentsui.testing.TestRootsAccess;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Arrays;
 
 /**
  * A unit test *for* AbstractActionHandler, not an abstract test baseclass.
@@ -55,6 +59,7 @@ public class AbstractActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
+                mEnv.providers,
                 mEnv.selectionMgr,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor) {
@@ -85,5 +90,44 @@ public class AbstractActionHandlerTest {
         expected.putExtra(Shared.EXTRA_STACK, (Parcelable) path);
         Intent actual = mActivity.startActivity.getLastValue();
         assertEquals(expected.toString(), actual.toString());
+    }
+
+    @Test
+    public void testOpensContainerDocuments_jumpToNewLocation() throws Exception {
+        mEnv.populateStack();
+
+        mEnv.searchViewManager.isSearching = true;
+        mEnv.providers.nextPath = new Path(
+                TestRootsAccess.HOME.rootId,
+                Arrays.asList(TestEnv.FOLDER_1.documentId, TestEnv.FOLDER_2.documentId));
+        mEnv.docs.nextDocuments = Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2);
+
+        mEnv.state.pushDocument(TestEnv.FOLDER_0);
+
+        mHandler.openContainerDocument(TestEnv.FOLDER_2);
+
+        mEnv.beforeAsserts();
+
+        assertEquals(mEnv.providers.nextPath.getPath().size(), mEnv.state.stack.size());
+        assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.peek());
+    }
+
+
+    @Test
+    public void testOpensContainerDocuments_pushToRootDoc_NoFindPathSupport() throws Exception {
+        mEnv.populateStack();
+
+        mEnv.searchViewManager.isSearching = true;
+        mEnv.docs.nextDocuments = Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2);
+
+        mEnv.state.pushDocument(TestEnv.FOLDER_0);
+
+        mHandler.openContainerDocument(TestEnv.FOLDER_2);
+
+        mEnv.beforeAsserts();
+
+        assertEquals(2, mEnv.state.stack.size());
+        assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.pop());
+        assertEquals(TestEnv.FOLDER_0, mEnv.state.stack.pop());
     }
 }

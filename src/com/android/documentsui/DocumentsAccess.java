@@ -17,8 +17,11 @@
 package com.android.documentsui;
 
 import android.annotation.Nullable;
+import android.content.ContentProviderClient;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
@@ -27,6 +30,8 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides synchronous access to {@link DocumentInfo} instances given some identifying information.
@@ -34,9 +39,10 @@ import java.io.FileNotFoundException;
 public interface DocumentsAccess {
 
     @Nullable DocumentInfo getRootDocument(RootInfo root);
-    @Nullable DocumentInfo getRootDocument(Uri uri);
     @Nullable DocumentInfo getDocument(Uri uri);
     @Nullable DocumentInfo getArchiveDocument(Uri uri);
+
+    @Nullable List<DocumentInfo> getDocuments(String authority, List<String> docIds);
 
     public static DocumentsAccess create(Context context) {
         return new RuntimeDocumentAccess(context);
@@ -54,22 +60,12 @@ public interface DocumentsAccess {
 
         @Override
         public @Nullable DocumentInfo getRootDocument(RootInfo root) {
-            return getRootDocument(
+            return getDocument(
                     DocumentsContract.buildDocumentUri(root.authority, root.documentId));
         }
 
         @Override
-        public @Nullable DocumentInfo getRootDocument(Uri uri) {
-            try {
-                return DocumentInfo.fromUri(mContext.getContentResolver(), uri);
-            } catch (FileNotFoundException e) {
-                Log.w(TAG, "Failed to find root", e);
-                return null;
-            }
-        }
-
-        @Override
-        public DocumentInfo getDocument(Uri uri) {
+        public @Nullable DocumentInfo getDocument(Uri uri) {
             try {
                 return DocumentInfo.fromUri(mContext.getContentResolver(), uri);
             } catch (FileNotFoundException e) {
@@ -77,6 +73,34 @@ public interface DocumentsAccess {
             }
 
             return null;
+        }
+
+        @Override
+        public @Nullable List<DocumentInfo> getDocuments(String authority, List<String> docIds) {
+            try(final ContentProviderClient client = DocumentsApplication
+                    .acquireUnstableProviderOrThrow(mContext.getContentResolver(), authority)) {
+
+                List<DocumentInfo> result = new ArrayList<>(docIds.size());
+                for (String docId : docIds) {
+                    final Uri uri = DocumentsContract.buildDocumentUri(authority, docId);
+                    try (final Cursor cursor = client.query(uri, null, null, null, null)) {
+                        if (!cursor.moveToNext()) {
+                            Log.e(TAG, "Couldn't create DocumentInfo for Uri: " + uri);
+                            return null;
+                        }
+
+                        result.add(DocumentInfo.fromCursor(cursor, authority));
+                    } catch (Exception e) {
+                        Log.e(TAG, "Couldn't create DocumentInfo for Uri: " + uri);
+                        return null;
+                    }
+                }
+
+                return result;
+            } catch (RemoteException e) {
+                Log.w(TAG, "Couldn't get a content provider client." ,e);
+                return null;
+            }
         }
 
         @Override

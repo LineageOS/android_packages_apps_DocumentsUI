@@ -26,8 +26,10 @@ import com.android.documentsui.SearchViewManager;
  */
 public class TestSearchViewManager extends SearchViewManager {
 
-    boolean updateMenuCalled;
-    boolean showMenuCalled;
+    public boolean isSearching;
+
+    private boolean mUpdateMenuCalled;
+    private boolean mShowMenuCalled;
 
     public TestSearchViewManager() {
         super(
@@ -43,20 +45,25 @@ public class TestSearchViewManager extends SearchViewManager {
     }
 
     @Override
+    public boolean isSearching() {
+        return isSearching;
+    }
+
+    @Override
     public void showMenu(boolean visible) {
-        showMenuCalled = true;
+        mShowMenuCalled = true;
     }
 
     @Override
     public void updateMenu() {
-        updateMenuCalled = true;
+        mUpdateMenuCalled = true;
     }
 
     public boolean showMenuCalled() {
-        return showMenuCalled;
+        return mShowMenuCalled;
     }
 
     public boolean updateMenuCalled() {
-        return updateMenuCalled;
+        return mUpdateMenuCalled;
     }
 }
