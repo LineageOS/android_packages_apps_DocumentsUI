@@ -48,6 +48,7 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
 import com.android.documentsui.files.ActionHandler.Addons;
@@ -87,6 +88,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            FocusHandler focusHandler,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
@@ -96,7 +98,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             DocumentClipper clipper,
             ClipStore clipStore) {
 
-        super(activity, state, roots, docs, selectionMgr, searchMgr, executors);
+        super(activity, state, roots, docs, focusHandler, selectionMgr, searchMgr, executors);
 
         mActionModeAddons = actionModeAddons;
         mDialogs = dialogs;
@@ -190,14 +192,57 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         return previewDocument(doc);
     }
 
+    private Selection getSelectedOrFocused() {
+        final Selection selection = this.getStableSelection();
+        if (selection.isEmpty()) {
+            String focusModelId = mFocusHandler.getFocusModelId();
+            if (focusModelId != null) {
+                selection.add(focusModelId);
+            }
+        }
+
+        return selection;
+    }
+
+    @Override
+    public void cutToClipboard() {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_CUT_CLIPBOARD);
+        Selection selection = getSelectedOrFocused();
+
+        if (selection.isEmpty()) {
+            return;
+        }
+        mSelectionMgr.clearSelection();
+
+        mClipper.clipDocumentsForCut(mScope.model::getItemUri, selection, mState.stack.peek());
+
+        mDialogs.showDocumentsClipped(selection.size());
+    }
+
+    @Override
+    public void copyToClipboard() {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_COPY_CLIPBOARD);
+        Selection selection = getSelectedOrFocused();
+
+        if (selection.isEmpty()) {
+            return;
+        }
+        mSelectionMgr.clearSelection();
+
+        mClipper.clipDocumentsForCopy(mScope.model::getItemUri, selection);
+
+        mDialogs.showDocumentsClipped(selection.size());
+    }
+
+
     @Override
     public void deleteSelectedDocuments() {
-        assert(mSelectionMgr.hasSelection());
-
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_DELETE);
+        Selection selection = getSelectedOrFocused();
 
-        Selection selection = getStableSelection();
-        assert(!selection.isEmpty());
+        if (selection.isEmpty()) {
+            return;
+        }
 
         final DocumentInfo srcParent = mState.stack.peek();
         assert(srcParent != null);

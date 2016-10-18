@@ -146,6 +146,16 @@ public final class FocusManager implements FocusHandler {
         return mScope.lastFocusPosition;
     }
 
+    @Override
+    public @Nullable String getFocusModelId() {
+        if (mScope.lastFocusPosition != RecyclerView.NO_POSITION) {
+            DocumentHolder holder = (DocumentHolder) mScope.view
+                    .findViewHolderForAdapterPosition(mScope.lastFocusPosition);
+            return holder.getModelId();
+        }
+        return null;
+    }
+
     /**
      * Finds the destination position where the focus should land for a given navigation event.
      *

@@ -110,6 +110,7 @@ public class PickActivity
                 mState,
                 mRoots,
                 mDocs,
+                mFocusManager,
                 mSelectionMgr,
                 mSearchManager,
                 ProviderExecutor::forAuthority,

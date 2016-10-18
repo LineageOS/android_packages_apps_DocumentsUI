@@ -56,6 +56,7 @@ import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.services.FileOperationService;
@@ -124,6 +125,7 @@ public class FilesActivity
                 mState,
                 mRoots,
                 mDocs,
+                mFocusManager,
                 mSelectionMgr,
                 mSearchManager,
                 ProviderExecutor::forAuthority,
@@ -133,7 +135,7 @@ public class FilesActivity
                 mClipper,
                 DocumentsApplication.getClipStore(this));
 
-        mActivityInputHandler = new ActivityInputHandler(mSelectionMgr, mActions);
+        mActivityInputHandler = new ActivityInputHandler(mActions::deleteSelectedDocuments);
 
         RootsFragment.show(getFragmentManager(), null);
 
@@ -324,16 +326,10 @@ public class FilesActivity
                 }
                 return true;
             case KeyEvent.KEYCODE_X:
-                dir = getDirectoryFragment();
-                if (dir != null) {
-                    dir.cutSelectedToClipboard();
-                }
+                mActions.cutToClipboard();
                 return true;
             case KeyEvent.KEYCODE_C:
-                dir = getDirectoryFragment();
-                if (dir != null) {
-                    dir.copySelectedToClipboard();
-                }
+                mActions.copyToClipboard();
                 return true;
             case KeyEvent.KEYCODE_V:
                 dir = getDirectoryFragment();

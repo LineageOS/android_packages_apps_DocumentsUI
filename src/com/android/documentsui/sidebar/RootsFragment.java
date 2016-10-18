@@ -357,8 +357,8 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     /**
      * Attempts to shift focus back to the navigation drawer.
      */
-    public void requestFocus() {
-        mList.requestFocus();
+    public boolean requestFocus() {
+        return mList.requestFocus();
     }
 
     private BaseActivity<?> getBaseActivity() {

@@ -65,6 +65,13 @@ public interface ActionHandler {
 
     void openContainerDocument(DocumentInfo doc);
 
+    void cutToClipboard();
+
+    void copyToClipboard();
+
+    /**
+     * In general, selected = selection or single focused item
+     */
     void deleteSelectedDocuments();
 
     void shareSelectedDocuments();

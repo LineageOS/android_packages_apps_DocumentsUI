@@ -18,31 +18,22 @@ package com.android.documentsui.files;
 
 import android.view.KeyEvent;
 
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.ActionHandler;
-
 /**
  * Used by {@link FilesActivity} to manage global keyboard shortcuts tied to file actions
  */
 final class ActivityInputHandler {
 
-    private final SelectionManager mSelectionMgr;
-    private final ActionHandler mActions;
+    private final Runnable mDeleteHandler;
 
-    ActivityInputHandler(SelectionManager selectionMgr, ActionHandler actionHandler) {
-        mSelectionMgr = selectionMgr;
-        mActions = actionHandler;
+    ActivityInputHandler(Runnable deleteHandler) {
+        mDeleteHandler = deleteHandler;
     }
 
     boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((keyCode == KeyEvent.KEYCODE_DEL && event.isAltPressed())
                 || keyCode == KeyEvent.KEYCODE_FORWARD_DEL) {
-            if (mSelectionMgr.hasSelection()) {
-                mActions.deleteSelectedDocuments();
-                return true;
-            } else {
-                return false;
-            }
+            mDeleteHandler.run();
+            return true;
         }
         return false;
     }

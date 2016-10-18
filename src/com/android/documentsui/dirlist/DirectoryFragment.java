@@ -581,11 +581,11 @@ public class DirectoryFragment extends Fragment
                 return true;
 
             case R.id.menu_cut_to_clipboard:
-                cutSelectedToClipboard();
+                mActions.cutToClipboard();
                 return true;
 
             case R.id.menu_copy_to_clipboard:
-                copySelectedToClipboard();
+                mActions.copyToClipboard();
                 return true;
 
             case R.id.menu_paste_from_clipboard:
@@ -786,34 +786,6 @@ public class DirectoryFragment extends Fragment
         mRecView.requestFocus();
     }
 
-    public void copySelectedToClipboard() {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COPY_CLIPBOARD);
-
-        Selection selection = mSelectionMgr.getSelection(new Selection());
-        if (selection.isEmpty()) {
-            return;
-        }
-        mSelectionMgr.clearSelection();
-
-        mClipper.clipDocumentsForCopy(mModel::getItemUri, selection);
-
-        Snackbars.showDocumentsClipped(getActivity(), selection.size());
-    }
-
-    public void cutSelectedToClipboard() {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_CUT_CLIPBOARD);
-
-        Selection selection = mSelectionMgr.getSelection(new Selection());
-        if (selection.isEmpty()) {
-            return;
-        }
-        mSelectionMgr.clearSelection();
-
-        mClipper.clipDocumentsForCut(mModel::getItemUri, selection, mState.stack.peek());
-
-        Snackbars.showDocumentsClipped(getActivity(), selection.size());
-    }
-
     public void pasteFromClipboard() {
         Metrics.logUserAction(getContext(), Metrics.USER_ACTION_PASTE_CLIPBOARD);
 
@@ -868,8 +840,12 @@ public class DirectoryFragment extends Fragment
     /**
      * Attempts to restore focus on the directory listing.
      */
-    public void requestFocus() {
+    public boolean requestFocus() {
+        if (mSelectionMgr.hasSelection()) {
+            return false;
+        }
         mFocusManager.restoreLastFocus();
+        return true;
     }
 
     private void setupDragAndDropOnDocumentView(View view, Cursor cursor) {
