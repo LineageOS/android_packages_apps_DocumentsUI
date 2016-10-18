@@ -37,6 +37,7 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
+import com.android.documentsui.ProviderAccess;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -66,12 +67,13 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            ProviderAccess providers,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
             ActivityConfig activityConfig) {
 
-        super(activity, state, roots, docs, selectionMgr, searchMgr, executors);
+        super(activity, state, roots, docs, providers, selectionMgr, searchMgr, executors);
 
         mConfig = activityConfig;
         mScope = new ContentScope(this::onModelLoaded);
@@ -94,11 +96,34 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             if (Shared.ACTION_PICK_COPY_DESTINATION.equals(intent.getAction())) {
                 if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
                 loadHomeDir();
+            } else if (intent.getData() != null) {
+                Uri uri = intent.getData();
+                loadDocument(
+                        uri,
+                        (@Nullable DocumentStack stack) -> onStackLoaded(uri, stack));
             } else {
-                if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
-                new LoadLastAccessedStackTask<>(mActivity, mState, mRoots).execute();
+                loadLastAccessedStack();
             }
         }
+    }
+
+    private void onStackLoaded(Uri uri, @Nullable DocumentStack stack) {
+        if (stack != null) {
+            if (!stack.peek().isContainer()) {
+                // Requested document is not a container. Pop it so that we can launch into its
+                // parent.
+                stack.pop();
+            }
+            mState.setStack(stack);
+        } else {
+            Log.w(TAG, "Failed to launch into the given uri: " + uri);
+            loadLastAccessedStack();
+        }
+    }
+
+    private void loadLastAccessedStack() {
+        if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
+        new LoadLastAccessedStackTask<>(mActivity, mState, mRoots).execute();
     }
 
     @Override

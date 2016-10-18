@@ -101,6 +101,7 @@ public class PickActivity
                 mState,
                 mRoots,
                 mDocs,
+                DocumentsApplication.getProviderAccess(this),
                 mSelectionMgr,
                 mSearchManager,
                 ProviderExecutor::forAuthority,

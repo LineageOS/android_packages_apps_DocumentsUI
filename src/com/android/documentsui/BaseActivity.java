@@ -415,6 +415,12 @@ public abstract class BaseActivity<T extends ActionHandler>
                 && !root.isDownloads();
     }
 
+    // TODO: make navigator listen to state
+    @Override
+    public final void updateNavigator() {
+        mNavigator.update();
+    }
+
     /**
      * Refreshes the content of the director and the menu/action bar.
      * The current directory name and selection will get updated.

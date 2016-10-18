@@ -22,9 +22,12 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
+import com.android.documentsui.LoadDocStackTask.LoadDocStackCallback;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -36,7 +39,6 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.LauncherActivity;
-import com.android.documentsui.files.OpenUriForViewTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.selection.Selection;
@@ -44,6 +46,7 @@ import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.sidebar.EjectRootTask;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 /**
@@ -52,10 +55,13 @@ import java.util.concurrent.Executor;
 public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         implements ActionHandler {
 
+    private static final String TAG = "AbstractActionHandler";
+
     protected final T mActivity;
     protected final State mState;
     protected final RootsAccess mRoots;
     protected final DocumentsAccess mDocs;
+    protected final ProviderAccess mProviders;
     protected final SelectionManager mSelectionMgr;
     protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
@@ -65,6 +71,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            ProviderAccess providers,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors) {
@@ -72,13 +79,16 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         assert(activity != null);
         assert(state != null);
         assert(roots != null);
+        assert(providers != null);
         assert(selectionMgr != null);
+        assert(searchMgr != null);
         assert(docs != null);
 
         mActivity = activity;
         mState = state;
         mRoots = roots;
         mDocs = docs;
+        mProviders = providers;
         mSelectionMgr = selectionMgr;
         mSearchMgr = searchMgr;
         mExecutors = executors;
@@ -158,6 +168,50 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     @Override
     public void openContainerDocument(DocumentInfo doc) {
         assert(doc.isContainer());
+
+        if (mSearchMgr.isSearching()) {
+            loadDocument(
+                    doc.derivedUri,
+                    (@Nullable DocumentStack stack) -> openFolderInSearchResult(stack, doc));
+        } else {
+            openChildContainer(doc);
+        }
+    }
+
+    private void openFolderInSearchResult(@Nullable DocumentStack stack, DocumentInfo doc) {
+        if (stack == null) {
+            mState.popDocumentsToRoot();
+
+            // Update navigator to give horizontal breadcrumb a chance to update documents. It
+            // doesn't update its content if the size of document stack doesn't change.
+            // TODO: update breadcrumb to take range update.
+            mActivity.updateNavigator();
+
+            mState.pushDocument(doc);
+        } else {
+            if (!Objects.equals(mState.stack.root, stack.root)) {
+                Log.w(TAG, "Provider returns " + stack.root + " rather than expected "
+                        + mState.stack.root);
+            }
+
+            mState.stack.clear();
+            // Update navigator to give horizontal breadcrumb a chance to update documents. It
+            // doesn't update its content if the size of document stack doesn't change.
+            // TODO: update breadcrumb to take range update.
+            mActivity.updateNavigator();
+
+            mState.setStack(stack);
+        }
+
+        // Show an opening animation only if pressing "back" would get us back to the
+        // previous directory. Especially after opening a root document, pressing
+        // back, wouldn't go to the previous root, but close the activity.
+        final int anim = (mState.hasLocationChanged() && mState.stack.size() > 1)
+                ? AnimationView.ANIM_ENTER : AnimationView.ANIM_NONE;
+        mActivity.refreshCurrentRootAndDirectory(anim);
+    }
+
+    private void openChildContainer(DocumentInfo doc) {
         DocumentInfo currentDoc = null;
 
         if (doc.isDirectory()) {
@@ -169,7 +223,8 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         }
 
         assert(currentDoc != null);
-        mActivity.notifyDirectoryNavigated(doc.derivedUri);
+        mActivity.notifyDirectoryNavigated(currentDoc.derivedUri);
+
         mState.pushDocument(currentDoc);
         // Show an opening animation only if pressing "back" would get us back to the
         // previous directory. Especially after opening a root document, pressing
@@ -189,10 +244,15 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         throw new UnsupportedOperationException("Share not supported!");
     }
 
-    @Override
-    public final void loadDocument(Uri uri) {
-        new OpenUriForViewTask<>(mActivity, mState, mRoots, mDocs, uri)
-                .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
+    protected final void loadDocument(Uri uri, LoadDocStackCallback callback) {
+        new LoadDocStackTask(
+                mActivity,
+                uri,
+                mRoots,
+                mDocs,
+                mProviders,
+                callback
+                ).executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
     }
 
     @Override
@@ -222,6 +282,9 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         RootInfo getCurrentRoot();
         DocumentInfo getCurrentDirectory();
         void setRootsDrawerOpen(boolean open);
+
+        // TODO: Let navigator listens to State
+        void updateNavigator();
 
         @VisibleForTesting
         void notifyDirectoryNavigated(Uri docUri);
