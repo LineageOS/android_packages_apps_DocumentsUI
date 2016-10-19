@@ -29,6 +29,7 @@ import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
+import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.RootsAccess;
 
 import java.util.Collection;

@@ -16,10 +16,10 @@
 
 package com.android.documentsui.testing;
 
-import com.android.documentsui.SearchViewManager;
+import com.android.documentsui.queries.SearchViewManager;
 
 /**
- * Test copy of {@link com.android.documentsui.SearchViewManager}
+ * Test copy of {@link com.android.documentsui.queries.SearchViewManager}
  *
  * Specficially used to test whether {@link #showMenu(boolean)}
  * and {@link #updateMenu()} are called.

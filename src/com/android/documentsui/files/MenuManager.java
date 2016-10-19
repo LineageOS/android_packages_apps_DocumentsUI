@@ -26,10 +26,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.R;
-import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.queries.SearchViewManager;
 
 import java.util.List;
 import java.util.function.IntFunction;

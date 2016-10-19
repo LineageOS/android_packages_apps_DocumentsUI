@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.queries;
 
 import static com.android.documentsui.base.Shared.DEBUG;
 
@@ -32,6 +32,8 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
+import com.android.documentsui.DocumentsToolbar;
+import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 
@@ -42,14 +44,9 @@ public class SearchViewManager implements
         SearchView.OnCloseListener, OnQueryTextListener, OnClickListener, OnFocusChangeListener,
         OnActionExpandListener {
 
-    public interface SearchManagerListener {
-        void onSearchChanged(@Nullable String query);
-        void onSearchFinished();
-        void onSearchViewChanged(boolean opened);
-    }
-
-    private static final String TAG = "SearchManager";
+    static final String TAG = "SearchManager";
     private final SearchManagerListener mListener;
+    private final DebugCommandProcessor mCommandProcessor;
 
     private boolean mSearchExpanded;
     private String mCurrentSearch;
@@ -66,6 +63,12 @@ public class SearchViewManager implements
         assert (listener != null);
         mListener = listener;
         mCurrentSearch = savedState != null ? savedState.getString(Shared.EXTRA_QUERY) : null;
+
+        // "Commands" are meta input for controlling system behavior.
+        // We piggy back on search input as it is the only text input
+        // area in the app. But the functionality is independent
+        // of "regular" search query processing.
+        mCommandProcessor = new DebugCommandProcessor();
     }
 
     public void install(DocumentsToolbar actionBar, boolean isFullBarSearch) {
@@ -102,7 +105,7 @@ public class SearchViewManager implements
     /**
      * @param root Info about the current directory.
      */
-    void update(RootInfo root) {
+    public void update(RootInfo root) {
         if (mMenuItem == null) {
             if (DEBUG) Log.d(TAG, "update called before Search MenuItem installed.");
             return;
@@ -148,7 +151,7 @@ public class SearchViewManager implements
      *
      * @return True if it cancels search. False if it does not operate search currently.
      */
-    boolean cancelSearch() {
+    public boolean cancelSearch() {
         if (isExpanded() || isSearching()) {
             // If the query string is not empty search view won't get iconified
             mSearchView.setQuery("", false);
@@ -239,9 +242,15 @@ public class SearchViewManager implements
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mCurrentSearch = query;
-        mSearchView.clearFocus();
-        mListener.onSearchChanged(mCurrentSearch);
+
+        if (mCommandProcessor.accept(query)) {
+            cancelSearch();
+        } else {
+            mCurrentSearch = query;
+            mSearchView.clearFocus();
+            mListener.onSearchChanged(mCurrentSearch);
+        }
+
         return true;
     }
 
@@ -290,7 +299,13 @@ public class SearchViewManager implements
         return mCurrentSearch != null;
     }
 
-    boolean isExpanded() {
+    public boolean isExpanded() {
         return mSearchExpanded;
+    }
+
+    public interface SearchManagerListener {
+        void onSearchChanged(@Nullable String query);
+        void onSearchFinished();
+        void onSearchViewChanged(boolean opened);
     }
 }

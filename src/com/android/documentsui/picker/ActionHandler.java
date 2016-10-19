@@ -31,7 +31,6 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Metrics;
-import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
@@ -45,6 +44,7 @@ import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
 import com.android.documentsui.picker.ActionHandler.Addons;
+import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.selection.SelectionManager;
 

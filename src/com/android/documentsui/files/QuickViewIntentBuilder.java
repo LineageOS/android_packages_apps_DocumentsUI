@@ -38,6 +38,7 @@ import android.util.Range;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.queries.SetQuickViewerCommand;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import java.util.ArrayList;
@@ -54,7 +55,6 @@ public final class QuickViewIntentBuilder {
     // For that reason when trusted quick view package is set to this magic value
     // we won't honor the system property.
     public static final String IGNORE_DEBUG_PROP = "*disabled*";
-
     private static final String TAG = "QuickViewIntentBuilder";
 
     private final DocumentInfo mDocument;
@@ -142,6 +142,9 @@ public final class QuickViewIntentBuilder {
         // Allow users of debug devices to override default quick viewer
         // for the purposes of testing.
         if (Build.IS_DEBUGGABLE) {
+            if (SetQuickViewerCommand.sQuickViewer != null) {
+                return SetQuickViewerCommand.sQuickViewer;
+            }
             return android.os.SystemProperties.get("debug.quick_viewer", resValue);
         }
         return resValue;
