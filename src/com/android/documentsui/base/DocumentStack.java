@@ -16,10 +16,13 @@
 
 package com.android.documentsui.base;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.content.ContentResolver;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.DocumentsProvider;
+import android.util.Log;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -34,51 +37,131 @@ import java.util.List;
  * Representation of a stack of {@link DocumentInfo}, usually the result of a
  * user-driven traversal.
  */
-public class DocumentStack extends LinkedList<DocumentInfo> implements Durable, Parcelable {
+public class DocumentStack implements Durable, Parcelable {
+
+    private static final String TAG = "DocumentStack";
+
     private static final int VERSION_INIT = 1;
     private static final int VERSION_ADD_ROOT = 2;
 
-    public RootInfo root;
+    private LinkedList<DocumentInfo> mList;
+    private RootInfo mRoot;
 
-    public DocumentStack() {};
+    private boolean mInitialRootChanged;
+    private boolean mInitialDocChanged;
+    private boolean mStackTouched;
+
+    public DocumentStack() {
+        mList = new LinkedList<>();
+    }
 
     /**
      * Creates an instance, and pushes all docs to it in the same order as they're passed as
      * parameters, i.e. the last document will be at the top of the stack.
      */
     public DocumentStack(RootInfo root, DocumentInfo... docs) {
-        for (DocumentInfo doc : docs) {
-            push(doc);
+        mList = new LinkedList<>();
+        for (int i = 0; i < docs.length; ++i) {
+            mList.add(docs[i]);
         }
 
-        this.root = root;
-    }
-
-    public DocumentStack(RootInfo root, List<DocumentInfo> docs) {
-        for (DocumentInfo doc : docs) {
-            push(doc);
-        }
-
-        this.root = root;
+        mRoot = root;
     }
 
     /**
-     * Makes a new copy, and pushes all docs to the new copy in the same order as they're passed
-     * as parameters, i.e. the last document will be at the top of the stack.
+     * Same as {@link #DocumentStack(DocumentStack, DocumentInfo...)} except it takes a {@link List}
+     * instead of an array.
+     */
+    public DocumentStack(RootInfo root, List<DocumentInfo> docs) {
+        mList = new LinkedList<>(docs);
+        mRoot = root;
+    }
+
+    /**
+     * Makes a new shallow copy, and pushes all docs to the new copy in the same order as they're
+     * passed as parameters, i.e. the last document will be at the top of the stack.
      */
     public DocumentStack(DocumentStack src, DocumentInfo... docs) {
-        super(src);
+        mList = src.mList;
         for (DocumentInfo doc : docs) {
-            push(doc);
+            mList.addLast(doc);
         }
 
-        root = src.root;
+        mRoot = src.mRoot;
+    }
+
+    public RootInfo getRoot() {
+        return mRoot;
+    }
+
+    public boolean isEmpty() {
+        return mList.isEmpty();
+    }
+
+    public int size() {
+        return mList.size();
+    }
+
+    public DocumentInfo peek() {
+        return mList.peekLast();
+    }
+
+    /**
+     * Returns {@link DocumentInfo} at index counted from the bottom of this stack.
+     */
+    public DocumentInfo get(int index) {
+        return mList.get(index);
+    }
+
+    public void push(DocumentInfo info) {
+        if (DEBUG) Log.d(TAG, "Adding doc to stack: " + info);
+        if (!mInitialDocChanged && !isEmpty() && !info.equals(peek())) {
+            mInitialDocChanged = true;
+        }
+        mList.addLast(info);
+        mStackTouched = true;
+    }
+
+    public DocumentInfo pop() {
+        if (DEBUG) Log.d(TAG, "Popping doc off stack.");
+        final DocumentInfo result = mList.removeLast();
+        mStackTouched = true;
+
+        return result;
+    }
+
+    public void popToRootDocument() {
+        if (DEBUG) Log.d(TAG, "Popping docs to root folder.");
+        while (mList.size() > 1) {
+            mList.removeLast();
+        }
+        mStackTouched = true;
+    }
+
+    public void changeRoot(RootInfo root) {
+        if (DEBUG) Log.d(TAG, "Root changed to: " + root);
+        if (!mInitialRootChanged && mRoot != null && !root.equals(mRoot)) {
+            mInitialRootChanged = true;
+        }
+        reset();
+        mRoot = root;
+    }
+
+    /** This will return true even when the initial location is set.
+     * To get a read on if the user has changed something, use {@link #hasInitialLocationChanged()}.
+     */
+    public boolean hasLocationChanged() {
+        return mStackTouched;
+    }
+
+    public boolean hasInitialLocationChanged() {
+        return mInitialRootChanged || mInitialDocChanged;
     }
 
     public String getTitle() {
-        if (size() == 1 && root != null) {
-            return root.title;
-        } else if (size() > 1) {
+        if (mList.size() == 1 && mRoot != null) {
+            return mRoot.title;
+        } else if (mList.size() > 1) {
             return peek().displayName;
         } else {
             return null;
@@ -86,17 +169,17 @@ public class DocumentStack extends LinkedList<DocumentInfo> implements Durable, 
     }
 
     public boolean isRecents() {
-        return size() == 0;
+        return isEmpty();
     }
 
     public void updateRoot(Collection<RootInfo> matchingRoots) throws FileNotFoundException {
         for (RootInfo root : matchingRoots) {
-            if (root.equals(this.root)) {
-                this.root = root;
+            if (root.equals(this.mRoot)) {
+                this.mRoot = root;
                 return;
             }
         }
-        throw new FileNotFoundException("Failed to find matching root for " + root);
+        throw new FileNotFoundException("Failed to find matching mRoot for " + mRoot);
     }
 
     /**
@@ -104,34 +187,38 @@ public class DocumentStack extends LinkedList<DocumentInfo> implements Durable, 
      * {@link DocumentsProvider}.
      */
     public void updateDocuments(ContentResolver resolver) throws FileNotFoundException {
-        for (DocumentInfo info : this) {
+        for (DocumentInfo info : mList) {
             info.updateSelf(resolver);
         }
     }
 
     /**
-     * Build key that uniquely identifies this stack. It omits most of the raw
-     * details included in {@link #write(DataOutputStream)}, since they change
-     * too regularly to be used as a key.
+     * Resets this stack to the given stack. It takes the reference of {@link #mList} and
+     * {@link #mRoot} instead of making a copy.
      */
-    public String buildKey() {
-        final StringBuilder builder = new StringBuilder();
-        if (root != null) {
-            builder.append(root.authority).append('#');
-            builder.append(root.rootId).append('#');
-        } else {
-            builder.append("[null]").append('#');
-        }
-        for (DocumentInfo doc : this) {
-            builder.append(doc.documentId).append('#');
-        }
-        return builder.toString();
+    public void reset(DocumentStack stack) {
+        if (DEBUG) Log.d(TAG, "Resetting the whole darn stack to: " + stack);
+
+        mList = stack.mList;
+        mRoot = stack.mRoot;
+        mStackTouched = true;
+    }
+
+    @Override
+    public String toString() {
+        return "DocumentStack{"
+                + "root=" + mRoot
+                + ", docStack=" + mList
+                + ", stackTouched=" + mStackTouched
+                + ", initialDocChanged=" + mInitialDocChanged
+                + ", initialRootChanged=" + mInitialRootChanged
+                + "}";
     }
 
     @Override
     public void reset() {
-        clear();
-        root = null;
+        mList.clear();
+        mRoot = null;
     }
 
     @Override
@@ -142,15 +229,18 @@ public class DocumentStack extends LinkedList<DocumentInfo> implements Durable, 
                 throw new ProtocolException("Ignored upgrade");
             case VERSION_ADD_ROOT:
                 if (in.readBoolean()) {
-                    root = new RootInfo();
-                    root.read(in);
+                    mRoot = new RootInfo();
+                    mRoot.read(in);
                 }
                 final int size = in.readInt();
                 for (int i = 0; i < size; i++) {
                     final DocumentInfo doc = new DocumentInfo();
                     doc.read(in);
-                    add(doc);
+                    mList.add(doc);
                 }
+                mStackTouched = in.readInt() != 0;
+                mInitialRootChanged = in.readInt() != 0;
+                mInitialDocChanged = in.readInt() != 0;
                 break;
             default:
                 throw new ProtocolException("Unknown version " + version);
@@ -160,18 +250,21 @@ public class DocumentStack extends LinkedList<DocumentInfo> implements Durable, 
     @Override
     public void write(DataOutputStream out) throws IOException {
         out.writeInt(VERSION_ADD_ROOT);
-        if (root != null) {
+        if (mRoot != null) {
             out.writeBoolean(true);
-            root.write(out);
+            mRoot.write(out);
         } else {
             out.writeBoolean(false);
         }
-        final int size = size();
+        final int size = mList.size();
         out.writeInt(size);
         for (int i = 0; i < size; i++) {
-            final DocumentInfo doc = get(i);
+            final DocumentInfo doc = mList.get(i);
             doc.write(out);
         }
+        out.writeInt(mStackTouched ? 1 : 0);
+        out.writeInt(mInitialRootChanged ? 1 : 0);
+        out.writeInt(mInitialDocChanged ? 1 : 0);
     }
 
     @Override

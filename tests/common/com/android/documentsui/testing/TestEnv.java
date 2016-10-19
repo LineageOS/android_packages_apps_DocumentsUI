@@ -50,7 +50,6 @@ public class TestEnv {
     public final State state = new State();
     public final TestRootsAccess roots = new TestRootsAccess();
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
-    public final TestProviderAccess providers = new TestProviderAccess();
     public final TestModel model;
     public final SelectionManager selectionMgr;
     public final TestSearchViewManager searchViewManager;
@@ -111,7 +110,7 @@ public class TestEnv {
         Assert.assertNotNull(rootDoc);
         Assert.assertEquals(rootDoc.displayName, FOLDER_0.displayName);
 
-        state.stack.root = TestRootsAccess.HOME;
+        state.stack.changeRoot(TestRootsAccess.HOME);
         state.stack.push(rootDoc);
     }
 

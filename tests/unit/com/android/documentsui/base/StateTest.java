@@ -16,51 +16,54 @@
 
 package com.android.documentsui.base;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 
-import com.android.documentsui.base.DocumentInfo;
+import static org.junit.Assert.assertArrayEquals;
 
+import android.content.Intent;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
 @SmallTest
-public class StateTest extends AndroidTestCase {
+public class StateTest {
 
-    private static final DocumentInfo DIR_1;
-    private static final DocumentInfo DIR_2;
+    private static final String[] MIME_TYPES = { "image/gif", "image/jpg" };
 
+    private Intent mIntent;
     private State mState;
 
-    static {
-        DIR_1 = new DocumentInfo();
-        DIR_1.displayName = "firstDirectory";
-        DIR_2 = new DocumentInfo();
-        DIR_2.displayName = "secondDirectory";
-    }
-
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() {
+        mIntent = new Intent();
         mState = new State();
     }
 
-    public void testInitialStateEmpty() {
-        assertFalse(mState.hasLocationChanged());
+    @Test
+    public void testAcceptAllMimeTypesByDefault() {
+        mState.initAcceptMimes(mIntent);
+
+        assertArrayEquals(new String[] { "*/*" }, mState.acceptMimes);
     }
 
-    public void testPushDocument_ChangesLocation() {
-        mState.pushDocument(DIR_1);
-        mState.pushDocument(DIR_2);
-        assertTrue(mState.hasLocationChanged());
+    @Test
+    public void testAcceptGivenMimeTypesInExtra() {
+        mIntent.putExtra(Intent.EXTRA_MIME_TYPES, MIME_TYPES);
+
+        mState.initAcceptMimes(mIntent);
+
+        assertArrayEquals(MIME_TYPES, mState.acceptMimes);
     }
 
-    public void testPushDocument_ModifiesStack() {
-        mState.pushDocument(DIR_1);
-        mState.pushDocument(DIR_2);
-        assertEquals(DIR_2, mState.stack.getFirst());
-    }
+    @Test
+    public void testAcceptIntentTypeWithoutExtra() {
+        mIntent.setType(MIME_TYPES[0]);
 
-    public void testPopDocument_ModifiesStack() {
-        mState.pushDocument(DIR_1);
-        mState.pushDocument(DIR_2);
-        mState.popDocument();
-        assertEquals(DIR_1, mState.stack.getFirst());
+        mState.initAcceptMimes(mIntent);
+
+        assertArrayEquals(new String[] { MIME_TYPES[0] }, mState.acceptMimes);
     }
 }

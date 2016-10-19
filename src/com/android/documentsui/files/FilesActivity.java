@@ -115,7 +115,6 @@ public class FilesActivity
                 mState,
                 mRoots,
                 mDocs,
-                DocumentsApplication.getProviderAccess(this),
                 mSelectionMgr,
                 mSearchManager,
                 ProviderExecutor::forAuthority,
@@ -167,7 +166,7 @@ public class FilesActivity
 
         final DocumentStack stack = intent.getParcelableExtra(Shared.EXTRA_STACK);
         if (stack != null) {
-            state.stack = stack;
+            state.stack.reset(stack);
         }
     }
 

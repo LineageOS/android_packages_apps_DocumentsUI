@@ -71,7 +71,6 @@ public class ActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
-                mEnv.providers,
                 mEnv.selectionMgr,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,

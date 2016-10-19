@@ -134,7 +134,7 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
             }
 
             // Clear entire backstack and start in new root.
-            mState.onRootChanged(defaultRoot);
+            mState.stack.changeRoot(defaultRoot);
             mSearchMgr.update(defaultRoot);
 
             if (defaultRoot.isRecents()) {

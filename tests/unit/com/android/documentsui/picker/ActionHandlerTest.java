@@ -24,10 +24,13 @@ import static org.junit.Assert.assertNotNull;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.testing.TestEnv;
@@ -37,6 +40,9 @@ import com.android.documentsui.ui.TestDialogController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Arrays;
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -59,7 +65,6 @@ public class ActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
-                mEnv.providers,
                 mEnv.selectionMgr,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
@@ -123,12 +128,43 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testInitLocation_LaunchToDocuments() throws Exception {
+        mEnv.docs.nextIsDocumentsUri = true;
+        mEnv.docs.nextPath = new Path(
+                TestRootsAccess.HOME.rootId,
+                Arrays.asList(
+                        TestEnv.FOLDER_0.documentId,
+                        TestEnv.FOLDER_1.documentId,
+                        TestEnv.FILE_GIF.documentId));
+        mEnv.docs.nextDocuments =
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
+
+        Intent intent = mActivity.getIntent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setData(TestEnv.FILE_GIF.derivedUri);
+        mHandler.initLocation(intent);
+
+        assertStackEquals(TestRootsAccess.HOME, Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
+    }
+
+    @Test
     public void testOpenContainerDocument() {
         mHandler.openContainerDocument(TestEnv.FOLDER_0);
 
         assertEquals(TestEnv.FOLDER_0, mEnv.state.stack.peek());
 
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    private void assertStackEquals(RootInfo root, List<DocumentInfo> docs) throws Exception {
+        mEnv.beforeAsserts();
+
+        final DocumentStack stack = mEnv.state.stack;
+        assertEquals(stack.getRoot(), root);
+        assertEquals(docs.size(), stack.size());
+        for (int i = 0; i < docs.size(); ++i) {
+            assertEquals(docs.get(i), stack.get(i));
+        }
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {
