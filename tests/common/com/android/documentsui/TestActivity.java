@@ -20,6 +20,7 @@ import static junit.framework.Assert.assertEquals;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -139,6 +140,14 @@ public abstract class TestActivity extends AbstractBase {
     public final void setRootsDrawerOpen(boolean open) {
         setRootsDrawerOpen.accept(open);
     }
+
+    @Override
+    public final ContentResolver getContentResolver() {
+        return null;
+    }
+
+    @Override
+    public final void updateNavigator() {}
 }
 
 // Trick Mockito into finding our Addons methods correctly. W/o this

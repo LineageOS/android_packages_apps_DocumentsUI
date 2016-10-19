@@ -21,17 +21,15 @@ import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 public class TestDocumentsAccess implements DocumentsAccess {
 
     public @Nullable DocumentInfo nextRootDocument;
     public @Nullable DocumentInfo nextDocument;
-
-    @Override
-    public DocumentInfo getRootDocument(Uri uri) {
-        return nextRootDocument;
-    }
+    public @Nullable List<DocumentInfo> nextDocuments;
 
     @Override
     public DocumentInfo getRootDocument(RootInfo root) {
@@ -41,6 +39,11 @@ public class TestDocumentsAccess implements DocumentsAccess {
     @Override
     public DocumentInfo getDocument(Uri uri) {
         return nextDocument;
+    }
+
+    @Override
+    public List<DocumentInfo> getDocuments(String authority, List<String> docIds) {
+        return nextDocuments;
     }
 
     @Override

@@ -20,6 +20,7 @@ import static com.android.documentsui.testing.IntentAsserts.assertHasAction;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraIntent;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraList;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraUri;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -32,7 +33,6 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
 import com.android.documentsui.TestActionModeAddons;
-import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -71,6 +71,7 @@ public class ActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
+                mEnv.providers,
                 mEnv.selectionMgr,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
@@ -256,32 +257,6 @@ public class ActionHandlerTest {
 
         mHandler.initLocation(mActivity.getIntent());
         assertRootPicked(TestRootsAccess.HOME.getUri());
-    }
-
-    @Test
-    public void testInitLocation_ViewDocument() throws Exception {
-        Intent intent = mActivity.getIntent();
-        intent.setAction(Intent.ACTION_VIEW);
-
-        // configure DocumentsAccess to return something.
-        mEnv.docs.nextRootDocument = TestEnv.FOLDER_0;
-        mEnv.docs.nextDocument = TestEnv.FILE_GIF;
-
-        Uri destUri = mEnv.model.getItemUri(TestEnv.FILE_GIF.documentId);
-        intent.setData(destUri);
-
-        mEnv.state.stack.clear();  // Stack must be clear, we've even got an assert!
-        mHandler.initLocation(intent);
-        assertDocumentPicked(destUri);
-    }
-
-    private void assertDocumentPicked(Uri expectedUri) throws Exception {
-        mEnv.beforeAsserts();
-
-        mActivity.refreshCurrentRootAndDirectory.assertCalled();
-        DocumentInfo doc = mEnv.state.stack.peekLast();
-        Uri actualUri = mEnv.model.getItemUri(doc.documentId);
-        assertEquals(expectedUri, actualUri);
     }
 
     @Test
