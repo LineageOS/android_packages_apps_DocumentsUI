@@ -25,8 +25,8 @@ import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.documentsui.SearchViewManager;
 import com.android.documentsui.base.State;
+import com.android.documentsui.queries.SearchViewManager;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
