@@ -200,7 +200,7 @@ public class DragScrollListenerTest {
         }
 
         @Override
-        public void onDragEntered(View v) {
+        public void onDragEntered(View v, Object localState) {
         }
     }
 
