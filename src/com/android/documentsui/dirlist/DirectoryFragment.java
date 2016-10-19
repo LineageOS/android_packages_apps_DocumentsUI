@@ -22,6 +22,8 @@ import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 
+import android.annotation.DimenRes;
+import android.annotation.FractionRes;
 import android.annotation.IntDef;
 import android.annotation.StringRes;
 import android.app.Activity;
@@ -36,6 +38,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -66,8 +69,8 @@ import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryLoader;
-import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.DirectoryReloadLock;
+import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.ItemDragListener;
@@ -183,6 +186,9 @@ public class DirectoryFragment extends Fragment
     private GridLayoutManager mLayout;
     private int mColumnCount = 1;  // This will get updated when layout changes.
 
+    private float mLiveScale = 1.0f;
+    private int mMode;
+
     private MessageBar mMessageBar;
     private View mProgressBar;
 
@@ -204,7 +210,7 @@ public class DirectoryFragment extends Fragment
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        BaseActivity activity = (BaseActivity<?>) getActivity();
+        BaseActivity<?> activity = (BaseActivity<?>) getActivity();
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
         mMessageBar = MessageBar.create(getChildFragmentManager());
@@ -342,6 +348,7 @@ public class DirectoryFragment extends Fragment
         EventHandler<InputEvent> gestureHandler = mState.allowMultiple
                 ? gestureSel::start
                 : EventHandler.createStub(false);
+
         mInputHandler = new UserInputHandler<>(
                 mActions,
                 mFocusManager,
@@ -359,7 +366,8 @@ public class DirectoryFragment extends Fragment
                 mDragStartListener::onMouseDragEvent,
                 gestureSel,
                 mInputHandler,
-                mBandController);
+                mBandController,
+                this::scaleLayout);
 
         mMenuManager = mActivity.getMenuManager();
 
@@ -497,6 +505,7 @@ public class DirectoryFragment extends Fragment
      * @param mode The new view mode.
      */
     private void updateLayout(@ViewMode int mode) {
+        mMode = mode;
         mColumnCount = calculateColumnCount(mode);
         if (mLayout != null) {
             mLayout.setSpanCount(mColumnCount);
@@ -511,22 +520,65 @@ public class DirectoryFragment extends Fragment
         mIconHelper.setViewMode(mode);
     }
 
+    /**
+     * Updates the layout after the view mode switches.
+     * @param mode The new view mode.
+     */
+    private void scaleLayout(float scale) {
+        assert(Build.IS_DEBUGGABLE);
+        if (DEBUG) Log.v(TAG, "Handling scale event: " + scale + ", existing scale: " + mLiveScale);
+
+        if (mMode == MODE_GRID) {
+            float minScale = getFraction(R.fraction.grid_scale_min);
+            float maxScale = getFraction(R.fraction.grid_scale_max);
+            float nextScale = mLiveScale * scale;
+
+            if (DEBUG) Log.v(TAG,
+                    "Next scale " + nextScale + ", Min/max scale " + minScale + "/" + maxScale);
+
+            if (nextScale > minScale && nextScale < maxScale) {
+                if (DEBUG) Log.d(TAG, "Updating grid scale: " + scale);
+                mLiveScale = nextScale;
+                updateLayout(mMode);
+            }
+
+        } else {
+            if (DEBUG) Log.d(TAG, "List mode, ignoring scale: " + scale);
+            mLiveScale = 1.0f;
+        }
+    }
+
     private int calculateColumnCount(@ViewMode int mode) {
         if (mode == MODE_LIST) {
             // List mode is a "grid" with 1 column.
             return 1;
         }
 
-        int cellWidth = getResources().getDimensionPixelSize(R.dimen.grid_width);
-        int cellMargin = 2 * getResources().getDimensionPixelSize(R.dimen.grid_item_margin);
-        int viewPadding = mRecView.getPaddingLeft() + mRecView.getPaddingRight();
+        int cellWidth = getScaledSize(R.dimen.grid_width);
+        int cellMargin = 2 * getScaledSize(R.dimen.grid_item_margin);
+        int viewPadding =
+                (int) ((mRecView.getPaddingLeft() + mRecView.getPaddingRight()) * mLiveScale);
 
-        // RecyclerView sometimes gets a width of 0 (see b/27150284).  Clamp so that we always lay
-        // out the grid with at least 2 columns.
+        // RecyclerView sometimes gets a width of 0 (see b/27150284).
+        // Clamp so that we always lay out the grid with at least 2 columns by default.
         int columnCount = Math.max(2,
                 (mRecView.getWidth() - viewPadding) / (cellWidth + cellMargin));
 
-        return columnCount;
+        // Finally with our grid count logic firmly in place, we apply any live scaling
+        // captured by the scale gesture detector.
+        return Math.max(1, Math.round(columnCount / mLiveScale));
+    }
+
+
+    /**
+     * Moderately abuse the "fraction" resource type for our purposes.
+     */
+    private float getFraction(@FractionRes int id) {
+        return getResources().getFraction(id, 1, 0);
+    }
+
+    private int getScaledSize(@DimenRes int id) {
+        return (int) (getResources().getDimensionPixelSize(id) * mLiveScale);
     }
 
     private int getDirectoryPadding(@ViewMode int mode) {

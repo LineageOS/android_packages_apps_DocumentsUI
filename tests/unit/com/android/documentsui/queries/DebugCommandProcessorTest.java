@@ -21,6 +21,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.testing.TestEventHandler;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +43,7 @@ public final class DebugCommandProcessorTest {
 
     @Test
     public void testTriesAllCommands() {
-        mProcessor.accept("#debug poodles");
+        mProcessor.accept("debug:poodles");
         mCommand0.assertCalled();
         mCommand1.assertCalled();
     }
@@ -50,21 +51,23 @@ public final class DebugCommandProcessorTest {
     @Test
     public void testStopsAfterCommandHandled() {
         mCommand0.nextReturn(true);
-        mProcessor.accept("#debug poodles");
+        mProcessor.accept("debug:poodles");
         mCommand0.assertCalled();
         mCommand1.assertNotCalled();
     }
 
     @Test
-    public void testMissingCommand() {
-        mProcessor.accept("#debug");
-        mCommand0.assertNotCalled();
-        mCommand1.assertNotCalled();
+    public void testConveysArguments() {
+        mCommand0.nextReturn(true);
+        mProcessor.accept("debug:cheese doodles");
+
+        String[] expected = {"cheese", "doodles"};
+        Assert.assertArrayEquals(expected, mCommand0.getLastValue());
     }
 
     @Test
-    public void testEmptyInput() {
-        mProcessor.accept("#debug");
+    public void testMissingCommand() {
+        mProcessor.accept("debug:");
         mCommand0.assertNotCalled();
         mCommand1.assertNotCalled();
     }
