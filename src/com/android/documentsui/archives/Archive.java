@@ -29,18 +29,18 @@ import android.os.OperationCanceledException;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
-import android.provider.DocumentsProvider;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.system.OsConstants;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-import android.system.Os;
-import android.system.OsConstants;
-import android.system.ErrnoException;
+import com.android.internal.util.Preconditions;
 
 import libcore.io.IoUtils;
-
-import com.android.internal.util.Preconditions;
 
 import java.io.Closeable;
 import java.io.File;
@@ -49,13 +49,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.lang.IllegalArgumentException;
-import java.lang.IllegalStateException;
-import java.lang.UnsupportedOperationException;
-import android.text.TextUtils;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -64,7 +59,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 /**
  * Provides basic implementation for creating, extracting and accessing
@@ -108,9 +102,9 @@ public class Archive implements Closeable {
         mExecutor = Executors.newSingleThreadExecutor();
 
         // Build the tree structure in memory.
-        mTree = new HashMap<String, List<ZipEntry>>();
+        mTree = new HashMap<>();
 
-        mEntries = new HashMap<String, ZipEntry>();
+        mEntries = new HashMap<>();
         ZipEntry entry;
         final List<? extends ZipEntry> entries = Collections.list(mZipFile.entries());
         final Stack<ZipEntry> stack = new Stack<>();
@@ -163,7 +157,7 @@ public class Archive implements Closeable {
                     stack.push(parentEntry);
                 }
 
-                parentList = new ArrayList<ZipEntry>();
+                parentList = new ArrayList<>();
                 mTree.put(parentPath, parentList);
             }
 
@@ -188,6 +182,7 @@ public class Archive implements Closeable {
      * Returns true if the file descriptor is seekable.
      * @param descriptor File descriptor to check.
      */
+    @VisibleForTesting
     public static boolean canSeek(ParcelFileDescriptor descriptor) {
         try {
             return Os.lseek(descriptor.getFileDescriptor(), 0,
