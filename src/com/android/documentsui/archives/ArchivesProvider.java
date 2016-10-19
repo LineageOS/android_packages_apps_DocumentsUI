@@ -21,10 +21,11 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
+import android.database.MatrixCursor;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract.Document;
@@ -40,13 +41,9 @@ import com.android.internal.util.Preconditions;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Provides basic implementation for creating, extracting and accessing
@@ -95,9 +92,23 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
     public Cursor queryChildDocuments(String documentId, @Nullable String[] projection,
             @Nullable String sortOrder)
             throws FileNotFoundException {
+        final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
         Loader loader = null;
         try {
             loader = obtainInstance(documentId);
+            if (loader.mArchive == null) {
+                final MatrixCursor cursor = new MatrixCursor(
+                        projection != null ? projection : Archive.DEFAULT_PROJECTION);
+                // Return an empty cursor with EXTRA_LOADING, which shows spinner
+                // in DocumentsUI. Once the archive is loaded, the notification will
+                // be sent, and the directory reloaded.
+                final Bundle bundle = new Bundle();
+                bundle.putBoolean(DocumentsContract.EXTRA_LOADING, true);
+                cursor.setExtras(bundle);
+                cursor.setNotificationUri(getContext().getContentResolver(),
+                        buildUriForArchive(archiveId.mArchiveUri));
+                return cursor;
+            }
             return loader.get().queryChildDocuments(documentId, projection, sortOrder);
         } finally {
             releaseInstance(loader);
@@ -138,16 +149,11 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
             throws FileNotFoundException {
         final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
         if (archiveId.mPath.equals("/")) {
-            // For the archive's root directory return hard-coded cursor, so clients know that
-            // it's actually a directory and queryChildDocuments() can be called on it.
-            //
-            // TODO: Move this code to the Archive class, once opening archives is moved to
-            // background.
             final MatrixCursor cursor = new MatrixCursor(
                     projection != null ? projection : Archive.DEFAULT_PROJECTION);
             final RowBuilder row = cursor.newRow();
             row.add(Document.COLUMN_DOCUMENT_ID, documentId);
-            row.add(Document.COLUMN_DISPLAY_NAME, "Archive");  // TODO: Fix.
+            row.add(Document.COLUMN_DISPLAY_NAME, "Archive");  // TODO: Translate.
             row.add(Document.COLUMN_SIZE, 0);
             row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
             return cursor;
@@ -268,48 +274,5 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
 
         mArchives.put(id.mArchiveUri, loader);
         return loader;
-    }
-
-    /**
-     * Loads an instance of Archive lazily.
-     */
-    private static final class Loader {
-        private final Context mContext;
-        private final Uri mArchiveUri;
-        private final Uri mNotificationUri;
-        private final ReentrantReadWriteLock mLock = new ReentrantReadWriteLock();
-        private Archive mArchive = null;
-
-        Loader(Context context, Uri archiveUri, Uri notificationUri) {
-            this.mContext = context;
-            this.mArchiveUri = archiveUri;
-            this.mNotificationUri = notificationUri;
-        }
-
-        synchronized Archive get() throws FileNotFoundException {
-            if (mArchive != null) {
-                return mArchive;
-            }
-
-            try {
-                mArchive = Archive.createForParcelFileDescriptor(
-                        mContext,
-                        mContext.getContentResolver().openFileDescriptor(
-                                mArchiveUri, "r", null /* signal */),
-                        mArchiveUri, mNotificationUri);
-            } catch (IOException e) {
-                throw new IllegalStateException(e);
-            }
-
-            return mArchive;
-        }
-
-        Lock getReadLock() {
-            return mLock.readLock();
-        }
-
-        Lock getWriteLock() {
-            return mLock.writeLock();
-        }
     }
 }
