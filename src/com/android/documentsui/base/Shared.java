@@ -251,9 +251,8 @@ public final class Shared {
     /*
      * Returns true if device root should be shown.
      */
-    public static boolean shouldShowDeviceRoot(Context context, Intent intent) {
-        return isProductivityMode(context, intent)
-                || intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_ADVANCED, false);
+    public static boolean mustShowDeviceRoot(Intent intent) {
+        return intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_ADVANCED, false);
     }
 
     /**

@@ -26,28 +26,17 @@ import android.content.SharedPreferences.Editor;
 import android.os.UserHandle;
 import android.preference.PreferenceManager;
 
-import com.android.documentsui.base.State.ActionType;
 import com.android.documentsui.base.State.ViewMode;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class LocalPreferences {
-    private static final String INCLUDE_DEVICE_ROOT = "includeDeviceRoot-";
     private static final String ROOT_VIEW_MODE_PREFIX = "rootViewMode-";
 
     public static @ViewMode int getViewMode(Context context, RootInfo root,
             @ViewMode int fallback) {
         return getPrefs(context).getInt(createKey(root), fallback);
-    }
-
-    public static boolean getShowDeviceRoot(Context context, @ActionType int action) {
-        return getPrefs(context).getBoolean(INCLUDE_DEVICE_ROOT + action, false);
-    }
-
-    public static void setShowDeviceRoot(
-            Context context, @ActionType int action, boolean display) {
-        getPrefs(context).edit().putBoolean(INCLUDE_DEVICE_ROOT + action, display).apply();
     }
 
     public static void setViewMode(Context context, RootInfo root, @ViewMode int viewMode) {
