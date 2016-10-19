@@ -18,7 +18,7 @@ package com.android.documentsui.archives;
 
 import android.net.Uri;
 
-class ArchiveId {
+public class ArchiveId {
     private final static char DELIMITER = '#';
 
     public final Uri mArchiveUri;

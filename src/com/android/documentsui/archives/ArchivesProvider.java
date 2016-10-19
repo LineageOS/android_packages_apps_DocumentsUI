@@ -41,15 +41,9 @@ import com.android.internal.util.Preconditions;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Provides basic implementation for creating, extracting and accessing
@@ -280,71 +274,5 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
 
         mArchives.put(id.mArchiveUri, loader);
         return loader;
-    }
-
-    /**
-     * Loads an instance of Archive lazily.
-     */
-    private static final class Loader {
-        private final Context mContext;
-        private final Uri mArchiveUri;
-        private final Uri mNotificationUri;
-        private final ReentrantReadWriteLock mLock = new ReentrantReadWriteLock();
-        private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
-        private Archive mArchive = null;
-        private Exception mFailureException = null;
-
-        Loader(Context context, Uri archiveUri, Uri notificationUri) {
-            this.mContext = context;
-            this.mArchiveUri = archiveUri;
-            this.mNotificationUri = notificationUri;
-
-            // Start loading the archive immediately in the background.
-            mExecutor.submit(this::get);
-        }
-
-        synchronized Archive get() throws FileNotFoundException {
-            if (mArchive != null) {
-                return mArchive;
-            }
-
-            // Once loading the archive failed, do not to retry opening it until the
-            // archive file has changed (the loader is deleted once we receive
-            // a notification about the archive file being changed).
-            if (mFailureException != null) {
-                throw new IllegalStateException(
-                        "Trying to perform an operation on an archive which failed to load.",
-                        mFailureException);
-            }
-
-            try {
-                mArchive = Archive.createForParcelFileDescriptor(
-                        mContext,
-                        mContext.getContentResolver().openFileDescriptor(
-                                mArchiveUri, "r", null /* signal */),
-                        mArchiveUri, mNotificationUri);
-            } catch (IOException e) {
-                mFailureException = e;
-                throw new IllegalStateException(e);
-            } catch (RuntimeException e) {
-                mFailureException = e;
-                throw e;
-            } finally {
-                // Notify observers that the root directory is loaded (or failed)
-                // so clients reload it.
-                mContext.getContentResolver().notifyChange(
-                        buildUriForArchive(mArchiveUri),
-                        null /* observer */, false /* syncToNetwork */);
-            }
-            return mArchive;
-        }
-
-        Lock getReadLock() {
-            return mLock.readLock();
-        }
-
-        Lock getWriteLock() {
-            return mLock.writeLock();
-        }
     }
 }
