@@ -24,6 +24,7 @@ import android.view.View;
 
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DragStartListener.ActiveListener;
+import com.android.documentsui.DragShadowBuilder;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.Selection;

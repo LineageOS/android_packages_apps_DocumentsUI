@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -26,32 +26,37 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.dirlist.IconHelper;
+import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.selection.Selection;
 
 import java.util.List;
 import java.util.function.Function;
 
-final class DragShadowBuilder extends View.DragShadowBuilder {
+public final class DragShadowBuilder extends View.DragShadowBuilder {
 
     private final View mShadowView;
     private final TextView mTitle;
     private final ImageView mIcon;
     private final int mWidth;
     private final int mHeight;
+    private final Drawable mDefaultBackground;
+    private final Drawable mNoDropBackground;
 
-    public DragShadowBuilder(Context context, String title, Drawable icon) {
+    public DragShadowBuilder(Context context) {
         mWidth = context.getResources().getDimensionPixelSize(R.dimen.drag_shadow_width);
-        mHeight= context.getResources().getDimensionPixelSize(R.dimen.drag_shadow_height);
+        mHeight = context.getResources().getDimensionPixelSize(R.dimen.drag_shadow_height);
 
         mShadowView = LayoutInflater.from(context).inflate(R.layout.drag_shadow_layout, null);
         mTitle = (TextView) mShadowView.findViewById(android.R.id.title);
         mIcon = (ImageView) mShadowView.findViewById(android.R.id.icon);
 
-        mTitle.setText(title);
-        mIcon.setImageDrawable(icon);
+        mDefaultBackground = context.getResources().getDrawable(R.drawable.drag_shadow_background,
+                null);
+        mNoDropBackground = context.getResources()
+                .getDrawable(R.drawable.drag_shadow_background_no_drop, null);
     }
 
     @Override
@@ -72,20 +77,39 @@ final class DragShadowBuilder extends View.DragShadowBuilder {
         mShadowView.draw(canvas);
     }
 
+    public void updateTitle(String title) {
+        mTitle.setText(title);
+    }
+
+    public void updateIcon(Drawable icon) {
+        mIcon.setImageDrawable(icon);
+    }
+
+    public void resetBackground() {
+        mShadowView.setBackground(mDefaultBackground);
+    }
+
+    public void setNoDropBackground() {
+        mShadowView.setBackground(mNoDropBackground);
+    }
+
     /**
      * Provides a means of fully isolating the mechanics of building drag shadows (and builders)
      * in support of testing.
      */
-    public static final class Factory implements Function<Selection, DragShadowBuilder> {
+    public static final class Updater implements Function<Selection, DragShadowBuilder> {
 
         private final Context mContext;
         private final IconHelper mIconHelper;
         private final Drawable mDefaultDragIcon;
-        private Model mModel;
+        private final Model mModel;
+        private final DragShadowBuilder mShadowBuilder;
 
-        public Factory(
-                Context context, Model model, IconHelper iconHelper, Drawable defaultDragIcon) {
+        public Updater(
+                Context context, DragShadowBuilder shadowBuilder, Model model,
+                IconHelper iconHelper, Drawable defaultDragIcon) {
             mContext = context;
+            mShadowBuilder = shadowBuilder;
             mModel = model;
             mIconHelper = iconHelper;
             mDefaultDragIcon = defaultDragIcon;
@@ -93,10 +117,10 @@ final class DragShadowBuilder extends View.DragShadowBuilder {
 
         @Override
         public DragShadowBuilder apply(Selection selection) {
-            return new DragShadowBuilder(
-                    mContext,
-                    getDragTitle(selection),
-                    getDragIcon(selection));
+            mShadowBuilder.updateTitle(getDragTitle(selection));
+            mShadowBuilder.updateIcon(getDragIcon(selection));
+
+            return mShadowBuilder;
         }
 
         private Drawable getDragIcon(Selection selection) {

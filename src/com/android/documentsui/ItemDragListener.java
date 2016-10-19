@@ -78,7 +78,7 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
     }
 
     private void handleEnteredEvent(View v, DragEvent event) {
-        mDragHost.onDragEntered(v);
+        mDragHost.onDragEntered(v, event.getLocalState());
         @Nullable TimerTask task = createOpenTask(v, event);
         if (task == null) {
             return;
@@ -167,7 +167,8 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
         /**
          * Notifies right away when drag shadow enters the view
          * @param v the view which drop shadow just entered
+         * @param localState the Local state object given by DragEvent
          */
-        void onDragEntered(View v);
+        void onDragEntered(View v, Object localState);
     }
 }

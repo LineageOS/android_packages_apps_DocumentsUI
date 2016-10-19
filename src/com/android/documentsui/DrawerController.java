@@ -160,7 +160,7 @@ public abstract class DrawerController implements DrawerListener {
         }
 
         @Override
-        public void onDragEntered(View v) {
+        public void onDragEntered(View v, Object localState) {
             assert (v.getId() == R.id.drawer_edge);
 
             setOpen(true);
