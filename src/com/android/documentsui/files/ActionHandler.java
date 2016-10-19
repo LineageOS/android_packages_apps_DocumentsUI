@@ -43,6 +43,7 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.ProviderAccess;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
@@ -357,7 +358,9 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
 
         Intent intent = Intent.createChooser(buildViewIntent(doc), null);
-        intent.putExtra(Intent.EXTRA_AUTO_LAUNCH_SINGLE_CHOICE, false);
+        if (Shared.ENABLE_OMC_API_FEATURES) {
+            intent.putExtra(Intent.EXTRA_AUTO_LAUNCH_SINGLE_CHOICE, false);
+        }
         try {
             mActivity.startActivity(intent);
         } catch (ActivityNotFoundException e) {
