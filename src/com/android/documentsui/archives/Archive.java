@@ -212,10 +212,12 @@ public class Archive implements Closeable {
             Context context, ParcelFileDescriptor descriptor, Uri archiveUri,
             @Nullable Uri notificationUri)
             throws IOException {
-        if (canSeek(descriptor)) {
-            return new Archive(context, new File(PROC_FD_PATH + descriptor.getFd()),
-                    archiveUri, notificationUri);
-        }
+        // TODO: Temporarily disable non-snapshot code path, as /proc/self/fd/* files
+        // are not openable across processes. b/32228589
+        // if (canSeek(descriptor)) {
+        //     return new Archive(context, new File(PROC_FD_PATH + descriptor.getFd()),
+        //             archiveUri, notificationUri);
+        // }
 
         // Fallback for non-seekable file descriptors.
         File snapshotFile = null;
