@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textAppearance="@android:style/TextAppearance.Material.Subhead"/>
+        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
 
     <ImageView
         android:id="@+id/sort_arrow"
@@ -38,6 +38,7 @@
         android:layout_height="@dimen/dropdown_sort_widget_icon_size"
         android:layout_marginStart="10dp"
         android:padding="3dp"
-        android:src="@drawable/ic_sort_arrow"/>
+        android:src="@drawable/ic_sort_arrow"
+        android:accessibilityTraversalAfter="@id/sort_dimen_dropdown"/>
 
 </LinearLayout>
