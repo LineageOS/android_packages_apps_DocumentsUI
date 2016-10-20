@@ -21,11 +21,10 @@ import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
 import android.net.Uri;
 import android.os.RemoteException;
+import android.support.test.filters.LargeTest;
 import android.support.test.filters.Suppress;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.view.KeyEvent;
 
-import com.android.documentsui.R;
 import com.android.documentsui.files.FilesActivity;
 
 @LargeTest

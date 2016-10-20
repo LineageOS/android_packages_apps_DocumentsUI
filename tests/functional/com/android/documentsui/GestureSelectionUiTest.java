@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import android.test.suitebuilder.annotation.LargeTest;
+import android.support.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
 
