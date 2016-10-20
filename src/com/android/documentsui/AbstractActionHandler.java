@@ -62,7 +62,6 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final State mState;
     protected final RootsAccess mRoots;
     protected final DocumentsAccess mDocs;
-    protected final ProviderAccess mProviders;
     protected final SelectionManager mSelectionMgr;
     protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
@@ -72,7 +71,6 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
-            ProviderAccess providers,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors) {
@@ -80,7 +78,6 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         assert(activity != null);
         assert(state != null);
         assert(roots != null);
-        assert(providers != null);
         assert(selectionMgr != null);
         assert(searchMgr != null);
         assert(docs != null);
@@ -89,7 +86,6 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         mState = state;
         mRoots = roots;
         mDocs = docs;
-        mProviders = providers;
         mSelectionMgr = selectionMgr;
         mSearchMgr = searchMgr;
         mExecutors = executors;
@@ -181,33 +177,33 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     private void openFolderInSearchResult(@Nullable DocumentStack stack, DocumentInfo doc) {
         if (stack == null) {
-            mState.popDocumentsToRoot();
+            mState.stack.popToRootDocument();
 
             // Update navigator to give horizontal breadcrumb a chance to update documents. It
             // doesn't update its content if the size of document stack doesn't change.
             // TODO: update breadcrumb to take range update.
             mActivity.updateNavigator();
 
-            mState.pushDocument(doc);
+            mState.stack.push(doc);
         } else {
-            if (!Objects.equals(mState.stack.root, stack.root)) {
-                Log.w(TAG, "Provider returns " + stack.root + " rather than expected "
-                        + mState.stack.root);
+            if (!Objects.equals(mState.stack.getRoot(), stack.getRoot())) {
+                Log.w(TAG, "Provider returns " + stack.getRoot() + " rather than expected "
+                        + mState.stack.getRoot());
             }
 
-            mState.stack.clear();
+            mState.stack.reset();
             // Update navigator to give horizontal breadcrumb a chance to update documents. It
             // doesn't update its content if the size of document stack doesn't change.
             // TODO: update breadcrumb to take range update.
             mActivity.updateNavigator();
 
-            mState.setStack(stack);
+            mState.stack.reset(stack);
         }
 
         // Show an opening animation only if pressing "back" would get us back to the
         // previous directory. Especially after opening a root document, pressing
         // back, wouldn't go to the previous root, but close the activity.
-        final int anim = (mState.hasLocationChanged() && mState.stack.size() > 1)
+        final int anim = (mState.stack.hasLocationChanged() && mState.stack.size() > 1)
                 ? AnimationView.ANIM_ENTER : AnimationView.ANIM_NONE;
         mActivity.refreshCurrentRootAndDirectory(anim);
     }
@@ -226,11 +222,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         assert(currentDoc != null);
         mActivity.notifyDirectoryNavigated(currentDoc.derivedUri);
 
-        mState.pushDocument(currentDoc);
+        mState.stack.push(currentDoc);
         // Show an opening animation only if pressing "back" would get us back to the
         // previous directory. Especially after opening a root document, pressing
         // back, wouldn't go to the previous root, but close the activity.
-        final int anim = (mState.hasLocationChanged() && mState.stack.size() > 1)
+        final int anim = (mState.stack.hasLocationChanged() && mState.stack.size() > 1)
                 ? AnimationView.ANIM_ENTER : AnimationView.ANIM_NONE;
         mActivity.refreshCurrentRootAndDirectory(anim);
     }
@@ -248,12 +244,10 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final void loadDocument(Uri uri, LoadDocStackCallback callback) {
         new LoadDocStackTask(
                 mActivity,
-                uri,
                 mRoots,
                 mDocs,
-                mProviders,
                 callback
-                ).executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
+                ).executeOnExecutor(mExecutors.lookup(uri.getAuthority()), uri);
     }
 
     @Override

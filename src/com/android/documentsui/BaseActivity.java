@@ -335,7 +335,7 @@ public abstract class BaseActivity<T extends ActionHandler>
                 root.isRecents() || root.isDownloads() ? View.VISIBLE : View.INVISIBLE);
 
         // Clear entire backstack and start in new root
-        mState.onRootChanged(root);
+        mState.stack.changeRoot(root);
 
         // Recents is always in memory, so we just load it directly.
         // Otherwise we delegate loading data from disk to a task
@@ -564,8 +564,9 @@ public abstract class BaseActivity<T extends ActionHandler>
 
     @Override
     public RootInfo getCurrentRoot() {
-        if (mState.stack.root != null) {
-            return mState.stack.root;
+        RootInfo root = mState.stack.getRoot();
+        if (root != null) {
+            return root;
         } else {
             return mRoots.getRecentsRoot();
         }

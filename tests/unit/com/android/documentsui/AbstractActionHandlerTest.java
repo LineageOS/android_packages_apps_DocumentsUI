@@ -59,7 +59,6 @@ public class AbstractActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
-                mEnv.providers,
                 mEnv.selectionMgr,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor) {
@@ -97,18 +96,18 @@ public class AbstractActionHandlerTest {
         mEnv.populateStack();
 
         mEnv.searchViewManager.isSearching = true;
-        mEnv.providers.nextPath = new Path(
+        mEnv.docs.nextPath = new Path(
                 TestRootsAccess.HOME.rootId,
                 Arrays.asList(TestEnv.FOLDER_1.documentId, TestEnv.FOLDER_2.documentId));
         mEnv.docs.nextDocuments = Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2);
 
-        mEnv.state.pushDocument(TestEnv.FOLDER_0);
+        mEnv.state.stack.push(TestEnv.FOLDER_0);
 
         mHandler.openContainerDocument(TestEnv.FOLDER_2);
 
         mEnv.beforeAsserts();
 
-        assertEquals(mEnv.providers.nextPath.getPath().size(), mEnv.state.stack.size());
+        assertEquals(mEnv.docs.nextPath.getPath().size(), mEnv.state.stack.size());
         assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.peek());
     }
 
@@ -120,7 +119,7 @@ public class AbstractActionHandlerTest {
         mEnv.searchViewManager.isSearching = true;
         mEnv.docs.nextDocuments = Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2);
 
-        mEnv.state.pushDocument(TestEnv.FOLDER_0);
+        mEnv.state.stack.push(TestEnv.FOLDER_0);
 
         mHandler.openContainerDocument(TestEnv.FOLDER_2);
 

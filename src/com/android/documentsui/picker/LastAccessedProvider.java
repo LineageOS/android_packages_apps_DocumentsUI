@@ -37,9 +37,9 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.DurableUtils;
 import com.android.internal.util.Predicate;
 
-import com.google.android.collect.Sets;
-
 import libcore.io.IoUtils;
+
+import com.google.android.collect.Sets;
 
 import java.io.IOException;
 import java.util.Set;
@@ -244,7 +244,7 @@ public class LastAccessedProvider extends ContentProvider {
                             cursor.getColumnIndex(Columns.STACK));
                     DurableUtils.readFromArray(rawStack, stack);
 
-                    if (stack.root != null && predicate.apply(stack.root.authority)) {
+                    if (stack.getRoot() != null && predicate.apply(stack.getRoot().authority)) {
                         final String packageName = getCursorString(
                                 cursor, Columns.PACKAGE_NAME);
                         db.delete(TABLE_LAST_ACCESSED, Columns.PACKAGE_NAME + "=?",

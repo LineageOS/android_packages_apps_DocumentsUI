@@ -16,8 +16,9 @@
 
 package com.android.documentsui.files;
 
-import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.ActivityConfig;
+import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.RootInfo;
 
 /**
  * Provides support for Files activity specific specializations.
@@ -30,8 +31,9 @@ public final class Config extends ActivityConfig {
         // And while we don't allow folders in Downloads, we do allow Zip files in
         // downloads that themselves can be opened and viewed like directories.
         // This method helps us understand when to kick in on those special behaviors.
-        return stack.root != null
-                && stack.root.isDownloads()
+        final RootInfo root = stack.getRoot();
+        return root != null
+                && root.isDownloads()
                 && stack.size() == 1;
     }
 

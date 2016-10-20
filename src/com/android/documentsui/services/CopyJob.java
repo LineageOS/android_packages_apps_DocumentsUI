@@ -276,7 +276,7 @@ class CopyJob extends Job {
             int docProcessed = 0;
             for (Uri uri : uris) {
                 DocumentInfo doc = DocumentInfo.fromUri(resolver, uri);
-                if (canCopy(doc, stack.root)) {
+                if (canCopy(doc, stack.getRoot())) {
                     mSrcs.add(doc);
                 } else {
                     onFileFailed(doc);
@@ -322,9 +322,10 @@ class CopyJob extends Job {
         if (batchSize >= 0) {
             RootsCache cache = DocumentsApplication.getRootsCache(appContext);
 
+            RootInfo root = stack.getRoot();
             // Query root info here instead of using stack.root because the number there may be
             // stale.
-            RootInfo root = cache.getRootOneshot(stack.root.authority, stack.root.rootId, true);
+            root = cache.getRootOneshot(root.authority, root.rootId, true);
             if (root.availableBytes >= 0) {
                 result = (batchSize <= root.availableBytes);
             } else {

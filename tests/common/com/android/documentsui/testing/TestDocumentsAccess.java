@@ -16,6 +16,8 @@
 package com.android.documentsui.testing;
 
 import android.net.Uri;
+import android.os.RemoteException;
+import android.provider.DocumentsContract.Path;
 
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.base.DocumentInfo;
@@ -30,6 +32,9 @@ public class TestDocumentsAccess implements DocumentsAccess {
     public @Nullable DocumentInfo nextRootDocument;
     public @Nullable DocumentInfo nextDocument;
     public @Nullable List<DocumentInfo> nextDocuments;
+
+    public boolean nextIsDocumentsUri;
+    public @Nullable Path nextPath;
 
     @Override
     public DocumentInfo getRootDocument(RootInfo root) {
@@ -49,5 +54,15 @@ public class TestDocumentsAccess implements DocumentsAccess {
     @Override
     public DocumentInfo getArchiveDocument(Uri uri) {
         return nextDocument;
+    }
+
+    @Override
+    public boolean isDocumentUri(Uri uri) {
+        return nextIsDocumentsUri;
+    }
+
+    @Override
+    public Path findPath(Uri docUri) throws RemoteException {
+        return nextPath;
     }
 }

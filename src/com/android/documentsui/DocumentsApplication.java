@@ -28,7 +28,6 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.text.format.DateUtils;
 
-import com.android.documentsui.ProviderAccess.RuntimeProviderAccess;
 import com.android.documentsui.clipping.ClipStorage;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
@@ -43,8 +42,6 @@ public class DocumentsApplication extends Application {
     private ClipStorage mClipStore;
     private DocumentClipper mClipper;
 
-    private ProviderAccess mProviderAccess;
-
     public static RootsCache getRootsCache(Context context) {
         return ((DocumentsApplication) context.getApplicationContext()).mRoots;
     }
@@ -52,11 +49,6 @@ public class DocumentsApplication extends Application {
     public static ThumbnailCache getThumbnailCache(Context context) {
         final DocumentsApplication app = (DocumentsApplication) context.getApplicationContext();
         return app.mThumbnailCache;
-    }
-
-    public static ProviderAccess getProviderAccess(Context context) {
-        final DocumentsApplication app = (DocumentsApplication) context.getApplicationContext();
-        return app.mProviderAccess;
     }
 
     public static ContentProviderClient acquireUnstableProviderOrThrow(
@@ -94,8 +86,6 @@ public class DocumentsApplication extends Application {
                 ClipStorage.prepareStorage(getCacheDir()),
                 getSharedPreferences(ClipStorage.PREF_NAME, 0));
         mClipper = new DocumentClipper(this, mClipStore);
-
-        mProviderAccess = new RuntimeProviderAccess(getContentResolver());
 
         final IntentFilter packageFilter = new IntentFilter();
         packageFilter.addAction(Intent.ACTION_PACKAGE_ADDED);

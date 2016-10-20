@@ -1154,7 +1154,7 @@ public class DirectoryFragment extends Fragment
 
             if (mModel.isEmpty()) {
                 if (mLocalState.mSearchMode) {
-                    showNoResults(mState.stack.root);
+                    showNoResults(mState.stack.getRoot());
                 } else {
                     showEmptyDirectory();
                 }

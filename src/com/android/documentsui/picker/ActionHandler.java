@@ -36,7 +36,6 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
-import com.android.documentsui.ProviderAccess;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -67,13 +66,12 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
-            ProviderAccess providers,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
             ActivityConfig activityConfig) {
 
-        super(activity, state, roots, docs, providers, selectionMgr, searchMgr, executors);
+        super(activity, state, roots, docs, selectionMgr, searchMgr, executors);
 
         mConfig = activityConfig;
         mScope = new ContentScope(this::onModelLoaded);
@@ -81,42 +79,65 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     @Override
     public void initLocation(Intent intent) {
-        if (mState.restored) {
-            if (DEBUG) Log.d(TAG, "Stack already resolved");
-        } else {
-            // We set the activity title in AsyncTask.onPostExecute().
-            // To prevent talkback from reading aloud the default title, we clear it here.
-            mActivity.setTitle("");
+        assert(intent != null);
 
-            // As a matter of policy we don't load the last used stack for the copy
-            // destination picker (user is already in Files app).
-            // Concensus was that the experice was too confusing.
-            // In all other cases, where the user is visiting us from another app
-            // we restore the stack as last used from that app.
-            if (Shared.ACTION_PICK_COPY_DESTINATION.equals(intent.getAction())) {
-                if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
-                loadHomeDir();
-            } else if (intent.getData() != null) {
-                Uri uri = intent.getData();
-                loadDocument(
-                        uri,
-                        (@Nullable DocumentStack stack) -> onStackLoaded(uri, stack));
-            } else {
-                loadLastAccessedStack();
-            }
+        if (mState.restored) {
+            if (DEBUG) Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
+            return;
         }
+
+        // We set the activity title in AsyncTask.onPostExecute().
+        // To prevent talkback from reading aloud the default title, we clear it here.
+        mActivity.setTitle("");
+
+        if (launchHomeForCopyDestination(intent)) {
+            if (DEBUG) Log.d(TAG, "Launching directly into Home directory for copy destination.");
+            return;
+        }
+
+        if (launchToDocument(intent)) {
+            if (DEBUG) Log.d(TAG, "Launched to a document.");
+            return;
+        }
+
+        if (DEBUG) Log.d(TAG, "Load last accessed stack.");
+        loadLastAccessedStack();
     }
 
-    private void onStackLoaded(Uri uri, @Nullable DocumentStack stack) {
+    private boolean launchHomeForCopyDestination(Intent intent) {
+        // As a matter of policy we don't load the last used stack for the copy
+        // destination picker (user is already in Files app).
+        // Consensus was that the experice was too confusing.
+        // In all other cases, where the user is visiting us from another app
+        // we restore the stack as last used from that app.
+        if (Shared.ACTION_PICK_COPY_DESTINATION.equals(intent.getAction())) {
+            loadHomeDir();
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean launchToDocument(Intent intent) {
+        final Uri uri = intent.getData();
+        if (uri != null) {
+            loadDocument(uri, this::onStackLoaded);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void onStackLoaded(@Nullable DocumentStack stack) {
         if (stack != null) {
             if (!stack.peek().isContainer()) {
                 // Requested document is not a container. Pop it so that we can launch into its
                 // parent.
                 stack.pop();
             }
-            mState.setStack(stack);
+            mState.stack.reset(stack);
         } else {
-            Log.w(TAG, "Failed to launch into the given uri: " + uri);
+            Log.w(TAG, "Failed to launch into the given uri. Load last accessed stack.");
             loadLastAccessedStack();
         }
     }
@@ -194,7 +215,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             showDrawer = true;
         }
 
-        if (showDrawer && !mState.hasInitialLocationChanged() && !mScope.searchMode
+        if (showDrawer && !mState.stack.hasInitialLocationChanged() && !mScope.searchMode
                 && !mScope.modelLoadObserved) {
             // This noops on layouts without drawer, so no need to guard.
             mActivity.setRootsDrawerOpen(true);
