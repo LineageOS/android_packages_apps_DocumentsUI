@@ -731,7 +731,7 @@ public abstract class BaseActivity<T extends ActionHandler>
         });
     }
 
-    public final class RetainedState {
+    public static final class RetainedState {
         public @Nullable Selection selection;
 
         public boolean hasSelection() {
