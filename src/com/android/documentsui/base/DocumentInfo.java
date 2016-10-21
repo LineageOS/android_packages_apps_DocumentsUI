@@ -31,6 +31,8 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.roots.RootCursorWrapper;
 
+import libcore.io.IoUtils;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileNotFoundException;
@@ -41,8 +43,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-
-import libcore.io.IoUtils;
 
 /**
  * Representation of a {@link Document}.
@@ -210,14 +210,15 @@ public class DocumentInfo implements Durable, Parcelable {
 
     @Override
     public String toString() {
-        return "Document{"
+        return "DocumentInfo{"
                 + "docId=" + documentId
                 + ", name=" + displayName
+                + ", mimeType=" + mimeType
                 + ", isContainer=" + isContainer()
                 + ", isDirectory=" + isDirectory()
                 + ", isArchive=" + isArchive()
                 + ", isPartial=" + isPartial()
-                + ", isVirtualDocument=" + isVirtualDocument()
+                + ", isVirtual=" + isVirtual()
                 + ", isDeleteSupported=" + isDeleteSupported()
                 + ", isCreateSupported=" + isCreateSupported()
                 + ", isRenameSupported=" + isRenameSupported()
@@ -228,16 +229,8 @@ public class DocumentInfo implements Durable, Parcelable {
         return (flags & Document.FLAG_DIR_SUPPORTS_CREATE) != 0;
     }
 
-    public boolean isThumbnailSupported() {
-        return (flags & Document.FLAG_SUPPORTS_THUMBNAIL) != 0;
-    }
-
     public boolean isDirectory() {
         return Document.MIME_TYPE_DIR.equals(mimeType);
-    }
-
-    public boolean isGridPreferred() {
-        return (flags & Document.FLAG_DIR_PREFERS_GRID) != 0;
     }
 
     public boolean isWriteSupported() {
@@ -268,7 +261,7 @@ public class DocumentInfo implements Durable, Parcelable {
         return isDirectory() || isArchive();
     }
 
-    public boolean isVirtualDocument() {
+    public boolean isVirtual() {
         return (flags & Document.FLAG_VIRTUAL_DOCUMENT) != 0;
     }
 

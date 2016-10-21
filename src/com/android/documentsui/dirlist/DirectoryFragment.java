@@ -187,7 +187,7 @@ public class DirectoryFragment extends Fragment
     private int mColumnCount = 1;  // This will get updated when layout changes.
 
     private float mLiveScale = 1.0f;
-    private int mMode;
+    private @ViewMode int mMode;
 
     private MessageBar mMessageBar;
     private View mProgressBar;

@@ -26,8 +26,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
-import com.android.documentsui.base.State;
+import com.android.documentsui.base.DebugFlags;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.roots.RootCursorWrapper;
 
 final class GridDirectoryHolder extends DocumentHolder {
 
@@ -71,13 +73,18 @@ final class GridDirectoryHolder extends DocumentHolder {
      * @param state Current display state.
      */
     @Override
-    public void bind(Cursor cursor, String modelId, State state) {
+    public void bind(Cursor cursor, String modelId) {
         assert(cursor != null);
 
-        this.modelId = modelId;
+        this.mModelId = modelId;
 
-        final String docDisplayName = getCursorString(cursor, Document.COLUMN_DISPLAY_NAME);
-        mTitle.setText(docDisplayName, TextView.BufferType.SPANNABLE);
+        mTitle.setText(
+                getCursorString(cursor, Document.COLUMN_DISPLAY_NAME),
+                TextView.BufferType.SPANNABLE);
 
+        if (DebugFlags.getDocumentDetailsEnabled()) {
+            String authority = getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY);
+            includeDebugInfo(DocumentInfo.fromCursor(cursor, authority));
+        }
     }
 }

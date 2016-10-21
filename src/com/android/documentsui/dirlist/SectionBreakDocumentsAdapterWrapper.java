@@ -240,6 +240,7 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
      */
     private static final class EmptyDocumentHolder extends DocumentHolder {
         final int mVisibleHeight;
+        private State mState;
 
         public EmptyDocumentHolder(Context context) {
             super(context, new Space(context));
@@ -249,12 +250,13 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
         }
 
         public void bind(State state) {
-            bind(null, null, state);
+            mState = state;
+            bind(null, null);
         }
 
         @Override
-        public void bind(Cursor cursor, String modelId, State state) {
-            if (state.derivedMode == State.MODE_GRID) {
+        public void bind(Cursor cursor, String modelId) {
+            if (mState.derivedMode == State.MODE_GRID) {
                 itemView.setMinimumHeight(mVisibleHeight);
             } else {
                 itemView.setMinimumHeight(0);

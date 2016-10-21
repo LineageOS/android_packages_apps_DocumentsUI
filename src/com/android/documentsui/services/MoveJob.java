@@ -154,7 +154,7 @@ final class MoveJob extends CopyJob {
         // Moving virtual files by bytes is not supported. This is because, it would involve
         // conversion, and the source file should not be deleted in such case (as it's a different
         // file).
-        if (src.isVirtualDocument()) {
+        if (src.isVirtual()) {
             throw new ResourceException("Cannot move virtual file %s byte by byte.",
                     src.derivedUri);
         }

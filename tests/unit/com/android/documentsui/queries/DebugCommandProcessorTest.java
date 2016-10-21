@@ -16,6 +16,8 @@
 
 package com.android.documentsui.queries;
 
+import static com.android.documentsui.queries.DebugCommandProcessor.COMMAND_PREFIX;
+
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -43,7 +45,7 @@ public final class DebugCommandProcessorTest {
 
     @Test
     public void testTriesAllCommands() {
-        mProcessor.accept("debug:poodles");
+        mProcessor.accept(COMMAND_PREFIX + "poodles");
         mCommand0.assertCalled();
         mCommand1.assertCalled();
     }
@@ -51,7 +53,7 @@ public final class DebugCommandProcessorTest {
     @Test
     public void testStopsAfterCommandHandled() {
         mCommand0.nextReturn(true);
-        mProcessor.accept("debug:poodles");
+        mProcessor.accept("dbg:poodles");
         mCommand0.assertCalled();
         mCommand1.assertNotCalled();
     }
@@ -59,7 +61,7 @@ public final class DebugCommandProcessorTest {
     @Test
     public void testConveysArguments() {
         mCommand0.nextReturn(true);
-        mProcessor.accept("debug:cheese doodles");
+        mProcessor.accept(COMMAND_PREFIX + "cheese doodles");
 
         String[] expected = {"cheese", "doodles"};
         Assert.assertArrayEquals(expected, mCommand0.getLastValue());
@@ -67,7 +69,7 @@ public final class DebugCommandProcessorTest {
 
     @Test
     public void testMissingCommand() {
-        mProcessor.accept("debug:");
+        mProcessor.accept(COMMAND_PREFIX);
         mCommand0.assertNotCalled();
         mCommand1.assertNotCalled();
     }
