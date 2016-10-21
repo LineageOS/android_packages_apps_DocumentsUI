@@ -20,7 +20,7 @@ import android.annotation.ColorInt;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -28,28 +28,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.android.documentsui.base.Shared;
-import com.android.documentsui.base.State;
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.R;
+import com.android.documentsui.base.DebugFlags;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.ui.DocumentDebugInfo;
+
+import javax.annotation.Nullable;
 
 public abstract class DocumentHolder
-        extends RecyclerView.ViewHolder implements View.OnKeyListener, DocumentDetails {
+        extends RecyclerView.ViewHolder
+        implements View.OnKeyListener, DocumentDetails {
 
     static final float DISABLED_ALPHA = 0.3f;
 
-    protected @Nullable String modelId;
+    protected final Context mContext;
+    protected final @ColorInt int mDefaultBgColor;
+    protected final @ColorInt int mSelectedBgColor;
 
-    final Context mContext;
-    final @ColorInt int mDefaultBgColor;
-    final @ColorInt int mSelectedBgColor;
+    protected @Nullable String mModelId;
+
+    private final View mSelectionHotspot;
+    private final @Nullable FrameLayout mDebugContainer;
+    private @Nullable DocumentDebugInfo mDebugInfo;
 
     // See #addKeyEventListener for details on the need for this field.
-    KeyboardEventListener mKeyEventListener;
-
-    private View mSelectionHotspot;
+    private KeyboardEventListener mKeyEventListener;
 
     public DocumentHolder(Context context, ViewGroup parent, int layout) {
         this(context, inflateLayout(context, parent, layout));
@@ -64,8 +72,9 @@ public abstract class DocumentHolder
 
         mDefaultBgColor = context.getColor(R.color.item_doc_background);
         mSelectedBgColor = context.getColor(R.color.item_doc_background_selected);
-
         mSelectionHotspot = itemView.findViewById(R.id.icon_check);
+
+        mDebugContainer = (FrameLayout) itemView.findViewById(R.id.debug_info);
     }
 
     /**
@@ -74,16 +83,16 @@ public abstract class DocumentHolder
      * @param modelId
      * @param state
      */
-    public abstract void bind(Cursor cursor, String modelId, State state);
+    public abstract void bind(Cursor cursor, String modelId);
 
     @Override
     public boolean hasModelId() {
-        return !TextUtils.isEmpty(modelId);
+        return !TextUtils.isEmpty(mModelId);
     }
 
     @Override
     public String getModelId() {
-        return modelId;
+        return mModelId;
     }
 
     /**
@@ -158,6 +167,24 @@ public abstract class DocumentHolder
         return false;
     }
 
+    protected void includeDebugInfo(DocumentInfo doc) {
+        if (mDebugContainer == null) {
+            return;
+        }
+        if (DebugFlags.getDocumentDetailsEnabled()) {
+            assert(Build.IS_DEBUGGABLE);
+            if (mDebugInfo == null) {
+                assert(mDebugContainer.getChildAt(0) == null);
+                mDebugInfo = inflateLayout(mContext, mDebugContainer, R.layout.document_debug_info);
+                mDebugContainer.addView(mDebugInfo);
+            }
+            mDebugInfo.update(doc);
+            mDebugContainer.setVisibility(View.VISIBLE);
+        } else {
+            mDebugContainer.setVisibility(View.GONE);
+        }
+    }
+
     static void setEnabledRecursive(View itemView, boolean enabled) {
         if (itemView == null || itemView.isEnabled() == enabled) {
             return;
@@ -172,9 +199,9 @@ public abstract class DocumentHolder
         }
     }
 
-    private static View inflateLayout(Context context, ViewGroup parent, int layout) {
+    private static <V extends View> V inflateLayout(Context context, ViewGroup parent, int layout) {
         final LayoutInflater inflater = LayoutInflater.from(context);
-        return inflater.inflate(layout, parent, false);
+        return (V) inflater.inflate(layout, parent, false);
     }
 
     static ViewPropertyAnimator fade(ImageView view, float alpha) {

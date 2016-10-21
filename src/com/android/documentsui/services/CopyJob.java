@@ -401,7 +401,7 @@ class CopyJob extends Job {
         if (DEBUG) Log.d(TAG, "Doing byte copy of document: " + src);
         // If the file is virtual, but can be converted to another format, then try to copy it
         // as such format. Also, append an extension for the target mime type (if known).
-        if (src.isVirtualDocument()) {
+        if (src.isVirtual()) {
             String[] streamTypes = null;
             try {
                 streamTypes = getContentResolver().getStreamTypes(src.derivedUri, "*/*");
@@ -538,7 +538,7 @@ class CopyJob extends Job {
         try {
             // If the file is virtual, but can be converted to another format, then try to copy it
             // as such format.
-            if (src.isVirtualDocument()) {
+            if (src.isVirtual()) {
                 try {
                     srcFileAsAsset = getClient(src).openTypedAssetFileDescriptor(
                                 src.derivedUri, mimeType, null, canceller);
@@ -592,7 +592,7 @@ class CopyJob extends Job {
                         src.derivedUri, dest.derivedUri, e);
             }
 
-            if (src.isVirtualDocument()) {
+            if (src.isVirtual()) {
                convertedFiles.add(src);
             }
 

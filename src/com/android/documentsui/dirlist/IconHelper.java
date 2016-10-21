@@ -215,6 +215,24 @@ public class IconHelper {
     /**
      * Load thumbnails for a directory list item.
      *
+     * @param doc The document
+     * @param iconThumb The itemview's thumbnail icon.
+     * @param iconMime The itemview's mime icon. Hidden when iconThumb is shown.
+     * @param subIconMime The second itemview's mime icon. Always visible.
+     * @return
+     */
+    public void load(
+            DocumentInfo doc,
+            ImageView iconThumb,
+            ImageView iconMime,
+            @Nullable ImageView subIconMime) {
+        load(doc.derivedUri, doc.mimeType, doc.flags, doc.icon, doc.lastModified,
+                iconThumb, iconMime, subIconMime);
+    }
+
+    /**
+     * Load thumbnails for a directory list item.
+     *
      * @param uri The URI for the file being represented.
      * @param mimeType The mime type of the file being represented.
      * @param docFlags Flags for the file being represented.

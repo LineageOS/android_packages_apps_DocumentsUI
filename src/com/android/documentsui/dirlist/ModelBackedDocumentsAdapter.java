@@ -129,7 +129,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
     public void onBindViewHolder(DocumentHolder holder, int position) {
         String modelId = mModelIds.get(position);
         Cursor cursor = mEnv.getModel().getItem(modelId);
-        holder.bind(cursor, modelId, mEnv.getDisplayState());
+        holder.bind(cursor, modelId);
 
         final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
         final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);

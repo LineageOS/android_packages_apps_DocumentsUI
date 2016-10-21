@@ -28,10 +28,8 @@ import java.util.List;
 
 final class DebugCommandProcessor implements EventHandler<String> {
 
-    /**
-     *
-     */
-    private static final String COMMAND_PREFIX = "debug:";
+    @VisibleForTesting
+    static final String COMMAND_PREFIX = "dbg:";
 
     private static final String TAG = "DebugCommandProcessor";
 
@@ -41,6 +39,7 @@ final class DebugCommandProcessor implements EventHandler<String> {
         if (Build.IS_DEBUGGABLE) {
             mCommands.add(DebugCommandProcessor::quickViewer);
             mCommands.add(DebugCommandProcessor::gestureScale);
+            mCommands.add(DebugCommandProcessor::docDetails);
         }
     }
 
@@ -84,14 +83,8 @@ final class DebugCommandProcessor implements EventHandler<String> {
 
     private static boolean gestureScale(String[] tokens) {
         if ("gs".equals(tokens[0])) {
-            if (tokens.length == 1) {
-                DebugFlags.setGestureScaleEnabled(true);
-                Log.i(TAG, "Set gesture scale enabled to: " + true);
-                return true;
-            }
-
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
-                boolean enabled = Boolean.valueOf(tokens[1]);
+                boolean enabled = asBool(tokens[1]);
                 DebugFlags.setGestureScaleEnabled(enabled);
                 Log.i(TAG, "Set gesture scale enabled to: " + enabled);
                 return true;
@@ -99,5 +92,28 @@ final class DebugCommandProcessor implements EventHandler<String> {
             Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));
         }
         return false;
+    }
+
+    private static boolean docDetails(String[] tokens) {
+        if ("docinfo".equals(tokens[0])) {
+            if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
+                boolean enabled = asBool(tokens[1]);
+                DebugFlags.setDocumentDetailsEnabled(enabled);
+                Log.i(TAG, "Set gesture scale enabled to: " + enabled);
+                return true;
+            }
+            Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));
+        }
+        return false;
+    }
+
+    private static final boolean asBool(String val) {
+        if (val == null || val.equals("0")) {
+            return false;
+        }
+        if (val.equals("1")) {
+            return true;
+        }
+        return Boolean.valueOf(val);
     }
 }
