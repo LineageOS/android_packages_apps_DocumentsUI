@@ -16,16 +16,11 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.base.DocumentInfo.getCursorInt;
-import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;
-import android.net.Uri;
-import android.provider.DocumentsContract;
-import android.provider.DocumentsContract.Document;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,22 +29,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
-import com.android.documentsui.base.Shared;
-import com.android.documentsui.base.State;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 final class ListDocumentHolder extends DocumentHolder {
-    final TextView mTitle;
-    final LinearLayout mDetails;  // Container of date/size/summary
-    final TextView mDate;
-    final TextView mSize;
-    final TextView mSummary;
-    final ImageView mIconMime;
-    final ImageView mIconThumb;
-    final ImageView mIconCheck;
-    final IconHelper mIconHelper;
-    final View mIconLayout;
+
+    private final TextView mTitle;
+    private final LinearLayout mDetails;  // Container of date/size/summary
+    private final TextView mDate;
+    private final TextView mSize;
+    private final TextView mSummary;
+    private final ImageView mIconMime;
+    private final ImageView mIconThumb;
+    private final ImageView mIconCheck;
+    private final IconHelper mIconHelper;
+    private final View mIconLayout;
+    // This is used in as a convenience in our bind method.
+    private final DocumentInfo mDoc;
 
     public ListDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper) {
         super(context, parent, R.layout.item_doc_list);
@@ -66,6 +64,7 @@ final class ListDocumentHolder extends DocumentHolder {
         mDetails = (LinearLayout) itemView.findViewById(R.id.line2);
 
         mIconHelper = iconHelper;
+        mDoc = new DocumentInfo();
     }
 
     @Override
@@ -138,21 +137,12 @@ final class ListDocumentHolder extends DocumentHolder {
      * @param state Current display state.
      */
     @Override
-    public void bind(Cursor cursor, String modelId, State state) {
+    public void bind(Cursor cursor, String modelId) {
         assert(cursor != null);
 
-        this.modelId = modelId;
+        mModelId = modelId;
 
-        final String docAuthority = getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY);
-        final String docId = getCursorString(cursor, Document.COLUMN_DOCUMENT_ID);
-        final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
-        final String docDisplayName = getCursorString(cursor, Document.COLUMN_DISPLAY_NAME);
-        final long docLastModified = getCursorLong(cursor, Document.COLUMN_LAST_MODIFIED);
-        final int docIcon = getCursorInt(cursor, Document.COLUMN_ICON);
-        final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-        final String docSummary = getCursorString(cursor, Document.COLUMN_SUMMARY);
-        final long docSize = getCursorLong(cursor, Document.COLUMN_SIZE);
-        final boolean isDirectory = Document.MIME_TYPE_DIR.equals(docMimeType);
+        mDoc.updateFromCursor(cursor, getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY));
 
         mIconHelper.stopLoading(mIconThumb);
 
@@ -161,38 +151,36 @@ final class ListDocumentHolder extends DocumentHolder {
         mIconThumb.animate().cancel();
         mIconThumb.setAlpha(0f);
 
-        final Uri uri = DocumentsContract.buildDocumentUri(docAuthority, docId);
-        mIconHelper.load(uri, docMimeType, docFlags, docIcon, docLastModified, mIconThumb,
-                mIconMime, null);
+        mIconHelper.load(mDoc, mIconThumb, mIconMime, null);
 
-        mTitle.setText(docDisplayName, TextView.BufferType.SPANNABLE);
+        mTitle.setText(mDoc.displayName, TextView.BufferType.SPANNABLE);
         mTitle.setVisibility(View.VISIBLE);
 
 
         boolean hasDetails = false;
-        if (isDirectory) {
+        if (mDoc.isDirectory()) {
             // Note, we don't show any details for any directory...ever.
             hasDetails = false;
         } else {
-            if (docSummary != null) {
+            if (mDoc.summary != null) {
                 hasDetails = true;
-                mSummary.setText(docSummary);
+                mSummary.setText(mDoc.summary);
                 mSummary.setVisibility(View.VISIBLE);
             } else {
                 mSummary.setVisibility(View.INVISIBLE);
             }
 
-            if (docLastModified > 0) {
+            if (mDoc.lastModified > 0) {
                 hasDetails = true;
-                mDate.setText(Shared.formatTime(mContext, docLastModified));
+                mDate.setText(Shared.formatTime(mContext, mDoc.lastModified));
             } else {
                 mDate.setText(null);
             }
 
-            if (docSize > -1) {
+            if (mDoc.size > -1) {
                 hasDetails = true;
                 mSize.setVisibility(View.VISIBLE);
-                mSize.setText(Formatter.formatFileSize(mContext, docSize));
+                mSize.setText(Formatter.formatFileSize(mContext, mDoc.size));
             } else {
                 mSize.setVisibility(View.GONE);
             }
@@ -202,5 +190,8 @@ final class ListDocumentHolder extends DocumentHolder {
         if (mDetails != null) {
             mDetails.setVisibility(hasDetails ? View.VISIBLE : View.GONE);
         }
+
+        // TODO: Add document debug info
+        // Call includeDebugInfo
     }
 }

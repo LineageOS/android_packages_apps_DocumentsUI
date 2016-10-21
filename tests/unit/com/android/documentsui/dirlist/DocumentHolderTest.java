@@ -30,7 +30,6 @@ import android.view.MotionEvent.PointerCoords;
 import android.view.MotionEvent.PointerProperties;
 
 import com.android.documentsui.R;
-import com.android.documentsui.base.State;
 
 @SmallTest
 public class DocumentHolderTest extends AndroidTestCase {
@@ -44,7 +43,7 @@ public class DocumentHolderTest extends AndroidTestCase {
         LayoutInflater inflater = LayoutInflater.from(context);
         mHolder = new DocumentHolder(getContext(), inflater.inflate(R.layout.item_doc_list, null)) {
             @Override
-            public void bind(Cursor cursor, String modelId, State state) {}
+            public void bind(Cursor cursor, String modelId) {}
         };
 
         mListener = new TestListener();

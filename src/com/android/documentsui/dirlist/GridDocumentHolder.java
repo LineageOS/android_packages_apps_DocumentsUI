@@ -16,15 +16,12 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.annotation.ColorInt;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
-import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.text.format.Formatter;
 import android.view.View;
@@ -33,14 +30,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
-import com.android.documentsui.base.Shared;
-import com.android.documentsui.base.State;
+import com.android.documentsui.base.DebugFlags;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 final class GridDocumentHolder extends DocumentHolder {
-
-    private static boolean mHideTitles;
 
     final TextView mTitle;
     final TextView mDate;
@@ -52,6 +48,8 @@ final class GridDocumentHolder extends DocumentHolder {
     final IconHelper mIconHelper;
 
     private final @ColorInt int mDisabledBgColor;
+    // This is used in as a convenience in our bind method.
+    private final DocumentInfo mDoc = new DocumentInfo();
 
     public GridDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper) {
         super(context, parent, R.layout.item_doc_grid);
@@ -123,18 +121,12 @@ final class GridDocumentHolder extends DocumentHolder {
      * @param state Current display state.
      */
     @Override
-    public void bind(Cursor cursor, String modelId, State state) {
+    public void bind(Cursor cursor, String modelId) {
         assert(cursor != null);
 
-        this.modelId = modelId;
+        mModelId = modelId;
 
-        final String docAuthority = getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY);
-        final String docId = getCursorString(cursor, Document.COLUMN_DOCUMENT_ID);
-        final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
-        final String docDisplayName = getCursorString(cursor, Document.COLUMN_DISPLAY_NAME);
-        final long docLastModified = getCursorLong(cursor, Document.COLUMN_LAST_MODIFIED);
-        final int docIcon = getCursorInt(cursor, Document.COLUMN_ICON);
-        final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
+        mDoc.updateFromCursor(cursor, getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY));
 
         mIconHelper.stopLoading(mIconThumb);
 
@@ -143,38 +135,36 @@ final class GridDocumentHolder extends DocumentHolder {
         mIconThumb.animate().cancel();
         mIconThumb.setAlpha(0f);
 
-        final Uri uri = DocumentsContract.buildDocumentUri(docAuthority, docId);
-        mIconHelper.load(uri, docMimeType, docFlags, docIcon, docLastModified, mIconThumb,
-                mIconMimeLg, mIconMimeSm);
+        mIconHelper.load(mDoc, mIconThumb, mIconMimeLg, mIconMimeSm);
 
-        if (mHideTitles) {
-            mTitle.setVisibility(View.GONE);
-        } else {
-            mTitle.setText(docDisplayName, TextView.BufferType.SPANNABLE);
-            mTitle.setVisibility(View.VISIBLE);
-        }
+        mTitle.setText(mDoc.displayName, TextView.BufferType.SPANNABLE);
+        mTitle.setVisibility(View.VISIBLE);
 
         // If file is partial, we want to show summary field as that's more relevant than fileSize
         // and date
-        if ((docFlags & Document.FLAG_PARTIAL) != 0) {
+        if (mDoc.isPartial()) {
             final String docSummary = getCursorString(cursor, Document.COLUMN_SUMMARY);
             mDetails.setVisibility(View.VISIBLE);
             mDate.setText(null);
             mDetails.setText(docSummary);
         } else {
-            if (docLastModified == -1) {
+            if (mDoc.lastModified == -1) {
                 mDate.setText(null);
             } else {
-                mDate.setText(Shared.formatTime(mContext, docLastModified));
+                mDate.setText(Shared.formatTime(mContext, mDoc.lastModified));
             }
 
             final long docSize = getCursorLong(cursor, Document.COLUMN_SIZE);
-            if (Document.MIME_TYPE_DIR.equals(docMimeType) || docSize == -1) {
+            if (mDoc.isDirectory() || docSize == -1) {
                 mDetails.setVisibility(View.GONE);
             } else {
                 mDetails.setVisibility(View.VISIBLE);
                 mDetails.setText(Formatter.formatFileSize(mContext, docSize));
             }
+        }
+
+        if (DebugFlags.getDocumentDetailsEnabled()) {
+            includeDebugInfo(mDoc);
         }
     }
 }

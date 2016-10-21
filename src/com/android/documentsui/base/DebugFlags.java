@@ -26,6 +26,7 @@ public final class DebugFlags {
 
     private static String mQvPackage;
     private static boolean sGestureScaleEnabled;
+    private static boolean sDocumentDetailsEnabled;
 
     public static void setQuickViewer(@Nullable String qvPackage) {
         mQvPackage = qvPackage;
@@ -33,6 +34,14 @@ public final class DebugFlags {
 
     public static @Nullable String getQuickViewer() {
         return mQvPackage;
+    }
+
+    public static void setDocumentDetailsEnabled(boolean enabled) {
+        sDocumentDetailsEnabled = enabled;
+    }
+
+    public static boolean getDocumentDetailsEnabled() {
+        return sDocumentDetailsEnabled;
     }
 
     public static void setGestureScaleEnabled(boolean enabled) {
