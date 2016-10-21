@@ -40,7 +40,6 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
-import com.android.documentsui.ProviderAccess;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -88,7 +87,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
-            ProviderAccess providers,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
@@ -98,7 +96,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             DocumentClipper clipper,
             ClipStore clipStore) {
 
-        super(activity, state, roots, docs, providers, selectionMgr, searchMgr, executors);
+        super(activity, state, roots, docs, selectionMgr, searchMgr, executors);
 
         mActionModeAddons = actionModeAddons;
         mDialogs = dialogs;
@@ -321,12 +319,12 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     // Any other URI is *sorta* unexpected...except when browsing an archive
     // in downloads.
     private boolean launchToStackLocation(DocumentStack stack) {
-        if (stack == null || stack.root == null) {
+        if (stack == null || stack.getRoot() == null) {
             return false;
         }
 
         if (mState.stack.isEmpty()) {
-            mActivity.onRootPicked(mState.stack.root);
+            mActivity.onRootPicked(mState.stack.getRoot());
         } else {
             mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         }
@@ -512,7 +510,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private void onModelLoaded(Model.Update update) {
         // When launched into empty root, open drawer.
         if (mScope.model.isEmpty()
-                && !mState.hasInitialLocationChanged()
+                && !mState.stack.hasInitialLocationChanged()
                 && !mScope.searchMode
                 && !mScope.modelLoadObserved) {
             // Opens the drawer *if* an openable drawer is present

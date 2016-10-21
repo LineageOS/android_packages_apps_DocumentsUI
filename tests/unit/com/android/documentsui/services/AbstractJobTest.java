@@ -87,9 +87,8 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
 
     final T createJob(@OpType int opType, List<Uri> srcs, Uri srcParent, Uri destination)
             throws Exception {
-        DocumentStack stack = new DocumentStack();
-        stack.push(DocumentInfo.fromUri(mResolver, destination));
-        stack.root = mSrcRoot;
+        DocumentStack stack =
+                new DocumentStack(mSrcRoot, DocumentInfo.fromUri(mResolver, destination));
 
         UrisSupplier urisSupplier = DocsProviders.createDocsProvider(srcs);
         FileOperation operation = new FileOperation.Builder()

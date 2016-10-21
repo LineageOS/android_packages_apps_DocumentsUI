@@ -40,45 +40,37 @@ import java.util.List;
  * given root is not null it calls callback with a {@link DocumentStack} as if the given doc lives
  * under the root doc.
  */
-public class LoadDocStackTask extends PairedTask<Activity, Void, DocumentStack> {
+public class LoadDocStackTask extends PairedTask<Activity, Uri, DocumentStack> {
     private static final String TAG = "LoadDocStackTask";
 
     private final RootsAccess mRoots;
     private final DocumentsAccess mDocs;
-    private final Uri mDocUri;
-    private final String mAuthority;
-    private final ProviderAccess mProviders;
     private final LoadDocStackCallback mCallback;
 
     public LoadDocStackTask(
             Activity activity,
-            Uri docUri,
             RootsAccess roots,
             DocumentsAccess docs,
-            ProviderAccess providers,
             LoadDocStackCallback callback) {
         super(activity);
         mRoots = roots;
         mDocs = docs;
-        mDocUri = docUri;
-        mAuthority = docUri.getAuthority();
-        mProviders = providers;
         mCallback = callback;
     }
 
     @Override
-    public @Nullable DocumentStack run(Void... args) {
-        if (Shared.ENABLE_OMC_API_FEATURES) {
+    public @Nullable DocumentStack run(Uri... uris) {
+        final Uri docUri = uris[0];
+        if (Shared.ENABLE_OMC_API_FEATURES && mDocs.isDocumentUri(docUri)) {
             try {
-                final Path path = mProviders.findPath(mDocUri);
+                final Path path = mDocs.findPath(docUri);
                 if (path != null) {
-                    return buildStack(path);
+                    return buildStack(docUri.getAuthority(), path);
                 } else {
                     Log.i(TAG, "Remote provider doesn't support findPath.");
                 }
             } catch (Exception e) {
-                Log.e(TAG, "Failed to build document stack for uri: " + mDocUri, e);
-                // Fallback to old behavior.
+                Log.e(TAG, "Failed to build document stack for uri: " + docUri, e);
             }
         }
 
@@ -90,20 +82,19 @@ public class LoadDocStackTask extends PairedTask<Activity, Void, DocumentStack> 
         mCallback.onDocumentStackLoaded(stack);
     }
 
-    private @Nullable DocumentStack buildStack(Path path) {
+    private DocumentStack buildStack(String authority, Path path) throws Exception {
         final String rootId = path.getRootId();
         if (rootId == null) {
-            Log.e(TAG, "Provider doesn't provide root id.");
-            return null;
+            throw new IllegalStateException("Provider doesn't provider root id.");
         }
 
-        RootInfo root = mRoots.getRootOneshot(mAuthority, path.getRootId());
-        List<DocumentInfo> docs = mDocs.getDocuments(mAuthority, path.getPath());
-
-        if (root == null || docs == null) {
-            Log.e(TAG, "Either root: " + root + " or docs: " + docs + " failed to load.");
-            return null;
+        RootInfo root = mRoots.getRootOneshot(authority, path.getRootId());
+        if (root == null) {
+            throw new IllegalStateException("Failed to load root for authority: " + authority +
+                    " and root ID: " + path.getRootId() + ".");
         }
+
+        List<DocumentInfo> docs = mDocs.getDocuments(authority, path.getPath());
 
         return new DocumentStack(root, docs);
     }

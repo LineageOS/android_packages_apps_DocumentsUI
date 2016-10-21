@@ -18,11 +18,13 @@ package com.android.documentsui;
 
 import android.annotation.Nullable;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
+import android.provider.DocumentsContract.Path;
 import android.util.Log;
 
 import com.android.documentsui.archives.ArchivesProvider;
@@ -34,7 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides synchronous access to {@link DocumentInfo} instances given some identifying information.
+ * Provides synchronous access to {@link DocumentInfo} instances given some identifying information
+ * and some documents API.
  */
 public interface DocumentsAccess {
 
@@ -42,7 +45,10 @@ public interface DocumentsAccess {
     @Nullable DocumentInfo getDocument(Uri uri);
     @Nullable DocumentInfo getArchiveDocument(Uri uri);
 
-    @Nullable List<DocumentInfo> getDocuments(String authority, List<String> docIds);
+    boolean isDocumentUri(Uri uri);
+    @Nullable Path findPath(Uri uri) throws RemoteException;
+
+    List<DocumentInfo> getDocuments(String authority, List<String> docIds) throws RemoteException;
 
     public static DocumentsAccess create(Context context) {
         return new RuntimeDocumentAccess(context);
@@ -76,7 +82,9 @@ public interface DocumentsAccess {
         }
 
         @Override
-        public @Nullable List<DocumentInfo> getDocuments(String authority, List<String> docIds) {
+        public List<DocumentInfo> getDocuments(String authority, List<String> docIds)
+                throws RemoteException {
+
             try(final ContentProviderClient client = DocumentsApplication
                     .acquireUnstableProviderOrThrow(mContext.getContentResolver(), authority)) {
 
@@ -86,26 +94,34 @@ public interface DocumentsAccess {
                     try (final Cursor cursor = client.query(uri, null, null, null, null)) {
                         if (!cursor.moveToNext()) {
                             Log.e(TAG, "Couldn't create DocumentInfo for Uri: " + uri);
-                            return null;
+                            throw new RemoteException("Failed to move cursor.");
                         }
 
                         result.add(DocumentInfo.fromCursor(cursor, authority));
-                    } catch (Exception e) {
-                        Log.e(TAG, "Couldn't create DocumentInfo for Uri: " + uri);
-                        return null;
                     }
                 }
 
                 return result;
-            } catch (RemoteException e) {
-                Log.w(TAG, "Couldn't get a content provider client." ,e);
-                return null;
             }
         }
 
         @Override
         public DocumentInfo getArchiveDocument(Uri uri) {
             return getDocument(ArchivesProvider.buildUriForArchive(uri));
+        }
+
+        @Override
+        public boolean isDocumentUri(Uri uri) {
+            return DocumentsContract.isDocumentUri(mContext, uri);
+        }
+
+        @Override
+        public Path findPath(Uri docUri) throws RemoteException {
+            final ContentResolver resolver = mContext.getContentResolver();
+            try (final ContentProviderClient client = DocumentsApplication
+                    .acquireUnstableProviderOrThrow(resolver, docUri.getAuthority())) {
+                return DocumentsContract.findPath(client, docUri);
+            }
         }
     }
 }

@@ -75,7 +75,7 @@ public class NavigationViewManager {
         boolean changed = false;
         while (mState.stack.size() > position + 1) {
             changed = true;
-            mState.popDocument();
+            mState.stack.pop();
         }
         if (changed) {
             mEnv.refreshCurrentRootAndDirectory(AnimationView.ANIM_LEAVE);

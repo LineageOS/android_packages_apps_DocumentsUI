@@ -16,13 +16,10 @@
 
 package com.android.documentsui.base;
 
-import static com.android.documentsui.base.Shared.DEBUG;
-
 import android.annotation.IntDef;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.android.documentsui.services.FileOperationService;
@@ -102,10 +99,7 @@ public class State implements android.os.Parcelable {
     public @OpType int copyOperationSubType = FileOperationService.OPERATION_UNKNOWN;
 
     /** Current user navigation stack; empty implies recents. */
-    public DocumentStack stack = new DocumentStack();
-    private boolean mStackTouched;
-    private boolean mInitialRootChanged;
-    private boolean mInitialDocChanged;
+    public final DocumentStack stack = new DocumentStack();
 
     /** Instance configs for every shown directory */
     public HashMap<String, SparseArray<Parcelable>> dirConfigs = new HashMap<>();
@@ -120,55 +114,6 @@ public class State implements android.os.Parcelable {
             String glob = intent.getType();
             acceptMimes = new String[] { glob != null ? glob : "*/*" };
         }
-    }
-
-    public void onRootChanged(RootInfo root) {
-        if (DEBUG) Log.d(TAG, "Root changed to: " + root);
-        if (!mInitialRootChanged && stack.root != null && !root.equals(stack.root)) {
-            mInitialRootChanged = true;
-        }
-        stack.root = root;
-        stack.clear();
-        mStackTouched = true;
-    }
-
-    public void pushDocument(DocumentInfo info) {
-        if (DEBUG) Log.d(TAG, "Adding doc to stack: " + info);
-        if (!mInitialDocChanged && stack.size() > 0 && !info.equals(stack.peek())) {
-            mInitialDocChanged = true;
-        }
-        stack.push(info);
-        mStackTouched = true;
-    }
-
-    public void popDocument() {
-        if (DEBUG) Log.d(TAG, "Popping doc off stack.");
-        stack.pop();
-        mStackTouched = true;
-    }
-
-    public void popDocumentsToRoot() {
-        if (DEBUG) Log.d(TAG, "Popping docs to root folder.");
-        while (stack.size() > 1) {
-            stack.pop();
-        }
-        mStackTouched = true;
-    }
-
-    public void setStack(DocumentStack stack) {
-        if (DEBUG) Log.d(TAG, "Setting the whole darn stack to: " + stack);
-        this.stack = stack;
-        mStackTouched = true;
-    }
-
-    // This will return true even when the initial location is set.
-    // To get a read on if the user has changed something, use #hasInitialLocationChanged.
-    public boolean hasLocationChanged() {
-        return mStackTouched;
-    }
-
-    public boolean hasInitialLocationChanged() {
-        return mInitialRootChanged || mInitialDocChanged;
     }
 
     @Override
@@ -190,9 +135,6 @@ public class State implements android.os.Parcelable {
         out.writeMap(dirConfigs);
         out.writeList(excludedAuthorities);
         out.writeInt(openableOnly ? 1 : 0);
-        out.writeInt(mStackTouched ? 1 : 0);
-        out.writeInt(mInitialRootChanged ? 1 : 0);
-        out.writeInt(mInitialDocChanged ? 1 : 0);
         out.writeParcelable(sortModel, 0);
     }
 
@@ -217,9 +159,6 @@ public class State implements android.os.Parcelable {
             in.readMap(state.dirConfigs, loader);
             in.readList(state.excludedAuthorities, loader);
             state.openableOnly = in.readInt() != 0;
-            state.mStackTouched = in.readInt() != 0;
-            state.mInitialRootChanged = in.readInt() != 0;
-            state.mInitialDocChanged = in.readInt() != 0;
             state.sortModel = in.readParcelable(getClass().getClassLoader());
             return state;
         }

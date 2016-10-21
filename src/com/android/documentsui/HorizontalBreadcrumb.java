@@ -195,7 +195,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
         }
 
         private DocumentInfo getItem(int position) {
-            return mState.stack.get(mState.stack.size() - position - 1);
+            return mState.stack.get(position);
         }
 
         @Override

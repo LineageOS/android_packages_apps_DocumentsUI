@@ -108,7 +108,7 @@ final class MoveJob extends CopyJob {
     boolean checkSpace() {
         long size = 0;
         for (DocumentInfo src : mSrcs) {
-            if (!src.authority.equals(stack.root.authority)) {
+            if (!src.authority.equals(stack.getRoot().authority)) {
                 if (src.isDirectory()) {
                     try {
                         size += calculateFileSizesRecursively(getClient(src), src.derivedUri);

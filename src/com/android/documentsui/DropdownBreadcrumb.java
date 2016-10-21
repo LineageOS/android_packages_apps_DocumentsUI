@@ -107,7 +107,7 @@ public final class DropdownBreadcrumb extends Spinner implements Breadcrumb {
 
         @Override
         public DocumentInfo getItem(int position) {
-            return mState.stack.get(mState.stack.size() - position - 1);
+            return mState.stack.get(position);
         }
 
         @Override
