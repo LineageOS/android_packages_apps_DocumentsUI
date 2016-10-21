@@ -16,15 +16,21 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.annotation.Nullable;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnItemTouchListener;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
+import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;
@@ -32,17 +38,24 @@ import com.android.documentsui.base.Events.MotionInputEvent;
 import com.android.documentsui.selection.BandController;
 import com.android.documentsui.selection.GestureSelector;
 
+import java.util.function.Consumer;
+
 //Receives event meant for both directory and empty view, and either pass them to
 //{@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
 //other types of gestures (drag n' drop)
 final class ListeningGestureDetector extends GestureDetector
         implements OnItemTouchListener, OnTouchListener {
 
+    private static final String TAG = "ListeningGestureDetector";
+
     private final GestureSelector mGestureSelector;
     private final EventHandler<InputEvent> mMouseDragListener;
     private final BandController mBandController;
     private final MouseDelegate mMouseDelegate = new MouseDelegate();
     private final TouchDelegate mTouchDelegate = new TouchDelegate();
+
+    // Currently only initialized on IS_DEBUGGABLE builds.
+    private final @Nullable ScaleGestureDetector mScaleDetector;
 
     public ListeningGestureDetector(
             Context context,
@@ -51,18 +64,44 @@ final class ListeningGestureDetector extends GestureDetector
             EventHandler<InputEvent> mouseDragListener,
             GestureSelector gestureSelector,
             UserInputHandler<? extends InputEvent> handler,
-            @Nullable BandController bandController) {
+            @Nullable BandController bandController,
+            Consumer<Float> scaleHandler) {
+
         super(context, handler);
+
         mMouseDragListener = mouseDragListener;
         mGestureSelector = gestureSelector;
         mBandController = bandController;
         recView.addOnItemTouchListener(this);
         emptyView.setOnTouchListener(this);
+
+        mScaleDetector = !Build.IS_DEBUGGABLE
+                ? null
+                : new ScaleGestureDetector(
+                        context,
+                        new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+                            @Override
+                            public boolean onScale(ScaleGestureDetector detector) {
+                                if (DEBUG) Log.v(TAG,
+                                        "Received scale event: " + detector.getScaleFactor());
+                                scaleHandler.accept(detector.getScaleFactor());
+                                return true;
+                            }
+                        });
     }
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         boolean handled = false;
+
+        // This is an in-development feature.
+        // TODO: Re-wire event handling so that we're not dispatching
+        //     events to to scaledetector's #onTouchEvent from this
+        //     #onInterceptTouchEvent touch event.
+        if (DebugFlags.getGestureScaleEnabled()
+                && mScaleDetector != null) {
+            mScaleDetector.onTouchEvent(e);
+        }
 
         try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
             if (event.isMouseEvent()) {

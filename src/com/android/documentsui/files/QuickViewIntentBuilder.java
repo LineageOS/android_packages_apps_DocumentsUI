@@ -36,9 +36,9 @@ import android.util.Log;
 import android.util.Range;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.queries.SetQuickViewerCommand;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import java.util.ArrayList;
@@ -142,8 +142,9 @@ public final class QuickViewIntentBuilder {
         // Allow users of debug devices to override default quick viewer
         // for the purposes of testing.
         if (Build.IS_DEBUGGABLE) {
-            if (SetQuickViewerCommand.sQuickViewer != null) {
-                return SetQuickViewerCommand.sQuickViewer;
+            String quickViewer = DebugFlags.getQuickViewer();
+            if (quickViewer != null) {
+                return quickViewer;
             }
             return android.os.SystemProperties.get("debug.quick_viewer", resValue);
         }
