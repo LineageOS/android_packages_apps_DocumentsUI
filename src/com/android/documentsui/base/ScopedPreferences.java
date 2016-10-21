@@ -18,12 +18,23 @@ package com.android.documentsui.base;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
+/**
+ * Provides an interface (and runtime implementation) for preferences that are
+ * scoped (presumably to an activity). This eliminates the need to pass
+ * scoping values into {@link LocalPreferences}, as well as eliminates
+ * the static-coupling to {@link LocalPreferences} increasing testability.
+ */
 public interface ScopedPreferences {
 
     boolean getShowDeviceRoot();
     void setShowDeviceRoot(boolean display);
 
+    /**
+     * @param scope An arbitrary string representitive of the scope
+     *        for prefs that are set using this object.
+     */
     public static ScopedPreferences create(Context context, String scope) {
         return new RuntimeScopedPreferences(
                 PreferenceManager.getDefaultSharedPreferences(context), scope);
@@ -37,6 +48,8 @@ public interface ScopedPreferences {
         private String mScope;
 
         private RuntimeScopedPreferences(SharedPreferences sharedPrefs, String scope)  {
+            assert(!TextUtils.isEmpty(scope));
+
             mSharedPrefs = sharedPrefs;
             mScope = scope;
         }

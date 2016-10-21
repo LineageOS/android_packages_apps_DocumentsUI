@@ -249,7 +249,8 @@ public final class Shared {
     }
 
     /*
-     * Returns true if device root should be shown.
+     * Returns true if the local/device storage root must be visible (this also hides
+     * the option to toggle visibility in the menu.)
      */
     public static boolean mustShowDeviceRoot(Intent intent) {
         return intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_ADVANCED, false);

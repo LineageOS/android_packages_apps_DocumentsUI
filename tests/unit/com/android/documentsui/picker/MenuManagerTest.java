@@ -164,7 +164,7 @@ public final class MenuManagerTest {
     @Test
     public void testOptionMenu_showAdvanced() {
         state.showAdvanced = true;
-        state.showAdvancedOption = true;
+        state.showDeviceStorageOption = true;
         mgr.updateOptionMenu(testMenu);
 
         advanced.assertVisible();

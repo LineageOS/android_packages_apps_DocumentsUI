@@ -303,7 +303,7 @@ public abstract class BaseActivity<T extends ActionHandler>
                 Shared.mustShowDeviceRoot(intent) || getScopedPreferences().getShowDeviceRoot();
 
         // Only show the toggle if advanced isn't forced enabled.
-        state.showAdvancedOption = !Shared.mustShowDeviceRoot(intent);
+        state.showDeviceStorageOption = !Shared.mustShowDeviceRoot(intent);
 
         if (DEBUG) Log.d(mTag, "Created new state object: " + state);
 
