@@ -59,16 +59,27 @@ public class LauncherActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        launch();
+
+        finish();
+    }
+
+    private void launch() {
         ActivityManager activities = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
         Intent intent = findTask(activities);
         if (intent != null) {
-            restoreTask(intent);
-        } else {
-            startTask();
+            if (restoreTask(intent)) {
+                return;
+            } else {
+                // We failed to restore the task. It may happen when system was just updated and we
+                // moved the location of the targeted activity. Chances is that the rest of tasks
+                // can't be restored either, so clean those tasks and start a new one.
+                clearTask(activities);
+            }
         }
 
-        finish();
+        startTask();
     }
 
     private @Nullable Intent findTask(ActivityManager activities) {
@@ -92,10 +103,26 @@ public class LauncherActivity extends Activity {
         startActivity(intent);
     }
 
-    private void restoreTask(Intent intent) {
+    private boolean restoreTask(Intent intent) {
         if (DEBUG) Log.d(TAG, "Restoring existing task > " + intent.getData());
-        // TODO: This doesn't appear to restore a task once it has stopped running.
-        startActivity(intent);
+        try {
+            // TODO: This doesn't appear to restore a task once it has stopped running.
+            startActivity(intent);
+
+            return true;
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to restore task > " + intent.getData() +
+                    ". Clear all existing tasks and start a new one.", e);
+        }
+
+        return false;
+    }
+
+    private void clearTask(ActivityManager activities) {
+        List<AppTask> tasks = activities.getAppTasks();
+        for (AppTask task : tasks) {
+            task.finishAndRemoveTask();
+        }
     }
 
     public static final Intent createLaunchIntent(Activity activity) {
