@@ -40,6 +40,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
 import com.android.documentsui.picker.ActionHandler.Addons;
@@ -66,12 +67,13 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            FocusHandler focusHandler,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
             ActivityConfig activityConfig) {
 
-        super(activity, state, roots, docs, selectionMgr, searchMgr, executors);
+        super(activity, state, roots, docs, focusHandler, selectionMgr, searchMgr, executors);
 
         mConfig = activityConfig;
         mScope = new ContentScope(this::onModelLoaded);

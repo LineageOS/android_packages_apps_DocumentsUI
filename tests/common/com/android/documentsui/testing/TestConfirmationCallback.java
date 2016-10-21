@@ -48,4 +48,8 @@ public class TestConfirmationCallback implements ConfirmationCallback {
     public void assertCalled() {
         Assert.assertTrue(mCalled);
     }
+
+    public void assertNeverCalled() {
+        Assert.assertFalse(mCalled);
+    }
 }

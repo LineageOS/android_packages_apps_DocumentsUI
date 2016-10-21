@@ -668,20 +668,21 @@ public abstract class BaseActivity<T extends ActionHandler>
      * locked, open/close it as appropriate.
      */
     void toggleNavDrawerFocus() {
+        boolean toogleHappened = false;
         if (mNavDrawerHasFocus) {
             mDrawer.setOpen(false);
             DirectoryFragment df = DirectoryFragment.get(getFragmentManager());
-            if (df != null) {
-                df.requestFocus();
-            }
+            assert (df != null);
+            toogleHappened = df.requestFocus();
         } else {
             mDrawer.setOpen(true);
             RootsFragment rf = RootsFragment.get(getFragmentManager());
-            if (rf != null) {
-                rf.requestFocus();
-            }
+            assert (rf != null);
+            toogleHappened = rf.requestFocus();
         }
-        mNavDrawerHasFocus = !mNavDrawerHasFocus;
+        if (toogleHappened) {
+            mNavDrawerHasFocus = !mNavDrawerHasFocus;
+        }
     }
 
     /**

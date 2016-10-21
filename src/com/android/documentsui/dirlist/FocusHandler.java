@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import android.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -52,4 +53,8 @@ public interface FocusHandler extends View.OnFocusChangeListener {
      */
     int getFocusPosition();
 
+    /**
+     * @return The modelId of the last focused item. If no item is focused, this should return null.
+     */
+    @Nullable String getFocusModelId();
 }

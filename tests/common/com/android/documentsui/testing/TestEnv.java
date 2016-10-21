@@ -21,6 +21,7 @@ import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.TestFocusHandler;
 import com.android.documentsui.dirlist.TestModel;
 import com.android.documentsui.selection.SelectionManager;
 
@@ -50,6 +51,7 @@ public class TestEnv {
     public final State state = new State();
     public final TestRootsAccess roots = new TestRootsAccess();
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
+    public final TestFocusHandler focusHandler = new TestFocusHandler();
     public final TestModel model;
     public final SelectionManager selectionMgr;
     public final TestSearchViewManager searchViewManager;
