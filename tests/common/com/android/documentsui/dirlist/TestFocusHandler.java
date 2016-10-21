@@ -45,6 +45,11 @@ public final class TestFocusHandler implements FocusHandler {
     }
 
     @Override
+    public String getFocusModelId() {
+        return null;
+    }
+
+    @Override
     public void focusDocument(String modelId) {
     }
 

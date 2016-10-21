@@ -50,11 +50,17 @@ public interface DialogController {
         public void showNoApplicationFound() {
             throw new UnsupportedOperationException();
         }
+
+        @Override
+        public void showDocumentsClipped(int size) {
+            throw new UnsupportedOperationException();
+        }
     };
 
     void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback);
     void showFileOperationFailures(int status, int opType, int docCount);
     void showNoApplicationFound();
+    void showDocumentsClipped(int size);
 
     // Should be private, but Java doesn't like me treating an interface like a mini-package.
     public static final class RuntimeDialogController implements DialogController {
@@ -136,6 +142,11 @@ public interface DialogController {
         public void showNoApplicationFound() {
             Snackbars.makeSnackbar(
                     mActivity, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void showDocumentsClipped(int size) {
+            Snackbars.showDocumentsClipped(mActivity, size);
         }
     }
 

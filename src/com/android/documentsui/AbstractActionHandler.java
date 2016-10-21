@@ -38,6 +38,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.LoadRootTask;
@@ -62,15 +63,18 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final State mState;
     protected final RootsAccess mRoots;
     protected final DocumentsAccess mDocs;
+    protected final FocusHandler mFocusHandler;
     protected final SelectionManager mSelectionMgr;
     protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
+
 
     public AbstractActionHandler(
             T activity,
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
+            FocusHandler focusHandler,
             SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors) {
@@ -78,6 +82,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         assert(activity != null);
         assert(state != null);
         assert(roots != null);
+        assert(focusHandler != null);
         assert(selectionMgr != null);
         assert(searchMgr != null);
         assert(docs != null);
@@ -86,6 +91,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         mState = state;
         mRoots = roots;
         mDocs = docs;
+        mFocusHandler = focusHandler;
         mSelectionMgr = selectionMgr;
         mSearchMgr = searchMgr;
         mExecutors = executors;
@@ -229,6 +235,16 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         final int anim = (mState.stack.hasLocationChanged() && mState.stack.size() > 1)
                 ? AnimationView.ANIM_ENTER : AnimationView.ANIM_NONE;
         mActivity.refreshCurrentRootAndDirectory(anim);
+    }
+
+    @Override
+    public void cutToClipboard() {
+        throw new UnsupportedOperationException("Cut not supported!");
+    }
+
+    @Override
+    public void copyToClipboard() {
+        throw new UnsupportedOperationException("Copy not supported!");
     }
 
     @Override

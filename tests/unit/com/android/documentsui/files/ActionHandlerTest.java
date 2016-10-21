@@ -36,6 +36,7 @@ import com.android.documentsui.TestActionModeAddons;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.selection.Selection;
 import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestConfirmationCallback;
 import com.android.documentsui.testing.TestEnv;
@@ -71,6 +72,7 @@ public class ActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
+                mEnv.focusHandler,
                 mEnv.selectionMgr,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
@@ -112,13 +114,32 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testDeleteSelectedDocuments() {
+    public void testCutSelectedDocuments_NoGivenSelection() {
         mEnv.populateStack();
 
+        mEnv.selectionMgr.clearSelection();
+        mHandler.cutToClipboard();
+        mDialogs.assertDocumentsClippedNotShown();
+    }
+
+    @Test
+    public void testCopySelectedDocuments_NoGivenSelection() {
+        mEnv.populateStack();
+
+        mEnv.selectionMgr.clearSelection();
+        mHandler.copyToClipboard();
+        mDialogs.assertDocumentsClippedNotShown();
+    }
+
+    @Test
+    public void testDeleteSelectedDocuments_NoSelection() {
+        mEnv.populateStack();
+
+        mEnv.selectionMgr.clearSelection();
         mHandler.deleteSelectedDocuments();
         mDialogs.assertNoFileFailures();
-        mActivity.startService.assertCalled();
-        mActionModeAddons.finishOnConfirmed.assertConfirmed();
+        mActivity.startService.assertNotCalled();
+        mActionModeAddons.finishOnConfirmed.assertNeverCalled();
     }
 
     @Test

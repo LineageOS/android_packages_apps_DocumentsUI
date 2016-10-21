@@ -16,7 +16,6 @@
 
 package com.android.documentsui.files;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.support.test.filters.MediumTest;
@@ -24,50 +23,30 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionProbe;
-import com.android.documentsui.testing.SelectionManagers;
-import com.android.documentsui.testing.TestActionHandler;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class ActivityInputHandlerTest {
 
-    private static final List<String> ITEMS = TestData.create(100);
-
-    private SelectionProbe mSelection;
-    private TestActionHandler mActionHandler;
     private ActivityInputHandler mActivityInputHandler;
+    private boolean mDeleteHappened;
 
     @Before
     public void setUp() {
-        SelectionManager selectionMgr = SelectionManagers.createTestInstance(ITEMS);
-        mSelection = new SelectionProbe(selectionMgr);
-        mActionHandler = new TestActionHandler();
-        mActivityInputHandler = new ActivityInputHandler(selectionMgr, mActionHandler);
+        mDeleteHappened = false;
+        mActivityInputHandler = new ActivityInputHandler(() -> {
+            mDeleteHappened = true;
+        });
     }
 
     @Test
-    public void testDelete_noSelection() {
-        KeyEvent event = new KeyEvent(0, 0, MotionEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0,
-                KeyEvent.META_ALT_ON);
-        assertFalse(mActivityInputHandler.onKeyDown(event.getKeyCode(), event));
-        assertFalse(mActionHandler.mDeleteHappened);
-    }
-
-    @Test
-    public void testDelete_hasSelection() {
-        mSelection.select(1);
+    public void testDelete() {
         KeyEvent event = new KeyEvent(0, 0, MotionEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL, 0,
                 KeyEvent.META_ALT_ON);
         assertTrue(mActivityInputHandler.onKeyDown(event.getKeyCode(), event));
-        assertTrue(mActionHandler.mDeleteHappened);
+        assertTrue(mDeleteHappened);
     }
 }
