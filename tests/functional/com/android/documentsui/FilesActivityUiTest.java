@@ -18,7 +18,7 @@ package com.android.documentsui;
 
 import android.net.Uri;
 import android.os.RemoteException;
-import android.test.suitebuilder.annotation.LargeTest;
+import android.support.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
 

@@ -21,7 +21,7 @@ import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
 import android.content.Intent;
 import android.provider.DocumentsContract;
-import android.test.suitebuilder.annotation.LargeTest;
+import android.support.test.filters.LargeTest;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;

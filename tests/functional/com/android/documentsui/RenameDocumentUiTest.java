@@ -16,10 +16,9 @@
 
 package com.android.documentsui;
 
+import android.support.test.filters.LargeTest;
 import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.test.suitebuilder.annotation.LargeTest;
 
-import com.android.documentsui.R;
 import com.android.documentsui.files.FilesActivity;
 
 @LargeTest
