@@ -203,8 +203,8 @@ public abstract class MenuManager {
     }
 
     protected void updateAdvanced(MenuItem advanced) {
-        advanced.setVisible(mState.showAdvancedOption);
-        advanced.setTitle(mState.showAdvancedOption && mState.showAdvanced
+        advanced.setVisible(mState.showDeviceStorageOption);
+        advanced.setTitle(mState.showDeviceStorageOption && mState.showAdvanced
                 ? R.string.menu_advanced_hide : R.string.menu_advanced_show);
     }
 
