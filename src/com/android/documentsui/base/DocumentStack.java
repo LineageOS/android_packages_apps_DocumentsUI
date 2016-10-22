@@ -78,11 +78,11 @@ public class DocumentStack implements Durable, Parcelable {
     }
 
     /**
-     * Makes a new shallow copy, and pushes all docs to the new copy in the same order as they're
+     * Makes a new copy, and pushes all docs to the new copy in the same order as they're
      * passed as parameters, i.e. the last document will be at the top of the stack.
      */
     public DocumentStack(DocumentStack src, DocumentInfo... docs) {
-        mList = src.mList;
+        mList = new LinkedList<>(src.mList);
         for (DocumentInfo doc : docs) {
             mList.addLast(doc);
         }
