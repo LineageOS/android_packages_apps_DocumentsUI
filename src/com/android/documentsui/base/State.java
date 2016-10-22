@@ -77,7 +77,7 @@ public class State implements android.os.Parcelable {
 
     public boolean allowMultiple;
     public boolean localOnly;
-    public boolean showAdvancedOption;
+    public boolean showDeviceStorageOption;
     public boolean showAdvanced;
     public boolean restored;
     /*
@@ -127,7 +127,7 @@ public class State implements android.os.Parcelable {
         out.writeStringArray(acceptMimes);
         out.writeInt(allowMultiple ? 1 : 0);
         out.writeInt(localOnly ? 1 : 0);
-        out.writeInt(showAdvancedOption ? 1 : 0);
+        out.writeInt(showDeviceStorageOption ? 1 : 0);
         out.writeInt(showAdvanced ? 1 : 0);
         out.writeInt(restored ? 1 : 0);
         out.writeInt(external ? 1 : 0);
@@ -151,7 +151,7 @@ public class State implements android.os.Parcelable {
             state.acceptMimes = in.readStringArray();
             state.allowMultiple = in.readInt() != 0;
             state.localOnly = in.readInt() != 0;
-            state.showAdvancedOption = in.readInt() != 0;
+            state.showDeviceStorageOption = in.readInt() != 0;
             state.showAdvanced = in.readInt() != 0;
             state.restored = in.readInt() != 0;
             state.external = in.readInt() != 0;
