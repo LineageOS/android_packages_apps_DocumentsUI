@@ -88,12 +88,12 @@ public class FileOperationService extends Service implements Job.Listener {
     // Use a handler to schedule monitor tasks.
     @VisibleForTesting Handler handler;
 
+    @GuardedBy("mRunning")
+    private final Map<String, JobRecord> mRunning = new HashMap<>();
+
     private PowerManager mPowerManager;
     private PowerManager.WakeLock mWakeLock;  // the wake lock, if held.
     private NotificationManager mNotificationManager;
-
-    @GuardedBy("mRunning")
-    private Map<String, JobRecord> mRunning = new HashMap<>();
 
     private int mLastServiceId;
 
