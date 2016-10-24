@@ -54,14 +54,21 @@ import java.util.function.Predicate;
 public class Model {
 
     /**
-     * Filter that passes (returns true) all non-virtual, non-partial files, not archived files.
+     * Filter that passes (returns true) all non-partial files and non-archived files.
      */
-    public static final Predicate<Cursor> CONCRETE_FILE_FILTER = (Cursor c) -> {
+    public static final Predicate<Cursor> NO_PARTIAL_NOR_ARCHIVED_FILE_FILTER = (Cursor c) -> {
         int flags = getCursorInt(c, Document.COLUMN_FLAGS);
         String authority = getCursorString(c, RootCursorWrapper.COLUMN_AUTHORITY);
-        return (flags & Document.FLAG_VIRTUAL_DOCUMENT) == 0
-                && (flags & Document.FLAG_PARTIAL) == 0
+        return (flags & Document.FLAG_PARTIAL) == 0
                 && !ArchivesProvider.AUTHORITY.equals(authority);
+    };
+
+    /**
+     * Filter that passes (returns true) only virtual documents.
+     */
+    public static final Predicate<Cursor> VIRTUAL_DOCUMENT_FILTER  = (Cursor c) -> {
+        int flags = getCursorInt(c, Document.COLUMN_FLAGS);
+        return (flags & Document.FLAG_VIRTUAL_DOCUMENT) != 0;
     };
 
     private static final Predicate<Cursor> ANY_FILE_FILTER = (Cursor c) -> true;
