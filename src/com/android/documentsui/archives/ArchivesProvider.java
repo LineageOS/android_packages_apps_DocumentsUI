@@ -149,14 +149,27 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
             throws FileNotFoundException {
         final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
         if (archiveId.mPath.equals("/")) {
-            final MatrixCursor cursor = new MatrixCursor(
-                    projection != null ? projection : Archive.DEFAULT_PROJECTION);
-            final RowBuilder row = cursor.newRow();
-            row.add(Document.COLUMN_DOCUMENT_ID, documentId);
-            row.add(Document.COLUMN_DISPLAY_NAME, "Archive");  // TODO: Translate.
-            row.add(Document.COLUMN_SIZE, 0);
-            row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
-            return cursor;
+            try (final Cursor archiveCursor = getContext().getContentResolver().query(
+                    archiveId.mArchiveUri,
+                    new String[] { Document.COLUMN_DISPLAY_NAME },
+                    null, null, null, null)) {
+                if (archiveCursor == null) {
+                    throw new FileNotFoundException(
+                            "Cannot resolve display name of the archive.");
+                }
+                archiveCursor.moveToFirst();
+                final String displayName = archiveCursor.getString(
+                        archiveCursor.getColumnIndex(Document.COLUMN_DISPLAY_NAME));
+
+                final MatrixCursor cursor = new MatrixCursor(
+                        projection != null ? projection : Archive.DEFAULT_PROJECTION);
+                final RowBuilder row = cursor.newRow();
+                row.add(Document.COLUMN_DOCUMENT_ID, documentId);
+                row.add(Document.COLUMN_DISPLAY_NAME, displayName);
+                row.add(Document.COLUMN_SIZE, 0);
+                row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
+                return cursor;
+            }
         }
 
         Loader loader = null;
