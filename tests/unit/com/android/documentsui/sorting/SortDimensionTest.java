@@ -84,6 +84,6 @@ public class SortDimensionTest {
     }
     @Test
     public void testParceling() {
-        Parcelables.testParceling(mDimension, 0);
+        Parcelables.assertParcelable(mDimension, 0);
     }
 }
