@@ -33,6 +33,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 /**
  * Representation of a stack of {@link DocumentInfo}, usually the result of a
  * user-driven traversal.
@@ -45,7 +47,7 @@ public class DocumentStack implements Durable, Parcelable {
     private static final int VERSION_ADD_ROOT = 2;
 
     private LinkedList<DocumentInfo> mList;
-    private RootInfo mRoot;
+    private @Nullable RootInfo mRoot;
 
     private boolean mInitialRootChanged;
     private boolean mInitialDocChanged;
@@ -90,7 +92,7 @@ public class DocumentStack implements Durable, Parcelable {
         mRoot = src.mRoot;
     }
 
-    public RootInfo getRoot() {
+    public @Nullable RootInfo getRoot() {
         return mRoot;
     }
 
