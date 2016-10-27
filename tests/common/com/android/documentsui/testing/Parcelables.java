@@ -17,26 +17,28 @@
 package com.android.documentsui.testing;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Comparator;
+import java.util.function.BiPredicate;
 
 public class Parcelables {
 
     private Parcelables() {}
 
-    public static <T extends Parcelable> void testParceling(T p, int flags) {
+    public static <T extends Parcelable> void assertParcelable(T p, int flags) {
         final T restored = parcel(p, flags);
 
         assertEquals(p, restored);
     }
 
-    public static <T extends Parcelable> void testParceling(T p, int flags, Comparator<T> comp) {
+    public static <T extends Parcelable> void assertParcelable(
+            T p, int flags, BiPredicate<T, T> pred) {
         T restored = parcel(p, flags);
 
-        assertEquals(0, comp.compare(p, restored));
+        assertTrue(pred.test(p, restored));
     }
 
     private static <T extends Parcelable> T parcel(T p, int flags) {
