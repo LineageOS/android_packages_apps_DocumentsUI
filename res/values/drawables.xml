@@ -16,6 +16,6 @@
 
 <resources>
     <item name="app_icon" type="drawable">@mipmap/ic_app_icon</item>
-    <item name="files_icon" type="drawable">@mipmap/ic_launcher_downloads</item>
+    <item name="files_icon" type="drawable">@mipmap/ic_app_icon</item>
     <item name="picker_icon" type="drawable">@drawable/ic_doc_text</item>
 </resources>

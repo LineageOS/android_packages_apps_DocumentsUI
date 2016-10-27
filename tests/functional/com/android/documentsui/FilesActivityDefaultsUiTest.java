@@ -72,6 +72,6 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
     }
 
     private boolean docsRootEnabled() {
-        return Shared.shouldShowDocumentsRoot(context, new Intent(DocumentsContract.ACTION_BROWSE));
+        return Shared.shouldShowDocumentsRoot(context);
     }
 }

@@ -259,7 +259,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
             final RootItem item = new RootItem(root, mActionHandler);
 
             Activity activity = getActivity();
-            if (root.isHome() && !Shared.shouldShowDocumentsRoot(activity, activity.getIntent())) {
+            if (root.isHome() && !Shared.shouldShowDocumentsRoot(activity)) {
                 continue;
             } else if (root.isLibrary()) {
                 libraries.add(item);
