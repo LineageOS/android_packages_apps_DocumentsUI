@@ -86,7 +86,7 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ.</item>
     </plurals>
-    <string name="undo" msgid="2902438994196400565">"ರದ್ದುಮಾಡು"</string>
+    <string name="undo" msgid="2902438994196400565">"ರದ್ದುಮಾಡಿ"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"ನಕಲಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"ಸರಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"ಅಳಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ…"</string>
