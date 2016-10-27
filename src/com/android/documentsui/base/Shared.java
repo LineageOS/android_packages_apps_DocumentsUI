@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Looper;
@@ -202,13 +203,17 @@ public final class Shared {
             if (info.isSystemApp() || info.isUpdatedSystemApp()) {
                 final String extra = activity.getIntent().getStringExtra(
                         DocumentsContract.EXTRA_PACKAGE_NAME);
-                if (extra != null) {
+                if (extra != null && !TextUtils.isEmpty(extra)) {
                     callingPackage = extra;
                 }
             }
-        } finally {
-            return callingPackage;
+        } catch (NameNotFoundException e) {
+            // Couldn't lookup calling package info. This isn't really
+            // gonna happen, given that we're getting the name of the
+            // calling package from trusty old Activity.getCallingPackage.
+            // For that reason, we ignore this exception.
         }
+        return callingPackage;
     }
 
     /**

@@ -124,6 +124,11 @@ public class SortDimension implements Parcelable {
     }
 
     @Override
+    public int hashCode() {
+        return mId;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || !(o instanceof SortDimension)) {
             return false;
