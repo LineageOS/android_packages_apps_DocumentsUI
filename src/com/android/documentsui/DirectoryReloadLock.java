@@ -46,6 +46,7 @@ public final class DirectoryReloadLock {
     @MainThread
     public void unblock() {
         Shared.checkMainLoop();
+        assert(mPauseCount > 0);
         mPauseCount--;
         if (mPauseCount == 0 && mCallback != null) {
             mCallback.run();

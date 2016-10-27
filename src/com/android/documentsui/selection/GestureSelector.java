@@ -179,9 +179,11 @@ public final class GestureSelector {
     // Essentially, since this means all gesture movement is over, reset everything.
     private boolean handleUpEvent(InputEvent e) {
         mLastStartedItemPos = -1;
-        mStarted = false;
-        mSelectionMgr.getSelection().applyProvisionalSelection();
-        mLock.unblock();
+        if (mStarted) {
+            mStarted = false;
+            mSelectionMgr.getSelection().applyProvisionalSelection();
+            mLock.unblock();
+        }
         return false;
     }
 
