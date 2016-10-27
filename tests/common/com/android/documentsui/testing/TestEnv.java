@@ -95,8 +95,7 @@ public class TestEnv {
                         | Document.FLAG_PARTIAL);
         FILE_ARCHIVE = model.createFile(
                 "whatsinthere.zip",
-                Document.FLAG_ARCHIVE
-                        | Document.FLAG_SUPPORTS_DELETE);
+                Document.FLAG_SUPPORTS_DELETE);
         FILE_VIRTUAL = model.createDocument(
                 "virtualdoc.vnd",
                 "application/vnd.google-apps.document",
