@@ -25,6 +25,7 @@ import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -112,7 +113,7 @@ public interface RootsAccess {
             if (!overlap) {
                 if (DEBUG) Log.v(
                         tag, "Excluding root because: unsupported content types > "
-                        + state.acceptMimes);
+                        + Arrays.toString(state.acceptMimes));
                 continue;
             }
 
