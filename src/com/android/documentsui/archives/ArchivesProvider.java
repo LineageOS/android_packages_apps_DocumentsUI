@@ -153,11 +153,10 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
                     archiveId.mArchiveUri,
                     new String[] { Document.COLUMN_DISPLAY_NAME },
                     null, null, null, null)) {
-                if (archiveCursor == null) {
+                if (archiveCursor == null || !archiveCursor.moveToFirst()) {
                     throw new FileNotFoundException(
                             "Cannot resolve display name of the archive.");
                 }
-                archiveCursor.moveToFirst();
                 final String displayName = archiveCursor.getString(
                         archiveCursor.getColumnIndex(Document.COLUMN_DISPLAY_NAME));
 
