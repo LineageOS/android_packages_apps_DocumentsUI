@@ -21,13 +21,17 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 
-import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.android.documentsui.testing.Parcelables;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Objects;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -46,12 +50,18 @@ public class DocumentStackTest {
         ROOT_2 = new RootInfo();
         ROOT_2.rootId = "downloads";
 
-        DIR_1 = new DocumentInfo();
-        DIR_1.derivedUri = Uri.parse("content://authority/document/firstId");
-        DIR_1.displayName = "firstDirectory";
-        DIR_2 = new DocumentInfo();
-        DIR_2.derivedUri = Uri.parse("content://authority/document/secondId");
-        DIR_2.displayName = "secondDirectory";
+        DIR_1 = createDir("first");
+        DIR_2 = createDir("second");
+    }
+
+    private static DocumentInfo createDir(String docId) {
+        DocumentInfo info = new DocumentInfo();
+        info.authority = "authority";
+        info.documentId = docId;
+        info.displayName = docId;
+        info.mimeType = DocumentsContract.Document.MIME_TYPE_DIR;
+        info.deriveFields();
+        return info;
     }
 
     @Before
@@ -172,5 +182,26 @@ public class DocumentStackTest {
         mStack.changeRoot(ROOT_2);
 
         assertTrue(mStack.hasInitialLocationChanged());
+    }
+
+    @Test
+    public void testParceling() {
+        mStack.changeRoot(ROOT_1);
+        mStack.push(DIR_1);
+        mStack.push(DIR_2);
+
+        Parcelables.assertParcelable(mStack, 0, (DocumentStack left, DocumentStack right) -> {
+            if (!Objects.equals(left.getRoot(), right.getRoot()) || left.size() != right.size()) {
+                return false;
+            }
+
+            for (int i = 0; i < left.size(); ++i) {
+                if (!Objects.equals(left.get(i), right.get(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
     }
 }

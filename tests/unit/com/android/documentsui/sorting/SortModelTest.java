@@ -211,12 +211,12 @@ public class SortModelTest {
         mModel.sortByUser(DIMENSION_2.getId(), SortDimension.SORT_DIRECTION_DESCENDING);
         mModel.setDimensionVisibility(DIMENSION_3.getId(), View.GONE);
 
-        Parcelables.testParceling(mModel, 0);
+        Parcelables.assertParcelable(mModel, 0);
     }
 
     @Test
     public void testParceling_NoSortedDimension() {
-        Parcelables.testParceling(mModel, 0);
+        Parcelables.assertParcelable(mModel, 0);
     }
 
     private @Nullable SortDimension getSortedDimension() {
