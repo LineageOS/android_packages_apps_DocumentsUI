@@ -21,6 +21,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.database.AbstractCursor;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.base.Shared;
@@ -154,6 +155,11 @@ class SortingCursorWrapper extends AbstractCursor {
     @Override
     public boolean isNull(int column) {
         return mCursor.isNull(column);
+    }
+
+    @Override
+    public Bundle getExtras() {
+        return mCursor.getExtras();
     }
 
     /**
