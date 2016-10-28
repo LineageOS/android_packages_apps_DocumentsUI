@@ -17,13 +17,14 @@
 package com.android.documentsui.sorting;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -364,6 +365,27 @@ public class SortingCursorWrapperTest {
             assertTrue(currentDownloads.contains(
                     DocumentInfo.getCursorString(cursor, Document.COLUMN_DOCUMENT_ID)));
         }
+    }
+
+    @Test
+    public void testReturnsWrappedExtras() {
+        MatrixCursor c = new MatrixCursor(COLUMNS);
+        Bundle extras = new Bundle();
+        extras.putBoolean(DocumentsContract.EXTRA_LOADING, true);
+        extras.putString(DocumentsContract.EXTRA_INFO, "cheddar");
+        extras.putString(DocumentsContract.EXTRA_ERROR, "flop");
+        c.setExtras(extras);
+
+        // set sorting to avoid an NPE.
+        sortModel.sortByUser(
+                SortModel.SORT_DIMENSION_ID_DATE,
+                SortDimension.SORT_DIRECTION_DESCENDING);
+
+        Bundle actual = createSortingCursorWrapper(c).getExtras();
+
+        assertTrue(actual.getBoolean(DocumentsContract.EXTRA_LOADING, false));
+        assertEquals("cheddar", actual.getString(DocumentsContract.EXTRA_INFO));
+        assertEquals("flop", actual.getString(DocumentsContract.EXTRA_ERROR));
     }
 
     private Cursor createSortingCursorWrapper() {
