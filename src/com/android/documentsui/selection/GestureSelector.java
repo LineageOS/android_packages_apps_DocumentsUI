@@ -128,10 +128,6 @@ public final class GestureSelector {
             handled = handleInterceptedDownEvent(e);
         }
 
-        if (e.isActionUp()) {
-            handled = handleUpEvent(e);
-        }
-
         if (e.isActionMove()) {
             handled = handleInterceptedMoveEvent(e);
         }
@@ -148,6 +144,10 @@ public final class GestureSelector {
             handleUpEvent(e);
         }
 
+        if (e.isActionCancel()) {
+            handleCancelEvent(e);
+        }
+
         if (e.isActionMove()) {
             handleOnTouchMoveEvent(rv, e);
         }
@@ -157,9 +157,9 @@ public final class GestureSelector {
     // If down event happens on a file/doc, we mark that item's position as last started.
     private boolean handleInterceptedDownEvent(InputEvent e) {
         View itemView = mViewFinder.findView(e.getX(), e.getY());
-            if (itemView != null) {
-                mLastStartedItemPos = e.getItemPosition();
-            }
+        if (itemView != null) {
+            mLastStartedItemPos = e.getItemPosition();
+        }
         return false;
     }
 
@@ -175,16 +175,27 @@ public final class GestureSelector {
         return false;
     }
 
-    // Called when ACTION_UP event is intercepted.
-    // Essentially, since this means all gesture movement is over, reset everything.
-    private boolean handleUpEvent(InputEvent e) {
+    // Called when ACTION_UP event is to be handled.
+    // Essentially, since this means all gesture movement is over, reset everything and apply
+    // provisional selection.
+    private void handleUpEvent(InputEvent e) {
+        mSelectionMgr.getSelection().applyProvisionalSelection();
+        endSelection();
+    }
+
+    // Called when ACTION_CANCEL event is to be handled.
+    // This means this gesture selection is aborted, so reset everything and abandon provisional
+    // selection.
+    private void handleCancelEvent(InputEvent e) {
+        mSelectionMgr.cancelProvisionalSelection();
+        endSelection();
+    }
+
+    private void endSelection() {
+        assert(mStarted);
         mLastStartedItemPos = -1;
-        if (mStarted) {
-            mStarted = false;
-            mSelectionMgr.getSelection().applyProvisionalSelection();
-            mLock.unblock();
-        }
-        return false;
+        mStarted = false;
+        mLock.unblock();
     }
 
     // Call when an intercepted ACTION_MOVE event is passed down.

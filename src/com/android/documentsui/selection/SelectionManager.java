@@ -322,6 +322,13 @@ public final class SelectionManager {
         notifySelectionChanged();
     }
 
+    void cancelProvisionalSelection() {
+        for (String id : mSelection.mProvisionalSelection) {
+            notifyItemStateChanged(id, false);
+        }
+        mSelection.cancelProvisionalSelection();
+    }
+
     /**
      * Stops an in-progress range selection. All selection done with
      * {@link #snapRangeSelection(int, int)} with type RANGE_PROVISIONAL will be lost if
@@ -330,7 +337,7 @@ public final class SelectionManager {
     public void endRangeSelection() {
         mRanger = null;
         // Clean up in case there was any leftover provisional selection
-        mSelection.cancelProvisionalSelection();
+        cancelProvisionalSelection();
     }
 
     /**
