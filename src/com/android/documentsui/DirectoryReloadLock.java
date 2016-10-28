@@ -16,8 +16,11 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.annotation.MainThread;
 import android.annotation.Nullable;
+import android.util.Log;
 
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.selection.BandController;
@@ -27,6 +30,8 @@ import com.android.documentsui.selection.BandController;
  * while Band Selection is active.
  */
 public final class DirectoryReloadLock {
+    private static final String TAG = "DirectoryReloadLock";
+
     private int mPauseCount = 0;
     private @Nullable Runnable mCallback;
 
@@ -37,6 +42,7 @@ public final class DirectoryReloadLock {
     public void block() {
         Shared.checkMainLoop();
         mPauseCount++;
+        if (DEBUG) Log.v(TAG, "Block count increments to " + mPauseCount + ".");
     }
 
     /**
@@ -48,6 +54,7 @@ public final class DirectoryReloadLock {
         Shared.checkMainLoop();
         assert(mPauseCount > 0);
         mPauseCount--;
+        if (DEBUG) Log.v(TAG, "Block count decrements to " + mPauseCount + ".");
         if (mPauseCount == 0 && mCallback != null) {
             mCallback.run();
             mCallback = null;
