@@ -303,8 +303,10 @@ public abstract class MenuManager {
             mActivity = activity;
         }
 
-        public boolean shouldShowFancyFeatures() {
-            return Shared.shouldShowFancyFeatures(mActivity);
+        // TODO: Inject necessary deps directly into MenuManager, rather than
+        // getting this info indirectly via DirectoryDetails.
+        public boolean isProductivityModeEnabled() {
+            return Shared.isProductivityMode(mActivity);
         }
 
         public boolean hasRootSettings() {

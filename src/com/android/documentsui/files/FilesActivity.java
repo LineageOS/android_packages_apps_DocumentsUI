@@ -217,7 +217,7 @@ public class FilesActivity
         Intent intent = getIntent();
         return (intent != null && intent.hasExtra(Intent.EXTRA_TITLE))
                 ? intent.getStringExtra(Intent.EXTRA_TITLE)
-                : getString(R.string.downloads_label);
+                : getString(R.string.app_label);
     }
 
     @Override

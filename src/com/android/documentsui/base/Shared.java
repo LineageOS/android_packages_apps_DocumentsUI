@@ -55,13 +55,6 @@ public final class Shared {
             "com.android.documentsui.PICK_COPY_DESTINATION";
 
     /**
-     * Extra flag allowing app to be opened in productivity mode (less downloadsy).
-     * Useful developers and the likes. When set to true overrides the default
-     * config value of productivity_device.
-     */
-    public static final String EXTRA_PRODUCTIVITY_MODE = "com.android.documentsui.PRODUCTIVITY";
-
-    /**
      * Extra boolean flag for {@link #ACTION_PICK_COPY_DESTINATION}, which
      * specifies if the destination directory needs to create new directory or not.
      */
@@ -221,7 +214,7 @@ public final class Shared {
      * Method can be overridden if the change of the behavior of the the child activity is needed.
      */
     public static Uri getDefaultRootUri(Activity activity) {
-        return shouldShowDocumentsRoot(activity, activity.getIntent())
+        return shouldShowDocumentsRoot(activity)
                 ? DocumentsContract.buildHomeUri()
                 : DocumentsContract.buildRootUri(
                         "com.android.providers.downloads.documents", "downloads");
@@ -240,17 +233,15 @@ public final class Shared {
     /*
      * Returns true if app is running in "productivity mode".
      */
-    private static boolean isProductivityMode(Context context, Intent intent) {
-        return intent.getBooleanExtra(
-                Shared.EXTRA_PRODUCTIVITY_MODE,
-                context.getResources().getBoolean(R.bool.productivity_device));
+    public static boolean isProductivityMode(Context context) {
+        return context.getResources().getBoolean(R.bool.productivity_device);
     }
 
     /*
      * Returns true if "Documents" root should be shown.
      */
-    public static boolean shouldShowDocumentsRoot(Context context, Intent intent) {
-        return isProductivityMode(context, intent);
+    public static boolean shouldShowDocumentsRoot(Context context) {
+        return isProductivityMode(context);
     }
 
     /*
@@ -259,15 +250,6 @@ public final class Shared {
      */
     public static boolean mustShowDeviceRoot(Intent intent) {
         return intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_ADVANCED, false);
-    }
-
-    /**
-     * Returns true if device root should be shown.
-     */
-    public static boolean shouldShowFancyFeatures(Activity activity) {
-        Intent intent = activity.getIntent();
-        return isProductivityMode(activity, intent)
-                || intent.getBooleanExtra(DocumentsContract.EXTRA_FANCY_FEATURES, false);
     }
 
     public static void checkMainLoop() {

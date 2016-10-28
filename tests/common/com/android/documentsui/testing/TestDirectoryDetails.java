@@ -35,7 +35,7 @@ public class TestDirectoryDetails extends DirectoryDetails {
     }
 
     @Override
-    public boolean shouldShowFancyFeatures() {
+    public boolean isProductivityModeEnabled() {
         return shouldShowFancyFeatures;
     }
 
