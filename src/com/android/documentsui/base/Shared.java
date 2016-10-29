@@ -231,17 +231,10 @@ public final class Shared {
     }
 
     /*
-     * Returns true if app is running in "productivity mode".
-     */
-    public static boolean isProductivityMode(Context context) {
-        return context.getResources().getBoolean(R.bool.productivity_device);
-    }
-
-    /*
      * Returns true if "Documents" root should be shown.
      */
     public static boolean shouldShowDocumentsRoot(Context context) {
-        return isProductivityMode(context);
+        return context.getResources().getBoolean(R.bool.productivity_device);
     }
 
     /*

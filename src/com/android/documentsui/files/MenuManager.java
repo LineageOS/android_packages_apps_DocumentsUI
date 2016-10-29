@@ -135,7 +135,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateNewWindow(MenuItem newWindow) {
-        newWindow.setVisible(mDirDetails.isProductivityModeEnabled());
+        newWindow.setVisible(true);
     }
 
     @Override
