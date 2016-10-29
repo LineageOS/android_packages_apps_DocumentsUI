@@ -197,14 +197,6 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testOptionMenu_shouldShowFancyFeatures() {
-        dirDetails.shouldShowFancyFeatures = true;
-        mgr.updateOptionMenu(testMenu);
-
-        newWindow.assertVisible();
-    }
-
-    @Test
     public void testInflateContextMenu_Files() {
         TestMenuInflater inflater = new TestMenuInflater();
 

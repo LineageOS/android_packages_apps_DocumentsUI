@@ -23,7 +23,6 @@ import com.android.documentsui.MenuManager.DirectoryDetails;
  */
 public class TestDirectoryDetails extends DirectoryDetails {
 
-    public boolean shouldShowFancyFeatures;
     public boolean isInRecents;
     public boolean hasRootSettings;
     public boolean hasItemsToPaste;
@@ -32,11 +31,6 @@ public class TestDirectoryDetails extends DirectoryDetails {
 
     public TestDirectoryDetails() {
         super(null);
-    }
-
-    @Override
-    public boolean isProductivityModeEnabled() {
-        return shouldShowFancyFeatures;
     }
 
     @Override
