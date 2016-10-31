@@ -36,6 +36,7 @@ import android.system.Os;
 import android.system.OsConstants;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.jar.StrictJarFile;
 import android.webkit.MimeTypeMap;
 
 import com.android.internal.util.Preconditions;
@@ -44,6 +45,7 @@ import libcore.io.IoUtils;
 
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,6 +53,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -58,7 +61,6 @@ import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 /**
  * Provides basic implementation for creating, extracting and accessing
@@ -68,10 +70,6 @@ import java.util.zip.ZipFile;
  */
 public class Archive implements Closeable {
     private static final String TAG = "Archive";
-
-    // Stores file representations of file descriptors. Used to open pipes
-    // by path.
-    private static final String PROC_FD_PATH = "/proc/self/fd/";
 
     public static final String[] DEFAULT_PROJECTION = new String[] {
             Document.COLUMN_DOCUMENT_ID,
@@ -84,21 +82,24 @@ public class Archive implements Closeable {
     private final Context mContext;
     private final Uri mArchiveUri;
     private final Uri mNotificationUri;
-    private final ZipFile mZipFile;
+    private final StrictJarFile mZipFile;
     private final ExecutorService mExecutor;
     private final Map<String, ZipEntry> mEntries;
     private final Map<String, List<ZipEntry>> mTree;
 
     private Archive(
             Context context,
-            File file,
+            @Nullable File file,
+            @Nullable FileDescriptor fd,
             Uri archiveUri,
             @Nullable Uri notificationUri)
             throws IOException {
         mContext = context;
         mArchiveUri = archiveUri;
         mNotificationUri = notificationUri;
-        mZipFile = new ZipFile(file);
+        mZipFile = file != null ?
+                new StrictJarFile(file.getName(), false /* verify */, false /* signatures */) :
+                new StrictJarFile(fd, false /* verify */, false /* signatures */);
         mExecutor = Executors.newSingleThreadExecutor();
 
         // Build the tree structure in memory.
@@ -106,11 +107,11 @@ public class Archive implements Closeable {
 
         mEntries = new HashMap<>();
         ZipEntry entry;
-        final List<? extends ZipEntry> entries = Collections.list(mZipFile.entries());
-        final Stack<ZipEntry> stack = new Stack<>();
         String entryPath;
-        for (int i = entries.size() - 1; i >= 0; i--) {
-            entry = entries.get(i);
+        final Iterator<ZipEntry> it = mZipFile.iterator();
+        final Stack<ZipEntry> stack = new Stack<>();
+        while (it.hasNext()) {
+            entry = it.next();
             if (entry.isDirectory() != entry.getName().endsWith("/")) {
                 throw new IOException(
                         "Directories must have a trailing slash, and files must not.");
@@ -207,12 +208,10 @@ public class Archive implements Closeable {
             Context context, ParcelFileDescriptor descriptor, Uri archiveUri,
             @Nullable Uri notificationUri)
             throws IOException {
-        // TODO: Temporarily disable non-snapshot code path, as /proc/self/fd/* files
-        // are not openable across processes. b/32228589
-        // if (canSeek(descriptor)) {
-        //     return new Archive(context, new File(PROC_FD_PATH + descriptor.getFd()),
-        //             archiveUri, notificationUri);
-        // }
+        if (canSeek(descriptor)) {
+            return new Archive(context, null, descriptor.getFileDescriptor(), archiveUri,
+                    notificationUri);
+        }
 
         // Fallback for non-seekable file descriptors.
         File snapshotFile = null;
@@ -237,7 +236,7 @@ public class Archive implements Closeable {
                     outputStream.write(buffer, 0, bytes);
                 }
                 outputStream.flush();
-                return new Archive(context, snapshotFile, archiveUri,
+                return new Archive(context, snapshotFile, null, archiveUri,
                         notificationUri);
             }
         } finally {
@@ -490,7 +489,11 @@ public class Archive implements Closeable {
         mExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                IoUtils.closeQuietly(mZipFile);
+                try {
+                    mZipFile.close();
+                } catch (IOException e) {
+                    // Silent close.
+                }
             }
         });
         mExecutor.shutdown();
