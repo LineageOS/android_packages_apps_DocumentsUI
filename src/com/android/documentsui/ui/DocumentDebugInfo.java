@@ -49,7 +49,9 @@ public class DocumentDebugInfo extends TextView {
                 .append("** OPERATIONS **\n\n")
                 .append("create: " + doc.isCreateSupported()).append("\n")
                 .append("delete: " + doc.isDeleteSupported()).append("\n")
-                .append("rename: " + doc.isRenameSupported()).append("\n")
+                .append("rename: " + doc.isRenameSupported()).append("\n\n")
+                .append("** URI **\n\n")
+                .append(doc.derivedUri).append("\n")
                 .toString();
 
         setText(dbgInfo);

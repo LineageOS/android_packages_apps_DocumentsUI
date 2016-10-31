@@ -25,7 +25,6 @@ import android.view.View;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.queries.SearchViewManager;
