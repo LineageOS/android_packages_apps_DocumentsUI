@@ -244,7 +244,7 @@ public class SearchViewManager implements
     public boolean onQueryTextSubmit(String query) {
 
         if (mCommandProcessor.accept(query)) {
-            cancelSearch();
+            mSearchView.setQuery("", false);
         } else {
             mCurrentSearch = query;
             mSearchView.clearFocus();

@@ -222,7 +222,8 @@ public class DocumentInfo implements Durable, Parcelable {
                 + ", isDeleteSupported=" + isDeleteSupported()
                 + ", isCreateSupported=" + isCreateSupported()
                 + ", isRenameSupported=" + isRenameSupported()
-                + "}";
+                + "} @ "
+                + derivedUri;
     }
 
     public boolean isCreateSupported() {

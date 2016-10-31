@@ -252,30 +252,30 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     }
 
     public boolean isExternalStorage() {
-        return "com.android.externalstorage.documents".equals(authority);
+        return Providers.AUTHORITY_STORAGE.equals(authority);
     }
 
     public boolean isDownloads() {
-        return "com.android.providers.downloads.documents".equals(authority);
+        return Providers.AUTHORITY_DOWNLOADS.equals(authority);
     }
 
     public boolean isImages() {
-        return "com.android.providers.media.documents".equals(authority)
-                && "images_root".equals(rootId);
+        return Providers.AUTHORITY_MEDIA.equals(authority)
+                && Providers.ROOT_ID_IMAGES.equals(rootId);
     }
 
     public boolean isVideos() {
-        return "com.android.providers.media.documents".equals(authority)
-                && "videos_root".equals(rootId);
+        return Providers.AUTHORITY_MEDIA.equals(authority)
+                && Providers.ROOT_ID_VIDEOS.equals(rootId);
     }
 
     public boolean isAudio() {
-        return "com.android.providers.media.documents".equals(authority)
-                && "audio_root".equals(rootId);
+        return Providers.AUTHORITY_MEDIA.equals(authority)
+                && Providers.ROOT_ID_AUDIO.equals(rootId);
     }
 
     public boolean isMtp() {
-        return "com.android.mtp.documents".equals(authority);
+        return Providers.AUTHORITY_MTP.equals(authority);
     }
 
     public boolean isLibrary() {
@@ -412,7 +412,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
                 + ", isUsb=" + isUsb()
                 + ", isSd=" + isSd()
                 + ", isMtp=" + isMtp()
-                + "}";
+                + "} @ "
+                + getUri();
     }
 
     public String getDirectoryString() {

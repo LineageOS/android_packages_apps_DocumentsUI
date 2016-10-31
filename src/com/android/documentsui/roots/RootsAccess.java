@@ -25,8 +25,8 @@ import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -62,6 +62,8 @@ public interface RootsAccess {
 
         final List<RootInfo> matching = new ArrayList<>();
         for (RootInfo root : roots) {
+
+            if (DEBUG) Log.v(tag, "Evaluationg root: " + root);
 
             if (state.action == State.ACTION_CREATE && !root.supportsCreate()) {
                 if (DEBUG) Log.v(tag, "Excluding read-only root because: ACTION_CREATE.");
