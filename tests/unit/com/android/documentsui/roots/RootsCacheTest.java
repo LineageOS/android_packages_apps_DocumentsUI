@@ -21,6 +21,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 
@@ -68,7 +69,7 @@ public class RootsCacheTest extends AndroidTestCase {
 
     public void testMatchingRoots_DirectoryCopy() throws Exception {
         RootInfo downloads = buildForMimeTypes("*/*");
-        downloads.authority = "com.android.providers.downloads.documents";
+        downloads.authority = Providers.AUTHORITY_DOWNLOADS;
         mRoots.add(downloads);
 
         mState.acceptMimes = new String[] { "*/*" };

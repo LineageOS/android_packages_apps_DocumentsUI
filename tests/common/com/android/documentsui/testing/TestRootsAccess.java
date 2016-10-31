@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.testing;
 
+import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootsAccess;
@@ -36,12 +37,12 @@ public class TestRootsAccess implements RootsAccess {
 
     static {
         DOWNLOADS = new RootInfo();
-        DOWNLOADS.authority = "com.android.providers.downloads.documents";
-        DOWNLOADS.rootId = "downloads";
+        DOWNLOADS.authority = Providers.AUTHORITY_DOWNLOADS;
+        DOWNLOADS.rootId = Providers.ROOT_ID_DOWNLOADS;
 
         HOME = new RootInfo();
-        HOME.authority = "com.android.externalstorage.documents";
-        HOME.rootId = "home";
+        HOME.authority = Providers.AUTHORITY_STORAGE;
+        HOME.rootId = Providers.ROOT_ID_HOME;
 
         HAMMY = new RootInfo();
         HAMMY.authority = "yummies";

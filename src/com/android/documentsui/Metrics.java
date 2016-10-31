@@ -31,6 +31,7 @@ import android.provider.DocumentsContract;
 import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ActionType;
@@ -47,13 +48,6 @@ import java.util.List;
 /** @hide */
 public final class Metrics {
     private static final String TAG = "Metrics";
-
-    // These are the native provider authorities that the metrics code is capable of recognizing and
-    // explicitly counting.
-    private static final String AUTHORITY_MEDIA = "com.android.providers.media.documents";
-    private static final String AUTHORITY_STORAGE = "com.android.externalstorage.documents";
-    private static final String AUTHORITY_DOWNLOADS = "com.android.providers.downloads.documents";
-    private static final String AUTHORITY_MTP = "com.android.mtp.documents";
 
     // These strings have to be whitelisted in tron. Do not change them.
     private static final String COUNT_LAUNCH_ACTION = "docsui_launch_action";
@@ -668,26 +662,26 @@ public final class Metrics {
         }
 
         switch (uri.getAuthority()) {
-            case AUTHORITY_MEDIA:
+            case Providers.AUTHORITY_MEDIA:
                 switch (DocumentsContract.getRootId(uri)) {
-                    case "audio_root":
+                    case Providers.ROOT_ID_AUDIO:
                         return ROOT_AUDIO;
-                    case "images_root":
+                    case Providers.ROOT_ID_IMAGES:
                         return ROOT_IMAGES;
-                    case "videos_root":
+                    case Providers.ROOT_ID_VIDEOS:
                         return ROOT_VIDEOS;
                     default:
                         return ROOT_OTHER;
                 }
-            case AUTHORITY_STORAGE:
-                if ("home".equals(DocumentsContract.getRootId(uri))) {
+            case Providers.AUTHORITY_STORAGE:
+                if (Providers.ROOT_ID_HOME.equals(DocumentsContract.getRootId(uri))) {
                     return ROOT_HOME;
                 } else {
                     return ROOT_DEVICE_STORAGE;
                 }
-            case AUTHORITY_DOWNLOADS:
+            case Providers.AUTHORITY_DOWNLOADS:
                 return ROOT_DOWNLOADS;
-            case AUTHORITY_MTP:
+            case Providers.AUTHORITY_MTP:
                 return ROOT_MTP;
             default:
                 return ROOT_OTHER;
@@ -748,9 +742,9 @@ public final class Metrics {
 
     private static boolean isSystemProvider(String authority) {
         switch (authority) {
-            case AUTHORITY_MEDIA:
-            case AUTHORITY_STORAGE:
-            case AUTHORITY_DOWNLOADS:
+            case Providers.AUTHORITY_MEDIA:
+            case Providers.AUTHORITY_STORAGE:
+            case Providers.AUTHORITY_DOWNLOADS:
                 return true;
             default:
                 return false;

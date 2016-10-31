@@ -217,7 +217,7 @@ public final class Shared {
         return shouldShowDocumentsRoot(activity)
                 ? DocumentsContract.buildHomeUri()
                 : DocumentsContract.buildRootUri(
-                        "com.android.providers.downloads.documents", "downloads");
+                        Providers.AUTHORITY_DOWNLOADS, Providers.ROOT_ID_DOWNLOADS);
     }
 
     public static boolean isHardwareKeyboardAvailable(Context context) {
@@ -226,7 +226,8 @@ public final class Shared {
 
     public static void ensureKeyboardPresent(Context context, AlertDialog dialog) {
         if (!isHardwareKeyboardAvailable(context)) {
-            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            dialog.getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
     }
 

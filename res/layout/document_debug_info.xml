@@ -21,6 +21,5 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/grid_item_margin"
     android:textAlignment="viewStart"
-    android:typeface="monospace"
     android:textSize="11sp"
     android:textColor="#FF000000" />

@@ -68,6 +68,8 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
+import com.android.documentsui.base.Providers;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -78,7 +80,6 @@ import java.util.List;
 public class OpenExternalDirectoryActivity extends Activity {
     private static final String TAG = "OpenExternalDirectory";
     private static final String FM_TAG = "open_external_directory";
-    private static final String EXTERNAL_STORAGE_AUTH = "com.android.externalstorage.documents";
     private static final String EXTRA_FILE = "com.android.documentsui.FILE";
     private static final String EXTRA_APP_LABEL = "com.android.documentsui.APP_LABEL";
     private static final String EXTRA_VOLUME_LABEL = "com.android.documentsui.VOLUME_LABEL";
@@ -315,7 +316,7 @@ public class OpenExternalDirectoryActivity extends Activity {
         }
         if (DEBUG) Log.d(TAG, "doc id for " + file + ": " + docId);
 
-        final Uri uri = DocumentsContract.buildTreeDocumentUri(EXTERNAL_STORAGE_AUTH, docId);
+        final Uri uri = DocumentsContract.buildTreeDocumentUri(Providers.AUTHORITY_STORAGE, docId);
         if (uri == null) {
             Log.e(TAG, "Could not get URI for doc id " + docId);
             return null;
@@ -502,7 +503,7 @@ public class OpenExternalDirectoryActivity extends Activity {
     private synchronized ContentProviderClient getExternalStorageClient() {
         if (mExternalStorageClient == null) {
             mExternalStorageClient =
-                    getContentResolver().acquireContentProviderClient(EXTERNAL_STORAGE_AUTH);
+                    getContentResolver().acquireContentProviderClient(Providers.AUTHORITY_STORAGE);
         }
         return mExternalStorageClient;
     }
