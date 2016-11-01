@@ -38,8 +38,9 @@
     <color name="item_doc_background_disabled">#fff4f4f4</color>
     <color name="item_doc_background_selected">@*android:color/accent_device_default_50</color>
     <color name="item_breadcrumb_background_hovered">#1affffff</color>
+    <color name="item_doc_droppable_background">#ffe8f0fb</color>
+    <color name="item_doc_not_droppable_background">#ffe0e0e0</color>
 
-    <color name="item_drag_shadow_background">#fffafafa</color>
-    <color name="item_drag_shadow_background_no_drop">#ffffb6c1</color>
+    <color name="item_drag_shadow_background">@*android:color/white</color>
 
 </resources>

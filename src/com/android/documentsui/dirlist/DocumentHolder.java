@@ -49,6 +49,8 @@ public abstract class DocumentHolder
     protected final Context mContext;
     protected final @ColorInt int mDefaultBgColor;
     protected final @ColorInt int mSelectedBgColor;
+    protected final @ColorInt int mDroppableBgColor;
+    protected final @ColorInt int mNotDroppableBgColor;
 
     protected @Nullable String mModelId;
 
@@ -72,6 +74,9 @@ public abstract class DocumentHolder
 
         mDefaultBgColor = context.getColor(R.color.item_doc_background);
         mSelectedBgColor = context.getColor(R.color.item_doc_background_selected);
+        mDroppableBgColor = context.getColor(R.color.item_doc_droppable_background);
+        mNotDroppableBgColor = context.getColor(R.color.item_doc_not_droppable_background);
+
         mSelectionHotspot = itemView.findViewById(R.id.icon_check);
 
         mDebugContainer = (FrameLayout) itemView.findViewById(R.id.debug_info);
@@ -118,13 +123,24 @@ public abstract class DocumentHolder
      * Highlights the associated item view to indicate it's droppable.
      * @param highlighted
      */
-    public void setDroppableHighlight(boolean highlighted) {
-        // If item is already selected, its droppable highlight should not be changed.
+    public void setDroppableHighlight(boolean droppable) {
+        // If item is already selected, its highlight should not be changed.
         if (itemView.isActivated()) {
             return;
         }
 
-        itemView.setBackgroundColor(highlighted ? mSelectedBgColor : mDefaultBgColor);
+        itemView.setBackgroundColor(droppable ? mDroppableBgColor : mNotDroppableBgColor);
+    }
+
+    /**
+     * Reset the associated item view's droppable background highlight.
+     */
+    public void resetDropHighlight() {
+        if (itemView.isActivated()) {
+            return;
+        }
+
+        itemView.setBackgroundColor(mDefaultBgColor);
     }
 
     public void setEnabled(boolean enabled) {

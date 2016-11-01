@@ -51,4 +51,7 @@
 
     <dimen name="dropdown_sort_widget_margin">20dp</dimen>
     <dimen name="dropdown_sort_widget_icon_size">30dp</dimen>
+
+    <dimen name="drop_icon_height">15dp</dimen>
+    <dimen name="drop_icon_width">15dp</dimen>
 </resources>

@@ -896,6 +896,12 @@ public class DirectoryFragment extends Fragment
         // For now, just always reset drag shadow when drag exits
         mActivity.getShadowBuilder().resetBackground();
         v.updateDragShadow(mActivity.getShadowBuilder());
+        if (v.getParent() == mRecView) {
+            DocumentHolder holder = getDocumentHolder(v);
+            if (holder != null) {
+                holder.resetDropHighlight();
+            }
+        }
     }
 
     void dragStopped(boolean result) {
@@ -913,16 +919,13 @@ public class DirectoryFragment extends Fragment
      * {@inheritDoc}
      *
      * In DirectoryFragment, we close the roots drawer right away.
+     * We also want to update the Drag Shadow to indicate whether the
+     * item is droppable or not.
      */
     @Override
     public void onDragEntered(View v, Object localState) {
-    mActivity.setRootsDrawerOpen(false);
-
-        if (canCopyTo(localState, v)) {
-            mActivity.getShadowBuilder().resetBackground();
-        } else {
-            mActivity.getShadowBuilder().setNoDropBackground();
-        }
+        mActivity.setRootsDrawerOpen(false);
+        mActivity.getShadowBuilder().setAppearDroppable(canCopyTo(localState, v));
         v.updateDragShadow(mActivity.getShadowBuilder());
     }
 
@@ -1004,13 +1007,17 @@ public class DirectoryFragment extends Fragment
     }
 
     @Override
-    public void setDropTargetHighlight(View v, boolean highlight) {
+    public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
         // Note: use exact comparison - this code is searching for views which are children of
         // the RecyclerView instance in the UI.
         if (v.getParent() == mRecView) {
-            RecyclerView.ViewHolder vh = mRecView.getChildViewHolder(v);
-            if (vh instanceof DocumentHolder) {
-                ((DocumentHolder) vh).setDroppableHighlight(highlight);
+            DocumentHolder holder = getDocumentHolder(v);
+            if (holder != null) {
+                if (!highlight) {
+                    holder.resetDropHighlight();
+                } else {
+                    holder.setDroppableHighlight(canCopyTo(localState, v));
+                }
             }
         }
     }
@@ -1028,6 +1035,14 @@ public class DirectoryFragment extends Fragment
             if (vh instanceof DocumentHolder) {
                 return ((DocumentHolder) vh).getModelId();
             }
+        }
+        return null;
+    }
+
+    private @Nullable DocumentHolder getDocumentHolder(View v) {
+        RecyclerView.ViewHolder vh = mRecView.getChildViewHolder(v);
+        if (vh instanceof DocumentHolder) {
+            return (DocumentHolder) vh;
         }
         return null;
     }

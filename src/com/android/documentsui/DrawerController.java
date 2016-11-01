@@ -156,7 +156,7 @@ public abstract class DrawerController implements DrawerListener {
         }
 
         @Override
-        public void setDropTargetHighlight(View v, boolean highlight) {
+        public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
         }
 
         @Override

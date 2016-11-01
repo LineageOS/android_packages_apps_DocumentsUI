@@ -23,13 +23,7 @@
     android:gravity="center_vertical|left"
     android:background="@drawable/drag_shadow_background">
 
-    <ImageView
-        android:id="@android:id/icon"
-        android:layout_width="@dimen/root_icon_size"
-        android:layout_height="@dimen/root_icon_size"
-        android:scaleType="centerInside"
-        android:contentDescription="@null"
-        android:duplicateParentState="true"/>
+   <include layout="@layout/drop_badge"/>
 
     <TextView
         android:id="@android:id/title"
