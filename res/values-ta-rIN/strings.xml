@@ -17,7 +17,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3303317181319900082">"கோப்புகள்"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"இறக்கங்கள்"</string>
     <string name="title_open" msgid="3165686459158020921">"இதிலிருந்து திற:"</string>
     <string name="title_save" msgid="4384490653102710025">"இதில் சேமி:"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"புதிய கோப்புறை"</string>
