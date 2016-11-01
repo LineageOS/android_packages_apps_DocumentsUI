@@ -17,7 +17,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3303317181319900082">"ఫైల్‌లు"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"డౌన్‌లోడ్‌లు"</string>
     <string name="title_open" msgid="3165686459158020921">"ఇక్కడి నుండి తెరువు"</string>
     <string name="title_save" msgid="4384490653102710025">"ఇందులో సేవ్ చేయి"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"కొత్త ఫోల్డర్"</string>
