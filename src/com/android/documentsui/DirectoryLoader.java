@@ -103,7 +103,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             cursor = new RootCursorWrapper(mUri.getAuthority(), mRoot.rootId, cursor, -1);
 
             if (mSearchMode && !Shared.ENABLE_OMC_API_FEATURES) {
-                // There is no findPath API. Enable filtering on folders in search mode.
+                // There is no findDocumentPath API. Enable filtering on folders in search mode.
                 cursor = new FilteringCursorWrapper(cursor, null, SEARCH_REJECT_MIMES);
             }
 

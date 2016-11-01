@@ -63,11 +63,11 @@ public class LoadDocStackTask extends PairedTask<Activity, Uri, DocumentStack> {
         final Uri docUri = uris[0];
         if (Shared.ENABLE_OMC_API_FEATURES && mDocs.isDocumentUri(docUri)) {
             try {
-                final Path path = mDocs.findPath(docUri);
+                final Path path = mDocs.findDocumentPath(docUri);
                 if (path != null) {
                     return buildStack(docUri.getAuthority(), path);
                 } else {
-                    Log.i(TAG, "Remote provider doesn't support findPath.");
+                    Log.i(TAG, "Remote provider doesn't support findDocumentPath.");
                 }
             } catch (Exception e) {
                 Log.e(TAG, "Failed to build document stack for uri: " + docUri, e);
