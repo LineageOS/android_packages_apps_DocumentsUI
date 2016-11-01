@@ -62,7 +62,7 @@ public class TestDocumentsAccess implements DocumentsAccess {
     }
 
     @Override
-    public Path findPath(Uri docUri) throws RemoteException {
+    public Path findDocumentPath(Uri docUri) throws RemoteException {
         return nextPath;
     }
 }
