@@ -17,7 +17,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3303317181319900082">"ဖိုင်များ"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"ဒေါင်းလုဒ်များ"</string>
     <string name="title_open" msgid="3165686459158020921">"အောက်ပါနေရာမှ ဖွင့်ပါ"</string>
     <string name="title_save" msgid="4384490653102710025">"အောက်ပါနေရာသို့ သိမ်းပါ"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"ဖိုင်တွဲအသစ်"</string>
