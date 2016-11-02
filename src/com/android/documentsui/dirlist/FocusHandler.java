@@ -44,14 +44,20 @@ public interface FocusHandler extends View.OnFocusChangeListener {
     void focusDocument(String modelId);
 
     /**
-     * Requests focus on the item that last had focus. Scrolls to that item if necessary.
+     * Requests focus on the item that last had focus. Scrolls to that item if necessary. If focus
+     * is unsuccessful, return false.
      */
-    void restoreLastFocus();
+    boolean requestFocus();
 
     /**
      * @return The adapter position of the last focused item.
      */
     int getFocusPosition();
+
+    /**
+     * @return True if there is currently an item in focus, false otherwise.
+     */
+    boolean hasFocusedItem();
 
     /**
      * @return The modelId of the last focused item. If no item is focused, this should return null.

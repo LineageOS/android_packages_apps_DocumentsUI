@@ -47,7 +47,9 @@ public final class UserInputHandler_MouseTest {
 
     private UserInputHandler<TestEvent> mInputHandler;
     private TestActionHandler mActionHandler;
+    private TestFocusHandler mFocusHandler;
     private SelectionProbe mSelection;
+    private SelectionManager mSelectionMgr;
     private TestPredicate<DocumentDetails> mCanSelect;
     private TestEventHandler<InputEvent> mContextMenuClickHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
@@ -58,19 +60,20 @@ public final class UserInputHandler_MouseTest {
     @Before
     public void setUp() {
 
-        SelectionManager selectionMgr = SelectionManagers.createTestInstance(ITEMS);
+        mSelectionMgr = SelectionManagers.createTestInstance(ITEMS);
         mActionHandler = new TestActionHandler();
 
-        mSelection = new SelectionProbe(selectionMgr);
+        mSelection = new SelectionProbe(mSelectionMgr);
         mCanSelect = new TestPredicate<>();
         mContextMenuClickHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
         mGestureSelectHandler = new TestEventHandler<>();
+        mFocusHandler = new TestFocusHandler();
 
         mInputHandler = new UserInputHandler<>(
                 mActionHandler,
-                new TestFocusHandler(),
-                selectionMgr,
+                mFocusHandler,
+                mSelectionMgr,
                 (MotionEvent event) -> {
                     throw new UnsupportedOperationException("Not exercised in tests.");
                 },
@@ -126,6 +129,18 @@ public final class UserInputHandler_MouseTest {
         mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
 
         mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
+        mSelection.assertSelection(7, 8, 9, 10, 11);
+    }
+
+    @Test
+    public void testConfirmedShiftClick_ExtendsSelectionFromOriginFocus() {
+        mFocusHandler.focusPos = 7;
+        mFocusHandler.focusModelId = "7";
+        // This is a hack-y test, since the real FocusManager would've set range begin itself.
+        mSelectionMgr.setSelectionRangeBegin(7);
+        mSelection.assertNoSelection();
+
+        mInputHandler.onSingleTapConfirmed(mEvent.at(11).shift().build());
         mSelection.assertSelection(7, 8, 9, 10, 11);
     }
 

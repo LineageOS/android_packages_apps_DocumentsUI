@@ -92,7 +92,6 @@ public abstract class BaseActivity<T extends ActionHandler>
     protected MessageBuilder mMessages;
     protected DrawerController mDrawer;
     protected NavigationViewManager mNavigator;
-    protected FocusManager mFocusManager;
     protected SortController mSortController;
 
     protected T mActions;
@@ -165,10 +164,8 @@ public abstract class BaseActivity<T extends ActionHandler>
     public abstract ActionModeController getActionModeController(
             SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view);
 
-    public final FocusManager getFocusManager(RecyclerView view, Model model) {
-        assert(mFocusManager != null);
-        return mFocusManager.reset(view, model);
-    }
+
+    public abstract FocusManager getFocusManager(RecyclerView view, Model model);
 
     public final MessageBuilder getMessages() {
         assert(mMessages != null);
@@ -190,7 +187,6 @@ public abstract class BaseActivity<T extends ActionHandler>
         setContentView(mLayoutId);
 
         mState = getState(icicle);
-        mFocusManager = new FocusManager(getColor(R.color.accent_dark));
         mDrawer = DrawerController.create(this, getActivityConfig());
         Metrics.logActivityLaunch(this, mState, intent);
 

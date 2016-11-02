@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.ColorRes;
 import android.annotation.Nullable;
@@ -45,6 +46,7 @@ import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.dirlist.Model.Update;
+import com.android.documentsui.selection.SelectionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +61,10 @@ public final class FocusManager implements FocusHandler {
 
     private final ContentScope mScope = new ContentScope();
     private final TitleSearchHelper mSearchHelper;
+    private final SelectionManager mSelectionMgr;
 
-    public FocusManager(@ColorRes int color) {
+    public FocusManager(@ColorRes int color, SelectionManager selectionMgr) {
+        mSelectionMgr = selectionMgr;
         mSearchHelper = new TitleSearchHelper(color);
     }
 
@@ -94,19 +98,24 @@ public final class FocusManager implements FocusHandler {
     }
 
     @Override
-    public void restoreLastFocus() {
+    public boolean requestFocus() {
         if (mScope.adapter.getItemCount() == 0) {
-            // Nothing to focus.
-            return;
+            if (DEBUG) Log.v(TAG, "Nothing to focus.");
+            return false;
         }
 
-        if (mScope.lastFocusPosition != RecyclerView.NO_POSITION) {
-            // The system takes care of situations when a view is no longer on screen, etc,
-            focusItem(mScope.lastFocusPosition);
-        } else {
-            // Focus the first visible item
-            focusItem(mScope.layout.findFirstVisibleItemPosition());
+        // If there's a selection going on, we don't want to grant user the ability to focus
+        // on any individual item to prevent ambiguity in operations (Cut selection vs. Cut focused
+        // item)
+        if (mSelectionMgr.hasSelection()) {
+            if (DEBUG) Log.v(TAG, "Existing selection found. No focus will be done.");
+            return false;
         }
+
+        final int focusPos = (mScope.lastFocusPosition != RecyclerView.NO_POSITION)
+                ? mScope.lastFocusPosition : mScope.layout.findFirstVisibleItemPosition();
+        focusItem(focusPos);
+        return true;
     }
 
     /*
@@ -144,6 +153,11 @@ public final class FocusManager implements FocusHandler {
     @Override
     public int getFocusPosition() {
         return mScope.lastFocusPosition;
+    }
+
+    @Override
+    public boolean hasFocusedItem() {
+        return mScope.lastFocusPosition != RecyclerView.NO_POSITION;
     }
 
     @Override
