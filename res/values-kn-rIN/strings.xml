@@ -17,7 +17,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_label" msgid="3303317181319900082">"ಫೈಲ್‌ಗಳು"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
     <string name="title_open" msgid="3165686459158020921">"ಇದರ ಮೂಲಕ ತೆರೆಯಿರಿ"</string>
     <string name="title_save" msgid="4384490653102710025">"ಇವುಗಳಲ್ಲಿ ಉಳಿಸಿ"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"ಹೊಸ ಫೋಲ್ಡರ್"</string>
@@ -86,7 +85,7 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ.</item>
     </plurals>
-    <string name="undo" msgid="2902438994196400565">"ರದ್ದುಮಾಡು"</string>
+    <string name="undo" msgid="2902438994196400565">"ರದ್ದುಮಾಡಿ"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"ನಕಲಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"ಸರಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"ಅಳಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ…"</string>
