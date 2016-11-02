@@ -46,7 +46,7 @@ public interface DocumentsAccess {
     @Nullable DocumentInfo getArchiveDocument(Uri uri);
 
     boolean isDocumentUri(Uri uri);
-    @Nullable Path findPath(Uri uri) throws RemoteException;
+    @Nullable Path findDocumentPath(Uri uri) throws RemoteException;
 
     List<DocumentInfo> getDocuments(String authority, List<String> docIds) throws RemoteException;
 
@@ -116,11 +116,11 @@ public interface DocumentsAccess {
         }
 
         @Override
-        public Path findPath(Uri docUri) throws RemoteException {
+        public Path findDocumentPath(Uri docUri) throws RemoteException {
             final ContentResolver resolver = mContext.getContentResolver();
             try (final ContentProviderClient client = DocumentsApplication
                     .acquireUnstableProviderOrThrow(resolver, docUri.getAuthority())) {
-                return DocumentsContract.findPath(client, docUri);
+                return DocumentsContract.findDocumentPath(client, docUri);
             }
         }
     }
