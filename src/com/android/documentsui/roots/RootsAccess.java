@@ -17,6 +17,7 @@
 package com.android.documentsui.roots;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.net.Uri;
 import android.util.Log;
@@ -63,49 +64,49 @@ public interface RootsAccess {
         final List<RootInfo> matching = new ArrayList<>();
         for (RootInfo root : roots) {
 
-            if (DEBUG) Log.v(tag, "Evaluationg root: " + root);
+            if (VERBOSE) Log.v(tag, "Evaluationg root: " + root);
 
             if (state.action == State.ACTION_CREATE && !root.supportsCreate()) {
-                if (DEBUG) Log.v(tag, "Excluding read-only root because: ACTION_CREATE.");
+                if (VERBOSE) Log.v(tag, "Excluding read-only root because: ACTION_CREATE.");
                 continue;
             }
 
             if (state.action == State.ACTION_PICK_COPY_DESTINATION
                     && !root.supportsCreate()) {
-                if (DEBUG) Log.v(
+                if (VERBOSE) Log.v(
                         tag, "Excluding read-only root because: ACTION_PICK_COPY_DESTINATION.");
                 continue;
             }
 
             if (state.action == State.ACTION_OPEN_TREE && !root.supportsChildren()) {
-                if (DEBUG) Log.v(
+                if (VERBOSE) Log.v(
                         tag, "Excluding root !supportsChildren because: ACTION_OPEN_TREE.");
                 continue;
             }
 
             if (!state.showAdvanced && root.isAdvanced()) {
-                if (DEBUG) Log.v(tag, "Excluding root because: unwanted advanced device.");
+                if (VERBOSE) Log.v(tag, "Excluding root because: unwanted advanced device.");
                 continue;
             }
 
             if (state.localOnly && !root.isLocalOnly()) {
-                if (DEBUG) Log.v(tag, "Excluding root because: unwanted non-local device.");
+                if (VERBOSE) Log.v(tag, "Excluding root because: unwanted non-local device.");
                 continue;
             }
 
             if (state.directoryCopy && root.isDownloads()) {
-                if (DEBUG) Log.v(
+                if (VERBOSE) Log.v(
                         tag, "Excluding downloads root because: unsupported directory copy.");
                 continue;
             }
 
             if (state.action == State.ACTION_OPEN && root.isEmpty()) {
-                if (DEBUG) Log.v(tag, "Excluding empty root because: ACTION_OPEN.");
+                if (VERBOSE) Log.v(tag, "Excluding empty root because: ACTION_OPEN.");
                 continue;
             }
 
             if (state.action == State.ACTION_GET_CONTENT && root.isEmpty()) {
-                if (DEBUG) Log.v(tag, "Excluding empty root because: ACTION_GET_CONTENT.");
+                if (VERBOSE) Log.v(tag, "Excluding empty root because: ACTION_GET_CONTENT.");
                 continue;
             }
 
@@ -113,14 +114,14 @@ public interface RootsAccess {
                     MimeTypes.mimeMatches(root.derivedMimeTypes, state.acceptMimes) ||
                     MimeTypes.mimeMatches(state.acceptMimes, root.derivedMimeTypes);
             if (!overlap) {
-                if (DEBUG) Log.v(
+                if (VERBOSE) Log.v(
                         tag, "Excluding root because: unsupported content types > "
                         + Arrays.toString(state.acceptMimes));
                 continue;
             }
 
             if (state.excludedAuthorities.contains(root.authority)) {
-                if (DEBUG) Log.v(tag, "Excluding root because: owned by calling package.");
+                if (VERBOSE) Log.v(tag, "Excluding root because: owned by calling package.");
                 continue;
             }
 

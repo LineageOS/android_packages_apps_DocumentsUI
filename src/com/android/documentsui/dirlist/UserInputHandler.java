@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
@@ -211,18 +212,18 @@ public final class UserInputHandler<T extends InputEvent>
     private final class TouchInputDelegate {
 
         boolean onDown(T event) {
-            if (DEBUG) Log.v(TTAG, "Delegated onDown event.");
+            if (VERBOSE) Log.v(TTAG, "Delegated onDown event.");
             return false;
         }
 
         // Don't consume so the RecyclerView will get the event and will get touch-based scrolling
         boolean onScroll(T event) {
-            if (DEBUG) Log.v(TTAG, "Delegated onScroll event.");
+            if (VERBOSE) Log.v(TTAG, "Delegated onScroll event.");
             return false;
         }
 
         boolean onSingleTapUp(T event) {
-            if (DEBUG) Log.v(TTAG, "Delegated onSingleTapUp event.");
+            if (VERBOSE) Log.v(TTAG, "Delegated onSingleTapUp event.");
             if (!event.isOverModelItem()) {
                 if (DEBUG) Log.d(TTAG, "Tap not associated w/ model item. Clearing selection.");
                 mSelectionMgr.clearSelection();
@@ -247,17 +248,17 @@ public final class UserInputHandler<T extends InputEvent>
         }
 
         boolean onSingleTapConfirmed(T event) {
-            if (DEBUG) Log.v(TTAG, "Delegated onSingleTapConfirmed event.");
+            if (VERBOSE) Log.v(TTAG, "Delegated onSingleTapConfirmed event.");
             return false;
         }
 
         boolean onDoubleTap(T event) {
-            if (DEBUG) Log.v(TTAG, "Delegated onDoubleTap event.");
+            if (VERBOSE) Log.v(TTAG, "Delegated onDoubleTap event.");
             return false;
         }
 
         final void onLongPress(T event) {
-            if (DEBUG) Log.v(TTAG, "Delegated onLongPress event.");
+            if (VERBOSE) Log.v(TTAG, "Delegated onLongPress event.");
             if (!event.isOverModelItem()) {
                 if (DEBUG) Log.d(TTAG, "Ignoring LongPress on non-model-backed item.");
                 return;
@@ -291,7 +292,7 @@ public final class UserInputHandler<T extends InputEvent>
         private boolean mHandledOnDown;
 
         boolean onDown(T event) {
-            if (DEBUG) Log.v(MTAG, "Delegated onDown event.");
+            if (VERBOSE) Log.v(MTAG, "Delegated onDown event.");
             if (event.isSecondaryButtonPressed()
                     || (event.isAltKeyDown() && event.isPrimaryButtonPressed())) {
                 mHandledOnDown = true;
@@ -303,18 +304,18 @@ public final class UserInputHandler<T extends InputEvent>
 
         // Don't scroll content window in response to mouse drag
         boolean onScroll(T event) {
-            if (DEBUG) Log.v(MTAG, "Delegated onScroll event.");
+            if (VERBOSE) Log.v(MTAG, "Delegated onScroll event.");
             return true;
         }
 
         boolean onSingleTapUp(T event) {
-            if (DEBUG) Log.v(MTAG, "Delegated onSingleTapUp event.");
+            if (VERBOSE) Log.v(MTAG, "Delegated onSingleTapUp event.");
 
             // See b/27377794. Since we don't get a button state back from UP events, we have to
             // explicitly save this state to know whether something was previously handled by
             // DOWN events or not.
             if (mHandledOnDown) {
-                if (DEBUG) Log.v(MTAG, "Ignoring onSingleTapUp, previously handled in onDown.");
+                if (VERBOSE) Log.v(MTAG, "Ignoring onSingleTapUp, previously handled in onDown.");
                 mHandledOnDown = false;
                 return false;
             }
@@ -348,9 +349,9 @@ public final class UserInputHandler<T extends InputEvent>
         }
 
         boolean onSingleTapConfirmed(T event) {
-            if (DEBUG) Log.v(MTAG, "Delegated onSingleTapConfirmed event.");
+            if (VERBOSE) Log.v(MTAG, "Delegated onSingleTapConfirmed event.");
             if (mHandledTapUp) {
-                if (DEBUG) Log.v(MTAG, "Ignoring onSingleTapConfirmed, previously handled in onSingleTapUp.");
+                if (VERBOSE) Log.v(MTAG, "Ignoring onSingleTapConfirmed, previously handled in onSingleTapUp.");
                 mHandledTapUp = false;
                 return false;
             }
@@ -385,7 +386,7 @@ public final class UserInputHandler<T extends InputEvent>
         }
 
         boolean onDoubleTap(T event) {
-            if (DEBUG) Log.v(MTAG, "Delegated onDoubleTap event.");
+            if (VERBOSE) Log.v(MTAG, "Delegated onDoubleTap event.");
             mHandledTapUp = false;
 
             if (!event.isOverModelItem()) {
@@ -403,12 +404,12 @@ public final class UserInputHandler<T extends InputEvent>
         }
 
         final void onLongPress(T event) {
-            if (DEBUG) Log.v(MTAG, "Delegated onLongPress event.");
+            if (VERBOSE) Log.v(MTAG, "Delegated onLongPress event.");
             return;
         }
 
         private boolean onRightClick(T event) {
-            if (DEBUG) Log.v(MTAG, "Delegated onRightClick event.");
+            if (VERBOSE) Log.v(MTAG, "Delegated onRightClick event.");
             if (event.isOverModelItem()) {
                 DocumentDetails doc = event.getDocumentDetails();
                 if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {

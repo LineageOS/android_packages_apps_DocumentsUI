@@ -47,6 +47,7 @@ public final class Shared {
     public static final String TAG = "Documents";
 
     public static final boolean DEBUG = true;
+    public static final boolean VERBOSE = DEBUG && Log.isLoggable(TAG, Log.VERBOSE);
 
     public static final boolean ENABLE_OMC_API_FEATURES = true;
 

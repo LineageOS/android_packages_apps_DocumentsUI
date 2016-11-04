@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.Nullable;
 import android.graphics.drawable.Drawable;
@@ -99,7 +99,7 @@ public class NavigationViewManager {
         if (mState.stack.size() <= 1) {
             mBreadcrumb.show(false);
             String title = mEnv.getCurrentRoot().title;
-            if (DEBUG) Log.v(TAG, "New toolbar title is: " + title);
+            if (VERBOSE) Log.v(TAG, "New toolbar title is: " + title);
             mToolbar.setTitle(title);
         } else {
             mBreadcrumb.show(true);
@@ -107,7 +107,7 @@ public class NavigationViewManager {
             mBreadcrumb.postUpdate();
         }
 
-        if (DEBUG) Log.v(TAG, "Final toolbar title is: " + mToolbar.getTitle());
+        if (VERBOSE) Log.v(TAG, "Final toolbar title is: " + mToolbar.getTitle());
     }
 
     // Hamburger if drawer is present, else sad nullness.

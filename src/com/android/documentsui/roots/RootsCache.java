@@ -17,6 +17,7 @@
 package com.android.documentsui.roots;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.content.BroadcastReceiver.PendingResult;
 import android.content.ContentProviderClient;
@@ -211,7 +212,7 @@ public class RootsCache implements RootsAccess {
      */
     private Collection<RootInfo> loadRootsForAuthority(ContentResolver resolver, String authority,
             boolean forceRefresh) {
-        if (DEBUG) Log.v(TAG, "Loading roots for " + authority);
+        if (VERBOSE) Log.v(TAG, "Loading roots for " + authority);
 
         synchronized (mObservedAuthorities) {
             if (mObservedAuthorities.add(authority)) {
@@ -227,7 +228,7 @@ public class RootsCache implements RootsAccess {
             // long-lived system process.
             final Bundle systemCache = resolver.getCache(rootsUri);
             if (systemCache != null) {
-                if (DEBUG) Log.v(TAG, "System cache hit for " + authority);
+                if (VERBOSE) Log.v(TAG, "System cache hit for " + authority);
                 return systemCache.getParcelableArrayList(TAG);
             }
         }
@@ -378,7 +379,7 @@ public class RootsCache implements RootsAccess {
             }
 
             final long delta = SystemClock.elapsedRealtime() - start;
-            if (DEBUG) Log.v(TAG,
+            if (VERBOSE) Log.v(TAG,
                     "Update found " + mTaskRoots.size() + " roots in " + delta + "ms");
             synchronized (mLock) {
                 mFirstLoadDone = true;
@@ -398,7 +399,7 @@ public class RootsCache implements RootsAccess {
             // Ignore stopped packages for now; we might query them
             // later during UI interaction.
             if ((info.applicationInfo.flags & ApplicationInfo.FLAG_STOPPED) != 0) {
-                if (DEBUG) Log.v(TAG, "Ignoring stopped authority " + info.authority);
+                if (VERBOSE) Log.v(TAG, "Ignoring stopped authority " + info.authority);
                 mTaskStoppedAuthorities.add(info.authority);
                 return;
             }

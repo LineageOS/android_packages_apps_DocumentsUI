@@ -19,6 +19,7 @@ package com.android.documentsui.dirlist;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 
@@ -526,14 +527,15 @@ public class DirectoryFragment extends Fragment
      */
     private void scaleLayout(float scale) {
         assert(Build.IS_DEBUGGABLE);
-        if (DEBUG) Log.v(TAG, "Handling scale event: " + scale + ", existing scale: " + mLiveScale);
+        if (VERBOSE) Log.v(
+                TAG, "Handling scale event: " + scale + ", existing scale: " + mLiveScale);
 
         if (mMode == MODE_GRID) {
             float minScale = getFraction(R.fraction.grid_scale_min);
             float maxScale = getFraction(R.fraction.grid_scale_max);
             float nextScale = mLiveScale * scale;
 
-            if (DEBUG) Log.v(TAG,
+            if (VERBOSE) Log.v(TAG,
                     "Next scale " + nextScale + ", Min/max scale " + minScale + "/" + maxScale);
 
             if (nextScale > minScale && nextScale < maxScale) {

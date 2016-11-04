@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.MainThread;
 import android.annotation.Nullable;
@@ -42,7 +42,7 @@ public final class DirectoryReloadLock {
     public void block() {
         Shared.checkMainLoop();
         mPauseCount++;
-        if (DEBUG) Log.v(TAG, "Block count increments to " + mPauseCount + ".");
+        if (VERBOSE) Log.v(TAG, "Block count increments to " + mPauseCount + ".");
     }
 
     /**
@@ -54,7 +54,7 @@ public final class DirectoryReloadLock {
         Shared.checkMainLoop();
         assert(mPauseCount > 0);
         mPauseCount--;
-        if (DEBUG) Log.v(TAG, "Block count decrements to " + mPauseCount + ".");
+        if (VERBOSE) Log.v(TAG, "Block count decrements to " + mPauseCount + ".");
         if (mPauseCount == 0 && mCallback != null) {
             mCallback.run();
             mCallback = null;
