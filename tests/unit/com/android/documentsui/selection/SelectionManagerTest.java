@@ -202,7 +202,6 @@ public class SelectionManagerTest {
         mManager.snapProvisionalRangeSelection(18);
         mSelection.assertRangeSelected(11, 18);
         mManager.endRangeSelection();
-
         mSelection.assertRangeSelected(13, 15);
         mSelection.assertRangeSelected(11, 11);
         mSelection.assertSelectionSize(4);

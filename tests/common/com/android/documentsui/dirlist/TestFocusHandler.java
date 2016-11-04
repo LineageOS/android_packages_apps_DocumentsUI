@@ -25,6 +25,8 @@ import android.view.View;
 public final class TestFocusHandler implements FocusHandler {
 
     public boolean handleKey;
+    public int focusPos = 0;
+    public String focusModelId;
 
     @Override
     public boolean handleKey(DocumentHolder doc, int keyCode, KeyEvent event) {
@@ -36,17 +38,23 @@ public final class TestFocusHandler implements FocusHandler {
     }
 
     @Override
-    public void restoreLastFocus() {
+    public boolean requestFocus() {
+        return true;
+    }
+
+    @Override
+    public boolean hasFocusedItem() {
+        return true;
     }
 
     @Override
     public int getFocusPosition() {
-        return 0;
+        return focusPos;
     }
 
     @Override
     public String getFocusModelId() {
-        return null;
+        return focusModelId;
     }
 
     @Override

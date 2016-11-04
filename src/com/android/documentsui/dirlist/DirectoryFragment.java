@@ -885,11 +885,7 @@ public class DirectoryFragment extends Fragment
      * Attempts to restore focus on the directory listing.
      */
     public boolean requestFocus() {
-        if (mSelectionMgr.hasSelection()) {
-            return false;
-        }
-        mFocusManager.restoreLastFocus();
-        return true;
+        return mFocusManager.requestFocus();
     }
 
     private void setupDragAndDropOnDocumentView(View view, Cursor cursor) {

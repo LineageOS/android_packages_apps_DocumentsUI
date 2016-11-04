@@ -38,6 +38,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +48,7 @@ import com.android.documentsui.ActionModeController;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.ProviderExecutor;
@@ -85,6 +87,7 @@ public class PickActivity
     private ScopedPreferences mPrefs;
     private SelectionManager mSelectionMgr;
     private MenuManager mMenuManager;
+    private FocusManager mFocusManager;
     private ActionModeController mActionModeController;
 
     public PickActivity() {
@@ -104,6 +107,7 @@ public class PickActivity
                 mState.allowMultiple
                         ? SelectionManager.MODE_MULTIPLE
                         : SelectionManager.MODE_SINGLE);
+        mFocusManager = new FocusManager(getColor(R.color.accent_dark), mSelectionMgr);
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
         mActions = new ActionHandler<>(
                 this,
@@ -438,6 +442,12 @@ public class PickActivity
     @Override
     public MenuManager getMenuManager() {
         return mMenuManager;
+    }
+
+    @Override
+    public FocusManager getFocusManager(RecyclerView view, Model model) {
+        assert (mFocusManager != null);
+        return mFocusManager.reset(view, model);
     }
 
     @Override

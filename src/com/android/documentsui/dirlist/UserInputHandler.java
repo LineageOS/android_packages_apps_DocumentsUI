@@ -375,7 +375,13 @@ public final class UserInputHandler<T extends InputEvent>
                 return false;
             }
 
-            return selectDocument(doc);
+            if (mFocusHandler.hasFocusedItem() && event.isShiftKeyDown()) {
+                mSelectionMgr.formNewSelectionRange(mFocusHandler.getFocusPosition(),
+                        doc.getAdapterPosition());
+                return true;
+            } else {
+                return selectDocument(doc);
+            }
         }
 
         boolean onDoubleTap(T event) {

@@ -298,6 +298,16 @@ public final class SelectionManager {
         snapRangeSelection(pos, RANGE_PROVISIONAL);
     }
 
+    /*
+     * Starts and extends range selection in one go. This assumes item at startPos is not selected
+     * beforehand.
+     */
+    public void formNewSelectionRange(int startPos, int endPos) {
+        assert(!mSelection.contains(mAdapter.getModelId(startPos)));
+        startRangeSelection(startPos);
+        snapRangeSelection(endPos);
+    }
+
     /**
      * Sets the end point for the current range selection, started by a call to
      * {@link #startRangeSelection(int)}. This function should only be called when a range selection

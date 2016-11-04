@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.KeyboardShortcutGroup;
@@ -38,6 +39,7 @@ import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragShadowBuilder;
+import com.android.documentsui.FocusManager;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.OperationDialogFragment;
@@ -56,7 +58,6 @@ import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.services.FileOperationService;
@@ -81,6 +82,7 @@ public class FilesActivity
     private ScopedPreferences mPrefs;
     private SelectionManager mSelectionMgr;
     private MenuManager mMenuManager;
+    private FocusManager mFocusManager;
     private DialogController mDialogs;
     private DocumentClipper mClipper;
     private ActionModeController mActionModeController;
@@ -102,6 +104,7 @@ public class FilesActivity
 
         mClipper = DocumentsApplication.getDocumentClipper(this);
         mSelectionMgr = new SelectionManager(SelectionManager.MODE_MULTIPLE);
+        mFocusManager = new FocusManager(getColor(R.color.accent_dark), mSelectionMgr);
         mMenuManager = new MenuManager(
                 mSearchManager,
                 mState,
@@ -385,6 +388,12 @@ public class FilesActivity
     @Override
     public MenuManager getMenuManager() {
         return mMenuManager;
+    }
+
+    @Override
+    public FocusManager getFocusManager(RecyclerView view, Model model) {
+        assert (mFocusManager != null);
+        return mFocusManager.reset(view, model);
     }
 
     @Override

@@ -21,8 +21,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestModel;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestRecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SmallTest
@@ -34,11 +37,14 @@ public class FocusManagerTest extends AndroidTestCase {
 
     private FocusManager mManager;
     private TestRecyclerView mView;
+    private SelectionManager mSelectionMgr;
 
     @Override
     public void setUp() throws Exception {
         mView = TestRecyclerView.create(ITEMS);
-        mManager = new FocusManager(0).reset(mView, new TestModel(TEST_AUTHORITY));
+        mSelectionMgr = SelectionManagers.createTestInstance(ITEMS);
+        mManager = new FocusManager(0, mSelectionMgr).reset(mView,
+                new TestModel(TEST_AUTHORITY));
     }
 
     public void testFocus() {
@@ -53,5 +59,17 @@ public class FocusManagerTest extends AndroidTestCase {
        mManager.onLayoutCompleted();
        // Should only be called once
        mView.assertItemViewFocused(10);
+    }
+
+    public void testRequestFocus_noItemsToFocus() {
+        mView = TestRecyclerView.create(new ArrayList<>());
+        mManager = new FocusManager(0, SelectionManagers.createTestInstance()).reset(mView,
+                new TestModel(TEST_AUTHORITY));
+        assertFalse(mManager.requestFocus());
+    }
+
+    public void testRequestFocus_hasSelection() {
+        mSelectionMgr.toggleSelection("0");
+        assertFalse(mManager.requestFocus());
     }
 }
