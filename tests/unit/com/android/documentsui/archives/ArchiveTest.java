@@ -157,6 +157,17 @@ public class ArchiveTest extends AndroidTestCase {
                 new ArchiveId(ARCHIVE_URI, "/").toDocumentId(), null, null);
 
         assertTrue(cursor.moveToFirst());
+        assertEquals(
+                new ArchiveId(ARCHIVE_URI, "/file1.txt").toDocumentId(),
+                cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
+        assertEquals("file1.txt",
+                cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)));
+        assertEquals("text/plain",
+                cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_MIME_TYPE)));
+        assertEquals(13,
+                cursor.getInt(cursor.getColumnIndexOrThrow(Document.COLUMN_SIZE)));
+
+        assertTrue(cursor.moveToNext());
         assertEquals(new ArchiveId(ARCHIVE_URI, "/dir1/").toDocumentId(),
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
         assertEquals("dir1",
@@ -175,17 +186,6 @@ public class ArchiveTest extends AndroidTestCase {
         assertEquals(Document.MIME_TYPE_DIR,
                 cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_MIME_TYPE)));
         assertEquals(0,
-                cursor.getInt(cursor.getColumnIndexOrThrow(Document.COLUMN_SIZE)));
-
-        assertTrue(cursor.moveToNext());
-        assertEquals(
-                new ArchiveId(ARCHIVE_URI, "/file1.txt").toDocumentId(),
-                cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DOCUMENT_ID)));
-        assertEquals("file1.txt",
-                cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_DISPLAY_NAME)));
-        assertEquals("text/plain",
-                cursor.getString(cursor.getColumnIndexOrThrow(Document.COLUMN_MIME_TYPE)));
-        assertEquals(13,
                 cursor.getInt(cursor.getColumnIndexOrThrow(Document.COLUMN_SIZE)));
 
         assertFalse(cursor.moveToNext());
