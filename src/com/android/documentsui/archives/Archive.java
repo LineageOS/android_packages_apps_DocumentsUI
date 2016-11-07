@@ -98,7 +98,7 @@ public class Archive implements Closeable {
         mArchiveUri = archiveUri;
         mNotificationUri = notificationUri;
         mZipFile = file != null ?
-                new StrictJarFile(file.getName(), false /* verify */, false /* signatures */) :
+                new StrictJarFile(file.getPath(), false /* verify */, false /* signatures */) :
                 new StrictJarFile(fd, false /* verify */, false /* signatures */);
         mExecutor = Executors.newSingleThreadExecutor();
 
@@ -236,9 +236,9 @@ public class Archive implements Closeable {
                     outputStream.write(buffer, 0, bytes);
                 }
                 outputStream.flush();
-                return new Archive(context, snapshotFile, null, archiveUri,
-                        notificationUri);
             }
+            return new Archive(context, snapshotFile, null, archiveUri,
+                    notificationUri);
         } finally {
             // On UNIX the file will be still available for processes which opened it, even
             // after deleting it. Remove it ASAP, as it won't be used by anyone else.
