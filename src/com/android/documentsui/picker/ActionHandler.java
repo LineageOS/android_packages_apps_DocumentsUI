@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -39,6 +40,7 @@ import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.dirlist.Model;
@@ -121,7 +123,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     }
 
     private boolean launchToDocument(Intent intent) {
-        final Uri uri = intent.getData();
+        final Uri uri = intent.getParcelableExtra(DocumentsContract.EXTRA_INITIAL_URI);
         if (uri != null) {
             loadDocument(uri, this::onStackLoaded);
             return true;
@@ -138,6 +140,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
                 stack.pop();
             }
             mState.stack.reset(stack);
+            mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         } else {
             Log.w(TAG, "Failed to launch into the given uri. Load last accessed stack.");
             loadLastAccessedStack();

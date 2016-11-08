@@ -19,6 +19,7 @@ package com.android.documentsui;
 import android.annotation.Nullable;
 import android.app.Activity;
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.util.Log;
 
@@ -60,8 +61,17 @@ public class LoadDocStackTask extends PairedTask<Activity, Uri, DocumentStack> {
 
     @Override
     public @Nullable DocumentStack run(Uri... uris) {
-        final Uri docUri = uris[0];
-        if (Shared.ENABLE_OMC_API_FEATURES && mDocs.isDocumentUri(docUri)) {
+        if (Shared.ENABLE_OMC_API_FEATURES && mDocs.isDocumentUri(uris[0])) {
+            final Uri docUri;
+            if (DocumentsContract.isTreeUri(uris[0])) {
+                // Reconstruct tree URI into a plain document URI so that we can get the full path
+                // to the root.
+                final String docId = DocumentsContract.getDocumentId(uris[0]);
+                docUri = DocumentsContract.buildDocumentUri(uris[0].getAuthority(), docId);
+            } else {
+                docUri = uris[0];
+            }
+
             try {
                 final Path path = mDocs.findDocumentPath(docUri);
                 if (path != null) {
