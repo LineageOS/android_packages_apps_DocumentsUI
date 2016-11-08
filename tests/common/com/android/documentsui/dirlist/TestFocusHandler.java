@@ -38,7 +38,12 @@ public final class TestFocusHandler implements FocusHandler {
     }
 
     @Override
-    public boolean requestFocus() {
+    public boolean advanceFocusArea() {
+        return true;
+    }
+
+    @Override
+    public boolean focusDirectoryList() {
         return true;
     }
 

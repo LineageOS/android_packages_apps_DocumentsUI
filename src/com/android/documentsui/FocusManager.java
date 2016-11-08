@@ -41,6 +41,7 @@ import android.widget.TextView;
 
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events;
+import com.android.documentsui.base.Procedure;
 import com.android.documentsui.dirlist.DocumentHolder;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.FocusHandler;
@@ -53,19 +54,49 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * A class that handles navigation and focus within the DirectoryFragment.
- */
+/** A class that handles navigation and focus within the DirectoryFragment. */
 public final class FocusManager implements FocusHandler {
     private static final String TAG = "FocusManager";
 
     private final ContentScope mScope = new ContentScope();
-    private final TitleSearchHelper mSearchHelper;
-    private final SelectionManager mSelectionMgr;
 
-    public FocusManager(@ColorRes int color, SelectionManager selectionMgr) {
+    private final SelectionManager mSelectionMgr;
+    private final DrawerController mDrawer;
+    private final Procedure mRootsFocuser;
+    private final TitleSearchHelper mSearchHelper;
+
+    private boolean mNavDrawerHasFocus;
+
+    public FocusManager(
+            SelectionManager selectionMgr,
+            DrawerController drawer,
+            Procedure rootsFocuser,
+            @ColorRes int color) {
+
         mSelectionMgr = selectionMgr;
+        mDrawer = drawer;
+        mRootsFocuser = rootsFocuser;
+
         mSearchHelper = new TitleSearchHelper(color);
+    }
+
+    @Override
+    public boolean advanceFocusArea() {
+        boolean toogleHappened = false;
+        if (mNavDrawerHasFocus) {
+            mDrawer.setOpen(false);
+            focusDirectoryList();
+        } else {
+            mDrawer.setOpen(true);
+            toogleHappened = mRootsFocuser.run();
+        }
+
+        if (toogleHappened) {
+            mNavDrawerHasFocus = !mNavDrawerHasFocus;
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -98,22 +129,26 @@ public final class FocusManager implements FocusHandler {
     }
 
     @Override
-    public boolean requestFocus() {
+    public boolean focusDirectoryList() {
         if (mScope.adapter.getItemCount() == 0) {
-            if (DEBUG) Log.v(TAG, "Nothing to focus.");
+            if (DEBUG)
+                Log.v(TAG, "Nothing to focus.");
             return false;
         }
 
         // If there's a selection going on, we don't want to grant user the ability to focus
-        // on any individual item to prevent ambiguity in operations (Cut selection vs. Cut focused
+        // on any individfocusSomethingual item to prevent ambiguity in operations (Cut selection
+        // vs. Cut focused
         // item)
         if (mSelectionMgr.hasSelection()) {
-            if (DEBUG) Log.v(TAG, "Existing selection found. No focus will be done.");
+            if (DEBUG)
+                Log.v(TAG, "Existing selection found. No focus will be done.");
             return false;
         }
 
         final int focusPos = (mScope.lastFocusPosition != RecyclerView.NO_POSITION)
-                ? mScope.lastFocusPosition : mScope.layout.findFirstVisibleItemPosition();
+                ? mScope.lastFocusPosition
+                : mScope.layout.findFirstVisibleItemPosition();
         focusItem(focusPos);
         return true;
     }
@@ -137,8 +172,8 @@ public final class FocusManager implements FocusHandler {
 
     /*
      * Attempts to put focus on the document associated with the given modelId. If item does not
-     * exist yet in the layout, this sets a pending modelId to be used when
-     * {@code #applyPendingFocus()} is called next time.
+     * exist yet in the layout, this sets a pending modelId to be used when {@code
+     * #applyPendingFocus()} is called next time.
      */
     @Override
     public void focusDocument(String modelId) {
@@ -244,13 +279,14 @@ public final class FocusManager implements FocusHandler {
     }
 
     /**
-     * Given a PgUp/PgDn event and the current view, find the position of the target view.
-     * This returns:
-     * <li>The position of the topmost (or bottom-most) visible item, if the current item is not
-     *     the top- or bottom-most visible item.
+     * Given a PgUp/PgDn event and the current view, find the position of the target view. This
+     * returns:
+     * <li>The position of the topmost (or bottom-most) visible item, if the current item is not the
+     * top- or bottom-most visible item.
      * <li>The position of an item that is one page's worth of items up (or down) if the current
-     *      item is the top- or bottom-most visible item.
+     * item is the top- or bottom-most visible item.
      * <li>The first (or last) item, if paging up (or down) would go past those limits.
+     *
      * @param view The view that received the key event.
      * @param keyCode Must be KEYCODE_PAGE_UP or KEYCODE_PAGE_DOWN.
      * @param event
@@ -305,7 +341,8 @@ public final class FocusManager implements FocusHandler {
      * @param pos
      * @param callback A callback to call after the given item has been focused.
      */
-    private void focusItem(final int pos, @Nullable final FocusCallback callback) {
+    private void focusItem(final int pos, @Nullable
+    final FocusCallback callback) {
         if (mScope.pendingFocusId != null) {
             Log.v(TAG, "clearing pending focus id: " + mScope.pendingFocusId);
             mScope.pendingFocusId = null;
@@ -325,8 +362,8 @@ public final class FocusManager implements FocusHandler {
                         public void onScrollStateChanged(RecyclerView view, int newState) {
                             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                                 // When scrolling stops, find the item and focus it.
-                                RecyclerView.ViewHolder vh =
-                                        view.findViewHolderForAdapterPosition(pos);
+                                RecyclerView.ViewHolder vh = view
+                                        .findViewHolderForAdapterPosition(pos);
                                 if (vh != null) {
                                     if (vh.itemView.requestFocus() && callback != null) {
                                         callback.onFocus(vh.itemView);
@@ -345,9 +382,7 @@ public final class FocusManager implements FocusHandler {
         }
     }
 
-    /**
-     * @return Whether the layout manager is currently in a grid-configuration.
-     */
+    /** @return Whether the layout manager is currently in a grid-configuration. */
     private boolean inGridMode() {
         return mScope.layout.getSpanCount() > 1;
     }
@@ -364,7 +399,7 @@ public final class FocusManager implements FocusHandler {
      * highlights instances of the search term found in the view.
      */
     private class TitleSearchHelper {
-        static private final int SEARCH_TIMEOUT = 500;  // ms
+        private static final int SEARCH_TIMEOUT = 500; // ms
 
         private final KeyListener mTextListener = new TextKeyListener(Capitalize.NONE, false);
         private final Editable mSearchString = Editable.Factory.getInstance().newEditable("");
@@ -470,25 +505,28 @@ public final class FocusManager implements FocusHandler {
             for (int pos = 0; pos < mIndex.size(); pos++) {
                 String title = mIndex.get(pos);
                 if (title != null && title.startsWith(searchString)) {
-                    focusItem(pos, new FocusCallback() {
-                        @Override
-                        public void onFocus(View view) {
-                            mHighlighter.applyHighlight(view);
-                            // Using a timer repeat period of SEARCH_TIMEOUT/2 means the amount of
-                            // time between the last keystroke and a search expiring is actually
-                            // between 500 and 750 ms. A smaller timer period results in less
-                            // variability but does more polling.
-                            mTimer.schedule(new TimeoutTask(), 0, SEARCH_TIMEOUT / 2);
-                        }
-                    });
+                    focusItem(
+                            pos,
+                            new FocusCallback() {
+                                @Override
+                                public void onFocus(View view) {
+                                    mHighlighter.applyHighlight(view);
+                                    // Using a timer repeat period of SEARCH_TIMEOUT/2 means the
+                                    // amount of
+                                    // time between the last keystroke and a search expiring is
+                                    // actually
+                                    // between 500 and 750 ms. A smaller timer period results in
+                                    // less
+                                    // variability but does more polling.
+                                    mTimer.schedule(new TimeoutTask(), 0, SEARCH_TIMEOUT / 2);
+                                }
+                            });
                     break;
                 }
             }
         }
 
-        /**
-         * Ends the current search (see {@link #search()}.
-         */
+        /** Ends the current search (see {@link #search()}. */
         private void endSearch() {
             if (mActive) {
                 mScope.model.removeUpdateListener(mModelListener);
@@ -538,12 +576,13 @@ public final class FocusManager implements FocusHandler {
                 long now = SystemClock.uptimeMillis();
                 if ((now - last) > SEARCH_TIMEOUT) {
                     // endSearch must run on the main thread because it does UI work
-                    mUiRunner.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            endSearch();
-                        }
-                    });
+                    mUiRunner.post(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    endSearch();
+                                }
+                            });
                 }
             }
         };
@@ -552,8 +591,8 @@ public final class FocusManager implements FocusHandler {
             private Spannable mCurrentHighlight;
 
             /**
-             * Applies title highlights to the given view. The view must have a title field that is a
-             * spannable text field.  If this condition is not met, this function does nothing.
+             * Applies title highlights to the given view. The view must have a title field that is
+             * a spannable text field. If this condition is not met, this function does nothing.
              *
              * @param view
              */
@@ -575,8 +614,8 @@ public final class FocusManager implements FocusHandler {
             }
 
             /**
-             * Removes title highlights from the given view. The view must have a title field that is a
-             * spannable text field.  If this condition is not met, this function does nothing.
+             * Removes title highlights from the given view. The view must have a title field that
+             * is a spannable text field. If this condition is not met, this function does nothing.
              *
              * @param view
              */

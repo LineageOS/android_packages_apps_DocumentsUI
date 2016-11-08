@@ -44,10 +44,20 @@ public interface FocusHandler extends View.OnFocusChangeListener {
     void focusDocument(String modelId);
 
     /**
-     * Requests focus on the item that last had focus. Scrolls to that item if necessary. If focus
-     * is unsuccessful, return false.
+     * Requests focus on the the directory list. Will specifically
+     * attempt to focus the item in the directory list that last had focus.
+     * Scrolls to that item if necessary.
+     *
+     * <p>If focus is unsuccessful, return false.
      */
-    boolean requestFocus();
+    boolean focusDirectoryList();
+
+    /**
+     * Attempts to advance the focus to the next available focus area
+     * in the app. As of this writing, known focus areas are the sidebar
+     * and the directory list (specifically an item in the directory list).
+     */
+    boolean advanceFocusArea();
 
     /**
      * @return The adapter position of the last focused item.

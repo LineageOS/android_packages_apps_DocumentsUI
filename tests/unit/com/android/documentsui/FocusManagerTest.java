@@ -43,8 +43,8 @@ public class FocusManagerTest extends AndroidTestCase {
     public void setUp() throws Exception {
         mView = TestRecyclerView.create(ITEMS);
         mSelectionMgr = SelectionManagers.createTestInstance(ITEMS);
-        mManager = new FocusManager(0, mSelectionMgr).reset(mView,
-                new TestModel(TEST_AUTHORITY));
+        mManager = new FocusManager(mSelectionMgr, null, null, 0)
+                .reset(mView, new TestModel(TEST_AUTHORITY));
     }
 
     public void testFocus() {
@@ -61,15 +61,15 @@ public class FocusManagerTest extends AndroidTestCase {
        mView.assertItemViewFocused(10);
     }
 
-    public void testRequestFocus_noItemsToFocus() {
+    public void testFocusDirectoryList_noItemsToFocus() {
         mView = TestRecyclerView.create(new ArrayList<>());
-        mManager = new FocusManager(0, SelectionManagers.createTestInstance()).reset(mView,
-                new TestModel(TEST_AUTHORITY));
-        assertFalse(mManager.requestFocus());
+        mManager = new FocusManager(SelectionManagers.createTestInstance(), null, null, 0)
+                .reset(mView, new TestModel(TEST_AUTHORITY));
+        assertFalse(mManager.focusDirectoryList());
     }
 
-    public void testRequestFocus_hasSelection() {
+    public void testFocusDirectoryList_hasSelection() {
         mSelectionMgr.toggleSelection("0");
-        assertFalse(mManager.requestFocus());
+        assertFalse(mManager.focusDirectoryList());
     }
 }
