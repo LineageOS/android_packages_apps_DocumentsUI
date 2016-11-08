@@ -28,6 +28,7 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestEnv;
@@ -77,6 +78,11 @@ public class AbstractActionHandlerTest {
             @Override
             public void initLocation(Intent intent) {
                 throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public <T extends ActionHandler> T reset(Model model, boolean searchMode) {
+                return null;
             }
         };
     }

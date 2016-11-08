@@ -22,17 +22,27 @@ import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
+import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.documentsui.base.State;
 import com.android.documentsui.queries.SearchViewManager;
 
+import java.util.List;
+import java.util.function.IntFunction;
+
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
     public MenuManager(SearchViewManager searchManager, State displayState, DirectoryDetails dirDetails) {
         super(searchManager, displayState, dirDetails);
 
+    }
+
+    @Override
+    public void updateKeyboardShortcutsMenu(
+            List<KeyboardShortcutGroup> data, IntFunction<String> stringSupplier) {
+        // None as of yet.
     }
 
     private boolean picking() {

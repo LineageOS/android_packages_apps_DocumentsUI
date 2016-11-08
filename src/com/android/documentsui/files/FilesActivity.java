@@ -26,22 +26,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.android.documentsui.ActionModeController;
-import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragShadowBuilder;
 import com.android.documentsui.FocusManager;
+import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
-import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.ProviderExecutor;
@@ -49,7 +46,6 @@ import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
-import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.ScopedPreferences;
 import com.android.documentsui.base.Shared;
@@ -57,13 +53,11 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.dirlist.DocumentsAdapter;
-import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
+import com.android.documentsui.ui.MessageBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,21 +66,12 @@ import java.util.List;
 /**
  * Standalone file management activity.
  */
-public class FilesActivity
-        extends BaseActivity<ActionHandler<FilesActivity>> implements ActionHandler.Addons {
+public class FilesActivity extends BaseActivity implements ActionHandler.Addons {
 
     private static final String TAG = "FilesActivity";
-    private static final String PREFERENCES_SCOPE = "files";
+    static final String PREFERENCES_SCOPE = "files";
 
-    private final Config mConfig = new Config();
-
-    private ScopedPreferences mPrefs;
-    private SelectionManager mSelectionMgr;
-    private MenuManager mMenuManager;
-    private FocusManager mFocusManager;
-    private DialogController mDialogs;
-    private DocumentClipper mClipper;
-    private ActionModeController mActionModeController;
+    private Injector<ActionHandler<FilesActivity>> mInjector;
     private ActivityInputHandler mActivityInputHandler;
     private SharedInputHandler mSharedInputHandler;
     private DragShadowBuilder mShadowBuilder;
@@ -98,62 +83,65 @@ public class FilesActivity
     @Override
     public void onCreate(Bundle icicle) {
 
-        // must be initialized before calling super.onCreate because prefs
-        // are used in State initialization.
-        mPrefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
+        MessageBuilder messages = new MessageBuilder(this);
+        mInjector = new Injector<>(
+                new Config(),
+                ScopedPreferences.create(this, PREFERENCES_SCOPE),
+                messages,
+                DialogController.create(this, messages));
 
         super.onCreate(icicle);
 
-        mClipper = DocumentsApplication.getDocumentClipper(this);
-        mSelectionMgr = new SelectionManager(SelectionManager.MODE_MULTIPLE);
+        DocumentClipper clipper = DocumentsApplication.getDocumentClipper(this);
+        mInjector.selectionMgr = new SelectionManager(SelectionManager.MODE_MULTIPLE);
 
-        mFocusManager = new FocusManager(
-            mSelectionMgr,
+        mInjector.focusManager = new FocusManager(
+            mInjector.selectionMgr,
             mDrawer,
-            this::focusRoots,
+            this::focusSidebar,
             getColor(R.color.accent_dark));
 
-        mMenuManager = new MenuManager(
+        mInjector.menuManager = new MenuManager(
                 mSearchManager,
                 mState,
                 new DirectoryDetails(this) {
                     @Override
                     public boolean hasItemsToPaste() {
-                        return mClipper.hasItemsToPaste();
+                        return clipper.hasItemsToPaste();
                     }
                 });
-        mDialogs = DialogController.create(this, getMessages());
 
         mShadowBuilder = new DragShadowBuilder(this);
-        mActionModeController = new ActionModeController(
+        mInjector.actionModeController = new ActionModeController(
                 this,
-                mSelectionMgr,
-                mMenuManager,
-                getMessages());
+                mInjector.selectionMgr,
+                mInjector.menuManager,
+                mInjector.messages);
 
-        mActions = new ActionHandler<>(
+        mInjector.actions = new ActionHandler<>(
                 this,
                 mState,
                 mRoots,
                 mDocs,
-                mFocusManager,
-                mSelectionMgr,
+                mInjector.focusManager,
+                mInjector.selectionMgr,
                 mSearchManager,
                 ProviderExecutor::forAuthority,
-                mActionModeController,
-                mDialogs,
-                mConfig,
-                mClipper,
+                mInjector.actionModeController,
+                mInjector.dialogs,
+                mInjector.config,
+                clipper,
                 DocumentsApplication.getClipStore(this));
 
-        mActivityInputHandler = new ActivityInputHandler(mActions::deleteSelectedDocuments);
-        mSharedInputHandler = new SharedInputHandler(mFocusManager, this::popDir);
+        mActivityInputHandler =
+                new ActivityInputHandler(mInjector.actions::deleteSelectedDocuments);
+        mSharedInputHandler = new SharedInputHandler(mInjector.focusManager, this::popDir);
 
         RootsFragment.show(getFragmentManager(), null);
 
         final Intent intent = getIntent();
 
-        mActions.initLocation(intent);
+        mInjector.actions.initLocation(intent);
         presentFileErrors(icicle, intent);
     }
 
@@ -235,7 +223,7 @@ public class FilesActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        mMenuManager.updateOptionMenu(menu);
+        mInjector.menuManager.updateOptionMenu(menu);
         return true;
     }
 
@@ -247,7 +235,7 @@ public class FilesActivity
                 showCreateDirectoryDialog();
                 break;
             case R.id.menu_new_window:
-                mActions.openInNewWindow(mState.stack);
+                mInjector.actions.openInNewWindow(mState.stack);
                 break;
             case R.id.menu_paste_from_clipboard:
                 DirectoryFragment dir = getDirectoryFragment();
@@ -256,7 +244,7 @@ public class FilesActivity
                 }
                 break;
             case R.id.menu_settings:
-                mActions.openSettings(getCurrentRoot());
+                mInjector.actions.openSettings(getCurrentRoot());
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -267,7 +255,7 @@ public class FilesActivity
     @Override
     public void onProvideKeyboardShortcuts(
             List<KeyboardShortcutGroup> data, Menu menu, int deviceId) {
-        getMenuManager().updateKeyboardShortcutsMenu(data, this::getString);
+        mInjector.menuManager.updateKeyboardShortcutsMenu(data, this::getString);
     }
 
     @Override
@@ -297,20 +285,20 @@ public class FilesActivity
      */
     @Override
     public void onDocumentPicked(DocumentInfo doc) {
-        mActions.onDocumentPicked(doc);
+        mInjector.actions.onDocumentPicked(doc);
     }
 
     @Override
     public void onDirectoryCreated(DocumentInfo doc) {
         assert(doc.isDirectory());
-        mFocusManager.focusDocument(doc.documentId);
+        mInjector.focusManager.focusDocument(doc.documentId);
     }
 
     @Override
     public void springOpenDirectory(DocumentInfo doc) {
         assert(doc.isContainer());
         assert(!doc.isArchive());
-        mActions.openContainerDocument(doc);
+        mInjector.actions.openContainerDocument(doc);
     }
 
     @CallSuper
@@ -339,10 +327,10 @@ public class FilesActivity
                 }
                 return true;
             case KeyEvent.KEYCODE_X:
-                mActions.cutToClipboard();
+                mInjector.actions.cutToClipboard();
                 return true;
             case KeyEvent.KEYCODE_C:
-                mActions.copyToClipboard();
+                mInjector.actions.copyToClipboard();
                 return true;
             case KeyEvent.KEYCODE_V:
                 dir = getDirectoryFragment();
@@ -380,57 +368,7 @@ public class FilesActivity
     }
 
     @Override
-    public ActivityConfig getActivityConfig() {
-        return mConfig;
-    }
-
-    @Override
-    public ScopedPreferences getScopedPreferences() {
-        return mPrefs;
-    }
-
-    @Override
-    public SelectionManager getSelectionManager(
-            DocumentsAdapter adapter, SelectionPredicate canSetState) {
-        return mSelectionMgr.reset(adapter, canSetState);
-    }
-
-    @Override
-    public MenuManager getMenuManager() {
-        return mMenuManager;
-    }
-
-    @Override
-    protected FocusManager getFocusManager() {
-        assert (mFocusManager != null);
-        return mFocusManager;
-    }
-
-    @Override
-    public FocusManager getFocusManager(RecyclerView view, Model model) {
-        assert (mFocusManager != null);
-        return mFocusManager.reset(view, model);
-    }
-
-    @Override
-    public final ActionModeController getActionModeController(
-            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view) {
-        return mActionModeController.reset(selectionDetails, menuItemClicker, view);
-    }
-
-    @Override
-    public ActionHandler<FilesActivity> getActionHandler(Model model, boolean searchMode) {
-
-        // provide our friend, RootsFragment, early access to this special feature!
-        if (model == null) {
-            return mActions;
-        }
-
-        return mActions.reset(model, searchMode);
-    }
-
-    @Override
-    public DialogController getDialogController() {
-        return mDialogs;
+    public Injector<ActionHandler<FilesActivity>> getInjector() {
+        return mInjector;
     }
 }

@@ -51,9 +51,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
         mSearchManager.updateMenu();
     }
 
-    /**
-     * @see FilesActivity#onProvideKeyboardShortcuts(List, Menu, int)
-     */
+    @Override
     public void updateKeyboardShortcutsMenu(
             List<KeyboardShortcutGroup> data, IntFunction<String> stringSupplier) {
         KeyboardShortcutGroup group = new KeyboardShortcutGroup(
