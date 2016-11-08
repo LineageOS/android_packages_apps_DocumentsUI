@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotNull;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -140,12 +141,40 @@ public class ActionHandlerTest {
         mEnv.docs.nextDocuments =
                 Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
 
+        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
         Intent intent = mActivity.getIntent();
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.setData(TestEnv.FILE_GIF.derivedUri);
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, TestEnv.FILE_GIF.derivedUri);
         mHandler.initLocation(intent);
 
         assertStackEquals(TestRootsAccess.HOME, Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    @Test
+    public void testInitLocation_LaunchToDocuments_convertsTreeUriToDocumentUri() throws Exception {
+        mEnv.docs.nextIsDocumentsUri = true;
+        mEnv.docs.nextPath = new Path(
+                TestRootsAccess.HOME.rootId,
+                Arrays.asList(
+                        TestEnv.FOLDER_0.documentId,
+                        TestEnv.FOLDER_1.documentId,
+                        TestEnv.FILE_GIF.documentId));
+        mEnv.docs.nextDocuments =
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
+
+        Intent intent = mActivity.getIntent();
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        final Uri treeBaseUri = DocumentsContract.buildTreeDocumentUri(
+                TestRootsAccess.HOME.authority, TestEnv.FOLDER_0.documentId);
+        final Uri treeDocUri = DocumentsContract.buildDocumentUriUsingTree(
+                treeBaseUri, TestEnv.FILE_GIF.documentId);
+        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, treeDocUri);
+        mHandler.initLocation(intent);
+
+        assertStackEquals(TestRootsAccess.HOME, Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
+        mEnv.docs.lastUri.assertLastArgument(TestEnv.FILE_GIF.derivedUri);
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
     @Test

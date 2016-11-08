@@ -36,6 +36,8 @@ public class TestDocumentsAccess implements DocumentsAccess {
     public boolean nextIsDocumentsUri;
     public @Nullable Path nextPath;
 
+    public TestEventHandler<Uri> lastUri = new TestEventHandler<>();
+
     @Override
     public DocumentInfo getRootDocument(RootInfo root) {
         return nextRootDocument;
@@ -63,6 +65,7 @@ public class TestDocumentsAccess implements DocumentsAccess {
 
     @Override
     public Path findDocumentPath(Uri docUri) throws RemoteException {
+        lastUri.accept(docUri);
         return nextPath;
     }
 }
