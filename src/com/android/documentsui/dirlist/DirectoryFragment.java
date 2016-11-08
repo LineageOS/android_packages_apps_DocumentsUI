@@ -883,13 +883,6 @@ public class DirectoryFragment extends Fragment
         }
     }
 
-    /**
-     * Attempts to restore focus on the directory listing.
-     */
-    public boolean requestFocus() {
-        return mFocusManager.requestFocus();
-    }
-
     private void setupDragAndDropOnDocumentView(View view, Cursor cursor) {
         final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
         if (Document.MIME_TYPE_DIR.equals(docMimeType)) {

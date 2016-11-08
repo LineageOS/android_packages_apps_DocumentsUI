@@ -37,41 +37,30 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
-import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.EventHandler;
-import com.android.documentsui.base.Events;
 import com.android.documentsui.base.LocalPreferences;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.ScopedPreferences;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.dirlist.DocumentsAdapter;
-import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsCache;
 import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 
 import java.io.FileNotFoundException;
@@ -81,7 +70,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 public abstract class BaseActivity<T extends ActionHandler>
-        extends Activity implements CommonAddons, NavigationViewManager.Environment {
+        extends Activity
+        implements CommonAddons, Injector, NavigationViewManager.Environment {
 
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
 
@@ -106,7 +96,6 @@ public abstract class BaseActivity<T extends ActionHandler>
 
     private RootsMonitor<BaseActivity<?>> mRootsMonitor;
 
-    private boolean mNavDrawerHasFocus;
     private long mStartTime;
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
@@ -120,54 +109,8 @@ public abstract class BaseActivity<T extends ActionHandler>
     protected abstract void includeState(State initialState);
     protected abstract void onDirectoryCreated(DocumentInfo doc);
 
-    /**
-     * Provides Activity a means of injection into and specialization of
-     * DirectoryFragment.
-     */
-    public abstract ActivityConfig getActivityConfig();
-
-    /**
-     * Provides Activity a means of injection into and specialization of
-     * DirectoryFragment.
-     */
-    public abstract ScopedPreferences getScopedPreferences();
-
-    /**
-     * Provides Activity a means of injection into and specialization of
-     * DirectoryFragment.
-     */
-    public abstract SelectionManager getSelectionManager(
-            DocumentsAdapter adapter, SelectionPredicate canSetState);
-
-    /**
-     * Provides Activity a means of injection into and specialization of
-     * DirectoryFragment hosted menus.
-     */
-    public abstract MenuManager getMenuManager();
-
-    /**
-     * Provides Activity a means of injection into and specialization of
-     * DirectoryFragment.
-     */
-    public abstract DialogController getDialogController();
-
-    /**
-     * Provides Activity a means of injection into and specialization of
-     * fragment actions.
-     *
-     * Args can be null when called from a context lacking fragment, such as RootsFragment.
-     */
-    public abstract ActionHandler getActionHandler(@Nullable Model model, boolean searchMode);
-
-    /**
-     * Provides Activity a means of injection into and specialization of
-     * DirectoryFragment.
-     */
-    public abstract ActionModeController getActionModeController(
-            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view);
-
-
-    public abstract FocusManager getFocusManager(RecyclerView view, Model model);
+    // Get ref to to focus manager without reset. Presumes it has had scrope vars initialized.
+    protected abstract FocusManager getFocusManager();
 
     public final MessageBuilder getMessages() {
         assert(mMessages != null);
@@ -609,37 +552,6 @@ public abstract class BaseActivity<T extends ActionHandler>
         super.onBackPressed();
     }
 
-    /**
-     * Declare a global key handler to route key events when there isn't a specific focus view. This
-     * covers the scenario where a user opens DocumentsUI and just starts typing.
-     *
-     * @param keyCode
-     * @param event
-     * @return
-     */
-    @CallSuper
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (Events.isNavigationKeyCode(keyCode)) {
-            // Forward all unclaimed navigation keystrokes to the DirectoryFragment. This causes any
-            // stray navigation keystrokes focus the content pane, which is probably what the user
-            // is trying to do.
-            DirectoryFragment df = DirectoryFragment.get(getFragmentManager());
-            if (df != null) {
-                df.requestFocus();
-                return true;
-            }
-        } else if (keyCode == KeyEvent.KEYCODE_TAB) {
-            // Tab toggles focus on the navigation drawer.
-            toggleNavDrawerFocus();
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_DEL) {
-            popDir();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
     @VisibleForTesting
     public void addEventListener(EventListener listener) {
         mEventListeners.add(listener);
@@ -666,40 +578,24 @@ public abstract class BaseActivity<T extends ActionHandler>
     }
 
     /**
-     * Toggles focus between the navigation drawer and the directory listing. If the drawer isn't
-     * locked, open/close it as appropriate.
-     */
-    void toggleNavDrawerFocus() {
-        boolean toogleHappened = false;
-        if (mNavDrawerHasFocus) {
-            mDrawer.setOpen(false);
-            DirectoryFragment df = DirectoryFragment.get(getFragmentManager());
-            assert (df != null);
-            toogleHappened = df.requestFocus();
-        } else {
-            mDrawer.setOpen(true);
-            RootsFragment rf = RootsFragment.get(getFragmentManager());
-            assert (rf != null);
-            toogleHappened = rf.requestFocus();
-        }
-        if (toogleHappened) {
-            mNavDrawerHasFocus = !mNavDrawerHasFocus;
-        }
-    }
-
-    /**
      * Pops the top entry off the directory stack, and returns the user to the previous directory.
      * If the directory stack only contains one item, this method does nothing.
      *
      * @return Whether the stack was popped.
      */
-    private boolean popDir() {
+    protected boolean popDir() {
         if (mState.stack.size() > 1) {
             mState.stack.pop();
             refreshCurrentRootAndDirectory(AnimationView.ANIM_LEAVE);
             return true;
         }
         return false;
+    }
+
+    protected boolean focusRoots() {
+        RootsFragment rf = RootsFragment.get(getFragmentManager());
+        assert (rf != null);
+        return rf.requestFocus();
     }
 
     /**

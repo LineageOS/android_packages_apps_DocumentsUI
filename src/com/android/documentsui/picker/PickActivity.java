@@ -37,9 +37,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
+import android.support.annotation.CallSuper;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +55,7 @@ import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
+import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.MimeTypes;
@@ -89,6 +92,7 @@ public class PickActivity
     private MenuManager mMenuManager;
     private FocusManager mFocusManager;
     private ActionModeController mActionModeController;
+    private SharedInputHandler mSharedInputHandler;
 
     public PickActivity() {
         super(R.layout.documents_activity, TAG);
@@ -107,7 +111,13 @@ public class PickActivity
                 mState.allowMultiple
                         ? SelectionManager.MODE_MULTIPLE
                         : SelectionManager.MODE_SINGLE);
-        mFocusManager = new FocusManager(getColor(R.color.accent_dark), mSelectionMgr);
+
+        mFocusManager = new FocusManager(
+                mSelectionMgr,
+                mDrawer,
+                this::focusRoots,
+                getColor(R.color.accent_dark));
+
         mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
         mActions = new ActionHandler<>(
                 this,
@@ -127,6 +137,8 @@ public class PickActivity
                 getMessages());
 
         Intent intent = getIntent();
+
+        mSharedInputHandler = new SharedInputHandler(mFocusManager, this::popDir);
 
         setupLayout(intent);
         mActions.initLocation(intent);
@@ -419,6 +431,12 @@ public class PickActivity
         finish();
     }
 
+    @CallSuper
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return mSharedInputHandler.onKeyDown(keyCode, event)
+                || super.onKeyDown(keyCode, event);
+    }
 
     public static PickActivity get(Fragment fragment) {
         return (PickActivity) fragment.getActivity();
@@ -442,6 +460,13 @@ public class PickActivity
     @Override
     public MenuManager getMenuManager() {
         return mMenuManager;
+    }
+
+
+    @Override
+    protected FocusManager getFocusManager() {
+        assert (mFocusManager != null);
+        return mFocusManager;
     }
 
     @Override

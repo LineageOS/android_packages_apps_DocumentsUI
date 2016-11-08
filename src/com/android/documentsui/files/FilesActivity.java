@@ -46,6 +46,7 @@ import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
+import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
@@ -87,6 +88,7 @@ public class FilesActivity
     private DocumentClipper mClipper;
     private ActionModeController mActionModeController;
     private ActivityInputHandler mActivityInputHandler;
+    private SharedInputHandler mSharedInputHandler;
     private DragShadowBuilder mShadowBuilder;
 
     public FilesActivity() {
@@ -104,7 +106,13 @@ public class FilesActivity
 
         mClipper = DocumentsApplication.getDocumentClipper(this);
         mSelectionMgr = new SelectionManager(SelectionManager.MODE_MULTIPLE);
-        mFocusManager = new FocusManager(getColor(R.color.accent_dark), mSelectionMgr);
+
+        mFocusManager = new FocusManager(
+            mSelectionMgr,
+            mDrawer,
+            this::focusRoots,
+            getColor(R.color.accent_dark));
+
         mMenuManager = new MenuManager(
                 mSearchManager,
                 mState,
@@ -139,6 +147,7 @@ public class FilesActivity
                 DocumentsApplication.getClipStore(this));
 
         mActivityInputHandler = new ActivityInputHandler(mActions::deleteSelectedDocuments);
+        mSharedInputHandler = new SharedInputHandler(mFocusManager, this::popDir);
 
         RootsFragment.show(getFragmentManager(), null);
 
@@ -307,8 +316,9 @@ public class FilesActivity
     @CallSuper
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return mActivityInputHandler.onKeyDown(keyCode, event) ? true
-                : super.onKeyDown(keyCode, event);
+        return mActivityInputHandler.onKeyDown(keyCode, event)
+                || mSharedInputHandler.onKeyDown(keyCode, event)
+                || super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -388,6 +398,12 @@ public class FilesActivity
     @Override
     public MenuManager getMenuManager() {
         return mMenuManager;
+    }
+
+    @Override
+    protected FocusManager getFocusManager() {
+        assert (mFocusManager != null);
+        return mFocusManager;
     }
 
     @Override
