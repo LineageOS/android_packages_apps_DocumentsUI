@@ -16,7 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.Nullable;
 import android.content.Context;
@@ -82,7 +82,7 @@ final class ListeningGestureDetector extends GestureDetector
                         new ScaleGestureDetector.SimpleOnScaleGestureListener() {
                             @Override
                             public boolean onScale(ScaleGestureDetector detector) {
-                                if (DEBUG) Log.v(TAG,
+                                if (VERBOSE) Log.v(TAG,
                                         "Received scale event: " + detector.getScaleFactor());
                                 scaleHandler.accept(detector.getScaleFactor());
                                 return true;

@@ -18,6 +18,7 @@ package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.IntDef;
 import android.database.Cursor;
@@ -241,7 +242,7 @@ public class Model {
         if (filter.test(cursor)) {
             docs.add(DocumentInfo.fromDirectoryCursor(cursor));
         } else {
-            if (DEBUG) Log.v(TAG, "Filtered document from results: " + modelId);
+            if (VERBOSE) Log.v(TAG, "Filtered document from results: " + modelId);
         }
     }
 

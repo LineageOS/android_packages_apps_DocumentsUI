@@ -17,6 +17,7 @@
 package com.android.documentsui.sidebar;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.Nullable;
 import android.app.Activity;
@@ -272,14 +273,14 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         Collections.sort(libraries, comp);
         Collections.sort(others, comp);
 
-        if (DEBUG) Log.v(TAG, "Adding library roots: " + libraries);
+        if (VERBOSE) Log.v(TAG, "Adding library roots: " + libraries);
         result.addAll(libraries);
         // Only add the spacer if it is actually separating something.
         if (!libraries.isEmpty() && !others.isEmpty()) {
             result.add(new SpacerItem());
         }
 
-        if (DEBUG) Log.v(TAG, "Adding plain roots: " + libraries);
+        if (VERBOSE) Log.v(TAG, "Adding plain roots: " + libraries);
         result.addAll(others);
 
         // Include apps that can handle this intent too.
@@ -295,7 +296,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
      * special section at bottom).
      */
     private void includeHandlerApps(Intent handlerAppIntent, List<Item> result) {
-        if (DEBUG) Log.v(TAG, "Adding handler apps for intent: " + handlerAppIntent);
+        if (VERBOSE) Log.v(TAG, "Adding handler apps for intent: " + handlerAppIntent);
         Context context = getContext();
         final PackageManager pm = context.getPackageManager();
         final List<ResolveInfo> infos = pm.queryIntentActivities(

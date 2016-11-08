@@ -19,7 +19,7 @@ package com.android.documentsui.base;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
-import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 
 import android.annotation.IntDef;
@@ -233,7 +233,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
             derivedType = TYPE_OTHER;
         }
 
-        if (DEBUG) Log.v(TAG, "Deriving fields: " + this);
+        if (VERBOSE) Log.v(TAG, "Derived fields: " + this);
     }
 
     public Uri getUri() {

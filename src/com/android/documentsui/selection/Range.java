@@ -16,6 +16,7 @@
 package com.android.documentsui.selection;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -71,7 +72,7 @@ final class Range {
         assert(mBegin != mEnd);
 
         if (position == mEnd) {
-            if (DEBUG) Log.v(SelectionManager.TAG, "Ignoring no-op revision for range: " + this);
+            if (VERBOSE) Log.v(SelectionManager.TAG, "Ignoring no-op revision for range: " + this);
         }
 
         if (mEnd > mBegin) {
