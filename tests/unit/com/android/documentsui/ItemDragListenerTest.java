@@ -202,7 +202,7 @@ public class ItemDragListenerTest {
         private View mLastEnteredView;
 
         @Override
-        public void setDropTargetHighlight(View v, boolean highlight) {
+        public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
             mHighlightedView = highlight ? v : null;
         }
 

@@ -23,7 +23,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.base.DocumentInfo;
@@ -39,11 +38,9 @@ public final class DragShadowBuilder extends View.DragShadowBuilder {
 
     private final View mShadowView;
     private final TextView mTitle;
-    private final ImageView mIcon;
+    private final DropBadgeView mIcon;
     private final int mWidth;
     private final int mHeight;
-    private final Drawable mDefaultBackground;
-    private final Drawable mNoDropBackground;
 
     public DragShadowBuilder(Context context) {
         mWidth = context.getResources().getDimensionPixelSize(R.dimen.drag_shadow_width);
@@ -51,12 +48,11 @@ public final class DragShadowBuilder extends View.DragShadowBuilder {
 
         mShadowView = LayoutInflater.from(context).inflate(R.layout.drag_shadow_layout, null);
         mTitle = (TextView) mShadowView.findViewById(android.R.id.title);
-        mIcon = (ImageView) mShadowView.findViewById(android.R.id.icon);
+        mIcon = (DropBadgeView) mShadowView.findViewById(android.R.id.icon);
 
-        mDefaultBackground = context.getResources().getDrawable(R.drawable.drag_shadow_background,
-                null);
-        mNoDropBackground = context.getResources()
-                .getDrawable(R.drawable.drag_shadow_background_no_drop, null);
+        mShadowView
+                .setBackground(context.getResources().getDrawable(R.drawable.drag_shadow_background,
+                        null));
     }
 
     @Override
@@ -82,15 +78,17 @@ public final class DragShadowBuilder extends View.DragShadowBuilder {
     }
 
     public void updateIcon(Drawable icon) {
-        mIcon.setImageDrawable(icon);
+        mIcon.updateIcon(icon);
     }
 
     public void resetBackground() {
-        mShadowView.setBackground(mDefaultBackground);
+        mIcon.setDropHovered(false);
+        mIcon.setEnabled(false);
     }
 
-    public void setNoDropBackground() {
-        mShadowView.setBackground(mNoDropBackground);
+    public void setAppearDroppable(boolean droppable) {
+        mIcon.setDropHovered(true);
+        mIcon.setDroppable(droppable);
     }
 
     /**

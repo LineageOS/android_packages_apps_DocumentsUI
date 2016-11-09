@@ -188,7 +188,7 @@ public class DragScrollListenerTest {
     private static class TestDragHost implements ItemDragListener.DragHost {
 
         @Override
-        public void setDropTargetHighlight(View v, boolean highlight) {
+        public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
         }
 
         @Override

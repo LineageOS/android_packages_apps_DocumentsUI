@@ -68,7 +68,7 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
                 return true;
             case DragEvent.ACTION_DRAG_EXITED:
             case DragEvent.ACTION_DRAG_ENDED:
-                handleExitedEndedEvent(v);
+                handleExitedEndedEvent(v, event);
                 return true;
             case DragEvent.ACTION_DROP:
                 return handleDropEvent(v, event);
@@ -80,10 +80,10 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
     private void handleEnteredEvent(View v, DragEvent event) {
         mDragHost.onDragEntered(v, event.getLocalState());
         @Nullable TimerTask task = createOpenTask(v, event);
+        mDragHost.setDropTargetHighlight(v, event.getLocalState(), true);
         if (task == null) {
             return;
         }
-        mDragHost.setDropTargetHighlight(v, true);
         v.setTag(R.id.drag_hovering_tag, task);
         mHoverTimer.schedule(task, SPRING_TIMEOUT);
     }
@@ -95,8 +95,8 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
         }
     }
 
-    private void handleExitedEndedEvent(View v) {
-        mDragHost.setDropTargetHighlight(v, false);
+    private void handleExitedEndedEvent(View v, DragEvent event) {
+        mDragHost.setDropTargetHighlight(v, event.getLocalState(), false);
 
         TimerTask task = (TimerTask) v.getTag(R.id.drag_hovering_tag);
         if (task != null) {
@@ -154,9 +154,10 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
         /**
          * Highlights/unhighlights the view to visually indicate this view is being hovered.
          * @param v the view being hovered
+         * @param localState the Local state object  given by DragEvent
          * @param highlight true if highlight the view; false if unhighlight it
          */
-        void setDropTargetHighlight(View v, boolean highlight);
+        void setDropTargetHighlight(View v, Object localState, boolean highlight);
 
         /**
          * Notifies hovering timeout has elapsed

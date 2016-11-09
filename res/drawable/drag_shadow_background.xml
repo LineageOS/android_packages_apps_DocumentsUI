@@ -21,8 +21,8 @@
       android:width="1dp"
       android:color="#ff9f9f9f" />
   <corners
-      android:bottomRightRadius="3dp"
-      android:bottomLeftRadius="3dp"
-      android:topLeftRadius="3dp"
-      android:topRightRadius="3dp"/>
+      android:bottomRightRadius="2dp"
+      android:bottomLeftRadius="2dp"
+      android:topLeftRadius="2dp"
+      android:topRightRadius="2dp"/>
 </shape>

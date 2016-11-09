@@ -118,7 +118,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
     }
 
     @Override
-    public void setDropTargetHighlight(View v, boolean highlight) {
+    public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
         RecyclerView.ViewHolder vh = getChildViewHolder(v);
         if (vh instanceof BreadcrumbHolder) {
             ((BreadcrumbHolder) vh).setHighlighted(highlight);

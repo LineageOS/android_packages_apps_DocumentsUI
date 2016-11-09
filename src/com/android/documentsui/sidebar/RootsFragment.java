@@ -397,7 +397,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     }
 
     @Override
-    public void setDropTargetHighlight(View v, boolean highlight) {
+    public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
         // SpacerView doesn't have DragListener so this view is guaranteed to be a RootItemView.
         RootItemView itemView = (RootItemView) v;
         itemView.setHighlight(highlight);
