@@ -566,7 +566,9 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         mScope.modelLoadObserved = true;
     }
 
-    ActionHandler<T> reset(Model model, boolean searchMode) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public ActionHandler<T> reset(Model model, boolean searchMode) {
         assert(model != null);
 
         mScope.model = model;

@@ -21,7 +21,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 /**
- * A class that handles navigation and focus within the DirectoryFragment.
+ * A class that manages focus and keyboard driven navigation in the activity.
  */
 public interface FocusHandler extends View.OnFocusChangeListener {
 

@@ -39,25 +39,20 @@ import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.annotation.CallSuper;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.android.documentsui.ActionModeController;
-import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
+import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
-import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
@@ -65,33 +60,27 @@ import com.android.documentsui.base.ScopedPreferences;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.dirlist.DocumentsAdapter;
-import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.files.Config;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
 import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
+import com.android.documentsui.ui.MessageBuilder;
 import com.android.documentsui.ui.Snackbars;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class PickActivity
-        extends BaseActivity<ActionHandler<PickActivity>> implements ActionHandler.Addons {
+public class PickActivity extends BaseActivity implements ActionHandler.Addons {
+
+    static final String PREFERENCES_SCOPE = "picker";
 
     private static final String TAG = "PickActivity";
-    private static final String PREFERENCES_SCOPE = "picker";
     private static final int CODE_FORWARD = 42;
 
-    private final Config mConfig = new Config();
-
-    private ScopedPreferences mPrefs;
-    private SelectionManager mSelectionMgr;
-    private MenuManager mMenuManager;
-    private FocusManager mFocusManager;
-    private ActionModeController mActionModeController;
+    private Injector<ActionHandler<PickActivity>> mInjector;
+;
     private SharedInputHandler mSharedInputHandler;
 
     public PickActivity() {
@@ -101,47 +90,49 @@ public class PickActivity
     @Override
     public void onCreate(Bundle icicle) {
 
-        // must be initialized before calling super.onCreate because prefs
-        // are used in State initialization.
-        mPrefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
+        mInjector = new Injector<>(
+                new Config(),
+                ScopedPreferences.create(this, PREFERENCES_SCOPE),
+                new MessageBuilder(this),
+                DialogController.STUB);
 
         super.onCreate(icicle);
 
-        mSelectionMgr = new SelectionManager(
+        mInjector.selectionMgr = new SelectionManager(
                 mState.allowMultiple
                         ? SelectionManager.MODE_MULTIPLE
                         : SelectionManager.MODE_SINGLE);
 
-        mFocusManager = new FocusManager(
-                mSelectionMgr,
+        mInjector.focusManager = new FocusManager(
+                mInjector.selectionMgr,
                 mDrawer,
-                this::focusRoots,
+                this::focusSidebar,
                 getColor(R.color.accent_dark));
 
-        mMenuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
-        mActions = new ActionHandler<>(
+        mInjector.menuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
+        mInjector.actions = new ActionHandler<>(
                 this,
                 mState,
                 mRoots,
                 mDocs,
-                mFocusManager,
-                mSelectionMgr,
+                mInjector.focusManager,
+                mInjector.selectionMgr,
                 mSearchManager,
                 ProviderExecutor::forAuthority,
-                mConfig);
+                mInjector.config);
 
-        mActionModeController = new ActionModeController(
+        mInjector.actionModeController = new ActionModeController(
                 this,
-                mSelectionMgr,
-                mMenuManager,
-                getMessages());
+                mInjector.selectionMgr,
+                mInjector.menuManager,
+                mInjector.messages);
 
         Intent intent = getIntent();
 
-        mSharedInputHandler = new SharedInputHandler(mFocusManager, this::popDir);
+        mSharedInputHandler = new SharedInputHandler(mInjector.focusManager, this::popDir);
 
         setupLayout(intent);
-        mActions.initLocation(intent);
+        mInjector.actions.initLocation(intent);
     }
 
     private void setupLayout(Intent intent) {
@@ -266,7 +257,7 @@ public class PickActivity
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        mMenuManager.updateOptionMenu(menu);
+        mInjector.menuManager.updateOptionMenu(menu);
 
         final DocumentInfo cwd = getCurrentDirectory();
 
@@ -288,7 +279,7 @@ public class PickActivity
             // No directory means recents
             if (mState.action == ACTION_CREATE ||
                 mState.action == ACTION_PICK_COPY_DESTINATION) {
-                mActions.loadRoot(Shared.getDefaultRootUri(this));
+                mInjector.actions.loadRoot(Shared.getDefaultRootUri(this));
             } else {
                 DirectoryFragment.showRecentsOpen(fm, anim);
 
@@ -338,7 +329,7 @@ public class PickActivity
     @Override
     protected void onDirectoryCreated(DocumentInfo doc) {
         assert(doc.isDirectory());
-        mActions.openContainerDocument(doc);
+        mInjector.actions.openContainerDocument(doc);
     }
 
     void onSaveRequested(String mimeType, String displayName) {
@@ -350,7 +341,7 @@ public class PickActivity
     public void onDocumentPicked(DocumentInfo doc) {
         final FragmentManager fm = getFragmentManager();
         if (doc.isContainer()) {
-            mActions.openContainerDocument(doc);
+            mInjector.actions.openContainerDocument(doc);
         } else if (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT) {
             // Explicit file picked, return
             new ExistingFinishTask(this, doc.derivedUri)
@@ -440,61 +431,6 @@ public class PickActivity
 
     public static PickActivity get(Fragment fragment) {
         return (PickActivity) fragment.getActivity();
-    }
-
-    @Override
-    public ActivityConfig getActivityConfig() {
-        return mConfig;
-    }
-
-    @Override
-    public ScopedPreferences getScopedPreferences() {
-        return mPrefs;
-    }
-
-    public SelectionManager getSelectionManager(
-            DocumentsAdapter adapter, SelectionPredicate canSetState) {
-        return mSelectionMgr.reset(adapter, canSetState);
-    }
-
-    @Override
-    public MenuManager getMenuManager() {
-        return mMenuManager;
-    }
-
-
-    @Override
-    protected FocusManager getFocusManager() {
-        assert (mFocusManager != null);
-        return mFocusManager;
-    }
-
-    @Override
-    public FocusManager getFocusManager(RecyclerView view, Model model) {
-        assert (mFocusManager != null);
-        return mFocusManager.reset(view, model);
-    }
-
-    @Override
-    public ActionModeController getActionModeController(
-            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view) {
-        return mActionModeController.reset(selectionDetails, menuItemClicker, view);
-    }
-
-    @Override
-    public ActionHandler<PickActivity> getActionHandler(Model model, boolean searchMode) {
-
-        // provide our friend, RootsFragment, early access to this special feature!
-        if (model == null) {
-            return mActions;
-        }
-
-        return mActions.reset(model, searchMode);
-    }
-
-    @Override
-    public DialogController getDialogController() {
-        return DialogController.STUB;
     }
 
     private static final class PickFinishTask extends PairedTask<PickActivity, Void, Void> {
@@ -591,5 +527,10 @@ public class PickActivity
 
             mOwner.setPending(false);
         }
+    }
+
+    @Override
+    public Injector<ActionHandler<PickActivity>> getInjector() {
+        return mInjector;
     }
 }

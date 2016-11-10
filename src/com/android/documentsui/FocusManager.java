@@ -54,7 +54,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/** A class that handles navigation and focus within the DirectoryFragment. */
 public final class FocusManager implements FocusHandler {
     private static final String TAG = "FocusManager";
 
@@ -82,16 +81,16 @@ public final class FocusManager implements FocusHandler {
 
     @Override
     public boolean advanceFocusArea() {
-        boolean toogleHappened = false;
+        boolean focusChanged = false;
         if (mNavDrawerHasFocus) {
             mDrawer.setOpen(false);
             focusDirectoryList();
         } else {
             mDrawer.setOpen(true);
-            toogleHappened = mRootsFocuser.run();
+            focusChanged = mRootsFocuser.run();
         }
 
-        if (toogleHappened) {
+        if (focusChanged) {
             mNavDrawerHasFocus = !mNavDrawerHasFocus;
             return true;
         }
@@ -131,8 +130,7 @@ public final class FocusManager implements FocusHandler {
     @Override
     public boolean focusDirectoryList() {
         if (mScope.adapter.getItemCount() == 0) {
-            if (DEBUG)
-                Log.v(TAG, "Nothing to focus.");
+            if (DEBUG) Log.v(TAG, "Nothing to focus.");
             return false;
         }
 
@@ -141,8 +139,7 @@ public final class FocusManager implements FocusHandler {
         // vs. Cut focused
         // item)
         if (mSelectionMgr.hasSelection()) {
-            if (DEBUG)
-                Log.v(TAG, "Existing selection found. No focus will be done.");
+            if (DEBUG) Log.v(TAG, "Existing selection found. No focus will be done.");
             return false;
         }
 
@@ -341,8 +338,7 @@ public final class FocusManager implements FocusHandler {
      * @param pos
      * @param callback A callback to call after the given item has been focused.
      */
-    private void focusItem(final int pos, @Nullable
-    final FocusCallback callback) {
+    private void focusItem(final int pos, @Nullable final FocusCallback callback) {
         if (mScope.pendingFocusId != null) {
             Log.v(TAG, "clearing pending focus id: " + mScope.pendingFocusId);
             mScope.pendingFocusId = null;

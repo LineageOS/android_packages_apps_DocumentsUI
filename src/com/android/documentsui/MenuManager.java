@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import android.app.Fragment;
+import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,9 +28,13 @@ import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.internal.annotations.VisibleForTesting;
+
+import java.util.List;
+import java.util.function.IntFunction;
 
 public abstract class MenuManager {
 
@@ -196,6 +201,9 @@ public abstract class MenuManager {
         updateSettings(settings, root);
     }
 
+    public abstract void updateKeyboardShortcutsMenu(
+            List<KeyboardShortcutGroup> data, IntFunction<String> stringSupplier);
+
     protected void updateModePicker(MenuItem grid, MenuItem list) {
         grid.setVisible(mState.derivedMode != State.MODE_GRID);
         list.setVisible(mState.derivedMode != State.MODE_LIST);
@@ -296,9 +304,9 @@ public abstract class MenuManager {
     }
 
     public static class DirectoryDetails {
-        private final BaseActivity<?> mActivity;
+        private final BaseActivity mActivity;
 
-        public DirectoryDetails(BaseActivity<?> activity) {
+        public DirectoryDetails(BaseActivity activity) {
             mActivity = activity;
         }
 

@@ -43,6 +43,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
+import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.LocalPreferences;
@@ -60,31 +61,30 @@ import com.android.documentsui.selection.Selection;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.ui.MessageBuilder;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-public abstract class BaseActivity<T extends ActionHandler>
-        extends Activity
-        implements CommonAddons, Injector, NavigationViewManager.Environment {
+public abstract class BaseActivity
+        extends Activity implements CommonAddons, NavigationViewManager.Environment {
 
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
 
     protected SearchViewManager mSearchManager;
     protected State mState;
 
+    @Injected
+    protected Injector<?> mInjector;
+
     protected @Nullable RetainedState mRetainedState;
     protected RootsCache mRoots;
     protected DocumentsAccess mDocs;
-    protected MessageBuilder mMessages;
     protected DrawerController mDrawer;
+
     protected NavigationViewManager mNavigator;
     protected SortController mSortController;
-
-    protected T mActions;
 
     private final List<EventListener> mEventListeners = new ArrayList<>();
     private final String mTag;
@@ -92,7 +92,7 @@ public abstract class BaseActivity<T extends ActionHandler>
     @LayoutRes
     private int mLayoutId;
 
-    private RootsMonitor<BaseActivity<?>> mRootsMonitor;
+    private RootsMonitor<BaseActivity> mRootsMonitor;
 
     private long mStartTime;
 
@@ -107,13 +107,7 @@ public abstract class BaseActivity<T extends ActionHandler>
     protected abstract void includeState(State initialState);
     protected abstract void onDirectoryCreated(DocumentInfo doc);
 
-    // Get ref to to focus manager without reset. Presumes it has had scrope vars initialized.
-    protected abstract FocusManager getFocusManager();
-
-    public final MessageBuilder getMessages() {
-        assert(mMessages != null);
-        return mMessages;
-    }
+    public abstract Injector<?> getInjector();
 
     @CallSuper
     @Override
@@ -129,8 +123,9 @@ public abstract class BaseActivity<T extends ActionHandler>
 
         setContentView(mLayoutId);
 
+        mInjector = getInjector();
         mState = getState(icicle);
-        mDrawer = DrawerController.create(this, getActivityConfig());
+        mDrawer = DrawerController.create(this, mInjector.config);
         Metrics.logActivityLaunch(this, mState, intent);
 
         // we're really interested in retainining state in our very complex
@@ -139,7 +134,6 @@ public abstract class BaseActivity<T extends ActionHandler>
         mRetainedState = (RetainedState) getLastNonConfigurationInstance();
         mRoots = DocumentsApplication.getRootsCache(this);
         mDocs = DocumentsAccess.create(this);
-        mMessages = new MessageBuilder(this);
 
         DocumentsToolbar toolbar = (DocumentsToolbar) findViewById(R.id.toolbar);
         setActionBar(toolbar);
@@ -186,7 +180,7 @@ public abstract class BaseActivity<T extends ActionHandler>
 
         mRootsMonitor = new RootsMonitor<>(
                 this,
-                mActions,
+                mInjector.actions,
                 mRoots,
                 mDocs,
                 mState,
@@ -238,8 +232,8 @@ public abstract class BaseActivity<T extends ActionHandler>
 
         includeState(state);
 
-        state.showAdvanced =
-                Shared.mustShowDeviceRoot(intent) || getScopedPreferences().getShowDeviceRoot();
+        state.showAdvanced = Shared.mustShowDeviceRoot(intent)
+                || mInjector.prefs.getShowDeviceRoot();
 
         // Only show the toggle if advanced isn't forced enabled.
         state.showDeviceStorageOption = !Shared.mustShowDeviceRoot(intent);
@@ -285,7 +279,7 @@ public abstract class BaseActivity<T extends ActionHandler>
             new GetRootDocumentTask(
                     root,
                     this,
-                    mActions::openContainerDocument)
+                    mInjector.actions::openContainerDocument)
                     .executeOnExecutor(getExecutorForCurrentDirectory());
         }
     }
@@ -417,8 +411,8 @@ public abstract class BaseActivity<T extends ActionHandler>
         return (root.flags & Root.FLAG_SUPPORTS_SEARCH) != 0;
     }
 
-    public static BaseActivity<?> get(Fragment fragment) {
-        return (BaseActivity<?>) fragment.getActivity();
+    public static BaseActivity get(Fragment fragment) {
+        return (BaseActivity) fragment.getActivity();
     }
 
     public State getDisplayState() {
@@ -437,7 +431,7 @@ public abstract class BaseActivity<T extends ActionHandler>
         Metrics.logUserAction(this,
                 display ? Metrics.USER_ACTION_SHOW_ADVANCED : Metrics.USER_ACTION_HIDE_ADVANCED);
 
-        getScopedPreferences().setShowDeviceRoot(display);
+        mInjector.prefs.setShowDeviceRoot(display);
         mState.showAdvanced = display;
         RootsFragment.get(getFragmentManager()).onDisplayStateChanged();
         invalidateOptionsMenu();
@@ -590,7 +584,7 @@ public abstract class BaseActivity<T extends ActionHandler>
         return false;
     }
 
-    protected boolean focusRoots() {
+    protected boolean focusSidebar() {
         RootsFragment rf = RootsFragment.get(getFragmentManager());
         assert (rf != null);
         return rf.requestFocus();

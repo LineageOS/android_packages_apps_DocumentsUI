@@ -26,6 +26,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.Model;
 
 public interface ActionHandler {
 
@@ -82,4 +83,10 @@ public interface ActionHandler {
      * app.
      */
     void initLocation(Intent intent);
+
+    /**
+     * Allow action handler to be initialized in a new scope.
+     * @return
+     */
+    <T extends ActionHandler> T reset(Model model, boolean searchMode);
 }
