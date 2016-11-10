@@ -116,7 +116,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                 mActivity,
                 mActivity::isDestroyed,
                 (DocumentInfo doc) -> mClipper.copyFromClipData(
-                        root, doc, data, mDialogs::showFileOperationFailures)
+                        root, doc, data, mDialogs::showFileOperationStatus)
         ).executeOnExecutor(mExecutors.lookup(root.authority));
         return true;
     }
@@ -151,7 +151,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private void pasteIntoFolder(RootInfo root, DocumentInfo doc) {
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(mActivity);
         DocumentStack stack = new DocumentStack(root, doc);
-        clipper.copyFromClipboard(doc, stack, mDialogs::showFileOperationFailures);
+        clipper.copyFromClipboard(doc, stack, mDialogs::showFileOperationStatus);
     }
 
     @Override
@@ -275,7 +275,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                     .withSrcParent(srcParent.derivedUri)
                     .build();
 
-            FileOperations.start(mActivity, operation, mDialogs::showFileOperationFailures);
+            FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus);
         };
 
         mDialogs.confirmDelete(docs, result);

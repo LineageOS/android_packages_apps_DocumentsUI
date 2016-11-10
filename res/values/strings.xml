@@ -202,8 +202,8 @@
         <item quantity="one">Copied <xliff:g id="count" example="1">%1$d</xliff:g> file to clipboard.</item>
         <item quantity="other">Copied <xliff:g id="count" example="3">%1$d</xliff:g> files to clipboard.</item>
     </plurals>
-    <!-- Toast shown when a user tries to paste files into an unsupported location. -->
-    <string name="clipboard_files_cannot_paste">Cannot paste the selected files in this location.</string>
+    <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
+    <string name="file_operation_error">File operation is not supported.</string>
     <!-- Toast shown when renaming document failed with an error [CHAR LIMIT=48] -->
     <string name="rename_error">Failed to rename document</string>
     <!-- Context Menu item that ejects the root selected [CHAR LIMIT=24] -->
