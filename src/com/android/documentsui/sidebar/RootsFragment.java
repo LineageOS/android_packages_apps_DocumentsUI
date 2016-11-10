@@ -48,9 +48,10 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.android.documentsui.ActionHandler;
-import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.Injector;
+import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
 import com.android.documentsui.base.BooleanConsumer;
@@ -103,11 +104,11 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     private LoaderCallbacks<Collection<RootInfo>> mCallbacks;
     private @Nullable OnDragListener mDragListener;
 
-    // This dependency is informally "injected" from the owning Activity in our onCreate method.
-    private ActionHandler mActionHandler;
+    @Injected
+    private Injector<?> mInjector;
 
-    // This dependency is informally "injected" from the owning Activity in our onCreate method.
-    private ActivityConfig mActivityConfig;
+    @Injected
+    private ActionHandler mActionHandler;
 
     public static RootsFragment show(FragmentManager fm, Intent includeApps) {
         final Bundle args = new Bundle();
@@ -131,6 +132,8 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        mInjector = getBaseActivity().getInjector();
+
         final View view = inflater.inflate(R.layout.fragment_roots, container, false);
         mList = (ListView) view.findViewById(R.id.roots_list);
         mList.setOnItemClickListener(mItemListener);
@@ -149,8 +152,8 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
                             int x = (int) event.getX();
                             int y = (int) event.getY();
                             return onRightClick(v, x, y, () -> {
-                                getBaseActivity().getMenuManager()
-                                        .showContextMenu(RootsFragment.this, v, x, y);
+                                mInjector.menuManager.showContextMenu(
+                                        RootsFragment.this, v, x, y);
                             });
                         }
                         return false;
@@ -197,10 +200,9 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         final RootsCache roots = DocumentsApplication.getRootsCache(activity);
         final State state = activity.getDisplayState();
 
-        mActionHandler = activity.getActionHandler(null, false);
-        mActivityConfig = activity.getActivityConfig();
+        mActionHandler = mInjector.actions;
 
-        if (mActivityConfig.dragAndDropEnabled()) {
+        if (mInjector.config.dragAndDropEnabled()) {
             mDragListener = new ItemDragListener<RootsFragment>(this) {
                 @Override
                 public boolean handleDropEventChecked(View v, DragEvent event) {
@@ -213,7 +215,6 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
                 }
             };
         }
-
 
         mCallbacks = new LoaderCallbacks<Collection<RootInfo>>() {
             @Override
@@ -362,8 +363,8 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         return mList.requestFocus();
     }
 
-    private BaseActivity<?> getBaseActivity() {
-        return (BaseActivity<?>) getActivity();
+    private BaseActivity getBaseActivity() {
+        return (BaseActivity) getActivity();
     }
 
     @Override
@@ -410,8 +411,8 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         AdapterContextMenuInfo adapterMenuInfo = (AdapterContextMenuInfo) menuInfo;
         final Item item = mAdapter.getItem(adapterMenuInfo.position);
 
-        BaseActivity<?> activity = getBaseActivity();
-        item.createContextMenu(menu, activity.getMenuInflater(), activity.getMenuManager());
+        BaseActivity activity = getBaseActivity();
+        item.createContextMenu(menu, activity.getMenuInflater(), mInjector.menuManager);
     }
 
     @Override

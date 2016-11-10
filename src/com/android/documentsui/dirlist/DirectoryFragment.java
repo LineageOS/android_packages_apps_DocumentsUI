@@ -66,7 +66,6 @@ import android.widget.TextView;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ActionModeController;
-import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryLoader;
@@ -74,8 +73,10 @@ import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
+import com.android.documentsui.Injector;
+import com.android.documentsui.Injector.ContentScoped;
+import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
-import com.android.documentsui.MenuManager;
 import com.android.documentsui.MessageBar;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
@@ -107,8 +108,6 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.ui.DialogController;
-import com.android.documentsui.ui.Snackbars;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -146,32 +145,34 @@ public class DirectoryFragment extends Fragment
     private static final int CACHE_EVICT_LIMIT = 100;
     private static final int REFRESH_SPINNER_DISMISS_DELAY = 500;
 
-    private BaseActivity<?> mActivity;
+    private BaseActivity mActivity;
+
     private State mState;
     private final Model mModel = new Model();
     private final EventListener<Model.Update> mModelUpdateListener = new ModelUpdateListener();
     private final DocumentsAdapter.Environment mAdapterEnv = new AdapterEnvironment();
     private final LoaderCallbacks<DirectoryResult> mLoaderCallbacks = new LoaderBindings();
 
-    // This dependency is informally "injected" from the owning Activity in our onCreate method.
-    private ActivityConfig mActivityConfig;
+    @Injected
+    @ContentScoped
+    private Injector<?> mInjector;
 
-    // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    @Injected
+    @ContentScoped
     private SelectionManager mSelectionMgr;
 
-    // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    @Injected
+    @ContentScoped
     private FocusManager mFocusManager;
 
-    // This dependency is informally "injected" from the owning Activity in our onCreate method.
+    @Injected
+    @ContentScoped
     private ActionHandler mActions;
 
-    // This dependency is informally "injected" from the owning Activity in our onCreate method.
-    private MenuManager mMenuManager;
-
-    // This dependency is informally "injected" from the owning Activity in our onCreate method.
-    private DialogController mDialogs;
-
+    @Injected
+    @ContentScoped
     private ActionModeController mActionModeController;
+
     private SelectionMetadata mSelectionMetadata;
     private UserInputHandler<InputEvent> mInputHandler;
     private @Nullable BandController mBandController;
@@ -211,7 +212,7 @@ public class DirectoryFragment extends Fragment
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        BaseActivity<?> activity = (BaseActivity<?>) getActivity();
+        BaseActivity activity = (BaseActivity) getActivity();
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
         mMessageBar = MessageBar.create(getChildFragmentManager());
@@ -233,8 +234,8 @@ public class DirectoryFragment extends Fragment
         mRecView.setItemAnimator(new DirectoryItemAnimator(activity));
         mFileList = view.findViewById(R.id.file_list);
 
-        mActivityConfig = activity.getActivityConfig();
-        mDragHoverListener = mActivityConfig.dragAndDropEnabled()
+        mInjector = activity.getInjector();
+        mDragHoverListener = mInjector.config.dragAndDropEnabled()
                 ? DragHoverListener.create(new DirectoryDragListener(this), mRecView)
                 : null;
 
@@ -307,11 +308,9 @@ public class DirectoryFragment extends Fragment
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        mSelectionMgr = mActivity.getSelectionManager(mAdapter, this::canSetSelectionState);
-        mFocusManager = mActivity.getFocusManager(mRecView, mModel);
-        mActions = mActivity.getActionHandler(mModel, mLocalState.mSearchMode);
-        mMenuManager = mActivity.getMenuManager();
-        mDialogs = mActivity.getDialogController();
+        mSelectionMgr = mInjector.getSelectionManager(mAdapter, this::canSetSelectionState);
+        mFocusManager = mInjector.getFocusManager(mRecView, mModel);
+        mActions = mInjector.getActionHandler(mModel, mLocalState.mSearchMode);
 
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addItemCallback(mSelectionMetadata);
@@ -332,7 +331,7 @@ public class DirectoryFragment extends Fragment
                     });
         }
 
-        DragStartListener mDragStartListener = mActivityConfig.dragAndDropEnabled()
+        DragStartListener mDragStartListener = mInjector.config.dragAndDropEnabled()
                 ? DragStartListener.create(
                         mIconHelper,
                         mActivity,
@@ -370,9 +369,7 @@ public class DirectoryFragment extends Fragment
                 mBandController,
                 this::scaleLayout);
 
-        mMenuManager = mActivity.getMenuManager();
-
-        mActionModeController = mActivity.getActionModeController(
+        mActionModeController = mInjector.getActionModeController(
                 mSelectionMetadata,
                 this::handleMenuItemClick,
                 mRecView);
@@ -442,9 +439,9 @@ public class DirectoryFragment extends Fragment
             // TODO: inject DirectoryDetails into MenuManager constructor
             // Since both classes are supplied by Activity and created
             // at the same time.
-            mMenuManager.inflateContextMenuForContainer(menu, inflater);
+            mInjector.menuManager.inflateContextMenuForContainer(menu, inflater);
         } else {
-            mMenuManager.inflateContextMenuForDocs(menu, inflater, mSelectionMetadata);
+            mInjector.menuManager.inflateContextMenuForDocs(menu, inflater, mSelectionMetadata);
         }
     }
 
@@ -466,7 +463,10 @@ public class DirectoryFragment extends Fragment
 
         operation.setDestination(data.getParcelableExtra(Shared.EXTRA_STACK));
 
-        FileOperations.start(mActivity, operation, mDialogs::showFileOperationFailures);
+        FileOperations.start(
+                mActivity,
+                operation,
+                mInjector.dialogs::showFileOperationFailures);
     }
 
     protected boolean onContextMenuClick(InputEvent e) {
@@ -486,7 +486,7 @@ public class DirectoryFragment extends Fragment
             y = e.getY();
         }
 
-        mMenuManager.showContextMenu(this, v, x, y);
+        mInjector.menuManager.showContextMenu(this, v, x, y);
 
         return true;
     }
@@ -794,7 +794,7 @@ public class DirectoryFragment extends Fragment
     }
 
     private boolean isDocumentEnabled(String mimeType, int flags) {
-        return mActivityConfig.isDocumentEnabled(mimeType, flags, mState);
+        return mInjector.config.isDocumentEnabled(mimeType, flags, mState);
     }
 
     private void showEmptyDirectory() {
@@ -838,7 +838,9 @@ public class DirectoryFragment extends Fragment
         BaseActivity activity = (BaseActivity) getActivity();
         DocumentInfo destination = activity.getCurrentDirectory();
         mClipper.copyFromClipboard(
-                destination, mState.stack, mDialogs::showFileOperationFailures);
+                destination,
+                mState.stack,
+                mInjector.dialogs::showFileOperationFailures);
         getActivity().invalidateOptionsMenu();
     }
 
@@ -854,7 +856,9 @@ public class DirectoryFragment extends Fragment
         BaseActivity activity = mActivity;
         DocumentInfo destination = DocumentInfo.fromDirectoryCursor(dstCursor);
         mClipper.copyFromClipboard(
-                destination, mState.stack, mDialogs::showFileOperationFailures);
+                destination,
+                mState.stack,
+                mInjector.dialogs::showFileOperationFailures);
         getActivity().invalidateOptionsMenu();
     }
 
@@ -967,7 +971,10 @@ public class DirectoryFragment extends Fragment
 
         DocumentInfo dst = getDestination(v);
         mClipper.copyFromClipData(
-                dst, mState.stack, clipData, mDialogs::showFileOperationFailures);
+                dst,
+                mState.stack,
+                clipData,
+                mInjector.dialogs::showFileOperationFailures);
         return true;
     }
 
@@ -1064,7 +1071,7 @@ public class DirectoryFragment extends Fragment
 
             final String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
             final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-            return mActivityConfig.canSelectType(docMimeType, docFlags, mState);
+            return mInjector.config.canSelectType(docMimeType, docFlags, mState);
         } else {
             // Right now all selected items can be deselected.
             return true;
@@ -1225,7 +1232,7 @@ public class DirectoryFragment extends Fragment
 
         @Override
         public boolean isDocumentEnabled(String mimeType, int flags) {
-            return mActivityConfig.isDocumentEnabled(mimeType, flags, mState);
+            return mInjector.config.isDocumentEnabled(mimeType, flags, mState);
         }
 
         @Override
@@ -1258,7 +1265,7 @@ public class DirectoryFragment extends Fragment
                                     mLocalState.mDocument.authority,
                                     mLocalState.mDocument.documentId);
 
-                    if (mActivityConfig.managedModeEnabled(mState.stack)) {
+                    if (mInjector.config.managedModeEnabled(mState.stack)) {
                         contentsUri = DocumentsContract.setManageMode(contentsUri);
                     }
 
