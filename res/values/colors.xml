@@ -24,7 +24,7 @@
     <color name="menu_search_background">@android:color/transparent</color>
 
     <color name="primary_dark">@*android:color/primary_dark_device_default_settings</color>
-    <color name="primary">@*android:color/primary_text_default_material_light</color>
+    <color name="primary">@*android:color/primary_device_default_settings</color>
     <color name="accent">@*android:color/accent_device_default_light</color>
     <color name="accent_dark">@*android:color/accent_device_default_dark</color>
 
@@ -34,7 +34,8 @@
     <color name="root_activated_color">@*android:color/accent_device_default_700</color>
 
     <!-- TODO: Would be nice to move this to a color-set, but not sure how to support animation -->
-    <color name="item_doc_background">#ffffffff</color>
+    <color name="item_doc_title">@*android:color/primary_text_default_material_light</color>
+    <color name="item_doc_background">@*android:color/white</color>
     <color name="item_doc_background_disabled">#fff4f4f4</color>
     <color name="item_doc_background_selected">@*android:color/accent_device_default_50</color>
     <color name="item_breadcrumb_background_hovered">#1affffff</color>
