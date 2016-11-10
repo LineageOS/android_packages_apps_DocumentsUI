@@ -41,7 +41,7 @@ public class TestDialogController implements DialogController {
     }
 
     @Override
-    public void showFileOperationFailures(int status, int opType, int docCount) {
+    public void showFileOperationStatus(int status, int opType, int docCount) {
         if (status == FileOperations.Callback.STATUS_REJECTED) {
             mFileOpFailed = true;
         }

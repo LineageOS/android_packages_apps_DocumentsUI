@@ -108,6 +108,7 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.ui.DialogController;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -462,11 +463,10 @@ public class DirectoryFragment extends Fragment
         }
 
         operation.setDestination(data.getParcelableExtra(Shared.EXTRA_STACK));
-
         FileOperations.start(
                 mActivity,
                 operation,
-                mInjector.dialogs::showFileOperationFailures);
+                mInjector.dialogs::showFileOperationStatus);
     }
 
     protected boolean onContextMenuClick(InputEvent e) {
@@ -840,7 +840,7 @@ public class DirectoryFragment extends Fragment
         mClipper.copyFromClipboard(
                 destination,
                 mState.stack,
-                mInjector.dialogs::showFileOperationFailures);
+                mInjector.dialogs::showFileOperationStatus);
         getActivity().invalidateOptionsMenu();
     }
 
@@ -858,7 +858,7 @@ public class DirectoryFragment extends Fragment
         mClipper.copyFromClipboard(
                 destination,
                 mState.stack,
-                mInjector.dialogs::showFileOperationFailures);
+                mInjector.dialogs::showFileOperationStatus);
         getActivity().invalidateOptionsMenu();
     }
 
@@ -974,7 +974,7 @@ public class DirectoryFragment extends Fragment
                 dst,
                 mState.stack,
                 clipData,
-                mInjector.dialogs::showFileOperationFailures);
+                mInjector.dialogs::showFileOperationStatus);
         return true;
     }
 

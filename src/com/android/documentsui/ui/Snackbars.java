@@ -43,8 +43,17 @@ public final class Snackbars {
         makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static final void showPasteFailed(Activity activity) {
-        makeSnackbar(activity, R.string.clipboard_files_cannot_paste, Snackbar.LENGTH_SHORT).show();
+    public static final void showDelete(Activity activity, int docCount) {
+        CharSequence message = Shared.getQuantityString(activity, R.plurals.deleting, docCount);
+        makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public static final void showOperationFailed(Activity activity) {
+        makeSnackbar(activity, R.string.file_operation_error, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public static final void showRenameFailed(Activity activity) {
+        makeSnackbar(activity, R.string.rename_error, Snackbar.LENGTH_SHORT).show();
     }
 
     public static final Snackbar makeSnackbar(Activity activity, @StringRes int messageId,

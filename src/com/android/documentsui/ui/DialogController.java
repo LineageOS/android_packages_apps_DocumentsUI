@@ -42,7 +42,7 @@ public interface DialogController {
         }
 
         @Override
-        public void showFileOperationFailures(int status, int opType, int docCount) {
+        public void showFileOperationStatus(int status, int opType, int docCount) {
             throw new UnsupportedOperationException();
         }
 
@@ -58,7 +58,7 @@ public interface DialogController {
     };
 
     void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback);
-    void showFileOperationFailures(int status, int opType, int docCount);
+    void showFileOperationStatus(int status, int opType, int docCount);
     void showNoApplicationFound();
     void showDocumentsClipped(int size);
 
@@ -111,10 +111,10 @@ public interface DialogController {
         }
 
         @Override
-        public void showFileOperationFailures(
+        public void showFileOperationStatus(
                 @Status int status, @OpType int opType, int docCount) {
             if (status == FileOperations.Callback.STATUS_REJECTED) {
-                Snackbars.showPasteFailed(mActivity);
+                Snackbars.showOperationFailed(mActivity);
                 return;
             }
 
@@ -131,7 +131,7 @@ public interface DialogController {
                     Snackbars.showCopy(mActivity, docCount);
                     break;
                 case FileOperationService.OPERATION_DELETE:
-                    // We don't show anything for deletion.
+                    Snackbars.showDelete(mActivity, docCount);
                     break;
                 default:
                     throw new UnsupportedOperationException("Unsupported Operation: " + opType);
