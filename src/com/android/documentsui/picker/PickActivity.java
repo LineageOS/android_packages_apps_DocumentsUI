@@ -60,7 +60,6 @@ import com.android.documentsui.base.ScopedPreferences;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.files.Config;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperationService;
@@ -80,7 +79,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     private static final int CODE_FORWARD = 42;
 
     private Injector<ActionHandler<PickActivity>> mInjector;
-;
     private SharedInputHandler mSharedInputHandler;
 
     public PickActivity() {
