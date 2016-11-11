@@ -94,7 +94,7 @@ public class ActionModeController
             final String title = mMessages.getQuantityString(
                     R.plurals.elements_selected, mSelected.size());
             mActionMode.setTitle(title);
-            mScope.accessibilityAnnouncer.accept(title);
+            mActivity.getWindow().setTitle(title);
         }
     }
 
@@ -119,7 +119,7 @@ public class ActionModeController
             final String title = mMessages.getQuantityString(
                     R.plurals.elements_selected, mSelected.size());
             mActionMode.setTitle(title);
-            mScope.accessibilityAnnouncer.accept(title);
+            mActivity.getWindow().setTitle(title);
         }
     }
 
@@ -223,7 +223,6 @@ public class ActionModeController
         mScope.menuItemClicker = menuItemClicker;
         mScope.selectionDetails = selectionDetails;
         mScope.hapticPerformer = view::performHapticFeedback;
-        mScope.accessibilityAnnouncer = view::announceForAccessibility;
         mScope.accessibilityImportanceSetter =
                 (int accessibilityImportance, @IdRes int[] viewIds) -> {
                     setImportantForAccessibility(
@@ -237,7 +236,6 @@ public class ActionModeController
         private EventHandler<MenuItem> menuItemClicker;
         private SelectionDetails selectionDetails;
         private IntConsumer hapticPerformer;
-        private Consumer<CharSequence> accessibilityAnnouncer;
         private AccessibilityImportanceSetter accessibilityImportanceSetter;
     }
 }
