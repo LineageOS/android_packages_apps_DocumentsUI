@@ -72,6 +72,7 @@ import com.android.documentsui.DirectoryLoader;
 import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DragAndDropHelper;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.ContentScoped;
@@ -896,18 +897,6 @@ public class DirectoryFragment extends Fragment
         }
     }
 
-    void dragExited(View v) {
-        // For now, just always reset drag shadow when drag exits
-        mActivity.getShadowBuilder().resetBackground();
-        v.updateDragShadow(mActivity.getShadowBuilder());
-        if (v.getParent() == mRecView) {
-            DocumentHolder holder = getDocumentHolder(v);
-            if (holder != null) {
-                holder.resetDropHighlight();
-            }
-        }
-    }
-
     void dragStopped(boolean result) {
         if (result) {
             mSelectionMgr.clearSelection();
@@ -919,25 +908,32 @@ public class DirectoryFragment extends Fragment
         getActivity().runOnUiThread(runnable);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * In DirectoryFragment, we close the roots drawer right away.
-     * We also want to update the Drag Shadow to indicate whether the
-     * item is droppable or not.
-     */
+    // In DirectoryFragment, we close the roots drawer right away.
+    // We also want to update the Drag Shadow to indicate whether the
+    // item is droppable or not.
     @Override
     public void onDragEntered(View v, Object localState) {
         mActivity.setRootsDrawerOpen(false);
-        mActivity.getShadowBuilder().setAppearDroppable(canCopyTo(localState, v));
+        mActivity.getShadowBuilder()
+                .setAppearDroppable(DragAndDropHelper.canCopyTo(localState, getDestination(v)));
         v.updateDragShadow(mActivity.getShadowBuilder());
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * In DirectoryFragment, we spring loads the hovered folder.
-     */
+    // In DirectoryFragment, we always reset the background of the Drag Shadow once it
+    // exits.
+    @Override
+    public void onDragExited(View v, Object localState) {
+        mActivity.getShadowBuilder().resetBackground();
+        v.updateDragShadow(mActivity.getShadowBuilder());
+        if (v.getParent() == mRecView) {
+            DocumentHolder holder = getDocumentHolder(v);
+            if (holder != null) {
+                holder.resetDropHighlight();
+            }
+        }
+    }
+
+    // In DirectoryFragment, we spring loads the hovered folder.
     @Override
     public void onViewHovered(View view) {
         BaseActivity activity = mActivity;
@@ -956,7 +952,7 @@ public class DirectoryFragment extends Fragment
 
         assert(DocumentClipper.getOpType(clipData) == FileOperationService.OPERATION_COPY);
 
-        if (!canCopyTo(event.getLocalState(), v)) {
+        if (!DragAndDropHelper.canCopyTo(event.getLocalState(), getDestination(v))) {
             return false;
         }
 
@@ -978,24 +974,7 @@ public class DirectoryFragment extends Fragment
         return true;
     }
 
-    // Don't copy from the cwd into a provided list of prohibited directories. (ie. into cwd, into
-    // a selected directory). Note: this currently doesn't work for multi-window drag, because
-    // localState isn't carried over from one process to another.
-    boolean canCopyTo(Object dragLocalState, View destinationView) {
-        if (dragLocalState == null || !(dragLocalState instanceof List<?>)) {
-            if (DEBUG) Log.d(TAG, "Invalid local state object. Will allow copy.");
-            return true;
-        }
-        DocumentInfo dst = getDestination(destinationView);
-        List<?> src = (List<?>) dragLocalState;
-        if (src.contains(dst)) {
-            if (DEBUG) Log.d(TAG, "Drop target same as source. Ignoring.");
-            return false;
-        }
-        return true;
-    }
-
-    private DocumentInfo getDestination(View v) {
+    DocumentInfo getDestination(View v) {
         String id = getModelId(v);
         if (id != null) {
             Cursor dstCursor = mModel.getItem(id);
@@ -1023,7 +1002,8 @@ public class DirectoryFragment extends Fragment
                 if (!highlight) {
                     holder.resetDropHighlight();
                 } else {
-                    holder.setDroppableHighlight(canCopyTo(localState, v));
+                    holder.setDroppableHighlight(
+                            DragAndDropHelper.canCopyTo(localState, getDestination(v)));
                 }
             }
         }

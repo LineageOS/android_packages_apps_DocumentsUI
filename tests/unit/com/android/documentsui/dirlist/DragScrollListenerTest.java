@@ -202,6 +202,10 @@ public class DragScrollListenerTest {
         @Override
         public void onDragEntered(View v, Object localState) {
         }
+
+        @Override
+        public void onDragExited(View v, Object localState) {
+        }
     }
 
     private class TestScrollActionDelegate implements ScrollActionDelegate {
