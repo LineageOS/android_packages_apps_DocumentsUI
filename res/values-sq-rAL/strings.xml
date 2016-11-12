@@ -112,7 +112,8 @@
       <item quantity="other">U kopjuan <xliff:g id="COUNT_1">%1$d</xliff:g> skedarë në kujtesën e fragmenteve.</item>
       <item quantity="one">U kopjua <xliff:g id="COUNT_0">%1$d</xliff:g> skedar në kujtesën e fragmenteve.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Skedarët e zgjedhur nuk mund të ngjiten në këtë vendndodhje."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"Riemërtimi i dokumentit dështoi"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Nxirr"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Disa skedarë u konvertuan"</string>

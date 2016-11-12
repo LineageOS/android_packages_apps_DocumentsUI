@@ -112,7 +112,8 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> fichier a été copié dans le presse-papiers.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fichiers ont été copiés dans le presse-papiers.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Impossible de coller les fichiers sélectionnés à cet endroit."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"Impossible de renommer le document"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Éjecter"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Certains fichiers ont été convertis"</string>

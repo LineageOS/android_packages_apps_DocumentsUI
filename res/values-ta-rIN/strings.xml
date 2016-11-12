@@ -112,7 +112,8 @@
       <item quantity="other">கிளிப்போர்டுக்கு <xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகள் நகலெடுக்கப்பட்டன.</item>
       <item quantity="one">கிளிப்போர்டுக்கு <xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பு நகலெடுக்கப்பட்டது.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"தேர்ந்தெடுத்த கோப்புகளை இங்கு ஒட்ட முடியாது."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"ஆவணத்தின் பெயரை மாற்ற முடியவில்லை"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"வெளியேற்று"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"சில கோப்புகள் மாற்றப்பட்டன"</string>

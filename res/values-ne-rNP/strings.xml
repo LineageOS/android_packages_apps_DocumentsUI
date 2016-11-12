@@ -112,7 +112,8 @@
       <item quantity="other">क्लिपबोर्डमा <xliff:g id="COUNT_1">%1$d</xliff:g> फाइलहरूका प्रतिलिपि बनाइए।</item>
       <item quantity="one">क्लिपबोर्डमा <xliff:g id="COUNT_0">%1$d</xliff:g> फाइलको प्रतिलिपि बनाइयो।</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"चयन गरिएका फाइलहरूलाई यस स्थानमा टाँस्न सकिँदैन।"</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"कागजातको पुनःनामाकरण गर्न सकिएन"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"निकाल्नुहोस्"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"केही फाइलहरू रूपान्तरण गरिएका छन्"</string>
