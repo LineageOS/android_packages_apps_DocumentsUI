@@ -112,7 +112,8 @@
       <item quantity="one">क्‍लिपबोर्ड पर <xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइलों की कॉपी बनाई गई.</item>
       <item quantity="other">क्‍लिपबोर्ड पर <xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइलों की कॉपी बनाई गई.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"चयनित फ़ाइलों को इस स्‍थान में नहीं चिपकाया जा सकता."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"दस्‍तावेज़ का नाम बदलना विफल रहा"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"निकालें"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"कुछ फ़ाइलें रूपांतरित हो गई थीं"</string>

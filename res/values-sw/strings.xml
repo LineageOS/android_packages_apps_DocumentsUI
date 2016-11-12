@@ -112,7 +112,8 @@
       <item quantity="other">Imenakili faili <xliff:g id="COUNT_1">%1$d</xliff:g> kwenye ubao wa kunakili.</item>
       <item quantity="one">Imenakili faili <xliff:g id="COUNT_0">%1$d</xliff:g> kwenye ubao wa kunakili.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Haiwezi kubandika faili zilizochaguliwa katika eneo hili."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"Imeshindwa kubadilisha jina la hati"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Ondoa"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Imebadilisha muundo wa baadhi ya faili"</string>

@@ -112,7 +112,8 @@
       <item quantity="one">Kukopishelwe amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g> kubhodi lokunamathisela.</item>
       <item quantity="other">Kukopishelwe amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g> kubhodi lokunamathisela.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Ayikwazi ukunamathisela amafayela akhethiwe kule nda"</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"Yehlulekile ukuqamba kabusha idokhumenti"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Khipha"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Amanye amafayela aguqulelwe"</string>

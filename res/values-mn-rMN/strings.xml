@@ -112,7 +112,8 @@
       <item quantity="other">Түр санах ойд <xliff:g id="COUNT_1">%1$d</xliff:g> файл хуулсан.</item>
       <item quantity="one">Түр санах ойд <xliff:g id="COUNT_0">%1$d</xliff:g> файл хуулсан.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Энэ байршилд сонгосон файлыг буулгах боломжгүй."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"Документын нэрийг өөрчилж чадсангүй"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Салгах"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Зарим файлыг хөрвүүлсэн"</string>

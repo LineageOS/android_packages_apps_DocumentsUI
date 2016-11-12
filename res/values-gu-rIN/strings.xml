@@ -112,7 +112,8 @@
       <item quantity="one">ક્લિપબોર્ડ પર <xliff:g id="COUNT_1">%1$d</xliff:g> ફાઇલ કૉપિ કરી.</item>
       <item quantity="other">ક્લિપબોર્ડ પર <xliff:g id="COUNT_1">%1$d</xliff:g> ફાઇલ કૉપિ કરી.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"આ સ્થાનમાં પસંદ કરેલ ફાઇલો પેસ્ટ કરી શકાતી નથી."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"દસ્તાવેજનું નામ બદલવામાં નિષ્ફળ થયાં"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"બહાર કાઢો"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"કેટલીક ફાઇલો રૂપાંતરિત કરી હતી"</string>
