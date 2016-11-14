@@ -19,6 +19,7 @@ package com.android.documentsui.dirlist;
 import android.view.DragEvent;
 import android.view.View;
 
+import com.android.documentsui.DragAndDropHelper;
 import com.android.documentsui.ItemDragListener;
 
 import java.util.TimerTask;
@@ -36,10 +37,6 @@ class DirectoryDragListener extends ItemDragListener<DirectoryFragment> {
         final boolean result = super.onDrag(v, event);
 
         switch (event.getAction()) {
-            case DragEvent.ACTION_DRAG_EXITED:
-                // If drag exits, we want to update drag and drop status on the drop shadow
-                mDragHost.dragExited(v);
-                break;
             case DragEvent.ACTION_DRAG_ENDED:
                 // getResult() is true if drag was accepted
                 mDragHost.dragStopped(event.getResult());
@@ -58,7 +55,7 @@ class DirectoryDragListener extends ItemDragListener<DirectoryFragment> {
 
     @Override
     public @Nullable TimerTask createOpenTask(final View v, DragEvent event) {
-        return mDragHost.canCopyTo(event.getLocalState(), v) ?
-                super.createOpenTask(v, event) : null;
+        return DragAndDropHelper.canCopyTo(event.getLocalState(), mDragHost.getDestination(v))
+                ? super.createOpenTask(v, event) : null;
     }
 }

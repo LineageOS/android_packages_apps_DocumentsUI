@@ -129,6 +129,7 @@ public class ItemDragListenerTest {
         mTestTimer.fastForwardTo(DELAY_AFTER_HOVERING);
 
         assertSame(mTestView, mTestDragHost.mLastEnteredView);
+        assertSame(mTestView, mTestDragHost.mLastExitedView);
         assertNull(mTestDragHost.mLastHoveredView);
     }
 
@@ -200,6 +201,7 @@ public class ItemDragListenerTest {
         private View mHighlightedView;
         private View mLastHoveredView;
         private View mLastEnteredView;
+        private View mLastExitedView;
 
         @Override
         public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
@@ -219,6 +221,11 @@ public class ItemDragListenerTest {
         @Override
         public void onDragEntered(View v, Object localState) {
             mLastEnteredView = v;
+        }
+
+        @Override
+        public void onDragExited(View v, Object localState) {
+            mLastExitedView = v;
         }
     }
 }

@@ -50,6 +50,7 @@ import android.widget.ListView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DragAndDropHelper;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
@@ -164,31 +165,19 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     }
 
     private boolean onRightClick(View v, int x, int y, Runnable callback) {
-        int pos = mList.pointToPosition(x, y);
+        final int pos = mList.pointToPosition(x, y);
         final Item item = mAdapter.getItem(pos);
-        if (!(item instanceof RootItem)) {
+
+        // If a read-only root, no need to see if top level is writable (it's not)
+        if (!(item instanceof RootItem) || !((RootItem) item).root.supportsCreate()) {
             return false;
         }
+
         final RootItem rootItem = (RootItem) item;
-
-        if (!rootItem.root.supportsCreate()) {
-            // If a read-only root, no need to see if top level is writable (it's not)
+        getRootDocument(rootItem, (DocumentInfo doc) -> {
+            rootItem.docInfo = doc;
             callback.run();
-            return true;
-        }
-        // We need to start a GetRootDocumentTask so we can know whether items can be directly
-        // pasted into root
-        GetRootDocumentTask task = new GetRootDocumentTask(
-                rootItem.root,
-                getBaseActivity(),
-                (DocumentInfo doc) -> {
-                    rootItem.docInfo = doc;
-                    callback.run();
-                });
-        task.setTimeout(CONTEXT_MENU_ITEM_TIMEOUT);
-        task.setForceCallback(true);
-        task.executeOnExecutor(getBaseActivity().getExecutorForCurrentDirectory());
-
+        });
         return true;
     }
 
@@ -372,20 +361,38 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         getActivity().runOnUiThread(runnable);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * In RootsFragment we don't do anything
-     */
+    // In RootsFragment, we check whether the item corresponds to a RootItem, and whether
+    // the currently dragged objects can be droppable or not, and change the drop-shadow
+    // accordingly
     @Override
     public void onDragEntered(View v, Object localState) {
+        final int pos = (Integer) v.getTag(R.id.item_position_tag);
+        final Item item = mAdapter.getItem(pos);
+
+        // If a read-only root, no need to see if top level is writable (it's not)
+        if (!(item instanceof RootItem) || !((RootItem) item).root.supportsCreate()) {
+            getBaseActivity().getShadowBuilder().setAppearDroppable(false);
+            v.updateDragShadow(getBaseActivity().getShadowBuilder());
+            return;
+        }
+
+        final RootItem rootItem = (RootItem) item;
+        getRootDocument(rootItem, (DocumentInfo doc) -> {
+            rootItem.docInfo = doc;
+            getBaseActivity().getShadowBuilder().setAppearDroppable(
+                    doc.isCreateSupported() && DragAndDropHelper.canCopyTo(localState, doc));
+            v.updateDragShadow(getBaseActivity().getShadowBuilder());
+        });
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * In RootsFragment we open the hovered root.
-     */
+    // In RootsFragment we always reset the drag shadow as it exits a RootItemView.
+    @Override
+    public void onDragExited(View v, Object localState) {
+        getBaseActivity().getShadowBuilder().resetBackground();
+        v.updateDragShadow(getBaseActivity().getShadowBuilder());
+    }
+
+    // In RootsFragment we open the hovered root.
     @Override
     public void onViewHovered(View v) {
         // SpacerView doesn't have DragListener so this view is guaranteed to be a RootItemView.
@@ -444,6 +451,25 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
                 if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
                 return false;
         }
+    }
+
+    @FunctionalInterface
+    interface RootUpdater {
+        void updateDocInfoForRoot(DocumentInfo doc);
+    }
+
+    private void getRootDocument(RootItem rootItem, RootUpdater updater) {
+        // We need to start a GetRootDocumentTask so we can know whether items can be directly
+        // pasted into root
+        GetRootDocumentTask task = new GetRootDocumentTask(
+                rootItem.root,
+                getBaseActivity(),
+                (DocumentInfo doc) -> {
+                    updater.updateDocInfoForRoot(doc);
+                });
+        task.setTimeout(CONTEXT_MENU_ITEM_TIMEOUT);
+        task.setForceCallback(true);
+        task.executeOnExecutor(getBaseActivity().getExecutorForCurrentDirectory());
     }
 
     static void ejectClicked(View ejectIcon, RootInfo root, ActionHandler actionHandler) {

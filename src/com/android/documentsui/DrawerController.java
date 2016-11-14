@@ -167,6 +167,11 @@ public abstract class DrawerController implements DrawerListener {
         }
 
         @Override
+        public void onDragExited(View v, Object localState) {
+            // do nothing
+        }
+
+        @Override
         public void onViewHovered(View v) {
         }
 
