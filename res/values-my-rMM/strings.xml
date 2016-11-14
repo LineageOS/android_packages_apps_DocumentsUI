@@ -112,7 +112,8 @@
       <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို ယာယီမှတ်ဉာဏ်ထဲတွင် ခဏသိမ်းထားသည်။</item>
       <item quantity="one">ဖိုင် <xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင်ကို ယာယီမှတ်ဉာဏ်ထဲတွင် ခဏသိမ်းထားသည်။</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"ဤနေရာတွင် ရွေးချယ်ထားသည့် ဖိုင်များကို ကူးထည့်၍မရပါ။"</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"စာဖိုင်ကို အမည်ပြောင်းခြင်း မအောင်မြင်ပါ"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ထုတ်ပါ"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"အချို့ဖိုင်များကို ပြောင်းလဲထားသည်"</string>

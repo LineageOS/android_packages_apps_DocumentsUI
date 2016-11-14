@@ -112,7 +112,8 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ഫയലുകൾ ക്ലിപ്പ്‌ബോർഡിലേക്ക് പകർത്തി.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ഫയൽ ക്ലിപ്പ്‌ബോർഡിലേക്ക് പകർത്തി.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"തിരഞ്ഞെടുത്ത ഫയലുകൾ ഈ ലൊക്കേഷനിൽ ഒട്ടിക്കാനാകുന്നില്ല."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"ഡോക്യുമെന്റിന്റെ പേരുമാറ്റുന്നത് പരാജയപ്പെട്ടു"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ഒഴിവാക്കുക"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ചില ഫയലുകൾ പരിവർത്തനം ചെയ്യപ്പെട്ടു"</string>

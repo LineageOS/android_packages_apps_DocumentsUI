@@ -140,7 +140,8 @@
       <item quantity="other">تم نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملف إلى الحافظة.</item>
       <item quantity="one">تم نسخ <xliff:g id="COUNT_0">%1$d</xliff:g> ملف إلى الحافظة.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"يتعذر لصق الملفات المحددة في هذا الموقع."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"أخفقت إعادة تسمية المستند."</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"إخراج"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"تم تحويل بعض الملفات"</string>

@@ -112,7 +112,8 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল ক্লিপবোর্ডে কপি করা হয়েছে।</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইল ক্লিপবোর্ডে কপি করা হয়েছে।</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"এই স্থানে নির্বাচিত ফাইলগুলি পেস্ট করা যাবে না।"</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"দস্তাবেজের পুনঃনামকরণ করা গেল না"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"সরিয়ে দিন"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"কিছু ফাইল রূপান্তরিত হয়েছে"</string>
