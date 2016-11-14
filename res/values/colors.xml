@@ -44,4 +44,6 @@
 
     <color name="item_drag_shadow_background">@*android:color/white</color>
 
+    <color name="shortcut_background">@*android:color/Blue_700</color>
+
 </resources>
