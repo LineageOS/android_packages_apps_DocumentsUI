@@ -138,6 +138,7 @@ interface DragStartListener {
                     mShadowFactory.apply(selection),
                     invalidDest,
                     View.DRAG_FLAG_GLOBAL
+                            | View.DRAG_FLAG_OPAQUE
                             | View.DRAG_FLAG_GLOBAL_URI_READ
                             | View.DRAG_FLAG_GLOBAL_URI_WRITE);
 

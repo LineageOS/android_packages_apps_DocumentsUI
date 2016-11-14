@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.content.ClipData;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -24,8 +26,10 @@ import android.view.View;
 import android.view.View.OnDragListener;
 
 import com.android.documentsui.ItemDragListener.DragHost;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.internal.annotations.VisibleForTesting;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -67,6 +71,8 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
                 handleLocationEvent(v, event.getX(), event.getY());
                 return true;
             case DragEvent.ACTION_DRAG_EXITED:
+                mDragHost.onDragExited(v, event.getLocalState());
+                // fall through
             case DragEvent.ACTION_DRAG_ENDED:
                 handleExitedEndedEvent(v, event);
                 return true;
@@ -97,7 +103,6 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
 
     private void handleExitedEndedEvent(View v, DragEvent event) {
         mDragHost.setDropTargetHighlight(v, event.getLocalState(), false);
-
         TimerTask task = (TimerTask) v.getTag(R.id.drag_hovering_tag);
         if (task != null) {
             task.cancel();
@@ -171,5 +176,12 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
          * @param localState the Local state object given by DragEvent
          */
         void onDragEntered(View v, Object localState);
+
+        /**
+         * Notifies right away when drag shadow exits the view
+         * @param v the view which drop shadow just exited
+         * @param localState the Local state object given by DragEvent
+         */
+        void onDragExited(View v, Object localState);
     }
 }
