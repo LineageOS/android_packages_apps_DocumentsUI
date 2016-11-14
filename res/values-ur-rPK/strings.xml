@@ -112,7 +112,8 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> فائلز کلپ بورڈ پر کاپی کی گئیں۔</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> فائل کلپ بورڈ پر کاپی کی گئی۔</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"منتخب کردہ فائلز کو اس مقام پر پیسٹ نہیں کیا جا سکتا۔"</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"دستاویز کا نام تبدیل کرنے میں ناکام"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"خارج کریں"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"کچھ فائلوں کو تبدیل کیا گیا تھا"</string>

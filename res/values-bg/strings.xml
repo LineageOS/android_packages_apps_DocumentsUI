@@ -112,7 +112,8 @@
       <item quantity="other">Копирахте <xliff:g id="COUNT_1">%1$d</xliff:g> файла в буферната памет.</item>
       <item quantity="one">Копирахте <xliff:g id="COUNT_0">%1$d</xliff:g> файл в буферната памет.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"Избраните файлове не могат да се поставят на това място."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"Преименуването на документа не бе успешно"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Изваждане"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Някои файлове бяха преобразувани"</string>

@@ -112,7 +112,8 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ਫ਼ਾਈਲਾਂ ਨੂੰ ਕਲਿੱਪਬੋਰਡ \'ਤੇ ਕਾਪੀ ਕੀਤਾ ਗਿਆ।</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ਫ਼ਾਈਲਾਂ ਨੂੰ ਕਲਿੱਪਬੋਰਡ \'ਤੇ ਕਾਪੀ ਕੀਤਾ ਗਿਆ।</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"ਚੁਣੀਆਂ ਗਈਆਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਇਸ ਟਿਕਾਣੇ ਵਿੱਚ ਪੇਸਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।"</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"ਦਸਤਾਵੇਜ਼ ਦਾ ਮੁੜ-ਨਾਮਕਰਨ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ਬਾਹਰ ਕੱਢੋ"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ਕੁਝ ਫ਼ਾਈਲਾਂ ਦਾ ਰੂਪਾਂਤਰਨ ਕੀਤਾ ਗਿਆ ਸੀ"</string>

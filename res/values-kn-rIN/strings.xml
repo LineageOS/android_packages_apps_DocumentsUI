@@ -112,7 +112,8 @@
       <item quantity="one">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ <xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗಿದೆ.</item>
       <item quantity="other">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ <xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗಿದೆ.</item>
     </plurals>
-    <string name="clipboard_files_cannot_paste" msgid="5700451161181106925">"ಈ ಸ್ಥಳದಲ್ಲಿ ಆಯ್ಕೆಮಾಡಿದ ಫೈಲ್‌ಗಳನ್ನು ಅಂಟಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
+    <!-- no translation found for file_operation_error (5016141190607538391) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"ಡಾಕ್ಯುಮೆಂಟ್ ಮರುಹೆಸರಿಸಲು ವಿಫಲವಾಗಿದೆ"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ಎಜೆಕ್ಟ್‌‌"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ಕೆಲವು ಫೈಲ್‌ಗಳನ್ನು ಪರಿವರ್ತಿಸಲಾಗಿದೆ"</string>
