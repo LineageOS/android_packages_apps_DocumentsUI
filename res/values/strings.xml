@@ -260,4 +260,9 @@
         <item quantity="one">Delete <xliff:g id="count" example="1">%1$d</xliff:g> item?</item>
         <item quantity="other">Delete <xliff:g id="count" example="3">%1$d</xliff:g> items?</item>
     </plurals>
+
+    <!-- Shortcut label of Documents root folder -->
+    <string name="documents_shortcut_label">Documents</string>
+    <!-- Shortcut label of Downloads root folder -->
+    <string name="downloads_shortcut_label">Downloads</string>
 </resources>
