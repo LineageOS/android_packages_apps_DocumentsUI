@@ -99,7 +99,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             return;
         }
 
-        if (launchToDocument(intent)) {
+        if (Shared.ENABLE_OMC_API_FEATURES && launchToDocument(intent)) {
             if (DEBUG) Log.d(TAG, "Launched to a document.");
             return;
         }
