@@ -51,10 +51,14 @@ public abstract class TimeoutTask<Input, Output> extends CheckedTask<Input, Outp
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             if (getStatus() == AsyncTask.Status.RUNNING) {
+                onTimeout();
                 cancel(true);
                 this.finish(null);
             }
         }, mTimeout);
     }
 
+    // Override this do more proper clean up in case of timeout, such as using
+    // CancellationSignal#cancel.
+    protected void onTimeout() { }
 }

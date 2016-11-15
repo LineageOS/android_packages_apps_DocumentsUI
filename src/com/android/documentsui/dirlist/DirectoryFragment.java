@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import static android.content.ContentResolver.EXTRA_REFRESH_SUPPORTED;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
@@ -42,6 +43,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -82,6 +84,7 @@ import com.android.documentsui.MessageBar;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
+import com.android.documentsui.RefreshTask;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventHandler;
@@ -145,7 +148,7 @@ public class DirectoryFragment extends Fragment
     private static final int LOADER_ID = 42;
 
     private static final int CACHE_EVICT_LIMIT = 100;
-    private static final int REFRESH_SPINNER_DISMISS_DELAY = 500;
+    private static final int REFRESH_SPINNER_TIMEOUT = 500;
 
     private BaseActivity mActivity;
 
@@ -1142,8 +1145,18 @@ public class DirectoryFragment extends Fragment
             cache.removeUri(mModel.getItemUri(ids[i]));
         }
 
-        // Trigger loading
-        getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
+        if (Shared.ENABLE_OMC_API_FEATURES) {
+            RefreshTask refreshTask = new RefreshTask(mState, this,
+                    (Boolean refreshed) -> {
+                        new Handler(Looper.getMainLooper())
+                                .post(() -> mRefreshLayout.setRefreshing(false));
+                    });
+            refreshTask.setTimeout(REFRESH_SPINNER_TIMEOUT);
+            refreshTask.executeOnExecutor(mActivity.getExecutorForCurrentDirectory());
+        } else {
+            // If Refresh API isn't available, we will explicitly reload the loader
+            getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
+        }
     }
 
     private final class ModelUpdateListener implements EventListener<Model.Update> {
@@ -1286,6 +1299,8 @@ public class DirectoryFragment extends Fragment
 
             mAdapter.notifyDataSetChanged();
             mModel.update(result);
+            mRefreshLayout.setEnabled(
+                    result.cursor.getExtras().getBoolean(EXTRA_REFRESH_SUPPORTED, false));
 
             updateLayout(mState.derivedMode);
 
@@ -1316,10 +1331,10 @@ public class DirectoryFragment extends Fragment
             mLocalState.mLastSortDimensionId = curSortedDimension.getId();
             mLocalState.mLastSortDirection = curSortedDimension.getSortDirection();
 
-            if (mRefreshLayout.isRefreshing()) {
+            if (!Shared.ENABLE_OMC_API_FEATURES && mRefreshLayout.isRefreshing()) {
                 new Handler().postDelayed(
                         () -> mRefreshLayout.setRefreshing(false),
-                        REFRESH_SPINNER_DISMISS_DELAY);
+                        REFRESH_SPINNER_TIMEOUT);
             }
         }
 
@@ -1329,7 +1344,9 @@ public class DirectoryFragment extends Fragment
                     + DocumentInfo.debugString(mLocalState.mDocument));
             mModel.onLoaderReset();
 
-            mRefreshLayout.setRefreshing(false);
+            if (!Shared.ENABLE_OMC_API_FEATURES) {
+                mRefreshLayout.setRefreshing(false);
+            }
         }
     }
 }
