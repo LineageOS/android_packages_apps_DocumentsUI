@@ -126,8 +126,7 @@
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> файлов скопировано в буфер обмена</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файла скопировано в буфер обмена</item>
     </plurals>
-    <!-- no translation found for file_operation_error (5016141190607538391) -->
-    <skip />
+    <string name="file_operation_error" msgid="5016141190607538391">"Файловая операция не поддерживается"</string>
     <string name="rename_error" msgid="6700093173508118635">"Не удалось переименовать документ"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Извлечь"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Формат некоторых файлов изменен"</string>
@@ -169,4 +168,8 @@
       <item quantity="many">Удалить <xliff:g id="COUNT_1">%1$d</xliff:g> объектов?</item>
       <item quantity="other">Удалить <xliff:g id="COUNT_1">%1$d</xliff:g> объекта?</item>
     </plurals>
+    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
+    <skip />
+    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
+    <skip />
 </resources>

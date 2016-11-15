@@ -112,8 +112,7 @@
       <item quantity="other">Đã sao chép <xliff:g id="COUNT_1">%1$d</xliff:g> tệp vào khay nhớ tạm.</item>
       <item quantity="one">Đã sao chép <xliff:g id="COUNT_0">%1$d</xliff:g> tệp vào khay nhớ tạm.</item>
     </plurals>
-    <!-- no translation found for file_operation_error (5016141190607538391) -->
-    <skip />
+    <string name="file_operation_error" msgid="5016141190607538391">"Thao tác tệp không được hỗ trợ."</string>
     <string name="rename_error" msgid="6700093173508118635">"Không đổi được tên tài liệu"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Đẩy ra"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Đã chuyển đổi một số tệp"</string>
@@ -145,4 +144,8 @@
       <item quantity="other">Xóa <xliff:g id="COUNT_1">%1$d</xliff:g> mục?</item>
       <item quantity="one">Xóa <xliff:g id="COUNT_0">%1$d</xliff:g> mục?</item>
     </plurals>
+    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
+    <skip />
+    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
+    <skip />
 </resources>
