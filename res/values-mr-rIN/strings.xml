@@ -112,8 +112,7 @@
       <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> फाईल क्लिपबोर्डवर कॉपी केली.</item>
       <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> फायली क्लिपबोर्डवर कॉपी केल्या.</item>
     </plurals>
-    <!-- no translation found for file_operation_error (5016141190607538391) -->
-    <skip />
+    <string name="file_operation_error" msgid="5016141190607538391">"फाईल ऑपरेशन समर्थित नाही."</string>
     <string name="rename_error" msgid="6700093173508118635">"दस्तऐवज पुनर्नामित करण्‍यात अयशस्वी झाले"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"बाहेर काढा"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"काही फायली रूपांतरित केल्या होत्या"</string>
@@ -145,4 +144,8 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम हटवायचा?</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम हटवायचे?</item>
     </plurals>
+    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
+    <skip />
+    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
+    <skip />
 </resources>

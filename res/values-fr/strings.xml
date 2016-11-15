@@ -112,8 +112,7 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> fichier a bien été copié dans le Presse-papiers.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fichiers ont bien été copiés dans le Presse-papiers.</item>
     </plurals>
-    <!-- no translation found for file_operation_error (5016141190607538391) -->
-    <skip />
+    <string name="file_operation_error" msgid="5016141190607538391">"Opération relative au fichier non acceptée."</string>
     <string name="rename_error" msgid="6700093173508118635">"Échec du changement de nom du document"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Éjecter"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Certains fichiers ont été convertis"</string>
@@ -145,4 +144,8 @@
       <item quantity="one">Supprimer <xliff:g id="COUNT_1">%1$d</xliff:g> élément ?</item>
       <item quantity="other">Supprimer <xliff:g id="COUNT_1">%1$d</xliff:g> éléments ?</item>
     </plurals>
+    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
+    <skip />
+    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
+    <skip />
 </resources>

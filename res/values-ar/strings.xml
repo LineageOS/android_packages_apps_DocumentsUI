@@ -140,8 +140,7 @@
       <item quantity="other">تم نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملف إلى الحافظة.</item>
       <item quantity="one">تم نسخ <xliff:g id="COUNT_0">%1$d</xliff:g> ملف إلى الحافظة.</item>
     </plurals>
-    <!-- no translation found for file_operation_error (5016141190607538391) -->
-    <skip />
+    <string name="file_operation_error" msgid="5016141190607538391">"معالجة الملف غير متوافقة."</string>
     <string name="rename_error" msgid="6700093173508118635">"أخفقت إعادة تسمية المستند."</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"إخراج"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"تم تحويل بعض الملفات"</string>
@@ -193,4 +192,8 @@
       <item quantity="other">هل تريد حذف <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر؟</item>
       <item quantity="one">هل تريد حذف <xliff:g id="COUNT_0">%1$d</xliff:g> عنصر؟</item>
     </plurals>
+    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
+    <skip />
+    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
+    <skip />
 </resources>
