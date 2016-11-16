@@ -18,6 +18,8 @@ package com.android.documentsui;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -41,18 +43,23 @@ public final class DragShadowBuilder extends View.DragShadowBuilder {
     private final DropBadgeView mIcon;
     private final int mWidth;
     private final int mHeight;
+    private final int mShadowRadius;
+    private int mPadding;
+    private Paint paint;
 
     public DragShadowBuilder(Context context) {
         mWidth = context.getResources().getDimensionPixelSize(R.dimen.drag_shadow_width);
         mHeight = context.getResources().getDimensionPixelSize(R.dimen.drag_shadow_height);
+        mShadowRadius = context.getResources().getDimensionPixelSize(R.dimen.drag_shadow_radius);
+        mPadding = context.getResources().getDimensionPixelSize(R.dimen.drag_shadow_padding);
 
         mShadowView = LayoutInflater.from(context).inflate(R.layout.drag_shadow_layout, null);
         mTitle = (TextView) mShadowView.findViewById(android.R.id.title);
         mIcon = (DropBadgeView) mShadowView.findViewById(android.R.id.icon);
 
-        mShadowView
-                .setBackground(context.getResources().getDrawable(R.drawable.drag_shadow_background,
-                        null));
+        // Important for certain APIs
+        mShadowView.setLayerType(View.LAYER_TYPE_SOFTWARE, paint);
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
 
     @Override
@@ -68,8 +75,22 @@ public final class DragShadowBuilder extends View.DragShadowBuilder {
         // Calling measure is necessary in order for all child views to get correctly laid out.
         mShadowView.measure(
                 View.MeasureSpec.makeMeasureSpec(r.right- r.left, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(r.top- r.bottom, View.MeasureSpec.EXACTLY));
+                View.MeasureSpec.makeMeasureSpec(r.bottom - r.top , View.MeasureSpec.EXACTLY));
         mShadowView.layout(r.left, r.top, r.right, r.bottom);
+
+        // Since DragShadow is not an actual view drawn in hardware-accelerated window,
+        // android:elevation does not work; we need to draw the shadow ourselves manually.
+        paint.setColor(Color.TRANSPARENT);
+        // Shadow 1
+        int opacity = (int) (255 * 0.1);
+        paint.setShadowLayer(mShadowRadius, 0, 0, Color.argb(opacity, 0, 0, 0));
+        canvas.drawRect(r.left + mPadding, r.top + mPadding, r.right - mPadding,
+                r.bottom - mPadding, paint);
+        // Shadow 2
+        opacity = (int) (255 * 0.24);
+        paint.setShadowLayer(mShadowRadius, 0, mShadowRadius, Color.argb(opacity, 0, 0, 0));
+        canvas.drawRect(r.left + mPadding, r.top + mPadding, r.right - mPadding,
+                r.bottom - mPadding, paint);
         mShadowView.draw(canvas);
     }
 

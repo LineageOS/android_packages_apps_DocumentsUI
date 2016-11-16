@@ -17,8 +17,8 @@
 <com.android.documentsui.DropBadgeView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@android:id/icon"
-        android:layout_width="@dimen/root_icon_size"
-        android:layout_height="@dimen/root_icon_size"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
         android:scaleType="centerInside"
         android:contentDescription="@null"
         android:duplicateParentState="true"/>
