@@ -46,6 +46,9 @@ import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.system.OsConstants;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -65,6 +68,7 @@ import libcore.io.IoUtils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.SyncFailedException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -581,6 +585,17 @@ class CopyJob extends Job {
                     }
                     out.write(buffer, 0, len);
                     makeCopyProgress(len);
+                }
+
+                // Need to invoke Os#fsync to ensure the file is written to the storage device.
+                try {
+                    Os.fsync(dstFile.getFileDescriptor());
+                } catch (ErrnoException error) {
+                    // fsync will fail with fd of pipes and return EROFS or EINVAL.
+                    if (error.errno != OsConstants.EROFS && error.errno != OsConstants.EINVAL) {
+                        throw new SyncFailedException(
+                                "Failed to sync bytes after copying a file.");
+                    }
                 }
 
                 // Need to invoke IoUtils.close explicitly to avoid from ignoring errors at flush.
