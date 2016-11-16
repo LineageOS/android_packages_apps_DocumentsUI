@@ -58,7 +58,9 @@ public abstract class TimeoutTask<Input, Output> extends CheckedTask<Input, Outp
         }, mTimeout);
     }
 
-    // Override this do more proper clean up in case of timeout, such as using
-    // CancellationSignal#cancel.
-    protected void onTimeout() { }
+    /*
+     * Override this do more proper clean up in case of timeout, such as using
+     * CancellationSignal#cancel.
+     */
+    protected void onTimeout() {}
 }
