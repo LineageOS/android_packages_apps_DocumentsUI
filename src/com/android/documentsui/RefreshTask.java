@@ -28,10 +28,10 @@ import android.net.Uri;
 import android.os.CancellationSignal;
 import android.util.Log;
 
-import com.android.documentsui.TimeoutTask;
+import com.android.documentsui.base.ApplicationScope;
 import com.android.documentsui.base.CheckedTask;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.dirlist.Model;
 
 import java.util.function.Consumer;
 
@@ -44,60 +44,74 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
 
     private final static String TAG = "RefreshTask";
 
-    private final Context mContext;
+    private final @ApplicationScope Context mContext;
     private final State mState;
+    private final Uri mUri;
     private final Consumer<Boolean> mCallback;
     private final CancellationSignal mSignal;
 
-
-    public RefreshTask(State state, Activity activity, Consumer<Boolean> callback) {
-        this(state, activity, activity::isDestroyed, callback);
-    }
-
-    public RefreshTask(State state, Fragment fragment, Consumer<Boolean> callback) {
-        this(state, fragment.getContext(), fragment::isDetached, callback);
-    }
-
-    public RefreshTask(State state, Context context, Check check, Consumer<Boolean> callback) {
+    public RefreshTask(State state, Uri uri, long timeout, @ApplicationScope Context context, Check check,
+            Consumer<Boolean> callback) {
         super(check);
-        mContext = context.getApplicationContext();
+        mUri = uri;
+        mContext = context;
         mState = state;
         mCallback = callback;
         mSignal = new CancellationSignal();
+        setTimeout(timeout);
     }
 
     @Override
     public @Nullable Boolean run(Void... params) {
-        final Uri uri = mState.stack.peek().derivedUri;
+        if (mUri == null) {
+            Log.w(TAG, "Attempted to refresh on a null uri. Aborting.");
+            return false;
+        }
+
+        if (mUri != mState.stack.peek().derivedUri) {
+            Log.w(TAG, "Attempted to refresh on a non-top-level uri. Aborting.");
+            return false;
+        }
+
+        // API O introduces ContentResolver#refresh, and if available and the ContentProvider
+        // supports it, the ContentProvider will automatically send a content updated notification
+        // and we will update accordingly. Else, we just tell the callback that Refresh is not
+        // supported.
+        if (!Shared.ENABLE_OMC_API_FEATURES) {
+            Log.w(TAG, "Attempted to call Refresh on an older Android platform. Aborting.");
+            return false;
+        }
+
         final ContentResolver resolver = mContext.getContentResolver();
-        final String authority = uri.getAuthority();
-        boolean refreshed = false;
+        final String authority = mUri.getAuthority();
+        boolean refreshSupported = false;
         ContentProviderClient client = null;
         try {
             client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
-            refreshed = client.refresh(uri, null, mSignal);
+            refreshSupported = client.refresh(mUri, null, mSignal);
         } catch (Exception e) {
             Log.w(TAG, "Failed to refresh", e);
         } finally {
             ContentProviderClient.releaseQuietly(client);
         }
-        return refreshed;
+        return refreshSupported;
     }
 
     @Override
     protected void onTimeout() {
         mSignal.cancel();
+        Log.w(TAG, "Provider taking too long to respond. Cancelling.");
     }
 
     @Override
-    public void finish(Boolean refreshed) {
+    public void finish(Boolean refreshSupported) {
         if (DEBUG) {
-            if (refreshed) {
-                Log.v(TAG, "Provider has new content and has refreshed");
+            if (refreshSupported) {
+                Log.v(TAG, "Provider supports refresh and has refreshed");
             } else {
-                Log.v(TAG, "Provider has no new content and did not refresh");
+                Log.v(TAG, "Provider does not support refresh and did not refresh");
             }
         }
-        mCallback.accept(refreshed);
+        mCallback.accept(refreshSupported);
     }
 }
