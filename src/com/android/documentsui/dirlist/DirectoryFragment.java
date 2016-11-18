@@ -1145,18 +1145,18 @@ public class DirectoryFragment extends Fragment
             cache.removeUri(mModel.getItemUri(ids[i]));
         }
 
-        if (Shared.ENABLE_OMC_API_FEATURES) {
-            RefreshTask refreshTask = new RefreshTask(mState, this,
-                    (Boolean refreshed) -> {
-                        new Handler(Looper.getMainLooper())
-                                .post(() -> mRefreshLayout.setRefreshing(false));
-                    });
-            refreshTask.setTimeout(REFRESH_SPINNER_TIMEOUT);
-            refreshTask.executeOnExecutor(mActivity.getExecutorForCurrentDirectory());
-        } else {
-            // If Refresh API isn't available, we will explicitly reload the loader
-            getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
-        }
+        final Uri uri = mState.stack.peek().derivedUri;
+        RefreshTask task = new RefreshTask(mState, uri, REFRESH_SPINNER_TIMEOUT,
+                getContext().getApplicationContext(), this::isDetached,
+                (Boolean refreshSupported) -> {
+                    if (refreshSupported) {
+                        mRefreshLayout.setRefreshing(false);
+                    } else {
+                        // If Refresh API isn't available, we will explicitly reload the loader
+                        getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
+                    }
+                });
+        task.executeOnExecutor(mActivity.getExecutorForCurrentDirectory());
     }
 
     private final class ModelUpdateListener implements EventListener<Model.Update> {
@@ -1299,8 +1299,6 @@ public class DirectoryFragment extends Fragment
 
             mAdapter.notifyDataSetChanged();
             mModel.update(result);
-            mRefreshLayout.setEnabled(
-                    result.cursor.getExtras().getBoolean(EXTRA_REFRESH_SUPPORTED, false));
 
             updateLayout(mState.derivedMode);
 
@@ -1331,7 +1329,7 @@ public class DirectoryFragment extends Fragment
             mLocalState.mLastSortDimensionId = curSortedDimension.getId();
             mLocalState.mLastSortDirection = curSortedDimension.getSortDirection();
 
-            if (!Shared.ENABLE_OMC_API_FEATURES && mRefreshLayout.isRefreshing()) {
+            if (mRefreshLayout.isRefreshing()) {
                 new Handler().postDelayed(
                         () -> mRefreshLayout.setRefreshing(false),
                         REFRESH_SPINNER_TIMEOUT);
@@ -1341,12 +1339,10 @@ public class DirectoryFragment extends Fragment
         @Override
         public void onLoaderReset(Loader<DirectoryResult> loader) {
             if (DEBUG) Log.d(TAG, "Resetting loader for: "
-                    + DocumentInfo.debugString(mLocalState.mDocument));
+                        + DocumentInfo.debugString(mLocalState.mDocument));
             mModel.onLoaderReset();
 
-            if (!Shared.ENABLE_OMC_API_FEATURES) {
-                mRefreshLayout.setRefreshing(false);
-            }
+            mRefreshLayout.setRefreshing(false);
         }
     }
 }
