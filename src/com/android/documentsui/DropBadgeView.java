@@ -41,6 +41,7 @@ public final class DropBadgeView extends ImageView {
                 .getDimensionPixelSize(R.dimen.drop_icon_height);
         final int badgeWidth = context.getResources()
                 .getDimensionPixelSize(R.dimen.drop_icon_width);
+        final int iconSize = context.getResources().getDimensionPixelSize(R.dimen.root_icon_size);
 
         Drawable okBadge = context.getResources().getDrawable(R.drawable.drop_badge_states, null);
         Drawable defaultIcon = context.getResources()
@@ -50,7 +51,9 @@ public final class DropBadgeView extends ImageView {
         mBackground = new LayerDrawable(list);
 
         mBackground.setLayerGravity(1, Gravity.BOTTOM | Gravity.RIGHT);
+        mBackground.setLayerGravity(0, Gravity.TOP | Gravity.LEFT);
         mBackground.setLayerSize(1, badgeWidth, badgeHeight);
+        mBackground.setLayerSize(0, iconSize, iconSize);
 
         setBackground(mBackground);
     }
