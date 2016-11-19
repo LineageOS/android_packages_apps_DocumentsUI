@@ -144,8 +144,6 @@
       <item quantity="other">要删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 项吗？</item>
       <item quantity="one">要删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 项吗？</item>
     </plurals>
-    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
-    <skip />
-    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
-    <skip />
+    <string name="documents_shortcut_label" msgid="6185476684846785830">"文档"</string>
+    <string name="downloads_shortcut_label" msgid="9109062409874698197">"下载内容"</string>
 </resources>

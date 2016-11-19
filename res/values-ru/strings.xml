@@ -168,8 +168,6 @@
       <item quantity="many">Удалить <xliff:g id="COUNT_1">%1$d</xliff:g> объектов?</item>
       <item quantity="other">Удалить <xliff:g id="COUNT_1">%1$d</xliff:g> объекта?</item>
     </plurals>
-    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
-    <skip />
-    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
-    <skip />
+    <string name="documents_shortcut_label" msgid="6185476684846785830">"Документы"</string>
+    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Скачанные файлы"</string>
 </resources>

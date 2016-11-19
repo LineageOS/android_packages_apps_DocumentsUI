@@ -144,8 +144,6 @@
       <item quantity="one">Vil du slette <xliff:g id="COUNT_1">%1$d</xliff:g> element?</item>
       <item quantity="other">Vil du slette <xliff:g id="COUNT_1">%1$d</xliff:g> elementer?</item>
     </plurals>
-    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
-    <skip />
-    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
-    <skip />
+    <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumenter"</string>
+    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Downloads"</string>
 </resources>
