@@ -199,6 +199,9 @@ public class Archive implements Closeable {
      *
      * If the file descriptor is not seekable, then a snapshot will be created.
      *
+     * This method takes ownership for the passed descriptor. The caller must
+     * not close it.
+     *
      * @param context Context of the provider.
      * @param descriptor File descriptor for the archive's contents.
      * @param archiveUri Uri of the archive document.
@@ -208,43 +211,54 @@ public class Archive implements Closeable {
             Context context, ParcelFileDescriptor descriptor, Uri archiveUri,
             @Nullable Uri notificationUri)
             throws IOException {
-        if (canSeek(descriptor)) {
-            return new Archive(context, null, descriptor.getFileDescriptor(), archiveUri,
-                    notificationUri);
-        }
-
-        // Fallback for non-seekable file descriptors.
-        File snapshotFile = null;
+        FileDescriptor fd = null;
         try {
-            // Create a copy of the archive, as ZipFile doesn't operate on streams.
-            // Moreover, ZipInputStream would be inefficient for large files on
-            // pipes.
-            snapshotFile = File.createTempFile("com.android.documentsui.snapshot{",
-                    "}.zip", context.getCacheDir());
+            if (canSeek(descriptor)) {
+                fd = new FileDescriptor();
+                fd.setInt$(descriptor.detachFd());
+                return new Archive(context, null, fd, archiveUri,
+                        notificationUri);
+            }
 
-            try (
-                final FileOutputStream outputStream =
-                        new ParcelFileDescriptor.AutoCloseOutputStream(
-                                ParcelFileDescriptor.open(
-                                        snapshotFile, ParcelFileDescriptor.MODE_WRITE_ONLY));
-                final ParcelFileDescriptor.AutoCloseInputStream inputStream =
-                        new ParcelFileDescriptor.AutoCloseInputStream(descriptor);
-            ) {
-                final byte[] buffer = new byte[32 * 1024];
-                int bytes;
-                while ((bytes = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytes);
+            // Fallback for non-seekable file descriptors.
+            File snapshotFile = null;
+            try {
+                // Create a copy of the archive, as ZipFile doesn't operate on streams.
+                // Moreover, ZipInputStream would be inefficient for large files on
+                // pipes.
+                snapshotFile = File.createTempFile("com.android.documentsui.snapshot{",
+                        "}.zip", context.getCacheDir());
+
+                try (
+                    final FileOutputStream outputStream =
+                            new ParcelFileDescriptor.AutoCloseOutputStream(
+                                    ParcelFileDescriptor.open(
+                                            snapshotFile, ParcelFileDescriptor.MODE_WRITE_ONLY));
+                    final ParcelFileDescriptor.AutoCloseInputStream inputStream =
+                            new ParcelFileDescriptor.AutoCloseInputStream(descriptor);
+                ) {
+                    final byte[] buffer = new byte[32 * 1024];
+                    int bytes;
+                    while ((bytes = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytes);
+                    }
+                    outputStream.flush();
                 }
-                outputStream.flush();
+                return new Archive(context, snapshotFile, null, archiveUri,
+                        notificationUri);
+            } finally {
+                // On UNIX the file will be still available for processes which opened it, even
+                // after deleting it. Remove it ASAP, as it won't be used by anyone else.
+                if (snapshotFile != null) {
+                    snapshotFile.delete();
+                }
             }
-            return new Archive(context, snapshotFile, null, archiveUri,
-                    notificationUri);
-        } finally {
-            // On UNIX the file will be still available for processes which opened it, even
-            // after deleting it. Remove it ASAP, as it won't be used by anyone else.
-            if (snapshotFile != null) {
-                snapshotFile.delete();
-            }
+        } catch (Exception e) {
+            // Since the method takes ownership of the passed descriptor, close it
+            // on exception.
+            IoUtils.closeQuietly(descriptor);
+            IoUtils.closeQuietly(fd);
+            throw e;
         }
     }
 
