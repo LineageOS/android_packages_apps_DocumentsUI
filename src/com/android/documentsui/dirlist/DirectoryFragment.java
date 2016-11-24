@@ -221,7 +221,7 @@ public class DirectoryFragment extends Fragment
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
         mMessageBar = MessageBar.create(getChildFragmentManager());
-        mProgressBar = activity.findViewById(R.id.progressbar);
+        mProgressBar = view.findViewById(R.id.progressbar);
         assert(mProgressBar != null);
 
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
