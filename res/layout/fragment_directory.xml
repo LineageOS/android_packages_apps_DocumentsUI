@@ -23,6 +23,14 @@
     android:elevation="4dp"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/progress_bar_height"
+        android:indeterminate="true"
+        style="@style/TrimmedHorizontalProgressBar"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:id="@+id/container_message_bar"
         android:layout_width="match_parent"
