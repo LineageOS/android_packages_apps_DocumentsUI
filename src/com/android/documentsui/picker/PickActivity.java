@@ -338,7 +338,9 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @Override
     public void onDocumentPicked(DocumentInfo doc) {
         final FragmentManager fm = getFragmentManager();
-        if (doc.isContainer()) {
+        // Do not inline-open archives, as otherwise it would be impossible to pick
+        // archive files. Note, that picking files inside archives is not supported.
+        if (doc.isDirectory()) {
             mInjector.actions.openContainerDocument(doc);
         } else if (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT) {
             // Explicit file picked, return
