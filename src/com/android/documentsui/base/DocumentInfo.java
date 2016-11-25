@@ -217,6 +217,7 @@ public class DocumentInfo implements Durable, Parcelable {
                 + ", isContainer=" + isContainer()
                 + ", isDirectory=" + isDirectory()
                 + ", isArchive=" + isArchive()
+                + ", isInArchive=" + isInArchive()
                 + ", isPartial=" + isPartial()
                 + ", isVirtual=" + isVirtual()
                 + ", isDeleteSupported=" + isDeleteSupported()
@@ -252,6 +253,10 @@ public class DocumentInfo implements Durable, Parcelable {
 
     public boolean isArchive() {
         return ArchivesProvider.isSupportedArchiveType(mimeType);
+    }
+
+    public boolean isInArchive() {
+        return ArchivesProvider.AUTHORITY.equals(authority);
     }
 
     public boolean isPartial() {

@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.Shared.VERBOSE;
@@ -32,6 +33,7 @@ import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.android.documentsui.DirectoryResult;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.roots.RootCursorWrapper;
@@ -52,12 +54,14 @@ import java.util.function.Predicate;
 public class Model {
 
     /**
-     * Filter that passes (returns true) all non-virtual, non-partial files.
+     * Filter that passes (returns true) all non-virtual, non-partial files, not archived files.
      */
     public static final Predicate<Cursor> CONCRETE_FILE_FILTER = (Cursor c) -> {
-        int flags = DocumentInfo.getCursorInt(c, Document.COLUMN_FLAGS);
+        int flags = getCursorInt(c, Document.COLUMN_FLAGS);
+        String authority = getCursorString(c, RootCursorWrapper.COLUMN_AUTHORITY);
         return (flags & Document.FLAG_VIRTUAL_DOCUMENT) == 0
-                && (flags & Document.FLAG_PARTIAL) == 0;
+                && (flags & Document.FLAG_PARTIAL) == 0
+                && !ArchivesProvider.AUTHORITY.equals(authority);
     };
 
     private static final Predicate<Cursor> ANY_FILE_FILTER = (Cursor c) -> true;
