@@ -145,5 +145,5 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>  ta element o‘chirib tashlansinmi?</item>
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Hujjatlar"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Yuklanishlar"</string>
+    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Yuklanmalar"</string>
 </resources>

@@ -145,5 +145,5 @@
       <item quantity="other">ਕੀ <xliff:g id="COUNT_1">%1$d</xliff:g> ਆਈਟਮਾਂ ਨੂੰ ਮਿਟਾਉਣਾ ਹੈ?</item>
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"ਦਸਤਾਵੇਜ਼"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"ਡਾਊਨਲੋਡਾਂ"</string>
+    <string name="downloads_shortcut_label" msgid="9109062409874698197">"ਡਾਊਨਲੋਡ"</string>
 </resources>
