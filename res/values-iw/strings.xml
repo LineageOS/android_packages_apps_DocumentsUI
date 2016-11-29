@@ -168,8 +168,6 @@
       <item quantity="other">האם למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים?</item>
       <item quantity="one">האם למחוק <xliff:g id="COUNT_0">%1$d</xliff:g> פריט?</item>
     </plurals>
-    <!-- no translation found for documents_shortcut_label (6185476684846785830) -->
-    <skip />
-    <!-- no translation found for downloads_shortcut_label (9109062409874698197) -->
-    <skip />
+    <string name="documents_shortcut_label" msgid="6185476684846785830">"מסמכים"</string>
+    <string name="downloads_shortcut_label" msgid="9109062409874698197">"הורדות"</string>
 </resources>
