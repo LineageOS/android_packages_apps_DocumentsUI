@@ -19,12 +19,15 @@ package com.android.documentsui.archives;
 import com.android.documentsui.archives.ReadableArchive;
 import com.android.documentsui.tests.R;
 
-import android.database.Cursor;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract.Document;
 import android.support.test.InstrumentationRegistry;
+import android.system.ErrnoException;
+import android.system.Os;
+import android.system.OsConstants;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 
@@ -281,23 +284,27 @@ public class ReadableArchiveTest extends AndroidTestCase {
                 cursor.getInt(cursor.getColumnIndexOrThrow(Document.COLUMN_SIZE)));
     }
 
-    public void testOpenDocument() throws IOException {
+    public void testOpenDocument() throws IOException, ErrnoException {
         loadArchive(mTestUtils.getSeekableDescriptor(R.raw.archive));
         commonTestOpenDocument();
     }
 
-    public void testOpenDocument_NonSeekable() throws IOException {
+    public void testOpenDocument_NonSeekable() throws IOException, ErrnoException {
         loadArchive(mTestUtils.getNonSeekableDescriptor(R.raw.archive));
         commonTestOpenDocument();
     }
 
     // Common part of testOpenDocument and testOpenDocument_NonSeekable.
-    void commonTestOpenDocument() throws IOException {
+    void commonTestOpenDocument() throws IOException, ErrnoException {
         final ParcelFileDescriptor descriptor = mArchive.openDocument(
                 createArchiveId("/dir2/strawberries.txt").toDocumentId(),
                 "r", null /* signal */);
+        assertTrue(Archive.canSeek(descriptor));
         try (final ParcelFileDescriptor.AutoCloseInputStream inputStream =
                 new ParcelFileDescriptor.AutoCloseInputStream(descriptor)) {
+            Os.lseek(descriptor.getFileDescriptor(), "I love ".length(), OsConstants.SEEK_SET);
+            assertEquals("strawberries!", new Scanner(inputStream).nextLine());
+            Os.lseek(descriptor.getFileDescriptor(), 0, OsConstants.SEEK_SET);
             assertEquals("I love strawberries!", new Scanner(inputStream).nextLine());
         }
     }

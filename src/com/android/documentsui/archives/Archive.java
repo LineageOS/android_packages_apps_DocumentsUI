@@ -24,6 +24,8 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
+import android.os.storage.StorageManager;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.support.annotation.Nullable;
 import android.system.ErrnoException;
@@ -246,7 +248,7 @@ public abstract class Archive implements Closeable {
     public ParcelFileDescriptor openDocument(
             String documentId, String mode, @Nullable final CancellationSignal signal)
             throws FileNotFoundException {
-        throw new UnsupportedOperationException("Thumbnails not supported.");
+        throw new UnsupportedOperationException("Opening not supported.");
     }
 
     /**
