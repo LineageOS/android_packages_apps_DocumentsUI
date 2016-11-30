@@ -41,14 +41,15 @@ import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
+import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.internal.annotations.GuardedBy;
 
-import libcore.io.IoUtils;
-
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
+import libcore.io.IoUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,6 +65,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class RootsCache implements RootsAccess {
     private static final String TAG = "RootsCache";
+
+    // Not all providers are equally well written. If a provider returns
+    // empty results we don't cache them...unless they're in this magical list
+    // of beloved providers.
+    private static final List<String> PERMIT_EMPTY_CACHE = new ArrayList<String>() {{
+        // MTP provider commonly returns no roots (if no devices are attached).
+        add(Providers.AUTHORITY_MTP);
+    }};
 
     private final Context mContext;
     private final ContentObserver mObserver;
@@ -208,10 +217,11 @@ public class RootsCache implements RootsAccess {
     }
 
     /**
-     * Bring up requested provider and query for all active roots.
+     * Bring up requested provider and query for all active roots. Will consult cached
+     * roots if not forceRefresh. Will query when cached roots is empty (which should never happen).
      */
-    private Collection<RootInfo> loadRootsForAuthority(ContentResolver resolver, String authority,
-            boolean forceRefresh) {
+    private Collection<RootInfo> loadRootsForAuthority(
+            ContentResolver resolver, String authority, boolean forceRefresh) {
         if (VERBOSE) Log.v(TAG, "Loading roots for " + authority);
 
         synchronized (mObservedAuthorities) {
@@ -228,8 +238,14 @@ public class RootsCache implements RootsAccess {
             // long-lived system process.
             final Bundle systemCache = resolver.getCache(rootsUri);
             if (systemCache != null) {
-                if (VERBOSE) Log.v(TAG, "System cache hit for " + authority);
-                return systemCache.getParcelableArrayList(TAG);
+                ArrayList<RootInfo> cachedRoots = systemCache.getParcelableArrayList(TAG);
+                assert(cachedRoots != null);
+                if (!cachedRoots.isEmpty() || PERMIT_EMPTY_CACHE.contains(authority)) {
+                    if (VERBOSE) Log.v(TAG, "System cache hit for " + authority);
+                    return cachedRoots;
+                } else {
+                    Log.w(TAG, "Ignoring empty system cache hit for " + authority);
+                }
             }
         }
 
@@ -254,15 +270,16 @@ public class RootsCache implements RootsAccess {
         // process, in case our process goes away. The system takes care of
         // invalidating the cache if the package or Uri changes.
         final Bundle systemCache = new Bundle();
-        systemCache.putParcelableArrayList(TAG, roots);
-        resolver.putCache(rootsUri, systemCache);
+        if (roots.isEmpty() && !PERMIT_EMPTY_CACHE.contains(authority)) {
+            Log.i(TAG, "Provider returned no roots. Possibly naughty: " + authority);
+        } else {
+            systemCache.putParcelableArrayList(TAG, roots);
+            resolver.putCache(rootsUri, systemCache);
+        }
 
         return roots;
     }
 
-    /* (non-Javadoc)
-     * @see com.android.documentsui.roots.RootsCache#getRootOneshot(java.lang.String, java.lang.String)
-     */
     @Override
     public RootInfo getRootOneshot(String authority, String rootId) {
         return getRootOneshot(authority, rootId, false);
@@ -340,6 +357,28 @@ public class RootsCache implements RootsAccess {
             }
         }
         return mRecentsRoot;
+    }
+
+    public void logCache() {
+        ContentResolver resolver = mContext.getContentResolver();
+        StringBuilder output = new StringBuilder();
+
+        for (String authority : mObservedAuthorities) {
+            List<String> roots = new ArrayList<>();
+            Uri rootsUri = DocumentsContract.buildRootsUri(authority);
+            Bundle systemCache = resolver.getCache(rootsUri);
+            if (systemCache != null) {
+                ArrayList<RootInfo> cachedRoots = systemCache.getParcelableArrayList(TAG);
+                for (RootInfo root : cachedRoots) {
+                    roots.add(root.toDebugString());
+                }
+            }
+
+            output.append((output.length() == 0) ? "System cache: " : ", ");
+            output.append(authority).append("=").append(roots);
+        }
+
+        Log.i(TAG, output.toString());
     }
 
     private class UpdateTask extends AsyncTask<Void, Void, Void> {

@@ -40,7 +40,9 @@ public final class DebugCommandProcessorTest {
     public void setUp() {
         mCommand0 = new TestEventHandler<>();
         mCommand1 = new TestEventHandler<>();
-        mProcessor = new DebugCommandProcessor(mCommand0, mCommand1);
+        mProcessor = new DebugCommandProcessor();
+        mProcessor.add(mCommand0);
+        mProcessor.add(mCommand1);
     }
 
     @Test

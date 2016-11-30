@@ -44,12 +44,13 @@ public class SearchViewManager implements
         SearchView.OnCloseListener, OnQueryTextListener, OnClickListener, OnFocusChangeListener,
         OnActionExpandListener {
 
-    static final String TAG = "SearchManager";
+    private static final String TAG = "SearchManager";
+
     private final SearchManagerListener mListener;
     private final DebugCommandProcessor mCommandProcessor;
 
+    private @Nullable String mCurrentSearch;
     private boolean mSearchExpanded;
-    private String mCurrentSearch;
     private boolean mIgnoreNextClose;
     private boolean mFullBar;
 
@@ -59,16 +60,15 @@ public class SearchViewManager implements
 
     public SearchViewManager(
             SearchManagerListener listener,
+            DebugCommandProcessor commandProcessor,
             @Nullable Bundle savedState) {
-        assert (listener != null);
-        mListener = listener;
-        mCurrentSearch = savedState != null ? savedState.getString(Shared.EXTRA_QUERY) : null;
 
-        // "Commands" are meta input for controlling system behavior.
-        // We piggy back on search input as it is the only text input
-        // area in the app. But the functionality is independent
-        // of "regular" search query processing.
-        mCommandProcessor = new DebugCommandProcessor();
+        assert (listener != null);
+        assert (commandProcessor != null);
+
+        mListener = listener;
+        mCommandProcessor = commandProcessor;
+        mCurrentSearch = savedState != null ? savedState.getString(Shared.EXTRA_QUERY) : null;
     }
 
     public void install(DocumentsToolbar actionBar, boolean isFullBarSearch) {

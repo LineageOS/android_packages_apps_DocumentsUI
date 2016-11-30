@@ -53,6 +53,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.queries.DebugCommandProcessor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.GetRootDocumentTask;
@@ -167,7 +168,14 @@ public abstract class BaseActivity
                 mNavigator.update();
             }
         };
-        mSearchManager = new SearchViewManager(searchListener, icicle);
+
+        // "Commands" are meta input for controlling system behavior.
+        // We piggy back on search input as it is the only text input
+        // area in the app. But the functionality is independent
+        // of "regular" search query processing.
+        DebugCommandProcessor dbgCommands = new DebugCommandProcessor();
+        dbgCommands.add(new DebugCommandProcessor.DumpRootsCacheHandler(this));
+        mSearchManager = new SearchViewManager(searchListener, dbgCommands, icicle);
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
         // Base classes must update result in their onCreate.
