@@ -58,8 +58,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 
 /**
@@ -83,7 +85,7 @@ public class Archive implements Closeable {
     private final Uri mArchiveUri;
     private final Uri mNotificationUri;
     private final StrictJarFile mZipFile;
-    private final ExecutorService mExecutor;
+    private final ThreadPoolExecutor mExecutor;
     private final Map<String, ZipEntry> mEntries;
     private final Map<String, List<ZipEntry>> mTree;
 
@@ -100,7 +102,12 @@ public class Archive implements Closeable {
         mZipFile = file != null ?
                 new StrictJarFile(file.getPath(), false /* verify */, false /* signatures */) :
                 new StrictJarFile(fd, false /* verify */, false /* signatures */);
-        mExecutor = Executors.newSingleThreadExecutor();
+
+        // At most 8 active threads. All threads idling for more than a minute will
+        // be closed.
+        mExecutor = new ThreadPoolExecutor(8, 8, 60, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<Runnable>(0));
+        mExecutor.allowCoreThreadTimeOut(true);
 
         // Build the tree structure in memory.
         mTree = new HashMap<>();
@@ -493,24 +500,19 @@ public class Archive implements Closeable {
     }
 
     /**
-     * Schedules a gracefully close of the archive after any opened files are closed.
+     * Closes an archive.
      *
      * <p>This method does not block until shutdown. Once called, other methods should not be
-     * called.
+     * called. Any active pipes will be terminated.
      */
     @Override
     public void close() {
-        mExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mZipFile.close();
-                } catch (IOException e) {
-                    // Silent close.
-                }
-            }
-        });
-        mExecutor.shutdown();
+        mExecutor.shutdownNow();
+        try {
+            mZipFile.close();
+        } catch (IOException e) {
+            // Silent close.
+        }
     }
 
     private void addCursorRow(MatrixCursor cursor, ZipEntry entry) {
