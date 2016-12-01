@@ -16,6 +16,7 @@
 
 package com.android.documentsui.testing;
 
+import com.android.documentsui.queries.DebugCommandProcessor;
 import com.android.documentsui.queries.SearchViewManager;
 
 /**
@@ -41,6 +42,7 @@ public class TestSearchViewManager extends SearchViewManager {
                     @Override
                     public void onSearchViewChanged(boolean opened) { }
                 },
+                new DebugCommandProcessor(),
                 null);
     }
 

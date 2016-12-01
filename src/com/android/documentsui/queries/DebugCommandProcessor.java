@@ -15,18 +15,20 @@
  */
 package com.android.documentsui.queries;
 
+import android.content.Context;
 import android.os.Build;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.EventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-final class DebugCommandProcessor implements EventHandler<String> {
+public final class DebugCommandProcessor implements EventHandler<String> {
 
     @VisibleForTesting
     static final String COMMAND_PREFIX = "dbg:";
@@ -43,10 +45,9 @@ final class DebugCommandProcessor implements EventHandler<String> {
         }
     }
 
-    @VisibleForTesting
-    DebugCommandProcessor(EventHandler<String[]>... commands) {
-        for (EventHandler<String[]> c : commands) {
-            mCommands.add(c);
+    public void add(EventHandler<String[]> handler) {
+        if (Build.IS_DEBUGGABLE) {
+            mCommands.add(handler);
         }
     }
 
@@ -59,7 +60,7 @@ final class DebugCommandProcessor implements EventHandler<String> {
                     return true;
                 }
             }
-            Log.d(SearchViewManager.TAG, "Unrecognized debug command: " + query);
+            Log.d(TAG, "Unrecognized debug command: " + query);
         }
         return false;
     }
@@ -115,5 +116,22 @@ final class DebugCommandProcessor implements EventHandler<String> {
             return true;
         }
         return Boolean.valueOf(val);
+    }
+
+    public static final class DumpRootsCacheHandler implements EventHandler<String[]> {
+        private final Context mContext;
+
+        public DumpRootsCacheHandler(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public boolean accept(String[] tokens) {
+            if ("dumpCache".equals(tokens[0])) {
+                DocumentsApplication.getRootsCache(mContext).logCache();
+                return true;
+            }
+            return false;
+        }
     }
 }

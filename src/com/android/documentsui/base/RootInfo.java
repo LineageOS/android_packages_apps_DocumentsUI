@@ -416,6 +416,12 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
                 + getUri();
     }
 
+    public String toDebugString() {
+        return (TextUtils.isEmpty(summary))
+                ? "\"" + title + "\" @ " + getUri()
+                : "\"" + title + " (" + summary + ")\" @ " + getUri();
+    }
+
     public String getDirectoryString() {
         return !TextUtils.isEmpty(summary) ? summary : title;
     }

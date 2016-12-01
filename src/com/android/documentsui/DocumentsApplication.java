@@ -37,7 +37,6 @@ public class DocumentsApplication extends Application {
     private static final long PROVIDER_ANR_TIMEOUT = 20 * DateUtils.SECOND_IN_MILLIS;
 
     private RootsCache mRoots;
-
     private ThumbnailCache mThumbnailCache;
     private ClipStorage mClipStore;
     private DocumentClipper mClipper;
