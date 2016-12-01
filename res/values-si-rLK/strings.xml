@@ -65,7 +65,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"උපාංග"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"තවත් යෙදුම්"</string>
     <string name="empty" msgid="5300254272613103004">"අයිතම නැත"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s හි තරඟ නැත"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s හි ගැළපුම් නැත"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ගොනුව විවෘත කළ නොහැකිය"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"සමහර ලේඛන මැකීමට නොහැකිය"</string>
     <string name="share_via" msgid="8725082736005677161">"බෙදාගන්නේ"</string>
