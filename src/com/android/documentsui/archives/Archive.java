@@ -106,7 +106,7 @@ public class Archive implements Closeable {
         // At most 8 active threads. All threads idling for more than a minute will
         // be closed.
         mExecutor = new ThreadPoolExecutor(8, 8, 60, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>(0));
+                new LinkedBlockingQueue<Runnable>());
         mExecutor.allowCoreThreadTimeOut(true);
 
         // Build the tree structure in memory.
