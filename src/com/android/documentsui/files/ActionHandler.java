@@ -434,6 +434,11 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return false;
         }
 
+        if (doc.isInArchive()) {
+            Log.w(TAG, "Can't view archived files.");
+            return false;
+        }
+
         if (doc.isContainer()) {
             openContainerDocument(doc);
             return true;
