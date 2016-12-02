@@ -24,14 +24,6 @@
     <!-- column headers are empty on small screens, in portrait or in grid mode. -->
     <include layout="@layout/column_headers"/>
 
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/progress_bar_height"
-        android:indeterminate="true"
-        style="@style/TrimmedHorizontalProgressBar"
-        android:visibility="gone"/>
-
     <FrameLayout
         android:id="@+id/container_directory"
         android:clipToPadding="false"
