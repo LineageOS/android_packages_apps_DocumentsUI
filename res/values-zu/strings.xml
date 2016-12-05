@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2013 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_label" msgid="3303317181319900082">"Amafayela"</string>
+    <string name="title_open" msgid="3165686459158020921">"Vula kusuka ku-"</string>
+    <string name="title_save" msgid="4384490653102710025">"Londoloza ku-"</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"Ifolda entsha"</string>
+    <string name="menu_grid" msgid="1453636521731880680">"Ukubuka ngegridi"</string>
+    <string name="menu_list" msgid="6714267452146410402">"Ukubuka uhlu"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Sesha"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"Izilungiselelo zesitoreji"</string>
+    <string name="menu_open" msgid="9092138100049759315">"Vula"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"Vula nge-"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"Vula ewindini elisha"</string>
+    <string name="menu_save" msgid="5195367497138965168">"Londoloza"</string>
+    <string name="menu_share" msgid="4307140947108068356">"Yabelana"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"Susa"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Khetha konke"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"Kopishela ku…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"Hambisa ku…"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Qamba kabusha"</string>
+    <string name="menu_new_window" msgid="2947837751796109126">"Iwindi elisha"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Sika"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopisha"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Namathisela"</string>
+    <string name="menu_paste_into_folder" msgid="8000644546983240101">"Namathisela kufolda"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"Bonisa isitoreji sangaphakathi"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"Fihla isitoreji sangaphakathi"</string>
+    <string name="button_select" msgid="240863497069321364">"Khetha"</string>
+    <string name="button_copy" msgid="8219059853840996027">"Kopisha"</string>
+    <string name="button_move" msgid="8596460499325291272">"Hambisa"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Cashisa"</string>
+    <string name="button_retry" msgid="4011461781916631389">"Zama Futhi"</string>
+    <string name="not_sorted" msgid="7813496644889115530">"Akuhlungiwe"</string>
+    <string name="sort_dimension_name" msgid="6325591541414177579">"Igama"</string>
+    <string name="sort_dimension_summary" msgid="7724534446881397860">"Isifinyezo"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Kulungisiwe"</string>
+    <string name="sort_dimension_size" msgid="2190547351159472884">"Usayizi"</string>
+    <string name="sort_direction_ascending" msgid="5882787683763248102">"Iyanyuka"</string>
+    <string name="sort_direction_descending" msgid="1729187589765894076">"Iyehla"</string>
+    <string name="drawer_open" msgid="8071673398187261741">"Bonisa izimpande"</string>
+    <string name="drawer_close" msgid="4263880768630848848">"Fihla izimpande"</string>
+    <string name="save_error" msgid="8631128801982095782">"Yehlulekile ukulondoloza idokhumenti"</string>
+    <string name="create_error" msgid="3092144450044861994">"Yehlulekile ukudala ifolda"</string>
+    <string name="query_error" msgid="6625421453613879336">"Ayikwazanga ukulayisha okuqukethwe okwamanje"</string>
+    <string name="root_recent" msgid="1080156975424341623">"Okwakamuva"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> okhululekile"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"Amasevisi wesitoreji"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"Izinqamuleli"</string>
+    <string name="root_type_device" msgid="1713604128005476585">"Amadivayisi"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"Izinhlelo zokusebenza eziningi"</string>
+    <string name="empty" msgid="5300254272613103004">"Azikho izinto"</string>
+    <string name="no_results" msgid="2371026325236359209">"Akukho okufanayo ku-%1$s"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"Ayikwazanga ukuvula ifayela"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"Ayikwazi ukususa amanye amadokhumenti"</string>
+    <string name="share_via" msgid="8725082736005677161">"Abelana nge-"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"Ikopisha amafayela"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"Ihambisa amafayela"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"Isusa amafayela"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> esisele"</string>
+    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
+      <item quantity="one">Kukopishwa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+      <item quantity="other">Kukopishwa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
+      <item quantity="one">Ihambisa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+      <item quantity="other">Ihambisa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
+      <item quantity="one">Isusa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+      <item quantity="other">Isusa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+    </plurals>
+    <string name="undo" msgid="2902438994196400565">"Hlehlisa"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"Ilungiselela ukukopisha..."</string>
+    <string name="move_preparing" msgid="8742573245485449429">"Ilungiselela ukuhambisa…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"Ilungiselela ukususa…"</string>
+    <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
+      <item quantity="one">Ayikwazanga ukukopisha amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="other">Ayikwazanga ukukopisha amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
+      <item quantity="one">Ayikwazanga ukuhambisa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="other">Ayikwazanga ukuhambisa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
+      <item quantity="one">Ayikwazanga ukususa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="other">Ayikwazanga ukususa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
+    </plurals>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Thepha ukuze ubuke imininingwane"</string>
+    <string name="close" msgid="905969391788869975">"Vala"</string>
+    <string name="copy_failure_alert_content" msgid="161721873402101825">"Lawo mafayela awakopishwanga: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="move_failure_alert_content" msgid="6586182218105304719">"Lawa mafayela awazange ahanjiswe: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Lawa mafayela awazange asuswe: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Lawo mafayela aguqulelwe kwenye ifomethi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
+      <item quantity="one">Kukopishelwe amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g> kubhodi lokunamathisela.</item>
+      <item quantity="other">Kukopishelwe amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g> kubhodi lokunamathisela.</item>
+    </plurals>
+    <string name="file_operation_error" msgid="5016141190607538391">"Umsebenzi wefayela awusekelwa."</string>
+    <string name="rename_error" msgid="6700093173508118635">"Yehlulekile ukuqamba kabusha idokhumenti"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"Khipha"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Amanye amafayela aguqulelwe"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"Nika i-<xliff:g id="APPNAME"><b>^1</b></xliff:g> ukufinyelela ekuqondiseni kwe-<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ku-<xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Nika ukufinyelela kwe-<xliff:g id="APPNAME"><b>^1</b></xliff:g> kwinkomba ye-<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Nikeza i-<xliff:g id="APPNAME"><b>^1</b></xliff:g> ukufinyelela kudatha yakho, okufaka izithombe namavidiyo, ku-<xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"Ungaphindi ubuze"</string>
+    <string name="allow" msgid="1275746941353040309">"Vumela"</string>
+    <string name="deny" msgid="5127201668078153379">"Phika"</string>
+    <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> okukhethiwe</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> okukhethiwe</item>
+    </plurals>
+    <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> izinto</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> izinto</item>
+    </plurals>
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"Susa i-\"<xliff:g id="NAME">%1$s</xliff:g>\"?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"Susa ifolda ye-\"<xliff:g id="NAME">%1$s</xliff:g>\" nokuqukethwe kwayo?"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
+      <item quantity="one">Susa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>?</item>
+      <item quantity="other">Susa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>?</item>
+    </plurals>
+    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
+      <item quantity="one">Susa amafolda angu-<xliff:g id="COUNT_1">%1$d</xliff:g> nokuqukethwe kwawo?</item>
+      <item quantity="other">Susa amafolda angu-<xliff:g id="COUNT_1">%1$d</xliff:g> nokuqukethwe kwawo?</item>
+    </plurals>
+    <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
+      <item quantity="one">Susa izinto ezingu-<xliff:g id="COUNT_1">%1$d</xliff:g>?</item>
+      <item quantity="other">Susa izinto ezingu-<xliff:g id="COUNT_1">%1$d</xliff:g>?</item>
+    </plurals>
+    <string name="documents_shortcut_label" msgid="6185476684846785830">"Amadokhumenti"</string>
+    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Okulandiwe"</string>
+</resources>
