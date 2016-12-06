@@ -106,12 +106,13 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
     @Override
     public void finish(Boolean refreshSupported) {
         if (DEBUG) {
-            if (refreshSupported) {
+            // In case of timeout, refreshSupported is null.
+            if (Boolean.TRUE.equals(refreshSupported)) {
                 Log.v(TAG, "Provider supports refresh and has refreshed");
             } else {
                 Log.v(TAG, "Provider does not support refresh and did not refresh");
             }
         }
-        mCallback.accept(refreshSupported);
+        mCallback.accept(refreshSupported != null ? refreshSupported : Boolean.FALSE);
     }
 }
