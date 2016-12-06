@@ -21,10 +21,14 @@ import static junit.framework.Assert.assertEquals;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Bundle;
+import android.test.mock.MockContentProvider;
+import android.test.mock.MockContentResolver;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;
@@ -32,6 +36,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.testing.TestEventListener;
 import com.android.documentsui.testing.TestPackageManager;
 import com.android.documentsui.testing.TestResources;
+import com.android.documentsui.testing.TestRootsAccess;
 
 import org.mockito.Mockito;
 
@@ -45,6 +50,8 @@ public abstract class TestActivity extends AbstractBase {
     public TestPackageManager packageMgr;
     public Intent intent;
     public RootInfo currentRoot;
+    public MockContentResolver contentResolver;
+    public MockContentProvider contentProvider;
 
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Intent> startService;
@@ -70,6 +77,10 @@ public abstract class TestActivity extends AbstractBase {
        refreshCurrentRootAndDirectory =  new TestEventListener<>();
        setRootsDrawerOpen = new TestEventListener<>();
        notifyDirectoryNavigated = new TestEventListener<>();
+       contentResolver = new MockContentResolver();
+       contentProvider = new DocsMockContentProvider();
+       contentResolver.addProvider(TestRootsAccess.HOME.authority, contentProvider);
+
    }
 
     @Override
@@ -143,7 +154,17 @@ public abstract class TestActivity extends AbstractBase {
 
     @Override
     public final ContentResolver getContentResolver() {
-        return null;
+        return contentResolver;
+    }
+
+    @Override
+    public final Context getApplicationContext() {
+        return this;
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return false;
     }
 
     @Override
@@ -153,3 +174,10 @@ public abstract class TestActivity extends AbstractBase {
 // Trick Mockito into finding our Addons methods correctly. W/o this
 // hack, Mockito thinks Addons methods are not implemented.
 abstract class AbstractBase extends Activity implements CommonAddons {}
+
+class DocsMockContentProvider extends MockContentProvider {
+    @Override
+    public boolean refresh(Uri url, Bundle args) {
+        return true;
+    }
+}
