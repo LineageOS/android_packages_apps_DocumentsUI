@@ -42,6 +42,12 @@ public interface ActionHandler {
      */
     void ejectRoot(RootInfo root, BooleanConsumer listener);
 
+    /**
+     * Attempts to refresh the given DocumentInfo, which should be at the top of the state stack.
+     * Returns a boolean answer to the callback, given by {@link ContentProvider#refresh}.
+     */
+    void refreshDocument(DocumentInfo doc, BooleanConsumer callback);
+
     void showAppDetails(ResolveInfo info);
 
     void openRoot(RootInfo root);

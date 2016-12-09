@@ -50,6 +50,7 @@ import com.android.documentsui.sidebar.EjectRootTask;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+import java.util.function.Consumer;
 
 /**
  * Provides support for specializing the actions (viewDocument etc.) to the host activity.
@@ -58,6 +59,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         implements ActionHandler {
 
     private static final String TAG = "AbstractActionHandler";
+    private static final int REFRESH_SPINNER_TIMEOUT = 500;
 
     protected final T mActivity;
     protected final State mState;
@@ -104,6 +106,14 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                 root.authority,
                 root.rootId,
                 listener).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+    }
+
+    @Override
+    public void refreshDocument(DocumentInfo doc, BooleanConsumer callback) {
+        RefreshTask task = new RefreshTask(mState, doc, REFRESH_SPINNER_TIMEOUT,
+                mActivity.getApplicationContext(), mActivity::isDestroyed,
+                callback);
+        task.executeOnExecutor(mExecutors.lookup(doc == null ? null : doc.authority));
     }
 
     @Override

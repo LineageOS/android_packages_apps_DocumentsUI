@@ -19,6 +19,7 @@ package com.android.documentsui;
 import android.annotation.CallSuper;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.android.documentsui.base.CheckedTask;
 import com.android.documentsui.base.DocumentInfo;
@@ -48,7 +49,9 @@ public abstract class TimeoutTask<Input, Output> extends CheckedTask<Input, Outp
             return;
         }
 
-        Handler handler = new Handler();
+        // Need to initialize handler to main Looper so it can initialize correctly in test cases
+        // Instrumentation threads don't have looper initialized
+        Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
             if (getStatus() == AsyncTask.Status.RUNNING) {
                 onTimeout();

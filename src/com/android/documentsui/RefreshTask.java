@@ -29,11 +29,11 @@ import android.os.CancellationSignal;
 import android.util.Log;
 
 import com.android.documentsui.base.ApplicationScope;
+import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.CheckedTask;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-
-import java.util.function.Consumer;
 
 /**
  * A {@link CheckedTask} that calls
@@ -46,14 +46,14 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
 
     private final @ApplicationScope Context mContext;
     private final State mState;
-    private final Uri mUri;
-    private final Consumer<Boolean> mCallback;
+    private final DocumentInfo mDoc;
+    private final BooleanConsumer mCallback;
     private final CancellationSignal mSignal;
 
-    public RefreshTask(State state, Uri uri, long timeout, @ApplicationScope Context context, Check check,
-            Consumer<Boolean> callback) {
+    public RefreshTask(State state, DocumentInfo doc, long timeout,
+            @ApplicationScope Context context, Check check, BooleanConsumer callback) {
         super(check);
-        mUri = uri;
+        mDoc = doc;
         mContext = context;
         mState = state;
         mCallback = callback;
@@ -63,13 +63,18 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
 
     @Override
     public @Nullable Boolean run(Void... params) {
-        if (mUri == null) {
-            Log.w(TAG, "Attempted to refresh on a null uri. Aborting.");
+        if (mDoc == null) {
+            Log.w(TAG, "Ignoring attempt to refresh due to null DocumentInfo.");
             return false;
         }
 
-        if (mUri != mState.stack.peek().derivedUri) {
-            Log.w(TAG, "Attempted to refresh on a non-top-level uri. Aborting.");
+        if (mState.stack.isEmpty()) {
+            Log.w(TAG, "Ignoring attempt to refresh due to empty stack.");
+            return false;
+        }
+
+        if (!mDoc.derivedUri.equals(mState.stack.peek().derivedUri)) {
+            Log.w(TAG, "Ignoring attempt to refresh on a non-top-level uri.");
             return false;
         }
 
@@ -78,17 +83,17 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
         // and we will update accordingly. Else, we just tell the callback that Refresh is not
         // supported.
         if (!Shared.ENABLE_OMC_API_FEATURES) {
-            Log.w(TAG, "Attempted to call Refresh on an older Android platform. Aborting.");
+            Log.w(TAG, "Ignoring attempt to call Refresh on an older Android platform.");
             return false;
         }
 
         final ContentResolver resolver = mContext.getContentResolver();
-        final String authority = mUri.getAuthority();
+        final String authority = mDoc.authority;
         boolean refreshSupported = false;
         ContentProviderClient client = null;
         try {
             client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
-            refreshSupported = client.refresh(mUri, null, mSignal);
+            refreshSupported = client.refresh(mDoc.derivedUri, null, mSignal);
         } catch (Exception e) {
             Log.w(TAG, "Failed to refresh", e);
         } finally {
