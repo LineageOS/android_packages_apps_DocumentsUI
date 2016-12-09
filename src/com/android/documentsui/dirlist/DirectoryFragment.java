@@ -1145,18 +1145,15 @@ public class DirectoryFragment extends Fragment
             cache.removeUri(mModel.getItemUri(ids[i]));
         }
 
-        final Uri uri = mState.stack.peek().derivedUri;
-        RefreshTask task = new RefreshTask(mState, uri, REFRESH_SPINNER_TIMEOUT,
-                getContext().getApplicationContext(), this::isDetached,
-                (Boolean refreshSupported) -> {
-                    if (refreshSupported) {
-                        mRefreshLayout.setRefreshing(false);
-                    } else {
-                        // If Refresh API isn't available, we will explicitly reload the loader
-                        getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
-                    }
-                });
-        task.executeOnExecutor(mActivity.getExecutorForCurrentDirectory());
+        final DocumentInfo doc = mState.stack.peek();
+        mActions.refreshDocument(doc, (boolean refreshSupported) -> {
+            if (refreshSupported) {
+                mRefreshLayout.setRefreshing(false);
+            } else {
+                // If Refresh API isn't available, we will explicitly reload the loader
+                getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
+            }
+        });
     }
 
     private final class ModelUpdateListener implements EventListener<Model.Update> {

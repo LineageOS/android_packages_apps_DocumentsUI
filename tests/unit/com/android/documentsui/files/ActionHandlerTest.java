@@ -22,7 +22,9 @@ import static com.android.documentsui.testing.IntentAsserts.assertHasExtraList;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraUri;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +35,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
 import com.android.documentsui.TestActionModeAddons;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -57,6 +60,7 @@ public class ActionHandlerTest {
     private TestDialogController mDialogs;
     private TestConfirmationCallback mCallback;
     private ActionHandler<TestActivity> mHandler;
+    private boolean refreshAnswer = false;
 
     @Before
     public void setUp() {
@@ -287,6 +291,41 @@ public class ActionHandlerTest {
 
         mHandler.initLocation(intent);
         assertRootPicked(TestRootsAccess.PICKLES.getUri());
+    }
+
+    @Test
+    public void testRefresh_nullUri() throws Exception {
+        refreshAnswer = true;
+        mHandler.refreshDocument(null, (boolean answer) -> {
+            refreshAnswer = answer;
+        });
+
+        mEnv.beforeAsserts();
+        assertFalse(refreshAnswer);
+    }
+
+    @Test
+    public void testRefresh_emptyStack() throws Exception {
+        refreshAnswer = true;
+        assertTrue(mEnv.state.stack.isEmpty());
+        mHandler.refreshDocument(new DocumentInfo(), (boolean answer) -> {
+            refreshAnswer = answer;
+        });
+
+        mEnv.beforeAsserts();
+        assertFalse(refreshAnswer);
+    }
+
+    @Test
+    public void testRefresh() throws Exception {
+        refreshAnswer = false;
+        mEnv.populateStack();
+        mHandler.refreshDocument(mEnv.model.getDocument("1"), (boolean answer) -> {
+            refreshAnswer = answer;
+        });
+
+        mEnv.beforeAsserts();
+        assertTrue(refreshAnswer);
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {
