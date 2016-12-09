@@ -30,5 +30,5 @@
         android:textAlignment="viewStart"
         android:drawablePadding="12dp"
         android:drawableRight="@drawable/ic_breadcrumb_arrow_down"
-        android:textColor="@color/item_doc_title" />
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title" />
 </LinearLayout>
