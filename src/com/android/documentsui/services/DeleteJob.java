@@ -32,6 +32,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +41,9 @@ final class DeleteJob extends Job {
 
     private static final String TAG = "DeleteJob";
 
-    private volatile int mDocsProcessed = 0;
+    private final Uri mSrcParent;
 
-    Uri mSrcParent;
+    private volatile int mDocsProcessed = 0;
     /**
      * Moves files to a destination identified by {@code destination}.
      * Performs most work by delegating to CopyJob, then deleting
@@ -50,8 +51,8 @@ final class DeleteJob extends Job {
      *
      * @see @link {@link Job} constructor for most param descriptions.
      */
-    DeleteJob(Context service, Listener listener, String id, Uri srcParent, DocumentStack stack,
-            UrisSupplier srcs) {
+    DeleteJob(Context service, Listener listener, String id, DocumentStack stack,
+            UrisSupplier srcs, @Nullable Uri srcParent) {
         super(service, listener, id, OPERATION_DELETE, stack, srcs);
         mSrcParent = srcParent;
     }
@@ -100,7 +101,10 @@ final class DeleteJob extends Job {
             final Iterable<Uri> uris = this.srcs.getUris(appContext);
 
             final ContentResolver resolver = appContext.getContentResolver();
-            final DocumentInfo srcParent = DocumentInfo.fromUri(resolver, mSrcParent);
+            final DocumentInfo srcParent =
+                mSrcParent != null
+                    ? DocumentInfo.fromUri(resolver, mSrcParent)
+                    : null;
             for (Uri uri : uris) {
                 DocumentInfo doc = DocumentInfo.fromUri(resolver, uri);
                 srcs.add(doc);

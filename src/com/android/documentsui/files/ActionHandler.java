@@ -244,8 +244,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return;
         }
 
-        final DocumentInfo srcParent = mState.stack.peek();
-        assert(srcParent != null);
+        final @Nullable DocumentInfo srcParent = mState.stack.peek();
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mScope.model.getDocuments(selection);
@@ -272,7 +271,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                     .withOpType(FileOperationService.OPERATION_DELETE)
                     .withDestination(mState.stack)
                     .withSrcs(srcs)
-                    .withSrcParent(srcParent.derivedUri)
+                    .withSrcParent(srcParent == null ? null : srcParent.derivedUri)
                     .build();
 
             FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus);

@@ -167,6 +167,10 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
      */
     final T createJob(List<Uri> srcs) throws Exception {
         Uri srcParent = DocumentsContract.buildDocumentUri(AUTHORITY, mSrcRoot.documentId);
+        return createJob(srcs, srcParent);
+    }
+
+    final T createJob(List<Uri> srcs, Uri srcParent) throws Exception {
         Uri destination = DocumentsContract.buildDocumentUri(AUTHORITY, mDestRoot.documentId);
         return createJob(mOpType, srcs, srcParent, destination);
     }

@@ -50,6 +50,7 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.services.FileOperationService.OpType;
 
+import javax.annotation.Nullable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -225,9 +226,10 @@ abstract public class Job implements Runnable {
         return false;
     }
 
-    final void deleteDocument(DocumentInfo doc, DocumentInfo parent) throws ResourceException {
+    final void deleteDocument(DocumentInfo doc, @Nullable DocumentInfo parent)
+            throws ResourceException {
         try {
-            if (doc.isRemoveSupported()) {
+            if (parent != null && doc.isRemoveSupported()) {
                 DocumentsContract.removeDocument(getClient(doc), doc.derivedUri, parent.derivedUri);
             } else if (doc.isDeleteSupported()) {
                 DocumentsContract.deleteDocument(getClient(doc), doc.derivedUri);
