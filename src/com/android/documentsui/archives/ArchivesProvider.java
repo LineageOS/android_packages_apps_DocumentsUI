@@ -35,6 +35,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.LruCache;
 
+import com.android.documentsui.R;
 import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.Preconditions;
 
@@ -70,8 +71,6 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
                     oldValue.getWriteLock().lock();
                     try {
                         oldValue.get().close();
-                    } catch (FileNotFoundException e) {
-                        Log.e(TAG, "Failed to close an archive as it no longer exists.");
                     } finally {
                         oldValue.getWriteLock().unlock();
                     }
@@ -96,20 +95,34 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
         Loader loader = null;
         try {
             loader = obtainInstance(documentId);
-            if (loader.mArchive == null) {
-                final MatrixCursor cursor = new MatrixCursor(
-                        projection != null ? projection : Archive.DEFAULT_PROJECTION);
-                // Return an empty cursor with EXTRA_LOADING, which shows spinner
-                // in DocumentsUI. Once the archive is loaded, the notification will
-                // be sent, and the directory reloaded.
-                final Bundle bundle = new Bundle();
-                bundle.putBoolean(DocumentsContract.EXTRA_LOADING, true);
-                cursor.setExtras(bundle);
-                cursor.setNotificationUri(getContext().getContentResolver(),
-                        buildUriForArchive(archiveId.mArchiveUri));
-                return cursor;
+            final int status = loader.getStatus();
+            // If already loaded, then forward the request to the archive.
+            if (status == Loader.STATUS_OPENED) {
+                return loader.get().queryChildDocuments(documentId, projection, sortOrder);
             }
-            return loader.get().queryChildDocuments(documentId, projection, sortOrder);
+
+            final MatrixCursor cursor = new MatrixCursor(
+                    projection != null ? projection : Archive.DEFAULT_PROJECTION);
+            final Bundle bundle = new Bundle();
+
+            switch (status) {
+                case Loader.STATUS_OPENING:
+                    bundle.putBoolean(DocumentsContract.EXTRA_LOADING, true);
+                    break;
+
+                case Loader.STATUS_FAILED:
+                    // Return an empty cursor with EXTRA_LOADING, which shows spinner
+                    // in DocumentsUI. Once the archive is loaded, the notification will
+                    // be sent, and the directory reloaded.
+                    bundle.putString(DocumentsContract.EXTRA_ERROR,
+                            getContext().getString(R.string.archive_loading_failed));
+                    break;
+            }
+
+            cursor.setExtras(bundle);
+            cursor.setNotificationUri(getContext().getContentResolver(),
+                    buildUriForArchive(archiveId.mArchiveUri));
+            return cursor;
         } finally {
             releaseInstance(loader);
         }
@@ -259,6 +272,10 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
 
         final Cursor cursor = getContext().getContentResolver().query(
                 id.mArchiveUri, new String[] { Document.COLUMN_MIME_TYPE }, null, null, null);
+        if (cursor == null || cursor.getCount() == 0) {
+            throw new FileNotFoundException("File not found." + id.mArchiveUri);
+        }
+
         cursor.moveToFirst();
         final String mimeType = cursor.getString(cursor.getColumnIndex(
                 Document.COLUMN_MIME_TYPE));
