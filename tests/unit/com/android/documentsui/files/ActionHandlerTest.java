@@ -159,6 +159,17 @@ public class ActionHandlerTest {
         mActionModeAddons.finishOnConfirmed.assertRejected();
     }
 
+    // Recents root means when deleting the srcParent will be null.
+    @Test
+    public void testDeleteSelectedDocuments_RecentsRoot() {
+        mEnv.state.stack.changeRoot(TestRootsAccess.RECENTS);
+
+        mHandler.deleteSelectedDocuments();
+        mDialogs.assertNoFileFailures();
+        mActivity.startService.assertCalled();
+        mActionModeAddons.finishOnConfirmed.assertCalled();
+    }
+
     @Test
     public void testShareSelectedDocuments_ShowsChooser() {
         mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");

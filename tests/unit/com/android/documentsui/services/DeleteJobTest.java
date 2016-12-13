@@ -43,6 +43,19 @@ public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
         mDocs.assertChildCount(mSrcRoot, 0);
     }
 
+    public void testDeleteFiles_NoSrcParent() throws Exception {
+        Uri testFile1 = mDocs.createDocument(mSrcRoot, "text/plain", "test1.txt");
+        mDocs.writeDocument(testFile1, HAM_BYTES);
+
+        Uri testFile2 = mDocs.createDocument(mSrcRoot, "text/plain", "test2.txt");
+        mDocs.writeDocument(testFile2, FRUITY_BYTES);
+
+        createJob(newArrayList(testFile1, testFile2), null).run();
+        mJobListener.waitForFinished();
+
+        mDocs.assertChildCount(mSrcRoot, 0);
+    }
+
     /**
      * Creates a job with a stack consisting to the default src directory.
      */

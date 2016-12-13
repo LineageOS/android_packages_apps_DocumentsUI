@@ -31,6 +31,8 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.services.FileOperationService.OpType;
 
+import javax.annotation.Nullable;
+
 /**
  * FileOperation describes a file operation, such as move/copy/delete etc.
  */
@@ -136,13 +138,12 @@ public abstract class FileOperation implements Parcelable {
     }
 
     public static class MoveDeleteOperation extends FileOperation {
-        private final Uri mSrcParent;
+        private final @Nullable Uri mSrcParent;
 
-        private MoveDeleteOperation(
-                @OpType int opType, UrisSupplier srcs, Uri srcParent, DocumentStack destination) {
+        private MoveDeleteOperation(@OpType int opType, UrisSupplier srcs,
+                DocumentStack destination, @Nullable Uri srcParent) {
             super(opType, srcs, destination);
 
-            assert(srcParent != null);
             mSrcParent = srcParent;
         }
 
@@ -151,10 +152,10 @@ public abstract class FileOperation implements Parcelable {
             switch(getOpType()) {
                 case OPERATION_MOVE:
                     return new MoveJob(
-                            service, listener, id, mSrcParent, getDestination(), getSrc());
+                            service, listener, id, getDestination(), getSrc(), mSrcParent);
                 case OPERATION_DELETE:
                     return new DeleteJob(
-                            service, listener, id, mSrcParent, getDestination(), getSrc());
+                            service, listener, id, getDestination(), getSrc(), mSrcParent);
                 default:
                     throw new UnsupportedOperationException("Unsupported op type: " + getOpType());
             }
@@ -210,7 +211,7 @@ public abstract class FileOperation implements Parcelable {
             return this;
         }
 
-        public Builder withSrcParent(Uri srcParent) {
+        public Builder withSrcParent(@Nullable Uri srcParent) {
             mSrcParent = srcParent;
             return this;
         }
@@ -231,7 +232,7 @@ public abstract class FileOperation implements Parcelable {
                     return new CopyOperation(mSrcs, mDestination);
                 case OPERATION_MOVE:
                 case OPERATION_DELETE:
-                    return new MoveDeleteOperation(mOpType, mSrcs, mSrcParent, mDestination);
+                    return new MoveDeleteOperation(mOpType, mSrcs, mDestination, mSrcParent);
                 default:
                     throw new UnsupportedOperationException("Unsupported op type: " + mOpType);
             }

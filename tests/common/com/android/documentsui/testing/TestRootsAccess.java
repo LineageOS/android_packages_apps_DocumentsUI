@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.testing;
 
+import android.provider.DocumentsContract.Root;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -34,6 +35,7 @@ public class TestRootsAccess implements RootsAccess {
     public static final RootInfo HOME;
     public static final RootInfo HAMMY;
     public static final RootInfo PICKLES;
+    public static final RootInfo RECENTS;
 
     static {
         DOWNLOADS = new RootInfo();
@@ -51,6 +53,13 @@ public class TestRootsAccess implements RootsAccess {
         PICKLES = new RootInfo();
         PICKLES.authority = "yummies";
         PICKLES.rootId = "pickles";
+
+        RECENTS = new RootInfo() {{
+            // Special root for recents
+            derivedType = RootInfo.TYPE_RECENTS;
+            flags = Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_IS_CHILD;
+            availableBytes = -1;
+        }};
     }
 
     public final Map<String, Collection<RootInfo>> roots = new HashMap<>();

@@ -736,10 +736,10 @@ public class DirectoryFragment extends Fragment
             throw new RuntimeException("Failed to create uri supplier.", e);
         }
 
-        Uri srcParent = mState.stack.peek().derivedUri;
+        final DocumentInfo parent = mState.stack.peek();
         mLocalState.mPendingOperation = new FileOperation.Builder()
                 .withOpType(mode)
-                .withSrcParent(srcParent)
+                .withSrcParent(parent == null ? null : parent.derivedUri)
                 .withSrcs(srcs)
                 .build();
 
