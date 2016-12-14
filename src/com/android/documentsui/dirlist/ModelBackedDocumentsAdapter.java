@@ -42,8 +42,6 @@ import java.util.Set;
 final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
 
     private static final String TAG = "ModelBackedDocuments";
-    public static final int ITEM_TYPE_DOCUMENT = 1;
-    public static final int ITEM_TYPE_DIRECTORY = 2;
 
     // Provides access to information needed when creating and view holders. This
     // isn't an ideal pattern (more transitive dependency stuff) but good enough for now.
@@ -56,15 +54,6 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
      */
     private List<String> mModelIds = new ArrayList<>();
     private EventListener<Model.Update> mModelUpdateListener;
-
-    // List of files that have been deleted. Some transient directory updates
-    // may happen while files are being deleted. During this time we don't
-    // want once-hidden files to be re-shown. We only remove
-    // items from this list when we get a model update where the model
-    // does not contain a corresponding id. This ensures hidden entries
-    // don't momentarily re-appear if we get intermediate updates from
-    // the file system.
-    private Set<String> mHiddenIds = new HashSet<>();
 
     public ModelBackedDocumentsAdapter(Environment env, IconHelper iconHelper) {
         mEnv = env;
@@ -151,23 +140,11 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
     }
 
     private void onModelUpdate(Model model) {
-        if (DEBUG && mHiddenIds.size() > 0) {
-            Log.d(TAG, "Updating model with hidden ids: " + mHiddenIds);
-        }
-
         String[] modelIds = model.getModelIds();
         mModelIds = new ArrayList<>(modelIds.length);
         for (String id : modelIds) {
-            if (!mHiddenIds.contains(id)) {
-                mModelIds.add(id);
-            } else {
-                if (DEBUG) Log.d(TAG, "Omitting hidden id from model during update: " + id);
-            }
+            mModelIds.add(id);
         }
-
-        // Finally remove any hidden ids that aren't present in the model.
-        // This assumes that model updates represent a complete set of files.
-        mHiddenIds.retainAll(mModelIds);
     }
 
     private void onModelUpdateFailed(Exception e) {

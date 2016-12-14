@@ -18,6 +18,8 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.support.test.filters.MediumTest;
 import android.support.v7.widget.RecyclerView;
 import android.test.AndroidTestCase;
@@ -27,12 +29,12 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestEnv;
 
 @MediumTest
-public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
+public class DirectoryAddonsAdapterTest extends AndroidTestCase {
 
     private static final String AUTHORITY = "test_authority";
 
     private TestEnv mEnv;
-    private SectionBreakDocumentsAdapterWrapper mAdapter;
+    private DirectoryAddonsAdapter mAdapter;
 
     public void setUp() {
 
@@ -42,7 +44,7 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
         DocumentsAdapter.Environment env = new TestEnvironment(testContext);
 
-        mAdapter = new SectionBreakDocumentsAdapterWrapper(
+        mAdapter = new DirectoryAddonsAdapter(
             env,
             new ModelBackedDocumentsAdapter(
                     env, new IconHelper(testContext, State.MODE_GRID)));
@@ -77,6 +79,49 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
         assertEquals(mEnv.model.getItemCount(), mAdapter.getItemCount());
     }
 
+    public void testAddsInfoMessage_WithDirectoryChildren() {
+        String[] names = {"123.txt", "234.jpg", "abc.pdf"};
+        for (String name : names) {
+            mEnv.model.createFile(name);
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString(DocumentsContract.EXTRA_INFO, "some info");
+        mEnv.model.setCursorExtras(bundle);
+        mEnv.model.update();
+        assertEquals(mEnv.model.getItemCount() + 1, mAdapter.getItemCount());
+        assertHolderType(0, DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE);
+    }
+
+    public void testItemCount_none() {
+        mEnv.model.update();
+        assertEquals(1, mAdapter.getItemCount());
+        assertHolderType(0, DocumentsAdapter.ITEM_TYPE_INFLATED_MESSAGE);
+    }
+
+    public void testAddsInfoMessage_WithNoItem() {
+        Bundle bundle = new Bundle();
+        bundle.putString(DocumentsContract.EXTRA_INFO, "some info");
+        mEnv.model.setCursorExtras(bundle);
+
+        mEnv.model.update();
+        assertEquals(2, mAdapter.getItemCount());
+        assertHolderType(0, DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE);
+    }
+
+    public void testAddsErrorMessage_WithNoItem() {
+        Bundle bundle = new Bundle();
+        bundle.putString(DocumentsContract.EXTRA_ERROR, "some error");
+        mEnv.model.setCursorExtras(bundle);
+
+        mEnv.model.update();
+        assertEquals(2, mAdapter.getItemCount());
+        assertHolderType(0, DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE);
+    }
+
+    private void assertHolderType(int index, int type) {
+        assertTrue(mAdapter.getItemViewType(index) == type);
+    }
+
     private final class TestEnvironment implements DocumentsAdapter.Environment {
         private final Context testContext;
 
@@ -105,6 +150,11 @@ public class SectionBreakDocumentsAdapterWrapperTest extends AndroidTestCase {
         @Override
         public State getDisplayState() {
             return null;
+        }
+
+        @Override
+        public boolean isInSearchMode() {
+            return false;
         }
 
         @Override

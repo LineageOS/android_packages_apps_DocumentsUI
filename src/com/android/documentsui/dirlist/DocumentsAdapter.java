@@ -36,17 +36,23 @@ import java.util.List;
  * dummy layout objects was error prone when interspersed with the core mode / adapter code.
  *
  * @see ModelBackedDocumentsAdapter
- * @see SectionBreakDocumentsAdapterWrapper
+ * @see DirectoryAddonsAdapter
  */
 public abstract class DocumentsAdapter
         extends RecyclerView.Adapter<DocumentHolder> {
+    // Item types used by ModelBackedDocumentsAdapter
+    public static final int ITEM_TYPE_DOCUMENT = 1;
+    public static final int ITEM_TYPE_DIRECTORY = 2;
+    // Item types used by SectionBreakDocumentsAdapterWrapper
+    public static final int ITEM_TYPE_SECTION_BREAK = Integer.MAX_VALUE;
+    public static final int ITEM_TYPE_HEADER_MESSAGE = Integer.MAX_VALUE - 1;
+    public static final int ITEM_TYPE_INFLATED_MESSAGE = Integer.MAX_VALUE - 2;
 
     // Payloads for notifyItemChange to distinguish between selection and other events.
     static final String SELECTION_CHANGED_MARKER = "Selection-Changed";
 
     /**
-     * Returns a list of model IDs of items currently in the adapter. Excludes items that are
-     * currently hidden (see {@link #hide(String...)}).
+     * Returns a list of model IDs of items currently in the adapter.
      *
      * @return A list of Model IDs.
      */
@@ -67,11 +73,15 @@ public abstract class DocumentsAdapter
 
     /**
      * Returns a class that yields the span size for a particular element. This is
-     * primarily useful in {@link SectionBreakDocumentsAdapterWrapper} where
+     * primarily useful in {@link DirectoryAddonsAdapter} where
      * we adjust sizes.
      */
     GridLayoutManager.SpanSizeLookup createSpanSizeLookup() {
         throw new UnsupportedOperationException();
+    }
+
+    public boolean hasModelIds() {
+        return !getModelIds().isEmpty();
     }
 
     static boolean isDirectory(Cursor cursor) {
@@ -92,6 +102,7 @@ public abstract class DocumentsAdapter
         Context getContext();
         int getColumnCount();
         State getDisplayState();
+        boolean isInSearchMode();
         boolean isSelected(String id);
         Model getModel();
         boolean isDocumentEnabled(String mimeType, int flags);

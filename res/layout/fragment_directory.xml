@@ -31,14 +31,6 @@
         style="@style/TrimmedHorizontalProgressBar"
         android:visibility="gone"/>
 
-    <FrameLayout
-        android:id="@+id/container_message_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="1dp"
-        android:background="@color/material_grey_50"
-        android:visibility="gone" />
-
     <com.android.documentsui.dirlist.DocumentsSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"

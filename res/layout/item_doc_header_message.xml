@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2015 The Android Open Source Project
+<!-- Copyright (C) 2016 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -25,11 +25,10 @@
     android:paddingTop="@dimen/list_item_padding">
 
     <LinearLayout
-        android:id="@+id/container_info"
+        android:id="@+id/message_container"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:orientation="horizontal">
 
         <FrameLayout
             android:layout_height="@dimen/icon_size"
@@ -37,7 +36,7 @@
 
             <ImageView
                 android:contentDescription="@null"
-                android:id="@+id/icon_info"
+                android:id="@+id/message_icon"
                 android:layout_height="match_parent"
                 android:layout_width="wrap_content"
                 android:scaleType="centerInside"/>
@@ -45,36 +44,7 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/textview_info"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:selectAllOnFocus="true"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/container_error"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <FrameLayout
-            android:layout_height="@dimen/icon_size"
-            android:layout_width="@dimen/icon_size">
-
-            <ImageView
-                android:contentDescription="@null"
-                android:id="@+id/icon_error"
-                android:layout_height="match_parent"
-                android:layout_width="wrap_content"
-                android:scaleType="centerInside"/>
-
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/textview_error"
+            android:id="@+id/message_textview"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

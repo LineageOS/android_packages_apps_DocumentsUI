@@ -80,7 +80,6 @@ import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.ContentScoped;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
-import com.android.documentsui.MessageBar;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
@@ -184,7 +183,6 @@ public class DirectoryFragment extends Fragment
     private @Nullable DragHoverListener mDragHoverListener;
     private IconHelper mIconHelper;
     private SwipeRefreshLayout mRefreshLayout;
-    private View mEmptyView;
     private RecyclerView mRecView;
     private View mFileList;
 
@@ -196,7 +194,6 @@ public class DirectoryFragment extends Fragment
     private float mLiveScale = 1.0f;
     private @ViewMode int mMode;
 
-    private MessageBar mMessageBar;
     private View mProgressBar;
 
     private DirectoryState mLocalState;
@@ -220,14 +217,12 @@ public class DirectoryFragment extends Fragment
         BaseActivity activity = (BaseActivity) getActivity();
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
-        mMessageBar = MessageBar.create(getChildFragmentManager());
         mProgressBar = view.findViewById(R.id.progressbar);
         assert(mProgressBar != null);
 
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         mRefreshLayout.setOnRefreshListener(this);
 
-        mEmptyView = view.findViewById(android.R.id.empty);
         mRecView = (RecyclerView) view.findViewById(R.id.dir_list);
         mRecView.setRecyclerListener(
                 new RecyclerListener() {
@@ -246,7 +241,6 @@ public class DirectoryFragment extends Fragment
 
         // Make the recycler and the empty views responsive to drop events when allowed.
         mRecView.setOnDragListener(mDragHoverListener);
-        mEmptyView.setOnDragListener(mDragHoverListener);
 
         return view;
     }
@@ -291,7 +285,7 @@ public class DirectoryFragment extends Fragment
         mIconHelper = new IconHelper(mActivity, MODE_GRID);
         mClipper = DocumentsApplication.getDocumentClipper(getContext());
 
-        mAdapter = new SectionBreakDocumentsAdapterWrapper(
+        mAdapter = new DirectoryAddonsAdapter(
                 mAdapterEnv, new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper));
 
         mRecView.setAdapter(mAdapter);
@@ -367,7 +361,6 @@ public class DirectoryFragment extends Fragment
         new ListeningGestureDetector(
                 this.getContext(),
                 mRecView,
-                mEmptyView,
                 mDragStartListener::onMouseDragEvent,
                 gestureSel,
                 mInputHandler,
@@ -483,9 +476,7 @@ public class DirectoryFragment extends Fragment
             x = e.getX() - v.getLeft();
             y = e.getY() - v.getTop();
         } else {
-            v = (mEmptyView.getVisibility() == View.VISIBLE)
-                    ? mEmptyView
-                    : mRecView;
+            v = mRecView;
             x = e.getX();
             y = e.getY();
         }
@@ -801,41 +792,6 @@ public class DirectoryFragment extends Fragment
         return mInjector.config.isDocumentEnabled(mimeType, flags, mState);
     }
 
-    private void showEmptyDirectory() {
-        showEmptyView(R.string.empty, R.drawable.cabinet);
-    }
-
-    private void showNoResults(RootInfo root) {
-        CharSequence msg = getContext().getResources().getText(R.string.no_results);
-        showEmptyView(String.format(String.valueOf(msg), root.title), R.drawable.cabinet);
-    }
-
-    private void showQueryError() {
-        showEmptyView(R.string.query_error, R.drawable.hourglass);
-    }
-
-    private void showEmptyView(@StringRes int id, int drawable) {
-        showEmptyView(getContext().getResources().getText(id), drawable);
-    }
-
-    private void showEmptyView(CharSequence msg, int drawable) {
-        View content = mEmptyView.findViewById(R.id.content);
-        TextView msgView = (TextView) mEmptyView.findViewById(R.id.message);
-        ImageView imageView = (ImageView) mEmptyView.findViewById(R.id.artwork);
-        msgView.setText(msg);
-        imageView.setImageResource(drawable);
-
-        mEmptyView.setVisibility(View.VISIBLE);
-        mEmptyView.requestFocus();
-        mFileList.setVisibility(View.GONE);
-    }
-
-    private void showDirectory() {
-        mEmptyView.setVisibility(View.GONE);
-        mFileList.setVisibility(View.VISIBLE);
-        mRecView.requestFocus();
-    }
-
     public void pasteFromClipboard() {
         Metrics.logUserAction(getContext(), Metrics.USER_ACTION_PASTE_CLIPBOARD);
 
@@ -988,7 +944,7 @@ public class DirectoryFragment extends Fragment
             return DocumentInfo.fromDirectoryCursor(dstCursor);
         }
 
-        if (v == mRecView || v == mEmptyView) {
+        if (v == mRecView) {
             return mState.stack.peek();
         }
 
@@ -1160,31 +1116,11 @@ public class DirectoryFragment extends Fragment
 
         @Override
         public void accept(Model.Update update) {
-            if (update.hasError()) {
-                showQueryError();
-                return;
-            }
-
             if (DEBUG) Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
-
-            if (mModel.info != null || mModel.error != null) {
-                mMessageBar.setInfo(mModel.info);
-                mMessageBar.setError(mModel.error);
-                mMessageBar.show();
-            }
 
             mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
 
-            if (mModel.isEmpty()) {
-                if (mLocalState.mSearchMode) {
-                    showNoResults(mState.stack.getRoot());
-                } else {
-                    showEmptyDirectory();
-                }
-            } else {
-                showDirectory();
-                mAdapter.notifyDataSetChanged();
-            }
+            mAdapter.notifyDataSetChanged();
 
             if (!mModel.isLoading()) {
                 mActivity.notifyDirectoryLoaded(
@@ -1203,6 +1139,11 @@ public class DirectoryFragment extends Fragment
         @Override
         public State getDisplayState() {
             return mState;
+        }
+
+        @Override
+        public boolean isInSearchMode() {
+            return mLocalState.mSearchMode;
         }
 
         @Override

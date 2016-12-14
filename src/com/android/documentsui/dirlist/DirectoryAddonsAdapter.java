@@ -16,57 +16,46 @@
 
 package com.android.documentsui.dirlist;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.view.ViewGroup;
-import android.widget.Space;
 
-import com.android.documentsui.R;
 import com.android.documentsui.base.EventListener;
-import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.Message.HeaderMessage;
+import com.android.documentsui.dirlist.Message.InflateMessage;
 import com.android.documentsui.dirlist.Model.Update;
 
 import java.util.List;
 
 /**
- * Adapter wrapper that inserts a sort of line break item between directories and regular files.
- * Only needs to be used in GRID mode...at this time.
+ * Adapter wrapper that embellishes the directory list by inserting Holder views inbetween
+ * items.
  */
-final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
+final class DirectoryAddonsAdapter extends DocumentsAdapter {
 
-    private static final String TAG = "SectionBreakDocumentsAdapterWrapper";
-    private static final int ITEM_TYPE_SECTION_BREAK = Integer.MAX_VALUE;
+    private static final String TAG = "SectioningDocumentsAdapterWrapper";
 
     private final Environment mEnv;
     private final DocumentsAdapter mDelegate;
     private final EventListener<Update> mModelUpdateListener;
 
     private int mBreakPosition = -1;
+    // TODO: There should be two header messages (or more here). Defaulting to showing only one for
+    // now.
+    private final Message mHeaderMessage;
+    private final Message mInflateMessage;
 
-    SectionBreakDocumentsAdapterWrapper(Environment environment, DocumentsAdapter delegate) {
+    DirectoryAddonsAdapter(Environment environment, DocumentsAdapter delegate) {
         mEnv = environment;
         mDelegate = delegate;
+        mHeaderMessage = new HeaderMessage(environment);
+        mInflateMessage = new InflateMessage(environment);
 
         // Relay events published by our delegate to our listeners (presumably RecyclerView)
         // with adjusted positions.
         mDelegate.registerAdapterDataObserver(new EventRelay());
 
-        mModelUpdateListener = new EventListener<Model.Update>() {
-            @Override
-            public void accept(Update event) {
-                // make sure the delegate handles the update before we do.
-                // This isn't ideal since the delegate might be listening
-                // the updates itself. But this is the safe thing to do
-                // since we read model ids from the delegate
-                // in our update handler.
-                mDelegate.getModelUpdateListener().accept(event);
-                if (!event.hasError()) {
-                    onModelUpdate(mEnv.getModel());
-                }
-            }
-        };
+        mModelUpdateListener = this::onModelUpdate;
     }
 
     @Override
@@ -81,7 +70,9 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
             public int getSpanSize(int position) {
                 // Make layout whitespace span the grid. This has the effect of breaking
                 // grid rows whenever layout whitespace is encountered.
-                if (getItemViewType(position) == ITEM_TYPE_SECTION_BREAK) {
+                if (getItemViewType(position) == ITEM_TYPE_SECTION_BREAK
+                        || getItemViewType(position) == ITEM_TYPE_HEADER_MESSAGE
+                        || getItemViewType(position) == ITEM_TYPE_INFLATED_MESSAGE) {
                     return mEnv.getColumnCount();
                 } else {
                     return 1;
@@ -92,53 +83,101 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
 
     @Override
     public DocumentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == ITEM_TYPE_SECTION_BREAK) {
-            return new EmptyDocumentHolder(mEnv.getContext());
-        } else {
-            return mDelegate.createViewHolder(parent, viewType);
+        switch (viewType) {
+            case ITEM_TYPE_SECTION_BREAK:
+                return new TransparentDividerDocumentHolder(mEnv.getContext());
+            case ITEM_TYPE_HEADER_MESSAGE:
+                return new HeaderMessageDocumentHolder(mEnv.getContext(), parent,
+                        this::onDismissHeaderMessage);
+            case ITEM_TYPE_INFLATED_MESSAGE:
+                return new InflateMessageDocumentHolder(mEnv.getContext(), parent);
+            default:
+                return mDelegate.createViewHolder(parent, viewType);
         }
+    }
+
+    private void onDismissHeaderMessage() {
+        mHeaderMessage.reset();
+        if (mBreakPosition > 0) {
+            mBreakPosition--;
+        }
+        notifyItemRemoved(0);
     }
 
     @Override
     public void onBindViewHolder(DocumentHolder holder, int p, List<Object> payload) {
-        if (holder.getItemViewType() != ITEM_TYPE_SECTION_BREAK) {
-            mDelegate.onBindViewHolder(holder, toDelegatePosition(p), payload);
-        } else {
-            ((EmptyDocumentHolder)holder).bind(mEnv.getDisplayState());
+        switch (holder.getItemViewType()) {
+            case ITEM_TYPE_SECTION_BREAK:
+                ((TransparentDividerDocumentHolder) holder).bind(mEnv.getDisplayState());
+                break;
+            case ITEM_TYPE_HEADER_MESSAGE:
+                ((HeaderMessageDocumentHolder) holder).bind(mHeaderMessage);
+                break;
+            case ITEM_TYPE_INFLATED_MESSAGE:
+                ((InflateMessageDocumentHolder) holder).bind(mInflateMessage);
+                break;
+            default:
+                mDelegate.onBindViewHolder(holder, toDelegatePosition(p), payload);
+                break;
         }
     }
 
     @Override
     public void onBindViewHolder(DocumentHolder holder, int p) {
-        if (holder.getItemViewType() != ITEM_TYPE_SECTION_BREAK) {
-            mDelegate.onBindViewHolder(holder, toDelegatePosition(p));
-        } else {
-            ((EmptyDocumentHolder)holder).bind(mEnv.getDisplayState());
+        switch (holder.getItemViewType()) {
+            case ITEM_TYPE_SECTION_BREAK:
+                ((TransparentDividerDocumentHolder) holder).bind(mEnv.getDisplayState());
+                break;
+            case ITEM_TYPE_HEADER_MESSAGE:
+                ((HeaderMessageDocumentHolder) holder).bind(mHeaderMessage);
+                break;
+            case ITEM_TYPE_INFLATED_MESSAGE:
+                ((InflateMessageDocumentHolder) holder).bind(mInflateMessage);
+                break;
+            default:
+                mDelegate.onBindViewHolder(holder, toDelegatePosition(p));
+                break;
         }
     }
 
     @Override
     public int getItemCount() {
+        int addons = mHeaderMessage.shouldShow() ? 1 : 0;
+        addons += mInflateMessage.shouldShow() ? 1 : 0;
         return mBreakPosition == -1
-                ? mDelegate.getItemCount()
-                : mDelegate.getItemCount() + 1;
+                ? mDelegate.getItemCount() + addons
+                : mDelegate.getItemCount() + addons + 1;
     }
 
-    private void onModelUpdate(Model model) {
+    private void onModelUpdate(Update event) {
+        // make sure the delegate handles the update before we do.
+        // This isn't ideal since the delegate might be listening
+        // the updates itself. But this is the safe thing to do
+        // since we read model ids from the delegate
+        // in our update handler.
+        mDelegate.getModelUpdateListener().accept(event);
+
         mBreakPosition = -1;
+        mInflateMessage.update(event);
+        mHeaderMessage.update(event);
+        // If there's any fatal error (exceptions), then no need to update the rest.
+        if (event.hasError()) {
+            return;
+        }
+
 
         // Walk down the list of IDs till we encounter something that's not a directory, and
         // insert a whitespace element - this introduces a visual break in the grid between
         // folders and documents.
         // TODO: This code makes assumptions about the model, namely, that it performs a
         // bucketed sort where directories will always be ordered before other files. CBB.
-        List<String> modelIds = mDelegate.getModelIds();
-        for (int i = 0; i < modelIds.size(); i++) {
+        Model model = mEnv.getModel();
+        for (int i = 0; i < model.getModelIds().length; i++) {
             if (!isDirectory(model, i)) {
                 // If the break is the first thing in the list, then there are actually no
                 // directories. In that case, don't insert a break at all.
                 if (i > 0) {
-                    mBreakPosition = i;
+                    mBreakPosition = i + (mHeaderMessage.shouldShow() ? 1 : 0);
                 }
                 break;
             }
@@ -147,11 +186,19 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
 
     @Override
     public int getItemViewType(int p) {
+        if (p == 0 && mHeaderMessage.shouldShow()) {
+            return ITEM_TYPE_HEADER_MESSAGE;
+        }
+
         if (p == mBreakPosition) {
             return ITEM_TYPE_SECTION_BREAK;
-        } else {
-            return mDelegate.getItemViewType(toDelegatePosition(p));
         }
+
+        if (p == getItemCount() - 1 && mInflateMessage.shouldShow()) {
+            return ITEM_TYPE_INFLATED_MESSAGE;
+        }
+
+        return mDelegate.getItemViewType(toDelegatePosition(p));
     }
 
     /**
@@ -162,7 +209,8 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
      * @return Position within the delegate
      */
     private int toDelegatePosition(int p) {
-        return (mBreakPosition != -1 && p > mBreakPosition) ? p - 1 : p;
+        int topOffset = mHeaderMessage.shouldShow() ? 1 : 0;
+        return (mBreakPosition != -1 && p > mBreakPosition) ? p - 1 - topOffset : p - topOffset;
     }
 
     /**
@@ -173,6 +221,9 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
      * @return Position within the view
      */
     private int toViewPosition(int p) {
+        int topOffset = mHeaderMessage.shouldShow() ? 1 : 0;
+        // Offset it first so we can compare break position correctly
+        p += topOffset;
         // If position is greater than or equal to the break, increase by one.
         return (mBreakPosition != -1 && p >= mBreakPosition) ? p + 1 : p;
     }
@@ -184,7 +235,19 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
 
     @Override
     public String getModelId(int p) {
-        return (p == mBreakPosition) ? null : mDelegate.getModelId(toDelegatePosition(p));
+        if (p == mBreakPosition) {
+            return null;
+        }
+
+        if (p == 0 && mHeaderMessage.shouldShow()) {
+            return null;
+        }
+
+        if (p == getItemCount() - 1 && mInflateMessage.shouldShow()) {
+            return null;
+        }
+
+        return mDelegate.getModelId(toDelegatePosition(p));
     }
 
     @Override
@@ -232,36 +295,6 @@ final class SectionBreakDocumentsAdapterWrapper extends DocumentsAdapter {
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
             throw new UnsupportedOperationException();
-        }
-    }
-
-    /**
-     * The most elegant transparent blank box that spans N rows ever conceived.
-     */
-    private static final class EmptyDocumentHolder extends DocumentHolder {
-        final int mVisibleHeight;
-        private State mState;
-
-        public EmptyDocumentHolder(Context context) {
-            super(context, new Space(context));
-
-            mVisibleHeight = context.getResources().getDimensionPixelSize(
-                    R.dimen.grid_section_separator_height);
-        }
-
-        public void bind(State state) {
-            mState = state;
-            bind(null, null);
-        }
-
-        @Override
-        public void bind(Cursor cursor, String modelId) {
-            if (mState.derivedMode == State.MODE_GRID) {
-                itemView.setMinimumHeight(mVisibleHeight);
-            } else {
-                itemView.setMinimumHeight(0);
-            }
-            return;
         }
     }
 }
