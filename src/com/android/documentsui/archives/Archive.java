@@ -194,7 +194,7 @@ public class Archive implements Closeable {
     public static boolean canSeek(ParcelFileDescriptor descriptor) {
         try {
             return Os.lseek(descriptor.getFileDescriptor(), 0,
-                    OsConstants.SEEK_SET) == 0;
+                    OsConstants.SEEK_CUR) == 0;
         } catch (ErrnoException e) {
             return false;
         }
