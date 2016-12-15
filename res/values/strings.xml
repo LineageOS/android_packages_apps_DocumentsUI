@@ -265,4 +265,7 @@
     <string name="documents_shortcut_label">Documents</string>
     <!-- Shortcut label of Downloads root folder -->
     <string name="downloads_shortcut_label">Downloads</string>
+
+    <!-- Error message shown when an archive fails to load -->
+    <string name="archive_loading_failed">Unable to open archive for browsing. File is either corrupt, or an unsupported format.</string>
 </resources>

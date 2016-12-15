@@ -7,8 +7,10 @@ LOCAL_SRC_FILES := $(call all-java-files-under, common) \
     $(call all-java-files-under, unit) \
     $(call all-java-files-under, functional)
 
-# For testing ZIP files.
+# For testing ZIP files. Include testing ZIP files as uncompresseed raw
+# resources.
 LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
+LOCAL_AAPT_FLAGS += -0 .zip
 
 LOCAL_JAVA_LIBRARIES := android.test.runner
 LOCAL_STATIC_JAVA_LIBRARIES := mockito-target ub-uiautomator espresso-core guava
