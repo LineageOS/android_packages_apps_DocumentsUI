@@ -92,20 +92,24 @@ public class DemoProvider extends DocumentsProvider {
         c.setExtras(extras);
 
         switch (parentDocumentId) {
-            case "aaa":
+            case "show info":
                 extras.putString(
                         DocumentsContract.EXTRA_INFO,
                         "I'm a synthetic INFO. Don't judge me.");
+                addFolder(c, "folder");
                 addFile(c, "zzz");
+                for (int i = 0; i < 100; i++) {
+                    addFile(c, "" + i);
+                }
                 break;
 
-            case "bbb":
+            case "show error":
                 extras.putString(
-                        DocumentsContract.EXTRA_INFO,
-                        "I'm a synthetic INFO. Don't judge me.");
+                        DocumentsContract.EXTRA_ERROR,
+                        "I'm a synthetic ERROR. Don't judge me.");
                 break;
 
-            case "ccc":
+            case "show both error and info":
                 extras.putString(
                         DocumentsContract.EXTRA_INFO,
                         "INFO: I'm confused. I've show both ERROR and INFO.");
@@ -114,10 +118,14 @@ public class DemoProvider extends DocumentsProvider {
                         "ERROR: I'm confused. I've show both ERROR and INFO.");
                 break;
 
+            case "throw a nice exception":
+                throw new RuntimeException();
+
             default:
-                addFolder(c, "aaa");
-                addFolder(c, "bbb");
-                addFolder(c, "ccc");
+                addFolder(c, "show info");
+                addFolder(c, "show error");
+                addFolder(c, "show both error and info");
+                addFolder(c, "throw a nice exception");
                 break;
         }
 
