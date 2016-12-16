@@ -43,8 +43,7 @@ import java.util.function.Consumer;
 //Receives event meant for both directory and empty view, and either pass them to
 //{@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
 //other types of gestures (drag n' drop)
-final class ListeningGestureDetector extends GestureDetector
-        implements OnItemTouchListener, OnTouchListener {
+final class ListeningGestureDetector extends GestureDetector implements OnItemTouchListener {
 
     private static final String TAG = "ListeningGestureDetector";
 
@@ -60,7 +59,6 @@ final class ListeningGestureDetector extends GestureDetector
     public ListeningGestureDetector(
             Context context,
             RecyclerView recView,
-            View emptyView,
             EventHandler<InputEvent> mouseDragListener,
             GestureSelector gestureSelector,
             UserInputHandler<? extends InputEvent> handler,
@@ -73,7 +71,6 @@ final class ListeningGestureDetector extends GestureDetector
         mGestureSelector = gestureSelector;
         mBandController = bandController;
         recView.addOnItemTouchListener(this);
-        emptyView.setOnTouchListener(this);
 
         mScaleDetector = !Build.IS_DEBUGGABLE
                 ? null
@@ -169,11 +166,4 @@ final class ListeningGestureDetector extends GestureDetector
 
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
-
-    // For mEmptyView events
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        // Pass events to UserInputHandler.
-        return onTouchEvent(event);
-    }
 }

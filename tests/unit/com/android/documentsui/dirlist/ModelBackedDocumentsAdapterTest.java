@@ -80,6 +80,11 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
         }
 
         @Override
+        public boolean isInSearchMode() {
+            return false;
+        }
+
+        @Override
         public Context getContext() {
             return testContext;
         }

@@ -227,9 +227,11 @@ public class BandController extends OnScrollListener {
         // mouse moves, or else starting band selection on mouse down can cause problems as events
         // don't get routed correctly to onTouchEvent.
         return !isActive()
-                && e.isActionMove()  // the initial button move via mouse-touch (ie. down press)
-                && mAdapter.getItemCount() > 0
+                && e.isActionMove() // the initial button move via mouse-touch (ie. down press)
+                && mAdapter.hasModelIds() // we want to check against actual modelIds count to
+                                          // avoid dummy view count from the AdapterWrapper
                 && !e.isOverDragHotspot();
+
     }
 
     public boolean shouldStop(InputEvent input) {

@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import android.database.MatrixCursor;
+import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 
@@ -59,6 +60,10 @@ public class TestModel extends Model {
         DirectoryResult r = new DirectoryResult();
         r.cursor = mCursor;
         super.update(r);
+    }
+
+    public void setCursorExtras(Bundle bundle) {
+        mCursor.setExtras(bundle);
     }
 
     public DocumentInfo createFile(String name) {
