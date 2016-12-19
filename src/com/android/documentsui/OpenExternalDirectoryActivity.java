@@ -29,11 +29,11 @@ import static com.android.documentsui.Metrics.SCOPED_DIRECTORY_ACCESS_INVALID_AR
 import static com.android.documentsui.Metrics.SCOPED_DIRECTORY_ACCESS_INVALID_DIRECTORY;
 import static com.android.documentsui.Metrics.logInvalidScopedAccessRequest;
 import static com.android.documentsui.Metrics.logValidScopedAccessRequest;
-import static com.android.documentsui.base.LocalPreferences.PERMISSION_ASK_AGAIN;
-import static com.android.documentsui.base.LocalPreferences.PERMISSION_NEVER_ASK;
-import static com.android.documentsui.base.LocalPreferences.getScopedAccessPermissionStatus;
-import static com.android.documentsui.base.LocalPreferences.setScopedAccessPermissionStatus;
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.prefs.LocalPreferences.PERMISSION_ASK_AGAIN;
+import static com.android.documentsui.prefs.LocalPreferences.PERMISSION_NEVER_ASK;
+import static com.android.documentsui.prefs.LocalPreferences.getScopedAccessPermissionStatus;
+import static com.android.documentsui.prefs.LocalPreferences.setScopedAccessPermissionStatus;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

@@ -25,9 +25,9 @@ import android.view.View;
 
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.EventHandler;
-import com.android.documentsui.base.ScopedPreferences;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.ui.DialogController;
