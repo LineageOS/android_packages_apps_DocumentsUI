@@ -441,6 +441,14 @@ public final class UserInputHandler<T extends InputEvent>
                 return false;
             }
 
+            int itemType = doc.getItemViewType();
+            // Ignore events sent to Addon Holders.
+            if (itemType == DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE
+                    || itemType == DocumentsAdapter.ITEM_TYPE_INFLATED_MESSAGE
+                    || itemType == DocumentsAdapter.ITEM_TYPE_SECTION_BREAK) {
+                return false;
+            }
+
             if (mFocusHandler.handleKey(doc, keyCode, event)) {
                 // Handle range selection adjustments. Extending the selection will adjust the
                 // bounds of the in-progress range selection. Each time an unshifted navigation
