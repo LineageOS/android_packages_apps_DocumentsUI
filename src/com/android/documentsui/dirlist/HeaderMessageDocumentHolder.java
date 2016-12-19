@@ -31,7 +31,7 @@ import com.android.documentsui.R;
  * are more information from the Provider.
  * Used by {@link DirectoryAddonsAdapter}.
  */
-final class HeaderMessageDocumentHolder extends DocumentHolder {
+final class HeaderMessageDocumentHolder extends MessageHolder {
     private Message mMessage;
     private ImageView mIcon;
     private TextView mTextView;

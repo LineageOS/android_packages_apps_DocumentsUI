@@ -83,17 +83,25 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
 
     @Override
     public DocumentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        DocumentHolder holder = null;
         switch (viewType) {
             case ITEM_TYPE_SECTION_BREAK:
-                return new TransparentDividerDocumentHolder(mEnv.getContext());
+                holder = new TransparentDividerDocumentHolder(mEnv.getContext());
+                mEnv.initDocumentHolder(holder);
+                break;
             case ITEM_TYPE_HEADER_MESSAGE:
-                return new HeaderMessageDocumentHolder(mEnv.getContext(), parent,
+                holder = new HeaderMessageDocumentHolder(mEnv.getContext(), parent,
                         this::onDismissHeaderMessage);
+                mEnv.initDocumentHolder(holder);
+                break;
             case ITEM_TYPE_INFLATED_MESSAGE:
-                return new InflateMessageDocumentHolder(mEnv.getContext(), parent);
+                holder = new InflateMessageDocumentHolder(mEnv.getContext(), parent);
+                mEnv.initDocumentHolder(holder);
+                break;
             default:
-                return mDelegate.createViewHolder(parent, viewType);
+                holder = mDelegate.createViewHolder(parent, viewType);
         }
+        return holder;
     }
 
     private void onDismissHeaderMessage() {

@@ -29,7 +29,7 @@ import com.android.documentsui.R;
  * in the directory, whether due to no items, no search results or an error.
  * Used by {@link DirectoryAddonsAdapter}.
  */
-final class InflateMessageDocumentHolder extends DocumentHolder {
+final class InflateMessageDocumentHolder extends MessageHolder {
     private Message mMessage;
     private TextView mMsgView;
     private ImageView mImageView;
