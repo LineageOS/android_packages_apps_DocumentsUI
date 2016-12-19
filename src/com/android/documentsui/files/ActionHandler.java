@@ -290,10 +290,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs =
-                mScope.model.loadDocuments(selection, Model.NO_PARTIAL_NOR_ARCHIVED_FILE_FILTER);
-
-        List<DocumentInfo> virtualDocs =
-                mScope.model.loadDocuments(selection, Model.VIRTUAL_DOCUMENT_FILTER);
+                mScope.model.loadDocuments(selection, Model.SHARABLE_FILE_FILTER);
 
         Intent intent;
 
@@ -323,7 +320,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
-        if (virtualDocs.size() > 0) {
+
+        if (mScope.model.hasDocuments(selection, Model.VIRTUAL_DOCUMENT_FILTER)) {
             intent.addCategory(Intent.CATEGORY_TYPED_OPENABLE);
         }
 

@@ -56,7 +56,7 @@ public class Model {
     /**
      * Filter that passes (returns true) all non-partial files and non-archived files.
      */
-    public static final Predicate<Cursor> NO_PARTIAL_NOR_ARCHIVED_FILE_FILTER = (Cursor c) -> {
+    public static final Predicate<Cursor> SHARABLE_FILE_FILTER = (Cursor c) -> {
         int flags = getCursorInt(c, Document.COLUMN_FLAGS);
         String authority = getCursorString(c, RootCursorWrapper.COLUMN_AUTHORITY);
         return (flags & Document.FLAG_PARTIAL) == 0
@@ -232,29 +232,42 @@ public class Model {
         final int size = (selection != null) ? selection.size() : 0;
 
         final List<DocumentInfo> docs =  new ArrayList<>(size);
+        DocumentInfo doc;
         for (String modelId: selection) {
-            loadDocument(docs, modelId, filter);
+            doc = loadDocument(modelId, filter);
+            if (doc != null) {
+                docs.add(doc);
+            }
         }
         return docs;
     }
 
+    public boolean hasDocuments(Selection selection, Predicate<Cursor> filter) {
+        for (String modelId: selection) {
+            if (loadDocument(modelId, filter) != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
-     * @param docs
      * @return DocumentInfo, or null. If filter returns false, null will be returned.
      */
-    private void loadDocument(
-            List<DocumentInfo> docs, String modelId, Predicate<Cursor> filter) {
+    private @Nullable DocumentInfo loadDocument(String modelId, Predicate<Cursor> filter) {
         final Cursor cursor = getItem(modelId);
 
         if (cursor == null) {
             Log.w(TAG, "Unable to obtain document for modelId: " + modelId);
+            return null;
         }
 
         if (filter.test(cursor)) {
-            docs.add(DocumentInfo.fromDirectoryCursor(cursor));
-        } else {
-            if (VERBOSE) Log.v(TAG, "Filtered document from results: " + modelId);
+            return DocumentInfo.fromDirectoryCursor(cursor);
         }
+
+        if (VERBOSE) Log.v(TAG, "Filtered out document from results: " + modelId);
+        return null;
     }
 
     public Uri getItemUri(String modelId) {
