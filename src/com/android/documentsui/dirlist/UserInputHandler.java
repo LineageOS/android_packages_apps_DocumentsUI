@@ -429,7 +429,7 @@ public final class UserInputHandler<T extends InputEvent>
         // TODO: Refactor FocusManager to depend only on DocumentDetails so we can eliminate
         // difficult to test dependency on DocumentHolder.
 
-        boolean onKey(DocumentHolder doc, int keyCode, KeyEvent event) {
+        boolean onKey(@Nullable DocumentHolder doc, int keyCode, KeyEvent event) {
             // Only handle key-down events. This is simpler, consistent with most other UIs, and
             // enables the handling of repeated key events from holding down a key.
             if (event.getAction() != KeyEvent.ACTION_DOWN) {
@@ -441,12 +441,14 @@ public final class UserInputHandler<T extends InputEvent>
                 return false;
             }
 
-            int itemType = doc.getItemViewType();
             // Ignore events sent to Addon Holders.
-            if (itemType == DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE
-                    || itemType == DocumentsAdapter.ITEM_TYPE_INFLATED_MESSAGE
-                    || itemType == DocumentsAdapter.ITEM_TYPE_SECTION_BREAK) {
-                return false;
+            if (doc != null) {
+                int itemType = doc.getItemViewType();
+                if (itemType == DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE
+                        || itemType == DocumentsAdapter.ITEM_TYPE_INFLATED_MESSAGE
+                        || itemType == DocumentsAdapter.ITEM_TYPE_SECTION_BREAK) {
+                    return false;
+                }
             }
 
             if (mFocusHandler.handleKey(doc, keyCode, event)) {
