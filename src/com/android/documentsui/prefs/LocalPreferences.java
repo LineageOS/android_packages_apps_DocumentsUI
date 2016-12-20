@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.base;
+package com.android.documentsui.prefs;
 
 import static com.android.documentsui.base.State.MODE_UNKNOWN;
 
@@ -26,6 +26,8 @@ import android.content.SharedPreferences.Editor;
 import android.os.UserHandle;
 import android.preference.PreferenceManager;
 
+import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 
 import java.lang.annotation.Retention;
