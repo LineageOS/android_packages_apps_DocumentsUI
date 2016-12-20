@@ -19,9 +19,9 @@ package com.android.documentsui;
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
-import android.content.Intent;
-import android.provider.DocumentsContract;
+import android.os.RemoteException;
 import android.support.test.filters.LargeTest;
+import android.support.v7.recyclerview.R;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -32,6 +32,11 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
 
     public FilesActivityDefaultsUiTest() {
         super(FilesActivity.class);
+    }
+
+    @Override
+    protected void initTestFiles() throws RemoteException {
+        // Overriding to init with no items in test roots
     }
 
     @Override
@@ -48,6 +53,18 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
         } else {
             bots.main.assertWindowTitle("Downloads");
         }
+    }
+
+    public void testNavigate_FromEmptyDirectory() throws Exception {
+        device.waitForIdle();
+
+        bots.roots.openRoot(rootDir0.title);
+
+        String msg = String.valueOf(context.getString(R.string.empty));
+        bots.directory.assertMessageTextView(msg);
+
+        // Check to make sure back button is properly handled by non-Doc type DocHolders
+        device.pressBack();
     }
 
     public void testDefaultRoots() throws Exception {

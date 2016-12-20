@@ -108,7 +108,7 @@ public class DirectoryListBot extends Bots.BaseBot {
         assertTrue(messageTextView.exists());
 
         String msg = String.valueOf(message);
-        assertEquals(String.format(msg, "TEST_ROOT_0"), messageTextView.getText());
+        assertEquals(msg, messageTextView.getText());
 
     }
 
