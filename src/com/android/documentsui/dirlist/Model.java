@@ -20,6 +20,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.Shared.VERBOSE;
+import static com.android.documentsui.base.Shared.ENABLE_OMC_API_FEATURES;
 
 import android.annotation.IntDef;
 import android.database.Cursor;
@@ -54,11 +55,16 @@ import java.util.function.Predicate;
 public class Model {
 
     /**
-     * Filter that passes (returns true) all non-partial files and non-archived files.
+     * Filter that passes (returns true) for all files which can be shared.
      */
     public static final Predicate<Cursor> SHARABLE_FILE_FILTER = (Cursor c) -> {
         int flags = getCursorInt(c, Document.COLUMN_FLAGS);
         String authority = getCursorString(c, RootCursorWrapper.COLUMN_AUTHORITY);
+        if (!ENABLE_OMC_API_FEATURES) {
+            return (flags & Document.FLAG_PARTIAL) == 0
+                    && (flags & Document.FLAG_VIRTUAL_DOCUMENT) == 0
+                    && !ArchivesProvider.AUTHORITY.equals(authority);
+        }
         return (flags & Document.FLAG_PARTIAL) == 0
                 && !ArchivesProvider.AUTHORITY.equals(authority);
     };

@@ -321,7 +321,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
 
-        if (mScope.model.hasDocuments(selection, Model.VIRTUAL_DOCUMENT_FILTER)) {
+        if (Shared.ENABLE_OMC_API_FEATURES
+                && mScope.model.hasDocuments(selection, Model.VIRTUAL_DOCUMENT_FILTER)) {
             intent.addCategory(Intent.CATEGORY_TYPED_OPENABLE);
         }
 
