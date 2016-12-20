@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+
 import android.content.Context;
 import android.database.Cursor;
 import android.widget.Space;
@@ -27,7 +28,7 @@ import com.android.documentsui.base.State;
  * The most elegant transparent blank box that spans N rows ever conceived.
  * Used by {@link DirectoryAddonsAdapter}.
  */
-final class TransparentDividerDocumentHolder extends DocumentHolder {
+final class TransparentDividerDocumentHolder extends MessageHolder {
     private final int mVisibleHeight;
     private State mState;
 

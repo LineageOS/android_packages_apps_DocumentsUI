@@ -84,7 +84,7 @@ public final class FocusManager implements FocusHandler {
         boolean focusChanged = false;
         if (mNavDrawerHasFocus) {
             mDrawer.setOpen(false);
-            focusDirectoryList();
+            focusChanged = focusDirectoryList();
         } else {
             mDrawer.setOpen(true);
             focusChanged = mRootsFocuser.run();
