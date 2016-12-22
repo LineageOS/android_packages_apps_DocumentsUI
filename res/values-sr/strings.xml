@@ -125,7 +125,7 @@
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Неке датотеке су конвертоване"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Желите ли да дозволите апликацији <xliff:g id="APPNAME"><b>^1</b></xliff:g> да приступа директоријуму <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> на меморијском простору <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Желите ли да дозволите апликацији <xliff:g id="APPNAME"><b>^1</b></xliff:g> да приступа директоријуму <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
-    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Желите ли да дозволите апликацији <xliff:g id="APPNAME"><b>^1</b></xliff:g> да приступа подацима, укључујући слике и видео снимке, на меморијском простору <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Желите ли да дозволите апликацији <xliff:g id="APPNAME"><b>^1</b></xliff:g> да приступа подацима, укључујући слике и видео, на меморијском простору <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
     <string name="never_ask_again" msgid="525908236522201138">"Не питај поново"</string>
     <string name="allow" msgid="1275746941353040309">"Дозволи"</string>
     <string name="deny" msgid="5127201668078153379">"Одбиј"</string>
@@ -158,4 +158,6 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Документи"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Преузимања"</string>
+    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
+    <skip />
 </resources>

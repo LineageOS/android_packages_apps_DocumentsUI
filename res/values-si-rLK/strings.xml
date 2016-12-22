@@ -146,4 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"ලේඛන"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"බාගැනීම්"</string>
+    <string name="archive_loading_failed" msgid="7243436722828766996">"බ්‍රවුස් කිරීම සඳහා සංරක්ෂිතය විවෘත කිරීමට නොහැකිය. ගොනුව දූෂිතය, නැතහොත් සහාය නොදක්වන ආකෘතියකි."</string>
 </resources>

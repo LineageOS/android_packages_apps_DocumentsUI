@@ -146,4 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumentit"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Lataukset"</string>
+    <string name="archive_loading_failed" msgid="7243436722828766996">"Arkistoa ei voi selata. Tiedosto on vioittunut tai sen muotoa ei tueta."</string>
 </resources>

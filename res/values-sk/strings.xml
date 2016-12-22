@@ -170,4 +170,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumenty"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Stiahnuté súbory"</string>
+    <string name="archive_loading_failed" msgid="7243436722828766996">"Archív nie je možné otvoriť a prehliadať. Súbor je buď poškodený, alebo jeho formát nie je podporovaný."</string>
 </resources>

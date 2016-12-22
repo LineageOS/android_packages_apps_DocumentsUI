@@ -146,4 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Documentos"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Descargas"</string>
+    <string name="archive_loading_failed" msgid="7243436722828766996">"No se puede abrir el archivo para explorarlo porque está dañado o su formato es incompatible."</string>
 </resources>
