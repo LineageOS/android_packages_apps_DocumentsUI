@@ -123,4 +123,8 @@ public class LocalPreferences {
                 ? userId + "|" + packageName + "||" + directory
                 : userId + "|" + packageName + "|" + uuid + "|" + directory;
     }
+
+    static boolean shouldBackup(String s) {
+        return (s != null) ? s.startsWith(ROOT_VIEW_MODE_PREFIX) : false;
+    }
 }
