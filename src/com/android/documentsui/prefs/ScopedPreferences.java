@@ -28,6 +28,8 @@ import android.text.TextUtils;
  */
 public interface ScopedPreferences {
 
+    static final String INCLUDE_DEVICE_ROOT = "includeDeviceRoot-";
+
     boolean getShowDeviceRoot();
     void setShowDeviceRoot(boolean display);
 
@@ -41,8 +43,6 @@ public interface ScopedPreferences {
     }
 
     static final class RuntimeScopedPreferences implements ScopedPreferences {
-
-        private static final String INCLUDE_DEVICE_ROOT = "includeDeviceRoot-";
 
         private SharedPreferences mSharedPrefs;
         private String mScope;
@@ -63,5 +63,9 @@ public interface ScopedPreferences {
         public void setShowDeviceRoot(boolean display) {
             mSharedPrefs.edit().putBoolean(INCLUDE_DEVICE_ROOT + mScope, display).apply();
         }
+    }
+
+    static boolean shouldBackup(String s) {
+        return (s != null) ? s.startsWith(INCLUDE_DEVICE_ROOT) : false;
     }
 }
