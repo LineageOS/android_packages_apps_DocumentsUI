@@ -79,7 +79,7 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     }
 
     @Override
-    public <T extends ActionHandler> T reset(Model model, boolean searchMode) {
+    public <T extends ActionHandler> T reset(Model model) {
         return null;
     }
 }

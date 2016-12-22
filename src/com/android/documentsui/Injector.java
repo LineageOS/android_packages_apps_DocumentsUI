@@ -89,15 +89,14 @@ public class Injector<T extends ActionHandler> {
         return actionModeController.reset(selectionDetails, menuItemClicker, view);
     }
 
-    public T getActionHandler(
-            @Nullable Model model, boolean searchMode) {
+    public T getActionHandler(@Nullable Model model) {
 
         // provide our friend, RootsFragment, early access to this special feature!
         if (model == null) {
             return actions;
         }
 
-        return actions.reset(model, searchMode);
+        return actions.reset(model);
     }
 
     /**

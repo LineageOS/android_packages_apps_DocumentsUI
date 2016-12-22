@@ -77,36 +77,7 @@ public class ActionHandlerTest {
 
         mEnv.selectionMgr.toggleSelection("1");
 
-        mHandler.reset(mEnv.model, false);
-    }
-
-    @Test
-    public void testOpenDrawerOnLaunchingEmptyRoot() {
-        mEnv.model.reset();
-        // state should not say we've changed our location
-
-        mEnv.model.update();
-
-        mActivity.setRootsDrawerOpen.assertLastArgument(true);
-    }
-
-    @Test
-    public void testOpenDrawerOnGettingContent() {
-        mEnv.state.external = true;
-        mEnv.state.action = ACTION_GET_CONTENT;
-
-        mEnv.model.update();
-
-        mActivity.setRootsDrawerOpen.assertLastArgument(true);
-    }
-
-    @Test
-    public void testOpenDrawerOnPickingCopyDestination() {
-        mEnv.state.action = ACTION_PICK_COPY_DESTINATION;
-
-        mEnv.model.update();
-
-        mActivity.setRootsDrawerOpen.assertLastArgument(true);
+        mHandler.reset(mEnv.model);
     }
 
     @Test
