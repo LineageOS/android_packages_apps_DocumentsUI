@@ -159,7 +159,7 @@ public class State implements android.os.Parcelable {
             in.readMap(state.dirConfigs, loader);
             in.readList(state.excludedAuthorities, loader);
             state.openableOnly = in.readInt() != 0;
-            state.sortModel = in.readParcelable(getClass().getClassLoader());
+            state.sortModel = in.readParcelable(loader);
             return state;
         }
 
