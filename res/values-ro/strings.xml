@@ -158,4 +158,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Documente"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Descărcări"</string>
+    <string name="archive_loading_failed" msgid="7243436722828766996">"Nu se poate deschide arhiva pentru răsfoire. Fișierul ori este corupt, ori are un format neacceptat."</string>
 </resources>

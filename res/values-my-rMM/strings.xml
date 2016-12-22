@@ -146,4 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"မှတ်တမ်းမှတ်ရာများ"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ဒေါင်းလုဒ်များ"</string>
+    <string name="archive_loading_failed" msgid="7243436722828766996">"မှတ်တမ်းဟောင်းကို ကြည့်ရှုရန်အတွက် ဖွင့်၍မရပါ။ ဖိုင်ပျက်စီးနေခြင်း သို့မဟုတ် ပံ့ပိုးမထားသည့် ပုံစံတွင်ရှိနေခြင်းတို့ ဖြစ်နိုင်သည်။"</string>
 </resources>
