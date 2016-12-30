@@ -35,7 +35,6 @@ import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.PendingIntent;
 import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -67,18 +66,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-class CopyJob extends Job {
+class CopyJob extends ResolvedResourcesJob {
 
     private static final String TAG = "CopyJob";
 
-    final List<DocumentInfo> mSrcs;
     final ArrayList<DocumentInfo> convertedFiles = new ArrayList<>();
 
     private long mStartTime = -1;
 
-    private long mBatchSize;
+    private long mBytesRequired;
     private volatile long mBytesCopied;
     // Speed estimation
     private long mBytesCopiedSample;
@@ -99,9 +96,6 @@ class CopyJob extends Job {
         super(service, listener, id, opType, destination, srcs);
 
         assert(srcs.getItemCount() > 0);
-
-        // delay the initialization of it to setUp() because it may be IO extensive.
-        mSrcs = new ArrayList<>(srcs.getItemCount());
     }
 
     @Override
@@ -121,8 +115,8 @@ class CopyJob extends Job {
     Notification getProgressNotification(@StringRes int msgId) {
         updateRemainingTimeEstimate();
 
-        if (mBatchSize >= 0) {
-            double completed = (double) this.mBytesCopied / mBatchSize;
+        if (mBytesRequired >= 0) {
+            double completed = (double) this.mBytesCopied / mBytesRequired;
             mProgressBuilder.setProgress(100, (int) (completed * 100), false);
             mProgressBuilder.setSubText(
                     NumberFormat.getPercentInstance().format(completed));
@@ -171,7 +165,7 @@ class CopyJob extends Job {
         }
 
         if (mSampleTime > 0 && mSpeed > 0) {
-            mRemainingTime = ((mBatchSize - bytesCopied) * 1000) / mSpeed;
+            mRemainingTime = ((mBytesRequired - bytesCopied) * 1000) / mSpeed;
         } else {
             mRemainingTime = 0;
         }
@@ -211,10 +205,7 @@ class CopyJob extends Job {
 
     @Override
     boolean setUp() {
-        try {
-            buildDocumentList();
-        } catch (ResourceException e) {
-            Log.e(TAG, "Failed to get the list of docs.", e);
+        if (!super.setUp()) {
             return false;
         }
 
@@ -224,10 +215,10 @@ class CopyJob extends Job {
         }
 
         try {
-            mBatchSize = calculateSize(mSrcs);
+            mBytesRequired = calculateBytesRequired();
         } catch (ResourceException e) {
             Log.w(TAG, "Failed to calculate total size. Copying without progress.", e);
-            mBatchSize = -1;
+            mBytesRequired = -1;
         }
 
         // Check if user has canceled this task. We should check it again here as user cancels
@@ -246,8 +237,8 @@ class CopyJob extends Job {
         mStartTime = elapsedRealtime();
         DocumentInfo srcInfo;
         DocumentInfo dstInfo = stack.peek();
-        for (int i = 0; i < mSrcs.size() && !isCanceled(); ++i) {
-            srcInfo = mSrcs.get(i);
+        for (int i = 0; i < mResolvedDocs.size() && !isCanceled(); ++i) {
+            srcInfo = mResolvedDocs.get(i);
 
             if (DEBUG) Log.d(TAG,
                     "Copying " + srcInfo.displayName + " (" + srcInfo.derivedUri + ")"
@@ -265,39 +256,12 @@ class CopyJob extends Job {
                 onFileFailed(srcInfo);
             }
         }
-        Metrics.logFileOperation(service, operationType, mSrcs, dstInfo);
+
+        Metrics.logFileOperation(service, operationType, mResolvedDocs, dstInfo);
     }
 
-    private void buildDocumentList() throws ResourceException {
-        try {
-            final ContentResolver resolver = appContext.getContentResolver();
-            final Iterable<Uri> uris = srcs.getUris(appContext);
-
-            int docProcessed = 0;
-            for (Uri uri : uris) {
-                DocumentInfo doc = DocumentInfo.fromUri(resolver, uri);
-                if (canCopy(doc, stack.getRoot())) {
-                    mSrcs.add(doc);
-                } else {
-                    onFileFailed(doc);
-                }
-                ++docProcessed;
-
-                if (isCanceled()) {
-                    return;
-                }
-            }
-
-            // If docProcessed is different than the count claimed by UrisSupplier, add the number
-            // to failedFileCount.
-            failedFileCount += (srcs.getItemCount() - docProcessed);
-        } catch(IOException e) {
-            failedFileCount += srcs.getItemCount();
-            throw new ResourceException("Failed to open the list of docs to copy.", e);
-        }
-    }
-
-    private static boolean canCopy(DocumentInfo doc, RootInfo root) {
+    @Override
+    boolean isEligibleDoc(DocumentInfo doc, RootInfo root) {
         // Can't copy folders to downloads, because we don't show folders there.
         return !root.isDownloads() || !doc.isDirectory();
     }
@@ -307,7 +271,7 @@ class CopyJob extends Job {
      * @return true if the root has enough space or doesn't provide free space info; otherwise false
      */
     boolean checkSpace() {
-        return checkSpace(mBatchSize);
+        return verifySpaceAvailable(mBytesRequired);
     }
 
     /**
@@ -315,10 +279,10 @@ class CopyJob extends Job {
      * @param batchSize the total size of files
      * @return true if the root has enough space or doesn't provide free space info; otherwise false
      */
-    final boolean checkSpace(long batchSize) {
+    final boolean verifySpaceAvailable(long batchSize) {
         // Default to be true because if batchSize or available space is invalid, we still let the
         // copy start anyway.
-        boolean result = true;
+        boolean available = true;
         if (batchSize >= 0) {
             RootsCache cache = DocumentsApplication.getRootsCache(appContext);
 
@@ -327,18 +291,18 @@ class CopyJob extends Job {
             // stale.
             root = cache.getRootOneshot(root.authority, root.rootId, true);
             if (root.availableBytes >= 0) {
-                result = (batchSize <= root.availableBytes);
+                available = (batchSize <= root.availableBytes);
             } else {
                 Log.w(TAG, root.toString() + " doesn't provide available bytes.");
             }
         }
 
-        if (!result) {
-            failedFileCount += mSrcs.size();
-            failedFiles.addAll(mSrcs);
+        if (!available) {
+            failureCount = mResolvedDocs.size();
+            failedDocs.addAll(mResolvedDocs);
         }
 
-        return result;
+        return available;
     }
 
     @Override
@@ -626,14 +590,13 @@ class CopyJob extends Job {
      * Calculates the cumulative size of all the documents in the list. Directories are recursed
      * into and totaled up.
      *
-     * @param srcs
      * @return Size in bytes.
      * @throws ResourceException
      */
-    private long calculateSize(List<DocumentInfo> srcs) throws ResourceException {
+    private long calculateBytesRequired() throws ResourceException {
         long result = 0;
 
-        for (DocumentInfo src : srcs) {
+        for (DocumentInfo src : mResolvedDocs) {
             if (src.isDirectory()) {
                 // Directories need to be recursed into.
                 try {
@@ -719,7 +682,8 @@ class CopyJob extends Job {
                 .append("CopyJob")
                 .append("{")
                 .append("id=" + id)
-                .append(", docs=" + srcs)
+                .append(", uris=" + mResourceUris)
+                .append(", docs=" + mResolvedDocs)
                 .append(", destination=" + stack)
                 .append("}")
                 .toString();

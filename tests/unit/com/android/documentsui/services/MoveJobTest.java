@@ -17,12 +17,11 @@
 package com.android.documentsui.services;
 
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
-
 import static com.google.common.collect.Lists.newArrayList;
 
 import android.net.Uri;
 import android.provider.DocumentsContract.Document;
-import android.test.suitebuilder.annotation.MediumTest;
+import android.support.test.filters.MediumTest;
 
 @MediumTest
 public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {

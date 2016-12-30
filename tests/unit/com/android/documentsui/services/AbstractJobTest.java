@@ -24,15 +24,15 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.support.test.filters.MediumTest;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.MediumTest;
 
-import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.DocumentsProviderHelper;
 import com.android.documentsui.StubProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.testing.DocsProviders;
 

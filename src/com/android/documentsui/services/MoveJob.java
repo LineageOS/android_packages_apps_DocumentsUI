@@ -34,8 +34,9 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.clipping.UrisSupplier;
 
-import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
+
+import javax.annotation.Nullable;
 
 // TODO: Stop extending CopyJob.
 final class MoveJob extends CopyJob {
@@ -93,7 +94,7 @@ final class MoveJob extends CopyJob {
                 mSrcParent = DocumentInfo.fromUri(resolver, mSrcParentUri);
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "Failed to create srcParent.", e);
-                failedFileCount += srcs.getItemCount();
+                failureCount = mResourceUris.getItemCount();
                 return false;
             }
         }
@@ -112,7 +113,7 @@ final class MoveJob extends CopyJob {
     @Override
     boolean checkSpace() {
         long size = 0;
-        for (DocumentInfo src : mSrcs) {
+        for (DocumentInfo src : mResolvedDocs) {
             if (!src.authority.equals(stack.getRoot().authority)) {
                 if (src.isDirectory()) {
                     try {
@@ -129,7 +130,7 @@ final class MoveJob extends CopyJob {
             }
         }
 
-        return checkSpace(size);
+        return verifySpaceAvailable(size);
     }
 
     void processDocument(DocumentInfo src, DocumentInfo srcParent, DocumentInfo dest)
@@ -179,7 +180,8 @@ final class MoveJob extends CopyJob {
                 .append("MoveJob")
                 .append("{")
                 .append("id=" + id)
-                .append(", srcs=" + mSrcs)
+                .append(", uris=" + mResourceUris)
+                .append(", docs=" + mResolvedDocs)
                 .append(", srcParent=" + mSrcParent)
                 .append(", destination=" + stack)
                 .append("}")
