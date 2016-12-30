@@ -146,6 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"દસ્તાવેજો"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ડાઉનલોડ્સ"</string>
-    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
-    <skip />
+    <string name="archive_loading_failed" msgid="7243436722828766996">"બ્રાઉઝ કરવા માટે આર્કાઇવ ખોલવામાં અસમર્થ. ફાઇલ કાં તો દૂષિત છે અથવા તો ફોર્મેટ અસમર્થિત છે."</string>
 </resources>

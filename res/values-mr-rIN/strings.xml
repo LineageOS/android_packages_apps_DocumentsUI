@@ -146,6 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"दस्तऐवज"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"डाउनलोड"</string>
-    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
-    <skip />
+    <string name="archive_loading_failed" msgid="7243436722828766996">"ब्राउझिंगसाठी संग्रहण उघडण्यात अक्षम. फाइल एकतर दूषित झाली आहे किंवा असमर्थित स्वरूपात आहे."</string>
 </resources>

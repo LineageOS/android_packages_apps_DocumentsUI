@@ -146,6 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"文件"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"下載"</string>
-    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
-    <skip />
+    <string name="archive_loading_failed" msgid="7243436722828766996">"你要求瀏覽的封存檔已毀損或格式不受支援，因此無法開啟。"</string>
 </resources>

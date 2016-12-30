@@ -146,6 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"দস্তাবেজগুলি"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ডাউনলোডগুলি"</string>
-    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
-    <skip />
+    <string name="archive_loading_failed" msgid="7243436722828766996">"ব্রাউজ করার জন্য সংরক্ষণাগার খোলা গেল না৷ হয় ফাইলটি ক্ষতিগ্রস্ত বা কোনো অসমর্থিত বিন্যাসে রয়েছে৷"</string>
 </resources>

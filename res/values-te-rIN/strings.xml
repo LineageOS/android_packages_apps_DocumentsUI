@@ -146,6 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"పత్రాలు"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"డౌన్‌లోడ్‌లు"</string>
-    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
-    <skip />
+    <string name="archive_loading_failed" msgid="7243436722828766996">"బ్రౌజింగ్‌ కోసం ఆర్కైవ్‌ని తెరవడం సాధ్యపడలేదు. ఫైల్ పాడైంది లేదా మద్దతు లేని ఆకృతిలో ఉంది."</string>
 </resources>
