@@ -146,6 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"ഡോക്യുമെന്റുകൾ"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ഡൗണ്‍ലോഡുകൾ"</string>
-    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
-    <skip />
+    <string name="archive_loading_failed" msgid="7243436722828766996">"ബ്രൗസുചെയ്യുന്നതിന് ആർക്കൈവ് തുറക്കാനാവുന്നില്ല. ഫയൽ കേടായതോ പിന്തുണയ്ക്കാത്ത ഫോർമാറ്റിലുള്ളതോ ആണ്."</string>
 </resources>

@@ -146,6 +146,5 @@
     </plurals>
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Documents"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Baixades"</string>
-    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
-    <skip />
+    <string name="archive_loading_failed" msgid="7243436722828766996">"No s\'ha pogut obrir el fitxer per examinar-lo: o bé està malmès o té un format que no s\'admet."</string>
 </resources>
