@@ -56,6 +56,9 @@ public class FileOperationService extends Service implements Job.Listener {
     public static final String EXTRA_DIALOG_TYPE = "com.android.documentsui.DIALOG_TYPE";
     public static final String EXTRA_SRC_LIST = "com.android.documentsui.SRC_LIST";
 
+    public static final String EXTRA_FAILED_URIS = "com.android.documentsui.FAILED_URIS";
+    public static final String EXTRA_FAILED_DOCS = "com.android.documentsui.FAILED_DOCS";
+
     // Extras used to start or cancel a file operation...
     public static final String EXTRA_JOB_ID = "com.android.documentsui.JOB_ID";
     public static final String EXTRA_OPERATION = "com.android.documentsui.OPERATION";
@@ -296,7 +299,12 @@ public class FileOperationService extends Service implements Job.Listener {
             mNotificationManager.cancel(job.id, NOTIFICATION_ID_PROGRESS);
 
             if (job.hasFailures()) {
-                Log.e(TAG, "Job failed on files: " + job.failedFileCount + ".");
+                if (!job.failedUris.isEmpty()) {
+                    Log.e(TAG, "Job failed to resolve uris: " + job.failedUris + ".");
+                }
+                if (!job.failedDocs.isEmpty()) {
+                    Log.e(TAG, "Job failed to process docs: " + job.failedDocs + ".");
+                }
                 mNotificationManager.notify(
                         job.id, NOTIFICATION_ID_FAILURE, job.getFailureNotification());
             }

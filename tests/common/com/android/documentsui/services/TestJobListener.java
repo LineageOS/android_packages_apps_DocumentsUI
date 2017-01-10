@@ -19,6 +19,7 @@ package com.android.documentsui.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.android.documentsui.base.DocumentInfo;
@@ -64,12 +65,12 @@ public class TestJobListener implements Job.Listener {
         }
     }
 
-    public void assertFilesFailed(ArrayList<String> names) {
+    public void assertFilesFailed(List<String> names) {
         if (finished == null || !finished.hasFailures()) {
             fail("Can't test failed documetns. Job didn't fail.");
         }
 
-        assertEquals(finished.failedFiles.size(), names.size());
+        assertEquals(finished.failedDocs.size(), names.size());
         for (String name : names) {
             assertFileFailed(name);
         }
@@ -80,12 +81,44 @@ public class TestJobListener implements Job.Listener {
             fail("Can't test failed documetns. Job didn't fail.");
         }
 
-        for (DocumentInfo failed : finished.failedFiles) {
+        for (DocumentInfo failed : finished.failedDocs) {
             if (name.equals(failed.displayName)) {
                 return;
             }
         }
         fail("Couldn't find failed file: " + name);
+    }
+
+    public void assertUrisFailed(List<Uri> uris) {
+        if (finished == null || !finished.hasFailures()) {
+            fail("Can't test failed documetns. Job didn't fail.");
+        }
+
+        assertEquals(finished.failedDocs.size(), uris.size());
+        for (Uri uri : uris) {
+            assertUriFailed(uri);
+        }
+    }
+
+    public void assertUriFailed(Uri uri) {
+        if (finished == null || !finished.hasFailures()) {
+            fail("Can't test failed documetns. Job didn't fail.");
+        }
+
+        for (Uri failed : finished.failedUris) {
+            if (uri.equals(failed)) {
+                return;
+            }
+        }
+        fail("Couldn't find failed uri: " + uri);
+    }
+
+    public void assertFailureCount(int expected) {
+        if (finished == null) {
+            fail("No job to test.");
+        }
+
+        assertEquals(expected, finished.failureCount);
     }
 
     public void assertCanceled() {

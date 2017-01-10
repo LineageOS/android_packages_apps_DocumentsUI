@@ -392,7 +392,9 @@ public final class Metrics {
             @OpType int operationType,
             List<DocumentInfo> srcs,
             @Nullable DocumentInfo dst) {
-        ProviderCounts counts = countProviders(srcs, dst);
+
+        ProviderCounts counts = new ProviderCounts();
+        countProviders(counts, srcs, dst);
 
         if (counts.intraProvider > 0) {
             logIntraProviderFileOps(context, dst.authority, operationType);
@@ -438,8 +440,13 @@ public final class Metrics {
      * @param failedFiles
      */
     public static void logFileOperationErrors(Context context, @OpType int operationType,
-            List<DocumentInfo> failedFiles) {
-        ProviderCounts counts = countProviders(failedFiles, null);
+            List<DocumentInfo> failedFiles, List<Uri> failedUris) {
+
+        ProviderCounts counts = new ProviderCounts();
+        countProviders(counts, failedFiles, null);
+
+        // TODO: Report URI errors separate from file operation errors.
+        countProviders(counts, failedUris);
 
         @FileOp int opCode = FILEOP_OTHER_ERROR;
         switch (operationType) {
@@ -826,19 +833,33 @@ public final class Metrics {
      * the dst document (if a dst is provided), how many come from system providers, and how many
      * come from external 3rd-party providers.
      */
-    private static ProviderCounts countProviders(
-            List<DocumentInfo> srcs, @Nullable DocumentInfo dst) {
-        ProviderCounts counts = new ProviderCounts();
+    private static void countProviders(
+            ProviderCounts counts, List<DocumentInfo> srcs, @Nullable DocumentInfo dst) {
         for (DocumentInfo doc: srcs) {
-            if (dst != null && doc.authority.equals(dst.authority)) {
-                counts.intraProvider++;
-            } else if (isSystemProvider(doc.authority)){
-                counts.systemProvider++;
-            } else {
-                counts.externalProvider++;
-            }
+            countForAuthority(counts, doc.authority, dst);
         }
-        return counts;
+    }
+
+    /**
+     * Count the given uris and provide a tally of how many come from the same provider as
+     * the dst document (if a dst is provided), how many come from system providers, and how many
+     * come from external 3rd-party providers.
+     */
+    private static void countProviders(ProviderCounts counts, List<Uri> uris) {
+        for (Uri uri: uris) {
+            countForAuthority(counts, uri.getAuthority(), null);
+        }
+    }
+
+    private static void countForAuthority(
+            ProviderCounts counts, String authority, @Nullable DocumentInfo dst) {
+        if (dst != null && authority.equals(dst.authority)) {
+            counts.intraProvider++;
+        } else if (isSystemProvider(authority)){
+            counts.systemProvider++;
+        } else {
+            counts.externalProvider++;
+        }
     }
 
     private static class ProviderCounts {
