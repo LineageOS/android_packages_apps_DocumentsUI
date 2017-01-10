@@ -94,5 +94,5 @@ public interface ActionHandler {
      * Allow action handler to be initialized in a new scope.
      * @return
      */
-    <T extends ActionHandler> T reset(Model model, boolean searchMode);
+    <T extends ActionHandler> T reset(Model model);
 }

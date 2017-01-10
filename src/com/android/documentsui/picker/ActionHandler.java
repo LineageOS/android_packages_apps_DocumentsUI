@@ -62,7 +62,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     private static final String TAG = "PickerActionHandler";
 
     private final ActivityConfig mConfig;
-    private final ContentScope mScope;
+    private @Nullable Model mModel;
 
     ActionHandler(
             T activity,
@@ -78,7 +78,6 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         super(activity, state, roots, docs, focusHandler, selectionMgr, searchMgr, executors);
 
         mConfig = activityConfig;
-        mScope = new ContentScope(this::onModelLoaded);
     }
 
     @Override
@@ -187,7 +186,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     @Override
     public boolean openDocument(DocumentDetails details) {
-        DocumentInfo doc = mScope.model.getDocument(details.getModelId());
+        DocumentInfo doc = mModel.getDocument(details.getModelId());
         if (doc == null) {
             Log.w(TAG,
                     "Can't view item. No Document available for modeId: " + details.getModelId());
@@ -202,60 +201,15 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         return false;
     }
 
-    private void onModelLoaded(Model.Update update) {
-        boolean showDrawer = false;
-
-        if (MimeTypes.mimeMatches(MimeTypes.VISUAL_MIMES, mState.acceptMimes)) {
-            showDrawer = false;
-        }
-        if (mState.external && mState.action == ACTION_GET_CONTENT) {
-            showDrawer = true;
-        }
-        if (mState.action == ACTION_PICK_COPY_DESTINATION) {
-            showDrawer = true;
-        }
-
-        // When launched into empty root, open drawer.
-        if (mScope.model.isEmpty()) {
-            showDrawer = true;
-        }
-
-        if (showDrawer && !mState.stack.hasInitialLocationChanged() && !mScope.searchMode
-                && !mScope.modelLoadObserved) {
-            // This noops on layouts without drawer, so no need to guard.
-            mActivity.setRootsDrawerOpen(true);
-        }
-
-        mScope.modelLoadObserved = true;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
-    public ActionHandler<T> reset(Model model, boolean searchMode) {
+    public ActionHandler<T> reset(Model model) {
         assert(model != null);
+        mModel = model;
 
-        mScope.model = model;
-        mScope.searchMode = searchMode;
-
-        model.addUpdateListener(mScope.modelUpdateListener);
         return this;
     }
 
-    private static final class ContentScope {
-
-        @Nullable Model model;
-        boolean searchMode;
-
-        // We use this to keep track of whether a model has been previously loaded or not so we can
-        // open the drawer on empty directories on first launch
-        private boolean modelLoadObserved;
-
-        private final EventListener<Update> modelUpdateListener;
-
-        public ContentScope(EventListener<Update> modelUpdateListener) {
-            this.modelUpdateListener = modelUpdateListener;
-        }
-    }
 
     public interface Addons extends CommonAddons {
         void onAppPicked(ResolveInfo info);
