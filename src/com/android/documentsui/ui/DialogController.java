@@ -104,7 +104,6 @@ public interface DialogController {
                     (DialogInterface) -> {
                         Button positive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
                         positive.setFocusable(true);
-                        positive.setFocusableInTouchMode(true);
                         positive.requestFocus();
                     });
             alertDialog.show();
