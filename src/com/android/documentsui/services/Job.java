@@ -19,9 +19,10 @@ package com.android.documentsui.services;
 import static com.android.documentsui.DocumentsApplication.acquireUnstableProviderOrThrow;
 import static com.android.documentsui.services.FileOperationService.EXTRA_CANCEL;
 import static com.android.documentsui.services.FileOperationService.EXTRA_DIALOG_TYPE;
+import static com.android.documentsui.services.FileOperationService.EXTRA_FAILED_DOCS;
+import static com.android.documentsui.services.FileOperationService.EXTRA_FAILED_URIS;
 import static com.android.documentsui.services.FileOperationService.EXTRA_JOB_ID;
 import static com.android.documentsui.services.FileOperationService.EXTRA_OPERATION_TYPE;
-import static com.android.documentsui.services.FileOperationService.EXTRA_SRC_LIST;
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
 
 import android.annotation.DrawableRes;
@@ -40,22 +41,23 @@ import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
-import com.android.documentsui.clipping.UrisSupplier;
-import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.clipping.UrisSupplier;
+import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.services.FileOperationService.OpType;
 
-import javax.annotation.Nullable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.Nullable;
 
 /**
  * A mashup of work item and ui progress update factory. Used by {@link FileOperationService}
@@ -89,10 +91,13 @@ abstract public class Job implements Runnable {
     final @OpType int operationType;
     final String id;
     final DocumentStack stack;
-    final UrisSupplier srcs;
 
-    int failedFileCount = 0;
-    final ArrayList<DocumentInfo> failedFiles = new ArrayList<>();
+    final UrisSupplier mResourceUris;
+
+    int failureCount = 0;
+    final ArrayList<DocumentInfo> failedDocs = new ArrayList<>();
+    final ArrayList<Uri> failedUris = new ArrayList<>();
+
     final Notification.Builder mProgressBuilder;
 
     private final Map<String, ContentProviderClient> mClients = new HashMap<>();
@@ -121,7 +126,7 @@ abstract public class Job implements Runnable {
 
         this.id = id;
         this.stack = stack;
-        this.srcs = srcs;
+        this.mResourceUris = srcs;
 
         mProgressBuilder = createProgressBuilder();
     }
@@ -135,6 +140,7 @@ abstract public class Job implements Runnable {
 
         mState = STATE_STARTED;
         listener.onStart(this);
+
         try {
             boolean result = setUp();
             if (result && !isCanceled()) {
@@ -145,20 +151,21 @@ abstract public class Job implements Runnable {
             // No exceptions should be thrown here, as all calls to the provider must be
             // handled within Job implementations. However, just in case catch them here.
             Log.e(TAG, "Operation failed due to an unhandled runtime exception.", e);
-            Metrics.logFileOperationErrors(service, operationType, failedFiles);
+            Metrics.logFileOperationErrors(service, operationType, failedDocs, failedUris);
         } finally {
             mState = (mState == STATE_STARTED || mState == STATE_SET_UP) ? STATE_COMPLETED : mState;
             listener.onFinished(this);
 
             // NOTE: If this details is a JumboClipDetails, and it's still referred in primary clip
             // at this point, user won't be able to paste it to anywhere else because the underlying
-            srcs.dispose();
+            mResourceUris.dispose();
         }
     }
 
     boolean setUp() {
         return true;
     }
+
     abstract void start();
 
     abstract Notification getSetupNotification();
@@ -214,12 +221,17 @@ abstract public class Job implements Runnable {
     }
 
     void onFileFailed(DocumentInfo file) {
-        ++failedFileCount;
-        failedFiles.add(file);
+        failureCount++;
+        failedDocs.add(file);
+    }
+
+    void onResolveFailed(Uri uri) {
+        failureCount++;
+        failedUris.add(uri);
     }
 
     final boolean hasFailures() {
-        return failedFileCount > 0;
+        return failureCount > 0;
     }
 
     boolean hasWarnings() {
@@ -234,8 +246,8 @@ abstract public class Job implements Runnable {
             } else if (doc.isDeleteSupported()) {
                 DocumentsContract.deleteDocument(getClient(doc), doc.derivedUri);
             } else {
-                throw new ResourceException("Unable to delete source document as the file is " +
-                        "not deletable nor removable: %s.", doc.derivedUri);
+                throw new ResourceException("Unable to delete source document. "
+                        + "File is not deletable or removable: %s.", doc.derivedUri);
             }
         } catch (RemoteException | RuntimeException e) {
             throw new ResourceException("Failed to delete file %s due to an exception.",
@@ -253,11 +265,12 @@ abstract public class Job implements Runnable {
         final Intent navigateIntent = buildNavigateIntent(INTENT_TAG_FAILURE);
         navigateIntent.putExtra(EXTRA_DIALOG_TYPE, OperationDialogFragment.DIALOG_TYPE_FAILURE);
         navigateIntent.putExtra(EXTRA_OPERATION_TYPE, operationType);
-        navigateIntent.putParcelableArrayListExtra(EXTRA_SRC_LIST, failedFiles);
+        navigateIntent.putParcelableArrayListExtra(EXTRA_FAILED_DOCS, failedDocs);
+        navigateIntent.putParcelableArrayListExtra(EXTRA_FAILED_URIS, failedUris);
 
         final Notification.Builder errorBuilder = new Notification.Builder(service)
                 .setContentTitle(service.getResources().getQuantityString(titleId,
-                        failedFileCount, failedFileCount))
+                        failureCount, failureCount))
                 .setContentText(service.getString(R.string.notification_touch_for_details))
                 .setContentIntent(PendingIntent.getActivity(appContext, 0, navigateIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT))

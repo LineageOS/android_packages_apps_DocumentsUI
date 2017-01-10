@@ -18,10 +18,8 @@ package com.android.documentsui.services;
 
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
-import static com.android.documentsui.services.FileOperationService.OpType;
 import static com.android.documentsui.services.FileOperations.createBaseIntent;
 import static com.android.documentsui.services.FileOperations.createJobId;
-
 import static com.google.android.collect.Lists.newArrayList;
 
 import android.content.Context;
@@ -29,12 +27,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.test.filters.MediumTest;
 import android.test.ServiceTestCase;
-import android.test.suitebuilder.annotation.MediumTest;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.clipping.UrisSupplier;
+import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.testing.DocsProviders;
 import com.android.documentsui.testing.TestHandler;
 import com.android.documentsui.testing.TestScheduledExecutorService;
