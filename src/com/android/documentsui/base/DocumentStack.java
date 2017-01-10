@@ -49,8 +49,6 @@ public class DocumentStack implements Durable, Parcelable {
     private LinkedList<DocumentInfo> mList;
     private @Nullable RootInfo mRoot;
 
-    private boolean mInitialRootChanged;
-    private boolean mInitialDocChanged;
     private boolean mStackTouched;
 
     public DocumentStack() {
@@ -117,9 +115,6 @@ public class DocumentStack implements Durable, Parcelable {
 
     public void push(DocumentInfo info) {
         if (DEBUG) Log.d(TAG, "Adding doc to stack: " + info);
-        if (!mInitialDocChanged && !isEmpty() && !info.equals(peek())) {
-            mInitialDocChanged = true;
-        }
         mList.addLast(info);
         mStackTouched = true;
     }
@@ -142,9 +137,6 @@ public class DocumentStack implements Durable, Parcelable {
 
     public void changeRoot(RootInfo root) {
         if (DEBUG) Log.d(TAG, "Root changed to: " + root);
-        if (!mInitialRootChanged && mRoot != null && !root.equals(mRoot)) {
-            mInitialRootChanged = true;
-        }
         reset();
         mRoot = root;
     }
@@ -154,10 +146,6 @@ public class DocumentStack implements Durable, Parcelable {
      */
     public boolean hasLocationChanged() {
         return mStackTouched;
-    }
-
-    public boolean hasInitialLocationChanged() {
-        return mInitialRootChanged || mInitialDocChanged;
     }
 
     public String getTitle() {
@@ -212,8 +200,6 @@ public class DocumentStack implements Durable, Parcelable {
                 + "root=" + mRoot
                 + ", docStack=" + mList
                 + ", stackTouched=" + mStackTouched
-                + ", initialDocChanged=" + mInitialDocChanged
-                + ", initialRootChanged=" + mInitialRootChanged
                 + "}";
     }
 
@@ -241,8 +227,6 @@ public class DocumentStack implements Durable, Parcelable {
                     mList.add(doc);
                 }
                 mStackTouched = in.readInt() != 0;
-                mInitialRootChanged = in.readInt() != 0;
-                mInitialDocChanged = in.readInt() != 0;
                 break;
             default:
                 throw new ProtocolException("Unknown version " + version);
@@ -265,8 +249,6 @@ public class DocumentStack implements Durable, Parcelable {
             doc.write(out);
         }
         out.writeInt(mStackTouched ? 1 : 0);
-        out.writeInt(mInitialRootChanged ? 1 : 0);
-        out.writeInt(mInitialDocChanged ? 1 : 0);
     }
 
     @Override

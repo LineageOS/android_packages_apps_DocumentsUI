@@ -72,7 +72,6 @@ public class DocumentStackTest {
     @Test
     public void testInitialStateEmpty() {
         assertFalse(mStack.hasLocationChanged());
-        assertFalse(mStack.hasInitialLocationChanged());
         assertTrue(mStack.isEmpty());
         assertEquals(0, mStack.size());
         assertNull(mStack.getRoot());
@@ -166,22 +165,6 @@ public class DocumentStackTest {
         mStack.push(DIR_1);
 
         assertTrue(mStack.hasLocationChanged());
-    }
-
-    @Test
-    public void testPushDocument_ChangesInitialLocation() {
-        mStack.push(DIR_1);
-        mStack.push(DIR_2);
-
-        assertTrue(mStack.hasInitialLocationChanged());
-    }
-
-    @Test
-    public void testChangeRoot_ChangesInitialLocation() {
-        mStack.changeRoot(ROOT_1);
-        mStack.changeRoot(ROOT_2);
-
-        assertTrue(mStack.hasInitialLocationChanged());
     }
 
     @Test

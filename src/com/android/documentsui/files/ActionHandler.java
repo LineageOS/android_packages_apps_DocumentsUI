@@ -37,7 +37,6 @@ import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
-import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
@@ -50,7 +49,6 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.dirlist.Model.Update;
 import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
@@ -81,7 +79,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private final ActivityConfig mActConfig;
     private final DocumentClipper mClipper;
     private final ClipStore mClipStore;
-    private final ContentScope mScope;
+    private @Nullable Model mModel;
 
     ActionHandler(
             T activity,
@@ -105,8 +103,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         mActConfig = tuner;
         mClipper = clipper;
         mClipStore = clipStore;
-
-        mScope = new ContentScope(this::onModelLoaded);
     }
 
     @Override
@@ -125,7 +121,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     public void openSelectedInNewWindow() {
         Selection selection = getStableSelection();
         assert(selection.size() == 1);
-        DocumentInfo doc = mScope.model.getDocument(selection.iterator().next());
+        DocumentInfo doc = mModel.getDocument(selection.iterator().next());
         assert(doc != null);
         openInNewWindow(new DocumentStack(mState.stack, doc));
     }
@@ -162,7 +158,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public boolean openDocument(DocumentDetails details) {
-        DocumentInfo doc = mScope.model.getDocument(details.getModelId());
+        DocumentInfo doc = mModel.getDocument(details.getModelId());
         if (doc == null) {
             Log.w(TAG,
                     "Can't view item. No Document available for modeId: " + details.getModelId());
@@ -179,13 +175,13 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public boolean viewDocument(DocumentDetails details) {
-        DocumentInfo doc = mScope.model.getDocument(details.getModelId());
+        DocumentInfo doc = mModel.getDocument(details.getModelId());
         return viewDocument(doc);
     }
 
     @Override
     public boolean previewDocument(DocumentDetails details) {
-        DocumentInfo doc = mScope.model.getDocument(details.getModelId());
+        DocumentInfo doc = mModel.getDocument(details.getModelId());
         if (doc.isContainer()) {
             return false;
         }
@@ -214,7 +210,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
         mSelectionMgr.clearSelection();
 
-        mClipper.clipDocumentsForCut(mScope.model::getItemUri, selection, mState.stack.peek());
+        mClipper.clipDocumentsForCut(mModel::getItemUri, selection, mState.stack.peek());
 
         mDialogs.showDocumentsClipped(selection.size());
     }
@@ -229,7 +225,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
         mSelectionMgr.clearSelection();
 
-        mClipper.clipDocumentsForCopy(mScope.model::getItemUri, selection);
+        mClipper.clipDocumentsForCopy(mModel::getItemUri, selection);
 
         mDialogs.showDocumentsClipped(selection.size());
     }
@@ -247,7 +243,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         final @Nullable DocumentInfo srcParent = mState.stack.peek();
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
-        List<DocumentInfo> docs = mScope.model.getDocuments(selection);
+        List<DocumentInfo> docs = mModel.getDocuments(selection);
 
         ConfirmationCallback result = (@Result int code) -> {
             // share the news with our caller, be it good or bad.
@@ -261,7 +257,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             try {
                 srcs = UrisSupplier.create(
                         selection,
-                        mScope.model::getItemUri,
+                        mModel::getItemUri,
                         mClipStore);
             } catch (IOException e) {
                 throw new RuntimeException("Failed to create uri supplier.", e);
@@ -290,7 +286,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs =
-                mScope.model.loadDocuments(selection, Model.SHARABLE_FILE_FILTER);
+                mModel.loadDocuments(selection, Model.SHARABLE_FILE_FILTER);
 
         Intent intent;
 
@@ -322,7 +318,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         intent.addCategory(Intent.CATEGORY_DEFAULT);
 
         if (Shared.ENABLE_OMC_API_FEATURES
-                && mScope.model.hasDocuments(selection, Model.VIRTUAL_DOCUMENT_FILTER)) {
+                && mModel.hasDocuments(selection, Model.VIRTUAL_DOCUMENT_FILTER)) {
             intent.addCategory(Intent.CATEGORY_TYPED_OPENABLE);
         }
 
@@ -477,7 +473,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                 mActivity.getPackageManager(),
                 mActivity.getResources(),
                 doc,
-                mScope.model).build();
+                mModel).build();
 
         if (intent != null) {
             // TODO: un-work around issue b/24963914. Should be fixed soon.
@@ -560,49 +556,14 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         return intent;
     }
 
-    private void onModelLoaded(Model.Update update) {
-        // When launched into empty root, open drawer.
-        if (mScope.model.isEmpty()
-                && !mState.stack.hasInitialLocationChanged()
-                && !mScope.searchMode
-                && !mScope.modelLoadObserved) {
-            // Opens the drawer *if* an openable drawer is present
-            // else this is a no-op.
-            mActivity.setRootsDrawerOpen(true);
-        }
-
-        mScope.modelLoadObserved = true;
-    }
 
     @SuppressWarnings("unchecked")
     @Override
-    public ActionHandler<T> reset(Model model, boolean searchMode) {
+    public ActionHandler<T> reset(Model model) {
         assert(model != null);
-
-        mScope.model = model;
-        mScope.modelLoadObserved = false;
-        mScope.searchMode = searchMode;
-
-        model.addUpdateListener(mScope.modelUpdateListener);
-        mScope.modelLoadObserved = false;
+        mModel = model;
 
         return this;
-    }
-
-    private static final class ContentScope {
-
-        @Nullable Model model;
-        boolean searchMode;
-
-        private final EventListener<Update> modelUpdateListener;
-
-        // We use this to keep track of whether a model has been previously loaded or not so we can
-        // open the drawer on empty directories on first launch
-        private boolean modelLoadObserved;
-
-        public ContentScope(EventListener<Update> modelUpdateListener) {
-            this.modelUpdateListener = modelUpdateListener;
-        }
     }
 
     public interface Addons extends CommonAddons {
