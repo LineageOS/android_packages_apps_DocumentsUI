@@ -139,6 +139,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
+    public void springOpenDirectory(DocumentInfo doc) {
+        throw new UnsupportedOperationException("Can't spring open directories.");
+    }
+
+    @Override
     public void openSettings(RootInfo root) {
         throw new UnsupportedOperationException("Can't open settings.");
     }

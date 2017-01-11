@@ -897,7 +897,7 @@ public class DirectoryFragment extends Fragment
     public void onViewHovered(View view) {
         BaseActivity activity = mActivity;
         if (getModelId(view) != null) {
-           activity.springOpenDirectory(getDestination(view));
+            mActions.springOpenDirectory(getDestination(view));
         }
         activity.setRootsDrawerOpen(false);
     }
