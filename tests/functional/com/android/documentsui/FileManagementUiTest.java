@@ -74,7 +74,6 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
         bots.main.clickToolbarItem(R.id.menu_delete);
 
-        bots.main.assertDialogOkButtonFocused();
         bots.main.clickDialogOkButton();
         device.waitForIdle();
 
