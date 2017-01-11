@@ -297,13 +297,6 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         mInjector.focusManager.focusDocument(doc.documentId);
     }
 
-    @Override
-    public void springOpenDirectory(DocumentInfo doc) {
-        assert(doc.isContainer());
-        assert(!doc.isArchive());
-        mInjector.actions.openContainerDocument(doc);
-    }
-
     @CallSuper
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

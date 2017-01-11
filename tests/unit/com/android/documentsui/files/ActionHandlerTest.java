@@ -110,6 +110,13 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testSpringOpenDirectory() {
+        mHandler.springOpenDirectory(TestEnv.FOLDER_0);
+        assertTrue(mActionModeAddons.finishActionModeCalled);
+        assertEquals(TestEnv.FOLDER_0, mEnv.state.stack.peek());
+    }
+
+    @Test
     public void testCutSelectedDocuments_NoGivenSelection() {
         mEnv.populateStack();
 
