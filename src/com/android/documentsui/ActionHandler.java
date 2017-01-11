@@ -68,6 +68,13 @@ public interface ActionHandler {
 
     boolean openDocument(DocumentDetails doc);
 
+    /**
+     * This is called when user hovers over a doc for enough time during a drag n' drop, to open a
+     * folder that accepts drop. We should only open a container that's not an archive, since archives
+     * do not accept dropping.
+     */
+    void springOpenDirectory(DocumentInfo doc);
+
     void showChooserForDoc(DocumentInfo doc);
 
     void openContainerDocument(DocumentInfo doc);

@@ -185,6 +185,10 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     }
 
     @Override
+    public void springOpenDirectory(DocumentInfo doc) {
+    }
+
+    @Override
     public boolean openDocument(DocumentDetails details) {
         DocumentInfo doc = mModel.getDocument(details.getModelId());
         if (doc == null) {

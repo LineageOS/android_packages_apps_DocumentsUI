@@ -19,11 +19,12 @@ import com.android.documentsui.testing.TestConfirmationCallback;
 
 public class TestActionModeAddons implements ActionModeAddons {
 
+    public boolean finishActionModeCalled;
     public final TestConfirmationCallback finishOnConfirmed = new TestConfirmationCallback();
 
     @Override
     public void finishActionMode() {
-        throw new UnsupportedOperationException();
+        finishActionModeCalled = true;
     }
 
     @Override
