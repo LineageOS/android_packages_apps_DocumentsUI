@@ -141,10 +141,15 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             }
             mState.stack.reset(stack);
             mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+
+            Metrics.logLaunchAtLocation(mActivity, mState, stack.getRoot().getUri());
         } else {
             Log.w(TAG, "Failed to launch into the given uri. Load last accessed stack.");
             loadLastAccessedStack();
+
+            Metrics.logLaunchAtLocation(mActivity, mState, null);
         }
+
     }
 
     private void loadLastAccessedStack() {
