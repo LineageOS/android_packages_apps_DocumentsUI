@@ -26,7 +26,8 @@
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:duplicateParentState="true">
 
         <!-- The height is 48px.
              paddingTop (9dp) + @dimen/check_icon_size (30dp) + paddingBottom (9dp) -->
