@@ -19,6 +19,7 @@ package com.android.documentsui.dirlist;
 import android.annotation.Nullable;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
 import com.android.documentsui.dirlist.Model.Update;
 
@@ -94,15 +95,23 @@ abstract class Message {
         void update(Update event) {
             reset();
             if (event.hasError()) {
-                updateToInflatedErrorMesage();
+                updateToInflatedErrorMesage(
+                        Shared.DEBUG ? Shared.getStackTrace(event.getError()) : null);
+
             } else if (mEnv.getModel().getModelIds().length == 0) {
                 updateToInflatedEmptyMessage();
             }
         }
 
-        private void updateToInflatedErrorMesage() {
-            update(mEnv.getContext().getResources().getText(R.string.query_error),
-                    R.drawable.hourglass);
+
+        private void updateToInflatedErrorMesage(@Nullable String debugString) {
+            if (debugString == null) {
+                update(mEnv.getContext().getResources().getText(R.string.query_error),
+                        R.drawable.hourglass);
+            } else {
+                assert (Shared.DEBUG);
+                update(debugString, R.drawable.hourglass);
+            }
         }
 
         private void updateToInflatedEmptyMessage() {

@@ -35,6 +35,8 @@ import android.view.WindowManager;
 
 import com.android.documentsui.R;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
@@ -165,6 +167,16 @@ public final class Shared {
         return list instanceof ArrayList
             ? (ArrayList<T>) list
             : new ArrayList<>(list);
+    }
+
+    /**
+     * Returns a condensed stacktrace in String format, separated by \n.
+     */
+    public static String getStackTrace(Exception e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
     }
 
     /**
