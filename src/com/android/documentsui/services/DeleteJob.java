@@ -113,6 +113,8 @@ final class DeleteJob extends ResolvedResourcesJob {
             try {
                 deleteDocument(doc, parentDoc);
             } catch (ResourceException e) {
+                Metrics.logFileOperationFailure(
+                        appContext, Metrics.SUBFILEOP_DELETE_DOCUMENT, doc.derivedUri);
                 Log.e(TAG, "Failed to delete document @ " + doc.derivedUri, e);
                 onFileFailed(doc);
             }

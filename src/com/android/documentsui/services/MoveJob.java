@@ -29,6 +29,7 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
+import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -149,6 +150,8 @@ final class MoveJob extends CopyJob {
                         return;
                     }
                 } catch (RemoteException | RuntimeException e) {
+                    Metrics.logFileOperationFailure(
+                            appContext, Metrics.SUBFILEOP_QUICK_MOVE, src.derivedUri);
                     Log.e(TAG, "Provider side move failed for: " + src.derivedUri
                             + " due to an exception: ", e);
                 }
