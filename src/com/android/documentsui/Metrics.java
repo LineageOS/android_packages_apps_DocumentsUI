@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.DocumentsContract;
+import android.provider.DocumentsProvider;
 import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
@@ -64,6 +65,9 @@ public final class Metrics {
     private static final String COUNT_STARTUP_MS = "docsui_startup_ms";
     private static final String COUNT_DRAWER_OPENED = "docsui_drawer_opened";
     private static final String COUNT_USER_ACTION = "docsui_menu_action";
+    private static final String COUNT_CREATE_AT_LOCATION = "docsui_create_at_location";
+    private static final String COUNT_OPEN_AT_LOCATION = "docsui_open_at_location";
+    private static final String COUNT_GET_CONTENT_AT_LOCATION = "docsui_get_content_at_location";
 
     // Indices for bucketing roots in the roots histogram. "Other" is the catch-all index for any
     // root that is not explicitly recognized by the Metrics code (see {@link
@@ -339,6 +343,28 @@ public final class Metrics {
                 logHistogram(context, COUNT_BROWSE_ROOT, sanitizeRoot(uri));
                 break;
             default:
+                break;
+        }
+    }
+
+    /**
+     * Logs when DocumentsUI are launched with {@link DocumentsContract#EXTRA_INITIAL_URI}.
+     *
+     * @param context
+     * @param state used to resolve action
+     * @param rootUri the resolved rootUri, or {@code null} if the provider doesn't
+     *                support {@link DocumentsProvider#findDocumentPath(String, String)}
+     */
+    public static void logLaunchAtLocation(Context context, State state, @Nullable Uri rootUri) {
+        switch (state.action) {
+            case State.ACTION_CREATE:
+                logHistogram(context, COUNT_CREATE_AT_LOCATION, sanitizeRoot(rootUri));
+                break;
+            case State.ACTION_GET_CONTENT:
+                logHistogram(context, COUNT_GET_CONTENT_AT_LOCATION, sanitizeRoot(rootUri));
+                break;
+            case State.ACTION_OPEN:
+                logHistogram(context, COUNT_OPEN_AT_LOCATION, sanitizeRoot(rootUri));
                 break;
         }
     }
