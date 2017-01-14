@@ -142,6 +142,8 @@ public class TestScheduledExecutorService implements ScheduledExecutorService {
         while (iter.hasNext()) {
             TestFuture future = iter.next();
             future.runnable.run();
+
+            // Remove the job from scheduled after it finishes.
             iter.remove();
         }
     }
