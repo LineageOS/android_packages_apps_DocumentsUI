@@ -90,9 +90,15 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
 
     @Override
     protected void tearDown() {
+        // Release all possibly held wake lock here
+        mExecutor.runAll();
+        mDeletionExecutor.runAll();
+
         // There are lots of progress notifications generated in this test case.
         // Dismiss all of them here.
-        mHandler.dispatchAllMessages();
+        while (mHandler.hasScheduledMessage()) {
+            mHandler.dispatchAllMessages();
+        }
     }
 
     public void testRunsCopyJobs() throws Exception {
