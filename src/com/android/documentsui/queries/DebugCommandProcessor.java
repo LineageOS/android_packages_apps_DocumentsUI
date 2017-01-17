@@ -42,6 +42,7 @@ public final class DebugCommandProcessor implements EventHandler<String> {
             mCommands.add(DebugCommandProcessor::quickViewer);
             mCommands.add(DebugCommandProcessor::gestureScale);
             mCommands.add(DebugCommandProcessor::docDetails);
+            mCommands.add(DebugCommandProcessor::forcePaging);
         }
     }
 
@@ -104,6 +105,31 @@ public final class DebugCommandProcessor implements EventHandler<String> {
                 return true;
             }
             Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));
+        }
+        return false;
+    }
+
+    private static boolean forcePaging(String[] tokens) {
+        if ("page".equals(tokens[0])) {
+            if (tokens.length >= 2) {
+                try {
+                    int offset = Integer.parseInt(tokens[1]);
+                    int limit = (tokens.length == 3) ? Integer.parseInt(tokens[2]) : -1;
+                    DebugFlags.setForcedPaging(offset, limit);
+                    Log.i(TAG, "Set forced paging to offset: " + offset + ", limit: " + limit);
+                    return true;
+                } catch (NumberFormatException e) {
+                    Log.w(TAG, "Command input does not contain valid numbers: "
+                            + TextUtils.join(" ", tokens));
+                    return false;
+                }
+            } else {
+                Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));
+            }
+        } else if ("deqv".equals(tokens[0])) {
+            Log.i(TAG, "Unset quick viewer");
+            DebugFlags.setQuickViewer(null);
+            return true;
         }
         return false;
     }

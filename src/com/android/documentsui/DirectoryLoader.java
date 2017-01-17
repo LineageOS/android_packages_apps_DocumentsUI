@@ -23,6 +23,7 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Handler;
 import android.os.OperationCanceledException;
@@ -31,6 +32,7 @@ import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
 import com.android.documentsui.archives.ArchivesProvider;
+import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
@@ -97,10 +99,22 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
                 ArchivesProvider.acquireArchive(client, mUri);
             }
             result.client = client;
-            cursor = client.query(
-                    mUri, null, null, null, mModel.getDocumentSortQuery(), mSignal);
+            Bundle queryArgs = new Bundle();
+            mModel.addQuerySortArgs(queryArgs);
+
+            // TODO: At some point we don't want forced flags to override real paging...
+            // and that point is when we have real paging.
+            DebugFlags.addForcedPagingArgs(queryArgs);
+
+            cursor = client.query(mUri, null, queryArgs, mSignal);
             if (cursor == null) {
                 throw new RemoteException("Provider returned null");
+            }
+
+            Bundle extras = cursor.getExtras();
+            if (extras.containsKey(ContentResolver.QUERY_RESULT_SIZE)) {
+                Log.i(TAG, "[PAGING INDICATED] Cursor extras specify recordset size of: "
+                        + extras.getInt(ContentResolver.QUERY_RESULT_SIZE));
             }
 
             cursor.registerContentObserver(mObserver);
