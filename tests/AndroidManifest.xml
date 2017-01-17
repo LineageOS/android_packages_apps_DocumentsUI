@@ -17,6 +17,7 @@
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
        </provider>
+
        <!-- Provider that demostrates some features, like display of INFO and ERROR messages. -->
        <provider
             android:name="com.android.documentsui.DemoProvider"
@@ -29,6 +30,7 @@
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
        </provider>
+
        <!-- Provider for testing archives. -->
        <provider
             android:name="com.android.documentsui.archives.ResourcesProvider"
@@ -41,6 +43,19 @@
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
       </provider>
+
+       <!-- Provider with support for paging. -->
+       <provider
+            android:name="com.android.documentsui.PagingProvider"
+            android:authorities="com.android.documentsui.pagingprovider"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+       </provider>
     </application>
 
     <instrumentation android:name="android.support.test.runner.AndroidJUnitRunner"

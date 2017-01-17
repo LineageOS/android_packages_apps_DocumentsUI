@@ -24,6 +24,7 @@ import android.annotation.IntDef;
 import android.annotation.Nullable;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.DocumentsContract.Document;
@@ -239,20 +240,26 @@ public class SortModel implements Parcelable {
         }
     }
 
-    public @Nullable String getDocumentSortQuery() {
+    public void addQuerySortArgs(Bundle queryArgs) {
+
         final int id = getSortedDimensionId();
-        final String columnName;
         switch (id) {
             case SORT_DIMENSION_ID_UNKNOWN:
-                return null;
+                return;
             case SortModel.SORT_DIMENSION_ID_TITLE:
-                columnName = Document.COLUMN_DISPLAY_NAME;
+                queryArgs.putStringArray(
+                        ContentResolver.QUERY_ARG_SORT_COLUMNS,
+                        new String[]{ Document.COLUMN_DISPLAY_NAME });
                 break;
             case SortModel.SORT_DIMENSION_ID_DATE:
-                columnName = Document.COLUMN_LAST_MODIFIED;
+                queryArgs.putStringArray(
+                        ContentResolver.QUERY_ARG_SORT_COLUMNS,
+                        new String[]{ Document.COLUMN_LAST_MODIFIED });
                 break;
             case SortModel.SORT_DIMENSION_ID_SIZE:
-                columnName = Document.COLUMN_SIZE;
+                queryArgs.putStringArray(
+                        ContentResolver.QUERY_ARG_SORT_COLUMNS,
+                        new String[]{ Document.COLUMN_SIZE });
                 break;
             default:
                 throw new IllegalStateException(
@@ -260,20 +267,21 @@ public class SortModel implements Parcelable {
         }
 
         final SortDimension dimension = getDimensionById(id);
-        final String direction;
         switch (dimension.getSortDirection()) {
             case SortDimension.SORT_DIRECTION_ASCENDING:
-                direction = " ASC";
+                queryArgs.putInt(
+                        ContentResolver.QUERY_ARG_SORT_DIRECTION,
+                        ContentResolver.QUERY_SORT_DIRECTION_ASCENDING);
                 break;
             case SortDimension.SORT_DIRECTION_DESCENDING:
-                direction = " DESC";
+                queryArgs.putInt(
+                        ContentResolver.QUERY_ARG_SORT_DIRECTION,
+                        ContentResolver.QUERY_SORT_DIRECTION_DESCENDING);
                 break;
             default:
                 throw new IllegalStateException(
                         "Unexpected sort direction: " + dimension.getSortDirection());
         }
-
-        return columnName + direction;
     }
 
     private void notifyListeners(@UpdateType int updateType) {
