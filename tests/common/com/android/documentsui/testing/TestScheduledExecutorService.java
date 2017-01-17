@@ -21,6 +21,7 @@ import static junit.framework.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
@@ -137,8 +138,11 @@ public class TestScheduledExecutorService implements ScheduledExecutorService {
     }
 
     public void runAll() {
-        for (TestFuture future : scheduled) {
+        final Iterator<TestFuture> iter = scheduled.iterator();
+        while (iter.hasNext()) {
+            TestFuture future = iter.next();
             future.runnable.run();
+            iter.remove();
         }
     }
 
