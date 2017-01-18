@@ -17,17 +17,21 @@
 package com.android.documentsui;
 
 import static android.os.Environment.STANDARD_DIRECTORIES;
+import static com.android.documentsui.DocumentsApplication.acquireUnstableProviderOrThrow;
 import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;
 import android.annotation.StringDef;
 import android.app.Activity;
+import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.RemoteException;
 import android.provider.DocumentsContract;
+import android.provider.DocumentsContract.Path;
 import android.provider.DocumentsProvider;
 import android.util.Log;
 
@@ -37,6 +41,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ActionType;
 import com.android.documentsui.files.LauncherActivity;
+import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.internal.logging.MetricsLogger;
@@ -68,6 +73,14 @@ public final class Metrics {
     private static final String COUNT_CREATE_AT_LOCATION = "docsui_create_at_location";
     private static final String COUNT_OPEN_AT_LOCATION = "docsui_open_at_location";
     private static final String COUNT_GET_CONTENT_AT_LOCATION = "docsui_get_content_at_location";
+    private static final String COUNT_MEDIA_FILEOP_FAILURE = "docsui_media_fileop_failure";
+    private static final String COUNT_DOWNLOADS_FILEOP_FAILURE = "docsui_downloads_fileop_failure";
+    private static final String COUNT_INTERNAL_STORAGE_FILEOP_FAILURE
+            = "docsui_internal_storage_fileop_failure";
+    private static final String COUNT_EXTERNAL_STORAGE_FILEOP_FAILURE
+            = "docsui_external_storage_fileop_failure";
+    private static final String COUNT_MTP_FILEOP_FAILURE = "docsui_mtp_fileop_failure";
+    private static final String COUNT_OTHER_FILEOP_FAILURE = "docsui_other_fileop_failure";
 
     // Indices for bucketing roots in the roots histogram. "Other" is the catch-all index for any
     // root that is not explicitly recognized by the Metrics code (see {@link
@@ -210,6 +223,33 @@ public final class Metrics {
     @Retention(RetentionPolicy.SOURCE)
     public @interface Provider {}
 
+    // Codes representing different types of sub-fileops. These are used for bucketing fileop
+    // failures in COUNT_*_FILEOP_FAILURE.
+    public static final int SUBFILEOP_QUERY_DOCUMENT = 1;
+    public static final int SUBFILEOP_QUERY_CHILDREN = 2;
+    public static final int SUBFILEOP_OPEN_FILE = 3;
+    public static final int SUBFILEOP_READ_FILE = 4;
+    public static final int SUBFILEOP_CREATE_DOCUMENT = 5;
+    public static final int SUBFILEOP_WRITE_FILE = 6;
+    public static final int SUBFILEOP_DELETE_DOCUMENT = 7;
+    public static final int SUBFILEOP_OBTAIN_STREAM_TYPE = 8;
+    public static final int SUBFILEOP_QUICK_MOVE = 9;
+    public static final int SUBFILEOP_QUICK_COPY = 10;
+
+    @IntDef(flag = false, value = {
+            SUBFILEOP_QUERY_DOCUMENT,
+            SUBFILEOP_QUERY_CHILDREN,
+            SUBFILEOP_OPEN_FILE,
+            SUBFILEOP_READ_FILE,
+            SUBFILEOP_CREATE_DOCUMENT,
+            SUBFILEOP_WRITE_FILE,
+            SUBFILEOP_DELETE_DOCUMENT,
+            SUBFILEOP_OBTAIN_STREAM_TYPE,
+            SUBFILEOP_QUICK_MOVE,
+            SUBFILEOP_QUICK_COPY
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SubFileOp {}
 
     // Codes representing different user actions. These are used for bucketing stats in the
     // COUNT_USER_ACTION histogram.
@@ -494,6 +534,28 @@ public final class Metrics {
         }
     }
 
+    public static void logFileOperationFailure(
+            Context context, @SubFileOp int subFileOp, Uri docUri) {
+        final String authority = docUri.getAuthority();
+        switch (authority) {
+            case Providers.AUTHORITY_MEDIA:
+                logHistogram(context, COUNT_MEDIA_FILEOP_FAILURE, subFileOp);
+                break;
+            case Providers.AUTHORITY_STORAGE:
+                logStorageFileOperationFailure(context, subFileOp, docUri);
+                break;
+            case Providers.AUTHORITY_DOWNLOADS:
+                logHistogram(context, COUNT_DOWNLOADS_FILEOP_FAILURE, subFileOp);
+                break;
+            case Providers.AUTHORITY_MTP:
+                logHistogram(context, COUNT_MTP_FILEOP_FAILURE, subFileOp);
+                break;
+            default:
+                logHistogram(context, COUNT_OTHER_FILEOP_FAILURE, subFileOp);
+                break;
+        }
+    }
+
     /**
      * Logs create directory operation error. We do not differentiate between internal and external
      * locations, all create directory errors are logged under COUNT_FILEOP_SYSTEM. Call this when a
@@ -659,6 +721,31 @@ public final class Metrics {
      */
     public static void logUserAction(Context context, @UserAction int userAction) {
         logHistogram(context, COUNT_USER_ACTION, userAction);
+    }
+
+    private static void logStorageFileOperationFailure(
+            Context context, @SubFileOp int subFileOp, Uri docUri) {
+        assert(Providers.AUTHORITY_STORAGE.equals(docUri.getAuthority()));
+
+        boolean isInternal;
+        try (ContentProviderClient client = acquireUnstableProviderOrThrow(
+                context.getContentResolver(), Providers.AUTHORITY_STORAGE)) {
+            final Path path = DocumentsContract.findDocumentPath(client, docUri);
+
+            final RootsAccess roots = DocumentsApplication.getRootsCache(context);
+            final RootInfo root = roots.getRootOneshot(
+                    Providers.AUTHORITY_STORAGE, path.getRootId());
+            isInternal = !root.supportsEject();
+        } catch (RemoteException | RuntimeException e) {
+            Log.e(TAG, "Failed to obtain its root info. Log the metrics as internal.", e);
+            // It's not very likely to have an external storage so log it as internal.
+            isInternal = true;
+        }
+
+        final String histogram = isInternal
+                ? COUNT_INTERNAL_STORAGE_FILEOP_FAILURE
+                : COUNT_EXTERNAL_STORAGE_FILEOP_FAILURE;
+        logHistogram(context, histogram, subFileOp);
     }
 
     /**
