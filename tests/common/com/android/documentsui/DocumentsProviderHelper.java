@@ -304,4 +304,9 @@ public class DocumentsProviderHelper {
         return DocumentsContract.buildDocumentUri(mAuthority, documentId);
     }
 
+    public void setLoadingDuration(long duration) throws RemoteException {
+        final Bundle extra = new Bundle();
+        extra.putLong(DocumentsContract.EXTRA_LOADING, duration);
+        mClient.call("setLoadingDuration", null, extra);
+    }
 }

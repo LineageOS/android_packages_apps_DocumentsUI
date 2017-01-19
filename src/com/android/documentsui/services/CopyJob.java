@@ -38,9 +38,12 @@ import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.CancellationSignal;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
@@ -74,6 +77,8 @@ import java.util.ArrayList;
 class CopyJob extends ResolvedResourcesJob {
 
     private static final String TAG = "CopyJob";
+
+    private static final long LOADING_TIMEOUT = 60000; // 1 min
 
     final ArrayList<DocumentInfo> convertedFiles = new ArrayList<>();
 
@@ -460,10 +465,9 @@ class CopyJob extends ResolvedResourcesJob {
         Cursor cursor = null;
         boolean success = true;
         // Iterate over srcs in the directory; copy to the destination directory.
-        final Uri queryUri = buildChildDocumentsUri(srcDir.authority, srcDir.documentId);
         try {
             try {
-                cursor = getClient(srcDir).query(queryUri, queryColumns, null, null, null);
+                cursor = queryChildren(srcDir, queryColumns);
             } catch (RemoteException | RuntimeException e) {
                 Metrics.logFileOperationFailure(
                         appContext, Metrics.SUBFILEOP_QUERY_CHILDREN, srcDir.derivedUri);
@@ -669,7 +673,6 @@ class CopyJob extends ResolvedResourcesJob {
     long calculateFileSizesRecursively(
             ContentProviderClient client, Uri uri) throws ResourceException {
         final String authority = uri.getAuthority();
-        final Uri queryUri = buildChildDocumentsUri(authority, getDocumentId(uri));
         final String queryColumns[] = new String[] {
                 Document.COLUMN_DOCUMENT_ID,
                 Document.COLUMN_MIME_TYPE,
@@ -679,7 +682,7 @@ class CopyJob extends ResolvedResourcesJob {
         long result = 0;
         Cursor cursor = null;
         try {
-            cursor = client.query(queryUri, queryColumns, null, null, null);
+            cursor = queryChildren(client, uri, queryColumns);
             while (cursor.moveToNext() && !isCanceled()) {
                 if (Document.MIME_TYPE_DIR.equals(
                         getCursorString(cursor, Document.COLUMN_MIME_TYPE))) {
@@ -701,6 +704,69 @@ class CopyJob extends ResolvedResourcesJob {
         }
 
         return result;
+    }
+
+    /**
+     * Queries children documents.
+     *
+     * SAF allows {@link DocumentsContract#EXTRA_LOADING} in {@link Cursor#getExtras()} to indicate
+     * there are more data to be loaded. Wait until {@link DocumentsContract#EXTRA_LOADING} is
+     * false and then return the cursor.
+     *
+     * @param srcDir the directory whose children are being loading
+     * @param queryColumns columns of metadata to load
+     * @return cursor of all children documents
+     * @throws RemoteException when the remote throws or waiting for update times out
+     */
+    private Cursor queryChildren(DocumentInfo srcDir, String[] queryColumns)
+            throws RemoteException {
+        try (final ContentProviderClient client = getClient(srcDir)) {
+            return queryChildren(client, srcDir.derivedUri, queryColumns);
+        }
+    }
+
+    /**
+     * Queries children documents.
+     *
+     * SAF allows {@link DocumentsContract#EXTRA_LOADING} in {@link Cursor#getExtras()} to indicate
+     * there are more data to be loaded. Wait until {@link DocumentsContract#EXTRA_LOADING} is
+     * false and then return the cursor.
+     *
+     * @param client the {@link ContentProviderClient} to use to query children
+     * @param dirDocUri the document Uri of the directory whose children are being loaded
+     * @param queryColumns columns of metadata to load
+     * @return cursor of all children documents
+     * @throws RemoteException when the remote throws or waiting for update times out
+     */
+    private Cursor queryChildren(ContentProviderClient client, Uri dirDocUri, String[] queryColumns)
+            throws RemoteException {
+        // TODO (b/34459983): Optimize this performance by processing partial result first while provider is loading
+        // more data. Note we need to skip size calculation to achieve it.
+        final Uri queryUri = buildChildDocumentsUri(dirDocUri.getAuthority(), getDocumentId(dirDocUri));
+        Cursor cursor = client.query(
+                queryUri, queryColumns, (String) null, null, null);
+        while (cursor.getExtras().getBoolean(DocumentsContract.EXTRA_LOADING)) {
+            cursor.registerContentObserver(new DirectoryChildrenObserver(queryUri));
+            try {
+                long start = System.currentTimeMillis();
+                synchronized (queryUri) {
+                    queryUri.wait(LOADING_TIMEOUT);
+                }
+                if (System.currentTimeMillis() - start > LOADING_TIMEOUT) {
+                    // Timed out
+                    throw new RemoteException("Timed out waiting on update for " + queryUri);
+                }
+            } catch (InterruptedException e) {
+                // Should never happen
+                throw new RuntimeException(e);
+            }
+
+            // Make another query
+            cursor = client.query(
+                    queryUri, queryColumns, (String) null, null, null);
+        }
+
+        return cursor;
     }
 
     /**
@@ -732,5 +798,23 @@ class CopyJob extends ResolvedResourcesJob {
                 .append(", destination=" + stack)
                 .append("}")
                 .toString();
+    }
+
+    private static class DirectoryChildrenObserver extends ContentObserver {
+
+        private final Object mNotifier;
+
+        private DirectoryChildrenObserver(Object notifier) {
+            super(new Handler(Looper.getMainLooper()));
+            assert(notifier != null);
+            mNotifier = notifier;
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            synchronized (mNotifier) {
+                mNotifier.notify();
+            }
+        }
     }
 }
