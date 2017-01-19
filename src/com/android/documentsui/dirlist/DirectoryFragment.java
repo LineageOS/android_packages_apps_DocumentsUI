@@ -311,6 +311,9 @@ public class DirectoryFragment extends Fragment
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
         mActions = mInjector.getActionHandler(mModel);
 
+        mRecView.setAccessibilityDelegateCompat(
+                new AccessibilityClickEventRouter(mRecView,
+                        (View child) -> onAccessibilityClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addItemCallback(mSelectionMetadata);
 
@@ -673,6 +676,12 @@ public class DirectoryFragment extends Fragment
             return true;
         }
         return false;
+    }
+
+    private boolean onAccessibilityClick(View child) {
+        DocumentDetails doc = getDocumentHolder(child);
+        mActions.openDocument(doc);
+        return true;
     }
 
     private void cancelThumbnailTask(View view) {

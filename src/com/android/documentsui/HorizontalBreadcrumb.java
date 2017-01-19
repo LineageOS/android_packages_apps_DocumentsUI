@@ -31,8 +31,10 @@ import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.NavigationViewManager.Environment;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.dirlist.AccessibilityClickEventRouter;
 
 import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 /**
  * Horizontal implementation of breadcrumb used for tablet / desktop device layouts
@@ -44,7 +46,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
 
     private LinearLayoutManager mLayoutManager;
     private BreadcrumbAdapter mAdapter;
-    private Consumer<Integer> mListener;
+    private IntConsumer mClickListener;
 
     public HorizontalBreadcrumb(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -61,13 +63,20 @@ public final class HorizontalBreadcrumb extends RecyclerView
     @Override
     public void setup(Environment env,
             com.android.documentsui.base.State state,
-            Consumer<Integer> listener) {
+            IntConsumer listener) {
 
-        mListener = listener;
+        mClickListener = listener;
         mLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new BreadcrumbAdapter(
                 state, env, new ItemDragListener<>(this));
+        // Since we are using GestureDetector to detect click events, a11y services don't know which views
+        // are clickable because we aren't using View.OnClickListener. Thus, we need to use a custom
+        // accessibility delegate to route click events correctly. See AccessibilityClickEventRouter
+        // for more details on how we are routing these a11y events.
+        setAccessibilityDelegateCompat(
+                new AccessibilityClickEventRouter(this,
+                        (View child) -> onAccessibilityClick(child)));
 
         setLayoutManager(mLayoutManager);
         addOnItemTouchListener(new ClickListener(getContext(), this::onSingleTapUp));
@@ -108,6 +117,15 @@ public final class HorizontalBreadcrumb extends RecyclerView
         return (maxOffset - computeHorizontalScrollOffset() > USER_NO_SCROLL_OFFSET_THRESHOLD);
     }
 
+    private boolean onAccessibilityClick(View child) {
+        int pos = getChildAdapterPosition(child);
+        if (pos != getAdapter().getItemCount() - 1) {
+            mClickListener.accept(pos);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void postUpdate() {
     }
@@ -139,7 +157,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
     public void onViewHovered(View v) {
         int pos = getChildAdapterPosition(v);
         if (pos != mAdapter.getItemCount() - 1) {
-            mListener.accept(pos);
+            mClickListener.accept(pos);
         }
     }
 
@@ -147,7 +165,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
         View itemView = findChildViewUnder(e.getX(), e.getY());
         int pos = getChildAdapterPosition(itemView);
         if (pos != mAdapter.getItemCount() - 1) {
-            mListener.accept(pos);
+            mClickListener.accept(pos);
         }
     }
 
