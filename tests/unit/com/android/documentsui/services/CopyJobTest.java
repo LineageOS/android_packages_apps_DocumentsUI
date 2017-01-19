@@ -66,6 +66,11 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
         runCopyDirRecursivelyTest();
     }
 
+    public void testCopyDirRecursively_loadingInFirstCursor() throws Exception {
+        mDocs.setLoadingDuration(500);
+        testCopyDirRecursively();
+    }
+
     public void testNoCopyDirToSelf() throws Exception {
         runNoCopyDirToSelfTest();
     }

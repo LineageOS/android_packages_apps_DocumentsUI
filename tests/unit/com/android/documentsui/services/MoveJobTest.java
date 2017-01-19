@@ -102,6 +102,11 @@ public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
         mDocs.assertChildCount(mSrcRoot, 0);
     }
 
+    public void testMoveDirRecursively_loadingInFirstCursor() throws Exception {
+        mDocs.setLoadingDuration(500);
+        testMoveDirRecursively();
+    }
+
     public void testNoMoveDirToSelf() throws Exception {
         runNoCopyDirToSelfTest();
 
