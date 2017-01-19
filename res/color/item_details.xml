@@ -17,5 +17,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_enabled="true"
-        android:color="@*android:color/secondary_text_default_material_light" />
+        android:color="@color/item_doc_details" />
 </selector>
