@@ -16,6 +16,7 @@
 
 package com.android.documentsui;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ProviderInfo;
@@ -25,10 +26,7 @@ import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
 import android.graphics.Point;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.CancellationSignal;
-import android.os.FileUtils;
-import android.os.ParcelFileDescriptor;
+import android.os.*;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
@@ -91,6 +89,7 @@ public class StubProvider extends DocumentsProvider {
     private String mAuthority = DEFAULT_AUTHORITY;
     private SharedPreferences mPrefs;
     private Set<String> mSimulateReadErrorIds = new HashSet<>();
+    private long mLoadingDuration = 0;
 
     @Override
     public void attachInfo(Context context, ProviderInfo info) {
@@ -134,6 +133,8 @@ public class StubProvider extends DocumentsProvider {
             mStorage.put(rootInfo.document.documentId, rootInfo.document);
             mRoots.put(rootId, rootInfo);
         }
+
+        mLoadingDuration = 0;
     }
 
     /**
@@ -225,22 +226,38 @@ public class StubProvider extends DocumentsProvider {
     @Override
     public Cursor queryChildDocuments(String parentDocumentId, String[] projection, String sortOrder)
             throws FileNotFoundException {
-        final StubDocument parentDocument = mStorage.get(parentDocumentId);
-        if (parentDocument == null || parentDocument.file.isFile()) {
-            throw new FileNotFoundException();
-        }
-        final MatrixCursor result = new MatrixCursor(projection != null ? projection
-                : DEFAULT_DOCUMENT_PROJECTION);
-        result.setNotificationUri(getContext().getContentResolver(),
-                DocumentsContract.buildChildDocumentsUri(mAuthority, parentDocumentId));
-        StubDocument document;
-        for (File file : parentDocument.file.listFiles()) {
-            document = mStorage.get(getDocumentIdForFile(file));
-            if (document != null) {
-                includeDocument(result, document);
+        if (mLoadingDuration > 0) {
+            final Uri notifyUri = DocumentsContract.buildDocumentUri(mAuthority, parentDocumentId);
+            final ContentResolver resolver = getContext().getContentResolver();
+            new Handler(Looper.getMainLooper()).postDelayed(
+                    () -> resolver.notifyChange(notifyUri, null, false),
+                    mLoadingDuration);
+            mLoadingDuration = 0;
+
+            MatrixCursor cursor = new MatrixCursor(projection != null ? projection : DEFAULT_DOCUMENT_PROJECTION);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(DocumentsContract.EXTRA_LOADING, true);
+            cursor.setExtras(bundle);
+            cursor.setNotificationUri(resolver, notifyUri);
+            return cursor;
+        } else {
+            final StubDocument parentDocument = mStorage.get(parentDocumentId);
+            if (parentDocument == null || parentDocument.file.isFile()) {
+                throw new FileNotFoundException();
             }
+            final MatrixCursor result = new MatrixCursor(projection != null ? projection
+                    : DEFAULT_DOCUMENT_PROJECTION);
+            result.setNotificationUri(getContext().getContentResolver(),
+                    DocumentsContract.buildChildDocumentsUri(mAuthority, parentDocumentId));
+            StubDocument document;
+            for (File file : parentDocument.file.listFiles()) {
+                document = mStorage.get(getDocumentIdForFile(file));
+                if (document != null) {
+                    includeDocument(result, document);
+                }
+            }
+            return result;
         }
-        return result;
     }
 
     @Override
@@ -489,6 +506,9 @@ public class StubProvider extends DocumentsProvider {
                 return null;
             case "createDocumentWithFlags":
                 return dispatchCreateDocumentWithFlags(extras);
+            case "setLoadingDuration":
+                mLoadingDuration = extras.getLong(DocumentsContract.EXTRA_LOADING);
+                return null;
         }
 
         return null;
