@@ -152,7 +152,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public void openRoot(RootInfo root) {
-        Metrics.logRootVisited(mActivity, root);
+        Metrics.logRootVisited(mActivity, Metrics.FILES_SCOPE, root);
         mActivity.onRootPicked(root);
     }
 

@@ -174,7 +174,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     @Override
     public void openRoot(RootInfo root) {
-        Metrics.logRootVisited(mActivity, root);
+        Metrics.logRootVisited(mActivity, Metrics.PICKER_SCOPE, root);
         mActivity.onRootPicked(root);
     }
 
