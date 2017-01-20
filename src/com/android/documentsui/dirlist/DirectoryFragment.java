@@ -16,7 +16,6 @@
 
 package com.android.documentsui.dirlist;
 
-import static android.content.ContentResolver.EXTRA_REFRESH_SUPPORTED;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
@@ -27,7 +26,6 @@ import static com.android.documentsui.base.State.MODE_LIST;
 import android.annotation.DimenRes;
 import android.annotation.FractionRes;
 import android.annotation.IntDef;
-import android.annotation.StringRes;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Fragment;
@@ -43,7 +41,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -64,7 +61,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ActionModeController;
@@ -83,7 +79,6 @@ import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
-import com.android.documentsui.RefreshTask;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventHandler;
@@ -111,7 +106,6 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.ui.DialogController;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
