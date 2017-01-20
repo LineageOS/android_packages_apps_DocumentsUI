@@ -57,7 +57,10 @@ public final class Metrics {
 
     // These strings have to be whitelisted in tron. Do not change them.
     private static final String COUNT_LAUNCH_ACTION = "docsui_launch_action";
-    private static final String COUNT_ROOT_VISITED = "docsui_root_visited";
+    private static final String COUNT_ROOT_VISITED_IN_MANAGER
+            = "docsui_root_visited_in_manager";
+    private static final String COUNT_ROOT_VISITED_IN_PICKER
+            = "docsui_root_visited_in_picker";
     private static final String COUNT_OPEN_MIME = "docsui_open_mime";
     private static final String COUNT_CREATE_MIME = "docsui_create_mime";
     private static final String COUNT_GET_CONTENT_MIME = "docsui_get_content_mime";
@@ -147,6 +150,13 @@ public final class Metrics {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface Mime {}
+
+    public static final int FILES_SCOPE = 1;
+    public static final int PICKER_SCOPE = 2;
+
+    @IntDef({ FILES_SCOPE, PICKER_SCOPE })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ContextScope {}
 
     // Codes representing different kinds of file operations. These are used for bucketing
     // operations in the COUNT_FILEOP_{SYSTEM|EXTERNAL} histograms.
@@ -410,23 +420,36 @@ public final class Metrics {
     }
 
     /**
-     * Logs a root visited event. Call this when the user visits on a root in the RootsFragment.
+     * Logs a root visited event in file managers. Call this when the user
+     * taps on a root in {@link com.android.documentsui.sidebar.RootsFragment}.
      *
      * @param context
+     * @param scope
      * @param info
      */
-    public static void logRootVisited(Context context, RootInfo info) {
-        logHistogram(context, COUNT_ROOT_VISITED, sanitizeRoot(info));
+    public static void logRootVisited(
+            Context context, @ContextScope int scope, RootInfo info) {
+        switch (scope) {
+            case FILES_SCOPE:
+                logHistogram(context, COUNT_ROOT_VISITED_IN_MANAGER,
+                        sanitizeRoot(info));
+                break;
+            case PICKER_SCOPE:
+                logHistogram(context, COUNT_ROOT_VISITED_IN_PICKER,
+                        sanitizeRoot(info));
+                break;
+        }
     }
 
     /**
-     * Logs an app visited event. Call this when the user visits on an app in the RootsFragment.
+     * Logs an app visited event in file pickers. Call this when the user visits
+     * on an app in the RootsFragment.
      *
      * @param context
      * @param info
      */
     public static void logAppVisited(Context context, ResolveInfo info) {
-        logHistogram(context, COUNT_ROOT_VISITED, sanitizeRoot(info));
+        logHistogram(context, COUNT_ROOT_VISITED_IN_PICKER, sanitizeRoot(info));
     }
 
     /**
