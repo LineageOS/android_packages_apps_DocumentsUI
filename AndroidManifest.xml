@@ -18,7 +18,7 @@
             android:name=".picker.PickActivity"
             android:theme="@style/DocumentsTheme"
             android:icon="@drawable/picker_icon"
-            android:visibleToEphemeral="true">
+            android:visibleToInstantApps="true">
             <intent-filter>
                 <action android:name="android.intent.action.OPEN_DOCUMENT" />
                 <category android:name="android.intent.category.DEFAULT" />
