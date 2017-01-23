@@ -260,7 +260,11 @@ public class RootsCache implements RootsAccess {
                 roots.add(root);
             }
         } catch (Exception e) {
-            Log.w(TAG, "Failed to load some roots from " + authority + ": " + e);
+            Log.w(TAG, "Failed to load some roots from " + authority, e);
+            // We didn't load every root from the provider. Don't put it to
+            // system cache so that we'll try loading them again next time even
+            // if forceRefresh is false.
+            return roots;
         } finally {
             IoUtils.closeQuietly(cursor);
             ContentProviderClient.releaseQuietly(client);
