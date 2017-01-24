@@ -32,7 +32,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 /**
  * Dropdown implementation of breadcrumb used for phone device layouts
@@ -60,7 +60,7 @@ public final class DropdownBreadcrumb extends Spinner implements Breadcrumb {
     }
 
     @Override
-    public void setup(Environment env, State state, Consumer<Integer> listener) {
+    public void setup(Environment env, State state, IntConsumer listener) {
         mAdapter = new DropdownAdapter(state, env);
         setOnItemSelectedListener(
                 new OnItemSelectedListener() {

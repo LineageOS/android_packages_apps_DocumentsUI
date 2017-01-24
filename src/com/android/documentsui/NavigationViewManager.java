@@ -27,7 +27,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 /**
  * A facade over the portions of the app and drawer toolbars.
@@ -124,7 +124,7 @@ public class NavigationViewManager {
     }
 
     interface Breadcrumb {
-        void setup(Environment env, State state, Consumer<Integer> listener);
+        void setup(Environment env, State state, IntConsumer listener);
         void show(boolean visibility);
         void postUpdate();
     }
