@@ -169,7 +169,13 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     @Override
     protected void updateCopyTo(MenuItem copyTo, SelectionDetails selectionDetails) {
         copyTo.setVisible(true);
-        copyTo.setEnabled(!selectionDetails.containsPartialFiles());
+        copyTo.setEnabled(!selectionDetails.containsPartialFiles() &&
+                !selectionDetails.canExtract());
+    }
+
+    @Override
+    protected void updateExtractTo(MenuItem extractTo, SelectionDetails selectionDetails) {
+        extractTo.setVisible(selectionDetails.canExtract());
     }
 
     @Override
