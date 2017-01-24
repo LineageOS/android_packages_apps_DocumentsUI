@@ -60,6 +60,7 @@ public abstract class MenuManager {
         updateSelectAll(menu.findItem(R.id.menu_select_all));
         updateMoveTo(menu.findItem(R.id.menu_move_to), selection);
         updateCopyTo(menu.findItem(R.id.menu_copy_to), selection);
+        updateExtractTo(menu.findItem(R.id.menu_extract_to), selection);
 
         Menus.disableHiddenItems(menu);
     }
@@ -269,6 +270,10 @@ public abstract class MenuManager {
         copyTo.setVisible(false);
     }
 
+    protected void updateExtractTo(MenuItem extractTo, SelectionDetails selectionDetails) {
+        extractTo.setVisible(false);
+    }
+
     protected void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
         pasteInto.setVisible(false);
     }
@@ -301,6 +306,8 @@ public abstract class MenuManager {
         boolean canRename();
 
         boolean canPasteInto();
+
+        boolean canExtract();
     }
 
     public static class DirectoryDetails {

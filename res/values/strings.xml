@@ -52,6 +52,8 @@
     <string name="menu_copy">Copy to\u2026</string>
     <!-- Menu item title that moves the selected documents [CHAR LIMIT=28] -->
     <string name="menu_move">Move to\u2026</string>
+    <!-- Menu item title that extracts the selected documents [CHAR LIMIT=28] -->
+    <string name="menu_extract">Extract to\u2026</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_rename">Rename</string>
 

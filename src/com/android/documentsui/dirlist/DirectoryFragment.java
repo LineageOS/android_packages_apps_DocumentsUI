@@ -611,6 +611,8 @@ public class DirectoryFragment extends Fragment
                 return true;
 
             case R.id.menu_copy_to:
+            // TODO: Add a separate OPERATION_EXTRACT.
+            case R.id.menu_extract_to:
                 transferDocuments(selection, FileOperationService.OPERATION_COPY);
                 // TODO: Only finish selection mode if copy-to is not canceled.
                 // Need to plum down into handling the way we do with deleteDocuments.
