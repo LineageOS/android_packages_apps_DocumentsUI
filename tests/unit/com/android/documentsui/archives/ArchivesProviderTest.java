@@ -70,7 +70,8 @@ public class ArchivesProviderTest extends AndroidTestCase {
     public void testOpen_Success() throws InterruptedException {
         final Uri sourceUri = DocumentsContract.buildDocumentUri(
                 ResourcesProvider.AUTHORITY, "archive.zip");
-        final Uri archiveUri = ArchivesProvider.buildUriForArchive(sourceUri);
+        final Uri archiveUri = ArchivesProvider.buildUriForArchive(sourceUri,
+                ParcelFileDescriptor.MODE_READ_ONLY);
 
         final Uri childrenUri = DocumentsContract.buildChildDocumentsUri(
                 ArchivesProvider.AUTHORITY, DocumentsContract.getDocumentId(archiveUri));
@@ -113,7 +114,8 @@ public class ArchivesProviderTest extends AndroidTestCase {
     public void testOpen_Failure() throws InterruptedException {
         final Uri sourceUri = DocumentsContract.buildDocumentUri(
                 ResourcesProvider.AUTHORITY, "broken.zip");
-        final Uri archiveUri = ArchivesProvider.buildUriForArchive(sourceUri);
+        final Uri archiveUri = ArchivesProvider.buildUriForArchive(sourceUri,
+                ParcelFileDescriptor.MODE_READ_ONLY);
 
         final Uri childrenUri = DocumentsContract.buildChildDocumentsUri(
                 ArchivesProvider.AUTHORITY, DocumentsContract.getDocumentId(archiveUri));

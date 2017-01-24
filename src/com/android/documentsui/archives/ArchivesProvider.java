@@ -121,7 +121,7 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
 
             cursor.setExtras(bundle);
             cursor.setNotificationUri(getContext().getContentResolver(),
-                    buildUriForArchive(archiveId.mArchiveUri));
+                    buildUriForArchive(archiveId.mArchiveUri, archiveId.mAccessMode));
             return cursor;
         } finally {
             releaseInstance(loader);
@@ -231,9 +231,15 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
         return false;
     }
 
-    public static Uri buildUriForArchive(Uri archiveUri) {
-        return DocumentsContract.buildDocumentUri(
-                AUTHORITY, new ArchiveId(archiveUri, "/").toDocumentId());
+    /**
+     * Creates a Uri for accessing an archive with the specified access mode.
+     *
+     * @see ParcelFileDescriptor#MODE_READ
+     * @see ParcelFileDescriptor#MODE_WRITE
+     */
+    public static Uri buildUriForArchive(Uri archiveUri, int accessMode) {
+        return DocumentsContract.buildDocumentUri(AUTHORITY,
+                new ArchiveId(archiveUri, accessMode, "/").toDocumentId());
     }
 
     /**
@@ -263,8 +269,7 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
         }
     }
 
-    private Loader getInstanceUncheckedLocked(String documentId)
-            throws FileNotFoundException {
+    private Loader getInstanceUncheckedLocked(String documentId) throws FileNotFoundException {
         final ArchiveId id = ArchiveId.fromDocumentId(documentId);
         if (mArchives.get(id.mArchiveUri) != null) {
             return mArchives.get(id.mArchiveUri);
@@ -281,7 +286,8 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
                 Document.COLUMN_MIME_TYPE));
         Preconditions.checkArgument(isSupportedArchiveType(mimeType));
         final Uri notificationUri = cursor.getNotificationUri();
-        final Loader loader = new Loader(getContext(), id.mArchiveUri, notificationUri);
+        final Loader loader = new Loader(getContext(), id.mArchiveUri, id.mAccessMode,
+                notificationUri);
 
         // Remove the instance from mArchives collection once the archive file changes.
         if (notificationUri != null) {
