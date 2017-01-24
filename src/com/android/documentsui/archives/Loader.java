@@ -42,6 +42,7 @@ public class Loader {
 
     private final Context mContext;
     private final Uri mArchiveUri;
+    private final int mAccessMode;
     private final Uri mNotificationUri;
     private final ReentrantReadWriteLock mLock = new ReentrantReadWriteLock();
     private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
@@ -50,9 +51,10 @@ public class Loader {
     private int mStatus = STATUS_OPENING;
     private Archive mArchive = null;
 
-    Loader(Context context, Uri archiveUri, Uri notificationUri) {
+    Loader(Context context, Uri archiveUri, int accessMode, Uri notificationUri) {
         this.mContext = context;
         this.mArchiveUri = archiveUri;
+        this.mAccessMode = accessMode;
         this.mNotificationUri = notificationUri;
 
         // Start loading the archive immediately in the background.
@@ -77,11 +79,17 @@ public class Loader {
         }
 
         try {
-            mArchive = Archive.createForParcelFileDescriptor(
-                    mContext,
-                    mContext.getContentResolver().openFileDescriptor(
-                            mArchiveUri, "r", null /* signal */),
-                    mArchiveUri, mNotificationUri);
+            if (ReadableArchive.supportsAccessMode(mAccessMode)) {
+                mArchive = ReadableArchive.createForParcelFileDescriptor(
+                        mContext,
+                        mContext.getContentResolver().openFileDescriptor(
+                                mArchiveUri, "r", null /* signal */),
+                        mArchiveUri, mAccessMode, mNotificationUri);
+            // TODO:
+            // } else if (WriteableArchive.supportsAccessMode(mAccessMode)) {
+            } else {
+                throw new IllegalStateException("Access mode not supported.");
+            }
             synchronized (mStatusLock) {
                 mStatus = STATUS_OPENED;
             }
@@ -95,7 +103,7 @@ public class Loader {
             // Notify observers that the root directory is loaded (or failed)
             // so clients reload it.
             mContext.getContentResolver().notifyChange(
-                    ArchivesProvider.buildUriForArchive(mArchiveUri),
+                    ArchivesProvider.buildUriForArchive(mArchiveUri, mAccessMode),
                     null /* observer */, false /* syncToNetwork */);
         }
 
