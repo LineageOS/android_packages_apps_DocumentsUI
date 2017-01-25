@@ -165,7 +165,7 @@ public class ReadableArchive extends Archive {
      * If the file descriptor is not seekable, then a snapshot will be created.
      *
      * This method takes ownership for the passed descriptor. The caller must
-     * not close it.
+     * not use it after passing.
      *
      * @param context Context of the provider.
      * @param descriptor File descriptor for the archive's contents.
@@ -284,7 +284,8 @@ public class ReadableArchive extends Archive {
                                     // Catch the exception before the outer try-with-resource closes
                                     // the pipe with close() instead of closeWithError().
                                     try {
-                                        outputPipe.closeWithError(e.getMessage());
+                                        Log.e(TAG, "Failed while reading a file.", e);
+                                        outputPipe.closeWithError("Reading failure.");
                                     } catch (IOException e2) {
                                         Log.e(TAG, "Failed to close the pipe after an error.", e2);
                                     }

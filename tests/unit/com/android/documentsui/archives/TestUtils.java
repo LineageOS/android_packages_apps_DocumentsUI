@@ -46,6 +46,14 @@ public class TestUtils {
     }
 
     /**
+     * Creates an empty temporary file.
+     */
+    public File createTemporaryFile() throws IOException {
+        return File.createTempFile("com.android.documentsui.archives.tests{",
+                "}.zip", mTargetContext.getCacheDir());
+    }
+
+    /**
      * Opens a resource and returns the contents via file descriptor to a local
      * snapshot file.
      */

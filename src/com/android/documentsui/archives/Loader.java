@@ -85,8 +85,12 @@ public class Loader {
                         mContext.getContentResolver().openFileDescriptor(
                                 mArchiveUri, "r", null /* signal */),
                         mArchiveUri, mAccessMode, mNotificationUri);
-            // TODO:
-            // } else if (WriteableArchive.supportsAccessMode(mAccessMode)) {
+            } else if (WriteableArchive.supportsAccessMode(mAccessMode)) {
+                mArchive = WriteableArchive.createForParcelFileDescriptor(
+                        mContext,
+                        mContext.getContentResolver().openFileDescriptor(
+                                mArchiveUri, "w", null /* signal */),
+                        mArchiveUri, mAccessMode, mNotificationUri);
             } else {
                 throw new IllegalStateException("Access mode not supported.");
             }
