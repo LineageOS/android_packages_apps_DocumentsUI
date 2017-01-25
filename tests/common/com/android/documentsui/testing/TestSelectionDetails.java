@@ -30,31 +30,37 @@ public class TestSelectionDetails implements SelectionDetails {
     public boolean containDirectories;
     public boolean containFiles;
     public boolean canPasteInto;
+    public boolean canExtract;
 
-     @Override
-     public boolean containsPartialFiles() {
-         return containPartial;
-     }
+    @Override
+    public boolean containsPartialFiles() {
+        return containPartial;
+    }
 
-     @Override
-     public boolean containsFiles() {
-         return containFiles;
-     }
+    @Override
+    public boolean containsFiles() {
+        return containFiles;
+    }
 
-     @Override
-     public boolean containsDirectories() {
-         return containDirectories;
-     }
+    @Override
+    public boolean containsDirectories() {
+        return containDirectories;
+    }
 
-     @Override
-     public boolean canRename() {
-         return canRename;
-     }
+    @Override
+    public boolean canRename() {
+        return canRename;
+    }
 
-     @Override
-     public boolean canDelete() {
-         return canDelete;
-     }
+    @Override
+    public boolean canDelete() {
+        return canDelete;
+    }
+
+    @Override
+    public boolean canExtract() {
+        return canExtract;
+    }
 
     @Override
     public boolean canPasteInto() {

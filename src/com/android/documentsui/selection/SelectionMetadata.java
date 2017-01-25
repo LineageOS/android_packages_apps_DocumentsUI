@@ -24,7 +24,9 @@ import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
 import com.android.documentsui.MenuManager;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.MimeTypes;
+import com.android.documentsui.roots.RootCursorWrapper;
 
 import java.util.function.Function;
 
@@ -46,6 +48,7 @@ public class SelectionMetadata
     private int mWritableDirectoryCount = 0;
     private int mNoDeleteCount = 0;
     private int mNoRenameCount = 0;
+    private int mInArchiveCount = 0;
 
     public SelectionMetadata(Function<String, Cursor> docFinder) {
         mDocFinder = docFinder;
@@ -82,6 +85,14 @@ public class SelectionMetadata
         if ((docFlags & Document.FLAG_SUPPORTS_RENAME) == 0) {
             mNoRenameCount += delta;
         }
+        if ((docFlags & Document.FLAG_PARTIAL) != 0) {
+            mPartialCount += delta;
+        }
+
+        final String authority = getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY);
+        if (ArchivesProvider.AUTHORITY.equals(authority)) {
+            mInArchiveCount += delta;
+        }
     }
 
     @Override
@@ -107,6 +118,11 @@ public class SelectionMetadata
     @Override
     public boolean canDelete() {
         return size() > 0 && mNoDeleteCount == 0;
+    }
+
+    @Override
+    public boolean canExtract() {
+        return size() > 0 && mInArchiveCount == size();
     }
 
     @Override
