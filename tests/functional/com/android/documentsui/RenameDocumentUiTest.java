@@ -138,20 +138,42 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
     }
 
     public void testRename_NameExists() throws Exception {
+        renameWithConflict();
+
+        bots.main.clickDialogCancelButton();
+
+        bots.directory.assertDocumentsPresent(fileName1);
+        bots.directory.assertDocumentsPresent(fileName2);
+        bots.directory.assertDocumentsCount(4);
+    }
+
+    public void testRename_RecoverAfterConflict() throws Exception {
+        renameWithConflict();
+        device.waitForIdle();
+
+        bots.main.setDialogText(newName);
+
+        device.waitForIdle();
+        bots.main.clickDialogOkButton();
+
+        bots.directory.waitForDocument(newName);
+        bots.directory.assertDocumentsAbsent(fileName1);
+        bots.directory.assertDocumentsCount(4);
+    }
+
+    private void renameWithConflict() throws Exception {
         // Check that document with the new name exists
         bots.directory.assertDocumentsPresent(fileName2);
         bots.directory.selectDocument(fileName1, 1);
 
         clickRename();
 
-        bots.main.setDialogText(fileName2);
-
+        bots.main.assertDialogText(fileName1);
+        assertFalse(bots.main.findRenameErrorMessage().exists());
         bots.keyboard.pressEnter();
-
-        bots.directory.assertSnackbar(R.string.rename_error);
-        bots.directory.assertDocumentsPresent(fileName1);
-        bots.directory.assertDocumentsPresent(fileName2);
-        bots.directory.assertDocumentsCount(4);
+        assertTrue(bots.main.findRenameErrorMessage().exists());
+        bots.main.setDialogText(fileName2);
+        assertTrue(bots.main.findRenameErrorMessage().exists());
     }
 
     private void clickRename() throws UiObjectNotFoundException {
