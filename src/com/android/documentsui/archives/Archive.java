@@ -42,8 +42,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 
 /**
@@ -67,7 +65,6 @@ public abstract class Archive implements Closeable {
     final Uri mArchiveUri;
     final int mArchiveMode;
     final Uri mNotificationUri;
-    final ThreadPoolExecutor mExecutor;
     final Map<String, ZipEntry> mEntries;
     final Map<String, List<ZipEntry>> mTree;
 
@@ -80,12 +77,6 @@ public abstract class Archive implements Closeable {
         mArchiveUri = archiveUri;
         mArchiveMode = archiveMode;
         mNotificationUri = notificationUri;
-
-        // At most 8 active threads. All threads idling for more than a minute will
-        // be closed.
-        mExecutor = new ThreadPoolExecutor(8, 8, 60, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>());
-        mExecutor.allowCoreThreadTimeOut(true);
 
         mTree = new HashMap<>();
         mEntries = new HashMap<>();
@@ -242,17 +233,6 @@ public abstract class Archive implements Closeable {
      */
     public ArchiveId createArchiveId(String path) {
         return new ArchiveId(mArchiveUri, mArchiveMode, path);
-    }
-
-    /**
-     * Closes an archive.
-     *
-     * <p>This method does not block until shutdown. Once called, other methods should not be
-     * called. Any active pipes will be terminated.
-     */
-    @Override
-    public void close() {
-        mExecutor.shutdownNow();
     }
 
     void addCursorRow(MatrixCursor cursor, ZipEntry entry) {

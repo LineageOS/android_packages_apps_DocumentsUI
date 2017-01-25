@@ -44,6 +44,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 
 /**
@@ -55,6 +58,7 @@ import java.util.zip.ZipEntry;
 public class ReadableArchive extends Archive {
     private static final String TAG = "Archive";
 
+    final ThreadPoolExecutor mExecutor;
     private final StrictJarFile mZipFile;
 
     private ReadableArchive(
@@ -69,6 +73,12 @@ public class ReadableArchive extends Archive {
         if (!supportsAccessMode(accessMode)) {
             throw new IllegalStateException("Unsupported access mode.");
         }
+
+        // At most 8 active threads. All threads idling for more than a minute will
+        // be closed.
+        mExecutor = new ThreadPoolExecutor(8, 8, 60, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<Runnable>());
+        mExecutor.allowCoreThreadTimeOut(true);
 
         mZipFile = file != null ?
                 new StrictJarFile(file.getPath(), false /* verify */,
@@ -335,9 +345,15 @@ public class ReadableArchive extends Archive {
                 openDocument(documentId, "r", signal), 0, entry.getSize(), null);
     }
 
+    /**
+     * Closes an archive.
+     *
+     * <p>This method does not block until shutdown. Once called, other methods should not be
+     * called. Any active pipes will be terminated.
+     */
     @Override
     public void close() {
-        super.close();
+        mExecutor.shutdownNow();
         try {
             mZipFile.close();
         } catch (IOException e) {
