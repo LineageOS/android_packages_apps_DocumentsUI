@@ -30,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.jar.StrictJarFile;
 
+import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.Preconditions;
 
 import libcore.io.IoUtils;
@@ -41,10 +42,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
@@ -58,6 +62,8 @@ import java.util.zip.ZipEntry;
 public class ReadableArchive extends Archive {
     private static final String TAG = "Archive";
 
+    @GuardedBy("mEnqueuedOutputPipes")
+    final Set<ParcelFileDescriptor> mEnqueuedOutputPipes = new HashSet<>();
     final ThreadPoolExecutor mExecutor;
     private final StrictJarFile mZipFile;
 
@@ -251,42 +257,59 @@ public class ReadableArchive extends Archive {
         }
         final InputStream inputStream = mZipFile.getInputStream(entry);
         final ParcelFileDescriptor outputPipe = pipe[1];
-        mExecutor.execute(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        try (final ParcelFileDescriptor.AutoCloseOutputStream outputStream =
-                                new ParcelFileDescriptor.AutoCloseOutputStream(outputPipe)) {
-                            try {
-                                final byte buffer[] = new byte[32 * 1024];
-                                int bytes;
-                                while ((bytes = inputStream.read(buffer)) != -1) {
-                                    if (Thread.interrupted()) {
-                                        throw new InterruptedException();
-                                    }
-                                    if (signal != null) {
-                                        signal.throwIfCanceled();
-                                    }
-                                    outputStream.write(buffer, 0, bytes);
-                                }
-                            } catch (IOException | InterruptedException e) {
-                                // Catch the exception before the outer try-with-resource closes the
-                                // pipe with close() instead of closeWithError().
-                                try {
-                                    outputPipe.closeWithError(e.getMessage());
-                                } catch (IOException e2) {
-                                    Log.e(TAG, "Failed to close the pipe after an error.", e2);
-                                }
+
+        synchronized (mEnqueuedOutputPipes) {
+            mEnqueuedOutputPipes.add(outputPipe);
+        }
+
+        try {
+            mExecutor.execute(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            synchronized (mEnqueuedOutputPipes) {
+                                mEnqueuedOutputPipes.remove(outputPipe);
                             }
-                        } catch (OperationCanceledException e) {
-                            // Cancelled gracefully.
-                        } catch (IOException e) {
-                            Log.e(TAG, "Failed to close the output stream gracefully.", e);
-                        } finally {
-                            IoUtils.closeQuietly(inputStream);
+                            try (final ParcelFileDescriptor.AutoCloseOutputStream outputStream =
+                                    new ParcelFileDescriptor.AutoCloseOutputStream(outputPipe)) {
+                                try {
+                                    final byte buffer[] = new byte[32 * 1024];
+                                    int bytes;
+                                    while ((bytes = inputStream.read(buffer)) != -1) {
+                                        if (Thread.interrupted()) {
+                                            throw new InterruptedException();
+                                        }
+                                        if (signal != null) {
+                                            signal.throwIfCanceled();
+                                        }
+                                        outputStream.write(buffer, 0, bytes);
+                                    }
+                                } catch (IOException | InterruptedException e) {
+                                    // Catch the exception before the outer try-with-resource closes
+                                    // the pipe with close() instead of closeWithError().
+                                    try {
+                                        outputPipe.closeWithError(e.getMessage());
+                                    } catch (IOException e2) {
+                                        Log.e(TAG, "Failed to close the pipe after an error.", e2);
+                                    }
+                                }
+                            } catch (OperationCanceledException e) {
+                                // Cancelled gracefully.
+                            } catch (IOException e) {
+                                Log.e(TAG, "Failed to close the output stream gracefully.", e);
+                            } finally {
+                                IoUtils.closeQuietly(inputStream);
+                            }
                         }
-                    }
-                });
+                    });
+        } catch (RejectedExecutionException e) {
+            IoUtils.closeQuietly(pipe[0]);
+            IoUtils.closeQuietly(pipe[1]);
+            synchronized (mEnqueuedOutputPipes) {
+                mEnqueuedOutputPipes.remove(outputPipe);
+            }
+            throw new IllegalStateException("Failed to initialize pipe.");
+        }
 
         return pipe[0];
     }
@@ -354,6 +377,15 @@ public class ReadableArchive extends Archive {
     @Override
     public void close() {
         mExecutor.shutdownNow();
+        synchronized (mEnqueuedOutputPipes) {
+            for (ParcelFileDescriptor outputPipe : mEnqueuedOutputPipes) {
+                try {
+                    outputPipe.closeWithError("Archive closed.");
+                } catch (IOException e2) {
+                    // Silent close.
+                }
+            }
+        }
         try {
             mZipFile.close();
         } catch (IOException e) {
