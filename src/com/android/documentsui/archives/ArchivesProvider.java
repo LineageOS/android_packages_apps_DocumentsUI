@@ -42,6 +42,7 @@ import com.android.internal.util.Preconditions;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
@@ -71,7 +72,9 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
                     oldValue.getWriteLock().lock();
                     try {
                         oldValue.get().close();
-                    } finally {
+                    } catch (IOException e) {
+                        Log.e(TAG, "Closing archive failed.", e);
+                    }finally {
                         oldValue.getWriteLock().unlock();
                     }
                 }
