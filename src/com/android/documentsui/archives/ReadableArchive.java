@@ -60,11 +60,11 @@ import java.util.zip.ZipEntry;
  * <p>This class is thread safe.
  */
 public class ReadableArchive extends Archive {
-    private static final String TAG = "Archive";
+    private static final String TAG = "ReadableArchive";
 
     @GuardedBy("mEnqueuedOutputPipes")
-    final Set<ParcelFileDescriptor> mEnqueuedOutputPipes = new HashSet<>();
-    final ThreadPoolExecutor mExecutor;
+    private final Set<ParcelFileDescriptor> mEnqueuedOutputPipes = new HashSet<>();
+    private final ThreadPoolExecutor mExecutor;
     private final StrictJarFile mZipFile;
 
     private ReadableArchive(
@@ -228,11 +228,7 @@ public class ReadableArchive extends Archive {
         }
     }
 
-    /**
-     * Opens a file within an archive.
-     *
-     * @see DocumentsProvider.openDocument(String, String, CancellationSignal))
-     */
+    @Override
     public ParcelFileDescriptor openDocument(
             String documentId, String mode, @Nullable final CancellationSignal signal)
             throws FileNotFoundException {
@@ -314,11 +310,7 @@ public class ReadableArchive extends Archive {
         return pipe[0];
     }
 
-    /**
-     * Opens a thumbnail of a file within an archive.
-     *
-     * @see DocumentsProvider.openDocumentThumbnail(String, Point, CancellationSignal))
-     */
+    @Override
     public AssetFileDescriptor openDocumentThumbnail(
             String documentId, Point sizeHint, final CancellationSignal signal)
             throws FileNotFoundException {
