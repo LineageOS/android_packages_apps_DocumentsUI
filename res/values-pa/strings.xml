@@ -33,6 +33,8 @@
     <string name="menu_select_all" msgid="7600576812185570403">"ਸਭ ਚੁਣੋ"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ਇਸ ਵਿੱਚ ਕਾਪੀ ਕਰੋ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ਇਸ ਵਿੱਚ ਤਬਦੀਲ ਕਰੋ..."</string>
+    <!-- no translation found for menu_extract (8171946945982532262) -->
+    <skip />
     <string name="menu_rename" msgid="1883113442688817554">"ਮੁੜ-ਨਾਮਕਰਨ ਕਰੋ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ਨਵੀਂ ਵਿੰਡੋ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ਕੱਟੋ"</string>
