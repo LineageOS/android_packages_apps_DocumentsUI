@@ -32,6 +32,10 @@ public class TestTimer extends Timer {
 
     private final LinkedList<Task> mTaskList = new LinkedList<>();
 
+    public long getNow() {
+        return mNow;
+    }
+
     public void fastForwardTo(long time) {
         if (time < mNow) {
             throw new IllegalArgumentException("Can't fast forward to past.");
