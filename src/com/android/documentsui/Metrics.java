@@ -163,10 +163,18 @@ public final class Metrics {
     // Do not change or rearrange these values, that will break historical data. Only add to the
     // list.
     // Do not use negative numbers or zero; clearcut only handles positive integers.
+    //
+    // Next available ID: 112
     private static final int FILEOP_OTHER = 1; // any file operation not listed below
     private static final int FILEOP_COPY_INTRA_PROVIDER = 2; // Copy within a provider
     private static final int FILEOP_COPY_SYSTEM_PROVIDER = 3; // Copy to a system provider.
     private static final int FILEOP_COPY_EXTERNAL_PROVIDER = 4; // Copy to a 3rd-party provider.
+    private static final int FILEOP_COMPRESS_INTRA_PROVIDER = 106; // Compres within a provider
+    private static final int FILEOP_COMPRESS_SYSTEM_PROVIDER = 107; // Compress to a system provider.
+    private static final int FILEOP_COMPRESS_EXTERNAL_PROVIDER = 108; // Compress to a 3rd-party provider.
+    private static final int FILEOP_EXTRACT_INTRA_PROVIDER = 109; // Extract within a provider
+    private static final int FILEOP_EXTRACT_SYSTEM_PROVIDER = 110; // Extract to a system provider.
+    private static final int FILEOP_EXTRACT_EXTERNAL_PROVIDER = 111; // Extract to a 3rd-party provider.
     private static final int FILEOP_MOVE_INTRA_PROVIDER = 5; // Move within a provider.
     private static final int FILEOP_MOVE_SYSTEM_PROVIDER = 6; // Move to a system provider.
     private static final int FILEOP_MOVE_EXTERNAL_PROVIDER = 7; // Move to a 3rd-party provider.
@@ -177,6 +185,8 @@ public final class Metrics {
     private static final int FILEOP_DELETE_ERROR = 101;
     private static final int FILEOP_MOVE_ERROR = 102;
     private static final int FILEOP_COPY_ERROR = 103;
+    private static final int FILEOP_COMPRESS_ERROR = 112;
+    private static final int FILEOP_EXTRACT_ERROR = 113;
     private static final int FILEOP_RENAME_ERROR = 104;
     private static final int FILEOP_CREATE_DIR_ERROR = 105;
 
@@ -185,6 +195,12 @@ public final class Metrics {
             FILEOP_COPY_INTRA_PROVIDER,
             FILEOP_COPY_SYSTEM_PROVIDER,
             FILEOP_COPY_EXTERNAL_PROVIDER,
+            FILEOP_COMPRESS_INTRA_PROVIDER,
+            FILEOP_COMPRESS_SYSTEM_PROVIDER,
+            FILEOP_COMPRESS_EXTERNAL_PROVIDER,
+            FILEOP_EXTRACT_INTRA_PROVIDER,
+            FILEOP_EXTRACT_SYSTEM_PROVIDER,
+            FILEOP_EXTRACT_EXTERNAL_PROVIDER,
             FILEOP_MOVE_INTRA_PROVIDER,
             FILEOP_MOVE_SYSTEM_PROVIDER,
             FILEOP_MOVE_EXTERNAL_PROVIDER,
@@ -193,6 +209,8 @@ public final class Metrics {
             FILEOP_CREATE_DIR,
             FILEOP_OTHER_ERROR,
             FILEOP_COPY_ERROR,
+            FILEOP_COMPRESS_ERROR,
+            FILEOP_EXTRACT_ERROR,
             FILEOP_MOVE_ERROR,
             FILEOP_DELETE_ERROR,
             FILEOP_RENAME_ERROR,
@@ -206,14 +224,20 @@ public final class Metrics {
     // Do not change or rearrange these values, that will break historical data. Only add to the
     // list.
     // Do not use negative numbers or zero; clearcut only handles positive integers.
+    //
+    // Next available ID: 7
     private static final int OPERATION_UNKNOWN = 1;
     private static final int OPERATION_COPY = 2;
+    private static final int OPERATION_COMPRESS = 5;
+    private static final int OPERATION_EXTRACT = 6;
     private static final int OPERATION_MOVE = 3;
-    private static final int OPERATION_DELETE= 4;
+    private static final int OPERATION_DELETE = 4;
 
     @IntDef(flag = true, value = {
             OPERATION_UNKNOWN,
             OPERATION_COPY,
+            OPERATION_COMPRESS,
+            OPERATION_EXTRACT,
             OPERATION_MOVE,
             OPERATION_DELETE
     })
@@ -267,6 +291,8 @@ public final class Metrics {
     // Do not change or rearrange these values, that will break historical data. Only add to the
     // list.
     // Do not use negative numbers or zero; clearcut only handles positive integers.
+    //
+    // Next available ID: 29
     public static final int USER_ACTION_OTHER = 1;
     public static final int USER_ACTION_GRID = 2;
     public static final int USER_ACTION_LIST = 3;
@@ -278,6 +304,8 @@ public final class Metrics {
     public static final int USER_ACTION_HIDE_SIZE = 9;
     public static final int USER_ACTION_SETTINGS = 10;
     public static final int USER_ACTION_COPY_TO = 11;
+    public static final int USER_ACTION_COMPRESS_TO = 27;
+    public static final int USER_ACTION_EXTRACT_TO = 28;
     public static final int USER_ACTION_MOVE_TO = 12;
     public static final int USER_ACTION_DELETE = 13;
     public static final int USER_ACTION_RENAME = 14;
@@ -306,6 +334,8 @@ public final class Metrics {
             USER_ACTION_HIDE_SIZE,
             USER_ACTION_SETTINGS,
             USER_ACTION_COPY_TO,
+            USER_ACTION_COMPRESS_TO,
+            USER_ACTION_EXTRACT_TO,
             USER_ACTION_MOVE_TO,
             USER_ACTION_DELETE,
             USER_ACTION_RENAME,
@@ -541,6 +571,12 @@ public final class Metrics {
         switch (operationType) {
             case FileOperationService.OPERATION_COPY:
                 opCode = FILEOP_COPY_ERROR;
+                break;
+            case FileOperationService.OPERATION_COMPRESS:
+                opCode = FILEOP_COMPRESS_ERROR;
+                break;
+            case FileOperationService.OPERATION_EXTRACT:
+                opCode = FILEOP_EXTRACT_ERROR;
                 break;
             case FileOperationService.OPERATION_DELETE:
                 opCode = FILEOP_DELETE_ERROR;
@@ -910,6 +946,24 @@ public final class Metrics {
                         return FILEOP_COPY_SYSTEM_PROVIDER;
                     case PROVIDER_EXTERNAL:
                         return FILEOP_COPY_EXTERNAL_PROVIDER;
+                }
+            case FileOperationService.OPERATION_COMPRESS:
+                switch (providerType) {
+                    case PROVIDER_INTRA:
+                        return FILEOP_COMPRESS_INTRA_PROVIDER;
+                    case PROVIDER_SYSTEM:
+                        return FILEOP_COMPRESS_SYSTEM_PROVIDER;
+                    case PROVIDER_EXTERNAL:
+                        return FILEOP_COMPRESS_EXTERNAL_PROVIDER;
+                }
+             case FileOperationService.OPERATION_EXTRACT:
+                switch (providerType) {
+                    case PROVIDER_INTRA:
+                        return FILEOP_EXTRACT_INTRA_PROVIDER;
+                    case PROVIDER_SYSTEM:
+                        return FILEOP_EXTRACT_SYSTEM_PROVIDER;
+                    case PROVIDER_EXTERNAL:
+                        return FILEOP_EXTRACT_EXTERNAL_PROVIDER;
                 }
             case FileOperationService.OPERATION_MOVE:
                 switch (providerType) {

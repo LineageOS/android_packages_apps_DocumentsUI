@@ -52,6 +52,8 @@
     <string name="menu_copy">Copy to\u2026</string>
     <!-- Menu item title that moves the selected documents [CHAR LIMIT=28] -->
     <string name="menu_move">Move to\u2026</string>
+    <!-- Menu item title that compresses the selected documents [CHAR LIMIT=28] -->
+    <string name="menu_compress">Compress to\u2026</string>
     <!-- Menu item title that extracts the selected documents [CHAR LIMIT=28] -->
     <string name="menu_extract">Extract to\u2026</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
@@ -79,6 +81,10 @@
     <string name="button_select">Select</string>
     <!-- Button label that copies files to the current directory [CHAR LIMIT=24] -->
     <string name="button_copy">Copy</string>
+    <!-- Button label that compresses files to the current directory [CHAR LIMIT=24] -->
+    <string name="button_compress">Compress</string>
+    <!-- Button label that extracts files to the current directory [CHAR LIMIT=24] -->
+    <string name="button_extract">Extract</string>
     <!-- Button label that moves files to the current directory [CHAR LIMIT=24] -->
     <string name="button_move">Move</string>
     <!-- Button label that hides the error bar [CHAR LIMIT=24] -->
@@ -153,6 +159,17 @@
         <item quantity="one">Copying <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
         <item quantity="other">Copying <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
     </plurals>
+    <!-- Toast shown when a file compressing is kicked off -->
+    <plurals name="compress_begin">
+        <item quantity="one">Compressing <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
+        <item quantity="other">Compressing <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
+    </plurals>
+    <!-- Toast shown when a file extracting is kicked off -->
+    <plurals name="extract_begin">
+        <item quantity="one">Extracting <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
+        <item quantity="other">Extracting <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
+    </plurals>
+    <!-- Toast shown when a file move is kicked off -->
     <plurals name="move_begin">
         <item quantity="one">Moving <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
         <item quantity="other">Moving <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
@@ -193,6 +210,10 @@
     <string name="close">Close</string>
     <!-- Contents of the copying failure alert dialog. [CHAR LIMIT=48] -->
     <string name="copy_failure_alert_content">These files weren\u2019t copied: <xliff:g id="list">%1$s</xliff:g></string>
+    <!-- Contents of the compressing failure alert dialog. [CHAR LIMIT=48] -->
+    <string name="compress_failure_alert_content">These files weren\u2019t compressed: <xliff:g id="list">%1$s</xliff:g></string>
+    <!-- Contents of the extracting failure alert dialog. [CHAR LIMIT=48] -->
+    <string name="extract_failure_alert_content">These files weren\u2019t extracted: <xliff:g id="list">%1$s</xliff:g></string>
     <!-- Contents of the moving failure alert dialog. [CHAR LIMIT=48] -->
     <string name="move_failure_alert_content">These files weren\u2019t moved: <xliff:g id="list">%1$s</xliff:g></string>
     <!-- Message shown to users when an operation to delete one or more files has failed. Presented in a dialog. [CHAR LIMIT=48] -->

@@ -17,6 +17,8 @@
 package com.android.documentsui.services;
 
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
+import static com.android.documentsui.services.FileOperationService.OPERATION_COMPRESS;
+import static com.android.documentsui.services.FileOperationService.OPERATION_EXTRACT;
 import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
@@ -137,6 +139,86 @@ public abstract class FileOperation implements Parcelable {
                 };
     }
 
+    public static class CompressOperation extends FileOperation {
+        private CompressOperation(UrisSupplier srcs, DocumentStack destination) {
+            super(OPERATION_COMPRESS, srcs, destination);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+
+            builder.append("CompressOperation{");
+            super.appendInfoTo(builder);
+            builder.append("}");
+
+            return builder.toString();
+        }
+
+        // TODO: Replace CopyJob with CompressJob.
+        CopyJob createJob(Context service, Job.Listener listener, String id) {
+            throw new UnsupportedOperationException("Compressing not yet supported.");
+        }
+
+        private CompressOperation(Parcel in) {
+            super(in);
+        }
+
+        public static final Parcelable.Creator<CompressOperation> CREATOR =
+                new Parcelable.Creator<CompressOperation>() {
+
+                    @Override
+                    public CompressOperation createFromParcel(Parcel source) {
+                        return new CompressOperation(source);
+                    }
+
+                    @Override
+                    public CompressOperation[] newArray(int size) {
+                        return new CompressOperation[size];
+                    }
+                };
+    }
+
+    public static class ExtractOperation extends FileOperation {
+        private ExtractOperation(UrisSupplier srcs, DocumentStack destination) {
+            super(OPERATION_EXTRACT, srcs, destination);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+
+            builder.append("ExtractOperation{");
+            super.appendInfoTo(builder);
+            builder.append("}");
+
+            return builder.toString();
+        }
+
+        // TODO: Replace CopyJob with ExtractJob.
+        CopyJob createJob(Context service, Job.Listener listener, String id) {
+            return new CopyJob(service, listener, id, getDestination(), getSrc());
+        }
+
+        private ExtractOperation(Parcel in) {
+            super(in);
+        }
+
+        public static final Parcelable.Creator<ExtractOperation> CREATOR =
+                new Parcelable.Creator<ExtractOperation>() {
+
+                    @Override
+                    public ExtractOperation createFromParcel(Parcel source) {
+                        return new ExtractOperation(source);
+                    }
+
+                    @Override
+                    public ExtractOperation[] newArray(int size) {
+                        return new ExtractOperation[size];
+                    }
+                };
+    }
+
     public static class MoveDeleteOperation extends FileOperation {
         private final @Nullable Uri mSrcParent;
 
@@ -230,6 +312,10 @@ public abstract class FileOperation implements Parcelable {
             switch (mOpType) {
                 case OPERATION_COPY:
                     return new CopyOperation(mSrcs, mDestination);
+                case OPERATION_COMPRESS:
+                    return new CompressOperation(mSrcs, mDestination);
+                case OPERATION_EXTRACT:
+                    return new ExtractOperation(mSrcs, mDestination);
                 case OPERATION_MOVE:
                 case OPERATION_DELETE:
                     return new MoveDeleteOperation(mOpType, mSrcs, mDestination, mSrcParent);
