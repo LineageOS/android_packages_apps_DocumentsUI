@@ -96,10 +96,10 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         mInjector.selectionMgr = new SelectionManager(SelectionManager.MODE_MULTIPLE);
 
         mInjector.focusManager = new FocusManager(
-            mInjector.selectionMgr,
-            mDrawer,
-            this::focusSidebar,
-            getColor(R.color.accent_dark));
+                mInjector.selectionMgr,
+                mDrawer,
+                this::focusSidebar,
+                getColor(R.color.accent_dark));
 
         mInjector.menuManager = new MenuManager(
                 mSearchManager,

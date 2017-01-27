@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Procedure;
+import com.android.documentsui.base.Shared;
 
 public class SharedInputHandler {
 
@@ -37,8 +38,10 @@ public class SharedInputHandler {
             // which is probably what the user is trying to do.
             mFocusManager.focusDirectoryList();
             return true;
-        } else if (keyCode == KeyEvent.KEYCODE_TAB) {
+        } else if (keyCode == KeyEvent.KEYCODE_TAB && !Shared.ENABLE_OMC_API_FEATURES) {
             // Tab toggles focus on the navigation drawer.
+            // This should only be called in pre-O devices, since O has built-in keyboard navigation
+            // support.
             mFocusManager.advanceFocusArea();
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_DEL) {
