@@ -611,10 +611,22 @@ public class DirectoryFragment extends Fragment
                 return true;
 
             case R.id.menu_copy_to:
-            // TODO: Add a separate OPERATION_EXTRACT.
-            case R.id.menu_extract_to:
                 transferDocuments(selection, FileOperationService.OPERATION_COPY);
                 // TODO: Only finish selection mode if copy-to is not canceled.
+                // Need to plum down into handling the way we do with deleteDocuments.
+                mActionModeController.finishActionMode();
+                return true;
+
+            case R.id.menu_compress_to:
+                transferDocuments(selection, FileOperationService.OPERATION_COMPRESS);
+                // TODO: Only finish selection mode if compress-to is not canceled.
+                // Need to plum down into handling the way we do with deleteDocuments.
+                mActionModeController.finishActionMode();
+                return true;
+
+            case R.id.menu_extract_to:
+                transferDocuments(selection, FileOperationService.OPERATION_EXTRACT);
+                // TODO: Only finish selection mode if compress-to is not canceled.
                 // Need to plum down into handling the way we do with deleteDocuments.
                 mActionModeController.finishActionMode();
                 return true;
@@ -701,10 +713,19 @@ public class DirectoryFragment extends Fragment
     }
 
     private void transferDocuments(final Selection selected, final @OpType int mode) {
-        if (mode == FileOperationService.OPERATION_COPY) {
-            Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COPY_TO);
-        } else if (mode == FileOperationService.OPERATION_MOVE) {
-            Metrics.logUserAction(getContext(), Metrics.USER_ACTION_MOVE_TO);
+        switch (mode) {
+            case FileOperationService.OPERATION_COPY:
+                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COPY_TO);
+                break;
+            case FileOperationService.OPERATION_COMPRESS:
+                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COMPRESS_TO);
+                break;
+            case FileOperationService.OPERATION_EXTRACT:
+                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_EXTRACT_TO);
+                break;
+            case FileOperationService.OPERATION_MOVE:
+                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_MOVE_TO);
+                break;
         }
 
         // Pop up a dialog to pick a destination.  This is inadequate but works for now.
@@ -719,7 +740,7 @@ public class DirectoryFragment extends Fragment
         try {
             ClipStore clipStorage = DocumentsApplication.getClipStore(getContext());
             srcs = UrisSupplier.create(selected, mModel::getItemUri, clipStorage);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Failed to create uri supplier.", e);
         }
 
@@ -733,8 +754,23 @@ public class DirectoryFragment extends Fragment
         // Set an appropriate title on the drawer when it is shown in the picker.
         // Coupled with the fact that we auto-open the drawer for copy/move operations
         // it should basically be the thing people see first.
-        int drawerTitleId = mode == FileOperationService.OPERATION_MOVE
-                ? R.string.menu_move : R.string.menu_copy;
+        int drawerTitleId;
+        switch (mode) {
+            case FileOperationService.OPERATION_COPY:
+                drawerTitleId = R.string.menu_copy;
+                break;
+            case FileOperationService.OPERATION_COMPRESS:
+                drawerTitleId = R.string.menu_compress;
+                break;
+            case FileOperationService.OPERATION_EXTRACT:
+                drawerTitleId = R.string.menu_extract;
+                break;
+            case FileOperationService.OPERATION_MOVE:
+                drawerTitleId = R.string.menu_copy;
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown mode: " + mode);
+        }
         intent.putExtra(DocumentsContract.EXTRA_PROMPT, getResources().getString(drawerTitleId));
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.

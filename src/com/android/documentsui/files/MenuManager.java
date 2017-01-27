@@ -174,6 +174,14 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
+    protected void updateCompressTo(MenuItem compressTo, SelectionDetails selectionDetails) {
+        compressTo.setVisible(true);
+        // Do not allow to compress already compressed files for simplicity.
+        compressTo.setEnabled(!selectionDetails.containsPartialFiles() &&
+                !selectionDetails.canExtract());
+    }
+
+    @Override
     protected void updateExtractTo(MenuItem extractTo, SelectionDetails selectionDetails) {
         extractTo.setVisible(selectionDetails.canExtract());
     }

@@ -102,6 +102,12 @@ public class OperationDialogFragment extends DialogFragment {
                     case FileOperationService.OPERATION_COPY:
                         messageFormat = getString(R.string.copy_failure_alert_content);
                         break;
+                    case FileOperationService.OPERATION_COMPRESS:
+                        messageFormat = getString(R.string.compress_failure_alert_content);
+                        break;
+                    case FileOperationService.OPERATION_EXTRACT:
+                        messageFormat = getString(R.string.extract_failure_alert_content);
+                        break;
                     case FileOperationService.OPERATION_DELETE:
                         messageFormat = getString(R.string.delete_failure_alert_content);
                         break;
