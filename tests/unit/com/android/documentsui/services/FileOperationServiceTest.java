@@ -22,6 +22,7 @@ import static com.android.documentsui.services.FileOperations.createBaseIntent;
 import static com.android.documentsui.services.FileOperations.createJobId;
 import static com.google.android.collect.Lists.newArrayList;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -58,6 +59,8 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
     private TestScheduledExecutorService mExecutor;
     private TestScheduledExecutorService mDeletionExecutor;
     private TestHandler mHandler;
+    private TestForegroundManager mForegroundManager;
+    private TestNotificationManager mTestNotificationManager;
 
     public FileOperationServiceTest() {
         super(FileOperationService.class);
@@ -71,6 +74,8 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         mExecutor = new TestScheduledExecutorService();
         mDeletionExecutor = new TestScheduledExecutorService();
         mHandler = new TestHandler();
+        mForegroundManager = new TestForegroundManager();
+        mTestNotificationManager = new TestNotificationManager(mForegroundManager);
 
         mCopyJobs.clear();
         mDeleteJobs.clear();
@@ -86,6 +91,12 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
 
         assertNull(mService.handler);
         mService.handler = mHandler;
+
+        assertNull(mService.foregroundManager);
+        mService.foregroundManager = mForegroundManager;
+
+        assertNull(mService.notificationManager);
+        mService.notificationManager = mTestNotificationManager.createNotificationManager();
     }
 
     @Override
@@ -96,9 +107,7 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
 
         // There are lots of progress notifications generated in this test case.
         // Dismiss all of them here.
-        while (mHandler.hasScheduledMessage()) {
-            mHandler.dispatchAllMessages();
-        }
+        mHandler.dispatchAllMessages();
     }
 
     public void testRunsCopyJobs() throws Exception {
@@ -236,6 +245,42 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         shutdownService();
 
         assertExecutorsShutdown();
+    }
+
+    public void testRunsInForeground_MultipleJobs() throws Exception {
+        startService(createCopyIntent(newArrayList(ALPHA_DOC), BETA_DOC));
+        startService(createCopyIntent(newArrayList(GAMMA_DOC), DELTA_DOC));
+
+        mExecutor.run(0);
+        mForegroundManager.assertInForeground();
+
+        mHandler.dispatchAllMessages();
+        mForegroundManager.assertInForeground();
+    }
+
+    public void testFinishesInBackground_MultipleJobs() throws Exception {
+        startService(createCopyIntent(newArrayList(ALPHA_DOC), BETA_DOC));
+        startService(createCopyIntent(newArrayList(GAMMA_DOC), DELTA_DOC));
+
+        mExecutor.run(0);
+        mForegroundManager.assertInForeground();
+
+        mHandler.dispatchAllMessages();
+        mForegroundManager.assertInForeground();
+
+        mExecutor.run(0);
+        mHandler.dispatchAllMessages();
+        mForegroundManager.assertInBackground();
+    }
+
+    public void testAllNotificationsDismissedAfterShutdown() throws Exception {
+        startService(createCopyIntent(newArrayList(ALPHA_DOC), BETA_DOC));
+        startService(createCopyIntent(newArrayList(GAMMA_DOC), DELTA_DOC));
+
+        mExecutor.runAll();
+
+        mHandler.dispatchAllMessages();
+        mTestNotificationManager.assertNumberOfNotifications(0);
     }
 
     private Intent createCopyIntent(ArrayList<DocumentInfo> files, DocumentInfo dest)

@@ -19,6 +19,7 @@ package com.android.documentsui.testing;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 
 import java.util.TimerTask;
 
@@ -27,6 +28,14 @@ import java.util.TimerTask;
  */
 public class TestHandler extends Handler {
     private TestTimer mTimer = new TestTimer();
+
+    // Handler uses SystemClock.uptimeMillis() when scheduling task to get current time, but
+    // TestTimer has its own warped time for us to "fast forward" into the future. Therefore after
+    // we "fast forwarded" TestTimer once Handler may schedule tasks running in the "past" relative
+    // to the fast-forwarded TestTimer and cause problems. This value is used to track how much we
+    // fast-forward into the future to make sure we schedule tasks in the future of TestTimer as
+    // well.
+    private long mTimeDelta = 0;
 
     public TestHandler() {
         // Use main looper to trick underlying handler, we're not using it at all.
@@ -39,11 +48,19 @@ public class TestHandler extends Handler {
 
     public void dispatchNextMessage() {
         mTimer.fastForwardToNextTask();
+
+        mTimeDelta = mTimer.getNow() - SystemClock.uptimeMillis();
+    }
+
+    public void dispatchAllScheduledMessages() {
+        while (hasScheduledMessage()) {
+            dispatchNextMessage();
+        }
     }
 
     public void dispatchAllMessages() {
         while (hasScheduledMessage()) {
-            dispatchNextMessage();
+            dispatchAllScheduledMessages();
         }
     }
 
@@ -51,7 +68,7 @@ public class TestHandler extends Handler {
     public boolean sendMessageAtTime(Message msg, long uptimeMillis) {
         msg.setTarget(this);
         TimerTask task = new MessageTimerTask(msg);
-        mTimer.scheduleAtTime(new TestTimer.Task(task), uptimeMillis);
+        mTimer.scheduleAtTime(new TestTimer.Task(task), uptimeMillis + mTimeDelta);
         return true;
     }
 

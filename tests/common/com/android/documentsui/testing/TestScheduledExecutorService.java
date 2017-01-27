@@ -150,6 +150,8 @@ public class TestScheduledExecutorService implements ScheduledExecutorService {
 
     public void run(int taskIndex) {
         scheduled.get(taskIndex).runnable.run();
+
+        scheduled.remove(taskIndex);
     }
 
     public void assertAlive() {
