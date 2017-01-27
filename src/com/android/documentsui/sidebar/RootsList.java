@@ -20,6 +20,8 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.ListView;
 
+import com.android.documentsui.base.Shared;
+
 /**
  * The list in the navigation drawer. This class exists for the purpose of overriding the key
  * handler on ListView. Ignoring keystrokes (e.g. the tab key) cannot be properly done using
@@ -51,7 +53,7 @@ public class RootsList extends ListView {
             // Ignore tab key events - this causes them to bubble up to the global key handler where
             // they are appropriately handled. See BaseActivity.onKeyDown.
             case KeyEvent.KEYCODE_TAB:
-                return false;
+                return Shared.ENABLE_OMC_API_FEATURES ? super.onKeyDown(keyCode, event) : false;
             // Prevent left/right arrow keystrokes from shifting focus away from the roots list.
             case KeyEvent.KEYCODE_DPAD_LEFT:
             case KeyEvent.KEYCODE_DPAD_RIGHT:

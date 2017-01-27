@@ -63,6 +63,7 @@ public class KeyboardNavigationUiTest extends ActivityTest<FilesActivity> {
         }
     }
 
+    @Suppress
     public void testKeyboard_tabFocuses() throws Exception {
         bots.roots.closeDrawer();
         if (bots.main.inFixedLayout()) {

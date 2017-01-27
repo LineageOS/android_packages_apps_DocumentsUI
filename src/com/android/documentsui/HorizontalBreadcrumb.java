@@ -21,6 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -69,7 +70,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
         mLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new BreadcrumbAdapter(
-                state, env, new ItemDragListener<>(this));
+                state, env, new ItemDragListener<>(this), this::onKey);
         // Since we are using GestureDetector to detect click events, a11y services don't know which views
         // are clickable because we aren't using View.OnClickListener. Thus, we need to use a custom
         // accessibility delegate to route click events correctly. See AccessibilityClickEventRouter
@@ -126,6 +127,15 @@ public final class HorizontalBreadcrumb extends RecyclerView
         return false;
     }
 
+    private boolean onKey(View v, int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_ENTER:
+                return onAccessibilityClick(v);
+            default:
+                return false;
+        }
+    }
+
     @Override
     public void postUpdate() {
     }
@@ -175,15 +185,18 @@ public final class HorizontalBreadcrumb extends RecyclerView
         private final Environment mEnv;
         private final com.android.documentsui.base.State mState;
         private final OnDragListener mDragListener;
+        private final View.OnKeyListener mClickListener;
         // We keep the old item size so the breadcrumb will only re-render views that are necessary
         private int mLastItemSize;
 
         public BreadcrumbAdapter(com.android.documentsui.base.State state,
                 Environment env,
-                OnDragListener dragListener) {
+                OnDragListener dragListener,
+                View.OnKeyListener clickListener) {
             mState = state;
             mEnv = env;
             mDragListener = dragListener;
+            mClickListener = clickListener;
             mLastItemSize = mState.stack.size();
         }
 
@@ -215,6 +228,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
                 holder.arrow.setVisibility(View.VISIBLE);
             }
             holder.itemView.setOnDragListener(mDragListener);
+            holder.itemView.setOnKeyListener(mClickListener);
         }
 
         private DocumentInfo getItem(int position) {
