@@ -114,11 +114,11 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         } catch (Exception e) {
             Log.w(TAG, "Failed to query", e);
             result.exception = e;
-            ContentProviderClient.releaseQuietly(client);
         } finally {
             synchronized (this) {
                 mSignal = null;
             }
+            ContentProviderClient.releaseQuietly(client);
         }
 
         return result;

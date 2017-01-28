@@ -32,33 +32,35 @@ import com.android.documentsui.R;
  * Used by {@link DirectoryAddonsAdapter}.
  */
 final class HeaderMessageDocumentHolder extends MessageHolder {
+    private final ImageView mIcon;
+    private final TextView mTextView;
+    private final Button mButton;
     private Message mMessage;
-    private ImageView mIcon;
-    private TextView mTextView;
 
-    public HeaderMessageDocumentHolder(Context context, ViewGroup parent, Runnable callback) {
+    public HeaderMessageDocumentHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_doc_header_message);
 
         mIcon = (ImageView) itemView.findViewById(R.id.message_icon);
         mTextView = (TextView) itemView.findViewById(R.id.message_textview);
-        Button dismiss = (Button) itemView.findViewById(R.id.button_dismiss);
-        dismiss.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        callback.run();
-                    }
-                });
+        mButton = (Button) itemView.findViewById(R.id.button_dismiss);
     }
 
     public void bind(Message message) {
         mMessage = message;
+        mButton.setOnClickListener(this::onButtonClick);
         bind(null, null);
+    }
+
+    private void onButtonClick(View button) {
+        mMessage.runCallback();
     }
 
     @Override
     public void bind(Cursor cursor, String modelId) {
         mTextView.setText(mMessage.getMessageString());
-        mIcon.setImageResource(mMessage.getIconId());
+        mIcon.setImageDrawable(mMessage.getIcon());
+        if (mMessage.getButtonString() != null) {
+            mButton.setText(mMessage.getButtonString());
+        }
     }
 }

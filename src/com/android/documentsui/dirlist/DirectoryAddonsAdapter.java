@@ -48,8 +48,10 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
     DirectoryAddonsAdapter(Environment environment, DocumentsAdapter delegate) {
         mEnv = environment;
         mDelegate = delegate;
-        mHeaderMessage = new HeaderMessage(environment);
-        mInflateMessage = new InflateMessage(environment);
+        // TODO: We should not instantiate the messages here, but rather instantiate them
+        // when we get an update event.
+        mHeaderMessage = new HeaderMessage(environment, this::onDismissHeaderMessage);
+        mInflateMessage = new InflateMessage(environment, this::onDismissHeaderMessage);
 
         // Relay events published by our delegate to our listeners (presumably RecyclerView)
         // with adjusted positions.
@@ -90,8 +92,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
                 mEnv.initDocumentHolder(holder);
                 break;
             case ITEM_TYPE_HEADER_MESSAGE:
-                holder = new HeaderMessageDocumentHolder(mEnv.getContext(), parent,
-                        this::onDismissHeaderMessage);
+                holder = new HeaderMessageDocumentHolder(mEnv.getContext(), parent);
                 mEnv.initDocumentHolder(holder);
                 break;
             case ITEM_TYPE_INFLATED_MESSAGE:
@@ -169,7 +170,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
         mInflateMessage.update(event);
         mHeaderMessage.update(event);
         // If there's any fatal error (exceptions), then no need to update the rest.
-        if (event.hasError()) {
+        if (event.hasException()) {
             return;
         }
 

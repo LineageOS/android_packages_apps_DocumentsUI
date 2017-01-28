@@ -56,4 +56,6 @@
 
     <dimen name="drop_icon_height">14dp</dimen>
     <dimen name="drop_icon_width">14dp</dimen>
+
+    <dimen name="header_message_horizontal_padding">8dp</dimen>
 </resources>
