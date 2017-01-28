@@ -17,8 +17,12 @@
 package com.android.documentsui.dirlist;
 
 import android.annotation.Nullable;
+import android.app.Activity;
+import android.app.RecoverableSecurityException;
+import android.graphics.drawable.Drawable;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
 import com.android.documentsui.dirlist.Model.Update;
@@ -26,35 +30,52 @@ import com.android.documentsui.dirlist.Model.Update;
 /**
  * Data object used by {@link InflateMessageDocumentHolder} and {@link HeaderMessageDocumentHolder}.
  */
+
 abstract class Message {
     protected final Environment mEnv;
+    // If the message has a button, this will be the default button call back.
+    protected final Runnable mDefaultCallback;
+    // If a message has a new callback when updated, this field should be updated.
+    protected @Nullable Runnable mCallback;
+
     private @Nullable CharSequence mMessageString;
-    private int mIconId = -1;
+    private @Nullable CharSequence mButtonString;
+    private @Nullable Drawable mIcon;
     private boolean mShouldShow = false;
 
-    Message(Environment env) {
+    Message(Environment env, Runnable defaultCallback) {
         mEnv = env;
+        mDefaultCallback = defaultCallback;
     }
 
     abstract void update(Update Event);
 
-    protected void update(CharSequence messageString, int iconId) {
+    protected void update(CharSequence messageString, CharSequence buttonString, Drawable icon) {
         if (messageString == null) {
             return;
         }
         mMessageString = messageString;
-        mIconId = iconId;
+        mButtonString = buttonString;
+        mIcon = icon;
         mShouldShow = true;
     }
 
     void reset() {
         mMessageString = null;
+        mIcon = null;
         mShouldShow = false;
-        mIconId = -1;
     }
 
-    int getIconId() {
-        return mIconId;
+    void runCallback() {
+        if (mCallback != null) {
+            mCallback.run();
+        } else {
+            mDefaultCallback.run();
+        }
+    }
+
+    Drawable getIcon() {
+        return mIcon;
     }
 
     boolean shouldShow() {
@@ -65,10 +86,15 @@ abstract class Message {
         return mMessageString;
     }
 
+    CharSequence getButtonString() {
+        return mButtonString;
+    }
+
     final static class HeaderMessage extends Message {
 
-        HeaderMessage(Environment env) {
-            super(env);
+
+        HeaderMessage(Environment env, Runnable callback) {
+            super(env, callback);
         }
 
         @Override
@@ -77,27 +103,42 @@ abstract class Message {
             // Error gets first dibs ... for now
             // TODO: These should be different Message objects getting updated instead of
             // overwriting.
-            if (mEnv.getModel().error != null) {
-                update(mEnv.getModel().error, R.drawable.ic_dialog_alert);
+            if (event.hasRecoverableException()) {
+                updateToRecoverableExceptionHeader(event);
+            } else if (mEnv.getModel().error != null) {
+                update(mEnv.getModel().error, null,
+                        mEnv.getContext().getDrawable(R.drawable.ic_dialog_alert));
             } else if (mEnv.getModel().info != null) {
-                update(mEnv.getModel().info, R.drawable.ic_dialog_info);
+                update(mEnv.getModel().info, null,
+                        mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
             }
+        }
+
+        private void updateToRecoverableExceptionHeader(Update event) {
+            RootInfo root = mEnv.getDisplayState().stack.getRoot();
+            update(mEnv.getContext().getResources().getText(R.string.authentication_required),
+                    mEnv.getContext().getString(R.string.open_app, root.title),
+                    mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
+            mCallback = () -> {
+                RecoverableSecurityException exception =
+                        (RecoverableSecurityException) event.getException();
+                exception.showAsDialog((Activity) mEnv.getContext());
+            };
         }
     }
 
     final static class InflateMessage extends Message {
 
-        InflateMessage(Environment env) {
-            super(env);
+        InflateMessage(Environment env, Runnable callback) {
+            super(env, callback);
         }
 
         @Override
         void update(Update event) {
             reset();
-            if (event.hasError()) {
+            if (event.hasException() && !event.hasRecoverableException()) {
                 updateToInflatedErrorMesage(
-                        Shared.DEBUG ? Shared.getStackTrace(event.getError()) : null);
-
+                        Shared.DEBUG ? Shared.getStackTrace(event.getException()) : null);
             } else if (mEnv.getModel().getModelIds().length == 0) {
                 updateToInflatedEmptyMessage();
             }
@@ -106,11 +147,11 @@ abstract class Message {
 
         private void updateToInflatedErrorMesage(@Nullable String debugString) {
             if (debugString == null) {
-                update(mEnv.getContext().getResources().getText(R.string.query_error),
-                        R.drawable.hourglass);
+                update(mEnv.getContext().getResources().getText(R.string.query_error), null,
+                        mEnv.getContext().getDrawable(R.drawable.hourglass));
             } else {
                 assert (Shared.DEBUG);
-                update(debugString, R.drawable.hourglass);
+                update(debugString, null, mEnv.getContext().getDrawable(R.drawable.hourglass));
             }
         }
 
@@ -124,7 +165,7 @@ abstract class Message {
             } else {
                 message = mEnv.getContext().getResources().getText(R.string.empty);
             }
-            update(message, R.drawable.cabinet);
+            update(message, null, mEnv.getContext().getDrawable(R.drawable.cabinet));
         }
     }
 }

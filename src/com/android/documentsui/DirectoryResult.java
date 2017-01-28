@@ -24,10 +24,11 @@ import com.android.documentsui.base.DocumentInfo;
 import libcore.io.IoUtils;
 
 public class DirectoryResult implements AutoCloseable {
-    ContentProviderClient client;
+
     public Cursor cursor;
     public Exception exception;
     public DocumentInfo doc;
+    ContentProviderClient client;
 
     @Override
     public void close() {

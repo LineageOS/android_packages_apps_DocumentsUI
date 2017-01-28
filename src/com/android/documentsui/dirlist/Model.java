@@ -19,10 +19,11 @@ package com.android.documentsui.dirlist;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.base.Shared.VERBOSE;
 import static com.android.documentsui.base.Shared.ENABLE_OMC_API_FEATURES;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.IntDef;
+import android.app.RecoverableSecurityException;
 import android.database.Cursor;
 import android.database.MergeCursor;
 import android.net.Uri;
@@ -295,36 +296,40 @@ public class Model {
 
         @IntDef(value = {
                 TYPE_UPDATE,
-                TYPE_UPDATE_ERROR
+                TYPE_UPDATE_EXCEPTION
         })
         @Retention(RetentionPolicy.SOURCE)
         public @interface UpdateType {}
         public static final int TYPE_UPDATE = 0;
-        public static final int TYPE_UPDATE_ERROR = 1;
+        public static final int TYPE_UPDATE_EXCEPTION = 1;
 
-        private final @UpdateType int mType;
+        private final @UpdateType int mUpdateType;
         private final @Nullable Exception mException;
 
         private Update() {
-            mType = TYPE_UPDATE;
+            mUpdateType = TYPE_UPDATE;
             mException = null;
         }
 
         public Update(Exception exception) {
             assert(exception != null);
-            mType = TYPE_UPDATE_ERROR;
+            mUpdateType = TYPE_UPDATE_EXCEPTION;
             mException = exception;
         }
 
         public boolean isUpdate() {
-            return mType == TYPE_UPDATE;
+            return mUpdateType == TYPE_UPDATE;
         }
 
-        public boolean hasError() {
-            return mType == TYPE_UPDATE_ERROR;
+        public boolean hasException() {
+            return mUpdateType == TYPE_UPDATE_EXCEPTION;
         }
 
-        public @Nullable Exception getError() {
+        public boolean hasRecoverableException() {
+            return hasException() && mException instanceof RecoverableSecurityException;
+        }
+
+        public @Nullable Exception getException() {
             return mException;
         }
     }
