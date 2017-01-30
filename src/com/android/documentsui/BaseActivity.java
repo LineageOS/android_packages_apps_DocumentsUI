@@ -268,6 +268,7 @@ public abstract class BaseActivity
             return;
         }
 
+        mInjector.actionModeController.finishActionMode();
         mState.derivedMode = LocalPreferences.getViewMode(this, root, MODE_GRID);
         mSortController.onViewModeChanged(mState.derivedMode);
 

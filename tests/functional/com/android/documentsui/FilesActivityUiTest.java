@@ -86,6 +86,16 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         bots.directory.waitForDocument(dirName1);
     }
 
+    public void testNavigate_whileHasSelection() throws Exception {
+
+        bots.roots.openRoot(rootDir0.title);
+        device.waitForIdle();
+        bots.directory.selectDocument("file0.log", 1);
+
+        // ensure no exception is thrown while navigating to a different root
+        bots.roots.openRoot(rootDir1.title);
+    }
+
     public void testRootChange_UpdatesSortHeader() throws Exception {
 
         // switch to separate display modes for two separate roots. Each
