@@ -119,6 +119,11 @@ public class UiBot extends Bots.BaseBot {
                 .perform(ViewActions.replaceText(text));
     }
 
+    public void assertDialogText(String expected) throws UiObjectNotFoundException {
+        onView(TEXT_ENTRY)
+                .check(matches(withText(is(expected))));
+    }
+
     public boolean inFixedLayout() {
         TypedValue val = new TypedValue();
         // We alias files_activity to either fixed or drawer layouts based
@@ -187,6 +192,20 @@ public class UiBot extends Bots.BaseBot {
 
     public UiObject findDownloadRetryDialog() {
         UiSelector selector = new UiSelector().text("Couldn't download");
+        UiObject title = mDevice.findObject(selector);
+        title.waitForExists(mTimeout);
+        return title;
+    }
+
+    public UiObject findFileRenameDialog() {
+        UiSelector selector = new UiSelector().text("Rename");
+        UiObject title = mDevice.findObject(selector);
+        title.waitForExists(mTimeout);
+        return title;
+    }
+
+    public UiObject findRenameErrorMessage() {
+        UiSelector selector = new UiSelector().text(mContext.getString(R.string.name_conflict));
         UiObject title = mDevice.findObject(selector);
         title.waitForExists(mTimeout);
         return title;

@@ -44,8 +44,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -81,12 +83,14 @@ public class Model {
 
     private static final String TAG = "Model";
 
+    /** Maps Model ID to cursor positions, for looking up items by Model ID. */
+    private final Map<String, Integer> mPositions = new HashMap<>();
+    private final Set<String> mFileNames = new HashSet<>();
+
     private boolean mIsLoading;
     private List<EventListener<Update>> mUpdateListeners = new ArrayList<>();
     @Nullable private Cursor mCursor;
     private int mCursorCount;
-    /** Maps Model ID to cursor positions, for looking up items by Model ID. */
-    private Map<String, Integer> mPositions = new HashMap<>();
     private String mIds[] = new String[0];
 
     @Nullable String info;
@@ -132,6 +136,7 @@ public class Model {
         error = null;
         doc = null;
         mIsLoading = false;
+        mFileNames.clear();
         notifyUpdateListeners();
     }
 
@@ -173,7 +178,7 @@ public class Model {
      */
     private void updateModelData() {
         mIds = new String[mCursorCount];
-
+        mFileNames.clear();
         mCursor.moveToPosition(-1);
         for (int pos = 0; pos < mCursorCount; ++pos) {
             if (!mCursor.moveToNext()) {
@@ -190,6 +195,7 @@ public class Model {
             } else {
                 mIds[pos] = getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
             }
+            mFileNames.add(getCursorString(mCursor, Document.COLUMN_DISPLAY_NAME));
         }
 
         // Populate the positions.
@@ -197,6 +203,10 @@ public class Model {
         for (int i = 0; i < mCursorCount; ++i) {
             mPositions.put(mIds[i], i);
         }
+    }
+
+    public boolean hasFileWithName(String name) {
+        return mFileNames.contains(name);
     }
 
     public @Nullable Cursor getItem(String modelId) {

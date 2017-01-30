@@ -270,4 +270,7 @@
 
     <!-- Error message shown when an archive fails to load -->
     <string name="archive_loading_failed">Unable to open archive for browsing. File is either corrupt, or an unsupported format.</string>
+
+    <!-- Error message displayed in rename dialog when there is a conflict with an existing file. -->
+    <string name="name_conflict">A file with this name already exists.</string>
 </resources>

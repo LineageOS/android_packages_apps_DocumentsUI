@@ -790,7 +790,7 @@ public class DirectoryFragment extends Fragment
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.getDocuments(selected);
-        RenameDocumentFragment.show(getFragmentManager(), docs.get(0));
+        RenameDocumentFragment.show(getFragmentManager(), docs.get(0), mModel::hasFileWithName);
     }
 
     private boolean isDocumentEnabled(String mimeType, int flags) {
