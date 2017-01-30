@@ -154,6 +154,7 @@ abstract public class Job implements Runnable {
             Metrics.logFileOperationErrors(service, operationType, failedDocs, failedUris);
         } finally {
             mState = (mState == STATE_STARTED || mState == STATE_SET_UP) ? STATE_COMPLETED : mState;
+            finish();
             listener.onFinished(this);
 
             // NOTE: If this details is a JumboClipDetails, and it's still referred in primary clip
@@ -166,8 +167,10 @@ abstract public class Job implements Runnable {
         return true;
     }
 
-    abstract void start();
+    void finish() {
+    }
 
+    abstract void start();
     abstract Notification getSetupNotification();
     abstract Notification getProgressNotification();
     abstract Notification getFailureNotification();

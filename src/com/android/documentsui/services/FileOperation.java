@@ -155,9 +155,8 @@ public abstract class FileOperation implements Parcelable {
             return builder.toString();
         }
 
-        // TODO: Replace CopyJob with CompressJob.
         CopyJob createJob(Context service, Job.Listener listener, String id) {
-            throw new UnsupportedOperationException("Compressing not yet supported.");
+            return new CompressJob(service, listener, id, getDestination(), getSrc());
         }
 
         private CompressOperation(Parcel in) {
