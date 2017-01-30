@@ -35,8 +35,6 @@ import android.webkit.MimeTypeMap;
 import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.Preconditions;
 
-import android.support.annotation.VisibleForTesting;
-
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -232,7 +230,6 @@ public abstract class Archive implements Closeable {
      *
      * @see DocumentsProvider.createDocument(String, String, String))
      */
-    @VisibleForTesting
     public String createDocument(String parentDocumentId, String mimeType, String displayName)
             throws FileNotFoundException {
         throw new UnsupportedOperationException("Creating documents not supported.");
@@ -304,7 +301,8 @@ public abstract class Archive implements Closeable {
     }
 
     // TODO: Upstream to the Preconditions class.
-    static class MorePreconditions {
+    // TODO: Move to a separate file.
+    public static class MorePreconditions {
         static void checkArgumentEquals(String expected, @Nullable String actual,
                 String message) {
             if (!TextUtils.equals(expected, actual)) {

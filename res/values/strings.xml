@@ -148,6 +148,8 @@
 
     <!-- Title of the copy notification [CHAR LIMIT=24] -->
     <string name="copy_notification_title">Copying files</string>
+    <!-- Title of the compress notification [CHAR LIMIT=24] -->
+    <string name="compress_notification_title">Compressing files</string>
     <!-- Title of the move notification [CHAR LIMIT=24] -->
     <string name="move_notification_title">Moving files</string>
     <!-- Title of the move notification [CHAR LIMIT=24] -->
@@ -183,6 +185,8 @@
     <string name="undo">Undo</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for copying files [CHAR LIMIT=32] -->
     <string name="copy_preparing">Preparing for copy\u2026</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for compressing files [CHAR LIMIT=32] -->
+    <string name="compress_preparing">Preparing for compress\u2026</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for moving files [CHAR LIMIT=32] -->
     <string name="move_preparing">Preparing for move\u2026</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for deleting files [CHAR LIMIT=32] -->
@@ -193,6 +197,11 @@
     <plurals name="copy_error_notification_title">
         <item quantity="one">Couldn\u2019t copy <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
         <item quantity="other">Couldn\u2019t copy <xliff:g id="count" example="2">%1$d</xliff:g> items</item>
+    </plurals>
+    <!-- Title of the compress error notification [CHAR LIMIT=48] -->
+    <plurals name="compress_error_notification_title">
+        <item quantity="one">Couldn\u2019t compress <xliff:g id="count" example="1">%1$d</xliff:g> file</item>
+        <item quantity="other">Couldn\u2019t compress <xliff:g id="count" example="2">%1$d</xliff:g> files</item>
     </plurals>
     <!-- Title of the move error notification [CHAR LIMIT=48] -->
     <plurals name="move_error_notification_title">
