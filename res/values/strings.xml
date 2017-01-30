@@ -148,17 +148,17 @@
     <string name="copy_remaining"><xliff:g id="duration" example="3 minutes">%s</xliff:g> left</string>
     <!-- Toast shown when a file copy is kicked off -->
     <plurals name="copy_begin">
-        <item quantity="one">Copying <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
-        <item quantity="other">Copying <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
+        <item quantity="one">Copying <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
+        <item quantity="other">Copying <xliff:g id="count" example="3">%1$d</xliff:g> items.</item>
     </plurals>
     <plurals name="move_begin">
-        <item quantity="one">Moving <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
-        <item quantity="other">Moving <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
+        <item quantity="one">Moving <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
+        <item quantity="other">Moving <xliff:g id="count" example="3">%1$d</xliff:g> items.</item>
     </plurals>
     <!-- Text shown when files are deleted -->
     <plurals name="deleting">
-        <item quantity="one">Deleting <xliff:g id="count" example="1">%1$d</xliff:g> file.</item>
-        <item quantity="other">Deleting <xliff:g id="count" example="3">%1$d</xliff:g> files.</item>
+        <item quantity="one">Deleting <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
+        <item quantity="other">Deleting <xliff:g id="count" example="3">%1$d</xliff:g> items.</item>
     </plurals>
     <!-- Text shown for the undo button -->
     <string name="undo">Undo</string>
@@ -172,18 +172,18 @@
     <string name="delete_progress"><xliff:g id="count" example="3">%1$d</xliff:g> / <xliff:g id="totalCount" example="5">%2$d</xliff:g></string>
     <!-- Title of the copy error notification [CHAR LIMIT=48] -->
     <plurals name="copy_error_notification_title">
-        <item quantity="one">Couldn\u2019t copy <xliff:g id="count" example="1">%1$d</xliff:g> file</item>
-        <item quantity="other">Couldn\u2019t copy <xliff:g id="count" example="2">%1$d</xliff:g> files</item>
+        <item quantity="one">Couldn\u2019t copy <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
+        <item quantity="other">Couldn\u2019t copy <xliff:g id="count" example="2">%1$d</xliff:g> items</item>
     </plurals>
     <!-- Title of the move error notification [CHAR LIMIT=48] -->
     <plurals name="move_error_notification_title">
-        <item quantity="one">Couldn\u2019t move <xliff:g id="count" example="1">%1$d</xliff:g> file</item>
-        <item quantity="other">Couldn\u2019t move <xliff:g id="count" example="2">%1$d</xliff:g> files</item>
+        <item quantity="one">Couldn\u2019t move <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
+        <item quantity="other">Couldn\u2019t move <xliff:g id="count" example="2">%1$d</xliff:g> items</item>
     </plurals>
     <!-- Title of the delete error notification [CHAR LIMIT=48] -->
     <plurals name="delete_error_notification_title">
-        <item quantity="one">Couldn\u2019t delete <xliff:g id="count" example="1">%1$d</xliff:g> file</item>
-        <item quantity="other">Couldn\u2019t delete <xliff:g id="count" example="2">%1$d</xliff:g> files</item>
+        <item quantity="one">Couldn\u2019t delete <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
+        <item quantity="other">Couldn\u2019t delete <xliff:g id="count" example="2">%1$d</xliff:g> items</item>
     </plurals>
     <!-- Second line for notifications saying that more information will be shown after touching [CHAR LIMIT=48] -->
     <string name="notification_touch_for_details">Tap to view details</string>
@@ -199,8 +199,8 @@
     <string name="copy_converted_warning_content">These files were converted to another format: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></string>
     <!-- Toast shown when a user copies files to clipboard. -->
     <plurals name="clipboard_files_clipped">
-        <item quantity="one">Copied <xliff:g id="count" example="1">%1$d</xliff:g> file to clipboard.</item>
-        <item quantity="other">Copied <xliff:g id="count" example="3">%1$d</xliff:g> files to clipboard.</item>
+        <item quantity="one">Copied <xliff:g id="count" example="1">%1$d</xliff:g> item to clipboard.</item>
+        <item quantity="other">Copied <xliff:g id="count" example="3">%1$d</xliff:g> items to clipboard.</item>
     </plurals>
     <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
     <string name="file_operation_error">File operation is not supported.</string>
