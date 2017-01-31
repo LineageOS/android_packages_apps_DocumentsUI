@@ -314,4 +314,7 @@
 
     <!-- Text shown on button to open an application -->
     <string name="open_app">Open <xliff:g id="name" example="Cloud Storage">%1$s</xliff:g></string>
+
+    <!-- File name of an archive file created when compressing files, without the file extension (.zip). -->
+    <string name="new_archive_file_name">archive<xliff:g id="extension" example=".zip">%s</xliff:g></string>
 </resources>

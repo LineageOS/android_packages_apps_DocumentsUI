@@ -45,6 +45,7 @@ import javax.annotation.Nullable;
 final class CompressJob extends CopyJob {
 
     private static final String TAG = "CompressJob";
+    private static final String NEW_ARCHIVE_EXTENSION = ".zip";
 
     /**
      * Moves files to a destination identified by {@code destination}.
@@ -85,12 +86,23 @@ final class CompressJob extends CopyJob {
 
     @Override
     public boolean setUp() {
+        if (!super.setUp()) {
+            return false;
+        }
+
         final ContentResolver resolver = appContext.getContentResolver();
 
         // TODO: Move this to DocumentsProvider.
-        // TODO: Choose better dispaly name.
+
+        String displayName;
+        if (mResolvedDocs.size() == 1) {
+            displayName = mResolvedDocs.get(0).displayName + NEW_ARCHIVE_EXTENSION;
+        } else {
+            displayName = service.getString(R.string.new_archive_file_name, NEW_ARCHIVE_EXTENSION);
+        }
+
         final Uri archiveUri = DocumentsContract.createDocument(
-                resolver, mDstInfo.derivedUri, "application/zip", "archive.zip");
+                resolver, mDstInfo.derivedUri, "application/zip", displayName);
 
         try {
             mDstInfo = DocumentInfo.fromUri(resolver, ArchivesProvider.buildUriForArchive(
@@ -101,7 +113,7 @@ final class CompressJob extends CopyJob {
             return false;
         }
 
-        return super.setUp();
+        return true;
     }
 
     @Override
