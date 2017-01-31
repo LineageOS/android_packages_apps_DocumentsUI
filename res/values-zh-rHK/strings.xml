@@ -73,45 +73,24 @@
     <string name="move_notification_title" msgid="3173424987049347605">"正在移動檔案"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"正在刪除檔案"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"剩餘 <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="other">正在複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
-      <item quantity="one">正在複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
-    </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="other">正在移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
-      <item quantity="one">正在移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
-    </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="other">正在刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
-      <item quantity="one">正在刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
-    </plurals>
+    <!-- no translation found for copy_begin (151184708996738192) -->
+    <!-- no translation found for move_begin (1464229874265756956) -->
+    <!-- no translation found for deleting (1729138001178158901) -->
     <string name="undo" msgid="2902438994196400565">"復原"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"正在準備複製…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"正在準備移動…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"正在準備刪除…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="other">無法複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
-      <item quantity="one">無法複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="other">無法移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
-      <item quantity="one">無法移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="other">無法刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
-      <item quantity="one">無法刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
-    </plurals>
+    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
+    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
+    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
     <string name="notification_touch_for_details" msgid="2385563502445129570">"輕按即可查看詳細資訊"</string>
     <string name="close" msgid="905969391788869975">"關閉"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"未能複製以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"未能移動以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"無法刪除以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"這些檔案已轉換成其他格式：<xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="other">已將 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案複製到剪貼簿。</item>
-      <item quantity="one">已將 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案複製到剪貼簿。</item>
-    </plurals>
+    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
     <string name="file_operation_error" msgid="5016141190607538391">"不支援檔案操作。"</string>
     <string name="rename_error" msgid="6700093173508118635">"無法重新命名文件"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"逐出"</string>

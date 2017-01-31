@@ -73,59 +73,24 @@
     <string name="move_notification_title" msgid="3173424987049347605">"מעביר קבצים"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"מחיקת קבצים"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> נותרו"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="two">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="many">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="other">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="one">מעתיק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ.</item>
-    </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="two">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="many">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="other">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="one">מעביר <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ.</item>
-    </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="two">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="many">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="other">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="one">מוחק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ.</item>
-    </plurals>
+    <!-- no translation found for copy_begin (151184708996738192) -->
+    <!-- no translation found for move_begin (1464229874265756956) -->
+    <!-- no translation found for deleting (1729138001178158901) -->
     <string name="undo" msgid="2902438994196400565">"ביטול"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"מתכונן להעתקה..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"מתכונן להעברה…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"מתכונן למחיקה…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="two">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="many">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="other">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="one">לא ניתן היה להעתיק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="two">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="many">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="other">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="one">לא ניתן היה להעביר <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="two">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="many">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="other">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="one">לא ניתן היה למחוק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
-    </plurals>
+    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
+    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
+    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
     <string name="notification_touch_for_details" msgid="2385563502445129570">"הקש כדי להציג פרטים"</string>
     <string name="close" msgid="905969391788869975">"סגור"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"הקבצים הבאים לא הועתקו: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"הקבצים הבאים לא הועברו: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"הקבצים הבאים לא נמחקו: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"הקבצים האלה הומרו לפורמט אחר: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="two">הועתקו <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים אל הלוח.</item>
-      <item quantity="many">הועתקו <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים אל הלוח.</item>
-      <item quantity="other">הועתקו <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים אל הלוח.</item>
-      <item quantity="one">הועתק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ אל הלוח.</item>
-    </plurals>
+    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
     <string name="file_operation_error" msgid="5016141190607538391">"פעולת הקובץ אינה נתמכת."</string>
     <string name="rename_error" msgid="6700093173508118635">"הניסיון לשינוי שם המסמך נכשל"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"הוצא"</string>
