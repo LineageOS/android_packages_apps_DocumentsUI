@@ -31,10 +31,12 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
+import com.android.documentsui.ui.MessageBuilder;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+
 /**
  * Alert dialog for operation dialogs.
  */
@@ -67,6 +69,7 @@ public class OperationDialogFragment extends DialogFragment {
         args.putInt(FileOperationService.EXTRA_DIALOG_TYPE, dialogType);
         args.putInt(FileOperationService.EXTRA_OPERATION_TYPE, operationType);
         args.putParcelableArrayList(FileOperationService.EXTRA_FAILED_DOCS, failedSrcList);
+        args.putParcelableArrayList(FileOperationService.EXTRA_FAILED_URIS, uriList);
 
         final FragmentTransaction ft = fm.beginTransaction();
         final OperationDialogFragment fragment = new OperationDialogFragment();
@@ -90,51 +93,10 @@ public class OperationDialogFragment extends DialogFragment {
                 FileOperationService.EXTRA_FAILED_DOCS);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        String messageFormat;
+        final String message = new MessageBuilder(getContext()).generateListMessage(
+                dialogType, operationType, docList, uriList);
 
-        switch (dialogType) {
-            case DIALOG_TYPE_CONVERTED:
-                messageFormat = getString(R.string.copy_converted_warning_content);
-                break;
-
-            case DIALOG_TYPE_FAILURE:
-                switch (operationType) {
-                    case FileOperationService.OPERATION_COPY:
-                        messageFormat = getString(R.string.copy_failure_alert_content);
-                        break;
-                    case FileOperationService.OPERATION_COMPRESS:
-                        messageFormat = getString(R.string.compress_failure_alert_content);
-                        break;
-                    case FileOperationService.OPERATION_EXTRACT:
-                        messageFormat = getString(R.string.extract_failure_alert_content);
-                        break;
-                    case FileOperationService.OPERATION_DELETE:
-                        messageFormat = getString(R.string.delete_failure_alert_content);
-                        break;
-                    case FileOperationService.OPERATION_MOVE:
-                        messageFormat = getString(R.string.move_failure_alert_content);
-                        break;
-                    default:
-                        throw new UnsupportedOperationException();
-                }
-                break;
-
-            default:
-                throw new UnsupportedOperationException();
-        }
-
-        final StringBuilder list = new StringBuilder("<p>");
-        for (DocumentInfo documentInfo : docList) {
-            list.append("&#8226; " + Html.escapeHtml(documentInfo.displayName) + "<br>");
-        }
-        if (uriList != null) {
-            for (Uri uri : uriList) {
-                list.append("&#8226; " + uri.toSafeString() + "<br>");
-            }
-        }
-        list.append("</p>");
-
-        builder.setMessage(Html.fromHtml(String.format(messageFormat, list.toString())));
+        builder.setMessage(Html.fromHtml(message));
         builder.setPositiveButton(
                 R.string.close,
                 new DialogInterface.OnClickListener() {
