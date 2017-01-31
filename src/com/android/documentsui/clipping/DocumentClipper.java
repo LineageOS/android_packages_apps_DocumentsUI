@@ -136,7 +136,7 @@ public final class DocumentClipper {
                 clipTypes.toArray(new String[0]));
         description.setExtras(bundle);
 
-        return new ClipData(description, clipItems);
+        return createClipData(description, clipItems);
     }
 
     /**
@@ -182,7 +182,7 @@ public final class DocumentClipper {
                 clipTypes.toArray(new String[0]));
         description.setExtras(bundle);
 
-        return new ClipData(description, clipItems);
+        return createClipData(description, clipItems);
     }
 
     /**
@@ -332,5 +332,19 @@ public final class DocumentClipper {
 
     private static @OpType int getOpType(PersistableBundle bundle) {
         return bundle.getInt(OP_TYPE_KEY);
+    }
+
+    private static ClipData createClipData(
+            ClipDescription description, ArrayList<ClipData.Item> clipItems) {
+
+        if (Shared.ENABLE_OMC_API_FEATURES) {
+            return new ClipData(description, clipItems);
+        }
+
+        ClipData clip = new ClipData(description, clipItems.get(0));
+        for (int i = 1; i < clipItems.size(); i++) {
+            clip.addItem(clipItems.get(i));
+        }
+        return clip;
     }
 }
