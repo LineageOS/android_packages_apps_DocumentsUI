@@ -70,6 +70,8 @@ public class FileOperationService extends Service implements Job.Listener {
     @IntDef(flag = true, value = {
             OPERATION_UNKNOWN,
             OPERATION_COPY,
+            OPERATION_COMPRESS,
+            OPERATION_EXTRACT,
             OPERATION_MOVE,
             OPERATION_DELETE
     })
@@ -77,8 +79,10 @@ public class FileOperationService extends Service implements Job.Listener {
     public @interface OpType {}
     public static final int OPERATION_UNKNOWN = -1;
     public static final int OPERATION_COPY = 1;
-    public static final int OPERATION_MOVE = 2;
-    public static final int OPERATION_DELETE = 3;
+    public static final int OPERATION_EXTRACT = 2;
+    public static final int OPERATION_COMPRESS = 3;
+    public static final int OPERATION_MOVE = 4;
+    public static final int OPERATION_DELETE = 5;
 
     // TODO: Move it to a shared file when more operations are implemented.
     public static final int FAILURE_COPY = 1;
@@ -249,6 +253,8 @@ public class FileOperationService extends Service implements Job.Listener {
     private ExecutorService getExecutorService(@OpType int operationType) {
         switch (operationType) {
             case OPERATION_COPY:
+            case OPERATION_COMPRESS:
+            case OPERATION_EXTRACT:
             case OPERATION_MOVE:
                 return executor;
             case OPERATION_DELETE:

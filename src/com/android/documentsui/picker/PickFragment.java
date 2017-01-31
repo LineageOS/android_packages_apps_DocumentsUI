@@ -17,6 +17,9 @@
 package com.android.documentsui.picker;
 
 import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
+import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
+import static com.android.documentsui.services.FileOperationService.OPERATION_COMPRESS;
+import static com.android.documentsui.services.FileOperationService.OPERATION_EXTRACT;
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
 
@@ -64,7 +67,8 @@ public class PickFragment extends Fragment {
     };
 
     private int mAction;
-    // Only legal values are OPERATION_COPY, OPERATION_MOVE, and unset (OPERATION_UNKNOWN).
+    // Only legal values are OPERATION_COPY, OPERATION_COMPRESS, OPERATION_EXTRACT,
+    // OPERATION_MOVE, and unset (OPERATION_UNKNOWN).
     private @OpType int mCopyOperationSubType = OPERATION_UNKNOWN;
     private DocumentInfo mPickTarget;
     private View mContainer;
@@ -148,8 +152,24 @@ public class PickFragment extends Fragment {
                 mCancel.setVisibility(View.GONE);
                 break;
             case State.ACTION_PICK_COPY_DESTINATION:
-                mPick.setText(mCopyOperationSubType == OPERATION_MOVE
-                        ? R.string.button_move : R.string.button_copy);
+                int titleId;
+                switch (mCopyOperationSubType) {
+                    case OPERATION_COPY:
+                        titleId = R.string.button_copy;
+                        break;
+                    case OPERATION_COMPRESS:
+                        titleId = R.string.button_compress;
+                        break;
+                    case OPERATION_EXTRACT:
+                        titleId = R.string.button_extract;
+                        break;
+                    case OPERATION_MOVE:
+                        titleId = R.string.button_move;
+                        break;
+                    default:
+                        throw new UnsupportedOperationException();
+                }
+                mPick.setText(titleId);
                 mCancel.setVisibility(View.VISIBLE);
                 break;
             default:

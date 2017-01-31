@@ -129,6 +129,12 @@ public interface DialogController {
                 case FileOperationService.OPERATION_COPY:
                     Snackbars.showCopy(mActivity, docCount);
                     break;
+                case FileOperationService.OPERATION_COMPRESS:
+                    Snackbars.showCompress(mActivity, docCount);
+                    break;
+                case FileOperationService.OPERATION_EXTRACT:
+                    Snackbars.showExtract(mActivity, docCount);
+                    break;
                 case FileOperationService.OPERATION_DELETE:
                     Snackbars.showDelete(mActivity, docCount);
                     break;

@@ -43,6 +43,16 @@ public final class Snackbars {
         makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
     }
 
+    public static final void showCompress(Activity activity, int docCount) {
+        CharSequence message = Shared.getQuantityString(activity, R.plurals.compress_begin, docCount);
+        makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public static final void showExtract(Activity activity, int docCount) {
+        CharSequence message = Shared.getQuantityString(activity, R.plurals.extract_begin, docCount);
+        makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
+    }
+
     public static final void showDelete(Activity activity, int docCount) {
         CharSequence message = Shared.getQuantityString(activity, R.plurals.deleting, docCount);
         makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
