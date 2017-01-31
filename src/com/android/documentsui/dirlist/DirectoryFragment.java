@@ -1229,7 +1229,11 @@ public class DirectoryFragment extends Fragment
                 Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SEARCH);
             }
 
-            mAdapter.notifyDataSetChanged();
+            // The below mModel.update triggers recalculation of the selection metadata
+            if (mSelectionMgr.hasSelection()) {
+                mSelectionMetadata.reset();
+            }
+
             mModel.update(result);
 
             updateLayout(mState.derivedMode);
