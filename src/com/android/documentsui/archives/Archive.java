@@ -32,7 +32,10 @@ import android.system.OsConstants;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
+import com.android.internal.annotations.GuardedBy;
 import com.android.internal.util.Preconditions;
+
+import android.support.annotation.VisibleForTesting;
 
 import java.io.Closeable;
 import java.io.File;
@@ -63,19 +66,25 @@ public abstract class Archive implements Closeable {
 
     final Context mContext;
     final Uri mArchiveUri;
-    final int mArchiveMode;
+    final int mAccessMode;
     final Uri mNotificationUri;
+
+    // The container as well as values are guarded by mEntries.
+    @GuardedBy("mEntries")
     final Map<String, ZipEntry> mEntries;
+
+    // The container as well as values and elements of values are guarded by mEntries.
+    @GuardedBy("mEntries")
     final Map<String, List<ZipEntry>> mTree;
 
     Archive(
             Context context,
             Uri archiveUri,
-            int archiveMode,
+            int accessMode,
             @Nullable Uri notificationUri) {
         mContext = context;
         mArchiveUri = archiveUri;
-        mArchiveMode = archiveMode;
+        mAccessMode = accessMode;
         mNotificationUri = notificationUri;
 
         mTree = new HashMap<>();
@@ -127,12 +136,14 @@ public abstract class Archive implements Closeable {
             result.setNotificationUri(mContext.getContentResolver(), mNotificationUri);
         }
 
-        final List<ZipEntry> parentList = mTree.get(parsedParentId.mPath);
-        if (parentList == null) {
-            throw new FileNotFoundException();
-        }
-        for (final ZipEntry entry : parentList) {
-            addCursorRow(result, entry);
+        synchronized (mEntries) {
+            final List<ZipEntry> parentList = mTree.get(parsedParentId.mPath);
+            if (parentList == null) {
+                throw new FileNotFoundException();
+            }
+            for (final ZipEntry entry : parentList) {
+                addCursorRow(result, entry);
+            }
         }
         return result;
     }
@@ -147,11 +158,13 @@ public abstract class Archive implements Closeable {
         MorePreconditions.checkArgumentEquals(mArchiveUri, parsedId.mArchiveUri,
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
-        final ZipEntry entry = mEntries.get(parsedId.mPath);
-        if (entry == null) {
-            throw new FileNotFoundException();
+        synchronized (mEntries) {
+            final ZipEntry entry = mEntries.get(parsedId.mPath);
+            if (entry == null) {
+                throw new FileNotFoundException();
+            }
+            return getMimeTypeForEntry(entry);
         }
-        return getMimeTypeForEntry(entry);
     }
 
     /**
@@ -166,23 +179,25 @@ public abstract class Archive implements Closeable {
         MorePreconditions.checkArgumentEquals(mArchiveUri, parsedParentId.mArchiveUri,
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
-        final ZipEntry entry = mEntries.get(parsedId.mPath);
-        if (entry == null) {
-            return false;
+        synchronized (mEntries) {
+            final ZipEntry entry = mEntries.get(parsedId.mPath);
+            if (entry == null) {
+                return false;
+            }
+
+            final ZipEntry parentEntry = mEntries.get(parsedParentId.mPath);
+            if (parentEntry == null || !parentEntry.isDirectory()) {
+                return false;
+            }
+
+            // Add a trailing slash even if it's not a directory, so it's easy to check if the
+            // entry is a descendant.
+            String pathWithSlash = entry.isDirectory() ? getEntryPath(entry)
+                    : getEntryPath(entry) + "/";
+
+            return pathWithSlash.startsWith(parsedParentId.mPath) &&
+                    !parsedParentId.mPath.equals(pathWithSlash);
         }
-
-        final ZipEntry parentEntry = mEntries.get(parsedParentId.mPath);
-        if (parentEntry == null || !parentEntry.isDirectory()) {
-            return false;
-        }
-
-        // Add a trailing slash even if it's not a directory, so it's easy to check if the
-        // entry is a descendant.
-        String pathWithSlash = entry.isDirectory() ? getEntryPath(entry)
-                : getEntryPath(entry) + "/";
-
-        return pathWithSlash.startsWith(parsedParentId.mPath) &&
-                !parsedParentId.mPath.equals(pathWithSlash);
     }
 
     /**
@@ -196,18 +211,31 @@ public abstract class Archive implements Closeable {
         MorePreconditions.checkArgumentEquals(mArchiveUri, parsedId.mArchiveUri,
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
-        final ZipEntry entry = mEntries.get(parsedId.mPath);
-        if (entry == null) {
-            throw new FileNotFoundException();
-        }
+        synchronized (mEntries) {
+            final ZipEntry entry = mEntries.get(parsedId.mPath);
+            if (entry == null) {
+                throw new FileNotFoundException();
+            }
 
-        final MatrixCursor result = new MatrixCursor(
-                projection != null ? projection : DEFAULT_PROJECTION);
-        if (mNotificationUri != null) {
-            result.setNotificationUri(mContext.getContentResolver(), mNotificationUri);
+            final MatrixCursor result = new MatrixCursor(
+                    projection != null ? projection : DEFAULT_PROJECTION);
+            if (mNotificationUri != null) {
+                result.setNotificationUri(mContext.getContentResolver(), mNotificationUri);
+            }
+            addCursorRow(result, entry);
+            return result;
         }
-        addCursorRow(result, entry);
-        return result;
+    }
+
+    /**
+     * Creates a file within an archive.
+     *
+     * @see DocumentsProvider.createDocument(String, String, String))
+     */
+    @VisibleForTesting
+    public String createDocument(String parentDocumentId, String mimeType, String displayName)
+            throws FileNotFoundException {
+        throw new UnsupportedOperationException("Creating documents not supported.");
     }
 
     /**
@@ -215,26 +243,33 @@ public abstract class Archive implements Closeable {
      *
      * @see DocumentsProvider.openDocument(String, String, CancellationSignal))
      */
-    abstract public ParcelFileDescriptor openDocument(
+    public ParcelFileDescriptor openDocument(
             String documentId, String mode, @Nullable final CancellationSignal signal)
-            throws FileNotFoundException;
+            throws FileNotFoundException {
+        throw new UnsupportedOperationException("Thumbnails not supported.");
+    }
 
     /**
      * Opens a thumbnail of a file within an archive.
      *
      * @see DocumentsProvider.openDocumentThumbnail(String, Point, CancellationSignal))
      */
-    abstract public AssetFileDescriptor openDocumentThumbnail(
+    public AssetFileDescriptor openDocumentThumbnail(
             String documentId, Point sizeHint, final CancellationSignal signal)
-            throws FileNotFoundException;
+            throws FileNotFoundException {
+        throw new UnsupportedOperationException("Thumbnails not supported.");
+    }
 
     /**
      * Creates an archive id for the passed path.
      */
     public ArchiveId createArchiveId(String path) {
-        return new ArchiveId(mArchiveUri, mArchiveMode, path);
+        return new ArchiveId(mArchiveUri, mAccessMode, path);
     }
 
+    /**
+     * Not thread safe.
+     */
     void addCursorRow(MatrixCursor cursor, ZipEntry entry) {
         final MatrixCursor.RowBuilder row = cursor.newRow();
         final ArchiveId parsedId = createArchiveId(getEntryPath(entry));
