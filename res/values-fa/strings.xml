@@ -33,8 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"انتخاب همه"</string>
     <string name="menu_copy" msgid="7404820171352314754">"کپی در..."</string>
     <string name="menu_move" msgid="2310760789561129882">"انتقال به…"</string>
-    <!-- no translation found for menu_extract (8171946945982532262) -->
-    <skip />
+    <string name="menu_extract" msgid="8171946945982532262">"استخراج در…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"تغییر نام"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"پنجره جدید"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"برش"</string>
