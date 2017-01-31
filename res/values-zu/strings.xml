@@ -73,45 +73,24 @@
     <string name="move_notification_title" msgid="3173424987049347605">"Ihambisa amafayela"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Isusa amafayela"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> esisele"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="one">Kukopishwa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
-      <item quantity="other">Kukopishwa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
-    </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="one">Ihambisa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
-      <item quantity="other">Ihambisa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
-    </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="one">Isusa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
-      <item quantity="other">Isusa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
-    </plurals>
+    <!-- no translation found for copy_begin (151184708996738192) -->
+    <!-- no translation found for move_begin (1464229874265756956) -->
+    <!-- no translation found for deleting (1729138001178158901) -->
     <string name="undo" msgid="2902438994196400565">"Hlehlisa"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Ilungiselela ukukopisha..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"Ilungiselela ukuhambisa…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Ilungiselela ukususa…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="one">Ayikwazanga ukukopisha amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="other">Ayikwazanga ukukopisha amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
-    </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="one">Ayikwazanga ukuhambisa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="other">Ayikwazanga ukuhambisa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
-    </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="one">Ayikwazanga ukususa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="other">Ayikwazanga ukususa amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g></item>
-    </plurals>
+    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
+    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
+    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Thepha ukuze ubuke imininingwane"</string>
     <string name="close" msgid="905969391788869975">"Vala"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Lawo mafayela awakopishwanga: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Lawa mafayela awazange ahanjiswe: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Lawa mafayela awazange asuswe: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Lawo mafayela aguqulelwe kwenye ifomethi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="one">Kukopishelwe amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g> kubhodi lokunamathisela.</item>
-      <item quantity="other">Kukopishelwe amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g> kubhodi lokunamathisela.</item>
-    </plurals>
+    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
     <string name="file_operation_error" msgid="5016141190607538391">"Umsebenzi wefayela awusekelwa."</string>
     <string name="rename_error" msgid="6700093173508118635">"Yehlulekile ukuqamba kabusha idokhumenti"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Khipha"</string>
