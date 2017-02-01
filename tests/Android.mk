@@ -13,7 +13,12 @@ LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
 LOCAL_AAPT_FLAGS += -0 .zip
 
 LOCAL_JAVA_LIBRARIES := android.test.runner
-LOCAL_STATIC_JAVA_LIBRARIES := mockito-target ub-uiautomator espresso-core guava
+LOCAL_STATIC_JAVA_LIBRARIES := \
+    mockito-target \
+    ub-uiautomator \
+    espresso-core \
+    guava \
+    legacy-android-test
 LOCAL_JARJAR_RULES := $(LOCAL_PATH)/jarjar-rules.txt
 LOCAL_PACKAGE_NAME := DocumentsUITests
 LOCAL_INSTRUMENTATION_FOR := DocumentsUI

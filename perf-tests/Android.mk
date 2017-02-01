@@ -9,7 +9,12 @@ LOCAL_SRC_FILES := $(call all-java-files-under, src) \
     ../tests/functional/com/android/documentsui/ActivityTest.java
 
 LOCAL_JAVA_LIBRARIES := android-support-v4 android.test.runner
-LOCAL_STATIC_JAVA_LIBRARIES := mockito-target ub-uiautomator ub-janktesthelper espresso-core
+LOCAL_STATIC_JAVA_LIBRARIES := \
+    mockito-target \
+    ub-uiautomator \
+    ub-janktesthelper \
+    espresso-core \
+    legacy-android-test
 
 LOCAL_PACKAGE_NAME := DocumentsUIPerfTests
 LOCAL_INSTRUMENTATION_FOR := DocumentsUI
