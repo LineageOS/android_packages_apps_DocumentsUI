@@ -82,12 +82,13 @@ class CopyJob extends ResolvedResourcesJob {
     private static final long LOADING_TIMEOUT = 60000; // 1 min
 
     final ArrayList<DocumentInfo> convertedFiles = new ArrayList<>();
+    DocumentInfo mDstInfo;
 
     private long mStartTime = -1;
-
     private long mBytesRequired;
     private volatile long mBytesCopied;
-    // Speed estimation
+
+    // Speed estimation.
     private long mBytesCopiedSample;
     private long mSampleTime;
     private long mSpeed;
@@ -104,6 +105,7 @@ class CopyJob extends ResolvedResourcesJob {
     CopyJob(Context service, Listener listener, String id, @OpType int opType,
             DocumentStack destination, UrisSupplier srcs) {
         super(service, listener, id, opType, destination, srcs);
+        mDstInfo = destination.peek();
 
         assert(srcs.getItemCount() > 0);
     }
@@ -246,20 +248,20 @@ class CopyJob extends ResolvedResourcesJob {
     void start() {
         mStartTime = elapsedRealtime();
         DocumentInfo srcInfo;
-        DocumentInfo dstInfo = stack.peek();
         for (int i = 0; i < mResolvedDocs.size() && !isCanceled(); ++i) {
             srcInfo = mResolvedDocs.get(i);
 
             if (DEBUG) Log.d(TAG,
                     "Copying " + srcInfo.displayName + " (" + srcInfo.derivedUri + ")"
-                    + " to " + dstInfo.displayName + " (" + dstInfo.derivedUri + ")");
+                    + " to " + mDstInfo.displayName + " (" + mDstInfo.derivedUri + ")");
 
             try {
-                if (dstInfo.equals(srcInfo) || isDescendentOf(srcInfo, dstInfo)) {
+                // Copying recursively to itself or one of descendants is not allowed.
+                if (mDstInfo.equals(srcInfo) || isDescendentOf(srcInfo, mDstInfo)) {
                     Log.e(TAG, "Skipping recursive copy of " + srcInfo.derivedUri);
                     onFileFailed(srcInfo);
                 } else {
-                    processDocument(srcInfo, null, dstInfo);
+                    processDocument(srcInfo, null, mDstInfo);
                 }
             } catch (ResourceException e) {
                 Log.e(TAG, "Failed to copy " + srcInfo.derivedUri, e);
@@ -267,7 +269,7 @@ class CopyJob extends ResolvedResourcesJob {
             }
         }
 
-        Metrics.logFileOperation(service, operationType, mResolvedDocs, dstInfo);
+        Metrics.logFileOperation(service, operationType, mResolvedDocs, mDstInfo);
     }
 
     @Override

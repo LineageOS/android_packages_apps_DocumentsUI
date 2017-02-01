@@ -16,6 +16,8 @@
 
 package com.android.documentsui.archives;
 
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
@@ -59,6 +61,7 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
     public static final String AUTHORITY = "com.android.documentsui.archives";
 
     private static final String TAG = "ArchivesProvider";
+    private static final String METHOD_CLOSE_ARCHIVE = "closeArchive";
     private static final int OPENED_ARCHIVES_CACHE_SIZE = 4;
     private static final String[] ZIP_MIME_TYPES = {
             "application/zip", "application/x-zip", "application/x-zip-compressed"
@@ -80,6 +83,16 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
                     }
                 }
             };
+
+    @Override
+    public Bundle call(String method, String arg, Bundle extras) {
+        if (METHOD_CLOSE_ARCHIVE.equals(method)) {
+            closeArchive(arg);
+            return null;
+        }
+
+        return super.call(method, arg, extras);
+    }
 
     @Override
     public boolean onCreate() {
@@ -198,6 +211,19 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
     }
 
     @Override
+    public String createDocument(
+            String parentDocumentId, String mimeType, String displayName)
+            throws FileNotFoundException {
+        Loader loader = null;
+        try {
+            loader = obtainInstance(parentDocumentId);
+            return loader.get().createDocument(parentDocumentId, mimeType, displayName);
+        } finally {
+            releaseInstance(loader);
+        }
+    }
+
+    @Override
     public ParcelFileDescriptor openDocument(
             String documentId, String mode, final CancellationSignal signal)
             throws FileNotFoundException {
@@ -241,9 +267,36 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
      * @see ParcelFileDescriptor#MODE_READ
      * @see ParcelFileDescriptor#MODE_WRITE
      */
-    public static Uri buildUriForArchive(Uri archiveUri, int accessMode) {
+    public static Uri buildUriForArchive(Uri externalUri, int accessMode) {
         return DocumentsContract.buildDocumentUri(AUTHORITY,
-                new ArchiveId(archiveUri, accessMode, "/").toDocumentId());
+                new ArchiveId(externalUri, accessMode, "/").toDocumentId());
+    }
+
+    /**
+     * Closes an archive.
+     */
+    public static void closeArchive(ContentResolver resolver, Uri archiveUri) {
+        Archive.MorePreconditions.checkArgumentEquals(AUTHORITY, archiveUri.getAuthority(),
+                "Mismatching authority. Expected: %s, actual: %s.");
+        final String documentId = DocumentsContract.getDocumentId(archiveUri);
+        final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
+
+        try (final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                AUTHORITY)) {
+            client.call(METHOD_CLOSE_ARCHIVE, documentId, null);
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to close archive.", e);
+        }
+    }
+
+    /**
+     * Closes an archive.
+     */
+    public void closeArchive(String documentId) {
+        final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
+        synchronized (mArchives) {
+            mArchives.remove(Key.fromArchiveId(archiveId));
+        }
     }
 
     /**
