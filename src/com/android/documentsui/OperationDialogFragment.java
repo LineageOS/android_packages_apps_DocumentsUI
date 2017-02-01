@@ -59,7 +59,7 @@ public class OperationDialogFragment extends DialogFragment {
             FragmentManager fm,
             @DialogType int dialogType,
             ArrayList<DocumentInfo> failedSrcList,
-            ArrayList<DocumentInfo> uriList,
+            ArrayList<Uri> uriList,
             DocumentStack dstStack,
             @OpType int operationType) {
 
@@ -127,8 +127,10 @@ public class OperationDialogFragment extends DialogFragment {
         for (DocumentInfo documentInfo : docList) {
             list.append("&#8226; " + Html.escapeHtml(documentInfo.displayName) + "<br>");
         }
-        for (Uri uri : uriList) {
-            list.append("&#8226; " + uri.toSafeString() + "<br>");
+        if (uriList != null) {
+            for (Uri uri : uriList) {
+                list.append("&#8226; " + uri.toSafeString() + "<br>");
+            }
         }
         list.append("</p>");
 
