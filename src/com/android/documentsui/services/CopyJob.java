@@ -27,6 +27,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.services.FileOperationService.EXTRA_DIALOG_TYPE;
 import static com.android.documentsui.services.FileOperationService.EXTRA_OPERATION_TYPE;
+import static com.android.documentsui.services.FileOperationService.EXTRA_FAILED_DOCS;
 import static com.android.documentsui.services.FileOperationService.EXTRA_SRC_LIST;
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 
@@ -195,7 +196,7 @@ class CopyJob extends ResolvedResourcesJob {
         navigateIntent.putExtra(EXTRA_DIALOG_TYPE, DIALOG_TYPE_CONVERTED);
         navigateIntent.putExtra(EXTRA_OPERATION_TYPE, operationType);
 
-        navigateIntent.putParcelableArrayListExtra(EXTRA_SRC_LIST, convertedFiles);
+        navigateIntent.putParcelableArrayListExtra(EXTRA_FAILED_DOCS, convertedFiles);
 
         // TODO: Consider adding a dialog on tapping the notification with a list of
         // converted files.
