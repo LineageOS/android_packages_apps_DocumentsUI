@@ -101,6 +101,8 @@ public final class SelectionManager {
                 // Update the selection to remove any disappeared IDs.
                 mSelection.cancelProvisionalSelection();
                 mSelection.intersect(mModelIds);
+
+                notifyDataChanged();
             }
 
             @Override
@@ -421,6 +423,19 @@ public final class SelectionManager {
 
     boolean canSetState(String id, boolean nextState) {
         return mCanSetState.test(id, nextState);
+    }
+
+    private void notifyDataChanged() {
+        int lastListener = mItemCallbacks.size() - 1;
+        for (String id : mSelection) {
+            if (!canSetState(id, true)) {
+                attemptDeselect(id);
+            } else {
+                for (int i = lastListener; i >= 0; i--) {
+                    mItemCallbacks.get(i).onItemStateChanged(id, true);
+                }
+            }
+        }
     }
 
     /**
