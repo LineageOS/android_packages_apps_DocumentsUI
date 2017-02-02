@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.OperationCanceledException;
 import android.os.ParcelFileDescriptor;
+import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -47,9 +48,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 
@@ -62,9 +60,7 @@ import java.util.zip.ZipEntry;
 public class ReadableArchive extends Archive {
     private static final String TAG = "ReadableArchive";
 
-    @GuardedBy("mEnqueuedOutputPipes")
-    private final Set<ParcelFileDescriptor> mEnqueuedOutputPipes = new HashSet<>();
-    private final ThreadPoolExecutor mExecutor;
+    private final StorageManager mStorageManager;
     private final StrictJarFile mZipFile;
 
     private ReadableArchive(
@@ -80,11 +76,7 @@ public class ReadableArchive extends Archive {
             throw new IllegalStateException("Unsupported access mode.");
         }
 
-        // At most 8 active threads. All threads idling for more than a minute will
-        // be closed.
-        mExecutor = new ThreadPoolExecutor(8, 8, 60, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>());
-        mExecutor.allowCoreThreadTimeOut(true);
+        mStorageManager = mContext.getSystemService(StorageManager.class);
 
         mZipFile = file != null ?
                 new StrictJarFile(file.getPath(), false /* verify */,
@@ -243,72 +235,12 @@ public class ReadableArchive extends Archive {
             throw new FileNotFoundException();
         }
 
-        ParcelFileDescriptor[] pipe;
         try {
-            pipe = ParcelFileDescriptor.createReliablePipe();
+            return mStorageManager.openProxyFileDescriptor(
+                    ParcelFileDescriptor.MODE_READ_ONLY, new Proxy(mZipFile, entry));
         } catch (IOException e) {
-            // Ideally we'd simply throw IOException to the caller, but for consistency
-            // with DocumentsProvider::openDocument, converting it to IllegalStateException.
-            throw new IllegalStateException("Failed to open the document.", e);
+            throw new IllegalStateException(e);
         }
-        final InputStream inputStream = mZipFile.getInputStream(entry);
-        final ParcelFileDescriptor outputPipe = pipe[1];
-
-        synchronized (mEnqueuedOutputPipes) {
-            mEnqueuedOutputPipes.add(outputPipe);
-        }
-
-        try {
-            mExecutor.execute(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            synchronized (mEnqueuedOutputPipes) {
-                                mEnqueuedOutputPipes.remove(outputPipe);
-                            }
-                            try (final ParcelFileDescriptor.AutoCloseOutputStream outputStream =
-                                    new ParcelFileDescriptor.AutoCloseOutputStream(outputPipe)) {
-                                try {
-                                    final byte buffer[] = new byte[32 * 1024];
-                                    int bytes;
-                                    while ((bytes = inputStream.read(buffer)) != -1) {
-                                        if (Thread.interrupted()) {
-                                            throw new InterruptedException();
-                                        }
-                                        if (signal != null) {
-                                            signal.throwIfCanceled();
-                                        }
-                                        outputStream.write(buffer, 0, bytes);
-                                    }
-                                } catch (IOException | InterruptedException e) {
-                                    // Catch the exception before the outer try-with-resource closes
-                                    // the pipe with close() instead of closeWithError().
-                                    try {
-                                        Log.e(TAG, "Failed while reading a file.", e);
-                                        outputPipe.closeWithError("Reading failure.");
-                                    } catch (IOException e2) {
-                                        Log.e(TAG, "Failed to close the pipe after an error.", e2);
-                                    }
-                                }
-                            } catch (OperationCanceledException e) {
-                                // Cancelled gracefully.
-                            } catch (IOException e) {
-                                Log.e(TAG, "Failed to close the output stream gracefully.", e);
-                            } finally {
-                                IoUtils.closeQuietly(inputStream);
-                            }
-                        }
-                    });
-        } catch (RejectedExecutionException e) {
-            IoUtils.closeQuietly(pipe[0]);
-            IoUtils.closeQuietly(pipe[1]);
-            synchronized (mEnqueuedOutputPipes) {
-                mEnqueuedOutputPipes.remove(outputPipe);
-            }
-            throw new IllegalStateException("Failed to initialize pipe.");
-        }
-
-        return pipe[0];
     }
 
     @Override
@@ -369,16 +301,6 @@ public class ReadableArchive extends Archive {
      */
     @Override
     public void close() {
-        mExecutor.shutdownNow();
-        synchronized (mEnqueuedOutputPipes) {
-            for (ParcelFileDescriptor outputPipe : mEnqueuedOutputPipes) {
-                try {
-                    outputPipe.closeWithError("Archive closed.");
-                } catch (IOException e2) {
-                    // Silent close.
-                }
-            }
-        }
         try {
             mZipFile.close();
         } catch (IOException e) {
