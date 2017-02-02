@@ -15,11 +15,15 @@
  */
 package com.android.documentsui;
 
+import android.app.PendingIntent;
+import android.app.RecoverableSecurityException;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
 import android.os.Bundle;
 import android.os.CancellationSignal;
+import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -64,6 +68,7 @@ public class DemoProvider extends DocumentsProvider {
         row.add(Root.COLUMN_FLAGS, 0);
         row.add(Root.COLUMN_TITLE, "Demo Root");
         row.add(Root.COLUMN_DOCUMENT_ID, "root0");
+        row.add(Root.COLUMN_ICON, R.mipmap.ic_app_icon);
         row.add(Root.COLUMN_AVAILABLE_BYTES, 1024 * 1024 * 100);
         return c;
     }
@@ -118,6 +123,11 @@ public class DemoProvider extends DocumentsProvider {
                         "ERROR: I'm confused. I've show both ERROR and INFO.");
                 break;
 
+            case "throw a recoverable exception":
+                PendingIntent intent = PendingIntent.getActivity(getContext(), 0, new Intent(), 0);
+                throw new RecoverableSecurityException(new UnsupportedOperationException(),
+                        "message", "title", intent);
+
             case "throw a nice exception":
                 throw new RuntimeException();
 
@@ -126,6 +136,7 @@ public class DemoProvider extends DocumentsProvider {
                 addFolder(c, "show error");
                 addFolder(c, "show both error and info");
                 addFolder(c, "throw a nice exception");
+                addFolder(c, "throw a recoverable exception");
                 break;
         }
 

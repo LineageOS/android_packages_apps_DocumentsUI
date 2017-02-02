@@ -13,26 +13,21 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:animateLayoutChanges="true"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/list_item_padding"
-    android:paddingRight="@dimen/list_item_padding"
-    android:paddingTop="@dimen/list_item_padding">
-
-    <LinearLayout
-        android:id="@+id/message_container"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:id="@+id/message_container"
+    android:paddingLeft="@dimen/header_message_horizontal_padding"
+    android:paddingRight="@dimen/header_message_horizontal_padding">
 
         <FrameLayout
             android:layout_height="@dimen/icon_size"
-            android:layout_width="@dimen/icon_size">
+            android:layout_width="@dimen/icon_size"
+            android:layout_gravity="center_vertical"
+            >
 
             <ImageView
                 android:contentDescription="@null"
@@ -47,24 +42,16 @@
             android:id="@+id/message_textview"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:selectAllOnFocus="true"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_gravity="right"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_dismiss"
+            android:layout_gravity="end"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="@string/button_dismiss"
             style="?android:attr/buttonBarPositiveButtonStyle"/>
-
-    </LinearLayout>
 
 </LinearLayout>

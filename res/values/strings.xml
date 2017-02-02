@@ -303,4 +303,10 @@
 
     <!-- Error message displayed in rename dialog when there is a conflict with an existing file. -->
     <string name="name_conflict">A file with this name already exists.</string>
+
+    <!-- Error message shown when more authentication is necessary to view files  -->
+    <string name="authentication_required">Authentification is required to see the content of this directory</string>
+
+    <!-- Text shown on button to open an application -->
+    <string name="open_app">Open <xliff:g id="name" example="Cloud Storage">%1$s</xliff:g></string>
 </resources>
