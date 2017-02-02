@@ -79,7 +79,6 @@ public class State implements android.os.Parcelable {
     public boolean localOnly;
     public boolean showDeviceStorageOption;
     public boolean showAdvanced;
-    public boolean restored;
     /*
      * Indicates handler was an external app, like photos.
      */
@@ -131,7 +130,6 @@ public class State implements android.os.Parcelable {
         out.writeInt(localOnly ? 1 : 0);
         out.writeInt(showDeviceStorageOption ? 1 : 0);
         out.writeInt(showAdvanced ? 1 : 0);
-        out.writeInt(restored ? 1 : 0);
         out.writeInt(external ? 1 : 0);
         DurableUtils.writeToParcel(out, stack);
         out.writeMap(dirConfigs);
@@ -155,7 +153,6 @@ public class State implements android.os.Parcelable {
             state.localOnly = in.readInt() != 0;
             state.showDeviceStorageOption = in.readInt() != 0;
             state.showAdvanced = in.readInt() != 0;
-            state.restored = in.readInt() != 0;
             state.external = in.readInt() != 0;
             DurableUtils.readFromParcel(in, state.stack);
             in.readMap(state.dirConfigs, loader);

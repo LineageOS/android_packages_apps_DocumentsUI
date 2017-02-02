@@ -84,7 +84,9 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     public void initLocation(Intent intent) {
         assert(intent != null);
 
-        if (mState.restored) {
+        // stack is initialized if it's restored from bundle, which means we're restoring a
+        // previously stored state.
+        if (mState.stack.isInitialized()) {
             if (DEBUG) Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
             return;
         }

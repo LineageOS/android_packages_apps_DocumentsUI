@@ -177,11 +177,6 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
         // Options specific to the DocumentsActivity.
         assert(!intent.hasExtra(Intent.EXTRA_LOCAL_ONLY));
-
-        final DocumentStack stack = intent.getParcelableExtra(Shared.EXTRA_STACK);
-        if (stack != null) {
-            state.stack.reset(stack);
-        }
     }
 
     @Override

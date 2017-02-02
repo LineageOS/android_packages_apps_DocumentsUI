@@ -54,8 +54,6 @@ public final class LoadRootTask<T extends Activity & CommonAddons>
 
     @Override
     protected void finish(RootInfo root) {
-        mState.restored = true;
-
         if (root != null) {
             if (DEBUG) Log.d(TAG, "Loaded root: " + root);
             mOwner.onRootPicked(root);
