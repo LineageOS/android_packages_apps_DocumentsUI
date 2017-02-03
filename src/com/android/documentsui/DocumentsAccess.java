@@ -22,6 +22,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
@@ -107,7 +108,8 @@ public interface DocumentsAccess {
 
         @Override
         public DocumentInfo getArchiveDocument(Uri uri) {
-            return getDocument(ArchivesProvider.buildUriForArchive(uri));
+            return getDocument(ArchivesProvider.buildUriForArchive(uri,
+                    ParcelFileDescriptor.MODE_READ_ONLY));
         }
 
         @Override
