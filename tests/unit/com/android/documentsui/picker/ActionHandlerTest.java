@@ -34,6 +34,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestRootsAccess;
 import com.android.documentsui.ui.TestDialogController;
@@ -114,37 +115,14 @@ public class ActionHandlerTest {
 
         mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
         Intent intent = mActivity.getIntent();
-        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, TestEnv.FILE_GIF.derivedUri);
         mHandler.initLocation(intent);
 
-        assertStackEquals(TestRootsAccess.HOME, Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
-        mActivity.refreshCurrentRootAndDirectory.assertCalled();
-    }
+        mEnv.beforeAsserts();
 
-    @Test
-    public void testInitLocation_LaunchToDocuments_convertsTreeUriToDocumentUri() throws Exception {
-        mEnv.docs.nextIsDocumentsUri = true;
-        mEnv.docs.nextPath = new Path(
-                TestRootsAccess.HOME.rootId,
-                Arrays.asList(
-                        TestEnv.FOLDER_0.documentId,
-                        TestEnv.FOLDER_1.documentId,
-                        TestEnv.FILE_GIF.documentId));
-        mEnv.docs.nextDocuments =
-                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
-
-        Intent intent = mActivity.getIntent();
-        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-        final Uri treeBaseUri = DocumentsContract.buildTreeDocumentUri(
-                TestRootsAccess.HOME.authority, TestEnv.FOLDER_0.documentId);
-        final Uri treeDocUri = DocumentsContract.buildDocumentUriUsingTree(
-                treeBaseUri, TestEnv.FILE_GIF.documentId);
-        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, treeDocUri);
-        mHandler.initLocation(intent);
-
-        assertStackEquals(TestRootsAccess.HOME, Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
-        mEnv.docs.lastUri.assertLastArgument(TestEnv.FILE_GIF.derivedUri);
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
@@ -155,17 +133,6 @@ public class ActionHandlerTest {
         assertEquals(TestEnv.FOLDER_0, mEnv.state.stack.peek());
 
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
-    }
-
-    private void assertStackEquals(RootInfo root, List<DocumentInfo> docs) throws Exception {
-        mEnv.beforeAsserts();
-
-        final DocumentStack stack = mEnv.state.stack;
-        assertEquals(stack.getRoot(), root);
-        assertEquals(docs.size(), stack.size());
-        for (int i = 0; i < docs.size(); ++i) {
-            assertEquals(docs.get(i), stack.get(i));
-        }
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {

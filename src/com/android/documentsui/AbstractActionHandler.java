@@ -22,12 +22,14 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.LoadDocStackTask.LoadDocStackCallback;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -286,6 +288,37 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         new LoadRootTask<>(mActivity, mRoots, mState, uri)
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
     }
+
+    protected final boolean launchToDocument(Uri uri) {
+        // We don't support launching to a document in an archive.
+        if (!ArchivesProvider.AUTHORITY.equals(uri.getAuthority())) {
+            loadDocument(uri, this::onStackLoaded);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void onStackLoaded(@Nullable DocumentStack stack) {
+        if (stack != null) {
+            if (!stack.peek().isDirectory()) {
+                // Requested document is not a directory. Pop it so that we can launch into its
+                // parent.
+                stack.pop();
+            }
+            mState.stack.reset(stack);
+            mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+
+            Metrics.logLaunchAtLocation(mActivity, mState, stack.getRoot().getUri());
+        } else {
+            Log.w(TAG, "Failed to launch into the given uri. Launch to default location.");
+            launchToDefaultLocation();
+
+            Metrics.logLaunchAtLocation(mActivity, mState, null);
+        }
+    }
+
+    protected abstract void launchToDefaultLocation();
 
     protected final void loadHomeDir() {
         loadRoot(Shared.getDefaultRootUri(mActivity));
