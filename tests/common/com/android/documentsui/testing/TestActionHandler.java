@@ -79,6 +79,11 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     }
 
     @Override
+    protected void launchToDefaultLocation() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public <T extends ActionHandler> T reset(Model model) {
         return null;
     }

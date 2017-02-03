@@ -107,6 +107,11 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         loadLastAccessedStack();
     }
 
+    @Override
+    protected void launchToDefaultLocation() {
+        loadLastAccessedStack();
+    }
+
     private boolean launchHomeForCopyDestination(Intent intent) {
         // As a matter of policy we don't load the last used stack for the copy
         // destination picker (user is already in Files app).
@@ -122,33 +127,12 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     }
 
     private boolean launchToDocument(Intent intent) {
-        final Uri uri = intent.getParcelableExtra(DocumentsContract.EXTRA_INITIAL_URI);
+        Uri uri = intent.getParcelableExtra(DocumentsContract.EXTRA_INITIAL_URI);
         if (uri != null) {
-            loadDocument(uri, this::onStackLoaded);
-            return true;
+            return launchToDocument(uri);
         }
 
         return false;
-    }
-
-    private void onStackLoaded(@Nullable DocumentStack stack) {
-        if (stack != null) {
-            if (!stack.peek().isContainer()) {
-                // Requested document is not a container. Pop it so that we can launch into its
-                // parent.
-                stack.pop();
-            }
-            mState.stack.reset(stack);
-            mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
-
-            Metrics.logLaunchAtLocation(mActivity, mState, stack.getRoot().getUri());
-        } else {
-            Log.w(TAG, "Failed to launch into the given uri. Load last accessed stack.");
-            loadLastAccessedStack();
-
-            Metrics.logLaunchAtLocation(mActivity, mState, null);
-        }
-
     }
 
     private void loadLastAccessedStack() {
