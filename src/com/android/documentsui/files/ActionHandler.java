@@ -24,6 +24,8 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
+import android.provider.DocumentsContract.Root;
+import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler;
@@ -354,7 +356,17 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return;
         }
 
+        if (launchToDocument(intent)) {
+            if (DEBUG) Log.d(TAG, "Launched to a document.");
+            return;
+        }
+
         if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
+        loadHomeDir();
+    }
+
+    @Override
+    protected void launchToDefaultLocation() {
         loadHomeDir();
     }
 
@@ -394,6 +406,17 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                 return true;
             }
         }
+        return false;
+    }
+
+    private boolean launchToDocument(Intent intent) {
+        if (DocumentsContract.ACTION_BROWSE.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            if (DocumentsContract.isDocumentUri(mActivity, uri)) {
+                return launchToDocument(intent.getData());
+            }
+        }
+
         return false;
     }
 

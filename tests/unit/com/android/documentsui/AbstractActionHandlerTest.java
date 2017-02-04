@@ -16,20 +16,27 @@
 
 package com.android.documentsui;
 
+import static junit.framework.Assert.assertTrue;
+
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcelable;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.DocumentStackTest;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.files.LauncherActivity;
+import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestRootsAccess;
@@ -39,6 +46,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A unit test *for* AbstractActionHandler, not an abstract test baseclass.
@@ -77,6 +85,11 @@ public class AbstractActionHandlerTest {
 
             @Override
             public void initLocation(Intent intent) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            protected void launchToDefaultLocation() {
                 throw new UnsupportedOperationException();
             }
 
@@ -135,5 +148,53 @@ public class AbstractActionHandlerTest {
         assertEquals(2, mEnv.state.stack.size());
         assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.pop());
         assertEquals(TestEnv.FOLDER_0, mEnv.state.stack.pop());
+    }
+
+    @Test
+    public void testLaunchToDocuments() throws Exception {
+        mEnv.docs.nextIsDocumentsUri = true;
+        mEnv.docs.nextPath = new Path(
+                TestRootsAccess.HOME.rootId,
+                Arrays.asList(
+                        TestEnv.FOLDER_0.documentId,
+                        TestEnv.FOLDER_1.documentId,
+                        TestEnv.FILE_GIF.documentId));
+        mEnv.docs.nextDocuments =
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
+
+        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
+        assertTrue(mHandler.launchToDocument(TestEnv.FILE_GIF.derivedUri));
+
+        mEnv.beforeAsserts();
+
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    @Test
+    public void testLaunchToDocuments_convertsTreeUriToDocumentUri() throws Exception {
+        mEnv.docs.nextIsDocumentsUri = true;
+        mEnv.docs.nextPath = new Path(
+                TestRootsAccess.HOME.rootId,
+                Arrays.asList(
+                        TestEnv.FOLDER_0.documentId,
+                        TestEnv.FOLDER_1.documentId,
+                        TestEnv.FILE_GIF.documentId));
+        mEnv.docs.nextDocuments =
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
+
+        final Uri treeBaseUri = DocumentsContract.buildTreeDocumentUri(
+                TestRootsAccess.HOME.authority, TestEnv.FOLDER_0.documentId);
+        final Uri treeDocUri = DocumentsContract.buildDocumentUriUsingTree(
+                treeBaseUri, TestEnv.FILE_GIF.documentId);
+        assertTrue(mHandler.launchToDocument(treeDocUri));
+
+        mEnv.beforeAsserts();
+
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
+        mEnv.docs.lastUri.assertLastArgument(TestEnv.FILE_GIF.derivedUri);
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 }

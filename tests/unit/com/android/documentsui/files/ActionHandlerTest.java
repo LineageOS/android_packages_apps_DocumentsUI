@@ -31,6 +31,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
+import android.provider.DocumentsContract.Root;
+import android.provider.DocumentsContract.Document;
+import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -41,7 +44,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.selection.Selection;
+import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestConfirmationCallback;
 import com.android.documentsui.testing.TestEnv;
@@ -51,6 +54,8 @@ import com.android.documentsui.ui.TestDialogController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Arrays;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -338,6 +343,31 @@ public class ActionHandlerTest {
 
         mHandler.initLocation(intent);
         assertRootPicked(TestRootsAccess.PICKLES.getUri());
+    }
+
+    @Test
+    public void testInitLocation_LaunchToDocuments() throws Exception {
+        mEnv.docs.nextIsDocumentsUri = true;
+        mEnv.docs.nextPath = new Path(
+                TestRootsAccess.HOME.rootId,
+                Arrays.asList(
+                        TestEnv.FOLDER_0.documentId,
+                        TestEnv.FOLDER_1.documentId,
+                        TestEnv.FILE_GIF.documentId));
+        mEnv.docs.nextDocuments =
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
+
+        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
+        Intent intent = mActivity.getIntent();
+        intent.setAction(DocumentsContract.ACTION_BROWSE);
+        intent.setData(TestEnv.FILE_GIF.derivedUri);
+        mHandler.initLocation(intent);
+
+        mEnv.beforeAsserts();
+
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
     @Test
