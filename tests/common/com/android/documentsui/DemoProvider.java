@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.android.documentsui;
 
+import android.app.PendingIntent;
+import android.app.RecoverableSecurityException;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Bundle;
@@ -23,10 +27,10 @@ import android.provider.DocumentsContract;
 import java.io.FileNotFoundException;
 
 /**
- * Provides data view that exercises some of the more esoteric functionality...like
- * display of INFO and ERROR messages.
- *
- * <p>Do not use this provider for automated testing.
+ * Provides data view that exercises some of the more esoteric functionality...like display of INFO
+ * and ERROR messages.
+ * <p>
+ * Do not use this provider for automated testing.
  */
 public class DemoProvider extends TestRootProvider {
 
@@ -86,11 +90,17 @@ public class DemoProvider extends TestRootProvider {
             case "throw a nice exception":
                 throw new RuntimeException();
 
+            case "throw a recoverable exception":
+                PendingIntent intent = PendingIntent.getActivity(getContext(), 0, new Intent(), 0);
+                throw new RecoverableSecurityException(new UnsupportedOperationException(),
+                        "message", "title", intent);
+
             default:
                 addFolder(c, "show info");
                 addFolder(c, "show error");
                 addFolder(c, "show both error and info");
                 addFolder(c, "throw a nice exception");
+                addFolder(c, "throw a recoverable exception");
                 break;
         }
 

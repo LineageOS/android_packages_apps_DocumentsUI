@@ -62,8 +62,8 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
         mModelUpdateListener = new EventListener<Model.Update>() {
             @Override
             public void accept(Update event) {
-                if (event.hasError()) {
-                    onModelUpdateFailed(event.getError());
+                if (event.hasException()) {
+                    onModelUpdateFailed(event.getException());
                 } else {
                     onModelUpdate(mEnv.getModel());
                 }

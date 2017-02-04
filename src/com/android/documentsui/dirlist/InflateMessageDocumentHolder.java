@@ -48,6 +48,6 @@ final class InflateMessageDocumentHolder extends MessageHolder {
     @Override
     public void bind(Cursor cursor, String modelId) {
         mMsgView.setText(mMessage.getMessageString());
-        mImageView.setImageResource(mMessage.getIconId());
+        mImageView.setImageDrawable(mMessage.getIcon());
     }
 }
