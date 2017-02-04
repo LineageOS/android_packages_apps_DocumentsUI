@@ -73,7 +73,7 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
                 "file0.log", "file1.png", "file2.csv", "Ham & Cheese.sandwich");
     }
 
-    public void testNavigateByBreadcrumb() throws Exception {
+    public void testNavigate_inFixedLayout_byBreadcrumb() throws Exception {
         bots.directory.openDocument(dirName1);
         bots.directory.waitForDocument(childDir1);  // wait for known content
         bots.directory.assertDocumentsPresent(childDir1);
@@ -84,6 +84,17 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
 
         bots.breadcrumb.clickItem("TEST_ROOT_0");
         bots.directory.waitForDocument(dirName1);
+    }
+
+    public void testNavigate_inFixedLayout_whileHasSelection() throws Exception {
+        if (bots.main.inFixedLayout()) {
+            bots.roots.openRoot(rootDir0.title);
+            device.waitForIdle();
+            bots.directory.selectDocument("file0.log", 1);
+
+            // ensure no exception is thrown while navigating to a different root
+            bots.roots.openRoot(rootDir1.title);
+        }
     }
 
     public void testRootChange_UpdatesSortHeader() throws Exception {
