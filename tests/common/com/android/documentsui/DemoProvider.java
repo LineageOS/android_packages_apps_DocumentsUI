@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.android.documentsui;
 
 import android.app.PendingIntent;
@@ -27,10 +28,10 @@ import android.provider.DocumentsContract;
 import java.io.FileNotFoundException;
 
 /**
- * Provides data view that exercises some of the more esoteric functionality...like
- * display of INFO and ERROR messages.
- *
- * <p>Do not use this provider for automated testing.
+ * Provides data view that exercises some of the more esoteric functionality...like display of INFO
+ * and ERROR messages.
+ * <p>
+ * Do not use this provider for automated testing.
  */
 public class DemoProvider extends TestRootProvider {
 
@@ -87,13 +88,13 @@ public class DemoProvider extends TestRootProvider {
                         "ERROR: I'm confused. I've show both ERROR and INFO.");
                 break;
 
+            case "throw a nice exception":
+                throw new RuntimeException();
+
             case "throw a recoverable exception":
                 PendingIntent intent = PendingIntent.getActivity(getContext(), 0, new Intent(), 0);
                 throw new RecoverableSecurityException(new UnsupportedOperationException(),
                         "message", "title", intent);
-
-            case "throw a nice exception":
-                throw new RuntimeException();
 
             default:
                 addFolder(c, "show info");
