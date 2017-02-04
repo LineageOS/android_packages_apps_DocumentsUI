@@ -73,6 +73,7 @@ public final class Metrics {
     private static final String COUNT_STARTUP_MS = "docsui_startup_ms";
     private static final String COUNT_DRAWER_OPENED = "docsui_drawer_opened";
     private static final String COUNT_USER_ACTION = "docsui_menu_action";
+    private static final String COUNT_BROWSE_AT_LOCATION = "docsui_browse_at_location";
     private static final String COUNT_CREATE_AT_LOCATION = "docsui_create_at_location";
     private static final String COUNT_OPEN_AT_LOCATION = "docsui_open_at_location";
     private static final String COUNT_GET_CONTENT_AT_LOCATION = "docsui_get_content_at_location";
@@ -437,6 +438,9 @@ public final class Metrics {
      */
     public static void logLaunchAtLocation(Context context, State state, @Nullable Uri rootUri) {
         switch (state.action) {
+            case State.ACTION_BROWSE:
+                logHistogram(context, COUNT_BROWSE_AT_LOCATION, sanitizeRoot(rootUri));
+                break;
             case State.ACTION_CREATE:
                 logHistogram(context, COUNT_CREATE_AT_LOCATION, sanitizeRoot(rootUri));
                 break;
