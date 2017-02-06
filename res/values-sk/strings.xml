@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Vybrať všetko"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopírovať do…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Presunúť do…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"Komprimovať do súboru…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Rozbaliť do…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Premenovať"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nové okno"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Skryť interné úložisko"</string>
     <string name="button_select" msgid="240863497069321364">"Vybrať"</string>
     <string name="button_copy" msgid="8219059853840996027">"Kopírovať"</string>
+    <string name="button_compress" msgid="8951561310857223966">"Komprimovať"</string>
+    <string name="button_extract" msgid="1038674453689912247">"Extrahovať"</string>
     <string name="button_move" msgid="8596460499325291272">"Presunúť"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Odmietnuť"</string>
     <string name="button_retry" msgid="4011461781916631389">"Skúsiť znova"</string>
@@ -71,61 +74,89 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Niektoré dokumenty sa nepodarilo odstrániť"</string>
     <string name="share_via" msgid="8725082736005677161">"Zdieľať prostredníctvom"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopírovanie súborov"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"Komprimujú sa súbory"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Presúvajú sa súbory"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Odstraňujú sa súbory"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Zostáva: <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="few">Kopírujú sa <xliff:g id="COUNT_1">%1$d</xliff:g> súbory.</item>
-      <item quantity="many">Kopíruje sa <xliff:g id="COUNT_1">%1$d</xliff:g> súboru.</item>
-      <item quantity="other">Kopíruje sa <xliff:g id="COUNT_1">%1$d</xliff:g> súborov.</item>
-      <item quantity="one">Kopíruje sa <xliff:g id="COUNT_0">%1$d</xliff:g> súbor.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="few">Kopírujú sa <xliff:g id="COUNT_1">%1$d</xliff:g> položky.</item>
+      <item quantity="many">Kopíruje sa <xliff:g id="COUNT_1">%1$d</xliff:g> položiek.</item>
+      <item quantity="other">Kopíruje sa <xliff:g id="COUNT_1">%1$d</xliff:g> položiek.</item>
+      <item quantity="one">Kopíruje sa <xliff:g id="COUNT_0">%1$d</xliff:g> položka.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="few">Presúvajú sa <xliff:g id="COUNT_1">%1$d</xliff:g> súbory.</item>
-      <item quantity="many">Presúva sa <xliff:g id="COUNT_1">%1$d</xliff:g> súboru.</item>
-      <item quantity="other">Presúva sa <xliff:g id="COUNT_1">%1$d</xliff:g> súborov.</item>
-      <item quantity="one">Presúva sa <xliff:g id="COUNT_0">%1$d</xliff:g> súbor.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="few">Komprimujú sa <xliff:g id="COUNT_1">%1$d</xliff:g> súbory.</item>
+      <item quantity="many">Komprimuje sa <xliff:g id="COUNT_1">%1$d</xliff:g> súboru.</item>
+      <item quantity="other">Komprimuje sa <xliff:g id="COUNT_1">%1$d</xliff:g> súborov.</item>
+      <item quantity="one">Komprimuje sa <xliff:g id="COUNT_0">%1$d</xliff:g> súbor.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="few">Odstraňujú sa <xliff:g id="COUNT_1">%1$d</xliff:g> súbory.</item>
-      <item quantity="many">Odstraňuje sa <xliff:g id="COUNT_1">%1$d</xliff:g> súboru.</item>
-      <item quantity="other">Odstraňuje sa <xliff:g id="COUNT_1">%1$d</xliff:g> súborov.</item>
-      <item quantity="one">Odstraňuje sa <xliff:g id="COUNT_0">%1$d</xliff:g> súbor.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="few">Extrahujú sa <xliff:g id="COUNT_1">%1$d</xliff:g> súbory.</item>
+      <item quantity="many">Extrahuje sa <xliff:g id="COUNT_1">%1$d</xliff:g> súboru.</item>
+      <item quantity="other">Extrahuje sa <xliff:g id="COUNT_1">%1$d</xliff:g> súborov.</item>
+      <item quantity="one">Extrahuje sa <xliff:g id="COUNT_0">%1$d</xliff:g> súbor.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="few">Prenášajú sa <xliff:g id="COUNT_1">%1$d</xliff:g> položky.</item>
+      <item quantity="many">Prenáša sa <xliff:g id="COUNT_1">%1$d</xliff:g> položky.</item>
+      <item quantity="other">Prenáša sa <xliff:g id="COUNT_1">%1$d</xliff:g> položiek.</item>
+      <item quantity="one">Prenáša sa <xliff:g id="COUNT_0">%1$d</xliff:g> položka.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="few">Odstraňujú sa <xliff:g id="COUNT_1">%1$d</xliff:g> položky.</item>
+      <item quantity="many">Odstraňuje sa <xliff:g id="COUNT_1">%1$d</xliff:g> položky.</item>
+      <item quantity="other">Odstraňuje sa <xliff:g id="COUNT_1">%1$d</xliff:g> položiek.</item>
+      <item quantity="one">Odstraňujte sa <xliff:g id="COUNT_0">%1$d</xliff:g> položka.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Späť"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Pripravuje sa na kopírovanie..."</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"Prebieha príprava komprimovania…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Prebieha príprava na presunutie…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Príprava na odstránenie…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="few">Nepodarilo sa skopírovať <xliff:g id="COUNT_1">%1$d</xliff:g> súbory</item>
-      <item quantity="many">Nepodarilo sa skopírovať <xliff:g id="COUNT_1">%1$d</xliff:g> súboru</item>
-      <item quantity="other">Nepodarilo sa skopírovať <xliff:g id="COUNT_1">%1$d</xliff:g> súborov</item>
-      <item quantity="one">Nepodarilo sa skopírovať <xliff:g id="COUNT_0">%1$d</xliff:g> súbor</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="few">Nepodarilo sa skopírovať <xliff:g id="COUNT_1">%1$d</xliff:g> položky</item>
+      <item quantity="many">Nepodarilo sa skopírovať <xliff:g id="COUNT_1">%1$d</xliff:g> položky</item>
+      <item quantity="other">Nepodarilo sa skopírovať <xliff:g id="COUNT_1">%1$d</xliff:g> položiek</item>
+      <item quantity="one">Nepodarilo sa skopírovať <xliff:g id="COUNT_0">%1$d</xliff:g> položku</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> súbory nie je možné presunúť</item>
-      <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> súboru nie je možné presunúť</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> súborov nie je možné presunúť</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> súbor nie je možné presunúť</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="few">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súbory</item>
+      <item quantity="many">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súboru</item>
+      <item quantity="other">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súborov</item>
+      <item quantity="one">Nepodarilo sa skomprimovať <xliff:g id="COUNT_0">%1$d</xliff:g> súbor</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="few">Nepodarilo sa odstrániť <xliff:g id="COUNT_1">%1$d</xliff:g> súbory</item>
-      <item quantity="many">Nepodarilo sa odstrániť <xliff:g id="COUNT_1">%1$d</xliff:g> súboru</item>
-      <item quantity="other">Nepodarilo sa odstrániť <xliff:g id="COUNT_1">%1$d</xliff:g> súborov</item>
-      <item quantity="one">Nepodarilo sa odstrániť <xliff:g id="COUNT_0">%1$d</xliff:g> súbor</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="few">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súbory</item>
+      <item quantity="many">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súboru</item>
+      <item quantity="other">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súborov</item>
+      <item quantity="one">Nepodarilo sa skomprimovať <xliff:g id="COUNT_0">%1$d</xliff:g> súbor</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="few">Nepodarilo sa presunúť <xliff:g id="COUNT_1">%1$d</xliff:g> položky</item>
+      <item quantity="many">Nepodarilo sa presunúť <xliff:g id="COUNT_1">%1$d</xliff:g> položky</item>
+      <item quantity="other">Nepodarilo sa presunúť <xliff:g id="COUNT_1">%1$d</xliff:g> položiek</item>
+      <item quantity="one">Nepodarilo sa presunúť <xliff:g id="COUNT_0">%1$d</xliff:g> položku</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="few">Nepodarilo sa odstrániť <xliff:g id="COUNT_1">%1$d</xliff:g> položky</item>
+      <item quantity="many">Nepodarilo sa odstrániť <xliff:g id="COUNT_1">%1$d</xliff:g> položky</item>
+      <item quantity="other">Nepodarilo sa odstrániť <xliff:g id="COUNT_1">%1$d</xliff:g> položiek</item>
+      <item quantity="one">Nepodarilo sa odstrániť <xliff:g id="COUNT_0">%1$d</xliff:g> položku</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Klepnutím zobrazíte podrobnosti"</string>
     <string name="close" msgid="905969391788869975">"Zavrieť"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Tieto súbory neboli skopírované: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Tieto súbory neboli komprimované: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Tieto súbory neboli extrahované: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Tieto súbory neboli presunuté: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Tieto súbory neboli odstránené: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Tieto súbory boli konvertované do iného formátu: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="few">Do schránky boli skopírované <xliff:g id="COUNT_1">%1$d</xliff:g> súbory.</item>
-      <item quantity="many">Do schránky bolo skopírovaného <xliff:g id="COUNT_1">%1$d</xliff:g> súboru.</item>
-      <item quantity="other">Do schránky bolo skopírovaných <xliff:g id="COUNT_1">%1$d</xliff:g> súborov.</item>
-      <item quantity="one">Do schránky bol skopírovaný <xliff:g id="COUNT_0">%1$d</xliff:g> súbor.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> položky boli skopírované do schránky.</item>
+      <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> položky bolo skopírovanej do schránky.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> položiek bolo skopírovaných do schránky.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> položka bola skopírovaná do schránky.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Súborová operácia nie je podporovaná."</string>
     <string name="rename_error" msgid="6700093173508118635">"Premenovanie dokumentu zlyhalo"</string>
@@ -172,4 +203,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumenty"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Stiahnuté súbory"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Archív nie je možné otvoriť a prehliadať. Súbor je buď poškodený, alebo jeho formát nie je podporovaný."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Súbor s týmto názvom už existuje."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Odaberi sve"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopiraj na…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Premjesti u…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"Kompresuj u…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Izdvoji u…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Preimenuj"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Novi prozor"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Sakrij unutrašnju mem."</string>
     <string name="button_select" msgid="240863497069321364">"Odaberi"</string>
     <string name="button_copy" msgid="8219059853840996027">"Kopiraj"</string>
+    <string name="button_compress" msgid="8951561310857223966">"Kompresuj"</string>
+    <string name="button_extract" msgid="1038674453689912247">"Izdvoji"</string>
     <string name="button_move" msgid="8596460499325291272">"Premjesti"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Odbaci"</string>
     <string name="button_retry" msgid="4011461781916631389">"Pokušajte ponovo"</string>
@@ -71,54 +74,78 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Nije moguće izbrisati neke dokumente"</string>
     <string name="share_via" msgid="8725082736005677161">"Podijeli koristeći aplikaciju"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopiraju se fajlovi"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"Kompresovanje fajlova"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Premještanje fajlova"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Brisanje fajlova"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Još <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="one">Kopira se <xliff:g id="COUNT_1">%1$d</xliff:g> fajl.</item>
-      <item quantity="few">Kopiraju se <xliff:g id="COUNT_1">%1$d</xliff:g> fajla.</item>
-      <item quantity="other">Kopira se <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="one">Kopira se <xliff:g id="COUNT_1">%1$d</xliff:g> stavka.</item>
+      <item quantity="few">Kopiraju se <xliff:g id="COUNT_1">%1$d</xliff:g> stavke.</item>
+      <item quantity="other">Kopira se <xliff:g id="COUNT_1">%1$d</xliff:g> stavki.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="one">Premješta se <xliff:g id="COUNT_1">%1$d</xliff:g> fajl.</item>
-      <item quantity="few">Premještaju se <xliff:g id="COUNT_1">%1$d</xliff:g> fajla.</item>
-      <item quantity="other">Premješta se <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="one">Kompresuje se <xliff:g id="COUNT_1">%1$d</xliff:g> fajl.</item>
+      <item quantity="few">Kompresuju se <xliff:g id="COUNT_1">%1$d</xliff:g> fajla.</item>
+      <item quantity="other">Kompresuje se <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="one">Briše se <xliff:g id="COUNT_1">%1$d</xliff:g> fajl.</item>
-      <item quantity="few">Brišu se <xliff:g id="COUNT_1">%1$d</xliff:g> fajla.</item>
-      <item quantity="other">Briše se <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="one">Izdvaja se <xliff:g id="COUNT_1">%1$d</xliff:g> fajl.</item>
+      <item quantity="few">Izdvajaju se <xliff:g id="COUNT_1">%1$d</xliff:g> fajla.</item>
+      <item quantity="other">Izdvaja se <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="one">Premješta se <xliff:g id="COUNT_1">%1$d</xliff:g> stavka.</item>
+      <item quantity="few">Premještaju se <xliff:g id="COUNT_1">%1$d</xliff:g> stavke.</item>
+      <item quantity="other">Premješta se <xliff:g id="COUNT_1">%1$d</xliff:g> stavki.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="one">Briše se <xliff:g id="COUNT_1">%1$d</xliff:g> stavka.</item>
+      <item quantity="few">Brišu se <xliff:g id="COUNT_1">%1$d</xliff:g> stavke.</item>
+      <item quantity="other">Briše se <xliff:g id="COUNT_1">%1$d</xliff:g> stavki.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Opozovi radnju"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Priprema se kopiranje…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"Priprema za kompresovanje…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Priprema za premještanje…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Priprema za brisanje…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="one">Nije moguće kopirati <xliff:g id="COUNT_1">%1$d</xliff:g> fajl</item>
-      <item quantity="few">Nije moguće kopirati <xliff:g id="COUNT_1">%1$d</xliff:g> fajla</item>
-      <item quantity="other">Nije moguće kopirati <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="one">Kopiranje <xliff:g id="COUNT_1">%1$d</xliff:g> stavke nije uspjelo</item>
+      <item quantity="few">Kopiranje <xliff:g id="COUNT_1">%1$d</xliff:g> stavke nije uspjelo</item>
+      <item quantity="other">Kopiranje <xliff:g id="COUNT_1">%1$d</xliff:g> stavki nije uspjelo</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="one">Nije moguće premjestiti <xliff:g id="COUNT_1">%1$d</xliff:g> fajl</item>
-      <item quantity="few">Nije moguće premjestiti <xliff:g id="COUNT_1">%1$d</xliff:g> fajla</item>
-      <item quantity="other">Nije moguće premjestiti <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one">Kompresovanje <xliff:g id="COUNT_1">%1$d</xliff:g> fajla nije uspjelo</item>
+      <item quantity="few">Kompresovanje <xliff:g id="COUNT_1">%1$d</xliff:g> fajla nije uspjelo</item>
+      <item quantity="other">Kompresovanje <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova nije uspjelo</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="one">Nije bilo moguće izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> fajl</item>
-      <item quantity="few">Nije bilo moguće izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> fajla</item>
-      <item quantity="other">Nije bilo moguće izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one">Kompresovanje <xliff:g id="COUNT_1">%1$d</xliff:g> fajla nije uspjelo</item>
+      <item quantity="few">Kompresovanje <xliff:g id="COUNT_1">%1$d</xliff:g> fajla nije uspjelo</item>
+      <item quantity="other">Kompresovanje <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova nije uspjelo</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="one">Premještanje <xliff:g id="COUNT_1">%1$d</xliff:g> stavke nije uspjelo</item>
+      <item quantity="few">Premještanje <xliff:g id="COUNT_1">%1$d</xliff:g> stavke nije uspjelo</item>
+      <item quantity="other">Premještanje <xliff:g id="COUNT_1">%1$d</xliff:g> stavki nije uspjelo</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="one">Brisanje <xliff:g id="COUNT_1">%1$d</xliff:g> stavke nije uspjelo</item>
+      <item quantity="few">Brisanje <xliff:g id="COUNT_1">%1$d</xliff:g> stavke nije uspjelo</item>
+      <item quantity="other">Brisanje <xliff:g id="COUNT_1">%1$d</xliff:g> stavki nije uspjelo</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Dodirnite za prikaz detalja"</string>
     <string name="close" msgid="905969391788869975">"Zatvori"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Nisu kopirani sljedeći fajlovi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Nisu kompresovani sljedeći fajlovi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Nisu izdvojeni sljedeći fajlovi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Nisu premješteni sljedeći fajlovi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Nisu izbrisani sljedeći fajlovi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Ovi fajlovi su pretvoreni u drugi format: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> fajl je kopiran u međuspremnik.</item>
-      <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> fajla su kopirana u međuspremnik.</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fajlova je kopirano u međuspremnik.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="one">Kopirana je <xliff:g id="COUNT_1">%1$d</xliff:g> stavka u međumemoriju.</item>
+      <item quantity="few">Kopirane su <xliff:g id="COUNT_1">%1$d</xliff:g> stavke u međumemoriju.</item>
+      <item quantity="other">Kopirano je <xliff:g id="COUNT_1">%1$d</xliff:g> stavki u međumemoriju.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Nije podržana operacija za fajl."</string>
     <string name="rename_error" msgid="6700093173508118635">"Dokument nije preimenovan"</string>
@@ -160,4 +187,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumenti"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Preuzimanja"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Otvaranje arhive za pregledanje nije uspjelo. Fajl je možda oštećen ili format nije podržan."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Fajl s tim nazivom već postoji."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

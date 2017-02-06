@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Hautatu guztiak"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopiatu hemen…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Eraman hona…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"Konprimatu hemen…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Atera hona…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Aldatu izena"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Leiho berria"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Ezkutatu barneko memoria"</string>
     <string name="button_select" msgid="240863497069321364">"Hautatu"</string>
     <string name="button_copy" msgid="8219059853840996027">"Kopiatu"</string>
+    <string name="button_compress" msgid="8951561310857223966">"Konprimatu"</string>
+    <string name="button_extract" msgid="1038674453689912247">"Atera"</string>
     <string name="button_move" msgid="8596460499325291272">"Mugitu"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Baztertu"</string>
     <string name="button_retry" msgid="4011461781916631389">"Saiatu berriro"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Ezin izan dira ezabatu dokumentu batzuk"</string>
     <string name="share_via" msgid="8725082736005677161">"Partekatu honekin:"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopiatu fitxategiak"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"Fitxategiak konprimatzea"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Mugitu fitxategiak"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Ezabatu fitxategiak"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Falta den denbora: <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi kopiatzen.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi kopiatzen.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementu kopiatzen.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elementu kopiatzen.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi mugitzen.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi mugitzen.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi konprimatzen.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi konprimatzen.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi ezabatzen ari dira.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi ezabatzen ari da.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi ateratzen.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi ateratzen.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementu mugitzen.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elementu mugitzen.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementu ezabatzen.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elementu ezabatzen.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Desegin"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Kopiatzeko prestatzen…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"Konprimatzeko prestatzen…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Mugitzeko prestatzen…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Ezabatzeko prestatzen…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="other">Ezin izan dira kopiatu <xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi</item>
-      <item quantity="one">Ezin izan da kopiatu <xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other">Ezin izan dira kopiatu <xliff:g id="COUNT_1">%1$d</xliff:g> elementu</item>
+      <item quantity="one">Ezin izan da kopiatu <xliff:g id="COUNT_0">%1$d</xliff:g> elementu</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="other">Ezin izan dira mugitu <xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi</item>
-      <item quantity="one">Ezin izan da mugitu <xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other">Ezin izan dira konprimatu <xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi</item>
+      <item quantity="one">Ezin izan da konprimatu <xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="other">Ezin izan dira ezabatu <xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi</item>
-      <item quantity="one">Ezin izan da ezabatu <xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other">Ezin izan dira konprimatu <xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi</item>
+      <item quantity="one">Ezin izan da konprimatu <xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other">Ezin izan dira mugitu <xliff:g id="COUNT_1">%1$d</xliff:g> elementu</item>
+      <item quantity="one">Ezin izan da mugitu <xliff:g id="COUNT_0">%1$d</xliff:g> elementu</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other">Ezin izan dira ezabatu <xliff:g id="COUNT_1">%1$d</xliff:g> elementu</item>
+      <item quantity="one">Ezin izan da ezabatu <xliff:g id="COUNT_0">%1$d</xliff:g> elementu</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Sakatu xehetasunak ikusteko"</string>
     <string name="close" msgid="905969391788869975">"Itxi"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Ez dira kopiatu fitxategi hauek: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Ez dira konprimatu fitxategi hauek: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Ez dira atera fitxategi hauek: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Ez dira mugitu fitxategi hauek: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Ez dira ezabatu fitxategi hauek: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Fitxategi hauek beste formatu bateko fitxategi bihurtu dira: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi kopiatu dira arbelean.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi kopiatu da arbelean.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementu kopiatu dira arbelean.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elementu kopiatu da arbelean.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Ez da onartzen hori egitea fitxategian."</string>
     <string name="rename_error" msgid="6700093173508118635">"Ezin izan zaio aldatu izena dokumentuari"</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumentuak"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Deskargak"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Ezin da ireki artxiboa. Fitxategia hondatuta dago edo ez da onartzen bere formatua."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Badago jada izen hori duen fitxategi bat."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"בחר הכל"</string>
     <string name="menu_copy" msgid="7404820171352314754">"העתק אל…"</string>
     <string name="menu_move" msgid="2310760789561129882">"העבר אל…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"דחוס לתיקייה…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"חלץ לתיקייה…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"שנה שם"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"חלון חדש"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"הסתר אחסון פנימי"</string>
     <string name="button_select" msgid="240863497069321364">"בחר"</string>
     <string name="button_copy" msgid="8219059853840996027">"העתק"</string>
+    <string name="button_compress" msgid="8951561310857223966">"דחוס"</string>
+    <string name="button_extract" msgid="1038674453689912247">"חלץ"</string>
     <string name="button_move" msgid="8596460499325291272">"העבר"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"בטל"</string>
     <string name="button_retry" msgid="4011461781916631389">"נסה שנית"</string>
@@ -71,61 +74,89 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"לא ניתן למחוק חלק מהמסמכים"</string>
     <string name="share_via" msgid="8725082736005677161">"שתף באמצעות"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"מעתיק קבצים"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"דוחס קבצים"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"מעביר קבצים"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"מחיקת קבצים"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> נותרו"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="two">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="many">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="other">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="one">מעתיק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="two">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="many">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="other">מעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="one">מעתיק פריט <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="two">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="many">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="other">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="one">מעביר <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="two">דוחס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
+      <item quantity="many">דוחס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
+      <item quantity="other">דוחס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
+      <item quantity="one">דוחס <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="two">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="many">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="other">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
-      <item quantity="one">מוחק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="two">מחלץ <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
+      <item quantity="many">מחלץ <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
+      <item quantity="other">מחלץ <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים.</item>
+      <item quantity="one">מחלץ <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="two">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="many">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="other">מעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="one">מעביר פריט <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="two">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="many">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="other">מוחק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים.</item>
+      <item quantity="one">מוחק פריט <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"ביטול"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"מתכונן להעתקה..."</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"מתכונן לדחיסה..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"מתכונן להעברה…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"מתכונן למחיקה…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="two">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="many">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="other">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="one">לא ניתן היה להעתיק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="two">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="many">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="other">לא ניתן היה להעתיק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="one">לא ניתן היה להעתיק פריט <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="two">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="many">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="other">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="one">לא ניתן היה להעביר <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="two">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
+      <item quantity="many">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
+      <item quantity="other">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
+      <item quantity="one">לא ניתן היה לדחוס <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="two">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="many">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="other">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="one">לא ניתן היה למחוק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="two">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
+      <item quantity="many">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
+      <item quantity="other">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
+      <item quantity="one">לא ניתן היה לדחוס <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="two">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="many">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="other">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="one">לא ניתן היה להעביר פריט <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="two">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="many">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="other">לא ניתן היה למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
+      <item quantity="one">לא ניתן היה למחוק פריט <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"הקש כדי להציג פרטים"</string>
     <string name="close" msgid="905969391788869975">"סגור"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"הקבצים הבאים לא הועתקו: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"הקבצים הבאים לא נדחסו: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"הקבצים הבאים לא חולצו: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"הקבצים הבאים לא הועברו: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"הקבצים הבאים לא נמחקו: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"הקבצים האלה הומרו לפורמט אחר: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="two">הועתקו <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים אל הלוח.</item>
-      <item quantity="many">הועתקו <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים אל הלוח.</item>
-      <item quantity="other">הועתקו <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים אל הלוח.</item>
-      <item quantity="one">הועתק <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ אל הלוח.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="two"><xliff:g id="COUNT_1">%1$d</xliff:g> פריטים הועתקו ללוח.</item>
+      <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> פריטים הועתקו ללוח.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> פריטים הועתקו ללוח.</item>
+      <item quantity="one">פריט <xliff:g id="COUNT_0">%1$d</xliff:g> הועתק ללוח.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"פעולת הקובץ אינה נתמכת."</string>
     <string name="rename_error" msgid="6700093173508118635">"הניסיון לשינוי שם המסמך נכשל"</string>
@@ -172,4 +203,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"מסמכים"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"הורדות"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"לא ניתן לפתוח את קובץ הארכיון לעיון. הקובץ פגום או שפורמט הקובץ לא נתמך."</string>
+    <string name="name_conflict" msgid="28407269328862986">"כבר יש קובץ עם השם הזה."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

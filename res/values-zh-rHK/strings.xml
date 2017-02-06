@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"全選"</string>
     <string name="menu_copy" msgid="7404820171352314754">"複製到…"</string>
     <string name="menu_move" msgid="2310760789561129882">"移至…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"壓縮至…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"壓縮至…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重新命名"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"新視窗"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"隱藏內部儲存空間"</string>
     <string name="button_select" msgid="240863497069321364">"選取"</string>
     <string name="button_copy" msgid="8219059853840996027">"複製"</string>
+    <string name="button_compress" msgid="8951561310857223966">"壓縮"</string>
+    <string name="button_extract" msgid="1038674453689912247">"解壓縮"</string>
     <string name="button_move" msgid="8596460499325291272">"移動"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"關閉"</string>
     <string name="button_retry" msgid="4011461781916631389">"再試一次"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"無法刪除部分文件"</string>
     <string name="share_via" msgid="8725082736005677161">"透過以下應用程式分享："</string>
     <string name="copy_notification_title" msgid="52256435625098456">"正在複製檔案"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"正在壓縮檔案"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"正在移動檔案"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"正在刪除檔案"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"剩餘 <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="other">正在複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
-      <item quantity="one">正在複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other">正在複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目。</item>
+      <item quantity="one">正在複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目。</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="other">正在移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
-      <item quantity="one">正在移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="other">正在壓縮 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
+      <item quantity="one">正在壓縮 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="other">正在刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
-      <item quantity="one">正在刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="other">正在解壓縮 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案。</item>
+      <item quantity="one">正在解壓縮 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案。</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other">正在移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目。</item>
+      <item quantity="one">正在移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目。</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other">正在刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目。</item>
+      <item quantity="one">正在刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目。</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"復原"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"正在準備複製…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"正在準備壓縮檔案…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"正在準備移動…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"正在準備刪除…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="other">無法複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
-      <item quantity="one">無法複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other">無法複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目。</item>
+      <item quantity="one">無法複製 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目。</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="other">無法移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
-      <item quantity="one">無法移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other">無法壓縮 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
+      <item quantity="one">無法壓縮 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="other">無法刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
-      <item quantity="one">無法刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other">無法壓縮 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
+      <item quantity="one">無法壓縮 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other">無法移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目</item>
+      <item quantity="one">無法移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other">無法刪除 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目</item>
+      <item quantity="one">無法刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"輕按即可查看詳細資訊"</string>
     <string name="close" msgid="905969391788869975">"關閉"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"未能複製以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"未壓縮以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"未解壓縮以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"未能移動以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"無法刪除以下檔案：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"這些檔案已轉換成其他格式：<xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="other">已將 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案複製到剪貼簿。</item>
-      <item quantity="one">已將 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案複製到剪貼簿。</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other">已將 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目複製至剪貼簿。</item>
+      <item quantity="one">已將 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目複製至剪貼簿。</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"不支援檔案操作。"</string>
     <string name="rename_error" msgid="6700093173508118635">"無法重新命名文件"</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"文件"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"下載"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"無法開啟封存檔案以供瀏覽。檔案可能已損毀，或格式不受支援。"</string>
+    <string name="name_conflict" msgid="28407269328862986">"已有檔案使用此名稱。"</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

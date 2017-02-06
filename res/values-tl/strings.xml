@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Piliin lahat"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopyahin sa..."</string>
     <string name="menu_move" msgid="2310760789561129882">"Ilipat sa…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"I-compress sa…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"I-extract sa…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Palitan ang pangalan"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Bagong window"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Itago internal storage"</string>
     <string name="button_select" msgid="240863497069321364">"Piliin"</string>
     <string name="button_copy" msgid="8219059853840996027">"Kopyahin"</string>
+    <string name="button_compress" msgid="8951561310857223966">"I-compress"</string>
+    <string name="button_extract" msgid="1038674453689912247">"I-extract"</string>
     <string name="button_move" msgid="8596460499325291272">"Ilipat"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"I-dismiss"</string>
     <string name="button_retry" msgid="4011461781916631389">"Subukang Muli"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Hindi ma-delete ang ilang dokumento"</string>
     <string name="share_via" msgid="8725082736005677161">"Ibahagi gamit ang"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kinokopya ang mga file"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"Kino-compress ang files"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Paglilipat ng mga file"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Dine-delete ang mga file"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> ang natitira"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="one">Kinokopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> file.</item>
-      <item quantity="other">Kinokopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="one">Kinokopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> item.</item>
+      <item quantity="other">Kinokopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="one">Inililipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> file.</item>
-      <item quantity="other">Inililipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="one">Kino-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> file.</item>
+      <item quantity="other">Kino-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="one">Dine-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> file.</item>
-      <item quantity="other">Dine-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="one">Ine-extract ang <xliff:g id="COUNT_1">%1$d</xliff:g> file.</item>
+      <item quantity="other">Ine-extract ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="one">Inililipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> item.</item>
+      <item quantity="other">Inililipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="one">Dine-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> item.</item>
+      <item quantity="other">Dine-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"I-undo"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Naghahanda para sa pagkopya…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"Inihahandang i-compress…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Naghahanda para sa paglilipat…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Naghahanda para sa pag-delete…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="one">Hindi makopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>
-      <item quantity="other">Hindi makopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="one">Hindi makopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
+      <item quantity="other">Hindi makopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="one">Hindi mailipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>
-      <item quantity="other">Hindi mailipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>
+      <item quantity="other">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="one">Hindi ma-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>
-      <item quantity="other">Hindi ma-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>
+      <item quantity="other">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="one">Hindi mailipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
+      <item quantity="other">Hindi mailipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="one">Hindi ma-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
+      <item quantity="other">Hindi ma-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"I-tap upang tingnan ang mga detalye"</string>
     <string name="close" msgid="905969391788869975">"Isara"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Hindi nakopya ang mga file na ito: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Hindi na-compress ang mga file na ito: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Hindi na-extract ang mga file na ito: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Hindi nailipat ang mga file na ito: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Hindi na-delete ang mga file na ito: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Na-convert ang mga file na ito sa ibang format: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="one">Nakopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> file sa clipboard.</item>
-      <item quantity="other">Nakopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file sa clipboard.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="one">Nakopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> item sa clipboard.</item>
+      <item quantity="other">Nakopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item sa clipboard.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Hindi sinusuportahan ang operasyon sa file."</string>
     <string name="rename_error" msgid="6700093173508118635">"Hindi napalitan ang pangalan ng dokumento"</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Mga Dokumento"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Mga Download"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Hindi mabuksan ang archive para sa pag-browse. Maaaring corrupt ang file o hindi sinusuportahan ang format."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Mayroon nang file na may ganitong pangalan."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

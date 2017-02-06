@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"ជ្រើស​ទាំងអស់"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ចម្លងទៅ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ផ្លាស់ទីទៅ…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"បង្ហាប់​ទៅ…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"ស្រង់​ទៅ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ប្ដូរឈ្មោះ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ផ្ទាំងវិនដូថ្មី"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"លាក់​ឧបករណ៍​​ផ្ទុក​ខាងក្នុង"</string>
     <string name="button_select" msgid="240863497069321364">"ជ្រើស"</string>
     <string name="button_copy" msgid="8219059853840996027">"ចម្លង"</string>
+    <string name="button_compress" msgid="8951561310857223966">"បង្ហាប់"</string>
+    <string name="button_extract" msgid="1038674453689912247">"ស្រង់"</string>
     <string name="button_move" msgid="8596460499325291272">"ផ្លាស់ទី"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"បដិសេធ"</string>
     <string name="button_retry" msgid="4011461781916631389">"ព្យាយាម​ម្តង​ទៀត"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"មិនអាចលុបឯកសារមួយចំនួន"</string>
     <string name="share_via" msgid="8725082736005677161">"ចែករំលែក​តាម"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"កំពុងចម្លងឯកសារ"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"កំពុង​បង្ហាប់​ឯកសារ"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"កំពុងផ្លាស់ទីឯកសារ"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"កំពុងលុបឯកសារ"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"នៅសល់ <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="other">កំពុងចម្លងឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="one">កំពុងចម្លងឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other">កំពុង​ចម្លងធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> ។</item>
+      <item quantity="one">កំពុង​ចម្លងធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> ។</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="other">កំពុងផ្លាស់ទីឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="one">កំពុងផ្លាស់ទីឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="other">កំពុង​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g> ។</item>
+      <item quantity="one">កំពុង​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> ។</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="other">កំពុងលុបឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="one">កំពុងលុបឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="other">កំពុង​ស្រង់​ឯកសារ​ <xliff:g id="COUNT_1">%1$d</xliff:g> ។</item>
+      <item quantity="one">កំពុង​ស្រង់​ឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> ។</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other">កំពុង​ផ្លាស់ទី​ធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> ។</item>
+      <item quantity="one">កំពុង​ផ្លាស់ទី​ធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> ។</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other">កំពុង​លុបធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> ។</item>
+      <item quantity="one">កំពុង​លុបធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> ។</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"មិនធ្វើវិញ"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"កំពុងរៀបចំចម្លង…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"កំពុង​រៀបចំ​បង្ហាប់…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"កំពុងរៀបចំផ្លាស់ទី…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"កំពុងរៀបចំលុប…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="other">មិនអាចថតចម្លងឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="one">មិនអាចចម្លងឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other">មិនអាច​ចម្លងធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> បានទេ</item>
+      <item quantity="one">មិនអាច​ចម្លងធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> បានទេ</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="other">មិនអាចផ្លាស់ទីឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="one">មិនអាចផ្លាស់ទីឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other">មិនអាច​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g> បាន​ទេ</item>
+      <item quantity="one">មិនអាច​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> បាន​ទេ</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="other">មិនអាចលុបឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g></item>
-      <item quantity="one">មិនអាចលុបឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other">មិនអាច​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g> បាន​ទេ</item>
+      <item quantity="one">មិនអាច​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> បាន​ទេ</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other">មិនអាច​ផ្លាស់ទីធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> បានទេ</item>
+      <item quantity="one">មិនអាច​ផ្លាស់ទីធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> បានទេ</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other">មិនអាច​លុបធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> បានទេ</item>
+      <item quantity="one">មិនអាច​លុបធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> បានទេ</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"ប៉ះដើម្បីមើលព័ត៌មានលម្អិត"</string>
     <string name="close" msgid="905969391788869975">"បិទ​"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"ឯកសារទាំងនេះមិនត្រូវបានចម្លងទេ៖ <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"ឯកសារ​ទាំង​នេះ​មិន​ត្រូវ​បាន​បង្ហាប់​ទេ៖ <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"ឯកសារ​ទាំង​នេះ​មិនត្រូវ​បាន​ស្រង់​ទេ៖ <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"ឯកសារទាំងនេះមិនត្រូវបានផ្លាស់ទីទេ៖ <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"ឯកសារទាំងនេះមិនត្រូវបានលុបទេ៖ <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"ឯកសារទាំងនេះត្រូវបានបម្លែងទៅជាទម្រង់ផ្សេង៖ <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="other">បានចម្លងឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g> ទៅក្តារតម្បៀតខ្ទាស់</item>
-      <item quantity="one">បានចម្លងឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> ទៅក្តារតម្បៀតខ្ទាស់</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other">បាន​ចម្លងធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> ទៅអង្គចងចាំ។</item>
+      <item quantity="one">បាន​ចម្លងធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> ទៅ​អង្គចងចាំ។</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"មិនស្គាល់ប្រតិបត្តិការឯកសារនេះទេ។"</string>
     <string name="rename_error" msgid="6700093173508118635">"បានបរាជ័យក្នុងការប្តូរឈ្មោះឯកសារ"</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"ឯកសារ"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ទាញយក"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"មិន​អាច​បើក​ប័ណ្ណសារ​សម្រាប់​ការ​រុករក​បានទេ​ ដោយសារ​ឯកសារ​ខូច​ ឬ​មិន​ស្គាល់​ទម្រង់​ឯកសារ​។"</string>
+    <string name="name_conflict" msgid="28407269328862986">"ឯកសារ​ដែល​មាន​ឈ្មោះ​នេះ​មានរួចហើយ។"</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

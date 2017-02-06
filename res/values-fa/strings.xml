@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"انتخاب همه"</string>
     <string name="menu_copy" msgid="7404820171352314754">"کپی در..."</string>
     <string name="menu_move" msgid="2310760789561129882">"انتقال به…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"فشرده‌سازی در…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"استخراج در…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"تغییر نام"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"پنجره جدید"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"پنهان کردن حافظه داخلی"</string>
     <string name="button_select" msgid="240863497069321364">"انتخاب"</string>
     <string name="button_copy" msgid="8219059853840996027">"کپی"</string>
+    <string name="button_compress" msgid="8951561310857223966">"فشرده کردن"</string>
+    <string name="button_extract" msgid="1038674453689912247">"استخراج"</string>
     <string name="button_move" msgid="8596460499325291272">"انتقال"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"رد کردن"</string>
     <string name="button_retry" msgid="4011461781916631389">"دوباره امتحان کنید"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"برخی از اسناد حذف نمی‌شوند"</string>
     <string name="share_via" msgid="8725082736005677161">"اشتراک‌گذاری از طریق"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"در حال کپی کردن فایل‌ها"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"درحال فشرده‌سازی فایل‌ها"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"درحال انتقال فایل‌ها"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"در حال حذف فایل‌ها"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> باقیمانده"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="one">درحال کپی کردن <xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
-      <item quantity="other">درحال کپی کردن <xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="one">درحال کپی کردن <xliff:g id="COUNT_1">%1$d</xliff:g> مورد.</item>
+      <item quantity="other">درحال کپی کردن <xliff:g id="COUNT_1">%1$d</xliff:g> مورد.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="one">درحال انتقال <xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
-      <item quantity="other">درحال انتقال <xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="one">درحال فشرده‌سازی<xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
+      <item quantity="other">درحال فشرده‌سازی<xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="one">درحال حذف <xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
-      <item quantity="other">درحال حذف <xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="one">درحال استخراج <xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
+      <item quantity="other">درحال استخراج <xliff:g id="COUNT_1">%1$d</xliff:g> فایل.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="one">درحال انتقال <xliff:g id="COUNT_1">%1$d</xliff:g> مورد.</item>
+      <item quantity="other">درحال انتقال <xliff:g id="COUNT_1">%1$d</xliff:g> مورد.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="one">درحال حذف <xliff:g id="COUNT_1">%1$d</xliff:g> مورد.</item>
+      <item quantity="other">درحال حذف <xliff:g id="COUNT_1">%1$d</xliff:g> مورد.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"واگرد"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"در حال آماده‌سازی برای کپی..."</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"آماده شدن برای فشرده‌سازی…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"درحال آماده‌سازی برای انتقال…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"درحال آماده‌سازی برای حذف…‏"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل کپی نشد</item>
-      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل کپی نشد</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> مورد کپی نشد</item>
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> مورد کپی نشد</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل منتقل نشد</item>
-      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل منتقل نشد</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل فشرده نشد</item>
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل فشرده نشد</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل حذف نشد</item>
-      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل حذف نشد</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل فشرده نشد</item>
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل فشرده نشد</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> مورد منتقل نشد</item>
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> مورد منتقل نشد</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> مورد حذف نشد</item>
+      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> مورد حذف نشد</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"برای مشاهده جزئیات ضربه بزنید"</string>
     <string name="close" msgid="905969391788869975">"بستن"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"این فایل‌ها کپی نشدند: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"این فایل‌ها فشرده نشدند: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"این فایل‌ها استخراج نشدند: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"این فایل‌ها منتقل نشدند: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"این فایل‌ها حذف نشدند: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"این فایل‌ها به قالب دیگری تبدیل شدند: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل در کلیپ‌بورد کپی شد.</item>
-      <item quantity="other"> <xliff:g id="COUNT_1">%1$d</xliff:g> فایل در کلیپ‌بورد کپی شد.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>مورد در کلیپ‌بورد کپی شد.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>مورد در کلیپ‌بورد کپی شد.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"عملکرد فایل پشتیبانی نمی‌شود."</string>
     <string name="rename_error" msgid="6700093173508118635">"نام سند تغییر نکرد"</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"اسناد"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"بارگیری‌ها"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"بایگانی برای مرور باز نشد. فایل یا خراب است یا قالب آن پشتیبانی نمی‌شود."</string>
+    <string name="name_conflict" msgid="28407269328862986">"فایلی با این نام درحال‌حاضر موجود است."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>
