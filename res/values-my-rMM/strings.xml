@@ -33,6 +33,8 @@
     <string name="menu_select_all" msgid="7600576812185570403">"အားလုံးကို ရွေးပါ"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ဤနေရာသို့ ကူးထည့်ပါ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"အောက်ပါနေရာသို့ ရွှေ့ပါ…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"…သို့ ချုံ့နေသည်"</string>
+    <string name="menu_extract" msgid="8171946945982532262">"ရွှေးချယ်ထည့်သွင်းရန်…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"အမည်ပြောင်းပါ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ဝင်းဒိုးသစ်"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ဖြတ်ယူပါ"</string>
@@ -43,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"အတွင်းသိမ်းခန်း ဖျောက်ပါ"</string>
     <string name="button_select" msgid="240863497069321364">"ရွေးချယ်ရန်"</string>
     <string name="button_copy" msgid="8219059853840996027">"မိတ္တူကူးရန်"</string>
+    <string name="button_compress" msgid="8951561310857223966">"ချုံ့ရန်"</string>
+    <string name="button_extract" msgid="1038674453689912247">"ထုတ်ယူရန်"</string>
     <string name="button_move" msgid="8596460499325291272">"ရွှေ့ရန်"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ပယ်ရန်"</string>
     <string name="button_retry" msgid="4011461781916631389">"ပြန်စမ်းကြည့်ပါ"</string>
@@ -70,12 +74,21 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"အချို့စာဖိုင်များကို ဖျက်၍မရပါ"</string>
     <string name="share_via" msgid="8725082736005677161">"အောက်ပါနည်းလမ်းဖြင့် မျှဝေပါ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ဖိုင်များကူးယူနေသည်"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"ဖိုင်များကို ချုံ့နေသည်"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"ဖိုင်များကို ရွှေ့နေသည်"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"ဖိုင်များကို ဖျက်နေသည်"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> ကျန်ရှိသည်"</string>
     <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
       <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို မိတ္တူကူးနေသည်။</item>
       <item quantity="one">ဖိုင် <xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင်ကို မိတ္တူကူးနေသည်။</item>
+    </plurals>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို ချုံ့နေသည်။</item>
+      <item quantity="one">ဖိုင် <xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင်ကို ချုံ့နေသည်။</item>
+    </plurals>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို ထုတ်ယူနေသည်။</item>
+      <item quantity="one">ဖိုင် <xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင်ကို ထုတ်ယူနေသည်။</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
       <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို ရွှေ့နေသည်။</item>
@@ -87,12 +100,17 @@
     </plurals>
     <string name="undo" msgid="2902438994196400565">"တစ်ဆင့်နောက်ပြန်ပါ"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"မိတ္တူကူးရန် ပြင်ဆင်နေသည်…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"ချုံ့ရန် ပြင်ဆင်နေသည်…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"ရွှေ့ရန် ပြင်ဆင်နေသည်…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"ဖျက်ရန် ပြင်ဆင်နေသည်…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
       <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို မိတ္တူကူး၍ မရခဲ့ပါ</item>
       <item quantity="one">ဖိုင် <xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင်ကို မိတ္တူကူး၍ မရခဲ့ပါ</item>
+    </plurals>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို ချုံ့၍ မရခဲ့ပါ</item>
+      <item quantity="one">ဖိုင် <xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင်ကို ချုံ့၍ မရခဲ့ပါ</item>
     </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
       <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို ရွှေ့၍မရခဲ့ပါ</item>
@@ -105,6 +123,8 @@
     <string name="notification_touch_for_details" msgid="2385563502445129570">"အသေးစိတ်ကြည့်ရန် တို့ပါ"</string>
     <string name="close" msgid="905969391788869975">"ပိတ်ရန်"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"ဤဖိုင်များကို မကူးယူခဲ့ပါ − <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"ဤဖိုင်များကို မချုံ့ခဲ့ပါ− <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"ဤဖိုင်များကို မထုတ်ယူခဲ့ပါ− <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"ဤဖိုင်များကို မရွှေ့ခဲ့ပါ − <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"ဤဖိုင်များကို မဖျက်ခဲ့ပါ - <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"ဤဖိုင်များကို အခြားဖိုင်ပုံစံအဖြစ်သို့ ပြောင်းလဲခဲ့သည် - <xliff:g id="LIST">%1$s</xliff:g>"</string>
@@ -147,4 +167,9 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"မှတ်တမ်းမှတ်ရာများ"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ဒေါင်းလုဒ်များ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"မှတ်တမ်းဟောင်းကို ကြည့်ရှုရန်အတွက် ဖွင့်၍မရပါ။ ဖိုင်ပျက်စီးနေခြင်း သို့မဟုတ် ပံ့ပိုးမထားသည့် ပုံစံတွင်ရှိနေခြင်းတို့ ဖြစ်နိုင်သည်။"</string>
+    <string name="name_conflict" msgid="28407269328862986">"ဤအမည်ဖြင့် ဖိုင်တစ်ဖိုင် ရှိပြီးသား ဖြစ်ပါသည်။"</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
 </resources>
