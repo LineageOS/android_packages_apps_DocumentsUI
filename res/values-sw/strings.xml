@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Chagua zote"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Nakili kwenye..."</string>
     <string name="menu_move" msgid="2310760789561129882">"Hamishia kwenye..."</string>
+    <string name="menu_extract" msgid="8171946945982532262">"Weka kwenye…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Badilisha jina"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Dirisha jipya"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kata"</string>
@@ -73,24 +74,45 @@
     <string name="move_notification_title" msgid="3173424987049347605">"Inahamisha faili"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Inafuta faili"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Zimesalia <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <!-- no translation found for copy_begin (151184708996738192) -->
-    <!-- no translation found for move_begin (1464229874265756956) -->
-    <!-- no translation found for deleting (1729138001178158901) -->
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other">Inanakili vipengee <xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+      <item quantity="one">Inanakili kipengee <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other">Inahamisha vipengee <xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+      <item quantity="one">Inahamisha kipengee <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other">Inafuta vipengee <xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
+      <item quantity="one">Inafuta kipengee <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
+    </plurals>
     <string name="undo" msgid="2902438994196400565">"Tendua"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Inaanda kunakili..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"Inatayarisha kuhamisha..."</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Inajitayarisha kufuta..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
-    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
-    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other">Imeshindwa kunakili vipengee <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="one">Imeshindwa kunakili kipengee <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other">Imeshindwa kuhamisha vipengee <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="one">Imeshindwa kuhamisha kipengee <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other">Imeshindwa kufuta vipengee <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="one">Imeshindwa kufuta kipengee <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Gonga ili uangalie maelezo"</string>
     <string name="close" msgid="905969391788869975">"Funga"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Haikunakili faili zifuatazo: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Haikuhamisha faili zifuatazo: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Imeshindwa kufuta faili zifuatazo: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Muundo wa faili hizi ulibadilishwa: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other">Vipengee <xliff:g id="COUNT_1">%1$d</xliff:g> vimenakiliwa kwenye ubao wa kunakili.</item>
+      <item quantity="one">Kipengee <xliff:g id="COUNT_0">%1$d</xliff:g> kimenakiliwa kwenye ubao wa kunakili.</item>
+    </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Utendakazi wa faili hauwezi kutumika."</string>
     <string name="rename_error" msgid="6700093173508118635">"Imeshindwa kubadilisha jina la hati"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Ondoa"</string>
@@ -126,4 +148,5 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Hati"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Vipakuliwa"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Haiwezi kufungua kumbukumbu ya kuvinjari. Faili imeharibika au muundo wa faili hautumiki."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Tayari kuna faili iliyo na jina hili."</string>
 </resources>

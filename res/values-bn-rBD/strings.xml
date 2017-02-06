@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"সবগুলি নির্বাচন করুন"</string>
     <string name="menu_copy" msgid="7404820171352314754">"এতে কপি করুন…"</string>
     <string name="menu_move" msgid="2310760789561129882">"এতে সরান…"</string>
+    <string name="menu_extract" msgid="8171946945982532262">"এখানে রাখুন…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"পুনঃনামকরণ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"নতুন উইন্ডো"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"কাট করুন"</string>
@@ -73,24 +74,45 @@
     <string name="move_notification_title" msgid="3173424987049347605">"ফাইলগুলি সরানো হচ্ছে"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"ফাইলগুলি মোছা হচ্ছে"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> বাকি"</string>
-    <!-- no translation found for copy_begin (151184708996738192) -->
-    <!-- no translation found for move_begin (1464229874265756956) -->
-    <!-- no translation found for deleting (1729138001178158901) -->
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম কপি করা হচ্ছে।</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম কপি করা হচ্ছে।</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম সরানো হচ্ছে।</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম সরানো হচ্ছে।</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম মুছে দেওয়া হচ্ছে।</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম মুছে দেওয়া হচ্ছে।</item>
+    </plurals>
     <string name="undo" msgid="2902438994196400565">"পূর্বাবস্থায় ফিরুন"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"কপি করার জন্য প্রস্তুত হচ্ছে…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"সরানোর জন্য প্রস্তুত হচ্ছে…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"মোছার জন্য প্রস্তুত হচ্ছে…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
-    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
-    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম কপি করা হয়নি</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম কপি করা হয়নি</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম সরানো যায়নি</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম সরানো যায়নি</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম মুছে দেওয়া যায়নি</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম মুছে দেওয়া যায়নি</item>
+    </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"বিশদ বিবরণ দেখতে আলতো চাপুন"</string>
     <string name="close" msgid="905969391788869975">"বন্ধ করুন"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"এই ফাইলগুলির কপি করা হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"এই ফাইলগুলি সরানো হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"এই ফাইলগুলি মোছা হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"এই ফাইলগুলিকে অন্য ফর্ম্যাটে রূপান্তর করা হয়েছে: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম ক্লিপবোর্ডে কপি করা হয়েছে।</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম ক্লিপবোর্ডে কপি করা হয়েছে।</item>
+    </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"ফাইল ক্রিয়াকলাপটি সমর্থিত নয়৷"</string>
     <string name="rename_error" msgid="6700093173508118635">"দস্তাবেজের পুনঃনামকরণ করা গেল না"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"সরিয়ে দিন"</string>
@@ -126,4 +148,5 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"দস্তাবেজগুলি"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ডাউনলোডগুলি"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ব্রাউজ করার জন্য সংরক্ষণাগার খোলা গেল না৷ হয় ফাইলটি ক্ষতিগ্রস্ত বা কোনো অসমর্থিত বিন্যাসে রয়েছে৷"</string>
+    <string name="name_conflict" msgid="28407269328862986">"এই নামে আগেই আর একটি ফাইল আছে।"</string>
 </resources>

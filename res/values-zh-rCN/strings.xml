@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"全选"</string>
     <string name="menu_copy" msgid="7404820171352314754">"复制到…"</string>
     <string name="menu_move" msgid="2310760789561129882">"移动到…"</string>
+    <string name="menu_extract" msgid="8171946945982532262">"解压到…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重命名"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"新建窗口"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"剪切"</string>
@@ -73,24 +74,45 @@
     <string name="move_notification_title" msgid="3173424987049347605">"正在移动文件"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"正在删除文件"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"剩余时间：<xliff:g id="DURATION">%s</xliff:g>"</string>
-    <!-- no translation found for copy_begin (151184708996738192) -->
-    <!-- no translation found for move_begin (1464229874265756956) -->
-    <!-- no translation found for deleting (1729138001178158901) -->
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other">正在复制 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
+      <item quantity="one">正在复制 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other">正在移动 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
+      <item quantity="one">正在移动 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other">正在删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
+      <item quantity="one">正在删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
+    </plurals>
     <string name="undo" msgid="2902438994196400565">"撤消"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"正在准备复制…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"正在准备移动…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"正在准备删除…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
-    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
-    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other">无法复制 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
+      <item quantity="one">无法复制 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other">无法移动 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
+      <item quantity="one">无法移动 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other">无法删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
+      <item quantity="one">无法删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
+    </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"点按即可查看详情"</string>
     <string name="close" msgid="905969391788869975">"关闭"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"未能复制以下文件：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"未能移动以下文件：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"未能删除以下文件：<xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"以下文件已转换成其他格式：<xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other">已将 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件复制到剪贴板。</item>
+      <item quantity="one">已将 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件复制到剪贴板。</item>
+    </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"不支持文件操作。"</string>
     <string name="rename_error" msgid="6700093173508118635">"无法重命名文档"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"退出"</string>
@@ -126,4 +148,5 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"文档"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"下载内容"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"无法打开归档文件以进行浏览。文件已损坏或所采用的格式不受支持。"</string>
+    <string name="name_conflict" msgid="28407269328862986">"已存在同名文件。"</string>
 </resources>

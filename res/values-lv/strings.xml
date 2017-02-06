@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Atlasīt visus"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopēt…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Pārvietot uz…"</string>
+    <string name="menu_extract" msgid="8171946945982532262">"Izvilkt..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"Pārdēvēt"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Jauns logs"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Izgriezt"</string>
@@ -73,24 +74,52 @@
     <string name="move_notification_title" msgid="3173424987049347605">"Failu pārvietošana"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Failu dzēšana"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Atlikušais laiks: <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <!-- no translation found for copy_begin (151184708996738192) -->
-    <!-- no translation found for move_begin (1464229874265756956) -->
-    <!-- no translation found for deleting (1729138001178158901) -->
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="zero">Tiek kopēti <xliff:g id="COUNT_1">%1$d</xliff:g> vienumi.</item>
+      <item quantity="one">Tiek kopēts <xliff:g id="COUNT_1">%1$d</xliff:g> vienums.</item>
+      <item quantity="other">Tiek kopēti <xliff:g id="COUNT_1">%1$d</xliff:g> vienumi.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="zero">Tiek pārvietoti <xliff:g id="COUNT_1">%1$d</xliff:g> vienumi.</item>
+      <item quantity="one">Tiek pārvietots <xliff:g id="COUNT_1">%1$d</xliff:g> vienums.</item>
+      <item quantity="other">Tiek pārvietoti <xliff:g id="COUNT_1">%1$d</xliff:g> vienumi.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="zero">Tiek dzēsti <xliff:g id="COUNT_1">%1$d</xliff:g> vienumi.</item>
+      <item quantity="one">Tiek dzēsts <xliff:g id="COUNT_1">%1$d</xliff:g> vienums.</item>
+      <item quantity="other">Tiek dzēsti <xliff:g id="COUNT_1">%1$d</xliff:g> vienumi.</item>
+    </plurals>
     <string name="undo" msgid="2902438994196400565">"Atsaukt"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Notiek sagatavošanās kopēšanai…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Sagatavošanās pārvietošanai…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Notiek sagatavošanās dzēšanai…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> no <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
-    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
-    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="zero">Nevarēja nokopēt <xliff:g id="COUNT_1">%1$d</xliff:g> vienumus</item>
+      <item quantity="one">Nevarēja nokopēt <xliff:g id="COUNT_1">%1$d</xliff:g> vienumu</item>
+      <item quantity="other">Nevarēja nokopēt <xliff:g id="COUNT_1">%1$d</xliff:g> vienumus</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="zero">Nevarēja pārvietot <xliff:g id="COUNT_1">%1$d</xliff:g> vienumus</item>
+      <item quantity="one">Nevarēja pārvietot <xliff:g id="COUNT_1">%1$d</xliff:g> vienumu</item>
+      <item quantity="other">Nevarēja pārvietot <xliff:g id="COUNT_1">%1$d</xliff:g> vienumus</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="zero">Nevarēja izdzēst <xliff:g id="COUNT_1">%1$d</xliff:g> vienumus</item>
+      <item quantity="one">Nevarēja izdzēst <xliff:g id="COUNT_1">%1$d</xliff:g> vienumu</item>
+      <item quantity="other">Nevarēja izdzēst <xliff:g id="COUNT_1">%1$d</xliff:g> vienumus</item>
+    </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Pieskarieties, lai skatītu informāciju."</string>
     <string name="close" msgid="905969391788869975">"Aizvērt"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Netika nokopēti šie faili: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Netika pārvietoti šie faili: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Netika izdzēsti šie faili: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Citā formātā tika pārveidoti šie faili: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="zero"><xliff:g id="COUNT_1">%1$d</xliff:g> vienumi ir kopēti starpliktuvē.</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> vienums ir kopēts starpliktuvē.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> vienumi ir kopēti starpliktuvē.</item>
+    </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Faila darbība netiek atbalstīta."</string>
     <string name="rename_error" msgid="6700093173508118635">"Neizdevās pārdēvēt dokumentu."</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Noņemt"</string>
@@ -131,4 +160,5 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumenti"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Lejupielādes"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Nevar atvērt un pārlūkot arhīvu. Vai nu fails ir bojāts, vai arī tā formāts netiek atbalstīts."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Fails ar šādu nosaukumu jau pastāv."</string>
 </resources>

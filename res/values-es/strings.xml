@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Seleccionar todo"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Copiar en…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Mover a…"</string>
+    <string name="menu_extract" msgid="8171946945982532262">"Extraer a…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Cambiar nombre"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nueva ventana"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Cortar"</string>
@@ -73,24 +74,45 @@
     <string name="move_notification_title" msgid="3173424987049347605">"Moviendo archivos"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Eliminando archivos"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Tiempo restante: <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <!-- no translation found for copy_begin (151184708996738192) -->
-    <!-- no translation found for move_begin (1464229874265756956) -->
-    <!-- no translation found for deleting (1729138001178158901) -->
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other">Copiando <xliff:g id="COUNT_1">%1$d</xliff:g> elementos.</item>
+      <item quantity="one">Copiando <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other">Moviendo <xliff:g id="COUNT_1">%1$d</xliff:g> elementos.</item>
+      <item quantity="one">Moviendo <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other">Eliminando <xliff:g id="COUNT_1">%1$d</xliff:g> elementos.</item>
+      <item quantity="one">Eliminando <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
+    </plurals>
     <string name="undo" msgid="2902438994196400565">"Deshacer"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Preparando para copiar..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"Preparando para mover…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Preparando para eliminar…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> de <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
-    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
-    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other">No se han podido copiar <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
+      <item quantity="one">No se ha podido copiar <xliff:g id="COUNT_0">%1$d</xliff:g> elemento</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other">No se han podido mover <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
+      <item quantity="one">No se ha podido mover <xliff:g id="COUNT_0">%1$d</xliff:g> elemento</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other">No se han podido eliminar <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
+      <item quantity="one">No se ha podido eliminar <xliff:g id="COUNT_0">%1$d</xliff:g> elemento</item>
+    </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Toca la notificación para ver detalles"</string>
     <string name="close" msgid="905969391788869975">"Cerrar"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Archivos que no se han copiado: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Archivos que no se han movido: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Archivos que no se han eliminado: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Estos archivos se han convertido a otro formato: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other">Se han copiado <xliff:g id="COUNT_1">%1$d</xliff:g> elementos al portapapeles.</item>
+      <item quantity="one">Se ha copiado <xliff:g id="COUNT_0">%1$d</xliff:g> elemento al portapapeles.</item>
+    </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"No se puede hacer la operación con el archivo."</string>
     <string name="rename_error" msgid="6700093173508118635">"No se ha podido cambiar el nombre del documento"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Expulsar"</string>
@@ -126,4 +148,5 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Documentos"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Descargas"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"No se puede abrir el archivo para explorarlo porque está dañado o su formato es incompatible."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Ya existe un archivo con este nombre."</string>
 </resources>

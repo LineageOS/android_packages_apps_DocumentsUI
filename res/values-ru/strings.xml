@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Выбрать все"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Копировать в…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Переместить в..."</string>
+    <string name="menu_extract" msgid="8171946945982532262">"Извлечь"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Переименовать"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Новое окно"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Вырезать"</string>
@@ -73,24 +74,59 @@
     <string name="move_notification_title" msgid="3173424987049347605">"Перемещение файлов"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Удаление файлов"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Осталось <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <!-- no translation found for copy_begin (151184708996738192) -->
-    <!-- no translation found for move_begin (1464229874265756956) -->
-    <!-- no translation found for deleting (1729138001178158901) -->
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="one">Копирование <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
+      <item quantity="few">Копирование <xliff:g id="COUNT_1">%1$d</xliff:g> файлов…</item>
+      <item quantity="many">Копирование <xliff:g id="COUNT_1">%1$d</xliff:g> файлов…</item>
+      <item quantity="other">Копирование <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="one">Перемещение <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
+      <item quantity="few">Перемещение <xliff:g id="COUNT_1">%1$d</xliff:g> файлов…</item>
+      <item quantity="many">Перемещение <xliff:g id="COUNT_1">%1$d</xliff:g> файлов…</item>
+      <item quantity="other">Перемещение <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="one">Удаление <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
+      <item quantity="few">Удаление <xliff:g id="COUNT_1">%1$d</xliff:g> файлов…</item>
+      <item quantity="many">Удаление <xliff:g id="COUNT_1">%1$d</xliff:g> файлов…</item>
+      <item quantity="other">Удаление <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
+    </plurals>
     <string name="undo" msgid="2902438994196400565">"Отменить"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Подготовка к копированию…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Подготовка к перемещению…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Подготовка к удалению…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> из <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
-    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
-    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="one">Не удалось скопировать <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
+      <item quantity="few">Не удалось скопировать <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+      <item quantity="many">Не удалось скопировать <xliff:g id="COUNT_1">%1$d</xliff:g> файлов</item>
+      <item quantity="other">Не удалось скопировать <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="one">Не удалось переместить <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
+      <item quantity="few">Не удалось переместить <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+      <item quantity="many">Не удалось переместить <xliff:g id="COUNT_1">%1$d</xliff:g> файлов</item>
+      <item quantity="other">Не удалось переместить <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="one">Не удалось удалить <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
+      <item quantity="few">Не удалось удалить <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+      <item quantity="many">Не удалось удалить <xliff:g id="COUNT_1">%1$d</xliff:g> файлов</item>
+      <item quantity="other">Не удалось удалить <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+    </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Нажмите, чтобы узнать подробности"</string>
     <string name="close" msgid="905969391788869975">"Закрыть"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Не удалось скопировать следующие файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Не удалось переместить следующие файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Следующие файлы не были удалены: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Формат этих файлов изменен: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="one">Скопирован <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
+      <item quantity="few">Скопировано <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+      <item quantity="many">Скопировано <xliff:g id="COUNT_1">%1$d</xliff:g> файлов</item>
+      <item quantity="other">Скопировано <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+    </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Файловая операция не поддерживается"</string>
     <string name="rename_error" msgid="6700093173508118635">"Не удалось переименовать документ"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Извлечь"</string>
@@ -136,4 +172,5 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Документы"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Скачанные файлы"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Не удалось открыть архив. Файл поврежден, или такой формат не поддерживается."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Файл с таким названием уже существует."</string>
 </resources>

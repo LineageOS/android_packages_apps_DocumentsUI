@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Seleziona tutto"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Copia in…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Sposta in…"</string>
+    <string name="menu_extract" msgid="8171946945982532262">"Estrai in…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Rinomina"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nuova finestra"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Taglia"</string>
@@ -73,24 +74,45 @@
     <string name="move_notification_title" msgid="3173424987049347605">"Spostamento di file"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Eliminazione dei file"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> rimanenti"</string>
-    <!-- no translation found for copy_begin (151184708996738192) -->
-    <!-- no translation found for move_begin (1464229874265756956) -->
-    <!-- no translation found for deleting (1729138001178158901) -->
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other">Copia di <xliff:g id="COUNT_1">%1$d</xliff:g> elementi.</item>
+      <item quantity="one">Copia di <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other">Spostamento di <xliff:g id="COUNT_1">%1$d</xliff:g> elementi.</item>
+      <item quantity="one">Spostamento di <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other">Eliminazione di <xliff:g id="COUNT_1">%1$d</xliff:g> elementi.</item>
+      <item quantity="one">Eliminazione di <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
+    </plurals>
     <string name="undo" msgid="2902438994196400565">"Annulla"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Preparazione alla copia…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Preparazione dello spostamento…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Preparazione eliminazione…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
-    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
-    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other">Copia di <xliff:g id="COUNT_1">%1$d</xliff:g> elementi non riuscita</item>
+      <item quantity="one">Copia di <xliff:g id="COUNT_0">%1$d</xliff:g> elemento non riuscita</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other">Spostamento di <xliff:g id="COUNT_1">%1$d</xliff:g> elementi non riuscito</item>
+      <item quantity="one">Spostamento di <xliff:g id="COUNT_0">%1$d</xliff:g> elemento non riuscito</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other">Eliminazione di <xliff:g id="COUNT_1">%1$d</xliff:g> elementi non riuscita</item>
+      <item quantity="one">Eliminazione di <xliff:g id="COUNT_0">%1$d</xliff:g> elemento non riuscita</item>
+    </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Tocca per vedere i dettagli"</string>
     <string name="close" msgid="905969391788869975">"Chiudi"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"I seguenti file non sono stati copiati: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"I seguenti file non sono stati spostati: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"I seguenti file non sono stati eliminati: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"I file sono stati convertiti in un altro formato: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementi copiati negli appunti.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elemento copiato negli appunti.</item>
+    </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Operazione sul file non supportata."</string>
     <string name="rename_error" msgid="6700093173508118635">"Ridenominazione documento non riuscita"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Espelli"</string>
@@ -126,4 +148,5 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Documenti"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Download"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Impossibile aprire il file di archivio per la navigazione. Il file è corrotto o in un formato non supportato."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Esiste già un file con questo nome."</string>
 </resources>
