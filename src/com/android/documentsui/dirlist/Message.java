@@ -115,6 +115,7 @@ abstract class Message {
         }
 
         private void updateToRecoverableExceptionHeader(Update event) {
+            assert(Shared.ENABLE_OMC_API_FEATURES);
             RootInfo root = mEnv.getDisplayState().stack.getRoot();
             update(mEnv.getContext().getResources().getText(R.string.authentication_required),
                     mEnv.getContext().getString(R.string.open_app, root.title),

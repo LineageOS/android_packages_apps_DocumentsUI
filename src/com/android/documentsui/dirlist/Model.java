@@ -38,6 +38,7 @@ import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.selection.Selection;
 
@@ -336,7 +337,8 @@ public class Model {
         }
 
         public boolean hasRecoverableException() {
-            return hasException() && mException instanceof RecoverableSecurityException;
+            return Shared.ENABLE_OMC_API_FEATURES && hasException()
+                    && mException instanceof RecoverableSecurityException;
         }
 
         public @Nullable Exception getException() {
