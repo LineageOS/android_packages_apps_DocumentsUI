@@ -321,15 +321,15 @@ public class ActionHandlerTest {
 
     @Test
     public void testInitLocation_DefaultsToDownloads() throws Exception {
-        mActivity.resources.bools.put(R.bool.productivity_device, false);
+        mActivity.resources.bools.put(R.bool.show_documents_root, false);
 
         mHandler.initLocation(mActivity.getIntent());
         assertRootPicked(TestRootsAccess.DOWNLOADS.getUri());
     }
 
     @Test
-    public void testInitLocation_ProductivityDefaultsToHome() throws Exception {
-        mActivity.resources.bools.put(R.bool.productivity_device, true);
+    public void testInitLocation_DocumentsRootEnabled() throws Exception {
+        mActivity.resources.bools.put(R.bool.show_documents_root, true);
 
         mHandler.initLocation(mActivity.getIntent());
         assertRootPicked(TestRootsAccess.HOME.getUri());

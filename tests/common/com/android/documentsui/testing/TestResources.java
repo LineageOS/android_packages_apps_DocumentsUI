@@ -64,7 +64,7 @@ public abstract class TestResources extends Resources {
     }
 
     public void setProductivityDeviceEnabled(boolean enabled) {
-        bools.put(R.bool.productivity_device, enabled);
+        bools.put(R.bool.show_documents_root, enabled);
     }
 
     @Override
