@@ -102,7 +102,6 @@ final class LoadLastAccessedStackTask<T extends Activity & CommonAddons>
 
     @Override
     protected void finish(Void result) {
-        mState.restored = mRestoredStack;
         mState.external = mExternal;
         mOwner.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
     }

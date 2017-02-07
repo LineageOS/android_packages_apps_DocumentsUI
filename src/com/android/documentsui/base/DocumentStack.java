@@ -90,6 +90,10 @@ public class DocumentStack implements Durable, Parcelable {
         mRoot = src.mRoot;
     }
 
+    public boolean isInitialized() {
+        return mRoot != null;
+    }
+
     public @Nullable RootInfo getRoot() {
         return mRoot;
     }
