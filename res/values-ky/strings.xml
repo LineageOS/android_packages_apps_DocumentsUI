@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Бардыгын тандоо"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Төмөнкүгө көчүрүү…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Төмөнкүгө жылдыруу..."</string>
+    <string name="menu_compress" msgid="3595799616317136465">"Төмөнкүгө чейин кысуу…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Төмөнкүгө чыгаруу…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Аталышын өзгөртүү"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Жаңы терезе"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Ички эстутумду жашыруу"</string>
     <string name="button_select" msgid="240863497069321364">"Тандоо"</string>
     <string name="button_copy" msgid="8219059853840996027">"Көчүрүү"</string>
+    <string name="button_compress" msgid="8951561310857223966">"Кысуу"</string>
+    <string name="button_extract" msgid="1038674453689912247">"Чыгаруу"</string>
     <string name="button_move" msgid="8596460499325291272">"Жылдыруу"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Көз жаздымда калтыруу"</string>
     <string name="button_retry" msgid="4011461781916631389">"Кайра аракет кылыңыз"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Кээ бир документтерди өчүрүү мүмкүн болбой жатат"</string>
     <string name="share_via" msgid="8725082736005677161">"Бул аркылуу бөлүшүү"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Файлдар көчүрүлүүдө"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"Файлдар кысылууда"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Файлдар жылдырылууда"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Файлдар жок кылынууда"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> калды"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл көчүрүлүүдө.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл көчүрүлүүдө.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе көчүрүлүүдө.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе көчүрүлүүдө.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл жылдырылууда.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл жылдырылууда.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл кысылууда.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл кысылууда.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл жок кылынууда.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл жок кылынууда.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл чыгарылууда.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл чыгарылууда.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жылдырылууда.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе жылдырылууда.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жок кылынууда.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе жок кылынууда.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Кайтаруу"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Көчүрүүгө даярдалууда…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"Кысууга даярдалууда…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Жылдырууга даярдалууда…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Жок кылууга даярдалууда…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл көчүрүлбөй койду</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл көчүрүлбөй койду</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе көчүрүлбөй койду</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе көчүрүлбөй койду</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл жылдырылбай койду</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл жылдырылбай койду</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл кысылбай койду</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл кысылбай койду</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл жок кылынбай койду</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл жок кылынбай койду</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл кысылбай койду</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл кысылбай койду</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жылдырылбай койду</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе жылдырылбай койду</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жок кылынбай койду</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе жок кылынбай койду</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Чоо-жайын көрүү үчүн таптаңыз"</string>
     <string name="close" msgid="905969391788869975">"Жабуу"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Төмөнкү файлдар көчүрүлгөн жок: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Төмөнкү файлдар кысылган жок: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Төмөнкү файлдар чыгарылган жок: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Төмөнкү файлдар жылдырылган жок: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Төмөнкү файлдар өчүрүлгөн жок: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Бул файлдар башка форматка айландырылды: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл буферге көчүрүлдү.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл буферге көчүрүлдү.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе буферге көчүрүлдү.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе буферге көчүрүлдү.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Файлды иштетүү колдоого алынбайт."</string>
     <string name="rename_error" msgid="6700093173508118635">"Документтин аталышы өзгөртүлбөй калды"</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Документтер"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Жүктөлүп алынгандар"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Серептөөнүн архиви ачылбай койду. Файл бузулган же форматы колдоого алынбайт."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Мындай аталыштагы файл мурунтан эле бар."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

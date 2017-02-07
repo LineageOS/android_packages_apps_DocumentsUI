@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"모두 선택"</string>
     <string name="menu_copy" msgid="7404820171352314754">"다음으로 복사:"</string>
     <string name="menu_move" msgid="2310760789561129882">"다음으로 이동:"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"다음으로 압축…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"다음 위치에 추출..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"이름 바꾸기"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"새 창"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"내부 저장소 숨기기"</string>
     <string name="button_select" msgid="240863497069321364">"선택"</string>
     <string name="button_copy" msgid="8219059853840996027">"복사"</string>
+    <string name="button_compress" msgid="8951561310857223966">"압축"</string>
+    <string name="button_extract" msgid="1038674453689912247">"추출"</string>
     <string name="button_move" msgid="8596460499325291272">"이동"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"닫기"</string>
     <string name="button_retry" msgid="4011461781916631389">"다시 시도"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"일부 문서를 삭제할 수 없습니다."</string>
     <string name="share_via" msgid="8725082736005677161">"공유에 사용할 앱"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"파일 복사"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"파일 압축 중"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"파일 이동"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"파일 삭제"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> 남음"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="other">파일 <xliff:g id="COUNT_1">%1$d</xliff:g>개 복사</item>
-      <item quantity="one">파일 <xliff:g id="COUNT_0">%1$d</xliff:g>개 복사</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목을 복사 중입니다.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목을 복사 중입니다.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="other">파일 <xliff:g id="COUNT_1">%1$d</xliff:g>개 이동</item>
-      <item quantity="one">파일 <xliff:g id="COUNT_0">%1$d</xliff:g>개 이동</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 파일을 압축하는 중입니다.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 파일을 압축하는 중입니다.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="other">파일 <xliff:g id="COUNT_1">%1$d</xliff:g>개 삭제</item>
-      <item quantity="one">파일 <xliff:g id="COUNT_0">%1$d</xliff:g>개 삭제</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 파일을 추출 중입니다.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 파일을 추출 중입니다.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목을 이동 중입니다.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목을 이동 중입니다.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목을 삭제 중입니다.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목을 삭제 중입니다.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"실행취소"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"사본 준비 중…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"압축 준비 중…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"이동 준비 중…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"삭제 준비 중..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="other">파일 <xliff:g id="COUNT_1">%1$d</xliff:g>개를 복사할 수 없음</item>
-      <item quantity="one">파일 <xliff:g id="COUNT_0">%1$d</xliff:g>개를 복사할 수 없음</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목을 복사할 수 없음</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목을 복사할 수 없음</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="other">파일 <xliff:g id="COUNT_1">%1$d</xliff:g>개를 이동할 수 없음</item>
-      <item quantity="one">파일 <xliff:g id="COUNT_0">%1$d</xliff:g>개를 이동할 수 없음</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 파일을 압축할 수 없음</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 파일을 압축할 수 없음</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="other">파일 <xliff:g id="COUNT_1">%1$d</xliff:g>개를 삭제할 수 없음</item>
-      <item quantity="one">파일 <xliff:g id="COUNT_0">%1$d</xliff:g>개를 삭제할 수 없음</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 파일을 압축할 수 없음</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 파일을 압축할 수 없음</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목을 이동할 수 없음</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목을 이동할 수 없음</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목을 삭제할 수 없음</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목을 삭제할 수 없음</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"세부정보를 보려면 탭하세요."</string>
     <string name="close" msgid="905969391788869975">"닫기"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"다음 파일이 복사되지 않았습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"다음 파일을 압축할 수 없습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"다음 파일을 추출할 수 없습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"다음 파일이 이동되지 않았습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"다음 파일이 삭제되지 않았습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"파일이 다음과 같이 다른 형식으로 변환되었습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="other">파일 <xliff:g id="COUNT_1">%1$d</xliff:g>개를 클립보드에 복사함</item>
-      <item quantity="one">파일 <xliff:g id="COUNT_0">%1$d</xliff:g>개를 클립보드에 복사함</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other">클립보드에 <xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목이 복사되었습니다.</item>
+      <item quantity="one">클립보드에 <xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목이 복사되었습니다.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"파일 작업은 지원되지 않습니다."</string>
     <string name="rename_error" msgid="6700093173508118635">"문서 이름을 변경하지 못했습니다."</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"문서"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"다운로드"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"보관 파일을 열어 탐색할 수 없습니다. 파일이 손상되었거나 지원되지 않는 형식입니다."</string>
+    <string name="name_conflict" msgid="28407269328862986">"이름이 같은 파일이 이미 존재합니다."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ಇದಕ್ಕೆ ನಕಲಿಸಿ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ಇದಕ್ಕೆ ಸರಿಸು…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"ಇದಕ್ಕೆ ಸಂಕುಚಿತಗೊಳಿಸಿ…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"ಇದಕ್ಕೆ ಬೇರ್ಪಡಿಸಲಾಗಿದೆ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ಮರುಹೆಸರಿಸು"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ಹೊಸ ವಿಂಡೋ"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ಆಂತರಿಕ ಸಂಗ್ರಹಣೆಯನ್ನು ಮರೆಮಾಡಿ"</string>
     <string name="button_select" msgid="240863497069321364">"ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="button_copy" msgid="8219059853840996027">"ನಕಲಿಸು"</string>
+    <string name="button_compress" msgid="8951561310857223966">"ಕುಗ್ಗಿಸಿ"</string>
+    <string name="button_extract" msgid="1038674453689912247">"ಬೇರ್ಪಡಿಸಿ"</string>
     <string name="button_move" msgid="8596460499325291272">"ಸರಿಸು"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ವಜಾಗೊಳಿಸು"</string>
     <string name="button_retry" msgid="4011461781916631389">"ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"ಕೆಲವು ಡಾಕ್ಯುಮೆಂಟ್‌ಗಳನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"</string>
     <string name="share_via" msgid="8725082736005677161">"ಈ ಮೂಲಕ ಹಂಚಿಕೊಳ್ಳಿ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗುತ್ತಿದೆ"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"ಫೈಲ್‌ ಕುಗ್ಗಿಸಲಾಗುತ್ತಿದೆ"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"ಫೈಲ್‌ ಸರಿಸಲಾಗುತ್ತಿದೆ"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"ಫೈಲ್‌ ಅಳಿಸಲಾಗುತ್ತಿದೆ"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> ಉಳಿದಿದೆ"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗುತ್ತಿದೆ.</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗುತ್ತಿದೆ.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ನಕಲು ಮಾಡಲಾಗುತ್ತಿದೆ.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ನಕಲು ಮಾಡಲಾಗುತ್ತಿದೆ.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಸರಿಸಲಾಗುತ್ತಿದೆ.</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಸರಿಸಲಾಗುತ್ತಿದೆ.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಸಂಕುಚಿತಗೊಳಿಸಲಾಗುತ್ತಿದೆ.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಸಂಕುಚಿತಗೊಳಿಸಲಾಗುತ್ತಿದೆ.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ.</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಬೇರ್ಪಡಿಸಲಾಗುತ್ತಿದೆ.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಬೇರ್ಪಡಿಸಲಾಗುತ್ತಿದೆ.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಸರಿಸಲಾಗುತ್ತಿದೆ.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಸರಿಸಲಾಗುತ್ತಿದೆ.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಅಳಿಸಲಾಗುತ್ತಿದೆ.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"ರದ್ದುಮಾಡಿ"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"ನಕಲಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ..."</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"ಕುಗ್ಗಿಸಲು ತಯಾರಿ ಮಾಡಲಾಗುತ್ತಿದೆ..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"ಸರಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"ಅಳಿಸಲು ಸಿದ್ಧಪಡಿಸಲಾಗುತ್ತಿದೆ…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂ ಅನ್ನು ನಕಲು ಮಾಡಲಾಗಲಿಲ್ಲ</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂ ಅನ್ನು ನಕಲು ಮಾಡಲಾಗಲಿಲ್ಲ</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಸರಿಸಲಾಗಲಿಲ್ಲ</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಸರಿಸಲಾಗಲಿಲ್ಲ</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಫೈಲ್‌ಗಳನ್ನು ಕುಗ್ಗಿಸಲಾಗದು</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಫೈಲ್‌ಗಳನ್ನು ಕುಗ್ಗಿಸಲಾಗದು</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಫೈಲ್‌ಗಳನ್ನು ಕುಗ್ಗಿಸಲಾಗದು</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಫೈಲ್‌ಗಳನ್ನು ಕುಗ್ಗಿಸಲಾಗದು</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಸರಿಸಲಾಗಲಿಲ್ಲ</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಸರಿಸಲಾಗಲಿಲ್ಲ</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಅಳಿಸಲಾಗಲಿಲ್ಲ</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಅಳಿಸಲಾಗಲಿಲ್ಲ</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ"</string>
     <string name="close" msgid="905969391788869975">"ಮುಚ್ಚು"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"ಈ ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಸಂಕುಚಿತಗೊಳಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಬೇರ್ಪಡಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಮತ್ತೊಂದು ಸ್ವರೂಪಕ್ಕೆ ಪರಿವರ್ತಿಸಲಾಗಿತ್ತು: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="one">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ <xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗಿದೆ.</item>
-      <item quantity="other">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ <xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗಿದೆ.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲು ಮಾಡಲಾಗಿದೆ.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲು ಮಾಡಲಾಗಿದೆ.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"ಫೈಲ್ ಕಾರ್ಯಾಚರಣೆ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ."</string>
     <string name="rename_error" msgid="6700093173508118635">"ಡಾಕ್ಯುಮೆಂಟ್ ಮರುಹೆಸರಿಸಲು ವಿಫಲವಾಗಿದೆ"</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"ಡಾಕ್ಯುಮೆಂಟ್‌ಗಳು"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ಬ್ರೌಸಿಂಗ್‌ಗಾಗಿ ಆರ್ಕೈವ್ ಅನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ. ಫೈಲ್ ದೋಷಪೂರಿತವಾಗಿದೆ ಅಥವಾ ಬೆಂಬಲಿಸದ ಸ್ವರೂಪದಲ್ಲಿರಬಹುದು."</string>
+    <string name="name_conflict" msgid="28407269328862986">"ಈ ಹೆಸರಿನ ಫೈಲ್‌ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

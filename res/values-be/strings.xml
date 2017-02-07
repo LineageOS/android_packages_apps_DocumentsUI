@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Выбраць усе"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Капіраваць у…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Перамясціць у…"</string>
+    <string name="menu_compress" msgid="3595799616317136465">"Сціснуць у…"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Выняць у…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Перайменаваць"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Новае акно"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Схаваць унутр. сховішча"</string>
     <string name="button_select" msgid="240863497069321364">"Выбраць"</string>
     <string name="button_copy" msgid="8219059853840996027">"Капіраваць"</string>
+    <string name="button_compress" msgid="8951561310857223966">"Сціснуць"</string>
+    <string name="button_extract" msgid="1038674453689912247">"Выняць"</string>
     <string name="button_move" msgid="8596460499325291272">"Перамясціць"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Адхіліць"</string>
     <string name="button_retry" msgid="4011461781916631389">"Паўтарыць спробу"</string>
@@ -71,61 +74,89 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Немагчыма выдаліць некаторыя дакументы"</string>
     <string name="share_via" msgid="8725082736005677161">"Абагуліць праз"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Капіраванне файлаў"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"Ідзе сцісканне файлаў"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Перамяшчэнне файлаў"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Выдаленне файлаў"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Засталося <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="one">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
-      <item quantity="few">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
-      <item quantity="many">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
-      <item quantity="other">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="one">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> элемента.</item>
+      <item quantity="few">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў.</item>
+      <item quantity="many">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў.</item>
+      <item quantity="other">Ідзе капіраванне <xliff:g id="COUNT_1">%1$d</xliff:g> элемента.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="one">Перамяшчаецца <xliff:g id="COUNT_1">%1$d</xliff:g> файл.</item>
-      <item quantity="few">Перамяшчаюцца <xliff:g id="COUNT_1">%1$d</xliff:g> файлы.</item>
-      <item quantity="many">Перамяшчаюцца <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
-      <item quantity="other">Перамяшчаецца <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="one">Ідзе сцісканне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+      <item quantity="few">Ідзе сцісканне <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
+      <item quantity="many">Ідзе сцісканне <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
+      <item quantity="other">Ідзе сцісканне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="one">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
-      <item quantity="few">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
-      <item quantity="many">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
-      <item quantity="other">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="one">Ідзе выманне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+      <item quantity="few">Ідзе выманне <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
+      <item quantity="many">Ідзе выманне <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
+      <item quantity="other">Ідзе выманне <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="one">Ідзе перамяшчэнне <xliff:g id="COUNT_1">%1$d</xliff:g> элемента.</item>
+      <item quantity="few">Ідзе перамяшчэнне <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў.</item>
+      <item quantity="many">Ідзе перамяшчэнне <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў.</item>
+      <item quantity="other">Ідзе перамяшчэнне <xliff:g id="COUNT_1">%1$d</xliff:g> элемента.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="one">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> элемента.</item>
+      <item quantity="few">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў.</item>
+      <item quantity="many">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў.</item>
+      <item quantity="other">Ідзе выдаленне <xliff:g id="COUNT_1">%1$d</xliff:g> элемента.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Адрабіць"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Ідзе падрыхтоўка да капіравання…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"Ідзе падрыхтоўка да сціскання…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Падрыхтоўваецца перамяшчэнне…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Ідзе падрыхтоўка да выдалення…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="one">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
-      <item quantity="few">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> файлы</item>
-      <item quantity="many">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў</item>
-      <item quantity="other">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="one">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> элемент</item>
+      <item quantity="few">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> элементы</item>
+      <item quantity="many">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў</item>
+      <item quantity="other">Не атрымалася скапіраваць <xliff:g id="COUNT_1">%1$d</xliff:g> элемента</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="one">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
-      <item quantity="few">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> файлы</item>
-      <item quantity="many">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў</item>
-      <item quantity="other">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
+      <item quantity="few">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файлы</item>
+      <item quantity="many">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў</item>
+      <item quantity="other">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="one">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
-      <item quantity="few">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файлы</item>
-      <item quantity="many">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў</item>
-      <item quantity="other">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="one">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
+      <item quantity="few">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файлы</item>
+      <item quantity="many">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў</item>
+      <item quantity="other">Не атрымалася сціснуць <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="one">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> элемент</item>
+      <item quantity="few">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> элементы</item>
+      <item quantity="many">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў</item>
+      <item quantity="other">Не атрымалася перамясціць <xliff:g id="COUNT_1">%1$d</xliff:g> элемента</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="one">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> элемент</item>
+      <item quantity="few">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> элементы</item>
+      <item quantity="many">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> элементаў</item>
+      <item quantity="other">Не атрымалася выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> элемента</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Дакраніцеся, каб праглядзець больш падрабязна"</string>
     <string name="close" msgid="905969391788869975">"Закрыць"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Не былі скапіраваны наступныя файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Не былі сціснуты наступныя файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Не былі выняты наступныя файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Не былі перамешчаны наступныя файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Не былі выдалены наступныя файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Гэтыя файлы былі пераўтвораны ў іншы фармат: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="one">У буфер абмену скапіраваны <xliff:g id="COUNT_1">%1$d</xliff:g> файл.</item>
-      <item quantity="few">У буфер абмену скапіраваны <xliff:g id="COUNT_1">%1$d</xliff:g> файлы.</item>
-      <item quantity="many">У буфер абмену скапіраваны <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў.</item>
-      <item quantity="other">У буфер абмену скапіравана <xliff:g id="COUNT_1">%1$d</xliff:g> файла.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> элемент скапіраваны ў буфер абмену.</item>
+      <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> элементы скапіраваны ў буфер абмену.</item>
+      <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> элементаў скапіраваны ў буфер абмену.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> элемента скапіраваны ў буфер абмену.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Аперацыя з файлам не падтрымліваецца."</string>
     <string name="rename_error" msgid="6700093173508118635">"Не атрымалася перайменаваць дакумент"</string>
@@ -172,4 +203,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Дакументы"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Спампоўкі"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Немагчыма адкрыць архіў для прагляду. Файл або пашкоджаны, або мае фармат, які не падтрымліваецца."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Файл з такім імем ужо існуе."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>

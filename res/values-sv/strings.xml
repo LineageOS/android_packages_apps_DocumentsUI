@@ -33,6 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Markera alla"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopiera till …"</string>
     <string name="menu_move" msgid="2310760789561129882">"Flytta till ..."</string>
+    <string name="menu_compress" msgid="3595799616317136465">"Komprimera till …"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Extrahera till …"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Byt namn"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nytt fönster"</string>
@@ -44,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Dölj internminne"</string>
     <string name="button_select" msgid="240863497069321364">"Välj"</string>
     <string name="button_copy" msgid="8219059853840996027">"Kopiera"</string>
+    <string name="button_compress" msgid="8951561310857223966">"Komprimera"</string>
+    <string name="button_extract" msgid="1038674453689912247">"Extrahera"</string>
     <string name="button_move" msgid="8596460499325291272">"Flytta"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Ta bort"</string>
     <string name="button_retry" msgid="4011461781916631389">"Försök igen"</string>
@@ -71,47 +74,67 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"Det gick inte att radera vissa dokument"</string>
     <string name="share_via" msgid="8725082736005677161">"Dela via"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopierar filer"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"Filerna komprimeras"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Filer flyttas"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Filerna tas bort"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> återstår"</string>
-    <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
-      <item quantity="other">Kopierar <xliff:g id="COUNT_1">%1$d</xliff:g> filer.</item>
-      <item quantity="one">Kopierar <xliff:g id="COUNT_0">%1$d</xliff:g> fil.</item>
+    <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> objekt kopieras.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> objekt kopieras.</item>
     </plurals>
-    <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
-      <item quantity="other">Flyttar <xliff:g id="COUNT_1">%1$d</xliff:g> filer.</item>
-      <item quantity="one">Flyttar <xliff:g id="COUNT_0">%1$d</xliff:g> fil.</item>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="other">Komprimerar <xliff:g id="COUNT_1">%1$d</xliff:g> filer.</item>
+      <item quantity="one">Komprimerar <xliff:g id="COUNT_0">%1$d</xliff:g> fil.</item>
     </plurals>
-    <plurals name="deleting" formatted="false" msgid="1347549374456757591">
-      <item quantity="other">Raderar <xliff:g id="COUNT_1">%1$d</xliff:g> filer.</item>
-      <item quantity="one">Raderar <xliff:g id="COUNT_0">%1$d</xliff:g> fil.</item>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="other">Extraherar <xliff:g id="COUNT_1">%1$d</xliff:g> filer.</item>
+      <item quantity="one">Extraherar <xliff:g id="COUNT_0">%1$d</xliff:g> fil.</item>
+    </plurals>
+    <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> objekt flyttas.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> objekt flyttas.</item>
+    </plurals>
+    <plurals name="deleting" formatted="false" msgid="1729138001178158901">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> objekt raderas.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> objekt raderas.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Ångra"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Kopieringen förbereds"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"Komprimeringen förbereds"</string>
     <string name="move_preparing" msgid="8742573245485449429">"Förbereder för att flytta …"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"Radering förbereds …"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
-    <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
-      <item quantity="other">Det gick inte att kopiera <xliff:g id="COUNT_1">%1$d</xliff:g> filer</item>
-      <item quantity="one">Det gick inte att kopiera <xliff:g id="COUNT_0">%1$d</xliff:g> fil</item>
+    <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> objekt gick inte att kopiera.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> objekt gick inte att kopiera.</item>
     </plurals>
-    <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
-      <item quantity="other">Det gick inte att flytta <xliff:g id="COUNT_1">%1$d</xliff:g> filer</item>
-      <item quantity="one">Det gick inte att flytta <xliff:g id="COUNT_0">%1$d</xliff:g> fil</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> filer gick inte att komprimera</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fil gick inte att komprimera</item>
     </plurals>
-    <plurals name="delete_error_notification_title" formatted="false" msgid="4925525467677907298">
-      <item quantity="other">Det gick inte att radera <xliff:g id="COUNT_1">%1$d</xliff:g> filer</item>
-      <item quantity="one">Det gick inte att radera <xliff:g id="COUNT_0">%1$d</xliff:g> fil</item>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> filer gick inte att komprimera</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fil gick inte att komprimera</item>
+    </plurals>
+    <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> objekt gick inte att flytta.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> objekt gick inte att flytta.</item>
+    </plurals>
+    <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> objekt gick inte att radera.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> objekt gick inte att radera.</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Tryck om du vill visa informationen"</string>
     <string name="close" msgid="905969391788869975">"Stäng"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"Följande filer kopierades inte: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Följande filer komprimerades inte: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Följande filer extraherades inte: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"Följande filer flyttades inte: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"Följande filer raderades inte: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"Filerna konverterades till ett annat format: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> filer har kopierats till Urklipp.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fil har kopierats till Urklipp.</item>
+    <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> objekt har kopierats till urklipp.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> objekt har kopierats till urklipp.</item>
     </plurals>
     <string name="file_operation_error" msgid="5016141190607538391">"Filåtgärden stöds inte."</string>
     <string name="rename_error" msgid="6700093173508118635">"Det gick inte att byta namn på dokumentet"</string>
@@ -148,4 +171,11 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokument"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Nedladdningar"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Det gick inte att öppna arkivet. Filen är antingen skadad eller har ett format som inte stöds."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Det finns redan en fil med det här namnet."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
 </resources>
