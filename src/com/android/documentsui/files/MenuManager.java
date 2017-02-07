@@ -213,7 +213,8 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     @Override
     protected void updateShare(MenuItem share, SelectionDetails selectionDetails) {
         share.setVisible(!selectionDetails.containsDirectories()
-                && !selectionDetails.containsPartialFiles());
+                && !selectionDetails.containsPartialFiles()
+                && !selectionDetails.canExtract());
     }
 
     @Override
