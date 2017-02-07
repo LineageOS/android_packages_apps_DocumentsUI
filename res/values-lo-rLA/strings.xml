@@ -33,6 +33,8 @@
     <string name="menu_select_all" msgid="7600576812185570403">"ເລືອກທັງຫມົດ"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ສຳເນົາໄປໃສ່..."</string>
     <string name="menu_move" msgid="2310760789561129882">"ຍ້າຍໄປໃສ່..."</string>
+    <string name="menu_compress" msgid="3595799616317136465">"Compress to…"</string>
+    <string name="menu_extract" msgid="8171946945982532262">"ແຕກໄຟລ໌ໄປ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ປ່ຽນຊື່"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ໜ້າຈໍໃໝ່"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ຕັດ"</string>
@@ -43,6 +45,8 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ເຊື່ອງພື້ນທີ່ຈັດເກັບຂໍ້ມູນພາຍໃນ"</string>
     <string name="button_select" msgid="240863497069321364">"ເລືອກ"</string>
     <string name="button_copy" msgid="8219059853840996027">"ສຳເນົາ"</string>
+    <string name="button_compress" msgid="8951561310857223966">"Compress"</string>
+    <string name="button_extract" msgid="1038674453689912247">"ແຕກ​ໄຟລ໌"</string>
     <string name="button_move" msgid="8596460499325291272">"ຍ້າຍ"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ປິດໄວ້"</string>
     <string name="button_retry" msgid="4011461781916631389">"ລອງໃໝ່ອີກເທື່ອໜຶ່ງ"</string>
@@ -70,12 +74,21 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"ບໍ່ສາມາດລຶບບາງເອກະສານໄດ້"</string>
     <string name="share_via" msgid="8725082736005677161">"ແບ່ງປັນຜ່ານ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ກຳລັງສຳເນົາໄຟລ໌"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"ກຳລັງບີບອັດໄຟລ໌"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"ກຳລັງຍ້າຍໄຟລ໌"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"ກຳລັງລຶບໄຟລ໌ອອກ"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"ຍັງເຫຼືອອີກ <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="3926184736640418042">
       <item quantity="other">ກຳລັງສຳເນົາໄຟລ໌ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌.</item>
       <item quantity="one">ກຳລັງສຳເນົາໄຟລ໌ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌.</item>
+    </plurals>
+    <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
+      <item quantity="other">Compressing <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
+      <item quantity="one">ກຳ​ລັງ​ລຶບ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
+    </plurals>
+    <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
+      <item quantity="other">Extracting <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
+      <item quantity="one">ກຳ​ລັງ​ລຶບ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
       <item quantity="other">ກຳລັງຍ້າຍ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌.</item>
@@ -87,12 +100,17 @@
     </plurals>
     <string name="undo" msgid="2902438994196400565">"ຍົກເລີກ"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"ກຳລັງກຽມການສຳເນົາ…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"ກຳລັງກຽມບີບໄຟລ໌…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"ກຳລັງກະກຽມຍ້າຍ…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"ກຳລັງກະກຽມການລຶບ…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="7406207967429915000">
       <item quantity="other">ບໍ່ສາມາດສຳເນົາໄຟລ໌ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ໄດ້.</item>
       <item quantity="one">ບໍ່ສາມາດສຳເນົາໄຟລ໌ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌ໄດ້.</item>
+    </plurals>
+    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
+      <item quantity="other">ບໍ່ສາມາດບີບອັດ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ໄດ້</item>
+      <item quantity="one">ບໍ່ສາມາດບີບອັດ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟລ໌ໄດ້</item>
     </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="7841920776201038994">
       <item quantity="other">ບໍ່ສາມາດຍ້າຍ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟລ໌ໄດ້</item>
@@ -105,6 +123,8 @@
     <string name="notification_touch_for_details" msgid="2385563502445129570">"ແຕະເພື່ອເບິ່ງລາຍລະອຽດ"</string>
     <string name="close" msgid="905969391788869975">"ປິດ"</string>
     <string name="copy_failure_alert_content" msgid="161721873402101825">"ບໍ່ໄດ້ສຳເນົາໄຟລ໌ຕໍ່ໄປນີ້: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="compress_failure_alert_content" msgid="3005921624253598542">"ບໍ່ໄດ້ຍ້າຍໄຟລ໌ເຫຼົ່ານີ້: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <string name="extract_failure_alert_content" msgid="9037185490727188331">"ບໍ່ໄດ້ຍ້າຍໄຟລ໌ເຫຼົ່ານີ້: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="move_failure_alert_content" msgid="6586182218105304719">"ບໍ່ໄດ້ຍ້າຍໄຟລ໌ເຫຼົ່ານີ້: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="delete_failure_alert_content" msgid="7856890428816304981">"ບໍ່ໄດ້ລຶບໄຟລ໌ເຫຼົ່ານີ້: <xliff:g id="LIST">%1$s</xliff:g>"</string>
     <string name="copy_converted_warning_content" msgid="6481928162944612074">"ໄຟລ໌ເຫຼົ່ານີ້ໄດ້ຖືກປ່ຽນເປັນຮູບແບບອື່ນແລ້ວ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
@@ -147,4 +167,9 @@
     <string name="documents_shortcut_label" msgid="6185476684846785830">"ເອ​ກະ​ສານ"</string>
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ດາວໂຫລດ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Unable to open archive for browsing. File is either corrupt, or an unsupported format."</string>
+    <string name="name_conflict" msgid="28407269328862986">"A file with this name already exists."</string>
+    <!-- no translation found for authentication_required (2314941212791346284) -->
+    <skip />
+    <!-- no translation found for open_app (8467890061226696744) -->
+    <skip />
 </resources>
