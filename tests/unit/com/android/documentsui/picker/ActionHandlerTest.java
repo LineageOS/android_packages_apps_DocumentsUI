@@ -83,7 +83,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testInitLocation_CopyDestination_DefaultsToDownloads() throws Exception {
-        mActivity.resources.bools.put(R.bool.productivity_device, false);
+        mActivity.resources.bools.put(R.bool.show_documents_root, false);
 
         Intent intent = mActivity.getIntent();
         intent.setAction(Shared.ACTION_PICK_COPY_DESTINATION);
@@ -92,8 +92,8 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testInitLocation_CopyDestination_DefaultsToHome() throws Exception {
-        mActivity.resources.bools.put(R.bool.productivity_device, true);
+    public void testInitLocation_CopyDestination_DocumentsRootEnabled() throws Exception {
+        mActivity.resources.bools.put(R.bool.show_documents_root, true);
 
         Intent intent = mActivity.getIntent();
         intent.setAction(Shared.ACTION_PICK_COPY_DESTINATION);

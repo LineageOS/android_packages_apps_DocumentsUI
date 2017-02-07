@@ -248,7 +248,7 @@ public final class Shared {
      * Returns true if "Documents" root should be shown.
      */
     public static boolean shouldShowDocumentsRoot(Context context) {
-        return context.getResources().getBoolean(R.bool.productivity_device);
+        return context.getResources().getBoolean(R.bool.show_documents_root);
     }
 
     /*

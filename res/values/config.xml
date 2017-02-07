@@ -18,8 +18,7 @@
     <!-- Intentionally unset. Vendors should set this in an overlay. -->
     <string name="trusted_quick_viewer_package" translatable="false"></string>
 
-    <!-- Enable productivity oriented features like "Documents" root, and new window view. -->
-    <bool name="productivity_device">true</bool>
+    <bool name="show_documents_root">false</bool>
 
     <!-- Indicates if search view is taking the whole toolbar space. On larger
          layouts we reduce this to an input-box adjacent to menu actions. -->
