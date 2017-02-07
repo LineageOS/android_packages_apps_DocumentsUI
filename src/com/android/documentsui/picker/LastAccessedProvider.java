@@ -35,7 +35,6 @@ import android.util.Log;
 
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.DurableUtils;
-import com.android.internal.util.Predicate;
 
 import libcore.io.IoUtils;
 
@@ -43,6 +42,7 @@ import com.google.android.collect.Sets;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /*
  * Provider used to keep track of the last known directory navigation trail done by the user
@@ -193,7 +193,7 @@ public class LastAccessedProvider extends ContentProvider {
 
             purgeByAuthority(new Predicate<String>() {
                 @Override
-                public boolean apply(String authority) {
+                public boolean test(String authority) {
                     // Purge unknown authorities
                     return !knownAuth.contains(authority);
                 }
@@ -214,7 +214,7 @@ public class LastAccessedProvider extends ContentProvider {
             if (!packageAuth.isEmpty()) {
                 purgeByAuthority(new Predicate<String>() {
                     @Override
-                    public boolean apply(String authority) {
+                    public boolean test(String authority) {
                         // Purge authority matches
                         return packageAuth.contains(authority);
                     }
@@ -244,7 +244,7 @@ public class LastAccessedProvider extends ContentProvider {
                             cursor.getColumnIndex(Columns.STACK));
                     DurableUtils.readFromArray(rawStack, stack);
 
-                    if (stack.getRoot() != null && predicate.apply(stack.getRoot().authority)) {
+                    if (stack.getRoot() != null && predicate.test(stack.getRoot().authority)) {
                         final String packageName = getCursorString(
                                 cursor, Columns.PACKAGE_NAME);
                         db.delete(TABLE_LAST_ACCESSED, Columns.PACKAGE_NAME + "=?",
