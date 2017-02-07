@@ -24,6 +24,7 @@ import android.app.Notification.Builder;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Messenger;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -57,8 +58,9 @@ final class MoveJob extends CopyJob {
      * @see @link {@link Job} constructor for most param descriptions.
      */
     MoveJob(Context service, Listener listener,
-            String id, DocumentStack destination, UrisSupplier srcs, @Nullable Uri srcParent) {
-        super(service, listener, id, OPERATION_MOVE, destination, srcs);
+            String id, DocumentStack destination, UrisSupplier srcs, @Nullable Uri srcParent,
+            Messenger messenger) {
+        super(service, listener, id, OPERATION_MOVE, destination, srcs, messenger);
         mSrcParentUri = srcParent;
     }
 

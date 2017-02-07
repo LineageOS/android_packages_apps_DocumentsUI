@@ -332,7 +332,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                     .withSrcParent(srcParent == null ? null : srcParent.derivedUri)
                     .build();
 
-            FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus);
+            FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus,
+                    FileOperations.createJobId());
         };
 
         mDialogs.confirmDelete(docs, result);

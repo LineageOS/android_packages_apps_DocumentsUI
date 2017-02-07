@@ -25,6 +25,7 @@ public class TestFeatures implements Features {
     public boolean contentRefresh = true;
     public boolean foldersInSearchResults = true;
     public boolean gestureScale = true;
+    public boolean jobProgressDialog = false;
     public boolean launchToDocument = true;
     public boolean remoteActions = true;
     public boolean systemKeyboardNavigation = true;
@@ -53,6 +54,11 @@ public class TestFeatures implements Features {
     @Override
     public boolean isFoldersInSearchResultsEnabled() {
         return foldersInSearchResults;
+    }
+
+    @Override
+    public boolean isJobProgressDialogEnabled() {
+        return jobProgressDialog;
     }
 
     @Override

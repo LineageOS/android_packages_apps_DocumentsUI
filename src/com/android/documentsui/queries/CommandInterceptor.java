@@ -46,6 +46,7 @@ public final class CommandInterceptor implements EventHandler<String> {
         if (mFeatures.isCommandInterceptorEnabled()) {
             mCommands.add(CommandInterceptor::quickViewer);
             mCommands.add(CommandInterceptor::gestureScale);
+            mCommands.add(CommandInterceptor::jobProgressDialog);
             mCommands.add(CommandInterceptor::archiveCreation);
             mCommands.add(CommandInterceptor::docDetails);
             mCommands.add(CommandInterceptor::forcePaging);
@@ -95,6 +96,19 @@ public final class CommandInterceptor implements EventHandler<String> {
                 boolean enabled = asBool(tokens[1]);
                 Features.forceFeature(R.bool.feature_gesture_scale, enabled);
                 Log.i(TAG, "Set gesture scale enabled to: " + enabled);
+                return true;
+            }
+            Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));
+        }
+        return false;
+    }
+
+    private static boolean jobProgressDialog(String[] tokens) {
+        if ("jpd".equals(tokens[0])) {
+            if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
+                boolean enabled = asBool(tokens[1]);
+                Features.forceFeature(R.bool.feature_job_progress_dialog, enabled);
+                Log.i(TAG, "Set job progress dialog enabled to: " + enabled);
                 return true;
             }
             Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));

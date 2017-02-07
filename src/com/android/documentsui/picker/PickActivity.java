@@ -79,12 +79,13 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @Override
     public void onCreate(Bundle icicle) {
 
+        Features features = Features.create(getResources());
         mInjector = new Injector<>(
-                Features.create(getResources()),
+                features,
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 new MessageBuilder(this),
-                DialogController.create(this, null));
+                DialogController.create(features, this, null));
 
         super.onCreate(icicle);
 

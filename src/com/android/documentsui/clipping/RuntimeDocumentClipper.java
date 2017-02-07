@@ -282,8 +282,8 @@ final class RuntimeDocumentClipper implements DocumentClipper {
                     .withSrcs(uris)
                     .build();
 
-            FileOperations.start(mContext, operation, callback);
-        } catch(IOException e) {
+            FileOperations.start(mContext, operation, callback, FileOperations.createJobId());
+        } catch (IOException e) {
             Log.e(TAG, "Cannot create uris supplier.", e);
             callback.onOperationResult(FileOperations.Callback.STATUS_REJECTED, opType, 0);
             return;
