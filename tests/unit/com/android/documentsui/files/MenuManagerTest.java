@@ -177,13 +177,14 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_canExtract_hidesCopyToAndCompressTo() {
+    public void testActionMenu_canExtract_hidesCopyToAndCompressToAndShare() {
         selectionDetails.canExtract = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         extractTo.assertEnabled();
         copyTo.assertDisabled();
         compressTo.assertDisabled();
+        share.assertInvisible();
     }
 
     @Test
