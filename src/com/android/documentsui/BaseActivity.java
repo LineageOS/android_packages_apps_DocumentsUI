@@ -54,6 +54,7 @@ import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.LocalPreferences;
+import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.queries.DebugCommandProcessor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
@@ -98,6 +99,8 @@ public abstract class BaseActivity
     private RootsMonitor<BaseActivity> mRootsMonitor;
 
     private long mStartTime;
+
+    private PreferencesMonitor mPreferencesMonitor;
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
@@ -180,6 +183,8 @@ public abstract class BaseActivity
         mSearchManager = new SearchViewManager(searchListener, dbgCommands, icicle);
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
+        mPreferencesMonitor = new PreferencesMonitor(getApplicationContext());
+
         // Base classes must update result in their onCreate.
         setResult(Activity.RESULT_CANCELED);
     }
@@ -208,6 +213,18 @@ public abstract class BaseActivity
         mSearchManager.install((DocumentsToolbar) findViewById(R.id.toolbar), fullBarSearch);
 
         return showMenu;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPreferencesMonitor.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPreferencesMonitor.stop();
     }
 
     @Override
