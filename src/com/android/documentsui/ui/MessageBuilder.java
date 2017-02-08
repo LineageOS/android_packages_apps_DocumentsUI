@@ -18,10 +18,19 @@ package com.android.documentsui.ui;
 import android.annotation.PluralsRes;
 import android.content.Context;
 import android.text.BidiFormatter;
+import android.net.Uri;
+import android.text.Html;
 
+import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.services.FileOperationService;
+import com.android.documentsui.services.FileOperationService.OpType;
+import com.android.documentsui.OperationDialogFragment.DialogType;
+
+import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_FAILURE;
+import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_CONVERTED;
 
 import java.util.List;
 
@@ -68,6 +77,59 @@ public class MessageBuilder {
                     R.plurals.delete_items_confirmation_message, docs.size());
         }
         return message;
+    }
+
+    public String generateListMessage(
+            @DialogType int dialogType, @OpType int operationType, List<DocumentInfo> docs,
+            List<Uri> uris) {
+        int resourceId;
+
+        switch (dialogType) {
+            case DIALOG_TYPE_CONVERTED:
+                resourceId = R.plurals.copy_converted_warning_content;
+                break;
+
+            case DIALOG_TYPE_FAILURE:
+                switch (operationType) {
+                    case FileOperationService.OPERATION_COPY:
+                        resourceId = R.plurals.copy_failure_alert_content;
+                        break;
+                    case FileOperationService.OPERATION_COMPRESS:
+                        resourceId = R.plurals.compress_failure_alert_content;
+                        break;
+                    case FileOperationService.OPERATION_EXTRACT:
+                        resourceId = R.plurals.extract_failure_alert_content;
+                        break;
+                    case FileOperationService.OPERATION_DELETE:
+                        resourceId = R.plurals.delete_failure_alert_content;
+                        break;
+                    case FileOperationService.OPERATION_MOVE:
+                        resourceId = R.plurals.move_failure_alert_content;
+                        break;
+                    default:
+                        throw new UnsupportedOperationException();
+                }
+                break;
+
+            default:
+                throw new UnsupportedOperationException();
+        }
+
+        final StringBuilder list = new StringBuilder("<p>");
+        for (DocumentInfo documentInfo : docs) {
+            list.append("&#8226; " + Html.escapeHtml(BidiFormatter.getInstance().unicodeWrap(
+                    documentInfo.displayName)) + "<br>");
+        }
+        if (uris != null) {
+            for (Uri uri : uris) {
+                list.append("&#8226; " + BidiFormatter.getInstance().unicodeWrap(uri.toSafeString()) +
+                        "<br>");
+            }
+        }
+        list.append("</p>");
+
+        final int totalItems = docs.size() + (uris != null ? uris.size() : 0);
+        return mContext.getResources().getQuantityString(resourceId, totalItems, list.toString());
     }
 
     /**
