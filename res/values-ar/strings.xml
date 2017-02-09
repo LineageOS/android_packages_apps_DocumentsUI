@@ -228,8 +228,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"التنزيلات"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"يتعذر فتح الأرشيف وتصفحه. ربما يكون الملف تالفًا أو بتنسيق غير متوافق."</string>
     <string name="name_conflict" msgid="28407269328862986">"هناك ملف بالاسم نفسه‬."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"المصادقة مطلوبة لعرض محتوى هذا الدليل"</string>
+    <string name="open_app" msgid="8467890061226696744">"فتح <xliff:g id="NAME">%1$s</xliff:g>"</string>
 </resources>

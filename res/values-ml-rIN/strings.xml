@@ -168,8 +168,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ഡൗണ്‍ലോഡുകൾ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ബ്രൗസുചെയ്യുന്നതിന് ആർക്കൈവ് തുറക്കാനാവുന്നില്ല. ഫയൽ കേടായതോ പിന്തുണയ്ക്കാത്ത ഫോർമാറ്റിലുള്ളതോ ആണ്."</string>
     <string name="name_conflict" msgid="28407269328862986">"ഈ പേരിൽ ഒരു ഫയൽ നിലവിലുണ്ട്."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"ഈ ഡയറക്ടറിയിലെ ഉള്ളടക്കം കാണാൻ പരിശോധിച്ചുറപ്പിക്കൽ ആവശ്യമാണ്"</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> തുറക്കുക"</string>
 </resources>

@@ -183,8 +183,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Descărcări"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Nu se poate deschide arhiva pentru răsfoire. Fișierul ori este corupt, ori are un format neacceptat."</string>
     <string name="name_conflict" msgid="28407269328862986">"Există deja un fișier cu acest nume."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"Pentru a vedea conținutul acestui director, este necesară autentificarea"</string>
+    <string name="open_app" msgid="8467890061226696744">"Deschideți <xliff:g id="NAME">%1$s</xliff:g>"</string>
 </resources>

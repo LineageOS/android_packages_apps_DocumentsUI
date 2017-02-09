@@ -100,7 +100,7 @@
     </plurals>
     <string name="undo" msgid="2902438994196400565">"પૂર્વવત્ કરો"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"કૉપિ કરવા માટે તૈયારી કરે છે…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"સંકુચિત કરવાની તૈયારી રહ્યા છીએ…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"સંકુચિત કરવાની તૈયારી કરી રહ્યા છીએ…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"ખસેડવા માટે તૈયાર કરી રહ્યું છે…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"કાઢી નાખવાની તૈયારી કરે છે…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
@@ -168,8 +168,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ડાઉનલોડ્સ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"બ્રાઉઝ કરવા માટે આર્કાઇવ ખોલવામાં અસમર્થ. ફાઇલ કાં તો દૂષિત છે અથવા તો ફોર્મેટ અસમર્થિત છે."</string>
     <string name="name_conflict" msgid="28407269328862986">"આ નામવાળી ફાઇલ પહેલેથી જ અસ્તિત્વમાં છે."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"આ નિર્દેશિકાની સામગ્રી જોવા માટે પ્રમાણીકરણ જરૂરી છે"</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> ખોલો"</string>
 </resources>
