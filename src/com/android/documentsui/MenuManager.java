@@ -60,7 +60,6 @@ public abstract class MenuManager {
         updateSelectAll(menu.findItem(R.id.menu_select_all));
         updateMoveTo(menu.findItem(R.id.menu_move_to), selection);
         updateCopyTo(menu.findItem(R.id.menu_copy_to), selection);
-        updateCompressTo(menu.findItem(R.id.menu_compress_to), selection);
         updateCompress(menu.findItem(R.id.menu_compress), selection);
         updateExtractTo(menu.findItem(R.id.menu_extract_to), selection);
 
@@ -270,10 +269,6 @@ public abstract class MenuManager {
 
     protected void updateCopyTo(MenuItem copyTo, SelectionDetails selectionDetails) {
         copyTo.setVisible(false);
-    }
-
-    protected void updateCompressTo(MenuItem compressTo, SelectionDetails selectionDetails) {
-        compressTo.setVisible(false);
     }
 
     protected void updateCompress(MenuItem compress, SelectionDetails selectionDetails) {

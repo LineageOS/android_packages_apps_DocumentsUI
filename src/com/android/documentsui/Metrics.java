@@ -305,7 +305,7 @@ public final class Metrics {
     public static final int USER_ACTION_HIDE_SIZE = 9;
     public static final int USER_ACTION_SETTINGS = 10;
     public static final int USER_ACTION_COPY_TO = 11;
-    public static final int USER_ACTION_COMPRESS_TO = 27;
+    public static final int USER_ACTION_COMPRESS = 27;
     public static final int USER_ACTION_EXTRACT_TO = 28;
     public static final int USER_ACTION_MOVE_TO = 12;
     public static final int USER_ACTION_DELETE = 13;
@@ -335,7 +335,7 @@ public final class Metrics {
             USER_ACTION_HIDE_SIZE,
             USER_ACTION_SETTINGS,
             USER_ACTION_COPY_TO,
-            USER_ACTION_COMPRESS_TO,
+            USER_ACTION_COMPRESS,
             USER_ACTION_EXTRACT_TO,
             USER_ACTION_MOVE_TO,
             USER_ACTION_DELETE,

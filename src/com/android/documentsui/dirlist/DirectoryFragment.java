@@ -626,13 +626,6 @@ public class DirectoryFragment extends Fragment
                 mActionModeController.finishActionMode();
                 return true;
 
-            case R.id.menu_compress_to:
-                transferDocuments(selection, null, FileOperationService.OPERATION_COMPRESS);
-                // TODO: Only finish selection mode if compress-to is not canceled.
-                // Need to plum down into handling the way we do with deleteDocuments.
-                mActionModeController.finishActionMode();
-                return true;
-
             // TODO: Implement extract (to the current directory).
             case R.id.menu_extract_to:
                 transferDocuments(selection, null, FileOperationService.OPERATION_EXTRACT);
@@ -729,7 +722,7 @@ public class DirectoryFragment extends Fragment
                 Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COPY_TO);
                 break;
             case FileOperationService.OPERATION_COMPRESS:
-                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COMPRESS_TO);
+                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COMPRESS);
                 break;
             case FileOperationService.OPERATION_EXTRACT:
                 Metrics.logUserAction(getContext(), Metrics.USER_ACTION_EXTRACT_TO);
