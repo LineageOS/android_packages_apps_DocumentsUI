@@ -134,6 +134,20 @@ public final class Events {
         /** Returns true if the action is the final release of a mouse or touch. */
         boolean isActionUp();
 
+        /**
+         * Returns true when the action is the initial press of a non-primary (ex. second finger)
+         * pointer.
+         * See {@link MotionEvent#ACTION_POINTER_DOWN}.
+         */
+        boolean isMultiPointerActionDown();
+
+        /**
+         * Returns true when the action is the final of a non-primary (ex. second finger)
+         * pointer.
+         * * See {@link MotionEvent#ACTION_POINTER_UP}.
+         */
+        boolean isMultiPointerActionUp();
+
         /** Returns true if the action is neither the initial nor the final release of a mouse
          * or touch. */
         boolean isActionMove();
@@ -150,6 +164,7 @@ public final class Events {
         float getY();
         float getRawX();
         float getRawY();
+        int getPointerCount();
 
         /** Returns true if there is an item under the finger/cursor. */
         boolean isOverItem();
@@ -161,8 +176,16 @@ public final class Events {
          */
         boolean isOverModelItem();
 
-        /** Returns true if the event is over an area that can be dragged via touch */
+        /**
+         * Returns true if the event is over an area that can be dragged via touch.
+         * List items have a white area that is not draggable.
+         */
         boolean isOverDragHotspot();
+
+        /**
+         * Returns true if the event is a two/three-finger scroll on touchpad.
+         */
+        boolean isTouchpadScroll();
 
         /** Returns the adapter position of the item under the finger/cursor. */
         int getItemPosition();
@@ -268,6 +291,17 @@ public final class Events {
         }
 
         @Override
+        public boolean isMultiPointerActionDown() {
+            return mEvent.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN;
+        }
+
+        @Override
+        public boolean isMultiPointerActionUp() {
+            return mEvent.getActionMasked() == MotionEvent.ACTION_POINTER_UP;
+        }
+
+
+        @Override
         public boolean isActionMove() {
             return mEvent.getActionMasked() == MotionEvent.ACTION_MOVE;
         }
@@ -300,6 +334,18 @@ public final class Events {
         @Override
         public float getRawY() {
             return mEvent.getRawY();
+        }
+
+        @Override
+        public int getPointerCount() {
+            return mEvent.getPointerCount();
+        }
+
+        @Override
+        public boolean isTouchpadScroll() {
+            // Touchpad inputs are treated as mouse inputs, and when scrolling, there are no buttons
+            // returned.
+            return isMouseEvent() && isActionMove() && mEvent.getButtonState() == 0;
         }
 
         @Override
@@ -357,6 +403,7 @@ public final class Events {
                     .append(" isOverItem=").append(isOverItem())
                     .append(" getItemPosition=").append(getItemPosition())
                     .append(" getDocumentDetails=").append(getDocumentDetails())
+                    .append(" getPointerCount=").append(getPointerCount())
                     .append("}")
                     .toString();
         }
