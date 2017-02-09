@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Nhấn để xem chi tiết"</string>
     <string name="close" msgid="905969391788869975">"Đóng"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Những tệp này chưa được sao chép: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Những tệp này chưa được nén: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Những tệp này chưa được giải nén: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Những tệp này chưa được di chuyển: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Những tệp này chưa được xóa: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Các tệp này đã được chuyển đổi sang định dạng khác: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">Đã sao chép <xliff:g id="COUNT_1">%1$d</xliff:g> mục vào khay nhớ tạm.</item>
       <item quantity="one">Đã sao chép <xliff:g id="COUNT_0">%1$d</xliff:g> mục vào khay nhớ tạm.</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Nội dung tải xuống"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Không thể mở lưu trữ để duyệt qua. Tệp bị hỏng hoặc có định dạng không được hỗ trợ."</string>
     <string name="name_conflict" msgid="28407269328862986">"Tệp với tên này đã tồn tại."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"Yêu cầu xác thực để xem nội dung của thư mục này"</string>
+    <string name="open_app" msgid="8467890061226696744">"Mở <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"lưu trữ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>

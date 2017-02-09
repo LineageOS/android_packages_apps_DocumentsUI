@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"விவரங்களைப் பார்க்க, தட்டவும்"</string>
     <string name="close" msgid="905969391788869975">"மூடு"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"பின்வரும் கோப்புகள் நகலெடுக்கப்படவில்லை: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"பின்வரும் கோப்புகளின் அளவு குறைக்கப்படவில்லை: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"பின்வரும் கோப்புகள் பிரித்தெடுக்கப்படவில்லை: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"பின்வரும் கோப்புகள் நகர்த்தப்படவில்லை: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"பின்வரும் கோப்புகள் நீக்கப்படவில்லை: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"இந்தக் கோப்புகள் வேறொரு வடிவத்திற்கு மாற்றப்பட்டன: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகள், கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டன.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பு, கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது.</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"பதிவிறக்கங்கள்"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"உலாவலுக்கான காப்பகத்தைத் திறக்க முடியவில்லை. கோப்பு சிதைந்துவிட்டது அல்லது ஆதரிக்கப்படாத வடிவத்தில் உள்ளது."</string>
     <string name="name_conflict" msgid="28407269328862986">"இதே பெயருள்ள கோப்பு ஏற்கனவே உள்ளது."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"இந்தக் கோப்பகத்தின் உள்ளடக்கத்தைப் பார்க்க, அங்கீகரிப்பு தேவை"</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g>ஐத் திற"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"காப்பகம்<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>

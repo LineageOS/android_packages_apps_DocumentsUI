@@ -100,7 +100,7 @@
     </plurals>
     <string name="undo" msgid="2902438994196400565">"પૂર્વવત્ કરો"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"કૉપિ કરવા માટે તૈયારી કરે છે…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"સંકુચિત કરવાની તૈયારી રહ્યા છીએ…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"સંકુચિત કરવાની તૈયારી કરી રહ્યા છીએ…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"ખસેડવા માટે તૈયાર કરી રહ્યું છે…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"કાઢી નાખવાની તૈયારી કરે છે…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"વિગતો જોવા માટે ટૅપ કરો"</string>
     <string name="close" msgid="905969391788869975">"બંધ કરો"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"આ ફાઇલો કૉપિ કરી નહોતી: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"આ ફાઇલો સંકુચિત કરી નહોતી: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"આ ફાઇલો એક્સટ્રેક્ટ કરી નહોતી: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"આ ફાઇલો ખસેડી નહોતી: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"આ ફાઇલો કાઢી નાખી નહોતી: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"આ ફાઇલો બીજા ફોર્મેટમાં રૂપાંતરિત કરી હતી: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="one">ક્લિપબોર્ડ પર <xliff:g id="COUNT_1">%1$d</xliff:g> આઇટમોની કૉપિ કરી.</item>
       <item quantity="other">ક્લિપબોર્ડ પર <xliff:g id="COUNT_1">%1$d</xliff:g> આઇટમોની કૉપિ કરી.</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ડાઉનલોડ્સ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"બ્રાઉઝ કરવા માટે આર્કાઇવ ખોલવામાં અસમર્થ. ફાઇલ કાં તો દૂષિત છે અથવા તો ફોર્મેટ અસમર્થિત છે."</string>
     <string name="name_conflict" msgid="28407269328862986">"આ નામવાળી ફાઇલ પહેલેથી જ અસ્તિત્વમાં છે."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"આ નિર્દેશિકાની સામગ્રી જોવા માટે પ્રમાણીકરણ જરૂરી છે"</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> ખોલો"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"આર્કાઇવ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>
