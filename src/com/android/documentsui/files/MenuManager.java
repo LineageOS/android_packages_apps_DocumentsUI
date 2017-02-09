@@ -174,22 +174,10 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateCompressTo(MenuItem compressTo, SelectionDetails selectionDetails) {
-        // (1) Do not allow to compress already compressed files for simplicity.
-        // (2) Show only if the current directory *is* read-only.
+    protected void updateCompress(MenuItem compress, SelectionDetails selectionDetails) {
         final boolean readOnly = !mDirDetails.canCreateDoc();
-        compressTo.setVisible(readOnly);
-        compressTo.setEnabled(!selectionDetails.containsPartialFiles() &&
-                !selectionDetails.canExtract());
-    }
-
-    @Override
-    protected void updateCompress(MenuItem compressTo, SelectionDetails selectionDetails) {
-        // (1) Do not allow to compress already compressed files for simplicity.
-        // (2) Show only if the current directory *is not* read only.
-        final boolean readOnly = !mDirDetails.canCreateDoc();
-        compressTo.setVisible(!readOnly);
-        compressTo.setEnabled(!selectionDetails.containsPartialFiles() &&
+        compress.setVisible(true);
+        compress.setEnabled(!readOnly && !selectionDetails.containsPartialFiles() &&
                 !selectionDetails.canExtract());
     }
 
