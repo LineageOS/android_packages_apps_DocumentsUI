@@ -49,7 +49,6 @@ public final class MenuManagerTest {
     private TestMenuItem selectAll;
     private TestMenuItem moveTo;
     private TestMenuItem copyTo;
-    private TestMenuItem compressTo;
     private TestMenuItem compress;
     private TestMenuItem extractTo;
     private TestMenuItem share;
@@ -83,7 +82,6 @@ public final class MenuManagerTest {
         selectAll = testMenu.findItem(R.id.menu_select_all);
         moveTo = testMenu.findItem(R.id.menu_move_to);
         copyTo = testMenu.findItem(R.id.menu_copy_to);
-        compressTo = testMenu.findItem(R.id.menu_compress_to);
         compress = testMenu.findItem(R.id.menu_compress);
         extractTo = testMenu.findItem(R.id.menu_extract_to);
         share = testMenu.findItem(R.id.menu_share);
@@ -126,7 +124,6 @@ public final class MenuManagerTest {
         delete.assertVisible();
         share.assertVisible();
         copyTo.assertEnabled();
-        compressTo.assertInvisible();
         compress.assertEnabled();
         extractTo.assertInvisible();
         moveTo.assertEnabled();
@@ -141,28 +138,25 @@ public final class MenuManagerTest {
         rename.assertDisabled();
         share.assertInvisible();
         copyTo.assertDisabled();
-        compressTo.assertInvisible();
-        compress.assertEnabled();
+        compress.assertDisabled();
         extractTo.assertDisabled();
         moveTo.assertDisabled();
     }
 
     @Test
-    public void testActionMenu_extract() {
+    public void testActionMenu_compress() {
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
-        compressTo.assertInvisible();
         compress.assertEnabled();
     }
 
     @Test
-    public void testActionMenu_extractTo() {
+    public void testActionMenu_cantCompress() {
         dirDetails.canCreateDoc = false;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
-        compressTo.assertEnabled();
-        compress.assertInvisible();
+        compress.assertDisabled();
     }
 
     @Test
@@ -201,28 +195,14 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_canExtract_hidesCopyToAndCompressToAndShare() {
+    public void testActionMenu_canExtract_hidesCopyToAndCompressAndShare() {
         selectionDetails.canExtract = true;
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         extractTo.assertEnabled();
         copyTo.assertDisabled();
-        compressTo.assertInvisible();
         compress.assertDisabled();
-    }
-
-    @Test
-    public void testActionMenu_canExtract_hidesCopyToAndCompress() {
-        selectionDetails.canExtract = true;
-        dirDetails.canCreateDoc = false;
-        mgr.updateActionMenu(testMenu, selectionDetails);
-
-        extractTo.assertEnabled();
-        copyTo.assertDisabled();
-        compressTo.assertDisabled();
-        share.assertInvisible();
-        compress.assertInvisible();
     }
 
     @Test
