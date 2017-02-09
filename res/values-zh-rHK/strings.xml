@@ -168,8 +168,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"下載"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"無法開啟封存檔案以供瀏覽。檔案可能已損毀，或格式不受支援。"</string>
     <string name="name_conflict" msgid="28407269328862986">"已有檔案使用此名稱。"</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"必須通過驗證方可查看此目錄的內容"</string>
+    <string name="open_app" msgid="8467890061226696744">"開啟「<xliff:g id="NAME">%1$s</xliff:g>」"</string>
 </resources>

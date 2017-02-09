@@ -88,7 +88,7 @@
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="one">Extracting <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ֆայլի արտահանում:</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլի արտահանում:</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="6049210105852581598">
       <item quantity="one">Moving <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
@@ -168,8 +168,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Ներբեռնումներ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Հնարավոր չէ բացել արխիվը՝ այն դիտելու նպատակով։ Ֆայլը վնասված է կամ ունի անհամատեղելի ձևաչափ։"</string>
     <string name="name_conflict" msgid="28407269328862986">"Այս անունով ֆայլ արդեն գոյություն ունի։"</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"Այս գրացուցակի բովանդակությունը տեսնելու համար անհրաժեշտ է նույնականացում"</string>
+    <string name="open_app" msgid="8467890061226696744">"Բացել <xliff:g id="NAME">%1$s</xliff:g> հավելվածը"</string>
 </resources>

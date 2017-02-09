@@ -168,8 +168,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"डाउनलोडहरू"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ब्राउजिङको अभिलेख खोल्न सकिएन। फाइल या त बिग्रेको छ वा कुनै समर्थन नगरिने ढाँचामा छ।"</string>
     <string name="name_conflict" msgid="28407269328862986">"यो नाम भएको फाइल पहिले नै छ।"</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"यस निर्देशिकाको सामग्री हेर्न प्रमाणीकरण आवश्यक छ"</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> खोल्नुहोस्"</string>
 </resources>

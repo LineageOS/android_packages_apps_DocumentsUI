@@ -198,8 +198,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Stažené soubory"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Archiv nelze otevřít k prohlížení. Soubor je buď poškozený, nebo nemá podporovaný formát."</string>
     <string name="name_conflict" msgid="28407269328862986">"Soubor s tímto názvem již existuje."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"K zobrazení obsahu tohoto adresáře je vyžadováno ověření"</string>
+    <string name="open_app" msgid="8467890061226696744">"Otevřít <xliff:g id="NAME">%1$s</xliff:g>"</string>
 </resources>

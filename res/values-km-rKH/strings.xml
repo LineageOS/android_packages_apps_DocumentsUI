@@ -168,8 +168,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ទាញយក"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"មិន​អាច​បើក​ប័ណ្ណសារ​សម្រាប់​ការ​រុករក​បានទេ​ ដោយសារ​ឯកសារ​ខូច​ ឬ​មិន​ស្គាល់​ទម្រង់​ឯកសារ​។"</string>
     <string name="name_conflict" msgid="28407269328862986">"ឯកសារ​ដែល​មាន​ឈ្មោះ​នេះ​មានរួចហើយ។"</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"តម្រូវឲ្យ​មាន​ការផ្ទៀងផ្ទាត់​ដើម្បីមើល​មាតិកា​នៅក្នុង​បញ្ជីនេះ"</string>
+    <string name="open_app" msgid="8467890061226696744">"បើក <xliff:g id="NAME">%1$s</xliff:g>"</string>
 </resources>

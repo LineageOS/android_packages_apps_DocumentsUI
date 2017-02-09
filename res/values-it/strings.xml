@@ -168,8 +168,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Download"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Impossibile aprire il file di archivio per la navigazione. Il file è corrotto o in un formato non supportato."</string>
     <string name="name_conflict" msgid="28407269328862986">"Esiste già un file con questo nome."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"Autenticazione obbligatoria per visualizzare i contenuti di questa directory"</string>
+    <string name="open_app" msgid="8467890061226696744">"Apri <xliff:g id="NAME">%1$s</xliff:g>"</string>
 </resources>
