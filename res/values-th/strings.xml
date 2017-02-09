@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"แตะเพื่อดูรายละเอียด"</string>
     <string name="close" msgid="905969391788869975">"ปิด"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"ไม่ได้คัดลอกไฟล์เหล่านี้: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"ไม่ได้บีบอัดไฟล์เหล่านี้: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"ไม่ได้แตกไฟล์เหล่านี้: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"ไม่ได้ย้ายไฟล์เหล่านี้: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"ไม่ได้ลบไฟล์เหล่านี้: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"ไฟล์ต่อไปนี้แปลงเป็นอีกรูปแบบหนึ่งแล้ว: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">คัดลอกไปยังคลิปบอร์ดแล้ว <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
       <item quantity="one">คัดลอกไปยังคลิปบอร์ดแล้ว <xliff:g id="COUNT_0">%1$d</xliff:g> รายการ</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ดาวน์โหลด"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"เปิดที่เก็บถาวรเพื่อเรียกดูไม่ได้ ไฟล์อาจเสียหายหรือเป็นรูปแบบที่ไม่รองรับ"</string>
     <string name="name_conflict" msgid="28407269328862986">"มีไฟล์ที่มีชื่อนี้แล้ว"</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"ต้องใช้การตรวจสอบสิทธิ์เพื่อดูเนื้อหาของไดเรกทอรีนี้"</string>
+    <string name="open_app" msgid="8467890061226696744">"เปิด <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"ที่เก็บถาวร<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>

@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Toca la notificación para ver detalles"</string>
     <string name="close" msgid="905969391788869975">"Cerrar"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Archivos que no se han copiado: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Archivos que no se han comprimido: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Archivos que no se han extraído: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Archivos que no se han movido: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Archivos que no se han eliminado: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Estos archivos se han convertido a otro formato: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">Se han copiado <xliff:g id="COUNT_1">%1$d</xliff:g> elementos al portapapeles.</item>
       <item quantity="one">Se ha copiado <xliff:g id="COUNT_0">%1$d</xliff:g> elemento al portapapeles.</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Descargas"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"No se puede abrir el archivo para explorarlo porque está dañado o su formato es incompatible."</string>
     <string name="name_conflict" msgid="28407269328862986">"Ya existe un archivo con este nombre."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"Debes autenticarte para ver el contenido de este directorio"</string>
+    <string name="open_app" msgid="8467890061226696744">"Abrir <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"archivo<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>

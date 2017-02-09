@@ -74,7 +74,7 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"No es poden suprimir alguns documents"</string>
     <string name="share_via" msgid="8725082736005677161">"Comparteix mitjançant"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"S\'estan copiant fitxers"</string>
-    <string name="compress_notification_title" msgid="6830195148113751021">"S\'estan comprimint els fitxers"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"Comprimint els fitxers"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"S\'estan movent fitxers"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Suprimint els fitxers"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Temps restant: <xliff:g id="DURATION">%s</xliff:g>"</string>
@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Toca per veure\'n els detalls"</string>
     <string name="close" msgid="905969391788869975">"Tanca"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Aquests fitxers no s\'han copiat: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Aquests fitxers no s\'han comprimit: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Aquests fitxers no s\'han extret: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Aquests fitxers no s\'han mogut: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Aquests fitxers no s\'han suprimit: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Aquests fitxers s\'han convertit a un altre format: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">S\'han copiat <xliff:g id="COUNT_1">%1$d</xliff:g> elements al porta-retalls.</item>
       <item quantity="one">S\'ha copiat <xliff:g id="COUNT_0">%1$d</xliff:g> element al porta-retalls.</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Baixades"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"No s\'ha pogut obrir el fitxer per examinar-lo: o bé està malmès o té un format que no s\'admet."</string>
     <string name="name_conflict" msgid="28407269328862986">"Ja hi ha un fitxer amb aquest nom."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"És necessari autenticar-se per veure el contingut d\'aquest directori"</string>
+    <string name="open_app" msgid="8467890061226696744">"Obre <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"fitxer<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>

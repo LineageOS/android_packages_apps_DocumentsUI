@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"အသေးစိတ်ကြည့်ရန် တို့ပါ"</string>
     <string name="close" msgid="905969391788869975">"ပိတ်ရန်"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"ဤဖိုင်များကို မကူးယူခဲ့ပါ − <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"ဤဖိုင်များကို မချုံ့ခဲ့ပါ− <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"ဤဖိုင်များကို မထုတ်ယူခဲ့ပါ− <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"ဤဖိုင်များကို မရွှေ့ခဲ့ပါ − <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"ဤဖိုင်များကို မဖျက်ခဲ့ပါ - <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"ဤဖိုင်များကို အခြားဖိုင်ပုံစံအဖြစ်သို့ ပြောင်းလဲခဲ့သည် - <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">ဖိုင် <xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို ကလစ်ဘုတ်သို့ ကူးယူထားသည်။</item>
       <item quantity="one">ဖိုင် <xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင်ကို ကလစ်ဘုတ်သို့ ကူးယူထားသည်။</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ဒေါင်းလုဒ်များ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"မှတ်တမ်းဟောင်းကို ကြည့်ရှုရန်အတွက် ဖွင့်၍မရပါ။ ဖိုင်ပျက်စီးနေခြင်း သို့မဟုတ် ပံ့ပိုးမထားသည့် ပုံစံတွင်ရှိနေခြင်းတို့ ဖြစ်နိုင်သည်။"</string>
     <string name="name_conflict" msgid="28407269328862986">"ဤအမည်ဖြင့် ဖိုင်တစ်ဖိုင် ရှိပြီးသား ဖြစ်ပါသည်။"</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"ဤဖိုင်လမ်းညွှန်ပါ အကြောင်းအရာများကို ကြည့်ရန် အထောက်အထားစိစစ်ချက် လိုအပ်ပါသည်"</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> ကို ဖွင့်ရန်"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"မှတ်တမ်းဟောင်း<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>

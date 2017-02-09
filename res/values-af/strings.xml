@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Tik om besonderhede te bekyk"</string>
     <string name="close" msgid="905969391788869975">"Maak toe"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Hierdie lêers is nie gekopieer nie: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Hierdie lêers is nie saamgepers nie: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Hierdie lêers is nie onttrek nie: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Hierdie lêers is nie geskuif nie: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Hierdie lêers is nie uitgevee nie: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Hierdie lêers is na \'n ander formaat omgeskakel: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">Het <xliff:g id="COUNT_1">%1$d</xliff:g> items na knipbord gekopieer.</item>
       <item quantity="one">Het <xliff:g id="COUNT_0">%1$d</xliff:g> item na knipbord gekopieer.</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Aflaaie"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Kon nie argief oopmaak om te blaai nie. Die lêer is óf korrup, óf \'n formaat wat nie gesteun word nie."</string>
     <string name="name_conflict" msgid="28407269328862986">"\'n Lêer met hierdie naam bestaan reeds."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"Stawing word vereis om die inhoud van hierdie gids te sien"</string>
+    <string name="open_app" msgid="8467890061226696744">"Maak <xliff:g id="NAME">%1$s</xliff:g> oop"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"argief<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>

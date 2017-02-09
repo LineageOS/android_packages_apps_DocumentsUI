@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"বিশদ বিবরণ দেখতে আলতো চাপুন"</string>
     <string name="close" msgid="905969391788869975">"বন্ধ করুন"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"এই ফাইলগুলির কপি করা হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"এই ফাইলগুলি সঙ্কুচিত করা হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"এই ফাইলগুলি বের করা হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"এই ফাইলগুলি সরানো হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"এই ফাইলগুলি মোছা হয়নি: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"এই ফাইলগুলিকে অন্য ফর্ম্যাটে রূপান্তর করা হয়েছে: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম ক্লিপবোর্ডে কপি করা হয়েছে।</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম ক্লিপবোর্ডে কপি করা হয়েছে।</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"ডাউনলোডগুলি"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ব্রাউজ করার জন্য সংরক্ষণাগার খোলা গেল না৷ হয় ফাইলটি ক্ষতিগ্রস্ত বা কোনো অসমর্থিত বিন্যাসে রয়েছে৷"</string>
     <string name="name_conflict" msgid="28407269328862986">"এই নামে আগেই আর একটি ফাইল আছে।"</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"এই ডাইরেক্টরির সামগ্রী দেখার জন্য অনুমতি প্রয়োজন"</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> খুলুন"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"সংরক্ষণ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>

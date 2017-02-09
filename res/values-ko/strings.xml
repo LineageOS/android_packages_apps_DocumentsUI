@@ -126,12 +126,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"세부정보를 보려면 탭하세요."</string>
     <string name="close" msgid="905969391788869975">"닫기"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"다음 파일이 복사되지 않았습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"다음 파일을 압축할 수 없습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"다음 파일을 추출할 수 없습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"다음 파일이 이동되지 않았습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"다음 파일이 삭제되지 않았습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"파일이 다음과 같이 다른 형식으로 변환되었습니다. <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">클립보드에 <xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목이 복사되었습니다.</item>
       <item quantity="one">클립보드에 <xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목이 복사되었습니다.</item>
@@ -172,10 +172,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"다운로드"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"보관 파일을 열어 탐색할 수 없습니다. 파일이 손상되었거나 지원되지 않는 형식입니다."</string>
     <string name="name_conflict" msgid="28407269328862986">"이름이 같은 파일이 이미 존재합니다."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"이 디렉토리의 내용을 보려면 인증이 필요합니다."</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> 열기"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"<xliff:g id="EXTENSION">%s</xliff:g> 보관처리"</string>
 </resources>
