@@ -81,6 +81,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.RecentsLoader;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events.InputEvent;
@@ -614,21 +615,30 @@ public class DirectoryFragment extends Fragment
                 return true;
 
             case R.id.menu_copy_to:
-                transferDocuments(selection, FileOperationService.OPERATION_COPY);
+                transferDocuments(selection, null, FileOperationService.OPERATION_COPY);
                 // TODO: Only finish selection mode if copy-to is not canceled.
                 // Need to plum down into handling the way we do with deleteDocuments.
                 mActionModeController.finishActionMode();
                 return true;
 
+            case R.id.menu_compress:
+                transferDocuments(selection, mState.stack,
+                        FileOperationService.OPERATION_COMPRESS);
+                // TODO: Only finish selection mode if compress is not canceled.
+                // Need to plum down into handling the way we do with deleteDocuments.
+                mActionModeController.finishActionMode();
+                return true;
+
             case R.id.menu_compress_to:
-                transferDocuments(selection, FileOperationService.OPERATION_COMPRESS);
+                transferDocuments(selection, null, FileOperationService.OPERATION_COMPRESS);
                 // TODO: Only finish selection mode if compress-to is not canceled.
                 // Need to plum down into handling the way we do with deleteDocuments.
                 mActionModeController.finishActionMode();
                 return true;
 
+            // TODO: Implement extract (to the current directory).
             case R.id.menu_extract_to:
-                transferDocuments(selection, FileOperationService.OPERATION_EXTRACT);
+                transferDocuments(selection, null, FileOperationService.OPERATION_EXTRACT);
                 // TODO: Only finish selection mode if compress-to is not canceled.
                 // Need to plum down into handling the way we do with deleteDocuments.
                 mActionModeController.finishActionMode();
@@ -637,7 +647,7 @@ public class DirectoryFragment extends Fragment
             case R.id.menu_move_to:
                 // Exit selection mode first, so we avoid deselecting deleted documents.
                 mActionModeController.finishActionMode();
-                transferDocuments(selection, FileOperationService.OPERATION_MOVE);
+                transferDocuments(selection, null, FileOperationService.OPERATION_MOVE);
                 return true;
 
             case R.id.menu_cut_to_clipboard:
@@ -721,7 +731,8 @@ public class DirectoryFragment extends Fragment
         mActions.showChooserForDoc(doc);
     }
 
-    private void transferDocuments(final Selection selected, final @OpType int mode) {
+    private void transferDocuments(final Selection selected, @Nullable DocumentStack destination,
+            final @OpType int mode) {
         switch (mode) {
             case FileOperationService.OPERATION_COPY:
                 Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COPY_TO);
@@ -737,14 +748,6 @@ public class DirectoryFragment extends Fragment
                 break;
         }
 
-        // Pop up a dialog to pick a destination.  This is inadequate but works for now.
-        // TODO: Implement a picker that is to spec.
-        final Intent intent = new Intent(
-                Shared.ACTION_PICK_COPY_DESTINATION,
-                Uri.EMPTY,
-                getActivity(),
-                PickActivity.class);
-
         UrisSupplier srcs;
         try {
             ClipStore clipStorage = DocumentsApplication.getClipStore(getContext());
@@ -754,11 +757,29 @@ public class DirectoryFragment extends Fragment
         }
 
         final DocumentInfo parent = mState.stack.peek();
-        mLocalState.mPendingOperation = new FileOperation.Builder()
+        final FileOperation operation = new FileOperation.Builder()
                 .withOpType(mode)
                 .withSrcParent(parent == null ? null : parent.derivedUri)
                 .withSrcs(srcs)
                 .build();
+
+        if (destination != null) {
+            operation.setDestination(destination);
+            FileOperations.start(
+                    mActivity,
+                    operation,
+                    mInjector.dialogs::showFileOperationStatus);
+            return;
+        }
+
+        // Pop up a dialog to pick a destination.  This is inadequate but works for now.
+        // TODO: Implement a picker that is to spec.
+        mLocalState.mPendingOperation = operation;
+        final Intent intent = new Intent(
+                Shared.ACTION_PICK_COPY_DESTINATION,
+                Uri.EMPTY,
+                getActivity(),
+                PickActivity.class);
 
         // Set an appropriate title on the drawer when it is shown in the picker.
         // Coupled with the fact that we auto-open the drawer for copy/move operations
@@ -780,6 +801,7 @@ public class DirectoryFragment extends Fragment
             default:
                 throw new UnsupportedOperationException("Unknown mode: " + mode);
         }
+
         intent.putExtra(DocumentsContract.EXTRA_PROMPT, getResources().getString(drawerTitleId));
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
@@ -1053,6 +1075,7 @@ public class DirectoryFragment extends Fragment
             final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
             return mInjector.config.canSelectType(docMimeType, docFlags, mState);
         } else {
+        final DocumentInfo parent = mState.stack.peek();
             // Right now all selected items can be deselected.
             return true;
         }
