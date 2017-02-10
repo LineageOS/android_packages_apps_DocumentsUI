@@ -16,9 +16,12 @@
 
 package com.android.documentsui.selection;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.android.documentsui.DirectoryReloadLock;
@@ -36,6 +39,7 @@ import javax.annotation.Nullable;
  * the interception going if necessary.
  */
 public final class GestureSelector {
+    private final String TAG = "GestureSelector";
 
     private final SelectionManager mSelectionMgr;
     private final Runnable mDragScroller;
@@ -110,6 +114,11 @@ public final class GestureSelector {
 
     // Explicitly kick off a gesture multi-select.
     public boolean start(InputEvent event) {
+        //the anchor must already be set before a multi-select event can be started
+        if (mLastStartedItemPos < 0) {
+            if (DEBUG) Log.d(TAG, "Tried to start multi-select without setting an anchor.");
+            return false;
+        }
         if (mStarted) {
             return false;
         }
