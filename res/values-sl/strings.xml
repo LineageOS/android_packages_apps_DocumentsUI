@@ -33,7 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Izberi vse"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopiraj v …"</string>
     <string name="menu_move" msgid="2310760789561129882">"Premakni v ..."</string>
-    <string name="menu_compress" msgid="3595799616317136465">"Stisni v …"</string>
+    <string name="menu_compress" msgid="37539111904724188">"Stisni"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Razširi v …"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Preimenuj"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Novo okno"</string>
@@ -140,12 +140,42 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Dotaknite se za prikaz podrobnosti"</string>
     <string name="close" msgid="905969391788869975">"Zapri"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Te datoteke niso bile kopirane: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Te datoteke niso bile stisnjene: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Te datoteke niso bile razširjene: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Te datoteke niso bile premaknjene: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Te datoteke niso bile izbrisane: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Te datoteke so bile spremenjene v drugo obliko zapisa: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
+      <item quantity="one">Te datoteke niso bile kopirane: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">Te datoteke niso bile kopirane: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Te datoteke niso bile kopirane: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Te datoteke niso bile kopirane: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
+      <item quantity="one">Te datoteke niso bile stisnjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">Te datoteke niso bile stisnjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Te datoteke niso bile stisnjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Te datoteke niso bile stisnjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
+      <item quantity="one">Te datoteke niso bile razširjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">Te datoteke niso bile razširjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Te datoteke niso bile razširjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Te datoteke niso bile razširjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
+      <item quantity="one">Te datoteke niso bile premaknjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">Te datoteke niso bile premaknjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Te datoteke niso bile premaknjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Te datoteke niso bile premaknjene: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
+      <item quantity="one">Te datoteke niso bile izbrisane: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">Te datoteke niso bile izbrisane: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Te datoteke niso bile izbrisane: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Te datoteke niso bile izbrisane: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
+      <item quantity="one">Te datoteke so bile pretvorjene v drugo obliko zapisa: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">Te datoteke so bile pretvorjene v drugo obliko zapisa: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Te datoteke so bile pretvorjene v drugo obliko zapisa: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Te datoteke so bile pretvorjene v drugo obliko zapisa: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
       <item quantity="one">V odložišče je bila kopirana <xliff:g id="COUNT_1">%1$d</xliff:g> datoteka.</item>
       <item quantity="two">V odložišče sta bili kopirani <xliff:g id="COUNT_1">%1$d</xliff:g> datoteki.</item>
