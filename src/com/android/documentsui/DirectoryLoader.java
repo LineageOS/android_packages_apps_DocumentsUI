@@ -30,6 +30,7 @@ import android.os.RemoteException;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
@@ -92,6 +93,10 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         Cursor cursor;
         try {
             client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
+            if (mDoc.isInArchive()) {
+                ArchivesProvider.acquireArchive(client, mUri);
+            }
+            result.client = client;
             cursor = client.query(
                     mUri, null, null, null, mModel.getDocumentSortQuery(), mSignal);
             if (cursor == null) {
@@ -108,8 +113,6 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             }
 
             cursor = mModel.sortCursor(cursor);
-
-            result.client = client;
             result.cursor = cursor;
         } catch (Exception e) {
             Log.w(TAG, "Failed to query", e);
@@ -118,6 +121,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             synchronized (this) {
                 mSignal = null;
             }
+            // TODO: Remove this call.
             ContentProviderClient.releaseQuietly(client);
         }
 
