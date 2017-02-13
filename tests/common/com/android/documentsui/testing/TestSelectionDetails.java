@@ -31,6 +31,7 @@ public class TestSelectionDetails implements SelectionDetails {
     public boolean containFiles;
     public boolean canPasteInto;
     public boolean canExtract;
+    public boolean canOpenWith;
 
     @Override
     public boolean containsPartialFiles() {
@@ -65,6 +66,11 @@ public class TestSelectionDetails implements SelectionDetails {
     @Override
     public boolean canPasteInto() {
         return canPasteInto;
+    }
+
+    @Override
+    public boolean canOpenWith() {
+        return canOpenWith;
     }
 
     @Override

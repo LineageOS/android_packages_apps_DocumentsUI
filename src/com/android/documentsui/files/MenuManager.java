@@ -144,8 +144,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
-        openWith.setEnabled(selectionDetails.size() == 1
-                && !selectionDetails.containsPartialFiles());
+        openWith.setEnabled(selectionDetails.canOpenWith());
     }
 
     @Override
