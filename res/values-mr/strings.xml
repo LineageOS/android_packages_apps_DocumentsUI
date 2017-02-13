@@ -33,7 +33,8 @@
     <string name="menu_select_all" msgid="7600576812185570403">"सर्व निवडा"</string>
     <string name="menu_copy" msgid="7404820171352314754">"यावर कॉपी करा…"</string>
     <string name="menu_move" msgid="2310760789561129882">"यामध्ये हलवा…"</string>
-    <string name="menu_compress" msgid="3595799616317136465">"यावर संकुचित करा…"</string>
+    <!-- no translation found for menu_compress (37539111904724188) -->
+    <skip />
     <string name="menu_extract" msgid="8171946945982532262">"मध्ये काढा..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"पुनर्नामित करा"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"नवीन विंडो"</string>
@@ -126,12 +127,30 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"तपशील पाहण्यासाठी टॅप करा"</string>
     <string name="close" msgid="905969391788869975">"बंद करा"</string>
-    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
-    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
-    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
-    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
-    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
-    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
+    <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
+      <item quantity="one">ही फाइल कॉपी केली नव्‍हती: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फायली कॉपी केल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
+      <item quantity="one">ही फाइल संकुचित केली नव्‍हती: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फायली संकुचित केल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
+      <item quantity="one">ही फाइल काढली नव्‍हती: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फायली काढल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
+      <item quantity="one">ही फाइल हलवली नव्‍हती: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फायली हलवल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
+      <item quantity="one">ही फाइल हटवली नव्‍हती: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फायली हटवल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
+      <item quantity="one">ही फाइल अन्‍य स्‍वरूपात रूपांतरित केली होती: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फायली अन्‍य स्‍वरूपात रूपांतरित केल्‍या होत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम क्लिपबोर्डवर कॉपी केला.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम क्लिपबोर्डवर कॉपी केले.</item>
@@ -172,10 +191,7 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"डाउनलोड"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ब्राउझिंगसाठी संग्रहण उघडण्यात अक्षम. फाइल एकतर दूषित झाली आहे किंवा असमर्थित स्वरूपात आहे."</string>
     <string name="name_conflict" msgid="28407269328862986">"या नावाची फाइल आधीपासून अस्तित्वात आहे."</string>
-    <!-- no translation found for authentication_required (2314941212791346284) -->
-    <skip />
-    <!-- no translation found for open_app (8467890061226696744) -->
-    <skip />
-    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
-    <skip />
+    <string name="authentication_required" msgid="2314941212791346284">"या निर्देशिकेची सामग्री पाहण्‍यासाठी प्रमाणीकरण आवश्‍यक आहे"</string>
+    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> उघडा"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"संग्रहण<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>
