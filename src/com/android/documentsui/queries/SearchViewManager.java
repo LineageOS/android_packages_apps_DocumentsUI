@@ -34,6 +34,8 @@ import android.widget.SearchView.OnQueryTextListener;
 
 import com.android.documentsui.DocumentsToolbar;
 import com.android.documentsui.R;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 
@@ -103,9 +105,9 @@ public class SearchViewManager implements
     }
 
     /**
-     * @param root Info about the current directory.
+     * @param stack New stack.
      */
-    public void update(RootInfo root) {
+    public void update(DocumentStack stack) {
         if (mMenuItem == null) {
             if (DEBUG) Log.d(TAG, "update called before Search MenuItem installed.");
             return;
@@ -129,21 +131,35 @@ public class SearchViewManager implements
             }
         }
 
-        showMenu(root != null
-                && ((root.flags & Root.FLAG_SUPPORTS_SEARCH) != 0));
+        showMenu(stack);
     }
 
-    public void showMenu(boolean visible) {
+    public void showMenu(@Nullable DocumentStack stack) {
+        final DocumentInfo cwd = stack.peek();
+
+        boolean supportsSearch = true;
+
+        // Searching in archives is not enabled, as archives are backed by
+        // a different provider than the root provider.
+        if (cwd != null && cwd.isInArchive()) {
+            supportsSearch = false;
+        }
+
+        final RootInfo root = stack != null ? stack.getRoot() : null;
+        if (root == null || (root.flags & Root.FLAG_SUPPORTS_SEARCH) == 0) {
+            supportsSearch = false;
+        }
+
         if (mMenuItem == null) {
             if (DEBUG) Log.d(TAG, "showMenu called before Search MenuItem installed.");
             return;
         }
 
-        if (!visible) {
+        if (!supportsSearch) {
             mCurrentSearch = null;
         }
 
-        mMenuItem.setVisible(visible);
+        mMenuItem.setVisible(supportsSearch);
     }
 
     /**

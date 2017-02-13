@@ -16,6 +16,7 @@
 
 package com.android.documentsui.testing;
 
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.queries.DebugCommandProcessor;
 import com.android.documentsui.queries.SearchViewManager;
 
@@ -52,7 +53,7 @@ public class TestSearchViewManager extends SearchViewManager {
     }
 
     @Override
-    public void showMenu(boolean visible) {
+    public void showMenu(DocumentStack stack) {
         mShowMenuCalled = true;
     }
 
