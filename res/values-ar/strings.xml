@@ -33,7 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"تحديد الكل"</string>
     <string name="menu_copy" msgid="7404820171352314754">"نسخ إلى…"</string>
     <string name="menu_move" msgid="2310760789561129882">"نقل إلى..."</string>
-    <string name="menu_compress" msgid="3595799616317136465">"الضغط إلى…"</string>
+    <string name="menu_compress" msgid="37539111904724188">"ضغط"</string>
     <string name="menu_extract" msgid="8171946945982532262">"الاستخراج إلى…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"إعادة تسمية"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"نافذة جديدة"</string>
@@ -166,12 +166,54 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"انقر لعرض التفاصيل."</string>
     <string name="close" msgid="905969391788869975">"إغلاق"</string>
-    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
-    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
-    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
-    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
-    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
-    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
+    <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
+      <item quantity="zero">لم يتم نسخ هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">لم يتم نسخ هذين الملفين: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">لم يتم نسخ هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">لم يتم نسخ هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">لم يتم نسخ هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">لم يتم نسخ هذا الملف: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
+      <item quantity="zero">لم يتم ضغط هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">لم يتم ضغط هذين الملفين: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">لم يتم ضغط هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">لم يتم ضغط هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">لم يتم ضغط هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">لم يتم ضغط هذا الملف: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
+      <item quantity="zero">لم يتم فك ضغط هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">لم يتم فك ضغط هذين الملفين: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">لم يتم فك ضغط هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">لم يتم فك ضغط هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">لم يتم فك ضغط هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">لم يتم فك ضغط هذا الملف: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
+      <item quantity="zero">لم يتم نقل هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">لم يتم نقل هذين الملفين: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">لم يتم نقل هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">لم يتم نقل هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">لم يتم نقل هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">لم يتم نقل هذا الملف: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
+      <item quantity="zero">لم يتم حذف هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">لم يتم حذف هذين الملفين: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">لم يتم حذف هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">لم يتم حذف هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">لم يتم حذف هذه الملفات: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">لم يتم حذف هذا الملف: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
+      <item quantity="zero">تم تحويل هذه الملفات إلى تنسيق آخر: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="two">تم تحويل هذين الملفين إلى تنسيق آخر: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">تم تحويل هذه الملفات إلى تنسيق آخر: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">تم تحويل هذه الملفات إلى تنسيق آخر: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">تم تحويل هذه الملفات إلى تنسيق آخر: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">تم تحويل هذا الملف إلى تنسيق آخر: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="zero">تم نسخ <xliff:g id="COUNT_1">%1$d</xliff:g> ملف إلى الحافظة.</item>
       <item quantity="two">تم نسخ ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>) إلى الحافظة.</item>

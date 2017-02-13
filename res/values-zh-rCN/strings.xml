@@ -33,7 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"全选"</string>
     <string name="menu_copy" msgid="7404820171352314754">"复制到…"</string>
     <string name="menu_move" msgid="2310760789561129882">"移动到…"</string>
-    <string name="menu_compress" msgid="3595799616317136465">"压缩到…"</string>
+    <string name="menu_compress" msgid="37539111904724188">"压缩"</string>
     <string name="menu_extract" msgid="8171946945982532262">"解压到…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重命名"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"新建窗口"</string>
@@ -174,5 +174,5 @@
     <string name="name_conflict" msgid="28407269328862986">"已存在同名文件。"</string>
     <string name="authentication_required" msgid="2314941212791346284">"必须经过身份验证才能查看此目录的内容"</string>
     <string name="open_app" msgid="8467890061226696744">"打开<xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"归档<xliff:g id="EXTENSION">%s</xliff:g>"</string>
 </resources>
