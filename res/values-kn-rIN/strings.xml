@@ -33,7 +33,8 @@
     <string name="menu_select_all" msgid="7600576812185570403">"ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ಇದಕ್ಕೆ ನಕಲಿಸಿ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ಇದಕ್ಕೆ ಸರಿಸು…"</string>
-    <string name="menu_compress" msgid="3595799616317136465">"ಇದಕ್ಕೆ ಸಂಕುಚಿತಗೊಳಿಸಿ…"</string>
+    <!-- no translation found for menu_compress (37539111904724188) -->
+    <skip />
     <string name="menu_extract" msgid="8171946945982532262">"ಇದಕ್ಕೆ ಬೇರ್ಪಡಿಸಲಾಗಿದೆ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ಮರುಹೆಸರಿಸು"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ಹೊಸ ವಿಂಡೋ"</string>
@@ -122,12 +123,12 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ"</string>
     <string name="close" msgid="905969391788869975">"ಮುಚ್ಚು"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"ಈ ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಸಂಕುಚಿತಗೊಳಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಬೇರ್ಪಡಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಸರಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಅಳಿಸಲಾಗಿಲ್ಲ: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"ಈ ಫೈಲ್‌ಗಳನ್ನು ಮತ್ತೊಂದು ಸ್ವರೂಪಕ್ಕೆ ಪರಿವರ್ತಿಸಲಾಗಿತ್ತು: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
     <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
       <item quantity="one">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ <xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗಿದೆ.</item>
       <item quantity="other">ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ <xliff:g id="COUNT_1">%1$d</xliff:g> ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗಿದೆ.</item>

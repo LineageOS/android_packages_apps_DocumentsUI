@@ -33,7 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Chọn tất cả"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Sao chép vào…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Chuyển tới..."</string>
-    <string name="menu_compress" msgid="3595799616317136465">"Nén thành…"</string>
+    <string name="menu_compress" msgid="37539111904724188">"Nén"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Trích xuất sang…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Đổi tên"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Cửa sổ mới"</string>
@@ -122,12 +122,30 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Nhấn để xem chi tiết"</string>
     <string name="close" msgid="905969391788869975">"Đóng"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Những tệp này chưa được sao chép: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Những tệp này chưa được nén: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Những tệp này chưa được giải nén: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Những tệp này chưa được di chuyển: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Những tệp này chưa được xóa: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Các tệp này đã được chuyển đổi sang định dạng khác: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
+      <item quantity="other">Các tệp này chưa được sao chép: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Tệp này chưa được sao chép: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
+      <item quantity="other">Các tệp này chưa được nén: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Tệp này chưa được nén: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
+      <item quantity="other">Các tệp này chưa được giải nén: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Tệp này chưa được giải nén: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
+      <item quantity="other">Các tệp này chưa được di chuyển: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Tệp này chưa được di chuyển: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
+      <item quantity="other">Các tệp này chưa bị xóa: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Tệp này chưa bị xóa: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
+      <item quantity="other">Các tệp này đã được chuyển đổi sang định dạng khác: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Tệp này đã được chuyển đổi sang định dạng khác: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
       <item quantity="other">Đã sao chép <xliff:g id="COUNT_1">%1$d</xliff:g> tệp vào khay nhớ tạm.</item>
       <item quantity="one">Đã sao chép <xliff:g id="COUNT_0">%1$d</xliff:g> tệp vào khay nhớ tạm.</item>

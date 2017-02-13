@@ -33,7 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Выбрать все"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Копировать в…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Переместить в..."</string>
-    <string name="menu_compress" msgid="3595799616317136465">"Сжать…"</string>
+    <string name="menu_compress" msgid="37539111904724188">"Сжать"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Извлечь"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Переименовать"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Новое окно"</string>
@@ -140,12 +140,42 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Нажмите, чтобы узнать подробности"</string>
     <string name="close" msgid="905969391788869975">"Закрыть"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Не удалось скопировать следующие файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Не удалось сжать следующие файлы: <xliff:g id="LIST">%1$s</xliff:g>."</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Не удалось извлечь следующие файлы: <xliff:g id="LIST">%1$s</xliff:g>."</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Не удалось переместить следующие файлы: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Следующие файлы не были удалены: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Формат этих файлов изменен: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
+      <item quantity="one">Не удалось скопировать эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Не удалось скопировать эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">Не удалось скопировать эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Не удалось скопировать эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
+      <item quantity="one">Не удалось сжать эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Не удалось сжать эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">Не удалось сжать эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Не удалось сжать эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
+      <item quantity="one">Не удалось извлечь эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Не удалось извлечь эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">Не удалось извлечь эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Не удалось извлечь эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
+      <item quantity="one">Не удалось переместить эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Не удалось переместить эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">Не удалось переместить эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Не удалось переместить эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
+      <item quantity="one">Не удалось удалить эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Не удалось удалить эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">Не удалось удалить эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Не удалось удалить эти файлы: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
+      <item quantity="one">Формат этих файлов изменен: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Формат этих файлов изменен: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="many">Формат этих файлов изменен: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Формат этих файлов изменен: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> файл скопирован в буфер обмена</item>
       <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> файла скопировано в буфер обмена</item>
@@ -198,6 +228,6 @@
     <string name="downloads_shortcut_label" msgid="9109062409874698197">"Скачанные файлы"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Не удалось открыть архив. Файл поврежден, или такой формат не поддерживается."</string>
     <string name="name_conflict" msgid="28407269328862986">"Файл с таким названием уже существует."</string>
-    <string name="authentication_required" msgid="2314941212791346284">"Чтобы просматривать файлы из этого каталога, необходимо пройти аутентификацию."</string>
+    <string name="authentication_required" msgid="2314941212791346284">"Чтобы просматривать файлы из этого каталога, необходимо выполнить вход."</string>
     <string name="open_app" msgid="8467890061226696744">"Открыть приложение \"<xliff:g id="NAME">%1$s</xliff:g>\""</string>
 </resources>

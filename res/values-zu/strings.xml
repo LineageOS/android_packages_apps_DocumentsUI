@@ -33,7 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Khetha konke"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopishela ku…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Hambisa ku…"</string>
-    <string name="menu_compress" msgid="3595799616317136465">"Cindezela ku…"</string>
+    <string name="menu_compress" msgid="37539111904724188">"Cindezela"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Khiphela ku…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Qamba kabusha"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Iwindi elisha"</string>
@@ -122,12 +122,30 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Thepha ukuze ubuke imininingwane"</string>
     <string name="close" msgid="905969391788869975">"Vala"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Lawo mafayela awakopishwanga: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Lawa mafayela awazange acindezelwe: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Lawa mafayela awazange akhishwe: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Lawa mafayela awazange ahanjiswe: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Lawa mafayela awazange asuswe: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Lawo mafayela aguqulelwe kwenye ifomethi: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
+      <item quantity="one">Lawa mafayela akopishiwe: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Lawa mafayela akopishiwe: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
+      <item quantity="one">Lawa mafayela awacindezelwanga: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Lawa mafayela awacindezelwanga: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
+      <item quantity="one">Lawa mafayela awakhishiwe: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Lawa mafayela awakhishiwe: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
+      <item quantity="one">Lawa mafayela awasusiwe: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Lawa mafayela awasusiwe: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
+      <item quantity="one">Lawa mfayela awasusiwe: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Lawa mfayela awasusiwe: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
+      <item quantity="one">Lawa mafayela aguqulelwe kwenye ifomethi: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Lawa mafayela aguqulelwe kwenye ifomethi: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
       <item quantity="one">Kukopishelwe amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g> kubhodi lokunamathisela.</item>
       <item quantity="other">Kukopishelwe amafayela angu-<xliff:g id="COUNT_1">%1$d</xliff:g> kubhodi lokunamathisela.</item>

@@ -33,7 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Velja allt"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Afrita í…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Færa í…"</string>
-    <string name="menu_compress" msgid="3595799616317136465">"Þjappa í…"</string>
+    <string name="menu_compress" msgid="37539111904724188">"Þjappa"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Flytja út í…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Endurnefna"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nýr gluggi"</string>
@@ -122,12 +122,30 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Ýttu til að skoða frekari upplýsingar"</string>
     <string name="close" msgid="905969391788869975">"Loka"</string>
-    <string name="copy_failure_alert_content" msgid="161721873402101825">"Þessar skrár voru ekki afritaðar: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="compress_failure_alert_content" msgid="3005921624253598542">"Þessar skrár voru ekki þjappaðar: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="extract_failure_alert_content" msgid="9037185490727188331">"Þessar skrár voru ekki dregnar út: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="move_failure_alert_content" msgid="6586182218105304719">"Þessar skrár voru ekki færðar: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="delete_failure_alert_content" msgid="7856890428816304981">"Þessum skrám var ekki eytt: <xliff:g id="LIST">%1$s</xliff:g>"</string>
-    <string name="copy_converted_warning_content" msgid="6481928162944612074">"Þessum skrám var umbreytt yfir á annað snið: <xliff:g id="LIST">%1$s</xliff:g>"</string>
+    <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
+      <item quantity="one">Þessar skrár voru ekki afritaðar: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Þessar skrár voru ekki afritaðar: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
+      <item quantity="one">Þessar skrár voru ekki þjappaðar: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Þessar skrár voru ekki þjappaðar: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
+      <item quantity="one">Þessar skrár voru ekki dregnar út: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Þessar skrár voru ekki dregnar út: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
+      <item quantity="one">Þessar skrár voru ekki færðar: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Þessar skrár voru ekki færðar: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
+      <item quantity="one">Þessum skrám var ekki eytt: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Þessum skrám var ekki eytt: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
+      <item quantity="one">Þessum skrám var breytt í annað snið: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Þessum skrám var breytt í annað snið: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+    </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> skrá afrituð á klippiborð.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> skrár afritaðar á klippiborð.</item>
