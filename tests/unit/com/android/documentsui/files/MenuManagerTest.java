@@ -206,6 +206,24 @@ public final class MenuManagerTest {
     }
 
     @Test
+    public void testActionMenu_canOpenWith() {
+        selectionDetails.canOpenWith = true;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        openWith.assertVisible();
+        openWith.assertEnabled();
+    }
+
+    @Test
+    public void testActionMenu_cantOpenWith() {
+        selectionDetails.canOpenWith = false;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        openWith.assertVisible();
+        openWith.assertDisabled();
+    }
+
+    @Test
     public void testOptionMenu() {
         mgr.updateOptionMenu(testMenu);
 
@@ -351,8 +369,6 @@ public final class MenuManagerTest {
         mgr.updateContextMenuForFiles(testMenu, selectionDetails);
         open.assertVisible();
         open.assertEnabled();
-        openWith.assertVisible();
-        openWith.assertEnabled();
         cut.assertVisible();
         copy.assertVisible();
         rename.assertVisible();
@@ -361,13 +377,27 @@ public final class MenuManagerTest {
     }
 
     @Test
+    public void testContextMenu_OnFile_canOpenWith() {
+        selectionDetails.canOpenWith = true;
+        mgr.updateContextMenuForFiles(testMenu, selectionDetails);
+        openWith.assertVisible();
+        openWith.assertEnabled();
+    }
+
+    @Test
+    public void testContextMenu_OnFile_cantOpenWith() {
+        selectionDetails.canOpenWith = false;
+        mgr.updateContextMenuForFiles(testMenu, selectionDetails);
+        openWith.assertVisible();
+        openWith.assertDisabled();
+    }
+
+    @Test
     public void testContextMenu_OnMultipleFiles() {
         selectionDetails.size = 3;
         mgr.updateContextMenuForFiles(testMenu, selectionDetails);
         open.assertVisible();
         open.assertDisabled();
-        openWith.assertVisible();
-        openWith.assertDisabled();
     }
 
     @Test

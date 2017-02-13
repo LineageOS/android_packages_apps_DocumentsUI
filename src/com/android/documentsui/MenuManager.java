@@ -54,6 +54,7 @@ public abstract class MenuManager {
     /** @see ActionModeController */
     public void updateActionMenu(Menu menu, SelectionDetails selection) {
         updateOpenInActionMode(menu.findItem(R.id.menu_open), selection);
+        updateOpenWith(menu.findItem(R.id.menu_open_with), selection);
         updateDelete(menu.findItem(R.id.menu_delete), selection);
         updateShare(menu.findItem(R.id.menu_share), selection);
         updateRename(menu.findItem(R.id.menu_rename), selection);
@@ -313,6 +314,8 @@ public abstract class MenuManager {
         boolean canPasteInto();
 
         boolean canExtract();
+
+        boolean canOpenWith();
     }
 
     public static class DirectoryDetails {

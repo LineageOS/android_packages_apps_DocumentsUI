@@ -143,4 +143,9 @@ public class SelectionMetadata
     public boolean canPasteInto() {
         return mDirectoryCount == 1 && mWritableDirectoryCount == 1 && size() == 1;
     }
+
+    @Override
+    public boolean canOpenWith() {
+        return size() == 1 && mInArchiveCount == 0 && mPartialCount == 0;
+    }
 }

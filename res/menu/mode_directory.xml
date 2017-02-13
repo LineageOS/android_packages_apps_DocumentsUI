@@ -20,6 +20,10 @@
         android:title="@string/menu_open"
         android:showAsAction="always" />
     <item
+        android:id="@+id/menu_open_with"
+        android:title="@string/menu_open_with"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/menu_share"
         android:icon="@drawable/ic_menu_share"
         android:title="@string/menu_share"
@@ -38,7 +42,6 @@
         android:title="@string/menu_copy"
         android:showAsAction="never"
         android:visible="false" />
-
     <item
         android:id="@+id/menu_extract_to"
         android:title="@string/menu_extract"

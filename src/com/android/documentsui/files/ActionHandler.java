@@ -425,7 +425,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public void showChooserForDoc(DocumentInfo doc) {
-        assert(!doc.isContainer());
+        assert(!doc.isDirectory());
 
         if (manageDocument(doc)) {
             Log.w(TAG, "Open with is not yet supported for managed doc.");
