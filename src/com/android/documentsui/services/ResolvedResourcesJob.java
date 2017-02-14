@@ -16,11 +16,14 @@
 
 package com.android.documentsui.services;
 
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.os.RemoteException;
 import android.util.Log;
 
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
@@ -68,7 +71,33 @@ public abstract class ResolvedResourcesJob extends Job {
             }
         }
 
+        // Acquire all source archives, so they are not gone while copying from.
+        try {
+            for (DocumentInfo doc : mResolvedDocs) {
+                if (doc.isInArchive()) {
+                    ArchivesProvider.acquireArchive(getClient(doc), doc.derivedUri);
+                }
+            }
+        } catch (RemoteException e) {
+            Log.e(TAG, "Failed to acquire an archive.");
+            return false;
+        }
+
         return true;
+    }
+
+    @Override
+    void finish() {
+        // Release all archives.
+        for (DocumentInfo doc : mResolvedDocs) {
+            if (doc.isInArchive()) {
+                try {
+                    ArchivesProvider.releaseArchive(getClient(doc), doc.derivedUri);
+                } catch (RemoteException e) {
+                    Log.e(TAG, "Failed to release an archive.");
+                }
+            }
+        }
     }
 
     /**
