@@ -336,6 +336,13 @@ public abstract class BaseActivity
                 setDisplayAdvancedDevices(!mState.showAdvanced);
                 return true;
 
+            case R.id.menu_select_all:
+                DirectoryFragment dir = getDirectoryFragment();
+                if (dir != null) {
+                    dir.selectAllFiles();
+                }
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

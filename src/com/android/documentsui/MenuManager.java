@@ -71,6 +71,7 @@ public abstract class MenuManager {
     public void updateOptionMenu(Menu menu) {
         updateCreateDir(menu.findItem(R.id.menu_create_dir));
         updateSettings(menu.findItem(R.id.menu_settings));
+        updateSelectAll(menu.findItem(R.id.menu_select_all));
         updateNewWindow(menu.findItem(R.id.menu_new_window));
         updateModePicker(menu.findItem(R.id.menu_grid), menu.findItem(R.id.menu_list));
         // Sort menu item is managed by SortMenuManager
