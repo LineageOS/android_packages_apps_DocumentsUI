@@ -500,7 +500,7 @@ public final class SelectionManager {
             }
             if (selected) {
                 boolean canSelect = canSetState(id, true);
-                if (canSelect) {
+                if (canSelect && !mSelection.mSelection.contains(id)) {
                     mSelection.mProvisionalSelection.add(id);
                 }
             } else {
