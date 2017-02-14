@@ -57,7 +57,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
         if (picking()) {
             // May already be hidden because the root
             // doesn't support search.
-            mSearchManager.showMenu(false);
+            mSearchManager.showMenu(null);
         }
     }
 
