@@ -45,6 +45,12 @@
             android:showAsAction="always" />
 
         <item
+            android:id="@+id/menu_select_all"
+            android:title="@string/menu_select_all"
+            android:alphabeticShortcut="a"
+            android:showAsAction="never"
+            android:visible="false" />
+        <item
             android:id="@+id/menu_new_window"
             android:title="@string/menu_new_window"
             android:alphabeticShortcut="n"
