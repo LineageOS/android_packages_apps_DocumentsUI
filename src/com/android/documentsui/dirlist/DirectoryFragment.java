@@ -766,7 +766,7 @@ public class DirectoryFragment extends Fragment
                 drawerTitleId = R.string.menu_extract;
                 break;
             case FileOperationService.OPERATION_MOVE:
-                drawerTitleId = R.string.menu_copy;
+                drawerTitleId = R.string.menu_move;
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown mode: " + mode);
