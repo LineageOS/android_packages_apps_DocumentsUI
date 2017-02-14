@@ -20,5 +20,5 @@
         android:color="@color/item_doc_title" />
     <item
         android:state_enabled="false"
-        android:color="@*android:color/secondary_text_default_material_light"/>
+        android:color="@color/item_doc_title_disabled"/>
 </selector>

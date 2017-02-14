@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    android:background="@*android:color/transparent">
+    android:background="@color/item_drag_shadow_container_background">
 
     <LinearLayout
         android:layout_width="match_parent"
