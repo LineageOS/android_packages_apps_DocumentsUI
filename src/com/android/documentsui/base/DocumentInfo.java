@@ -264,7 +264,7 @@ public class DocumentInfo implements Durable, Parcelable {
     }
 
     public boolean isContainer() {
-        return isDirectory() || isArchive();
+        return isDirectory() || (isArchive() && !isInArchive());
     }
 
     public boolean isVirtual() {
