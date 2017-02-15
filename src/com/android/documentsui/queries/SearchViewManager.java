@@ -135,7 +135,7 @@ public class SearchViewManager implements
     }
 
     public void showMenu(@Nullable DocumentStack stack) {
-        final DocumentInfo cwd = stack.peek();
+        final DocumentInfo cwd = stack != null ? stack.peek() : null;
 
         boolean supportsSearch = true;
 
