@@ -44,6 +44,7 @@ public abstract class ResolvedResourcesJob extends Job {
     private static final String TAG = "ResolvedResourcesJob";
 
     final List<DocumentInfo> mResolvedDocs;
+    final List<DocumentInfo> mAcquiredArchivedDocs = new ArrayList<>();
 
     ResolvedResourcesJob(Context service, Listener listener, String id, @OpType int opType,
             DocumentStack destination, UrisSupplier srcs) {
@@ -51,9 +52,8 @@ public abstract class ResolvedResourcesJob extends Job {
 
         assert(srcs.getItemCount() > 0);
 
-        // delay the initialization of it to setUp() because it may be IO extensive.
+        // Delay the initialization of it to setUp() because it may be IO extensive.
         mResolvedDocs = new ArrayList<>(srcs.getItemCount());
-
     }
 
     boolean setUp() {
@@ -71,11 +71,13 @@ public abstract class ResolvedResourcesJob extends Job {
             }
         }
 
-        // Acquire all source archives, so they are not gone while copying from.
+        // Acquire all source archived documents, so they are not gone while copying from.
         try {
             for (DocumentInfo doc : mResolvedDocs) {
                 if (doc.isInArchive()) {
-                    ArchivesProvider.acquireArchive(getClient(doc), doc.derivedUri);
+                    final ContentProviderClient client = getClient(doc);
+                    ArchivesProvider.acquireArchive(client, doc.derivedUri);
+                    mAcquiredArchivedDocs.add(doc);
                 }
             }
         } catch (RemoteException e) {
@@ -88,14 +90,12 @@ public abstract class ResolvedResourcesJob extends Job {
 
     @Override
     void finish() {
-        // Release all archives.
-        for (DocumentInfo doc : mResolvedDocs) {
-            if (doc.isInArchive()) {
-                try {
-                    ArchivesProvider.releaseArchive(getClient(doc), doc.derivedUri);
-                } catch (RemoteException e) {
-                    Log.e(TAG, "Failed to release an archive.");
-                }
+        // Release all archived documents.
+        for (DocumentInfo doc : mAcquiredArchivedDocs) {
+            try {
+                ArchivesProvider.releaseArchive(getClient(doc), doc.derivedUri);
+            } catch (RemoteException e) {
+                Log.e(TAG, "Failed to release an archived document.");
             }
         }
     }
