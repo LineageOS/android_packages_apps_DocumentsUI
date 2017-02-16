@@ -82,7 +82,8 @@ public class BandController extends OnScrollListener {
         this(new RuntimeSelectionEnvironment(view), adapter, selectionManager, lock, gridItemTester);
     }
 
-    private BandController(
+    @VisibleForTesting
+    BandController(
             SelectionEnvironment env,
             DocumentsAdapter adapter,
             SelectionManager selectionManager,
@@ -174,7 +175,8 @@ public class BandController extends OnScrollListener {
         };
     }
 
-    private boolean isActive() {
+    @VisibleForTesting
+    boolean isActive() {
         return mModel != null;
     }
 
@@ -210,8 +212,8 @@ public class BandController extends OnScrollListener {
     }
 
     public boolean shouldStart(InputEvent e) {
-        // Don't start, or extend bands on right click.
-        if (e.isSecondaryButtonPressed()) {
+        // Don't start, or extend bands on non-left clicks.
+        if (!e.isPrimaryButtonPressed()) {
             return false;
         }
 
@@ -237,7 +239,7 @@ public class BandController extends OnScrollListener {
     public boolean shouldStop(InputEvent input) {
         return isActive()
                 && input.isMouseEvent()
-                && (input.isActionUp() || input.isActionCancel());
+                && (input.isActionUp() || input.isMultiPointerActionUp() || input.isActionCancel());
     }
 
     /**

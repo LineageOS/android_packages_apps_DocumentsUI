@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.support.test.filters.SmallTest;
@@ -105,7 +106,12 @@ public final class UserInputHandler_MouseTest {
 
     @Test
     public void testScroll_shouldTrap() {
-        assertTrue(mInputHandler.onScroll(mEvent.at(0).build()));
+        assertTrue(mInputHandler.onScroll(mEvent.at(0).action(MotionEvent.ACTION_MOVE).primary().build()));
+    }
+
+    @Test
+    public void testScroll_NoTrapForTwoFinger() {
+        assertFalse(mInputHandler.onScroll(mEvent.at(0).action(MotionEvent.ACTION_MOVE).build()));
     }
 
     @Test

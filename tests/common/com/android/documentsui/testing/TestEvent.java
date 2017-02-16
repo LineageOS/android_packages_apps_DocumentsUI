@@ -73,6 +73,7 @@ public class TestEvent implements InputEvent {
 
     private @Action int mAction;
     private @ToolType int mToolType;
+    private int mPointerCount;
     private Set<Integer> mButtons;
     private Set<Integer> mKeys;
     private Point mLocation;
@@ -87,6 +88,7 @@ public class TestEvent implements InputEvent {
         mLocation = new Point(0, 0);
         mRawLocation = new Point(0, 0);
         mDetails = new Details();
+        mPointerCount = 0;
     }
 
     private TestEvent(TestEvent source) {
@@ -98,6 +100,7 @@ public class TestEvent implements InputEvent {
         mLocation = source.mLocation;
         mRawLocation = source.mRawLocation;
         mDetails = new Details(source.mDetails);
+        mPointerCount = source.mPointerCount;
     }
 
     @Override
@@ -123,6 +126,11 @@ public class TestEvent implements InputEvent {
     @Override
     public float getRawY() {
         return mRawLocation.y;
+    }
+
+    @Override
+    public int getPointerCount() {
+        return mPointerCount;
     }
 
     @Override
@@ -171,6 +179,16 @@ public class TestEvent implements InputEvent {
     }
 
     @Override
+    public boolean isMultiPointerActionDown() {
+        return mAction == MotionEvent.ACTION_POINTER_DOWN;
+    }
+
+    @Override
+    public boolean isMultiPointerActionUp() {
+        return mAction == MotionEvent.ACTION_POINTER_UP;
+    }
+
+    @Override
     public boolean isActionMove() {
         return mAction == MotionEvent.ACTION_MOVE;
     }
@@ -187,7 +205,7 @@ public class TestEvent implements InputEvent {
 
     @Override
     public boolean isOverDragHotspot() {
-        return mDetails.isOverInteractiveArea();
+        return isOverItem() && mDetails.isInDragHotspot(this);
     }
 
     @Override
@@ -197,6 +215,11 @@ public class TestEvent implements InputEvent {
             return doc != null && doc.hasModelId();
         }
         return false;
+    }
+
+    @Override
+    public boolean isTouchpadScroll() {
+        return isMouseEvent() && mButtons.isEmpty() && isActionMove();
     }
 
     @Override
@@ -257,10 +280,6 @@ public class TestEvent implements InputEvent {
 
 
         private boolean isOverItem() {
-            return mPosition != Integer.MIN_VALUE && mPosition != RecyclerView.NO_POSITION;
-        }
-
-        private boolean isOverInteractiveArea() {
             return mPosition != Integer.MIN_VALUE && mPosition != RecyclerView.NO_POSITION;
         }
 
@@ -352,6 +371,11 @@ public class TestEvent implements InputEvent {
             return this;
         }
 
+        public Builder pointerCount(int count) {
+            mState.mPointerCount = count;
+            return this;
+        }
+
         /**
          * Adds one or more button press attributes.
          */
@@ -405,6 +429,11 @@ public class TestEvent implements InputEvent {
 
         public Builder inDragHotspot() {
             mState.mDetails.mInDragHotspot = true;
+            return this;
+        }
+
+        public Builder notInDragHotspot() {
+            mState.mDetails.mInDragHotspot = false;
             return this;
         }
 
