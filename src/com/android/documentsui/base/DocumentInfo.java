@@ -263,8 +263,9 @@ public class DocumentInfo implements Durable, Parcelable {
         return (flags & Document.FLAG_PARTIAL) != 0;
     }
 
+    // Containers are documents which can be opened in DocumentsUI as folders.
     public boolean isContainer() {
-        return isDirectory() || (isArchive() && !isInArchive());
+        return isDirectory() || (isArchive() && !isInArchive() && !isPartial());
     }
 
     public boolean isVirtual() {
