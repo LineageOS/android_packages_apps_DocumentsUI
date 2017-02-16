@@ -305,7 +305,8 @@ public final class UserInputHandler<T extends InputEvent>
         // Don't scroll content window in response to mouse drag
         boolean onScroll(T event) {
             if (VERBOSE) Log.v(MTAG, "Delegated onScroll event.");
-            return true;
+            // If it's two-finger trackpad scrolling, we want to scroll
+            return !event.isTouchpadScroll();
         }
 
         boolean onSingleTapUp(T event) {

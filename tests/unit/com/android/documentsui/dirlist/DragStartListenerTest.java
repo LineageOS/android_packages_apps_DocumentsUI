@@ -90,6 +90,7 @@ public class DragStartListenerTest extends AndroidTestCase {
                 .action(MotionEvent.ACTION_MOVE)
                 .mouse()
                 .at(1)
+                .inDragHotspot()
                 .primary();
     }
 
