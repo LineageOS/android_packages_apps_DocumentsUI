@@ -20,6 +20,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.CancellationSignal;
 import android.os.OperationCanceledException;
+import android.os.ParcelFileDescriptor.AutoCloseOutputStream;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract.Document;
 import android.support.annotation.Nullable;
@@ -59,10 +60,14 @@ public class WriteableArchive extends Archive {
     private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
     @GuardedBy("mEntries")
     private final ZipOutputStream mZipOutputStream;
+    private final AutoCloseOutputStream mOutputStream;
 
+    /**
+     * Takes ownership of the passed file descriptor.
+     */
     private WriteableArchive(
             Context context,
-            FileDescriptor fd,
+            ParcelFileDescriptor fd,
             Uri archiveUri,
             int accessMode,
             @Nullable Uri notificationUri)
@@ -73,7 +78,8 @@ public class WriteableArchive extends Archive {
         }
 
         addEntry(null /* no parent */, new ZipEntry("/"));  // Root entry.
-        mZipOutputStream = new ZipOutputStream(new FileOutputStream(fd));
+        mOutputStream = new AutoCloseOutputStream(fd);
+        mZipOutputStream = new ZipOutputStream(mOutputStream);
     }
 
     private void addEntry(@Nullable ZipEntry parentEntry, ZipEntry entry) {
@@ -116,16 +122,13 @@ public class WriteableArchive extends Archive {
             Context context, ParcelFileDescriptor descriptor, Uri archiveUri, int accessMode,
             @Nullable Uri notificationUri)
             throws IOException {
-        FileDescriptor fd = null;
         try {
-            fd = new FileDescriptor();
-            fd.setInt$(descriptor.detachFd());
-            return new WriteableArchive(context, fd, archiveUri, accessMode, notificationUri);
+            return new WriteableArchive(context, descriptor, archiveUri, accessMode,
+                    notificationUri);
         } catch (Exception e) {
             // Since the method takes ownership of the passed descriptor, close it
             // on exception.
             IoUtils.closeQuietly(descriptor);
-            IoUtils.closeQuietly(fd);
             throw e;
         }
     }
@@ -307,5 +310,7 @@ public class WriteableArchive extends Archive {
                 Log.e(TAG, "Failed while closing the ZIP file.", e);
             }
         }
+
+        IoUtils.closeQuietly(mOutputStream);
     }
 };
