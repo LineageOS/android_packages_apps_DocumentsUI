@@ -107,8 +107,13 @@ final class CompressJob extends CopyJob {
         try {
             mDstInfo = DocumentInfo.fromUri(resolver, ArchivesProvider.buildUriForArchive(
                     archiveUri, ParcelFileDescriptor.MODE_WRITE_ONLY));
+            ArchivesProvider.acquireArchive(getClient(mDstInfo), mDstInfo.derivedUri);
         } catch (FileNotFoundException e) {
             Log.e(TAG, "Failed to create dstInfo.", e);
+            failureCount = mResourceUris.getItemCount();
+            return false;
+        } catch (RemoteException e) {
+            Log.e(TAG, "Failed to acquire the archive.", e);
             failureCount = mResourceUris.getItemCount();
             return false;
         }
@@ -118,9 +123,15 @@ final class CompressJob extends CopyJob {
 
     @Override
     void finish() {
-        final ContentResolver resolver = appContext.getContentResolver();
-        ArchivesProvider.closeArchive(resolver, mDstInfo.derivedUri);
+        try {
+            ArchivesProvider.releaseArchive(getClient(mDstInfo), mDstInfo.derivedUri);
+        } catch (RemoteException e) {
+            Log.e(TAG, "Failed to release the archive.");
+        }
+
         // TODO: Remove the archive file in case of an error.
+
+        super.finish();
     }
 
     /**

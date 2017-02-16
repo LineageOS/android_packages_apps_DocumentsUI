@@ -20,6 +20,7 @@ import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.archives.Archive;
 import com.android.documentsui.tests.R;
 
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.ContentObserver;
@@ -79,6 +80,10 @@ public class ArchivesProviderTest extends AndroidTestCase {
         final ContentResolver resolver = getContext().getContentResolver();
         final CountDownLatch latch = new CountDownLatch(1);
 
+        final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                archiveUri);
+        ArchivesProvider.acquireArchive(client, archiveUri);
+
         {
             final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
             assertNotNull("Cursor must not be null. File not found?", cursor);
@@ -109,6 +114,9 @@ public class ArchivesProviderTest extends AndroidTestCase {
             assertEquals(false, extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
             assertNull(extras.getString(DocumentsContract.EXTRA_ERROR));
         }
+
+        ArchivesProvider.releaseArchive(client, archiveUri);
+        client.release();
     }
 
     public void testOpen_Failure() throws InterruptedException {
@@ -123,7 +131,12 @@ public class ArchivesProviderTest extends AndroidTestCase {
         final ContentResolver resolver = getContext().getContentResolver();
         final CountDownLatch latch = new CountDownLatch(1);
 
+        final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                archiveUri);
+        ArchivesProvider.acquireArchive(client, archiveUri);
+
         {
+            // TODO: Close this and any other cursor in this file.
             final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
             assertNotNull("Cursor must not be null. File not found?", cursor);
 
@@ -153,4 +166,51 @@ public class ArchivesProviderTest extends AndroidTestCase {
             assertEquals(false, extras.getBoolean(DocumentsContract.EXTRA_LOADING, false));
             assertFalse(TextUtils.isEmpty(extras.getString(DocumentsContract.EXTRA_ERROR)));
         }
-    }}
+
+        ArchivesProvider.releaseArchive(client, archiveUri);
+        client.release();
+    }
+
+    public void testOpen_ClosesOnRelease() throws InterruptedException {
+        final Uri sourceUri = DocumentsContract.buildDocumentUri(
+                ResourcesProvider.AUTHORITY, "broken.zip");
+        final Uri archiveUri = ArchivesProvider.buildUriForArchive(sourceUri,
+                ParcelFileDescriptor.MODE_READ_ONLY);
+
+        final Uri childrenUri = DocumentsContract.buildChildDocumentsUri(
+                ArchivesProvider.AUTHORITY, DocumentsContract.getDocumentId(archiveUri));
+
+        final ContentResolver resolver = getContext().getContentResolver();
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                archiveUri);
+
+        // Acquire twice to ensure that the refcount works correctly.
+        ArchivesProvider.acquireArchive(client, archiveUri);
+        ArchivesProvider.acquireArchive(client, archiveUri);
+
+        {
+            final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
+            assertNotNull("Cursor must not be null. File not found?", cursor);
+        }
+
+        ArchivesProvider.releaseArchive(client, archiveUri);
+
+        {
+            final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
+            assertNotNull("Cursor must not be null. File not found?", cursor);
+        }
+
+        ArchivesProvider.releaseArchive(client, archiveUri);
+
+        try {
+            resolver.query(childrenUri, null, null, null, null, null);
+            fail("The archive was expected to be invalited on the last release call.");
+        } catch (IllegalStateException e) {
+            // Expected.
+        }
+
+        client.release();
+    }
+}

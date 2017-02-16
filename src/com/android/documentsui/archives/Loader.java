@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Loads an instance of Archive lazily.
@@ -39,16 +38,19 @@ public class Loader {
     public static final int STATUS_OPENING = 0;
     public static final int STATUS_OPENED = 1;
     public static final int STATUS_FAILED = 2;
+    public static final int STATUS_CLOSING = 3;
+    public static final int STATUS_CLOSED = 4;
 
     private final Context mContext;
     private final Uri mArchiveUri;
     private final int mAccessMode;
     private final Uri mNotificationUri;
-    private final ReentrantReadWriteLock mLock = new ReentrantReadWriteLock();
     private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
-    private final Object mStatusLock = new Object();
-    @GuardedBy("mStatusLock")
+    private final Object mLock = new Object();
+    @GuardedBy("mLock")
     private int mStatus = STATUS_OPENING;
+    @GuardedBy("mLock")
+    private int mRefCount = 0;
     private Archive mArchive = null;
 
     Loader(Context context, Uri archiveUri, int accessMode, Uri notificationUri) {
@@ -62,19 +64,16 @@ public class Loader {
     }
 
     synchronized Archive get() {
-        synchronized (mStatusLock) {
+        synchronized (mLock) {
             if (mStatus == STATUS_OPENED) {
                 return mArchive;
             }
         }
 
-        // Once loading the archive failed, do not to retry opening it until the
-        // archive file has changed (the loader is deleted once we receive
-        // a notification about the archive file being changed).
-        synchronized (mStatusLock) {
-            if (mStatus == STATUS_FAILED) {
+        synchronized (mLock) {
+            if (mStatus != STATUS_OPENING) {
                 throw new IllegalStateException(
-                        "Trying to perform an operation on an archive which failed to load.");
+                        "Trying to perform an operation on an archive which is invalidated.");
             }
         }
 
@@ -94,12 +93,18 @@ public class Loader {
             } else {
                 throw new IllegalStateException("Access mode not supported.");
             }
-            synchronized (mStatusLock) {
-                mStatus = STATUS_OPENED;
+            boolean closedDueToRefcount = false;
+            synchronized (mLock) {
+                if (mRefCount == 0) {
+                    mArchive.close();
+                    mStatus = STATUS_CLOSED;
+                } else {
+                    mStatus = STATUS_OPENED;
+                }
             }
         } catch (IOException | RuntimeException e) {
             Log.e(TAG, "Failed to open the archive.", e);
-            synchronized (mStatusLock) {
+            synchronized (mLock) {
                 mStatus = STATUS_FAILED;
             }
             throw new IllegalStateException("Failed to open the archive.", e);
@@ -115,16 +120,34 @@ public class Loader {
     }
 
     int getStatus() {
-        synchronized (mStatusLock) {
+        synchronized (mLock) {
             return mStatus;
         }
     }
 
-    Lock getReadLock() {
-        return mLock.readLock();
+    void acquire() {
+        synchronized (mLock) {
+            mRefCount++;
+        }
     }
 
-    Lock getWriteLock() {
-        return mLock.writeLock();
+    void release() {
+        synchronized (mLock) {
+            mRefCount--;
+            if (mRefCount == 0) {
+                if (mStatus == STATUS_OPENED) {
+                    try {
+                        mArchive.close();
+                        mStatus = STATUS_CLOSED;
+                    } catch (IOException e) {
+                        Log.e(TAG, "Failed to close the archive on release.", e);
+                        mStatus = STATUS_FAILED;
+                    }
+                } else {
+                    mStatus = STATUS_CLOSING;
+                    // ::get() will close the archive once opened.
+                }
+            }
+        }
     }
 }

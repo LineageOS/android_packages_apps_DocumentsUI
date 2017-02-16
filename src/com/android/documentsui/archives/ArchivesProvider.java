@@ -35,7 +35,6 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsProvider;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.util.LruCache;
 
 import com.android.documentsui.R;
 import com.android.internal.annotations.GuardedBy;
@@ -57,37 +56,28 @@ import java.util.concurrent.locks.Lock;
  * <p>This class is thread safe. All methods can be called on any thread without
  * synchronization.
  */
-public class ArchivesProvider extends DocumentsProvider implements Closeable {
+public class ArchivesProvider extends DocumentsProvider {
     public static final String AUTHORITY = "com.android.documentsui.archives";
 
     private static final String TAG = "ArchivesProvider";
-    private static final String METHOD_CLOSE_ARCHIVE = "closeArchive";
-    private static final int OPENED_ARCHIVES_CACHE_SIZE = 4;
+    private static final String METHOD_ACQUIRE_ARCHIVE = "acquireArchive";
+    private static final String METHOD_RELEASE_ARCHIVE = "releaseArchive";
     private static final String[] ZIP_MIME_TYPES = {
             "application/zip", "application/x-zip", "application/x-zip-compressed"
     };
 
     @GuardedBy("mArchives")
-    private final LruCache<Key, Loader> mArchives =
-            new LruCache<Key, Loader>(OPENED_ARCHIVES_CACHE_SIZE) {
-                @Override
-                public void entryRemoved(boolean evicted, Key key,
-                        Loader oldValue, Loader newValue) {
-                    oldValue.getWriteLock().lock();
-                    try {
-                        oldValue.get().close();
-                    } catch (IOException e) {
-                        Log.e(TAG, "Closing archive failed.", e);
-                    }finally {
-                        oldValue.getWriteLock().unlock();
-                    }
-                }
-            };
+    private final Map<Key, Loader> mArchives = new HashMap<Key, Loader>();
 
     @Override
     public Bundle call(String method, String arg, Bundle extras) {
-        if (METHOD_CLOSE_ARCHIVE.equals(method)) {
-            closeArchive(arg);
+        if (METHOD_ACQUIRE_ARCHIVE.equals(method)) {
+            acquireArchive(arg);
+            return null;
+        }
+
+        if (METHOD_RELEASE_ARCHIVE.equals(method)) {
+            releaseArchive(arg);
             return null;
         }
 
@@ -109,40 +99,35 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
             @Nullable String sortOrder)
             throws FileNotFoundException {
         final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
-        Loader loader = null;
-        try {
-            loader = obtainInstance(documentId);
-            final int status = loader.getStatus();
-            // If already loaded, then forward the request to the archive.
-            if (status == Loader.STATUS_OPENED) {
-                return loader.get().queryChildDocuments(documentId, projection, sortOrder);
-            }
-
-            final MatrixCursor cursor = new MatrixCursor(
-                    projection != null ? projection : Archive.DEFAULT_PROJECTION);
-            final Bundle bundle = new Bundle();
-
-            switch (status) {
-                case Loader.STATUS_OPENING:
-                    bundle.putBoolean(DocumentsContract.EXTRA_LOADING, true);
-                    break;
-
-                case Loader.STATUS_FAILED:
-                    // Return an empty cursor with EXTRA_LOADING, which shows spinner
-                    // in DocumentsUI. Once the archive is loaded, the notification will
-                    // be sent, and the directory reloaded.
-                    bundle.putString(DocumentsContract.EXTRA_ERROR,
-                            getContext().getString(R.string.archive_loading_failed));
-                    break;
-            }
-
-            cursor.setExtras(bundle);
-            cursor.setNotificationUri(getContext().getContentResolver(),
-                    buildUriForArchive(archiveId.mArchiveUri, archiveId.mAccessMode));
-            return cursor;
-        } finally {
-            releaseInstance(loader);
+        final Loader loader = getLoaderOrThrow(documentId);
+        final int status = loader.getStatus();
+        // If already loaded, then forward the request to the archive.
+        if (status == Loader.STATUS_OPENED) {
+            return loader.get().queryChildDocuments(documentId, projection, sortOrder);
         }
+
+        final MatrixCursor cursor = new MatrixCursor(
+                projection != null ? projection : Archive.DEFAULT_PROJECTION);
+        final Bundle bundle = new Bundle();
+
+        switch (status) {
+            case Loader.STATUS_OPENING:
+                bundle.putBoolean(DocumentsContract.EXTRA_LOADING, true);
+                break;
+
+            case Loader.STATUS_FAILED:
+                // Return an empty cursor with EXTRA_LOADING, which shows spinner
+                // in DocumentsUI. Once the archive is loaded, the notification will
+                // be sent, and the directory reloaded.
+                bundle.putString(DocumentsContract.EXTRA_ERROR,
+                        getContext().getString(R.string.archive_loading_failed));
+                break;
+        }
+
+        cursor.setExtras(bundle);
+        cursor.setNotificationUri(getContext().getContentResolver(),
+                buildUriForArchive(archiveId.mArchiveUri, archiveId.mAccessMode));
+        return cursor;
     }
 
     @Override
@@ -152,26 +137,14 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
             return Document.MIME_TYPE_DIR;
         }
 
-        Loader loader = null;
-        try {
-            loader = obtainInstance(documentId);
-            return loader.get().getDocumentType(documentId);
-        } finally {
-            releaseInstance(loader);
-        }
+        final Loader loader = getLoaderOrThrow(documentId);
+        return loader.get().getDocumentType(documentId);
     }
 
     @Override
     public boolean isChildDocument(String parentDocumentId, String documentId) {
-        Loader loader = null;
-        try {
-            loader = obtainInstance(documentId);
-            return loader.get().isChildDocument(parentDocumentId, documentId);
-        } catch (FileNotFoundException e) {
-            throw new IllegalStateException(e);
-        } finally {
-            releaseInstance(loader);
-        }
+        final Loader loader = getLoaderOrThrow(documentId);
+        return loader.get().isChildDocument(parentDocumentId, documentId);
     }
 
     @Override
@@ -201,52 +174,32 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
             }
         }
 
-        Loader loader = null;
-        try {
-            loader = obtainInstance(documentId);
-            return loader.get().queryDocument(documentId, projection);
-        } finally {
-            releaseInstance(loader);
-        }
+        final Loader loader = getLoaderOrThrow(documentId);
+        return loader.get().queryDocument(documentId, projection);
     }
 
     @Override
     public String createDocument(
             String parentDocumentId, String mimeType, String displayName)
             throws FileNotFoundException {
-        Loader loader = null;
-        try {
-            loader = obtainInstance(parentDocumentId);
-            return loader.get().createDocument(parentDocumentId, mimeType, displayName);
-        } finally {
-            releaseInstance(loader);
-        }
+        final Loader loader = getLoaderOrThrow(parentDocumentId);
+        return loader.get().createDocument(parentDocumentId, mimeType, displayName);
     }
 
     @Override
     public ParcelFileDescriptor openDocument(
             String documentId, String mode, final CancellationSignal signal)
             throws FileNotFoundException {
-        Loader loader = null;
-        try {
-            loader = obtainInstance(documentId);
-            return loader.get().openDocument(documentId, mode, signal);
-        } finally {
-            releaseInstance(loader);
-        }
+        final Loader loader = getLoaderOrThrow(documentId);
+        return loader.get().openDocument(documentId, mode, signal);
     }
 
     @Override
     public AssetFileDescriptor openDocumentThumbnail(
             String documentId, Point sizeHint, final CancellationSignal signal)
             throws FileNotFoundException {
-        Loader loader = null;
-        try {
-            loader = obtainInstance(documentId);
-            return loader.get().openDocumentThumbnail(documentId, sizeHint, signal);
-        } finally {
-            releaseInstance(loader);
-        }
+        final Loader loader = getLoaderOrThrow(documentId);
+        return loader.get().openDocumentThumbnail(documentId, sizeHint, signal);
     }
 
     /**
@@ -273,101 +226,80 @@ public class ArchivesProvider extends DocumentsProvider implements Closeable {
     }
 
     /**
-     * Closes an archive.
+     * Acquires an archive.
      */
-    public static void closeArchive(ContentResolver resolver, Uri archiveUri) {
+    public static void acquireArchive(ContentProviderClient client, Uri archiveUri) {
         Archive.MorePreconditions.checkArgumentEquals(AUTHORITY, archiveUri.getAuthority(),
                 "Mismatching authority. Expected: %s, actual: %s.");
         final String documentId = DocumentsContract.getDocumentId(archiveUri);
-        final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
 
-        try (final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
-                AUTHORITY)) {
-            client.call(METHOD_CLOSE_ARCHIVE, documentId, null);
+        try {
+            client.call(METHOD_ACQUIRE_ARCHIVE, documentId, null);
         } catch (Exception e) {
-            Log.w(TAG, "Failed to close archive.", e);
+            Log.w(TAG, "Failed to acquire archive.", e);
         }
     }
 
     /**
-     * Closes an archive.
+     * Releases an archive.
      */
-    public void closeArchive(String documentId) {
+    public static void releaseArchive(ContentProviderClient client, Uri archiveUri) {
+        Archive.MorePreconditions.checkArgumentEquals(AUTHORITY, archiveUri.getAuthority(),
+                "Mismatching authority. Expected: %s, actual: %s.");
+        final String documentId = DocumentsContract.getDocumentId(archiveUri);
+
+        try {
+            client.call(METHOD_RELEASE_ARCHIVE, documentId, null);
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to release archive.", e);
+        }
+    }
+
+    /**
+     * The archive won't close until all clients release it.
+     */
+    private void acquireArchive(String documentId) {
         final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
         synchronized (mArchives) {
-            mArchives.remove(Key.fromArchiveId(archiveId));
+            final Key key = Key.fromArchiveId(archiveId);
+            Loader loader = mArchives.get(key);
+            if (loader == null) {
+                // TODO: Pass parent Uri so the loader can acquire the parent's notification Uri.
+                loader = new Loader(getContext(), archiveId.mArchiveUri, archiveId.mAccessMode,
+                        null);
+                mArchives.put(key, loader);
+            }
+            loader.acquire();
+            mArchives.put(key, loader);
         }
     }
 
     /**
-     * Closes the helper and disposes all existing archives. It will block until all ongoing
-     * operations on each opened archive are finished.
+     * If all clients release the archive, then it will be closed.
      */
-    @Override
-    // TODO: Wire close() to call().
-    public void close() {
+    private void releaseArchive(String documentId) {
+        final ArchiveId archiveId = ArchiveId.fromDocumentId(documentId);
+        final Key key = Key.fromArchiveId(archiveId);
         synchronized (mArchives) {
-            mArchives.evictAll();
+            final Loader loader = mArchives.get(key);
+            loader.release();
+            final int status = loader.getStatus();
+            if (status == Loader.STATUS_CLOSED || status == Loader.STATUS_CLOSING) {
+                mArchives.remove(key);
+            }
         }
     }
 
-    private Loader obtainInstance(String documentId) throws FileNotFoundException {
-        Loader loader;
-        synchronized (mArchives) {
-            loader = getInstanceUncheckedLocked(documentId);
-            loader.getReadLock().lock();
-        }
-        return loader;
-    }
-
-    private void releaseInstance(@Nullable Loader loader) {
-        if (loader != null) {
-            loader.getReadLock().unlock();
-        }
-    }
-
-    private Loader getInstanceUncheckedLocked(String documentId) throws FileNotFoundException {
+    private Loader getLoaderOrThrow(String documentId) {
         final ArchiveId id = ArchiveId.fromDocumentId(documentId);
         final Key key = Key.fromArchiveId(id);
-        final Loader existingLoader = mArchives.get(key);
-        if (existingLoader != null) {
-            return existingLoader;
+        synchronized (mArchives) {
+            final Loader loader = mArchives.get(key);
+            if (loader == null) {
+                throw new IllegalStateException("Archive not acquired.");
+            }
+            return loader;
         }
-
-        final Cursor cursor = getContext().getContentResolver().query(
-                id.mArchiveUri, new String[] { Document.COLUMN_MIME_TYPE }, null, null, null);
-        if (cursor == null || cursor.getCount() == 0) {
-            throw new FileNotFoundException("File not found." + id.mArchiveUri);
-        }
-
-        cursor.moveToFirst();
-        final String mimeType = cursor.getString(cursor.getColumnIndex(
-                Document.COLUMN_MIME_TYPE));
-        Preconditions.checkArgument(isSupportedArchiveType(mimeType));
-        final Uri notificationUri = cursor.getNotificationUri();
-        final Loader loader = new Loader(getContext(), id.mArchiveUri, id.mAccessMode,
-                notificationUri);
-
-        // Remove the instance from mArchives collection once the archive file changes.
-        if (notificationUri != null) {
-            final LruCache<Key, Loader> finalArchives = mArchives;
-            getContext().getContentResolver().registerContentObserver(notificationUri,
-                    false,
-                    new ContentObserver(null) {
-                        @Override
-                        public void onChange(boolean selfChange, Uri uri) {
-                            synchronized (mArchives) {
-                                final Loader currentLoader = mArchives.get(key);
-                                if (currentLoader == loader) {
-                                    mArchives.remove(key);
-                                }
-                            }
-                        }
-                    });
-        }
-
-        mArchives.put(key, loader);
-        return loader;
     }
 
     private static class Key {
