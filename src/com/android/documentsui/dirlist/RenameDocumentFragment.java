@@ -52,8 +52,6 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.ui.Snackbars;
 
-import java.util.function.Predicate;
-
 /**
  * Dialog to rename file or directory.
  */
@@ -62,14 +60,11 @@ public class RenameDocumentFragment extends DialogFragment {
     private DocumentInfo mDocument;
     private EditText mEditText;
     private TextInputLayout mRenameInputWrapper;
-    private Predicate<String> mHasFileNamed;
     private @Nullable DialogInterface mDialog;
 
-    public static void show(
-            FragmentManager fm, DocumentInfo document, Predicate<String> hasFileNamed) {
+    public static void show(FragmentManager fm, DocumentInfo document) {
         final RenameDocumentFragment dialog = new RenameDocumentFragment();
         dialog.mDocument = document;
-        dialog.mHasFileNamed = hasFileNamed;
         dialog.show(fm, TAG_RENAME_DOCUMENT);
     }
 
@@ -192,12 +187,13 @@ public class RenameDocumentFragment extends DialogFragment {
 
     private void renameDocuments(String newDisplayName) {
         BaseActivity activity = (BaseActivity) getActivity();
+        DirectoryFragment directory = (DirectoryFragment) getParentFragment();
 
         if (!isValidDocumentName(newDisplayName)) {
             Log.w(TAG, "Failed to rename file - invalid name:" + newDisplayName);
             Snackbars.makeSnackbar(getActivity(), R.string.rename_error,
                     Snackbar.LENGTH_SHORT).show();
-        } else if (mHasFileNamed.test(newDisplayName)){
+        } else if (directory.getModel().hasFileWithName(newDisplayName)){
             mRenameInputWrapper.setError(getContext().getString(R.string.name_conflict));
             selectFileName(mEditText);
             Metrics.logRenameFileError(getContext());
