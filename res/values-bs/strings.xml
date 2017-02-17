@@ -162,9 +162,9 @@
       <item quantity="other">Nisu izbrisani ovi fajlovi: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
-      <item quantity="one">Ovi fajlovi nisu prebačeni u drugi format: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="few">Ovi fajlovi nisu prebačeni u drugi format: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="other">Ovi fajlovi nisu prebačeni u drugi format: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Ovi fajlovi nisu konvertirani u drugi format: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="few">Ovi fajlovi nisu konvertirani u drugi format: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">Ovi fajlovi nisu konvertirani u drugi format: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="one">Kopirana je <xliff:g id="COUNT_1">%1$d</xliff:g> stavka u međumemoriju.</item>

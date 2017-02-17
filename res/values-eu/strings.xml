@@ -135,8 +135,8 @@
       <item quantity="one">Ez da konprimatu fitxategi hau: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
-      <item quantity="other">Ez dira erauzi fitxategi hauek: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="one">Ez da erauzi fitxategi hau: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+      <item quantity="other">Ez dira atera fitxategi hauek: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Ez da atera fitxategi hau: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
       <item quantity="other">Ez dira mugitu fitxategi hauek: <xliff:g id="LIST_1">%1$s</xliff:g></item>

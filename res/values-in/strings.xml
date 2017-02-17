@@ -147,8 +147,8 @@
       <item quantity="one">File ini tidak dihapus: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
-      <item quantity="other">File ini dikonversi ke format lain: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="one">File ini dikonversi ke format lain: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+      <item quantity="other">File ini telah dikonversi ke format lain: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">File ini telah dikonversi ke format lain: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">Menyalin <xliff:g id="COUNT_1">%1$d</xliff:g> item ke papan klip.</item>

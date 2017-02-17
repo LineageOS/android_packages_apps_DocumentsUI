@@ -147,8 +147,8 @@
       <item quantity="one">Haikufuta faili hii: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
-      <item quantity="other">Imebadilisha faili hizi katika muundo mwingine: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="one">Imebadilisha faili hii katika muundo mwingine: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+      <item quantity="other">Imebadilisha faili hizi kuwa muundo mwingine: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Imebadilisha faili hii kuwa muundo mwingine: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">Vipengee <xliff:g id="COUNT_1">%1$d</xliff:g> vimenakiliwa kwenye ubao wa kunakili.</item>

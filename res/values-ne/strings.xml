@@ -33,8 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"सबैलाई चयन गर्नुहोस्"</string>
     <string name="menu_copy" msgid="7404820171352314754">"यसमा प्रतिलिपि बनाउनु…"</string>
     <string name="menu_move" msgid="2310760789561129882">"निम्नमा सार्नुहोस्…"</string>
-    <!-- no translation found for menu_compress (37539111904724188) -->
-    <skip />
+    <string name="menu_compress" msgid="37539111904724188">"कम्प्रेस गर्नुहोस्"</string>
     <string name="menu_extract" msgid="8171946945982532262">"यसमा एकस्ट्र्याक्ट गर्नुहोस्…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"पुनःनामाकरण गर्नुहोस्"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"नयाँ विन्डो"</string>
@@ -127,12 +126,30 @@
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"विवरणहरू हेर्न ट्याप गर्नुहोस्"</string>
     <string name="close" msgid="905969391788869975">"बन्द गर्नुहोस्"</string>
-    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
-    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
-    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
-    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
-    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
-    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
+    <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
+      <item quantity="other">यी फाइलहरूका प्रतिलिपि बनेनन्: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">यो फाइलको प्रतिलिपि बनेन: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
+      <item quantity="other">यी फाइलहरू कम्प्रेस भएनन्: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">यो फाइल कम्प्रेस भएन: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
+      <item quantity="other">यी फाइलहरू एकस्ट्र्याक्ट भएनन्: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">यो फाइल एकस्ट्र्याक्ट भएन: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
+      <item quantity="other">यी फाइलहरू सारिएनन्: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">यो फाइल सारिएन: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
+      <item quantity="other">यी फाइलहरू मेटिएनन्: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">यो फाइल मेटिएन: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
+      <item quantity="other">यी फाइलहरूलाई अर्को ढाँचामा रूपान्तरण गरिएको छ: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">यो फाइललाई अर्को ढाँचामा रूपान्तरण गरिएको छ: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+    </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरूलाई क्लिपबोर्डमा प्रतिलिपि गरियो।</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वस्तुलाई क्लिपबोर्डमा प्रतिलिपि गरियो।</item>
