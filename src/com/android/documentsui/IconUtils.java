@@ -23,8 +23,6 @@ import android.graphics.drawable.Drawable;
 import android.provider.DocumentsContract.Document;
 import android.util.TypedValue;
 
-import com.android.documentsui.base.State;
-
 public class IconUtils {
     public static Drawable loadPackageIcon(Context context, String authority, int icon) {
         if (icon != 0) {
@@ -44,11 +42,7 @@ public class IconUtils {
     public static Drawable loadMimeIcon(
             Context context, String mimeType, String authority, String docId, int mode) {
         if (Document.MIME_TYPE_DIR.equals(mimeType)) {
-            if (mode == State.MODE_GRID) {
-                return context.getDrawable(R.drawable.ic_grid_folder);
-            } else {
-                return context.getDrawable(com.android.internal.R.drawable.ic_doc_folder);
-            }
+            return context.getDrawable(R.drawable.ic_doc_folder);
         }
 
         return loadMimeIcon(context, mimeType);

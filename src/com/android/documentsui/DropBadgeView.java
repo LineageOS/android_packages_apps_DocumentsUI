@@ -45,7 +45,7 @@ public final class DropBadgeView extends ImageView {
 
         Drawable okBadge = context.getResources().getDrawable(R.drawable.drop_badge_states, null);
         Drawable defaultIcon = context.getResources()
-                .getDrawable(com.android.internal.R.drawable.ic_doc_generic, null);
+                .getDrawable(R.drawable.ic_doc_generic, null);
 
         Drawable[] list = {defaultIcon, okBadge};
         mBackground = new LayerDrawable(list);
