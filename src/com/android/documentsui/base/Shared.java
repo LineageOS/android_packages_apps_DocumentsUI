@@ -244,11 +244,18 @@ public final class Shared {
         }
     }
 
-    /*
+    /**
      * Returns true if "Documents" root should be shown.
      */
     public static boolean shouldShowDocumentsRoot(Context context) {
         return context.getResources().getBoolean(R.bool.show_documents_root);
+    }
+
+    /**
+     * Returns true if compressing is enabled.
+     */
+    public static boolean isCompressingEnabled(Context context) {
+        return context.getResources().getBoolean(R.bool.enable_compressing);
     }
 
     /*

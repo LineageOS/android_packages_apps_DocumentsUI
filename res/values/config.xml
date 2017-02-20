@@ -19,6 +19,7 @@
     <string name="trusted_quick_viewer_package" translatable="false"></string>
 
     <bool name="show_documents_root">false</bool>
+    <bool name="enable_compressing">false</bool>
 
     <!-- Indicates if search view is taking the whole toolbar space. On larger
          layouts we reduce this to an input-box adjacent to menu actions. -->

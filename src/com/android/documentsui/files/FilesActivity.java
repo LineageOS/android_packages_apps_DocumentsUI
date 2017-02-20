@@ -102,6 +102,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
             getColor(R.color.accent_dark));
 
         mInjector.menuManager = new MenuManager(
+                this,
                 mSearchManager,
                 mState,
                 new DirectoryDetails(this) {
