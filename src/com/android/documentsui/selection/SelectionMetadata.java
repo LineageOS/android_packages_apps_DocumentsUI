@@ -146,6 +146,6 @@ public class SelectionMetadata
 
     @Override
     public boolean canOpenWith() {
-        return size() == 1 && mInArchiveCount == 0 && mPartialCount == 0;
+        return size() == 1 && mDirectoryCount == 0 && mInArchiveCount == 0 && mPartialCount == 0;
     }
 }
