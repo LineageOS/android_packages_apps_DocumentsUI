@@ -106,7 +106,8 @@ public final class MenuManagerTest {
         selectionDetails = new TestSelectionDetails();
         dirDetails = new TestDirectoryDetails();
         testSearchManager = new TestSearchViewManager();
-        mgr = new MenuManager(testSearchManager, state, dirDetails);
+        testActivity = TestActivity.create();
+        mgr = new MenuManager(testActivity, testSearchManager, state, dirDetails);
 
         testRootInfo = new RootInfo();
         testDocInfo = new DocumentInfo();
@@ -114,6 +115,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu() {
+        testActivity.resources.bools.put(R.bool.enable_compressing, true);
         selectionDetails.canDelete = true;
         selectionDetails.canRename = true;
         dirDetails.canCreateDoc = true;
@@ -131,6 +133,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu_containsPartial() {
+        testActivity.resources.bools.put(R.bool.enable_compressing, true);
         selectionDetails.containPartial = true;
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -144,7 +147,16 @@ public final class MenuManagerTest {
     }
 
     @Test
+    public void testActionMenu_compress_disabledFeatureByDefault() {
+        dirDetails.canCreateDoc = true;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        compress.assertInvisible();
+    }
+
+    @Test
     public void testActionMenu_compress() {
+        testActivity.resources.bools.put(R.bool.enable_compressing, true);
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -153,6 +165,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu_cantCompress() {
+        testActivity.resources.bools.put(R.bool.enable_compressing, true);
         dirDetails.canCreateDoc = false;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -196,6 +209,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu_canExtract_hidesCopyToAndCompressAndShare() {
+        testActivity.resources.bools.put(R.bool.enable_compressing, true);
         selectionDetails.canExtract = true;
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
