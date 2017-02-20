@@ -29,6 +29,7 @@ public class TestDialogController implements DialogController {
     private boolean mFileOpFailed;
     private boolean mNoApplicationFound;
     private boolean mDocumentsClipped;
+    private boolean mViewInArchivesUnsupported;
 
     public TestDialogController() {
         // by default, always confirm
@@ -53,6 +54,11 @@ public class TestDialogController implements DialogController {
     }
 
     @Override
+    public void showViewInArchivesUnsupported() {
+        mViewInArchivesUnsupported = true;
+    }
+
+    @Override
     public void showDocumentsClipped(int size) {
         mDocumentsClipped = true;
     }
@@ -63,6 +69,10 @@ public class TestDialogController implements DialogController {
 
     public void assertNoAppFoundShown() {
         Assert.assertFalse(mNoApplicationFound);
+    }
+
+    public void assertViewInArchivesShownUnsupported() {
+        Assert.assertTrue(mViewInArchivesUnsupported);
     }
 
     public void assertDocumentsClippedNotShown() {

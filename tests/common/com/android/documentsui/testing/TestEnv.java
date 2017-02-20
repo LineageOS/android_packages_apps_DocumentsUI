@@ -22,6 +22,7 @@ import android.test.mock.MockContentResolver;
 
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -52,6 +53,7 @@ public class TestEnv {
     public static DocumentInfo FILE_APK;
     public static DocumentInfo FILE_PARTIAL;
     public static DocumentInfo FILE_ARCHIVE;
+    public static DocumentInfo FILE_IN_ARCHIVE;
     public static DocumentInfo FILE_VIRTUAL;
 
     public final TestScheduledExecutorService mExecutor;
@@ -60,6 +62,7 @@ public class TestEnv {
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
     public final TestFocusHandler focusHandler = new TestFocusHandler();
     public final TestModel model;
+    public final TestModel archiveModel;
     public final SelectionManager selectionMgr;
     public final TestSearchViewManager searchViewManager;
     public final Injector injector;
@@ -73,6 +76,7 @@ public class TestEnv {
         mExecutor = new TestScheduledExecutorService();
         features = new TestFeatures();
         model = new TestModel(authority, features);
+        archiveModel = new TestModel(ArchivesProvider.AUTHORITY, features);
         selectionMgr = SelectionManagers.createTestInstance();
         searchViewManager = new TestSearchViewManager();
         injector = new Injector(
@@ -131,10 +135,8 @@ public class TestEnv {
                 "UbuntuFlappyBird.iso",
                 Document.FLAG_SUPPORTS_DELETE
                         | Document.FLAG_PARTIAL);
-        FILE_ARCHIVE = model.createFile(
-                "whatsinthere.zip",
-                Document.FLAG_ARCHIVE
-                        | Document.FLAG_SUPPORTS_DELETE);
+        FILE_ARCHIVE = model.createFile("whatsinthere.zip");
+        FILE_IN_ARCHIVE = archiveModel.createFile("whatsinthere.png");
         FILE_VIRTUAL = model.createDocument(
                 "virtualdoc.vnd",
                 "application/vnd.google-apps.document",
@@ -142,6 +144,7 @@ public class TestEnv {
                         | Document.FLAG_SUPPORTS_DELETE
                         | Document.FLAG_SUPPORTS_RENAME);
 
+        archiveModel.update();
         model.update();
     }
 
