@@ -17,15 +17,6 @@
 
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="content://com.android.externalstorage.documents/root/home"
-        android:icon="@drawable/ic_documents_shortcut"
-        android:shortcutShortLabel="@string/documents_shortcut_label" >
-        <intent
-            android:action="android.provider.action.BROWSE"
-            android:data="content://com.android.externalstorage.documents/root/home" />
-    </shortcut>
-
-    <shortcut
         android:shortcutId="content://com.android.providers.downloads.documents/root/downloads"
         android:icon="@drawable/ic_downloads_shortcut"
         android:shortcutShortLabel="@string/downloads_shortcut_label" >
