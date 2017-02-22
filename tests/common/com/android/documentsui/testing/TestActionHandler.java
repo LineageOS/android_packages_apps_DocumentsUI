@@ -42,10 +42,9 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
                 env.state,
                 env.roots,
                 env.docs,
-                env.focusHandler,
-                env.selectionMgr,
                 env.searchViewManager,
-                (String authority) -> null);
+                (String authority) -> null,
+                env.injector);
     }
 
     @Override

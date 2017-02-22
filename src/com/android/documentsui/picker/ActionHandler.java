@@ -31,6 +31,7 @@ import android.util.Log;
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
+import com.android.documentsui.Injector;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -69,15 +70,13 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
-            FocusHandler focusHandler,
-            SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
-            ActivityConfig activityConfig) {
+            Injector injector) {
 
-        super(activity, state, roots, docs, focusHandler, selectionMgr, searchMgr, executors);
+        super(activity, state, roots, docs, searchMgr, executors, injector);
 
-        mConfig = activityConfig;
+        mConfig = injector.config;
     }
 
     @Override

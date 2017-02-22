@@ -147,7 +147,7 @@ public class DirectoryFragment extends Fragment
     private BaseActivity mActivity;
 
     private State mState;
-    private final Model mModel = new Model();
+    private Model mModel;
     private final EventListener<Model.Update> mModelUpdateListener = new ModelUpdateListener();
     private final DocumentsAdapter.Environment mAdapterEnv = new AdapterEnvironment();
     private final LoaderCallbacks<DirectoryResult> mLoaderCallbacks = new LoaderBindings();
@@ -205,6 +205,8 @@ public class DirectoryFragment extends Fragment
         }
     };
 
+    private final Runnable mOnDisplayStateChanged = this::onDisplayStateChanged;
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -230,6 +232,11 @@ public class DirectoryFragment extends Fragment
         mFileList = view.findViewById(R.id.file_list);
 
         mInjector = activity.getInjector();
+        mModel = mInjector.getModel();
+        mModel.reset();
+
+        mInjector.actions.registerDisplayStateChangedListener(mOnDisplayStateChanged);
+
         mDragHoverListener = mInjector.config.dragAndDropEnabled()
                 ? DragHoverListener.create(new DirectoryDragListener(this), mRecView)
                 : null;
@@ -243,6 +250,7 @@ public class DirectoryFragment extends Fragment
     @Override
     public void onDestroyView() {
         mSelectionMgr.clearSelection();
+        mInjector.actions.unregisterDisplayStateChangedListener(mOnDisplayStateChanged);
 
         // Cancel any outstanding thumbnail requests
         final int count = mRecView.getChildCount();
@@ -483,10 +491,10 @@ public class DirectoryFragment extends Fragment
 
     public void onViewModeChanged() {
         // Mode change is just visual change; no need to kick loader.
-        updateDisplayState();
+        onDisplayStateChanged();
     }
 
-    private void updateDisplayState() {
+    private void onDisplayStateChanged() {
         updateLayout(mState.derivedMode);
         mRecView.setAdapter(mAdapter);
     }
@@ -657,7 +665,7 @@ public class DirectoryFragment extends Fragment
                 return true;
 
             case R.id.menu_select_all:
-                selectAllFiles();
+                mActions.selectAllFiles();
                 return true;
 
             case R.id.menu_rename:
@@ -871,31 +879,6 @@ public class DirectoryFragment extends Fragment
                 mState.stack,
                 mInjector.dialogs::showFileOperationStatus);
         getActivity().invalidateOptionsMenu();
-    }
-
-    public void selectAllFiles() {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SELECT_ALL);
-
-        // Exclude disabled files
-        List<String> enabled = new ArrayList<>();
-        for (String id : mAdapter.getModelIds()) {
-            Cursor cursor = mModel.getItem(id);
-            if (cursor == null) {
-                Log.w(TAG, "Skipping selection. Can't obtain cursor for modeId: " + id);
-                continue;
-            }
-            String docMimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
-            int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
-            if (isDocumentEnabled(docMimeType, docFlags)) {
-                enabled.add(id);
-            }
-        }
-
-        // Only select things currently visible in the adapter.
-        boolean changed = mSelectionMgr.setItemsSelected(enabled, true);
-        if (changed) {
-            updateDisplayState();
-        }
     }
 
     private void setupDragAndDropOnDocumentView(View view, Cursor cursor) {
@@ -1330,7 +1313,6 @@ public class DirectoryFragment extends Fragment
         public void onLoaderReset(Loader<DirectoryResult> loader) {
             if (DEBUG) Log.d(TAG, "Resetting loader for: "
                         + DocumentInfo.debugString(mLocalState.mDocument));
-            mModel.onLoaderReset();
 
             mRefreshLayout.setRefreshing(false);
         }

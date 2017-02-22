@@ -28,6 +28,8 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.Model;
 
+import javax.annotation.Nullable;
+
 public interface ActionHandler {
 
     void openSettings(RootInfo root);
@@ -61,6 +63,10 @@ public interface ActionHandler {
     void openInNewWindow(DocumentStack path);
 
     void pasteIntoFolder(RootInfo root);
+
+    void selectAllFiles();
+
+    @Nullable DocumentInfo renameDocument(String name, DocumentInfo document);
 
     boolean viewDocument(DocumentDetails doc);
 
@@ -96,6 +102,9 @@ public interface ActionHandler {
      * app.
      */
     void initLocation(Intent intent);
+
+    void registerDisplayStateChangedListener(Runnable l);
+    void unregisterDisplayStateChangedListener(Runnable l);
 
     /**
      * Allow action handler to be initialized in a new scope.

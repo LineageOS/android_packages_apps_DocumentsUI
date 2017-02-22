@@ -60,6 +60,9 @@ public class Injector<T extends ActionHandler> {
     @ContentScoped
     public SelectionManager selectionMgr;
 
+    private final Model mModel = new Model();
+    private DocumentsAdapter mAdapter;
+
     // must be initialized before calling super.onCreate because prefs
     // are used in State initialization.
     public Injector(
@@ -72,6 +75,10 @@ public class Injector<T extends ActionHandler> {
         this.prefs = prefs;
         this.messages = messages;
         this.dialogs = dialogs;
+    }
+
+    public Model getModel() {
+        return mModel;
     }
 
     public FocusManager getFocusManager(RecyclerView view, Model model) {
