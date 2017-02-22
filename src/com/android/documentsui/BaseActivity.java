@@ -305,7 +305,7 @@ public abstract class BaseActivity
             new GetRootDocumentTask(
                     root,
                     this,
-                    mInjector.actions::openContainerDocument)
+                    doc -> mInjector.actions.openContainerDocument(doc))
                     .executeOnExecutor(getExecutorForCurrentDirectory());
         }
     }
