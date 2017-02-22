@@ -21,7 +21,7 @@
         android:icon="@drawable/ic_downloads_shortcut"
         android:shortcutShortLabel="@string/downloads_shortcut_label" >
         <intent
-            android:action="android.provider.action.BROWSE"
+            android:action="android.intent.action.VIEW"
             android:data="content://com.android.providers.downloads.documents/root/downloads" />
     </shortcut>
 </shortcuts>

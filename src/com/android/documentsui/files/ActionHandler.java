@@ -399,7 +399,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     private boolean launchToRoot(Intent intent) {
-        if (DocumentsContract.ACTION_BROWSE.equals(intent.getAction())) {
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action) || DocumentsContract.ACTION_BROWSE.equals(action)) {
             Uri uri = intent.getData();
             if (DocumentsContract.isRootUri(mActivity, uri)) {
                 if (DEBUG) Log.d(TAG, "Launching with root URI.");
@@ -413,7 +414,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     private boolean launchToDocument(Intent intent) {
-        if (DocumentsContract.ACTION_BROWSE.equals(intent.getAction())) {
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             Uri uri = intent.getData();
             if (DocumentsContract.isDocumentUri(mActivity, uri)) {
                 return launchToDocument(intent.getData());

@@ -338,7 +338,7 @@ public class ActionHandlerTest {
     @Test
     public void testInitLocation_BrowseRoot() throws Exception {
         Intent intent = mActivity.getIntent();
-        intent.setAction(DocumentsContract.ACTION_BROWSE);
+        intent.setAction(Intent.ACTION_VIEW);
         intent.setData(TestRootsAccess.PICKLES.getUri());
 
         mHandler.initLocation(intent);
@@ -352,15 +352,14 @@ public class ActionHandlerTest {
                 TestRootsAccess.HOME.rootId,
                 Arrays.asList(
                         TestEnv.FOLDER_0.documentId,
-                        TestEnv.FOLDER_1.documentId,
-                        TestEnv.FILE_GIF.documentId));
+                        TestEnv.FOLDER_1.documentId));
         mEnv.docs.nextDocuments =
-                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
+                Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1);
 
         mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
         Intent intent = mActivity.getIntent();
-        intent.setAction(DocumentsContract.ACTION_BROWSE);
-        intent.setData(TestEnv.FILE_GIF.derivedUri);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(TestEnv.FOLDER_1.derivedUri);
         mHandler.initLocation(intent);
 
         mEnv.beforeAsserts();

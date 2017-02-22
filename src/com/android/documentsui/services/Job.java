@@ -316,9 +316,9 @@ abstract public class Job implements Runnable {
      * Creates an intent for navigating back to the destination directory.
      */
     Intent buildNavigateIntent(String tag) {
+        // TODO (b/35721285): Reuse an existing task rather than creating a new one every time.
         Intent intent = new Intent(service, FilesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(DocumentsContract.ACTION_BROWSE);
         intent.setData(getDataUriForIntent(tag));
         intent.putExtra(Shared.EXTRA_STACK, (Parcelable) stack);
         return intent;
