@@ -312,7 +312,7 @@ public abstract class BaseActivity
             mInjector.actions.getRootDocument(
                     root,
                     TimeoutTask.DEFAULT_TIMEOUT,
-                    mInjector.actions::openRootDocument);
+                    doc -> mInjector.actions.openRootDocument(doc));
         }
     }
 
