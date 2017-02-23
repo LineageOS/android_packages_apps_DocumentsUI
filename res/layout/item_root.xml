@@ -19,8 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="48dp"
-    android:paddingStart="@dimen/list_item_padding"
-    android:paddingEnd="@dimen/list_item_padding"
+    android:paddingStart="25dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:baselineAligned="false"
@@ -44,6 +43,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:orientation="vertical"
@@ -56,7 +56,8 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textAlignment="viewStart"
-            android:textAppearance="@android:style/TextAppearance.Material.Menu"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp"
             android:textColor="@color/item_root_primary_text" />
 
         <TextView
@@ -66,12 +67,13 @@
             android:singleLine="true"
             android:ellipsize="end"
             android:textAlignment="viewStart"
-            android:textAppearance="@android:style/TextAppearance.Material.Caption"
-            android:textColor="@color/item_root_primary_text" />
+            android:fontFamily="sans-serif-medium"
+            android:textSize="13sp"
+            android:textColor="@color/root_details_color" />
 
     </LinearLayout>
 
-     <FrameLayout
+    <FrameLayout
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:duplicateParentState="true">

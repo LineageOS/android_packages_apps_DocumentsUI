@@ -30,7 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
+        android:fontFamily="sans-serif-medium"
+        android:textSize="14sp"
+        android:textColor="@color/sort_widget_text_color"/>
 
     <ImageView
         android:id="@+id/sort_arrow"
