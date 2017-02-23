@@ -335,7 +335,7 @@ public class DirectoryFragment extends Fragment
                         mState,
                         this::getModelId,
                         mRecView::findChildViewUnder,
-                        getContext().getDrawable(com.android.internal.R.drawable.ic_doc_generic),
+                        getContext().getDrawable(R.drawable.ic_doc_generic),
                         mActivity.getShadowBuilder())
                 : DragStartListener.DUMMY;
 

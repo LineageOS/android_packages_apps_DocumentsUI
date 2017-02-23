@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2015 The Android Open Source Project
+<!-- Copyright (C) 2017 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,11 +15,8 @@
 -->
 
 <resources>
-    <item name="app_icon" type="drawable">@mipmap/ic_app_icon</item>
-    <item name="files_icon" type="drawable">@mipmap/ic_app_icon</item>
-    <item name="picker_icon" type="drawable">@drawable/ic_doc_text</item>
-    <item name="image_root_icon" type="drawable">@*android:drawable/ic_doc_image</item>
-    <item name="video_root_icon" type="drawable">@*android:drawable/ic_doc_video</item>
-    <item name="audio_root_icon" type="drawable">@*android:drawable/ic_doc_audio</item>
-    <item name="generic_doc_icon" type="drawable">@*android:drawable/ic_doc_generic</item>
+    <item name="image_root_icon" type="drawable">@drawable/ic_doc_image</item>
+    <item name="video_root_icon" type="drawable">@drawable/ic_doc_video</item>
+    <item name="audio_root_icon" type="drawable">@drawable/ic_doc_audio</item>
+    <item name="generic_doc_icon" type="drawable">@drawable/ic_doc_generic</item>
 </resources>
