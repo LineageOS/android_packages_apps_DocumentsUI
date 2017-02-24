@@ -138,8 +138,8 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
                 UiBot.TARGET_PKG);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         if (getInitialRoot() != null) {
-            intent.setAction(DocumentsContract.ACTION_BROWSE);
-            intent.setData(getInitialRoot().getUri());
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setDataAndType(getInitialRoot().getUri(), DocumentsContract.Root.MIME_TYPE_ITEM);
         }
         setActivityIntent(intent);
         getActivity();  // Launch the activity.
