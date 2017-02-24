@@ -53,7 +53,7 @@ public final class Bots {
         sortHeader = new SortHeaderBot(device, context, TIMEOUT);
         keyboard = new KeyboardBot(device, context, TIMEOUT);
         search = new SearchBot(device, context, TIMEOUT);
-        gesture = new GestureBot(device, context, TIMEOUT);
+        gesture = new GestureBot(device, automation, context, TIMEOUT);
         menu = new MenuBot(device, context, TIMEOUT);
     }
 
