@@ -51,6 +51,7 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragAndDropHelper;
+import com.android.documentsui.DragShadowBuilder;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
@@ -378,11 +379,22 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
 
         final RootItem rootItem = (RootItem) item;
         getRootDocument(rootItem, (DocumentInfo doc) -> {
-            rootItem.docInfo = doc;
-            getBaseActivity().getShadowBuilder().setAppearDroppable(
-                    doc.isCreateSupported() && DragAndDropHelper.canCopyTo(localState, doc));
-            v.updateDragShadow(getBaseActivity().getShadowBuilder());
+            updateDropShadow(v, localState, rootItem, doc);
         });
+    }
+
+    private void updateDropShadow(
+            View v, Object localState, RootItem rootItem, DocumentInfo rootDoc) {
+        final DragShadowBuilder shadowBuilder = getBaseActivity().getShadowBuilder();
+        if (rootDoc == null) {
+            Log.e(TAG, "Root DocumentInfo is null. Defaulting to appear not droppable.");
+            shadowBuilder.setAppearDroppable(false);
+        } else {
+            rootItem.docInfo = rootDoc;
+            shadowBuilder.setAppearDroppable(rootDoc.isCreateSupported()
+                    && DragAndDropHelper.canCopyTo(localState, rootDoc));
+        }
+        v.updateDragShadow(shadowBuilder);
     }
 
     // In RootsFragment we always reset the drag shadow as it exits a RootItemView.
