@@ -17,11 +17,11 @@
 
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="content://com.android.providers.downloads.documents/root/downloads"
-        android:icon="@drawable/ic_downloads_shortcut"
-        android:shortcutShortLabel="@string/downloads_shortcut_label" >
+        android:shortcutId="content://com.android.providers.media.documents/root/images_root"
+        android:icon="@drawable/ic_images_shortcut"
+        android:shortcutShortLabel="@string/images_shortcut_label" >
         <intent
             android:action="android.intent.action.VIEW"
-            android:data="content://com.android.providers.downloads.documents/root/downloads" />
+            android:data="content://com.android.providers.media.documents/root/images_root" />
     </shortcut>
 </shortcuts>

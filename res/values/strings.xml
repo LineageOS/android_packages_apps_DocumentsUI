@@ -311,8 +311,8 @@
         <item quantity="other">Delete <xliff:g id="count" example="3">%1$d</xliff:g> items?</item>
     </plurals>
 
-    <!-- Shortcut label of Downloads root folder -->
-    <string name="downloads_shortcut_label">Downloads</string>
+    <!-- Shortcut label of Images root folder -->
+    <string name="images_shortcut_label">Images</string>
 
     <!-- Error message shown when an archive fails to load -->
     <string name="archive_loading_failed">Unable to open archive for browsing. File is either corrupt, or an unsupported format.</string>
