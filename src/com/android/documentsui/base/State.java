@@ -20,6 +20,7 @@ import android.annotation.IntDef;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.DocumentsContract;
 import android.util.SparseArray;
 
 import com.android.documentsui.services.FileOperationService;
@@ -113,7 +114,12 @@ public class State implements android.os.Parcelable {
             acceptMimes = intent.getStringArrayExtra(Intent.EXTRA_MIME_TYPES);
         } else {
             String glob = intent.getType();
-            acceptMimes = new String[] { glob != null ? glob : "*/*" };
+            if (glob == null || DocumentsContract.Root.MIME_TYPE_ITEM.equals(glob)) {
+                // this means we do not care for the mime type
+                acceptMimes = new String[]{"*/*"};
+            } else {
+                acceptMimes = new String[]{glob};
+            }
         }
     }
 
