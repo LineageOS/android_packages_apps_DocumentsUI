@@ -85,7 +85,12 @@
                 <data android:mimeType="vnd.android.document/root" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.provider.action.BROWSE" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="vnd.android.document/root" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="vnd.android.document/directory" />
             </intent-filter>
