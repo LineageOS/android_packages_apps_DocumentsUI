@@ -37,6 +37,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Root;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
@@ -411,7 +412,6 @@ public class RootsCache implements RootsAccess {
 
             mTaskRoots.put(mRecentsRoot.authority, mRecentsRoot);
 
-            final ContentResolver resolver = mContext.getContentResolver();
             final PackageManager pm = mContext.getPackageManager();
 
             // Pick up provider with action string
@@ -434,7 +434,7 @@ public class RootsCache implements RootsAccess {
                 mStoppedAuthorities = mTaskStoppedAuthorities;
             }
             mFirstLoad.countDown();
-            resolver.notifyChange(NOTIFICATION_URI, null, false);
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(BROADCAST_ACTION));
             return null;
         }
 

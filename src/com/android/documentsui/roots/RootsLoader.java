@@ -17,7 +17,11 @@
 package com.android.documentsui.roots;
 
 import android.content.AsyncTaskLoader;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -25,7 +29,12 @@ import com.android.documentsui.base.State;
 import java.util.Collection;
 
 public class RootsLoader extends AsyncTaskLoader<Collection<RootInfo>> {
-    private final ForceLoadContentObserver mObserver = new ForceLoadContentObserver();
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onContentChanged();
+        }
+    };
 
     private final RootsCache mRoots;
     private final State mState;
@@ -37,8 +46,8 @@ public class RootsLoader extends AsyncTaskLoader<Collection<RootInfo>> {
         mRoots = roots;
         mState = state;
 
-        context.getContentResolver().registerContentObserver(
-                RootsAccess.NOTIFICATION_URI, false, mObserver);
+        LocalBroadcastManager.getInstance(context).registerReceiver(
+                mReceiver, new IntentFilter(RootsAccess.BROADCAST_ACTION));
     }
 
     @Override
@@ -83,6 +92,6 @@ public class RootsLoader extends AsyncTaskLoader<Collection<RootInfo>> {
 
         mResult = null;
 
-        getContext().getContentResolver().unregisterContentObserver(mObserver);
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(mReceiver);
     }
 }

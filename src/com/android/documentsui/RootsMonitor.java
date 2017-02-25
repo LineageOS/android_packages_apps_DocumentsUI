@@ -17,11 +17,12 @@
 package com.android.documentsui;
 
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.database.ContentObserver;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;
@@ -39,8 +40,8 @@ import java.util.Collection;
  */
 final class RootsMonitor<T extends Activity & CommonAddons> {
 
-    private final ContentResolver mResolver;
-    private final ContentObserver mObserver;
+    private final LocalBroadcastManager mManager;
+    private final BroadcastReceiver mReceiver;
 
     RootsMonitor(
             final T activity,
@@ -49,11 +50,11 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
             final DocumentsAccess docs,
             final State state,
             final SearchViewManager searchMgr) {
-        mResolver = activity.getContentResolver();
+        mManager = LocalBroadcastManager.getInstance(activity);
 
-        mObserver = new ContentObserver(new Handler(Looper.getMainLooper())) {
+        mReceiver = new BroadcastReceiver() {
             @Override
-            public void onChange(boolean selfChange) {
+            public void onReceive(Context context, Intent intent) {
                 new HandleRootsChangedTask<T>(
                         activity,
                         actions,
@@ -66,11 +67,11 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
     }
 
     void start() {
-        mResolver.registerContentObserver(RootsAccess.NOTIFICATION_URI, false, mObserver);
+        mManager.registerReceiver(mReceiver, new IntentFilter(RootsAccess.BROADCAST_ACTION));
     }
 
     void stop() {
-        mResolver.unregisterContentObserver(mObserver);
+        mManager.unregisterReceiver(mReceiver);
     }
 
     private static class HandleRootsChangedTask<T extends Activity & CommonAddons>
