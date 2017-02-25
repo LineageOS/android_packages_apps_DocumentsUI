@@ -19,7 +19,6 @@ package com.android.documentsui.roots;
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.Shared.VERBOSE;
 
-import android.net.Uri;
 import android.util.Log;
 
 import com.android.documentsui.base.MimeTypes;
@@ -36,7 +35,7 @@ import java.util.List;
  */
 public interface RootsAccess {
 
-    Uri NOTIFICATION_URI = Uri.parse("content://com.android.documentsui.roots/");
+    String BROADCAST_ACTION = "com.android.documentsui.action.ROOT_CHANGED";
 
     /**
      * Return the requested {@link RootInfo}, but only loading the roots for the
