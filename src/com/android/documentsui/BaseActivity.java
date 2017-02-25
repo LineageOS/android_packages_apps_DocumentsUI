@@ -368,8 +368,7 @@ public abstract class BaseActivity
         return cwd != null
                 && cwd.isCreateSupported()
                 && !mSearchManager.isSearching()
-                && !root.isRecents()
-                && !root.isDownloads();
+                && !root.isRecents();
     }
 
     // TODO: make navigator listen to state
