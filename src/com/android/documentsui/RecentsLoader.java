@@ -35,14 +35,15 @@ import android.util.Log;
 
 import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.internal.annotations.GuardedBy;
 
-import libcore.io.IoUtils;
-
 import com.google.common.util.concurrent.AbstractFuture;
+
+import libcore.io.IoUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -326,11 +327,17 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
                 final Cursor[] res = new Cursor[rootIds.size()];
                 mCursors = new Cursor[rootIds.size()];
                 for (int i = 0; i < rootIds.size(); i++) {
-                    final Uri uri = DocumentsContract.buildRecentDocumentsUri(authority,
-                            rootIds.get(i));
+                    final Uri uri =
+                            DocumentsContract.buildRecentDocumentsUri(authority, rootIds.get(i));
                     try {
-                        res[i] = client.query(
-                                uri, null, null, null, mState.sortModel.getDocumentSortQuery());
+                        if (Shared.ENABLE_OMC_API_FEATURES) {
+                            final Bundle queryArgs = new Bundle();
+                            mState.sortModel.addQuerySortArgs(queryArgs);
+                            res[i] = client.query(uri, null, queryArgs, null);
+                        } else {
+                            res[i] = client.query(
+                                    uri, null, null, null, mState.sortModel.getDocumentSortQuery());
+                        }
                         mCursors[i] = new RootCursorWrapper(authority, rootIds.get(i), res[i],
                                 MAX_DOCS_FROM_ROOT);
                     } catch (Exception e) {

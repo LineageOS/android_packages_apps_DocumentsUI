@@ -15,6 +15,11 @@
  */
 package com.android.documentsui.base;
 
+import android.content.ContentResolver;
+import android.os.Bundle;
+
+import com.android.documentsui.queries.DebugCommandProcessor;
+
 import javax.annotation.Nullable;
 
 /**
@@ -27,6 +32,8 @@ public final class DebugFlags {
     private static String mQvPackage;
     private static boolean sGestureScaleEnabled;
     private static boolean sDocumentDetailsEnabled;
+    private static int sForcedPageOffset = -1;
+    private static int sForcedPageLimit = -1;
 
     public static void setQuickViewer(@Nullable String qvPackage) {
         mQvPackage = qvPackage;
@@ -50,5 +57,24 @@ public final class DebugFlags {
 
     public static boolean getGestureScaleEnabled() {
         return sGestureScaleEnabled;
+    }
+
+    public static void setForcedPaging(int offset, int limit) {
+        sForcedPageOffset = offset;
+        sForcedPageLimit = limit;
+    }
+
+    public static boolean addForcedPagingArgs(Bundle queryArgs) {
+        assert(Shared.ENABLE_OMC_API_FEATURES);
+        boolean flagsAdded = false;
+        if (sForcedPageOffset >= 0) {
+            queryArgs.putInt(ContentResolver.QUERY_ARG_OFFSET, sForcedPageOffset);
+            flagsAdded |= true;
+        }
+        if (sForcedPageLimit >= 0) {
+            queryArgs.putInt(ContentResolver.QUERY_ARG_LIMIT, sForcedPageLimit);
+            flagsAdded |= true;
+        }
+        return flagsAdded;
     }
 }

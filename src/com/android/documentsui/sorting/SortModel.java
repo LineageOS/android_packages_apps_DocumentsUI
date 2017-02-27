@@ -17,10 +17,14 @@
 package com.android.documentsui.sorting;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.ENABLE_OMC_API_FEATURES;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;
+import android.content.ContentResolver;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.DocumentsContract.Document;
@@ -29,6 +33,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
 
 import java.lang.annotation.Retention;
@@ -220,6 +225,15 @@ public class SortModel implements Parcelable {
     }
 
     public Cursor sortCursor(Cursor cursor) {
+        if (ENABLE_OMC_API_FEATURES
+                && cursor.getExtras().containsKey(ContentResolver.QUERY_ARG_SORT_COLUMNS)) {
+            if (VERBOSE) Log.i(TAG, "Cursor is pre-sorted by provider. Skipping sort. Booya!");
+
+            // TODO: assert that the contents of QUERY_ARG_SORT_COLUMNS
+            // matches the sort dimension...once we're returning any pre-sorted results.
+            return cursor;
+        }
+
         if (mSortedDimension != null) {
             return new SortingCursorWrapper(cursor, mSortedDimension);
         } else {
@@ -227,7 +241,54 @@ public class SortModel implements Parcelable {
         }
     }
 
+    public void addQuerySortArgs(Bundle queryArgs) {
+        assert(Shared.ENABLE_OMC_API_FEATURES);
+
+        final int id = getSortedDimensionId();
+        switch (id) {
+            case SORT_DIMENSION_ID_UNKNOWN:
+                return;
+            case SortModel.SORT_DIMENSION_ID_TITLE:
+                queryArgs.putStringArray(
+                        ContentResolver.QUERY_ARG_SORT_COLUMNS,
+                        new String[]{ Document.COLUMN_DISPLAY_NAME });
+                break;
+            case SortModel.SORT_DIMENSION_ID_DATE:
+                queryArgs.putStringArray(
+                        ContentResolver.QUERY_ARG_SORT_COLUMNS,
+                        new String[]{ Document.COLUMN_LAST_MODIFIED });
+                break;
+            case SortModel.SORT_DIMENSION_ID_SIZE:
+                queryArgs.putStringArray(
+                        ContentResolver.QUERY_ARG_SORT_COLUMNS,
+                        new String[]{ Document.COLUMN_SIZE });
+                break;
+            default:
+                throw new IllegalStateException(
+                        "Unexpected sort dimension id: " + id);
+        }
+
+        final SortDimension dimension = getDimensionById(id);
+        switch (dimension.getSortDirection()) {
+            case SortDimension.SORT_DIRECTION_ASCENDING:
+                queryArgs.putInt(
+                        ContentResolver.QUERY_ARG_SORT_DIRECTION,
+                        ContentResolver.QUERY_SORT_DIRECTION_ASCENDING);
+                break;
+            case SortDimension.SORT_DIRECTION_DESCENDING:
+                queryArgs.putInt(
+                        ContentResolver.QUERY_ARG_SORT_DIRECTION,
+                        ContentResolver.QUERY_SORT_DIRECTION_DESCENDING);
+                break;
+            default:
+                throw new IllegalStateException(
+                        "Unexpected sort direction: " + dimension.getSortDirection());
+        }
+    }
+
     public @Nullable String getDocumentSortQuery() {
+        assert(!Shared.ENABLE_OMC_API_FEATURES);
+
         final int id = getSortedDimensionId();
         final String columnName;
         switch (id) {
