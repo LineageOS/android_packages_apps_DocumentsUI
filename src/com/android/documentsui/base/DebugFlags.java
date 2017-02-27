@@ -65,6 +65,7 @@ public final class DebugFlags {
     }
 
     public static boolean addForcedPagingArgs(Bundle queryArgs) {
+        assert(Shared.ENABLE_OMC_API_FEATURES);
         boolean flagsAdded = false;
         if (sForcedPageOffset >= 0) {
             queryArgs.putInt(ContentResolver.QUERY_ARG_OFFSET, sForcedPageOffset);

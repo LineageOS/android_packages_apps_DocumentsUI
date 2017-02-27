@@ -99,22 +99,23 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
                 ArchivesProvider.acquireArchive(client, mUri);
             }
             result.client = client;
-            Bundle queryArgs = new Bundle();
-            mModel.addQuerySortArgs(queryArgs);
 
-            // TODO: At some point we don't want forced flags to override real paging...
-            // and that point is when we have real paging.
-            DebugFlags.addForcedPagingArgs(queryArgs);
+            if (Shared.ENABLE_OMC_API_FEATURES) {
+                Bundle queryArgs = new Bundle();
+                mModel.addQuerySortArgs(queryArgs);
 
-            cursor = client.query(mUri, null, queryArgs, mSignal);
-            if (cursor == null) {
-                throw new RemoteException("Provider returned null");
+                // TODO: At some point we don't want forced flags to override real paging...
+                // and that point is when we have real paging.
+                DebugFlags.addForcedPagingArgs(queryArgs);
+
+                cursor = client.query(mUri, null, queryArgs, mSignal);
+            } else {
+                cursor = client.query(
+                        mUri, null, null, null, mModel.getDocumentSortQuery(), mSignal);
             }
 
-            Bundle extras = cursor.getExtras();
-            if (extras.containsKey(ContentResolver.QUERY_RESULT_SIZE)) {
-                Log.i(TAG, "[PAGING INDICATED] Cursor extras specify recordset size of: "
-                        + extras.getInt(ContentResolver.QUERY_RESULT_SIZE));
+            if (cursor == null) {
+                throw new RemoteException("Provider returned null");
             }
 
             cursor.registerContentObserver(mObserver);
