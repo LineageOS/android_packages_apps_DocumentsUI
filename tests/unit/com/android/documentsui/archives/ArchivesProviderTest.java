@@ -68,6 +68,17 @@ public class ArchivesProviderTest extends AndroidTestCase {
         super.tearDown();
     }
 
+    public void testQueryRoots() throws InterruptedException {
+        final ContentResolver resolver = getContext().getContentResolver();
+        final Uri rootsUri = DocumentsContract.buildRootsUri(ArchivesProvider.AUTHORITY);
+        try (final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+                rootsUri)) {
+            final Cursor cursor = resolver.query(rootsUri, null, null, null, null, null);
+            assertNotNull("Cursor must not be null.", cursor);
+            assertEquals(0, cursor.getCount());
+        }
+    }
+
     public void testOpen_Success() throws InterruptedException {
         final Uri sourceUri = DocumentsContract.buildDocumentUri(
                 ResourcesProvider.AUTHORITY, "archive.zip");

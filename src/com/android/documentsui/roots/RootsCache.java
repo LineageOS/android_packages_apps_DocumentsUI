@@ -42,6 +42,7 @@ import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
+import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -73,6 +74,8 @@ public class RootsCache implements RootsAccess {
     private static final List<String> PERMIT_EMPTY_CACHE = new ArrayList<String>() {{
         // MTP provider commonly returns no roots (if no devices are attached).
         add(Providers.AUTHORITY_MTP);
+        // ArchivesProvider doesn't support any roots.
+        add(ArchivesProvider.AUTHORITY);
     }};
 
     private final Context mContext;

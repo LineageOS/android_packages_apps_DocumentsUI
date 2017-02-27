@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract.Document;
+import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsProvider;
 import android.support.annotation.Nullable;
@@ -59,6 +60,9 @@ import java.util.concurrent.locks.Lock;
 public class ArchivesProvider extends DocumentsProvider {
     public static final String AUTHORITY = "com.android.documentsui.archives";
 
+    private static final String[] DEFAULT_ROOTS_PROJECTION = new String[] {
+            Root.COLUMN_ROOT_ID, Root.COLUMN_DOCUMENT_ID, Root.COLUMN_TITLE, Root.COLUMN_FLAGS,
+            Root.COLUMN_ICON };
     private static final String TAG = "ArchivesProvider";
     private static final String METHOD_ACQUIRE_ARCHIVE = "acquireArchive";
     private static final String METHOD_RELEASE_ARCHIVE = "releaseArchive";
@@ -91,7 +95,8 @@ public class ArchivesProvider extends DocumentsProvider {
 
     @Override
     public Cursor queryRoots(String[] projection) {
-        throw new UnsupportedOperationException();
+        // No roots provided.
+        return new MatrixCursor(projection != null ? projection : DEFAULT_ROOTS_PROJECTION);
     }
 
     @Override
