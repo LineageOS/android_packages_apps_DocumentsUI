@@ -329,11 +329,15 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
                 for (int i = 0; i < rootIds.size(); i++) {
                     final Uri uri =
                             DocumentsContract.buildRecentDocumentsUri(authority, rootIds.get(i));
-                    final Bundle queryArgs = new Bundle();
-                    mState.sortModel.addQuerySortArgs(queryArgs);
-
                     try {
-                        res[i] = client.query(uri, null, queryArgs, null);
+                        if (Shared.ENABLE_OMC_API_FEATURES) {
+                            final Bundle queryArgs = new Bundle();
+                            mState.sortModel.addQuerySortArgs(queryArgs);
+                            res[i] = client.query(uri, null, queryArgs, null);
+                        } else {
+                            res[i] = client.query(
+                                    uri, null, null, null, mState.sortModel.getDocumentSortQuery());
+                        }
                         mCursors[i] = new RootCursorWrapper(authority, rootIds.get(i), res[i],
                                 MAX_DOCS_FROM_ROOT);
                     } catch (Exception e) {
