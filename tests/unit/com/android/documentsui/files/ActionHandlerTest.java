@@ -77,21 +77,19 @@ public class ActionHandlerTest {
         mDialogs = new TestDialogController();
         mCallback = new TestConfirmationCallback();
         mEnv.roots.configurePm(mActivity.packageMgr);
+        mEnv.injector.dialogs = mDialogs;
 
         mHandler = new ActionHandler<>(
                 mActivity,
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
-                mEnv.focusHandler,
-                mEnv.selectionMgr,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
                 mActionModeAddons,
-                mDialogs,
-                null,  // tuner, not currently used.
                 null,  // clipper, only used in drag/drop
-                null  // clip storage, not utilized unless we venture into *jumbo* clip terratory.
+                null,  // clip storage, not utilized unless we venture into *jumbo* clip terratory.
+                mEnv.injector
                 );
 
         mDialogs.confirmNext();

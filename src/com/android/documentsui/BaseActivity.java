@@ -53,6 +53,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.queries.DebugCommandProcessor;
@@ -339,10 +340,7 @@ public abstract class BaseActivity
                 return true;
 
             case R.id.menu_select_all:
-                DirectoryFragment dir = getDirectoryFragment();
-                if (dir != null) {
-                    dir.selectAllFiles();
-                }
+                getInjector().actions.selectAllFiles();
                 return true;
 
             default:

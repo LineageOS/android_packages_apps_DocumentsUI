@@ -16,14 +16,17 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.base.DocumentInfo.getCursorInt;
+import static com.android.documentsui.base.DocumentInfo.getCursorString;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
@@ -40,7 +43,9 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.FocusHandler;
+import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.LoadRootTask;
@@ -49,10 +54,13 @@ import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.sidebar.EjectRootTask;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
+
+import javax.annotation.Nullable;
 
 /**
  * Provides support for specializing the actions (viewDocument etc.) to the host activity.
@@ -71,34 +79,46 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final SelectionManager mSelectionMgr;
     protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
+    protected final Injector mInjector;
 
+    private Runnable mDisplayStateChangedListener;
+
+    @Override
+    public void registerDisplayStateChangedListener(Runnable l) {
+        mDisplayStateChangedListener = l;
+    }
+    @Override
+    public void unregisterDisplayStateChangedListener(Runnable l) {
+        if (mDisplayStateChangedListener == l) {
+            mDisplayStateChangedListener = null;
+        }
+    }
 
     public AbstractActionHandler(
             T activity,
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
-            FocusHandler focusHandler,
-            SelectionManager selectionMgr,
             SearchViewManager searchMgr,
-            Lookup<String, Executor> executors) {
+            Lookup<String, Executor> executors,
+            Injector injector) {
 
         assert(activity != null);
         assert(state != null);
         assert(roots != null);
-        assert(focusHandler != null);
-        assert(selectionMgr != null);
         assert(searchMgr != null);
         assert(docs != null);
+        assert(injector != null);
 
         mActivity = activity;
         mState = state;
         mRoots = roots;
         mDocs = docs;
-        mFocusHandler = focusHandler;
-        mSelectionMgr = selectionMgr;
+        mFocusHandler = injector.focusManager;
+        mSelectionMgr = injector.selectionMgr;
         mSearchMgr = searchMgr;
         mExecutors = executors;
+        mInjector = injector;
     }
 
     @Override
@@ -168,6 +188,40 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     @Override
     public void pasteIntoFolder(RootInfo root) {
         throw new UnsupportedOperationException("Can't paste into folder.");
+    }
+
+    @Override
+    public void selectAllFiles() {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_SELECT_ALL);
+        Model model = mInjector.getModel();
+
+        // Exclude disabled files
+        List<String> enabled = new ArrayList<>();
+        for (String id : model.getModelIds()) {
+            Cursor cursor = model.getItem(id);
+            if (cursor == null) {
+                Log.w(TAG, "Skipping selection. Can't obtain cursor for modeId: " + id);
+                continue;
+            }
+            String docMimeType = getCursorString(
+                    cursor, DocumentsContract.Document.COLUMN_MIME_TYPE);
+            int docFlags = getCursorInt(cursor, DocumentsContract.Document.COLUMN_FLAGS);
+            if (mInjector.config.isDocumentEnabled(docMimeType, docFlags, mState)) {
+                enabled.add(id);
+            }
+        }
+
+        // Only select things currently visible in the adapter.
+        boolean changed = mSelectionMgr.setItemsSelected(enabled, true);
+        if (changed) {
+            mDisplayStateChangedListener.run();
+        }
+    }
+
+    @Override
+    @Nullable
+    public DocumentInfo renameDocument(String name, DocumentInfo document) {
+        throw new UnsupportedOperationException("Can't rename documents.");
     }
 
     @Override

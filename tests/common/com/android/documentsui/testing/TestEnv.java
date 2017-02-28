@@ -19,11 +19,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract.Document;
 
+import com.android.documentsui.FocusManager;
+import com.android.documentsui.Injector;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestFocusHandler;
 import com.android.documentsui.dirlist.TestModel;
 import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.ui.TestDialogController;
 
 import junit.framework.Assert;
 
@@ -55,12 +58,20 @@ public class TestEnv {
     public final TestModel model;
     public final SelectionManager selectionMgr;
     public final TestSearchViewManager searchViewManager;
+    public final Injector injector;
 
     private TestEnv(String authority) {
         mExecutor = new TestScheduledExecutorService();
         model = new TestModel(authority);
         selectionMgr = SelectionManagers.createTestInstance();
         searchViewManager = new TestSearchViewManager();
+        injector = new Injector(
+                null,      //a Config is not required for tests
+                null,       //ScopedPreferences are not required for tests
+                null,   //a MessageBuilder is not required for tests
+                new TestDialogController());
+        injector.selectionMgr = selectionMgr;
+        injector.focusManager = new FocusManager(selectionMgr, null, null, 0);
     }
 
     public static TestEnv create() {

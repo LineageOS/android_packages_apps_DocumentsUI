@@ -124,15 +124,12 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 mState,
                 mRoots,
                 mDocs,
-                mInjector.focusManager,
-                mInjector.selectionMgr,
                 mSearchManager,
                 ProviderExecutor::forAuthority,
                 mInjector.actionModeController,
-                mInjector.dialogs,
-                mInjector.config,
                 clipper,
-                DocumentsApplication.getClipStore(this));
+                DocumentsApplication.getClipStore(this),
+                mInjector);
 
         mActivityInputHandler =
                 new ActivityInputHandler(mInjector.actions::deleteSelectedDocuments);
@@ -247,10 +244,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 mInjector.actions.openSettings(getCurrentRoot());
                 break;
             case R.id.menu_select_all:
-                dir = getDirectoryFragment();
-                if (dir != null) {
-                    dir.selectAllFiles();
-                }
+                mInjector.actions.selectAllFiles();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -320,10 +314,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         // But not working.
         switch (keyCode) {
             case KeyEvent.KEYCODE_A:
-                dir = getDirectoryFragment();
-                if (dir != null) {
-                    dir.selectAllFiles();
-                }
+                mInjector.actions.selectAllFiles();
                 return true;
             case KeyEvent.KEYCODE_X:
                 mInjector.actions.cutToClipboard();
