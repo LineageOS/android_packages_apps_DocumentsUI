@@ -186,8 +186,8 @@
       <item quantity="other">លុបធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> ឬ?</item>
       <item quantity="one">លុបធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> ឬ?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"ឯកសារ"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"ទាញយក"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"មិន​អាច​បើក​ប័ណ្ណសារ​សម្រាប់​ការ​រុករក​បានទេ​ ដោយសារ​ឯកសារ​ខូច​ ឬ​មិន​ស្គាល់​ទម្រង់​ឯកសារ​។"</string>
     <string name="name_conflict" msgid="28407269328862986">"ឯកសារ​ដែល​មាន​ឈ្មោះ​នេះ​មានរួចហើយ។"</string>
     <string name="authentication_required" msgid="2314941212791346284">"តម្រូវឲ្យ​មាន​ការផ្ទៀងផ្ទាត់​ដើម្បីមើល​មាតិកា​នៅក្នុង​បញ្ជីនេះ"</string>

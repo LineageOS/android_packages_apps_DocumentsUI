@@ -186,8 +186,8 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> items verwijderen?</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> item verwijderen?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Documenten"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Downloads"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"Archief kan niet worden geopend voor browsen. Het bestand is mogelijk beschadigd of heeft een niet-ondersteunde indeling."</string>
     <string name="name_conflict" msgid="28407269328862986">"Er bestaat al een bestand met deze naam."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Verificatie is vereist om de content van deze map te bekijken"</string>

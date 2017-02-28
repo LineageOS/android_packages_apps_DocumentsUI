@@ -186,8 +186,8 @@
       <item quantity="one">Vil du slette <xliff:g id="COUNT_1">%1$d</xliff:g> element?</item>
       <item quantity="other">Vil du slette <xliff:g id="COUNT_1">%1$d</xliff:g> elementer?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumenter"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Downloads"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"Arkivet kunne ikke åbnes. Filen er enten beskadiget eller har et format, som ikke understøttes."</string>
     <string name="name_conflict" msgid="28407269328862986">"Der findes allerede en fil med dette navn."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Der kræves godkendelse for at kunne se indhold i dette indeks"</string>

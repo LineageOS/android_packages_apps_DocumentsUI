@@ -186,8 +186,8 @@
       <item quantity="other">Kas kustutada <xliff:g id="COUNT_1">%1$d</xliff:g> üksust?</item>
       <item quantity="one">Kas kustutada <xliff:g id="COUNT_0">%1$d</xliff:g> üksus?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumendid"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Allalaadimised"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"Arhiivi ei saa sirvimiseks avada. Fail on rikutud või toetamata vormingus."</string>
     <string name="name_conflict" msgid="28407269328862986">"Selle nimega fail on juba olemas."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Selle kataloogi sisu nägemiseks on vajalik autentimine"</string>

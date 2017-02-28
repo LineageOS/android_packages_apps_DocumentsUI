@@ -186,8 +186,8 @@
       <item quantity="other">Να διαγραφούν <xliff:g id="COUNT_1">%1$d</xliff:g> στοιχεία;</item>
       <item quantity="one">Να διαγραφεί <xliff:g id="COUNT_0">%1$d</xliff:g> στοιχείο;</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Έγγραφα"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Λήψεις"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"Δεν είναι δυνατό το άνοιγμα του αρχείου για περιήγηση. Το αρχείο είναι κατεστραμμένο ή η μορφή του δεν υποστηρίζεται."</string>
     <string name="name_conflict" msgid="28407269328862986">"Υπάρχει ήδη ένα αρχείο με αυτό το όνομα."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Απαιτείται έλεγχος ταυτότητας για να δείτε το περιεχόμενο αυτού του καταλόγου"</string>

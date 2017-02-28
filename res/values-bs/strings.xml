@@ -208,8 +208,8 @@
       <item quantity="few">Želite li izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> stavke?</item>
       <item quantity="other">Želite li izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> stavki?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumenti"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Preuzimanja"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"Otvaranje arhive za pregledanje nije uspjelo. Fajl je možda oštećen ili format nije podržan."</string>
     <string name="name_conflict" msgid="28407269328862986">"Fajl s tim nazivom već postoji."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Potrebna je autentifikacija da vidite sadržaj ovog direktorija"</string>

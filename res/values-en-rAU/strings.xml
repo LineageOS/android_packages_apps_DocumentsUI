@@ -186,8 +186,8 @@
       <item quantity="other">Delete <xliff:g id="COUNT_1">%1$d</xliff:g> items?</item>
       <item quantity="one">Delete <xliff:g id="COUNT_0">%1$d</xliff:g> item?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Documents"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Downloads"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"Unable to open archive for browsing. File is either corrupt or an unsupported format."</string>
     <string name="name_conflict" msgid="28407269328862986">"A file with this name already exists."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Authentication is required to see the content of this directory"</string>
