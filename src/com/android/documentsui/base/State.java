@@ -109,17 +109,11 @@ public class State implements android.os.Parcelable {
     /** Name of the package that started DocsUI */
     public List<String> excludedAuthorities = new ArrayList<>();
 
-    public void initAcceptMimes(Intent intent) {
+    public void initAcceptMimes(Intent intent, String defaultAcceptMimeType) {
         if (intent.hasExtra(Intent.EXTRA_MIME_TYPES)) {
             acceptMimes = intent.getStringArrayExtra(Intent.EXTRA_MIME_TYPES);
         } else {
-            String glob = intent.getType();
-            if (glob == null || DocumentsContract.Root.MIME_TYPE_ITEM.equals(glob)) {
-                // this means we do not care for the mime type
-                acceptMimes = new String[]{"*/*"};
-            } else {
-                acceptMimes = new String[]{glob};
-            }
+            acceptMimes = new String[] { defaultAcceptMimeType };
         }
     }
 
