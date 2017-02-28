@@ -21,6 +21,8 @@ import static com.android.documentsui.base.Shared.DEBUG;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
@@ -33,6 +35,7 @@ import com.android.documentsui.ActionModeAddons;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.Injector;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.ConfirmationCallback;
@@ -88,21 +91,18 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             State state,
             RootsAccess roots,
             DocumentsAccess docs,
-            FocusHandler focusHandler,
-            SelectionManager selectionMgr,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
             ActionModeAddons actionModeAddons,
-            DialogController dialogs,
-            ActivityConfig tuner,
             DocumentClipper clipper,
-            ClipStore clipStore) {
+            ClipStore clipStore,
+            Injector injector) {
 
-        super(activity, state, roots, docs, focusHandler, selectionMgr, searchMgr, executors);
+        super(activity, state, roots, docs, searchMgr, executors, injector);
 
         mActionModeAddons = actionModeAddons;
-        mDialogs = dialogs;
-        mActConfig = tuner;
+        mDialogs = injector.dialogs;
+        mActConfig = injector.config;
         mClipper = clipper;
         mClipStore = clipStore;
     }
@@ -150,6 +150,25 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(mActivity);
         DocumentStack stack = new DocumentStack(root, doc);
         clipper.copyFromClipboard(doc, stack, mDialogs::showFileOperationStatus);
+    }
+
+    @Override
+    public @Nullable DocumentInfo renameDocument(String name, DocumentInfo document) {
+        ContentResolver resolver = mActivity.getContentResolver();
+        ContentProviderClient client = null;
+
+        try {
+            client = DocumentsApplication.acquireUnstableProviderOrThrow(
+                    resolver, document.derivedUri.getAuthority());
+            Uri newUri = DocumentsContract.renameDocument(
+                    client, document.derivedUri, name);
+            return DocumentInfo.fromUri(resolver, newUri);
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to rename file", e);
+            return null;
+        } finally {
+            ContentProviderClient.releaseQuietly(client);
+        }
     }
 
     @Override

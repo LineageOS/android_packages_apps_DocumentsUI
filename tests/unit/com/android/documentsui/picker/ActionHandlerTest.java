@@ -67,11 +67,9 @@ public class ActionHandlerTest {
                 mEnv.state,
                 mEnv.roots,
                 mEnv.docs,
-                mEnv.focusHandler,
-                mEnv.selectionMgr,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
-                null  // tuner, not currently used.
+                mEnv.injector
                 );
 
         mDialogs.confirmNext();

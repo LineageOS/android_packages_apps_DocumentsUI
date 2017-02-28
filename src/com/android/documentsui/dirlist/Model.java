@@ -120,16 +120,7 @@ public class Model {
         }
     }
 
-    void onLoaderReset() {
-        if (mIsLoading) {
-            Log.w(TAG, "Received unexpected loader reset while in loading state for doc: "
-                    + DocumentInfo.debugString(doc));
-        }
-
-        reset();
-    }
-
-    private void reset() {
+    void reset() {
         mCursor = null;
         mCursorCount = 0;
         mIds = new String[0];

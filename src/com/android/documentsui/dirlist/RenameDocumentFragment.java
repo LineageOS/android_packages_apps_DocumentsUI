@@ -187,13 +187,12 @@ public class RenameDocumentFragment extends DialogFragment {
 
     private void renameDocuments(String newDisplayName) {
         BaseActivity activity = (BaseActivity) getActivity();
-        DirectoryFragment directory = (DirectoryFragment) getParentFragment();
 
         if (!isValidDocumentName(newDisplayName)) {
             Log.w(TAG, "Failed to rename file - invalid name:" + newDisplayName);
             Snackbars.makeSnackbar(getActivity(), R.string.rename_error,
                     Snackbar.LENGTH_SHORT).show();
-        } else if (directory.getModel().hasFileWithName(newDisplayName)){
+        } else if (activity.getInjector().getModel().hasFileWithName(newDisplayName)){
             mRenameInputWrapper.setError(getContext().getString(R.string.name_conflict));
             selectFileName(mEditText);
             Metrics.logRenameFileError(getContext());
@@ -220,21 +219,8 @@ public class RenameDocumentFragment extends DialogFragment {
         @Override
         protected DocumentInfo doInBackground(DocumentInfo... document) {
             assert(document.length == 1);
-            final ContentResolver resolver = mActivity.getContentResolver();
-            ContentProviderClient client = null;
 
-            try {
-                client = DocumentsApplication.acquireUnstableProviderOrThrow(
-                        resolver, document[0].derivedUri.getAuthority());
-                Uri newUri = DocumentsContract.renameDocument(
-                        client, document[0].derivedUri, mNewDisplayName);
-                return DocumentInfo.fromUri(resolver, newUri);
-            } catch (Exception e) {
-                Log.w(TAG, "Failed to rename file", e);
-                return null;
-            } finally {
-                ContentProviderClient.releaseQuietly(client);
-            }
+            return mActivity.getInjector().actions.renameDocument(mNewDisplayName, document[0]);
         }
 
         @Override
