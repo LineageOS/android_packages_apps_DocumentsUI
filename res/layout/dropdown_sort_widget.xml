@@ -21,6 +21,8 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/doc_header_height"
     android:paddingEnd="@dimen/dropdown_sort_widget_margin"
+    android:paddingTop="@dimen/dropdown_sort_widget_margin"
+    android:paddingBottom="@dimen/dropdown_sort_widget_margin"
     android:background="@drawable/sort_widget_background"
     android:gravity="center_vertical|end"
     android:orientation="horizontal">
@@ -28,7 +30,10 @@
     <TextView
         android:id="@+id/sort_dimen_dropdown"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/dropdown_sort_widget_size"
+        android:background="@drawable/dropdown_sort_widget_background"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:gravity="center"
         android:fontFamily="sans-serif-medium"
         android:textSize="14sp"
@@ -36,10 +41,11 @@
 
     <ImageView
         android:id="@+id/sort_arrow"
-        android:layout_width="@dimen/dropdown_sort_widget_icon_size"
-        android:layout_height="@dimen/dropdown_sort_widget_icon_size"
-        android:layout_marginStart="10dp"
-        android:padding="3dp"
+        android:layout_width="@dimen/dropdown_sort_widget_size"
+        android:layout_height="@dimen/dropdown_sort_widget_size"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/dropdown_sort_widget_background"
+        android:padding="5dp"
         android:src="@drawable/ic_sort_arrow"
         android:accessibilityTraversalAfter="@id/sort_dimen_dropdown"/>
 
