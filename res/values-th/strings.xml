@@ -186,8 +186,8 @@
       <item quantity="other">ลบ <xliff:g id="COUNT_1">%1$d</xliff:g> รายการใช่ไหม</item>
       <item quantity="one">ลบ <xliff:g id="COUNT_0">%1$d</xliff:g> รายการใช่ไหม</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"เอกสาร"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"ดาวน์โหลด"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"เปิดที่เก็บถาวรเพื่อเรียกดูไม่ได้ ไฟล์อาจเสียหายหรือเป็นรูปแบบที่ไม่รองรับ"</string>
     <string name="name_conflict" msgid="28407269328862986">"มีไฟล์ที่มีชื่อนี้แล้ว"</string>
     <string name="authentication_required" msgid="2314941212791346284">"ต้องใช้การตรวจสอบสิทธิ์เพื่อดูเนื้อหาของไดเรกทอรีนี้"</string>

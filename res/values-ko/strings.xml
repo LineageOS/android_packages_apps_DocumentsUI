@@ -186,8 +186,8 @@
       <item quantity="other">항목 <xliff:g id="COUNT_1">%1$d</xliff:g>개를 삭제하시겠습니까?</item>
       <item quantity="one">항목 <xliff:g id="COUNT_0">%1$d</xliff:g>개를 삭제하시겠습니까?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"문서"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"다운로드"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"보관 파일을 열어 탐색할 수 없습니다. 파일이 손상되었거나 지원되지 않는 형식입니다."</string>
     <string name="name_conflict" msgid="28407269328862986">"이름이 같은 파일이 이미 존재합니다."</string>
     <string name="authentication_required" msgid="2314941212791346284">"이 디렉토리의 내용을 보려면 인증이 필요합니다."</string>

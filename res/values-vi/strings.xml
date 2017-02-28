@@ -186,8 +186,8 @@
       <item quantity="other">Xóa <xliff:g id="COUNT_1">%1$d</xliff:g> mục?</item>
       <item quantity="one">Xóa <xliff:g id="COUNT_0">%1$d</xliff:g> mục?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Tài liệu"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Nội dung tải xuống"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"Không thể mở lưu trữ để duyệt qua. Tệp bị hỏng hoặc có định dạng không được hỗ trợ."</string>
     <string name="name_conflict" msgid="28407269328862986">"Tệp với tên này đã tồn tại."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Yêu cầu xác thực để xem nội dung của thư mục này"</string>

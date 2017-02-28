@@ -230,8 +230,8 @@
       <item quantity="other">האם למחוק <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים?</item>
       <item quantity="one">האם למחוק <xliff:g id="COUNT_0">%1$d</xliff:g> פריט?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"מסמכים"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"הורדות"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"לא ניתן לפתוח את קובץ הארכיון לעיון. הקובץ פגום או שפורמט הקובץ לא נתמך."</string>
     <string name="name_conflict" msgid="28407269328862986">"כבר יש קובץ עם השם הזה."</string>
     <string name="authentication_required" msgid="2314941212791346284">"כדי לראות את התוכן של הספרייה הזאת, נדרש אימות"</string>

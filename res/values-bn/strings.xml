@@ -186,8 +186,8 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম মুছবেন?</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম মুছবেন?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"দস্তাবেজগুলি"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"ডাউনলোডগুলি"</string>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
     <string name="archive_loading_failed" msgid="7243436722828766996">"ব্রাউজ করার জন্য সংরক্ষণাগার খোলা গেল না৷ হয় ফাইলটি ক্ষতিগ্রস্ত বা কোনো অসমর্থিত বিন্যাসে রয়েছে৷"</string>
     <string name="name_conflict" msgid="28407269328862986">"এই নামে আগেই আর একটি ফাইল আছে।"</string>
     <string name="authentication_required" msgid="2314941212791346284">"এই ডাইরেক্টরির সামগ্রী দেখার জন্য অনুমতি প্রয়োজন"</string>
