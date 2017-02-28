@@ -251,13 +251,6 @@ public final class Shared {
         return context.getResources().getBoolean(R.bool.show_documents_root);
     }
 
-    /**
-     * Returns true if compressing is enabled.
-     */
-    public static boolean isCompressingEnabled(Context context) {
-        return context.getResources().getBoolean(R.bool.enable_compressing);
-    }
-
     /*
      * Returns true if the local/device storage root must be visible (this also hides
      * the option to toggle visibility in the menu.)

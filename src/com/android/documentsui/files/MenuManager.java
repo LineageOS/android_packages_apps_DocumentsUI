@@ -17,7 +17,6 @@
 package com.android.documentsui.files;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.view.KeyEvent;
 import android.view.KeyboardShortcutGroup;
 import android.view.KeyboardShortcutInfo;
@@ -31,21 +30,22 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
 
 import java.util.List;
 import java.util.function.IntFunction;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
-    private final Context mContext;
+    private final ScopedPreferences mPreferences;
 
     public MenuManager(
-            Context context,
+            ScopedPreferences preferences,
             SearchViewManager searchManager,
             State displayState,
             DirectoryDetails dirDetails) {
         super(searchManager, displayState, dirDetails);
-        mContext = context;
+        mPreferences = preferences;
     }
 
     @Override
@@ -180,7 +180,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     @Override
     protected void updateCompress(MenuItem compress, SelectionDetails selectionDetails) {
         final boolean readOnly = !mDirDetails.canCreateDoc();
-        compress.setVisible(Shared.isCompressingEnabled(mContext));
+        compress.setVisible(mPreferences.getEnableArchiveCreation());
         compress.setEnabled(!readOnly && !selectionDetails.containsPartialFiles() &&
                 !selectionDetails.canExtract());
     }

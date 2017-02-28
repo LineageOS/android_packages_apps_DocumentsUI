@@ -33,6 +33,7 @@ import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestMenu;
 import com.android.documentsui.testing.TestMenuInflater;
 import com.android.documentsui.testing.TestMenuItem;
+import com.android.documentsui.testing.TestScopedPreferences;
 import com.android.documentsui.testing.TestSearchViewManager;
 import com.android.documentsui.testing.TestSelectionDetails;
 
@@ -66,10 +67,10 @@ public final class MenuManagerTest {
     private TestMenuItem advanced;
     private TestMenuItem eject;
 
-    private TestActivity testActivity;
     private TestSelectionDetails selectionDetails;
     private TestDirectoryDetails dirDetails;
     private TestSearchViewManager testSearchManager;
+    private TestScopedPreferences preferences;
     private RootInfo testRootInfo;
     private DocumentInfo testDocInfo;
     private State state = new State();
@@ -106,8 +107,8 @@ public final class MenuManagerTest {
         selectionDetails = new TestSelectionDetails();
         dirDetails = new TestDirectoryDetails();
         testSearchManager = new TestSearchViewManager();
-        testActivity = TestActivity.create();
-        mgr = new MenuManager(testActivity, testSearchManager, state, dirDetails);
+        preferences = new TestScopedPreferences();
+        mgr = new MenuManager(preferences, testSearchManager, state, dirDetails);
 
         testRootInfo = new RootInfo();
         testDocInfo = new DocumentInfo();
@@ -115,7 +116,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu() {
-        testActivity.resources.bools.put(R.bool.enable_compressing, true);
+        preferences.setEnableArchiveCreation(true);
         selectionDetails.canDelete = true;
         selectionDetails.canRename = true;
         dirDetails.canCreateDoc = true;
@@ -133,7 +134,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu_containsPartial() {
-        testActivity.resources.bools.put(R.bool.enable_compressing, true);
+        preferences.setEnableArchiveCreation(true);
         selectionDetails.containPartial = true;
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -156,7 +157,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu_compress() {
-        testActivity.resources.bools.put(R.bool.enable_compressing, true);
+        preferences.setEnableArchiveCreation(true);
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -165,7 +166,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu_cantCompress() {
-        testActivity.resources.bools.put(R.bool.enable_compressing, true);
+        preferences.setEnableArchiveCreation(true);
         dirDetails.canCreateDoc = false;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -209,7 +210,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu_canExtract_hidesCopyToAndCompressAndShare() {
-        testActivity.resources.bools.put(R.bool.enable_compressing, true);
+        preferences.setEnableArchiveCreation(true);
         selectionDetails.canExtract = true;
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
