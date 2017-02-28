@@ -20,5 +20,5 @@
     android:layout_height="match_parent"
     android:paddingTop="8dp"
     android:listSelector="@drawable/root_list_selector"
-    acndroid:background="@drawable/roots_list_border"
+    android:background="@drawable/roots_list_border"
     android:divider="@null" />
