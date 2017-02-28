@@ -48,7 +48,8 @@ import java.util.concurrent.CountDownLatch;
 @MediumTest
 public class ArchivesProviderTest extends AndroidTestCase {
     private static final Uri ARCHIVE_URI = Uri.parse("content://i/love/strawberries");
-    private static final String NOTIFICATION_URI = "content://notification-uri";
+    private static final String NOTIFICATION_URI =
+            "content://com.android.documentsui.archives/notification-uri";
     private ExecutorService mExecutor = null;
     private Archive mArchive = null;
     private TestUtils mTestUtils = null;
