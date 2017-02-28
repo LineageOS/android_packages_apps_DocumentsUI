@@ -33,6 +33,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
 
 import java.lang.annotation.Retention;
@@ -241,6 +242,7 @@ public class SortModel implements Parcelable {
     }
 
     public void addQuerySortArgs(Bundle queryArgs) {
+        assert(Shared.ENABLE_OMC_API_FEATURES);
 
         final int id = getSortedDimensionId();
         switch (id) {
@@ -282,6 +284,45 @@ public class SortModel implements Parcelable {
                 throw new IllegalStateException(
                         "Unexpected sort direction: " + dimension.getSortDirection());
         }
+    }
+
+    public @Nullable String getDocumentSortQuery() {
+        assert(!Shared.ENABLE_OMC_API_FEATURES);
+
+        final int id = getSortedDimensionId();
+        final String columnName;
+        switch (id) {
+            case SORT_DIMENSION_ID_UNKNOWN:
+                return null;
+            case SortModel.SORT_DIMENSION_ID_TITLE:
+                columnName = Document.COLUMN_DISPLAY_NAME;
+                break;
+            case SortModel.SORT_DIMENSION_ID_DATE:
+                columnName = Document.COLUMN_LAST_MODIFIED;
+                break;
+            case SortModel.SORT_DIMENSION_ID_SIZE:
+                columnName = Document.COLUMN_SIZE;
+                break;
+            default:
+                throw new IllegalStateException(
+                        "Unexpected sort dimension id: " + id);
+        }
+
+        final SortDimension dimension = getDimensionById(id);
+        final String direction;
+        switch (dimension.getSortDirection()) {
+            case SortDimension.SORT_DIRECTION_ASCENDING:
+                direction = " ASC";
+                break;
+            case SortDimension.SORT_DIRECTION_DESCENDING:
+                direction = " DESC";
+                break;
+            default:
+                throw new IllegalStateException(
+                        "Unexpected sort direction: " + dimension.getSortDirection());
+        }
+
+        return columnName + direction;
     }
 
     private void notifyListeners(@UpdateType int updateType) {
