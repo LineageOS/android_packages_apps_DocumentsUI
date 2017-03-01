@@ -156,6 +156,10 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @Override
     protected void includeState(State state) {
         final Intent intent = getIntent();
+
+        String defaultMimeType = (intent.getType() == null) ? "*/*" : intent.getType();
+        state.initAcceptMimes(intent, defaultMimeType);
+
         final String action = intent.getAction();
         if (Intent.ACTION_OPEN_DOCUMENT.equals(action)) {
             state.action = ACTION_OPEN;
@@ -381,8 +385,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 getContentResolver(), Shared.getCallingPackageName(this), mState.stack);
     }
 
-    @Override
-    protected void onTaskFinished(Uri... uris) {
+    private void onTaskFinished(Uri... uris) {
         if (DEBUG) Log.d(TAG, "onFinished() " + Arrays.toString(uris));
 
         final Intent intent = new Intent();

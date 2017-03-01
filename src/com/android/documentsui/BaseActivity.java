@@ -108,7 +108,6 @@ public abstract class BaseActivity
         mTag = tag;
     }
 
-    protected abstract void onTaskFinished(Uri... uris);
     protected abstract void refreshDirectory(int anim);
     /** Allows sub-classes to include information in a newly created State instance. */
     protected abstract void includeState(State initialState);
@@ -253,7 +252,6 @@ public abstract class BaseActivity
 
         state.sortModel = SortModel.createModel();
         state.localOnly = intent.getBooleanExtra(Intent.EXTRA_LOCAL_ONLY, false);
-        state.initAcceptMimes(intent);
         state.excludedAuthorities = getExcludedAuthorities();
 
         includeState(state);
