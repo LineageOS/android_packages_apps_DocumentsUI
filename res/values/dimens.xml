@@ -58,4 +58,8 @@
     <dimen name="drop_icon_width">14dp</dimen>
 
     <dimen name="header_message_horizontal_padding">8dp</dimen>
+
+    <dimen name="fastscroll_default_thickness">8dp</dimen>
+    <dimen name="fastscroll_minimum_range">50dp</dimen>
+    <dimen name="fastscroll_margin">0dp</dimen>
 </resources>
