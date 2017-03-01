@@ -17,6 +17,7 @@
 package com.android.documentsui.files;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.ENABLE_OMC_API_FEATURES;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -419,7 +420,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     private boolean launchToRoot(Intent intent) {
         String action = intent.getAction();
-        if (Intent.ACTION_VIEW.equals(action) || DocumentsContract.ACTION_BROWSE.equals(action)) {
+        if (Intent.ACTION_VIEW.equals(action)
+                || (!ENABLE_OMC_API_FEATURES && "android.provider.action.BROWSE".equals(action))) {
             Uri uri = intent.getData();
             if (DocumentsContract.isRootUri(mActivity, uri)) {
                 if (DEBUG) Log.d(TAG, "Launching with root URI.");
