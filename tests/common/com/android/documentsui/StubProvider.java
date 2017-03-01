@@ -51,6 +51,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 
 public class StubProvider extends DocumentsProvider {
 
@@ -428,49 +429,46 @@ public class StubProvider extends DocumentsProvider {
         final ParcelFileDescriptor readPipe = pipe[0];
         final ParcelFileDescriptor writePipe = pipe[1];
 
-        new Thread() {
-            @Override
-            public void run() {
-                InputStream inputStream = null;
-                OutputStream outputStream = null;
-                try {
-                    Log.d(TAG, "Opening write stream on file " + document.documentId);
-                    inputStream = new ParcelFileDescriptor.AutoCloseInputStream(readPipe);
-                    outputStream = new FileOutputStream(document.file);
-                    byte[] buffer = new byte[32 * 1024];
-                    int bytesToRead;
-                    int bytesRead = 0;
-                    while (bytesRead != -1) {
-                        synchronized (mWriteLock) {
-                            // This cast is safe because the max possible value is buffer.length.
-                            bytesToRead = (int) Math.min(document.rootInfo.getRemainingCapacity(),
-                                    buffer.length);
-                            if (bytesToRead == 0) {
-                                closePipeWithErrorSilently(readPipe, "Not enough space.");
-                                break;
-                            }
-                            bytesRead = inputStream.read(buffer, 0, bytesToRead);
-                            if (bytesRead == -1) {
-                                break;
-                            }
-                            outputStream.write(buffer, 0, bytesRead);
-                            document.rootInfo.size += bytesRead;
+        postToMainThread(() -> {
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            try {
+                Log.d(TAG, "Opening write stream on file " + document.documentId);
+                inputStream = new ParcelFileDescriptor.AutoCloseInputStream(readPipe);
+                outputStream = new FileOutputStream(document.file);
+                byte[] buffer = new byte[32 * 1024];
+                int bytesToRead;
+                int bytesRead = 0;
+                while (bytesRead != -1) {
+                    synchronized (mWriteLock) {
+                        // This cast is safe because the max possible value is buffer.length.
+                        bytesToRead = (int) Math.min(document.rootInfo.getRemainingCapacity(),
+                                buffer.length);
+                        if (bytesToRead == 0) {
+                            closePipeWithErrorSilently(readPipe, "Not enough space.");
+                            break;
                         }
+                        bytesRead = inputStream.read(buffer, 0, bytesToRead);
+                        if (bytesRead == -1) {
+                            break;
+                        }
+                        outputStream.write(buffer, 0, bytesRead);
+                        document.rootInfo.size += bytesRead;
                     }
-                } catch (IOException e) {
-                    Log.e(TAG, "Error on close", e);
-                    closePipeWithErrorSilently(readPipe, e.getMessage());
-                } finally {
-                    IoUtils.closeQuietly(inputStream);
-                    IoUtils.closeQuietly(outputStream);
-                    Log.d(TAG, "Closing write stream on file " + document.documentId);
-                    notifyParentChanged(document.parentId);
-                    getContext().getContentResolver().notifyChange(
-                            DocumentsContract.buildDocumentUri(mAuthority, document.documentId),
-                            null, false);
                 }
+            } catch (IOException e) {
+                Log.e(TAG, "Error on close", e);
+                closePipeWithErrorSilently(readPipe, e.getMessage());
+            } finally {
+                IoUtils.closeQuietly(inputStream);
+                IoUtils.closeQuietly(outputStream);
+                Log.d(TAG, "Closing write stream on file " + document.documentId);
+                notifyParentChanged(document.parentId);
+                getContext().getContentResolver().notifyChange(
+                        DocumentsContract.buildDocumentUri(mAuthority, document.documentId),
+                        null, false);
             }
-        }.start();
+        });
 
         return writePipe;
     }
@@ -508,6 +506,9 @@ public class StubProvider extends DocumentsProvider {
                 return dispatchCreateDocumentWithFlags(extras);
             case "setLoadingDuration":
                 mLoadingDuration = extras.getLong(DocumentsContract.EXTRA_LOADING);
+                return null;
+            case "waitForWrite":
+                waitForWrite();
                 return null;
         }
 
@@ -551,6 +552,22 @@ public class StubProvider extends DocumentsProvider {
             Log.d(TAG, "Creating document with flags failed" + name);
         }
         return out;
+    }
+
+    private void waitForWrite() {
+        try {
+            CountDownLatch latch = new CountDownLatch(1);
+            postToMainThread(latch::countDown);
+            latch.await();
+            Log.d(TAG, "All writing is done.");
+        } catch (InterruptedException e) {
+            // should never happen
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void postToMainThread(Runnable r) {
+        new Handler(Looper.getMainLooper()).post(r);
     }
 
     public String createDocument(String parentId, String mimeType, String displayName, int flags,
