@@ -43,26 +43,17 @@ public class StateTest {
     }
 
     @Test
-    public void testAcceptAllMimeTypesByDefault() {
-        mState.initAcceptMimes(mIntent);
-
-        assertArrayEquals(new String[] { "*/*" }, mState.acceptMimes);
-    }
-
-    @Test
     public void testAcceptGivenMimeTypesInExtra() {
         mIntent.putExtra(Intent.EXTRA_MIME_TYPES, MIME_TYPES);
 
-        mState.initAcceptMimes(mIntent);
+        mState.initAcceptMimes(mIntent, "*/*");
 
         assertArrayEquals(MIME_TYPES, mState.acceptMimes);
     }
 
     @Test
     public void testAcceptIntentTypeWithoutExtra() {
-        mIntent.setType(MIME_TYPES[0]);
-
-        mState.initAcceptMimes(mIntent);
+        mState.initAcceptMimes(mIntent, MIME_TYPES[0]);
 
         assertArrayEquals(new String[] { MIME_TYPES[0] }, mState.acceptMimes);
     }
