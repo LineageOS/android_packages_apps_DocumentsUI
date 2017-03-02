@@ -17,11 +17,11 @@
 package com.android.documentsui.sidebar;
 
 import android.annotation.Nullable;
-import android.content.ClipData;
 import android.content.Context;
 import android.provider.DocumentsProvider;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -106,8 +106,8 @@ class RootItem extends Item {
     }
 
     @Override
-    boolean dropOn(ClipData data) {
-        return mActionHandler.dropOn(data, root);
+    boolean dropOn(DragEvent event) {
+        return mActionHandler.dropOn(event, root);
     }
 
     @Override

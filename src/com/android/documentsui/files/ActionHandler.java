@@ -20,21 +20,20 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ClipData;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
-import android.provider.DocumentsContract.Root;
-import android.provider.DocumentsContract.Document;
 import android.util.Log;
+import android.view.DragEvent;
 
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActionModeAddons;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DragAndDropHelper;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
@@ -52,14 +51,12 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
@@ -108,15 +105,23 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     @Override
-    public boolean dropOn(ClipData data, RootInfo root) {
+    public boolean dropOn(DragEvent event, RootInfo root) {
         new GetRootDocumentTask(
                 root,
                 mActivity,
                 mActivity::isDestroyed,
-                (DocumentInfo doc) -> mClipper.copyFromClipData(
-                        root, doc, data, mDialogs::showFileOperationStatus)
+                (DocumentInfo rootDoc) -> dropOnCallback(event, rootDoc, root)
         ).executeOnExecutor(mExecutors.lookup(root.authority));
         return true;
+    }
+
+    private void dropOnCallback(DragEvent event, DocumentInfo rootDoc, RootInfo root) {
+        if (!DragAndDropHelper.canCopyTo(event.getLocalState(), rootDoc)) {
+            return;
+        }
+
+        mClipper.copyFromClipData(
+                root, rootDoc, event.getClipData(), mDialogs::showFileOperationStatus);
     }
 
     @Override

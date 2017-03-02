@@ -201,7 +201,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
 
                     assert (item.isDropTarget());
 
-                    return item.dropOn(event.getClipData());
+                    return item.dropOn(event);
                 }
             };
         }
