@@ -181,19 +181,23 @@ abstract public class Job implements Runnable {
         return Uri.parse(String.format("data,%s-%s", tag, id));
     }
 
-    ContentProviderClient getClient(DocumentInfo doc) throws RemoteException {
-        ContentProviderClient client = mClients.get(doc.authority);
+    ContentProviderClient getClient(Uri uri) throws RemoteException {
+        ContentProviderClient client = mClients.get(uri.getAuthority());
         if (client == null) {
             // Acquire content providers.
             client = acquireUnstableProviderOrThrow(
                     getContentResolver(),
-                    doc.authority);
+                    uri.getAuthority());
 
-            mClients.put(doc.authority, client);
+            mClients.put(uri.getAuthority(), client);
         }
 
         assert(client != null);
         return client;
+    }
+
+    ContentProviderClient getClient(DocumentInfo doc) throws RemoteException {
+        return getClient(doc.derivedUri);
     }
 
     final void cleanup() {
