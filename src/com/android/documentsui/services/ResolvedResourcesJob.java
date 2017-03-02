@@ -44,7 +44,7 @@ public abstract class ResolvedResourcesJob extends Job {
     private static final String TAG = "ResolvedResourcesJob";
 
     final List<DocumentInfo> mResolvedDocs;
-    final List<DocumentInfo> mAcquiredArchivedDocs = new ArrayList<>();
+    final List<Uri> mAcquiredArchivedUris = new ArrayList<>();
 
     ResolvedResourcesJob(Context service, Listener listener, String id, @OpType int opType,
             DocumentStack destination, UrisSupplier srcs) {
@@ -61,6 +61,25 @@ public abstract class ResolvedResourcesJob extends Job {
             return false;
         }
 
+        // Acquire all source archived documents, so they are not gone while copying from.
+        try {
+            Iterable<Uri> uris = mResourceUris.getUris(appContext);
+            for (Uri uri : uris) {
+                try {
+                    if (ArchivesProvider.AUTHORITY.equals(uri.getAuthority())) {
+                        ArchivesProvider.acquireArchive(getClient(uri), uri);
+                        mAcquiredArchivedUris.add(uri);
+                    }
+                } catch (RemoteException e) {
+                    Log.e(TAG, "Failed to acquire an archive.");
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to read list of target resource Uris. Cannot continue.", e);
+            return false;
+        }
+
         int docsResolved = buildDocumentList();
         if (!isCanceled() && docsResolved < mResourceUris.getItemCount()) {
             if (docsResolved == 0) {
@@ -71,29 +90,15 @@ public abstract class ResolvedResourcesJob extends Job {
             }
         }
 
-        // Acquire all source archived documents, so they are not gone while copying from.
-        try {
-            for (DocumentInfo doc : mResolvedDocs) {
-                if (doc.isInArchive()) {
-                    final ContentProviderClient client = getClient(doc);
-                    ArchivesProvider.acquireArchive(client, doc.derivedUri);
-                    mAcquiredArchivedDocs.add(doc);
-                }
-            }
-        } catch (RemoteException e) {
-            Log.e(TAG, "Failed to acquire an archive.");
-            return false;
-        }
-
         return true;
     }
 
     @Override
     void finish() {
         // Release all archived documents.
-        for (DocumentInfo doc : mAcquiredArchivedDocs) {
+        for (Uri uri : mAcquiredArchivedUris) {
             try {
-                ArchivesProvider.releaseArchive(getClient(doc), doc.derivedUri);
+                ArchivesProvider.releaseArchive(getClient(uri), uri);
             } catch (RemoteException e) {
                 Log.e(TAG, "Failed to release an archived document.");
             }
