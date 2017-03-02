@@ -120,8 +120,6 @@ public class AbstractActionHandlerTest {
                 Arrays.asList(TestEnv.FOLDER_1.documentId, TestEnv.FOLDER_2.documentId));
         mEnv.docs.nextDocuments = Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2);
 
-        mEnv.state.stack.push(TestEnv.FOLDER_0);
-
         mHandler.openContainerDocument(TestEnv.FOLDER_2);
 
         mEnv.beforeAsserts();
@@ -138,8 +136,6 @@ public class AbstractActionHandlerTest {
         mEnv.searchViewManager.isSearching = true;
         mEnv.docs.nextDocuments = Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2);
 
-        mEnv.state.stack.push(TestEnv.FOLDER_0);
-
         mHandler.openContainerDocument(TestEnv.FOLDER_2);
 
         mEnv.beforeAsserts();
@@ -147,6 +143,18 @@ public class AbstractActionHandlerTest {
         assertEquals(2, mEnv.state.stack.size());
         assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.pop());
         assertEquals(TestEnv.FOLDER_0, mEnv.state.stack.pop());
+    }
+
+    @Test
+    public void testOpensDocument_AssertionErrorIfAlreadyInStack() throws Exception {
+        mEnv.populateStack();
+        boolean threw = false;
+        try {
+            mEnv.state.stack.push(TestEnv.FOLDER_0);
+        } catch (AssertionError e) {
+            threw = true;
+        }
+        assertTrue(threw);
     }
 
     @Test
