@@ -17,8 +17,7 @@
 package com.android.documentsui.sidebar;
 
 import android.annotation.LayoutRes;
-import android.content.ClipData;
-import android.content.Context;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,6 @@ import android.view.ViewGroup;
 
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.R;
-import com.android.documentsui.base.CheckedTask.Check;
 
 /**
  * Describes a root navigation point of documents. Each one of them is presented as an item in the
@@ -60,7 +58,7 @@ abstract class Item {
 
     abstract void open();
 
-    boolean dropOn(ClipData data) {
+    boolean dropOn(DragEvent event) {
         return false;
     }
 

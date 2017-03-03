@@ -16,10 +16,11 @@
 
 package com.android.documentsui;
 
-import android.content.ClipData;
+import android.content.ContentProvider;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.view.DragEvent;
 
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
@@ -37,7 +38,7 @@ public interface ActionHandler {
     /**
      * Drops documents on a root.
      */
-    boolean dropOn(ClipData data, RootInfo root);
+    boolean dropOn(DragEvent event, RootInfo root);
 
     /**
      * Attempts to eject the identified root. Returns a boolean answer to listener.
