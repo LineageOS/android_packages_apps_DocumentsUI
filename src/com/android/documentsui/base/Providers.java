@@ -15,6 +15,10 @@
  */
 package com.android.documentsui.base;
 
+import android.net.Uri;
+
+import com.android.documentsui.archives.ArchivesProvider;
+
 /**
  * Details about various system providers. These all need to be in sync with the
  * resources in their respective packages.
@@ -34,4 +38,8 @@ public final class Providers {
     public static final String ROOT_ID_AUDIO = "audio_root";
 
     public static final String AUTHORITY_MTP = "com.android.mtp.documents";
+
+    public static boolean isArchiveUri(Uri uri) {
+        return uri != null && ArchivesProvider.AUTHORITY.equals(uri.getAuthority());
+    }
 }

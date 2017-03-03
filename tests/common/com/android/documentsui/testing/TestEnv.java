@@ -22,6 +22,7 @@ import android.provider.DocumentsContract.Document;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestFocusHandler;
 import com.android.documentsui.dirlist.TestModel;
@@ -59,19 +60,22 @@ public class TestEnv {
     public final SelectionManager selectionMgr;
     public final TestSearchViewManager searchViewManager;
     public final Injector injector;
+    public final TestFeatures features;
 
     private TestEnv(String authority) {
         mExecutor = new TestScheduledExecutorService();
-        model = new TestModel(authority);
+        features = new TestFeatures();
+        model = new TestModel(authority, features);
         selectionMgr = SelectionManagers.createTestInstance();
         searchViewManager = new TestSearchViewManager();
         injector = new Injector(
-                null,      //a Config is not required for tests
-                null,       //ScopedPreferences are not required for tests
-                null,   //a MessageBuilder is not required for tests
+                features,
+                null,      // a Config is not required for tests
+                null,      // ScopedPreferences are not required for tests
+                null,      // a MessageBuilder is not required for tests
                 new TestDialogController());
         injector.selectionMgr = selectionMgr;
-        injector.focusManager = new FocusManager(selectionMgr, null, null, 0);
+        injector.focusManager = new FocusManager(features, selectionMgr, null, null, 0);
     }
 
     public static TestEnv create() {

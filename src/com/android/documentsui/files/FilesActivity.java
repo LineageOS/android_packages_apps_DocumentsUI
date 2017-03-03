@@ -46,6 +46,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -85,6 +86,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
         MessageBuilder messages = new MessageBuilder(this);
         mInjector = new Injector<>(
+                Features.create(getResources()),
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 messages,
@@ -96,6 +98,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         mInjector.selectionMgr = new SelectionManager(SelectionManager.MODE_MULTIPLE);
 
         mInjector.focusManager = new FocusManager(
+                mInjector.features,
                 mInjector.selectionMgr,
                 mDrawer,
                 this::focusSidebar,
@@ -133,7 +136,8 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
         mActivityInputHandler =
                 new ActivityInputHandler(mInjector.actions::deleteSelectedDocuments);
-        mSharedInputHandler = new SharedInputHandler(mInjector.focusManager, this::popDir);
+        mSharedInputHandler =
+                new SharedInputHandler(mInjector.focusManager, this::popDir, mInjector.features);
 
         RootsFragment.show(getFragmentManager(), null);
 

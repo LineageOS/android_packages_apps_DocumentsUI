@@ -24,7 +24,6 @@ import android.util.Log;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.EventHandler;
-import com.android.documentsui.base.Shared;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,11 +110,6 @@ public final class DebugCommandProcessor implements EventHandler<String> {
     }
 
     private static boolean forcePaging(String[] tokens) {
-        if (!Shared.ENABLE_OMC_API_FEATURES) {
-            Log.i(TAG, "Paging is disabled.");
-            return false;
-        }
-
         if ("page".equals(tokens[0])) {
             if (tokens.length >= 2) {
                 try {

@@ -86,6 +86,7 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Events.MotionInputEvent;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -111,7 +112,6 @@ import com.android.documentsui.sorting.SortModel;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -1176,6 +1176,11 @@ public class DirectoryFragment extends Fragment
     private final class AdapterEnvironment implements DocumentsAdapter.Environment {
 
         @Override
+        public Features getFeatures() {
+            return mInjector.features;
+        }
+
+        @Override
         public Context getContext() {
             return mActivity;
         }
@@ -1260,7 +1265,7 @@ public class DirectoryFragment extends Fragment
                 case TYPE_RECENT_OPEN:
                     if (DEBUG) Log.d(TAG, "Creating new loader recents.");
                     final RootsAccess roots = DocumentsApplication.getRootsCache(context);
-                    return new RecentsLoader(context, roots, mState);
+                    return new RecentsLoader(context, roots, mState, mInjector.features);
 
                 default:
                     throw new IllegalStateException("Unknown type " + mLocalState.mType);

@@ -17,8 +17,6 @@
 package com.android.documentsui.sorting;
 
 import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.base.Shared.ENABLE_OMC_API_FEATURES;
-import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;
@@ -33,7 +31,6 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.android.documentsui.R;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
 
 import java.lang.annotation.Retention;
@@ -225,15 +222,6 @@ public class SortModel implements Parcelable {
     }
 
     public Cursor sortCursor(Cursor cursor) {
-        if (ENABLE_OMC_API_FEATURES
-                && cursor.getExtras().containsKey(ContentResolver.QUERY_ARG_SORT_COLUMNS)) {
-            if (VERBOSE) Log.i(TAG, "Cursor is pre-sorted by provider. Skipping sort. Booya!");
-
-            // TODO: assert that the contents of QUERY_ARG_SORT_COLUMNS
-            // matches the sort dimension...once we're returning any pre-sorted results.
-            return cursor;
-        }
-
         if (mSortedDimension != null) {
             return new SortingCursorWrapper(cursor, mSortedDimension);
         } else {
@@ -242,7 +230,7 @@ public class SortModel implements Parcelable {
     }
 
     public void addQuerySortArgs(Bundle queryArgs) {
-        assert(Shared.ENABLE_OMC_API_FEATURES);
+        // should only be called when R.bool.feature_content_paging is true
 
         final int id = getSortedDimensionId();
         switch (id) {
@@ -287,7 +275,12 @@ public class SortModel implements Parcelable {
     }
 
     public @Nullable String getDocumentSortQuery() {
-        assert(!Shared.ENABLE_OMC_API_FEATURES);
+        // This method should only be called when R.bool.feature_content_paging is false.
+        // Once that feature is enabled by default, this method should be removed.
+        // The following assert exists simply to make reference to the resource id
+        // so the compiler will fail when the feature is removed...reminding you and me
+        // to remove this method :)
+        assert(R.bool.feature_content_paging != Integer.MIN_VALUE);
 
         final int id = getSortedDimensionId();
         final String columnName;

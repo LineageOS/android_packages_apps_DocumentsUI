@@ -28,19 +28,13 @@ import android.test.mock.MockContentResolver;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.sorting.SortDimension;
-import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.testing.SortModels;
 import com.android.documentsui.testing.TestEventListener;
+import com.android.documentsui.testing.TestFeatures;
 
-import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 @SmallTest
 public class ModelTest extends AndroidTestCase {
@@ -74,10 +68,20 @@ public class ModelTest extends AndroidTestCase {
     private Cursor cursor;
     private Model model;
     private TestContentProvider provider;
+    private TestFeatures features;
 
     @Override
     public void setUp() {
-        setupTestContext();
+        final MockContentResolver resolver = new MockContentResolver();
+        features = new TestFeatures();
+        new ContextWrapper(getContext()) {
+            @Override
+            public ContentResolver getContentResolver() {
+                return resolver;
+            }
+        };
+        provider = new TestContentProvider();
+        resolver.addProvider(AUTHORITY, provider);
 
         Random rand = new Random();
 
@@ -98,7 +102,7 @@ public class ModelTest extends AndroidTestCase {
         r.cursor = cursor;
 
         // Instantiate the model with a dummy view adapter and listener that (for now) do nothing.
-        model = new Model();
+        model = new Model(features);
         // not sure why we add a listener here at all.
         model.addUpdateListener(new TestEventListener<>());
         model.update(r);
@@ -169,16 +173,5 @@ public class ModelTest extends AndroidTestCase {
             Cursor c = model.getItem(ids[i]);
             assertEquals(i, c.getPosition());
         }
-    }
-    private void setupTestContext() {
-        final MockContentResolver resolver = new MockContentResolver();
-        new ContextWrapper(getContext()) {
-            @Override
-            public ContentResolver getContentResolver() {
-                return resolver;
-            }
-        };
-        provider = new TestContentProvider();
-        resolver.addProvider(AUTHORITY, provider);
     }
 }

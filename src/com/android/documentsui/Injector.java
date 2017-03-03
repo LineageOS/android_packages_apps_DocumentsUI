@@ -25,6 +25,7 @@ import android.view.View;
 
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.EventHandler;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.prefs.ScopedPreferences;
@@ -41,6 +42,7 @@ import java.lang.annotation.Target;
  */
 public class Injector<T extends ActionHandler> {
 
+    public final Features features;
     public final ActivityConfig config;
     public final ScopedPreferences prefs;
     public final MessageBuilder messages;
@@ -60,21 +62,24 @@ public class Injector<T extends ActionHandler> {
     @ContentScoped
     public SelectionManager selectionMgr;
 
-    private final Model mModel = new Model();
-    private DocumentsAdapter mAdapter;
+    private final Model mModel;
 
     // must be initialized before calling super.onCreate because prefs
     // are used in State initialization.
     public Injector(
+            Features features,
             ActivityConfig config,
             ScopedPreferences prefs,
             MessageBuilder messages,
             DialogController dialogs) {
 
+        this.features = features;
         this.config = config;
         this.prefs = prefs;
         this.messages = messages;
         this.dialogs = dialogs;
+
+        mModel = new Model(this.features);
     }
 
     public Model getModel() {
