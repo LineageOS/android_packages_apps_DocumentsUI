@@ -28,20 +28,24 @@ import java.util.function.Function;
 
 /**
  * Custom Accessibility Delegate for RecyclerViews to route click events on its child views to
- * proper handlers.
- *
- * The majority of event handling is done using TouchDetector instead of View.OnCLickListener,
- * which most a11y services use to understand whether a particular view is clickable or not.
- * Thus, we need to use a custom accessibility delegate to manually add ACTION_CLICK to clickable child
- * views' accessibility node, and then correctly route these clicks done by a11y services to responsible
+ * proper handlers, and to surface selection state to a11y events.
+ * <p>
+ * The majority of event handling isdone using TouchDetector instead of View.OnCLickListener, which
+ * most a11y services use to understand whether a particular view is clickable or not. Thus, we need
+ * to use a custom accessibility delegate to manually add ACTION_CLICK to clickable child views'
+ * accessibility node, and then correctly route these clicks done by a11y services to responsible
  * click callbacks.
+ * <p>
+ * DocumentsUI uses {@link View#setActivated(boolean)} instead of {@link View#setSelected(boolean)}
+ * for marking a view as selected. We will surface that selection state to a11y services in this
+ * class.
  */
-public class AccessibilityClickEventRouter extends RecyclerViewAccessibilityDelegate {
+public class AccessibilityEventRouter extends RecyclerViewAccessibilityDelegate {
 
     private final ItemDelegate mItemDelegate;
     private final Function<View, Boolean> mClickCallback;
 
-    public AccessibilityClickEventRouter(
+    public AccessibilityEventRouter(
             RecyclerView recyclerView, Function<View, Boolean> clickCallback) {
         super(recyclerView);
         mClickCallback = clickCallback;
@@ -51,6 +55,7 @@ public class AccessibilityClickEventRouter extends RecyclerViewAccessibilityDele
                     AccessibilityNodeInfoCompat info) {
                 super.onInitializeAccessibilityNodeInfo(host, info);
                 info.addAction(AccessibilityActionCompat.ACTION_CLICK);
+                info.setSelected(host.isActivated());
             }
 
             @Override
