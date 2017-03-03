@@ -116,7 +116,7 @@ public class ArchivesProviderTest extends AndroidTestCase {
             });
         }
 
-        latch.await(3, TimeUnit.SECONDS);
+        latch.await(30, TimeUnit.SECONDS);
         {
             final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
             assertNotNull("Cursor must not be null. File not found?", cursor);
@@ -168,7 +168,7 @@ public class ArchivesProviderTest extends AndroidTestCase {
             });
         }
 
-        latch.await(3, TimeUnit.SECONDS);
+        latch.await(30, TimeUnit.SECONDS);
         {
             final Cursor cursor = resolver.query(childrenUri, null, null, null, null, null);
             assertNotNull("Cursor must not be null. File not found?", cursor);
