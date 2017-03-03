@@ -20,7 +20,6 @@ import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -29,6 +28,7 @@ import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
+import android.view.DragEvent;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.LoadDocStackTask.LoadDocStackCallback;
@@ -43,7 +43,6 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.files.LauncherActivity;
@@ -58,7 +57,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -181,7 +179,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
-    public boolean dropOn(ClipData data, RootInfo root) {
+    public boolean dropOn(DragEvent event, RootInfo root) {
         throw new UnsupportedOperationException("Can't open an app.");
     }
 
