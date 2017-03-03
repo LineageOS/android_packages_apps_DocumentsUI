@@ -91,7 +91,7 @@ public class PagingProvider extends TestRootProvider {
         for (int i = 0; i < numItems; i++) {
             addFile(c, String.format("%05d", offset + i));
         }
-        extras.putInt(ContentResolver.QUERY_RESULT_SIZE, recordsetSize);
+        extras.putInt(ContentResolver.EXTRA_TOTAL_SIZE, recordsetSize);
         return c;
     }
 }
