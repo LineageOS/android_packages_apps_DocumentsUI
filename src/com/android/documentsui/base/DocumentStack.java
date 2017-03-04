@@ -84,9 +84,10 @@ public class DocumentStack implements Durable, Parcelable {
     public DocumentStack(DocumentStack src, DocumentInfo... docs) {
         mList = new LinkedList<>(src.mList);
         for (DocumentInfo doc : docs) {
-            mList.addLast(doc);
+            push(doc);
         }
 
+        mStackTouched = false;
         mRoot = src.mRoot;
     }
 
@@ -118,9 +119,13 @@ public class DocumentStack implements Durable, Parcelable {
     }
 
     public void push(DocumentInfo info) {
-        if (DEBUG) Log.d(TAG, "Adding doc to stack: " + info);
-        mList.addLast(info);
-        mStackTouched = true;
+        boolean alreadyInStack = mList.contains(info);
+        assert (!alreadyInStack);
+        if (!alreadyInStack) {
+            if (DEBUG) Log.d(TAG, "Adding doc to stack: " + info);
+            mList.addLast(info);
+            mStackTouched = true;
+        }
     }
 
     public DocumentInfo pop() {
