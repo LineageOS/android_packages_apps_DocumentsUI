@@ -315,7 +315,7 @@ public class DirectoryFragment extends Fragment
         mActions = mInjector.getActionHandler(mModel);
 
         mRecView.setAccessibilityDelegateCompat(
-                new AccessibilityClickEventRouter(mRecView,
+                new AccessibilityEventRouter(mRecView,
                         (View child) -> onAccessibilityClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addItemCallback(mSelectionMetadata);
