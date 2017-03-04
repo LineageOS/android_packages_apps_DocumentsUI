@@ -231,6 +231,20 @@ public final class DocumentClipper {
     }
 
     /**
+     * Copies documents from clipboard. It's the same as {@link #copyFromClipData} with clipData
+     * returned from {@link ClipboardManager#getPrimaryClip()}.
+     *
+     * @param docStack the document stack to the destination folder,
+     * @param callback callback to notify when operation finishes.
+     */
+    public void copyFromClipboard(
+            DocumentStack docStack,
+            FileOperations.Callback callback) {
+
+        copyFromClipData(docStack, mClipboard.getPrimaryClip(), callback);
+    }
+
+    /**
      * Copied documents from given clip data to a root directory.
      * @param root the root which root directory to copy to
      * @param destination the root directory
@@ -265,6 +279,14 @@ public final class DocumentClipper {
         copyFromClipData(dstStack, clipData, callback);
     }
 
+    /**
+     * Copies documents from given clip data to a folder.
+     *
+     * @param docStack the document stack to the destination folder, including the destination
+     *            folder.
+     * @param clipData the clipData to copy from
+     * @param callback callback to notify when operation finishes
+     */
     private void copyFromClipData(
             final DocumentStack dstStack,
             final @Nullable ClipData clipData,

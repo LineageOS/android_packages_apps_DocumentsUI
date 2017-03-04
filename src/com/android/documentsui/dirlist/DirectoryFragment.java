@@ -860,13 +860,14 @@ public class DirectoryFragment extends Fragment
         return mInjector.config.isDocumentEnabled(mimeType, flags, mState);
     }
 
+    /**
+     * Paste selection files from the primary clip into the current window.
+     */
     public void pasteFromClipboard() {
         Metrics.logUserAction(getContext(), Metrics.USER_ACTION_PASTE_CLIPBOARD);
-
-        BaseActivity activity = (BaseActivity) getActivity();
-        DocumentInfo destination = activity.getCurrentDirectory();
+        // Since we are pasting into the current window, we already have the destination in the
+        // stack. No need for a destination DocumentInfo.
         mClipper.copyFromClipboard(
-                destination,
                 mState.stack,
                 mInjector.dialogs::showFileOperationStatus);
         getActivity().invalidateOptionsMenu();
@@ -881,7 +882,6 @@ public class DirectoryFragment extends Fragment
             Log.w(TAG, "Invalid destination. Can't obtain cursor for modelId: " + modelId);
             return;
         }
-        BaseActivity activity = mActivity;
         DocumentInfo destination = DocumentInfo.fromDirectoryCursor(dstCursor);
         mClipper.copyFromClipboard(
                 destination,
@@ -968,11 +968,20 @@ public class DirectoryFragment extends Fragment
                         : Metrics.USER_ACTION_DRAG_N_DROP);
 
         DocumentInfo dst = getDestination(v);
-        mClipper.copyFromClipData(
-                dst,
-                mState.stack,
-                clipData,
-                mInjector.dialogs::showFileOperationStatus);
+        // If destination is already at top of stack, no need to pass it in
+        if (!mState.stack.isEmpty() && mState.stack.peek().equals(dst)) {
+            mClipper.copyFromClipData(
+                    null,
+                    mState.stack,
+                    clipData,
+                    mInjector.dialogs::showFileOperationStatus);
+        } else {
+            mClipper.copyFromClipData(
+                    dst,
+                    mState.stack,
+                    clipData,
+                    mInjector.dialogs::showFileOperationStatus);
+        }
         return true;
     }
 
