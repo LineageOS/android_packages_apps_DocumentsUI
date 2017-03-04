@@ -44,6 +44,13 @@ public final class Views {
         return view;
     }
 
+    public static View createTestView(boolean activated) {
+        View view = createTestView();
+        Mockito.when(view.isActivated()).thenReturn(activated);
+
+        return view;
+    }
+
     public static void setBackground(View testView, Drawable background) {
         Mockito.when(testView.getBackground()).thenReturn(background);
     }

@@ -32,7 +32,7 @@ import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.NavigationViewManager.Environment;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.dirlist.AccessibilityClickEventRouter;
+import com.android.documentsui.dirlist.AccessibilityEventRouter;
 
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
@@ -76,7 +76,7 @@ public final class HorizontalBreadcrumb extends RecyclerView
         // accessibility delegate to route click events correctly. See AccessibilityClickEventRouter
         // for more details on how we are routing these a11y events.
         setAccessibilityDelegateCompat(
-                new AccessibilityClickEventRouter(this,
+                new AccessibilityEventRouter(this,
                         (View child) -> onAccessibilityClick(child)));
 
         setLayoutManager(mLayoutManager);
