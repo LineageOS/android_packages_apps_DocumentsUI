@@ -19,6 +19,10 @@ package com.android.documentsui.testing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
@@ -29,26 +33,33 @@ import javax.annotation.Nullable;
  */
 public class TestPredicate<T> implements Predicate<T> {
 
-    private @Nullable T lastValue;
-    private boolean nextReturnValue;
-    private boolean called;
+    private final CompletableFuture<T> mFuture = new CompletableFuture<>();
+    private @Nullable T mLastValue;
+    private boolean mNextReturnValue;
+    private boolean mCalled;
 
     @Override
     public boolean test(T t) {
-        called = true;
-        lastValue = t;
-        return nextReturnValue;
+        mCalled = true;
+        mLastValue = t;
+        mFuture.complete(t);
+        return mNextReturnValue;
     }
 
     public void assertLastArgument(@Nullable T expected) {
-        assertEquals(expected, lastValue);
+        assertEquals(expected, mLastValue);
     }
 
     public void assertCalled() {
-        assertTrue(called);
+        assertTrue(mCalled);
     }
 
     public void nextReturn(boolean value) {
-        nextReturnValue = value;
+        mNextReturnValue = value;
+    }
+
+    public @Nullable T waitForCall(int timeout, TimeUnit unit)
+            throws InterruptedException, ExecutionException, TimeoutException {
+        return mFuture.get(timeout, unit);
     }
 }

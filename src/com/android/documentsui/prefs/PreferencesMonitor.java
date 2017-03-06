@@ -17,37 +17,50 @@
 package com.android.documentsui.prefs;
 
 import android.app.backup.BackupManager;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+
+import com.android.documentsui.base.ApplicationScope;
+
+import java.util.function.Consumer;
 
 /**
  * A class that monitors changes to the default shared preferences file. If a preference which
  * should be backed up changed, schedule a backup.
+ *
+ * Also, notifies a callback when such changes are noticed. This is the key mechanism by which
+ * we learn about preference changes in other instances of the app.
  */
-public final class PreferencesMonitor
-        implements SharedPreferences.OnSharedPreferenceChangeListener {
+public final class PreferencesMonitor {
 
-    private Context mContext;
+    private final String mPackageName;
+    private final SharedPreferences mPrefs;
+    private final OnSharedPreferenceChangeListener mListener = this::onSharedPreferenceChanged;
+    private final Consumer<String> mChangeCallback;
 
-    public PreferencesMonitor(Context context) {
-        mContext = context;
+    public PreferencesMonitor(
+            @ApplicationScope String packageName,
+            SharedPreferences prefs,
+            Consumer<String> listener) {
+
+        mPackageName = packageName;
+        mPrefs = prefs;
+        mChangeCallback = listener;
     }
 
     public void start() {
-        PreferenceManager.getDefaultSharedPreferences(mContext)
-                .registerOnSharedPreferenceChangeListener(this);
+        mPrefs.registerOnSharedPreferenceChangeListener(mListener);
     }
 
     public void stop() {
-        PreferenceManager.getDefaultSharedPreferences(mContext)
-                .unregisterOnSharedPreferenceChangeListener(this);
+        mPrefs.unregisterOnSharedPreferenceChangeListener(mListener);
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (PrefsBackupHelper.shouldBackup(key)) {
-            BackupManager.dataChanged(mContext.getPackageName());
+    // visible for use as a lambda, otherwise treat as a private.
+    void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (Preferences.shouldBackup(key)) {
+            mChangeCallback.accept(key);
+            BackupManager.dataChanged(mPackageName);
         }
     }
 }
