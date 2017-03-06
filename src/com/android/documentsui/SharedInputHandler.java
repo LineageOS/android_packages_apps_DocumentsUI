@@ -18,17 +18,19 @@ package com.android.documentsui;
 import android.view.KeyEvent;
 
 import com.android.documentsui.base.Events;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Procedure;
-import com.android.documentsui.base.Shared;
 
 public class SharedInputHandler {
 
     private final FocusManager mFocusManager;
-    private Procedure mDirPopper;
+    private final Procedure mDirPopper;
+    private final Features mFeatures;
 
-    public SharedInputHandler(FocusManager focusManager, Procedure dirPopper) {
+    public SharedInputHandler(FocusManager focusManager, Procedure dirPopper, Features features) {
         mFocusManager = focusManager;
         mDirPopper = dirPopper;
+        mFeatures = features;
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -38,7 +40,8 @@ public class SharedInputHandler {
             // which is probably what the user is trying to do.
             mFocusManager.focusDirectoryList();
             return true;
-        } else if (keyCode == KeyEvent.KEYCODE_TAB && !Shared.ENABLE_OMC_API_FEATURES) {
+        } else if (keyCode == KeyEvent.KEYCODE_TAB
+                && !mFeatures.isSystemKeyboardNavigationEnabled()) {
             // Tab toggles focus on the navigation drawer.
             // This should only be called in pre-O devices, since O has built-in keyboard navigation
             // support.

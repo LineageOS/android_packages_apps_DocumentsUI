@@ -29,6 +29,7 @@ import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.selection.Selection;
@@ -359,7 +360,8 @@ public final class DocumentClipper {
     private static ClipData createClipData(
             ClipDescription description, ArrayList<ClipData.Item> clipItems) {
 
-        if (Shared.ENABLE_OMC_API_FEATURES) {
+        // technically we want to check >= O, but we'd need to patch back the O version code :|
+        if (Features.OMC_RUNTIME) {
             return new ClipData(description, clipItems);
         }
 

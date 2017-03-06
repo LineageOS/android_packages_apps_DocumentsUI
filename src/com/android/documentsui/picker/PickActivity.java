@@ -53,6 +53,7 @@ import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
@@ -89,6 +90,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     public void onCreate(Bundle icicle) {
 
         mInjector = new Injector<>(
+                Features.create(getResources()),
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 new MessageBuilder(this),
@@ -102,6 +104,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                         : SelectionManager.MODE_SINGLE);
 
         mInjector.focusManager = new FocusManager(
+                mInjector.features,
                 mInjector.selectionMgr,
                 mDrawer,
                 this::focusSidebar,
@@ -124,8 +127,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
         Intent intent = getIntent();
 
-        mSharedInputHandler = new SharedInputHandler(mInjector.focusManager, this::popDir);
-
+        mSharedInputHandler =
+                new SharedInputHandler(mInjector.focusManager, this::popDir, mInjector.features);
         setupLayout(intent);
         mInjector.actions.initLocation(intent);
     }

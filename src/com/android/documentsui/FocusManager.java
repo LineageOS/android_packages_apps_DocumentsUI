@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.internal.util.Preconditions.checkNotNull;
 
 import android.annotation.ColorRes;
 import android.annotation.Nullable;
@@ -41,8 +42,8 @@ import android.widget.TextView;
 
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Procedure;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentHolder;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.FocusHandler;
@@ -60,6 +61,7 @@ public final class FocusManager implements FocusHandler {
 
     private final ContentScope mScope = new ContentScope();
 
+    private final Features mFeatures;
     private final SelectionManager mSelectionMgr;
     private final DrawerController mDrawer;
     private final Procedure mRootsFocuser;
@@ -68,11 +70,13 @@ public final class FocusManager implements FocusHandler {
     private boolean mNavDrawerHasFocus;
 
     public FocusManager(
+            Features features,
             SelectionManager selectionMgr,
             DrawerController drawer,
             Procedure rootsFocuser,
             @ColorRes int color) {
 
+        mFeatures = checkNotNull(features);
         mSelectionMgr = selectionMgr;
         mDrawer = drawer;
         mRootsFocuser = rootsFocuser;
@@ -84,7 +88,7 @@ public final class FocusManager implements FocusHandler {
     public boolean advanceFocusArea() {
         // This should only be called in pre-O devices.
         // O has built-in keyboard navigation support.
-        assert(!Shared.ENABLE_OMC_API_FEATURES);
+        assert(!mFeatures.isSystemKeyboardNavigationEnabled());
         boolean focusChanged = false;
         if (mNavDrawerHasFocus) {
             mDrawer.setOpen(false);

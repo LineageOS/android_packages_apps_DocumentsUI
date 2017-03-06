@@ -25,6 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.test.AndroidTestCase;
 import android.view.ViewGroup;
 
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestEnv;
 
@@ -127,6 +128,11 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
 
         private TestEnvironment(Context testContext) {
             this.testContext = testContext;
+        }
+
+        @Override
+        public Features getFeatures() {
+            return mEnv.features;
         }
 
         @Override

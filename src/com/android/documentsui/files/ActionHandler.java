@@ -17,7 +17,6 @@
 package com.android.documentsui.files;
 
 import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.base.Shared.ENABLE_OMC_API_FEATURES;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -40,8 +39,10 @@ import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
+import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
@@ -78,8 +79,9 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private static final String TAG = "ManagerActionHandler";
 
     private final ActionModeAddons mActionModeAddons;
+    private final Features mFeatures;
+    private final ActivityConfig mConfig;
     private final DialogController mDialogs;
-    private final ActivityConfig mActConfig;
     private final DocumentClipper mClipper;
     private final ClipStore mClipStore;
     private @Nullable Model mModel;
@@ -99,8 +101,9 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         super(activity, state, roots, docs, searchMgr, executors, injector);
 
         mActionModeAddons = actionModeAddons;
+        mFeatures = injector.features;
+        mConfig = injector.config;
         mDialogs = injector.dialogs;
-        mActConfig = injector.config;
         mClipper = clipper;
         mClipStore = clipStore;
     }
@@ -192,7 +195,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return false;
         }
 
-        if (mActConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
+        if (mConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
             onDocumentPicked(doc);
             mSelectionMgr.clearSelection();
             return true;
@@ -319,8 +322,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         assert(!selection.isEmpty());
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
-        List<DocumentInfo> docs =
-                mModel.loadDocuments(selection, Model.SHARABLE_FILE_FILTER);
+        List<DocumentInfo> docs = mModel.loadDocuments(
+                selection, DocumentFilters.sharable(mFeatures));
 
         Intent intent;
 
@@ -351,8 +354,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
 
-        if (Shared.ENABLE_OMC_API_FEATURES
-                && mModel.hasDocuments(selection, Model.VIRTUAL_DOCUMENT_FILTER)) {
+        if (mFeatures.isVirtualFilesSharingEnabled()
+                && mModel.hasDocuments(selection, DocumentFilters.VIRTUAL)) {
             intent.addCategory(Intent.CATEGORY_TYPED_OPENABLE);
         }
 
@@ -425,8 +428,9 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     private boolean launchToRoot(Intent intent) {
         String action = intent.getAction();
+        // TODO: Remove the "BROWSE" action once our min runtime in O.
         if (Intent.ACTION_VIEW.equals(action)
-                || (!ENABLE_OMC_API_FEATURES && "android.provider.action.BROWSE".equals(action))) {
+                || "android.provider.action.BROWSE".equals(action)) {
             Uri uri = intent.getData();
             if (DocumentsContract.isRootUri(mActivity, uri)) {
                 if (DEBUG) Log.d(TAG, "Launching with root URI.");
@@ -460,7 +464,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
 
         Intent intent = Intent.createChooser(buildViewIntent(doc), null);
-        if (Shared.ENABLE_OMC_API_FEATURES) {
+        if (Features.OMC_RUNTIME) {
             intent.putExtra(Intent.EXTRA_AUTO_LAUNCH_SINGLE_CHOICE, false);
         }
         try {

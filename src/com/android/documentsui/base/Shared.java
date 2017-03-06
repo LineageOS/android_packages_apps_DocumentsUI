@@ -51,8 +51,6 @@ public final class Shared {
     public static final boolean DEBUG = true;
     public static final boolean VERBOSE = DEBUG && Log.isLoggable(TAG, Log.VERBOSE);
 
-    public static final boolean ENABLE_OMC_API_FEATURES = true;
-
     /** Intent action name to pick a copy destination. */
     public static final String ACTION_PICK_COPY_DESTINATION =
             "com.android.documentsui.PICK_COPY_DESTINATION";

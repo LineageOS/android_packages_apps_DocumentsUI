@@ -32,11 +32,11 @@ import android.view.DragEvent;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.LoadDocStackTask.LoadDocStackCallback;
-import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -130,8 +130,13 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     @Override
     public void refreshDocument(DocumentInfo doc, BooleanConsumer callback) {
-        RefreshTask task = new RefreshTask(mState, doc, REFRESH_SPINNER_TIMEOUT,
-                mActivity.getApplicationContext(), mActivity::isDestroyed,
+        RefreshTask task = new RefreshTask(
+                mInjector.features,
+                mState,
+                doc,
+                REFRESH_SPINNER_TIMEOUT,
+                mActivity.getApplicationContext(),
+                mActivity::isDestroyed,
                 callback);
         task.executeOnExecutor(mExecutors.lookup(doc == null ? null : doc.authority));
     }
@@ -343,7 +348,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     protected final boolean launchToDocument(Uri uri) {
         // We don't support launching to a document in an archive.
-        if (!ArchivesProvider.AUTHORITY.equals(uri.getAuthority())) {
+        if (!Providers.isArchiveUri(uri)) {
             loadDocument(uri, this::onStackLoaded);
             return true;
         }

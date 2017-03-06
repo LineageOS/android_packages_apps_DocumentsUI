@@ -19,8 +19,6 @@ package com.android.documentsui;
 import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.Nullable;
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -32,7 +30,7 @@ import com.android.documentsui.base.ApplicationScope;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.CheckedTask;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
 
 /**
@@ -45,17 +43,20 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
     private final static String TAG = "RefreshTask";
 
     private final @ApplicationScope Context mContext;
+    private final Features mFeatures;
     private final State mState;
     private final DocumentInfo mDoc;
     private final BooleanConsumer mCallback;
     private final CancellationSignal mSignal;
 
-    public RefreshTask(State state, DocumentInfo doc, long timeout,
+
+    public RefreshTask(Features features, State state, DocumentInfo doc, long timeout,
             @ApplicationScope Context context, Check check, BooleanConsumer callback) {
         super(check);
+        mFeatures = features;
+        mState = state;
         mDoc = doc;
         mContext = context;
-        mState = state;
         mCallback = callback;
         mSignal = new CancellationSignal();
         setTimeout(timeout);
@@ -82,7 +83,7 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
         // supports it, the ContentProvider will automatically send a content updated notification
         // and we will update accordingly. Else, we just tell the callback that Refresh is not
         // supported.
-        if (!Shared.ENABLE_OMC_API_FEATURES) {
+        if (!mFeatures.isContentRefreshEnabled()) {
             Log.w(TAG, "Ignoring attempt to call Refresh on an older Android platform.");
             return false;
         }

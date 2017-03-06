@@ -20,7 +20,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.ListView;
 
-import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.Features;
 
 /**
  * The list in the navigation drawer. This class exists for the purpose of overriding the key
@@ -29,22 +29,28 @@ import com.android.documentsui.base.Shared;
  */
 public class RootsList extends ListView {
 
+    private final Features mFeatures;
+
     // Multiple constructors are needed to handle all the different ways this View could be
     // constructed by the framework. Don't remove them!
     public RootsList(Context context) {
         super(context);
+        mFeatures = Features.create(getResources());
     }
 
     public RootsList(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        mFeatures = Features.create(getResources());
     }
 
     public RootsList(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mFeatures = Features.create(getResources());
     }
 
     public RootsList(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mFeatures = Features.create(getResources());
     }
 
     @Override
@@ -53,7 +59,8 @@ public class RootsList extends ListView {
             // Ignore tab key events - this causes them to bubble up to the global key handler where
             // they are appropriately handled. See BaseActivity.onKeyDown.
             case KeyEvent.KEYCODE_TAB:
-                return Shared.ENABLE_OMC_API_FEATURES ? super.onKeyDown(keyCode, event) : false;
+                return mFeatures.isSystemKeyboardNavigationEnabled()
+                        && super.onKeyDown(keyCode, event);
             // Prevent left/right arrow keystrokes from shifting focus away from the roots list.
             case KeyEvent.KEYCODE_DPAD_LEFT:
             case KeyEvent.KEYCODE_DPAD_RIGHT:
