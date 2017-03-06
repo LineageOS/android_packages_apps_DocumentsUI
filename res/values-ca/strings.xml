@@ -186,8 +186,7 @@
       <item quantity="other">Vols suprimir <xliff:g id="COUNT_1">%1$d</xliff:g> elements?</item>
       <item quantity="one">Vols suprimir <xliff:g id="COUNT_0">%1$d</xliff:g> element?</item>
     </plurals>
-    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
-    <skip />
+    <string name="images_shortcut_label" msgid="2545168016070493574">"Imatges"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"No s\'ha pogut obrir el fitxer per examinar-lo: o bé està malmès o té un format que no s\'admet."</string>
     <string name="name_conflict" msgid="28407269328862986">"Ja hi ha un fitxer amb aquest nom."</string>
     <string name="authentication_required" msgid="2314941212791346284">"És necessari autenticar-se per veure el contingut d\'aquest directori"</string>
