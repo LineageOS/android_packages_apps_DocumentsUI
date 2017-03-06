@@ -186,8 +186,7 @@
       <item quantity="one">Eyða <xliff:g id="COUNT_1">%1$d</xliff:g> atriði?</item>
       <item quantity="other">Eyða <xliff:g id="COUNT_1">%1$d</xliff:g> atriðum?</item>
     </plurals>
-    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
-    <skip />
+    <string name="images_shortcut_label" msgid="2545168016070493574">"Myndir"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Ekki tókst að opna geymslu til að leita í henni. Annaðhvort er skráin skemmd eða á óstuddu sniði."</string>
     <string name="name_conflict" msgid="28407269328862986">"Skrá með þessu heiti er þegar til."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Auðkenningar er krafist til að sjá efni þessa skráasafns"</string>

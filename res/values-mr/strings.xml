@@ -186,8 +186,7 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम हटवायचा?</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम हटवायचे?</item>
     </plurals>
-    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
-    <skip />
+    <string name="images_shortcut_label" msgid="2545168016070493574">"प्रतिमा"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ब्राउझिंगसाठी संग्रहण उघडण्यात अक्षम. फाइल एकतर दूषित झाली आहे किंवा असमर्थित स्वरूपात आहे."</string>
     <string name="name_conflict" msgid="28407269328862986">"या नावाची फाइल आधीपासून अस्तित्वात आहे."</string>
     <string name="authentication_required" msgid="2314941212791346284">"या निर्देशिकेची सामग्री पाहण्‍यासाठी प्रमाणीकरण आवश्‍यक आहे"</string>
