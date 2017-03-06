@@ -23,6 +23,7 @@ import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import libcore.net.MimeUtils;
@@ -45,8 +46,8 @@ public class TestModel extends Model {
     private Random mRand = new Random();
     private MatrixCursor mCursor;
 
-    public TestModel(String authority) {
-        super();
+    public TestModel(String authority, Features features) {
+        super(features);
         mAuthority = authority;
         reset();
     }

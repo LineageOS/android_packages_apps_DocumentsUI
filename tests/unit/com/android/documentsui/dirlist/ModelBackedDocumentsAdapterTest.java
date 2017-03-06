@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.support.test.filters.MediumTest;
 import android.test.AndroidTestCase;
 
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestEnv;
 
@@ -51,6 +52,11 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
     private final class TestEnvironment implements DocumentsAdapter.Environment {
         private final Context testContext;
+
+        @Override
+        public Features getFeatures() {
+            return mEnv.features;
+        }
 
         private TestEnvironment(Context testContext) {
             this.testContext = testContext;

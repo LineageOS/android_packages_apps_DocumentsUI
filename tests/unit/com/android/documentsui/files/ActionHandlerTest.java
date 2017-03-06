@@ -20,7 +20,6 @@ import static com.android.documentsui.testing.IntentAsserts.assertHasAction;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraIntent;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraList;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraUri;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -31,8 +30,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
-import android.provider.DocumentsContract.Root;
-import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;

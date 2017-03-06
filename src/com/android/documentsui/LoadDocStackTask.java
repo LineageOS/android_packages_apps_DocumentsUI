@@ -25,9 +25,9 @@ import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootsAccess;
 
 import java.util.List;
@@ -61,7 +61,8 @@ public class LoadDocStackTask extends PairedTask<Activity, Uri, DocumentStack> {
 
     @Override
     public @Nullable DocumentStack run(Uri... uris) {
-        if (Shared.ENABLE_OMC_API_FEATURES && mDocs.isDocumentUri(uris[0])) {
+        // assert(Features.OMC_RUNTIME);
+        if (mDocs.isDocumentUri(uris[0])) {
             final Uri docUri;
             if (DocumentsContract.isTreeUri(uris[0])) {
                 // Reconstruct tree URI into a plain document URI so that we can get the full path

@@ -76,7 +76,7 @@ public interface ScopedPreferences {
 
         @Override
         public boolean getEnableArchiveCreation() {
-            final boolean defaultValue = mResources.getBoolean(R.bool.enable_archive_creation);
+            final boolean defaultValue = mResources.getBoolean(R.bool.feature_archive_creation);
             return mSharedPrefs.getBoolean(ENABLE_ARCHIVE_CREATION + mScope, defaultValue);
         }
 
