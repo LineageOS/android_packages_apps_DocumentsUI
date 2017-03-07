@@ -33,8 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"سبھی کو منتخب کریں"</string>
     <string name="menu_copy" msgid="7404820171352314754">"اس میں کاپی کریں…"</string>
     <string name="menu_move" msgid="2310760789561129882">"اس میں منتقل کریں…"</string>
-    <!-- no translation found for menu_compress (37539111904724188) -->
-    <skip />
+    <string name="menu_compress" msgid="37539111904724188">"کمپریس کریں"</string>
     <string name="menu_extract" msgid="8171946945982532262">"اس میں کھولیں۔۔۔"</string>
     <string name="menu_rename" msgid="1883113442688817554">"نام تبدیل کریں"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"نئی ونڈو"</string>
@@ -183,8 +182,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> آئٹمز حذف کریں؟</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> آئٹم حذف کریں؟</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"دستاویزات"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"ڈاؤن لوڈز"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"تصاوير"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"براؤزنگ کیلئے آرکائیو کھولنے سے قاصر ہیں۔  فائل یا تو خراب ہے یا ایک غیر تعاون یافتہ فارمیٹ میں ہے۔"</string>
     <string name="name_conflict" msgid="28407269328862986">"اس نام کی ایک فائل پہلے سے موجود ہے۔"</string>
     <string name="authentication_required" msgid="2314941212791346284">"اس ڈائریکٹری کے مواد کو دیکھنے کیلئے تصدیق درکار ہے"</string>

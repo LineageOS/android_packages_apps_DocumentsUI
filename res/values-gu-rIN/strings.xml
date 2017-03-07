@@ -33,8 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"બધા પસંદ કરો"</string>
     <string name="menu_copy" msgid="7404820171352314754">"આના પર કૉપિ કરો…"</string>
     <string name="menu_move" msgid="2310760789561129882">"આમાં ખસેડો…"</string>
-    <!-- no translation found for menu_compress (37539111904724188) -->
-    <skip />
+    <string name="menu_compress" msgid="37539111904724188">"સંકુચિત કરો"</string>
     <string name="menu_extract" msgid="8171946945982532262">"આમાં એક્સટ્રેક્ટ કરો…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"નામ બદલો"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"નવી વિંડો"</string>
@@ -124,28 +123,28 @@
     <string name="notification_touch_for_details" msgid="2385563502445129570">"વિગતો જોવા માટે ટૅપ કરો"</string>
     <string name="close" msgid="905969391788869975">"બંધ કરો"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
-      <item quantity="one">આ ફાઇલો કૉપિ થઈ નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="other">આ ફાઇલો કૉપિ થઈ નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">આ ફાઇલો કૉપિ થઈ ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">આ ફાઇલો કૉપિ થઈ ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
-      <item quantity="one">આ ફાઇલો સંકુચિત થઈ નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="other">આ ફાઇલો સંકુચિત થઈ નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">આ ફાઇલો સંકુચિત થઈ ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">આ ફાઇલો સંકુચિત થઈ ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
-      <item quantity="one">આ ફાઇલો એક્સટ્રેક્ટ થઈ નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="other">આ ફાઇલો એક્સટ્રેક્ટ થઈ નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">આ ફાઇલો એક્સટ્રેક્ટ થઈ ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">આ ફાઇલો એક્સટ્રેક્ટ થઈ ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
-      <item quantity="one">આ ફાઇલો ખસેડાઈ નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="other">આ ફાઇલો ખસેડાઈ નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">આ ફાઇલો ખસેડવામાં આવી ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">આ ફાઇલો ખસેડવામાં આવી ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
-      <item quantity="one">આ ફાઇલો કાઢી નાખી નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="other">આ ફાઇલો કાઢી નાખી નથી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">આ ફાઇલો કાઢી નાખવામાં આવી ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">આ ફાઇલો કાઢી નાખવામાં આવી ન હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
-      <item quantity="one">આ ફાઇલો અન્ય ફૉર્મેટમાં રૂપાંતરિત કરી છે: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="other">આ ફાઇલો અન્ય ફૉર્મેટમાં રૂપાંતરિત કરી છે: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">આ ફાઇલો બીજા ફૉર્મેટમાં રૂપાંતરિત કરવામાં આવી હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">આ ફાઇલો બીજા ફૉર્મેટમાં રૂપાંતરિત કરવામાં આવી હતી: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="139644798886220070">
       <item quantity="one">ક્લિપબોર્ડ પર <xliff:g id="COUNT_1">%1$d</xliff:g> ફાઇલ કૉપિ કરી.</item>
@@ -183,8 +182,7 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> આઇટમ કાઢી નાખીએ?</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> આઇટમ કાઢી નાખીએ?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"દસ્તાવેજો"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"ડાઉનલોડ્સ"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"છબીઓ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"બ્રાઉઝ કરવા માટે આર્કાઇવ ખોલવામાં અસમર્થ. ફાઇલ કાં તો દૂષિત છે અથવા તો ફોર્મેટ અસમર્થિત છે."</string>
     <string name="name_conflict" msgid="28407269328862986">"આ નામવાળી ફાઇલ પહેલેથી જ અસ્તિત્વમાં છે."</string>
     <string name="authentication_required" msgid="2314941212791346284">"આ નિર્દેશિકાની સામગ્રી જોવા માટે પ્રમાણીકરણ જરૂરી છે"</string>

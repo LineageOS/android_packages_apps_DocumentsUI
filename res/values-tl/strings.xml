@@ -33,8 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Piliin lahat"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopyahin sa..."</string>
     <string name="menu_move" msgid="2310760789561129882">"Ilipat sa…"</string>
-    <!-- no translation found for menu_compress (37539111904724188) -->
-    <skip />
+    <string name="menu_compress" msgid="37539111904724188">"I-compress"</string>
     <string name="menu_extract" msgid="8171946945982532262">"I-extract sa…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Palitan ang pangalan"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Bagong window"</string>
@@ -183,8 +182,7 @@
       <item quantity="one">Gusto mo bang i-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> item?</item>
       <item quantity="other">Gusto mo bang i-delete ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Mga Dokumento"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Mga Download"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"Mga Larawan"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Hindi mabuksan ang archive para sa pag-browse. Maaaring corrupt ang file o hindi sinusuportahan ang format."</string>
     <string name="name_conflict" msgid="28407269328862986">"Mayroon nang file na may ganitong pangalan."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Kailangan ng pag-authenticate upang makita ang content ng directory na ito"</string>

@@ -33,8 +33,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Atlasīt visus"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopēt…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Pārvietot uz…"</string>
-    <!-- no translation found for menu_compress (37539111904724188) -->
-    <skip />
+    <string name="menu_compress" msgid="37539111904724188">"Saspiest"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Izvilkt..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"Pārdēvēt"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Jauns logs"</string>
@@ -204,8 +203,7 @@
       <item quantity="one">Vai izdzēst <xliff:g id="COUNT_1">%1$d</xliff:g> vienumu?</item>
       <item quantity="other">Vai izdzēst <xliff:g id="COUNT_1">%1$d</xliff:g> vienumus?</item>
     </plurals>
-    <string name="documents_shortcut_label" msgid="6185476684846785830">"Dokumenti"</string>
-    <string name="downloads_shortcut_label" msgid="9109062409874698197">"Lejupielādes"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"Attēli"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Nevar atvērt un pārlūkot arhīvu. Vai nu fails ir bojāts, vai arī tā formāts netiek atbalstīts."</string>
     <string name="name_conflict" msgid="28407269328862986">"Fails ar šādu nosaukumu jau pastāv."</string>
     <string name="authentication_required" msgid="2314941212791346284">"Lai skatītu šī direktorija saturu, ir nepieciešama autentifikācija."</string>
