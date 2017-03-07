@@ -47,8 +47,7 @@ import com.android.documentsui.base.Procedure;
 import com.android.documentsui.dirlist.DocumentHolder;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.FocusHandler;
-import com.android.documentsui.dirlist.Model;
-import com.android.documentsui.dirlist.Model.Update;
+import com.android.documentsui.Model.Update;
 import com.android.documentsui.selection.SelectionManager;
 
 import java.util.ArrayList;

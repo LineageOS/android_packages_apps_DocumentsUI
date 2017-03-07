@@ -19,6 +19,7 @@ package com.android.documentsui;
 import static junit.framework.Assert.assertEquals;
 
 import android.app.Activity;
+import android.app.LoaderManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -26,17 +27,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Bundle;
-import android.test.mock.MockContentProvider;
 import android.test.mock.MockContentResolver;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestEventListener;
+import com.android.documentsui.testing.TestLoaderManager;
 import com.android.documentsui.testing.TestPackageManager;
 import com.android.documentsui.testing.TestResources;
-import com.android.documentsui.testing.TestRootsAccess;
 
 import org.mockito.Mockito;
 
@@ -51,7 +51,7 @@ public abstract class TestActivity extends AbstractBase {
     public Intent intent;
     public RootInfo currentRoot;
     public MockContentResolver contentResolver;
-    public MockContentProvider contentProvider;
+    public TestLoaderManager loaderManager;
 
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Intent> startService;
@@ -60,13 +60,13 @@ public abstract class TestActivity extends AbstractBase {
     public TestEventListener<Boolean> setRootsDrawerOpen;
     public TestEventListener<Uri> notifyDirectoryNavigated;
 
-    public static TestActivity create() {
+    public static TestActivity create(TestEnv env) {
         TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
-        activity.init();
+        activity.init(env);
         return activity;
     }
 
-   public void init() {
+   public void init(TestEnv env) {
        resources = TestResources.create();
        packageMgr = TestPackageManager.create();
        intent = new Intent();
@@ -77,10 +77,8 @@ public abstract class TestActivity extends AbstractBase {
        refreshCurrentRootAndDirectory =  new TestEventListener<>();
        setRootsDrawerOpen = new TestEventListener<>();
        notifyDirectoryNavigated = new TestEventListener<>();
-       contentResolver = new MockContentResolver();
-       contentProvider = new DocsMockContentProvider();
-       contentResolver.addProvider(TestRootsAccess.HOME.authority, contentProvider);
-
+       contentResolver = env.contentResolver;
+       loaderManager = new TestLoaderManager();
    }
 
     @Override
@@ -169,15 +167,13 @@ public abstract class TestActivity extends AbstractBase {
 
     @Override
     public final void updateNavigator() {}
+
+    @Override
+    public final LoaderManager getLoaderManager() {
+        return loaderManager;
+    }
 }
 
 // Trick Mockito into finding our Addons methods correctly. W/o this
 // hack, Mockito thinks Addons methods are not implemented.
 abstract class AbstractBase extends Activity implements CommonAddons {}
-
-class DocsMockContentProvider extends MockContentProvider {
-    @Override
-    public boolean refresh(Uri url, Bundle args) {
-        return true;
-    }
-}

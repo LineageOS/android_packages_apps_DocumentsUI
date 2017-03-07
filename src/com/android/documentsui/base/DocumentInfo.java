@@ -272,6 +272,10 @@ public class DocumentInfo implements Durable, Parcelable {
         return (flags & Document.FLAG_VIRTUAL_DOCUMENT) != 0;
     }
 
+    public boolean prefersSortByLastModified() {
+        return (flags & Document.FLAG_DIR_PREFERS_LAST_MODIFIED) != 0;
+    }
+
     @Override
     public int hashCode() {
         return derivedUri.hashCode() + mimeType.hashCode();

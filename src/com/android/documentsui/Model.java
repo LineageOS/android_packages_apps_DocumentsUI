@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
@@ -58,11 +58,12 @@ public class Model {
 
     private static final String TAG = "Model";
 
-    @Nullable String info;
-    @Nullable String error;
-    @Nullable DocumentInfo doc;
+    public @Nullable String info;
+    public @Nullable String error;
+    public @Nullable DocumentInfo doc;
 
     private final Features mFeatures;
+
     /** Maps Model ID to cursor positions, for looking up items by Model ID. */
     private final Map<String, Integer> mPositions = new HashMap<>();
     private final Set<String> mFileNames = new HashSet<>();
@@ -98,7 +99,7 @@ public class Model {
         }
     }
 
-    void reset() {
+    public void reset() {
         mCursor = null;
         mCursorCount = 0;
         mIds = new String[0];
@@ -111,7 +112,8 @@ public class Model {
         notifyUpdateListeners();
     }
 
-    void update(DirectoryResult result) {
+    @VisibleForTesting
+    protected void update(DirectoryResult result) {
         assert(result != null);
 
         if (DEBUG) Log.i(TAG, "Updating model with new result set.");
@@ -139,7 +141,7 @@ public class Model {
     }
 
     @VisibleForTesting
-    int getItemCount() {
+    public int getItemCount() {
         return mCursorCount;
     }
 
@@ -200,7 +202,7 @@ public class Model {
         return mCursorCount == 0;
     }
 
-    boolean isLoading() {
+    public boolean isLoading() {
         return mIsLoading;
     }
 

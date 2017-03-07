@@ -18,7 +18,6 @@ package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
-import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 
@@ -27,14 +26,13 @@ import android.provider.DocumentsContract.Document;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import com.android.documentsui.Model;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.State;
-import com.android.documentsui.dirlist.Model.Update;
+import com.android.documentsui.Model.Update;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Adapts from dirlist.Model to something RecyclerView understands.

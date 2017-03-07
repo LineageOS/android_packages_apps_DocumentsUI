@@ -58,7 +58,7 @@ public class ActionHandlerTest {
     @Before
     public void setUp() {
         mEnv = TestEnv.create();
-        mActivity = TestActivity.create();
+        mActivity = TestActivity.create(mEnv);
         mDialogs = new TestDialogController();
         mEnv.roots.configurePm(mActivity.packageMgr);
 
@@ -75,8 +75,6 @@ public class ActionHandlerTest {
         mDialogs.confirmNext();
 
         mEnv.selectionMgr.toggleSelection("1");
-
-        mHandler.reset(mEnv.model);
     }
 
     @Test

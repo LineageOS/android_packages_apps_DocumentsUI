@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.OperationCanceledException;
 import android.os.RemoteException;
 import android.provider.DocumentsContract.Document;
@@ -220,7 +221,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         private final Runnable mContentChangedCallback;
 
         public LockingContentObserver(DirectoryReloadLock lock, Runnable contentChangedCallback) {
-            super(new Handler());
+            super(new Handler(Looper.getMainLooper()));
             mLock = lock;
             mContentChangedCallback = contentChangedCallback;
         }

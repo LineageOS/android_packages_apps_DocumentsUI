@@ -168,7 +168,7 @@ public class DocumentStack implements Durable, Parcelable {
     }
 
     public boolean isRecents() {
-        return isEmpty();
+        return mRoot != null && mRoot.isRecents();
     }
 
     public void updateRoot(Collection<RootInfo> matchingRoots) throws FileNotFoundException {

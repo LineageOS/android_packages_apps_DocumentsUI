@@ -19,7 +19,7 @@ package com.android.documentsui.dirlist;
 import android.view.ViewGroup;
 
 import com.android.documentsui.base.EventListener;
-import com.android.documentsui.dirlist.Model.Update;
+import com.android.documentsui.Model.Update;
 import com.android.documentsui.testing.TestEventListener;
 
 import java.util.ArrayList;

@@ -56,6 +56,19 @@
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
        </provider>
+
+        <!-- Provider that has broken behavior -->
+        <provider
+            android:name="com.android.documentsui.BrokenProvider"
+            android:authorities="com.android.documentsui.broken"
+            android:exported="true"
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+            </intent-filter>
+        </provider>
     </application>
 
     <instrumentation android:name="android.support.test.runner.AndroidJUnitRunner"

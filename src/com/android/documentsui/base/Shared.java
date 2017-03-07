@@ -77,11 +77,6 @@ public final class Shared {
     public static final String EXTRA_STATE = "state";
 
     /**
-     * Extra flag used to store type of DirectoryFragment's type ResultType type in the bundle.
-     */
-    public static final String EXTRA_TYPE = "type";
-
-    /**
      * Extra flag used to store root of type RootInfo in the bundle.
      */
     public static final String EXTRA_ROOT = "root";
@@ -95,11 +90,6 @@ public final class Shared {
      * Extra flag used to store DirectoryFragment's selection of Selection type in the bundle.
      */
     public static final String EXTRA_SELECTION = "selection";
-
-    /**
-     * Extra flag used to store DirectoryFragment's search mode of boolean type in the bundle.
-     */
-    public static final String EXTRA_SEARCH_MODE = "searchMode";
 
     /**
      * Extra flag used to store DirectoryFragment's ignore state of boolean type in the bundle.
