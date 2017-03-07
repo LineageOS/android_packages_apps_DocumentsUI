@@ -48,14 +48,14 @@ public class AccessibilityTest extends AndroidTestCase {
 
     public void test_announceSelected() throws Exception {
         View item = Views.createTestView(true);
-        AccessibilityNodeInfoCompat info = new AccessibilityNodeInfoCompat(AccessibilityNodeInfo.obtain());
+        AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
         mAccessibilityDelegate.getItemDelegate().onInitializeAccessibilityNodeInfo(item, info);
         assertTrue(info.isSelected());
     }
 
     public void test_routesAccessibilityClicks() throws Exception {
         View item = Views.createTestView(true);
-        AccessibilityNodeInfoCompat info = new AccessibilityNodeInfoCompat(AccessibilityNodeInfo.obtain());
+        AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
         mAccessibilityDelegate.getItemDelegate().onInitializeAccessibilityNodeInfo(item, info);
         mAccessibilityDelegate.getItemDelegate().performAccessibilityAction(item, AccessibilityNodeInfoCompat.ACTION_CLICK, null);
         assertTrue(mCallbackCalled);
