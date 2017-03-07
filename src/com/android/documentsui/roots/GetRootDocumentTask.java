@@ -18,10 +18,9 @@ package com.android.documentsui.roots;
 
 import android.annotation.Nullable;
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.util.Log;
 
+import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.TimeoutTask;
 import com.android.documentsui.base.CheckedTask;
 import com.android.documentsui.base.DocumentInfo;
@@ -39,20 +38,24 @@ public class GetRootDocumentTask extends TimeoutTask<Void, DocumentInfo> {
     private final static String TAG = "GetRootDocumentTask";
 
     private final RootInfo mRootInfo;
-    private final Context mContext;
     private final Consumer<DocumentInfo> mCallback;
+    private final DocumentsAccess mDocs;
 
     public GetRootDocumentTask(
-            RootInfo rootInfo, Activity activity, Consumer<DocumentInfo> callback) {
-        super(activity::isDestroyed);
+            RootInfo rootInfo,
+            Activity activity,
+            long timeout,
+            DocumentsAccess docs,
+            Consumer<DocumentInfo> callback) {
+        super(activity::isDestroyed, timeout);
         mRootInfo = rootInfo;
-        mContext = activity.getApplicationContext();
+        mDocs = docs;
         mCallback = callback;
     }
 
     @Override
-    public @Nullable DocumentInfo run(Void... rootInfo) {
-        return mRootInfo.getRootDocumentBlocking(mContext);
+    public @Nullable DocumentInfo run(Void... args) {
+        return mDocs.getRootDocument(mRootInfo);
     }
 
     @Override

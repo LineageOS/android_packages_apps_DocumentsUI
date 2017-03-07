@@ -84,7 +84,7 @@ public class DocumentsApplication extends Application {
         mClipStore = new ClipStorage(
                 ClipStorage.prepareStorage(getCacheDir()),
                 getSharedPreferences(ClipStorage.PREF_NAME, 0));
-        mClipper = new DocumentClipper(this, mClipStore);
+        mClipper = DocumentClipper.create(this, mClipStore);
 
         final IntentFilter packageFilter = new IntentFilter();
         packageFilter.addAction(Intent.ACTION_PACKAGE_ADDED);

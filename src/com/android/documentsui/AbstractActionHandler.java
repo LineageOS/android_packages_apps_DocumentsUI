@@ -51,6 +51,7 @@ import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.queries.SearchViewManager;
+import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.selection.Selection;
@@ -61,6 +62,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -139,6 +141,18 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                 root.authority,
                 root.rootId,
                 listener).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+    }
+
+    @Override
+    public void getRootDocument(RootInfo root, int timeout, Consumer<DocumentInfo> callback) {
+        GetRootDocumentTask task = new GetRootDocumentTask(
+                root,
+                mActivity,
+                timeout,
+                mDocs,
+                callback);
+
+        task.executeOnExecutor(mExecutors.lookup(root.authority));
     }
 
     @Override

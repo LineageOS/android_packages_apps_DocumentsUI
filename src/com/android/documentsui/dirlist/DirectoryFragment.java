@@ -34,7 +34,6 @@ import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.StateListDrawable;
@@ -956,7 +955,7 @@ public class DirectoryFragment extends Fragment
         ClipData clipData = event.getClipData();
         assert (clipData != null);
 
-        assert(DocumentClipper.getOpType(clipData) == FileOperationService.OPERATION_COPY);
+        assert(mClipper.getOpType(clipData) == FileOperationService.OPERATION_COPY);
 
         if (!DragAndDropHelper.canCopyTo(event.getLocalState(), getDestination(v))) {
             return false;

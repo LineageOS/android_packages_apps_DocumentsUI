@@ -28,6 +28,8 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 
+import java.util.function.Consumer;
+
 import javax.annotation.Nullable;
 
 public interface ActionHandler {
@@ -43,6 +45,14 @@ public interface ActionHandler {
      * Attempts to eject the identified root. Returns a boolean answer to listener.
      */
     void ejectRoot(RootInfo root, BooleanConsumer listener);
+
+
+    /**
+     * Attempts to fetch the DocumentInfo for the supplied root. Returns the DocumentInfo to the
+     * callback. If the task times out, callback will be called with null DocumentInfo. Supply
+     * {@link TimeoutTask#DEFAULT_TIMEOUT} if you don't want to the task to ever time out.
+     */
+    void getRootDocument(RootInfo root, int timeout, Consumer<DocumentInfo> callback);
 
     /**
      * Attempts to refresh the given DocumentInfo, which should be at the top of the state stack.
