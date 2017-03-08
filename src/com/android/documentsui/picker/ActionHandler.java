@@ -39,7 +39,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.Model;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.RootsAccess;
@@ -189,16 +189,6 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         }
         return false;
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ActionHandler<T> reset(Model model) {
-        assert(model != null);
-        mModel = model;
-
-        return this;
-    }
-
 
     public interface Addons extends CommonAddons {
         void onAppPicked(ResolveInfo info);

@@ -53,7 +53,7 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.Model;
 import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
@@ -84,7 +84,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private final DialogController mDialogs;
     private final DocumentClipper mClipper;
     private final ClipStore mClipStore;
-    private @Nullable Model mModel;
+    private final Model mModel;
 
     ActionHandler(
             T activity,
@@ -106,6 +106,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         mDialogs = injector.dialogs;
         mClipper = clipper;
         mClipStore = clipStore;
+        mModel = injector.getModel();
     }
 
     @Override
@@ -113,7 +114,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         new GetRootDocumentTask(
                 root,
                 mActivity,
-                mActivity::isDestroyed,
                 (DocumentInfo rootDoc) -> dropOnCallback(event, rootDoc, root)
         ).executeOnExecutor(mExecutors.lookup(root.authority));
         return true;
@@ -150,12 +150,11 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         new GetRootDocumentTask(
                 root,
                 mActivity,
-                mActivity::isDestroyed,
                 (DocumentInfo doc) -> pasteIntoFolder(root, doc)
         ).executeOnExecutor(mExecutors.lookup(root.authority));
     }
 
-    private void pasteIntoFolder(RootInfo root, DocumentInfo doc) {
+    private void pasteIntoFolder(RootInfo root, @Nullable DocumentInfo doc) {
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(mActivity);
         DocumentStack stack = new DocumentStack(root, doc);
         clipper.copyFromClipboard(doc, stack, mDialogs::showFileOperationStatus);
@@ -618,16 +617,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         intent.setFlags(flags);
 
         return intent;
-    }
-
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public ActionHandler<T> reset(Model model) {
-        assert(model != null);
-        mModel = model;
-
-        return this;
     }
 
     public interface Addons extends CommonAddons {

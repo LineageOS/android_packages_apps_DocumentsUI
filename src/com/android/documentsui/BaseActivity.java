@@ -22,7 +22,6 @@ import static com.android.documentsui.base.State.MODE_GRID;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -32,7 +31,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.MessageQueue.IdleHandler;
 import android.provider.DocumentsContract;
-import android.provider.DocumentsContract.Root;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -52,7 +50,6 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.queries.DebugCommandProcessor;
@@ -155,7 +152,11 @@ public abstract class BaseActivity
              */
             @Override
             public void onSearchChanged(@Nullable String query) {
-                reloadSearch(query);
+                if (query != null) {
+                    Metrics.logUserAction(BaseActivity.this, Metrics.USER_ACTION_SEARCH);
+                }
+
+                mInjector.actions.loadDocumentsForCurrentStack();
             }
 
             @Override
@@ -302,7 +303,7 @@ public abstract class BaseActivity
             new GetRootDocumentTask(
                     root,
                     this,
-                    mInjector.actions::openContainerDocument)
+                    mInjector.actions::openRootDocument)
                     .executeOnExecutor(getExecutorForCurrentDirectory());
         }
     }
@@ -403,14 +404,6 @@ public abstract class BaseActivity
             setTitle(mState.stack.getTitle());
         }
         invalidateOptionsMenu();
-    }
-
-    private void reloadSearch(String query) {
-        FragmentManager fm = getFragmentManager();
-        RootInfo root = getCurrentRoot();
-        DocumentInfo cwd = getCurrentDirectory();
-
-        DirectoryFragment.reloadSearch(fm, root, cwd, query);
     }
 
     private final List<String> getExcludedAuthorities() {

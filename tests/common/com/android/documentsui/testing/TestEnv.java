@@ -18,21 +18,24 @@ package com.android.documentsui.testing;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract.Document;
+import android.test.mock.MockContentResolver;
 
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Features;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestFocusHandler;
-import com.android.documentsui.dirlist.TestModel;
 import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.ui.TestDialogController;
 
 import junit.framework.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
@@ -62,7 +65,11 @@ public class TestEnv {
     public final Injector injector;
     public final TestFeatures features;
 
+    public final MockContentResolver contentResolver;
+    public final Map<String, TestDocumentsProvider> providers;
+
     private TestEnv(String authority) {
+        state.sortModel = SortModel.createModel();
         mExecutor = new TestScheduledExecutorService();
         features = new TestFeatures();
         model = new TestModel(authority, features);
@@ -70,12 +77,28 @@ public class TestEnv {
         searchViewManager = new TestSearchViewManager();
         injector = new Injector(
                 features,
-                null,      // a Config is not required for tests
-                null,      // ScopedPreferences are not required for tests
-                null,      // a MessageBuilder is not required for tests
-                new TestDialogController());
+                new TestActivityConfig(),
+                null,       //ScopedPreferences are not required for tests
+                null,   //a MessageBuilder is not required for tests
+                new TestDialogController(),
+                model);
         injector.selectionMgr = selectionMgr;
         injector.focusManager = new FocusManager(features, selectionMgr, null, null, 0);
+        injector.searchManager = searchViewManager;
+
+        contentResolver = new MockContentResolver();
+        providers = new HashMap<>(roots.getRootsBlocking().size());
+        registerProviders();
+    }
+
+    private void registerProviders() {
+        for (RootInfo root : roots.getRootsBlocking()) {
+            if (!providers.containsKey(root.authority)) {
+                TestDocumentsProvider provider = new TestDocumentsProvider(root.authority);
+                contentResolver.addProvider(root.authority, provider);
+                providers.put(root.authority, provider);
+            }
+        }
     }
 
     public static TestEnv create() {

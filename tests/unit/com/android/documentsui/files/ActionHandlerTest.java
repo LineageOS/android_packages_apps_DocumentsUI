@@ -69,31 +69,18 @@ public class ActionHandlerTest {
     @Before
     public void setUp() {
         mEnv = TestEnv.create();
-        mActivity = TestActivity.create();
+        mActivity = TestActivity.create(mEnv);
         mActionModeAddons = new TestActionModeAddons();
         mDialogs = new TestDialogController();
         mCallback = new TestConfirmationCallback();
         mEnv.roots.configurePm(mActivity.packageMgr);
         mEnv.injector.dialogs = mDialogs;
 
-        mHandler = new ActionHandler<>(
-                mActivity,
-                mEnv.state,
-                mEnv.roots,
-                mEnv.docs,
-                mEnv.searchViewManager,
-                mEnv::lookupExecutor,
-                mActionModeAddons,
-                null,  // clipper, only used in drag/drop
-                null,  // clip storage, not utilized unless we venture into *jumbo* clip terratory.
-                mEnv.injector
-                );
+        mHandler = createHandler();
 
         mDialogs.confirmNext();
 
         mEnv.selectDocument(TestEnv.FILE_GIF);
-
-        mHandler.reset(mEnv.model);
     }
 
     @Test
@@ -190,7 +177,7 @@ public class ActionHandlerTest {
     @Test
     public void testShareSelectedDocuments_ArchivedFile() {
         mEnv = TestEnv.create(ArchivesProvider.AUTHORITY);
-        mHandler.reset(mEnv.model);
+        mHandler = createHandler();
 
         mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");
         mEnv.selectionMgr.clearSelection();
@@ -406,5 +393,20 @@ public class ActionHandlerTest {
         RootInfo root = mActivity.rootPicked.getLastValue();
         assertNotNull(root);
         assertEquals(expectedUri, root.getUri());
+    }
+
+    private ActionHandler<TestActivity> createHandler() {
+        return new ActionHandler<>(
+                mActivity,
+                mEnv.state,
+                mEnv.roots,
+                mEnv.docs,
+                mEnv.searchViewManager,
+                mEnv::lookupExecutor,
+                mActionModeAddons,
+                null,  // clipper, only used in drag/drop
+                null,  // clip storage, not utilized unless we venture into *jumbo* clip terratory.
+                mEnv.injector
+        );
     }
 }

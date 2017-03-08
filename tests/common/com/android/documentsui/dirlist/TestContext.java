@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.test.mock.MockContentResolver;
 
+import com.android.documentsui.testing.TestDocumentsProvider;
+
 public final class TestContext {
 
     /**
@@ -28,7 +30,7 @@ public final class TestContext {
      */
     static Context createStorageTestContext(Context context, String authority) {
         final MockContentResolver testResolver = new MockContentResolver();
-        TestContentProvider provider = new TestContentProvider();
+        TestDocumentsProvider provider = new TestDocumentsProvider(authority);
         testResolver.addProvider(authority, provider);
 
         return new ContextWrapper(context) {

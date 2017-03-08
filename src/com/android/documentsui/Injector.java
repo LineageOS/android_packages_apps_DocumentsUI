@@ -27,12 +27,13 @@ import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.dirlist.DocumentsAdapter;
-import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.prefs.ScopedPreferences;
+import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
+import com.android.internal.annotations.VisibleForTesting;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -49,6 +50,7 @@ public class Injector<T extends ActionHandler> {
 
     public MenuManager menuManager;
     public DialogController dialogs;
+    public SearchViewManager searchManager;
 
     @ContentScoped
     public ActionModeController actionModeController;
@@ -72,14 +74,24 @@ public class Injector<T extends ActionHandler> {
             ScopedPreferences prefs,
             MessageBuilder messages,
             DialogController dialogs) {
+        this(features, config, prefs, messages, dialogs, new Model(features));
+    }
+
+    @VisibleForTesting
+    public Injector(
+            Features features,
+            ActivityConfig config,
+            ScopedPreferences prefs,
+            MessageBuilder messages,
+            DialogController dialogs,
+            Model model) {
 
         this.features = features;
         this.config = config;
         this.prefs = prefs;
         this.messages = messages;
         this.dialogs = dialogs;
-
-        mModel = new Model(this.features);
+        this.mModel = model;
     }
 
     public Model getModel() {
@@ -101,14 +113,22 @@ public class Injector<T extends ActionHandler> {
         return actionModeController.reset(selectionDetails, menuItemClicker, view);
     }
 
-    public T getActionHandler(@Nullable Model model) {
+    /**
+     * Obtains action handler and resets it if necessary.
+     * @param reloadLock the lock held by {@link com.android.documentsui.selection.BandController}
+     *                   to prevent loader from updating result during band selection. May be
+     *                   {@code null} if called from
+     *                   {@link com.android.documentsui.sidebar.RootsFragment}.
+     * @return the action handler
+     */
+    public T getActionHandler(@Nullable DirectoryReloadLock reloadLock) {
 
         // provide our friend, RootsFragment, early access to this special feature!
-        if (model == null) {
+        if (reloadLock == null) {
             return actions;
         }
 
-        return actions.reset(model);
+        return actions.reset(reloadLock);
     }
 
     /**

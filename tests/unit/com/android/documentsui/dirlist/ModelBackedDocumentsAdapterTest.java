@@ -21,6 +21,7 @@ import android.database.Cursor;
 import android.support.test.filters.MediumTest;
 import android.test.AndroidTestCase;
 
+import com.android.documentsui.Model;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestEnv;

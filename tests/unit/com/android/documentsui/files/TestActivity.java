@@ -17,14 +17,15 @@
 package com.android.documentsui.files;
 
 import com.android.documentsui.files.ActionHandler;
+import com.android.documentsui.testing.TestEnv;
 
 import org.mockito.Mockito;
 
 public abstract class TestActivity extends AbstractBase {
 
-    public static TestActivity create() {
+    public static TestActivity create(TestEnv env) {
         TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
-        activity.init();
+        activity.init(env);
         return activity;
     }
 }

@@ -18,12 +18,17 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.app.Activity;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.annotation.VisibleForTesting;
@@ -44,7 +49,6 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FocusHandler;
-import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.LoadRootTask;
@@ -66,6 +70,9 @@ import javax.annotation.Nullable;
 public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         implements ActionHandler {
 
+    @VisibleForTesting
+    static final int LOADER_ID = 42;
+
     private static final String TAG = "AbstractActionHandler";
     private static final int REFRESH_SPINNER_TIMEOUT = 500;
 
@@ -79,7 +86,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final Lookup<String, Executor> mExecutors;
     protected final Injector mInjector;
 
+    private final LoaderBindings mBindings;
+
     private Runnable mDisplayStateChangedListener;
+
+    private DirectoryReloadLock mDirectoryReloadLock;
 
     @Override
     public void registerDisplayStateChangedListener(Runnable l) {
@@ -117,6 +128,8 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         mSearchMgr = searchMgr;
         mExecutors = executors;
         mInjector = injector;
+
+        mBindings = new LoaderBindings();
     }
 
     @Override
@@ -243,6 +256,18 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
+    public void openRootDocument(@Nullable DocumentInfo rootDoc) {
+        if (rootDoc == null) {
+            // There are 2 cases where rootDoc is null -- 1) loading recents; 2) failed to load root
+            // document. Either case we should call refreshCurrentRootAndDirectory() to let
+            // DirectoryFragment update UI.
+            mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+        } else {
+            openContainerDocument(rootDoc);
+        }
+    }
+
+    @Override
     public void openContainerDocument(DocumentInfo doc) {
         assert(doc.isContainer());
 
@@ -346,6 +371,22 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
     }
 
+    @Override
+    public void loadDocumentsForCurrentStack() {
+        DocumentStack stack = mState.stack;
+        if (!stack.isRecents() && stack.isEmpty()) {
+            DirectoryResult result = new DirectoryResult();
+
+            // TODO (b/35996595): Consider plumbing through the actual exception, though it might
+            // not be very useful (always pointing to DatabaseUtils#readExceptionFromParcel()).
+            result.exception = new IllegalStateException("Failed to load root document.");
+            mInjector.getModel().update(result);
+            return;
+        }
+
+        mActivity.getLoaderManager().restartLoader(LOADER_ID, null, mBindings);
+    }
+
     protected final boolean launchToDocument(Uri uri) {
         // We don't support launching to a document in an archive.
         if (!Providers.isArchiveUri(uri)) {
@@ -385,6 +426,65 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         return mSelectionMgr.getSelection(new Selection());
     }
 
+    public ActionHandler reset(DirectoryReloadLock reloadLock) {
+        mDirectoryReloadLock = reloadLock;
+        mActivity.getLoaderManager().destroyLoader(LOADER_ID);
+        return this;
+    }
+
+    private final class LoaderBindings implements LoaderCallbacks<DirectoryResult> {
+
+        @Override
+        public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
+            Context context = mActivity;
+
+            if (mState.stack.isRecents()) {
+
+                if (DEBUG) Log.d(TAG, "Creating new loader recents.");
+                return new RecentsLoader(context, mRoots, mState, mInjector.features);
+
+            } else {
+
+                Uri contentsUri = mSearchMgr.isSearching()
+                        ? DocumentsContract.buildSearchDocumentsUri(
+                            mState.stack.getRoot().authority,
+                            mState.stack.getRoot().rootId,
+                            mSearchMgr.getCurrentSearch())
+                        : DocumentsContract.buildChildDocumentsUri(
+                                mState.stack.peek().authority,
+                                mState.stack.peek().documentId);
+
+                if (mInjector.config.managedModeEnabled(mState.stack)) {
+                    contentsUri = DocumentsContract.setManageMode(contentsUri);
+                }
+
+                if (DEBUG) Log.d(TAG,
+                        "Creating new directory loader for: "
+                                + DocumentInfo.debugString(mState.stack.peek()));
+
+                return new DirectoryLoader(
+                        context,
+                        mState.stack.getRoot(),
+                        mState.stack.peek(),
+                        contentsUri,
+                        mState.sortModel,
+                        mDirectoryReloadLock,
+                        mSearchMgr.isSearching());
+            }
+        }
+
+        @Override
+        public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
+            if (DEBUG) Log.d(TAG, "Loader has finished for: "
+                    + DocumentInfo.debugString(mState.stack.peek()));
+            assert(result != null);
+
+            mInjector.getModel().update(result);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<DirectoryResult> loader) {}
+    }
     /**
      * A class primarily for the support of isolating our tests
      * from our concrete activity implementations.

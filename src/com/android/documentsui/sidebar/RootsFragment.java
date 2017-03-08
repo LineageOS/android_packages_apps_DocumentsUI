@@ -480,7 +480,6 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
                     updater.updateDocInfoForRoot(doc);
                 });
         task.setTimeout(CONTEXT_MENU_ITEM_TIMEOUT);
-        task.setForceCallback(true);
         task.executeOnExecutor(getBaseActivity().getExecutorForCurrentDirectory());
     }
 

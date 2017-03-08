@@ -307,7 +307,7 @@ public class SearchViewManager implements
         return true;
     }
 
-    String getCurrentSearch() {
+    public String getCurrentSearch() {
         return mCurrentSearch;
     }
 

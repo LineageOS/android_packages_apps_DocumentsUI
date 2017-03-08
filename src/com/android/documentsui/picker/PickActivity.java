@@ -111,11 +111,13 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 getColor(R.color.accent_dark));
 
         mInjector.menuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
+
         mInjector.actionModeController = new ActionModeController(
                 this,
                 mInjector.selectionMgr,
                 mInjector.menuManager,
                 mInjector.messages);
+
         mInjector.actions = new ActionHandler<>(
                 this,
                 mState,
@@ -124,6 +126,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mSearchManager,
                 ProviderExecutor::forAuthority,
                 mInjector);
+
+        mInjector.searchManager = mSearchManager;
 
         Intent intent = getIntent();
 
@@ -277,8 +281,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
 
-        if (cwd == null) {
-            // No directory means recents
+        if (mState.stack.isRecents()) {
             if (mState.action == ACTION_CREATE ||
                 mState.action == ACTION_PICK_COPY_DESTINATION) {
                 mInjector.actions.loadRoot(Shared.getDefaultRootUri(this));

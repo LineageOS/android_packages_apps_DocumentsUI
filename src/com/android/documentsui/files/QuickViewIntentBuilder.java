@@ -38,7 +38,7 @@ import android.util.Range;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.dirlist.Model;
+import com.android.documentsui.Model;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import java.util.ArrayList;
