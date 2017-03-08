@@ -134,6 +134,8 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 DocumentsApplication.getClipStore(this),
                 mInjector);
 
+        mInjector.searchManager = mSearchManager;
+
         mActivityInputHandler =
                 new ActivityInputHandler(mInjector.actions::deleteSelectedDocuments);
         mSharedInputHandler =
@@ -274,7 +276,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
         assert(!mSearchManager.isSearching());
 
-        if (cwd == null) {
+        if (mState.stack.isRecents()) {
             DirectoryFragment.showRecentsOpen(fm, anim);
         } else {
             // Normal boring directory

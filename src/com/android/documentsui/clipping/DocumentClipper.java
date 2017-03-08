@@ -254,7 +254,7 @@ public final class DocumentClipper {
      */
     public void copyFromClipData(
             final RootInfo root,
-            final DocumentInfo destination,
+            final @Nullable DocumentInfo destination,
             final @Nullable ClipData clipData,
             final FileOperations.Callback callback) {
         DocumentStack dstStack = new DocumentStack(root, destination);
@@ -271,7 +271,7 @@ public final class DocumentClipper {
      * @param callback callback to notify when operation finishes
      */
     public void copyFromClipData(
-            final DocumentInfo destination,
+            final @Nullable DocumentInfo destination,
             final DocumentStack docStack,
             final @Nullable ClipData clipData,
             final FileOperations.Callback callback) {
@@ -283,7 +283,7 @@ public final class DocumentClipper {
     /**
      * Copies documents from given clip data to a folder.
      *
-     * @param docStack the document stack to the destination folder, including the destination
+     * @param dstStack the document stack to the destination folder, including the destination
      *            folder.
      * @param clipData the clipData to copy from
      * @param callback callback to notify when operation finishes
@@ -340,12 +340,8 @@ public final class DocumentClipper {
      *
      * @return true if the list of files can be copied to destination.
      */
-    private static boolean canCopy(DocumentInfo dest) {
-        if (dest == null || !dest.isDirectory() || !dest.isCreateSupported()) {
-            return false;
-        }
-
-        return true;
+    private static boolean canCopy(@Nullable DocumentInfo dest) {
+        return dest != null && dest.isDirectory() && dest.isCreateSupported();
     }
 
     public static @OpType int getOpType(ClipData data) {

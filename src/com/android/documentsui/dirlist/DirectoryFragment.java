@@ -31,11 +31,9 @@ import android.app.ActivityManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -66,9 +64,7 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
-import com.android.documentsui.DirectoryLoader;
 import com.android.documentsui.DirectoryReloadLock;
-import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragAndDropHelper;
 import com.android.documentsui.FocusManager;
@@ -77,8 +73,8 @@ import com.android.documentsui.Injector.ContentScoped;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.Metrics;
+import com.android.documentsui.Model;
 import com.android.documentsui.R;
-import com.android.documentsui.RecentsLoader;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -96,7 +92,6 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.picker.PickActivity;
-import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.selection.BandController;
 import com.android.documentsui.selection.GestureSelector;
 import com.android.documentsui.selection.Selection;
@@ -122,14 +117,8 @@ import javax.annotation.Nullable;
 public class DirectoryFragment extends Fragment
         implements ItemDragListener.DragHost, SwipeRefreshLayout.OnRefreshListener {
 
-    @IntDef(flag = true, value = {
-            TYPE_NORMAL,
-            TYPE_RECENT_OPEN
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface ResultType {}
-    public static final int TYPE_NORMAL = 1;
-    public static final int TYPE_RECENT_OPEN = 2;
+    static final int TYPE_NORMAL = 1;
+    static final int TYPE_RECENT_OPEN = 2;
 
     @IntDef(flag = true, value = {
             REQUEST_COPY_DESTINATION
@@ -150,7 +139,6 @@ public class DirectoryFragment extends Fragment
     private Model mModel;
     private final EventListener<Model.Update> mModelUpdateListener = new ModelUpdateListener();
     private final DocumentsAdapter.Environment mAdapterEnv = new AdapterEnvironment();
-    private final LoaderCallbacks<DirectoryResult> mLoaderCallbacks = new LoaderBindings();
 
     @Injected
     @ContentScoped
@@ -201,7 +189,7 @@ public class DirectoryFragment extends Fragment
     private SortModel.UpdateListener mSortListener = (model, updateType) -> {
         // Only when sort order has changed do we need to trigger another loading.
         if ((updateType & SortModel.UPDATE_TYPE_SORTING) != 0) {
-            getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
+            mActions.loadDocumentsForCurrentStack();
         }
     };
 
@@ -259,6 +247,9 @@ public class DirectoryFragment extends Fragment
             cancelThumbnailTask(view);
         }
 
+        mModel.removeUpdateListener(mModelUpdateListener);
+        mModel.removeUpdateListener(mAdapter.getModelUpdateListener());
+
         super.onDestroyView();
     }
 
@@ -312,7 +303,7 @@ public class DirectoryFragment extends Fragment
 
         mSelectionMgr = mInjector.getSelectionManager(mAdapter, this::canSetSelectionState);
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
-        mActions = mInjector.getActionHandler(mModel);
+        mActions = mInjector.getActionHandler(mReloadLock);
 
         mRecView.setAccessibilityDelegateCompat(
                 new AccessibilityEventRouter(mRecView,
@@ -382,14 +373,13 @@ public class DirectoryFragment extends Fragment
 
         final ActivityManager am = (ActivityManager) mActivity.getSystemService(
                 Context.ACTIVITY_SERVICE);
-        boolean svelte = am.isLowRamDevice() && (mLocalState.mType == TYPE_RECENT_OPEN);
+        boolean svelte = am.isLowRamDevice() && (mState.stack.isRecents());
         mIconHelper.setThumbnailsEnabled(!svelte);
 
         // If mDocument is null, we sort it by last modified by default because it's in Recents.
         final boolean prefersLastModified =
-                (mLocalState.mDocument != null)
-                        ? (mLocalState.mDocument.flags & Document.FLAG_DIR_PREFERS_LAST_MODIFIED) != 0
-                        : true;
+                (mLocalState.mDocument == null)
+                || mLocalState.mDocument.prefersSortByLastModified();
         // Call this before adding the listener to avoid restarting the loader one more time
         mState.sortModel.setDefaultDimension(
                 prefersLastModified
@@ -397,7 +387,7 @@ public class DirectoryFragment extends Fragment
                         : SortModel.SORT_DIMENSION_ID_TITLE);
 
         // Kick off loader at least once
-        getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
+        mActions.loadDocumentsForCurrentStack();
     }
 
     @Override
@@ -1073,36 +1063,17 @@ public class DirectoryFragment extends Fragment
     public static void showDirectory(
             FragmentManager fm, RootInfo root, DocumentInfo doc, int anim) {
         if (DEBUG) Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
-        create(fm, TYPE_NORMAL, root, doc, null, anim);
+        create(fm, root, doc, anim);
     }
 
     public static void showRecentsOpen(FragmentManager fm, int anim) {
-        create(fm, TYPE_RECENT_OPEN, null, null, null, anim);
-    }
-
-    public static void reloadSearch(FragmentManager fm, RootInfo root, DocumentInfo doc,
-            String query) {
-        DirectoryFragment df = get(fm);
-
-        df.mLocalState.update(root, doc, query);
-        df.getLoaderManager().restartLoader(LOADER_ID, null, df.mLoaderCallbacks);
-    }
-
-    public static void reload(FragmentManager fm, int type, RootInfo root, DocumentInfo doc,
-            String query) {
-        if (DEBUG) Log.d(TAG, "Reloading directory: " + DocumentInfo.debugString(doc));
-        DirectoryFragment df = get(fm);
-
-        df.mLocalState.update(type, root, doc, query);
-        df.getLoaderManager().restartLoader(LOADER_ID, null, df.mLoaderCallbacks);
+        create(fm, null, null, anim);
     }
 
     public static void create(
             FragmentManager fm,
-            int type,
             RootInfo root,
             @Nullable DocumentInfo doc,
-            String query,
             @AnimationType int anim) {
 
         if (DEBUG) {
@@ -1114,10 +1085,8 @@ public class DirectoryFragment extends Fragment
         }
 
         final Bundle args = new Bundle();
-        args.putInt(Shared.EXTRA_TYPE, type);
         args.putParcelable(Shared.EXTRA_ROOT, root);
         args.putParcelable(Shared.EXTRA_DOC, doc);
-        args.putString(Shared.EXTRA_QUERY, query);
         args.putParcelable(Shared.EXTRA_SELECTION, new Selection());
 
         final FragmentTransaction ft = fm.beginTransaction();
@@ -1160,7 +1129,7 @@ public class DirectoryFragment extends Fragment
                 mRefreshLayout.setRefreshing(false);
             } else {
                 // If Refresh API isn't available, we will explicitly reload the loader
-                getLoaderManager().restartLoader(LOADER_ID, null, mLoaderCallbacks);
+                mActions.loadDocumentsForCurrentStack();
             }
         });
     }
@@ -1173,134 +1142,9 @@ public class DirectoryFragment extends Fragment
 
             mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
 
-            mAdapter.notifyDataSetChanged();
-
-            if (!mModel.isLoading()) {
-                mActivity.notifyDirectoryLoaded(
-                        mModel.doc != null ? mModel.doc.derivedUri : null);
-            }
-        }
-    }
-
-    private final class AdapterEnvironment implements DocumentsAdapter.Environment {
-
-        @Override
-        public Features getFeatures() {
-            return mInjector.features;
-        }
-
-        @Override
-        public Context getContext() {
-            return mActivity;
-        }
-
-        @Override
-        public State getDisplayState() {
-            return mState;
-        }
-
-        @Override
-        public boolean isInSearchMode() {
-            return mLocalState.mSearchMode;
-        }
-
-        @Override
-        public Model getModel() {
-            return mModel;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return mColumnCount;
-        }
-
-        @Override
-        public boolean isSelected(String id) {
-            return mSelectionMgr.getSelection().contains(id);
-        }
-
-        @Override
-        public boolean isDocumentEnabled(String mimeType, int flags) {
-            return mInjector.config.isDocumentEnabled(mimeType, flags, mState);
-        }
-
-        @Override
-        public void initDocumentHolder(DocumentHolder holder) {
-            holder.addKeyEventListener(mInputHandler);
-            holder.itemView.setOnFocusChangeListener(mFocusManager);
-        }
-
-        @Override
-        public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
-            setupDragAndDropOnDocumentView(holder.itemView, cursor);
-        }
-    }
-
-    private final class LoaderBindings implements LoaderCallbacks<DirectoryResult> {
-
-        @Override
-        public Loader<DirectoryResult> onCreateLoader(int id, Bundle args) {
-            Context context = getActivity();
-
-            Uri contentsUri;
-            switch (mLocalState.mType) {
-                case TYPE_NORMAL:
-                    contentsUri = mLocalState.mSearchMode
-                            ? DocumentsContract.buildSearchDocumentsUri(
-                                    mLocalState.mRoot.authority,
-                                    mLocalState.mRoot.rootId,
-                                    mLocalState.mQuery)
-                            : DocumentsContract.buildChildDocumentsUri(
-                                    mLocalState.mDocument.authority,
-                                    mLocalState.mDocument.documentId);
-
-                    if (mInjector.config.managedModeEnabled(mState.stack)) {
-                        contentsUri = DocumentsContract.setManageMode(contentsUri);
-                    }
-
-                    if (DEBUG) Log.d(TAG,
-                            "Creating new directory loader for: "
-                            + DocumentInfo.debugString(mLocalState.mDocument));
-
-                    return new DirectoryLoader(
-                            context,
-                            mLocalState.mRoot,
-                            mLocalState.mDocument,
-                            contentsUri,
-                            mState.sortModel,
-                            mReloadLock,
-                            mLocalState.mSearchMode);
-
-                case TYPE_RECENT_OPEN:
-                    if (DEBUG) Log.d(TAG, "Creating new loader recents.");
-                    final RootsAccess roots = DocumentsApplication.getRootsCache(context);
-                    return new RecentsLoader(context, roots, mState, mInjector.features);
-
-                default:
-                    throw new IllegalStateException("Unknown type " + mLocalState.mType);
-            }
-        }
-
-        @Override
-        public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
-            if (DEBUG) Log.d(TAG, "Loader has finished for: "
-                    + DocumentInfo.debugString(mLocalState.mDocument));
-            assert(result != null);
-
-            if (!isAdded()) return;
-
-            if (mLocalState.mSearchMode) {
-                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_SEARCH);
-            }
-
-            // The below mModel.update triggers recalculation of the selection metadata
-            if (mSelectionMgr.hasSelection()) {
-                mSelectionMetadata.reset();
-            }
-
-            mModel.update(result);
-
             updateLayout(mState.derivedMode);
+
+            mAdapter.notifyDataSetChanged();
 
             if (mRestoredSelection != null) {
                 mSelectionMgr.restoreSelection(mRestoredSelection);
@@ -1334,14 +1178,65 @@ public class DirectoryFragment extends Fragment
                         () -> mRefreshLayout.setRefreshing(false),
                         REFRESH_SPINNER_TIMEOUT);
             }
+
+            if (!mModel.isLoading()) {
+                mActivity.notifyDirectoryLoaded(
+                        mModel.doc != null ? mModel.doc.derivedUri : null);
+            }
+        }
+    }
+
+    private final class AdapterEnvironment implements DocumentsAdapter.Environment {
+
+        @Override
+        public Features getFeatures() {
+            return mInjector.features;
         }
 
         @Override
-        public void onLoaderReset(Loader<DirectoryResult> loader) {
-            if (DEBUG) Log.d(TAG, "Resetting loader for: "
-                        + DocumentInfo.debugString(mLocalState.mDocument));
+        public Context getContext() {
+            return mActivity;
+        }
 
-            mRefreshLayout.setRefreshing(false);
+        @Override
+        public State getDisplayState() {
+            return mState;
+        }
+
+        @Override
+        public boolean isInSearchMode() {
+            return mInjector.searchManager.isSearching();
+        }
+
+        @Override
+        public Model getModel() {
+            return mModel;
+        }
+
+        @Override
+        public int getColumnCount() {
+            return mColumnCount;
+        }
+
+        @Override
+        public boolean isSelected(String id) {
+            return mSelectionMgr.getSelection().contains(id);
+        }
+
+        @Override
+        public boolean isDocumentEnabled(String mimeType, int flags) {
+            return mInjector.config.isDocumentEnabled(mimeType, flags, mState);
+        }
+
+        @Override
+        public void initDocumentHolder(DocumentHolder holder) {
+            holder.addKeyEventListener(mInputHandler);
+            holder.itemView.setOnFocusChangeListener(mFocusManager);
+        }
+
+        @Override
+        public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
+            setupDragAndDropOnDocumentView(holder.itemView, cursor);
         }
     }
 }

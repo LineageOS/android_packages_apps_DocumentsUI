@@ -41,28 +41,13 @@ public class GetRootDocumentTask extends TimeoutTask<Void, DocumentInfo> {
     private final RootInfo mRootInfo;
     private final Context mContext;
     private final Consumer<DocumentInfo> mCallback;
-    private boolean mForceCallback;
 
     public GetRootDocumentTask(
             RootInfo rootInfo, Activity activity, Consumer<DocumentInfo> callback) {
-        this(rootInfo, activity, activity::isDestroyed, callback);
-    }
-
-    public GetRootDocumentTask(
-            RootInfo rootInfo, Fragment fragment, Consumer<DocumentInfo> callback) {
-        this(rootInfo, fragment.getContext(), fragment::isDetached, callback);
-    }
-
-    public GetRootDocumentTask(
-            RootInfo rootInfo, Context context, Check check, Consumer<DocumentInfo> callback) {
-        super(check);
+        super(activity::isDestroyed);
         mRootInfo = rootInfo;
-        mContext = context.getApplicationContext();
+        mContext = activity.getApplicationContext();
         mCallback = callback;
-    }
-
-    public void setForceCallback(boolean forceCallback) {
-        mForceCallback = forceCallback;
     }
 
     @Override
@@ -74,11 +59,9 @@ public class GetRootDocumentTask extends TimeoutTask<Void, DocumentInfo> {
     public void finish(@Nullable DocumentInfo documentInfo) {
         if (documentInfo == null) {
             Log.e(TAG,
-                    "Cannot find document info for root: " + mRootInfo + " in the given timeout");
+                    "Cannot find document info for root: " + mRootInfo);
         }
 
-        if (documentInfo != null || mForceCallback) {
-            mCallback.accept(documentInfo);
-        }
+        mCallback.accept(documentInfo);
     }
 }

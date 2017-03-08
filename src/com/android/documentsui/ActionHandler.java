@@ -27,7 +27,6 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.dirlist.Model;
 
 import javax.annotation.Nullable;
 
@@ -84,6 +83,8 @@ public interface ActionHandler {
 
     void showChooserForDoc(DocumentInfo doc);
 
+    void openRootDocument(@Nullable DocumentInfo rootDoc);
+
     void openContainerDocument(DocumentInfo doc);
 
     void cutToClipboard();
@@ -107,9 +108,11 @@ public interface ActionHandler {
     void registerDisplayStateChangedListener(Runnable l);
     void unregisterDisplayStateChangedListener(Runnable l);
 
+    void loadDocumentsForCurrentStack();
+
     /**
      * Allow action handler to be initialized in a new scope.
-     * @return
+     * @return this
      */
-    <T extends ActionHandler> T reset(Model model);
+    <T extends ActionHandler> T reset(DirectoryReloadLock reloadLock);
 }

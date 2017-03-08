@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.android.documentsui.DragShadowBuilder;
+import com.android.documentsui.Model;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;

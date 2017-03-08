@@ -30,7 +30,6 @@ import android.widget.TextView;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.IconHelper;
-import com.android.documentsui.dirlist.Model;
 import com.android.documentsui.selection.Selection;
 
 import java.util.List;

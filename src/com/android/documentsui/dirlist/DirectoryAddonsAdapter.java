@@ -20,10 +20,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.view.ViewGroup;
 
+import com.android.documentsui.Model;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.dirlist.Message.HeaderMessage;
 import com.android.documentsui.dirlist.Message.InflateMessage;
-import com.android.documentsui.dirlist.Model.Update;
+import com.android.documentsui.Model.Update;
 
 import java.util.List;
 
@@ -173,7 +174,6 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
         if (event.hasException()) {
             return;
         }
-
 
         // Walk down the list of IDs till we encounter something that's not a directory, and
         // insert a whitespace element - this introduces a visual break in the grid between

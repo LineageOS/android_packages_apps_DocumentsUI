@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui;
 
-import android.content.ContentResolver;
-import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.provider.DocumentsContract.Document;
 import android.support.test.filters.SmallTest;
 import android.test.AndroidTestCase;
-import android.test.mock.MockContentResolver;
 
-import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Features;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.testing.TestEventListener;
 import com.android.documentsui.testing.TestFeatures;
@@ -67,21 +62,11 @@ public class ModelTest extends AndroidTestCase {
 
     private Cursor cursor;
     private Model model;
-    private TestContentProvider provider;
     private TestFeatures features;
 
     @Override
     public void setUp() {
-        final MockContentResolver resolver = new MockContentResolver();
         features = new TestFeatures();
-        new ContextWrapper(getContext()) {
-            @Override
-            public ContentResolver getContentResolver() {
-                return resolver;
-            }
-        };
-        provider = new TestContentProvider();
-        resolver.addProvider(AUTHORITY, provider);
 
         Random rand = new Random();
 
