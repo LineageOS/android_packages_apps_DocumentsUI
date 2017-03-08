@@ -74,7 +74,6 @@ public abstract class MenuManager {
         updateSelectAll(menu.findItem(R.id.menu_select_all));
         updateNewWindow(menu.findItem(R.id.menu_new_window));
         updateModePicker(menu.findItem(R.id.menu_grid), menu.findItem(R.id.menu_list));
-        // Sort menu item is managed by SortMenuManager
         updateAdvanced(menu.findItem(R.id.menu_advanced));
 
         Menus.disableHiddenItems(menu);

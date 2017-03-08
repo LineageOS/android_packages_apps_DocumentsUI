@@ -74,7 +74,9 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateSelectAll(MenuItem selectAll) {
-        selectAll.setVisible(mState.allowMultiple);
+        boolean enabled = mState.allowMultiple;
+        selectAll.setVisible(enabled);
+        selectAll.setEnabled(enabled);
     }
 
     @Override
