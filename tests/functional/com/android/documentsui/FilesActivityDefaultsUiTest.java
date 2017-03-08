@@ -61,7 +61,7 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
         bots.roots.openRoot(rootDir0.title);
 
         String msg = String.valueOf(context.getString(R.string.empty));
-        bots.directory.assertMessageTextView(msg);
+        bots.directory.assertPlaceholderMessageText(msg);
 
         // Check to make sure back button is properly handled by non-Doc type DocHolders
         device.pressBack();

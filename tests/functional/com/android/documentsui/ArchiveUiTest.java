@@ -40,6 +40,6 @@ public class ArchiveUiTest extends ActivityTest<FilesActivity> {
         bots.directory.openDocument("broken.zip");
 
         final String msg = String.valueOf(context.getString(R.string.empty));
-        bots.directory.assertMessageTextView(msg);
+        bots.directory.assertPlaceholderMessageText(msg);
     }
 }

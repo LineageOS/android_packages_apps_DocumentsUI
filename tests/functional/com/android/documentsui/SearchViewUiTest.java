@@ -114,7 +114,7 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
         bots.keyboard.pressEnter();
 
         String msg = String.valueOf(context.getString(R.string.no_results));
-        bots.directory.assertMessageTextView(String.format(msg, "TEST_ROOT_0"));
+        bots.directory.assertPlaceholderMessageText(String.format(msg, "TEST_ROOT_0"));
     }
 
     @Suppress
