@@ -34,7 +34,10 @@ import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -216,6 +219,17 @@ public class DirectoryFragment extends Fragment
                         cancelThumbnailTask(holder.itemView);
                     }
                 });
+
+        Resources resources = getContext().getResources();
+        new FastScroller(mRecView,
+                (StateListDrawable) resources.getDrawable(R.drawable.fast_scroll_thumb_drawable),
+                resources.getDrawable(R.drawable.fast_scroll_track_drawable),
+                (StateListDrawable) resources.getDrawable(R.drawable.fast_scroll_thumb_drawable),
+                resources.getDrawable(R.drawable.fast_scroll_track_drawable),
+                resources.getDimensionPixelSize(R.dimen.fastscroll_default_thickness),
+                resources.getDimensionPixelSize(R.dimen.fastscroll_minimum_range),
+                resources.getDimensionPixelOffset(R.dimen.fastscroll_margin)
+                );
         mRecView.setItemAnimator(new DirectoryItemAnimator(activity));
         mFileList = view.findViewById(R.id.file_list);
 
