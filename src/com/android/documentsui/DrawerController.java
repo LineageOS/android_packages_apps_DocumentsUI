@@ -20,6 +20,7 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.app.Activity;
+import android.support.annotation.ColorRes;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.DrawerLayout.DrawerListener;
@@ -157,13 +158,16 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
+            assert (v.getId() == R.id.drawer_edge);
+
+            @ColorRes int id = highlight ? R.color.item_doc_background_selected :
+                android.R.color.transparent;
+            v.setBackgroundColor(id);
         }
 
         @Override
         public void onDragEntered(View v, Object localState) {
-            assert (v.getId() == R.id.drawer_edge);
-
-            setOpen(true);
+            // do nothing; let drawer only open for onViewHovered
         }
 
         @Override
@@ -173,6 +177,9 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void onViewHovered(View v) {
+            assert (v.getId() == R.id.drawer_edge);
+
+            setOpen(true);
         }
 
         @Override
