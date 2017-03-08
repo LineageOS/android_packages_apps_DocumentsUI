@@ -43,7 +43,7 @@ public class PrefsBackupHelperTest {
 
     private static final String LOCAL_PREFERENCE_1 = "rootViewMode-validPreference1";
     private static final String LOCAL_PREFERENCE_2 = "rootViewMode-validPreference2";
-    private static final String SCOPED_PREFERENCE = "includeDeviceRoot-validPreference";
+    private static final String SCOPED_PREFERENCE = "includeDeviceRoot";
     private static final String NON_BACKUP_PREFERENCE = "notBackup-invalidPreference";
 
     private SharedPreferences mDefaultPrefs;

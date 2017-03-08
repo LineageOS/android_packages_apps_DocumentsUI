@@ -62,7 +62,7 @@ final class PrefsBackupHelper {
 
     private void copyMatchingPreferences(SharedPreferences source, Editor destination) {
         for (Map.Entry<String, ?> preference : source.getAll().entrySet()) {
-            if (shouldBackup(preference.getKey())) {
+            if (Preferences.shouldBackup(preference.getKey())) {
                 setPreference(destination, preference);
             }
         }
@@ -82,9 +82,5 @@ final class PrefsBackupHelper {
             throw new IllegalArgumentException("DocumentsUI backup: invalid preference "
                     + (value == null ? null : value.getClass()));
         }
-    }
-
-    static boolean shouldBackup(String s) {
-        return LocalPreferences.shouldBackup(s) || ScopedPreferences.shouldBackup(s);
     }
 }

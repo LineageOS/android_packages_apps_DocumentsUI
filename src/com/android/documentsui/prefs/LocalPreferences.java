@@ -124,7 +124,7 @@ public class LocalPreferences {
                 : userId + "|" + packageName + "|" + uuid + "|" + directory;
     }
 
-    static boolean shouldBackup(String s) {
+    public static boolean shouldBackup(String s) {
         return (s != null) ? s.startsWith(ROOT_VIEW_MODE_PREFIX) : false;
     }
 }
