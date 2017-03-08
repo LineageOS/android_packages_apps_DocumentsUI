@@ -30,10 +30,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.MessageQueue.IdleHandler;
+import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.Menu;
@@ -52,7 +52,9 @@ import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.LocalPreferences;
+import com.android.documentsui.prefs.Preferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
+import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.DebugCommandProcessor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
@@ -68,6 +70,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import javax.annotation.Nullable;
 
 public abstract class BaseActivity
         extends Activity implements CommonAddons, NavigationViewManager.Environment {
@@ -182,10 +186,26 @@ public abstract class BaseActivity
         mSearchManager = new SearchViewManager(searchListener, dbgCommands, icicle);
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
-        mPreferencesMonitor = new PreferencesMonitor(getApplicationContext());
+        mPreferencesMonitor = new PreferencesMonitor(
+                getApplicationContext().getPackageName(),
+                PreferenceManager.getDefaultSharedPreferences(this),
+                this::onPreferenceChanged);
+        mPreferencesMonitor.start();
 
         // Base classes must update result in their onCreate.
         setResult(Activity.RESULT_CANCELED);
+    }
+
+    public void onPreferenceChanged(String pref) {
+        // For now, we only work with prefs that we backup. This
+        // just limits the scope of what we expect to come flowing
+        // through here until we know we want more and fancier options.
+        assert(Preferences.shouldBackup(pref));
+
+        switch (pref) {
+            case ScopedPreferences.INCLUDE_DEVICE_ROOT:
+                updateDisplayAdvancedDevices(mInjector.prefs.getShowDeviceRoot());
+        }
     }
 
     @Override
@@ -215,18 +235,6 @@ public abstract class BaseActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mPreferencesMonitor.start();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPreferencesMonitor.stop();
-    }
-
-    @Override
     @CallSuper
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -237,6 +245,7 @@ public abstract class BaseActivity
     @Override
     protected void onDestroy() {
         mRootsMonitor.stop();
+        mPreferencesMonitor.stop();
         super.onDestroy();
     }
 
@@ -335,7 +344,7 @@ public abstract class BaseActivity
                 return true;
 
             case R.id.menu_advanced:
-                setDisplayAdvancedDevices(!mState.showAdvanced);
+                onDisplayAdvancedDevices();
                 return true;
 
             case R.id.menu_select_all:
@@ -442,13 +451,21 @@ public abstract class BaseActivity
     /**
      * Set internal storage visible based on explicit user action.
      */
-    void setDisplayAdvancedDevices(boolean display) {
+    private void onDisplayAdvancedDevices() {
+        boolean display = !mState.showAdvanced;
         Metrics.logUserAction(this,
                 display ? Metrics.USER_ACTION_SHOW_ADVANCED : Metrics.USER_ACTION_HIDE_ADVANCED);
 
         mInjector.prefs.setShowDeviceRoot(display);
+        updateDisplayAdvancedDevices(display);
+    }
+
+    private void updateDisplayAdvancedDevices(boolean display) {
         mState.showAdvanced = display;
-        RootsFragment.get(getFragmentManager()).onDisplayStateChanged();
+        @Nullable RootsFragment fragment = RootsFragment.get(getFragmentManager());
+        if (fragment != null) {
+            fragment.onDisplayStateChanged();
+        }
         invalidateOptionsMenu();
     }
 

@@ -31,7 +31,7 @@ import com.android.documentsui.R;
  */
 public interface ScopedPreferences {
 
-    static final String INCLUDE_DEVICE_ROOT = "includeDeviceRoot-";
+    static final String INCLUDE_DEVICE_ROOT = "includeDeviceRoot";
     static final String ENABLE_ARCHIVE_CREATION = "enableArchiveCreation-";
 
     boolean getShowDeviceRoot();
@@ -66,12 +66,12 @@ public interface ScopedPreferences {
 
         @Override
         public boolean getShowDeviceRoot() {
-            return mSharedPrefs.getBoolean(INCLUDE_DEVICE_ROOT + mScope, false);
+            return mSharedPrefs.getBoolean(INCLUDE_DEVICE_ROOT, false);
         }
 
         @Override
         public void setShowDeviceRoot(boolean display) {
-            mSharedPrefs.edit().putBoolean(INCLUDE_DEVICE_ROOT + mScope, display).apply();
+            mSharedPrefs.edit().putBoolean(INCLUDE_DEVICE_ROOT, display).apply();
         }
 
         @Override
@@ -87,6 +87,6 @@ public interface ScopedPreferences {
     }
 
     static boolean shouldBackup(String s) {
-        return (s != null) ? s.startsWith(INCLUDE_DEVICE_ROOT) : false;
+        return INCLUDE_DEVICE_ROOT.equals(s);
     }
 }
