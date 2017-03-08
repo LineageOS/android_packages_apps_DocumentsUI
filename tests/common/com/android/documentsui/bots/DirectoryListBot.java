@@ -103,8 +103,20 @@ public class DirectoryListBot extends Bots.BaseBot {
         }
     }
 
-    public void assertMessageTextView(String message) throws UiObjectNotFoundException {
-        UiObject messageTextView = findMessageTextView();
+    public void assertHeaderMessageText(String message) throws UiObjectNotFoundException {
+        UiObject messageTextView = findHeaderMessageTextView();
+        assertTrue(messageTextView.exists());
+
+        String msg = String.valueOf(message);
+        assertEquals(msg, messageTextView.getText());
+    }
+
+    /**
+     * Checks against placeholder text. Placeholder can be Empty page, No results page, or the
+     * "Hourglass" page (ie. something-went-wrong page).
+     */
+    public void assertPlaceholderMessageText(String message) throws UiObjectNotFoundException {
+        UiObject messageTextView = findPlaceholderMessageTextView();
         assertTrue(messageTextView.exists());
 
         String msg = String.valueOf(message);
@@ -112,7 +124,13 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     }
 
-    private UiObject findMessageTextView() {
+    private UiObject findHeaderMessageTextView() {
+        return findObject(
+                DIR_CONTAINER_ID,
+                "com.android.documentsui:id/message_textview");
+    }
+
+    private UiObject findPlaceholderMessageTextView() {
         return findObject(
                 DIR_CONTAINER_ID,
                 "com.android.documentsui:id/message");

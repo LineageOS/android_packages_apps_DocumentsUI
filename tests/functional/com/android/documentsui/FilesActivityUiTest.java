@@ -61,6 +61,15 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         bots.main.assertWindowTitle("Images");
     }
 
+    public void testProtectedFolder_showsAuthenticationUi() throws Exception {
+        bots.roots.openRoot("Demo Root");
+        bots.main.switchToListMode();
+        bots.directory.openDocument("throw a recoverable exception");
+        bots.directory.assertHeaderMessageText(
+                "Authentication is required to see the content of this directory");
+
+    }
+
     public void testFilesListed() throws Exception {
         bots.directory.assertDocumentsPresent("file0.log", "file1.png", "file2.csv");
     }
