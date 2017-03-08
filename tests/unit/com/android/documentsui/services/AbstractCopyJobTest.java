@@ -60,7 +60,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
 
         createJob(newArrayList(testFile)).run();
 
-        mJobListener.waitForFinished();
+        waitForJobFinished();
 
         mDocs.assertChildCount(mDestRoot, 1);
         mDocs.assertHasFile(mDestRoot, "virtual.sth.pdf");  // copy should convert file to PDF.
@@ -74,7 +74,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
 
         createJob(newArrayList(testFile)).run();
 
-        mJobListener.waitForFinished();
+        waitForJobFinished();
         mJobListener.assertFailed();
         mJobListener.assertFilesFailed(newArrayList("virtual.sth"));
 
@@ -85,7 +85,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         Uri testDir = mDocs.createFolder(mSrcRoot, "emptyDir");
 
         createJob(newArrayList(testDir)).run();
-        mJobListener.waitForFinished();
+        waitForJobFinished();
 
         mDocs.assertChildCount(mDestRoot, 1);
         mDocs.assertHasDirectory(mDestRoot, "emptyDir");
@@ -100,7 +100,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         mDocs.createDocument(testDir2, "text/plain", "test2.txt");
 
         createJob(newArrayList(testDir1)).run();
-        mJobListener.waitForFinished();
+        waitForJobFinished();
 
         DocumentInfo dir1Copy = mDocs.findDocument(mDestRoot.documentId, "dir1");
 
@@ -121,7 +121,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
                 DocumentsContract.buildDocumentUri(AUTHORITY, mSrcRoot.documentId),
                 testDir).run();
 
-        mJobListener.waitForFinished();
+        waitForJobFinished();
         mJobListener.assertFailed();
         mJobListener.assertFilesFailed(newArrayList("someDir"));
 
@@ -137,7 +137,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
                 DocumentsContract.buildDocumentUri(AUTHORITY, mSrcRoot.documentId),
                 destDir).run();
 
-        mJobListener.waitForFinished();
+        waitForJobFinished();
         mJobListener.assertFailed();
         mJobListener.assertFilesFailed(newArrayList("someDir"));
 
@@ -153,11 +153,16 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
 
         createJob(newArrayList(testFile)).run();
 
-        mJobListener.waitForFinished();
+        waitForJobFinished();
         mJobListener.assertFailed();
         mJobListener.assertFilesFailed(newArrayList("test1.txt"));
 
         mDocs.assertChildCount(mDestRoot, 0);
+    }
+
+    void waitForJobFinished() throws Exception {
+        mJobListener.waitForFinished();
+        mDocs.waitForWrite();
     }
 
     /**
