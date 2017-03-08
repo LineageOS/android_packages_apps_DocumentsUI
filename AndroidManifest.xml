@@ -24,7 +24,6 @@
         <activity
             android:name=".picker.PickActivity"
             android:theme="@style/DocumentsTheme"
-            android:icon="@drawable/picker_icon"
             android:visibleToInstantApps="true">
             <intent-filter>
                 <action android:name="android.intent.action.OPEN_DOCUMENT" />
@@ -52,8 +51,8 @@
 
         <activity
             android:name=".files.LauncherActivity"
-            android:label="@string/app_label"
-            android:icon="@drawable/files_icon"
+            android:label="@string/launcher_label"
+            android:icon="@drawable/launcher_icon"
             android:theme="@android:style/Theme.NoDisplay">
         </activity>
 
@@ -61,8 +60,8 @@
         <activity-alias
             android:name=".Launcher"
             android:targetActivity=".files.LauncherActivity"
-            android:label="@string/app_label"
-            android:icon="@drawable/files_icon" >
+            android:label="@string/launcher_label"
+            android:icon="@drawable/launcher_icon" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -72,8 +71,6 @@
 
         <activity
             android:name=".files.FilesActivity"
-            android:label="@string/app_label"
-            android:icon="@drawable/files_icon"
             android:documentLaunchMode="intoExisting"
             android:theme="@style/DocumentsTheme">
             <intent-filter>
