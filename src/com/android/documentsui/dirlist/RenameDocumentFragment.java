@@ -188,7 +188,9 @@ public class RenameDocumentFragment extends DialogFragment {
     private void renameDocuments(String newDisplayName) {
         BaseActivity activity = (BaseActivity) getActivity();
 
-        if (!isValidDocumentName(newDisplayName)) {
+        if (newDisplayName.equals(mDocument.displayName)) {
+            mDialog.dismiss();
+        } else if (!isValidDocumentName(newDisplayName)) {
             Log.w(TAG, "Failed to rename file - invalid name:" + newDisplayName);
             Snackbars.makeSnackbar(getActivity(), R.string.rename_error,
                     Snackbar.LENGTH_SHORT).show();
