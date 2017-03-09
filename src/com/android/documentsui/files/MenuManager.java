@@ -133,7 +133,9 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateSettings(MenuItem settings) {
-        settings.setVisible(mDirDetails.hasRootSettings());
+        boolean enabled = mDirDetails.hasRootSettings();
+        settings.setVisible(enabled);
+        settings.setEnabled(enabled);
     }
 
     @Override
@@ -143,18 +145,21 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
+        open.setVisible(true);
         open.setEnabled(selectionDetails.size() == 1
                 && !selectionDetails.containsPartialFiles());
     }
 
     @Override
     protected void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
+        openWith.setVisible(true);
         openWith.setEnabled(selectionDetails.canOpenWith());
     }
 
     @Override
     protected void updateOpenInNewWindow(
             MenuItem openInNewWindow, SelectionDetails selectionDetails) {
+        openInNewWindow.setVisible(true);
         openInNewWindow.setEnabled(selectionDetails.size() == 1
             && !selectionDetails.containsPartialFiles());
     }
@@ -187,16 +192,20 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateExtractTo(MenuItem extractTo, SelectionDetails selectionDetails) {
-        extractTo.setVisible(selectionDetails.canExtract());
+        boolean enabled = selectionDetails.canExtract();
+        extractTo.setVisible(enabled);
+        extractTo.setEnabled(enabled);
     }
 
     @Override
     protected void updatePasteInto(MenuItem pasteInto, SelectionDetails selectionDetails) {
+        pasteInto.setVisible(true);
         pasteInto.setEnabled(selectionDetails.canPasteInto() && mDirDetails.hasItemsToPaste());
     }
 
     @Override
     protected void updatePasteInto(MenuItem pasteInto, RootInfo root, DocumentInfo docInfo) {
+        pasteInto.setVisible(true);
         pasteInto.setEnabled(root.supportsCreate()
                 && docInfo != null
                 && docInfo.isCreateSupported()
@@ -206,6 +215,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     @Override
     protected void updateSelectAll(MenuItem selectAll) {
         selectAll.setVisible(true);
+        selectAll.setEnabled(true);
     }
 
     @Override
@@ -216,14 +226,18 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateShare(MenuItem share, SelectionDetails selectionDetails) {
-        share.setVisible(!selectionDetails.containsDirectories()
+        boolean enabled = !selectionDetails.containsDirectories()
                 && !selectionDetails.containsPartialFiles()
-                && !selectionDetails.canExtract());
+                && !selectionDetails.canExtract();
+        share.setVisible(enabled);
+        share.setEnabled(enabled);
     }
 
     @Override
     protected void updateDelete(MenuItem delete, SelectionDetails selectionDetails) {
-        delete.setVisible(selectionDetails.canDelete());
+        boolean enabled = selectionDetails.canDelete();
+        delete.setVisible(enabled);
+        delete.setEnabled(enabled);
     }
 
     @Override

@@ -192,12 +192,38 @@ public final class MenuManagerTest {
     }
 
     @Test
+    public void testActionMenu_changeToCanDelete() {
+        selectionDetails.canDelete = false;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        selectionDetails.canDelete = true;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        delete.assertVisible();
+        delete.assertEnabled();
+        moveTo.assertVisible();
+        moveTo.assertEnabled();
+    }
+
+    @Test
     public void testActionMenu_containsDirectory() {
         selectionDetails.containDirectories = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         // We can't share directories
         share.assertInvisible();
+    }
+
+    @Test
+    public void testActionMenu_removesDirectory() {
+        selectionDetails.containDirectories = true;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        selectionDetails.containDirectories = false;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        share.assertVisible();
+        share.assertEnabled();
     }
 
     @Test
