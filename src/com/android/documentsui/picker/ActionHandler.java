@@ -38,11 +38,13 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.Model;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.RootsAccess;
+import com.android.internal.annotations.VisibleForTesting;
 
 import java.util.concurrent.Executor;
 
@@ -134,7 +136,19 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     private void loadLastAccessedStack() {
         if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
-        new LoadLastAccessedStackTask<>(mActivity, mState, mRoots).execute();
+        new LoadLastAccessedStackTask<>(mActivity, mState, mRoots, this::onLoadedLastAccessedStack)
+                .execute();
+    }
+
+    @VisibleForTesting
+    void onLoadedLastAccessedStack(@Nullable DocumentStack stack) {
+        if (stack == null) {
+            mState.stack.changeRoot(mRoots.getRecentsRoot());
+        } else {
+            mState.stack.reset(stack);
+        }
+
+        mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
     }
 
     @Override

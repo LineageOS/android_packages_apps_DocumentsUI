@@ -125,4 +125,9 @@ public class TestRootsAccess implements RootsAccess {
     public RootInfo getDefaultRootBlocking(State state) {
         return DOWNLOADS;
     }
+
+    @Override
+    public RootInfo getRecentsRoot() {
+        return RECENTS;
+    }
 }
