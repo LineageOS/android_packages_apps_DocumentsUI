@@ -53,7 +53,7 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
 
         createJob(newArrayList(testFile)).run();
 
-        mJobListener.waitForFinished();
+        waitForJobFinished();
         mDocs.assertChildCount(mDestRoot, 1);
         mDocs.assertHasFile(mDestRoot, "tokyo.sth.pdf");  // Copy should convert file to PDF.
     }
