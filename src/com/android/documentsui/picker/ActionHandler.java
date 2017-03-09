@@ -72,6 +72,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
         mConfig = injector.config;
         mFeatures = injector.features;
+        mModel = injector.getModel();
     }
 
     @Override
