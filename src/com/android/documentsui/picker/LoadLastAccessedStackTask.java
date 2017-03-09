@@ -24,12 +24,12 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.DurableUtils;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.picker.LastAccessedProvider.Columns;
 import com.android.documentsui.roots.RootsAccess;
 
@@ -38,6 +38,9 @@ import libcore.io.IoUtils;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.function.Consumer;
+
+import javax.annotation.Nullable;
 
 /**
  * Loads the last used path (stack) from Recents (history).
@@ -46,54 +49,54 @@ import java.util.Collection;
  * for an app like DropBox.
  */
 final class LoadLastAccessedStackTask<T extends Activity & CommonAddons>
-        extends PairedTask<T, Void, Void> {
+        extends PairedTask<T, Void, DocumentStack> {
 
-    private static final String TAG = "LoadLastAccessedStackTask";
-    private volatile boolean mRestoredStack;
-    private volatile boolean mExternal;
+    private static final String TAG = "LoadLastAccessedStackTa";
+
     private final State mState;
-    private RootsAccess mRoots;
+    private final RootsAccess mRoots;
+    private final Consumer<DocumentStack> mCallback;
 
-    public LoadLastAccessedStackTask(T activity, State state, RootsAccess roots) {
+    LoadLastAccessedStackTask(
+            T activity, State state, RootsAccess roots, Consumer<DocumentStack> callback) {
         super(activity);
-        mState = state;
         mRoots = roots;
+        mState = state;
+        mCallback = callback;
     }
 
     @Override
-    protected Void run(Void... params) {
-        if (DEBUG && !mState.stack.isEmpty()) {
-            Log.w(TAG, "Overwriting existing stack.");
-        }
+    protected DocumentStack run(Void... params) {
+        DocumentStack stack = null;
+
         String callingPackage = Shared.getCallingPackageName(mOwner);
         Uri resumeUri = LastAccessedProvider.buildLastAccessed(
                 callingPackage);
         Cursor cursor = mOwner.getContentResolver().query(resumeUri, null, null, null, null);
         try {
             if (cursor.moveToFirst()) {
-                mExternal = cursor.getInt(cursor.getColumnIndex(Columns.EXTERNAL)) != 0;
+                stack = new DocumentStack();
                 final byte[] rawStack = cursor.getBlob(
                         cursor.getColumnIndex(Columns.STACK));
-                DurableUtils.readFromArray(rawStack, mState.stack);
-                mRestoredStack = true;
+                DurableUtils.readFromArray(rawStack, stack);
             }
         } catch (IOException e) {
-            Log.w(TAG, "Failed to resume: " + e);
+            Log.w(TAG, "Failed to resume: ", e);
         } finally {
             IoUtils.closeQuietly(cursor);
         }
 
-        if (mRestoredStack) {
+        if (stack != null) {
             // Update the restored stack to ensure we have freshest data
             final Collection<RootInfo> matchingRoots = mRoots.getMatchingRootsBlocking(mState);
             try {
-                mState.stack.updateRoot(matchingRoots);
-                mState.stack.updateDocuments(mOwner.getContentResolver());
+
+                stack.updateRoot(matchingRoots);
+                stack.updateDocuments(mOwner.getContentResolver());
+                return stack;
+
             } catch (FileNotFoundException e) {
-                Log.w(TAG, "Failed to restore stack for package: " + callingPackage
-                        + " because of error: "+ e);
-                mState.stack.reset();
-                mRestoredStack = false;
+                Log.w(TAG, "Failed to restore stack for package: " + callingPackage, e);
             }
         }
 
@@ -101,8 +104,7 @@ final class LoadLastAccessedStackTask<T extends Activity & CommonAddons>
     }
 
     @Override
-    protected void finish(Void result) {
-        mState.external = mExternal;
-        mOwner.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+    protected void finish(@Nullable DocumentStack stack) {
+        mCallback.accept(stack);
     }
 }

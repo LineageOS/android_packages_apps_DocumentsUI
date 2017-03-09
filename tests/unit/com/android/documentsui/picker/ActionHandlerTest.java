@@ -28,6 +28,7 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.mock.MockContentProvider;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -119,6 +120,16 @@ public class ActionHandlerTest {
 
         DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    @Test
+    public void testOnLoadedLastAccessStackCallback_defaultToRecents() throws Exception {
+        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
+
+        mHandler.onLoadedLastAccessedStack(null);
+
+        assertEquals(TestRootsAccess.RECENTS, mEnv.state.stack.getRoot());
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 

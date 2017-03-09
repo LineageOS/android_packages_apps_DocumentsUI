@@ -322,6 +322,7 @@ public class RootsCache implements RootsAccess {
         return null;
     }
 
+    @Override
     public RootInfo getRecentsRoot() {
         return mRecentsRoot;
     }
