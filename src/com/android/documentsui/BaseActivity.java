@@ -54,7 +54,7 @@ import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.prefs.Preferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.prefs.ScopedPreferences;
-import com.android.documentsui.queries.DebugCommandProcessor;
+import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.GetRootDocumentTask;
@@ -179,8 +179,8 @@ public abstract class BaseActivity
         // We piggy back on search input as it is the only text input
         // area in the app. But the functionality is independent
         // of "regular" search query processing.
-        DebugCommandProcessor dbgCommands = new DebugCommandProcessor();
-        dbgCommands.add(new DebugCommandProcessor.DumpRootsCacheHandler(this));
+        CommandInterceptor dbgCommands = new CommandInterceptor(mInjector.features);
+        dbgCommands.add(new CommandInterceptor.DumpRootsCacheHandler(this));
         mSearchManager = new SearchViewManager(searchListener, dbgCommands, icicle);
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 

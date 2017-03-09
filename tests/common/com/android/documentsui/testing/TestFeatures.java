@@ -20,13 +20,15 @@ import com.android.documentsui.base.Features;
 public class TestFeatures implements Features {
 
     public boolean archiveCreation = true;
-    public boolean remoteActions = true;
+    public boolean commandProcessor = true;
     public boolean contentPaging = true;
-    public boolean foldersInSearchResults = true;
-    public boolean systemKeyboardNavigation = true;
-    public boolean launchToDocument = true;
-    public boolean virtualFilesSharing = true;
     public boolean contentRefresh = true;
+    public boolean foldersInSearchResults = true;
+    public boolean gestureScale = true;
+    public boolean launchToDocument = true;
+    public boolean remoteActions = true;
+    public boolean systemKeyboardNavigation = true;
+    public boolean virtualFilesSharing = true;
 
     @Override
     public boolean isArchiveCreationEnabled() {
@@ -34,8 +36,8 @@ public class TestFeatures implements Features {
     }
 
     @Override
-    public boolean isRemoteActionsEnabled() {
-        return remoteActions;
+    public boolean isCommandInterceptorEnabled() {
+        return commandProcessor;
     }
 
     @Override
@@ -44,13 +46,18 @@ public class TestFeatures implements Features {
     }
 
     @Override
+    public boolean isContentRefreshEnabled() {
+        return contentRefresh;
+    }
+
+    @Override
     public boolean isFoldersInSearchResultsEnabled() {
         return foldersInSearchResults;
     }
 
     @Override
-    public boolean isSystemKeyboardNavigationEnabled() {
-        return systemKeyboardNavigation;
+    public boolean isGestureScaleEnabled() {
+        return gestureScale;
     }
 
     @Override
@@ -59,12 +66,17 @@ public class TestFeatures implements Features {
     }
 
     @Override
-    public boolean isVirtualFilesSharingEnabled() {
-        return virtualFilesSharing;
+    public boolean isRemoteActionsEnabled() {
+        return remoteActions;
     }
 
     @Override
-    public boolean isContentRefreshEnabled() {
-        return contentRefresh;
+    public boolean isSystemKeyboardNavigationEnabled() {
+        return systemKeyboardNavigation;
+    }
+
+    @Override
+    public boolean isVirtualFilesSharingEnabled() {
+        return virtualFilesSharing;
     }
 }

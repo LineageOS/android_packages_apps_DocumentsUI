@@ -16,19 +16,20 @@
 package com.android.documentsui.queries;
 
 import android.content.Context;
-import android.os.Build;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.R;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.EventHandler;
+import com.android.documentsui.base.Features;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class DebugCommandProcessor implements EventHandler<String> {
+public final class CommandInterceptor implements EventHandler<String> {
 
     @VisibleForTesting
     static final String COMMAND_PREFIX = "dbg:";
@@ -37,17 +38,22 @@ public final class DebugCommandProcessor implements EventHandler<String> {
 
     private final List<EventHandler<String[]>> mCommands = new ArrayList<>();
 
-    public DebugCommandProcessor() {
-        if (Build.IS_DEBUGGABLE) {
-            mCommands.add(DebugCommandProcessor::quickViewer);
-            mCommands.add(DebugCommandProcessor::gestureScale);
-            mCommands.add(DebugCommandProcessor::docDetails);
-            mCommands.add(DebugCommandProcessor::forcePaging);
+    private Features mFeatures;
+
+    public CommandInterceptor(Features features) {
+        mFeatures = features;
+
+        if (mFeatures.isCommandInterceptorEnabled()) {
+            mCommands.add(CommandInterceptor::quickViewer);
+            mCommands.add(CommandInterceptor::gestureScale);
+            mCommands.add(CommandInterceptor::archiveCreation);
+            mCommands.add(CommandInterceptor::docDetails);
+            mCommands.add(CommandInterceptor::forcePaging);
         }
     }
 
     public void add(EventHandler<String[]> handler) {
-        if (Build.IS_DEBUGGABLE) {
+        if (mFeatures.isCommandInterceptorEnabled()) {
             mCommands.add(handler);
         }
     }
@@ -87,7 +93,20 @@ public final class DebugCommandProcessor implements EventHandler<String> {
         if ("gs".equals(tokens[0])) {
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
                 boolean enabled = asBool(tokens[1]);
-                DebugFlags.setGestureScaleEnabled(enabled);
+                Features.forceFeature(R.bool.feature_gesture_scale, enabled);
+                Log.i(TAG, "Set gesture scale enabled to: " + enabled);
+                return true;
+            }
+            Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));
+        }
+        return false;
+    }
+
+    private static boolean archiveCreation(String[] tokens) {
+        if ("zip".equals(tokens[0])) {
+            if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
+                boolean enabled = asBool(tokens[1]);
+                Features.forceFeature(R.bool.feature_archive_creation, enabled);
                 Log.i(TAG, "Set gesture scale enabled to: " + enabled);
                 return true;
             }

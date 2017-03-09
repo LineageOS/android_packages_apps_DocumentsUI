@@ -27,14 +27,13 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.View;
-import android.view.View.OnTouchListener;
 
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Events.MotionInputEvent;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.selection.BandController;
 import com.android.documentsui.selection.GestureSelector;
 
@@ -47,6 +46,7 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
 
     private static final String TAG = "ListeningGestureDetector";
 
+    private final Features mFeatures;
     private final GestureSelector mGestureSelector;
     private final EventHandler<InputEvent> mMouseDragListener;
     private final BandController mBandController;
@@ -56,7 +56,9 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
     // Currently only initialized on IS_DEBUGGABLE builds.
     private final @Nullable ScaleGestureDetector mScaleDetector;
 
+
     public ListeningGestureDetector(
+            Features features,
             Context context,
             RecyclerView recView,
             EventHandler<InputEvent> mouseDragListener,
@@ -67,6 +69,7 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
 
         super(context, handler);
 
+        mFeatures = features;
         mMouseDragListener = mouseDragListener;
         mGestureSelector = gestureSelector;
         mBandController = bandController;
@@ -91,11 +94,10 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
         boolean handled = false;
 
-        // This is an in-development feature.
         // TODO: Re-wire event handling so that we're not dispatching
         //     events to to scaledetector's #onTouchEvent from this
         //     #onInterceptTouchEvent touch event.
-        if (DebugFlags.getGestureScaleEnabled()
+        if (mFeatures.isGestureScaleEnabled()
                 && mScaleDetector != null) {
             mScaleDetector.onTouchEvent(e);
         }
