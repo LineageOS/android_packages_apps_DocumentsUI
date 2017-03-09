@@ -107,6 +107,18 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertDocumentsCount(4);
     }
 
+    public void testRenameWithoutChangeIsNoOp() throws Exception {
+        bots.directory.selectDocument(fileName1, 1);
+
+        clickRename();
+
+        device.waitForIdle();
+        bots.keyboard.pressEnter();
+
+        bots.directory.waitForDocument(fileName1);
+        bots.directory.assertDocumentsCount(4);
+    }
+
     public void testRenameFile_Cancel() throws Exception {
         bots.directory.selectDocument(fileName1, 1);
 
@@ -170,9 +182,8 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.assertDialogText(fileName1);
         assertFalse(bots.main.findRenameErrorMessage().exists());
-        bots.keyboard.pressEnter();
-        assertTrue(bots.main.findRenameErrorMessage().exists());
         bots.main.setDialogText(fileName2);
+        bots.keyboard.pressEnter();
         assertTrue(bots.main.findRenameErrorMessage().exists());
     }
 
