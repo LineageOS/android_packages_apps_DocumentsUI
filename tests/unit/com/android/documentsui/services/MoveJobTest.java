@@ -44,7 +44,7 @@ public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
         mDocs.writeDocument(testFile2, FRUITY_BYTES);
 
         createJob(newArrayList(testFile1, testFile2), null).run();
-        mJobListener.waitForFinished();
+        waitForJobFinished();
 
         mDocs.assertChildCount(mDestRoot, 2);
         mDocs.assertHasFile(mDestRoot, "test1.txt");
@@ -60,7 +60,7 @@ public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
                 FRUITY_BYTES, "application/pdf", "text/html");
         createJob(newArrayList(testFile)).run();
 
-        mJobListener.waitForFinished();
+        waitForJobFinished();
 
         // Should have failed, source not deleted. Moving by bytes for virtual files
         // is not supported.
@@ -82,7 +82,7 @@ public class MoveJobTest extends AbstractCopyJobTest<MoveJob> {
                         | Document.FLAG_SUPPORTS_MOVE, "application/pdf");
 
         createJob(newArrayList(testFile)).run();
-        mJobListener.waitForFinished();
+        waitForJobFinished();
 
         // Should have failed, source not deleted. Moving by bytes for virtual files
         // is not supported.
