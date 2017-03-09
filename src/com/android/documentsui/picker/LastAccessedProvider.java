@@ -50,7 +50,6 @@ import java.util.function.Predicate;
 public class LastAccessedProvider extends ContentProvider {
     private static final String TAG = "LastAccessedProvider";
 
-
     private static final String AUTHORITY = "com.android.documentsui.lastAccessed";
 
     private static final UriMatcher sMatcher = new UriMatcher(UriMatcher.NO_MATCH);

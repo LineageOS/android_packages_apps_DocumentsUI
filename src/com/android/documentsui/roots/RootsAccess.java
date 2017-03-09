@@ -50,6 +50,8 @@ public interface RootsAccess {
 
     RootInfo getDefaultRootBlocking(State state);
 
+    RootInfo getRecentsRoot();
+
     /**
      * Returns a list of roots for the specified authority. If not found, then
      * an empty list is returned.
