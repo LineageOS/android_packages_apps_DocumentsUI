@@ -370,6 +370,7 @@ public class DirectoryFragment extends Fragment
                 gestureHandler);
 
         new ListeningGestureDetector(
+                mInjector.features,
                 this.getContext(),
                 mRecView,
                 mDragStartListener::onMouseDragEvent,
