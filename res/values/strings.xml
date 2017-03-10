@@ -15,8 +15,17 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Title of the Files application [CHAR LIMIT=32] -->
+    <string name="files_label">Files</string>
+
+    <!-- Title of the Downloads application, which sometimes Files is known as [CHAR LIMIT=32] -->
+    <string name="downloads_label">Downloads</string>
+
     <!-- Title of the documents application [CHAR LIMIT=32] -->
-    <string name="app_label">Files</string>
+    <string name="app_label">@string/files_label</string>
+
+    <!-- Title of the documents application [CHAR LIMIT=32] -->
+    <string name="launcher_label">@string/files_label</string>
 
     <!-- Action bar title prompting user to choose a location to open a document from [CHAR LIMIT=32] -->
     <string name="title_open">Open from</string>
