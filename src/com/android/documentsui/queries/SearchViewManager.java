@@ -49,7 +49,7 @@ public class SearchViewManager implements
     private static final String TAG = "SearchManager";
 
     private final SearchManagerListener mListener;
-    private final DebugCommandProcessor mCommandProcessor;
+    private final CommandInterceptor mCommandProcessor;
 
     private @Nullable String mCurrentSearch;
     private boolean mSearchExpanded;
@@ -62,7 +62,7 @@ public class SearchViewManager implements
 
     public SearchViewManager(
             SearchManagerListener listener,
-            DebugCommandProcessor commandProcessor,
+            CommandInterceptor commandProcessor,
             @Nullable Bundle savedState) {
 
         assert (listener != null);

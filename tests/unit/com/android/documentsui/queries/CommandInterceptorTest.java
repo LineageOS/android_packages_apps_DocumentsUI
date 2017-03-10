@@ -16,12 +16,13 @@
 
 package com.android.documentsui.queries;
 
-import static com.android.documentsui.queries.DebugCommandProcessor.COMMAND_PREFIX;
+import static com.android.documentsui.queries.CommandInterceptor.COMMAND_PREFIX;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.testing.TestEventHandler;
+import com.android.documentsui.testing.TestFeatures;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,17 +31,17 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public final class DebugCommandProcessorTest {
+public final class CommandInterceptorTest {
 
     private TestEventHandler<String[]> mCommand0;
     private TestEventHandler<String[]> mCommand1;
-    private DebugCommandProcessor mProcessor;
+    private CommandInterceptor mProcessor;
 
     @Before
     public void setUp() {
         mCommand0 = new TestEventHandler<>();
         mCommand1 = new TestEventHandler<>();
-        mProcessor = new DebugCommandProcessor();
+        mProcessor = new CommandInterceptor(new TestFeatures());
         mProcessor.add(mCommand0);
         mProcessor.add(mCommand1);
     }

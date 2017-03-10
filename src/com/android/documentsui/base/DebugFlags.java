@@ -18,19 +18,18 @@ package com.android.documentsui.base;
 import android.content.ContentResolver;
 import android.os.Bundle;
 
-import com.android.documentsui.queries.DebugCommandProcessor;
+import com.android.documentsui.queries.CommandInterceptor;
 
 import javax.annotation.Nullable;
 
 /**
- * Shared values that may be set by {@link DebugCommandProcessor}.
+ * Shared values that may be set by {@link CommandInterceptor}.
  */
 public final class DebugFlags {
 
     private DebugFlags() {}
 
     private static String mQvPackage;
-    private static boolean sGestureScaleEnabled;
     private static boolean sDocumentDetailsEnabled;
     private static int sForcedPageOffset = -1;
     private static int sForcedPageLimit = -1;
@@ -49,14 +48,6 @@ public final class DebugFlags {
 
     public static boolean getDocumentDetailsEnabled() {
         return sDocumentDetailsEnabled;
-    }
-
-    public static void setGestureScaleEnabled(boolean enabled) {
-        sGestureScaleEnabled = enabled;
-    }
-
-    public static boolean getGestureScaleEnabled() {
-        return sGestureScaleEnabled;
     }
 
     public static void setForcedPaging(int offset, int limit) {

@@ -15,7 +15,9 @@
  */
 package com.android.documentsui.base;
 
+import android.annotation.BoolRes;
 import android.content.res.Resources;
+import android.util.SparseBooleanArray;
 
 import com.android.documentsui.R;
 
@@ -29,63 +31,95 @@ public interface Features {
             android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.N_MR1;
 
     boolean isArchiveCreationEnabled();
-    boolean isRemoteActionsEnabled();
+    boolean isCommandInterceptorEnabled();
     boolean isContentPagingEnabled();
-    boolean isFoldersInSearchResultsEnabled();
-    boolean isSystemKeyboardNavigationEnabled();
-    boolean isLaunchToDocumentEnabled();
-    boolean isVirtualFilesSharingEnabled();
     boolean isContentRefreshEnabled();
+    boolean isFoldersInSearchResultsEnabled();
+    boolean isGestureScaleEnabled();
+    boolean isLaunchToDocumentEnabled();
+    boolean isRemoteActionsEnabled();
+    boolean isSystemKeyboardNavigationEnabled();
+    boolean isVirtualFilesSharingEnabled();
 
     public static Features create(Resources resources) {
         return new RuntimeFeatures(resources);
     }
 
+    /**
+     * Call this to force-enable any particular feature known by this class.
+     * Note that all feature may not support being enabled at runtime as
+     * they may depend on runtime initialization guarded by feature check.
+     *
+     * <p>Feature changes will be persisted across activities, but not app restarts.
+     *
+     * @param feature int reference to a boolean feature resource.
+     */
+    public static void forceFeature(@BoolRes int feature, boolean enabled) {
+        RuntimeFeatures.sDebugEnabled.put(feature, enabled);
+    }
+
     final class RuntimeFeatures implements Features {
+
+        private static final SparseBooleanArray sDebugEnabled = new SparseBooleanArray();
+
         private final Resources mRes;
 
         public RuntimeFeatures(Resources resources) {
             mRes = resources;
         }
 
-        @Override
-        public boolean isArchiveCreationEnabled() {
-            return mRes.getBoolean(R.bool.feature_archive_creation);
+        private boolean isEnabled(@BoolRes int feature) {
+            return sDebugEnabled.get(feature, mRes.getBoolean(feature));
         }
 
         @Override
-        public boolean isRemoteActionsEnabled() {
-            return mRes.getBoolean(R.bool.feature_remote_actions);
+        public boolean isArchiveCreationEnabled() {
+            return isEnabled(R.bool.feature_archive_creation);
+        }
+
+        @Override
+        public boolean isCommandInterceptorEnabled() {
+            return isEnabled(R.bool.feature_command_interceptor);
         }
 
         @Override
         public boolean isContentPagingEnabled() {
-            return mRes.getBoolean(R.bool.feature_content_paging);
-        }
-
-        @Override
-        public boolean isFoldersInSearchResultsEnabled() {
-            return mRes.getBoolean(R.bool.feature_folders_in_search_results);
-        }
-
-        @Override
-        public boolean isSystemKeyboardNavigationEnabled() {
-            return mRes.getBoolean(R.bool.feature_system_keyboard_navigation);
-        }
-
-        @Override
-        public boolean isLaunchToDocumentEnabled() {
-            return mRes.getBoolean(R.bool.feature_launch_to_document);
+            return isEnabled(R.bool.feature_content_paging);
         }
 
         @Override
         public boolean isContentRefreshEnabled() {
-            return mRes.getBoolean(R.bool.feature_content_refresh);
+            return isEnabled(R.bool.feature_content_refresh);
+        }
+
+        @Override
+        public boolean isFoldersInSearchResultsEnabled() {
+            return isEnabled(R.bool.feature_folders_in_search_results);
+        }
+
+        @Override
+        public boolean isGestureScaleEnabled() {
+            return isEnabled(R.bool.feature_gesture_scale);
+        }
+
+        @Override
+        public boolean isLaunchToDocumentEnabled() {
+            return isEnabled(R.bool.feature_launch_to_document);
+        }
+
+        @Override
+        public boolean isRemoteActionsEnabled() {
+            return isEnabled(R.bool.feature_remote_actions);
+        }
+
+        @Override
+        public boolean isSystemKeyboardNavigationEnabled() {
+            return isEnabled(R.bool.feature_system_keyboard_navigation);
         }
 
         @Override
         public boolean isVirtualFilesSharingEnabled() {
-            return mRes.getBoolean(R.bool.feature_virtual_files_sharing);
+            return isEnabled(R.bool.feature_virtual_files_sharing);
         }
     }
 }

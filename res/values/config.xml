@@ -26,13 +26,18 @@
 
     <!--
         New features must be added behind a boolean flag prefixed w/ "feature_".
+        Please add them in alphabetical order. Same goes for accessor
+        methods in Features class.
     -->
     <bool name="feature_archive_creation">false</bool>
-    <bool name="feature_remote_actions">true</bool>
+    <bool name="feature_command_interceptor">true</bool>
     <bool name="feature_content_paging">true</bool>
-    <bool name="feature_folders_in_search_results">true</bool>
-    <bool name="feature_system_keyboard_navigation">true</bool>
-    <bool name="feature_launch_to_document">true</bool>
     <bool name="feature_content_refresh">true</bool>
+    <bool name="feature_folders_in_search_results">true</bool>
+    <bool name="feature_gesture_scale">true</bool>
+    <bool name="feature_launch_to_document">true</bool>
+    <bool name="feature_remote_actions">true</bool>
+    <bool name="feature_system_keyboard_navigation">true</bool>
     <bool name="feature_virtual_files_sharing">true</bool>
+
 </resources>
