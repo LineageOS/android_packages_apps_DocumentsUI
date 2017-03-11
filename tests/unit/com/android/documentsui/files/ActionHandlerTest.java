@@ -24,8 +24,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
@@ -33,6 +35,7 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.DragEvent;
 
 import com.android.documentsui.R;
 import com.android.documentsui.TestActionModeAddons;
@@ -41,9 +44,12 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.services.FileOperations.Callback;
+import com.android.documentsui.testing.ClipDatas;
 import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestConfirmationCallback;
+import com.android.documentsui.testing.TestDocumentClipper;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestRootsAccess;
 import com.android.documentsui.ui.TestDialogController;
@@ -52,7 +58,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -65,6 +73,7 @@ public class ActionHandlerTest {
     private TestConfirmationCallback mCallback;
     private ActionHandler<TestActivity> mHandler;
     private boolean refreshAnswer = false;
+    private ClipData mClipDataFromCallback;
 
     @Before
     public void setUp() {
@@ -81,6 +90,8 @@ public class ActionHandlerTest {
         mDialogs.confirmNext();
 
         mEnv.selectDocument(TestEnv.FILE_GIF);
+
+        mClipDataFromCallback = null;
     }
 
     @Test
@@ -352,6 +363,83 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testClipper_suppliedCorrectClipData() throws Exception {
+        // DragEvent gets recycled in Android, so it is possible that by the time the callback is
+        // called, event.getLocalState() and event.getClipData() returns null. This tests to ensure
+        // our Clipper is getting the original CipData passed in.
+        mHandler = new ActionHandler<>(
+                mActivity,
+                mEnv.state,
+                mEnv.roots,
+                mEnv.docs,
+                mEnv.searchViewManager,
+                mEnv::lookupExecutor,
+                mActionModeAddons,
+                new TestDocumentClipper() {
+                    @Override
+                    public void copyFromClipData(
+                            RootInfo root,
+                            DocumentInfo destination,
+                            ClipData clipData,
+                            Callback callback) {
+                        mClipDataFromCallback = clipData;
+                    }
+                },
+                null,
+                mEnv.injector
+        );
+        Object localState = new Object();
+        ClipData clipData = ClipDatas.createTestClipData();
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, localState, null, clipData,
+                null, true);
+        assertSame(localState, event.getLocalState());
+        assertSame(clipData, event.getClipData());
+
+        mHandler.dropOn(event, TestRootsAccess.DOWNLOADS);
+        event.recycle();
+
+        mEnv.beforeAsserts();
+
+        assertSame(clipData, mClipDataFromCallback);
+    }
+
+    @Test
+    public void testClipper_notCalledIfDestInSelection() throws Exception {
+        mHandler = new ActionHandler<>(
+                mActivity,
+                mEnv.state,
+                mEnv.roots,
+                mEnv.docs,
+                mEnv.searchViewManager,
+                mEnv::lookupExecutor,
+                mActionModeAddons,
+                new TestDocumentClipper() {
+                    @Override
+                    public void copyFromClipData(
+                            RootInfo root,
+                            DocumentInfo destination,
+                            ClipData clipData,
+                            Callback callback) {
+                        mClipDataFromCallback = clipData;
+                    }
+                },
+                null,
+                mEnv.injector
+        );
+        List<DocumentInfo> localState = new ArrayList<>();
+        localState.add(mEnv.docs.getRootDocument(TestRootsAccess.DOWNLOADS));
+        ClipData clipData = ClipDatas.createTestClipData();
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, localState, null, clipData,
+                null, true);
+
+        mHandler.dropOn(event, TestRootsAccess.DOWNLOADS);
+
+        mEnv.beforeAsserts();
+
+        assertNull(mClipDataFromCallback);
+    }
+
+    @Test
     public void testRefresh_nullUri() throws Exception {
         refreshAnswer = true;
         mHandler.refreshDocument(null, (boolean answer) -> {
@@ -404,8 +492,8 @@ public class ActionHandlerTest {
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
                 mActionModeAddons,
-                null,  // clipper, only used in drag/drop
-                null,  // clip storage, not utilized unless we venture into *jumbo* clip terratory.
+                new TestDocumentClipper(),
+                null,  // clip storage, not utilized unless we venture into *jumbo* clip territory.
                 mEnv.injector
         );
     }

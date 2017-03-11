@@ -20,6 +20,7 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -36,7 +37,9 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragAndDropHelper;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Metrics;
+import com.android.documentsui.Model;
 import com.android.documentsui.R;
+import com.android.documentsui.TimeoutTask;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.DocumentFilters;
@@ -53,10 +56,8 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.Model;
 import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
-import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.RootsAccess;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperation;
@@ -111,21 +112,26 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public boolean dropOn(DragEvent event, RootInfo root) {
-        new GetRootDocumentTask(
+        // DragEvent gets recycled, so it is possible that by the time the callback is called,
+        // event.getLocalState() and event.getClipData() returns null. Thus, we want to save
+        // references to ensure they are non null.
+        final ClipData clipData = event.getClipData();
+        final Object localState = event.getLocalState();
+        getRootDocument(
                 root,
-                mActivity,
-                (DocumentInfo rootDoc) -> dropOnCallback(event, rootDoc, root)
-        ).executeOnExecutor(mExecutors.lookup(root.authority));
+                TimeoutTask.DEFAULT_TIMEOUT,
+                (DocumentInfo rootDoc) -> dropOnCallback(clipData, localState, rootDoc, root));
         return true;
     }
 
-    private void dropOnCallback(DragEvent event, DocumentInfo rootDoc, RootInfo root) {
-        if (!DragAndDropHelper.canCopyTo(event.getLocalState(), rootDoc)) {
+    private void dropOnCallback(
+            ClipData clipData, Object localState, DocumentInfo rootDoc, RootInfo root) {
+        if (!DragAndDropHelper.canCopyTo(localState, rootDoc)) {
             return;
         }
 
         mClipper.copyFromClipData(
-                root, rootDoc, event.getClipData(), mDialogs::showFileOperationStatus);
+                root, rootDoc, clipData, mDialogs::showFileOperationStatus);
     }
 
     @Override
@@ -147,17 +153,15 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public void pasteIntoFolder(RootInfo root) {
-        new GetRootDocumentTask(
+        this.getRootDocument(
                 root,
-                mActivity,
-                (DocumentInfo doc) -> pasteIntoFolder(root, doc)
-        ).executeOnExecutor(mExecutors.lookup(root.authority));
+                TimeoutTask.DEFAULT_TIMEOUT,
+                (DocumentInfo doc) -> pasteIntoFolder(root, doc));
     }
 
     private void pasteIntoFolder(RootInfo root, @Nullable DocumentInfo doc) {
-        DocumentClipper clipper = DocumentsApplication.getDocumentClipper(mActivity);
         DocumentStack stack = new DocumentStack(root, doc);
-        clipper.copyFromClipboard(doc, stack, mDialogs::showFileOperationStatus);
+        mClipper.copyFromClipboard(doc, stack, mDialogs::showFileOperationStatus);
     }
 
     @Override

@@ -309,11 +309,10 @@ public abstract class BaseActivity
         if (mRoots.isRecentsRoot(root)) {
             refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         } else {
-            new GetRootDocumentTask(
+            mInjector.actions.getRootDocument(
                     root,
-                    this,
-                    mInjector.actions::openRootDocument)
-                    .executeOnExecutor(getExecutorForCurrentDirectory());
+                    TimeoutTask.DEFAULT_TIMEOUT,
+                    mInjector.actions::openRootDocument);
         }
     }
 

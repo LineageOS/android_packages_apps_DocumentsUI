@@ -349,20 +349,6 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         return IconUtils.applyTintColor(context, R.drawable.ic_eject, R.color.item_eject_icon);
     }
 
-    /**
-     * @deprecate use {@link DocumentsAccess#getRootDocument}.
-     */
-    @Deprecated
-    public @Nullable DocumentInfo getRootDocumentBlocking(Context context) {
-        try {
-            final Uri uri = DocumentsContract.buildDocumentUri(authority, documentId);
-            return DocumentInfo.fromUri(context.getContentResolver(), uri);
-        } catch (FileNotFoundException e) {
-            Log.w(TAG, "Failed to find root", e);
-            return null;
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null) {

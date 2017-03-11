@@ -56,6 +56,7 @@ import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
+import com.android.documentsui.TimeoutTask;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -473,14 +474,12 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     private void getRootDocument(RootItem rootItem, RootUpdater updater) {
         // We need to start a GetRootDocumentTask so we can know whether items can be directly
         // pasted into root
-        GetRootDocumentTask task = new GetRootDocumentTask(
+        mActionHandler.getRootDocument(
                 rootItem.root,
-                getBaseActivity(),
+                CONTEXT_MENU_ITEM_TIMEOUT,
                 (DocumentInfo doc) -> {
                     updater.updateDocInfoForRoot(doc);
                 });
-        task.setTimeout(CONTEXT_MENU_ITEM_TIMEOUT);
-        task.executeOnExecutor(getBaseActivity().getExecutorForCurrentDirectory());
     }
 
     static void ejectClicked(View ejectIcon, RootInfo root, ActionHandler actionHandler) {
