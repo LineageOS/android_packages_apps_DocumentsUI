@@ -282,20 +282,15 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         final DocumentInfo cwd = getCurrentDirectory();
 
         if (mState.stack.isRecents()) {
-            if (mState.action == ACTION_CREATE ||
-                mState.action == ACTION_PICK_COPY_DESTINATION) {
-                mInjector.actions.loadRoot(Shared.getDefaultRootUri(this));
-            } else {
-                DirectoryFragment.showRecentsOpen(fm, anim);
+            DirectoryFragment.showRecentsOpen(fm, anim);
 
-                // In recents we pick layout mode based on the mimetype,
-                // picking GRID for visual types. We intentionally don't
-                // consult a user's saved preferences here since they are
-                // set per root (not per root and per mimetype).
-                boolean visualMimes = MimeTypes.mimeMatches(
-                        MimeTypes.VISUAL_MIMES, mState.acceptMimes);
-                mState.derivedMode = visualMimes ? State.MODE_GRID : State.MODE_LIST;
-            }
+            // In recents we pick layout mode based on the mimetype,
+            // picking GRID for visual types. We intentionally don't
+            // consult a user's saved preferences here since they are
+            // set per root (not per root and per mimetype).
+            boolean visualMimes = MimeTypes.mimeMatches(
+                    MimeTypes.VISUAL_MIMES, mState.acceptMimes);
+            mState.derivedMode = visualMimes ? State.MODE_GRID : State.MODE_LIST;
         } else {
                 // Normal boring directory
                 DirectoryFragment.showDirectory(fm, root, cwd, anim);

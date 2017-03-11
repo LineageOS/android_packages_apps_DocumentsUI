@@ -67,37 +67,17 @@ final class LoadLastAccessedStackTask<T extends Activity & CommonAddons>
 
     @Override
     protected DocumentStack run(Void... params) {
-        DocumentStack stack = null;
-
         String callingPackage = Shared.getCallingPackageName(mOwner);
         Uri resumeUri = LastAccessedProvider.buildLastAccessed(
                 callingPackage);
         Cursor cursor = mOwner.getContentResolver().query(resumeUri, null, null, null, null);
         try {
-            if (cursor.moveToFirst()) {
-                stack = new DocumentStack();
-                final byte[] rawStack = cursor.getBlob(
-                        cursor.getColumnIndex(Columns.STACK));
-                DurableUtils.readFromArray(rawStack, stack);
-            }
+            return DocumentStack.fromLastAccessedCursor(
+                    cursor, mRoots.getMatchingRootsBlocking(mState), mOwner.getContentResolver());
         } catch (IOException e) {
             Log.w(TAG, "Failed to resume: ", e);
         } finally {
             IoUtils.closeQuietly(cursor);
-        }
-
-        if (stack != null) {
-            // Update the restored stack to ensure we have freshest data
-            final Collection<RootInfo> matchingRoots = mRoots.getMatchingRootsBlocking(mState);
-            try {
-
-                stack.updateRoot(matchingRoots);
-                stack.updateDocuments(mOwner.getContentResolver());
-                return stack;
-
-            } catch (FileNotFoundException e) {
-                Log.w(TAG, "Failed to restore stack for package: " + callingPackage, e);
-            }
         }
 
         return null;
