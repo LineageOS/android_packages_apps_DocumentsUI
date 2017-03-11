@@ -136,19 +136,35 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     private void loadLastAccessedStack() {
         if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
-        new LoadLastAccessedStackTask<>(mActivity, mState, mRoots, this::onLoadedLastAccessedStack)
+        new LoadLastAccessedStackTask<>(mActivity, mState, mRoots, this::onLastAccessedStackLoaded)
                 .execute();
     }
 
     @VisibleForTesting
-    void onLoadedLastAccessedStack(@Nullable DocumentStack stack) {
+    void onLastAccessedStackLoaded(@Nullable DocumentStack stack) {
         if (stack == null) {
-            mState.stack.changeRoot(mRoots.getRecentsRoot());
+            loadDefaultLocation();
         } else {
             mState.stack.reset(stack);
+            mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         }
+    }
 
-        mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+    private void loadDefaultLocation() {
+        switch (mState.action) {
+            case State.ACTION_PICK_COPY_DESTINATION:
+            case State.ACTION_CREATE:
+                loadHomeDir();
+                break;
+            case State.ACTION_GET_CONTENT:
+            case State.ACTION_OPEN:
+            case State.ACTION_OPEN_TREE:
+                mState.stack.changeRoot(mRoots.getRecentsRoot());
+                mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unexpected action type: " + mState.action);
+        }
     }
 
     @Override
