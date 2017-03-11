@@ -52,14 +52,13 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
 
     public RefreshTask(Features features, State state, DocumentInfo doc, long timeout,
             @ApplicationScope Context context, Check check, BooleanConsumer callback) {
-        super(check);
+        super(check, timeout);
         mFeatures = features;
         mState = state;
         mDoc = doc;
         mContext = context;
         mCallback = callback;
         mSignal = new CancellationSignal();
-        setTimeout(timeout);
     }
 
     @Override

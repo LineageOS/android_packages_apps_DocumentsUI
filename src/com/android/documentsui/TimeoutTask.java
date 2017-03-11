@@ -22,23 +22,18 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.android.documentsui.base.CheckedTask;
-import com.android.documentsui.base.DocumentInfo;
 
 /**
- * A {@link CheckedTask} that takes  and query SAF to obtain the
- * {@link DocumentInfo} of its root document and call supplied callback to handle the
- * {@link DocumentInfo}.
+ * A {@link CheckedTask} that will timeout after a certain period of time, and do any properly clean
+ * up necessary before ending itself.
  */
 public abstract class TimeoutTask<Input, Output> extends CheckedTask<Input, Output> {
-    private static final int DEFAULT_TIMEOUT = -1;
+    public static final int DEFAULT_TIMEOUT = -1;
 
     private long mTimeout = DEFAULT_TIMEOUT;
 
-    public TimeoutTask(Check check) {
+    public TimeoutTask(Check check, long timeout) {
         super(check);
-    }
-
-    public void setTimeout(long timeout) {
         mTimeout = timeout;
     }
 
