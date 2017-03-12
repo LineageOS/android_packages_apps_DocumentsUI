@@ -16,7 +16,13 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_label" msgid="3303317181319900082">"फाइलहरू"</string>
+    <!-- no translation found for files_label (771781190045103748) -->
+    <skip />
+    <string name="downloads_label" msgid="5462789470049501103">"डाउनलोडहरू"</string>
+    <!-- no translation found for app_label (8089292432455111409) -->
+    <skip />
+    <!-- no translation found for launcher_label (799410258349837668) -->
+    <skip />
     <string name="title_open" msgid="3165686459158020921">"निम्न मार्फत खोल्नुहोस्"</string>
     <string name="title_save" msgid="4384490653102710025">"निम्नमा सुरक्षित गर्नुहोस्"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"नयाँ फोल्डर"</string>
@@ -185,6 +191,7 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"छविहरू"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ब्राउजिङको अभिलेख खोल्न सकिएन। फाइल या त बिग्रेको छ वा कुनै समर्थन नगरिने ढाँचामा छ।"</string>
     <string name="name_conflict" msgid="28407269328862986">"यो नाम भएको फाइल पहिले नै छ।"</string>
-    <string name="authentication_required" msgid="2314941212791346284">"यस निर्देशिकाको सामग्री हेर्न प्रमाणीकरण आवश्यक छ"</string>
+    <!-- no translation found for authentication_required (147352435273287559) -->
+    <skip />
     <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> खोल्नुहोस्"</string>
 </resources>
