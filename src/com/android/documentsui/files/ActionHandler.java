@@ -112,6 +112,10 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public boolean dropOn(DragEvent event, RootInfo root) {
+        if (!root.supportsCreate() || root.isLibrary()) {
+            return false;
+        }
+
         // DragEvent gets recycled, so it is possible that by the time the callback is called,
         // event.getLocalState() and event.getClipData() returns null. Thus, we want to save
         // references to ensure they are non null.

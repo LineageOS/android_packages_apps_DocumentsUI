@@ -38,7 +38,9 @@ public class TestRootsAccess implements RootsAccess {
     public static final RootInfo RECENTS;
 
     static {
-        DOWNLOADS = new RootInfo();
+        DOWNLOADS = new RootInfo() {{
+            flags = Root.FLAG_SUPPORTS_CREATE;
+        }};
         DOWNLOADS.authority = Providers.AUTHORITY_DOWNLOADS;
         DOWNLOADS.rootId = Providers.ROOT_ID_DOWNLOADS;
 
