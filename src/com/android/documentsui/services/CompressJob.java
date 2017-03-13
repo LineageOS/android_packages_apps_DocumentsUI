@@ -101,8 +101,13 @@ final class CompressJob extends CopyJob {
             displayName = service.getString(R.string.new_archive_file_name, NEW_ARCHIVE_EXTENSION);
         }
 
-        final Uri archiveUri = DocumentsContract.createDocument(
+        Uri archiveUri;
+        try {
+            archiveUri = DocumentsContract.createDocument(
                 resolver, mDstInfo.derivedUri, "application/zip", displayName);
+        } catch (Exception e) {
+            archiveUri = null;
+        }
 
         try {
             mDstInfo = DocumentInfo.fromUri(resolver, ArchivesProvider.buildUriForArchive(
