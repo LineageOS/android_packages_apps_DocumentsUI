@@ -692,15 +692,6 @@ public class DirectoryFragment extends Fragment
         }
     }
 
-    public final boolean onBackPressed() {
-        if (mSelectionMgr.hasSelection()) {
-            if (DEBUG) Log.d(TAG, "Clearing selection on selection manager.");
-            mSelectionMgr.clearSelection();
-            return true;
-        }
-        return false;
-    }
-
     private boolean onAccessibilityClick(View child) {
         DocumentDetails doc = getDocumentHolder(child);
         mActions.openDocument(doc);
