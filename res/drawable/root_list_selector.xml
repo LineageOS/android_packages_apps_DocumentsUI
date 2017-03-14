@@ -19,7 +19,7 @@
   <item
     android:state_focused="true"
     android:state_pressed="false">
-      <color android:color="?attr/colorControlHighlight" />
+      <color android:color="@color/root_focus_color" />
   </item>
 
 </selector>

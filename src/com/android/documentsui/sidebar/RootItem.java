@@ -97,7 +97,7 @@ class RootItem extends Item {
 
     @Override
     boolean isDropTarget() {
-        return root.supportsCreate() && !root.isLibrary();
+        return true;
     }
 
     @Override

@@ -363,6 +363,21 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testDragAndDrop_OnReadOnlyRoot() throws Exception {
+        RootInfo root = new RootInfo(); // root by default has no SUPPORT_CREATE flag
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, null, null, null,
+                null, true);
+        assertFalse(mHandler.dropOn(event, root));
+    }
+
+    @Test
+    public void testDragAndDrop_OnLibraryRoot() throws Exception {
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, null, null, null,
+                null, true);
+        assertFalse(mHandler.dropOn(event, TestRootsAccess.RECENTS));
+    }
+
+    @Test
     public void testClipper_suppliedCorrectClipData() throws Exception {
         // DragEvent gets recycled in Android, so it is possible that by the time the callback is
         // called, event.getLocalState() and event.getClipData() returns null. This tests to ensure
