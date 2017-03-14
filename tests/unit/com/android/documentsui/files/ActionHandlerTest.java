@@ -72,8 +72,8 @@ public class ActionHandlerTest {
     private TestDialogController mDialogs;
     private TestConfirmationCallback mCallback;
     private ActionHandler<TestActivity> mHandler;
+    private TestDocumentClipper mClipper;
     private boolean refreshAnswer = false;
-    private ClipData mClipDataFromCallback;
 
     @Before
     public void setUp() {
@@ -84,14 +84,13 @@ public class ActionHandlerTest {
         mCallback = new TestConfirmationCallback();
         mEnv.roots.configurePm(mActivity.packageMgr);
         mEnv.injector.dialogs = mDialogs;
+        mClipper = new TestDocumentClipper();
 
         mHandler = createHandler();
 
         mDialogs.confirmNext();
 
         mEnv.selectDocument(TestEnv.FILE_GIF);
-
-        mClipDataFromCallback = null;
     }
 
     @Test
@@ -375,16 +374,7 @@ public class ActionHandlerTest {
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
                 mActionModeAddons,
-                new TestDocumentClipper() {
-                    @Override
-                    public void copyFromClipData(
-                            RootInfo root,
-                            DocumentInfo destination,
-                            ClipData clipData,
-                            Callback callback) {
-                        mClipDataFromCallback = clipData;
-                    }
-                },
+                mClipper,
                 null,
                 mEnv.injector
         );
@@ -400,7 +390,7 @@ public class ActionHandlerTest {
 
         mEnv.beforeAsserts();
 
-        assertSame(clipData, mClipDataFromCallback);
+        mClipper.assertSameClipData(clipData);
     }
 
     @Test
@@ -413,16 +403,7 @@ public class ActionHandlerTest {
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
                 mActionModeAddons,
-                new TestDocumentClipper() {
-                    @Override
-                    public void copyFromClipData(
-                            RootInfo root,
-                            DocumentInfo destination,
-                            ClipData clipData,
-                            Callback callback) {
-                        mClipDataFromCallback = clipData;
-                    }
-                },
+                mClipper,
                 null,
                 mEnv.injector
         );
@@ -436,7 +417,7 @@ public class ActionHandlerTest {
 
         mEnv.beforeAsserts();
 
-        assertNull(mClipDataFromCallback);
+        mClipper.assertNoClipData();
     }
 
     @Test
