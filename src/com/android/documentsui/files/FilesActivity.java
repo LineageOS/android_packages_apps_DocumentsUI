@@ -98,7 +98,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 getColor(R.color.accent_dark));
 
         mInjector.menuManager = new MenuManager(
-                mInjector.prefs,
+                mInjector.features,
                 mSearchManager,
                 mState,
                 new DirectoryDetails(this) {
@@ -286,6 +286,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
      * @deprecated use {@link ActionHandler#onDocumentPicked(DocumentInfo)}
      * @param doc
      */
+    @Deprecated
     @Override
     public void onDocumentPicked(DocumentInfo doc) {
         mInjector.actions.onDocumentPicked(doc);

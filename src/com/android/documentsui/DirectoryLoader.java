@@ -38,6 +38,7 @@ import android.util.Log;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.roots.RootCursorWrapper;
@@ -61,7 +62,10 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     private CancellationSignal mSignal;
     private DirectoryResult mResult;
 
+    private Features mFeatures;
+
     public DirectoryLoader(
+            Features freatures,
             Context context,
             RootInfo root,
             DocumentInfo doc,
@@ -71,6 +75,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             boolean inSearchMode) {
 
         super(context, ProviderExecutor.forAuthority(root.authority));
+        mFeatures = freatures;
         mRoot = root;
         mUri = uri;
         mModel = model;
@@ -104,7 +109,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             result.client = client;
 
             Resources resources = getContext().getResources();
-            if (resources.getBoolean(R.bool.feature_content_paging)) {
+            if (mFeatures.isContentPagingEnabled()) {
                 Bundle queryArgs = new Bundle();
                 mModel.addQuerySortArgs(queryArgs);
 
@@ -126,14 +131,14 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
             cursor = new RootCursorWrapper(mUri.getAuthority(), mRoot.rootId, cursor, -1);
 
-            if (mSearchMode && !resources.getBoolean(R.bool.feature_folders_in_search_results)) {
+            if (mSearchMode && !mFeatures.isFoldersInSearchResultsEnabled()) {
                 // There is no findDocumentPath API. Enable filtering on folders in search mode.
                 cursor = new FilteringCursorWrapper(cursor, null, SEARCH_REJECT_MIMES);
             }
 
             // TODO: When API tweaks have landed, use ContentResolver.EXTRA_HONORED_ARGS
             // instead of checking directly for ContentResolver.QUERY_ARG_SORT_COLUMNS (won't work)
-            if (resources.getBoolean(R.bool.feature_content_paging)
+            if (mFeatures.isContentPagingEnabled()
                         && cursor.getExtras().containsKey(ContentResolver.QUERY_ARG_SORT_COLUMNS)) {
                 if (VERBOSE) Log.d(TAG, "Skipping sort of pre-sorted cursor. Booya!");
             } else {

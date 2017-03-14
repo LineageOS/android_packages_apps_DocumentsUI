@@ -24,7 +24,6 @@ import com.android.documentsui.prefs.ScopedPreferences;
 public class TestScopedPreferences implements ScopedPreferences {
 
     private boolean mShowDeviceRoot;
-    private boolean mEnableArchiveCreation;
 
     @Override
     public boolean getShowDeviceRoot() {
@@ -34,15 +33,5 @@ public class TestScopedPreferences implements ScopedPreferences {
     @Override
     public void setShowDeviceRoot(boolean display) {
         mShowDeviceRoot = display;
-    }
-
-    @Override
-    public boolean getEnableArchiveCreation() {
-        return mEnableArchiveCreation;
-    }
-
-    @Override
-    public void setEnableArchiveCreation(boolean enabled) {
-        mEnableArchiveCreation = enabled;
     }
  }
