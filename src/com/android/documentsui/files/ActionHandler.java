@@ -505,7 +505,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
 
         if (doc.isInArchive()) {
-            Log.w(TAG, "Can't view archived files.");
+            mDialogs.showViewInArchivesUnsupported();
             return false;
         }
 

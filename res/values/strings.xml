@@ -149,6 +149,8 @@
 
     <!-- Toast shown when no app can be found to open the selected document [CHAR LIMIT=48] -->
     <string name="toast_no_application">Can\u2019t open file</string>
+    <!-- Toast notifying that it's impossible to open files inside archives [CHAR LIMIT=48] -->
+    <string name="toast_view_in_archives_unsupported">Cannot open files in archives</string>
     <!-- Toast shown when some of the selected documents failed to be deleted [CHAR LIMIT=48] -->
     <string name="toast_failed_delete">Unable to delete some documents</string>
 

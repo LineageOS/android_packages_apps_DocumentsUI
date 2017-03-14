@@ -52,6 +52,11 @@ public interface DialogController {
         }
 
         @Override
+        public void showViewInArchivesUnsupported() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public void showDocumentsClipped(int size) {
             throw new UnsupportedOperationException();
         }
@@ -60,6 +65,7 @@ public interface DialogController {
     void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback);
     void showFileOperationStatus(int status, int opType, int docCount);
     void showNoApplicationFound();
+    void showViewInArchivesUnsupported();
     void showDocumentsClipped(int size);
 
     // Should be private, but Java doesn't like me treating an interface like a mini-package.
@@ -147,6 +153,12 @@ public interface DialogController {
         public void showNoApplicationFound() {
             Snackbars.makeSnackbar(
                     mActivity, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void showViewInArchivesUnsupported() {
+            Snackbars.makeSnackbar(mActivity, R.string.toast_view_in_archives_unsupported,
+                    Snackbar.LENGTH_SHORT).show();
         }
 
         @Override
