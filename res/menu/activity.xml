@@ -43,13 +43,6 @@
             android:title="@string/menu_list"
             android:icon="@drawable/ic_menu_view_list"
             android:showAsAction="always" />
-
-        <item
-            android:id="@+id/menu_select_all"
-            android:title="@string/menu_select_all"
-            android:alphabeticShortcut="a"
-            android:showAsAction="never"
-            android:visible="false" />
         <item
             android:id="@+id/menu_new_window"
             android:title="@string/menu_new_window"
@@ -61,6 +54,12 @@
             android:title="@string/menu_create_dir"
             android:icon="@drawable/ic_menu_new_folder"
             android:alphabeticShortcut="e"
+            android:showAsAction="never"
+            android:visible="false" />
+        <item
+            android:id="@+id/menu_select_all"
+            android:title="@string/menu_select_all"
+            android:alphabeticShortcut="a"
             android:showAsAction="never"
             android:visible="false" />
         <item
