@@ -16,8 +16,6 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.base.Shared.DEBUG;
-
 import android.content.ClipData;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -26,10 +24,8 @@ import android.view.View;
 import android.view.View.OnDragListener;
 
 import com.android.documentsui.ItemDragListener.DragHost;
-import com.android.documentsui.base.DocumentInfo;
 import com.android.internal.annotations.VisibleForTesting;
 
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,19 +40,25 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
     private static final String TAG = "ItemDragListener";
 
     @VisibleForTesting
-    static final int SPRING_TIMEOUT = 1500;
+    static final int DEFAULT_SPRING_TIMEOUT = 1500;
 
     protected final H mDragHost;
     private final Timer mHoverTimer;
+    private final int mSpringTimeout;
 
     public ItemDragListener(H dragHost) {
-        this(dragHost, new Timer());
+        this(dragHost, new Timer(), DEFAULT_SPRING_TIMEOUT);
+    }
+
+    public ItemDragListener(H dragHost, int springTimeout) {
+        this(dragHost, new Timer(), springTimeout);
     }
 
     @VisibleForTesting
-    protected ItemDragListener(H dragHost, Timer timer) {
+    protected ItemDragListener(H dragHost, Timer timer, int springTimeout) {
         mDragHost = dragHost;
         mHoverTimer = timer;
+        mSpringTimeout = springTimeout;
     }
 
     @Override
@@ -91,7 +93,7 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
             return;
         }
         v.setTag(R.id.drag_hovering_tag, task);
-        mHoverTimer.schedule(task, SPRING_TIMEOUT);
+        mHoverTimer.schedule(task, mSpringTimeout);
     }
 
     private void handleLocationEvent(View v, float x, float y) {

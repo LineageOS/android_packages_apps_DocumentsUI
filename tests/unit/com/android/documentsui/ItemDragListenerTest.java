@@ -45,7 +45,7 @@ import java.util.TimerTask;
 @SmallTest
 public class ItemDragListenerTest {
 
-    private static final long DELAY_AFTER_HOVERING = ItemDragListener.SPRING_TIMEOUT + 1;
+    private static final long DELAY_AFTER_HOVERING = ItemDragListener.DEFAULT_SPRING_TIMEOUT + 1;
 
     private View mTestView;
     private TestDrawable mTestBackground;
@@ -61,7 +61,8 @@ public class ItemDragListenerTest {
         mTestTimer = new TestTimer();
         mTestDragHost = new TestDragHost();
 
-        mListener = new TestDragListener(mTestDragHost, mTestTimer);
+        mListener = new TestDragListener(
+                mTestDragHost, mTestTimer, ItemDragListener.DEFAULT_SPRING_TIMEOUT);
     }
 
     @Test
@@ -115,6 +116,19 @@ public class ItemDragListenerTest {
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
 
         mTestTimer.fastForwardTo(DELAY_AFTER_HOVERING);
+
+        assertSame(mTestView, mTestDragHost.mLastEnteredView);
+        assertSame(mTestView, mTestDragHost.mLastHoveredView);
+    }
+
+    @Test
+    public void testHover_usesCustomTimeout() {
+        int customTimeout = 200;
+        mListener = new TestDragListener(
+                mTestDragHost, mTestTimer, customTimeout);
+        triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
+
+        mTestTimer.fastForwardTo(customTimeout + 1);
 
         assertSame(mTestView, mTestDragHost.mLastEnteredView);
         assertSame(mTestView, mTestDragHost.mLastHoveredView);
@@ -176,8 +190,8 @@ public class ItemDragListenerTest {
         private View mLastDropOnView;
         private DragEvent mLastDropEvent;
 
-        protected TestDragListener(TestDragHost dragHost, Timer timer) {
-            super(dragHost, timer);
+        protected TestDragListener(TestDragHost dragHost, Timer timer, int timeout) {
+            super(dragHost, timer, timeout);
         }
 
         @Override
