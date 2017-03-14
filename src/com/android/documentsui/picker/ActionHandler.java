@@ -17,11 +17,19 @@
 package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.State.ACTION_CREATE;
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
+import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.util.Log;
@@ -31,6 +39,7 @@ import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Metrics;
+import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Features;
@@ -44,8 +53,10 @@ import com.android.documentsui.Model;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.services.FileOperationService;
 import com.android.internal.annotations.VisibleForTesting;
 
+import java.util.Arrays;
 import java.util.concurrent.Executor;
 
 import javax.annotation.Nullable;
@@ -59,7 +70,8 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     private final Features mFeatures;
     private final ActivityConfig mConfig;
-    private @Nullable Model mModel;
+    private final Model mModel;
+    private final LastAccessedStorage mLastAccessed;
 
     ActionHandler(
             T activity,
@@ -68,13 +80,15 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             DocumentsAccess docs,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
-            Injector injector) {
+            Injector injector,
+            LastAccessedStorage lastAccessed) {
 
         super(activity, state, roots, docs, searchMgr, executors, injector);
 
         mConfig = injector.config;
         mFeatures = injector.features;
         mModel = injector.getModel();
+        mLastAccessed = lastAccessed;
     }
 
     @Override
@@ -136,7 +150,8 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     private void loadLastAccessedStack() {
         if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
-        new LoadLastAccessedStackTask<>(mActivity, mState, mRoots, this::onLastAccessedStackLoaded)
+        new LoadLastAccessedStackTask<>(
+                mActivity, mLastAccessed, mState, mRoots, this::onLastAccessedStackLoaded)
                 .execute();
     }
 
@@ -152,13 +167,13 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     private void loadDefaultLocation() {
         switch (mState.action) {
-            case State.ACTION_PICK_COPY_DESTINATION:
+            case ACTION_PICK_COPY_DESTINATION:
             case State.ACTION_CREATE:
                 loadHomeDir();
                 break;
-            case State.ACTION_GET_CONTENT:
+            case ACTION_GET_CONTENT:
             case State.ACTION_OPEN:
-            case State.ACTION_OPEN_TREE:
+            case ACTION_OPEN_TREE:
                 mState.stack.changeRoot(mRoots.getRecentsRoot());
                 mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
                 break;
@@ -219,6 +234,109 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             return true;
         }
         return false;
+    }
+
+    void pickDocument(DocumentInfo pickTarget) {
+        assert(pickTarget != null);
+        Uri result;
+        switch (mState.action) {
+            case ACTION_OPEN_TREE:
+                result = DocumentsContract.buildTreeDocumentUri(
+                        pickTarget.authority, pickTarget.documentId);
+                break;
+            case ACTION_PICK_COPY_DESTINATION:
+                result = pickTarget.derivedUri;
+                break;
+            default:
+                // Should not be reached
+                throw new IllegalStateException("Invalid mState.action");
+        }
+        finishPicking(result);
+    }
+
+    void saveDocument(
+            String mimeType, String displayName, BooleanConsumer inProgressStateListener) {
+        assert(mState.action == ACTION_CREATE);
+        new CreatePickedDocumentTask(
+                mActivity,
+                mLastAccessed,
+                mState.stack,
+                mimeType,
+                displayName,
+                inProgressStateListener,
+                this::onPickFinished)
+                .executeOnExecutor(getExecutorForCurrentDirectory());
+    }
+
+    // User requested to overwrite a target. If confirmed by user #finishPicking() will be
+    // called.
+    void saveDocument(FragmentManager fm, DocumentInfo replaceTarget) {
+        assert(mState.action == ACTION_CREATE);
+        assert(replaceTarget != null);
+
+        mInjector.dialogs.confirmOverwrite(fm, replaceTarget);
+    }
+
+    void finishPicking(Uri... docs) {
+        new SetLastAccessedStackTask(
+                mActivity,
+                mLastAccessed,
+                mState.stack,
+                () -> {
+                    onPickFinished(docs);
+                }
+        ) .executeOnExecutor(getExecutorForCurrentDirectory());
+    }
+
+    private void onPickFinished(Uri... uris) {
+        if (DEBUG) Log.d(TAG, "onFinished() " + Arrays.toString(uris));
+
+        final Intent intent = new Intent();
+        if (uris.length == 1) {
+            intent.setData(uris[0]);
+        } else if (uris.length > 1) {
+            final ClipData clipData = new ClipData(
+                    null, mState.acceptMimes, new ClipData.Item(uris[0]));
+            for (int i = 1; i < uris.length; i++) {
+                clipData.addItem(new ClipData.Item(uris[i]));
+            }
+            intent.setClipData(clipData);
+        }
+
+        // TODO: Separate this piece of logic per action.
+        // We don't instantiate different objects for different actions at the first place, so it's
+        // not a easy task to separate this logic cleanly.
+        // Maybe we can add an ActionPolicy class for IoC and provide various behaviors through its
+        // inheritance structure.
+        if (mState.action == ACTION_GET_CONTENT) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else if (mState.action == ACTION_OPEN_TREE) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                    | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
+        } else if (mState.action == ACTION_PICK_COPY_DESTINATION) {
+            // Picking a copy destination is only used internally by us, so we
+            // don't need to extend permissions to the caller.
+            intent.putExtra(Shared.EXTRA_STACK, (Parcelable) mState.stack);
+            intent.putExtra(FileOperationService.EXTRA_OPERATION_TYPE, mState.copyOperationSubType);
+        } else {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        }
+
+        mActivity.setResult(Activity.RESULT_OK, intent);
+        mActivity.finish();
+    }
+
+    private Executor getExecutorForCurrentDirectory() {
+        final DocumentInfo cwd = mActivity.getCurrentDirectory();
+        if (cwd != null && cwd.authority != null) {
+            return mExecutors.lookup(cwd.authority);
+        } else {
+            return AsyncTask.THREAD_POOL_EXECUTOR;
+        }
     }
 
     public interface Addons extends CommonAddons {

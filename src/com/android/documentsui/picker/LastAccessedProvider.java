@@ -18,6 +18,7 @@ package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
+import android.app.Activity;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -114,7 +115,12 @@ public class LastAccessedProvider extends ContentProvider {
         }
     }
 
-    public static void setLastAccessed(
+    /**
+     * Rather than concretely depending on LastAccessedProvider, consider using
+     * {@link LastAccessedStorage#setLastAccessed(Activity, DocumentStack)}.
+     */
+    @Deprecated
+    static void setLastAccessed(
             ContentResolver resolver, String packageName, DocumentStack stack) {
         final ContentValues values = new ContentValues();
         final byte[] rawStack = DurableUtils.writeToArrayOrNull(stack);

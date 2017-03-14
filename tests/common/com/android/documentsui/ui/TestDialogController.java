@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.ui;
 
+import android.app.FragmentManager;
+
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.services.FileOperations;
@@ -30,6 +32,7 @@ public class TestDialogController implements DialogController {
     private boolean mNoApplicationFound;
     private boolean mDocumentsClipped;
     private boolean mViewInArchivesUnsupported;
+    private DocumentInfo mOverwriteTarget;
 
     public TestDialogController() {
         // by default, always confirm
@@ -63,6 +66,11 @@ public class TestDialogController implements DialogController {
         mDocumentsClipped = true;
     }
 
+    @Override
+    public void confirmOverwrite(FragmentManager fm, DocumentInfo overwriteTarget) {
+        mOverwriteTarget = overwriteTarget;
+    }
+
     public void assertNoFileFailures() {
         Assert.assertFalse(mFileOpFailed);
     }
@@ -77,6 +85,10 @@ public class TestDialogController implements DialogController {
 
     public void assertDocumentsClippedNotShown() {
         Assert.assertFalse(mDocumentsClipped);
+    }
+
+    public void assertOverwriteConfirmed(DocumentInfo expected) {
+        Assert.assertEquals(expected, mOverwriteTarget);
     }
 
     public void confirmNext() {
