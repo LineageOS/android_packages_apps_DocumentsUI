@@ -262,6 +262,23 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testDocumentPicked_InArchive_QuickViewable() throws Exception {
+        mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
+        mActivity.currentRoot = TestRootsAccess.HOME;
+
+        mHandler.onDocumentPicked(TestEnv.FILE_IN_ARCHIVE);
+        mActivity.assertActivityStarted(Intent.ACTION_QUICK_VIEW);
+    }
+
+    @Test
+    public void testDocumentPicked_InArchive_Unopenable() throws Exception {
+        mActivity.currentRoot = TestRootsAccess.HOME;
+
+        mHandler.onDocumentPicked(TestEnv.FILE_IN_ARCHIVE);
+        mDialogs.assertViewInArchivesShownUnsupported();
+    }
+
+    @Test
     public void testDocumentPicked_PreviewsWhenResourceSet() throws Exception {
         mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
         mActivity.currentRoot = TestRootsAccess.HOME;
