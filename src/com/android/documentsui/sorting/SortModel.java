@@ -17,6 +17,7 @@
 package com.android.documentsui.sorting;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;
@@ -275,12 +276,13 @@ public class SortModel implements Parcelable {
     }
 
     public @Nullable String getDocumentSortQuery() {
-        // This method should only be called when R.bool.feature_content_paging is false.
-        // Once that feature is enabled by default, this method should be removed.
-        // The following assert exists simply to make reference to the resource id
-        // so the compiler will fail when the feature is removed...reminding you and me
-        // to remove this method :)
-        assert(R.bool.feature_content_paging != Integer.MIN_VALUE);
+        // This method should only be called when R.bool.feature_content_paging exists.
+        // Once that feature is enabled by default (and reference removed), this method
+        // should also be removed.
+        // The following log message exists simply to make reference to
+        // R.bool.feature_content_paging so that compiler will fail when value
+        // is remove from config.xml.
+        if (VERBOSE) Log.v(TAG, "Can you remove me now? " + R.bool.feature_content_paging);
 
         final int id = getSortedDimensionId();
         final String columnName;
