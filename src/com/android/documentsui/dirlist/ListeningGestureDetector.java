@@ -28,7 +28,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-import com.android.documentsui.base.DebugFlags;
+import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;
@@ -49,6 +49,7 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
     private final Features mFeatures;
     private final GestureSelector mGestureSelector;
     private final EventHandler<InputEvent> mMouseDragListener;
+    private final BooleanConsumer mRefreshLayoutEnabler;
     private final BandController mBandController;
     private final MouseDelegate mMouseDelegate = new MouseDelegate();
     private final TouchDelegate mTouchDelegate = new TouchDelegate();
@@ -56,12 +57,12 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
     // Currently only initialized on IS_DEBUGGABLE builds.
     private final @Nullable ScaleGestureDetector mScaleDetector;
 
-
     public ListeningGestureDetector(
             Features features,
             Context context,
             RecyclerView recView,
             EventHandler<InputEvent> mouseDragListener,
+            BooleanConsumer refreshLayoutEnabler,
             GestureSelector gestureSelector,
             UserInputHandler<? extends InputEvent> handler,
             @Nullable BandController bandController,
@@ -71,6 +72,7 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
 
         mFeatures = features;
         mMouseDragListener = mouseDragListener;
+        mRefreshLayoutEnabler = refreshLayoutEnabler;
         mGestureSelector = gestureSelector;
         mBandController = bandController;
         recView.addOnItemTouchListener(this);
@@ -104,9 +106,22 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
 
         try (InputEvent event = MotionInputEvent.obtain(e, rv)) {
             if (event.isMouseEvent()) {
+                if (event.isActionDown()) {
+                    mRefreshLayoutEnabler.accept(false);
+                }
                 handled |= mMouseDelegate.onInterceptTouchEvent(event);
             } else {
+                // If user has started some gesture while RecyclerView is not at the top, disable
+                // refresh
+                if (event.isActionDown() && rv.computeVerticalScrollOffset() != 0) {
+                    mRefreshLayoutEnabler.accept(false);
+                }
                 handled |= mTouchDelegate.onInterceptTouchEvent(event);
+            }
+
+
+            if (event.isActionUp()) {
+                mRefreshLayoutEnabler.accept(true);
             }
         }
 
@@ -125,6 +140,10 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
                 mMouseDelegate.onTouchEvent(event);
             } else {
                 mTouchDelegate.onTouchEvent(rv, event);
+            }
+
+            if (event.isActionUp()) {
+                mRefreshLayoutEnabler.accept(true);
             }
         }
 
