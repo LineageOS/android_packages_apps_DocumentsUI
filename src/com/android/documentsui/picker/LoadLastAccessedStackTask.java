@@ -16,28 +16,14 @@
 
 package com.android.documentsui.picker;
 
-import static com.android.documentsui.base.Shared.DEBUG;
-
 import android.app.Activity;
-import android.database.Cursor;
-import android.net.Uri;
-import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentStack;
-import com.android.documentsui.base.DurableUtils;
 import com.android.documentsui.base.PairedTask;
-import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.picker.LastAccessedProvider.Columns;
 import com.android.documentsui.roots.RootsAccess;
 
-import libcore.io.IoUtils;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
@@ -51,15 +37,19 @@ import javax.annotation.Nullable;
 final class LoadLastAccessedStackTask<T extends Activity & CommonAddons>
         extends PairedTask<T, Void, DocumentStack> {
 
-    private static final String TAG = "LoadLastAccessedStackTa";
-
+    private final LastAccessedStorage mLastAccessed;
     private final State mState;
     private final RootsAccess mRoots;
     private final Consumer<DocumentStack> mCallback;
 
     LoadLastAccessedStackTask(
-            T activity, State state, RootsAccess roots, Consumer<DocumentStack> callback) {
+            T activity,
+            LastAccessedStorage lastAccessed,
+            State state,
+            RootsAccess roots,
+            Consumer<DocumentStack> callback) {
         super(activity);
+        mLastAccessed = lastAccessed;
         mRoots = roots;
         mState = state;
         mCallback = callback;
@@ -67,20 +57,7 @@ final class LoadLastAccessedStackTask<T extends Activity & CommonAddons>
 
     @Override
     protected DocumentStack run(Void... params) {
-        String callingPackage = Shared.getCallingPackageName(mOwner);
-        Uri resumeUri = LastAccessedProvider.buildLastAccessed(
-                callingPackage);
-        Cursor cursor = mOwner.getContentResolver().query(resumeUri, null, null, null, null);
-        try {
-            return DocumentStack.fromLastAccessedCursor(
-                    cursor, mRoots.getMatchingRootsBlocking(mState), mOwner.getContentResolver());
-        } catch (IOException e) {
-            Log.w(TAG, "Failed to resume: ", e);
-        } finally {
-            IoUtils.closeQuietly(cursor);
-        }
-
-        return null;
+        return mLastAccessed.getLastAccessed(mOwner, mRoots, mState);
     }
 
     @Override

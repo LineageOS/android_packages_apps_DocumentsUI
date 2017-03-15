@@ -545,15 +545,6 @@ public abstract class BaseActivity
         return mState.stack.peek();
     }
 
-    public Executor getExecutorForCurrentDirectory() {
-        final DocumentInfo cwd = getCurrentDirectory();
-        if (cwd != null && cwd.authority != null) {
-            return ProviderExecutor.forAuthority(cwd.authority);
-        } else {
-            return AsyncTask.THREAD_POOL_EXECUTOR;
-        }
-    }
-
     @Override
     public void onBackPressed() {
         // While action bar is expanded, the state stack UI is hidden.

@@ -17,6 +17,7 @@ package com.android.documentsui.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.support.design.widget.Snackbar;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import com.android.documentsui.R;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.picker.OverwriteConfirmFragment;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
@@ -34,39 +36,15 @@ import java.util.List;
 
 public interface DialogController {
 
-    public static final DialogController STUB = new DialogController() {
-
-        @Override
-        public void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void showFileOperationStatus(int status, int opType, int docCount) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void showNoApplicationFound() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void showViewInArchivesUnsupported() {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void showDocumentsClipped(int size) {
-            throw new UnsupportedOperationException();
-        }
-    };
-
+    // Dialogs used in FilesActivity
     void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback);
     void showFileOperationStatus(int status, int opType, int docCount);
     void showNoApplicationFound();
     void showViewInArchivesUnsupported();
     void showDocumentsClipped(int size);
+
+    // Dialogs used in PickActivity
+    void confirmOverwrite(FragmentManager fm, DocumentInfo overwriteTarget);
 
     // Should be private, but Java doesn't like me treating an interface like a mini-package.
     public static final class RuntimeDialogController implements DialogController {
@@ -164,6 +142,11 @@ public interface DialogController {
         @Override
         public void showDocumentsClipped(int size) {
             Snackbars.showDocumentsClipped(mActivity, size);
+        }
+
+        @Override
+        public void confirmOverwrite(FragmentManager fm, DocumentInfo overwriteTarget) {
+            OverwriteConfirmFragment.show(fm, overwriteTarget);
         }
     }
 
