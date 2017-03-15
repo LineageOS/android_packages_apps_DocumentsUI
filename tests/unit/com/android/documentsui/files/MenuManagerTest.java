@@ -17,7 +17,6 @@
 package com.android.documentsui.files;
 
 import static junit.framework.Assert.assertEquals;
-
 import static org.junit.Assert.assertTrue;
 
 import android.provider.DocumentsContract.Document;
@@ -30,6 +29,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestDirectoryDetails;
+import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestMenu;
 import com.android.documentsui.testing.TestMenuInflater;
 import com.android.documentsui.testing.TestMenuItem;
@@ -67,6 +67,7 @@ public final class MenuManagerTest {
     private TestMenuItem advanced;
     private TestMenuItem eject;
 
+    private TestFeatures features;
     private TestSelectionDetails selectionDetails;
     private TestDirectoryDetails dirDetails;
     private TestSearchViewManager testSearchManager;
@@ -100,6 +101,8 @@ public final class MenuManagerTest {
         advanced = testMenu.findItem(R.id.menu_advanced);
         eject = testMenu.findItem(R.id.menu_eject_root);
 
+        features = new TestFeatures();
+
         // These items by default are visible
         testMenu.findItem(R.id.menu_select_all).setVisible(true);
         testMenu.findItem(R.id.menu_list).setVisible(true);
@@ -108,7 +111,7 @@ public final class MenuManagerTest {
         dirDetails = new TestDirectoryDetails();
         testSearchManager = new TestSearchViewManager();
         preferences = new TestScopedPreferences();
-        mgr = new MenuManager(preferences, testSearchManager, state, dirDetails);
+        mgr = new MenuManager(features, testSearchManager, state, dirDetails);
 
         testRootInfo = new RootInfo();
         testDocInfo = new DocumentInfo();
@@ -116,7 +119,6 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionMenu() {
-        preferences.setEnableArchiveCreation(true);
         selectionDetails.canDelete = true;
         selectionDetails.canRename = true;
         dirDetails.canCreateDoc = true;
@@ -133,8 +135,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_containsPartial() {
-        preferences.setEnableArchiveCreation(true);
+    public void testActionMenu_ContainsPartial() {
         selectionDetails.containPartial = true;
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -148,16 +149,17 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_compress_disabledFeatureByDefault() {
+    public void testActionMenu_CreateArchives_ReflectsFeatureState() {
+        features.archiveCreation = false;
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         compress.assertInvisible();
+        compress.assertDisabled();
     }
 
     @Test
-    public void testActionMenu_compress() {
-        preferences.setEnableArchiveCreation(true);
+    public void testActionMenu_CreateArchive() {
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -165,8 +167,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_cantCompress() {
-        preferences.setEnableArchiveCreation(true);
+    public void testActionMenu_NoCreateArchive() {
         dirDetails.canCreateDoc = false;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -206,7 +207,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_containsDirectory() {
+    public void testActionMenu_ContainsDirectory() {
         selectionDetails.containDirectories = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -215,7 +216,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_removesDirectory() {
+    public void testActionMenu_RemovesDirectory() {
         selectionDetails.containDirectories = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -227,7 +228,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_cantExtract() {
+    public void testActionMenu_CantExtract() {
         selectionDetails.canExtract = false;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -235,8 +236,8 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_canExtract_hidesCopyToAndCompressAndShare() {
-        preferences.setEnableArchiveCreation(true);
+    public void testActionMenu_CanExtract_hidesCopyToAndCompressAndShare() {
+        features.archiveCreation = true;
         selectionDetails.canExtract = true;
         dirDetails.canCreateDoc = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -247,7 +248,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_canOpenWith() {
+    public void testActionMenu_CanOpenWith() {
         selectionDetails.canOpenWith = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -256,7 +257,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_cantOpenWith() {
+    public void testActionMenu_NoOpenWith() {
         selectionDetails.canOpenWith = false;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
@@ -275,7 +276,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testOptionMenu_showAdvanced() {
+    public void testOptionMenu_ShowAdvanced() {
         state.showAdvanced = true;
         state.showDeviceStorageOption = true;
         mgr.updateOptionMenu(testMenu);
@@ -285,7 +286,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testOptionMenu_canCreateDirectory() {
+    public void testOptionMenu_CanCreateDirectory() {
         dirDetails.canCreateDirectory = true;
         mgr.updateOptionMenu(testMenu);
 
@@ -293,7 +294,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testOptionMenu_hasRootSettings() {
+    public void testOptionMenu_HasRootSettings() {
         dirDetails.hasRootSettings = true;
         mgr.updateOptionMenu(testMenu);
 
@@ -418,7 +419,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testContextMenu_OnFile_canOpenWith() {
+    public void testContextMenu_OnFile_CanOpenWith() {
         selectionDetails.canOpenWith = true;
         mgr.updateContextMenuForFiles(testMenu, selectionDetails);
         openWith.assertVisible();
@@ -426,7 +427,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testContextMenu_OnFile_cantOpenWith() {
+    public void testContextMenu_OnFile_NoOpenWith() {
         selectionDetails.canOpenWith = false;
         mgr.updateContextMenuForFiles(testMenu, selectionDetails);
         openWith.assertVisible();
@@ -555,7 +556,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testRootContextMenu_hasRootSettings() {
+    public void testRootContextMenu_HasRootSettings() {
         testRootInfo.flags = Root.FLAG_HAS_SETTINGS;
         mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
@@ -563,7 +564,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testRootContextMenu_nonWritableRoot() {
+    public void testRootContextMenu_NonWritableRoot() {
         dirDetails.hasItemsToPaste = true;
         mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
@@ -572,7 +573,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testRootContextMenu_nothingToPaste() {
+    public void testRootContextMenu_NothingToPaste() {
         testRootInfo.flags = Root.FLAG_SUPPORTS_CREATE;
         testDocInfo.flags = Document.FLAG_DIR_SUPPORTS_CREATE;
         dirDetails.hasItemsToPaste = false;
@@ -583,7 +584,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testRootContextMenu_pasteIntoWritableRoot() {
+    public void testRootContextMenu_PasteIntoWritableRoot() {
         testRootInfo.flags = Root.FLAG_SUPPORTS_CREATE;
         testDocInfo.flags = Document.FLAG_DIR_SUPPORTS_CREATE;
         dirDetails.hasItemsToPaste = true;
@@ -594,7 +595,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testRootContextMenu_eject() {
+    public void testRootContextMenu_Eject() {
         testRootInfo.flags = Root.FLAG_SUPPORTS_EJECT;
         mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
@@ -602,7 +603,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testRootContextMenu_ejectInProcess() {
+    public void testRootContextMenu_EjectInProcess() {
         testRootInfo.flags = Root.FLAG_SUPPORTS_EJECT;
         testRootInfo.ejecting = true;
         mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);

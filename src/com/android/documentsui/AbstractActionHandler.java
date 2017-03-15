@@ -440,6 +440,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         return mSelectionMgr.getSelection(new Selection());
     }
 
+    @Override
     public ActionHandler reset(DirectoryReloadLock reloadLock) {
         mDirectoryReloadLock = reloadLock;
         mActivity.getLoaderManager().destroyLoader(LOADER_ID);
@@ -477,6 +478,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                                 + DocumentInfo.debugString(mState.stack.peek()));
 
                 return new DirectoryLoader(
+                        mInjector.features,
                         context,
                         mState.stack.getRoot(),
                         mState.stack.peek(),

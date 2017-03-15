@@ -17,11 +17,8 @@ package com.android.documentsui.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-
-import com.android.documentsui.R;
 
 /**
  * Provides an interface (and runtime implementation) for preferences that are
@@ -37,29 +34,23 @@ public interface ScopedPreferences {
     boolean getShowDeviceRoot();
     void setShowDeviceRoot(boolean display);
 
-    boolean getEnableArchiveCreation();
-    void setEnableArchiveCreation(boolean enabled);
-
     /**
      * @param scope An arbitrary string representitive of the scope
      *        for prefs that are set using this object.
      */
     public static ScopedPreferences create(Context context, String scope) {
-        return new RuntimeScopedPreferences(context.getResources(),
+        return new RuntimeScopedPreferences(
                 PreferenceManager.getDefaultSharedPreferences(context), scope);
     }
 
     static final class RuntimeScopedPreferences implements ScopedPreferences {
 
-        private Resources mResources;
         private SharedPreferences mSharedPrefs;
         private String mScope;
 
-        private RuntimeScopedPreferences(Resources resources, SharedPreferences sharedPrefs,
-                String scope)  {
+        private RuntimeScopedPreferences(SharedPreferences sharedPrefs, String scope)  {
             assert(!TextUtils.isEmpty(scope));
 
-            mResources = resources;
             mSharedPrefs = sharedPrefs;
             mScope = scope;
         }
@@ -72,17 +63,6 @@ public interface ScopedPreferences {
         @Override
         public void setShowDeviceRoot(boolean display) {
             mSharedPrefs.edit().putBoolean(INCLUDE_DEVICE_ROOT, display).apply();
-        }
-
-        @Override
-        public boolean getEnableArchiveCreation() {
-            final boolean defaultValue = mResources.getBoolean(R.bool.feature_archive_creation);
-            return mSharedPrefs.getBoolean(ENABLE_ARCHIVE_CREATION + mScope, defaultValue);
-        }
-
-        @Override
-        public void setEnableArchiveCreation(boolean enabled) {
-            mSharedPrefs.edit().putBoolean(ENABLE_ARCHIVE_CREATION + mScope, enabled).apply();
         }
     }
 

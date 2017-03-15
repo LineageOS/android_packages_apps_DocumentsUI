@@ -27,25 +27,25 @@ import android.view.View;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
 
 import java.util.List;
 import java.util.function.IntFunction;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
-    private final ScopedPreferences mPreferences;
+
+    private final Features mFeatures;
 
     public MenuManager(
-            ScopedPreferences preferences,
+            Features features,
             SearchViewManager searchManager,
             State displayState,
             DirectoryDetails dirDetails) {
         super(searchManager, displayState, dirDetails);
-        mPreferences = preferences;
+        mFeatures = features;
     }
 
     @Override
@@ -185,7 +185,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     @Override
     protected void updateCompress(MenuItem compress, SelectionDetails selectionDetails) {
         final boolean readOnly = !mDirDetails.canCreateDoc();
-        compress.setVisible(mPreferences.getEnableArchiveCreation());
+        compress.setVisible(mFeatures.isArchiveCreationEnabled());
         compress.setEnabled(!readOnly && !selectionDetails.containsPartialFiles() &&
                 !selectionDetails.canExtract());
     }
