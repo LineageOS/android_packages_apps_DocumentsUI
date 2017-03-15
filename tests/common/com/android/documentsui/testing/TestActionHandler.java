@@ -28,8 +28,6 @@ import com.android.documentsui.Model;
 public class TestActionHandler extends AbstractActionHandler<TestActivity> {
 
     public final TestEventHandler<DocumentDetails> open = new TestEventHandler<>();
-    public final TestEventHandler<DocumentDetails> view = new TestEventHandler<>();
-    public final TestEventHandler<DocumentDetails> preview = new TestEventHandler<>();
     public boolean mDeleteHappened;
 
     public TestActionHandler() {
@@ -48,18 +46,8 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     }
 
     @Override
-    public boolean openDocument(DocumentDetails doc) {
+    public boolean openDocument(DocumentDetails doc, @ViewType int type, @ViewType int fallback) {
         return open.accept(doc);
-    }
-
-    @Override
-    public boolean viewDocument(DocumentDetails doc) {
-        return view.accept(doc);
-    }
-
-    @Override
-    public boolean previewDocument(DocumentDetails doc) {
-        return preview.accept(doc);
     }
 
     @Override

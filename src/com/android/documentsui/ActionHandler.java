@@ -16,6 +16,7 @@
 
 package com.android.documentsui;
 
+import android.annotation.IntDef;
 import android.content.ContentProvider;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -28,11 +29,24 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
 public interface ActionHandler {
+
+    @IntDef({
+        VIEW_TYPE_NONE,
+        VIEW_TYPE_REGULAR,
+        VIEW_TYPE_PREVIEW
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ViewType {}
+    public static final int VIEW_TYPE_NONE = 0;
+    public static final int VIEW_TYPE_REGULAR = 1;
+    public static final int VIEW_TYPE_PREVIEW = 2;
 
     void openSettings(RootInfo root);
 
@@ -45,7 +59,6 @@ public interface ActionHandler {
      * Attempts to eject the identified root. Returns a boolean answer to listener.
      */
     void ejectRoot(RootInfo root, BooleanConsumer listener);
-
 
     /**
      * Attempts to fetch the DocumentInfo for the supplied root. Returns the DocumentInfo to the
@@ -78,11 +91,11 @@ public interface ActionHandler {
 
     @Nullable DocumentInfo renameDocument(String name, DocumentInfo document);
 
-    boolean viewDocument(DocumentDetails doc);
-
-    boolean previewDocument(DocumentDetails doc);
-
-    boolean openDocument(DocumentDetails doc);
+    /**
+     * If container, then opens the container, otherwise views using the specified type of view.
+     * If the primary view type is unavailable, then fallback to the alternative type of view.
+     */
+    boolean openDocument(DocumentDetails doc, @ViewType int type, @ViewType int fallback);
 
     /**
      * This is called when user hovers over a doc for enough time during a drag n' drop, to open a

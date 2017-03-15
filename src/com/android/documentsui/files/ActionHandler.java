@@ -64,6 +64,7 @@ import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.ui.DialogController;
+import com.android.internal.annotations.VisibleForTesting;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -194,7 +195,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     @Override
-    public boolean openDocument(DocumentDetails details) {
+    public boolean openDocument(DocumentDetails details, @ViewType int type,
+            @ViewType int fallback) {
         DocumentInfo doc = mModel.getDocument(details.getModelId());
         if (doc == null) {
             Log.w(TAG,
@@ -202,8 +204,14 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return false;
         }
 
+        return openDocument(doc, type, fallback);
+    }
+
+    // TODO: Make this private and make tests call openDocument(DocumentDetails, int, int) instead.
+    @VisibleForTesting
+    public boolean openDocument(DocumentInfo doc, @ViewType int type, @ViewType int fallback) {
         if (mConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
-            onDocumentPicked(doc);
+            onDocumentPicked(doc, type, fallback);
             mSelectionMgr.clearSelection();
             return true;
         }
@@ -215,21 +223,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         assert(doc.isDirectory());
         mActionModeAddons.finishActionMode();
         openContainerDocument(doc);
-    }
-
-    @Override
-    public boolean viewDocument(DocumentDetails details) {
-        DocumentInfo doc = mModel.getDocument(details.getModelId());
-        return viewDocument(doc);
-    }
-
-    @Override
-    public boolean previewDocument(DocumentDetails details) {
-        DocumentInfo doc = mModel.getDocument(details.getModelId());
-        if (doc.isContainer()) {
-            return false;
-        }
-        return previewDocument(doc);
     }
 
     private Selection getSelectedOrFocused() {
@@ -481,7 +474,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
     }
 
-    public void onDocumentPicked(DocumentInfo doc) {
+    private void onDocumentPicked(DocumentInfo doc, @ViewType int type, @ViewType int fallback) {
         if (doc.isContainer()) {
             openContainerDocument(doc);
             return;
@@ -491,35 +484,65 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return;
         }
 
-        if (previewDocument(doc)) {
-            return;
+        switch (type) {
+          case VIEW_TYPE_REGULAR:
+            if (viewDocument(doc)) {
+                return;
+            }
+            break;
+
+          case VIEW_TYPE_PREVIEW:
+            if (previewDocument(doc)) {
+                return;
+            }
+            break;
+
+          default:
+            throw new IllegalArgumentException("Illegal view type.");
         }
 
-        viewDocument(doc);
+        switch (fallback) {
+          case VIEW_TYPE_REGULAR:
+            if (viewDocument(doc)) {
+                return;
+            }
+            break;
+
+          case VIEW_TYPE_PREVIEW:
+            if (previewDocument(doc)) {
+                return;
+            }
+            break;
+
+          case VIEW_TYPE_NONE:
+            break;
+
+          default:
+            throw new IllegalArgumentException("Illegal fallback view type.");
+        }
+
+        // Failed to view including fallback, and it's in an archive.
+        if (type != VIEW_TYPE_NONE && fallback != VIEW_TYPE_NONE && doc.isInArchive()) {
+            mDialogs.showViewInArchivesUnsupported();
+        }
     }
 
-    public boolean viewDocument(DocumentInfo doc) {
+    private boolean viewDocument(DocumentInfo doc) {
         if (doc.isPartial()) {
             Log.w(TAG, "Can't view partial file.");
             return false;
         }
 
         if (doc.isInArchive()) {
-            mDialogs.showViewInArchivesUnsupported();
+            Log.w(TAG, "Can't view files in archives.");
             return false;
         }
 
-        if (doc.isContainer()) {
-            openContainerDocument(doc);
+        if (doc.isDirectory()) {
+            Log.w(TAG, "Can't view directories.");
             return true;
         }
 
-        // this is a redundant check.
-        if (manageDocument(doc)) {
-            return true;
-        }
-
-        // Fall back to traditional VIEW action...
         Intent intent = buildViewIntent(doc);
         if (DEBUG && intent.getClipData() != null) {
             Log.d(TAG, "Starting intent w/ clip data: " + intent.getClipData());
@@ -534,7 +557,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         return false;
     }
 
-    public boolean previewDocument(DocumentInfo doc) {
+    private boolean previewDocument(DocumentInfo doc) {
         if (doc.isPartial()) {
             Log.w(TAG, "Can't view partial file.");
             return false;
