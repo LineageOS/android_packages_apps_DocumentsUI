@@ -21,10 +21,6 @@
     <group
         android:id="@+id/menu_clipboard_group">
         <item
-            android:id="@+id/menu_select_all"
-            android:title="@string/menu_select_all" />
-
-        <item
             android:id="@+id/menu_paste_from_clipboard"
             android:title="@string/menu_paste_from_clipboard" />
     </group>
@@ -34,5 +30,9 @@
         <item
             android:id="@+id/menu_create_dir"
             android:title="@string/menu_create_dir" />
+
+        <item
+            android:id="@+id/menu_select_all"
+            android:title="@string/menu_select_all" />
     </group>
 </menu>
