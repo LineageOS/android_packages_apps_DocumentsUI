@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.android.documentsui.DocumentsToolbar
+            <Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
@@ -50,7 +50,7 @@
                     android:background="@android:color/transparent"
                     android:overlapAnchor="true" />
 
-            </com.android.documentsui.DocumentsToolbar>
+            </Toolbar>
 
             <FrameLayout
                 android:layout_width="match_parent"
