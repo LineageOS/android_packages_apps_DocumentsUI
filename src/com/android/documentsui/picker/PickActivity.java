@@ -23,29 +23,21 @@ import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.ClipData;
 import android.content.ComponentName;
-import android.content.ContentProviderClient;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.annotation.CallSuper;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
-import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
@@ -55,21 +47,17 @@ import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.MimeTypes;
-import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.picker.LastAccessedProvider.Columns;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
-import com.android.documentsui.ui.Snackbars;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class PickActivity extends BaseActivity implements ActionHandler.Addons {
@@ -81,6 +69,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     private Injector<ActionHandler<PickActivity>> mInjector;
     private SharedInputHandler mSharedInputHandler;
+
+    private LastAccessedStorage mLastAccessed;
 
     public PickActivity() {
         super(R.layout.documents_activity, TAG);
@@ -94,7 +84,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 new MessageBuilder(this),
-                DialogController.STUB);
+                DialogController.create(this, null));
 
         super.onCreate(icicle);
 
@@ -118,6 +108,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mInjector.menuManager,
                 mInjector.messages);
 
+        mLastAccessed = LastAccessedStorage.create();
         mInjector.actions = new ActionHandler<>(
                 this,
                 mState,
@@ -125,7 +116,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mDocs,
                 mSearchManager,
                 ProviderExecutor::forAuthority,
-                mInjector);
+                mInjector,
+                mLastAccessed);
 
         mInjector.searchManager = mSearchManager;
 
@@ -220,10 +212,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         if (requestCode == CODE_FORWARD && resultCode != RESULT_CANCELED) {
 
             // Remember that we last picked via external app
-            final String packageName = Shared.getCallingPackageName(this);
-            final ContentValues values = new ContentValues();
-            values.put(Columns.EXTERNAL, 1);
-            getContentResolver().insert(LastAccessedProvider.buildLastAccessed(packageName), values);
+            mLastAccessed.setLastAccessedToExternalApp(this);
 
             // Pass back result to original caller
             setResult(resultCode, data);
@@ -313,28 +302,10 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         }
     }
 
-    void onSaveRequested(DocumentInfo replaceTarget) {
-        new ExistingFinishTask(this, replaceTarget.derivedUri)
-                .executeOnExecutor(getExecutorForCurrentDirectory());
-    }
-
-    @Override
-    public void setPending(boolean pending) {
-        final SaveFragment save = SaveFragment.get(getFragmentManager());
-        if (save != null) {
-            save.setPending(pending);
-        }
-    }
-
     @Override
     protected void onDirectoryCreated(DocumentInfo doc) {
         assert(doc.isDirectory());
         mInjector.actions.openContainerDocument(doc);
-    }
-
-    void onSaveRequested(String mimeType, String displayName) {
-        new CreateFinishTask(this, mimeType, displayName)
-                .executeOnExecutor(getExecutorForCurrentDirectory());
     }
 
     @Override
@@ -346,8 +317,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             mInjector.actions.openContainerDocument(doc);
         } else if (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT) {
             // Explicit file picked, return
-            new ExistingFinishTask(this, doc.derivedUri)
-                    .executeOnExecutor(getExecutorForCurrentDirectory());
+            mInjector.actions.finishPicking(doc.derivedUri);
         } else if (mState.action == ACTION_CREATE) {
             // Replace selected file
             SaveFragment.get(fm).setReplaceTarget(doc);
@@ -362,65 +332,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             for (int i = 0; i < size; i++) {
                 uris[i] = docs.get(i).derivedUri;
             }
-            new ExistingFinishTask(this, uris)
-                    .executeOnExecutor(getExecutorForCurrentDirectory());
+            mInjector.actions.finishPicking(uris);
         }
-    }
-
-    public void onPickRequested(DocumentInfo pickTarget) {
-        Uri result;
-        if (mState.action == ACTION_OPEN_TREE) {
-            result = DocumentsContract.buildTreeDocumentUri(
-                    pickTarget.authority, pickTarget.documentId);
-        } else if (mState.action == ACTION_PICK_COPY_DESTINATION) {
-            result = pickTarget.derivedUri;
-        } else {
-            // Should not be reached.
-            throw new IllegalStateException("Invalid mState.action.");
-        }
-        new PickFinishTask(this, result).executeOnExecutor(getExecutorForCurrentDirectory());
-    }
-
-    void updateLastAccessed() {
-        LastAccessedProvider.setLastAccessed(
-                getContentResolver(), Shared.getCallingPackageName(this), mState.stack);
-    }
-
-    private void onTaskFinished(Uri... uris) {
-        if (DEBUG) Log.d(TAG, "onFinished() " + Arrays.toString(uris));
-
-        final Intent intent = new Intent();
-        if (uris.length == 1) {
-            intent.setData(uris[0]);
-        } else if (uris.length > 1) {
-            final ClipData clipData = new ClipData(
-                    null, mState.acceptMimes, new ClipData.Item(uris[0]));
-            for (int i = 1; i < uris.length; i++) {
-                clipData.addItem(new ClipData.Item(uris[i]));
-            }
-            intent.setClipData(clipData);
-        }
-
-        if (mState.action == ACTION_GET_CONTENT) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else if (mState.action == ACTION_OPEN_TREE) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                    | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
-        } else if (mState.action == ACTION_PICK_COPY_DESTINATION) {
-            // Picking a copy destination is only used internally by us, so we
-            // don't need to extend permissions to the caller.
-            intent.putExtra(Shared.EXTRA_STACK, (Parcelable) mState.stack);
-            intent.putExtra(FileOperationService.EXTRA_OPERATION_TYPE, mState.copyOperationSubType);
-        } else {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-        }
-
-        setResult(Activity.RESULT_OK, intent);
-        finish();
     }
 
     @CallSuper
@@ -432,102 +345,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     public static PickActivity get(Fragment fragment) {
         return (PickActivity) fragment.getActivity();
-    }
-
-    private static final class PickFinishTask extends PairedTask<PickActivity, Void, Void> {
-        private final Uri mUri;
-
-        public PickFinishTask(PickActivity activity, Uri uri) {
-            super(activity);
-            mUri = uri;
-        }
-
-        @Override
-        protected Void run(Void... params) {
-            mOwner.updateLastAccessed();
-            return null;
-        }
-
-        @Override
-        protected void finish(Void result) {
-            mOwner.onTaskFinished(mUri);
-        }
-    }
-
-    private static final class ExistingFinishTask extends PairedTask<PickActivity, Void, Void> {
-        private final Uri[] mUris;
-
-        public ExistingFinishTask(PickActivity activity, Uri... uris) {
-            super(activity);
-            mUris = uris;
-        }
-
-        @Override
-        protected Void run(Void... params) {
-            mOwner.updateLastAccessed();
-            return null;
-        }
-
-        @Override
-        protected void finish(Void result) {
-            mOwner.onTaskFinished(mUris);
-        }
-    }
-
-    /**
-     * Task that creates a new document in the background.
-     */
-    private static final class CreateFinishTask extends PairedTask<PickActivity, Void, Uri> {
-        private final String mMimeType;
-        private final String mDisplayName;
-
-        public CreateFinishTask(PickActivity activity, String mimeType, String displayName) {
-            super(activity);
-            mMimeType = mimeType;
-            mDisplayName = displayName;
-        }
-
-        @Override
-        protected void prepare() {
-            mOwner.setPending(true);
-        }
-
-        @Override
-        protected Uri run(Void... params) {
-            final ContentResolver resolver = mOwner.getContentResolver();
-            final DocumentInfo cwd = mOwner.getCurrentDirectory();
-
-            ContentProviderClient client = null;
-            Uri childUri = null;
-            try {
-                client = DocumentsApplication.acquireUnstableProviderOrThrow(
-                        resolver, cwd.derivedUri.getAuthority());
-                childUri = DocumentsContract.createDocument(
-                        client, cwd.derivedUri, mMimeType, mDisplayName);
-            } catch (Exception e) {
-                Log.w(TAG, "Failed to create document", e);
-            } finally {
-                ContentProviderClient.releaseQuietly(client);
-            }
-
-            if (childUri != null) {
-                mOwner.updateLastAccessed();
-            }
-
-            return childUri;
-        }
-
-        @Override
-        protected void finish(Uri result) {
-            if (result != null) {
-                mOwner.onTaskFinished(result);
-            } else {
-                Snackbars.makeSnackbar(
-                        mOwner, R.string.save_error, Snackbar.LENGTH_SHORT).show();
-            }
-
-            mOwner.setPending(false);
-        }
     }
 
     @Override

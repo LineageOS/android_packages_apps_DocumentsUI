@@ -344,4 +344,7 @@
 
     <!-- File name of an archive file created when compressing files, without the file extension (.zip). -->
     <string name="new_archive_file_name">archive<xliff:g id="extension" example=".zip">%s</xliff:g></string>
+
+    <!-- Dialog text shown when confirming if they want to overwrite a file -->
+    <string name="overwrite_file_confirmation_message">Overwrite <xliff:g id="name" example="foobar.txt">%1$s</xliff:g>?</string>
 </resources>

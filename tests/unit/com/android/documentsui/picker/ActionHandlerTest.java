@@ -34,6 +34,7 @@ import com.android.documentsui.base.State.ActionType;
 import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestRootsAccess;
+import com.android.documentsui.testing.TestLastAccessedStorage;
 import com.android.documentsui.ui.TestDialogController;
 
 import org.junit.Before;
@@ -50,6 +51,7 @@ public class ActionHandlerTest {
     private TestActivity mActivity;
     private TestDialogController mDialogs;
     private ActionHandler<TestActivity> mHandler;
+    private TestLastAccessedStorage mLastAccessed;
 
     @Before
     public void setUp() {
@@ -57,6 +59,7 @@ public class ActionHandlerTest {
         mActivity = TestActivity.create(mEnv);
         mDialogs = new TestDialogController();
         mEnv.roots.configurePm(mActivity.packageMgr);
+        mLastAccessed = new TestLastAccessedStorage();
 
         mHandler = new ActionHandler<>(
                 mActivity,
@@ -65,8 +68,9 @@ public class ActionHandlerTest {
                 mEnv.docs,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
-                mEnv.injector
-                );
+                mEnv.injector,
+                mLastAccessed
+        );
 
         mDialogs.confirmNext();
 

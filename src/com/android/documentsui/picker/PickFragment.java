@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.android.documentsui.BaseActivity;
+import com.android.documentsui.Injector;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
@@ -52,8 +53,7 @@ public class PickFragment extends Fragment {
     private final View.OnClickListener mPickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final PickActivity activity = PickActivity.get(PickFragment.this);
-            activity.onPickRequested(mPickTarget);
+            mInjector.actions.pickDocument(mPickTarget);
         }
     };
 
@@ -66,6 +66,7 @@ public class PickFragment extends Fragment {
         }
     };
 
+    private Injector<ActionHandler<PickActivity>> mInjector;
     private int mAction;
     // Only legal values are OPERATION_COPY, OPERATION_COMPRESS, OPERATION_EXTRACT,
     // OPERATION_MOVE, and unset (OPERATION_UNKNOWN).
@@ -117,6 +118,8 @@ public class PickFragment extends Fragment {
             mPickTarget = savedInstanceState.getParcelable(PICK_TARGET_KEY);
             updateView();
         }
+
+        mInjector = ((PickActivity) getActivity()).getInjector();
     }
 
     @Override
