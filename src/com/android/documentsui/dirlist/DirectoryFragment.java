@@ -207,9 +207,6 @@ public class DirectoryFragment extends Fragment
         mProgressBar = view.findViewById(R.id.progressbar);
         assert(mProgressBar != null);
 
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
-        mRefreshLayout.setOnRefreshListener(this);
-
         mRecView = (RecyclerView) view.findViewById(R.id.dir_list);
         mRecView.setRecyclerListener(
                 new RecyclerListener() {
@@ -218,6 +215,9 @@ public class DirectoryFragment extends Fragment
                         cancelThumbnailTask(holder.itemView);
                     }
                 });
+
+        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
+        mRefreshLayout.setOnRefreshListener(this);
 
         Resources resources = getContext().getResources();
         new FastScroller(mRecView,
@@ -373,6 +373,7 @@ public class DirectoryFragment extends Fragment
                 this.getContext(),
                 mRecView,
                 mDragStartListener::onMouseDragEvent,
+                mRefreshLayout::setEnabled,
                 gestureSel,
                 mInputHandler,
                 mBandController,

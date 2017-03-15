@@ -23,11 +23,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.android.documentsui.base.Events;
-
 /**
  * A {@link SwipeRefreshLayout} that does not intercept any touch events. This relies on its nested
- * view to scroll in order to cause a refresh.
+ * view to scroll in order to cause a refresh. It is possible that it gets disabled by
+ * {@link ListeningGestureDetector} .
  */
 public class DocumentsSwipeRefreshLayout extends SwipeRefreshLayout {
 
