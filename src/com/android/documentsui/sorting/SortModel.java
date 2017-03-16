@@ -17,7 +17,6 @@
 package com.android.documentsui.sorting;
 
 import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.IntDef;
 import android.annotation.Nullable;
@@ -282,7 +281,7 @@ public class SortModel implements Parcelable {
         // The following log message exists simply to make reference to
         // R.bool.feature_content_paging so that compiler will fail when value
         // is remove from config.xml.
-        if (VERBOSE) Log.v(TAG, "Can you remove me now? " + R.bool.feature_content_paging);
+        int readTheCommentAbove = R.bool.feature_content_paging;
 
         final int id = getSortedDimensionId();
         final String columnName;
