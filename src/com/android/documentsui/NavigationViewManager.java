@@ -22,6 +22,7 @@ import android.annotation.Nullable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -36,15 +37,15 @@ public class NavigationViewManager {
 
     private static final String TAG = "NavigationViewManager";
 
-    final DrawerController mDrawer;
-    final DocumentsToolbar mToolbar;
-    final State mState;
-    final NavigationViewManager.Environment mEnv;
-    final Breadcrumb mBreadcrumb;
+    private final DrawerController mDrawer;
+    private final Toolbar mToolbar;
+    private final State mState;
+    private final NavigationViewManager.Environment mEnv;
+    private final Breadcrumb mBreadcrumb;
 
     public NavigationViewManager(
             DrawerController drawer,
-            DocumentsToolbar toolbar,
+            Toolbar toolbar,
             State state,
             NavigationViewManager.Environment env,
             Breadcrumb breadcrumb) {

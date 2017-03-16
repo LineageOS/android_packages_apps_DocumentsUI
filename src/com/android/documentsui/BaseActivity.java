@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.Injector.Injected;
@@ -142,7 +143,7 @@ public abstract class BaseActivity
         mRoots = DocumentsApplication.getRootsCache(this);
         mDocs = DocumentsAccess.create(this);
 
-        DocumentsToolbar toolbar = (DocumentsToolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setActionBar(toolbar);
 
         Breadcrumb breadcrumb =
@@ -229,7 +230,7 @@ public abstract class BaseActivity
         getMenuInflater().inflate(R.menu.activity, menu);
         mNavigator.update();
         boolean fullBarSearch = getResources().getBoolean(R.bool.full_bar_search_view);
-        mSearchManager.install((DocumentsToolbar) findViewById(R.id.toolbar), fullBarSearch);
+        mSearchManager.install(menu, fullBarSearch);
 
         return showMenu;
     }
