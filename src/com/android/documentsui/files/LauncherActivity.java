@@ -29,6 +29,8 @@ import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.android.documentsui.R;
+
 import java.util.List;
 
 /**
@@ -41,6 +43,9 @@ import java.util.List;
  *
  */
 public class LauncherActivity extends Activity {
+
+    public static final String TASK_LABEL_RES = "com.android.documentsui.taskLabel";
+    public static final String TASK_ICON_RES = "com.android.documentsui.taskIcon";
 
     private static final String LAUNCH_CONTROL_AUTHORITY = "com.android.documentsui.launchControl";
     private static final String TAG = "LauncherActivity";
@@ -92,6 +97,9 @@ public class LauncherActivity extends Activity {
 
     private void startTask() {
         Intent intent = createLaunchIntent(this);
+
+        intent.putExtra(TASK_LABEL_RES, R.string.launcher_label);
+        intent.putExtra(TASK_ICON_RES, R.drawable.launcher_icon);
 
         // Forward any flags from the original intent.
         intent.setFlags(getIntent().getFlags());
