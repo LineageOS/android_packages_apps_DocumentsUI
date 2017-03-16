@@ -30,11 +30,18 @@ final class ActivityInputHandler {
     }
 
     boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_DEL && event.isAltPressed())
-                || keyCode == KeyEvent.KEYCODE_FORWARD_DEL) {
-            mDeleteHandler.run();
-            return true;
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_FORWARD_DEL:
+                mDeleteHandler.run();
+                return true;
+            case KeyEvent.KEYCODE_DEL:
+                if (event.isAltPressed()) {
+                    mDeleteHandler.run();
+                    return true;
+                }
+                return false;
+            default:
+                return false;
         }
-        return false;
     }
 }
