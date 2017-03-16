@@ -32,7 +32,6 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
-import com.android.documentsui.DocumentsToolbar;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -56,7 +55,7 @@ public class SearchViewManager implements
     private boolean mIgnoreNextClose;
     private boolean mFullBar;
 
-    private DocumentsToolbar mActionBar;
+    private Menu mMenu;
     private MenuItem mMenuItem;
     private SearchView mSearchView;
 
@@ -73,9 +72,9 @@ public class SearchViewManager implements
         mCurrentSearch = savedState != null ? savedState.getString(Shared.EXTRA_QUERY) : null;
     }
 
-    public void install(DocumentsToolbar actionBar, boolean isFullBarSearch) {
-        mActionBar = actionBar;
-        mMenuItem = actionBar.getSearchMenu();
+    public void install(Menu menu, boolean isFullBarSearch) {
+        mMenu = menu;
+        mMenuItem = mMenu.findItem(R.id.menu_search);
         mSearchView = (SearchView) mMenuItem.getActionView();
 
         mSearchView.setOnQueryTextListener(this);
@@ -99,8 +98,7 @@ public class SearchViewManager implements
      */
     public void updateMenu() {
         if (isSearching() && mFullBar) {
-            Menu menu = mActionBar.getMenu();
-            menu.setGroupVisible(R.id.group_hide_when_searching, false);
+            mMenu.setGroupVisible(R.id.group_hide_when_searching, false);
         }
     }
 
@@ -203,8 +201,7 @@ public class SearchViewManager implements
     private void onSearchExpanded() {
         mSearchExpanded = true;
         if(mFullBar) {
-            Menu menu = mActionBar.getMenu();
-            menu.setGroupVisible(R.id.group_hide_when_searching, false);
+            mMenu.setGroupVisible(R.id.group_hide_when_searching, false);
         }
 
         mListener.onSearchViewChanged(true);
@@ -291,8 +288,7 @@ public class SearchViewManager implements
 
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
-        Menu menu = mActionBar.getMenu();
-        menu.setGroupVisible(R.id.group_hide_when_searching, true);
+        mMenu.setGroupVisible(R.id.group_hide_when_searching, true);
 
         // Handles case when search view is collapsed by using the arrow on the left of the bar
         if (isExpanded() || isSearching()) {
