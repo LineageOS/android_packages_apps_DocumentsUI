@@ -66,7 +66,8 @@ public interface DocumentClipper {
      * returned from {@link ClipboardManager#getPrimaryClip()}.
      *
      * @param destination destination document.
-     * @param docStack the document stack to the destination folder,
+     * @param docStack the document stack to the destination folder (not including the destination
+     *                 folder)
      * @param callback callback to notify when operation finishes.
      */
     void copyFromClipboard(
@@ -94,8 +95,8 @@ public interface DocumentClipper {
      */
     void copyFromClipData(
             final RootInfo root,
-            final @Nullable DocumentInfo destination,
-            final @Nullable ClipData clipData,
+            final DocumentInfo destination,
+            final ClipData clipData,
             final FileOperations.Callback callback);
 
     /**
@@ -108,8 +109,21 @@ public interface DocumentClipper {
      * @param callback callback to notify when operation finishes
      */
     void copyFromClipData(
-            final @Nullable DocumentInfo destination,
+            final DocumentInfo destination,
             final DocumentStack docStack,
-            final @Nullable ClipData clipData,
+            final ClipData clipData,
+            final FileOperations.Callback callback);
+
+    /**
+     * Copies documents from given clip data to a folder.
+     *
+     * @param dstStack the document stack to the destination folder, including the destination
+     *            folder.
+     * @param clipData the clipData to copy from
+     * @param callback callback to notify when operation finishes
+     */
+    void copyFromClipData(
+            final DocumentStack dstStack,
+            final ClipData clipData,
             final FileOperations.Callback callback);
 }

@@ -965,9 +965,8 @@ public class DirectoryFragment extends Fragment
 
         DocumentInfo dst = getDestination(v);
         // If destination is already at top of stack, no need to pass it in
-        if (!mState.stack.isEmpty() && mState.stack.peek().equals(dst)) {
+        if (dst.equals(mState.stack.peek())) {
             mClipper.copyFromClipData(
-                    null,
                     mState.stack,
                     clipData,
                     mInjector.dialogs::showFileOperationStatus);
