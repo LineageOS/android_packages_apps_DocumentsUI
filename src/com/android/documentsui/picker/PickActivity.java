@@ -124,7 +124,12 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         Intent intent = getIntent();
 
         mSharedInputHandler =
-                new SharedInputHandler(mInjector.focusManager, this::popDir, mInjector.features);
+                new SharedInputHandler(
+                        mInjector.focusManager,
+                        mInjector.selectionMgr,
+                        mInjector.searchManager::cancelSearch,
+                        this::popDir,
+                        mInjector.features);
         setupLayout(intent);
         mInjector.actions.initLocation(intent);
     }
@@ -339,7 +344,9 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @CallSuper
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return mSharedInputHandler.onKeyDown(keyCode, event)
+        return mSharedInputHandler.onKeyDown(
+                keyCode,
+                event)
                 || super.onKeyDown(keyCode, event);
     }
 

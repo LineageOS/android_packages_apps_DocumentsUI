@@ -134,7 +134,12 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         mActivityInputHandler =
                 new ActivityInputHandler(mInjector.actions::deleteSelectedDocuments);
         mSharedInputHandler =
-                new SharedInputHandler(mInjector.focusManager, this::popDir, mInjector.features);
+                new SharedInputHandler(
+                        mInjector.focusManager,
+                        mInjector.selectionMgr,
+                        mInjector.searchManager::cancelSearch,
+                        this::popDir,
+                        mInjector.features);
 
         RootsFragment.show(getFragmentManager(), null);
 
@@ -339,7 +344,9 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return mActivityInputHandler.onKeyDown(keyCode, event)
-                || mSharedInputHandler.onKeyDown(keyCode, event)
+                || mSharedInputHandler.onKeyDown(
+                        keyCode,
+                        event)
                 || super.onKeyDown(keyCode, event);
     }
 

@@ -548,25 +548,6 @@ public abstract class BaseActivity
         return mState.stack.peek();
     }
 
-    @Override
-    public void onBackPressed() {
-        // While action bar is expanded, the state stack UI is hidden.
-        if (mSearchManager.cancelSearch()) {
-            return;
-        }
-
-        DirectoryFragment dir = getDirectoryFragment();
-        if (dir != null && dir.onBackPressed()) {
-            return;
-        }
-
-        if (popDir()) {
-            return;
-        }
-
-        super.onBackPressed();
-    }
-
     @VisibleForTesting
     public void addEventListener(EventListener listener) {
         mEventListeners.add(listener);
