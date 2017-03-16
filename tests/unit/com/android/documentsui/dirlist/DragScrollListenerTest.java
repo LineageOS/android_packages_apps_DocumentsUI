@@ -45,7 +45,6 @@ public class DragScrollListenerTest {
 
     private View mTestView;
     private TestDragHost mTestDragHost;
-    private TestTimer mTestTimer;
     private TestDragHandler mDragHandler;
     private TestScrollActionDelegate mActionDelegate = new TestScrollActionDelegate();
     private DragHoverListener mListener;
@@ -55,9 +54,8 @@ public class DragScrollListenerTest {
     @Before
     public void setUp() {
         mTestView = Views.createTestView(0, 0);
-        mTestTimer = new TestTimer();
         mTestDragHost = new TestDragHost();
-        mDragHandler = new TestDragHandler(mTestDragHost, mTestTimer);
+        mDragHandler = new TestDragHandler(mTestDragHost);
         mListener = new DragHoverListener(
                 mDragHandler,
                 () -> VIEW_HEIGHT,
@@ -174,8 +172,8 @@ public class DragScrollListenerTest {
 
         private DragEvent mLastDropEvent;
 
-        protected TestDragHandler(TestDragHost dragHost, Timer timer) {
-            super(dragHost, timer);
+        protected TestDragHandler(TestDragHost dragHost) {
+            super(dragHost);
         }
 
         @Override

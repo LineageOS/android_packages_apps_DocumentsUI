@@ -124,6 +124,7 @@ public abstract class DrawerController implements DrawerListener {
      */
     private static final class RuntimeDrawerController extends DrawerController
             implements ItemDragListener.DragHost {
+        private static final int SPRING_TIMEOUT = 750;
         private final ActionBarDrawerToggle mToggle;
         private DrawerLayout mLayout;
         private View mDrawer;
@@ -147,7 +148,7 @@ public abstract class DrawerController implements DrawerListener {
 
             if (activityConfig.dragAndDropEnabled()) {
                 View edge = layout.findViewById(R.id.drawer_edge);
-                edge.setOnDragListener(new ItemDragListener<>(this));
+                edge.setOnDragListener(new ItemDragListener<>(this, SPRING_TIMEOUT));
             }
         }
 
