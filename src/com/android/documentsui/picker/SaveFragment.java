@@ -34,8 +34,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.android.documentsui.IconUtils;
+import com.android.documentsui.Injector;
 import com.android.documentsui.R;
+import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Shared;
 
 /**
  * Display document title editor and save button.
@@ -43,6 +46,9 @@ import com.android.documentsui.base.DocumentInfo;
 public class SaveFragment extends Fragment {
     public static final String TAG = "SaveFragment";
 
+    private final BooleanConsumer mInProgressStateListener = this::setPending;
+
+    private Injector<ActionHandler<PickActivity>> mInjector;
     private DocumentInfo mReplaceTarget;
     private EditText mDisplayName;
     private Button mSave;
@@ -119,6 +125,23 @@ public class SaveFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mInjector = ((PickActivity) getActivity()).getInjector();
+
+        if (savedInstanceState != null) {
+            mReplaceTarget = savedInstanceState.getParcelable(Shared.EXTRA_DOC);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outBundle) {
+        super.onSaveInstanceState(outBundle);
+
+        outBundle.putParcelable(Shared.EXTRA_DOC, mReplaceTarget);
+    }
+
     private TextWatcher mDisplayNameWatcher = new TextWatcher() {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -149,13 +172,12 @@ public class SaveFragment extends Fragment {
     };
 
     private void performSave() {
-        final PickActivity activity = PickActivity.get(SaveFragment.this);
         if (mReplaceTarget != null) {
-            activity.onSaveRequested(mReplaceTarget);
+            mInjector.actions.saveDocument(getChildFragmentManager(), mReplaceTarget);
         } else {
             final String mimeType = getArguments().getString(EXTRA_MIME_TYPE);
             final String displayName = mDisplayName.getText().toString();
-            activity.onSaveRequested(mimeType, displayName);
+            mInjector.actions.saveDocument(mimeType, displayName, mInProgressStateListener);
         }
     }
 
@@ -182,7 +204,7 @@ public class SaveFragment extends Fragment {
         mSave.setEnabled(enabled);
     }
 
-    public void setPending(boolean pending) {
+    private void setPending(boolean pending) {
         mSave.setVisibility(pending ? View.INVISIBLE : View.VISIBLE);
         mProgress.setVisibility(pending ? View.VISIBLE : View.GONE);
     }
