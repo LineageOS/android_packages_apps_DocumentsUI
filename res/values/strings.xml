@@ -264,7 +264,9 @@
         <item quantity="other">Copied <xliff:g id="count" example="3">%1$d</xliff:g> files to clipboard.</item>
     </plurals>
     <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
-    <string name="file_operation_error">File operation is not supported.</string>
+    <string name="file_operation_rejected">File operation is not supported.</string>
+    <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
+    <string name="file_operation_error">File operation failed.</string>
     <!-- Toast shown when renaming document failed with an error [CHAR LIMIT=48] -->
     <string name="rename_error">Failed to rename document</string>
     <!-- Context Menu item that ejects the root selected [CHAR LIMIT=24] -->

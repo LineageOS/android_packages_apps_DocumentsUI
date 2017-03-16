@@ -97,6 +97,10 @@ public interface DialogController {
         public void showFileOperationStatus(
                 @Status int status, @OpType int opType, int docCount) {
             if (status == FileOperations.Callback.STATUS_REJECTED) {
+                Snackbars.showOperationRejected(mActivity);
+                return;
+            }
+            if (status == FileOperations.Callback.STATUS_FAILED) {
                 Snackbars.showOperationFailed(mActivity);
                 return;
             }
