@@ -303,8 +303,13 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                         selection,
                         mModel::getItemUri,
                         mClipStore);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to create uri supplier.", e);
+            } catch (Exception e) {
+                Log.e(TAG,"Failed to delete a file because we were unable to get item URIs.", e);
+                mDialogs.showFileOperationStatus(
+                        FileOperations.Callback.STATUS_FAILED,
+                        FileOperationService.OPERATION_DELETE,
+                        selection.size());
+                return;
             }
 
             FileOperation operation = new FileOperation.Builder()

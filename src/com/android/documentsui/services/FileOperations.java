@@ -125,6 +125,7 @@ public final class FileOperations {
         @interface Status {}
         static final int STATUS_ACCEPTED = 0;
         static final int STATUS_REJECTED = 1;
+        static final int STATUS_FAILED = 2;
 
         /**
          * Performs operation when the file operation starts or fails to start.
