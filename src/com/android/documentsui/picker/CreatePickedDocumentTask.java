@@ -24,6 +24,7 @@ import android.provider.DocumentsContract;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 
+import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.BooleanConsumer;
@@ -38,9 +39,8 @@ import java.util.function.Consumer;
  * Task that creates a new document in the background.
  */
 class CreatePickedDocumentTask extends PairedTask<Activity, Void, Uri> {
-    private static final String TAG = "CreatePickedDocumentTas";
-
     private final LastAccessedStorage mLastAccessed;
+    private final DocumentsAccess mDocs;
     private final DocumentStack mStack;
     private final String mMimeType;
     private final String mDisplayName;
@@ -49,6 +49,7 @@ class CreatePickedDocumentTask extends PairedTask<Activity, Void, Uri> {
 
     CreatePickedDocumentTask(
             Activity activity,
+            DocumentsAccess docs,
             LastAccessedStorage lastAccessed,
             DocumentStack stack,
             String mimeType,
@@ -57,6 +58,7 @@ class CreatePickedDocumentTask extends PairedTask<Activity, Void, Uri> {
             Consumer<Uri> callback) {
         super(activity);
         mLastAccessed = lastAccessed;
+        mDocs = docs;
         mStack = stack;
         mMimeType = mimeType;
         mDisplayName = displayName;
@@ -73,19 +75,7 @@ class CreatePickedDocumentTask extends PairedTask<Activity, Void, Uri> {
     protected Uri run(Void... params) {
         DocumentInfo cwd = mStack.peek();
 
-        final ContentResolver resolver = mOwner.getContentResolver();
-        ContentProviderClient client = null;
-        Uri childUri = null;
-        try {
-            client = DocumentsApplication.acquireUnstableProviderOrThrow(
-                    resolver, cwd.derivedUri.getAuthority());
-            childUri = DocumentsContract.createDocument(
-                    client, cwd.derivedUri, mMimeType, mDisplayName);
-        } catch (Exception e) {
-            Log.w(TAG, "Failed to create document", e);
-        } finally {
-            ContentProviderClient.releaseQuietly(client);
-        }
+        Uri childUri = mDocs.createDocument(cwd, mMimeType, mDisplayName);
 
         if (childUri != null) {
             mLastAccessed.setLastAccessed(mOwner, mStack);

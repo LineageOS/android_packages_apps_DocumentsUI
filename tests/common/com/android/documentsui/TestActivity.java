@@ -33,6 +33,7 @@ import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.testing.TestEnv;
+import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestEventListener;
 import com.android.documentsui.testing.TestLoaderManager;
 import com.android.documentsui.testing.TestPackageManager;
@@ -59,6 +60,7 @@ public abstract class TestActivity extends AbstractBase {
     public TestEventListener<Integer> refreshCurrentRootAndDirectory;
     public TestEventListener<Boolean> setRootsDrawerOpen;
     public TestEventListener<Uri> notifyDirectoryNavigated;
+    public TestEventHandler<Void> finishedHandler;
 
     public static TestActivity create(TestEnv env) {
         TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
@@ -66,20 +68,21 @@ public abstract class TestActivity extends AbstractBase {
         return activity;
     }
 
-   public void init(TestEnv env) {
-       resources = TestResources.create();
-       packageMgr = TestPackageManager.create();
-       intent = new Intent();
+    public void init(TestEnv env) {
+        resources = TestResources.create();
+        packageMgr = TestPackageManager.create();
+        intent = new Intent();
 
-       startActivity = new TestEventListener<>();
-       startService = new TestEventListener<>();
-       rootPicked = new TestEventListener<>();
-       refreshCurrentRootAndDirectory =  new TestEventListener<>();
-       setRootsDrawerOpen = new TestEventListener<>();
-       notifyDirectoryNavigated = new TestEventListener<>();
-       contentResolver = env.contentResolver;
-       loaderManager = new TestLoaderManager();
-   }
+        startActivity = new TestEventListener<>();
+        startService = new TestEventListener<>();
+        rootPicked = new TestEventListener<>();
+        refreshCurrentRootAndDirectory =  new TestEventListener<>();
+        setRootsDrawerOpen = new TestEventListener<>();
+        notifyDirectoryNavigated = new TestEventListener<>();
+        contentResolver = env.contentResolver;
+        loaderManager = new TestLoaderManager();
+        finishedHandler = new TestEventHandler<>();
+    }
 
     @Override
     public final String getPackageName() {
@@ -171,6 +174,11 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final LoaderManager getLoaderManager() {
         return loaderManager;
+    }
+
+    @Override
+    public final void finish() {
+        finishedHandler.accept(null);
     }
 }
 

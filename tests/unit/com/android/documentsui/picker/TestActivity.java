@@ -16,16 +16,34 @@
 
 package com.android.documentsui.picker;
 
+import android.content.Intent;
+import android.util.Pair;
+
 import com.android.documentsui.testing.TestEnv;
+import com.android.documentsui.testing.TestEventListener;
 
 import org.mockito.Mockito;
 
 public abstract class TestActivity extends AbstractBase {
 
+    public TestEventListener<Pair<Integer, Intent>> setResult;
+
     public static TestActivity create(TestEnv env) {
         TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
         activity.init(env);
         return activity;
+    }
+
+    @Override
+    public void init(TestEnv env) {
+        super.init(env);
+
+        setResult = new TestEventListener<>();
+    }
+
+    @Override
+    public void setResult(int resultCode, Intent intent, int notUsed) {
+        setResult.accept(Pair.create(resultCode, intent));
     }
 }
 

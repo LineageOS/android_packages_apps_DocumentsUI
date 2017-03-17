@@ -36,6 +36,7 @@ import java.net.ProtocolException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -241,6 +242,26 @@ public class DocumentStack implements Durable, Parcelable {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof DocumentStack)) {
+            return false;
+        }
+
+        DocumentStack other = (DocumentStack) o;
+        return Objects.equals(mRoot, other.mRoot)
+                && mList.equals(other.mList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mRoot, mList);
     }
 
     @Override

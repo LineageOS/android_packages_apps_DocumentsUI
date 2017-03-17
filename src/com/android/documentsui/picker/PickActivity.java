@@ -350,6 +350,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 || super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void setResult(int resultCode, Intent intent, int notUsed) {
+        setResult(resultCode, intent);
+    }
+
     public static PickActivity get(Fragment fragment) {
         return (PickActivity) fragment.getActivity();
     }
