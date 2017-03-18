@@ -16,8 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for files_label (771781190045103748) -->
-    <skip />
+    <string name="files_label" msgid="771781190045103748">"Fichiers"</string>
     <string name="downloads_label" msgid="5462789470049501103">"Téléchargements"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -77,6 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"Aucun élément"</string>
     <string name="no_results" msgid="2371026325236359209">"Aucune correspondance dans %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Impossible d\'ouvrir le fichier"</string>
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Impossible d\'ouvrir des fichiers dans les archives"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Impossible de supprimer certains documents"</string>
     <string name="share_via" msgid="8725082736005677161">"Partager via"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Copie de fichiers…"</string>
@@ -160,7 +160,10 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> élément copié dans le presse-papiers.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> éléments copiés dans le presse-papiers.</item>
     </plurals>
-    <string name="file_operation_error" msgid="5016141190607538391">"Opération relative au fichier non prise en charge"</string>
+    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
+    <skip />
+    <!-- no translation found for file_operation_error (2234357335716533795) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"Impossible de renommer le document"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Éjecter"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Certains fichiers ont été convertis"</string>
@@ -195,8 +198,8 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Images"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Impossible d\'ouvrir l\'archive pour la navigation. Le fichier pourrait être corrompu ou être dans un format incompatible."</string>
     <string name="name_conflict" msgid="28407269328862986">"Un fichier du même nom existe déjà."</string>
-    <!-- no translation found for authentication_required (147352435273287559) -->
-    <skip />
+    <string name="authentication_required" msgid="147352435273287559">"Vous devez vous authentifier pour afficher le contenu de ce répertoire"</string>
     <string name="open_app" msgid="8467890061226696744">"Ouvrir <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Remplacer <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>

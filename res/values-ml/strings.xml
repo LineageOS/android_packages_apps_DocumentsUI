@@ -16,8 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for files_label (771781190045103748) -->
-    <skip />
+    <string name="files_label" msgid="771781190045103748">"ഫയലുകള്‍"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ഡൗൺലോഡുകൾ"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -77,6 +76,8 @@
     <string name="empty" msgid="5300254272613103004">"ഇനങ്ങളൊന്നുമില്ല"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s എന്നതിൽ പൊരുത്തങ്ങളില്ല"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ഫയൽ തുറക്കാൻ കഴിയില്ല"</string>
+    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
+    <skip />
     <string name="toast_failed_delete" msgid="3453846588205817591">"ചില പ്രമാണങ്ങൾ ഇല്ലാതാക്കാനായില്ല"</string>
     <string name="share_via" msgid="8725082736005677161">"ഇതുവഴി പങ്കിടുക"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ഫയലുകൾ പകർത്തുന്നു"</string>
@@ -160,7 +161,10 @@
       <item quantity="other">ക്ലിപ്പ്ബോർഡിലേയ്ക്ക് <xliff:g id="COUNT_1">%1$d</xliff:g> ഇനങ്ങൾ പകർത്തി.</item>
       <item quantity="one">ക്ലിപ്പ്ബോർഡിലേയ്ക്ക് <xliff:g id="COUNT_0">%1$d</xliff:g> ഇനം പകർത്തി.</item>
     </plurals>
-    <string name="file_operation_error" msgid="5016141190607538391">"ഫയൽ പ്രവർത്തനത്തിന് പിന്തുണയില്ല."</string>
+    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
+    <skip />
+    <!-- no translation found for file_operation_error (2234357335716533795) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"ഡോക്യുമെന്റിന്റെ പേരുമാറ്റുന്നത് പരാജയപ്പെട്ടു"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ഒഴിവാക്കുക"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ചില ഫയലുകൾ പരിവർത്തനം ചെയ്യപ്പെട്ടു"</string>
@@ -195,8 +199,9 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"ചിത്രങ്ങൾ"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ബ്രൗസുചെയ്യുന്നതിന് ആർക്കൈവ് തുറക്കാനാവുന്നില്ല. ഫയൽ കേടായതോ പിന്തുണയ്ക്കാത്ത ഫോർമാറ്റിലുള്ളതോ ആണ്."</string>
     <string name="name_conflict" msgid="28407269328862986">"ഈ പേരിൽ ഒരു ഫയൽ നിലവിലുണ്ട്."</string>
-    <!-- no translation found for authentication_required (147352435273287559) -->
-    <skip />
+    <string name="authentication_required" msgid="147352435273287559">"ഈ ഡയറക്ടറിയിലെ ഉള്ളടക്കം കാണാൻ വിശ്വാസ്യത ഉറപ്പിക്കൽ ആവശ്യമാണ്"</string>
     <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> തുറക്കുക"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"ആർക്കൈവ്<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
+    <skip />
 </resources>

@@ -16,8 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for files_label (771781190045103748) -->
-    <skip />
+    <string name="files_label" msgid="771781190045103748">"ឯកសារ"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ដោនឡូត"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -77,6 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"គ្មានធាតុ​"</string>
     <string name="no_results" msgid="2371026325236359209">"មិនមានការប្រកួតនៅក្នុង %1$s ទេ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"មិនអាចបើកឯកសារបានទេ"</string>
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"មិនអាចបើក​ឯកសារ​នៅក្នុងបណ្ណសារបានទេ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"មិនអាចលុបឯកសារមួយចំនួន"</string>
     <string name="share_via" msgid="8725082736005677161">"ចែករំលែក​តាម"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"កំពុងចម្លងឯកសារ"</string>
@@ -160,7 +160,10 @@
       <item quantity="other">បាន​ចម្លងធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> ទៅអង្គចងចាំ។</item>
       <item quantity="one">បាន​ចម្លងធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> ទៅ​អង្គចងចាំ។</item>
     </plurals>
-    <string name="file_operation_error" msgid="5016141190607538391">"មិនស្គាល់ប្រតិបត្តិការឯកសារនេះទេ។"</string>
+    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
+    <skip />
+    <!-- no translation found for file_operation_error (2234357335716533795) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"បានបរាជ័យក្នុងការប្តូរឈ្មោះឯកសារ"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ដកចេញ"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ឯកសារមួយចំនួនត្រូវបានបម្លែង"</string>
@@ -195,8 +198,8 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"រូបភាព"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"មិន​អាច​បើក​ប័ណ្ណសារ​សម្រាប់​ការ​រុករក​បានទេ​ ដោយសារ​ឯកសារ​ខូច​ ឬ​មិន​ស្គាល់​ទម្រង់​ឯកសារ​។"</string>
     <string name="name_conflict" msgid="28407269328862986">"ឯកសារ​ដែល​មាន​ឈ្មោះ​នេះ​មានរួចហើយ។"</string>
-    <!-- no translation found for authentication_required (147352435273287559) -->
-    <skip />
+    <string name="authentication_required" msgid="147352435273287559">"តម្រូវឲ្យ​មាន​ការផ្ទៀងផ្ទាត់​ដើម្បីមើល​មាតិកា​នៅក្នុង​បញ្ជី​នេះ"</string>
     <string name="open_app" msgid="8467890061226696744">"បើក <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"បណ្ណសារ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"ចម្លងជាន់ពីលើ <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>

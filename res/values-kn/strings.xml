@@ -16,8 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for files_label (771781190045103748) -->
-    <skip />
+    <string name="files_label" msgid="771781190045103748">"ಫೈಲ್‌ಗಳು"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -77,6 +76,8 @@
     <string name="empty" msgid="5300254272613103004">"ಯಾವುದೇ ಐಟಂಗಳಿಲ್ಲ"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s ರಲ್ಲಿ ಹೊಂದಾಣಿಕೆಗಳಿಲ್ಲ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
+    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
+    <skip />
     <string name="toast_failed_delete" msgid="3453846588205817591">"ಕೆಲವು ಡಾಕ್ಯುಮೆಂಟ್‌ಗಳನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"</string>
     <string name="share_via" msgid="8725082736005677161">"ಈ ಮೂಲಕ ಹಂಚಿಕೊಳ್ಳಿ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗುತ್ತಿದೆ"</string>
@@ -160,7 +161,10 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲು ಮಾಡಲಾಗಿದೆ.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲು ಮಾಡಲಾಗಿದೆ.</item>
     </plurals>
-    <string name="file_operation_error" msgid="5016141190607538391">"ಫೈಲ್ ಕಾರ್ಯಾಚರಣೆ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ."</string>
+    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
+    <skip />
+    <!-- no translation found for file_operation_error (2234357335716533795) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"ಡಾಕ್ಯುಮೆಂಟ್ ಮರುಹೆಸರಿಸಲು ವಿಫಲವಾಗಿದೆ"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"ಎಜೆಕ್ಟ್‌‌"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ಕೆಲವು ಫೈಲ್‌ಗಳನ್ನು ಪರಿವರ್ತಿಸಲಾಗಿದೆ"</string>
@@ -195,8 +199,9 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"ಚಿತ್ರಗಳು"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ಬ್ರೌಸಿಂಗ್‌ಗಾಗಿ ಆರ್ಕೈವ್ ಅನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ. ಫೈಲ್ ದೋಷಪೂರಿತವಾಗಿದೆ ಅಥವಾ ಬೆಂಬಲಿಸದ ಸ್ವರೂಪದಲ್ಲಿರಬಹುದು."</string>
     <string name="name_conflict" msgid="28407269328862986">"ಈ ಹೆಸರಿನ ಫೈಲ್‌ ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ."</string>
-    <!-- no translation found for authentication_required (147352435273287559) -->
-    <skip />
+    <string name="authentication_required" msgid="147352435273287559">"ಈ ಡೈರೆಕ್ಟರಿಯ ವಿಷಯವನ್ನು ನೋಡಲು ದೃಢೀಕರಣ ಅಗತ್ಯವಿದೆ"</string>
     <string name="open_app" msgid="8467890061226696744">"ತೆರೆಯಿರಿ <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
+    <skip />
 </resources>

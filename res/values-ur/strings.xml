@@ -16,8 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <!-- no translation found for files_label (771781190045103748) -->
-    <skip />
+    <string name="files_label" msgid="771781190045103748">"فائلیں"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ڈاؤن لوڈز"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -77,6 +76,8 @@
     <string name="empty" msgid="5300254272613103004">"کوئی آئٹمز نہيں ہیں"</string>
     <string name="no_results" msgid="2371026325236359209">"‏%1$s میں کوئی مماثل نہیں"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"فائل نہیں کھل سکتی"</string>
+    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
+    <skip />
     <string name="toast_failed_delete" msgid="3453846588205817591">"کچھ دستاویزات کو حذف کرنے سے قاصر"</string>
     <string name="share_via" msgid="8725082736005677161">"اشتراک کریں بذریعہ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"فائلیں کاپی ہو رہی ہیں"</string>
@@ -160,7 +161,10 @@
       <item quantity="other">کلپ بورڈ پر <xliff:g id="COUNT_1">%1$d</xliff:g> آئٹمز کاپی کئے گئے۔</item>
       <item quantity="one">کلپ بورڈ پر <xliff:g id="COUNT_0">%1$d</xliff:g> آئٹم کاپی کیا گیا۔</item>
     </plurals>
-    <string name="file_operation_error" msgid="5016141190607538391">"فائل آپریشن تعاون یافتہ نہیں ہے۔"</string>
+    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
+    <skip />
+    <!-- no translation found for file_operation_error (2234357335716533795) -->
+    <skip />
     <string name="rename_error" msgid="6700093173508118635">"دستاویز کا نام تبدیل کرنے میں ناکام"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"خارج کریں"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"کچھ فائلوں کو تبدیل کیا گیا تھا"</string>
@@ -195,8 +199,9 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"تصاوير"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"براؤزنگ کیلئے آرکائیو کھولنے سے قاصر ہیں۔  فائل یا تو خراب ہے یا ایک غیر تعاون یافتہ فارمیٹ میں ہے۔"</string>
     <string name="name_conflict" msgid="28407269328862986">"اس نام کی ایک فائل پہلے سے موجود ہے۔"</string>
-    <!-- no translation found for authentication_required (147352435273287559) -->
-    <skip />
+    <string name="authentication_required" msgid="147352435273287559">"اس ڈائرکٹری کا مواد دیکھنے کیلئے تصدیق درکار ہے"</string>
     <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> کھولیں"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"آرکائیو<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
+    <skip />
 </resources>
