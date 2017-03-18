@@ -77,6 +77,10 @@ public class TestDocumentClipper implements DocumentClipper {
     }
 
     @Override
+    public void copyFromClipData(DocumentStack docStack, ClipData clipData, Callback callback) {
+    }
+
+    @Override
     public int getOpType(ClipData data) {
         return 0;
     }

@@ -227,7 +227,7 @@ final class RuntimeDocumentClipper implements DocumentClipper {
     @Override
     public void copyFromClipData(
             final RootInfo root,
-            final @Nullable DocumentInfo destination,
+            final DocumentInfo destination,
             final @Nullable ClipData clipData,
             final FileOperations.Callback callback) {
         DocumentStack dstStack = new DocumentStack(root, destination);
@@ -236,7 +236,7 @@ final class RuntimeDocumentClipper implements DocumentClipper {
 
     @Override
     public void copyFromClipData(
-            final @Nullable DocumentInfo destination,
+            final DocumentInfo destination,
             final DocumentStack docStack,
             final @Nullable ClipData clipData,
             final FileOperations.Callback callback) {
@@ -245,15 +245,8 @@ final class RuntimeDocumentClipper implements DocumentClipper {
         copyFromClipData(dstStack, clipData, callback);
     }
 
-    /**
-     * Copies documents from given clip data to a folder.
-     *
-     * @param dstStack the document stack to the destination folder, including the destination
-     *            folder.
-     * @param clipData the clipData to copy from
-     * @param callback callback to notify when operation finishes
-     */
-    private void copyFromClipData(
+    @Override
+    public void copyFromClipData(
             final DocumentStack dstStack,
             final @Nullable ClipData clipData,
             final FileOperations.Callback callback) {
