@@ -58,6 +58,10 @@ public final class Snackbars {
         makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
     }
 
+    public static final void showOperationRejected(Activity activity) {
+        makeSnackbar(activity, R.string.file_operation_rejected, Snackbar.LENGTH_SHORT).show();
+    }
+
     public static final void showOperationFailed(Activity activity) {
         makeSnackbar(activity, R.string.file_operation_error, Snackbar.LENGTH_SHORT).show();
     }
