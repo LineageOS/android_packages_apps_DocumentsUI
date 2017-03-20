@@ -16,8 +16,9 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/bottom_bar_height"
     android:paddingStart="@dimen/list_item_padding"
+    android:paddingEnd="@dimen/bottom_bar_padding_end"
     android:orientation="horizontal"
     android:baselineAligned="false"
     android:gravity="center_vertical"
@@ -50,12 +51,15 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-        <Button
+        <TextView
+            style="@style/BottomBarButton"
             android:id="@android:id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/bottom_bar_positive_button_width"
+            android:layout_marginStart="@dimen/bottom_bar_positive_button_margin_start"
+            android:background="@drawable/bottom_bar_positive_button_background"
             android:text="@string/menu_save"
-            style="?android:attr/buttonBarPositiveButtonStyle" />
+            android:elevation="@dimen/bottom_bar_positive_button_elevation"
+            android:textColor="@android:color/white"/>
 
         <ProgressBar
             android:id="@android:id/progress"

@@ -16,22 +16,24 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/bottom_bar_height"
     android:orientation="horizontal"
     android:baselineAligned="false"
     android:gravity="end"
-    android:paddingEnd="8dp"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall">
-    <Button
+    android:paddingEnd="@dimen/bottom_bar_padding_end">
+    <TextView
+        style="@style/BottomBarButton"
         android:id="@android:id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/bottom_bar_negative_button_width"
+        android:background="@android:color/transparent"
         android:text="@android:string/cancel"
-        android:visibility="gone"
-        style="?android:attr/buttonBarNegativeButtonStyle" />
-    <Button
+        android:textColor="@color/primary"/>
+    <TextView
+        style="@style/BottomBarButton"
         android:id="@android:id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        style="?android:attr/buttonBarPositiveButtonStyle" />
+        android:layout_width="@dimen/bottom_bar_positive_button_width"
+        android:layout_marginStart="@dimen/bottom_bar_positive_button_margin_start"
+        android:background="@drawable/bottom_bar_positive_button_background"
+        android:elevation="@dimen/bottom_bar_positive_button_elevation"
+        android:textColor="@android:color/white"/>
 </LinearLayout>
