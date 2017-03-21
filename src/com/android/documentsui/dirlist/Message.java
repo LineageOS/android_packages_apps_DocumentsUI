@@ -17,15 +17,16 @@
 package com.android.documentsui.dirlist;
 
 import android.annotation.Nullable;
-import android.app.Activity;
-import android.app.RecoverableSecurityException;
+import android.app.AuthenticationRequiredException;
+import android.app.PendingIntent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import com.android.documentsui.Model.Update;
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
-import com.android.documentsui.Model.Update;
 
 /**
  * Data object used by {@link InflateMessageDocumentHolder} and {@link HeaderMessageDocumentHolder}.
@@ -92,6 +93,7 @@ abstract class Message {
 
     final static class HeaderMessage extends Message {
 
+        private static final String TAG = "HeaderMessage";
 
         HeaderMessage(Environment env, Runnable callback) {
             super(env, callback);
@@ -103,7 +105,7 @@ abstract class Message {
             // Error gets first dibs ... for now
             // TODO: These should be different Message objects getting updated instead of
             // overwriting.
-            if (event.hasRecoverableException()) {
+            if (event.hasAuthenticationException()) {
                 updateToRecoverableExceptionHeader(event);
             } else if (mEnv.getModel().error != null) {
                 update(mEnv.getModel().error, null,
@@ -122,9 +124,13 @@ abstract class Message {
                     mEnv.getContext().getString(R.string.open_app, root.title),
                     mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
             mCallback = () -> {
-                RecoverableSecurityException exception =
-                        (RecoverableSecurityException) event.getException();
-                exception.showAsDialog((Activity) mEnv.getContext());
+                AuthenticationRequiredException exception =
+                        (AuthenticationRequiredException) event.getException();
+                try {
+                    exception.getUserAction().send();
+                } catch (PendingIntent.CanceledException ignored) {
+                    Log.d(TAG, "User Action either caneled or ignored.");
+                }
             };
         }
     }
@@ -138,7 +144,7 @@ abstract class Message {
         @Override
         void update(Update event) {
             reset();
-            if (event.hasException() && !event.hasRecoverableException()) {
+            if (event.hasException() && !event.hasAuthenticationException()) {
                 updateToInflatedErrorMesage(
                         Shared.DEBUG ? Shared.getStackTrace(event.getException()) : null);
             } else if (mEnv.getModel().getModelIds().length == 0) {
