@@ -51,6 +51,8 @@ public interface DocumentsAccess {
 
     List<DocumentInfo> getDocuments(String authority, List<String> docIds) throws RemoteException;
 
+    @Nullable Uri createDocument(DocumentInfo parentDoc, String mimeType, String displayName);
+
     public static DocumentsAccess create(Context context) {
         return new RuntimeDocumentAccess(context);
     }
@@ -123,6 +125,19 @@ public interface DocumentsAccess {
             try (final ContentProviderClient client = DocumentsApplication
                     .acquireUnstableProviderOrThrow(resolver, docUri.getAuthority())) {
                 return DocumentsContract.findDocumentPath(client, docUri);
+            }
+        }
+
+        @Override
+        public Uri createDocument(DocumentInfo parentDoc, String mimeType, String displayName) {
+            final ContentResolver resolver = mContext.getContentResolver();
+            try (ContentProviderClient client = DocumentsApplication.acquireUnstableProviderOrThrow(
+                        resolver, parentDoc.derivedUri.getAuthority())) {
+                return DocumentsContract.createDocument(
+                        client, parentDoc.derivedUri, mimeType, displayName);
+            } catch (Exception e) {
+                Log.w(TAG, "Failed to create document", e);
+                return null;
             }
         }
     }

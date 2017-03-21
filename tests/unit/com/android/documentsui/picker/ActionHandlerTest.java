@@ -16,17 +16,23 @@
 
 package com.android.documentsui.picker;
 
+import static junit.framework.Assert.assertTrue;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -35,8 +41,8 @@ import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestRootsAccess;
 import com.android.documentsui.testing.TestLastAccessedStorage;
-import com.android.documentsui.ui.TestDialogController;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +55,6 @@ public class ActionHandlerTest {
 
     private TestEnv mEnv;
     private TestActivity mActivity;
-    private TestDialogController mDialogs;
     private ActionHandler<TestActivity> mHandler;
     private TestLastAccessedStorage mLastAccessed;
 
@@ -57,7 +62,6 @@ public class ActionHandlerTest {
     public void setUp() {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create(mEnv);
-        mDialogs = new TestDialogController();
         mEnv.roots.configurePm(mActivity.packageMgr);
         mLastAccessed = new TestLastAccessedStorage();
 
@@ -72,9 +76,16 @@ public class ActionHandlerTest {
                 mLastAccessed
         );
 
-        mDialogs.confirmNext();
+        mEnv.dialogs.confirmNext();
 
         mEnv.selectionMgr.toggleSelection("1");
+
+        AsyncTask.setDefaultExecutor(mEnv.mExecutor);
+    }
+
+    @AfterClass
+    public static void tearDownOnce() {
+        AsyncTask.setDefaultExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Test
@@ -123,30 +134,43 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testOnLastAccessedStackLoaded_defaultToRecents_getContent() throws Exception {
-        testOnLastAccessedStackLoaded_defaultToRecentsOnAction(State.ACTION_GET_CONTENT);
+    public void testInitLocation_RestoresLastAccessedStack() throws Exception {
+        final DocumentStack stack =
+                new DocumentStack(TestRootsAccess.HAMMY, TestEnv.FOLDER_0, TestEnv.FOLDER_1);
+        mLastAccessed.setLastAccessed(mActivity, stack);
+
+        mHandler.initLocation(mActivity.getIntent());
+
+        mEnv.beforeAsserts();
+        assertEquals(stack, mEnv.state.stack);
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
     @Test
-    public void testOnLastAccessedStackLoaded_defaultToRecents_open() throws Exception {
-        testOnLastAccessedStackLoaded_defaultToRecentsOnAction(State.ACTION_OPEN);
+    public void testInitLocation_DefaultToRecents_ActionGetContent() throws Exception {
+        testInitLocationDefaultToRecentsOnAction(State.ACTION_GET_CONTENT);
     }
 
     @Test
-    public void testOnLastAccessedStackLoaded_defaultToRecents_openTree() throws Exception {
-        testOnLastAccessedStackLoaded_defaultToRecentsOnAction(State.ACTION_OPEN_TREE);
+    public void testInitLocation_DefaultToRecents_ActionOpen() throws Exception {
+        testInitLocationDefaultToRecentsOnAction(State.ACTION_OPEN);
     }
 
     @Test
-    public void testOnLastAccessedStackLoaded_DefaultsToDownloads_create() throws Exception {
-        testOnLastAccessedStackLoaded_defaultToDownloadsOnAction(State.ACTION_CREATE);
+    public void testInitLocation_DefaultToRecents_ActionOpenTree() throws Exception {
+        testInitLocationDefaultToRecentsOnAction(State.ACTION_OPEN_TREE);
     }
 
     @Test
-    public void testOnLastAccessedStackLoaded_DefaultsToDownloads_pickCopyDestination()
-            throws Exception {
-        testOnLastAccessedStackLoaded_defaultToDownloadsOnAction(
-                State.ACTION_PICK_COPY_DESTINATION);
+    public void testInitLocation_DefaultsToDownloads_ActionCreate() throws Exception {
+        mEnv.state.action = State.ACTION_CREATE;
+        mActivity.resources.bools.put(R.bool.show_documents_root, false);
+
+        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
+
+        mHandler.initLocation(mActivity.getIntent());
+
+        assertRootPicked(TestRootsAccess.DOWNLOADS.getUri());
     }
 
     @Test
@@ -158,24 +182,241 @@ public class ActionHandlerTest {
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
-    private void testOnLastAccessedStackLoaded_defaultToRecentsOnAction(@ActionType int action) {
-        mEnv.state.action = action;
-        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
+    @Test
+    public void testPickDocument_SetsCorrectResultAndFinishes_ActionPickCopyDestination()
+            throws Exception {
 
-        mHandler.onLastAccessedStackLoaded(null);
+        mEnv.state.action = State.ACTION_PICK_COPY_DESTINATION;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+        mEnv.state.stack.push(TestEnv.FOLDER_2);
 
-        assertEquals(TestRootsAccess.RECENTS, mEnv.state.stack.getRoot());
-        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+        mActivity.finishedHandler.assertNotCalled();
+
+        mHandler.pickDocument(TestEnv.FOLDER_2);
+
+        mEnv.beforeAsserts();
+
+        assertLastAccessedStackUpdated();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        final Intent result = mActivity.setResult.getLastValue().second;
+        assertPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION, false);
+        assertPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION, false);
+        assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, false);
+        assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, false);
+        assertContent(result, TestEnv.FOLDER_2.derivedUri);
+
+        mActivity.finishedHandler.assertCalled();
     }
 
-    private void testOnLastAccessedStackLoaded_defaultToDownloadsOnAction(@ActionType int action)
+    @Test
+    public void testPickDocument_SetsCorrectResultAndFinishes_ActionOpenTree() throws Exception {
+        mEnv.state.action = State.ACTION_OPEN_TREE;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+        mEnv.state.stack.push(TestEnv.FOLDER_2);
+
+        mActivity.finishedHandler.assertNotCalled();
+
+        mHandler.pickDocument(TestEnv.FOLDER_2);
+
+        mEnv.beforeAsserts();
+
+        assertLastAccessedStackUpdated();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        final Intent result = mActivity.setResult.getLastValue().second;
+        assertPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, true);
+        assertContent(result, DocumentsContract.buildTreeDocumentUri(
+                TestRootsAccess.HOME.authority, TestEnv.FOLDER_2.documentId));
+
+        mActivity.finishedHandler.assertCalled();
+    }
+
+    @Test
+    public void testSaveDocument_SetsCorrectResultAndFinishes() throws Exception {
+        mEnv.state.action = State.ACTION_CREATE;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+
+        final String mimeType = "audio/aac";
+        final String displayName = "foobar.m4a";
+
+        mHandler.saveDocument(mimeType, displayName, (boolean inProgress) -> {});
+
+        mEnv.beforeAsserts();
+
+        mEnv.docs.assertCreatedDocument(TestEnv.FOLDER_1, mimeType, displayName);
+        final Uri docUri = mEnv.docs.getLastCreatedDocumentUri();
+
+        assertLastAccessedStackUpdated();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        final Intent result = mActivity.setResult.getLastValue().second;
+        assertPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, false);
+        assertContent(result, docUri);
+
+        mActivity.finishedHandler.assertCalled();
+    }
+
+    @Test
+    public void testSaveDocument_ConfirmsOverwrite() {
+        mEnv.state.action = State.ACTION_CREATE;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+
+        mHandler.saveDocument(null, TestEnv.FILE_JPG);
+
+        mEnv.dialogs.assertOverwriteConfirmed(TestEnv.FILE_JPG);
+    }
+
+    @Test
+    public void testFinishPicking_SetsCorrectResultAndFinishes_ActionGetContent() throws Exception {
+        mEnv.state.action = State.ACTION_GET_CONTENT;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+
+        mActivity.finishedHandler.assertNotCalled();
+
+        mHandler.finishPicking(TestEnv.FILE_JPG.derivedUri);
+
+        mEnv.beforeAsserts();
+
+        assertLastAccessedStackUpdated();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        final Intent result = mActivity.setResult.getLastValue().second;
+        assertPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION, false);
+        assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, false);
+        assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, false);
+        assertContent(result, TestEnv.FILE_JPG.derivedUri);
+
+        mActivity.finishedHandler.assertCalled();
+    }
+
+    @Test
+    public void testFinishPicking_SetsCorrectResultAndFinishes_ActionGetContent_MultipleSelection()
+            throws Exception {
+        mEnv.state.action = State.ACTION_GET_CONTENT;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+        mEnv.state.acceptMimes = new String[] { "image/*" };
+
+        mActivity.finishedHandler.assertNotCalled();
+
+        mHandler.finishPicking(TestEnv.FILE_JPG.derivedUri, TestEnv.FILE_GIF.derivedUri);
+
+        mEnv.beforeAsserts();
+
+        assertLastAccessedStackUpdated();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        final Intent result = mActivity.setResult.getLastValue().second;
+        assertPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION, false);
+        assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, false);
+        assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, false);
+        assertContent(result, TestEnv.FILE_JPG.derivedUri, TestEnv.FILE_GIF.derivedUri);
+
+        mActivity.finishedHandler.assertCalled();
+    }
+
+    @Test
+    public void testFinishPicking_SetsCorrectResultAndFinishes_ActionOpen() throws Exception {
+        mEnv.state.action = State.ACTION_OPEN;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+
+        mActivity.finishedHandler.assertNotCalled();
+
+        mHandler.finishPicking(TestEnv.FILE_JPG.derivedUri);
+
+        mEnv.beforeAsserts();
+
+        assertLastAccessedStackUpdated();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        final Intent result = mActivity.setResult.getLastValue().second;
+        assertPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, false);
+        assertContent(result, TestEnv.FILE_JPG.derivedUri);
+
+        mActivity.finishedHandler.assertCalled();
+    }
+
+    @Test
+    public void testFinishPicking_SetsCorrectResultAndFinishes_ActionOpen_MultipleSelection()
+            throws Exception {
+        mEnv.state.action = State.ACTION_OPEN;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+        mEnv.state.acceptMimes = new String[] { "image/*" };
+
+        mActivity.finishedHandler.assertNotCalled();
+
+        mHandler.finishPicking(TestEnv.FILE_JPG.derivedUri, TestEnv.FILE_GIF.derivedUri);
+
+        mEnv.beforeAsserts();
+
+        assertLastAccessedStackUpdated();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        final Intent result = mActivity.setResult.getLastValue().second;
+        assertPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, false);
+        assertContent(result, TestEnv.FILE_JPG.derivedUri, TestEnv.FILE_GIF.derivedUri);
+
+        mActivity.finishedHandler.assertCalled();
+    }
+
+    @Test
+    public void testFinishPicking_SetsCorrectResultAndFinishes_ActionCreate() throws Exception {
+        mEnv.state.action = State.ACTION_CREATE;
+        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.push(TestEnv.FOLDER_1);
+
+        mActivity.finishedHandler.assertNotCalled();
+
+        mHandler.finishPicking(TestEnv.FILE_JPG.derivedUri);
+
+        mEnv.beforeAsserts();
+
+        assertLastAccessedStackUpdated();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        final Intent result = mActivity.setResult.getLastValue().second;
+        assertPermission(result, Intent.FLAG_GRANT_READ_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_WRITE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, true);
+        assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, false);
+        assertContent(result, TestEnv.FILE_JPG.derivedUri);
+
+        mActivity.finishedHandler.assertCalled();
+    }
+
+    private void testInitLocationDefaultToRecentsOnAction(@ActionType int action)
             throws Exception {
         mEnv.state.action = action;
+
         mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
 
-        mHandler.onLastAccessedStackLoaded(null);
+        mHandler.initLocation(mActivity.getIntent());
 
-        assertRootPicked(TestRootsAccess.DOWNLOADS.getUri());
+        mEnv.beforeAsserts();
+        assertEquals(TestRootsAccess.RECENTS, mEnv.state.stack.getRoot());
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {
@@ -185,5 +426,36 @@ public class ActionHandlerTest {
         RootInfo root = mActivity.rootPicked.getLastValue();
         assertNotNull(root);
         assertEquals(expectedUri, root.getUri());
+    }
+
+    private void assertLastAccessedStackUpdated() {
+        assertEquals(
+                mEnv.state.stack, mLastAccessed.getLastAccessed(mActivity, mEnv.roots, mEnv.state));
+    }
+
+    private void assertPermission(Intent intent, int permission, boolean granted) {
+        int flags = intent.getFlags();
+
+        if (granted) {
+            assertEquals(permission, flags & permission);
+        } else {
+            assertEquals(0, flags & permission);
+        }
+    }
+
+    private void assertContent(Intent intent, Uri... contents) {
+        if (contents.length == 1) {
+            assertEquals(contents[0], intent.getData());
+        } else {
+            ClipData clipData = intent.getClipData();
+
+            assertNotNull(clipData);
+            for (int i = 0; i < mEnv.state.acceptMimes.length; ++i) {
+                assertEquals(mEnv.state.acceptMimes[i], clipData.getDescription().getMimeType(i));
+            }
+            for (int i = 0; i < contents.length; ++i) {
+                assertEquals(contents[i], clipData.getItemAt(i).getUri());
+            }
+        }
     }
 }

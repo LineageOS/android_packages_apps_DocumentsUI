@@ -61,6 +61,7 @@ public class TestEnv {
     public final TestRootsAccess roots = new TestRootsAccess();
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
     public final TestFocusHandler focusHandler = new TestFocusHandler();
+    public final TestDialogController dialogs = new TestDialogController();
     public final TestModel model;
     public final TestModel archiveModel;
     public final SelectionManager selectionMgr;
@@ -84,7 +85,7 @@ public class TestEnv {
                 new TestActivityConfig(),
                 null,       //ScopedPreferences are not required for tests
                 null,   //a MessageBuilder is not required for tests
-                new TestDialogController(),
+                dialogs,
                 model);
         injector.selectionMgr = selectionMgr;
         injector.focusManager = new FocusManager(features, selectionMgr, null, null, 0);
@@ -158,17 +159,7 @@ public class TestEnv {
     }
 
     public void beforeAsserts() throws Exception {
-        // We need to wait on all AsyncTasks to finish AND to post results back.
-        // *** Results are posted on main thread ***, but tests run in their own
-        // thread. So even with our test executor we still have races.
-        //
-        // To work around this issue post our own runnable to the main thread
-        // which we presume will be the *last* runnable (after any from AsyncTasks)
-        // and then wait for our runnable to be called.
-        CountDownLatch latch = new CountDownLatch(1);
-        mExecutor.runAll();
-        new Handler(Looper.getMainLooper()).post(latch::countDown);
-        latch.await();
+        mExecutor.waitForTasks(30000); // 30 secs
     }
 
     public Executor lookupExecutor(String authority) {

@@ -15,9 +15,13 @@
  */
 package com.android.documentsui.testing;
 
+import static junit.framework.Assert.assertEquals;
+
 import android.net.Uri;
 import android.os.RemoteException;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
+import android.util.Pair;
 
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.base.DocumentInfo;
@@ -38,6 +42,8 @@ public class TestDocumentsAccess implements DocumentsAccess {
 
     public TestEventHandler<Uri> lastUri = new TestEventHandler<>();
 
+    private Pair<DocumentInfo, DocumentInfo> mLastCreatedDoc;
+
     @Override
     public DocumentInfo getRootDocument(RootInfo root) {
         return nextRootDocument;
@@ -54,6 +60,20 @@ public class TestDocumentsAccess implements DocumentsAccess {
     }
 
     @Override
+    public Uri createDocument(DocumentInfo parentDoc, String mimeType, String displayName) {
+        final DocumentInfo child = new DocumentInfo();
+        child.authority = parentDoc.authority;
+        child.mimeType = mimeType;
+        child.displayName = displayName;
+        child.documentId = displayName;
+        child.derivedUri = DocumentsContract.buildDocumentUri(child.authority, displayName);
+
+        mLastCreatedDoc = Pair.create(parentDoc, child);
+
+        return child.derivedUri;
+    }
+
+    @Override
     public DocumentInfo getArchiveDocument(Uri uri) {
         return nextDocument;
     }
@@ -67,5 +87,15 @@ public class TestDocumentsAccess implements DocumentsAccess {
     public Path findDocumentPath(Uri docUri) throws RemoteException {
         lastUri.accept(docUri);
         return nextPath;
+    }
+
+    public void assertCreatedDocument(DocumentInfo parent, String mimeType, String displayName) {
+        assertEquals(parent, mLastCreatedDoc.first);
+        assertEquals(mimeType, mLastCreatedDoc.second.mimeType);
+        assertEquals(displayName, mLastCreatedDoc.second.displayName);
+    }
+
+    public @Nullable Uri getLastCreatedDocumentUri() {
+        return mLastCreatedDoc.second.derivedUri;
     }
 }

@@ -17,13 +17,18 @@
 package com.android.documentsui.testing;
 
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.fail;
+import static junit.framework.Assert.assertTrue;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -45,13 +50,11 @@ public class TestScheduledExecutorService implements ScheduledExecutorService {
     @Override
     public List<Runnable> shutdownNow() {
         this.shutdown = true;
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 
     public void assertShutdown() {
-        if (!shutdown) {
-            fail("Executor wasn't shut down.");
-        }
+        assertTrue("Executor wasn't shut down.", shutdown);
     }
 
     @Override
@@ -138,13 +141,9 @@ public class TestScheduledExecutorService implements ScheduledExecutorService {
     }
 
     public void runAll() {
-        final Iterator<TestFuture> iter = scheduled.iterator();
-        while (iter.hasNext()) {
-            TestFuture future = iter.next();
+        while (!scheduled.isEmpty()) {
+            TestFuture future = scheduled.remove(scheduled.size() - 1);
             future.runnable.run();
-
-            // Remove the job from scheduled after it finishes.
-            iter.remove();
         }
     }
 
@@ -156,6 +155,28 @@ public class TestScheduledExecutorService implements ScheduledExecutorService {
 
     public void assertAlive() {
         assertFalse(isShutdown());
+    }
+
+    public void waitForTasks(long millisTimeout) throws Exception {
+        millisTimeout = (millisTimeout > 0) ? millisTimeout : Long.MAX_VALUE;
+
+        final long startTime = SystemClock.uptimeMillis();
+
+        // We need to wait on all AsyncTasks to finish AND to post results back.
+        // *** Results are posted on main thread ***, but tests run in their own
+        // thread. So even with our test executor we still have races.
+        //
+        // To work around this issue post our own runnable to the main thread
+        // which we presume will be the *last* runnable (after any from AsyncTasks)
+        // and then wait for our runnable to be called.
+        while (!scheduled.isEmpty() && millisTimeout > 0) {
+            CountDownLatch latch = new CountDownLatch(1);
+            runAll();
+            new Handler(Looper.getMainLooper()).post(latch::countDown);
+            latch.await(millisTimeout, TimeUnit.MILLISECONDS);
+
+            millisTimeout -= (SystemClock.uptimeMillis() - startTime);
+        }
     }
 
     static class TestFuture implements ScheduledFuture<Void> {

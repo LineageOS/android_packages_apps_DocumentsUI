@@ -19,6 +19,7 @@ package com.android.documentsui.picker;
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.State.ACTION_CREATE;
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
@@ -155,8 +156,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
                 .execute();
     }
 
-    @VisibleForTesting
-    void onLastAccessedStackLoaded(@Nullable DocumentStack stack) {
+    private void onLastAccessedStackLoaded(@Nullable DocumentStack stack) {
         if (stack == null) {
             loadDefaultLocation();
         } else {
@@ -167,12 +167,11 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
 
     private void loadDefaultLocation() {
         switch (mState.action) {
-            case ACTION_PICK_COPY_DESTINATION:
-            case State.ACTION_CREATE:
+            case ACTION_CREATE:
                 loadHomeDir();
                 break;
             case ACTION_GET_CONTENT:
-            case State.ACTION_OPEN:
+            case ACTION_OPEN:
             case ACTION_OPEN_TREE:
                 mState.stack.changeRoot(mRoots.getRecentsRoot());
                 mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
@@ -259,6 +258,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         assert(mState.action == ACTION_CREATE);
         new CreatePickedDocumentTask(
                 mActivity,
+                mDocs,
                 mLastAccessed,
                 mState.stack,
                 mimeType,
@@ -326,12 +326,12 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
                     | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         }
 
-        mActivity.setResult(Activity.RESULT_OK, intent);
+        mActivity.setResult(Activity.RESULT_OK, intent, 0);
         mActivity.finish();
     }
 
     private Executor getExecutorForCurrentDirectory() {
-        final DocumentInfo cwd = mActivity.getCurrentDirectory();
+        final DocumentInfo cwd = mState.stack.peek();
         if (cwd != null && cwd.authority != null) {
             return mExecutors.lookup(cwd.authority);
         } else {
@@ -342,5 +342,12 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     public interface Addons extends CommonAddons {
         void onAppPicked(ResolveInfo info);
         void onDocumentPicked(DocumentInfo doc);
+
+        /**
+         * Overload final method {@link Activity#setResult(int, Intent)} so that we can intercept
+         * this method call in test environment.
+         */
+        @VisibleForTesting
+        void setResult(int resultCode, Intent result, int notUsed);
     }
 }
