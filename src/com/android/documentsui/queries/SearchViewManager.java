@@ -87,6 +87,7 @@ public class SearchViewManager implements
             mMenuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
                     | MenuItem.SHOW_AS_ACTION_ALWAYS);
             mMenuItem.setOnActionExpandListener(this);
+            mSearchView.setMaxWidth(Integer.MAX_VALUE);
         }
 
         restoreSearch();
