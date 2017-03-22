@@ -695,7 +695,8 @@ public class DirectoryFragment extends Fragment
 
     private boolean onAccessibilityClick(View child) {
         DocumentDetails doc = getDocumentHolder(child);
-        mActions.openDocument(doc);
+        mActions.openDocument(doc, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         return true;
     }
 

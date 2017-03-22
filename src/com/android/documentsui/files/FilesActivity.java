@@ -324,14 +324,9 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * @deprecated use {@link ActionHandler#onDocumentPicked(DocumentInfo)}
-     * @param doc
-     */
-    @Deprecated
     @Override
     public void onDocumentPicked(DocumentInfo doc) {
-        mInjector.actions.onDocumentPicked(doc);
+        throw new UnsupportedOperationException();
     }
 
     @Override

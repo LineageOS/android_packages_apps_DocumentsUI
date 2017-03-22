@@ -67,7 +67,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
 /**
- * Provides support for specializing the actions (viewDocument etc.) to the host activity.
+ * Provides support for specializing the actions (openDocument etc.) to the host activity.
  */
 public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         implements ActionHandler {
@@ -191,6 +191,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
+    public boolean openDocument(DocumentDetails doc, @ViewType int type, @ViewType int fallback) {
+        throw new UnsupportedOperationException("Can't open document.");
+    }
+
+    @Override
     public void springOpenDirectory(DocumentInfo doc) {
         throw new UnsupportedOperationException("Can't spring open directories.");
     }
@@ -252,16 +257,6 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     @Nullable
     public DocumentInfo renameDocument(String name, DocumentInfo document) {
         throw new UnsupportedOperationException("Can't rename documents.");
-    }
-
-    @Override
-    public boolean viewDocument(DocumentDetails doc) {
-        throw new UnsupportedOperationException("Direct view not supported!");
-    }
-
-    @Override
-    public boolean previewDocument(DocumentDetails doc) {
-        throw new UnsupportedOperationException("Preview not supported!");
     }
 
     @Override
