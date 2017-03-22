@@ -274,6 +274,27 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         mDialogs.showDocumentsClipped(selection.size());
     }
 
+    @Override
+    public void viewInOwner() {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_VIEW_IN_APPLICATION);
+        Selection selection = getSelectedOrFocused();
+
+        if (selection.isEmpty() || selection.size() > 1) {
+            return;
+        }
+        DocumentInfo doc = mModel.getDocument(selection.iterator().next());
+        Intent intent = new Intent(DocumentsContract.ACTION_DOCUMENT_SETTINGS);
+        intent.setPackage(mRoots.getPackageName(doc.authority));
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setData(doc.derivedUri);
+        try {
+            mActivity.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, "Failed to view settings in application for " + doc.derivedUri, e);
+            mDialogs.showNoApplicationFound();
+        }
+    }
+
 
     @Override
     public void deleteSelectedDocuments() {

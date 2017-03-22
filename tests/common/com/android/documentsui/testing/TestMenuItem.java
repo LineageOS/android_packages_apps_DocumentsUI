@@ -57,6 +57,11 @@ public abstract class TestMenuItem implements MenuItem {
     }
 
     @Override
+    public TestMenuItem setTitle(@StringRes CharSequence title) {
+        return this;
+    }
+
+    @Override
     public MenuItem setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;

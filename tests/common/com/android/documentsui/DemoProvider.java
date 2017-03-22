@@ -64,11 +64,11 @@ public class DemoProvider extends TestRootProvider {
             case "show info":
                 extras.putString(
                         DocumentsContract.EXTRA_INFO,
-                        "I'm a synthetic INFO. Don't judge me.");
+                        "All files in this root support settings from owner.");
                 addFolder(c, "folder");
                 addFile(c, "zzz");
                 for (int i = 0; i < 100; i++) {
-                    addFile(c, "" + i);
+                    addFile(c, "" + i, DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS);
                 }
                 break;
 
