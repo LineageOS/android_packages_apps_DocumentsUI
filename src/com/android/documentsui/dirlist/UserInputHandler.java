@@ -244,7 +244,8 @@ public final class UserInputHandler<T extends InputEvent>
             // otherwise they activate.
             return doc.isInSelectionHotspot(event)
                     ? selectDocument(doc)
-                    : mActions.openDocument(doc);
+                    : mActions.openDocument(doc, ActionHandler.VIEW_TYPE_PREVIEW,
+                            ActionHandler.VIEW_TYPE_REGULAR);
         }
 
         boolean onSingleTapConfirmed(T event) {
@@ -401,7 +402,8 @@ public final class UserInputHandler<T extends InputEvent>
             }
 
             DocumentDetails doc = event.getDocumentDetails();
-            return mActions.viewDocument(doc);
+            return mActions.openDocument(doc, ActionHandler.VIEW_TYPE_REGULAR,
+                    ActionHandler.VIEW_TYPE_PREVIEW);
         }
 
         final void onLongPress(T event) {
@@ -478,9 +480,11 @@ public final class UserInputHandler<T extends InputEvent>
                     // For non-shifted enter keypresses, fall through.
                 case KeyEvent.KEYCODE_DPAD_CENTER:
                 case KeyEvent.KEYCODE_BUTTON_A:
-                    return mActions.viewDocument(doc);
+                    return mActions.openDocument(doc, ActionHandler.VIEW_TYPE_REGULAR,
+                            ActionHandler.VIEW_TYPE_PREVIEW);
                 case KeyEvent.KEYCODE_SPACE:
-                    return mActions.previewDocument(doc);
+                    return mActions.openDocument(doc, ActionHandler.VIEW_TYPE_PREVIEW,
+                            ActionHandler.VIEW_TYPE_NONE);
             }
 
             return false;

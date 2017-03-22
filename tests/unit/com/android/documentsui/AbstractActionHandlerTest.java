@@ -77,7 +77,8 @@ public class AbstractActionHandlerTest {
             }
 
             @Override
-            public boolean openDocument(DocumentDetails doc) {
+            public boolean openDocument(DocumentDetails doc, @ViewType int type,
+                    @ViewType int fallback) {
                 throw new UnsupportedOperationException();
             }
 

@@ -48,6 +48,7 @@ import com.android.documentsui.services.FileOperations.Callback;
 import com.android.documentsui.testing.ClipDatas;
 import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.Roots;
+import com.android.documentsui.testing.TestActivityConfig;
 import com.android.documentsui.testing.TestConfirmationCallback;
 import com.android.documentsui.testing.TestDocumentClipper;
 import com.android.documentsui.testing.TestEnv;
@@ -83,6 +84,7 @@ public class ActionHandlerTest {
         mDialogs = new TestDialogController();
         mCallback = new TestConfirmationCallback();
         mEnv.roots.configurePm(mActivity.packageMgr);
+        ((TestActivityConfig) mEnv.injector.config).nextDocumentEnabled = true;
         mEnv.injector.dialogs = mDialogs;
         mClipper = new TestDocumentClipper();
 
@@ -257,7 +259,8 @@ public class ActionHandlerTest {
     public void testDocumentPicked_DefaultsToView() throws Exception {
         mActivity.currentRoot = TestRootsAccess.HOME;
 
-        mHandler.onDocumentPicked(TestEnv.FILE_GIF);
+        mHandler.openDocument(TestEnv.FILE_GIF, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         mActivity.assertActivityStarted(Intent.ACTION_VIEW);
     }
 
@@ -266,7 +269,8 @@ public class ActionHandlerTest {
         mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
         mActivity.currentRoot = TestRootsAccess.HOME;
 
-        mHandler.onDocumentPicked(TestEnv.FILE_IN_ARCHIVE);
+        mHandler.openDocument(TestEnv.FILE_IN_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         mActivity.assertActivityStarted(Intent.ACTION_QUICK_VIEW);
     }
 
@@ -274,7 +278,8 @@ public class ActionHandlerTest {
     public void testDocumentPicked_InArchive_Unopenable() throws Exception {
         mActivity.currentRoot = TestRootsAccess.HOME;
 
-        mHandler.onDocumentPicked(TestEnv.FILE_IN_ARCHIVE);
+        mHandler.openDocument(TestEnv.FILE_IN_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         mDialogs.assertViewInArchivesShownUnsupported();
     }
 
@@ -283,7 +288,8 @@ public class ActionHandlerTest {
         mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
         mActivity.currentRoot = TestRootsAccess.HOME;
 
-        mHandler.onDocumentPicked(TestEnv.FILE_GIF);
+        mHandler.openDocument(TestEnv.FILE_GIF, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         mActivity.assertActivityStarted(Intent.ACTION_QUICK_VIEW);
     }
 
@@ -291,7 +297,8 @@ public class ActionHandlerTest {
     public void testDocumentPicked_Downloads_ManagesApks() throws Exception {
         mActivity.currentRoot = TestRootsAccess.DOWNLOADS;
 
-        mHandler.onDocumentPicked(TestEnv.FILE_APK);
+        mHandler.openDocument(TestEnv.FILE_APK, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         mActivity.assertActivityStarted(DocumentsContract.ACTION_MANAGE_DOCUMENT);
     }
 
@@ -299,7 +306,8 @@ public class ActionHandlerTest {
     public void testDocumentPicked_Downloads_ManagesPartialFiles() throws Exception {
         mActivity.currentRoot = TestRootsAccess.DOWNLOADS;
 
-        mHandler.onDocumentPicked(TestEnv.FILE_PARTIAL);
+        mHandler.openDocument(TestEnv.FILE_PARTIAL, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         mActivity.assertActivityStarted(DocumentsContract.ACTION_MANAGE_DOCUMENT);
     }
 
@@ -308,7 +316,8 @@ public class ActionHandlerTest {
         mActivity.currentRoot = TestRootsAccess.HOME;
         mEnv.docs.nextDocument = TestEnv.FILE_ARCHIVE;
 
-        mHandler.onDocumentPicked(TestEnv.FILE_ARCHIVE);
+        mHandler.openDocument(TestEnv.FILE_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         assertEquals(TestEnv.FILE_ARCHIVE, mEnv.state.stack.peek());
     }
 
@@ -316,7 +325,8 @@ public class ActionHandlerTest {
     public void testDocumentPicked_OpensDirectories() throws Exception {
         mActivity.currentRoot = TestRootsAccess.HOME;
 
-        mHandler.onDocumentPicked(TestEnv.FOLDER_1);
+        mHandler.openDocument(TestEnv.FOLDER_1, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
         assertEquals(TestEnv.FOLDER_1, mEnv.state.stack.peek());
     }
 

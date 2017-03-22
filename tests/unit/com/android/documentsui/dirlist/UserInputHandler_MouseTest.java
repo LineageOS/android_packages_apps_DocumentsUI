@@ -186,9 +186,9 @@ public final class UserInputHandler_MouseTest {
     // to have a deterministic state.
 
     @Test
-    public void testDoubleClick_Views() {
+    public void testDoubleClick_Opens() {
         mInputHandler.onDoubleTap(mEvent.at(11).build());
-        mActionHandler.view.assertLastArgument(mEvent.build().getDocumentDetails());
+        mActionHandler.open.assertLastArgument(mEvent.build().getDocumentDetails());
     }
 
     @Test
