@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"Ningún elemento"</string>
     <string name="no_results" msgid="2371026325236359209">"Non hai coincidencias en %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Non se pode abrir o ficheiro"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Non se poden abrir ficheiros dentro de arquivos"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Non se poden eliminar algúns documentos"</string>
     <string name="share_via" msgid="8725082736005677161">"Compartir a través de"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Copiando ficheiros"</string>
@@ -202,6 +201,5 @@
     <string name="authentication_required" msgid="147352435273287559">"Precísase a autenticación para visualizar o contido deste directorio"</string>
     <string name="open_app" msgid="8467890061226696744">"Abrir <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arquivo<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Queres sobrescribir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>

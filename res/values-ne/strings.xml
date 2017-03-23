@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"कुनै वस्तु छैन"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s मा कुनै मेल खाने वस्तु छैन"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"फाइल खोल्न सकिँदैन"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"अभिलेखहरूमा भएका फाइलहरू खोल्न सकिँदैन"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"केही कागजातहरूलाई मेट्न सकिएन"</string>
     <string name="share_via" msgid="8725082736005677161">"निम्न मार्फत साझेदारी गर्नुहोस्"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फाइलहरूका प्रतिलिपि बनाउँदै"</string>
@@ -202,6 +201,5 @@
     <string name="authentication_required" msgid="147352435273287559">"यस निर्देशिकाको सामग्री हेर्न प्रमाणीकरणको आवश्यकता पर्दछ"</string>
     <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> खोल्नुहोस्"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"अभिलेख राख्नुहोस्<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> को अधिलेखन गर्ने हो?"</string>
 </resources>

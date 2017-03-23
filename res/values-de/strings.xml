@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"Keine Elemente"</string>
     <string name="no_results" msgid="2371026325236359209">"Keine Übereinstimmungen in %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Datei kann nicht geöffnet werden"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Dateien in Archiven können nicht geöffnet werden"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Einige Dokumente konnten nicht gelöscht werden"</string>
     <string name="share_via" msgid="8725082736005677161">"Teilen über"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Dateien werden kopiert"</string>
@@ -202,6 +201,5 @@
     <string name="authentication_required" msgid="147352435273287559">"Um den Inhalt dieses Verzeichnisses zu sehen, ist eine Authentifizierung erforderlich"</string>
     <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> öffnen"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archiv<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> überschreiben?"</string>
 </resources>
