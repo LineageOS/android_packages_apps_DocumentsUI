@@ -683,6 +683,10 @@ public class DirectoryFragment extends Fragment
                 renameDocuments(selection);
                 return true;
 
+            case R.id.menu_view_in_owner:
+                mActions.viewInOwner();
+                return true;
+
             default:
                 // See if BaseActivity can handle this particular MenuItem
                 if (!mActivity.onOptionsItemSelected(item)) {
