@@ -76,7 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"Нет объектов"</string>
     <string name="no_results" msgid="2371026325236359209">"В \"%1$s\" ничего не найдено"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Не удалось открыть файл"</string>
-    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Не удается открыть файлы в архивах"</string>
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Нельзя открывать файлы в архивах"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Не удалось удалить некоторые документы"</string>
     <string name="share_via" msgid="8725082736005677161">"Поделиться"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Копирование файлов"</string>

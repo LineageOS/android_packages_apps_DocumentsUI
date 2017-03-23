@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"Geen items"</string>
     <string name="no_results" msgid="2371026325236359209">"Geen overeenkomsten in %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Kan bestand niet openen"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Kan bestanden in archieven niet openen"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Kan bepaalde documenten niet verwijderen"</string>
     <string name="share_via" msgid="8725082736005677161">"Delen via"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Bestanden kopiëren"</string>
@@ -202,6 +201,5 @@
     <string name="authentication_required" msgid="147352435273287559">"Verificatie is vereist om de content van deze directory te kunnen zien"</string>
     <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> openen"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archief<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> overschrijven?"</string>
 </resources>

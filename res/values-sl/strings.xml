@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"Ni elementov"</string>
     <string name="no_results" msgid="2371026325236359209">"Tukaj ni ujemanj: %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Datoteke ni mogoče odpreti"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Datotek ni mogoče odpreti v arhivih"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Nekaterih dokumentov ni mogoče izbrisati"</string>
     <string name="share_via" msgid="8725082736005677161">"Deli z drugimi prek"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopiranje datotek"</string>
@@ -246,6 +245,5 @@
     <string name="authentication_required" msgid="147352435273287559">"Za ogled vsebine tega imenika je potrebno preverjanje pristnosti."</string>
     <string name="open_app" msgid="8467890061226696744">"Odpri <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arhiv<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Želite prepisati <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>

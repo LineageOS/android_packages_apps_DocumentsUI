@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"沒有項目"</string>
     <string name="no_results" msgid="2371026325236359209">"「%1$s」中沒有相符結果"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"無法開啟檔案"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"無法開啟封存中的檔案"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"無法刪除部分文件"</string>
     <string name="share_via" msgid="8725082736005677161">"透過以下應用程式分享："</string>
     <string name="copy_notification_title" msgid="52256435625098456">"正在複製檔案"</string>
@@ -202,6 +201,5 @@
     <string name="authentication_required" msgid="147352435273287559">"必須通過驗證，才能查看此目錄的內容"</string>
     <string name="open_app" msgid="8467890061226696744">"開啟「<xliff:g id="NAME">%1$s</xliff:g>」"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"要覆寫「<xliff:g id="NAME">%1$s</xliff:g>」嗎？"</string>
 </resources>
