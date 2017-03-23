@@ -17,6 +17,9 @@
 package com.android.documentsui.files;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.KeyboardShortcutGroup;
 import android.view.KeyboardShortcutInfo;
@@ -28,24 +31,39 @@ import android.view.View;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.queries.SearchViewManager;
+import com.android.documentsui.selection.SelectionManager;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.IntFunction;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
     private final Features mFeatures;
+    private final Context mContext;
+    private final SelectionManager mSelectionManager;
+    private final Lookup<String, Uri> mUriLookup;
+    private final Lookup<String, String> mAppNameLookup;
 
     public MenuManager(
             Features features,
             SearchViewManager searchManager,
             State displayState,
-            DirectoryDetails dirDetails) {
+            DirectoryDetails dirDetails,
+            Context context,
+            SelectionManager selectionManager,
+            Lookup<String, String> appNameLookup,
+            Lookup<String, Uri> uriLookup) {
         super(searchManager, displayState, dirDetails);
         mFeatures = features;
+        mContext = context;
+        mSelectionManager = selectionManager;
+        mAppNameLookup = appNameLookup;
+        mUriLookup = uriLookup;
     }
 
     @Override
@@ -244,5 +262,22 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     protected void updateRename(MenuItem rename, SelectionDetails selectionDetails) {
         rename.setVisible(true);
         rename.setEnabled(!selectionDetails.containsPartialFiles() && selectionDetails.canRename());
+    }
+
+    @Override
+    protected void updateViewInOwner(MenuItem view, SelectionDetails selectionDetails) {
+        if (selectionDetails.canViewInOwner()) {
+            view.setVisible(true);
+            view.setEnabled(true);
+            Resources res = mContext.getResources();
+            String selectedModelId = mSelectionManager.getSelection().iterator().next();
+            Uri selectedUri = mUriLookup.lookup(selectedModelId);
+            String appName = mAppNameLookup.lookup(selectedUri.getAuthority());
+            String title = res.getString(R.string.menu_view_in_owner, appName);
+            view.setTitle(title);
+        }
+        else {
+            view.setVisible(false);
+        }
     }
 }

@@ -108,7 +108,11 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                     public boolean hasItemsToPaste() {
                         return clipper.hasItemsToPaste();
                     }
-                });
+                },
+                getApplicationContext(),
+                mInjector.selectionMgr,
+                mRoots::getApplicationName,
+                mInjector.getModel()::getItemUri);
 
         mShadowBuilder = new DragShadowBuilder(this);
         mInjector.actionModeController = new ActionModeController(
