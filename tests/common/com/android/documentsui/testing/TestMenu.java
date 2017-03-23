@@ -58,7 +58,8 @@ public abstract class TestMenu implements Menu {
                 R.id.menu_grid,
                 R.id.menu_list,
                 R.id.menu_advanced,
-                R.id.menu_eject_root);
+                R.id.menu_eject_root,
+                R.id.menu_view_in_owner);
     }
 
     public static TestMenu create(int... ids) {

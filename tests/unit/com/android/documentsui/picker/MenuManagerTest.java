@@ -61,6 +61,7 @@ public final class MenuManagerTest {
     private TestMenuItem advanced;
     private TestMenuItem settings;
     private TestMenuItem eject;
+    private TestMenuItem view;
 
     private TestSelectionDetails selectionDetails;
     private TestDirectoryDetails dirDetails;
@@ -87,6 +88,7 @@ public final class MenuManagerTest {
         copy = testMenu.findItem(R.id.menu_copy_to_clipboard);
         paste = testMenu.findItem(R.id.menu_paste_from_clipboard);
         pasteInto = testMenu.findItem(R.id.menu_paste_into_folder);
+        view = testMenu.findItem(R.id.menu_view_in_owner);
 
         advanced = testMenu.findItem(R.id.menu_advanced);
         settings = testMenu.findItem(R.id.menu_settings);
@@ -112,6 +114,7 @@ public final class MenuManagerTest {
         share.assertInvisible();
         rename.assertInvisible();
         selectAll.assertVisible();
+        view.assertInvisible();
     }
 
     @Test
