@@ -16,13 +16,12 @@
 
 package com.android.documentsui;
 
+import android.app.AuthenticationRequiredException;
 import android.app.PendingIntent;
-import android.app.RecoverableSecurityException;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.provider.DocumentsContract;
 
 import java.io.FileNotFoundException;
@@ -91,17 +90,17 @@ public class DemoProvider extends TestRootProvider {
             case "throw a nice exception":
                 throw new RuntimeException();
 
-            case "throw a recoverable exception":
+            case "throw a authentication exception":
                 PendingIntent intent = PendingIntent.getActivity(getContext(), 0, new Intent(), 0);
-                throw new RecoverableSecurityException(new UnsupportedOperationException(),
-                        "message", "title", intent);
+                throw new AuthenticationRequiredException(new UnsupportedOperationException(),
+                        intent);
 
             default:
                 addFolder(c, "show info");
                 addFolder(c, "show error");
                 addFolder(c, "show both error and info");
                 addFolder(c, "throw a nice exception");
-                addFolder(c, "throw a recoverable exception");
+                addFolder(c, "throw a authentication exception");
                 break;
         }
 
