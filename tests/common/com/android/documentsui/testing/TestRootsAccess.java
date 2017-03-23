@@ -132,4 +132,14 @@ public class TestRootsAccess implements RootsAccess {
     public RootInfo getRecentsRoot() {
         return RECENTS;
     }
+
+    @Override
+    public String getApplicationName(String authority) {
+        return "Test Application";
+    }
+
+    @Override
+    public String getPackageName(String authority) {
+        return "com.android.documentsui";
+    }
 }

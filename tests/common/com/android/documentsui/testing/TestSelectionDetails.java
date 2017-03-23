@@ -32,6 +32,7 @@ public class TestSelectionDetails implements SelectionDetails {
     public boolean canPasteInto;
     public boolean canExtract;
     public boolean canOpenWith;
+    public boolean canViewInOwner;
 
     @Override
     public boolean containsPartialFiles() {
@@ -71,6 +72,11 @@ public class TestSelectionDetails implements SelectionDetails {
     @Override
     public boolean canOpenWith() {
         return canOpenWith;
+    }
+
+    @Override
+    public boolean canViewInOwner() {
+        return canViewInOwner;
     }
 
     @Override
