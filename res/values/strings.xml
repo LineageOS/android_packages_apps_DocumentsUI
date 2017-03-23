@@ -67,8 +67,6 @@
     <string name="menu_extract">Extract to\u2026</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_rename">Rename</string>
-    <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
-    <string name="menu_view_in_owner">View in <xliff:g id="source" example="Drive">%1$s</xliff:g></string>
 
     <!-- Menu item title that creates a new window in the activity [CHAR LIMIT=28] -->
     <string name="menu_new_window">New window</string>

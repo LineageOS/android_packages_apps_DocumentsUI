@@ -56,10 +56,8 @@ import libcore.io.IoUtils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -98,8 +96,8 @@ public class RootsCache implements RootsAccess {
     @GuardedBy("mLock")
     private HashSet<String> mStoppedAuthorities = new HashSet<>();
 
-    @GuardedBy("mObservedAuthoritiesDetails")
-    private final Map<String, PackageDetails> mObservedAuthoritiesDetails = new HashMap<>();
+    @GuardedBy("mObservedAuthorities")
+    private final HashSet<String> mObservedAuthorities = new HashSet<>();
 
     public RootsCache(Context context) {
         mContext = context;
@@ -130,16 +128,6 @@ public class RootsCache implements RootsAccess {
             if (DEBUG) Log.i(TAG, "Updating roots due to change at " + uri);
             updateAuthorityAsync(uri.getAuthority());
         }
-    }
-
-    @Override
-    public String getApplicationName(String authority) {
-        return mObservedAuthoritiesDetails.get(authority).applicationName;
-    }
-
-    @Override
-    public String getPackageName(String authority) {
-        return mObservedAuthoritiesDetails.get(authority).packageName;
     }
 
     public void updateAsync(boolean forceRefreshAll) {
@@ -240,17 +228,8 @@ public class RootsCache implements RootsAccess {
             ContentResolver resolver, String authority, boolean forceRefresh) {
         if (VERBOSE) Log.v(TAG, "Loading roots for " + authority);
 
-        synchronized (mObservedAuthoritiesDetails) {
-            if (!mObservedAuthoritiesDetails.containsKey(authority)) {
-                ProviderInfo provider = mContext.getPackageManager().resolveContentProvider(
-                        authority, PackageManager.GET_META_DATA);
-                PackageManager pm = mContext.getPackageManager();
-                CharSequence appName = pm.getApplicationLabel(provider.applicationInfo);
-                String packageName = provider.applicationInfo.packageName;
-
-                mObservedAuthoritiesDetails.put(
-                        authority, new PackageDetails(appName.toString(), packageName));
-
+        synchronized (mObservedAuthorities) {
+            if (mObservedAuthorities.add(authority)) {
                 // Watch for any future updates
                 final Uri rootsUri = DocumentsContract.buildRootsUri(authority);
                 mContext.getContentResolver().registerContentObserver(rootsUri, true, mObserver);
@@ -393,7 +372,7 @@ public class RootsCache implements RootsAccess {
         ContentResolver resolver = mContext.getContentResolver();
         StringBuilder output = new StringBuilder();
 
-        for (String authority : mObservedAuthoritiesDetails.keySet()) {
+        for (String authority : mObservedAuthorities) {
             List<String> roots = new ArrayList<>();
             Uri rootsUri = DocumentsContract.buildRootsUri(authority);
             Bundle systemCache = resolver.getCache(rootsUri);
@@ -476,17 +455,6 @@ public class RootsCache implements RootsAccess {
                     || Objects.equals(info.packageName, mForceRefreshPackage);
             mTaskRoots.putAll(info.authority, loadRootsForAuthority(mContext.getContentResolver(),
                     info.authority, forceRefresh));
-        }
-
-    }
-
-    private static class PackageDetails {
-        private String applicationName;
-        private String packageName;
-
-        public PackageDetails(String appName, String pckgName) {
-            applicationName = appName;
-            packageName = pckgName;
         }
     }
 }
