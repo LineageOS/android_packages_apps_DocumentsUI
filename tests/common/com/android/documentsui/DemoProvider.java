@@ -68,7 +68,7 @@ public class DemoProvider extends TestRootProvider {
                 addFolder(c, "folder");
                 addFile(c, "zzz");
                 for (int i = 0; i < 100; i++) {
-                    addFile(c, "" + i, DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS);
+                    addFile(c, "" + i);
                 }
                 break;
 

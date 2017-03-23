@@ -221,11 +221,6 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
-    public void viewInOwner() {
-        throw new UnsupportedOperationException("Can't view in application.");
-    }
-
-    @Override
     public void selectAllFiles() {
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_SELECT_ALL);
         Model model = mInjector.getModel();

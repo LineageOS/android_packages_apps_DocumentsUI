@@ -19,23 +19,16 @@ package com.android.documentsui.files;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import android.net.Uri;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.AndroidTestCase;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
-import com.android.documentsui.dirlist.TestContext;
-import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestDirectoryDetails;
-import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestMenu;
 import com.android.documentsui.testing.TestMenuInflater;
@@ -73,7 +66,6 @@ public final class MenuManagerTest {
     private TestMenuItem pasteInto;
     private TestMenuItem advanced;
     private TestMenuItem eject;
-    private TestMenuItem view;
 
     private TestFeatures features;
     private TestSelectionDetails selectionDetails;
@@ -84,8 +76,6 @@ public final class MenuManagerTest {
     private DocumentInfo testDocInfo;
     private State state = new State();
     private MenuManager mgr;
-    private TestActivity activity = TestActivity.create(TestEnv.create());
-    private SelectionManager selectionManager;
 
     @Before
     public void setUp() {
@@ -110,7 +100,6 @@ public final class MenuManagerTest {
         pasteInto = testMenu.findItem(R.id.menu_paste_into_folder);
         advanced = testMenu.findItem(R.id.menu_advanced);
         eject = testMenu.findItem(R.id.menu_eject_root);
-        view = testMenu.findItem(R.id.menu_view_in_owner);
 
         features = new TestFeatures();
 
@@ -122,28 +111,10 @@ public final class MenuManagerTest {
         dirDetails = new TestDirectoryDetails();
         testSearchManager = new TestSearchViewManager();
         preferences = new TestScopedPreferences();
-        selectionManager = SelectionManagers.createTestInstance(TestData.create(1));
-        selectionManager.toggleSelection("0");
-
-        mgr = new MenuManager(
-                features,
-                testSearchManager,
-                state,
-                dirDetails,
-                activity,
-                selectionManager,
-                this::getApplicationNameFromAuthority,
-                this::getUriFromModelId);
+        mgr = new MenuManager(features, testSearchManager, state, dirDetails);
 
         testRootInfo = new RootInfo();
         testDocInfo = new DocumentInfo();
-    }
-
-    private Uri getUriFromModelId(String id) {
-        return Uri.EMPTY;
-    }
-    private String getApplicationNameFromAuthority(String authority) {
-        return "TestApp";
     }
 
     @Test
@@ -161,7 +132,6 @@ public final class MenuManagerTest {
         compress.assertEnabled();
         extractTo.assertInvisible();
         moveTo.assertEnabled();
-        view.assertInvisible();
     }
 
     @Test
@@ -176,7 +146,6 @@ public final class MenuManagerTest {
         compress.assertDisabled();
         extractTo.assertDisabled();
         moveTo.assertDisabled();
-        view.assertInvisible();
     }
 
     @Test
@@ -221,14 +190,6 @@ public final class MenuManagerTest {
         delete.assertInvisible();
         // We shouldn't be able to move files if we can't delete them
         moveTo.assertDisabled();
-    }
-
-    @Test
-    public void testActionsMenu_canViewInOwner() {
-        selectionDetails.canViewInOwner = true;
-        mgr.updateActionMenu(testMenu, selectionDetails);
-
-        view.assertVisible();
     }
 
     @Test

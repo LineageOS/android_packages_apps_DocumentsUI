@@ -120,8 +120,6 @@ public interface ActionHandler {
 
     void loadDocumentsForCurrentStack();
 
-    void viewInOwner();
-
     /**
      * Allow action handler to be initialized in a new scope.
      * @return this
