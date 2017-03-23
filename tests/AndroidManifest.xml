@@ -4,19 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application android:label="DocumentsUI Tests">
+    <application>
         <uses-library android:name="android.test.runner" />
-
-        <activity android:name="com.android.documentsui.SettingsActivity">
-            <intent-filter>
-                <action android:name="android.provider.action.DOCUMENT_SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="content"
-                      android:host="com.android.documentsui.demoprovider"
-                      android:mimeType="*/*" />
-            </intent-filter>
-        </activity>
-
         <provider
             android:name="com.android.documentsui.StubProvider"
             android:authorities="com.android.documentsui.stubprovider"
@@ -32,13 +21,12 @@
        <!-- Provider that demostrates some features, like display of INFO and ERROR messages. -->
        <provider
             android:name="com.android.documentsui.DemoProvider"
-            android:label="Demo Provider"
             android:authorities="com.android.documentsui.demoprovider"
             android:exported="true"
             android:grantUriPermissions="true"
             android:permission="android.permission.MANAGE_DOCUMENTS"
             android:enabled="true">
-           <intent-filter>
+            <intent-filter>
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
        </provider>
@@ -73,18 +61,6 @@
         <provider
             android:name="com.android.documentsui.BrokenProvider"
             android:authorities="com.android.documentsui.broken"
-            android:exported="true"
-            android:grantUriPermissions="true"
-            android:permission="android.permission.MANAGE_DOCUMENTS"
-            android:enabled="true">
-            <intent-filter>
-                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
-            </intent-filter>
-        </provider>
-
-        <provider
-            android:name="com.android.documentsui.BrokenSettingsEnabledProvider"
-            android:authorities="com.android.documentsui.brokensettingsenabled"
             android:exported="true"
             android:grantUriPermissions="true"
             android:permission="android.permission.MANAGE_DOCUMENTS"

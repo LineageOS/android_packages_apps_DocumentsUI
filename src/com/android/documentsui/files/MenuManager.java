@@ -17,9 +17,6 @@
 package com.android.documentsui.files;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.KeyboardShortcutGroup;
 import android.view.KeyboardShortcutInfo;
@@ -34,35 +31,21 @@ import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.queries.SearchViewManager;
-import com.android.documentsui.selection.SelectionManager;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.IntFunction;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
     private final Features mFeatures;
-    private final Context mContext;
-    private final SelectionManager mSelectionManager;
-    private final Function<String, Uri> mGetUriFromModelId;
-    private final Function<String, String> mGetApplicationName;
 
     public MenuManager(
             Features features,
             SearchViewManager searchManager,
             State displayState,
-            DirectoryDetails dirDetails,
-            Context context,
-            SelectionManager selectionManager,
-            Function<String, String> getApplicationName,
-            Function<String, Uri> getUriFromModelId) {
+            DirectoryDetails dirDetails) {
         super(searchManager, displayState, dirDetails);
         mFeatures = features;
-        mContext = context;
-        mSelectionManager = selectionManager;
-        mGetUriFromModelId = getUriFromModelId;
-        mGetApplicationName = getApplicationName;
     }
 
     @Override
@@ -261,22 +244,5 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     protected void updateRename(MenuItem rename, SelectionDetails selectionDetails) {
         rename.setVisible(true);
         rename.setEnabled(!selectionDetails.containsPartialFiles() && selectionDetails.canRename());
-    }
-
-    @Override
-    protected void updateViewInOwner(MenuItem view, SelectionDetails selectionDetails) {
-        if (selectionDetails.canViewInOwner()) {
-            view.setVisible(true);
-            view.setEnabled(true);
-            Resources res = mContext.getResources();
-            String selectedModelId = mSelectionManager.getSelection().iterator().next();
-            Uri selectedUri = mGetUriFromModelId.apply(selectedModelId);
-            String appName = mGetApplicationName.apply(selectedUri.getAuthority());
-            String title = res.getString(R.string.menu_view_in_owner, appName);
-            view.setTitle(title);
-        }
-        else {
-            view.setVisible(false);
-        }
     }
 }

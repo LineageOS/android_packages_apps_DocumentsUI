@@ -19,9 +19,6 @@ package com.android.documentsui.selection;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
@@ -52,7 +49,6 @@ public class SelectionMetadata
     private int mNoDeleteCount = 0;
     private int mNoRenameCount = 0;
     private int mInArchiveCount = 0;
-    private boolean mSupportsSettings = false;
 
     public SelectionMetadata(Function<String, Cursor> docFinder) {
         mDocFinder = docFinder;
@@ -101,12 +97,6 @@ public class SelectionMetadata
         if ((docFlags & Document.FLAG_PARTIAL) != 0) {
             mPartialCount += delta;
         }
-        if((docFlags & Document.FLAG_SUPPORTS_SETTINGS) != 0 &&
-                (mFileCount + mDirectoryCount) == 1) {
-            mSupportsSettings = true;
-        } else {
-            mSupportsSettings = false;
-        }
 
         final String authority = getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY);
         if (ArchivesProvider.AUTHORITY.equals(authority)) {
@@ -147,11 +137,6 @@ public class SelectionMetadata
     @Override
     public boolean canRename() {
         return mNoRenameCount == 0 && size() == 1;
-    }
-
-    @Override
-    public boolean canViewInOwner() {
-        return mSupportsSettings;
     }
 
     @Override

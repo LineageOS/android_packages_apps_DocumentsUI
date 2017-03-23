@@ -63,7 +63,6 @@ public abstract class MenuManager {
         updateCopyTo(menu.findItem(R.id.menu_copy_to), selection);
         updateCompress(menu.findItem(R.id.menu_compress), selection);
         updateExtractTo(menu.findItem(R.id.menu_extract_to), selection);
-        updateViewInOwner(menu.findItem(R.id.menu_view_in_owner), selection);
 
         Menus.disableHiddenItems(menu);
     }
@@ -119,13 +118,11 @@ public abstract class MenuManager {
         MenuItem open = menu.findItem(R.id.menu_open);
         MenuItem openWith = menu.findItem(R.id.menu_open_with);
         MenuItem rename = menu.findItem(R.id.menu_rename);
-        MenuItem viewInOwner = menu.findItem(R.id.menu_view_in_owner);
 
         updateShare(share, selectionDetails);
         updateOpenInContextMenu(open, selectionDetails);
         updateOpenWith(openWith, selectionDetails);
         updateRename(rename, selectionDetails);
-        updateViewInOwner(viewInOwner, selectionDetails);
 
         updateContextMenu(menu, selectionDetails);
     }
@@ -267,10 +264,6 @@ public abstract class MenuManager {
         rename.setVisible(false);
     }
 
-    protected void updateViewInOwner(MenuItem view, SelectionDetails selectionDetails) {
-        view.setVisible(false);
-    }
-
     protected void updateMoveTo(MenuItem moveTo, SelectionDetails selectionDetails) {
         moveTo.setVisible(false);
     }
@@ -323,8 +316,6 @@ public abstract class MenuManager {
         boolean canExtract();
 
         boolean canOpenWith();
-
-        boolean canViewInOwner();
     }
 
     public static class DirectoryDetails {
