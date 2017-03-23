@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"ไม่มีรายการ"</string>
     <string name="no_results" msgid="2371026325236359209">"ไม่พบข้อมูลที่ตรงกันใน %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"เปิดไฟล์ไม่ได้"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"เปิดไฟล์ในที่เก็บถาวรไม่ได้"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ไม่สามารถลบเอกสารบางรายการ"</string>
     <string name="share_via" msgid="8725082736005677161">"แชร์ผ่าน"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"กำลังคัดลอกไฟล์"</string>
@@ -198,6 +197,5 @@
     <string name="authentication_required" msgid="147352435273287559">"ต้องมีการตรวจสอบสิทธิ์เพื่อดูเนื้อหาของไดเรกทอรีนี้"</string>
     <string name="open_app" msgid="8467890061226696744">"เปิด <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"ที่เก็บถาวร<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"เขียนทับ <xliff:g id="NAME">%1$s</xliff:g> ไหม"</string>
 </resources>

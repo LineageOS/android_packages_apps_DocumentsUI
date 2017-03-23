@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"无任何文件"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s中没有任何相符项"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"无法打开文件"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"无法打开归档文件"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"无法删除部分文档"</string>
     <string name="share_via" msgid="8725082736005677161">"分享方式"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"正在复制文件"</string>
@@ -198,6 +197,5 @@
     <string name="authentication_required" msgid="147352435273287559">"必须经过身份验证才能查看该目录下的内容"</string>
     <string name="open_app" msgid="8467890061226696744">"打开<xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"归档<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"要覆盖 <xliff:g id="NAME">%1$s</xliff:g> 吗？"</string>
 </resources>

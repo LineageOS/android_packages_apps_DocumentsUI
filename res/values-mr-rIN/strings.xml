@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"कोणतेही आयटम नाहीत"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s मध्‍ये कोणत्याही जुळण्‍या नाहीत"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"फाईल उघडू शकत नाही"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"संग्रहणांमध्‍ये फायली उघडू शकत नाही"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"काही दस्‍तऐवज हटविण्‍यात अक्षम"</string>
     <string name="share_via" msgid="8725082736005677161">"द्वारे सामायिक करा"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फायली कॉपी करणे"</string>
@@ -198,6 +197,5 @@
     <string name="authentication_required" msgid="147352435273287559">"या निर्देशिकेची सामग्री पाहण्‍यासाठी प्रमाणीकरण आवश्‍यक आहे"</string>
     <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> उघडा"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"संग्रहण<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> अधिलिखित करायचे?"</string>
 </resources>

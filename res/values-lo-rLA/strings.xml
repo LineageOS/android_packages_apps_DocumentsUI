@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"ບໍ່ມີລາຍການ"</string>
     <string name="no_results" msgid="2371026325236359209">"ບໍ່ພົບຂໍ້ມູນທີ່ກົງກັນໃນ %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ບໍ່ສາມາດເປີດໄຟລ໌ໄດ້"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ບໍ່ສາມາດເປີດໄຟລ໌ໃນແຟ້ມຈັດເກັບໄດ້"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ບໍ່ສາມາດລຶບບາງເອກະສານໄດ້"</string>
     <string name="share_via" msgid="8725082736005677161">"ແບ່ງປັນຜ່ານ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ກຳລັງສຳເນົາໄຟລ໌"</string>
@@ -198,6 +197,5 @@
     <string name="authentication_required" msgid="147352435273287559">"ຕ້ອງພິສູດຕົວຕົນເພື່ອເບິ່ງເນື້ອຫາຂອງໄດເຣັກທໍຣີນີ"</string>
     <string name="open_app" msgid="8467890061226696744">"ເປີດ <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"ຂຽນທັບ <xliff:g id="NAME">%1$s</xliff:g> ບໍ?"</string>
 </resources>

@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"Нема ставки"</string>
     <string name="no_results" msgid="2371026325236359209">"Нема подударања у %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Отварање датотеке није успело"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Не можете да отварате датотеке у архивама"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Није могуће избрисати неке документе"</string>
     <string name="share_via" msgid="8725082736005677161">"Дељење преко"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Копирамо датотеке"</string>
@@ -219,6 +218,5 @@
     <string name="authentication_required" msgid="147352435273287559">"Потврда аутентичности је неопходна да бисте видели садржај овог директоријума"</string>
     <string name="open_app" msgid="8467890061226696744">"Отвори <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"архива<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Желите да замените <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>

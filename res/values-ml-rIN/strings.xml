@@ -76,8 +76,7 @@
     <string name="empty" msgid="5300254272613103004">"ഇനങ്ങളൊന്നുമില്ല"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s എന്നതിൽ പൊരുത്തങ്ങളില്ല"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ഫയൽ തുറക്കാൻ കഴിയില്ല"</string>
-    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
-    <skip />
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ആർക്കൈവുകളിലെ ഫയലുകൾ തുറക്കാൻ കഴിയില്ല"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ചില പ്രമാണങ്ങൾ ഇല്ലാതാക്കാനായില്ല"</string>
     <string name="share_via" msgid="8725082736005677161">"ഇതുവഴി പങ്കിടുക"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ഫയലുകൾ പകർത്തുന്നു"</string>
@@ -198,6 +197,5 @@
     <string name="authentication_required" msgid="147352435273287559">"ഈ ഡയറക്ടറിയിലെ ഉള്ളടക്കം കാണാൻ വിശ്വാസ്യത ഉറപ്പിക്കൽ ആവശ്യമാണ്"</string>
     <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> തുറക്കുക"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"ആർക്കൈവ്<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
-    <skip />
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> മാറ്റിയെഴുതണോ?"</string>
 </resources>
