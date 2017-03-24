@@ -29,14 +29,14 @@ import com.android.documentsui.base.Shared;
 
 public final class EjectRootTask extends AsyncTask<Void, Void, Boolean> {
 
+    private final String TAG = "EjectRootTask";
+
     private final ContentResolver mResolver;
     private final String mAuthority;
     private final String mRootId;
     private final BooleanConsumer mCallback;
 
     /**
-     * @param ejectCanceledCheck The method reference we use to see whether eject should be stopped
-     * at any point
      * @param finishCallback The end callback necessary when the eject task finishes
      */
     public EjectRootTask(
@@ -57,9 +57,12 @@ public final class EjectRootTask extends AsyncTask<Void, Void, Boolean> {
         try {
             client = DocumentsApplication.acquireUnstableProviderOrThrow(
                     mResolver, mAuthority);
-            return DocumentsContract.ejectRoot(client, rootUri);
+            DocumentsContract.ejectRoot(client, rootUri);
+            return true;
+        } catch (IllegalStateException e) {
+            Log.w(TAG, "Failed to eject root.", e);
         } catch (Exception e) {
-            Log.w(Shared.TAG, "Failed to eject root", e);
+            Log.w(TAG, "Binder call failed.", e);
         } finally {
             ContentProviderClient.releaseQuietly(client);
         }
