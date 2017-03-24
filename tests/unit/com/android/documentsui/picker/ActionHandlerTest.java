@@ -39,7 +39,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ActionType;
 import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.TestEnv;
-import com.android.documentsui.testing.TestRootsAccess;
+import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestLastAccessedStorage;
 
 import org.junit.AfterClass;
@@ -95,7 +95,7 @@ public class ActionHandlerTest {
         Intent intent = mActivity.getIntent();
         intent.setAction(Shared.ACTION_PICK_COPY_DESTINATION);
         mHandler.initLocation(mActivity.getIntent());
-        assertRootPicked(TestRootsAccess.DOWNLOADS.getUri());
+        assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
     }
 
     @Test
@@ -105,14 +105,14 @@ public class ActionHandlerTest {
         Intent intent = mActivity.getIntent();
         intent.setAction(Shared.ACTION_PICK_COPY_DESTINATION);
         mHandler.initLocation(intent);
-        assertRootPicked(TestRootsAccess.HOME.getUri());
+        assertRootPicked(TestProvidersAccess.HOME.getUri());
     }
 
     @Test
     public void testInitLocation_LaunchToDocuments() throws Exception {
         mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
-                TestRootsAccess.HOME.rootId,
+                TestProvidersAccess.HOME.rootId,
                 Arrays.asList(
                         TestEnv.FOLDER_0.documentId,
                         TestEnv.FOLDER_1.documentId,
@@ -128,7 +128,7 @@ public class ActionHandlerTest {
 
         mEnv.beforeAsserts();
 
-        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
@@ -136,7 +136,7 @@ public class ActionHandlerTest {
     @Test
     public void testInitLocation_RestoresLastAccessedStack() throws Exception {
         final DocumentStack stack =
-                new DocumentStack(TestRootsAccess.HAMMY, TestEnv.FOLDER_0, TestEnv.FOLDER_1);
+                new DocumentStack(TestProvidersAccess.HAMMY, TestEnv.FOLDER_0, TestEnv.FOLDER_1);
         mLastAccessed.setLastAccessed(mActivity, stack);
 
         mHandler.initLocation(mActivity.getIntent());
@@ -170,7 +170,7 @@ public class ActionHandlerTest {
 
         mHandler.initLocation(mActivity.getIntent());
 
-        assertRootPicked(TestRootsAccess.DOWNLOADS.getUri());
+        assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class ActionHandlerTest {
             throws Exception {
 
         mEnv.state.action = State.ACTION_PICK_COPY_DESTINATION;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
         mEnv.state.stack.push(TestEnv.FOLDER_2);
 
@@ -213,7 +213,7 @@ public class ActionHandlerTest {
     @Test
     public void testPickDocument_SetsCorrectResultAndFinishes_ActionOpenTree() throws Exception {
         mEnv.state.action = State.ACTION_OPEN_TREE;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
         mEnv.state.stack.push(TestEnv.FOLDER_2);
 
@@ -232,7 +232,7 @@ public class ActionHandlerTest {
         assertPermission(result, Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, true);
         assertPermission(result, Intent.FLAG_GRANT_PREFIX_URI_PERMISSION, true);
         assertContent(result, DocumentsContract.buildTreeDocumentUri(
-                TestRootsAccess.HOME.authority, TestEnv.FOLDER_2.documentId));
+                TestProvidersAccess.HOME.authority, TestEnv.FOLDER_2.documentId));
 
         mActivity.finishedHandler.assertCalled();
     }
@@ -240,7 +240,7 @@ public class ActionHandlerTest {
     @Test
     public void testSaveDocument_SetsCorrectResultAndFinishes() throws Exception {
         mEnv.state.action = State.ACTION_CREATE;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
 
         final String mimeType = "audio/aac";
@@ -269,7 +269,7 @@ public class ActionHandlerTest {
     @Test
     public void testSaveDocument_ConfirmsOverwrite() {
         mEnv.state.action = State.ACTION_CREATE;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
 
         mHandler.saveDocument(null, TestEnv.FILE_JPG);
@@ -280,7 +280,7 @@ public class ActionHandlerTest {
     @Test
     public void testFinishPicking_SetsCorrectResultAndFinishes_ActionGetContent() throws Exception {
         mEnv.state.action = State.ACTION_GET_CONTENT;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
 
         mActivity.finishedHandler.assertNotCalled();
@@ -306,7 +306,7 @@ public class ActionHandlerTest {
     public void testFinishPicking_SetsCorrectResultAndFinishes_ActionGetContent_MultipleSelection()
             throws Exception {
         mEnv.state.action = State.ACTION_GET_CONTENT;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
         mEnv.state.acceptMimes = new String[] { "image/*" };
 
@@ -332,7 +332,7 @@ public class ActionHandlerTest {
     @Test
     public void testFinishPicking_SetsCorrectResultAndFinishes_ActionOpen() throws Exception {
         mEnv.state.action = State.ACTION_OPEN;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
 
         mActivity.finishedHandler.assertNotCalled();
@@ -358,7 +358,7 @@ public class ActionHandlerTest {
     public void testFinishPicking_SetsCorrectResultAndFinishes_ActionOpen_MultipleSelection()
             throws Exception {
         mEnv.state.action = State.ACTION_OPEN;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
         mEnv.state.acceptMimes = new String[] { "image/*" };
 
@@ -384,7 +384,7 @@ public class ActionHandlerTest {
     @Test
     public void testFinishPicking_SetsCorrectResultAndFinishes_ActionCreate() throws Exception {
         mEnv.state.action = State.ACTION_CREATE;
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
 
         mActivity.finishedHandler.assertNotCalled();
@@ -415,7 +415,7 @@ public class ActionHandlerTest {
         mHandler.initLocation(mActivity.getIntent());
 
         mEnv.beforeAsserts();
-        assertEquals(TestRootsAccess.RECENTS, mEnv.state.stack.getRoot());
+        assertEquals(TestProvidersAccess.RECENTS, mEnv.state.stack.getRoot());
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 

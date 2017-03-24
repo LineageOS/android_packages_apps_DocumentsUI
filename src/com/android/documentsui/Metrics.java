@@ -41,7 +41,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ActionType;
 import com.android.documentsui.files.LauncherActivity;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.internal.logging.MetricsLogger;
@@ -797,8 +797,8 @@ public final class Metrics {
                 context.getContentResolver(), Providers.AUTHORITY_STORAGE)) {
             final Path path = DocumentsContract.findDocumentPath(client, docUri);
 
-            final RootsAccess roots = DocumentsApplication.getRootsCache(context);
-            final RootInfo root = roots.getRootOneshot(
+            final ProvidersAccess providers = DocumentsApplication.getProvidersCache(context);
+            final RootInfo root = providers.getRootOneshot(
                     Providers.AUTHORITY_STORAGE, path.getRootId());
             isInternal = !root.supportsEject();
         } catch (RemoteException | RuntimeException e) {

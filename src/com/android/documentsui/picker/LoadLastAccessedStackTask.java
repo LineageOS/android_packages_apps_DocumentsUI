@@ -22,7 +22,7 @@ import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.State;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 
 import java.util.function.Consumer;
 
@@ -39,25 +39,25 @@ final class LoadLastAccessedStackTask<T extends Activity & CommonAddons>
 
     private final LastAccessedStorage mLastAccessed;
     private final State mState;
-    private final RootsAccess mRoots;
+    private final ProvidersAccess mProviders;
     private final Consumer<DocumentStack> mCallback;
 
     LoadLastAccessedStackTask(
             T activity,
             LastAccessedStorage lastAccessed,
             State state,
-            RootsAccess roots,
+            ProvidersAccess providers,
             Consumer<DocumentStack> callback) {
         super(activity);
         mLastAccessed = lastAccessed;
-        mRoots = roots;
+        mProviders = providers;
         mState = state;
         mCallback = callback;
     }
 
     @Override
     protected DocumentStack run(Void... params) {
-        return mLastAccessed.getLastAccessed(mOwner, mRoots, mState);
+        return mLastAccessed.getLastAccessed(mOwner, mProviders, mState);
     }
 
     @Override

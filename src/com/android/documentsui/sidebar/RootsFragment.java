@@ -56,7 +56,6 @@ import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
-import com.android.documentsui.TimeoutTask;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -64,8 +63,7 @@ import com.android.documentsui.base.Events;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.roots.GetRootDocumentTask;
-import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.roots.RootsLoader;
 
 import java.util.ArrayList;
@@ -188,7 +186,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         super.onActivityCreated(savedInstanceState);
 
         final BaseActivity activity = getBaseActivity();
-        final RootsCache roots = DocumentsApplication.getRootsCache(activity);
+        final ProvidersCache providers = DocumentsApplication.getProvidersCache(activity);
         final State state = activity.getDisplayState();
 
         mActionHandler = mInjector.actions;
@@ -210,7 +208,7 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         mCallbacks = new LoaderCallbacks<Collection<RootInfo>>() {
             @Override
             public Loader<Collection<RootInfo>> onCreateLoader(int id, Bundle args) {
-                return new RootsLoader(activity, roots, state);
+                return new RootsLoader(activity, providers, state);
             }
 
             @Override

@@ -27,7 +27,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.MessageQueue.IdleHandler;
 import android.preference.PreferenceManager;
@@ -58,8 +57,7 @@ import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
-import com.android.documentsui.roots.GetRootDocumentTask;
-import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
@@ -68,7 +66,6 @@ import com.android.documentsui.sorting.SortModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 import javax.annotation.Nullable;
 
@@ -84,7 +81,7 @@ public abstract class BaseActivity
     protected Injector<?> mInjector;
 
     protected @Nullable RetainedState mRetainedState;
-    protected RootsCache mRoots;
+    protected ProvidersCache mProviders;
     protected DocumentsAccess mDocs;
     protected DrawerController mDrawer;
 
@@ -138,7 +135,7 @@ public abstract class BaseActivity
         // DirectoryFragment. So we do a little code yoga to extend
         // support to that fragment.
         mRetainedState = (RetainedState) getLastNonConfigurationInstance();
-        mRoots = DocumentsApplication.getRootsCache(this);
+        mProviders = DocumentsApplication.getProvidersCache(this);
         mDocs = DocumentsAccess.create(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -214,7 +211,7 @@ public abstract class BaseActivity
         mRootsMonitor = new RootsMonitor<>(
                 this,
                 mInjector.actions,
-                mRoots,
+                mProviders,
                 mDocs,
                 mState,
                 mSearchManager);
@@ -307,7 +304,7 @@ public abstract class BaseActivity
         // Recents is always in memory, so we just load it directly.
         // Otherwise we delegate loading data from disk to a task
         // to ensure a responsive ui.
-        if (mRoots.isRecentsRoot(root)) {
+        if (mProviders.isRecentsRoot(root)) {
             refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         } else {
             mInjector.actions.getRootDocument(
@@ -408,7 +405,7 @@ public abstract class BaseActivity
         mNavigator.update();
         // Causes talkback to announce the activity's new title
         if (mState.stack.isRecents()) {
-            setTitle(mRoots.getRecentsRoot().title);
+            setTitle(mProviders.getRecentsRoot().title);
         } else {
             setTitle(mState.stack.getTitle());
         }
@@ -537,7 +534,7 @@ public abstract class BaseActivity
         if (root != null) {
             return root;
         } else {
-            return mRoots.getRecentsRoot();
+            return mProviders.getRecentsRoot();
         }
     }
 

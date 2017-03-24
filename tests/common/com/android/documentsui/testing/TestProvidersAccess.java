@@ -19,7 +19,7 @@ import android.provider.DocumentsContract.Root;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +29,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-public class TestRootsAccess implements RootsAccess {
+public class TestProvidersAccess implements ProvidersAccess {
 
     public static final RootInfo DOWNLOADS;
     public static final RootInfo HOME;
@@ -67,7 +67,7 @@ public class TestRootsAccess implements RootsAccess {
     public final Map<String, Collection<RootInfo>> roots = new HashMap<>();
     private @Nullable RootInfo nextRoot;
 
-    public TestRootsAccess() {
+    public TestProvidersAccess() {
         add(DOWNLOADS);
         add(HOME);
         add(HAMMY);
@@ -82,10 +82,10 @@ public class TestRootsAccess implements RootsAccess {
     }
 
     public void configurePm(TestPackageManager pm) {
-        pm.addStubContentProviderForRoot(TestRootsAccess.DOWNLOADS);
-        pm.addStubContentProviderForRoot(TestRootsAccess.HOME);
-        pm.addStubContentProviderForRoot(TestRootsAccess.HAMMY);
-        pm.addStubContentProviderForRoot(TestRootsAccess.PICKLES);
+        pm.addStubContentProviderForRoot(TestProvidersAccess.DOWNLOADS);
+        pm.addStubContentProviderForRoot(TestProvidersAccess.HOME);
+        pm.addStubContentProviderForRoot(TestProvidersAccess.HAMMY);
+        pm.addStubContentProviderForRoot(TestProvidersAccess.PICKLES);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class TestRootsAccess implements RootsAccess {
         for (String authority : roots.keySet()) {
             allRoots.addAll(roots.get(authority));
         }
-        return RootsAccess.getMatchingRoots(allRoots, state);
+        return ProvidersAccess.getMatchingRoots(allRoots, state);
     }
 
     @Override

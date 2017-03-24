@@ -39,7 +39,7 @@ import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestEventHandler;
-import com.android.documentsui.testing.TestRootsAccess;
+import com.android.documentsui.testing.TestProvidersAccess;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -111,7 +111,7 @@ public class AbstractActionHandlerTest {
 
         mEnv.searchViewManager.isSearching = true;
         mEnv.docs.nextPath = new Path(
-                TestRootsAccess.HOME.rootId,
+                TestProvidersAccess.HOME.rootId,
                 Arrays.asList(TestEnv.FOLDER_1.documentId, TestEnv.FOLDER_2.documentId));
         mEnv.docs.nextDocuments = Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2);
 
@@ -156,7 +156,7 @@ public class AbstractActionHandlerTest {
     public void testLaunchToDocuments() throws Exception {
         mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
-                TestRootsAccess.HOME.rootId,
+                TestProvidersAccess.HOME.rootId,
                 Arrays.asList(
                         TestEnv.FOLDER_0.documentId,
                         TestEnv.FOLDER_1.documentId,
@@ -169,7 +169,7 @@ public class AbstractActionHandlerTest {
 
         mEnv.beforeAsserts();
 
-        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
@@ -178,7 +178,7 @@ public class AbstractActionHandlerTest {
     public void testLaunchToDocuments_convertsTreeUriToDocumentUri() throws Exception {
         mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
-                TestRootsAccess.HOME.rootId,
+                TestProvidersAccess.HOME.rootId,
                 Arrays.asList(
                         TestEnv.FOLDER_0.documentId,
                         TestEnv.FOLDER_1.documentId,
@@ -187,14 +187,14 @@ public class AbstractActionHandlerTest {
                 Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1, TestEnv.FILE_GIF);
 
         final Uri treeBaseUri = DocumentsContract.buildTreeDocumentUri(
-                TestRootsAccess.HOME.authority, TestEnv.FOLDER_0.documentId);
+                TestProvidersAccess.HOME.authority, TestEnv.FOLDER_0.documentId);
         final Uri treeDocUri = DocumentsContract.buildDocumentUriUsingTree(
                 treeBaseUri, TestEnv.FILE_GIF.documentId);
         assertTrue(mHandler.launchToDocument(treeDocUri));
 
         mEnv.beforeAsserts();
 
-        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
         mEnv.docs.lastUri.assertLastArgument(TestEnv.FILE_GIF.derivedUri);
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
@@ -202,13 +202,13 @@ public class AbstractActionHandlerTest {
 
     @Test
     public void testLoadChildrenDocuments() throws Exception {
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_0);
 
         mEnv.state.sortModel.sortByUser(
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
 
-        mEnv.providers.get(TestRootsAccess.HOME.authority)
+        mEnv.providers.get(TestProvidersAccess.HOME.authority)
                 .setNextChildDocumentsReturns(TestEnv.FILE_APK, TestEnv.FILE_GIF);
 
         mHandler.loadDocumentsForCurrentStack();
@@ -222,9 +222,9 @@ public class AbstractActionHandlerTest {
 
     @Test
     public void testLoadChildrenDocuments_failsWithNonRecentsAndEmptyStack() throws Exception {
-        mEnv.state.stack.changeRoot(TestRootsAccess.HOME);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
 
-        mEnv.providers.get(TestRootsAccess.HOME.authority)
+        mEnv.providers.get(TestProvidersAccess.HOME.authority)
                 .setNextChildDocumentsReturns(TestEnv.FILE_APK, TestEnv.FILE_GIF);
 
         TestEventHandler<Model.Update> listener = new TestEventHandler<>();

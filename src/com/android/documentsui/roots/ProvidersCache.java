@@ -67,8 +67,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Cache of known storage backends and their roots.
  */
-public class RootsCache implements RootsAccess {
-    private static final String TAG = "RootsCache";
+public class ProvidersCache implements ProvidersAccess {
+    private static final String TAG = "ProvidersCache";
 
     // Not all providers are equally well written. If a provider returns
     // empty results we don't cache them...unless they're in this magical list
@@ -101,7 +101,7 @@ public class RootsCache implements RootsAccess {
     @GuardedBy("mObservedAuthoritiesDetails")
     private final Map<String, PackageDetails> mObservedAuthoritiesDetails = new HashMap<>();
 
-    public RootsCache(Context context) {
+    public ProvidersCache(Context context) {
         mContext = context;
         mObserver = new RootsChangedObserver();
 
@@ -366,7 +366,7 @@ public class RootsCache implements RootsAccess {
         waitForFirstLoad();
         loadStoppedAuthorities();
         synchronized (mLock) {
-            return RootsAccess.getMatchingRoots(mRoots.values(), state);
+            return ProvidersAccess.getMatchingRoots(mRoots.values(), state);
         }
     }
 
@@ -381,7 +381,7 @@ public class RootsCache implements RootsAccess {
     }
 
     public RootInfo getDefaultRootBlocking(State state) {
-        for (RootInfo root : RootsAccess.getMatchingRoots(getRootsBlocking(), state)) {
+        for (RootInfo root : ProvidersAccess.getMatchingRoots(getRootsBlocking(), state)) {
             if (root.isDownloads()) {
                 return root;
             }

@@ -15,8 +15,6 @@
  */
 package com.android.documentsui.testing;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.DocumentsContract.Document;
 import android.test.mock.MockContentResolver;
 
@@ -37,7 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
 public class TestEnv {
@@ -58,7 +55,7 @@ public class TestEnv {
 
     public final TestScheduledExecutorService mExecutor;
     public final State state = new State();
-    public final TestRootsAccess roots = new TestRootsAccess();
+    public final TestProvidersAccess roots = new TestProvidersAccess();
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
     public final TestFocusHandler focusHandler = new TestFocusHandler();
     public final TestDialogController dialogs = new TestDialogController();
@@ -107,7 +104,7 @@ public class TestEnv {
     }
 
     public static TestEnv create() {
-        return create(TestRootsAccess.HOME.authority);
+        return create(TestProvidersAccess.HOME.authority);
     }
 
     public static TestEnv create(String authority) {
@@ -154,7 +151,7 @@ public class TestEnv {
         Assert.assertNotNull(rootDoc);
         Assert.assertEquals(rootDoc.displayName, FOLDER_0.displayName);
 
-        state.stack.changeRoot(TestRootsAccess.HOME);
+        state.stack.changeRoot(TestProvidersAccess.HOME);
         state.stack.push(rootDoc);
     }
 
