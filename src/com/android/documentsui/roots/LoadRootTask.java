@@ -33,14 +33,14 @@ public final class LoadRootTask<T extends Activity & CommonAddons>
     private static final String TAG = "LoadRootTask";
 
     private final State mState;
-    private final RootsAccess mRoots;
+    private final ProvidersAccess mProviders;
     private final Uri mRootUri;
 
 
-    public LoadRootTask(T activity, RootsAccess roots, State state, Uri rootUri) {
+    public LoadRootTask(T activity, ProvidersAccess providers, State state, Uri rootUri) {
         super(activity);
         mState = state;
-        mRoots = roots;
+        mProviders = providers;
         mRootUri = rootUri;
     }
 
@@ -49,7 +49,7 @@ public final class LoadRootTask<T extends Activity & CommonAddons>
         if (DEBUG) Log.d(TAG, "Loading root: " + mRootUri);
 
         String rootId = DocumentsContract.getRootId(mRootUri);
-        return mRoots.getRootOneshot(mRootUri.getAuthority(), rootId);
+        return mProviders.getRootOneshot(mRootUri.getAuthority(), rootId);
     }
 
     @Override

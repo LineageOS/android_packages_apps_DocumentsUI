@@ -31,18 +31,18 @@ import android.text.format.DateUtils;
 import com.android.documentsui.clipping.ClipStorage;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
-import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.roots.ProvidersCache;
 
 public class DocumentsApplication extends Application {
     private static final long PROVIDER_ANR_TIMEOUT = 20 * DateUtils.SECOND_IN_MILLIS;
 
-    private RootsCache mRoots;
+    private ProvidersCache mProviders;
     private ThumbnailCache mThumbnailCache;
     private ClipStorage mClipStore;
     private DocumentClipper mClipper;
 
-    public static RootsCache getRootsCache(Context context) {
-        return ((DocumentsApplication) context.getApplicationContext()).mRoots;
+    public static ProvidersCache getProvidersCache(Context context) {
+        return ((DocumentsApplication) context.getApplicationContext()).mProviders;
     }
 
     public static ThumbnailCache getThumbnailCache(Context context) {
@@ -76,8 +76,8 @@ public class DocumentsApplication extends Application {
         final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         final int memoryClassBytes = am.getMemoryClass() * 1024 * 1024;
 
-        mRoots = new RootsCache(this);
-        mRoots.updateAsync(false);
+        mProviders = new ProvidersCache(this);
+        mProviders.updateAsync(false);
 
         mThumbnailCache = new ThumbnailCache(memoryClassBytes / 4);
 
@@ -112,9 +112,9 @@ public class DocumentsApplication extends Application {
             final Uri data = intent.getData();
             if (data != null) {
                 final String packageName = data.getSchemeSpecificPart();
-                mRoots.updatePackageAsync(packageName);
+                mProviders.updatePackageAsync(packageName);
             } else {
-                mRoots.updateAsync(true);
+                mProviders.updateAsync(true);
             }
         }
     };

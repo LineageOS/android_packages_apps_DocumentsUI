@@ -36,23 +36,23 @@ public class RootsLoader extends AsyncTaskLoader<Collection<RootInfo>> {
         }
     };
 
-    private final RootsCache mRoots;
+    private final ProvidersCache mProviders;
     private final State mState;
 
     private Collection<RootInfo> mResult;
 
-    public RootsLoader(Context context, RootsCache roots, State state) {
+    public RootsLoader(Context context, ProvidersCache providers, State state) {
         super(context);
-        mRoots = roots;
+        mProviders = providers;
         mState = state;
 
         LocalBroadcastManager.getInstance(context).registerReceiver(
-                mReceiver, new IntentFilter(RootsAccess.BROADCAST_ACTION));
+                mReceiver, new IntentFilter(ProvidersAccess.BROADCAST_ACTION));
     }
 
     @Override
     public final Collection<RootInfo> loadInBackground() {
-        return mRoots.getMatchingRootsBlocking(mState);
+        return mProviders.getMatchingRootsBlocking(mState);
     }
 
     @Override

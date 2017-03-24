@@ -26,7 +26,6 @@ import android.provider.DocumentsProvider;
 import android.util.Log;
 
 import com.android.documentsui.picker.LastAccessedProvider;
-import com.android.documentsui.roots.RootsAccess;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

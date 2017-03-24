@@ -23,7 +23,7 @@ import android.content.Intent;
 import com.android.documentsui.DocumentsApplication;
 
 /**
- * Prime {@link RootsCache} when the system is booted.
+ * Prime {@link ProvidersCache} when the system is booted.
  */
 public class BootReceiver extends BroadcastReceiver {
     @Override
@@ -31,6 +31,6 @@ public class BootReceiver extends BroadcastReceiver {
         // We already spun up our application object before getting here, which
         // kicked off a task to load roots, so this broadcast is finished once
         // that first pass is done.
-        DocumentsApplication.getRootsCache(context).setBootCompletedResult(goAsync());
+        DocumentsApplication.getProvidersCache(context).setBootCompletedResult(goAsync());
     }
 }

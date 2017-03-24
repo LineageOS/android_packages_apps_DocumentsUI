@@ -31,9 +31,9 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Provides testable access to key {@link RootsCache} methods.
+ * Provides testable access to key {@link ProvidersCache} methods.
  */
-public interface RootsAccess {
+public interface ProvidersAccess {
 
     String BROADCAST_ACTION = "com.android.documentsui.action.ROOT_CHANGED";
 
@@ -64,7 +64,7 @@ public interface RootsAccess {
 
     public static List<RootInfo> getMatchingRoots(Collection<RootInfo> roots, State state) {
 
-        final String tag = "RootsAccess";
+        final String tag = "ProvidersAccess";
 
         final List<RootInfo> matching = new ArrayList<>();
         for (RootInfo root : roots) {

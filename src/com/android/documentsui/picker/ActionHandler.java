@@ -53,7 +53,7 @@ import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.Model;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.services.FileOperationService;
 import com.android.internal.annotations.VisibleForTesting;
 
@@ -77,14 +77,14 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     ActionHandler(
             T activity,
             State state,
-            RootsAccess roots,
+            ProvidersAccess providers,
             DocumentsAccess docs,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
             Injector injector,
             LastAccessedStorage lastAccessed) {
 
-        super(activity, state, roots, docs, searchMgr, executors, injector);
+        super(activity, state, providers, docs, searchMgr, executors, injector);
 
         mConfig = injector.config;
         mFeatures = injector.features;
@@ -152,7 +152,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     private void loadLastAccessedStack() {
         if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
         new LoadLastAccessedStackTask<>(
-                mActivity, mLastAccessed, mState, mRoots, this::onLastAccessedStackLoaded)
+                mActivity, mLastAccessed, mState, mProviders, this::onLastAccessedStackLoaded)
                 .execute();
     }
 
@@ -173,7 +173,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
             case ACTION_GET_CONTENT:
             case ACTION_OPEN:
             case ACTION_OPEN_TREE:
-                mState.stack.changeRoot(mRoots.getRecentsRoot());
+                mState.stack.changeRoot(mProviders.getRecentsRoot());
                 mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
                 break;
             default:

@@ -26,7 +26,7 @@ import android.util.Log;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 
 import libcore.io.IoUtils;
 
@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
 public interface LastAccessedStorage {
 
     @Nullable DocumentStack getLastAccessed(
-            Activity activity, RootsAccess roots, State state);
+            Activity activity, ProvidersAccess providers, State state);
 
     void setLastAccessed(Activity activity, DocumentStack stack);
 
@@ -58,14 +58,14 @@ public interface LastAccessedStorage {
 
         @Override
         public @Nullable DocumentStack getLastAccessed(
-                Activity activity, RootsAccess roots, State state) {
+                Activity activity, ProvidersAccess providers, State state) {
             final String packageName = Shared.getCallingPackageName(activity);
             final Uri resumeUri = LastAccessedProvider.buildLastAccessed(packageName);
             final ContentResolver resolver = activity.getContentResolver();
             Cursor cursor = resolver.query(resumeUri, null, null, null, null);
             try {
                 return DocumentStack.fromLastAccessedCursor(
-                        cursor, roots.getMatchingRootsBlocking(state), resolver);
+                        cursor, providers.getMatchingRootsBlocking(state), resolver);
             } catch (IOException e) {
                 Log.w(TAG, "Failed to resume: ", e);
             } finally {

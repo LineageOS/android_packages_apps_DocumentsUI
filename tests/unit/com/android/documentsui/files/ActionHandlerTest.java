@@ -44,7 +44,6 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.services.FileOperations.Callback;
 import com.android.documentsui.testing.ClipDatas;
 import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.Roots;
@@ -52,7 +51,7 @@ import com.android.documentsui.testing.TestActivityConfig;
 import com.android.documentsui.testing.TestConfirmationCallback;
 import com.android.documentsui.testing.TestDocumentClipper;
 import com.android.documentsui.testing.TestEnv;
-import com.android.documentsui.testing.TestRootsAccess;
+import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.ui.TestDialogController;
 
 import org.junit.Before;
@@ -158,7 +157,7 @@ public class ActionHandlerTest {
     // Recents root means when deleting the srcParent will be null.
     @Test
     public void testDeleteSelectedDocuments_RecentsRoot() {
-        mEnv.state.stack.changeRoot(TestRootsAccess.RECENTS);
+        mEnv.state.stack.changeRoot(TestProvidersAccess.RECENTS);
 
         mHandler.deleteSelectedDocuments();
         mDialogs.assertNoFileFailures();
@@ -257,7 +256,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDocumentPicked_DefaultsToView() throws Exception {
-        mActivity.currentRoot = TestRootsAccess.HOME;
+        mActivity.currentRoot = TestProvidersAccess.HOME;
 
         mHandler.openDocument(TestEnv.FILE_GIF, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
@@ -267,7 +266,7 @@ public class ActionHandlerTest {
     @Test
     public void testDocumentPicked_InArchive_QuickViewable() throws Exception {
         mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
-        mActivity.currentRoot = TestRootsAccess.HOME;
+        mActivity.currentRoot = TestProvidersAccess.HOME;
 
         mHandler.openDocument(TestEnv.FILE_IN_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
@@ -276,7 +275,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDocumentPicked_InArchive_Unopenable() throws Exception {
-        mActivity.currentRoot = TestRootsAccess.HOME;
+        mActivity.currentRoot = TestProvidersAccess.HOME;
 
         mHandler.openDocument(TestEnv.FILE_IN_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
@@ -286,7 +285,7 @@ public class ActionHandlerTest {
     @Test
     public void testDocumentPicked_PreviewsWhenResourceSet() throws Exception {
         mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
-        mActivity.currentRoot = TestRootsAccess.HOME;
+        mActivity.currentRoot = TestProvidersAccess.HOME;
 
         mHandler.openDocument(TestEnv.FILE_GIF, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
@@ -295,7 +294,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDocumentPicked_Downloads_ManagesApks() throws Exception {
-        mActivity.currentRoot = TestRootsAccess.DOWNLOADS;
+        mActivity.currentRoot = TestProvidersAccess.DOWNLOADS;
 
         mHandler.openDocument(TestEnv.FILE_APK, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
@@ -304,7 +303,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDocumentPicked_Downloads_ManagesPartialFiles() throws Exception {
-        mActivity.currentRoot = TestRootsAccess.DOWNLOADS;
+        mActivity.currentRoot = TestProvidersAccess.DOWNLOADS;
 
         mHandler.openDocument(TestEnv.FILE_PARTIAL, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
@@ -313,7 +312,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDocumentPicked_OpensArchives() throws Exception {
-        mActivity.currentRoot = TestRootsAccess.HOME;
+        mActivity.currentRoot = TestProvidersAccess.HOME;
         mEnv.docs.nextDocument = TestEnv.FILE_ARCHIVE;
 
         mHandler.openDocument(TestEnv.FILE_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
@@ -323,7 +322,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDocumentPicked_OpensDirectories() throws Exception {
-        mActivity.currentRoot = TestRootsAccess.HOME;
+        mActivity.currentRoot = TestProvidersAccess.HOME;
 
         mHandler.openDocument(TestEnv.FOLDER_1, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
@@ -332,7 +331,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testShowChooser() throws Exception {
-        mActivity.currentRoot = TestRootsAccess.DOWNLOADS;
+        mActivity.currentRoot = TestProvidersAccess.DOWNLOADS;
 
         mHandler.showChooserForDoc(TestEnv.FILE_PDF);
         mActivity.assertActivityStarted(Intent.ACTION_CHOOSER);
@@ -343,7 +342,7 @@ public class ActionHandlerTest {
         mActivity.resources.bools.put(R.bool.show_documents_root, false);
 
         mHandler.initLocation(mActivity.getIntent());
-        assertRootPicked(TestRootsAccess.DOWNLOADS.getUri());
+        assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
     }
 
     @Test
@@ -351,24 +350,24 @@ public class ActionHandlerTest {
         mActivity.resources.bools.put(R.bool.show_documents_root, true);
 
         mHandler.initLocation(mActivity.getIntent());
-        assertRootPicked(TestRootsAccess.HOME.getUri());
+        assertRootPicked(TestProvidersAccess.HOME.getUri());
     }
 
     @Test
     public void testInitLocation_BrowseRoot() throws Exception {
         Intent intent = mActivity.getIntent();
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setData(TestRootsAccess.PICKLES.getUri());
+        intent.setData(TestProvidersAccess.PICKLES.getUri());
 
         mHandler.initLocation(intent);
-        assertRootPicked(TestRootsAccess.PICKLES.getUri());
+        assertRootPicked(TestProvidersAccess.PICKLES.getUri());
     }
 
     @Test
     public void testInitLocation_LaunchToDocuments() throws Exception {
         mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
-                TestRootsAccess.HOME.rootId,
+                TestProvidersAccess.HOME.rootId,
                 Arrays.asList(
                         TestEnv.FOLDER_0.documentId,
                         TestEnv.FOLDER_1.documentId));
@@ -383,7 +382,7 @@ public class ActionHandlerTest {
 
         mEnv.beforeAsserts();
 
-        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestRootsAccess.HOME,
+        DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
@@ -400,7 +399,7 @@ public class ActionHandlerTest {
     public void testDragAndDrop_OnLibraryRoot() throws Exception {
         DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, null, null, null,
                 null, true);
-        assertFalse(mHandler.dropOn(event, TestRootsAccess.RECENTS));
+        assertFalse(mHandler.dropOn(event, TestProvidersAccess.RECENTS));
     }
 
     @Test
@@ -427,7 +426,7 @@ public class ActionHandlerTest {
         assertSame(localState, event.getLocalState());
         assertSame(clipData, event.getClipData());
 
-        mHandler.dropOn(event, TestRootsAccess.DOWNLOADS);
+        mHandler.dropOn(event, TestProvidersAccess.DOWNLOADS);
         event.recycle();
 
         mEnv.beforeAsserts();
@@ -450,12 +449,12 @@ public class ActionHandlerTest {
                 mEnv.injector
         );
         List<DocumentInfo> localState = new ArrayList<>();
-        localState.add(mEnv.docs.getRootDocument(TestRootsAccess.DOWNLOADS));
+        localState.add(mEnv.docs.getRootDocument(TestProvidersAccess.DOWNLOADS));
         ClipData clipData = ClipDatas.createTestClipData();
         DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, localState, null, clipData,
                 null, true);
 
-        mHandler.dropOn(event, TestRootsAccess.DOWNLOADS);
+        mHandler.dropOn(event, TestProvidersAccess.DOWNLOADS);
 
         mEnv.beforeAsserts();
 

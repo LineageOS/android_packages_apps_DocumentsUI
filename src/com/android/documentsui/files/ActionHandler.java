@@ -58,7 +58,7 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -66,7 +66,6 @@ import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.ui.DialogController;
 import com.android.internal.annotations.VisibleForTesting;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -91,7 +90,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     ActionHandler(
             T activity,
             State state,
-            RootsAccess roots,
+            ProvidersAccess providers,
             DocumentsAccess docs,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
@@ -100,7 +99,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             ClipStore clipStore,
             Injector injector) {
 
-        super(activity, state, roots, docs, searchMgr, executors, injector);
+        super(activity, state, providers, docs, searchMgr, executors, injector);
 
         mActionModeAddons = actionModeAddons;
         mFeatures = injector.features;
@@ -277,7 +276,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         }
         DocumentInfo doc = mModel.getDocument(selection.iterator().next());
         Intent intent = new Intent(DocumentsContract.ACTION_DOCUMENT_SETTINGS);
-        intent.setPackage(mRoots.getPackageName(doc.authority));
+        intent.setPackage(mProviders.getPackageName(doc.authority));
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setData(doc.derivedUri);
         try {

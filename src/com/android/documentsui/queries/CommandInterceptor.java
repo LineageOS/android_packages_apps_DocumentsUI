@@ -173,7 +173,7 @@ public final class CommandInterceptor implements EventHandler<String> {
         @Override
         public boolean accept(String[] tokens) {
             if ("dumpCache".equals(tokens[0])) {
-                DocumentsApplication.getRootsCache(mContext).logCache();
+                DocumentsApplication.getProvidersCache(mContext).logCache();
                 return true;
             }
             return false;

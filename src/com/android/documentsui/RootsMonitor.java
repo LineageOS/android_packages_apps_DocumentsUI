@@ -31,7 +31,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.queries.SearchViewManager;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 
 import java.util.Collection;
 
@@ -46,7 +46,7 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
     RootsMonitor(
             final T activity,
             final ActionHandler actions,
-            final RootsAccess roots,
+            final ProvidersAccess providers,
             final DocumentsAccess docs,
             final State state,
             final SearchViewManager searchMgr) {
@@ -58,7 +58,7 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
                 new HandleRootsChangedTask<T>(
                         activity,
                         actions,
-                        roots,
+                        providers,
                         docs,
                         state,
                         searchMgr).execute(activity.getCurrentRoot());
@@ -67,7 +67,7 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
     }
 
     void start() {
-        mManager.registerReceiver(mReceiver, new IntentFilter(RootsAccess.BROADCAST_ACTION));
+        mManager.registerReceiver(mReceiver, new IntentFilter(ProvidersAccess.BROADCAST_ACTION));
     }
 
     void stop() {
@@ -77,7 +77,7 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
     private static class HandleRootsChangedTask<T extends Activity & CommonAddons>
             extends PairedTask<T, RootInfo, RootInfo> {
         private final ActionHandler mActions;
-        private final RootsAccess mRoots;
+        private final ProvidersAccess mProviders;
         private final DocumentsAccess mDocs;
         private final State mState;
         private final SearchViewManager mSearchMgr;
@@ -88,13 +88,13 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
         private HandleRootsChangedTask(
                 T activity,
                 ActionHandler actions,
-                RootsAccess roots,
+                ProvidersAccess providers,
                 DocumentsAccess docs,
                 State state,
                 SearchViewManager searchMgr) {
             super(activity);
             mActions = actions;
-            mRoots = roots;
+            mProviders = providers;
             mDocs = docs;
             mState = state;
             mSearchMgr = searchMgr;
@@ -104,7 +104,7 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
         protected RootInfo run(RootInfo... roots) {
             assert (roots.length == 1);
             mCurrentRoot = roots[0];
-            final Collection<RootInfo> cachedRoots = mRoots.getRootsBlocking();
+            final Collection<RootInfo> cachedRoots = mProviders.getRootsBlocking();
             for (final RootInfo root : cachedRoots) {
                 if (root.getUri().equals(mCurrentRoot.getUri())) {
                     // We don't need to change the current root as the current root was not removed.
@@ -113,7 +113,7 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
             }
 
             // Choose the default root.
-            final RootInfo defaultRoot = mRoots.getDefaultRootBlocking(mState);
+            final RootInfo defaultRoot = mProviders.getDefaultRootBlocking(mState);
             assert (defaultRoot != null);
             if (!defaultRoot.isRecents()) {
                 mDefaultRootDocument = mDocs.getRootDocument(defaultRoot);

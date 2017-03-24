@@ -53,7 +53,7 @@ import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.LoadRootTask;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.sidebar.EjectRootTask;
@@ -80,7 +80,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     protected final T mActivity;
     protected final State mState;
-    protected final RootsAccess mRoots;
+    protected final ProvidersAccess mProviders;
     protected final DocumentsAccess mDocs;
     protected final FocusHandler mFocusHandler;
     protected final SelectionManager mSelectionMgr;
@@ -108,7 +108,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     public AbstractActionHandler(
             T activity,
             State state,
-            RootsAccess roots,
+            ProvidersAccess providers,
             DocumentsAccess docs,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
@@ -116,14 +116,14 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
         assert(activity != null);
         assert(state != null);
-        assert(roots != null);
+        assert(providers != null);
         assert(searchMgr != null);
         assert(docs != null);
         assert(injector != null);
 
         mActivity = activity;
         mState = state;
-        mRoots = roots;
+        mProviders = providers;
         mDocs = docs;
         mFocusHandler = injector.focusManager;
         mSelectionMgr = injector.selectionMgr;
@@ -373,7 +373,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final void loadDocument(Uri uri, LoadDocStackCallback callback) {
         new LoadDocStackTask(
                 mActivity,
-                mRoots,
+                mProviders,
                 mDocs,
                 callback
                 ).executeOnExecutor(mExecutors.lookup(uri.getAuthority()), uri);
@@ -381,7 +381,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     @Override
     public final void loadRoot(Uri uri) {
-        new LoadRootTask<>(mActivity, mRoots, mState, uri)
+        new LoadRootTask<>(mActivity, mProviders, mState, uri)
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
     }
 
@@ -456,7 +456,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
             if (mState.stack.isRecents()) {
 
                 if (DEBUG) Log.d(TAG, "Creating new loader recents.");
-                return new RecentsLoader(context, mRoots, mState, mInjector.features);
+                return new RecentsLoader(context, mProviders, mState, mInjector.features);
 
             } else {
 

@@ -63,7 +63,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
-import com.android.documentsui.roots.RootsCache;
+import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.services.FileOperationService.OpType;
 
 import libcore.io.IoUtils;
@@ -296,7 +296,7 @@ class CopyJob extends ResolvedResourcesJob {
         // copy start anyway.
         boolean available = true;
         if (batchSize >= 0) {
-            RootsCache cache = DocumentsApplication.getRootsCache(appContext);
+            ProvidersCache cache = DocumentsApplication.getProvidersCache(appContext);
 
             RootInfo root = stack.getRoot();
             // Query root info here instead of using stack.root because the number there may be

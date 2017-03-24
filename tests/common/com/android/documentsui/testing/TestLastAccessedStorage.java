@@ -25,7 +25,7 @@ import android.app.Activity;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.State;
 import com.android.documentsui.picker.LastAccessedStorage;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 
 import javax.annotation.Nullable;
 
@@ -38,7 +38,7 @@ public class TestLastAccessedStorage implements LastAccessedStorage {
     private boolean mIsExternal = false;
 
     @Override
-    public @Nullable DocumentStack getLastAccessed(Activity activity, RootsAccess roots, State state) {
+    public @Nullable DocumentStack getLastAccessed(Activity activity, ProvidersAccess roots, State state) {
         return mLastAccessedStack;
     }
 

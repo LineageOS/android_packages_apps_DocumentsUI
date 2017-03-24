@@ -25,10 +25,9 @@ import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
-import com.android.documentsui.base.Features;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.roots.RootsAccess;
+import com.android.documentsui.roots.ProvidersAccess;
 
 import java.util.List;
 
@@ -44,17 +43,17 @@ import java.util.List;
 public class LoadDocStackTask extends PairedTask<Activity, Uri, DocumentStack> {
     private static final String TAG = "LoadDocStackTask";
 
-    private final RootsAccess mRoots;
+    private final ProvidersAccess mProviders;
     private final DocumentsAccess mDocs;
     private final LoadDocStackCallback mCallback;
 
     public LoadDocStackTask(
             Activity activity,
-            RootsAccess roots,
+            ProvidersAccess providers,
             DocumentsAccess docs,
             LoadDocStackCallback callback) {
         super(activity);
-        mRoots = roots;
+        mProviders = providers;
         mDocs = docs;
         mCallback = callback;
     }
@@ -99,7 +98,7 @@ public class LoadDocStackTask extends PairedTask<Activity, Uri, DocumentStack> {
             throw new IllegalStateException("Provider doesn't provider root id.");
         }
 
-        RootInfo root = mRoots.getRootOneshot(authority, path.getRootId());
+        RootInfo root = mProviders.getRootOneshot(authority, path.getRootId());
         if (root == null) {
             throw new IllegalStateException("Failed to load root for authority: " + authority +
                     " and root ID: " + path.getRootId() + ".");

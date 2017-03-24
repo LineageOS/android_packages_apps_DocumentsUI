@@ -112,7 +112,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         mInjector.actions = new ActionHandler<>(
                 this,
                 mState,
-                mRoots,
+                mProviders,
                 mDocs,
                 mSearchManager,
                 ProviderExecutor::forAuthority,

@@ -111,7 +111,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 },
                 getApplicationContext(),
                 mInjector.selectionMgr,
-                mRoots::getApplicationName,
+                mProviders::getApplicationName,
                 mInjector.getModel()::getItemUri);
 
         mShadowBuilder = new DragShadowBuilder(this);
@@ -124,7 +124,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         mInjector.actions = new ActionHandler<>(
                 this,
                 mState,
-                mRoots,
+                mProviders,
                 mDocs,
                 mSearchManager,
                 ProviderExecutor::forAuthority,
@@ -216,7 +216,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         final Intent intent = getIntent();
 
         // This is a remnant of old logic where we used to initialize accept MIME types in
-        // BaseActivity. RootsAccess still rely on this being correctly initialized so we still have
+        // BaseActivity. ProvidersAccess still rely on this being correctly initialized so we still have
         // to initialize it in FilesActivity.
         state.initAcceptMimes(intent, "*/*");
         state.action = State.ACTION_BROWSE;
@@ -252,7 +252,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         // have no reason to hang around.
         // TODO: Rather than just disappearing, maybe we should inform
         // the user what has happened, let them close us. Less surprising.
-        if (mRoots.getRootBlocking(root.authority, root.rootId) == null) {
+        if (mProviders.getRootBlocking(root.authority, root.rootId) == null) {
             finish();
         }
     }

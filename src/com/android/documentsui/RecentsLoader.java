@@ -37,8 +37,8 @@ import com.android.documentsui.base.Features;
 import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.roots.RootsAccess;
 import com.android.internal.annotations.GuardedBy;
 
 import com.google.common.util.concurrent.AbstractFuture;
@@ -81,7 +81,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private final Semaphore mQueryPermits;
 
-    private final RootsAccess mRoots;
+    private final ProvidersAccess mProviders;
     private final State mState;
     private final Features mFeatures;
 
@@ -94,9 +94,9 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private DirectoryResult mResult;
 
-    public RecentsLoader(Context context, RootsAccess roots, State state, Features features) {
+    public RecentsLoader(Context context, ProvidersAccess providers, State state, Features features) {
         super(context);
-        mRoots = roots;
+        mProviders = providers;
         mState = state;
         mFeatures = features;
 
@@ -213,7 +213,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
      * Returns a map of Authority -> rootIds
      */
     private Map<String, List<String>> indexRecentsRoots() {
-        final Collection<RootInfo> roots = mRoots.getMatchingRootsBlocking(mState);
+        final Collection<RootInfo> roots = mProviders.getMatchingRootsBlocking(mState);
         HashMap<String, List<String>> rootsIndex = new HashMap<>();
         for (RootInfo root : roots) {
             if (!root.supportsRecents()) {
