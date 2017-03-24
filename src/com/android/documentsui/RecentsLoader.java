@@ -297,6 +297,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         public final List<String> rootIds;
 
         private Cursor[] mCursors;
+        private boolean mIsClosed = false;
 
         public RecentsTask(String authority, List<String> rootIds) {
             this.authority = authority;
@@ -320,7 +321,11 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
             }
         }
 
-        public void runInternal() {
+        public synchronized void runInternal() {
+            if (mIsClosed) {
+                return;
+            }
+
             ContentProviderClient client = null;
             try {
                 client = DocumentsApplication.acquireUnstableProviderOrThrow(
@@ -362,10 +367,16 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         @Override
-        public void close() throws IOException {
+        public synchronized void close() throws IOException {
+            if (mCursors == null) {
+                return;
+            }
+
             for (Cursor cursor : mCursors) {
                 IoUtils.closeQuietly(cursor);
             }
+
+            mIsClosed = true;
         }
     }
 }
