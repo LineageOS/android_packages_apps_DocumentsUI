@@ -21,7 +21,7 @@ import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.annotation.IntDef;
-import android.app.RecoverableSecurityException;
+import android.app.AuthenticationRequiredException;
 import android.database.Cursor;
 import android.database.MergeCursor;
 import android.net.Uri;
@@ -310,10 +310,10 @@ public class Model {
             return mUpdateType == TYPE_UPDATE_EXCEPTION;
         }
 
-        public boolean hasRecoverableException() {
+        public boolean hasAuthenticationException() {
             return mRemoteActionEnabled
                     && hasException()
-                    && mException instanceof RecoverableSecurityException;
+                    && mException instanceof AuthenticationRequiredException;
         }
 
         public @Nullable Exception getException() {
