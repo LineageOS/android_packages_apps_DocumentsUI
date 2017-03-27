@@ -32,6 +32,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.Injector;
@@ -51,7 +52,7 @@ public class SaveFragment extends Fragment {
     private Injector<ActionHandler<PickActivity>> mInjector;
     private DocumentInfo mReplaceTarget;
     private EditText mDisplayName;
-    private Button mSave;
+    private TextView mSave;
     private ProgressBar mProgress;
     private boolean mIgnoreNextEdit;
 
@@ -116,7 +117,7 @@ public class SaveFragment extends Fragment {
                     }
                 });
 
-        mSave = (Button) view.findViewById(android.R.id.button1);
+        mSave = (TextView) view.findViewById(android.R.id.button1);
         mSave.setOnClickListener(mSaveListener);
         mSave.setEnabled(false);
 

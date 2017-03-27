@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.Injector;
@@ -73,8 +74,8 @@ public class PickFragment extends Fragment {
     private @OpType int mCopyOperationSubType = OPERATION_UNKNOWN;
     private DocumentInfo mPickTarget;
     private View mContainer;
-    private Button mPick;
-    private Button mCancel;
+    private TextView mPick;
+    private TextView mCancel;
 
     public static void show(FragmentManager fm) {
         // Fragment can be restored by FragmentManager automatically.
@@ -97,10 +98,10 @@ public class PickFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContainer = inflater.inflate(R.layout.fragment_pick, container, false);
 
-        mPick = (Button) mContainer.findViewById(android.R.id.button1);
+        mPick = (TextView) mContainer.findViewById(android.R.id.button1);
         mPick.setOnClickListener(mPickListener);
 
-        mCancel = (Button) mContainer.findViewById(android.R.id.button2);
+        mCancel = (TextView) mContainer.findViewById(android.R.id.button2);
         mCancel.setOnClickListener(mCancelListener);
 
         updateView();
