@@ -41,6 +41,8 @@
     <string name="menu_compress" msgid="37539111904724188">"Comprimir"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Extrair para…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Mudar o nome"</string>
+    <!-- no translation found for menu_view_in_owner (7228948660557554770) -->
+    <skip />
     <string name="menu_new_window" msgid="2947837751796109126">"Nova janela"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Cortar"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Copiar"</string>
@@ -156,10 +158,8 @@
       <item quantity="other">Copiou <xliff:g id="COUNT_1">%1$d</xliff:g> ficheiros para a área de transferência.</item>
       <item quantity="one">Copiou <xliff:g id="COUNT_0">%1$d</xliff:g> ficheiro para a área de transferência.</item>
     </plurals>
-    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
-    <skip />
-    <!-- no translation found for file_operation_error (2234357335716533795) -->
-    <skip />
+    <string name="file_operation_rejected" msgid="4301554203329008794">"A operação do ficheiro não é suportada."</string>
+    <string name="file_operation_error" msgid="2234357335716533795">"Falha na operação do ficheiro."</string>
     <string name="rename_error" msgid="6700093173508118635">"Falha ao mudar o nome do documento"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Ejetar"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Alguns ficheiros foram convertidos"</string>
