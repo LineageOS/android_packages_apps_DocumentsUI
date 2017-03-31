@@ -158,10 +158,8 @@
       <item quantity="other">கிளிப்போர்டுக்கு <xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகள் நகலெடுக்கப்பட்டன.</item>
       <item quantity="one">கிளிப்போர்டுக்கு <xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பு நகலெடுக்கப்பட்டது.</item>
     </plurals>
-    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
-    <skip />
-    <!-- no translation found for file_operation_error (2234357335716533795) -->
-    <skip />
+    <string name="file_operation_rejected" msgid="4301554203329008794">"கோப்புச் செயல்பாடு ஆதரிக்கப்படவில்லை."</string>
+    <string name="file_operation_error" msgid="2234357335716533795">"கோப்புச் செயல்பாடு தோல்வியடைந்தது."</string>
     <string name="rename_error" msgid="6700093173508118635">"ஆவணத்தின் பெயரை மாற்ற முடியவில்லை"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"வெளியேற்று"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"சில கோப்புகள் மாற்றப்பட்டன"</string>

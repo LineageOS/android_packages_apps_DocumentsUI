@@ -190,8 +190,8 @@
       <item quantity="few">V odložišče so bile kopirane <xliff:g id="COUNT_1">%1$d</xliff:g> datoteke.</item>
       <item quantity="other">V odložišče je bilo kopiranih <xliff:g id="COUNT_1">%1$d</xliff:g> datotek.</item>
     </plurals>
-    <string name="file_operation_rejected" msgid="4301554203329008794">"Datotečna operacija ni podprta."</string>
-    <string name="file_operation_error" msgid="2234357335716533795">"Datotečna operacija ni uspela."</string>
+    <string name="file_operation_rejected" msgid="4301554203329008794">"Datotečno opravilo ni podprto."</string>
+    <string name="file_operation_error" msgid="2234357335716533795">"Datotečno opravilo ni uspelo."</string>
     <string name="rename_error" msgid="6700093173508118635">"Dokumenta ni bilo mogoče preimenovati"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Izvrzi"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Nekatere datoteke so bile pretvorjene"</string>
