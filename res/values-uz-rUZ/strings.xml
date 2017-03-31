@@ -158,7 +158,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta fayldan vaqtinchalik xotiraga nusxa olindi.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ta fayldan vaqtinchalik xotiraga nusxa olindi.</item>
     </plurals>
-    <string name="file_operation_rejected" msgid="4301554203329008794">"Fayl amallari ishlamaydi."</string>
+    <string name="file_operation_rejected" msgid="4301554203329008794">"Fayl amallari ishlamayapti."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Fayl amallarini bajarib bo‘lmadi."</string>
     <string name="rename_error" msgid="6700093173508118635">"Hujjatni qayta nomlab bo‘lmadi"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Chiqarish"</string>
