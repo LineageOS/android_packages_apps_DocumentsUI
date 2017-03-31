@@ -41,6 +41,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -459,7 +461,7 @@ public class DirectoryFragment extends Fragment
         return handleMenuItemClick(item);
     }
 
-    private void handleCopyResult(int resultCode, Intent data) {
+    private void onCopyDestinationPicked(int resultCode, Intent data) {
 
         FileOperation operation = mLocalState.claimPendingOperation();
 
@@ -471,10 +473,13 @@ public class DirectoryFragment extends Fragment
         }
 
         operation.setDestination(data.getParcelableExtra(Shared.EXTRA_STACK));
+        final String jobId = FileOperations.createJobId();
+        mInjector.dialogs.showProgressDialog(jobId, operation);
         FileOperations.start(
                 mActivity,
                 operation,
-                mInjector.dialogs::showFileOperationStatus);
+                mInjector.dialogs::showFileOperationStatus,
+                jobId);
     }
 
     protected boolean onContextMenuClick(InputEvent e) {
@@ -767,10 +772,13 @@ public class DirectoryFragment extends Fragment
 
         if (destination != null) {
             operation.setDestination(destination);
+            final String jobId = FileOperations.createJobId();
+            mInjector.dialogs.showProgressDialog(jobId, operation);
             FileOperations.start(
                     mActivity,
                     operation,
-                    mInjector.dialogs::showFileOperationStatus);
+                    mInjector.dialogs::showFileOperationStatus,
+                    jobId);
             return;
         }
 
@@ -825,7 +833,7 @@ public class DirectoryFragment extends Fragment
     public void onActivityResult(@RequestCode int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_COPY_DESTINATION:
-                handleCopyResult(resultCode, data);
+                onCopyDestinationPicked(resultCode, data);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown request code: " + requestCode);

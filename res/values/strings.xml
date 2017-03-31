@@ -163,6 +163,8 @@
     <string name="copy_notification_title">Copying files</string>
     <!-- Title of the compress notification [CHAR LIMIT=24] -->
     <string name="compress_notification_title">Compressing files</string>
+    <!-- Title of the extract notification [CHAR LIMIT=24] -->
+    <string name="extract_notification_title">Extracting files</string>
     <!-- Title of the move notification [CHAR LIMIT=24] -->
     <string name="move_notification_title">Moving files</string>
     <!-- Title of the move notification [CHAR LIMIT=24] -->
@@ -200,6 +202,8 @@
     <string name="copy_preparing">Preparing for copy\u2026</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for compressing files [CHAR LIMIT=32] -->
     <string name="compress_preparing">Preparing for compress\u2026</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for extracting files [CHAR LIMIT=32] -->
+    <string name="extract_preparing">Preparing for extract\u2026</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for moving files [CHAR LIMIT=32] -->
     <string name="move_preparing">Preparing for move\u2026</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for deleting files [CHAR LIMIT=32] -->
@@ -346,4 +350,7 @@
 
     <!-- Dialog text shown when confirming if they want to overwrite a file -->
     <string name="overwrite_file_confirmation_message">Overwrite <xliff:g id="name" example="foobar.txt">%1$s</xliff:g>?</string>
+
+    <!-- Button for continuing a file operation in background, eg. copying, moving or extracting. [CHAR LIMIT=48] -->
+    <string name="continue_in_background">Continue in background</string>
 </resources>

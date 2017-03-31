@@ -30,6 +30,8 @@ import static com.android.documentsui.services.FileOperationService.EXTRA_OPERAT
 import static com.android.documentsui.services.FileOperationService.EXTRA_FAILED_DOCS;
 import static com.android.documentsui.services.FileOperationService.EXTRA_SRC_LIST;
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
+import static com.android.documentsui.services.FileOperationService.MESSAGE_FINISH;
+import static com.android.documentsui.services.FileOperationService.MESSAGE_PROGRESS;
 
 import android.annotation.StringRes;
 import android.app.Notification;
@@ -42,9 +44,12 @@ import android.content.res.AssetFileDescriptor;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
+import android.os.Messenger;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
@@ -75,6 +80,8 @@ import java.io.SyncFailedException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 class CopyJob extends ResolvedResourcesJob {
 
     private static final String TAG = "CopyJob";
@@ -83,6 +90,9 @@ class CopyJob extends ResolvedResourcesJob {
 
     final ArrayList<DocumentInfo> convertedFiles = new ArrayList<>();
     DocumentInfo mDstInfo;
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private final Messenger mMessenger;
 
     private long mStartTime = -1;
     private long mBytesRequired;
@@ -98,14 +108,15 @@ class CopyJob extends ResolvedResourcesJob {
      * @see @link {@link Job} constructor for most param descriptions.
      */
     CopyJob(Context service, Listener listener, String id, DocumentStack destination,
-            UrisSupplier srcs) {
-        this(service, listener, id, OPERATION_COPY, destination, srcs);
+            UrisSupplier srcs, Messenger messenger) {
+        this(service, listener, id, OPERATION_COPY, destination, srcs, messenger);
     }
 
     CopyJob(Context service, Listener listener, String id, @OpType int opType,
-            DocumentStack destination, UrisSupplier srcs) {
+            DocumentStack destination, UrisSupplier srcs, Messenger messenger) {
         super(service, listener, id, opType, destination, srcs);
         mDstInfo = destination.peek();
+        mMessenger = messenger;
 
         assert(srcs.getItemCount() > 0);
     }
@@ -157,6 +168,16 @@ class CopyJob extends ResolvedResourcesJob {
 
     void onBytesCopied(long numBytes) {
         this.mBytesCopied += numBytes;
+    }
+
+    @Override
+    void finish() {
+        try {
+            mMessenger.send(Message.obtain(mHandler, MESSAGE_FINISH, 0, 0));
+        } catch (RemoteException e) {
+            // Ignore. Most likely the frontend was killed.
+        }
+        super.finish();
     }
 
     /**
@@ -328,6 +349,14 @@ class CopyJob extends ResolvedResourcesJob {
      * @param bytesCopied
      */
     private void makeCopyProgress(long bytesCopied) {
+        final int completed =
+            mBytesRequired >= 0 ? (int) (100.0 * this.mBytesCopied / mBytesRequired) : -1;
+        try {
+            mMessenger.send(Message.obtain(mHandler, MESSAGE_PROGRESS,
+                    completed, (int) mRemainingTime));
+        } catch (RemoteException e) {
+            // Ignore. The frontend may be gone.
+        }
         onBytesCopied(bytesCopied);
     }
 

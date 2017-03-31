@@ -19,6 +19,7 @@ import android.app.FragmentManager;
 
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperations;
 
 import junit.framework.Assert;
@@ -49,6 +50,11 @@ public class TestDialogController implements DialogController {
         if (status == FileOperations.Callback.STATUS_REJECTED) {
             mFileOpFailed = true;
         }
+    }
+
+    @Override
+    public void showProgressDialog(String jobId, FileOperation operation) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

@@ -36,6 +36,7 @@ public interface Features {
     boolean isContentRefreshEnabled();
     boolean isFoldersInSearchResultsEnabled();
     boolean isGestureScaleEnabled();
+    boolean isJobProgressDialogEnabled();
     boolean isLaunchToDocumentEnabled();
     boolean isRemoteActionsEnabled();
     boolean isSystemKeyboardNavigationEnabled();
@@ -100,6 +101,11 @@ public interface Features {
         @Override
         public boolean isGestureScaleEnabled() {
             return isEnabled(R.bool.feature_gesture_scale);
+        }
+
+        @Override
+        public boolean isJobProgressDialogEnabled() {
+            return isEnabled(R.bool.feature_job_progress_dialog);
         }
 
         @Override
