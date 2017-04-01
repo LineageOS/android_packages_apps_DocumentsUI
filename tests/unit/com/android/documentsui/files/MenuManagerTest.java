@@ -74,6 +74,7 @@ public final class MenuManagerTest {
     private TestMenuItem advanced;
     private TestMenuItem eject;
     private TestMenuItem view;
+    private TestMenuItem debug;
 
     private TestFeatures features;
     private TestSelectionDetails selectionDetails;
@@ -111,6 +112,7 @@ public final class MenuManagerTest {
         advanced = testMenu.findItem(R.id.menu_advanced);
         eject = testMenu.findItem(R.id.menu_eject_root);
         view = testMenu.findItem(R.id.menu_view_in_owner);
+        debug = testMenu.findItem(R.id.menu_debug);
 
         features = new TestFeatures();
 
@@ -311,6 +313,7 @@ public final class MenuManagerTest {
         advanced.assertInvisible();
         advanced.assertTitle(R.string.menu_advanced_show);
         createDir.assertDisabled();
+        debug.assertInvisible();
         assertTrue(testSearchManager.updateMenuCalled());
     }
 
