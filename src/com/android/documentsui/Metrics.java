@@ -71,7 +71,7 @@ public final class Metrics {
     private static final String COUNT_FILEOP_EXTERNAL = "docsui_fileop_external";
     private static final String COUNT_FILEOP_CANCELED = "docsui_fileop_canceled";
     private static final String COUNT_STARTUP_MS = "docsui_startup_ms";
-    private static final String COUNT_DRAWER_OPENED = "docsui_drawer_opened";
+    @Deprecated private static final String COUNT_DRAWER_OPENED = "docsui_drawer_opened";
     private static final String COUNT_USER_ACTION = "docsui_menu_action";
     private static final String COUNT_BROWSE_AT_LOCATION = "docsui_browse_at_location";
     private static final String COUNT_CREATE_AT_LOCATION = "docsui_create_at_location";
@@ -486,20 +486,6 @@ public final class Metrics {
      */
     public static void logAppVisited(Context context, ResolveInfo info) {
         logHistogram(context, COUNT_ROOT_VISITED_IN_PICKER, sanitizeRoot(info));
-    }
-
-    /**
-     * Logs a drawer opened event. Call this when the user opens drawer by swipe or by clicking the
-     * hamburger icon.
-     * @param context
-     * @param trigger type of action that opened the drawer
-     */
-    public static void logDrawerOpened(Context context, @DrawerController.Trigger int trigger) {
-        if (trigger == DrawerController.OPENED_HAMBURGER) {
-            logHistogram(context, COUNT_DRAWER_OPENED, DRAWER_OPENED_HAMBURGER);
-        } else if (trigger == DrawerController.OPENED_SWIPE) {
-            logHistogram(context, COUNT_DRAWER_OPENED, DRAWER_OPENED_SWIPE);
-        }
     }
 
     /**

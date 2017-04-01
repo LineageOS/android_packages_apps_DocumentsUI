@@ -41,34 +41,8 @@ import java.lang.annotation.RetentionPolicy;
 public abstract class DrawerController implements DrawerListener {
     public static final String TAG = "DrawerController";
 
-    // Drawer opening triggered by tapping the navigation icon
-    public static final int OPENED_HAMBURGER = 0;
-    // Drawer opening triggered by swiping right from the edge of the screen
-    public static final int OPENED_SWIPE = 1;
-    // Mostly programmatically forced drawer opening
-    public static final int OPENED_OTHER = 2;
-
-    @IntDef(flag = true, value = {
-            OPENED_HAMBURGER,
-            OPENED_SWIPE,
-            OPENED_OTHER
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Trigger {}
-
     public abstract void update();
-    /**
-     * Toggles the drawer and sets the OPENED_OTHER as the action that causes opening the drawer.
-     * @param open
-     */
     public abstract void setOpen(boolean open);
-
-    /**
-     * Toggles the drawer.
-     * @param open
-     * @param trigger Indicates what action caused opening the drawer. It is ignored for closing.
-     */
-    abstract void setOpen(boolean open, @Trigger int trigger);
     public abstract boolean isPresent();
     public abstract boolean isOpen();
     abstract void setTitle(String title);
@@ -129,7 +103,6 @@ public abstract class DrawerController implements DrawerListener {
         private DrawerLayout mLayout;
         private View mDrawer;
         private Toolbar mToolbar;
-        private @Trigger int mTrigger = OPENED_OTHER;
 
         public RuntimeDrawerController(
                 DrawerLayout layout,
@@ -185,14 +158,8 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void setOpen(boolean open) {
-            setOpen(open, OPENED_OTHER);
-        }
-
-        @Override
-        void setOpen(boolean open, @Trigger int trigger) {
             if (open) {
                 mLayout.openDrawer(mDrawer);
-                mTrigger = trigger;
             } else {
                 mLayout.closeDrawer(mDrawer);
             }
@@ -226,21 +193,16 @@ public abstract class DrawerController implements DrawerListener {
         @Override
         public void onDrawerOpened(View drawerView) {
             mToggle.onDrawerOpened(drawerView);
-            Metrics.logDrawerOpened(mToolbar.getContext(), mTrigger);
         }
 
         @Override
         public void onDrawerClosed(View drawerView) {
             mToggle.onDrawerClosed(drawerView);
-            mTrigger = OPENED_OTHER;
         }
 
         @Override
         public void onDrawerStateChanged(int newState) {
             mToggle.onDrawerStateChanged(newState);
-            if (newState == DrawerLayout.STATE_DRAGGING) {
-                mTrigger = OPENED_SWIPE;
-            }
         }
     }
 
@@ -251,9 +213,6 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void setOpen(boolean open) {}
-
-        @Override
-        public void setOpen(boolean open, @Trigger int trigger) {}
 
         @Override
         public boolean isOpen() {

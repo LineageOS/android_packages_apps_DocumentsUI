@@ -68,7 +68,7 @@ public class NavigationViewManager {
 
     private void onNavigationIconClicked() {
         if (mDrawer.isPresent()) {
-            mDrawer.setOpen(true, DrawerController.OPENED_HAMBURGER);
+            mDrawer.setOpen(true);
         }
     }
 
