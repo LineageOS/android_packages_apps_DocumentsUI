@@ -73,6 +73,8 @@ public class State implements android.os.Parcelable {
     /** Derived from local preferences */
     public @ViewMode int derivedMode = MODE_GRID;
 
+    public boolean debugMode = false;
+
     /** Current sort state */
     public SortModel sortModel;
 

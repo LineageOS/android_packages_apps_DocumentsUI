@@ -39,5 +39,6 @@
     <bool name="feature_remote_actions">true</bool>
     <bool name="feature_system_keyboard_navigation">true</bool>
     <bool name="feature_virtual_files_sharing">true</bool>
+    <bool name="feature_debug_mode">false</bool>
 
 </resources>
