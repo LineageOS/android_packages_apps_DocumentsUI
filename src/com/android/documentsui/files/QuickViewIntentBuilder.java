@@ -23,6 +23,7 @@ import static com.android.documentsui.base.Shared.MAX_DOCS_IN_INTENT;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Intent;
+import android.content.QuickViewConstants;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -56,6 +57,15 @@ public final class QuickViewIntentBuilder {
     // we won't honor the system property.
     public static final String IGNORE_DEBUG_PROP = "*disabled*";
     private static final String TAG = "QuickViewIntentBuilder";
+
+    private static final String[] IN_ARCHIVE_FEATURES = {};
+    private static final String[] FULL_FEATURES = {
+            QuickViewConstants.FEATURE_VIEW,
+            QuickViewConstants.FEATURE_EDIT,
+            QuickViewConstants.FEATURE_SEND,
+            QuickViewConstants.FEATURE_DOWNLOAD,
+            QuickViewConstants.FEATURE_PRINT
+    };
 
     private final DocumentInfo mDocument;
     private final Model mModel;
@@ -96,6 +106,8 @@ public final class QuickViewIntentBuilder {
                     | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setPackage(trustedPkg);
             if (hasRegisteredHandler(intent)) {
+                includeQuickViewFeaturesFlag(intent, mDocument);
+
                 final ArrayList<Uri> uris = new ArrayList<>();
                 final int documentLocation = collectViewableUris(uris);
                 final Range<Integer> range = computeSiblingsRange(uris, documentLocation);
@@ -196,6 +208,17 @@ public final class QuickViewIntentBuilder {
         return documentLocation;
     }
 
+    private boolean hasRegisteredHandler(Intent intent) {
+        // Try to resolve the intent. If a matching app isn't installed, it won't resolve.
+        return intent.resolveActivity(mPackageMgr) != null;
+    }
+
+    private static void includeQuickViewFeaturesFlag(Intent intent, DocumentInfo doc) {
+        intent.putExtra(
+                Intent.EXTRA_QUICK_VIEW_FEATURES,
+                doc.isInArchive() ? IN_ARCHIVE_FEATURES : FULL_FEATURES);
+    }
+
     private static Range<Integer> computeSiblingsRange(List<Uri> uris, int documentLocation) {
         // Restrict number of siblings to avoid hitting the IPC limit.
         // TODO: Remove this restriction once ClipData can hold an arbitrary number of
@@ -214,10 +237,5 @@ public final class QuickViewIntentBuilder {
                 + " to: " + lastSibling);
 
         return new Range(firstSibling, lastSibling);
-    }
-
-    private boolean hasRegisteredHandler(Intent intent) {
-        // Try to resolve the intent. If a matching app isn't installed, it won't resolve.
-        return intent.resolveActivity(mPackageMgr) != null;
     }
 }
