@@ -43,23 +43,23 @@ public final class CommandInterceptor implements EventHandler<String> {
     public CommandInterceptor(Features features) {
         mFeatures = features;
 
-        if (mFeatures.isCommandInterceptorEnabled()) {
-            mCommands.add(CommandInterceptor::quickViewer);
-            mCommands.add(CommandInterceptor::gestureScale);
-            mCommands.add(CommandInterceptor::archiveCreation);
-            mCommands.add(CommandInterceptor::docDetails);
-            mCommands.add(CommandInterceptor::forcePaging);
-        }
+        mCommands.add(CommandInterceptor::quickViewer);
+        mCommands.add(CommandInterceptor::gestureScale);
+        mCommands.add(CommandInterceptor::archiveCreation);
+        mCommands.add(CommandInterceptor::docDetails);
+        mCommands.add(CommandInterceptor::forcePaging);
     }
 
     public void add(EventHandler<String[]> handler) {
-        if (mFeatures.isCommandInterceptorEnabled()) {
-            mCommands.add(handler);
-        }
+        mCommands.add(handler);
     }
 
     @Override
     public boolean accept(String query) {
+        if (!mFeatures.isCommandInterceptorEnabled()) {
+            return false;
+        }
+
         if (query.length() > COMMAND_PREFIX.length() && query.startsWith(COMMAND_PREFIX)) {
             String[] tokens = query.substring(COMMAND_PREFIX.length()).split("\\s+");
             for (EventHandler<String[]> command : mCommands) {

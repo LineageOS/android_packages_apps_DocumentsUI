@@ -35,22 +35,22 @@ public class RootsList extends ListView {
     // constructed by the framework. Don't remove them!
     public RootsList(Context context) {
         super(context);
-        mFeatures = Features.create(getResources());
+        mFeatures = Features.create(getContext());
     }
 
     public RootsList(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        mFeatures = Features.create(getResources());
+        mFeatures = Features.create(getContext());
     }
 
     public RootsList(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mFeatures = Features.create(getResources());
+        mFeatures = Features.create(getContext());
     }
 
     public RootsList(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mFeatures = Features.create(getResources());
+        mFeatures = Features.create(getContext());
     }
 
     @Override
