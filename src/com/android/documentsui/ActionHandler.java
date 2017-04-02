@@ -135,6 +135,9 @@ public interface ActionHandler {
 
     void viewInOwner();
 
+    void setDebugMode(boolean enabled);
+    void showDebugMessage();
+
     /**
      * Allow action handler to be initialized in a new scope.
      * @return this
