@@ -35,6 +35,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -348,6 +349,10 @@ public abstract class BaseActivity
                 getInjector().actions.selectAllFiles();
                 return true;
 
+            case R.id.menu_debug:
+                getInjector().actions.showDebugMessage();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -568,6 +573,14 @@ public abstract class BaseActivity
         for (EventListener listener : mEventListeners) {
             listener.onDirectoryNavigated(uri);
         }
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            mInjector.debugHelper.debugCheck(event.getDownTime(), event.getKeyCode());
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     /**
