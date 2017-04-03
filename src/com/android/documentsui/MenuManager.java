@@ -76,6 +76,7 @@ public abstract class MenuManager {
         updateNewWindow(menu.findItem(R.id.menu_new_window));
         updateModePicker(menu.findItem(R.id.menu_grid), menu.findItem(R.id.menu_list));
         updateAdvanced(menu.findItem(R.id.menu_advanced));
+        updateDebug(menu.findItem(R.id.menu_debug));
 
         Menus.disableHiddenItems(menu);
     }
@@ -219,6 +220,10 @@ public abstract class MenuManager {
         advanced.setVisible(mState.showDeviceStorageOption);
         advanced.setTitle(mState.showDeviceStorageOption && mState.showAdvanced
                 ? R.string.menu_advanced_hide : R.string.menu_advanced_show);
+    }
+
+    protected void updateDebug(MenuItem debug) {
+        debug.setVisible(mState.debugMode);
     }
 
     protected void updateSettings(MenuItem settings) {

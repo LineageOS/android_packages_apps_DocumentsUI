@@ -19,7 +19,9 @@ package com.android.documentsui.ui;
 import android.annotation.StringRes;
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
@@ -68,6 +70,17 @@ public final class Snackbars {
 
     public static final void showRenameFailed(Activity activity) {
         makeSnackbar(activity, R.string.rename_error, Snackbar.LENGTH_SHORT).show();
+    }
+
+    public static final void showCustomTextWithImage(Activity activity, String text, int imageRes) {
+        Snackbar snackbar = makeSnackbar(activity, text, Snackbar.LENGTH_SHORT);
+        View snackbarLayout = snackbar.getView();
+        TextView textView = (TextView)snackbarLayout.findViewById(
+                android.support.design.R.id.snackbar_text);
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textView.setCompoundDrawablesWithIntrinsicBounds(imageRes, 0, 0, 0);
+        snackbar.show();
     }
 
     public static final Snackbar makeSnackbar(Activity activity, @StringRes int messageId,

@@ -27,12 +27,14 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
+import android.util.Pair;
 import android.view.DragEvent;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
@@ -57,6 +59,7 @@ import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.sidebar.EjectRootTask;
+import com.android.documentsui.ui.Snackbars;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -348,6 +351,32 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         final int anim = (mState.stack.hasLocationChanged() && mState.stack.size() > 1)
                 ? AnimationView.ANIM_ENTER : AnimationView.ANIM_NONE;
         mActivity.refreshCurrentRootAndDirectory(anim);
+    }
+
+    @Override
+    public void setDebugMode(boolean enabled) {
+        mState.debugMode = enabled;
+        mActivity.invalidateOptionsMenu();
+
+        if (enabled) {
+            showDebugMessage();
+        } else {
+            mActivity.getActionBar().setBackgroundDrawable(new ColorDrawable(
+                    mActivity.getResources().getColor(R.color.primary)));
+            mActivity.getWindow().setStatusBarColor(
+                    mActivity.getResources().getColor(R.color.primary_dark));
+        }
+    }
+
+    @Override
+    public void showDebugMessage() {
+        int[] colors = mInjector.debugHelper.getNextColors();
+        Pair<String, Integer> messagePair = mInjector.debugHelper.getNextMessage();
+
+        Snackbars.showCustomTextWithImage(mActivity, messagePair.first, messagePair.second);
+
+        mActivity.getActionBar().setBackgroundDrawable(new ColorDrawable(colors[0]));
+        mActivity.getWindow().setStatusBarColor(colors[1]);
     }
 
     @Override

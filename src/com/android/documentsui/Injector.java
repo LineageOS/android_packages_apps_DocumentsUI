@@ -27,6 +27,7 @@ import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.dirlist.DocumentsAdapter;
+import com.android.documentsui.base.DebugHelper;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.selection.SelectionManager;
@@ -66,6 +67,8 @@ public class Injector<T extends ActionHandler> {
 
     private final Model mModel;
 
+    public final DebugHelper debugHelper;
+
     // must be initialized before calling super.onCreate because prefs
     // are used in State initialization.
     public Injector(
@@ -92,6 +95,7 @@ public class Injector<T extends ActionHandler> {
         this.messages = messages;
         this.dialogs = dialogs;
         this.mModel = model;
+        this.debugHelper = new DebugHelper(this);
     }
 
     public Model getModel() {
