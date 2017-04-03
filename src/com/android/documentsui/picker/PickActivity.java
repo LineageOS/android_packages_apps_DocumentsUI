@@ -79,7 +79,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @Override
     public void onCreate(Bundle icicle) {
 
-        Features features = Features.create(getResources());
+        Features features = Features.create(this);
         mInjector = new Injector<>(
                 features,
                 new Config(),
