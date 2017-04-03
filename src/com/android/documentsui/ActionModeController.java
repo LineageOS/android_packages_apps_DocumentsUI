@@ -140,6 +140,9 @@ public class ActionModeController
         mSelectionMgr.clearSelection();
         mSelected.clear();
 
+        // Reset window title back to activity title, i.e. Root name
+        mActivity.getWindow().setTitle(mActivity.getTitle());
+
         // Re-enable TalkBack for the toolbars, as they are no longer covered by action mode.
         mScope.accessibilityImportanceSetter.setAccessibilityImportance(
                 View.IMPORTANT_FOR_ACCESSIBILITY_AUTO, R.id.toolbar, R.id.roots_toolbar);
