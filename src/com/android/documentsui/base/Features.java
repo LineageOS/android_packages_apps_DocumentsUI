@@ -16,7 +16,9 @@
 package com.android.documentsui.base;
 
 import android.annotation.BoolRes;
+import android.content.Context;
 import android.content.res.Resources;
+import android.os.UserManager;
 import android.util.SparseBooleanArray;
 
 import com.android.documentsui.R;
@@ -42,8 +44,8 @@ public interface Features {
     boolean isSystemKeyboardNavigationEnabled();
     boolean isVirtualFilesSharingEnabled();
 
-    public static Features create(Resources resources) {
-        return new RuntimeFeatures(resources);
+    public static Features create(Context context) {
+        return new RuntimeFeatures(context.getResources(), UserManager.get(context));
     }
 
     /**
@@ -62,15 +64,31 @@ public interface Features {
     final class RuntimeFeatures implements Features {
 
         private static final SparseBooleanArray sDebugEnabled = new SparseBooleanArray();
+        private final SparseBooleanArray mDebugEnabled = new SparseBooleanArray();
 
         private final Resources mRes;
+        private final UserManager mUserMgr;
 
-        public RuntimeFeatures(Resources resources) {
+        public RuntimeFeatures(Resources resources, UserManager userMgr) {
             mRes = resources;
+            mUserMgr = userMgr;
+        }
+
+        /**
+         * Call this to force-enable any particular feature known by this instance.
+         * Note that all feature may not support being enabled at runtime as
+         * they may depend on runtime initialization guarded by feature check.
+         *
+         * <p>Feature changes will be persisted across activities, but not app restarts.
+         *
+         * @param feature int reference to a boolean feature resource.
+         */
+        public void forceFeature(@BoolRes int feature, boolean enabled) {
+            mDebugEnabled.put(feature, enabled);
         }
 
         private boolean isEnabled(@BoolRes int feature) {
-            return sDebugEnabled.get(feature, mRes.getBoolean(feature));
+            return mDebugEnabled.get(feature, sDebugEnabled.get(feature, mRes.getBoolean(feature)));
         }
 
         @Override
@@ -80,7 +98,8 @@ public interface Features {
 
         @Override
         public boolean isCommandInterceptorEnabled() {
-            return isEnabled(R.bool.feature_command_interceptor);
+            return !mUserMgr.hasUserRestriction(UserManager.DISALLOW_DEBUGGING_FEATURES)
+                    && isEnabled(R.bool.feature_command_interceptor);
         }
 
         @Override
