@@ -66,7 +66,7 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         bots.main.switchToListMode();
         bots.directory.openDocument("throw a authentication exception");
         bots.directory.assertHeaderMessageText(
-                "Authentication is required to see the content of this directory");
+                "To view this directory, sign in to DocumentsUI Tests");
 
     }
 

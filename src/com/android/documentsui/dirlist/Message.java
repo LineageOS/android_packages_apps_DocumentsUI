@@ -22,6 +22,7 @@ import android.app.PendingIntent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
@@ -106,7 +107,7 @@ abstract class Message {
             // TODO: These should be different Message objects getting updated instead of
             // overwriting.
             if (event.hasAuthenticationException()) {
-                updateToRecoverableExceptionHeader(event);
+                updateToAuthenticationExceptionHeader(event);
             } else if (mEnv.getModel().error != null) {
                 update(mEnv.getModel().error, null,
                         mEnv.getContext().getDrawable(R.drawable.ic_dialog_alert));
@@ -116,12 +117,14 @@ abstract class Message {
             }
         }
 
-        private void updateToRecoverableExceptionHeader(Update event) {
+        private void updateToAuthenticationExceptionHeader(Update event) {
             assert(mEnv.getFeatures().isRemoteActionsEnabled());
 
             RootInfo root = mEnv.getDisplayState().stack.getRoot();
-            update(mEnv.getContext().getResources().getText(R.string.authentication_required),
-                    mEnv.getContext().getString(R.string.open_app, root.title),
+            String appName = DocumentsApplication
+                    .getProvidersCache(mEnv.getContext()).getApplicationName(root.authority);
+            update(mEnv.getContext().getString(R.string.authentication_required, appName),
+                    mEnv.getContext().getResources().getText(R.string.sign_in),
                     mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
             mCallback = () -> {
                 AuthenticationRequiredException exception =
@@ -147,11 +150,12 @@ abstract class Message {
             if (event.hasException() && !event.hasAuthenticationException()) {
                 updateToInflatedErrorMesage(
                         Shared.DEBUG ? Shared.getStackTrace(event.getException()) : null);
+            } else if (event.hasAuthenticationException()) {
+                updateToCantDisplayContentMessage();
             } else if (mEnv.getModel().getModelIds().length == 0) {
                 updateToInflatedEmptyMessage();
             }
         }
-
 
         private void updateToInflatedErrorMesage(@Nullable String debugString) {
             if (debugString == null) {
@@ -161,6 +165,11 @@ abstract class Message {
                 assert (Shared.DEBUG);
                 update(debugString, null, mEnv.getContext().getDrawable(R.drawable.hourglass));
             }
+        }
+
+        private void updateToCantDisplayContentMessage() {
+            update(mEnv.getContext().getResources().getText(R.string.cant_display_content), null,
+                    mEnv.getContext().getDrawable(R.drawable.cabinet));
         }
 
         private void updateToInflatedEmptyMessage() {

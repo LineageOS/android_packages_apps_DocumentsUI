@@ -345,10 +345,13 @@
     <string name="name_conflict">A file with this name already exists.</string>
 
     <!-- Error message shown when more authentication is necessary to view files  -->
-    <string name="authentication_required">Authentication is required to see the content of this directory</string>
+    <string name="authentication_required">To view this directory, sign in to <xliff:g id="name" example="Cloud Storage">%1$s</xliff:g></string>
 
-    <!-- Text shown on button to open an application -->
-    <string name="open_app">Open <xliff:g id="name" example="Cloud Storage">%1$s</xliff:g></string>
+    <!-- Error message shown when content cannot be displayed due to lack of authentication -->
+    <string name="cant_display_content">Can\u2019t display contents</string>
+
+    <!-- Text shown on button to open an application that needs user to sign in -->
+    <string name="sign_in">Sign in</string>
 
     <!-- File name of an archive file created when compressing files, without the file extension (.zip). -->
     <string name="new_archive_file_name">archive<xliff:g id="extension" example=".zip">%s</xliff:g></string>
