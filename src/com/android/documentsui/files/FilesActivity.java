@@ -80,8 +80,9 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     public void onCreate(Bundle icicle) {
 
         MessageBuilder messages = new MessageBuilder(this);
+        Features features = Features.create(this);
         mInjector = new Injector<>(
-                Features.create(getResources()),
+                features,
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 messages,
