@@ -96,13 +96,18 @@ class RootItem extends Item {
     }
 
     @Override
-    boolean isDropTarget() {
+    boolean isRoot() {
         return true;
     }
 
     @Override
     void open() {
         mActionHandler.openRoot(root);
+    }
+
+    @Override
+    boolean isDropTarget() {
+        return root.supportsCreate();
     }
 
     @Override

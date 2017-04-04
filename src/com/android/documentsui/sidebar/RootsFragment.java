@@ -50,8 +50,6 @@ import android.widget.ListView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.DragAndDropHelper;
-import com.android.documentsui.DragShadowBuilder;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
@@ -76,7 +74,7 @@ import java.util.Objects;
 /**
  * Display list of known storage backend roots.
  */
-public class RootsFragment extends Fragment implements ItemDragListener.DragHost {
+public class RootsFragment extends Fragment {
 
     private static final String TAG = "RootsFragment";
     private static final String EXTRA_INCLUDE_APPS = "includeApps";
@@ -192,13 +190,17 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         mActionHandler = mInjector.actions;
 
         if (mInjector.config.dragAndDropEnabled()) {
-            mDragListener = new ItemDragListener<RootsFragment>(this) {
+            final DragHost host = new DragHost(
+                    activity,
+                    activity.getShadowBuilder(),
+                    this::getItem,
+                    mActionHandler);
+            mDragListener = new ItemDragListener<DragHost>(host) {
                 @Override
                 public boolean handleDropEventChecked(View v, DragEvent event) {
-                    final int position = (Integer) v.getTag(R.id.item_position_tag);
-                    final Item item = mAdapter.getItem(position);
+                    final Item item = getItem(v);
 
-                    assert (item.isDropTarget());
+                    assert (item.isRoot());
 
                     return item.dropOn(event);
                 }
@@ -357,72 +359,6 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
     }
 
     @Override
-    public void runOnUiThread(Runnable runnable) {
-        getActivity().runOnUiThread(runnable);
-    }
-
-    // In RootsFragment, we check whether the item corresponds to a RootItem, and whether
-    // the currently dragged objects can be droppable or not, and change the drop-shadow
-    // accordingly
-    @Override
-    public void onDragEntered(View v, Object localState) {
-        final int pos = (Integer) v.getTag(R.id.item_position_tag);
-        final Item item = mAdapter.getItem(pos);
-
-        // If a read-only root, no need to see if top level is writable (it's not)
-        if (!(item instanceof RootItem) || !((RootItem) item).root.supportsCreate()) {
-            getBaseActivity().getShadowBuilder().setAppearDroppable(false);
-            v.updateDragShadow(getBaseActivity().getShadowBuilder());
-            return;
-        }
-
-        final RootItem rootItem = (RootItem) item;
-        getRootDocument(rootItem, (DocumentInfo doc) -> {
-            updateDropShadow(v, localState, rootItem, doc);
-        });
-    }
-
-    private void updateDropShadow(
-            View v, Object localState, RootItem rootItem, DocumentInfo rootDoc) {
-        final DragShadowBuilder shadowBuilder = getBaseActivity().getShadowBuilder();
-        if (rootDoc == null) {
-            Log.e(TAG, "Root DocumentInfo is null. Defaulting to appear not droppable.");
-            shadowBuilder.setAppearDroppable(false);
-        } else {
-            rootItem.docInfo = rootDoc;
-            shadowBuilder.setAppearDroppable(rootDoc.isCreateSupported()
-                    && DragAndDropHelper.canCopyTo(localState, rootDoc));
-        }
-        v.updateDragShadow(shadowBuilder);
-    }
-
-    // In RootsFragment we always reset the drag shadow as it exits a RootItemView.
-    @Override
-    public void onDragExited(View v, Object localState) {
-        getBaseActivity().getShadowBuilder().resetBackground();
-        v.updateDragShadow(getBaseActivity().getShadowBuilder());
-    }
-
-    // In RootsFragment we open the hovered root.
-    @Override
-    public void onViewHovered(View v) {
-        // SpacerView doesn't have DragListener so this view is guaranteed to be a RootItemView.
-        RootItemView itemView = (RootItemView) v;
-        itemView.drawRipple();
-
-        final int position = (Integer) v.getTag(R.id.item_position_tag);
-        final Item item = mAdapter.getItem(position);
-        item.open();
-    }
-
-    @Override
-    public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
-        // SpacerView doesn't have DragListener so this view is guaranteed to be a RootItemView.
-        RootItemView itemView = (RootItemView) v;
-        itemView.setHighlight(highlight);
-    }
-
-    @Override
     public void onCreateContextMenu(
             ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -464,11 +400,6 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         }
     }
 
-    @FunctionalInterface
-    interface RootUpdater {
-        void updateDocInfoForRoot(DocumentInfo doc);
-    }
-
     private void getRootDocument(RootItem rootItem, RootUpdater updater) {
         // We need to start a GetRootDocumentTask so we can know whether items can be directly
         // pasted into root
@@ -478,6 +409,11 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
                 (DocumentInfo doc) -> {
                     updater.updateDocInfoForRoot(doc);
                 });
+    }
+
+    private Item getItem(View v) {
+        final int pos = (Integer) v.getTag(R.id.item_position_tag);
+        return mAdapter.getItem(pos);
     }
 
     static void ejectClicked(View ejectIcon, RootInfo root, ActionHandler actionHandler) {
@@ -507,5 +443,10 @@ public class RootsFragment extends Fragment implements ItemDragListener.DragHost
         public int compare(RootItem lhs, RootItem rhs) {
             return lhs.root.compareTo(rhs.root);
         }
+    }
+
+    @FunctionalInterface
+    interface RootUpdater {
+        void updateDocInfoForRoot(DocumentInfo doc);
     }
 }
