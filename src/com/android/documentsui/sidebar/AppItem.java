@@ -74,7 +74,7 @@ class AppItem extends Item {
     }
 
     @Override
-    boolean isDropTarget() {
+    boolean isRoot() {
         // We won't support drag n' drop in pickers, and apps only show up there.
         return false;
     }
