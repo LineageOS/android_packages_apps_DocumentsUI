@@ -58,6 +58,15 @@ public class SelectionMetadata
         mDocFinder = docFinder;
     }
 
+    public void reset(){
+        mFileCount = 0;
+        mDirectoryCount = 0;
+        mPartialCount = 0;
+        mWritableDirectoryCount = 0;
+        mNoDeleteCount = 0;
+        mNoRenameCount = 0;
+    }
+
     @Override
     public void onItemStateChanged(String modelId, boolean selected) {
         final Cursor cursor = mDocFinder.apply(modelId);
