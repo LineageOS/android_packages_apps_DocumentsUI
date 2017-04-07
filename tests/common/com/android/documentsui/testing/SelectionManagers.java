@@ -16,6 +16,7 @@
 
 package com.android.documentsui.testing;
 
+import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionMode;
@@ -38,14 +39,13 @@ public class SelectionManagers {
     public static SelectionManager createTestInstance(
             List<String> docs, @SelectionMode int mode) {
         return createTestInstance(
-                docs,
+                new TestDocumentsAdapter(docs),
                 mode,
                 (String id, boolean nextState) -> true);
     }
 
     public static SelectionManager createTestInstance(
-            List<String> docs, @SelectionMode int mode, SelectionPredicate canSetState) {
-        TestDocumentsAdapter adapter = new TestDocumentsAdapter(docs);
+            DocumentsAdapter adapter, @SelectionMode int mode, SelectionPredicate canSetState) {
         SelectionManager manager = new SelectionManager(mode);
         manager.reset(adapter, canSetState);
 
