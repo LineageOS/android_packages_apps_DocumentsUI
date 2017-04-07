@@ -73,5 +73,7 @@ public class TestDocumentsAdapter extends DocumentsAdapter {
 
     public void updateTestModelIds(List<String> modelIds) {
         mModelIds = modelIds;
+
+        notifyDataSetChanged();
     }
 }
