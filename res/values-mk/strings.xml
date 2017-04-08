@@ -41,8 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Компресирај"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Отпакувај во…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Преименувај"</string>
-    <!-- no translation found for menu_view_in_owner (7228948660557554770) -->
-    <skip />
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"Прикажи во <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Нов прозорец"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Исечи"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Копирај"</string>
@@ -198,8 +197,12 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Слики"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Не може да се отвори архивата за прелистување. Датотека или е оштетена или е со неподдржан формат."</string>
     <string name="name_conflict" msgid="28407269328862986">"Датотека со истото име веќе постои."</string>
-    <string name="authentication_required" msgid="147352435273287559">"Потребна е автентификација за да ја погледнете содржината на адресаров"</string>
-    <string name="open_app" msgid="8467890061226696744">"Отвори ја <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <!-- no translation found for authentication_required (8030880723643436099) -->
+    <skip />
+    <!-- no translation found for cant_display_content (8633226333229417237) -->
+    <skip />
+    <!-- no translation found for sign_in (6253762676723505592) -->
+    <skip />
     <string name="new_archive_file_name" msgid="1604650338077249838">"архива<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Да се презапише <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>

@@ -41,8 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Konprimatu"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Atera hona…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Aldatu izena"</string>
-    <!-- no translation found for menu_view_in_owner (7228948660557554770) -->
-    <skip />
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"Ikusi <xliff:g id="SOURCE">%1$s</xliff:g> zerbitzuan"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Leiho berria"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Ebaki"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopiatu"</string>
@@ -162,7 +161,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementu kopiatu dira arbelean.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elementu kopiatu da arbelean.</item>
     </plurals>
-    <string name="file_operation_rejected" msgid="4301554203329008794">"Ez da onartzen hori egitea fitxategian."</string>
+    <string name="file_operation_rejected" msgid="4301554203329008794">"Ez da onartzen hori egitea fitxategiarekin."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Ezin da egin hori fitxategiarekin."</string>
     <string name="rename_error" msgid="6700093173508118635">"Ezin izan zaio aldatu izena dokumentuari"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Atera"</string>
@@ -198,8 +197,12 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Irudiak"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Ezin da ireki artxiboa. Fitxategia hondatuta dago edo ez da onartzen bere formatua."</string>
     <string name="name_conflict" msgid="28407269328862986">"Badago jada izen hori duen fitxategi bat."</string>
-    <string name="authentication_required" msgid="147352435273287559">"Autentifikatu egin behar duzu direktorioko edukia ikusi ahal izateko"</string>
-    <string name="open_app" msgid="8467890061226696744">"Ireki <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <!-- no translation found for authentication_required (8030880723643436099) -->
+    <skip />
+    <!-- no translation found for cant_display_content (8633226333229417237) -->
+    <skip />
+    <!-- no translation found for sign_in (6253762676723505592) -->
+    <skip />
     <string name="new_archive_file_name" msgid="1604650338077249838">"artxiboa<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> gainidatzi nahi duzu?"</string>
 </resources>
