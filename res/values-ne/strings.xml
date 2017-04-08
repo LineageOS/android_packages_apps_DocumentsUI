@@ -41,8 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"कम्प्रेस गर्नुहोस्"</string>
     <string name="menu_extract" msgid="8171946945982532262">"यसमा एकस्ट्र्याक्ट गर्नुहोस्…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"पुनःनामाकरण गर्नुहोस्"</string>
-    <!-- no translation found for menu_view_in_owner (7228948660557554770) -->
-    <skip />
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> मा हेर्नुहोस्"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"नयाँ विन्डो"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"काट्नुहोस्"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"प्रतिलिपि बनाउनुहोस्"</string>
@@ -83,6 +82,7 @@
     <string name="share_via" msgid="8725082736005677161">"निम्न मार्फत साझेदारी गर्नुहोस्"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फाइलहरूका प्रतिलिपि बनाउँदै"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"फाइलहरू कम्प्रेस गर्दै"</string>
+    <string name="extract_notification_title" msgid="5067393961754430469">"फाइलहरू एक्स्ट्र्याक्ट गर्दै"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"फाइलहरूलाई सार्दै"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"फाइलहरूलाई मेट्दै"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> बाँकी छ"</string>
@@ -109,6 +109,7 @@
     <string name="undo" msgid="2902438994196400565">"अनडू गर्नुहोस्"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"प्रतिलिपि बनाउने तयारी गर्दै…"</string>
     <string name="compress_preparing" msgid="6650018601382062672">"कम्प्रेस गर्ने तयारी गर्दै…"</string>
+    <string name="extract_preparing" msgid="58266275455027829">"एक्स्ट्र्याक्ट गर्ने तयारी गर्दै…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"सार्ने तयारी गर्दै…"</string>
     <string name="delete_preparing" msgid="6513863752916028147">"मेट्ने तयारी गर्दै…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
@@ -198,8 +199,13 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"छविहरू"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ब्राउजिङको अभिलेख खोल्न सकिएन। फाइल या त बिग्रेको छ वा कुनै समर्थन नगरिने ढाँचामा छ।"</string>
     <string name="name_conflict" msgid="28407269328862986">"यो नाम भएको फाइल पहिले नै छ।"</string>
-    <string name="authentication_required" msgid="147352435273287559">"यस निर्देशिकाको सामग्री हेर्न प्रमाणीकरणको आवश्यकता पर्दछ"</string>
-    <string name="open_app" msgid="8467890061226696744">"<xliff:g id="NAME">%1$s</xliff:g> खोल्नुहोस्"</string>
+    <!-- no translation found for authentication_required (8030880723643436099) -->
+    <skip />
+    <!-- no translation found for cant_display_content (8633226333229417237) -->
+    <skip />
+    <!-- no translation found for sign_in (6253762676723505592) -->
+    <skip />
     <string name="new_archive_file_name" msgid="1604650338077249838">"अभिलेख राख्नुहोस्<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> को अधिलेखन गर्ने हो?"</string>
+    <string name="continue_in_background" msgid="1974214559047793331">"पृष्ठभूमिमा जारी राख्नुहोस्"</string>
 </resources>
