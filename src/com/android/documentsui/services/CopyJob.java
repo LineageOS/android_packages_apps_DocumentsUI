@@ -293,12 +293,6 @@ class CopyJob extends ResolvedResourcesJob {
         Metrics.logFileOperation(service, operationType, mResolvedDocs, mDstInfo);
     }
 
-    @Override
-    boolean isEligibleDoc(DocumentInfo doc, RootInfo root) {
-        // Can't copy folders to downloads, because we don't show folders there.
-        return !root.isDownloads() || !doc.isDirectory();
-    }
-
     /**
      * Checks whether the destination folder has enough space to take all source files.
      * @return true if the root has enough space or doesn't provide free space info; otherwise false
