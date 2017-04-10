@@ -24,14 +24,25 @@ import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.Selection;
 
 /**
- * Helper class for making assertions against the state of a MultiSelectManager instance.
+ * Helper class for making assertions against the state of a {@link SelectionManager} instance and
+ * the consistency of states between {@link SelectionManager} and
+ * {@link SelectionManager.ItemCallback}.
  */
 public final class SelectionProbe {
 
     private final SelectionManager mMgr;
+    private final TestItemSelectionListener mTestCallback;
 
     public SelectionProbe(SelectionManager mgr) {
         mMgr = mgr;
+        mTestCallback = new TestItemSelectionListener();
+
+        mMgr.addItemCallback(mTestCallback);
+    }
+
+    public SelectionProbe(SelectionManager mgr, TestItemSelectionListener testCallback) {
+        mMgr = mgr;
+        mTestCallback = testCallback;
     }
 
     public void assertRangeSelected(int begin, int end) {
@@ -54,15 +65,21 @@ public final class SelectionProbe {
     public void assertSelectionSize(int expected) {
         Selection selection = mMgr.getSelection();
         assertEquals(selection.toString(), expected, selection.size());
+
+        mTestCallback.assertSelectionSize(expected);
     }
 
     public void assertNoSelection() {
         assertSelectionSize(0);
+
+        mTestCallback.assertNoSelection();
     }
 
     public void assertSelection(int... ids) {
         assertSelected(ids);
         assertEquals(ids.length, mMgr.getSelection().size());
+
+        mTestCallback.assertSelectionSize(ids.length);
     }
 
     public void assertSelected(int... ids) {
@@ -70,6 +87,8 @@ public final class SelectionProbe {
         for (int id : ids) {
             String sid = String.valueOf(id);
             assertTrue(sid + " is not in selection " + sel, sel.contains(sid));
+
+            mTestCallback.assertSelected(sid);
         }
     }
 
@@ -78,6 +97,8 @@ public final class SelectionProbe {
         for (int id : ids) {
             String sid = String.valueOf(id);
             assertFalse(sid + " is in selection " + sel, sel.contains(sid));
+
+            mTestCallback.assertNotSelected(sid);
         }
     }
 

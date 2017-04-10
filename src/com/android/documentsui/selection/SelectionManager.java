@@ -426,7 +426,12 @@ public final class SelectionManager {
     }
 
     private void notifyDataChanged() {
-        int lastListener = mItemCallbacks.size() - 1;
+        final int lastListener = mItemCallbacks.size() - 1;
+
+        for (int i = lastListener; i >= 0; i--) {
+            mItemCallbacks.get(i).onSelectionReset();
+        }
+
         for (String id : mSelection) {
             if (!canSetState(id, true)) {
                 attemptDeselect(id);
@@ -513,21 +518,32 @@ public final class SelectionManager {
             if (id == null) {
                 continue;
             }
+
+            boolean changedState = false;
             if (selected) {
                 boolean canSelect = canSetState(id, true);
                 if (canSelect && !mSelection.mSelection.contains(id)) {
                     mSelection.mProvisionalSelection.add(id);
+                    changedState = true;
                 }
             } else {
                 mSelection.mProvisionalSelection.remove(id);
+                changedState = true;
             }
-            notifyItemStateChanged(id, selected);
+
+            // Only notify item callbacks when something's state is actually changed in provisional
+            // selection.
+            if (changedState) {
+                notifyItemStateChanged(id, selected);
+            }
         }
         notifySelectionChanged();
     }
 
     public interface ItemCallback {
         void onItemStateChanged(String id, boolean selected);
+
+        void onSelectionReset();
     }
 
     public interface Callback {
