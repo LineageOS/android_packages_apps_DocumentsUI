@@ -20,6 +20,7 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseBooleanArray;
 
+import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.selection.Selection;
@@ -41,20 +42,25 @@ public class SelectionManagerTest {
     private static final List<String> ITEMS = TestData.create(100);
 
     private final Set<String> mIgnored = new HashSet<>();
+    private TestDocumentsAdapter mAdapter;
     private SelectionManager mManager;
     private TestSelectionListener mCallback;
+    private TestItemSelectionListener mItemCallback;
     private SelectionProbe mSelection;
 
     @Before
     public void setUp() throws Exception {
         mCallback = new TestSelectionListener();
+        mItemCallback = new TestItemSelectionListener();
+        mAdapter = new TestDocumentsAdapter(ITEMS);
         mManager = SelectionManagers.createTestInstance(
-                ITEMS,
+                mAdapter,
                 SelectionManager.MODE_MULTIPLE,
                 (String id, boolean nextState) -> (!nextState || !mIgnored.contains(id)));
         mManager.addCallback(mCallback);
+        mManager.addItemCallback(mItemCallback);
 
-        mSelection = new SelectionProbe(mManager);
+        mSelection = new SelectionProbe(mManager, mItemCallback);
 
         mIgnored.clear();
     }
@@ -85,6 +91,25 @@ public class SelectionManagerTest {
         // Deselection should notify.
         mManager.toggleSelection(ITEMS.get(7));
         mCallback.assertSelectionChanged();
+    }
+
+    @Test
+    public void testSelection_PersistsOnUpdate() {
+        mManager.toggleSelection(ITEMS.get(7));
+
+        mAdapter.updateTestModelIds(ITEMS);
+
+        mSelection.assertSelection(7);
+    }
+
+    @Test
+    public void testSelection_IntersectsWithNewDataSet() {
+        mManager.toggleSelection(ITEMS.get(99));
+        mManager.toggleSelection(ITEMS.get(7));
+
+        mAdapter.updateTestModelIds(TestData.create(50));
+
+        mSelection.assertSelection(7);
     }
 
     @Test
@@ -212,6 +237,10 @@ public class SelectionManagerTest {
         Selection s = mManager.getSelection();
         mSelection.assertNoSelection();
 
+        // Mimicking band selection case -- BandController notifies item callback by itself.
+        mItemCallback.onItemStateChanged(ITEMS.get(1), true);
+        mItemCallback.onItemStateChanged(ITEMS.get(2), true);
+
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(1, true);
         provisional.append(2, true);
@@ -223,12 +252,20 @@ public class SelectionManagerTest {
     public void testProvisionalSelection_Replace() {
         Selection s = mManager.getSelection();
 
+        // Mimicking band selection case -- BandController notifies item callback by itself.
+        mItemCallback.onItemStateChanged(ITEMS.get(1), true);
+        mItemCallback.onItemStateChanged(ITEMS.get(2), true);
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(1, true);
         provisional.append(2, true);
         s.setProvisionalSelection(getItemIds(provisional));
 
+        mItemCallback.onItemStateChanged(ITEMS.get(1), false);
+        mItemCallback.onItemStateChanged(ITEMS.get(2), false);
         provisional.clear();
+
+        mItemCallback.onItemStateChanged(ITEMS.get(3), true);
+        mItemCallback.onItemStateChanged(ITEMS.get(4), true);
         provisional.append(3, true);
         provisional.append(4, true);
         s.setProvisionalSelection(getItemIds(provisional));
@@ -239,12 +276,19 @@ public class SelectionManagerTest {
     public void testProvisionalSelection_IntersectsExistingProvisionalSelection() {
         Selection s = mManager.getSelection();
 
+        // Mimicking band selection case -- BandController notifies item callback by itself.
+        mItemCallback.onItemStateChanged(ITEMS.get(1), true);
+        mItemCallback.onItemStateChanged(ITEMS.get(2), true);
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(1, true);
         provisional.append(2, true);
         s.setProvisionalSelection(getItemIds(provisional));
 
+        mItemCallback.onItemStateChanged(ITEMS.get(1), false);
+        mItemCallback.onItemStateChanged(ITEMS.get(2), false);
         provisional.clear();
+
+        mItemCallback.onItemStateChanged(ITEMS.get(1), true);
         provisional.append(1, true);
         s.setProvisionalSelection(getItemIds(provisional));
         mSelection.assertSelection(1);
@@ -254,11 +298,15 @@ public class SelectionManagerTest {
     public void testProvisionalSelection_Apply() {
         Selection s = mManager.getSelection();
 
+        // Mimicking band selection case -- BandController notifies item callback by itself.
+        mItemCallback.onItemStateChanged(ITEMS.get(1), true);
+        mItemCallback.onItemStateChanged(ITEMS.get(2), true);
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(1, true);
         provisional.append(2, true);
         s.setProvisionalSelection(getItemIds(provisional));
         s.applyProvisionalSelection();
+
         mSelection.assertSelection(1, 2);
     }
 
@@ -284,6 +332,8 @@ public class SelectionManagerTest {
         mManager.toggleSelection(ITEMS.get(2));
         Selection s = mManager.getSelection();
 
+        // Mimicking band selection case -- BandController notifies item callback by itself.
+        mItemCallback.onItemStateChanged(ITEMS.get(3), true);
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(2, true);
         provisional.append(3, true);
