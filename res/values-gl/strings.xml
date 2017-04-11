@@ -197,12 +197,9 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Imaxes"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Non se pode abrir o ficheiro para examinalo. É posible que estea danado ou que teña un formato non compatible."</string>
     <string name="name_conflict" msgid="28407269328862986">"Xa existe un ficheiro con este nome."</string>
-    <!-- no translation found for authentication_required (8030880723643436099) -->
-    <skip />
-    <!-- no translation found for cant_display_content (8633226333229417237) -->
-    <skip />
-    <!-- no translation found for sign_in (6253762676723505592) -->
-    <skip />
+    <string name="authentication_required" msgid="8030880723643436099">"Para ver este directorio, inicia sesión en: <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="cant_display_content" msgid="8633226333229417237">"Non se pode mostrar o contido"</string>
+    <string name="sign_in" msgid="6253762676723505592">"Iniciar sesión"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arquivo<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Queres sobrescribir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>
