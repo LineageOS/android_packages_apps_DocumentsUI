@@ -199,12 +199,9 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Irudiak"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Ezin da ireki artxiboa. Fitxategia hondatuta dago edo ez da onartzen bere formatua."</string>
     <string name="name_conflict" msgid="28407269328862986">"Badago jada izen hori duen fitxategi bat."</string>
-    <!-- no translation found for authentication_required (8030880723643436099) -->
-    <skip />
-    <!-- no translation found for cant_display_content (8633226333229417237) -->
-    <skip />
-    <!-- no translation found for sign_in (6253762676723505592) -->
-    <skip />
+    <string name="authentication_required" msgid="8030880723643436099">"Direktorioa ikusteko, hasi saioa <xliff:g id="NAME">%1$s</xliff:g> zerbitzuan"</string>
+    <string name="cant_display_content" msgid="8633226333229417237">"Ezin da bistaratu edukia"</string>
+    <string name="sign_in" msgid="6253762676723505592">"Hasi saioa"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"artxiboa<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> gainidatzi nahi duzu?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Jarraitu atzeko planoan"</string>
