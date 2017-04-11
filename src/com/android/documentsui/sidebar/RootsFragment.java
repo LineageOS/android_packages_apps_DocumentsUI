@@ -192,7 +192,7 @@ public class RootsFragment extends Fragment {
         if (mInjector.config.dragAndDropEnabled()) {
             final DragHost host = new DragHost(
                     activity,
-                    activity.getShadowBuilder(),
+                    DocumentsApplication.getDragAndDropManager(activity),
                     this::getItem,
                     mActionHandler);
             mDragListener = new ItemDragListener<DragHost>(host) {

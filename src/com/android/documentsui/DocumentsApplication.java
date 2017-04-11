@@ -40,6 +40,7 @@ public class DocumentsApplication extends Application {
     private ThumbnailCache mThumbnailCache;
     private ClipStorage mClipStore;
     private DocumentClipper mClipper;
+    private DragAndDropManager mDragAndDropManager;
 
     public static ProvidersCache getProvidersCache(Context context) {
         return ((DocumentsApplication) context.getApplicationContext()).mProviders;
@@ -69,6 +70,10 @@ public class DocumentsApplication extends Application {
         return ((DocumentsApplication) context.getApplicationContext()).mClipStore;
     }
 
+    public static DragAndDropManager getDragAndDropManager(Context context) {
+        return ((DocumentsApplication) context.getApplicationContext()).mDragAndDropManager;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -85,6 +90,8 @@ public class DocumentsApplication extends Application {
                 ClipStorage.prepareStorage(getCacheDir()),
                 getSharedPreferences(ClipStorage.PREF_NAME, 0));
         mClipper = DocumentClipper.create(this, mClipStore);
+
+        mDragAndDropManager = DragAndDropManager.create(this, mClipper);
 
         final IntentFilter packageFilter = new IntentFilter();
         packageFilter.addAction(Intent.ACTION_PACKAGE_ADDED);

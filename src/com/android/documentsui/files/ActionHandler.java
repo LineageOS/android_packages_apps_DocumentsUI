@@ -34,7 +34,7 @@ import com.android.documentsui.ActionModeAddons;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.DragAndDropHelper;
+import com.android.documentsui.DragAndDropManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.Model;
@@ -62,6 +62,7 @@ import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
+import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.ui.DialogController;
 import com.android.internal.annotations.VisibleForTesting;
@@ -85,6 +86,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private final DialogController mDialogs;
     private final DocumentClipper mClipper;
     private final ClipStore mClipStore;
+    private final DragAndDropManager mDragAndDropManager;
     private final Model mModel;
 
     ActionHandler(
@@ -97,6 +99,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             ActionModeAddons actionModeAddons,
             DocumentClipper clipper,
             ClipStore clipStore,
+            DragAndDropManager dragAndDropManager,
             Injector injector) {
 
         super(activity, state, providers, docs, searchMgr, executors, injector);
@@ -107,6 +110,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         mDialogs = injector.dialogs;
         mClipper = clipper;
         mClipStore = clipStore;
+        mDragAndDropManager = dragAndDropManager;
         mModel = injector.getModel();
     }
 
@@ -121,21 +125,9 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         // references to ensure they are non null.
         final ClipData clipData = event.getClipData();
         final Object localState = event.getLocalState();
-        getRootDocument(
-                root,
-                TimeoutTask.DEFAULT_TIMEOUT,
-                (DocumentInfo rootDoc) -> dropOnCallback(clipData, localState, rootDoc, root));
-        return true;
-    }
 
-    private void dropOnCallback(
-            ClipData clipData, Object localState, DocumentInfo rootDoc, RootInfo root) {
-        if (!DragAndDropHelper.canCopyTo(localState, rootDoc)) {
-            return;
-        }
-
-        mClipper.copyFromClipData(
-                root, rootDoc, clipData, mDialogs::showFileOperationStatus);
+        return mDragAndDropManager.drop(
+                clipData, localState, root, this, mDialogs::showFileOperationStatus);
     }
 
     @Override

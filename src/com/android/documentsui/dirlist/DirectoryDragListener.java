@@ -19,6 +19,7 @@ package com.android.documentsui.dirlist;
 import android.view.DragEvent;
 import android.view.View;
 
+import com.android.documentsui.DragAndDropManager;
 import com.android.documentsui.ItemDragListener;
 
 import java.util.TimerTask;
@@ -26,6 +27,7 @@ import java.util.TimerTask;
 import javax.annotation.Nullable;
 
 class DirectoryDragListener extends ItemDragListener<DragHost<?>> {
+
 
     DirectoryDragListener(com.android.documentsui.dirlist.DragHost<?> host) {
         super(host);
@@ -54,7 +56,7 @@ class DirectoryDragListener extends ItemDragListener<DragHost<?>> {
 
     @Override
     public @Nullable TimerTask createOpenTask(final View v, DragEvent event) {
-        return mDragHost.canCopyTo(event.getLocalState(), v)
+        return mDragHost.canSpringOpen(v)
                 ? super.createOpenTask(v, event) : null;
     }
 }
