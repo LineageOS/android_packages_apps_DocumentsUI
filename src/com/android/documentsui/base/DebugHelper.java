@@ -43,18 +43,20 @@ public class DebugHelper {
     };
 
     private boolean debugEnabled = false;
-    private Injector mInjector;
     private long lastTime = 0;
     private int position = 0;
     private int codeIndex = 0;
     private int colorIndex = 0;
     private int messageIndex = 0;
+    private Injector<?> mInjector;
 
-    public DebugHelper(Injector injector) {
+    public DebugHelper(Injector<?> injector) {
         mInjector = injector;
     }
 
     public int[] getNextColors() {
+        assert (mInjector.features.isDebugSupportEnabled());
+
         if (colorIndex == colors.length) {
             colorIndex = 0;
         }
@@ -63,6 +65,8 @@ public class DebugHelper {
     }
 
     public Pair<String, Integer> getNextMessage() {
+        assert (mInjector.features.isDebugSupportEnabled());
+
         if (messageIndex == messages.length) {
             messageIndex = 0;
         }
@@ -94,7 +98,11 @@ public class DebugHelper {
         if (position == code[codeIndex].length) {
             position = 0;
             debugEnabled = !debugEnabled;
-            mInjector.actions.setDebugMode(debugEnabled);
+            // Actions is content-scope, so it can technically be null, though
+            // not likely.
+            if (mInjector.actions != null) {
+                mInjector.actions.setDebugMode(debugEnabled);
+            }
 
             if (Shared.VERBOSE) {
                 Log.v(TAG, "Debug mode " + (debugEnabled ? "on" : "off"));
