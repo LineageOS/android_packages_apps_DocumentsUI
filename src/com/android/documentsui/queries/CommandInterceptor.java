@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.queries;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.content.Context;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
@@ -32,9 +34,9 @@ import java.util.List;
 public final class CommandInterceptor implements EventHandler<String> {
 
     @VisibleForTesting
-    static final String COMMAND_PREFIX = "dbg:";
+    static final String COMMAND_PREFIX = ":";
 
-    private static final String TAG = "DebugCommandProcessor";
+    private static final String TAG = "CommandInterceptor";
 
     private final List<EventHandler<String[]>> mCommands = new ArrayList<>();
 
@@ -43,12 +45,12 @@ public final class CommandInterceptor implements EventHandler<String> {
     public CommandInterceptor(Features features) {
         mFeatures = features;
 
-        mCommands.add(CommandInterceptor::quickViewer);
-        mCommands.add(CommandInterceptor::gestureScale);
-        mCommands.add(CommandInterceptor::jobProgressDialog);
-        mCommands.add(CommandInterceptor::archiveCreation);
-        mCommands.add(CommandInterceptor::docDetails);
-        mCommands.add(CommandInterceptor::forcePaging);
+        mCommands.add(this::quickViewer);
+        mCommands.add(this::gestureScale);
+        mCommands.add(this::jobProgressDialog);
+        mCommands.add(this::archiveCreation);
+        mCommands.add(this::docDetails);
+        mCommands.add(this::forcePaging);
     }
 
     public void add(EventHandler<String[]> handler) {
@@ -58,6 +60,7 @@ public final class CommandInterceptor implements EventHandler<String> {
     @Override
     public boolean accept(String query) {
         if (!mFeatures.isCommandInterceptorEnabled()) {
+            if (DEBUG) Log.v(TAG, "Skipping input, command interceptor disabled.");
             return false;
         }
 
@@ -73,7 +76,7 @@ public final class CommandInterceptor implements EventHandler<String> {
         return false;
     }
 
-    private static boolean quickViewer(String[] tokens) {
+    private boolean quickViewer(String[] tokens) {
         if ("qv".equals(tokens[0])) {
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
                 DebugFlags.setQuickViewer(tokens[1]);
@@ -90,11 +93,11 @@ public final class CommandInterceptor implements EventHandler<String> {
         return false;
     }
 
-    private static boolean gestureScale(String[] tokens) {
+    private boolean gestureScale(String[] tokens) {
         if ("gs".equals(tokens[0])) {
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
                 boolean enabled = asBool(tokens[1]);
-                Features.forceFeature(R.bool.feature_gesture_scale, enabled);
+                mFeatures.forceFeature(R.bool.feature_gesture_scale, enabled);
                 Log.i(TAG, "Set gesture scale enabled to: " + enabled);
                 return true;
             }
@@ -103,11 +106,11 @@ public final class CommandInterceptor implements EventHandler<String> {
         return false;
     }
 
-    private static boolean jobProgressDialog(String[] tokens) {
+    private boolean jobProgressDialog(String[] tokens) {
         if ("jpd".equals(tokens[0])) {
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
                 boolean enabled = asBool(tokens[1]);
-                Features.forceFeature(R.bool.feature_job_progress_dialog, enabled);
+                mFeatures.forceFeature(R.bool.feature_job_progress_dialog, enabled);
                 Log.i(TAG, "Set job progress dialog enabled to: " + enabled);
                 return true;
             }
@@ -116,11 +119,11 @@ public final class CommandInterceptor implements EventHandler<String> {
         return false;
     }
 
-    private static boolean archiveCreation(String[] tokens) {
+    private boolean archiveCreation(String[] tokens) {
         if ("zip".equals(tokens[0])) {
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
                 boolean enabled = asBool(tokens[1]);
-                Features.forceFeature(R.bool.feature_archive_creation, enabled);
+                mFeatures.forceFeature(R.bool.feature_archive_creation, enabled);
                 Log.i(TAG, "Set gesture scale enabled to: " + enabled);
                 return true;
             }
@@ -129,7 +132,7 @@ public final class CommandInterceptor implements EventHandler<String> {
         return false;
     }
 
-    private static boolean docDetails(String[] tokens) {
+    private boolean docDetails(String[] tokens) {
         if ("docinfo".equals(tokens[0])) {
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
                 boolean enabled = asBool(tokens[1]);
@@ -142,7 +145,7 @@ public final class CommandInterceptor implements EventHandler<String> {
         return false;
     }
 
-    private static boolean forcePaging(String[] tokens) {
+    private boolean forcePaging(String[] tokens) {
         if ("page".equals(tokens[0])) {
             if (tokens.length >= 2) {
                 try {
@@ -167,7 +170,7 @@ public final class CommandInterceptor implements EventHandler<String> {
         return false;
     }
 
-    private static final boolean asBool(String val) {
+    private final boolean asBool(String val) {
         if (val == null || val.equals("0")) {
             return false;
         }

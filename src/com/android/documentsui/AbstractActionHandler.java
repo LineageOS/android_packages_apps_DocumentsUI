@@ -42,6 +42,7 @@ import com.android.documentsui.LoadDocStackTask.LoadDocStackCallback;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
@@ -89,7 +90,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final SelectionManager mSelectionMgr;
     protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
-    protected final Injector mInjector;
+    protected final Injector<?> mInjector;
 
     private final LoaderBindings mBindings;
 
@@ -115,7 +116,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
             DocumentsAccess docs,
             SearchViewManager searchMgr,
             Lookup<String, Executor> executors,
-            Injector injector) {
+            Injector<?> injector) {
 
         assert(activity != null);
         assert(state != null);
@@ -355,7 +356,12 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     @Override
     public void setDebugMode(boolean enabled) {
+        if (!mInjector.features.isDebugSupportEnabled()) {
+            return;
+        }
+
         mState.debugMode = enabled;
+        mInjector.features.forceFeature(R.bool.feature_command_interceptor, enabled);
         mActivity.invalidateOptionsMenu();
 
         if (enabled) {
@@ -370,6 +376,8 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     @Override
     public void showDebugMessage() {
+        assert (mInjector.features.isDebugSupportEnabled());
+
         int[] colors = mInjector.debugHelper.getNextColors();
         Pair<String, Integer> messagePair = mInjector.debugHelper.getNextMessage();
 

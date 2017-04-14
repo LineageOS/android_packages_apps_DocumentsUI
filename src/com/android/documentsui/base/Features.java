@@ -36,6 +36,7 @@ public interface Features {
     boolean isCommandInterceptorEnabled();
     boolean isContentPagingEnabled();
     boolean isContentRefreshEnabled();
+    boolean isDebugSupportEnabled();
     boolean isFoldersInSearchResultsEnabled();
     boolean isGestureScaleEnabled();
     boolean isJobProgressDialogEnabled();
@@ -44,12 +45,8 @@ public interface Features {
     boolean isSystemKeyboardNavigationEnabled();
     boolean isVirtualFilesSharingEnabled();
 
-    public static Features create(Context context) {
-        return new RuntimeFeatures(context.getResources(), UserManager.get(context));
-    }
-
     /**
-     * Call this to force-enable any particular feature known by this class.
+     * Call this to force-enable any particular feature known by this instance.
      * Note that all feature may not support being enabled at runtime as
      * they may depend on runtime initialization guarded by feature check.
      *
@@ -57,13 +54,14 @@ public interface Features {
      *
      * @param feature int reference to a boolean feature resource.
      */
-    public static void forceFeature(@BoolRes int feature, boolean enabled) {
-        RuntimeFeatures.sDebugEnabled.put(feature, enabled);
+    void forceFeature(@BoolRes int feature, boolean enabled);
+
+    public static Features create(Context context) {
+        return new RuntimeFeatures(context.getResources(), UserManager.get(context));
     }
 
     final class RuntimeFeatures implements Features {
 
-        private static final SparseBooleanArray sDebugEnabled = new SparseBooleanArray();
         private final SparseBooleanArray mDebugEnabled = new SparseBooleanArray();
 
         private final Resources mRes;
@@ -74,21 +72,13 @@ public interface Features {
             mUserMgr = userMgr;
         }
 
-        /**
-         * Call this to force-enable any particular feature known by this instance.
-         * Note that all feature may not support being enabled at runtime as
-         * they may depend on runtime initialization guarded by feature check.
-         *
-         * <p>Feature changes will be persisted across activities, but not app restarts.
-         *
-         * @param feature int reference to a boolean feature resource.
-         */
+        @Override
         public void forceFeature(@BoolRes int feature, boolean enabled) {
             mDebugEnabled.put(feature, enabled);
         }
 
         private boolean isEnabled(@BoolRes int feature) {
-            return mDebugEnabled.get(feature, sDebugEnabled.get(feature, mRes.getBoolean(feature)));
+            return mDebugEnabled.get(feature, mRes.getBoolean(feature));
         }
 
         @Override
@@ -110,6 +100,12 @@ public interface Features {
         @Override
         public boolean isContentRefreshEnabled() {
             return isEnabled(R.bool.feature_content_refresh);
+        }
+
+        @Override
+        public boolean isDebugSupportEnabled() {
+            return !mUserMgr.hasUserRestriction(UserManager.DISALLOW_DEBUGGING_FEATURES)
+                    && !mUserMgr.hasUserRestriction(UserManager.DISALLOW_FUN);
         }
 
         @Override

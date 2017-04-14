@@ -29,8 +29,8 @@
         Please add them in alphabetical order. Same goes for accessor
         methods in Features class.
     -->
-    <bool name="feature_archive_creation">false</bool>
-    <bool name="feature_command_interceptor">true</bool>
+    <bool name="feature_archive_creation">true</bool>
+    <bool name="feature_command_interceptor">false</bool>
     <bool name="feature_content_paging">true</bool>
     <bool name="feature_content_refresh">true</bool>
     <bool name="feature_folders_in_search_results">true</bool>
