@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.android.documentsui.R;
+import com.android.documentsui.ui.MessageBuilder;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -119,7 +120,7 @@ public final class Shared {
     }
 
     /**
-     * @deprecated use {@ link MessageBuilder#getQuantityString}
+     * @deprecated use {@link MessageBuilder#getQuantityString}
      */
     @Deprecated
     public static final String getQuantityString(Context context, @PluralsRes int resourceId, int quantity) {

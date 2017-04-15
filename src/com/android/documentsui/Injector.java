@@ -53,6 +53,8 @@ public class Injector<T extends ActionHandler> {
     public DialogController dialogs;
     public SearchViewManager searchManager;
 
+    public final DebugHelper debugHelper;
+
     @ContentScoped
     public ActionModeController actionModeController;
 
@@ -66,8 +68,6 @@ public class Injector<T extends ActionHandler> {
     public SelectionManager selectionMgr;
 
     private final Model mModel;
-
-    public final DebugHelper debugHelper;
 
     // must be initialized before calling super.onCreate because prefs
     // are used in State initialization.

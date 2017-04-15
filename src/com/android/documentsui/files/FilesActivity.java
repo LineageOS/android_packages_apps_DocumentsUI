@@ -33,7 +33,6 @@ import android.view.MenuItem;
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.DragShadowBuilder;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
@@ -70,7 +69,6 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     private Injector<ActionHandler<FilesActivity>> mInjector;
     private ActivityInputHandler mActivityInputHandler;
     private SharedInputHandler mSharedInputHandler;
-    private DragShadowBuilder mShadowBuilder;
 
     public FilesActivity() {
         super(R.layout.files_activity, TAG);
@@ -115,7 +113,6 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 mProviders::getApplicationName,
                 mInjector.getModel()::getItemUri);
 
-        mShadowBuilder = new DragShadowBuilder(this);
         mInjector.actionModeController = new ActionModeController(
                 this,
                 mInjector.selectionMgr,
@@ -132,6 +129,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 mInjector.actionModeController,
                 clipper,
                 DocumentsApplication.getClipStore(this),
+                DocumentsApplication.getDragAndDropManager(this),
                 mInjector);
 
         mInjector.searchManager = mSearchManager;
@@ -348,11 +346,6 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                         keyCode,
                         event)
                 || super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public DragShadowBuilder getShadowBuilder() {
-        return mShadowBuilder;
     }
 
     @Override

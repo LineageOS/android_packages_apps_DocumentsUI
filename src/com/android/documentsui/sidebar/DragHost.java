@@ -20,33 +20,32 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
+import com.android.documentsui.AbstractDragHost;
 import com.android.documentsui.ActionHandler;
-import com.android.documentsui.DragAndDropHelper;
-import com.android.documentsui.DragShadowBuilder;
-import com.android.documentsui.ItemDragListener;
+import com.android.documentsui.DragAndDropManager;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
 
 /**
  * Drag host for items in {@link RootsFragment}.
  */
-class DragHost implements ItemDragListener.DragHost {
+class DragHost extends AbstractDragHost {
 
     private static final String TAG = "RootsDragHost";
     private static final int DRAG_LOAD_TIME_OUT = 500;
 
     private final Activity mActivity;
-    private final DragShadowBuilder mShadowBuilder;
     private final Lookup<View, Item> mDestinationLookup;
     private final ActionHandler mActions;
 
     DragHost(
             Activity activity,
-            DragShadowBuilder shadowBuilder,
+            DragAndDropManager dragAndDropManager,
             Lookup<View, Item> destinationLookup,
             ActionHandler actions) {
+        super(dragAndDropManager);
         mActivity = activity;
-        mShadowBuilder = shadowBuilder;
+        mDragAndDropManager = dragAndDropManager;
         mDestinationLookup = destinationLookup;
         mActions = actions;
     }
@@ -57,7 +56,7 @@ class DragHost implements ItemDragListener.DragHost {
     }
 
     @Override
-    public void setDropTargetHighlight(View v, Object localState, boolean highlight) {
+    public void setDropTargetHighlight(View v, boolean highlight) {
         // SpacerView doesn't have DragListener so this view is guaranteed to be a RootItemView.
         RootItemView itemView = (RootItemView) v;
         itemView.setHighlight(highlight);
@@ -73,41 +72,34 @@ class DragHost implements ItemDragListener.DragHost {
     }
 
     @Override
-    public void onDragEntered(View v, Object localState) {
+    public void onDragEntered(View v) {
         final Item item = mDestinationLookup.lookup(v);
 
         // If a read-only root, no need to see if top level is writable (it's not)
         if (!item.isDropTarget()) {
-            mShadowBuilder.setAppearDroppable(false);
-            v.updateDragShadow(mShadowBuilder);
+            mDragAndDropManager.updateStateToNotAllowed(v);
             return;
         }
 
         final RootItem rootItem = (RootItem) item;
-        mActions.getRootDocument(
-                rootItem.root,
-                DRAG_LOAD_TIME_OUT,
-                (DocumentInfo doc) -> {
-                    updateDropShadow(v, localState, rootItem, doc);
-                });
+        if (mDragAndDropManager.updateState(v, rootItem.root, null)
+                == DragAndDropManager.STATE_UNKNOWN) {
+            mActions.getRootDocument(
+                    rootItem.root,
+                    DRAG_LOAD_TIME_OUT,
+                    (DocumentInfo doc) -> {
+                        updateDropShadow(v, rootItem, doc);
+                    });
+        }
     }
 
     private void updateDropShadow(
-            View v, Object localState, RootItem rootItem, DocumentInfo rootDoc) {
+            View v, RootItem rootItem, DocumentInfo rootDoc) {
         if (rootDoc == null) {
-            Log.e(TAG, "Root DocumentInfo is null. Defaulting to appear not droppable.");
-            mShadowBuilder.setAppearDroppable(false);
+            Log.e(TAG, "Root DocumentInfo is null. Defaulting to unknown.");
         } else {
             rootItem.docInfo = rootDoc;
-            mShadowBuilder.setAppearDroppable(rootDoc.isCreateSupported()
-                    && DragAndDropHelper.canCopyTo(localState, rootDoc));
+            mDragAndDropManager.updateState(v, rootItem.root, rootDoc);
         }
-        v.updateDragShadow(mShadowBuilder);
-    }
-
-    @Override
-    public void onDragExited(View v, Object localState) {
-        mShadowBuilder.resetBackground();
-        v.updateDragShadow(mShadowBuilder);
     }
 }

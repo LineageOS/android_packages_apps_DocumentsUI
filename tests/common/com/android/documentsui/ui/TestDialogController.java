@@ -29,7 +29,7 @@ import java.util.List;
 public class TestDialogController implements DialogController {
 
     public int mNextConfirmationCode;
-    private boolean mFileOpFailed;
+    private int mFileOpStatus;
     private boolean mNoApplicationFound;
     private boolean mDocumentsClipped;
     private boolean mViewInArchivesUnsupported;
@@ -47,9 +47,7 @@ public class TestDialogController implements DialogController {
 
     @Override
     public void showFileOperationStatus(int status, int opType, int docCount) {
-        if (status == FileOperations.Callback.STATUS_REJECTED) {
-            mFileOpFailed = true;
-        }
+        mFileOpStatus = status;
     }
 
     @Override
@@ -78,7 +76,11 @@ public class TestDialogController implements DialogController {
     }
 
     public void assertNoFileFailures() {
-        Assert.assertFalse(mFileOpFailed);
+        Assert.assertEquals(FileOperations.Callback.STATUS_ACCEPTED, mFileOpStatus);
+    }
+
+    public void assertFileOpFailed() {
+        Assert.assertEquals(FileOperations.Callback.STATUS_FAILED, mFileOpStatus);
     }
 
     public void assertNoAppFoundShown() {

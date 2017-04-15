@@ -445,11 +445,6 @@ public abstract class BaseActivity
         return mState;
     }
 
-    public DragShadowBuilder getShadowBuilder() {
-        throw new UnsupportedOperationException(
-                "Drag and drop not supported, can't get shadow builder");
-    }
-
     /**
      * Set internal storage visible based on explicit user action.
      */
@@ -580,6 +575,9 @@ public abstract class BaseActivity
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             mInjector.debugHelper.debugCheck(event.getDownTime(), event.getKeyCode());
         }
+
+        DocumentsApplication.getDragAndDropManager(this).onKeyEvent(event);
+
         return super.dispatchKeyEvent(event);
     }
 

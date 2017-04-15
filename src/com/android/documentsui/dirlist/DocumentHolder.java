@@ -121,7 +121,6 @@ public abstract class DocumentHolder
 
     /**
      * Highlights the associated item view to indicate it's droppable.
-     * @param highlighted
      */
     public void setDroppableHighlight(boolean droppable) {
         // If item is already selected, its highlight should not be changed.

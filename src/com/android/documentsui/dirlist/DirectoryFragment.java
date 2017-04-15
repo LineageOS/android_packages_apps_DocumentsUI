@@ -66,6 +66,7 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DragAndDropManager;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.ContentScoped;
@@ -236,7 +237,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             DirectoryDragListener listener = new DirectoryDragListener(
                     new DragHost<>(
                             mActivity,
-                            mActivity.getShadowBuilder(),
+                            DocumentsApplication.getDragAndDropManager(mActivity),
                             mInjector.selectionMgr,
                             mInjector.actions,
                             mActivity.getDisplayState(),
@@ -245,8 +246,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                                 return getModelId(v) != null;
                             },
                             this::getDocumentHolder,
-                            this::getDestination,
-                            mClipper
+                            this::getDestination
                     ));
             mDragHoverListener = DragHoverListener.create(listener, mRecView);
         }
@@ -349,15 +349,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         DragStartListener mDragStartListener = mInjector.config.dragAndDropEnabled()
                 ? DragStartListener.create(
                         mIconHelper,
-                        mActivity,
                         mModel,
                         mSelectionMgr,
-                        mClipper,
                         mState,
                         this::getModelId,
                         mRecView::findChildViewUnder,
-                        getContext().getDrawable(R.drawable.ic_doc_generic),
-                        mActivity.getShadowBuilder())
+                        DocumentsApplication.getDragAndDropManager(mActivity))
                 : DragStartListener.DUMMY;
 
         EventHandler<InputEvent> gestureHandler = mState.allowMultiple
