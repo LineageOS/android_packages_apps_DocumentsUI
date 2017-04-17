@@ -110,6 +110,10 @@ public class ActionHandlerTest {
 
     @Test
     public void testInitLocation_LaunchToDocuments() throws Exception {
+        if (!mEnv.features.isLaunchToDocumentEnabled()) {
+            return;
+        }
+
         mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
                 TestProvidersAccess.HOME.rootId,

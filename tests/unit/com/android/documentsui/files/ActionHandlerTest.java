@@ -214,6 +214,10 @@ public class ActionHandlerTest {
 
     @Test
     public void testShareSelectedDocuments_VirtualFiles() {
+        if (!mEnv.features.isVirtualFilesSharingEnabled()) {
+            return;
+        }
+
         mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");
         mEnv.selectionMgr.clearSelection();
         mEnv.selectDocument(TestEnv.FILE_VIRTUAL);
@@ -235,9 +239,14 @@ public class ActionHandlerTest {
 
         Intent intent = assertHasExtraIntent(mActivity.startActivity.getLastValue());
         assertHasAction(intent, Intent.ACTION_SEND_MULTIPLE);
-        assertTrue(intent.hasCategory(Intent.CATEGORY_TYPED_OPENABLE));
+
         assertFalse(intent.hasCategory(Intent.CATEGORY_OPENABLE));
-        assertHasExtraList(intent, Intent.EXTRA_STREAM, 3);
+        if (mEnv.features.isVirtualFilesSharingEnabled()) {
+            assertTrue(intent.hasCategory(Intent.CATEGORY_TYPED_OPENABLE));
+            assertHasExtraList(intent, Intent.EXTRA_STREAM, 3);
+        }else {
+            assertHasExtraList(intent, Intent.EXTRA_STREAM, 2);
+        }
     }
 
     @Test
@@ -365,6 +374,10 @@ public class ActionHandlerTest {
 
     @Test
     public void testInitLocation_LaunchToDocuments() throws Exception {
+        if (!mEnv.features.isLaunchToDocumentEnabled()) {
+            return;
+        }
+
         mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
                 TestProvidersAccess.HOME.rootId,
@@ -452,7 +465,11 @@ public class ActionHandlerTest {
         });
 
         mEnv.beforeAsserts();
-        assertTrue(refreshAnswer);
+        if (mEnv.features.isContentRefreshEnabled()) {
+            assertTrue(refreshAnswer);
+        } else {
+            assertFalse(refreshAnswer);
+        }
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {

@@ -20,6 +20,7 @@ import static junit.framework.Assert.assertTrue;
 
 import static org.junit.Assert.assertEquals;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
@@ -107,6 +108,10 @@ public class AbstractActionHandlerTest {
 
     @Test
     public void testOpensContainerDocuments_jumpToNewLocation() throws Exception {
+        if (!mEnv.features.isLaunchToDocumentEnabled()) {
+            return;
+        }
+
         mEnv.populateStack();
 
         mEnv.searchViewManager.isSearching = true;
@@ -154,6 +159,10 @@ public class AbstractActionHandlerTest {
 
     @Test
     public void testLaunchToDocuments() throws Exception {
+        if (!mEnv.features.isLaunchToDocumentEnabled()) {
+            return;
+        }
+
         mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
                 TestProvidersAccess.HOME.rootId,
@@ -176,6 +185,10 @@ public class AbstractActionHandlerTest {
 
     @Test
     public void testLaunchToDocuments_convertsTreeUriToDocumentUri() throws Exception {
+        if (!mEnv.features.isLaunchToDocumentEnabled()) {
+            return;
+        }
+
         mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
                 TestProvidersAccess.HOME.rootId,

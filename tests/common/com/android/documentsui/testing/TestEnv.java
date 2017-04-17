@@ -15,13 +15,16 @@
  */
 package com.android.documentsui.testing;
 
+import android.content.Context;
 import android.provider.DocumentsContract.Document;
+import android.support.test.InstrumentationRegistry;
 import android.test.mock.MockContentResolver;
 
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestFocusHandler;
@@ -64,7 +67,7 @@ public class TestEnv {
     public final SelectionManager selectionMgr;
     public final TestSearchViewManager searchViewManager;
     public final Injector injector;
-    public final TestFeatures features;
+    public final Features features;
 
     public final MockContentResolver contentResolver;
     public final Map<String, TestDocumentsProvider> providers;
@@ -72,7 +75,9 @@ public class TestEnv {
     private TestEnv(String authority) {
         state.sortModel = SortModel.createModel();
         mExecutor = new TestScheduledExecutorService();
-        features = new TestFeatures();
+        features = new Features.RuntimeFeatures(
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getResources(),
+                null);
         model = new TestModel(authority, features);
         archiveModel = new TestModel(ArchivesProvider.AUTHORITY, features);
         selectionMgr = SelectionManagers.createTestInstance();
