@@ -367,26 +367,38 @@ public interface DragAndDropManager {
                 return false;
             }
 
+            // Calculate the op type now just in case user releases Ctrl key while we're obtaining
+            // root document in the background.
+            final @OpType int opType = calculateOpType(clipData, destRoot);
             action.getRootDocument(
                     destRoot,
                     TimeoutTask.DEFAULT_TIMEOUT,
                     (DocumentInfo doc) -> {
-                        dropOnRootDocument(clipData, localState, destRoot, doc, callback);
+                        dropOnRootDocument(clipData, localState, destRoot, doc, opType, callback);
                     });
 
             return true;
         }
 
-        private void dropOnRootDocument(ClipData clipData, Object localState, RootInfo destRoot,
-                @Nullable DocumentInfo destRootDoc, FileOperations.Callback callback) {
+        private void dropOnRootDocument(
+                ClipData clipData,
+                Object localState,
+                RootInfo destRoot,
+                @Nullable DocumentInfo destRootDoc,
+                @OpType int opType,
+                FileOperations.Callback callback) {
             if (destRootDoc == null) {
                 callback.onOperationResult(
                         FileOperations.Callback.STATUS_FAILED,
-                        calculateOpType(clipData, destRoot),
+                        opType,
                         0);
             } else {
                 dropChecked(
-                        clipData, localState, new DocumentStack(destRoot, destRootDoc), callback);
+                        clipData,
+                        localState,
+                        new DocumentStack(destRoot, destRootDoc),
+                        opType,
+                        callback);
             }
         }
 
@@ -398,12 +410,17 @@ public interface DragAndDropManager {
                 return false;
             }
 
-            dropChecked(clipData, localState, dstStack, callback);
+            dropChecked(
+                    clipData,
+                    localState,
+                    dstStack,
+                    calculateOpType(clipData, dstStack.getRoot()),
+                    callback);
             return true;
         }
 
         private void dropChecked(ClipData clipData, Object localState, DocumentStack dstStack,
-                FileOperations.Callback callback) {
+                @OpType int opType, FileOperations.Callback callback) {
 
             // Recognize multi-window drag and drop based on the fact that localState is not
             // carried between processes. It will stop working when the localsState behavior
@@ -414,11 +431,7 @@ public interface DragAndDropManager {
                     localState == null ? Metrics.USER_ACTION_DRAG_N_DROP_MULTI_WINDOW
                             : Metrics.USER_ACTION_DRAG_N_DROP);
 
-            mClipper.copyFromClipData(
-                    dstStack,
-                    clipData,
-                    calculateOpType(clipData, dstStack.getRoot()),
-                    callback);
+            mClipper.copyFromClipData(dstStack, clipData, opType, callback);
         }
 
         @Override

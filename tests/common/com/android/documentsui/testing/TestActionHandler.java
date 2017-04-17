@@ -30,6 +30,8 @@ import java.util.function.Consumer;
 
 public class TestActionHandler extends AbstractActionHandler<TestActivity> {
 
+    private final TestEnv mEnv;
+
     public final TestEventHandler<DocumentDetails> open = new TestEventHandler<>();
     public boolean mDeleteHappened;
 
@@ -48,6 +50,8 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
                 env.searchViewManager,
                 (String authority) -> null,
                 env.injector);
+
+        mEnv = env;
     }
 
     @Override
@@ -77,6 +81,8 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
 
     @Override
     public void getRootDocument(RootInfo root, int timeout, Consumer<DocumentInfo> callback) {
-        callback.accept(nextRootDocument);
+        mEnv.mExecutor.submit(() -> {
+            callback.accept(nextRootDocument);
+        });
     }
 }

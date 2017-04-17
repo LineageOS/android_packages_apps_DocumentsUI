@@ -562,7 +562,7 @@ public class DragAndDropManagerTests {
     }
 
     @Test
-    public void testDrop_Fails_NotGetRootDoc() {
+    public void testDrop_Fails_NotGetRootDoc() throws Exception {
         mManager.startDrag(
                 mStartDragView,
                 TestEnv.FOLDER_0,
@@ -577,11 +577,12 @@ public class DragAndDropManagerTests {
         mManager.drop(
                 mClipData, mManager, TestProvidersAccess.DOWNLOADS, mActions, mCallback);
 
+        mEnv.beforeAsserts();
         mCallbackListener.assertLastArgument(FileOperations.Callback.STATUS_FAILED);
     }
 
     @Test
-    public void testDrop_DifferentRoot_DropOnRoot() {
+    public void testDrop_Copies_DifferentRoot_DropOnRoot() throws Exception {
         mActions.nextRootDocument = TestEnv.FOLDER_1;
 
         mManager.startDrag(
@@ -598,6 +599,7 @@ public class DragAndDropManagerTests {
         mManager.drop(
                 mClipData, mManager, TestProvidersAccess.DOWNLOADS, mActions, mCallback);
 
+        mEnv.beforeAsserts();
         final DocumentStack expect =
                 new DocumentStack(TestProvidersAccess.DOWNLOADS, TestEnv.FOLDER_1);
         mClipper.copy.assertLastArgument(Pair.create(expect, mClipData));
@@ -605,7 +607,7 @@ public class DragAndDropManagerTests {
     }
 
     @Test
-    public void testDrop_SameRoot_DropOnRoot() {
+    public void testDrop_Moves_SameRoot_DropOnRoot() throws Exception {
         mActions.nextRootDocument = TestEnv.FOLDER_1;
 
         mManager.startDrag(
@@ -622,10 +624,43 @@ public class DragAndDropManagerTests {
         mManager.drop(
                 mClipData, mManager, TestProvidersAccess.DOWNLOADS, mActions, mCallback);
 
+        mEnv.beforeAsserts();
         final DocumentStack expect =
                 new DocumentStack(TestProvidersAccess.DOWNLOADS, TestEnv.FOLDER_1);
         mClipper.copy.assertLastArgument(Pair.create(expect, mClipData));
         mClipper.opType.assertLastArgument(FileOperationService.OPERATION_MOVE);
+    }
+
+    @Test
+    public void testDrop_Copies_SameRoot_DropOnRoot_ReleasesCtrlBeforeGettingRootDocument()
+            throws Exception{
+        mActions.nextRootDocument = TestEnv.FOLDER_1;
+
+        mManager.startDrag(
+                mStartDragView,
+                TestEnv.FOLDER_0,
+                Arrays.asList(TestEnv.FILE_APK, TestEnv.FILE_JPG),
+                TestProvidersAccess.DOWNLOADS,
+                Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
+                        TestEnv.FILE_JPG.derivedUri),
+                mIconHelper);
+
+        KeyEvent event = KeyEvents.createLeftCtrlKey(KeyEvent.ACTION_DOWN);
+        mManager.onKeyEvent(event);
+
+        mManager.updateState(mUpdateShadowView, TestProvidersAccess.DOWNLOADS, TestEnv.FOLDER_1);
+
+        mManager.drop(
+                mClipData, mManager, TestProvidersAccess.DOWNLOADS, mActions, mCallback);
+
+        event = KeyEvents.createLeftCtrlKey(KeyEvent.ACTION_UP);
+        mManager.onKeyEvent(event);
+
+        mEnv.beforeAsserts();
+        final DocumentStack expect =
+                new DocumentStack(TestProvidersAccess.DOWNLOADS, TestEnv.FOLDER_1);
+        mClipper.copy.assertLastArgument(Pair.create(expect, mClipData));
+        mClipper.opType.assertLastArgument(FileOperationService.OPERATION_COPY);
     }
 
     @Test
@@ -647,7 +682,7 @@ public class DragAndDropManagerTests {
     }
 
     @Test
-    public void testDrop_DifferentRoot_DropOnDocument() {
+    public void testDrop_Copies_DifferentRoot_DropOnDocument() {
         mManager.startDrag(
                 mStartDragView,
                 TestEnv.FOLDER_0,
@@ -668,7 +703,7 @@ public class DragAndDropManagerTests {
     }
 
     @Test
-    public void testDrop_SameRoot_DropOnDocument() {
+    public void testDrop_Moves_SameRoot_DropOnDocument() {
         mManager.startDrag(
                 mStartDragView,
                 TestEnv.FOLDER_0,
