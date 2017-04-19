@@ -147,6 +147,8 @@ final class MoveJob extends CopyJob {
                     if (DocumentsContract.moveDocument(getClient(src), src.derivedUri,
                             srcParent != null ? srcParent.derivedUri : mSrcParent.derivedUri,
                             dest.derivedUri) != null) {
+                        Metrics.logFileOperated(
+                                appContext, operationType, Metrics.OPMODE_PROVIDER);
                         return;
                     }
                 } catch (RemoteException | RuntimeException e) {
