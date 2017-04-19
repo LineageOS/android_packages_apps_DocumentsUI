@@ -167,6 +167,10 @@ public interface DragAndDropManager {
         // type of file operations.
         private boolean mIsCtrlPressed;
 
+        // Boolean flag for current drag and drop operation. Returns true if the files can only
+        // be copied (ie. Read-Only files)
+        private boolean mMustBeCopied;
+
         // Drag events info. These are used to derive state and update drag shadow when user changes
         // Ctrl key state.
         private View mView;
@@ -231,6 +235,9 @@ public interface DragAndDropManager {
             List<Uri> uris = new ArrayList<>(srcs.size());
             for (DocumentInfo doc : srcs) {
                 uris.add(doc.derivedUri);
+                if (!doc.isRemoveSupported() && !doc.isDeleteSupported()) {
+                    mMustBeCopied = true;
+                }
             }
             mClipData = mClipper.getClipDataForDocuments(
                             uris, FileOperationService.OPERATION_UNKNOWN, parent);
@@ -447,9 +454,14 @@ public interface DragAndDropManager {
             mClipData = null;
             mDestDoc = null;
             mDestRoot = null;
+            mMustBeCopied = false;
         }
 
         private @OpType int calculateOpType(ClipData clipData, RootInfo destRoot) {
+            if (mMustBeCopied) {
+                return FileOperationService.OPERATION_COPY;
+            }
+
             final String srcRootUri = clipData.getDescription().getExtras().getString(SRC_ROOT_KEY);
             final String destRootUri = destRoot.getUri().toString();
 

@@ -75,6 +75,7 @@ import com.android.documentsui.Metrics;
 import com.android.documentsui.Model;
 import com.android.documentsui.R;
 import com.android.documentsui.ThumbnailCache;
+import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
@@ -657,6 +658,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 return true;
 
             case R.id.menu_move_to:
+                if (mModel.hasDocuments(selection, DocumentFilters.NOT_MOVABLE)) {
+                    mInjector.dialogs.showOperationUnsupported();
+                    return true;
+                }
                 // Exit selection mode first, so we avoid deselecting deleted documents.
                 mActionModeController.finishActionMode();
                 transferDocuments(selection, null, FileOperationService.OPERATION_MOVE);
