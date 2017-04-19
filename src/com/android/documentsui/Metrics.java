@@ -85,6 +85,8 @@ public final class Metrics {
             = "docsui_external_storage_fileop_failure";
     private static final String COUNT_MTP_FILEOP_FAILURE = "docsui_mtp_fileop_failure";
     private static final String COUNT_OTHER_FILEOP_FAILURE = "docsui_other_fileop_failure";
+    private static final String COUNT_FILE_COPIED = "docsui_file_copied";
+    private static final String COUNT_FILE_MOVED = "docsui_file_moved";
 
     // Indices for bucketing roots in the roots histogram. "Other" is the catch-all index for any
     // root that is not explicitly recognized by the Metrics code (see {@link
@@ -358,6 +360,16 @@ public final class Metrics {
     @Retention(RetentionPolicy.SOURCE)
     public @interface UserAction {}
 
+    // Codes representing different approaches to copy/move a document. OPMODE_PROVIDER indicates
+    // it's an optimized operation provided by providers; OPMODE_CONVERTED means it's converted from
+    // a virtual file; and OPMODE_CONVENTIONAL means it's byte copied.
+    public static final int OPMODE_PROVIDER = 1;
+    public static final int OPMODE_CONVERTED = 2;
+    public static final int OPMODE_CONVENTIONAL = 3;
+    @IntDef({OPMODE_PROVIDER, OPMODE_CONVERTED, OPMODE_CONVENTIONAL})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface FileOpMode {}
+
     // Codes representing different menu actions. These are used for bucketing stats in the
     // COUNT_MENU_ACTION histogram.
     // Do not change or rearrange these values, that will break historical data. Only add to the
@@ -517,6 +529,18 @@ public final class Metrics {
         if (counts.externalProvider > 0) {
             // Log file operations on external providers.
             logInterProviderFileOps(context, COUNT_FILEOP_EXTERNAL, dst, operationType);
+        }
+    }
+
+    public static void logFileOperated(
+            Context context, @OpType int operationType, @FileOpMode int approach) {
+        switch (operationType) {
+            case FileOperationService.OPERATION_COPY:
+                logHistogram(context, COUNT_FILE_COPIED, approach);
+                break;
+            case FileOperationService.OPERATION_MOVE:
+                logHistogram(context, COUNT_FILE_MOVED, approach);
+                break;
         }
     }
 

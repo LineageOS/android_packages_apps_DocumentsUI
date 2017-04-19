@@ -28,7 +28,6 @@ import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.services.FileOperationService.EXTRA_DIALOG_TYPE;
 import static com.android.documentsui.services.FileOperationService.EXTRA_OPERATION_TYPE;
 import static com.android.documentsui.services.FileOperationService.EXTRA_FAILED_DOCS;
-import static com.android.documentsui.services.FileOperationService.EXTRA_SRC_LIST;
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 import static com.android.documentsui.services.FileOperationService.MESSAGE_FINISH;
 import static com.android.documentsui.services.FileOperationService.MESSAGE_PROGRESS;
@@ -377,6 +376,8 @@ class CopyJob extends ResolvedResourcesJob {
                 try {
                     if (DocumentsContract.copyDocument(getClient(src), src.derivedUri,
                             dstDirInfo.derivedUri) != null) {
+                        Metrics.logFileOperated(
+                                appContext, operationType, Metrics.OPMODE_PROVIDER);
                         return;
                     }
                 } catch (RemoteException | RuntimeException e) {
@@ -569,6 +570,9 @@ class CopyJob extends ResolvedResourcesJob {
                     throw new ResourceException("Failed to open a file input stream for %s due "
                             + "an exception.", src.derivedUri, e);
                 }
+
+                Metrics.logFileOperated(
+                        appContext, operationType, Metrics.OPMODE_CONVERTED);
             } else {
                 try {
                     srcFile = getClient(src).openFile(src.derivedUri, "r", canceller);
@@ -579,6 +583,9 @@ class CopyJob extends ResolvedResourcesJob {
                             "Failed to open a file for %s due to an exception.", src.derivedUri, e);
                 }
                 in = new ParcelFileDescriptor.AutoCloseInputStream(srcFile);
+
+                Metrics.logFileOperated(
+                        appContext, operationType, Metrics.OPMODE_CONVENTIONAL);
             }
 
             try {
