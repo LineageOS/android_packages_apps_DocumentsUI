@@ -55,6 +55,7 @@ public class TestEnv {
     public static DocumentInfo FILE_ARCHIVE;
     public static DocumentInfo FILE_IN_ARCHIVE;
     public static DocumentInfo FILE_VIRTUAL;
+    public static DocumentInfo FILE_READ_ONLY;
 
     public final TestScheduledExecutorService mExecutor;
     public final State state = new State();
@@ -138,8 +139,9 @@ public class TestEnv {
                 "UbuntuFlappyBird.iso",
                 Document.FLAG_SUPPORTS_DELETE
                         | Document.FLAG_PARTIAL);
+        FILE_READ_ONLY = model.createFile("topsecretsystemfile.bin", 0);
         FILE_ARCHIVE = model.createFile("whatsinthere.zip");
-        FILE_IN_ARCHIVE = archiveModel.createFile("whatsinthere.png");
+        FILE_IN_ARCHIVE = archiveModel.createFile("whatsinthere.png", 0);
         FILE_VIRTUAL = model.createDocument(
                 "virtualdoc.vnd",
                 "application/vnd.google-apps.document",

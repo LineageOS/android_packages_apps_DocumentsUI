@@ -236,6 +236,12 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         if (selection.isEmpty()) {
             return;
         }
+
+        if (mModel.hasDocuments(selection, DocumentFilters.NOT_MOVABLE)) {
+            mDialogs.showOperationUnsupported();
+            return;
+        }
+
         mSelectionMgr.clearSelection();
 
         mClipper.clipDocumentsForCut(mModel::getItemUri, selection, mState.stack.peek());
