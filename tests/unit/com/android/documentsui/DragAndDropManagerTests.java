@@ -37,7 +37,6 @@ import com.android.documentsui.DragAndDropManager.RuntimeDragAndDropManager;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.services.FileOperationService;
-import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.testing.ClipDatas;
 import com.android.documentsui.testing.KeyEvents;
@@ -721,6 +720,26 @@ public class DragAndDropManagerTests {
 
         mClipper.copy.assertLastArgument(Pair.create(stack, mClipData));
         mClipper.opType.assertLastArgument(FileOperationService.OPERATION_MOVE);
+    }
+
+    @Test
+    public void testDrop_Copies_SameRoot_ReadOnlyFile_DropOnDocument() {
+        mManager.startDrag(
+                mStartDragView,
+                TestEnv.FOLDER_0,
+                Arrays.asList(TestEnv.FILE_READ_ONLY),
+                TestProvidersAccess.DOWNLOADS,
+                Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_READ_ONLY.derivedUri),
+                mIconHelper);
+
+        mManager.updateState(mUpdateShadowView, TestProvidersAccess.DOWNLOADS, TestEnv.FOLDER_2);
+
+        final DocumentStack stack = new DocumentStack(
+                TestProvidersAccess.DOWNLOADS, TestEnv.FOLDER_1, TestEnv.FOLDER_2);
+        assertTrue(mManager.drop(mClipData, mManager, stack, mCallback));
+
+        mClipper.copy.assertLastArgument(Pair.create(stack, mClipData));
+        mClipper.opType.assertLastArgument(FileOperationService.OPERATION_COPY);
     }
 
     private void assertStateUpdated(@State int expected) {

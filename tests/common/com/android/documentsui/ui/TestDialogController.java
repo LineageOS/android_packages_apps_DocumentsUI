@@ -33,6 +33,7 @@ public class TestDialogController implements DialogController {
     private boolean mNoApplicationFound;
     private boolean mDocumentsClipped;
     private boolean mViewInArchivesUnsupported;
+    private boolean mShowOperationUnsupported;
     private DocumentInfo mOverwriteTarget;
 
     public TestDialogController() {
@@ -58,6 +59,11 @@ public class TestDialogController implements DialogController {
     @Override
     public void showNoApplicationFound() {
         mNoApplicationFound = true;
+    }
+
+    @Override
+    public void showOperationUnsupported() {
+        mShowOperationUnsupported = true;
     }
 
     @Override
@@ -87,6 +93,9 @@ public class TestDialogController implements DialogController {
         Assert.assertFalse(mNoApplicationFound);
     }
 
+    public void assertShowOperationUnsupported() {
+        Assert.assertTrue(mShowOperationUnsupported);
+    }
     public void assertViewInArchivesShownUnsupported() {
         Assert.assertTrue(mViewInArchivesUnsupported);
     }

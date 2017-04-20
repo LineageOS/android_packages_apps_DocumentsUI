@@ -50,6 +50,7 @@ public interface DialogController {
     void showProgressDialog(String jobId, FileOperation operation);
 
     void showNoApplicationFound();
+    void showOperationUnsupported();
     void showViewInArchivesUnsupported();
     void showDocumentsClipped(int size);
 
@@ -110,7 +111,7 @@ public interface DialogController {
         public void showFileOperationStatus(@Status int status, @OpType int opType,
                 int docCount) {
             if (status == FileOperations.Callback.STATUS_REJECTED) {
-                Snackbars.showOperationRejected(mActivity);
+                showOperationUnsupported();
                 return;
             }
             if (status == FileOperations.Callback.STATUS_FAILED) {
@@ -179,6 +180,11 @@ public interface DialogController {
         public void showNoApplicationFound() {
             Snackbars.makeSnackbar(
                     mActivity, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void showOperationUnsupported() {
+            Snackbars.showOperationRejected(mActivity);
         }
 
         @Override

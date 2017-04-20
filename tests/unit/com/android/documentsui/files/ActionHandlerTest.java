@@ -154,6 +154,16 @@ public class ActionHandlerTest {
         mActionModeAddons.finishOnConfirmed.assertRejected();
     }
 
+    @Test
+    public void testCutSelectedDocuments_ContainsNonMovableItem() {
+        mEnv.selectDocument(TestEnv.FILE_READ_ONLY);
+
+        mHandler.cutToClipboard();
+        mDialogs.assertDocumentsClippedNotShown();
+        mDialogs.assertShowOperationUnsupported();
+        mActivity.startService.assertNotCalled();
+    }
+
     // Recents root means when deleting the srcParent will be null.
     @Test
     public void testDeleteSelectedDocuments_RecentsRoot() {
