@@ -56,7 +56,7 @@ public final class CommandInterceptorTest {
     @Test
     public void testStopsAfterCommandHandled() {
         mCommand0.nextReturn(true);
-        mProcessor.accept("dbg:poodles");
+        mProcessor.accept(":poodles");
         mCommand0.assertCalled();
         mCommand1.assertNotCalled();
     }
