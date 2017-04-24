@@ -31,9 +31,9 @@ public class PagingProvider extends TestRootProvider {
     /**
      * Pass test result size to inform the provider of the result size. Defaults to 1k.
      */
-    private static final String TEST_RECORDSET_SIZE = "test-recordset-size";
-    private static final int DEFAULT_RECORDSET_SIZE = 100;
-    private static final int UNDETERMINED_RECORDSET_SIZE = -1;
+    private static final String TEST_RECORDSET_COUNT = "test-recordset-size";
+    private static final int DEFAULT_RECORDSET_COUNT = 100;
+    private static final int UNDETERMINED_RECORDSET_COUNT = -1;
 
     private static final String ROOT_ID = "paging-root";
     private static final String ROOT_DOC_ID = "root0";
@@ -70,15 +70,15 @@ public class PagingProvider extends TestRootProvider {
 
         int offset = queryArgs.getInt(ContentResolver.QUERY_ARG_OFFSET, 0);
         int limit = queryArgs.getInt(ContentResolver.QUERY_ARG_LIMIT, Integer.MIN_VALUE);
-        int recordsetSize = queryArgs.getInt(TEST_RECORDSET_SIZE, DEFAULT_RECORDSET_SIZE);
+        int recordsetSize = queryArgs.getInt(TEST_RECORDSET_COUNT, DEFAULT_RECORDSET_COUNT);
 
         // Can be -1 (magic unknown), or 0 or more, but not less than -1.
         assert(recordsetSize > -2);
 
         // Client may force override the recordset size to -1 which is MAGIC unknown value.
         // Even if, we still need some finite number against to work.
-        int size = (recordsetSize == UNDETERMINED_RECORDSET_SIZE)
-                ? DEFAULT_RECORDSET_SIZE
+        int size = (recordsetSize == UNDETERMINED_RECORDSET_COUNT)
+                ? DEFAULT_RECORDSET_COUNT
                 : recordsetSize;
 
         // Calculate the number of items to include in the cursor.
@@ -91,7 +91,7 @@ public class PagingProvider extends TestRootProvider {
         for (int i = 0; i < numItems; i++) {
             addFile(c, String.format("%05d", offset + i));
         }
-        extras.putInt(ContentResolver.EXTRA_TOTAL_SIZE, recordsetSize);
+        extras.putInt(ContentResolver.EXTRA_TOTAL_COUNT, recordsetSize);
         return c;
     }
 }
