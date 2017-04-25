@@ -36,6 +36,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.clipping.UrisSupplier;
 
 import java.io.FileNotFoundException;
@@ -55,9 +56,9 @@ final class CompressJob extends CopyJob {
      *
      * @see @link {@link Job} constructor for most param descriptions.
      */
-    CompressJob(Context service, Listener listener,
-            String id, DocumentStack destination, UrisSupplier srcs, Messenger messenger) {
-        super(service, listener, id, OPERATION_MOVE, destination, srcs, messenger);
+    CompressJob(Context service, Listener listener, String id, DocumentStack destination,
+            UrisSupplier srcs, Messenger messenger, Features features) {
+        super(service, listener, id, OPERATION_MOVE, destination, srcs, messenger, features);
     }
 
     @Override
