@@ -74,7 +74,7 @@ public class SearchViewManager implements
 
     public void install(Menu menu, boolean isFullBarSearch) {
         mMenu = menu;
-        mMenuItem = mMenu.findItem(R.id.menu_search);
+        mMenuItem = mMenu.findItem(R.id.option_menu_search);
         mSearchView = (SearchView) mMenuItem.getActionView();
 
         mSearchView.setOnQueryTextListener(this);
