@@ -407,6 +407,7 @@ public class ActionHandlerTest {
         // DragEvent gets recycled in Android, so it is possible that by the time the callback is
         // called, event.getLocalState() and event.getClipData() returns null. This tests to ensure
         // our Clipper is getting the original CipData passed in.
+        mEnv.docs.nextRootDocument = TestEnv.FOLDER_0;
         mHandler = new ActionHandler<>(
                 mActivity,
                 mEnv.state,
