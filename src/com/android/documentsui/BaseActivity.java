@@ -217,7 +217,8 @@ public abstract class BaseActivity
                 mProviders,
                 mDocs,
                 mState,
-                mSearchManager);
+                mSearchManager,
+                mInjector.actionModeController::finishActionMode);
         mRootsMonitor.start();
     }
 
