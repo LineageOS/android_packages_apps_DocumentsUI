@@ -23,6 +23,7 @@ import android.app.Notification;
 import android.app.Notification.Builder;
 import android.content.Context;
 
+import com.android.documentsui.base.Features;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -38,10 +39,9 @@ public class TestJob extends Job {
 
     private int mNumOfNotifications = 0;
 
-    TestJob(
-            Context service, Listener listener, String id,
-            @OpType int opType, DocumentStack stack, UrisSupplier srcs, Runnable startRunnable) {
-        super(service, listener, id, opType, stack, srcs);
+    TestJob(Context service, Listener listener, String id, @OpType int opType, DocumentStack stack,
+            UrisSupplier srcs, Runnable startRunnable, Features features) {
+        super(service, listener, id, opType, stack, srcs, features);
 
         mStartRunnable = startRunnable;
     }

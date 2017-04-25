@@ -29,6 +29,7 @@ public class TestFeatures implements Features {
     public boolean foldersInSearchResults = true;
     public boolean gestureScale = true;
     public boolean launchToDocument = true;
+    public boolean notificationChannel = true;
     public boolean remoteActions = true;
     public boolean systemKeyboardNavigation = true;
     public boolean virtualFilesSharing = true;
@@ -71,6 +72,11 @@ public class TestFeatures implements Features {
     @Override
     public boolean isLaunchToDocumentEnabled() {
         return launchToDocument;
+    }
+
+    @Override
+    public boolean isNotificationChannelEnabled() {
+        return notificationChannel;
     }
 
     @Override

@@ -30,6 +30,7 @@ import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.clipping.UrisSupplier;
 
 import java.io.FileNotFoundException;
@@ -51,8 +52,8 @@ final class DeleteJob extends ResolvedResourcesJob {
      * @see @link {@link Job} constructor for most param descriptions.
      */
     DeleteJob(Context service, Listener listener, String id, DocumentStack stack,
-            UrisSupplier srcs, @Nullable Uri srcParent) {
-        super(service, listener, id, OPERATION_DELETE, stack, srcs);
+            UrisSupplier srcs, @Nullable Uri srcParent, Features features) {
+        super(service, listener, id, OPERATION_DELETE, stack, srcs, features);
         mParentUri = srcParent;
     }
 
