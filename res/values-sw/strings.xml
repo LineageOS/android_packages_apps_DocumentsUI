@@ -169,7 +169,7 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Ungependa kuruhusu <xliff:g id="APPNAME"><b>^1</b></xliff:g> ifikie saraka ya <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> kwenye <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Ungependa kuruhusu <xliff:g id="APPNAME"><b>^1</b></xliff:g> ifikie saraka ya <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Ungependa kuruhusu <xliff:g id="APPNAME"><b>^1</b></xliff:g> ifikie data yako, ikiwa ni pamoja na picha na video kwenye <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"Usiniulize tena"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"Usiulize tena"</string>
     <string name="allow" msgid="1275746941353040309">"Ruhusu"</string>
     <string name="deny" msgid="5127201668078153379">"Usikubali"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
