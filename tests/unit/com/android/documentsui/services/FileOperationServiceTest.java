@@ -28,14 +28,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.MediumTest;
 import android.test.ServiceTestCase;
 
+import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.testing.DocsProviders;
+import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestHandler;
 import com.android.documentsui.testing.TestScheduledExecutorService;
 
@@ -76,6 +80,9 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         mHandler = new TestHandler();
         mForegroundManager = new TestForegroundManager();
         mTestNotificationManager = new TestNotificationManager(mForegroundManager);
+        TestFeatures features = new TestFeatures();
+        features.notificationChannel = InstrumentationRegistry.getTargetContext()
+                .getResources().getBoolean(R.bool.feature_notification_channel);
 
         mCopyJobs.clear();
         mDeleteJobs.clear();
@@ -97,6 +104,9 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
 
         assertNull(mService.notificationManager);
         mService.notificationManager = mTestNotificationManager.createNotificationManager();
+
+        assertNull(mService.features);
+        mService.features = features;
     }
 
     @Override
@@ -382,9 +392,9 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         }
 
         @Override
-        public Job createJob(Context service, Job.Listener listener, String id) {
-            TestJob job =
-                    new TestJob(service, listener, id, mOpType, mDestination, mSrcs, mJobRunnable);
+        public Job createJob(Context service, Job.Listener listener, String id, Features features) {
+            TestJob job = new TestJob(
+                    service, listener, id, mOpType, mDestination, mSrcs, mJobRunnable, features);
 
             if (mOpType == OPERATION_COPY) {
                 mCopyJobs.add(job);
