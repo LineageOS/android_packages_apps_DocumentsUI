@@ -34,6 +34,7 @@ import android.os.Parcelable;
 import android.support.annotation.VisibleForTesting;
 
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.services.FileOperationService.OpType;
 
@@ -93,7 +94,7 @@ public abstract class FileOperation implements Parcelable {
         mSrcs.dispose();
     }
 
-    abstract Job createJob(Context service, Job.Listener listener, String id);
+    abstract Job createJob(Context service, Job.Listener listener, String id, Features features);
 
     private void appendInfoTo(StringBuilder builder) {
         builder.append("opType=").append(mOpType);
@@ -132,8 +133,9 @@ public abstract class FileOperation implements Parcelable {
             return builder.toString();
         }
 
-        CopyJob createJob(Context service, Job.Listener listener, String id) {
-            return new CopyJob(service, listener, id, getDestination(), getSrc(), getMessenger());
+        CopyJob createJob(Context service, Job.Listener listener, String id, Features features) {
+            return new CopyJob(
+                    service, listener, id, getDestination(), getSrc(), getMessenger(), features);
         }
 
         private CopyOperation(Parcel in) {
@@ -171,9 +173,9 @@ public abstract class FileOperation implements Parcelable {
             return builder.toString();
         }
 
-        CopyJob createJob(Context service, Job.Listener listener, String id) {
+        CopyJob createJob(Context service, Job.Listener listener, String id, Features features) {
             return new CompressJob(service, listener, id, getDestination(), getSrc(),
-                    getMessenger());
+                    getMessenger(), features);
         }
 
         private CompressOperation(Parcel in) {
@@ -212,8 +214,9 @@ public abstract class FileOperation implements Parcelable {
         }
 
         // TODO: Replace CopyJob with ExtractJob.
-        CopyJob createJob(Context service, Job.Listener listener, String id) {
-            return new CopyJob(service, listener, id, getDestination(), getSrc(), getMessenger());
+        CopyJob createJob(Context service, Job.Listener listener, String id, Features features) {
+            return new CopyJob(
+                    service, listener, id, getDestination(), getSrc(), getMessenger(), features);
         }
 
         private ExtractOperation(Parcel in) {
@@ -246,15 +249,15 @@ public abstract class FileOperation implements Parcelable {
         }
 
         @Override
-        Job createJob(Context service, Job.Listener listener, String id) {
+        Job createJob(Context service, Job.Listener listener, String id, Features features) {
             switch(getOpType()) {
                 case OPERATION_MOVE:
                     return new MoveJob(
                             service, listener, id, getDestination(), getSrc(), mSrcParent,
-                            getMessenger());
+                            getMessenger(), features);
                 case OPERATION_DELETE:
-                    return new DeleteJob(
-                            service, listener, id, getDestination(), getSrc(), mSrcParent);
+                    return new DeleteJob(service, listener, id, getDestination(), getSrc(),
+                            mSrcParent, features);
                 default:
                     throw new UnsupportedOperationException("Unsupported op type: " + getOpType());
             }

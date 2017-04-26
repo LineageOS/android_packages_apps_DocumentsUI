@@ -26,6 +26,7 @@ import android.util.Log;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -47,8 +48,8 @@ public abstract class ResolvedResourcesJob extends Job {
     final List<Uri> mAcquiredArchivedUris = new ArrayList<>();
 
     ResolvedResourcesJob(Context service, Listener listener, String id, @OpType int opType,
-            DocumentStack destination, UrisSupplier srcs) {
-        super(service, listener, id, opType, destination, srcs);
+            DocumentStack destination, UrisSupplier srcs, Features features) {
+        super(service, listener, id, opType, destination, srcs, features);
 
         assert(srcs.getItemCount() > 0);
 
