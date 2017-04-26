@@ -40,10 +40,16 @@ public final class DragAndDropHelper {
      * localState isn't carried over from one process to another.
      */
     public static boolean canCopyTo(Object dragLocalState, DocumentInfo dst) {
+        if (dst == null) {
+            if (DEBUG) Log.d(TAG, "Invalid destination. Ignoring.");
+            return false;
+        }
+
         if (dragLocalState == null || !(dragLocalState instanceof List<?>)) {
             if (DEBUG) Log.d(TAG, "Invalid local state object. Will allow copy.");
             return true;
         }
+
         List<?> src = (List<?>) dragLocalState;
         if (src.contains(dst)) {
             if (DEBUG) Log.d(TAG, "Drop target same as source. Ignoring.");
