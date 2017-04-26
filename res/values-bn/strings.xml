@@ -119,10 +119,6 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইলকে সঙ্কুচিত করা যায়নি</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইলকে সঙ্কুচিত করা যায়নি</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইলকে সঙ্কুচিত করা যায়নি</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি ফাইলকে সঙ্কুচিত করা যায়নি</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম সরানো যায়নি</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টি আইটেম সরানো যায়নি</item>

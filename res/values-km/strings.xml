@@ -119,10 +119,6 @@
       <item quantity="other">មិនអាច​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g> បាន​ទេ</item>
       <item quantity="one">មិនអាច​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> បាន​ទេ</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">មិនអាច​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_1">%1$d</xliff:g> បាន​ទេ</item>
-      <item quantity="one">មិនអាច​បង្ហាប់​ឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> បាន​ទេ</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other">មិនអាច​ផ្លាស់ទីធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> បានទេ</item>
       <item quantity="one">មិនអាច​ផ្លាស់ទីធាតុ <xliff:g id="COUNT_0">%1$d</xliff:g> បានទេ</item>

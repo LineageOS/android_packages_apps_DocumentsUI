@@ -119,10 +119,6 @@
       <item quantity="other">无法压缩 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
       <item quantity="one">无法压缩 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">无法压缩 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
-      <item quantity="one">无法压缩 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other">无法移动 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
       <item quantity="one">无法移动 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件</item>

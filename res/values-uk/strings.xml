@@ -133,12 +133,6 @@
       <item quantity="many">Не вдалося стиснути <xliff:g id="COUNT_1">%1$d</xliff:g> файлів</item>
       <item quantity="other">Не вдалося стиснути <xliff:g id="COUNT_1">%1$d</xliff:g> файлу</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Не вдалося стиснути <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
-      <item quantity="few">Не вдалося стиснути <xliff:g id="COUNT_1">%1$d</xliff:g> файли</item>
-      <item quantity="many">Не вдалося стиснути <xliff:g id="COUNT_1">%1$d</xliff:g> файлів</item>
-      <item quantity="other">Не вдалося стиснути <xliff:g id="COUNT_1">%1$d</xliff:g> файлу</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one">Не вдалося перемістити <xliff:g id="COUNT_1">%1$d</xliff:g> файл</item>
       <item quantity="few">Не вдалося перемістити <xliff:g id="COUNT_1">%1$d</xliff:g> файли</item>

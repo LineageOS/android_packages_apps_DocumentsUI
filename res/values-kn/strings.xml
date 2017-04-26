@@ -119,10 +119,6 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಫೈಲ್‌ಗಳನ್ನು ಕುಗ್ಗಿಸಲಾಗದು</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಫೈಲ್‌ಗಳನ್ನು ಕುಗ್ಗಿಸಲಾಗದು</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಫೈಲ್‌ಗಳನ್ನು ಕುಗ್ಗಿಸಲಾಗದು</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಫೈಲ್‌ಗಳನ್ನು ಕುಗ್ಗಿಸಲಾಗದು</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಸರಿಸಲಾಗಲಿಲ್ಲ</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ಐಟಂಗಳನ್ನು ಸರಿಸಲಾಗಲಿಲ್ಲ</item>
