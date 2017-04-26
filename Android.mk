@@ -6,33 +6,19 @@ LOCAL_PRIVILEGED_MODULE := true
 
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
 
-LOCAL_STATIC_JAVA_LIBRARIES := android-support-v4
-# The design lib requires that the client package use appcompat themes.
-LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-appcompat
-LOCAL_STATIC_JAVA_LIBRARIES += android-support-v13
-# Supplies material design components, e.g. Snackbar.
-LOCAL_STATIC_JAVA_LIBRARIES += android-support-design
-LOCAL_STATIC_JAVA_LIBRARIES += android-support-transition
-LOCAL_STATIC_JAVA_LIBRARIES += android-support-v7-recyclerview
 LOCAL_STATIC_JAVA_LIBRARIES += guava
 
 LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
-# Not quite sure why it is necessary to explicitly pull in resources from the
-# appcompat lib, but the demo code indicates it's necessary (see
-# development/samples/Support7Demos/Android.mk)
-LOCAL_RESOURCE_DIR += \
-  frameworks/support/v7/appcompat/res \
-  frameworks/support/design/res \
-  frameworks/support/transition/res \
-  frameworks/support/v7/recyclerview/res
 
-# Again, required to pull in appcompat resources.  See abovementioned demo code.
-LOCAL_AAPT_FLAGS := \
-  --auto-add-overlay \
-  --extra-packages android.support.v7.appcompat \
-  --extra-packages android.support.design \
-  --extra-packages android.support.transition \
-  --extra-packages android.support.v7.recyclerview
+LOCAL_STATIC_ANDROID_LIBRARIES := \
+        android-support-v4 \
+        android-support-v7-appcompat \
+        android-support-v13 \
+        android-support-design \
+        android-support-transition \
+        android-support-v7-recyclerview
+
+LOCAL_USE_AAPT2 := true
 
 LOCAL_JACK_FLAGS := \
   -D jack.optimization.inner-class.accessors=true
