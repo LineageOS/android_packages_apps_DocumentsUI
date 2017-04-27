@@ -32,6 +32,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
+import com.android.documentsui.selection.SelectionManager;
 
 import java.util.Collection;
 
@@ -49,7 +50,8 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
             final ProvidersAccess providers,
             final DocumentsAccess docs,
             final State state,
-            final SearchViewManager searchMgr) {
+            final SearchViewManager searchMgr,
+            final Runnable actionModeFinisher) {
         mManager = LocalBroadcastManager.getInstance(activity);
 
         mReceiver = new BroadcastReceiver() {
@@ -61,7 +63,8 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
                         providers,
                         docs,
                         state,
-                        searchMgr).execute(activity.getCurrentRoot());
+                        searchMgr,
+                        actionModeFinisher).execute(activity.getCurrentRoot());
             }
         };
     }
@@ -81,6 +84,7 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
         private final DocumentsAccess mDocs;
         private final State mState;
         private final SearchViewManager mSearchMgr;
+        private final Runnable mActionModeFinisher;
 
         private RootInfo mCurrentRoot;
         private DocumentInfo mDefaultRootDocument;
@@ -91,13 +95,15 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
                 ProvidersAccess providers,
                 DocumentsAccess docs,
                 State state,
-                SearchViewManager searchMgr) {
+                SearchViewManager searchMgr,
+                Runnable actionModeFinisher) {
             super(activity);
             mActions = actions;
             mProviders = providers;
             mDocs = docs;
             mState = state;
             mSearchMgr = searchMgr;
+            mActionModeFinisher = actionModeFinisher;
         }
 
         @Override
@@ -134,6 +140,9 @@ final class RootsMonitor<T extends Activity & CommonAddons> {
                 mOwner.finish();
                 return;
             }
+
+            // Clean action mode before changing root.
+            mActionModeFinisher.run();
 
             // Clear entire backstack and start in new root.
             mState.stack.changeRoot(defaultRoot);
