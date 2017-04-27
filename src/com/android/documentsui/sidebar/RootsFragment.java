@@ -381,17 +381,17 @@ public class RootsFragment extends Fragment {
         }
         final RootItem rootItem = (RootItem) mAdapter.getItem(adapterMenuInfo.position);
         switch (item.getItemId()) {
-            case R.id.menu_eject_root:
+            case R.id.root_menu_eject_root:
                 final View ejectIcon = adapterMenuInfo.targetView.findViewById(R.id.eject_icon);
                 ejectClicked(ejectIcon, rootItem.root, mActionHandler);
                 return true;
-            case R.id.menu_open_in_new_window:
+            case R.id.root_menu_open_in_new_window:
                 mActionHandler.openInNewWindow(new DocumentStack(rootItem.root));
                 return true;
-            case R.id.menu_paste_into_folder:
+            case R.id.root_menu_paste_into_folder:
                 mActionHandler.pasteIntoFolder(rootItem.root);
                 return true;
-            case R.id.menu_settings:
+            case R.id.root_menu_settings:
                 mActionHandler.openSettings(rootItem.root);
                 return true;
             default:

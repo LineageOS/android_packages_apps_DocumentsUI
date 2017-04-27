@@ -89,6 +89,8 @@ public interface ActionHandler {
 
     void selectAllFiles();
 
+    void showCreateDirectoryDialog();
+
     @Nullable DocumentInfo renameDocument(String name, DocumentInfo document);
 
     /**

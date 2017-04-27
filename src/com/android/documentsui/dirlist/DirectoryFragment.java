@@ -611,37 +611,41 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         Selection selection = mSelectionMgr.getSelection(new Selection());
 
         switch (item.getItemId()) {
-            case R.id.menu_open:
+            case R.id.action_menu_open:
+            case R.id.dir_menu_open:
                 openDocuments(selection);
                 mActionModeController.finishActionMode();
                 return true;
 
-            case R.id.menu_open_with:
+            case R.id.action_menu_open_with:
+            case R.id.dir_menu_open_with:
                 showChooserForDoc(selection);
                 return true;
 
-            case R.id.menu_open_in_new_window:
+            case R.id.dir_menu_open_in_new_window:
                 mActions.openSelectedInNewWindow();
                 return true;
 
-            case R.id.menu_share:
+            case R.id.action_menu_share:
+            case R.id.dir_menu_share:
                 mActions.shareSelectedDocuments();
                 return true;
 
-            case R.id.menu_delete:
+            case R.id.action_menu_delete:
+            case R.id.dir_menu_delete:
                 // deleteDocuments will end action mode if the documents are deleted.
                 // It won't end action mode if user cancels the delete.
                 mActions.deleteSelectedDocuments();
                 return true;
 
-            case R.id.menu_copy_to:
+            case R.id.action_menu_copy_to:
                 transferDocuments(selection, null, FileOperationService.OPERATION_COPY);
                 // TODO: Only finish selection mode if copy-to is not canceled.
                 // Need to plum down into handling the way we do with deleteDocuments.
                 mActionModeController.finishActionMode();
                 return true;
 
-            case R.id.menu_compress:
+            case R.id.action_menu_compress:
                 transferDocuments(selection, mState.stack,
                         FileOperationService.OPERATION_COMPRESS);
                 // TODO: Only finish selection mode if compress is not canceled.
@@ -650,14 +654,14 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 return true;
 
             // TODO: Implement extract (to the current directory).
-            case R.id.menu_extract_to:
+            case R.id.action_menu_extract_to:
                 transferDocuments(selection, null, FileOperationService.OPERATION_EXTRACT);
                 // TODO: Only finish selection mode if compress-to is not canceled.
                 // Need to plum down into handling the way we do with deleteDocuments.
                 mActionModeController.finishActionMode();
                 return true;
 
-            case R.id.menu_move_to:
+            case R.id.action_menu_move_to:
                 if (mModel.hasDocuments(selection, DocumentFilters.NOT_MOVABLE)) {
                     mInjector.dialogs.showOperationUnsupported();
                     return true;
@@ -667,44 +671,46 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 transferDocuments(selection, null, FileOperationService.OPERATION_MOVE);
                 return true;
 
-            case R.id.menu_cut_to_clipboard:
+            case R.id.dir_menu_cut_to_clipboard:
                 mActions.cutToClipboard();
                 return true;
 
-            case R.id.menu_copy_to_clipboard:
+            case R.id.dir_menu_copy_to_clipboard:
                 mActions.copyToClipboard();
                 return true;
 
-            case R.id.menu_paste_from_clipboard:
+            case R.id.dir_menu_paste_from_clipboard:
                 pasteFromClipboard();
                 return true;
 
-            case R.id.menu_paste_into_folder:
+            case R.id.dir_menu_paste_into_folder:
                 pasteIntoFolder();
                 return true;
 
-            case R.id.menu_select_all:
+            case R.id.action_menu_select_all:
+            case R.id.dir_menu_select_all:
                 mActions.selectAllFiles();
                 return true;
 
-            case R.id.menu_rename:
+            case R.id.action_menu_rename:
+            case R.id.dir_menu_rename:
                 // Exit selection mode first, so we avoid deselecting deleted
                 // (renamed) documents.
                 mActionModeController.finishActionMode();
                 renameDocuments(selection);
                 return true;
 
-            case R.id.menu_view_in_owner:
+            case R.id.dir_menu_create_dir:
+                mActions.showCreateDirectoryDialog();
+                return true;
+
+            case R.id.dir_menu_view_in_owner:
                 mActions.viewInOwner();
                 return true;
 
             default:
-                // See if BaseActivity can handle this particular MenuItem
-                if (!mActivity.onOptionsItemSelected(item)) {
-                    if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
-                    return false;
-                }
-                return true;
+                if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
+                return false;
         }
     }
 
