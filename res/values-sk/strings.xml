@@ -135,12 +135,6 @@
       <item quantity="other">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súborov</item>
       <item quantity="one">Nepodarilo sa skomprimovať <xliff:g id="COUNT_0">%1$d</xliff:g> súbor</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="few">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súbory</item>
-      <item quantity="many">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súboru</item>
-      <item quantity="other">Nepodarilo sa skomprimovať <xliff:g id="COUNT_1">%1$d</xliff:g> súborov</item>
-      <item quantity="one">Nepodarilo sa skomprimovať <xliff:g id="COUNT_0">%1$d</xliff:g> súbor</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="few">Nepodarilo sa presunúť <xliff:g id="COUNT_1">%1$d</xliff:g> položky</item>
       <item quantity="many">Nepodarilo sa presunúť <xliff:g id="COUNT_1">%1$d</xliff:g> položky</item>

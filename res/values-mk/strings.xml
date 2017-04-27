@@ -121,10 +121,6 @@
       <item quantity="one">Не можеше да се компримира <xliff:g id="COUNT_1">%1$d</xliff:g> датотека</item>
       <item quantity="other">Не можеше да се компримираат <xliff:g id="COUNT_1">%1$d</xliff:g> датотеки</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Не можеше да се компримира <xliff:g id="COUNT_1">%1$d</xliff:g> датотека</item>
-      <item quantity="other">Не можеше да се компримираат <xliff:g id="COUNT_1">%1$d</xliff:g> датотеки</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one">Не можеше да премести <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
       <item quantity="other">Не можеше да преместат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>

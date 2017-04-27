@@ -121,10 +121,6 @@
       <item quantity="other">Ezin izan dira konprimatu <xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi</item>
       <item quantity="one">Ezin izan da konprimatu <xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">Ezin izan dira konprimatu <xliff:g id="COUNT_1">%1$d</xliff:g> fitxategi</item>
-      <item quantity="one">Ezin izan da konprimatu <xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other">Ezin izan dira mugitu <xliff:g id="COUNT_1">%1$d</xliff:g> elementu</item>
       <item quantity="one">Ezin izan da mugitu <xliff:g id="COUNT_0">%1$d</xliff:g> elementu</item>

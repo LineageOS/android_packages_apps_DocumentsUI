@@ -135,12 +135,6 @@
       <item quantity="other">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
       <item quantity="one">לא ניתן היה לדחוס <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="two">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="many">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="other">לא ניתן היה לדחוס <xliff:g id="COUNT_1">%1$d</xliff:g> קבצים</item>
-      <item quantity="one">לא ניתן היה לדחוס <xliff:g id="COUNT_0">%1$d</xliff:g> קובץ</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="two">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
       <item quantity="many">לא ניתן היה להעביר <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
