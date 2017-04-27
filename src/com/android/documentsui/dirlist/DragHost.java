@@ -16,10 +16,13 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.base.Shared.DEBUG;
+
 import android.app.Activity;
 import android.content.ClipData;
 import android.view.DragEvent;
 import android.view.View;
+import android.util.Log;
 
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.AbstractDragHost;
@@ -38,6 +41,8 @@ import java.util.function.Predicate;
  * Drag host for items in {@link DirectoryFragment}.
  */
 class DragHost<T extends Activity & AbstractActionHandler.CommonAddons> extends AbstractDragHost {
+
+    private static final String TAG = "dirlist.DragHost";
 
     private final T mActivity;
     private final SelectionManager mSelectionMgr;
@@ -134,6 +139,11 @@ class DragHost<T extends Activity & AbstractActionHandler.CommonAddons> extends 
         assert (clipData != null);
 
         DocumentInfo dst = mDestinationLookup.lookup(v);
+        if (dst == null) {
+            if (DEBUG) Log.d(TAG, "Invalid destination. Ignoring.");
+            return false;
+        }
+
         // If destination is already at top of stack, no need to pass it in
         DocumentStack dstStack = dst.equals(mState.stack.peek())
                 ? mState.stack
