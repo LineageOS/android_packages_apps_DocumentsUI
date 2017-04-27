@@ -326,31 +326,31 @@ public abstract class BaseActivity
                 onBackPressed();
                 return true;
 
-            case R.id.menu_create_dir:
-                showCreateDirectoryDialog();
+            case R.id.option_menu_create_dir:
+                getInjector().actions.showCreateDirectoryDialog();
                 return true;
 
-            case R.id.menu_search:
+            case R.id.option_menu_search:
                 // SearchViewManager listens for this directly.
                 return false;
 
-            case R.id.menu_grid:
+            case R.id.option_menu_grid:
                 setViewMode(State.MODE_GRID);
                 return true;
 
-            case R.id.menu_list:
+            case R.id.option_menu_list:
                 setViewMode(State.MODE_LIST);
                 return true;
 
-            case R.id.menu_advanced:
+            case R.id.option_menu_advanced:
                 onDisplayAdvancedDevices();
                 return true;
 
-            case R.id.menu_select_all:
+            case R.id.option_menu_select_all:
                 getInjector().actions.selectAllFiles();
                 return true;
 
-            case R.id.menu_debug:
+            case R.id.option_menu_debug:
                 getInjector().actions.showDebugMessage();
                 return true;
 
@@ -361,12 +361,6 @@ public abstract class BaseActivity
 
     protected final @Nullable DirectoryFragment getDirectoryFragment() {
         return DirectoryFragment.get(getFragmentManager());
-    }
-
-    protected void showCreateDirectoryDialog() {
-        Metrics.logUserAction(this, Metrics.USER_ACTION_CREATE_DIR);
-
-        CreateDirectoryFragment.show(getFragmentManager());
     }
 
     /**

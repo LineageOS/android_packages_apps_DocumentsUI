@@ -72,7 +72,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
     public void testDeleteDocument() throws Exception {
         bots.directory.clickDocument("file1.png");
         device.waitForIdle();
-        bots.main.clickToolbarItem(R.id.menu_delete);
+        bots.main.clickToolbarItem(R.id.action_menu_delete);
 
         bots.main.clickDialogOkButton();
         device.waitForIdle();
@@ -116,7 +116,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
     public void testDeleteDocument_Cancel() throws Exception {
         bots.directory.clickDocument("file1.png");
         device.waitForIdle();
-        bots.main.clickToolbarItem(R.id.menu_delete);
+        bots.main.clickToolbarItem(R.id.action_menu_delete);
 
         bots.main.clickDialogCancelButton();
 

@@ -275,23 +275,17 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     public boolean onOptionsItemSelected(MenuItem item) {
         DirectoryFragment dir;
         switch (item.getItemId()) {
-            case R.id.menu_create_dir:
+            case R.id.option_menu_create_dir:
                 assert(canCreateDirectory());
-                showCreateDirectoryDialog();
+                mInjector.actions.showCreateDirectoryDialog();
                 break;
-            case R.id.menu_new_window:
+            case R.id.option_menu_new_window:
                 mInjector.actions.openInNewWindow(mState.stack);
                 break;
-            case R.id.menu_paste_from_clipboard:
-                dir = getDirectoryFragment();
-                if (dir != null) {
-                    dir.pasteFromClipboard();
-                }
-                break;
-            case R.id.menu_settings:
+            case R.id.option_menu_settings:
                 mInjector.actions.openSettings(getCurrentRoot());
                 break;
-            case R.id.menu_select_all:
+            case R.id.option_menu_select_all:
                 mInjector.actions.selectAllFiles();
                 break;
             default:
