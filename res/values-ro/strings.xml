@@ -125,11 +125,6 @@
       <item quantity="other">Nu s-au putut comprima <xliff:g id="COUNT_1">%1$d</xliff:g> de fișiere</item>
       <item quantity="one">Nu s-a putut comprima <xliff:g id="COUNT_0">%1$d</xliff:g> fișier</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="few">Nu s-au putut comprima <xliff:g id="COUNT_1">%1$d</xliff:g> fișiere</item>
-      <item quantity="other">Nu s-au putut comprima <xliff:g id="COUNT_1">%1$d</xliff:g> de fișiere</item>
-      <item quantity="one">Nu s-a putut comprima <xliff:g id="COUNT_0">%1$d</xliff:g> fișier</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="few">Nu s-au putut muta <xliff:g id="COUNT_1">%1$d</xliff:g> articole</item>
       <item quantity="other">Nu s-au putut muta <xliff:g id="COUNT_1">%1$d</xliff:g> de articole</item>

@@ -118,10 +118,6 @@
       <item quantity="one">Couldn’t compress <xliff:g id="COUNT_1">%1$d</xliff:g> files</item>
       <item quantity="other">Չհաջողվեց սեղմել <xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլ</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Couldn’t compress <xliff:g id="COUNT_1">%1$d</xliff:g> files</item>
-      <item quantity="other">Չհաջողվեց սեղմել <xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլ</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one">Couldn’t move <xliff:g id="COUNT_1">%1$d</xliff:g> items</item>
       <item quantity="other">Չհաջողվեց տեղափոխել <xliff:g id="COUNT_1">%1$d</xliff:g> տարր</item>

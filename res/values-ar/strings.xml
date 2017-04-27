@@ -146,14 +146,6 @@
       <item quantity="other">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
       <item quantity="one">تعذر ضغط ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="zero">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="two">تعذر ضغط ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
-      <item quantity="few">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملفات</item>
-      <item quantity="many">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملفًا</item>
-      <item quantity="other">تعذر ضغط <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
-      <item quantity="one">تعذر ضغط ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="zero">تعذَّر نقل <xliff:g id="COUNT_1">%1$d</xliff:g> ملف</item>
       <item quantity="two">تعذَّر نقل ملفين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>

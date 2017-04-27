@@ -118,10 +118,6 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> 個のファイルを圧縮できませんでした</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> 個のファイルを圧縮できませんでした</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> 個のファイルを圧縮できませんでした</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> 個のファイルを圧縮できませんでした</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> 件のアイテムを移動できませんでした</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> 件のアイテムを移動できませんでした</item>

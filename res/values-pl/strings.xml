@@ -132,12 +132,6 @@
       <item quantity="other">Nie udało się skompresować <xliff:g id="COUNT_1">%1$d</xliff:g> pliku</item>
       <item quantity="one">Nie udało się skompresować <xliff:g id="COUNT_0">%1$d</xliff:g> pliku</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="few">Nie udało się skompresować <xliff:g id="COUNT_1">%1$d</xliff:g> plików</item>
-      <item quantity="many">Nie udało się skompresować <xliff:g id="COUNT_1">%1$d</xliff:g> plików</item>
-      <item quantity="other">Nie udało się skompresować <xliff:g id="COUNT_1">%1$d</xliff:g> pliku</item>
-      <item quantity="one">Nie udało się skompresować <xliff:g id="COUNT_0">%1$d</xliff:g> pliku</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="few">Nie udało się przenieść <xliff:g id="COUNT_1">%1$d</xliff:g> elementów</item>
       <item quantity="many">Nie udało się przenieść <xliff:g id="COUNT_1">%1$d</xliff:g> elementów</item>

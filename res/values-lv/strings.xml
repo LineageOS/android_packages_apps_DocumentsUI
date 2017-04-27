@@ -125,11 +125,6 @@
       <item quantity="one">Nevarēja saspiest <xliff:g id="COUNT_1">%1$d</xliff:g> failu</item>
       <item quantity="other">Nevarēja saspiest <xliff:g id="COUNT_1">%1$d</xliff:g> failus</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="zero">Nevarēja saspiest <xliff:g id="COUNT_1">%1$d</xliff:g> failus</item>
-      <item quantity="one">Nevarēja saspiest <xliff:g id="COUNT_1">%1$d</xliff:g> failu</item>
-      <item quantity="other">Nevarēja saspiest <xliff:g id="COUNT_1">%1$d</xliff:g> failus</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="zero">Nevarēja pārvietot <xliff:g id="COUNT_1">%1$d</xliff:g> vienumus</item>
       <item quantity="one">Nevarēja pārvietot <xliff:g id="COUNT_1">%1$d</xliff:g> vienumu</item>

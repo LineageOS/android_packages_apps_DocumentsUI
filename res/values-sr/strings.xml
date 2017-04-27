@@ -125,11 +125,6 @@
       <item quantity="few">Компримовање <xliff:g id="COUNT_1">%1$d</xliff:g> датотеке није успело</item>
       <item quantity="other">Компримовање <xliff:g id="COUNT_1">%1$d</xliff:g> датотека није успело</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Компримовање <xliff:g id="COUNT_1">%1$d</xliff:g> датотеке није успело</item>
-      <item quantity="few">Компримовање <xliff:g id="COUNT_1">%1$d</xliff:g> датотеке није успело</item>
-      <item quantity="other">Компримовање <xliff:g id="COUNT_1">%1$d</xliff:g> датотека није успело</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one">Премештање <xliff:g id="COUNT_1">%1$d</xliff:g> ставке није успело</item>
       <item quantity="few">Премештање <xliff:g id="COUNT_1">%1$d</xliff:g> ставке није успело</item>

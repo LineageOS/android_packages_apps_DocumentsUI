@@ -118,10 +118,6 @@
       <item quantity="one">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>
       <item quantity="other">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>
-      <item quantity="other">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one">Hindi mailipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
       <item quantity="other">Hindi mailipat ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item</item>

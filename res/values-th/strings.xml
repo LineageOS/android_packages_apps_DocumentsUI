@@ -118,10 +118,6 @@
       <item quantity="other">ไม่สามารถบีบอัด <xliff:g id="COUNT_1">%1$d</xliff:g> ไฟล์</item>
       <item quantity="one">ไม่สามารถบีบอัด <xliff:g id="COUNT_0">%1$d</xliff:g> ไฟล์</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">ไม่สามารถบีบอัด <xliff:g id="COUNT_1">%1$d</xliff:g> ไฟล์</item>
-      <item quantity="one">ไม่สามารถบีบอัด <xliff:g id="COUNT_0">%1$d</xliff:g> ไฟล์</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other">ไม่สามารถย้าย <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
       <item quantity="one">ไม่สามารถย้าย <xliff:g id="COUNT_0">%1$d</xliff:g> รายการ</item>

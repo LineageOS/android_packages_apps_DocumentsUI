@@ -118,10 +118,6 @@
       <item quantity="one">ගොනු <xliff:g id="COUNT_1">%1$d</xliff:g>ක් සම්පීඩනය කළ නොහැකි විය</item>
       <item quantity="other">ගොනු <xliff:g id="COUNT_1">%1$d</xliff:g>ක් සම්පීඩනය කළ නොහැකි විය</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">ගොනු <xliff:g id="COUNT_1">%1$d</xliff:g>ක් සම්පීඩනය කළ නොහැකි විය</item>
-      <item quantity="other">ගොනු <xliff:g id="COUNT_1">%1$d</xliff:g>ක් සම්පීඩනය කළ නොහැකි විය</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one">අයිතම <xliff:g id="COUNT_1">%1$d</xliff:g>ක් ගෙන යාමට නොහැකි විය</item>
       <item quantity="other">අයිතම <xliff:g id="COUNT_1">%1$d</xliff:g>ක් ගෙන යාමට නොහැකි විය</item>

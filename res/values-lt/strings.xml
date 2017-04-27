@@ -132,12 +132,6 @@
       <item quantity="many">Nepavyko suglaudinti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
       <item quantity="other">Nepavyko suglaudinti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Nepavyko suglaudinti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
-      <item quantity="few">Nepavyko suglaudinti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
-      <item quantity="many">Nepavyko suglaudinti <xliff:g id="COUNT_1">%1$d</xliff:g> failo</item>
-      <item quantity="other">Nepavyko suglaudinti <xliff:g id="COUNT_1">%1$d</xliff:g> failų</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one">Nepavyko perkelti <xliff:g id="COUNT_1">%1$d</xliff:g> elemento</item>
       <item quantity="few">Nepavyko perkelti <xliff:g id="COUNT_1">%1$d</xliff:g> elementų</item>
