@@ -79,7 +79,7 @@ public final class UserInputHandler_KeyboardTest {
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept);
 
-        mEvent = TestEvent.builder().mouse();
+        mEvent = TestEvent.builder().mouse().overDocIcon();
     }
 
     @Test

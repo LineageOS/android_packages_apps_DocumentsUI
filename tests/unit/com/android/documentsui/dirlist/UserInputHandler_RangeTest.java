@@ -50,6 +50,7 @@ public final class UserInputHandler_RangeTest {
     private TestActionHandler mActionHandler;
 
     private SelectionProbe mSelection;
+    private TestFocusHandler mFocusHandler;
     private TestPredicate<DocumentDetails> mCanSelect;
     private TestEventHandler<InputEvent> mRightClickHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
@@ -61,7 +62,7 @@ public final class UserInputHandler_RangeTest {
 
         SelectionManager selectionMgr = SelectionManagers.createTestInstance(ITEMS);
         mActionHandler = new TestActionHandler();
-
+        mFocusHandler = new TestFocusHandler();
         mSelection = new SelectionProbe(selectionMgr);
         mCanSelect = new TestPredicate<>();
         mRightClickHandler = new TestEventHandler<>();
@@ -70,7 +71,7 @@ public final class UserInputHandler_RangeTest {
 
         mInputHandler = new UserInputHandler<>(
                 mActionHandler,
-                new TestFocusHandler(),
+                mFocusHandler,
                 selectionMgr,
                 (MotionEvent event) -> {
                     throw new UnsupportedOperationException("Not exercised in tests.");
@@ -80,7 +81,7 @@ public final class UserInputHandler_RangeTest {
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept);
 
-        mEvent = TestEvent.builder().mouse();
+        mEvent = TestEvent.builder().mouse().overDocIcon();
     }
 
     @Test
@@ -104,8 +105,11 @@ public final class UserInputHandler_RangeTest {
         mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
 
         // click without shift sets a new range start point.
-        mInputHandler.onSingleTapUp(mEvent.at(20).unshift().build());
-        mInputHandler.onSingleTapUp(mEvent.at(25).shift().build());
+        mInputHandler.onSingleTapUp(mEvent.at(20).unshift().notOverDocIcon().build());
+        mInputHandler.onSingleTapConfirmed(mEvent.at(20).notOverDocIcon().build());
+        mFocusHandler.focusPos = 20;
+        mInputHandler.onSingleTapUp(mEvent.at(25).shift().notOverDocIcon().build());
+        mInputHandler.onSingleTapConfirmed(mEvent.at(25).shift().notOverDocIcon().build());
 
         mSelection.assertRangeNotSelected(7, 11);
         mSelection.assertRangeSelected(20, 25);

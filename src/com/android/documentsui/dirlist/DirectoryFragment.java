@@ -180,6 +180,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private DirectoryState mLocalState;
     private DirectoryReloadLock mReloadLock = new DirectoryReloadLock();
 
+    private Runnable mBandSelectStarted;
+
     // Note, we use !null to indicate that selection was restored (from rotation).
     // So don't fiddle with this field unless you've got the bigger picture in mind.
     private @Nullable Selection mRestoredSelection = null;
@@ -272,6 +274,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mModel.removeUpdateListener(mModelUpdateListener);
         mModel.removeUpdateListener(mAdapter.getModelUpdateListener());
 
+        if (mBandController != null) {
+            mBandController.removeBandSelectStartedListener(mBandSelectStarted);
+        }
+
         super.onDestroyView();
     }
 
@@ -345,6 +351,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                         RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(pos);
                         return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
                     });
+            mBandSelectStarted = mFocusManager::clearFocus;
+            mBandController.addBandSelectStartedListener(mBandSelectStarted);
         }
 
         DragStartListener mDragStartListener = mInjector.config.dragAndDropEnabled()
