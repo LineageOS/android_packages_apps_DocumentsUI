@@ -119,10 +119,6 @@
       <item quantity="one">Ekki tókst að þjappa <xliff:g id="COUNT_1">%1$d</xliff:g> skrá</item>
       <item quantity="other">Ekki tókst að þjappa <xliff:g id="COUNT_1">%1$d</xliff:g> skrám</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Ekki tókst að þjappa <xliff:g id="COUNT_1">%1$d</xliff:g> skrá</item>
-      <item quantity="other">Ekki tókst að þjappa <xliff:g id="COUNT_1">%1$d</xliff:g> skrám</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one">Gat ekki flutt <xliff:g id="COUNT_1">%1$d</xliff:g> atriði</item>
       <item quantity="other">Gat ekki flutt <xliff:g id="COUNT_1">%1$d</xliff:g> atriði</item>

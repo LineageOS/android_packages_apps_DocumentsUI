@@ -119,10 +119,6 @@
       <item quantity="other">Tidak dapat memampatkan <xliff:g id="COUNT_1">%1$d</xliff:g> fail</item>
       <item quantity="one">Tidak dapat memampatkan <xliff:g id="COUNT_0">%1$d</xliff:g> fail</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">Tidak dapat memampatkan <xliff:g id="COUNT_1">%1$d</xliff:g> fail</item>
-      <item quantity="one">Tidak dapat memampatkan <xliff:g id="COUNT_0">%1$d</xliff:g> fail</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other">Tidak dapat mengalihkan <xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
       <item quantity="one">Tidak dapat mengalihkan <xliff:g id="COUNT_0">%1$d</xliff:g> item</item>
