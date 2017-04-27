@@ -46,6 +46,7 @@ import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.files.FilesActivity;
@@ -101,6 +102,8 @@ abstract public class Job implements Runnable {
     final Notification.Builder mProgressBuilder;
 
     private final Map<String, ContentProviderClient> mClients = new HashMap<>();
+    private final Features mFeatures;
+
     private volatile @State int mState = STATE_CREATED;
 
     /**
@@ -115,7 +118,7 @@ abstract public class Job implements Runnable {
      * @param srcs the list of docs to operate on
      */
     Job(Context service, Listener listener, String id,
-            @OpType int opType, DocumentStack stack, UrisSupplier srcs) {
+            @OpType int opType, DocumentStack stack, UrisSupplier srcs, Features features) {
 
         assert(opType != OPERATION_UNKNOWN);
 
@@ -127,6 +130,8 @@ abstract public class Job implements Runnable {
         this.id = id;
         this.stack = stack;
         this.mResourceUris = srcs;
+
+        mFeatures = features;
 
         mProgressBuilder = createProgressBuilder();
     }
@@ -275,7 +280,7 @@ abstract public class Job implements Runnable {
         navigateIntent.putParcelableArrayListExtra(EXTRA_FAILED_DOCS, failedDocs);
         navigateIntent.putParcelableArrayListExtra(EXTRA_FAILED_URIS, failedUris);
 
-        final Notification.Builder errorBuilder = new Notification.Builder(service)
+        final Notification.Builder errorBuilder = createNotificationBuilder()
                 .setContentTitle(service.getResources().getQuantityString(titleId,
                         failureCount, failureCount))
                 .setContentText(service.getString(R.string.notification_touch_for_details))
@@ -293,7 +298,7 @@ abstract public class Job implements Runnable {
     final Builder createProgressBuilder(
             String title, @DrawableRes int icon,
             String actionTitle, @DrawableRes int actionIcon) {
-        Notification.Builder progressBuilder = new Notification.Builder(service)
+        Notification.Builder progressBuilder = createNotificationBuilder()
                 .setContentTitle(title)
                 .setContentIntent(
                         PendingIntent.getActivity(appContext, 0,
@@ -314,6 +319,12 @@ abstract public class Job implements Runnable {
                         PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_CANCEL_CURRENT));
 
         return progressBuilder;
+    }
+
+    Notification.Builder createNotificationBuilder() {
+        return mFeatures.isNotificationChannelEnabled()
+                ? new Notification.Builder(service, FileOperationService.NOTIFICATION_CHANNEL_ID)
+                : new Notification.Builder(service);
     }
 
     /**

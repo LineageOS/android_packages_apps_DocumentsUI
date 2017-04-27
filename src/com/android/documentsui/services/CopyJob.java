@@ -65,6 +65,7 @@ import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.roots.ProvidersCache;
@@ -107,13 +108,13 @@ class CopyJob extends ResolvedResourcesJob {
      * @see @link {@link Job} constructor for most param descriptions.
      */
     CopyJob(Context service, Listener listener, String id, DocumentStack destination,
-            UrisSupplier srcs, Messenger messenger) {
-        this(service, listener, id, OPERATION_COPY, destination, srcs, messenger);
+            UrisSupplier srcs, Messenger messenger, Features features) {
+        this(service, listener, id, OPERATION_COPY, destination, srcs, messenger, features);
     }
 
     CopyJob(Context service, Listener listener, String id, @OpType int opType,
-            DocumentStack destination, UrisSupplier srcs, Messenger messenger) {
-        super(service, listener, id, opType, destination, srcs);
+            DocumentStack destination, UrisSupplier srcs, Messenger messenger, Features features) {
+        super(service, listener, id, opType, destination, srcs, features);
         mDstInfo = destination.peek();
         mMessenger = messenger;
 
@@ -222,7 +223,7 @@ class CopyJob extends ResolvedResourcesJob {
 
         // TODO: Consider adding a dialog on tapping the notification with a list of
         // converted files.
-        final Notification.Builder warningBuilder = new Notification.Builder(service)
+        final Notification.Builder warningBuilder = createNotificationBuilder()
                 .setContentTitle(service.getResources().getString(
                         R.string.notification_copy_files_converted_title))
                 .setContentText(service.getString(

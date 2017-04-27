@@ -41,6 +41,7 @@ public interface Features {
     boolean isGestureScaleEnabled();
     boolean isJobProgressDialogEnabled();
     boolean isLaunchToDocumentEnabled();
+    boolean isNotificationChannelEnabled();
     boolean isRemoteActionsEnabled();
     boolean isSystemKeyboardNavigationEnabled();
     boolean isVirtualFilesSharingEnabled();
@@ -126,6 +127,11 @@ public interface Features {
         @Override
         public boolean isLaunchToDocumentEnabled() {
             return isEnabled(R.bool.feature_launch_to_document);
+        }
+
+        @Override
+        public boolean isNotificationChannelEnabled() {
+            return isEnabled(R.bool.feature_notification_channel);
         }
 
         @Override

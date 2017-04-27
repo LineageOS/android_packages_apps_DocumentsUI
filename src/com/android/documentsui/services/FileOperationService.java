@@ -20,14 +20,19 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.annotation.IntDef;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.UserManager;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
+
+import com.android.documentsui.R;
+import com.android.documentsui.base.Features;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -43,12 +48,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import javax.annotation.concurrent.GuardedBy;
 
 public class FileOperationService extends Service implements Job.Listener {
-
-    private static final int POOL_SIZE = 2;  // "pool size", not *max* "pool size".
-
-    private static final int NOTIFICATION_ID_PROGRESS = 0;
-    private static final int NOTIFICATION_ID_FAILURE = 1;
-    private static final int NOTIFICATION_ID_WARNING = 2;
 
     public static final String TAG = "FileOperationService";
 
@@ -96,6 +95,14 @@ public class FileOperationService extends Service implements Job.Listener {
     // TODO: Move it to a shared file when more operations are implemented.
     public static final int FAILURE_COPY = 1;
 
+    static final String NOTIFICATION_CHANNEL_ID = "channel_id";
+
+    private static final int POOL_SIZE = 2;  // "pool size", not *max* "pool size".
+
+    private static final int NOTIFICATION_ID_PROGRESS = 0;
+    private static final int NOTIFICATION_ID_FAILURE = 1;
+    private static final int NOTIFICATION_ID_WARNING = 2;
+
     // The executor and job factory are visible for testing and non-final
     // so we'll have a way to inject test doubles from the test. It's
     // a sub-optimal arrangement.
@@ -112,6 +119,9 @@ public class FileOperationService extends Service implements Job.Listener {
 
     // Use a notification manager to post and cancel notifications for jobs.
     @VisibleForTesting NotificationManager notificationManager;
+
+    // Use a features to determine if notification channel is enabled.
+    @VisibleForTesting Features features;
 
     @GuardedBy("mJobs")
     private final Map<String, JobRecord> mJobs = new HashMap<>();
@@ -148,8 +158,21 @@ public class FileOperationService extends Service implements Job.Listener {
             notificationManager = getSystemService(NotificationManager.class);
         }
 
+        features = new Features.RuntimeFeatures(getResources(), UserManager.get(this));
+        setUpNotificationChannel();
+
         if (DEBUG) Log.d(TAG, "Created.");
         mPowerManager = getSystemService(PowerManager.class);
+    }
+
+    private void setUpNotificationChannel() {
+        if (features.isNotificationChannelEnabled()) {
+            NotificationChannel channel = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID,
+                    getString(R.string.app_label),
+                    NotificationManager.IMPORTANCE_LOW);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override
@@ -166,11 +189,19 @@ public class FileOperationService extends Service implements Job.Listener {
             Log.w(TAG, "Shutting down, but executor reports running jobs: " + unfinished);
         }
 
+        tearDownNotificationChannel();
+
         executor = null;
         deletionExecutor = null;
         handler = null;
 
         if (DEBUG) Log.d(TAG, "Destroyed.");
+    }
+
+    private void tearDownNotificationChannel() {
+        if (features.isNotificationChannelEnabled()) {
+            notificationManager.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID);
+        }
     }
 
     @Override
@@ -208,7 +239,7 @@ public class FileOperationService extends Service implements Job.Listener {
                 return;
             }
 
-            Job job = operation.createJob(this, this, jobId);
+            Job job = operation.createJob(this, this, jobId, features);
 
             if (job == null) {
                 return;

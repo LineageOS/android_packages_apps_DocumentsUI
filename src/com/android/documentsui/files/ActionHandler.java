@@ -32,6 +32,7 @@ import android.view.DragEvent;
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActionModeAddons;
 import com.android.documentsui.ActivityConfig;
+import com.android.documentsui.CreateDirectoryFragment;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragAndDropManager;

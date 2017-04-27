@@ -263,6 +263,13 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
+    public void showCreateDirectoryDialog() {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_CREATE_DIR);
+
+        CreateDirectoryFragment.show(mActivity.getFragmentManager());
+    }
+
+    @Override
     @Nullable
     public DocumentInfo renameDocument(String name, DocumentInfo document) {
         throw new UnsupportedOperationException("Can't rename documents.");

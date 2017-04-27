@@ -54,7 +54,7 @@
     <string name="button_compress" msgid="8951561310857223966">"ಕುಗ್ಗಿಸಿ"</string>
     <string name="button_extract" msgid="1038674453689912247">"ಬೇರ್ಪಡಿಸಿ"</string>
     <string name="button_move" msgid="8596460499325291272">"ಸರಿಸು"</string>
-    <string name="button_dismiss" msgid="7235249361023803349">"ವಜಾಗೊಳಿಸು"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"ವಜಾಗೊಳಿಸಿ"</string>
     <string name="button_retry" msgid="4011461781916631389">"ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"</string>
     <string name="not_sorted" msgid="7813496644889115530">"ವಿಂಗಡಿಸಲಾಗಿಲ್ಲ"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"ಹೆಸರು"</string>

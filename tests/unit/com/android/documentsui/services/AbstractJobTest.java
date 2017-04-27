@@ -24,10 +24,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.MediumTest;
 import android.test.AndroidTestCase;
 
 import com.android.documentsui.DocumentsProviderHelper;
+import com.android.documentsui.R;
 import com.android.documentsui.StubProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -35,6 +37,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.testing.DocsProviders;
+import com.android.documentsui.testing.TestFeatures;
 
 import java.util.List;
 
@@ -53,9 +56,15 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
     RootInfo mSrcRoot;
     RootInfo mDestRoot;
 
+    private TestFeatures mFeatures;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
+        mFeatures = new TestFeatures();
+        mFeatures.notificationChannel = InstrumentationRegistry.getTargetContext()
+                .getResources().getBoolean(R.bool.feature_notification_channel);
 
         mJobListener = new TestJobListener();
 
@@ -97,6 +106,7 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
                 .withDestination(stack)
                 .withSrcParent(srcParent)
                 .build();
-        return (T) operation.createJob(mContext, mJobListener, FileOperations.createJobId());
+        return (T) operation.createJob(
+                mContext, mJobListener, FileOperations.createJobId(), mFeatures);
     }
 }
