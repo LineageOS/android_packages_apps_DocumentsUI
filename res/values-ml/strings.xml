@@ -47,7 +47,7 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"പകര്‍ത്തുക"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ഒട്ടിക്കുക"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ഫോൾഡറിൽ ഒട്ടിക്കുക"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"ആന്തരിക സ്റ്റോറേജ്  കാണിക്കുക"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"ഇന്റേണൽസ്റ്റോറേജ്  കാണിക്കുക"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ആന്തരിക സ്റ്റോറേജ്  മറയ്‌ക്കുക"</string>
     <string name="button_select" msgid="240863497069321364">"തിരഞ്ഞെടുക്കുക"</string>
     <string name="button_copy" msgid="8219059853840996027">"പകര്‍ത്തുക"</string>

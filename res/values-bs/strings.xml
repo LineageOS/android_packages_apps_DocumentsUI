@@ -216,7 +216,7 @@
     <string name="name_conflict" msgid="28407269328862986">"Fajl s tim nazivom već postoji."</string>
     <string name="authentication_required" msgid="8030880723643436099">"Za prikaz ovog direktorija, prijavite se na uslugu <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"Nije moguće prikazati sadržaje"</string>
-    <string name="sign_in" msgid="6253762676723505592">"Prijavi se"</string>
+    <string name="sign_in" msgid="6253762676723505592">"Prijava"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arhiva<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Želite li prepisati fajl <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>

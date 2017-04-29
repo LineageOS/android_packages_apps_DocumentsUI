@@ -34,7 +34,7 @@
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"ಹೊಸ ವಿಂಡೋನಲ್ಲಿ ತೆರೆಯಿರಿ"</string>
     <string name="menu_save" msgid="5195367497138965168">"ಉಳಿಸು"</string>
     <string name="menu_share" msgid="4307140947108068356">"ಹಂಚಿಕೊಳ್ಳಿ"</string>
-    <string name="menu_delete" msgid="1022254131543256626">"ಅಳಿಸು"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"ಅಳಿಸಿ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ಇದಕ್ಕೆ ನಕಲಿಸಿ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ಇದಕ್ಕೆ ಸರಿಸು…"</string>
@@ -166,8 +166,8 @@
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ಡೈರೆಕ್ಟರಿಗೆ <xliff:g id="APPNAME"><b>^1</b></xliff:g> ಗೆ ಪ್ರವೇಶ ನೀಡುವುದೇ?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="STORAGE"><i>^2</i></xliff:g> ಸಂಗ್ರಹಣೆಯಲ್ಲಿನ ಪೋಟೋಗಳು ಮತ್ತು ವೀಡಿಯೊಗಳು ಸೇರಿದಂತೆ ನಿಮ್ಮ ಡೇಟಾವನ್ನು ಪ್ರವೇಶಿಸಲು <xliff:g id="APPNAME"><b>^1</b></xliff:g> ಅಪ್ಲಿಕೇಶನ್‌ಗೆ ಅನುಮತಿಸುವುದೇ?"</string>
     <string name="never_ask_again" msgid="525908236522201138">"ಮತ್ತೆ ಕೇಳಬೇಡಿ"</string>
-    <string name="allow" msgid="1275746941353040309">"ಅನುಮತಿಸು"</string>
-    <string name="deny" msgid="5127201668078153379">"ನಿರಾಕರಿಸು"</string>
+    <string name="allow" msgid="1275746941353040309">"ಅನುಮತಿಸಿ"</string>
+    <string name="deny" msgid="5127201668078153379">"ನಿರಾಕರಿಸಿ"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ</item>
