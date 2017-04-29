@@ -45,8 +45,8 @@ public class TestDragAndDropManager implements DragAndDropManager {
     public void onKeyEvent(KeyEvent event) {}
 
     @Override
-    public void startDrag(View v, DocumentInfo parent, List<DocumentInfo> srcs, RootInfo root,
-            List<Uri> invalidDest, IconHelper iconHelper) {
+    public void startDrag(View v, List<DocumentInfo> srcs, RootInfo root,
+            List<Uri> invalidDest, IconHelper iconHelper, @Nullable DocumentInfo parent) {
         startDragHandler.accept(srcs);
     }
 

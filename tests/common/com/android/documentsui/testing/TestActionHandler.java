@@ -43,7 +43,7 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
         super(
                 TestActivity.create(env),
                 env.state,
-                env.roots,
+                env.providers,
                 env.docs,
                 env.searchViewManager,
                 (String authority) -> null,

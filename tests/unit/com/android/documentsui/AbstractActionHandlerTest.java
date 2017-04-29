@@ -20,7 +20,6 @@ import static junit.framework.Assert.assertTrue;
 
 import static org.junit.Assert.assertEquals;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcelable;
@@ -66,7 +65,7 @@ public class AbstractActionHandlerTest {
         mHandler = new AbstractActionHandler<TestActivity>(
                 mActivity,
                 mEnv.state,
-                mEnv.roots,
+                mEnv.providers,
                 mEnv.docs,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
@@ -221,7 +220,7 @@ public class AbstractActionHandlerTest {
         mEnv.state.sortModel.sortByUser(
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
 
-        mEnv.providers.get(TestProvidersAccess.HOME.authority)
+        mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
                 .setNextChildDocumentsReturns(TestEnv.FILE_APK, TestEnv.FILE_GIF);
 
         mHandler.loadDocumentsForCurrentStack();
@@ -237,7 +236,7 @@ public class AbstractActionHandlerTest {
     public void testLoadChildrenDocuments_failsWithNonRecentsAndEmptyStack() throws Exception {
         mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
 
-        mEnv.providers.get(TestProvidersAccess.HOME.authority)
+        mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
                 .setNextChildDocumentsReturns(TestEnv.FILE_APK, TestEnv.FILE_GIF);
 
         TestEventHandler<Model.Update> listener = new TestEventHandler<>();

@@ -62,13 +62,13 @@ public class ActionHandlerTest {
     public void setUp() {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create(mEnv);
-        mEnv.roots.configurePm(mActivity.packageMgr);
+        mEnv.providers.configurePm(mActivity.packageMgr);
         mLastAccessed = new TestLastAccessedStorage();
 
         mHandler = new ActionHandler<>(
                 mActivity,
                 mEnv.state,
-                mEnv.roots,
+                mEnv.providers,
                 mEnv.docs,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
@@ -433,8 +433,8 @@ public class ActionHandlerTest {
     }
 
     private void assertLastAccessedStackUpdated() {
-        assertEquals(
-                mEnv.state.stack, mLastAccessed.getLastAccessed(mActivity, mEnv.roots, mEnv.state));
+        assertEquals(mEnv.state.stack, mLastAccessed.getLastAccessed(
+                mActivity, mEnv.providers, mEnv.state));
     }
 
     private void assertPermission(Intent intent, int permission, boolean granted) {

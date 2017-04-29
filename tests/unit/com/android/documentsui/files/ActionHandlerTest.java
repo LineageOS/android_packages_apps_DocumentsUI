@@ -83,7 +83,7 @@ public class ActionHandlerTest {
         mClipper = new TestDocumentClipper();
         mDragAndDropManager = new TestDragAndDropManager();
 
-        mEnv.roots.configurePm(mActivity.packageMgr);
+        mEnv.providers.configurePm(mActivity.packageMgr);
         ((TestActivityConfig) mEnv.injector.config).nextDocumentEnabled = true;
         mEnv.injector.dialogs = mDialogs;
 
@@ -124,6 +124,17 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testCutSelectedDocuments_ContainsNonMovableItem() {
+        mEnv.populateStack();
+        mEnv.selectDocument(TestEnv.FILE_READ_ONLY);
+
+        mHandler.cutToClipboard();
+        mDialogs.assertDocumentsClippedNotShown();
+        mDialogs.assertShowOperationUnsupported();
+        mClipper.clipForCut.assertNotCalled();
+    }
+
+    @Test
     public void testCopySelectedDocuments_NoGivenSelection() {
         mEnv.populateStack();
 
@@ -152,16 +163,6 @@ public class ActionHandlerTest {
         mDialogs.assertNoFileFailures();
         mActivity.startService.assertNotCalled();
         mActionModeAddons.finishOnConfirmed.assertRejected();
-    }
-
-    @Test
-    public void testCutSelectedDocuments_ContainsNonMovableItem() {
-        mEnv.selectDocument(TestEnv.FILE_READ_ONLY);
-
-        mHandler.cutToClipboard();
-        mDialogs.assertDocumentsClippedNotShown();
-        mDialogs.assertShowOperationUnsupported();
-        mActivity.startService.assertNotCalled();
     }
 
     // Recents root means when deleting the srcParent will be null.
@@ -495,7 +496,7 @@ public class ActionHandlerTest {
         return new ActionHandler<>(
                 mActivity,
                 mEnv.state,
-                mEnv.roots,
+                mEnv.providers,
                 mEnv.docs,
                 mEnv.searchViewManager,
                 mEnv::lookupExecutor,
