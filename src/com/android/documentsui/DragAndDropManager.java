@@ -67,19 +67,19 @@ public interface DragAndDropManager {
      * @param v the view which
      *          {@link View#startDragAndDrop(ClipData, View.DragShadowBuilder, Object, int)} will be
      *          called.
-     * @param parent {@link DocumentInfo} of the container of srcs
      * @param srcs documents that are dragged
      * @param root the root in which documents being dragged are
      * @param invalidDest destinations that don't accept this drag and drop
      * @param iconHelper used to load document icons
+     * @param parent {@link DocumentInfo} of the container of srcs
      */
     void startDrag(
             View v,
-            DocumentInfo parent,
             List<DocumentInfo> srcs,
             RootInfo root,
             List<Uri> invalidDest,
-            IconHelper iconHelper);
+            IconHelper iconHelper,
+            @Nullable DocumentInfo parent);
 
     /**
      * Checks whether the document can be spring opened.
@@ -167,10 +167,6 @@ public interface DragAndDropManager {
         // type of file operations.
         private boolean mIsCtrlPressed;
 
-        // Boolean flag for current drag and drop operation. Returns true if the files can only
-        // be copied (ie. Read-Only files)
-        private boolean mMustBeCopied;
-
         // Drag events info. These are used to derive state and update drag shadow when user changes
         // Ctrl key state.
         private View mView;
@@ -178,6 +174,10 @@ public interface DragAndDropManager {
         private ClipData mClipData;
         private RootInfo mDestRoot;
         private DocumentInfo mDestDoc;
+
+        // Boolean flag for current drag and drop operation. Returns true if the files can only
+        // be copied (ie. files that don't support delete or remove).
+        private boolean mMustBeCopied;
 
         private RuntimeDragAndDropManager(Context context, DocumentClipper clipper) {
             this(
@@ -223,11 +223,11 @@ public interface DragAndDropManager {
         @Override
         public void startDrag(
                 View v,
-                DocumentInfo parent,
                 List<DocumentInfo> srcs,
                 RootInfo root,
                 List<Uri> invalidDest,
-                IconHelper iconHelper) {
+                IconHelper iconHelper,
+                @Nullable DocumentInfo parent) {
 
             mView = v;
             mInvalidDest = invalidDest;
@@ -235,11 +235,15 @@ public interface DragAndDropManager {
             List<Uri> uris = new ArrayList<>(srcs.size());
             for (DocumentInfo doc : srcs) {
                 uris.add(doc.derivedUri);
-                if (!doc.isRemoveSupported() && !doc.isDeleteSupported()) {
+                if (!doc.isRemoveSupported()
+                        && !doc.isDeleteSupported()
+                        && !doc.isMoveSupported()) {
                     mMustBeCopied = true;
                 }
             }
-            mClipData = mClipper.getClipDataForDocuments(
+            mClipData = (parent == null)
+                    ? mClipper.getClipDataForDocuments(uris, FileOperationService.OPERATION_UNKNOWN)
+                    : mClipper.getClipDataForDocuments(
                             uris, FileOperationService.OPERATION_UNKNOWN, parent);
             mClipData.getDescription().getExtras()
                     .putString(SRC_ROOT_KEY, root.getUri().toString());

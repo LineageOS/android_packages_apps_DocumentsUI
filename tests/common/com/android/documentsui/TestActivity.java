@@ -19,6 +19,7 @@ package com.android.documentsui;
 import static junit.framework.Assert.assertEquals;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.LoaderManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -53,6 +54,7 @@ public abstract class TestActivity extends AbstractBase {
     public RootInfo currentRoot;
     public MockContentResolver contentResolver;
     public TestLoaderManager loaderManager;
+    public ActivityManager activityManager;
 
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Intent> startService;
@@ -174,6 +176,16 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final LoaderManager getLoaderManager() {
         return loaderManager;
+    }
+
+    @Override
+    public final Object getSystemService(String service) {
+        switch (service) {
+            case Context.ACTIVITY_SERVICE:
+                return activityManager;
+        }
+
+        throw new IllegalArgumentException("Unknown service " + service);
     }
 
     @Override

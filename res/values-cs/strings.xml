@@ -135,12 +135,6 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> souborů nelze zkomprimovat</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> soubor nelze zkomprimovat</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> soubory nelze zkomprimovat</item>
-      <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> souboru nelze zkomprimovat</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> souborů nelze zkomprimovat</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> soubor nelze zkomprimovat</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> položku nebylo možné přesunout</item>
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> položky nebylo možné přesunout</item>

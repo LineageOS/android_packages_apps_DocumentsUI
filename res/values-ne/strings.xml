@@ -121,10 +121,6 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वटा फाइल कम्प्रेस गर्न सकिएन</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वटा फाइल कम्प्रेस गर्न सकिएन</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वटा फाइल कम्प्रेस गर्न सकिएन</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वटा फाइल कम्प्रेस गर्न सकिएन</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरूलाई सार्न सकिएन</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वस्तुलाई सार्न सकिएन</item>

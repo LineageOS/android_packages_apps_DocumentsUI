@@ -135,12 +135,6 @@
       <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> datotek ni bilo mogoče stisniti</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> datotek ni bilo mogoče stisniti</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> datoteke ni bilo mogoče stisniti</item>
-      <item quantity="two"><xliff:g id="COUNT_1">%1$d</xliff:g> datotek ni bilo mogoče stisniti</item>
-      <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> datotek ni bilo mogoče stisniti</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> datotek ni bilo mogoče stisniti</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> elementa ni bilo mogoče premakniti</item>
       <item quantity="two"><xliff:g id="COUNT_1">%1$d</xliff:g> elementov ni bilo mogoče premakniti</item>
