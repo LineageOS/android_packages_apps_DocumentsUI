@@ -17,6 +17,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.android.documentsui.AuthenticationActivity">
+            <intent-filter>
+                <action android:name="com.android.documentsui.test.action.AUTHENTICATE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="com.android.documentsui.StubProvider"
             android:authorities="com.android.documentsui.stubprovider"

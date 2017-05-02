@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import android.annotation.IntDef;
+import android.app.PendingIntent;
 import android.content.ContentProvider;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -48,6 +49,8 @@ public interface ActionHandler {
     public static final int VIEW_TYPE_REGULAR = 1;
     public static final int VIEW_TYPE_PREVIEW = 2;
 
+    void onActivityResult(int requestCode, int resultCode, Intent data);
+
     void openSettings(RootInfo root);
 
     /**
@@ -72,6 +75,13 @@ public interface ActionHandler {
      * Returns a boolean answer to the callback, given by {@link ContentProvider#refresh}.
      */
     void refreshDocument(DocumentInfo doc, BooleanConsumer callback);
+
+
+    /**
+     * Attempts to start the authentication process caused by
+     * {@link android.app.AuthenticationRequiredException}.
+     */
+    void startAuthentication(PendingIntent intent);
 
     void showAppDetails(ResolveInfo info);
 

@@ -91,9 +91,11 @@ public class DemoProvider extends TestRootProvider {
                 throw new RuntimeException();
 
             case "throw a authentication exception":
-                PendingIntent intent = PendingIntent.getActivity(getContext(), 0, new Intent(), 0);
+                Intent intent = new Intent("com.android.documentsui.test.action.AUTHENTICATE");
+                PendingIntent pIntent = PendingIntent.getActivity(getContext(),
+                        AbstractActionHandler.CODE_AUTHENTICATION, intent, 0);
                 throw new AuthenticationRequiredException(new UnsupportedOperationException(),
-                        intent);
+                        pIntent);
 
             default:
                 addFolder(c, "show info");
