@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 /**
@@ -52,8 +51,7 @@ public abstract class UrisSupplier implements Parcelable {
     public abstract int getItemCount();
 
     /**
-     * Gets doc list. This may only be called once because it may read a file
-     * to get the list.
+     * Gets doc list.
      *
      * @param context We need context to obtain {@link ClipStorage}. It can't be sent in a parcel.
      */
@@ -110,8 +108,7 @@ public abstract class UrisSupplier implements Parcelable {
         private final File mFile;
         private final int mSelectionSize;
 
-        private final transient AtomicReference<ClipStorageReader> mReader =
-                new AtomicReference<>();
+        private final List<ClipStorageReader> mReaders = new ArrayList<>();
 
         private JumboUrisSupplier(ClipData clipData, ClipStore storage) throws IOException {
             PersistableBundle bundle = clipData.getDescription().getExtras();
@@ -142,25 +139,24 @@ public abstract class UrisSupplier implements Parcelable {
 
         @Override
         Iterable<Uri> getUris(ClipStore storage) throws IOException {
-            ClipStorageReader reader = mReader.getAndSet(storage.createReader(mFile));
-            if (reader != null) {
-                reader.close();
-                mReader.get().close();
-                throw new IllegalStateException("This method can only be called once.");
+            ClipStorageReader reader = storage.createReader(mFile);
+            synchronized (mReaders) {
+                mReaders.add(reader);
             }
 
-            return mReader.get();
+            return reader;
         }
 
         @Override
         public void dispose() {
-            try {
-                ClipStorageReader reader = mReader.get();
-                if (reader != null) {
-                    reader.close();
+            synchronized (mReaders) {
+                for (ClipStorageReader reader : mReaders) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        Log.w(TAG, "Failed to close a reader.", e);
+                    }
                 }
-            } catch (IOException e) {
-                Log.w(TAG, "Failed to close the reader.", e);
             }
 
             // mFile is a symlink to the actual data file. Delete the symlink here so that we know
