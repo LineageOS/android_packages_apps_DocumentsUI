@@ -115,7 +115,8 @@ final class RuntimeDocumentClipper implements DocumentClipper {
         return clipData;
     }
 
-    private ClipData getClipDataForDocuments(List<Uri> uris, @OpType int opType) {
+    @Override
+    public ClipData getClipDataForDocuments(List<Uri> uris, @OpType int opType) {
         return (uris.size() > Shared.MAX_DOCS_IN_INTENT)
                 ? createJumboClipData(uris, opType)
                 : createStandardClipData(uris, opType);

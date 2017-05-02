@@ -56,6 +56,11 @@ public interface DocumentClipper {
     ClipData getClipDataForDocuments(List<Uri> uris, @OpType int opType, DocumentInfo parent);
 
     /**
+     * Returns {@link ClipData} representing the list of {@link Uri}, or null if the list is empty.
+     */
+    ClipData getClipDataForDocuments(List<Uri> uris, @OpType int opType);
+
+    /**
      * Puts {@code ClipData} in a primary clipboard, describing a copy operation
      */
     void clipDocumentsForCopy(Function<String, Uri> uriBuilder, Selection selection);

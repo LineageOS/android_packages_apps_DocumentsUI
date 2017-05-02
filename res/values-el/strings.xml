@@ -59,7 +59,7 @@
     <string name="not_sorted" msgid="7813496644889115530">"Χωρίς ταξινόμηση"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Όνομα"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Σύνοψη"</string>
-    <string name="sort_dimension_date" msgid="4231005651895254033">"Τροποποιήθηκε"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Τροποποιημένα"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Μέγεθος"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Αύξουσα"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Φθίνουσα"</string>
@@ -116,10 +116,6 @@
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other">Δεν ήταν δυνατή η αντιγραφή <xliff:g id="COUNT_1">%1$d</xliff:g> στοιχείων</item>
       <item quantity="one">Δεν ήταν δυνατή η αντιγραφή <xliff:g id="COUNT_0">%1$d</xliff:g> στοιχείου</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">Δεν ήταν δυνατή η συμπίεση <xliff:g id="COUNT_1">%1$d</xliff:g> αρχείων</item>
-      <item quantity="one">Δεν ήταν δυνατή η συμπίεση <xliff:g id="COUNT_0">%1$d</xliff:g> αρχείου</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
       <item quantity="other">Δεν ήταν δυνατή η συμπίεση <xliff:g id="COUNT_1">%1$d</xliff:g> αρχείων</item>

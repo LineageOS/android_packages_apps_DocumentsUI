@@ -121,10 +121,6 @@
       <item quantity="other">無法壓縮 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
       <item quantity="one">無法壓縮 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">無法壓縮 <xliff:g id="COUNT_1">%1$d</xliff:g> 個檔案</item>
-      <item quantity="one">無法壓縮 <xliff:g id="COUNT_0">%1$d</xliff:g> 個檔案</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other">無法移動 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目</item>
       <item quantity="one">無法移動 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目</item>
@@ -171,7 +167,7 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"要為「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放 <xliff:g id="STORAGE"><i>^3</i></xliff:g>上的「<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>」目錄存取權嗎？"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"要為「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放「<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>」目錄的存取權嗎？"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"要為「<xliff:g id="APPNAME"><b>^1</b></xliff:g>」開放 <xliff:g id="STORAGE"><i>^2</i></xliff:g>上的相片和影片等資料的存取權嗎？"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"不要再詢問"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"不要再問我"</string>
     <string name="allow" msgid="1275746941353040309">"允許"</string>
     <string name="deny" msgid="5127201668078153379">"拒絕"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">

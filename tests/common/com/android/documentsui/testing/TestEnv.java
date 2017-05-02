@@ -15,7 +15,6 @@
  */
 package com.android.documentsui.testing;
 
-import android.content.Context;
 import android.provider.DocumentsContract.Document;
 import android.support.test.InstrumentationRegistry;
 import android.test.mock.MockContentResolver;
@@ -59,7 +58,7 @@ public class TestEnv {
 
     public final TestScheduledExecutorService mExecutor;
     public final State state = new State();
-    public final TestProvidersAccess roots = new TestProvidersAccess();
+    public final TestProvidersAccess providers = new TestProvidersAccess();
     public final TestDocumentsAccess docs = new TestDocumentsAccess();
     public final TestFocusHandler focusHandler = new TestFocusHandler();
     public final TestDialogController dialogs = new TestDialogController();
@@ -71,7 +70,7 @@ public class TestEnv {
     public final Features features;
 
     public final MockContentResolver contentResolver;
-    public final Map<String, TestDocumentsProvider> providers;
+    public final Map<String, TestDocumentsProvider> mockProviders;
 
     private TestEnv(String authority) {
         state.sortModel = SortModel.createModel();
@@ -95,16 +94,16 @@ public class TestEnv {
         injector.searchManager = searchViewManager;
 
         contentResolver = new MockContentResolver();
-        providers = new HashMap<>(roots.getRootsBlocking().size());
+        mockProviders = new HashMap<>(providers.getRootsBlocking().size());
         registerProviders();
     }
 
     private void registerProviders() {
-        for (RootInfo root : roots.getRootsBlocking()) {
-            if (!providers.containsKey(root.authority)) {
+        for (RootInfo root : providers.getRootsBlocking()) {
+            if (!mockProviders.containsKey(root.authority)) {
                 TestDocumentsProvider provider = new TestDocumentsProvider(root.authority);
                 contentResolver.addProvider(root.authority, provider);
-                providers.put(root.authority, provider);
+                mockProviders.put(root.authority, provider);
             }
         }
     }

@@ -54,7 +54,7 @@
     <string name="button_compress" msgid="8951561310857223966">"Comprimir"</string>
     <string name="button_extract" msgid="1038674453689912247">"Extraer"</string>
     <string name="button_move" msgid="8596460499325291272">"Mover"</string>
-    <string name="button_dismiss" msgid="7235249361023803349">"Ignorar"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Descartar"</string>
     <string name="button_retry" msgid="4011461781916631389">"Volver a intentarlo"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Sin ordenar"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nombre"</string>
@@ -116,10 +116,6 @@
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other">No se han podido copiar <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
       <item quantity="one">No se ha podido copiar <xliff:g id="COUNT_0">%1$d</xliff:g> elemento</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other">No se han podido comprimir <xliff:g id="COUNT_1">%1$d</xliff:g> archivos</item>
-      <item quantity="one">No se ha podido comprimir <xliff:g id="COUNT_0">%1$d</xliff:g> archivo</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
       <item quantity="other">No se han podido comprimir <xliff:g id="COUNT_1">%1$d</xliff:g> archivos</item>
