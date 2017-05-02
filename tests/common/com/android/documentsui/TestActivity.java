@@ -18,16 +18,19 @@ package com.android.documentsui;
 
 import static junit.framework.Assert.assertEquals;
 
+import android.annotation.Nullable;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.test.mock.MockContentResolver;
+import android.util.Pair;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;
@@ -56,6 +59,7 @@ public abstract class TestActivity extends AbstractBase {
 
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Intent> startService;
+    public TestEventListener<Pair<IntentSender, Integer>> startIntentSender;
     public TestEventListener<RootInfo> rootPicked;
     public TestEventListener<Integer> refreshCurrentRootAndDirectory;
     public TestEventListener<Boolean> setRootsDrawerOpen;
@@ -75,6 +79,7 @@ public abstract class TestActivity extends AbstractBase {
 
         startActivity = new TestEventListener<>();
         startService = new TestEventListener<>();
+        startIntentSender = new TestEventListener<>();
         rootPicked = new TestEventListener<>();
         refreshCurrentRootAndDirectory =  new TestEventListener<>();
         setRootsDrawerOpen = new TestEventListener<>();
@@ -121,6 +126,13 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final PackageManager getPackageManager() {
         return packageMgr;
+    }
+
+    @Override
+    public final void startIntentSenderForResult(IntentSender intent, int requestCode,
+            @Nullable Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags)
+            throws IntentSender.SendIntentException {
+        startIntentSender.accept(new Pair<>(intent, requestCode));
     }
 
     @Override
