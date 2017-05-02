@@ -54,7 +54,7 @@
     <string name="button_compress" msgid="8951561310857223966">"דחוס"</string>
     <string name="button_extract" msgid="1038674453689912247">"חלץ"</string>
     <string name="button_move" msgid="8596460499325291272">"העבר"</string>
-    <string name="button_dismiss" msgid="7235249361023803349">"בטל"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"ביטול"</string>
     <string name="button_retry" msgid="4011461781916631389">"נסה שנית"</string>
     <string name="not_sorted" msgid="7813496644889115530">"לא ממוין"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"שם"</string>
@@ -237,7 +237,7 @@
     <string name="name_conflict" msgid="28407269328862986">"כבר יש קובץ עם השם הזה."</string>
     <string name="authentication_required" msgid="8030880723643436099">"כדי להציג את הספרייה הזאת, היכנס אל <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"לא ניתן להציג את התוכן"</string>
-    <string name="sign_in" msgid="6253762676723505592">"היכנס"</string>
+    <string name="sign_in" msgid="6253762676723505592">"כניסה"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"להחליף את <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>
