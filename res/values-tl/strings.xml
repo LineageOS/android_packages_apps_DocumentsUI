@@ -47,7 +47,7 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Kopyahin"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"I-paste"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"I-paste sa folder"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"Ipakita internal storage"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"Internal storage"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Itago internal storage"</string>
     <string name="button_select" msgid="240863497069321364">"Piliin"</string>
     <string name="button_copy" msgid="8219059853840996027">"Kopyahin"</string>
@@ -116,10 +116,6 @@
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="one">Hindi makopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
       <item quantity="other">Hindi makopya ang <xliff:g id="COUNT_1">%1$d</xliff:g> na item</item>
-    </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>
-      <item quantity="other">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> na file</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
       <item quantity="one">Hindi ma-compress ang <xliff:g id="COUNT_1">%1$d</xliff:g> file</item>

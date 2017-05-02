@@ -121,10 +121,6 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файла не можаха да бъдат компресирани</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл не можа да бъде компресиран</item>
     </plurals>
-    <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файла не можаха да бъдат компресирани</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл не можа да бъде компресиран</item>
-    </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> елемента не можаха да бъдат преместени</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> елемент не можа да бъде преместен</item>

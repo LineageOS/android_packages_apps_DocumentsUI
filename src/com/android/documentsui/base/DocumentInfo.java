@@ -247,6 +247,10 @@ public class DocumentInfo implements Durable, Parcelable {
         return (flags & Document.FLAG_SUPPORTS_REMOVE) != 0;
     }
 
+    public boolean isMoveSupported() {
+        return (flags & Document.FLAG_SUPPORTS_MOVE) != 0;
+    }
+
     public boolean isRenameSupported() {
         return (flags & Document.FLAG_SUPPORTS_RENAME) != 0;
     }

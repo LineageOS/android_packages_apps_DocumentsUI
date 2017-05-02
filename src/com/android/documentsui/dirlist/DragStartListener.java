@@ -123,15 +123,19 @@ interface DragStartListener {
 
             final List<DocumentInfo> srcs = mDocsConverter.apply(selection);
 
-            final DocumentInfo parent = mState.stack.peek();
             final List<Uri> invalidDest = new ArrayList<>(srcs.size() + 1);
             for (DocumentInfo doc : srcs) {
                 invalidDest.add(doc.derivedUri);
             }
-            invalidDest.add(parent.derivedUri);
+
+            final DocumentInfo parent = mState.stack.peek();
+            // parent is null when we're in Recents
+            if (parent != null) {
+                invalidDest.add(parent.derivedUri);
+            }
 
             mDragAndDropManager.startDrag(
-                    view, parent, srcs, mState.stack.getRoot(), invalidDest, mIconHelper);
+                    view, srcs, mState.stack.getRoot(), invalidDest, mIconHelper, parent);
 
             return true;
         }

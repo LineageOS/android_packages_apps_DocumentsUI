@@ -32,6 +32,10 @@ import java.util.function.Predicate;
  */
 public final class DocumentFilters {
 
+    private static int MOVABLE_MASK = Document.FLAG_SUPPORTS_REMOVE
+            | Document.FLAG_SUPPORTS_DELETE
+            | Document.FLAG_SUPPORTS_MOVE;
+
     public static final Predicate<Cursor> ANY = (Cursor c) -> { return true; };
     public static final Predicate<Cursor> VIRTUAL  = DocumentFilters::isVirtual;
     public static final Predicate<Cursor> NOT_MOVABLE = DocumentFilters::isNotMovable;
@@ -77,7 +81,6 @@ public final class DocumentFilters {
      */
     private static final boolean isNotMovable(Cursor c) {
         int flags = getCursorInt(c, Document.COLUMN_FLAGS);
-        return (flags & Document.FLAG_SUPPORTS_REMOVE) == 0
-                && (flags & Document.FLAG_SUPPORTS_DELETE) == 0;
+        return (flags & MOVABLE_MASK) == 0;
     }
 }
