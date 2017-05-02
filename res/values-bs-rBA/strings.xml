@@ -24,7 +24,7 @@
     <skip />
     <string name="title_open" msgid="3165686459158020921">"Otvori iz"</string>
     <string name="title_save" msgid="4384490653102710025">"Sačuvaj u"</string>
-    <string name="menu_create_dir" msgid="2413624798689091042">"Nova fascikla"</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"Novi folder"</string>
     <string name="menu_grid" msgid="1453636521731880680">"Prikaz u vidu mreže"</string>
     <string name="menu_list" msgid="6714267452146410402">"Prikaz u vidu liste"</string>
     <string name="menu_search" msgid="1876699106790719849">"Pretraži"</string>
@@ -218,7 +218,7 @@
     <string name="name_conflict" msgid="28407269328862986">"Fajl s tim nazivom već postoji."</string>
     <string name="authentication_required" msgid="8030880723643436099">"Za prikaz ovog direktorija, prijavite se na uslugu <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"Nije moguće prikazati sadržaje"</string>
-    <string name="sign_in" msgid="6253762676723505592">"Prijavi se"</string>
+    <string name="sign_in" msgid="6253762676723505592">"Prijava"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arhiva<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Želite li prepisati fajl <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Nastavi u pozadini"</string>
