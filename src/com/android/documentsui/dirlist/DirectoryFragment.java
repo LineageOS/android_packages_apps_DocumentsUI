@@ -52,6 +52,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextMenu;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -370,7 +371,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 this::canSelect,
                 this::onContextMenuClick,
                 mDragStartListener::onTouchDragEvent,
-                gestureHandler);
+                gestureHandler,
+                () -> mRecView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS));
 
         new ListeningGestureDetector(
                 mInjector.features,
@@ -385,8 +387,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mActionModeController = mInjector.getActionModeController(
                 mSelectionMetadata,
-                this::handleMenuItemClick,
-                mRecView);
+                this::handleMenuItemClick);
 
         mSelectionMgr.addCallback(mActionModeController);
 
