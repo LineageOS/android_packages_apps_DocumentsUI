@@ -52,6 +52,7 @@ public final class UserInputHandler_KeyboardTest {
     private TestEventHandler<InputEvent> mRightClickHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
     private TestEventHandler<InputEvent> mGestureSelectHandler;
+    private TestEventHandler<Void> mPerformHapticFeedback;
 
     private Builder mEvent;
 
@@ -77,7 +78,8 @@ public final class UserInputHandler_KeyboardTest {
                 mCanSelect,
                 mRightClickHandler::accept,
                 mDragAndDropHandler::accept,
-                mGestureSelectHandler::accept);
+                mGestureSelectHandler::accept,
+                () -> mPerformHapticFeedback.accept(null));
 
         mEvent = TestEvent.builder().mouse();
     }
