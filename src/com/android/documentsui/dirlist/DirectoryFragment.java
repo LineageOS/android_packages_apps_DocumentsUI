@@ -54,6 +54,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextMenu;
 import android.view.DragEvent;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -366,7 +367,8 @@ public class DirectoryFragment extends Fragment
                 this::canSelect,
                 this::onContextMenuClick,
                 mDragStartListener::onTouchDragEvent,
-                gestureHandler);
+                gestureHandler,
+                () -> mRecView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS));
 
         new ListeningGestureDetector(
                 mInjector.features,
@@ -381,8 +383,7 @@ public class DirectoryFragment extends Fragment
 
         mActionModeController = mInjector.getActionModeController(
                 mSelectionMetadata,
-                this::handleMenuItemClick,
-                mRecView);
+                this::handleMenuItemClick);
 
         mSelectionMgr.addCallback(mActionModeController);
 

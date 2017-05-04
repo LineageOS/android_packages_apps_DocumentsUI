@@ -113,8 +113,8 @@ public class Injector<T extends ActionHandler> {
     }
 
     public final ActionModeController getActionModeController(
-            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view) {
-        return actionModeController.reset(selectionDetails, menuItemClicker, view);
+            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker) {
+        return actionModeController.reset(selectionDetails, menuItemClicker);
     }
 
     /**

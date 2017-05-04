@@ -60,4 +60,10 @@ public class TestEventHandler<T> implements EventHandler<T> {
     public @Nullable T getLastValue() {
         return lastValue;
     }
+
+    public void reset() {
+        called = false;
+        lastValue = null;
+        nextReturnValue = false;
+    }
 }

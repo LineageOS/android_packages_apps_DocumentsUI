@@ -53,6 +53,7 @@ public final class UserInputHandler_TouchTest {
     private TestEventHandler<InputEvent> mRightClickHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
     private TestEventHandler<InputEvent> mGestureSelectHandler;
+    private TestEventHandler<Void> mPerformHapticFeedback;
 
     private Builder mEvent;
 
@@ -67,6 +68,7 @@ public final class UserInputHandler_TouchTest {
         mRightClickHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
         mGestureSelectHandler = new TestEventHandler<>();
+        mPerformHapticFeedback = new TestEventHandler<>();
 
         mInputHandler = new UserInputHandler<>(
                 mActionHandler,
@@ -78,7 +80,8 @@ public final class UserInputHandler_TouchTest {
                 mCanSelect,
                 mRightClickHandler::accept,
                 mDragAndDropHandler::accept,
-                mGestureSelectHandler::accept);
+                mGestureSelectHandler::accept,
+                () -> mPerformHapticFeedback.accept(null));
 
         mEvent = TestEvent.builder();
     }
@@ -96,15 +99,28 @@ public final class UserInputHandler_TouchTest {
 
     @Test
     public void testLongPress_StartsSelectionMode() {
-        mInputHandler.onLongPress(mEvent.at(7).build());
+        mCanSelect.nextReturn(true);
+        TestEvent event = mEvent.at(7).build();
+        mInputHandler.onLongPress(event);
         mSelection.assertSelection(7);
+        mPerformHapticFeedback.assertCalled();
     }
 
     @Test
-    public void testLongPress_SecondPressExtendsSelection() {
-        mInputHandler.onLongPress(mEvent.at(7).build());
-        mInputHandler.onLongPress(mEvent.at(99).build());
-        mInputHandler.onLongPress(mEvent.at(13).build());
+    public void testLongPress_SecondPressAddsSelection() {
+        mCanSelect.nextReturn(true);
+        TestEvent event1 = mEvent.at(7).build();
+        TestEvent event2 = mEvent.at(99).build();
+        TestEvent event3 = mEvent.at(13).build();
+        mInputHandler.onLongPress(event1);
+        mPerformHapticFeedback.assertCalled();
+        mPerformHapticFeedback.reset();
+        mInputHandler.onLongPress(event2);
+        mPerformHapticFeedback.assertCalled();
+        mPerformHapticFeedback.reset();
+        mInputHandler.onLongPress(event3);
+        mPerformHapticFeedback.assertCalled();
+        mPerformHapticFeedback.reset();
         mSelection.assertSelection(7, 13, 99);
     }
 
