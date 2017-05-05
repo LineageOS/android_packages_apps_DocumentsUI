@@ -47,10 +47,6 @@ public abstract class DocumentHolder
     static final float DISABLED_ALPHA = 0.3f;
 
     protected final Context mContext;
-    protected final @ColorInt int mDefaultBgColor;
-    protected final @ColorInt int mSelectedBgColor;
-    protected final @ColorInt int mDroppableBgColor;
-    protected final @ColorInt int mNotDroppableBgColor;
 
     protected @Nullable String mModelId;
 
@@ -71,11 +67,6 @@ public abstract class DocumentHolder
         itemView.setOnKeyListener(this);
 
         mContext = context;
-
-        mDefaultBgColor = context.getColor(R.color.item_doc_background);
-        mSelectedBgColor = context.getColor(R.color.item_doc_background_selected);
-        mDroppableBgColor = context.getColor(R.color.item_doc_droppable_background);
-        mNotDroppableBgColor = context.getColor(R.color.item_doc_not_droppable_background);
 
         mSelectionHotspot = itemView.findViewById(R.id.icon_check);
 
@@ -112,34 +103,8 @@ public abstract class DocumentHolder
      *            {@link ModelBackedDocumentsAdapter#onBindViewHolder(DocumentHolder, int, java.util.List)}
      */
     public void setSelected(boolean selected, boolean animate) {
-        // Note: the animate param doesn't apply for this base implementation, because the
-        // DirectoryItemAnimator takes care of it. It's required by subclasses, which perform their
-        // own animation.
         itemView.setActivated(selected);
-        itemView.setBackgroundColor(selected ? mSelectedBgColor : mDefaultBgColor);
-    }
-
-    /**
-     * Highlights the associated item view to indicate it's droppable.
-     */
-    public void setDroppableHighlight(boolean droppable) {
-        // If item is already selected, its highlight should not be changed.
-        if (itemView.isActivated()) {
-            return;
-        }
-
-        itemView.setBackgroundColor(droppable ? mDroppableBgColor : mNotDroppableBgColor);
-    }
-
-    /**
-     * Reset the associated item view's droppable background highlight.
-     */
-    public void resetDropHighlight() {
-        if (itemView.isActivated()) {
-            return;
-        }
-
-        itemView.setBackgroundColor(mDefaultBgColor);
+        itemView.setSelected(selected);
     }
 
     public void setEnabled(boolean enabled) {
@@ -179,6 +144,11 @@ public abstract class DocumentHolder
 
     @Override
     public boolean isInDragHotspot(InputEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean isOverDocIcon(InputEvent event) {
         return false;
     }
 
