@@ -156,6 +156,11 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
+    public int getAdapterPosition(String modelId) {
+        return mModelIds.indexOf(modelId);
+    }
+
+    @Override
     public List<String> getModelIds() {
         return mModelIds;
     }
