@@ -56,6 +56,7 @@ public final class UserInputHandler<T extends InputEvent>
 
     private final EventHandler<InputEvent> mTouchDragListener;
     private final EventHandler<InputEvent> mGestureSelectHandler;
+    private final Runnable mPerformHapticFeedback;
 
     private final TouchInputDelegate mTouchDelegate;
     private final MouseInputDelegate mMouseDelegate;
@@ -69,7 +70,8 @@ public final class UserInputHandler<T extends InputEvent>
             Predicate<DocumentDetails> selectable,
             EventHandler<InputEvent> contextMenuClickHandler,
             EventHandler<InputEvent> touchDragListener,
-            EventHandler<InputEvent> gestureSelectHandler) {
+            EventHandler<InputEvent> gestureSelectHandler,
+            Runnable performHapticFeedback) {
 
         mActions = actions;
         mFocusHandler = focusHandler;
@@ -79,6 +81,7 @@ public final class UserInputHandler<T extends InputEvent>
         mContextMenuClickHandler = contextMenuClickHandler;
         mTouchDragListener = touchDragListener;
         mGestureSelectHandler = gestureSelectHandler;
+        mPerformHapticFeedback = performHapticFeedback;
 
         mTouchDelegate = new TouchInputDelegate();
         mMouseDelegate = new MouseInputDelegate();
@@ -266,8 +269,10 @@ public final class UserInputHandler<T extends InputEvent>
             }
 
             DocumentDetails doc = event.getDocumentDetails();
+            boolean handled = false;
             if (isRangeExtension(event)) {
                 extendSelectionRange(doc);
+                handled = true;
             } else {
                 if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
                     selectDocument(doc);
@@ -275,12 +280,17 @@ public final class UserInputHandler<T extends InputEvent>
                     // start gesture selection
                     if (mSelectable.test(doc)) {
                         mGestureSelectHandler.accept(event);
+                        handled = true;
                     }
                 } else {
                     // We only initiate drag and drop on long press for touch to allow regular
                     // touch-based scrolling
                     mTouchDragListener.accept(event);
+                    handled = true;
                 }
+            }
+            if (handled) {
+                mPerformHapticFeedback.run();
             }
         }
     }

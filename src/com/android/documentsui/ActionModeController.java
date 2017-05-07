@@ -79,7 +79,6 @@ public class ActionModeController
             if (mActionMode == null) {
                 if (DEBUG) Log.d(TAG, "Starting action mode.");
                 mActionMode = mActivity.startActionMode(this);
-                mScope.hapticPerformer.accept(HapticFeedbackConstants.LONG_PRESS);
             }
             updateActionMenu();
         } else {
@@ -219,13 +218,12 @@ public class ActionModeController
     }
 
     public ActionModeController reset(
-            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker, View view) {
+            SelectionDetails selectionDetails, EventHandler<MenuItem> menuItemClicker) {
         assert(mActionMode == null);
         assert(mMenu == null);
 
         mScope.menuItemClicker = menuItemClicker;
         mScope.selectionDetails = selectionDetails;
-        mScope.hapticPerformer = view::performHapticFeedback;
         mScope.accessibilityImportanceSetter =
                 (int accessibilityImportance, @IdRes int[] viewIds) -> {
                     setImportantForAccessibility(
@@ -238,7 +236,6 @@ public class ActionModeController
     private static final class ContentScope {
         private EventHandler<MenuItem> menuItemClicker;
         private SelectionDetails selectionDetails;
-        private IntConsumer hapticPerformer;
         private AccessibilityImportanceSetter accessibilityImportanceSetter;
     }
 }
