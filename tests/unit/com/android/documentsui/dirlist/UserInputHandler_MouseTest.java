@@ -55,6 +55,7 @@ public final class UserInputHandler_MouseTest {
     private TestEventHandler<InputEvent> mContextMenuClickHandler;
     private TestEventHandler<InputEvent> mDragAndDropHandler;
     private TestEventHandler<InputEvent> mGestureSelectHandler;
+    private TestEventHandler<Void> mPerformHapticFeedback;
 
     private Builder mEvent;
 
@@ -81,7 +82,8 @@ public final class UserInputHandler_MouseTest {
                 mCanSelect,
                 mContextMenuClickHandler::accept,
                 mDragAndDropHandler::accept,
-                mGestureSelectHandler::accept);
+                mGestureSelectHandler::accept,
+                () -> mPerformHapticFeedback.accept(null));
 
         mEvent = TestEvent.builder().mouse();
     }
