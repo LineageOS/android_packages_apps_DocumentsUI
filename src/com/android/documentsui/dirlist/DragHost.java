@@ -88,18 +88,6 @@ class DragHost<T extends Activity & AbstractActionHandler.CommonAddons> extends 
 
     @Override
     public void setDropTargetHighlight(View v, boolean highlight) {
-        // Note: use exact comparison - this code is searching for views which are children of
-        // the RecyclerView instance in the UI.
-        if (mIsDocumentView.test(v)) {
-            DocumentHolder holder = mHolderLookup.lookup(v);
-            if (holder != null) {
-                if (!highlight) {
-                    holder.resetDropHighlight();
-                } else {
-                    holder.setDroppableHighlight(canSpringOpen(v));
-                }
-            }
-        }
     }
 
     @Override
@@ -114,17 +102,6 @@ class DragHost<T extends Activity & AbstractActionHandler.CommonAddons> extends 
     public void onDragEntered(View v) {
         mActivity.setRootsDrawerOpen(false);
         mDragAndDropManager.updateState(v, mState.stack.getRoot(), mDestinationLookup.lookup(v));
-    }
-
-    @Override
-    public void onDragExited(View v) {
-        super.onDragExited(v);
-        if (mIsDocumentView.test(v)) {
-            DocumentHolder holder = mHolderLookup.lookup(v);
-            if (holder != null) {
-                holder.resetDropHighlight();
-            }
-        }
     }
 
     boolean canSpringOpen(View v) {
