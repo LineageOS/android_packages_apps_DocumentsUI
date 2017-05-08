@@ -216,10 +216,13 @@ public final class Shared {
      * Method can be overridden if the change of the behavior of the the child activity is needed.
      */
     public static Uri getDefaultRootUri(Activity activity) {
-        return shouldShowDocumentsRoot(activity)
-                ? DocumentsContract.buildHomeUri()
-                : DocumentsContract.buildRootUri(
-                        Providers.AUTHORITY_DOWNLOADS, Providers.ROOT_ID_DOWNLOADS);
+        Uri defaultUri = Uri.parse(activity.getResources().getString(R.string.default_root_uri));
+
+        if (!DocumentsContract.isRootUri(activity, defaultUri)) {
+            throw new RuntimeException("Default Root URI is not a valid root URI.");
+        }
+
+        return defaultUri;
     }
 
     public static boolean isHardwareKeyboardAvailable(Context context) {

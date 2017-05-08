@@ -59,11 +59,16 @@ public abstract class TestResources extends Resources {
         // this little hack....QuickViewIntentBuilder will check for this value
         // and ignore
         res.setQuickViewerPackage(QuickViewIntentBuilder.IGNORE_DEBUG_PROP);
+        res.setDefaultDocumentsUri(TestProvidersAccess.DOWNLOADS.getUri().toString());
         return res;
     }
 
     public void setQuickViewerPackage(String packageName) {
         strings.put(R.string.trusted_quick_viewer_package, packageName);
+    }
+
+    public void setDefaultDocumentsUri(String uri) {
+        strings.put(R.string.default_root_uri, uri);
     }
 
     public void setProductivityDeviceEnabled(boolean enabled) {

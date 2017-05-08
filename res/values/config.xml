@@ -24,6 +24,8 @@
          layouts we reduce this to an input-box adjacent to menu actions. -->
     <bool name="full_bar_search_view">true</bool>
 
+    <string name="default_root_uri" translatable="false">content://com.android.providers.downloads.documents/root/downloads</string>
+
     <!--
         New features must be added behind a boolean flag prefixed w/ "feature_".
         Please add them in alphabetical order. Same goes for accessor
