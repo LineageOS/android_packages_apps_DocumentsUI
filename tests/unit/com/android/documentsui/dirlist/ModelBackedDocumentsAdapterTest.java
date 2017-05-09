@@ -16,17 +16,14 @@
 
 package com.android.documentsui.dirlist;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.test.filters.MediumTest;
 import android.test.AndroidTestCase;
 
-import com.android.documentsui.ActionHandler;
 import com.android.documentsui.Model;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
-import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 
 @MediumTest
@@ -35,14 +32,12 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
     private static final String AUTHORITY = "test_authority";
 
     private TestEnv mEnv;
-    private ActionHandler mActionHandler;
     private ModelBackedDocumentsAdapter mAdapter;
 
     public void setUp() {
 
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
         mEnv = TestEnv.create(AUTHORITY);
-        mActionHandler = new TestActionHandler();
 
         DocumentsAdapter.Environment env = new TestEnvironment(testContext);
 
@@ -63,9 +58,6 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
         public Features getFeatures() {
             return mEnv.features;
         }
-
-        @Override
-        public ActionHandler getActionHandler() { return mActionHandler; }
 
         private TestEnvironment(Context testContext) {
             this.testContext = testContext;
