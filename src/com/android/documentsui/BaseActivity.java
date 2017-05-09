@@ -576,6 +576,11 @@ public abstract class BaseActivity
         return super.dispatchKeyEvent(event);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mInjector.actions.onActivityResult(requestCode, resultCode, data);
+    }
+
     /**
      * Pops the top entry off the directory stack, and returns the user to the previous directory.
      * If the directory stack only contains one item, this method does nothing.
