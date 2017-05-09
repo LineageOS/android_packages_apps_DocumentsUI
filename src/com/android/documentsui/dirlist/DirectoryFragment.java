@@ -1248,10 +1248,5 @@ public class DirectoryFragment extends Fragment
         public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
             setupDragAndDropOnDocumentView(holder.itemView, cursor);
         }
-
-        @Override
-        public ActionHandler getActionHandler() {
-            return mActions;
-        }
     }
 }
