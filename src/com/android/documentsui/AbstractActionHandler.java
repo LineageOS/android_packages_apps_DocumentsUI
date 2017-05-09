@@ -22,8 +22,10 @@ import static com.android.documentsui.base.Shared.DEBUG;
 
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.Loader;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -75,6 +77,10 @@ import javax.annotation.Nullable;
  */
 public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         implements ActionHandler {
+
+    @VisibleForTesting
+    public static final int CODE_FORWARD = 42;
+    public static final int CODE_AUTHENTICATION = 43;
 
     @VisibleForTesting
     static final int LOADER_ID = 42;
@@ -145,6 +151,32 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                 root.authority,
                 root.rootId,
                 listener).executeOnExecutor(ProviderExecutor.forAuthority(root.authority));
+    }
+
+    @Override
+    public void startAuthentication(PendingIntent intent) {
+        try {
+            mActivity.startIntentSenderForResult(intent.getIntentSender(), CODE_AUTHENTICATION,
+                    null, 0, 0, 0);
+        } catch (IntentSender.SendIntentException cancelled) {
+            Log.d(TAG, "Authentication Pending Intent either canceled or ignored.");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case CODE_AUTHENTICATION:
+                onAuthenticationResult(resultCode);
+                break;
+        }
+    }
+
+    private void onAuthenticationResult(int resultCode) {
+        if (resultCode == Activity.RESULT_OK) {
+            Log.v(TAG, "Authentication was successful. Refreshing directory now.");
+            mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+        }
     }
 
     @Override
