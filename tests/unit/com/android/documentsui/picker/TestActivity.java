@@ -16,7 +16,6 @@
 
 package com.android.documentsui.picker;
 
-import android.annotation.RequiresPermission;
 import android.content.Intent;
 import android.util.Pair;
 
@@ -28,7 +27,6 @@ import org.mockito.Mockito;
 public abstract class TestActivity extends AbstractBase {
 
     public TestEventListener<Pair<Integer, Intent>> setResult;
-    public TestEventListener<Pair<Intent, Integer>> startActivityForResult;
 
     public static TestActivity create(TestEnv env) {
         TestActivity activity = Mockito.mock(TestActivity.class, Mockito.CALLS_REAL_METHODS);
@@ -41,17 +39,11 @@ public abstract class TestActivity extends AbstractBase {
         super.init(env);
 
         setResult = new TestEventListener<>();
-        startActivityForResult = new TestEventListener<>();
     }
 
     @Override
     public void setResult(int resultCode, Intent intent, int notUsed) {
         setResult.accept(Pair.create(resultCode, intent));
-    }
-
-    @Override
-    public final void startActivityForResult(@RequiresPermission Intent intent, int requestCode) {
-        startActivityForResult.accept(Pair.create(intent, requestCode));
     }
 }
 

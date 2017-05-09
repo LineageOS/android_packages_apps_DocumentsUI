@@ -1175,10 +1175,5 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
             setupDragAndDropOnDocumentView(holder.itemView, cursor);
         }
-
-        @Override
-        public ActionHandler getActionHandler() {
-            return mActions;
-        }
     }
 }
