@@ -25,11 +25,9 @@ import android.support.v7.widget.RecyclerView;
 import android.test.AndroidTestCase;
 import android.view.ViewGroup;
 
-import com.android.documentsui.ActionHandler;
 import com.android.documentsui.Model;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
-import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 
 @MediumTest
@@ -39,12 +37,10 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
 
     private TestEnv mEnv;
     private DirectoryAddonsAdapter mAdapter;
-    private ActionHandler mActionHandler;
 
     public void setUp() {
 
         mEnv = TestEnv.create(AUTHORITY);
-        mActionHandler = new TestActionHandler();
         mEnv.clear();
 
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
@@ -139,9 +135,6 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
         public Features getFeatures() {
             return mEnv.features;
         }
-
-        @Override
-        public ActionHandler getActionHandler() { return mActionHandler; }
 
         @Override
         public boolean isSelected(String id) {

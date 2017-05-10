@@ -26,7 +26,6 @@ import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ClipData;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -191,32 +190,6 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (DEBUG) Log.d(TAG, "onActivityResult() code=" + resultCode);
-
-        // Only relay back results when not canceled; otherwise stick around to
-        // let the user pick another app/backend.
-        switch (requestCode) {
-            case CODE_FORWARD:
-                onExternalAppResult(resultCode, data);
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    private void onExternalAppResult(int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_CANCELED) {
-            // Remember that we last picked via external app
-            mLastAccessed.setLastAccessedToExternalApp(mActivity);
-
-            // Pass back result to original caller
-            mActivity.setResult(resultCode, data, 0);
-            mActivity.finish();
-        }
-    }
-
-    @Override
     public void openInNewWindow(DocumentStack path) {
         // Open new window support only depends on vanilla Activity, so it is
         // implemented in our parent class. But we don't support that in
@@ -233,11 +206,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     @Override
     public void openRoot(ResolveInfo info) {
         Metrics.logAppVisited(mActivity, info);
-        final Intent intent = new Intent(mActivity.getIntent());
-        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-        intent.setComponent(new ComponentName(
-                info.activityInfo.applicationInfo.packageName, info.activityInfo.name));
-        mActivity.startActivityForResult(intent, CODE_FORWARD);
+        mActivity.onAppPicked(info);
     }
 
     @Override
@@ -367,6 +336,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     }
 
     public interface Addons extends CommonAddons {
+        void onAppPicked(ResolveInfo info);
         void onDocumentPicked(DocumentInfo doc);
 
         /**

@@ -129,7 +129,11 @@ abstract class Message {
             mCallback = () -> {
                 AuthenticationRequiredException exception =
                         (AuthenticationRequiredException) event.getException();
-                mEnv.getActionHandler().startAuthentication(exception.getUserAction());
+                try {
+                    exception.getUserAction().send();
+                } catch (PendingIntent.CanceledException ignored) {
+                    Log.d(TAG, "User Action either caneled or ignored.");
+                }
             };
         }
     }

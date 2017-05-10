@@ -16,6 +16,7 @@
 
 package com.android.documentsui.services;
 
+import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
