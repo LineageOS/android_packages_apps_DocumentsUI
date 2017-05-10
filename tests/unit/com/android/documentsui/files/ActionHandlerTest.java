@@ -484,35 +484,6 @@ public class ActionHandlerTest {
         }
     }
 
-    @Test
-    public void testAuthentication() throws Exception {
-        PendingIntent intent = PendingIntent.getActivity(
-                InstrumentationRegistry.getInstrumentation().getTargetContext(), 0, new Intent(),
-                0);
-
-        mHandler.startAuthentication(intent);
-        assertEquals(intent.getIntentSender(), mActivity.startIntentSender.getLastValue().first);
-        assertEquals(AbstractActionHandler.CODE_AUTHENTICATION,
-                mActivity.startIntentSender.getLastValue().second.intValue());
-    }
-
-    @Test
-    public void testOnActivityResult_onOK() throws Exception {
-        mHandler.onActivityResult(AbstractActionHandler.CODE_AUTHENTICATION, Activity.RESULT_OK,
-                null);
-        mActivity.refreshCurrentRootAndDirectory.assertCalled();
-    }
-
-    @Test
-    public void testOnActivityResult_onNotOK() throws Exception {
-        mHandler.onActivityResult(0, Activity.RESULT_OK, null);
-        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
-
-        mHandler.onActivityResult(AbstractActionHandler.CODE_AUTHENTICATION,
-                Activity.RESULT_CANCELED, null);
-        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
-    }
-
     private void assertRootPicked(Uri expectedUri) throws Exception {
         mEnv.beforeAsserts();
 
