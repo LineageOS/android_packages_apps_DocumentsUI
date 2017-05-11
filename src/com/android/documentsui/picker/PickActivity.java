@@ -16,7 +16,6 @@
 
 package com.android.documentsui.picker;
 
-import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.State.ACTION_CREATE;
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static com.android.documentsui.base.State.ACTION_OPEN;
@@ -25,14 +24,11 @@ import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.annotation.CallSuper;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 
@@ -65,7 +61,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     static final String PREFERENCES_SCOPE = "picker";
 
     private static final String TAG = "PickActivity";
-    private static final int CODE_FORWARD = 42;
 
     private Injector<ActionHandler<PickActivity>> mInjector;
     private SharedInputHandler mSharedInputHandler;
@@ -197,34 +192,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             state.copyOperationSubType = intent.getIntExtra(
                     FileOperationService.EXTRA_OPERATION_TYPE,
                     FileOperationService.OPERATION_COPY);
-        }
-    }
-
-    @Override
-    public void onAppPicked(ResolveInfo info) {
-        final Intent intent = new Intent(getIntent());
-        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_FORWARD_RESULT);
-        intent.setComponent(new ComponentName(
-                info.activityInfo.applicationInfo.packageName, info.activityInfo.name));
-        startActivityForResult(intent, CODE_FORWARD);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (DEBUG) Log.d(TAG, "onActivityResult() code=" + resultCode);
-
-        // Only relay back results when not canceled; otherwise stick around to
-        // let the user pick another app/backend.
-        if (requestCode == CODE_FORWARD && resultCode != RESULT_CANCELED) {
-
-            // Remember that we last picked via external app
-            mLastAccessed.setLastAccessedToExternalApp(this);
-
-            // Pass back result to original caller
-            setResult(resultCode, data);
-            finish();
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
