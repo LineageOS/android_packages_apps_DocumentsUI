@@ -31,6 +31,7 @@ public class TestFeatures implements Features {
     public boolean jobProgressDialog = false;
     public boolean launchToDocument = true;
     public boolean notificationChannel = true;
+    public boolean overwriteConfirmation = true;
     public boolean remoteActions = true;
     public boolean systemKeyboardNavigation = true;
     public boolean virtualFilesSharing = true;
@@ -83,6 +84,11 @@ public class TestFeatures implements Features {
     @Override
     public boolean isNotificationChannelEnabled() {
         return notificationChannel;
+    }
+
+    @Override
+    public boolean isOverwriteConfirmationEnabled() {
+        return overwriteConfirmation;
     }
 
     @Override
