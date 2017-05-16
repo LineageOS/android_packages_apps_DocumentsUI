@@ -90,11 +90,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="vnd.android.document/directory" />
             </intent-filter>
+        </activity>
+
+        <activity-alias android:name="ViewDownloadsActivity"
+                        android:targetActivity=".files.FilesActivity"
+                        android:enabled="@bool/handle_view_downloads_intent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW_DOWNLOADS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
+        </activity-alias>
 
         <activity
             android:name=".OpenExternalDirectoryActivity"
