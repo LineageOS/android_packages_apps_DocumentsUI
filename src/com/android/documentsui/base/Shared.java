@@ -49,7 +49,7 @@ public final class Shared {
 
     public static final String TAG = "Documents";
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     public static final boolean VERBOSE = DEBUG && Log.isLoggable(TAG, Log.VERBOSE);
 
     /** Intent action name to pick a copy destination. */
