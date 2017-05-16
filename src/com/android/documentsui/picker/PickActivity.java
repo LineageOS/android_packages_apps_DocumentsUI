@@ -34,6 +34,7 @@ import android.view.Menu;
 
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
@@ -80,7 +81,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 new MessageBuilder(this),
-                DialogController.create(features, this, null));
+                DialogController.create(features, this, null),
+                DocumentsApplication.getFileTypeLookup(this));
 
         super.onCreate(icicle);
 

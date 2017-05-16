@@ -533,8 +533,12 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
                 if (DEBUG) Log.d(TAG, "Creating new loader recents.");
                 return new RecentsLoader(
-                        context, mProviders, mState, mInjector.features, mExecutors);
-
+                        context,
+                        mProviders,
+                        mState,
+                        mInjector.features,
+                        mExecutors,
+                        mInjector.fileTypeLookup);
             } else {
 
                 Uri contentsUri = mSearchMgr.isSearching()
@@ -561,6 +565,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                         mState.stack.peek(),
                         contentsUri,
                         mState.sortModel,
+                        mInjector.fileTypeLookup,
                         mDirectoryReloadLock,
                         mSearchMgr.isSearching());
             }

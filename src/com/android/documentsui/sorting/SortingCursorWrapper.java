@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.DocumentsContract.Document;
 
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
@@ -36,20 +37,22 @@ class SortingCursorWrapper extends AbstractCursor {
 
     private final int[] mPosition;
 
-    public SortingCursorWrapper(Cursor cursor, SortDimension dimension) {
+    public SortingCursorWrapper(
+            Cursor cursor, SortDimension dimension, Lookup<String, String> fileTypeLookup) {
         mCursor = cursor;
 
         final int count = cursor.getCount();
         mPosition = new int[count];
         boolean[] isDirs = new boolean[count];
-        String[] displayNames = null;
+        String[] stringValues = null;
         long[] longValues = null;
         String[] ids = null;
 
         final @SortDimensionId int id = dimension.getId();
         switch (id) {
             case SortModel.SORT_DIMENSION_ID_TITLE:
-                displayNames = new String[count];
+            case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                stringValues = new String[count];
                 break;
             case SortModel.SORT_DIMENSION_ID_DATE:
             case SortModel.SORT_DIMENSION_ID_SIZE:
@@ -70,7 +73,10 @@ class SortingCursorWrapper extends AbstractCursor {
                 case SortModel.SORT_DIMENSION_ID_TITLE:
                     final String displayName = getCursorString(
                             mCursor, Document.COLUMN_DISPLAY_NAME);
-                    displayNames[i] = displayName;
+                    stringValues[i] = displayName;
+                    break;
+                case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                    stringValues[i] = fileTypeLookup.lookup(mimeType);
                     break;
                 case SortModel.SORT_DIMENSION_ID_DATE:
                     longValues[i] = getLastModified(mCursor);
@@ -86,7 +92,8 @@ class SortingCursorWrapper extends AbstractCursor {
 
         switch (id) {
             case SortModel.SORT_DIMENSION_ID_TITLE:
-                binarySort(displayNames, isDirs, mPosition, dimension.getSortDirection());
+            case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                binarySort(stringValues, isDirs, mPosition, dimension.getSortDirection());
                 break;
             case SortModel.SORT_DIMENSION_ID_DATE:
             case SortModel.SORT_DIMENSION_ID_SIZE:

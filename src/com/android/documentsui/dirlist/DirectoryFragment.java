@@ -84,6 +84,7 @@ import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Events.MotionInputEvent;
 import com.android.documentsui.base.Features;
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -307,7 +308,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mIconHelper = new IconHelper(mActivity, MODE_GRID);
 
         mAdapter = new DirectoryAddonsAdapter(
-                mAdapterEnv, new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper));
+                mAdapterEnv,
+                new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper, mInjector.fileTypeLookup)
+        );
 
         mRecView.setAdapter(mAdapter);
 
