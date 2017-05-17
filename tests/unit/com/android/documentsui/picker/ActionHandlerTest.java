@@ -275,6 +275,10 @@ public class ActionHandlerTest {
 
     @Test
     public void testSaveDocument_ConfirmsOverwrite() {
+        if (!mEnv.features.isOverwriteConfirmationEnabled()) {
+            return;
+        }
+
         mEnv.state.action = State.ACTION_CREATE;
         mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);

@@ -44,6 +44,7 @@
     <bool name="feature_job_progress_dialog">true</bool>
     <bool name="feature_launch_to_document">true</bool>
     <bool name="feature_notification_channel">true</bool>
+    <bool name="feature_overwrite_confirmation">true</bool>
     <bool name="feature_remote_actions">true</bool>
     <bool name="feature_system_keyboard_navigation">true</bool>
     <bool name="feature_virtual_files_sharing">true</bool>
