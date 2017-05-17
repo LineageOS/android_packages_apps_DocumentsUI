@@ -42,6 +42,7 @@ public interface Features {
     boolean isJobProgressDialogEnabled();
     boolean isLaunchToDocumentEnabled();
     boolean isNotificationChannelEnabled();
+    boolean isOverwriteConfirmationEnabled();
     boolean isRemoteActionsEnabled();
     boolean isSystemKeyboardNavigationEnabled();
     boolean isVirtualFilesSharingEnabled();
@@ -132,6 +133,11 @@ public interface Features {
         @Override
         public boolean isNotificationChannelEnabled() {
             return isEnabled(R.bool.feature_notification_channel);
+        }
+
+        @Override
+        public boolean isOverwriteConfirmationEnabled() {
+            return isEnabled(R.bool.feature_overwrite_confirmation);
         }
 
         @Override

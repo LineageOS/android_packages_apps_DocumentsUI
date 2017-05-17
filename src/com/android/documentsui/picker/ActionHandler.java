@@ -301,7 +301,13 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         assert(mState.action == ACTION_CREATE);
         assert(replaceTarget != null);
 
-        mInjector.dialogs.confirmOverwrite(fm, replaceTarget);
+        // Adding a confirmation dialog breaks an inherited CTS test (testCreateExisting), so we
+        // need to add a feature flag to bypass this feature in ARC++ environment.
+        if (mFeatures.isOverwriteConfirmationEnabled()) {
+            mInjector.dialogs.confirmOverwrite(fm, replaceTarget);
+        } else {
+            finishPicking(replaceTarget.derivedUri);
+        }
     }
 
     void finishPicking(Uri... docs) {

@@ -20,6 +20,10 @@
 
     <bool name="show_documents_root">false</bool>
 
+    <!-- Indicates if DocumentsUI should handle VIEW_DOWNLOADS Intent.
+    on ARC++ devices, there exists another handler which handles VIEW_DOWNLOADS Intent. -->
+    <bool name="handle_view_downloads_intent">true</bool>
+
     <!-- Indicates if search view is taking the whole toolbar space. On larger
          layouts we reduce this to an input-box adjacent to menu actions. -->
     <bool name="full_bar_search_view">true</bool>
@@ -40,6 +44,7 @@
     <bool name="feature_job_progress_dialog">false</bool>
     <bool name="feature_launch_to_document">true</bool>
     <bool name="feature_notification_channel">true</bool>
+    <bool name="feature_overwrite_confirmation">true</bool>
     <bool name="feature_remote_actions">true</bool>
     <bool name="feature_system_keyboard_navigation">true</bool>
     <bool name="feature_virtual_files_sharing">true</bool>
