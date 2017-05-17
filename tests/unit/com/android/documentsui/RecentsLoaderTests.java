@@ -43,19 +43,17 @@ public class RecentsLoaderTests {
     private TestEnv mEnv;
     private TestActivity mActivity;
     private RecentsLoader mLoader;
-    private TestFeatures mFeatures;
 
     @Before
     public void setUp() {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create(mEnv);
         mActivity.activityManager = ActivityManagers.create(false);
-        mFeatures = new TestFeatures();
 
         mEnv.state.action = State.ACTION_BROWSE;
         mEnv.state.acceptMimes = new String[] { "*/*" };
 
-        mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state, mFeatures,
+        mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state, mEnv.features,
                 TestImmediateExecutor.createLookup());
     }
 
