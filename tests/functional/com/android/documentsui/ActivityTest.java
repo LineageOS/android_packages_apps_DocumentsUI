@@ -31,6 +31,7 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.MotionEvent;
 
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.bots.Bots;
 import com.android.documentsui.bots.UiBot;
@@ -61,6 +62,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
     public Context context;
     public UiAutomation automation;
 
+    public Features features;
     public RootInfo rootDir0;
     public RootInfo rootDir1;
     protected ContentResolver mResolver;
@@ -104,6 +106,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         // NOTE: Must be the "target" context, else security checks in content provider will fail.
         context = getInstrumentation().getTargetContext();
         automation = getInstrumentation().getUiAutomation();
+        features = new Features.RuntimeFeatures(context.getResources(), null);
 
         bots = new Bots(device, automation, context, TIMEOUT);
 
