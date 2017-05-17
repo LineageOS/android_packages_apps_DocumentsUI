@@ -31,6 +31,7 @@ import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
@@ -41,6 +42,7 @@ import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestLastAccessedStorage;
+import com.android.documentsui.testing.TestResolveInfo;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -101,6 +103,7 @@ public class ActionHandlerTest {
     @Test
     public void testInitLocation_CopyDestination_DocumentsRootEnabled() throws Exception {
         mActivity.resources.bools.put(R.bool.show_documents_root, true);
+        mActivity.resources.strings.put(R.string.default_root_uri, TestProvidersAccess.HOME.getUri().toString());
 
         Intent intent = mActivity.getIntent();
         intent.setAction(Shared.ACTION_PICK_COPY_DESTINATION);
@@ -272,6 +275,10 @@ public class ActionHandlerTest {
 
     @Test
     public void testSaveDocument_ConfirmsOverwrite() {
+        if (!mEnv.features.isOverwriteConfirmationEnabled()) {
+            return;
+        }
+
         mEnv.state.action = State.ACTION_CREATE;
         mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
         mEnv.state.stack.push(TestEnv.FOLDER_1);
@@ -408,6 +415,38 @@ public class ActionHandlerTest {
         assertContent(result, TestEnv.FILE_JPG.derivedUri);
 
         mActivity.finishedHandler.assertCalled();
+    }
+
+    @Test
+    public void testOnAppPickedResult_OnOK() throws Exception {
+        Intent intent = new Intent();
+        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD, Activity.RESULT_OK, intent);
+        mActivity.finishedHandler.assertCalled();
+        mActivity.setResult.assertCalled();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        assertEquals(intent, mActivity.setResult.getLastValue().second);
+    }
+
+    @Test
+    public void testOnAppPickedResult_OnNotOK() throws Exception {
+        Intent intent = new Intent();
+        mHandler.onActivityResult(0, Activity.RESULT_OK, intent);
+        mActivity.finishedHandler.assertNotCalled();
+        mActivity.setResult.assertNotCalled();
+
+        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD, Activity.RESULT_CANCELED,
+                intent);
+        mActivity.finishedHandler.assertNotCalled();
+        mActivity.setResult.assertNotCalled();
+    }
+
+    @Test
+    public void testOpenAppRoot() throws Exception {
+        mHandler.openRoot(TestResolveInfo.create());
+        assertEquals((long) mActivity.startActivityForResult.getLastValue().second,
+                AbstractActionHandler.CODE_FORWARD);
+        assertNotNull(mActivity.startActivityForResult.getLastValue().first);
     }
 
     private void testInitLocationDefaultToRecentsOnAction(@ActionType int action)

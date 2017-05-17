@@ -130,6 +130,14 @@ final class ListDocumentHolder extends DocumentHolder {
         return rect.contains((int) event.getRawX(), (int) event.getRawY());
     }
 
+    @Override
+    public boolean isOverDocIcon(InputEvent event) {
+        Rect iconRect = new Rect();
+        mIconLayout.getGlobalVisibleRect(iconRect);
+
+        return iconRect.contains((int) event.getRawX(), (int) event.getRawY());
+    }
+
     /**
      * Bind this view to the given document for display.
      * @param cursor Pointing to the item to be bound.

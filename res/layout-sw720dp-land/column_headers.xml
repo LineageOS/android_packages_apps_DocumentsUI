@@ -24,11 +24,6 @@
     android:background="@drawable/sort_widget_background"
     android:visibility="gone">
 
-    <!-- Placeholder for focus indicator -->
-    <View
-        android:layout_width="4dp"
-        android:layout_height="match_parent"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

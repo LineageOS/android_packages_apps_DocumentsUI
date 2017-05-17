@@ -27,6 +27,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
@@ -34,10 +36,12 @@ import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.support.test.filters.MediumTest;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Pair;
 import android.view.DragEvent;
 
+import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.R;
 import com.android.documentsui.TestActionModeAddons;
 import com.android.documentsui.archives.ArchivesProvider;
@@ -368,6 +372,7 @@ public class ActionHandlerTest {
     @Test
     public void testInitLocation_DocumentsRootEnabled() throws Exception {
         mActivity.resources.bools.put(R.bool.show_documents_root, true);
+        mActivity.resources.strings.put(R.string.default_root_uri, TestProvidersAccess.HOME.getUri().toString());
 
         mHandler.initLocation(mActivity.getIntent());
         assertRootPicked(TestProvidersAccess.HOME.getUri());
@@ -481,6 +486,35 @@ public class ActionHandlerTest {
         } else {
             assertFalse(refreshAnswer);
         }
+    }
+
+    @Test
+    public void testAuthentication() throws Exception {
+        PendingIntent intent = PendingIntent.getActivity(
+                InstrumentationRegistry.getInstrumentation().getTargetContext(), 0, new Intent(),
+                0);
+
+        mHandler.startAuthentication(intent);
+        assertEquals(intent.getIntentSender(), mActivity.startIntentSender.getLastValue().first);
+        assertEquals(AbstractActionHandler.CODE_AUTHENTICATION,
+                mActivity.startIntentSender.getLastValue().second.intValue());
+    }
+
+    @Test
+    public void testOnActivityResult_onOK() throws Exception {
+        mHandler.onActivityResult(AbstractActionHandler.CODE_AUTHENTICATION, Activity.RESULT_OK,
+                null);
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    @Test
+    public void testOnActivityResult_onNotOK() throws Exception {
+        mHandler.onActivityResult(0, Activity.RESULT_OK, null);
+        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
+
+        mHandler.onActivityResult(AbstractActionHandler.CODE_AUTHENTICATION,
+                Activity.RESULT_CANCELED, null);
+        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {
