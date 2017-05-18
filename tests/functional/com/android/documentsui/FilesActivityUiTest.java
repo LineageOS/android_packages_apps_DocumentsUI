@@ -62,11 +62,14 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
     }
 
     public void testProtectedFolder_showsAuthenticationUi() throws Exception {
-        bots.roots.openRoot("Demo Root");
-        bots.main.switchToListMode();
-        bots.directory.openDocument("throw a authentication exception");
-        bots.directory.assertHeaderMessageText(
-                "To view this directory, sign in to DocumentsUI Tests");
+        // If feature is disabled, this test is a no-op.
+        if (features.isRemoteActionsEnabled()) {
+            bots.roots.openRoot("Demo Root");
+            bots.main.switchToListMode();
+            bots.directory.openDocument("throw a authentication exception");
+            bots.directory.assertHeaderMessageText(
+                    "To view this directory, sign in to DocumentsUI Tests");
+        }
 
     }
 
