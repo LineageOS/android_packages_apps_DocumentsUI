@@ -231,6 +231,7 @@ public interface DragAndDropManager {
 
             mView = v;
             mInvalidDest = invalidDest;
+            boolean containsFilesInArchive = false;
 
             List<Uri> uris = new ArrayList<>(srcs.size());
             for (DocumentInfo doc : srcs) {
@@ -240,6 +241,7 @@ public interface DragAndDropManager {
                         && !doc.isMoveSupported()) {
                     mMustBeCopied = true;
                 }
+                containsFilesInArchive |= doc.isInArchive();
             }
             mClipData = (parent == null)
                     ? mClipper.getClipDataForDocuments(uris, FileOperationService.OPERATION_UNKNOWN)
@@ -250,15 +252,17 @@ public interface DragAndDropManager {
 
             updateShadow(srcs, iconHelper);
 
+            int flag = View.DRAG_FLAG_GLOBAL | View.DRAG_FLAG_OPAQUE;
+            if (!containsFilesInArchive) {
+                flag |= View.DRAG_FLAG_GLOBAL_URI_READ
+                        | View.DRAG_FLAG_GLOBAL_URI_WRITE;
+            }
             startDragAndDrop(
                     v,
                     mClipData,
                     mShadowBuilder,
                     this, // Used to detect multi-window drag and drop
-                    View.DRAG_FLAG_GLOBAL
-                            | View.DRAG_FLAG_OPAQUE
-                            | View.DRAG_FLAG_GLOBAL_URI_READ
-                            | View.DRAG_FLAG_GLOBAL_URI_WRITE);
+                    flag);
         }
 
         private void updateShadow(List<DocumentInfo> srcs, IconHelper iconHelper) {
