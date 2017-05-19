@@ -22,6 +22,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -127,6 +128,9 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         // so if a drawer is on top of a file we want to select, it will actually click the drawer.
         // Thus to start a clean state, we always try to close first.
         bots.roots.closeDrawer();
+
+        // Configure the provider back to default.
+        mDocsHelper.configure(null, Bundle.EMPTY);
     }
 
     @Override
