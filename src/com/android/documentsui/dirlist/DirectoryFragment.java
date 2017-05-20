@@ -1088,9 +1088,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
             if (mRestoredSelection != null) {
                 mSelectionMgr.restoreSelection(mRestoredSelection);
-                // Note, we'll take care of cleaning up retained selection
-                // in the selection handler where we already have some
-                // specialized code to handle when selection was restored.
+                mRestoredSelection = null;
             }
 
             // Restore any previous instance state
