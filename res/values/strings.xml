@@ -108,10 +108,12 @@
     <string name="sort_dimension_name">Name</string>
     <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
     <string name="sort_dimension_summary">Summary</string>
-    <!-- Table header for last modified time. [CHAR_LIMIT=18] -->
-    <string name="sort_dimension_date">Modified</string>
+    <!-- Table header for file type. [CHAR_LIMIT=12] -->
+    <string name="sort_dimension_file_type">Type</string>
     <!-- Table header for file size. [CHAR_LIMIT=12] -->
     <string name="sort_dimension_size">Size</string>
+    <!-- Table header for last modified time. [CHAR_LIMIT=18] -->
+    <string name="sort_dimension_date">Modified</string>
 
     <!-- content description to describe ascending sorting used with upward arrow in table header. -->
     <string name="sort_direction_ascending">Ascending</string>

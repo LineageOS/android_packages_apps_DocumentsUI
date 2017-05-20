@@ -88,6 +88,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
     private final State mState;
     private final Features mFeatures;
     private final Lookup<String, Executor> mExecutors;
+    private final Lookup<String, String> mFileTypeMap;
 
     @GuardedBy("mTasks")
     /** A authority -> RecentsTask map */
@@ -99,13 +100,14 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
     private DirectoryResult mResult;
 
     public RecentsLoader(Context context, ProvidersAccess providers, State state, Features features,
-            Lookup<String, Executor> executors) {
+            Lookup<String, Executor> executors, Lookup<String, String> fileTypeMap) {
 
         super(context);
         mProviders = providers;
         mState = state;
         mFeatures = features;
         mExecutors = executors;
+        mFileTypeMap = fileTypeMap;
 
         // Keep clients around on high-RAM devices, since we'd be spinning them
         // up moments later to fetch thumbnails anyway.
@@ -204,7 +206,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         final Cursor notMovableMasked = new NotMovableMaskCursor(merged);
-        final Cursor sorted = mState.sortModel.sortCursor(notMovableMasked);
+        final Cursor sorted = mState.sortModel.sortCursor(notMovableMasked, mFileTypeMap);
 
         // Tell the UI if this is an in-progress result. When loading is complete, another update is
         // sent with EXTRA_LOADING set to false.

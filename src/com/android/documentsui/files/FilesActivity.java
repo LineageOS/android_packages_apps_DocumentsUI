@@ -84,7 +84,8 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 messages,
-                DialogController.create(features, this, messages));
+                DialogController.create(features, this, messages),
+                DocumentsApplication.getFileTypeLookup(this));
 
         super.onCreate(icicle);
 
