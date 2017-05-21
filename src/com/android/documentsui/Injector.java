@@ -26,6 +26,7 @@ import android.view.View;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Features;
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.base.DebugHelper;
 import com.android.documentsui.prefs.ScopedPreferences;
@@ -48,6 +49,7 @@ public class Injector<T extends ActionHandler> {
     public final ActivityConfig config;
     public final ScopedPreferences prefs;
     public final MessageBuilder messages;
+    public final Lookup<String, String> fileTypeLookup;
 
     public MenuManager menuManager;
     public DialogController dialogs;
@@ -76,8 +78,9 @@ public class Injector<T extends ActionHandler> {
             ActivityConfig config,
             ScopedPreferences prefs,
             MessageBuilder messages,
-            DialogController dialogs) {
-        this(features, config, prefs, messages, dialogs, new Model(features));
+            DialogController dialogs,
+            Lookup<String, String> fileTypeLookup) {
+        this(features, config, prefs, messages, dialogs, fileTypeLookup, new Model(features));
     }
 
     @VisibleForTesting
@@ -87,6 +90,7 @@ public class Injector<T extends ActionHandler> {
             ScopedPreferences prefs,
             MessageBuilder messages,
             DialogController dialogs,
+            Lookup<String, String> fileTypeLookup,
             Model model) {
 
         this.features = features;
@@ -94,6 +98,7 @@ public class Injector<T extends ActionHandler> {
         this.prefs = prefs;
         this.messages = messages;
         this.dialogs = dialogs;
+        this.fileTypeLookup = fileTypeLookup;
         this.mModel = model;
         this.debugHelper = new DebugHelper(this);
     }

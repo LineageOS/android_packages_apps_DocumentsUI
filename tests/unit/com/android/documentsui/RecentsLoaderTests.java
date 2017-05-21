@@ -29,6 +29,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.testing.ActivityManagers;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
+import com.android.documentsui.testing.TestFileTypeLookup;
 import com.android.documentsui.testing.TestImmediateExecutor;
 import com.android.documentsui.testing.TestProvidersAccess;
 
@@ -54,7 +55,7 @@ public class RecentsLoaderTests {
         mEnv.state.acceptMimes = new String[] { "*/*" };
 
         mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state, mEnv.features,
-                TestImmediateExecutor.createLookup());
+                TestImmediateExecutor.createLookup(), new TestFileTypeLookup());
     }
 
     @Test
