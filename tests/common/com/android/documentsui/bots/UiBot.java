@@ -32,7 +32,6 @@ import static org.hamcrest.Matchers.endsWith;
 
 import android.content.Context;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.test.espresso.matcher.ViewMatchers;

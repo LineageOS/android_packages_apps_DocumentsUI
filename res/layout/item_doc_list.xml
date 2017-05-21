@@ -114,6 +114,17 @@
                     android:textColor="@color/item_details" />
 
                 <TextView
+                    android:id="@+id/file_type"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textAlignment="viewStart"
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption"
+                    android:textColor="@color/item_details" />
+
+                <TextView
                     android:id="@android:id/summary"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

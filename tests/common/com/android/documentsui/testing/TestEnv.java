@@ -88,6 +88,7 @@ public class TestEnv {
                 null,       //ScopedPreferences are not required for tests
                 null,   //a MessageBuilder is not required for tests
                 dialogs,
+                new TestFileTypeLookup(),
                 model);
         injector.selectionMgr = selectionMgr;
         injector.focusManager = new FocusManager(features, selectionMgr, null, null, 0);

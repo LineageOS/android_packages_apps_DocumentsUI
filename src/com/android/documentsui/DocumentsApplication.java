@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.text.format.DateUtils;
 
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.clipping.ClipStorage;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
@@ -41,6 +42,7 @@ public class DocumentsApplication extends Application {
     private ClipStorage mClipStore;
     private DocumentClipper mClipper;
     private DragAndDropManager mDragAndDropManager;
+    private Lookup<String, String> mFileTypeLookup;
 
     public static ProvidersCache getProvidersCache(Context context) {
         return ((DocumentsApplication) context.getApplicationContext()).mProviders;
@@ -74,6 +76,10 @@ public class DocumentsApplication extends Application {
         return ((DocumentsApplication) context.getApplicationContext()).mDragAndDropManager;
     }
 
+    public static Lookup<String, String> getFileTypeLookup(Context context) {
+        return ((DocumentsApplication) context.getApplicationContext()).mFileTypeLookup;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -92,6 +98,8 @@ public class DocumentsApplication extends Application {
         mClipper = DocumentClipper.create(this, mClipStore);
 
         mDragAndDropManager = DragAndDropManager.create(this, mClipper);
+
+        mFileTypeLookup = new FileTypeMap(this);
 
         final IntentFilter packageFilter = new IntentFilter();
         packageFilter.addAction(Intent.ACTION_PACKAGE_ADDED);
