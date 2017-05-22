@@ -25,6 +25,8 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import libcore.net.MimeUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,42 +71,53 @@ public class FileTypeMapTest {
 
     @Test
     public void testZipType() {
-        String expected = getExtensionType(R.string.archive_file_type, "Zip");
-        assertEquals(expected, mMap.lookup("application/zip"));
+        final String mime = "application/zip";
+        String expected = getExtensionTypeFromExtension(R.string.archive_file_type, "Zip");
+        assertEquals(expected, mMap.lookup(mime));
     }
 
     @Test
     public void testMp3Type() {
-        String expected = getExtensionType(R.string.audio_extension_file_type, "MP3");
-        assertEquals(expected, mMap.lookup("audio/mpeg"));
+        final String mime = "audio/mpeg";
+        String expected = getExtensionTypeFromMime(R.string.audio_extension_file_type, mime);
+        assertEquals(expected, mMap.lookup(mime));
     }
 
     @Test
     public void testMkvType() {
-        String expected = getExtensionType(R.string.video_extension_file_type, "AVI");
-        assertEquals(expected, mMap.lookup("video/avi"));
+        final String mime = "video/avi";
+        String expected = getExtensionTypeFromMime(R.string.video_extension_file_type, mime);
+        assertEquals(expected, mMap.lookup(mime));
     }
 
     @Test
     public void testJpgType() {
-        String expected = getExtensionType(R.string.image_extension_file_type, "JPG");
-        assertEquals(expected, mMap.lookup("image/jpeg"));
+        final String mime = "image/jpeg";
+        String expected = getExtensionTypeFromMime(R.string.image_extension_file_type, mime);
+        assertEquals(expected, mMap.lookup(mime));
     }
 
     @Test
     public void testOggType() {
-        String expected = getExtensionType(R.string.audio_extension_file_type, "OGG");
+        final String mime = "application/ogg";
+        String expected = getExtensionTypeFromMime(R.string.audio_extension_file_type, mime);
         assertEquals(expected, mMap.lookup("application/ogg"));
     }
 
     @Test
     public void testFlacType() {
-        String expected = getExtensionType(R.string.audio_extension_file_type, "FLAC");
-        assertEquals(expected, mMap.lookup("application/x-flac"));
+        final String mime = "application/x-flac";
+        String expected = getExtensionTypeFromMime(R.string.audio_extension_file_type, mime);
+        assertEquals(expected, mMap.lookup(mime));
     }
 
-    private String getExtensionType(@StringRes int formatStringId, String extension) {
-        String format = mRes.getString(formatStringId);
+    private String getExtensionTypeFromMime(@StringRes int formatStringId, String mime) {
+        final String extension = MimeUtils.guessExtensionFromMimeType(mime).toUpperCase();
+        return getExtensionTypeFromExtension(formatStringId, extension);
+    }
+
+    private String getExtensionTypeFromExtension(@StringRes int formatStringId, String extension) {
+        final String format = mRes.getString(formatStringId);
         return String.format(format, extension);
     }
 }
