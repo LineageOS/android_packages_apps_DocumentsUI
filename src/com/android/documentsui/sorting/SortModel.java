@@ -256,6 +256,11 @@ public class SortModel implements Parcelable {
                         ContentResolver.QUERY_ARG_SORT_COLUMNS,
                         new String[]{ Document.COLUMN_SIZE });
                 break;
+            case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                // Unfortunately sorting by mime type is pretty much guaranteed different from
+                // sorting by user-friendly type, so there is no point to guide the provider to sort
+                // in a particular order.
+                return;
             default:
                 throw new IllegalStateException(
                         "Unexpected sort dimension id: " + id);
@@ -302,6 +307,11 @@ public class SortModel implements Parcelable {
             case SortModel.SORT_DIMENSION_ID_SIZE:
                 columnName = Document.COLUMN_SIZE;
                 break;
+            case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                // Unfortunately sorting by mime type is pretty much guaranteed different from
+                // sorting by user-friendly type, so there is no point to guide the provider to sort
+                // in a particular order.
+                return null;
             default:
                 throw new IllegalStateException(
                         "Unexpected sort dimension id: " + id);
