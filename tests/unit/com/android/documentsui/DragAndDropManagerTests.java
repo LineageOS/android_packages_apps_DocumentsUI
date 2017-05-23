@@ -77,6 +77,7 @@ public class DragAndDropManagerTests {
 
     private TestEventListener<ClipData> mStartDragListener;
     private TestEventListener<Void> mShadowUpdateListener;
+    private TestEventListener<Integer> mFlagListener;
 
     private TestEventListener<Integer> mCallbackListener;
     private FileOperations.Callback mCallback = new FileOperations.Callback() {
@@ -115,6 +116,7 @@ public class DragAndDropManagerTests {
         mStartDragListener = new TestEventListener<>();
         mShadowUpdateListener = new TestEventListener<>();
         mCallbackListener = new TestEventListener<>();
+        mFlagListener = new TestEventListener<>();
 
         mManager = new RuntimeDragAndDropManager(mActivity, mClipper, mShadowBuilder,
                 mDefaultIcon) {
@@ -125,6 +127,7 @@ public class DragAndDropManagerTests {
                 assertSame(mShadowBuilder, builder);
                 assertNotNull(localState);
 
+                mFlagListener.accept(flag);
                 mStartDragListener.accept(clipData);
             }
 
@@ -207,6 +210,19 @@ public class DragAndDropManagerTests {
                 TestEnv.FOLDER_0);
 
         assertFalse(mManager.canSpringOpen(TestProvidersAccess.HAMMY, TestEnv.FOLDER_2));
+    }
+
+    @Test
+    public void testInArchiveUris_HasCorrectFlagPermission() {
+        mManager.startDrag(
+                mStartDragView,
+                Arrays.asList(TestEnv.FILE_IN_ARCHIVE),
+                TestProvidersAccess.HOME,
+                Arrays.asList(TestEnv.FILE_ARCHIVE.derivedUri, TestEnv.FILE_IN_ARCHIVE.derivedUri),
+                mIconHelper,
+                TestEnv.FILE_ARCHIVE);
+
+        mFlagListener.assertLastArgument(View.DRAG_FLAG_GLOBAL | View.DRAG_FLAG_OPAQUE);
     }
 
     @Test
