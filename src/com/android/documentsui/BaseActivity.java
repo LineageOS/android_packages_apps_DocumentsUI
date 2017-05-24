@@ -291,7 +291,6 @@ public abstract class BaseActivity
         }
 
         mInjector.actionModeController.finishActionMode();
-        mState.derivedMode = LocalPreferences.getViewMode(this, root, MODE_GRID);
         mSortController.onViewModeChanged(mState.derivedMode);
 
         // Set summary header's visibility. Only recents and downloads root may have summary in
@@ -394,6 +393,8 @@ public abstract class BaseActivity
         // refreshCurrentRootAndDirectory() from being called while we're restoring the state of UI
         // from the saved state passed in onCreate().
         mSearchManager.cancelSearch();
+
+        mState.derivedMode = LocalPreferences.getViewMode(this, mState.stack.getRoot(), MODE_GRID);
 
         refreshDirectory(anim);
 
