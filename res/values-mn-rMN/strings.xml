@@ -59,8 +59,9 @@
     <string name="not_sorted" msgid="7813496644889115530">"Эрэмбэлээгүй"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Нэр"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Хураангуй"</string>
-    <string name="sort_dimension_date" msgid="4231005651895254033">"Өөрчилсөн"</string>
+    <string name="sort_dimension_file_type" msgid="5779709622922085381">"Төрөл"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Хэмжээ"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Өөрчилсөн"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Дээшилж буй"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Буурч буй"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Документын санг харуулах"</string>
