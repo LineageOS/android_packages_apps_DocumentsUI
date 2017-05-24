@@ -45,6 +45,7 @@ import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -178,9 +179,17 @@ public abstract class BaseActivity
         // We piggy back on search input as it is the only text input
         // area in the app. But the functionality is independent
         // of "regular" search query processing.
-        CommandInterceptor dbgCommands = new CommandInterceptor(mInjector.features);
-        dbgCommands.add(new CommandInterceptor.DumpRootsCacheHandler(this));
-        mSearchManager = new SearchViewManager(searchListener, dbgCommands, icicle);
+        final CommandInterceptor cmdInterceptor = new CommandInterceptor(mInjector.features);
+        cmdInterceptor.add(new CommandInterceptor.DumpRootsCacheHandler(this));
+
+        // A tiny decorator that adds support for enabling CommandInterceptor
+        // based on query input. It's sorta like CommandInterceptor, but its metaaahhh.
+        EventHandler<String> queryInterceptor =
+                CommandInterceptor.createDebugModeFlipper(
+                        mInjector.features,
+                        mInjector.debugHelper::toggleDebugMode,
+                        cmdInterceptor);
+        mSearchManager = new SearchViewManager(searchListener, queryInterceptor, icicle);
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
         mPreferencesMonitor = new PreferencesMonitor(

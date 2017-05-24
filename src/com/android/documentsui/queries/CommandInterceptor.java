@@ -59,6 +59,10 @@ public final class CommandInterceptor implements EventHandler<String> {
 
     @Override
     public boolean accept(String query) {
+        if (!mFeatures.isDebugSupportEnabled()) {
+            return false;
+        }
+
         if (!mFeatures.isCommandInterceptorEnabled()) {
             if (DEBUG) Log.v(TAG, "Skipping input, command interceptor disabled.");
             return false;
@@ -195,5 +199,36 @@ public final class CommandInterceptor implements EventHandler<String> {
             }
             return false;
         }
+    }
+
+    /**
+     * Wraps {@link CommandInterceptor} in a tiny decorator that adds support for
+     * enabling CommandInterceptor feature based on some magic query input.
+     *
+     * <p>It's like super meta, maaaannn.
+     */
+    public static final EventHandler<String> createDebugModeFlipper(
+            Features features,
+            Runnable debugFlipper,
+            CommandInterceptor interceptor) {
+
+        if (!features.isDebugSupportEnabled()) {
+            return interceptor;
+        }
+
+        String magicString1 = COMMAND_PREFIX + "wwssadadba";
+        String magicString2 = "up up down down left right left right b a";
+
+        return new EventHandler<String>() {
+            @Override
+            public boolean accept(String query) {
+                assert(features.isDebugSupportEnabled());
+
+                if (magicString1.equals(query) || magicString2.equals(query)) {
+                    debugFlipper.run();
+                }
+                return interceptor.accept(query);
+            }
+        };
     }
 }
