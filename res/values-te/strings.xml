@@ -59,8 +59,10 @@
     <string name="not_sorted" msgid="7813496644889115530">"క్రమబద్ధీకరించలేదు"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"పేరు"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"సారాంశం"</string>
-    <string name="sort_dimension_date" msgid="4231005651895254033">"సవరించిన సమయం"</string>
+    <!-- no translation found for sort_dimension_file_type (5779709622922085381) -->
+    <skip />
     <string name="sort_dimension_size" msgid="2190547351159472884">"పరిమాణం"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"సవరించిన సమయం"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ఆరోహణ"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"అవరోహణ"</string>
     <string name="drawer_open" msgid="8071673398187261741">"మూలాలను చూపు"</string>
