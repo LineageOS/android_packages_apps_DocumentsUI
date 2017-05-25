@@ -120,4 +120,13 @@ class RootItem extends Item {
         inflater.inflate(R.menu.root_context_menu, menu);
         menuManager.updateRootContextMenu(menu, root, docInfo);
     }
+
+    @Override
+    public String toString() {
+        return "RootItem{"
+                + "id=" + stringId
+                + ", root=" + root
+                + ", docInfo=" + docInfo
+                + "}";
+    }
 }

@@ -299,7 +299,9 @@ public class RootsFragment extends Fragment {
         // Omit ourselves from the list
         for (ResolveInfo info : infos) {
             if (!context.getPackageName().equals(info.activityInfo.packageName)) {
-                apps.add(new AppItem(info, mActionHandler));
+                AppItem app = new AppItem(info, mActionHandler);
+                if (VERBOSE) Log.v(TAG, "Adding handler app: " + app);
+                apps.add(app);
             }
         }
 
