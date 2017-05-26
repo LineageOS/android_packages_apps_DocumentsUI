@@ -101,6 +101,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         // previously stored state.
         if (mState.stack.isInitialized()) {
             if (DEBUG) Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
+            restoreRootAndDirectory();
             return;
         }
 
