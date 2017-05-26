@@ -28,6 +28,7 @@ import android.view.DragEvent;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
@@ -78,6 +79,7 @@ public interface DragAndDropManager {
             List<DocumentInfo> srcs,
             RootInfo root,
             List<Uri> invalidDest,
+            SelectionDetails selectionDetails,
             IconHelper iconHelper,
             @Nullable DocumentInfo parent);
 
@@ -226,22 +228,17 @@ public interface DragAndDropManager {
                 List<DocumentInfo> srcs,
                 RootInfo root,
                 List<Uri> invalidDest,
+                SelectionDetails selectionDetails,
                 IconHelper iconHelper,
                 @Nullable DocumentInfo parent) {
 
             mView = v;
             mInvalidDest = invalidDest;
-            boolean containsFilesInArchive = false;
+            mMustBeCopied = !selectionDetails.canDelete();
 
             List<Uri> uris = new ArrayList<>(srcs.size());
             for (DocumentInfo doc : srcs) {
                 uris.add(doc.derivedUri);
-                if (!doc.isRemoveSupported()
-                        && !doc.isDeleteSupported()
-                        && !doc.isMoveSupported()) {
-                    mMustBeCopied = true;
-                }
-                containsFilesInArchive |= doc.isInArchive();
             }
             mClipData = (parent == null)
                     ? mClipper.getClipDataForDocuments(uris, FileOperationService.OPERATION_UNKNOWN)
@@ -253,7 +250,7 @@ public interface DragAndDropManager {
             updateShadow(srcs, iconHelper);
 
             int flag = View.DRAG_FLAG_GLOBAL | View.DRAG_FLAG_OPAQUE;
-            if (!containsFilesInArchive) {
+            if (!selectionDetails.containsFilesInArchive()) {
                 flag |= View.DRAG_FLAG_GLOBAL_URI_READ
                         | View.DRAG_FLAG_GLOBAL_URI_WRITE;
             }

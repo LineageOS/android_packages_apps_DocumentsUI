@@ -26,6 +26,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.android.documentsui.MenuManager;
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.State;
@@ -36,6 +38,7 @@ import com.android.documentsui.selection.Selection;
 import com.android.documentsui.testing.TestDragAndDropManager;
 import com.android.documentsui.testing.TestEvent;
 import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.testing.TestSelectionDetails;
 import com.android.documentsui.testing.Views;
 
 import org.junit.Before;
@@ -51,6 +54,7 @@ public class DragStartListenerTest {
     private ActiveListener mListener;
     private TestEvent.Builder mEvent;
     private SelectionManager mMultiSelectManager;
+    private SelectionDetails mSelectionDetails;
     private String mViewModelId;
     private TestDragAndDropManager mManager;
 
@@ -58,6 +62,7 @@ public class DragStartListenerTest {
     public void setUp() throws Exception {
         mMultiSelectManager = SelectionManagers.createTestInstance();
         mManager = new TestDragAndDropManager();
+        mSelectionDetails = new TestSelectionDetails();
 
         DocumentInfo doc = new DocumentInfo();
         doc.authority = Providers.AUTHORITY_STORAGE;
@@ -70,6 +75,7 @@ public class DragStartListenerTest {
                 null, // icon helper
                 state,
                 mMultiSelectManager,
+                mSelectionDetails,
                 // view finder
                 (float x, float y) -> {
                     return Views.createTestView(x, y);

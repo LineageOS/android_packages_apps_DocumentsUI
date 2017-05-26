@@ -47,6 +47,7 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestEventListener;
 import com.android.documentsui.testing.TestIconHelper;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.testing.TestSelectionDetails;
 import com.android.documentsui.testing.Views;
 
 import org.junit.Before;
@@ -70,6 +71,7 @@ public class DragAndDropManagerTests {
     private TestActionHandler mActions;
 
     private TestDocumentClipper mClipper;
+    private TestSelectionDetails mDetails;
     private ClipData mClipData;
 
     private TestIconHelper mIconHelper;
@@ -104,6 +106,8 @@ public class DragAndDropManagerTests {
         mActions = new TestActionHandler(mEnv);
 
         mClipper = new TestDocumentClipper();
+        mDetails = new TestSelectionDetails();
+        mDetails.canDelete = true;
         ClipDescription description = new ClipDescription("", new String[]{});
         description.setExtras(new PersistableBundle());
         mClipData = ClipDatas.createTestClipData(description);
@@ -148,6 +152,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -162,6 +167,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 null);
 
@@ -175,6 +181,7 @@ public class DragAndDropManagerTests {
                 Arrays.asList(TestEnv.FILE_APK),
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -190,6 +197,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -206,6 +214,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FOLDER_1.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -214,11 +223,13 @@ public class DragAndDropManagerTests {
 
     @Test
     public void testInArchiveUris_HasCorrectFlagPermission() {
+        mDetails.containsFilesInArchive = true;
         mManager.startDrag(
                 mStartDragView,
                 Arrays.asList(TestEnv.FILE_IN_ARCHIVE),
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FILE_ARCHIVE.derivedUri, TestEnv.FILE_IN_ARCHIVE.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FILE_ARCHIVE);
 
@@ -233,6 +244,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FOLDER_1.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -247,6 +259,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FOLDER_1.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -261,6 +274,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FOLDER_1.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -275,6 +289,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -291,6 +306,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -309,6 +325,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -327,6 +344,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -345,6 +363,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -363,6 +382,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -384,6 +404,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -405,6 +426,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -426,6 +448,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -447,6 +470,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -471,6 +495,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -495,6 +520,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -519,6 +545,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -543,6 +570,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -561,6 +589,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -582,6 +611,7 @@ public class DragAndDropManagerTests {
                 root,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -598,6 +628,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -620,6 +651,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -645,6 +677,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -671,6 +704,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -700,6 +734,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -718,6 +753,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -739,6 +775,7 @@ public class DragAndDropManagerTests {
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_APK.derivedUri,
                         TestEnv.FILE_JPG.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
@@ -754,11 +791,13 @@ public class DragAndDropManagerTests {
 
     @Test
     public void testDrop_Copies_SameRoot_ReadOnlyFile_DropOnDocument() {
+        mDetails.canDelete = false;
         mManager.startDrag(
                 mStartDragView,
                 Arrays.asList(TestEnv.FILE_READ_ONLY),
                 TestProvidersAccess.DOWNLOADS,
                 Arrays.asList(TestEnv.FOLDER_0.derivedUri, TestEnv.FILE_READ_ONLY.derivedUri),
+                mDetails,
                 mIconHelper,
                 TestEnv.FOLDER_0);
 
