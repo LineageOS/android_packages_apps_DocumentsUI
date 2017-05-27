@@ -252,21 +252,15 @@ public final class UserInputHandler<T extends InputEvent>
             if (!event.isOverModelItem()) {
                 if (DEBUG) Log.d(TTAG, "Tap not associated w/ model item. Clearing selection.");
                 mSelectionMgr.clearSelection();
-
-                // we are running in focusableInTouchMode because mouse input is considered touch
-                // and nothing should be focused or selected after the user taps off
-                mFocusHandler.clearFocus();
                 return false;
             }
 
             DocumentDetails doc = event.getDocumentDetails();
             if (mSelectionMgr.hasSelection()) {
                 if (isRangeExtension(event)) {
-                    mFocusHandler.clearFocus();
                     extendSelectionRange(doc);
                 } else if (mSelectionMgr.getSelection().contains(doc.getModelId())) {
                     mSelectionMgr.toggleSelection(doc.getModelId());
-                    mFocusHandler.clearFocus();
                 } else {
                     selectDocument(doc);
                 }
