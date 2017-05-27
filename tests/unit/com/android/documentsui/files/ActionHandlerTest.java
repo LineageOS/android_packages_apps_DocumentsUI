@@ -362,6 +362,23 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testInitLocation_RestoresIfStackIsLoaded() throws Exception {
+        mEnv.state.stack.changeRoot(TestProvidersAccess.DOWNLOADS);
+        mEnv.state.stack.push(TestEnv.FOLDER_0);
+
+        mHandler.initLocation(mActivity.getIntent());
+        mActivity.restoreRootAndDirectory.assertCalled();
+    }
+
+    @Test
+    public void testInitLocation_LoadsRootDocIfStackOnlyHasRoot() throws Exception {
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HAMMY);
+
+        mHandler.initLocation(mActivity.getIntent());
+        assertRootPicked(TestProvidersAccess.HAMMY.getUri());
+    }
+
+    @Test
     public void testInitLocation_DefaultsToDownloads() throws Exception {
         mActivity.resources.bools.put(R.bool.show_documents_root, false);
 

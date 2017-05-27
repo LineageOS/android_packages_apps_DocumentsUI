@@ -508,6 +508,14 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     protected abstract void launchToDefaultLocation();
 
+    protected void restoreRootAndDirectory() {
+        if (!mState.stack.getRoot().isRecents() && mState.stack.isEmpty()) {
+            mActivity.onRootPicked(mState.stack.getRoot());
+        } else {
+            mActivity.restoreRootAndDirectory();
+        }
+    }
+
     protected final void loadHomeDir() {
         loadRoot(Shared.getDefaultRootUri(mActivity));
     }
@@ -588,6 +596,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
      * from our concrete activity implementations.
      */
     public interface CommonAddons {
+        void restoreRootAndDirectory();
         void refreshCurrentRootAndDirectory(@AnimationType int anim);
         void onRootPicked(RootInfo root);
         // TODO: Move this to PickAddons as multi-document picking is exclusive to that activity.

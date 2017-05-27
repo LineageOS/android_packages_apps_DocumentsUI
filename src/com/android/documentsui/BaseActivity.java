@@ -388,6 +388,17 @@ public abstract class BaseActivity
         mNavigator.update();
     }
 
+    @Override
+    public void restoreRootAndDirectory() {
+        // We're trying to restore stuff in document stack from saved instance. If we didn't have a
+        // chance to spawn a fragment before we need to do it now. However if we spawned a fragment
+        // already, system will automatically restore the fragment for us so we don't need to do
+        // that manually this time.
+        if (DirectoryFragment.get(getFragmentManager()) == null) {
+            refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+        }
+    }
+
     /**
      * Refreshes the content of the director and the menu/action bar.
      * The current directory name and selection will get updated.
