@@ -17,7 +17,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/item_doc_background_selected"
           android:state_selected="true" />
-    <item android:drawable="@color/item_doc_background_selected"
+    <item android:drawable="@color/item_hover_color"
           android:state_drag_hovered="true" />
     <item android:drawable="@color/item_doc_background"
           android:state_selected="false" />
