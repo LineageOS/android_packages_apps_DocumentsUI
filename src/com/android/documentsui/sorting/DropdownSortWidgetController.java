@@ -44,6 +44,7 @@ public final class DropdownSortWidgetController implements WidgetController {
     private final TextView mDimensionButton;
     private final PopupMenu mMenu;
     private final ImageView mArrow;
+    private final SortModel.UpdateListener mListener;
 
     public DropdownSortWidgetController(SortModel model, View widget) {
         mModel = model;
@@ -61,12 +62,18 @@ public final class DropdownSortWidgetController implements WidgetController {
         populateMenuItems();
         onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
 
-        mModel.addListener(this::onModelUpdate);
+        mListener = this::onModelUpdate;
+        mModel.addListener(mListener);
     }
 
     @Override
     public void setVisibility(int visibility) {
         mWidget.setVisibility(visibility);
+    }
+
+    @Override
+    public void destroy() {
+        mModel.removeListener(mListener);
     }
 
     private void populateMenuItems() {
