@@ -90,8 +90,8 @@ public interface Features {
 
         @Override
         public boolean isCommandInterceptorEnabled() {
-            return !mUserMgr.hasUserRestriction(UserManager.DISALLOW_DEBUGGING_FEATURES)
-                    && isEnabled(R.bool.feature_command_interceptor);
+            assert(isDebugPolicyEnabled());
+            return isEnabled(R.bool.feature_command_interceptor);
         }
 
         @Override
@@ -104,15 +104,22 @@ public interface Features {
             return isEnabled(R.bool.feature_content_refresh);
         }
 
+        private boolean isDebugPolicyEnabled() {
+            return !mUserMgr.hasUserRestriction(UserManager.DISALLOW_DEBUGGING_FEATURES);
+        }
+
         @Override
         public boolean isDebugSupportEnabled() {
-            return !mUserMgr.hasUserRestriction(UserManager.DISALLOW_DEBUGGING_FEATURES)
-                    && !mUserMgr.hasUserRestriction(UserManager.DISALLOW_FUN);
+            return isDebugPolicyEnabled() && isFunPolicyEnabled();
         }
 
         @Override
         public boolean isFoldersInSearchResultsEnabled() {
             return isEnabled(R.bool.feature_folders_in_search_results);
+        }
+
+        private boolean isFunPolicyEnabled() {
+            return !mUserMgr.hasUserRestriction(UserManager.DISALLOW_FUN);
         }
 
         @Override
