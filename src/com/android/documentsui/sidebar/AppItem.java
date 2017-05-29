@@ -83,4 +83,12 @@ class AppItem extends Item {
     void open() {
         mActionHandler.openRoot(info);
     }
+
+    @Override
+    public String toString() {
+        return "AppItem{"
+                + "id=" + stringId
+                + ", resolveInfo=" + info
+                + "}";
+    }
 }

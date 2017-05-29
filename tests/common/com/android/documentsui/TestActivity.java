@@ -63,6 +63,7 @@ public abstract class TestActivity extends AbstractBase {
     public TestEventListener<Intent> startService;
     public TestEventListener<Pair<IntentSender, Integer>> startIntentSender;
     public TestEventListener<RootInfo> rootPicked;
+    public TestEventListener<Void> restoreRootAndDirectory;
     public TestEventListener<Integer> refreshCurrentRootAndDirectory;
     public TestEventListener<Boolean> setRootsDrawerOpen;
     public TestEventListener<Uri> notifyDirectoryNavigated;
@@ -83,6 +84,7 @@ public abstract class TestActivity extends AbstractBase {
         startService = new TestEventListener<>();
         startIntentSender = new TestEventListener<>();
         rootPicked = new TestEventListener<>();
+        restoreRootAndDirectory = new TestEventListener<>();
         refreshCurrentRootAndDirectory =  new TestEventListener<>();
         setRootsDrawerOpen = new TestEventListener<>();
         notifyDirectoryNavigated = new TestEventListener<>();
@@ -150,6 +152,11 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final void notifyDirectoryNavigated(Uri uri) {
         notifyDirectoryNavigated.accept(uri);
+    }
+
+    @Override
+    public final void restoreRootAndDirectory() {
+        restoreRootAndDirectory.accept(null);
     }
 
     @Override
