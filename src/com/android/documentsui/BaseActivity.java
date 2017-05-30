@@ -253,6 +253,7 @@ public abstract class BaseActivity
     protected void onDestroy() {
         mRootsMonitor.stop();
         mPreferencesMonitor.stop();
+        mSortController.destroy();
         super.onDestroy();
     }
 

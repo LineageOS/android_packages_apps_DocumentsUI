@@ -32,35 +32,62 @@ import org.junit.runner.RunWith;
 @SmallTest
 public class SortControllerTest {
 
-    // only created when in horizontal tablet layout.
-    private final TestWidget mTableHeader = null;
+    private TestWidget mTableHeader;
     private TestWidget mDropHeader;
     private SortController mController;
 
-    @Before
-    public void setUp() {
-        mDropHeader = new TestWidget();
-        mController = new SortController(mDropHeader, mTableHeader);
+    @Test
+    public void testGridMode_ShowsDrop() {
+        createWidget(true);
+        mController.onViewModeChanged(State.MODE_GRID);
+        mDropHeader.assertVisible();
+        mTableHeader.assertGone();
     }
 
     @Test
-    public void testGridMode_ShowsDrop() {
-        mController.onViewModeChanged(State.MODE_GRID);
+    public void testListMode_ShowsDrop_NoHeader() {
+        createWidget(false);
+        mController.onViewModeChanged(State.MODE_LIST);
         mDropHeader.assertVisible();
     }
 
     @Test
     public void testListMode_ShowsTable() {
+        createWidget(true);
         mController.onViewModeChanged(State.MODE_LIST);
-        mDropHeader.assertVisible();
+        mDropHeader.assertGone();
+        mTableHeader.assertVisible();
+    }
+
+    @Test
+    public void testDestroysWidgets() {
+        createWidget(true);
+        mController.destroy();
+
+        mDropHeader.assertDestroyed();
+        mTableHeader.assertDestroyed();
+    }
+
+    private void createWidget(boolean hasTableHeader) {
+        mDropHeader = new TestWidget();
+        if (hasTableHeader) {
+            mTableHeader = new TestWidget();
+        }
+        mController = new SortController(mDropHeader, mTableHeader);
     }
 
     static class TestWidget implements SortController.WidgetController {
         private int mVisibility;
+        private boolean mDestroyed;
 
         @Override
         public void setVisibility(int visibility) {
             mVisibility = visibility;
+        }
+
+        @Override
+        public void destroy() {
+            mDestroyed = true;
         }
 
         void assertVisible() {
@@ -73,6 +100,10 @@ public class SortControllerTest {
             assertTrue(
                     "Expected mode GONE, but was " + mVisibility,
                     mVisibility == View.GONE);
+        }
+
+        void assertDestroyed() {
+            assertTrue("Widget is not destroyed.", mDestroyed);
         }
     }
 }
