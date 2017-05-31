@@ -31,6 +31,8 @@ import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.DragEvent;
@@ -222,7 +224,12 @@ public class RootsFragment extends Fragment {
 
                 Intent handlerAppIntent = getArguments().getParcelable(EXTRA_INCLUDE_APPS);
 
-                List<Item> sortedItems = sortLoadResult(result, handlerAppIntent);
+                final Intent intent = activity.getIntent();
+                final boolean excludeSelf =
+                        intent.getBooleanExtra(DocumentsContract.EXTRA_EXCLUDE_SELF, false);
+                final String excludePackage = excludeSelf ? activity.getCallingPackage() : null;
+                List<Item> sortedItems =
+                        sortLoadResult(result, excludePackage, handlerAppIntent);
                 mAdapter = new RootsAdapter(activity, sortedItems, mDragListener);
                 mList.setAdapter(mAdapter);
 
@@ -238,11 +245,14 @@ public class RootsFragment extends Fragment {
     }
 
     /**
+     * @param excludePackage Exclude activities from this given package
      * @param handlerAppIntent When not null, apps capable of handling the original intent will
      *            be included in list of roots (in special section at bottom).
      */
     private List<Item> sortLoadResult(
-            Collection<RootInfo> roots, @Nullable Intent handlerAppIntent) {
+            Collection<RootInfo> roots,
+            @Nullable String excludePackage,
+            @Nullable Intent handlerAppIntent) {
         final List<Item> result = new ArrayList<>();
 
         final List<RootItem> libraries = new ArrayList<>();
@@ -277,7 +287,7 @@ public class RootsFragment extends Fragment {
 
         // Include apps that can handle this intent too.
         if (handlerAppIntent != null) {
-            includeHandlerApps(handlerAppIntent, result);
+            includeHandlerApps(handlerAppIntent, excludePackage, result);
         }
 
         return result;
@@ -287,7 +297,8 @@ public class RootsFragment extends Fragment {
      * Adds apps capable of handling the original intent will be included in list of roots (in
      * special section at bottom).
      */
-    private void includeHandlerApps(Intent handlerAppIntent, List<Item> result) {
+    private void includeHandlerApps(
+            Intent handlerAppIntent, @Nullable String excludePackage, List<Item> result) {
         if (VERBOSE) Log.v(TAG, "Adding handler apps for intent: " + handlerAppIntent);
         Context context = getContext();
         final PackageManager pm = context.getPackageManager();
@@ -296,10 +307,13 @@ public class RootsFragment extends Fragment {
 
         final List<AppItem> apps = new ArrayList<>();
 
-        // Omit ourselves from the list
+        // Omit ourselves and maybe calling package from the list
         for (ResolveInfo info : infos) {
-            if (!context.getPackageName().equals(info.activityInfo.packageName)) {
-                apps.add(new AppItem(info, mActionHandler));
+            if (!context.getPackageName().equals(info.activityInfo.packageName) &&
+                    !TextUtils.equals(excludePackage, info.activityInfo.packageName)) {
+                final AppItem app = new AppItem(info, mActionHandler);
+                if (VERBOSE) Log.v(TAG, "Adding handler app: " + app);
+                apps.add(app);
             }
         }
 
