@@ -59,8 +59,7 @@
     <string name="not_sorted" msgid="7813496644889115530">"未排序"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"名稱"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"摘要"</string>
-    <!-- no translation found for sort_dimension_file_type (5779709622922085381) -->
-    <skip />
+    <string name="sort_dimension_file_type" msgid="5779709622922085381">"類型"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"大小"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"上次修改時間"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"遞增"</string>
