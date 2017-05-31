@@ -59,8 +59,7 @@
     <string name="not_sorted" msgid="7813496644889115530">"ترتیب میں نہیں ہیں"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"نام"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"خلاصہ"</string>
-    <!-- no translation found for sort_dimension_file_type (5779709622922085381) -->
-    <skip />
+    <string name="sort_dimension_file_type" msgid="5779709622922085381">"قسم"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"سائز"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"ترمیم ہوئی"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"صعودی"</string>
