@@ -37,6 +37,7 @@ public final class TableHeaderController implements SortController.WidgetControl
     // We assign this here porque each method reference creates a new object
     // instance (which is wasteful).
     private final View.OnClickListener mOnCellClickListener = this::onCellClicked;
+    private final SortModel.UpdateListener mModelListener = this::onModelUpdate;
 
     private final SortModel mModel;
 
@@ -54,7 +55,7 @@ public final class TableHeaderController implements SortController.WidgetControl
 
         onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
 
-        mModel.addListener(this::onModelUpdate);
+        mModel.addListener(mModelListener);
     }
 
     private void onModelUpdate(SortModel model, int updateTypeUnspecified) {
@@ -67,6 +68,11 @@ public final class TableHeaderController implements SortController.WidgetControl
     @Override
     public void setVisibility(int visibility) {
         mTableHeader.setVisibility(visibility);
+    }
+
+    @Override
+    public void destroy() {
+        mModel.removeListener(mModelListener);
     }
 
     private void bindCell(HeaderCell cell, @SortDimensionId int id) {

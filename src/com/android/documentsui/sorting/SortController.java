@@ -65,6 +65,13 @@ public final class SortController {
         }
     }
 
+    public void destroy() {
+        mDropdownController.destroy();
+        if (mTableHeaderController != null) {
+            mTableHeaderController.destroy();
+        }
+    }
+
     public static SortController create(
             Activity activity,
             @ViewMode int initialMode,
@@ -98,5 +105,6 @@ public final class SortController {
 
     public interface WidgetController {
         void setVisibility(int visibility);
+        void destroy();
     }
 }
