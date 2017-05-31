@@ -59,8 +59,7 @@
     <string name="not_sorted" msgid="7813496644889115530">"Non triés"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nom"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Résumé"</string>
-    <!-- no translation found for sort_dimension_file_type (5779709622922085381) -->
-    <skip />
+    <string name="sort_dimension_file_type" msgid="5779709622922085381">"Type"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Taille"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Dernière modif."</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Croissant"</string>
