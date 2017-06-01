@@ -364,6 +364,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                         mIconHelper,
                         mModel,
                         mSelectionMgr,
+                        mSelectionMetadata,
                         mState,
                         this::getModelId,
                         mRecView::findChildViewUnder,
