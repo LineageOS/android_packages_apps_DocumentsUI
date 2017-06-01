@@ -318,6 +318,8 @@ public abstract class MenuManager {
 
         boolean containsPartialFiles();
 
+        boolean containsFilesInArchive();
+
         // TODO: Update these to express characteristics instead of answering concrete questions,
         // since the answer to those questions is (or can be) activity specific.
         boolean canDelete();
