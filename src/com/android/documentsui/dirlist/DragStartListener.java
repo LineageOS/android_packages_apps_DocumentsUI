@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.android.documentsui.DragAndDropManager;
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.Model;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events;
@@ -67,6 +68,7 @@ interface DragStartListener {
         private final IconHelper mIconHelper;
         private final State mState;
         private final SelectionManager mSelectionMgr;
+        private final SelectionDetails mSelectionDetails;
         private final ViewFinder mViewFinder;
         private final Function<View, String> mIdFinder;
         private final Function<Selection, List<DocumentInfo>> mDocsConverter;
@@ -78,6 +80,7 @@ interface DragStartListener {
                 IconHelper iconHelper,
                 State state,
                 SelectionManager selectionMgr,
+                SelectionDetails selectionDetails,
                 ViewFinder viewFinder,
                 Function<View, String> idFinder,
                 Function<Selection, List<DocumentInfo>> docsConverter,
@@ -86,6 +89,7 @@ interface DragStartListener {
             mIconHelper = iconHelper;
             mState = state;
             mSelectionMgr = selectionMgr;
+            mSelectionDetails = selectionDetails;
             mViewFinder = viewFinder;
             mIdFinder = idFinder;
             mDocsConverter = docsConverter;
@@ -134,8 +138,8 @@ interface DragStartListener {
                 invalidDest.add(parent.derivedUri);
             }
 
-            mDragAndDropManager.startDrag(
-                    view, srcs, mState.stack.getRoot(), invalidDest, mIconHelper, parent);
+            mDragAndDropManager.startDrag(view, srcs, mState.stack.getRoot(), invalidDest,
+                    mSelectionDetails, mIconHelper, parent);
 
             return true;
         }
@@ -168,6 +172,7 @@ interface DragStartListener {
             IconHelper iconHelper,
             Model model,
             SelectionManager selectionMgr,
+            SelectionDetails selectionDetails,
             State state,
             Function<View, String> idFinder,
             ViewFinder viewFinder,
@@ -177,6 +182,7 @@ interface DragStartListener {
                 iconHelper,
                 state,
                 selectionMgr,
+                selectionDetails,
                 viewFinder,
                 idFinder,
                 model::getDocuments,

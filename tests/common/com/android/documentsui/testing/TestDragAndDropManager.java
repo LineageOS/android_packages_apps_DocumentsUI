@@ -25,6 +25,8 @@ import android.view.View;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.DragAndDropManager;
+import com.android.documentsui.MenuManager;
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
@@ -45,8 +47,8 @@ public class TestDragAndDropManager implements DragAndDropManager {
     public void onKeyEvent(KeyEvent event) {}
 
     @Override
-    public void startDrag(View v, List<DocumentInfo> srcs, RootInfo root,
-            List<Uri> invalidDest, IconHelper iconHelper, @Nullable DocumentInfo parent) {
+    public void startDrag(View v, List<DocumentInfo> srcs, RootInfo root,  List<Uri> invalidDest,
+            SelectionDetails details, IconHelper iconHelper, @Nullable DocumentInfo parent) {
         startDragHandler.accept(srcs);
     }
 
