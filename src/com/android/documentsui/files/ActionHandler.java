@@ -454,9 +454,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     private boolean launchToRoot(Intent intent) {
         String action = intent.getAction();
-        // TODO: Remove the "BROWSE" action once our min runtime in O.
-        if (Intent.ACTION_VIEW.equals(action)
-                || "android.provider.action.BROWSE".equals(action)) {
+        if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (DocumentsContract.isRootUri(mActivity, uri)) {
                 if (DEBUG) Log.d(TAG, "Launching with root URI.");
