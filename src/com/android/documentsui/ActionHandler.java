@@ -19,6 +19,7 @@ package com.android.documentsui;
 import android.annotation.IntDef;
 import android.app.PendingIntent;
 import android.content.ContentProvider;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.selection.Selection;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -100,6 +102,8 @@ public interface ActionHandler {
     void selectAllFiles();
 
     void showCreateDirectoryDialog();
+
+    void showInspector(Selection selection, Context context);
 
     @Nullable DocumentInfo renameDocument(String name, DocumentInfo document);
 

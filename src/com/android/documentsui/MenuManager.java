@@ -28,7 +28,6 @@ import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.internal.annotations.VisibleForTesting;
@@ -64,6 +63,7 @@ public abstract class MenuManager {
         updateCompress(menu.findItem(R.id.action_menu_compress), selection);
         updateExtractTo(menu.findItem(R.id.action_menu_extract_to), selection);
         updateViewInOwner(menu.findItem(R.id.action_menu_view_in_owner), selection);
+        updateInspector(menu.findItem(R.id.action_menu_inspector), selection);
 
         Menus.disableHiddenItems(menu);
     }
@@ -271,6 +271,10 @@ public abstract class MenuManager {
 
     protected void updateRename(MenuItem rename, SelectionDetails selectionDetails) {
         rename.setVisible(false);
+    }
+
+    protected void updateInspector(MenuItem properties, SelectionDetails selectionDetails) {
+        properties.setVisible(false);
     }
 
     protected void updateViewInOwner(MenuItem view, SelectionDetails selectionDetails) {

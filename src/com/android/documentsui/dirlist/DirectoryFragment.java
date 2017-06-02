@@ -67,7 +67,6 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.DocumentsApplication;
-import com.android.documentsui.DragAndDropManager;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.ContentScoped;
@@ -84,7 +83,6 @@ import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Events.MotionInputEvent;
 import com.android.documentsui.base.Features;
-import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -682,6 +680,11 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 // Exit selection mode first, so we avoid deselecting deleted documents.
                 mActionModeController.finishActionMode();
                 transferDocuments(selection, null, FileOperationService.OPERATION_MOVE);
+                return true;
+
+            case R.id.action_menu_inspector:
+                mActionModeController.finishActionMode();
+                mActions.showInspector(selection, getContext());
                 return true;
 
             case R.id.dir_menu_cut_to_clipboard:
