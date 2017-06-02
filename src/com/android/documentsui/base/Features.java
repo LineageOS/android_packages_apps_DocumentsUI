@@ -39,6 +39,7 @@ public interface Features {
     boolean isDebugSupportEnabled();
     boolean isFoldersInSearchResultsEnabled();
     boolean isGestureScaleEnabled();
+    boolean isInspectorEnabled();
     boolean isJobProgressDialogEnabled();
     boolean isLaunchToDocumentEnabled();
     boolean isNotificationChannelEnabled();
@@ -46,6 +47,7 @@ public interface Features {
     boolean isRemoteActionsEnabled();
     boolean isSystemKeyboardNavigationEnabled();
     boolean isVirtualFilesSharingEnabled();
+
 
     /**
      * Call this to force-enable any particular feature known by this instance.
@@ -125,6 +127,10 @@ public interface Features {
         @Override
         public boolean isGestureScaleEnabled() {
             return isEnabled(R.bool.feature_gesture_scale);
+        }
+
+        public boolean isInspectorEnabled() {
+            return isEnabled(R.bool.feature_inspector);
         }
 
         @Override

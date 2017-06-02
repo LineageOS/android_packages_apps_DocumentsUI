@@ -44,7 +44,6 @@ import com.android.documentsui.LoadDocStackTask.LoadDocStackCallback;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
-import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
@@ -229,6 +228,10 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     @Override
     public boolean openDocument(DocumentDetails doc, @ViewType int type, @ViewType int fallback) {
         throw new UnsupportedOperationException("Can't open document.");
+    }
+
+    public void showInspector(Selection selection, Context context) {
+        throw new UnsupportedOperationException("Can't open properties.");
     }
 
     @Override

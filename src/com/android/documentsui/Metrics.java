@@ -319,6 +319,7 @@ public final class Metrics {
     public static final int USER_ACTION_COMPRESS = 27;
     public static final int USER_ACTION_EXTRACT_TO = 28;
     public static final int USER_ACTION_VIEW_IN_APPLICATION = 29;
+    public static final int USER_ACTION_INSPECTOR = 30;
 
     @IntDef(flag = false, value = {
             USER_ACTION_OTHER,

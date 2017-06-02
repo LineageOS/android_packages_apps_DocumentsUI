@@ -23,6 +23,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
@@ -32,7 +33,6 @@ import android.view.DragEvent;
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActionModeAddons;
 import com.android.documentsui.ActivityConfig;
-import com.android.documentsui.CreateDirectoryFragment;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragAndDropManager;
@@ -63,7 +63,6 @@ import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
-import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.ui.DialogController;
 import com.android.internal.annotations.VisibleForTesting;
@@ -674,6 +673,16 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         intent.setFlags(flags);
 
         return intent;
+    }
+
+    @Override
+    public void showInspector(Selection selected, Context context) {
+        assert(selected.size() == 1);
+        Intent intent = new Intent(mActivity, FilesActivity.class);
+        DocumentInfo selectedDoc = mModel.getDocuments(selected).get(0);
+        intent.putExtra(Intent.ACTION_VIEW, selectedDoc.derivedUri);
+        Metrics.logUserAction(context, Metrics.USER_ACTION_INSPECTOR);
+        mActivity.startActivity(intent);
     }
 
     public interface Addons extends CommonAddons {
