@@ -33,9 +33,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -218,17 +216,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh_layout);
         mRefreshLayout.setOnRefreshListener(this);
-
-        Resources resources = getContext().getResources();
-        new FastScroller(mRecView,
-                (StateListDrawable) resources.getDrawable(R.drawable.fast_scroll_thumb_drawable),
-                resources.getDrawable(R.drawable.fast_scroll_track_drawable),
-                (StateListDrawable) resources.getDrawable(R.drawable.fast_scroll_thumb_drawable),
-                resources.getDrawable(R.drawable.fast_scroll_track_drawable),
-                resources.getDimensionPixelSize(R.dimen.fastscroll_default_thickness),
-                resources.getDimensionPixelSize(R.dimen.fastscroll_minimum_range),
-                resources.getDimensionPixelOffset(R.dimen.fastscroll_margin)
-                );
         mRecView.setItemAnimator(new DirectoryItemAnimator(mActivity));
 
         mInjector = mActivity.getInjector();
