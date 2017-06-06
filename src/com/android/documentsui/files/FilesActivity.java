@@ -79,13 +79,16 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
         MessageBuilder messages = new MessageBuilder(this);
         Features features = Features.create(this);
+        ScopedPreferences prefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
+
         mInjector = new Injector<>(
                 features,
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 messages,
                 DialogController.create(features, this, messages),
-                DocumentsApplication.getFileTypeLookup(this));
+                DocumentsApplication.getFileTypeLookup(this),
+                new ShortcutsUpdater(this, prefs)::update);
 
         super.onCreate(icicle);
 
