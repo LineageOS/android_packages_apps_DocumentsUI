@@ -476,6 +476,7 @@ public abstract class BaseActivity
         mState.showAdvanced = display;
         @Nullable RootsFragment fragment = RootsFragment.get(getFragmentManager());
         if (fragment != null) {
+            // This also takes care of updating launcher shortcuts (which are roots :)
             fragment.onDisplayStateChanged();
         }
         invalidateOptionsMenu();

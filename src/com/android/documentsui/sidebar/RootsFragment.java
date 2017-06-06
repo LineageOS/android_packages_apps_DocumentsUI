@@ -217,7 +217,7 @@ public class RootsFragment extends Fragment {
 
             @Override
             public void onLoadFinished(
-                    Loader<Collection<RootInfo>> loader, Collection<RootInfo> result) {
+                    Loader<Collection<RootInfo>> loader, Collection<RootInfo> roots) {
                 if (!isAdded()) {
                     return;
                 }
@@ -229,10 +229,11 @@ public class RootsFragment extends Fragment {
                         intent.getBooleanExtra(DocumentsContract.EXTRA_EXCLUDE_SELF, false);
                 final String excludePackage = excludeSelf ? activity.getCallingPackage() : null;
                 List<Item> sortedItems =
-                        sortLoadResult(result, excludePackage, handlerAppIntent);
+                        sortLoadResult(roots, excludePackage, handlerAppIntent);
                 mAdapter = new RootsAdapter(activity, sortedItems, mDragListener);
                 mList.setAdapter(mAdapter);
 
+                mInjector.shortcutsUpdater.accept(roots);
                 onCurrentRootChanged();
             }
 

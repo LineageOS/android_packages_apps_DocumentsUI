@@ -48,6 +48,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.files.ShortcutsUpdater;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperationService;
@@ -76,13 +77,16 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     public void onCreate(Bundle icicle) {
 
         Features features = Features.create(this);
+        ScopedPreferences prefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
+
         mInjector = new Injector<>(
                 features,
                 new Config(),
-                ScopedPreferences.create(this, PREFERENCES_SCOPE),
+                prefs,
                 new MessageBuilder(this),
                 DialogController.create(features, this, null),
-                DocumentsApplication.getFileTypeLookup(this));
+                DocumentsApplication.getFileTypeLookup(this),
+                new ShortcutsUpdater(this, prefs)::update);
 
         super.onCreate(icicle);
 

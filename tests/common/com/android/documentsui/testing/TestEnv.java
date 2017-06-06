@@ -89,7 +89,9 @@ public class TestEnv {
                 null,   //a MessageBuilder is not required for tests
                 dialogs,
                 new TestFileTypeLookup(),
+                (roots) -> {},  // not sure why, but java gets angry when I declare roots type.
                 model);
+
         injector.selectionMgr = selectionMgr;
         injector.focusManager = new FocusManager(features, selectionMgr, null, null, 0);
         injector.searchManager = searchViewManager;
