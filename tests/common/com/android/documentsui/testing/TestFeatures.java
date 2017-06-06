@@ -28,6 +28,7 @@ public class TestFeatures implements Features {
     public boolean debugSupport = true;
     public boolean foldersInSearchResults = true;
     public boolean gestureScale = true;
+    public boolean inspector = true;
     public boolean jobProgressDialog = false;
     public boolean launchToDocument = true;
     public boolean notificationChannel = true;
@@ -74,6 +75,11 @@ public class TestFeatures implements Features {
     @Override
     public boolean isGestureScaleEnabled() {
         return gestureScale;
+    }
+
+    @Override
+    public boolean isInspectorEnabled() {
+        return inspector;
     }
 
     @Override
