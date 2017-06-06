@@ -67,6 +67,8 @@
     <string name="menu_extract">Extract to\u2026</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_rename">Rename</string>
+    <!--Menu item that displays properties about the selected document [CHAR LIMIT=28] -->
+    <string name="menu_inspector">Properties</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_view_in_owner">View in <xliff:g id="source" example="Google Drive">%1$s</xliff:g></string>
 

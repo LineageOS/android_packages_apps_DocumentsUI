@@ -63,6 +63,11 @@
         android:showAsAction="never"
         android:visible="false" />
     <item
+        android:id="@+id/action_menu_inspector"
+        android:title="@string/menu_inspector"
+        android:showAsAction="never"
+        android:visible="false" />
+    <item
         android:id="@+id/action_menu_view_in_owner"
         android:title="@string/menu_view_in_owner"
         android:showAsAction="never"
