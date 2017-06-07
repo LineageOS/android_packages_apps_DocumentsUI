@@ -87,6 +87,7 @@ public final class MenuManagerTest {
     private TestMenuItem actionModeCompress;
     private TestMenuItem actionModeRename;
     private TestMenuItem actionModeViewInOwner;
+    private TestMenuItem actionModeInspector;
 
     /* Option Menu items */
     private TestMenuItem optionSearch;
@@ -143,6 +144,7 @@ public final class MenuManagerTest {
         actionModeMoveTo = testMenu.findItem(R.id.action_menu_move_to);
         actionModeCompress = testMenu.findItem(R.id.action_menu_compress);
         actionModeRename = testMenu.findItem(R.id.action_menu_rename);
+        actionModeInspector = testMenu.findItem(R.id.action_menu_inspector);
         actionModeViewInOwner = testMenu.findItem(R.id.action_menu_view_in_owner);
 
         optionSearch = testMenu.findItem(R.id.option_menu_search);
