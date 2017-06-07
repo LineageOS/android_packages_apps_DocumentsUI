@@ -16,11 +16,14 @@
 
 package com.android.documentsui;
 
+import android.app.Instrumentation;
 import android.net.Uri;
 import android.os.RemoteException;
 import android.support.test.filters.LargeTest;
+import android.support.test.uiautomator.UiObjectNotFoundException;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.inspector.DocumentInspectorActivity;
 
 @LargeTest
 public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
@@ -107,6 +110,17 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
             // ensure no exception is thrown while navigating to a different root
             bots.roots.openRoot(rootDir1.title);
         }
+    }
+
+    public void testNavigationToInspector() throws UiObjectNotFoundException {
+        if(!features.isInspectorEnabled()) {
+            return;
+        }
+        Instrumentation.ActivityMonitor monitor = new Instrumentation.ActivityMonitor(
+                DocumentInspectorActivity.class.getName(), null, false);
+        bots.directory.selectDocument("file0.log");
+        bots.main.clickActionItem("Properties");
+        monitor.waitForActivityWithTimeout(TIMEOUT);
     }
 
     public void testRootChange_UpdatesSortHeader() throws Exception {
