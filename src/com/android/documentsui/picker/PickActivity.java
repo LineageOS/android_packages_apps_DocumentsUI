@@ -48,7 +48,6 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.files.ShortcutsUpdater;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperationService;
@@ -56,6 +55,7 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 
+import java.util.Collection;
 import java.util.List;
 
 public class PickActivity extends BaseActivity implements ActionHandler.Addons {
@@ -86,7 +86,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 new MessageBuilder(this),
                 DialogController.create(features, this, null),
                 DocumentsApplication.getFileTypeLookup(this),
-                new ShortcutsUpdater(this, prefs)::update);
+                (Collection<RootInfo> roots) -> {});
 
         super.onCreate(icicle);
 
