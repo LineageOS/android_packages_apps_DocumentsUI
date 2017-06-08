@@ -64,6 +64,7 @@ public abstract class TestMenu implements Menu {
                 R.id.action_menu_move_to,
                 R.id.action_menu_compress,
                 R.id.action_menu_rename,
+                R.id.action_menu_inspector,
                 R.id.action_menu_view_in_owner,
                 R.id.option_menu_search,
                 R.id.option_menu_debug,

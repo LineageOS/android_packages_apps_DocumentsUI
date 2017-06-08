@@ -79,13 +79,16 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
         MessageBuilder messages = new MessageBuilder(this);
         Features features = Features.create(this);
+        ScopedPreferences prefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
+
         mInjector = new Injector<>(
                 features,
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 messages,
                 DialogController.create(features, this, messages),
-                DocumentsApplication.getFileTypeLookup(this));
+                DocumentsApplication.getFileTypeLookup(this),
+                new ShortcutsUpdater(this, prefs)::update);
 
         super.onCreate(icicle);
 
@@ -231,12 +234,12 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         super.onPostCreate(savedInstanceState);
         // This check avoids a flicker from "Recents" to "Home".
         // Only update action bar at this point if there is an active
-        // serach. Why? Because this avoid an early (undesired) load of
+        // search. Why? Because this avoid an early (undesired) load of
         // the recents root...which is the default root in other activities.
         // In Files app "Home" is the default, but it is loaded async.
         // update will be called once Home root is loaded.
         // Except while searching we need this call to ensure the
-        // search bits get layed out correctly.
+        // search bits get laid out correctly.
         if (mSearchManager.isSearching()) {
             mNavigator.update();
         }

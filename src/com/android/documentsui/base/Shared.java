@@ -19,6 +19,7 @@ package com.android.documentsui.base;
 import android.annotation.PluralsRes;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -27,6 +28,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Looper;
 import android.provider.DocumentsContract;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
@@ -249,6 +251,12 @@ public final class Shared {
      */
     public static boolean mustShowDeviceRoot(Intent intent) {
         return intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_ADVANCED, false);
+    }
+
+    public static String getDeviceName(ContentResolver resolver) {
+        // We match the value supplied by ExternalStorageProvider for
+        // the internal storage root.
+        return Settings.Global.getString(resolver, Settings.Global.DEVICE_NAME);
     }
 
     public static void checkMainLoop() {
