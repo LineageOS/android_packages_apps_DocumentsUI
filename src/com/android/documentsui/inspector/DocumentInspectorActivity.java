@@ -23,14 +23,14 @@ import com.android.documentsui.R;
 
 public class DocumentInspectorActivity extends Activity {
 
-  DocumentInspectorFragment mFragment;
+  private DocumentInspectorFragment mFragment;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.document_inspector_activity);
 
-    Toolbar toolbar = findViewById(R.id.toolbar);
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setActionBar(toolbar);
 
     FragmentManager fragmentManager = getFragmentManager();
