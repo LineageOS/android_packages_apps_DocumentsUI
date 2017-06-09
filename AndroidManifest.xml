@@ -58,7 +58,7 @@
         <activity
             android:enabled="@bool/feature_inspector"
             android:name=".inspector.DocumentInspectorActivity"
-            android:label="Properties"
+            android:label="@string/menu_inspector"
             android:icon="@drawable/launcher_icon"
             android:theme="@style/DocumentsTheme">
         </activity>
