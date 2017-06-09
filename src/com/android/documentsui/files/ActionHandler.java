@@ -676,9 +676,9 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public void showInspector(DocumentInfo doc) {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_INSPECTOR);
         Intent intent = new Intent(mActivity, DocumentInspectorActivity.class);
-        intent.putExtra(Intent.ACTION_VIEW, doc.derivedUri);
-        Metrics.logUserAction(mActivity.getBaseContext(), Metrics.USER_ACTION_INSPECTOR);
+        intent.setData(doc.derivedUri);
         mActivity.startActivity(intent);
     }
 
