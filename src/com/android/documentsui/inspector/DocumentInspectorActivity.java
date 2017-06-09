@@ -27,14 +27,15 @@ public class DocumentInspectorActivity extends Activity {
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.document_inspector_activity);
+      super.onCreate(savedInstanceState);
 
-    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    setActionBar(toolbar);
+      setContentView(R.layout.document_inspector_activity);
 
-    FragmentManager fragmentManager = getFragmentManager();
-    mFragment = (DocumentInspectorFragment) fragmentManager.findFragmentById(
-            R.id.properties_fragment);
+      Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+      setActionBar(toolbar);
+
+      FragmentManager fragmentManager = getFragmentManager();
+      mFragment = (DocumentInspectorFragment) fragmentManager.findFragmentById(
+          R.id.properties_fragment);
   }
 }

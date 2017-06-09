@@ -671,7 +671,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
             case R.id.action_menu_inspector:
                 mActionModeController.finishActionMode();
-                mActions.showInspector(selection, getContext());
+                assert(selection.size() == 1);
+                DocumentInfo doc = mModel.getDocuments(selection).get(0);
+                mActions.showInspector(doc);
                 return true;
 
             case R.id.dir_menu_cut_to_clipboard:
