@@ -41,6 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Kompresiraj"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Izdvoji u…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Preimenuj"</string>
+    <string name="menu_inspector" msgid="8633147986551632467">"Svojstva"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Prikaži u usluzi <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Novi prozor"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Izreži"</string>
@@ -216,7 +217,7 @@
     </plurals>
     <string name="images_shortcut_label" msgid="2545168016070493574">"Slike"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Otvaranje arhive za pregledanje nije uspjelo. Fajl je možda oštećen ili format nije podržan."</string>
-    <string name="name_conflict" msgid="28407269328862986">"Fajl s tim nazivom već postoji."</string>
+    <string name="name_conflict" msgid="28407269328862986">"Fajl s tim imenom već postoji."</string>
     <string name="authentication_required" msgid="8030880723643436099">"Za prikaz ovog direktorija, prijavite se na uslugu <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"Nije moguće prikazati sadržaje"</string>
     <string name="sign_in" msgid="6253762676723505592">"Prijava"</string>
