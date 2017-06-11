@@ -143,6 +143,14 @@ public class UiBot extends Bots.BaseBot {
         }
     }
 
+    public void clickActionItem(String label) throws UiObjectNotFoundException {
+        if (!waitForActionModeBarToAppear()) {
+            throw new UiObjectNotFoundException("ActionMode bar not found");
+        }
+        clickActionbarOverflowItem(label);
+        mDevice.waitForIdle();
+    }
+
     public void switchToGridMode() {
         final UiObject2 gridMode = menuGridMode();
         if (gridMode != null) {

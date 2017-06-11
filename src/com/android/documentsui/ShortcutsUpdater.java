@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.files;
+package com.android.documentsui;
 
 import android.annotation.DrawableRes;
 import android.content.Context;
@@ -25,6 +25,7 @@ import android.graphics.drawable.Icon;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.prefs.ScopedPreferences;
 
 import java.util.ArrayList;

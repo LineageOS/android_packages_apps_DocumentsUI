@@ -103,7 +103,7 @@ public interface ActionHandler {
 
     void showCreateDirectoryDialog();
 
-    void showInspector(Selection selection, Context context);
+    void showInspector(DocumentInfo doc);
 
     @Nullable DocumentInfo renameDocument(String name, DocumentInfo document);
 

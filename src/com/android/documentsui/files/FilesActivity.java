@@ -41,6 +41,7 @@ import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
+import com.android.documentsui.ShortcutsUpdater;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
