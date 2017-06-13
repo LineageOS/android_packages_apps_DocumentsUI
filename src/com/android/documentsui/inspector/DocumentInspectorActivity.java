@@ -17,6 +17,8 @@ package com.android.documentsui.inspector;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toolbar;
 import com.android.documentsui.R;
@@ -36,6 +38,16 @@ public class DocumentInspectorActivity extends Activity {
 
       FragmentManager fragmentManager = getFragmentManager();
       mFragment = (DocumentInspectorFragment) fragmentManager.findFragmentById(
-          R.id.properties_fragment);
+          R.id.fragment_container);
+
+      if (mFragment == null) {
+          Intent intent = getIntent();
+          Uri docUri = intent.getData();
+
+          mFragment = DocumentInspectorFragment.newInstance(docUri);
+          fragmentManager.beginTransaction()
+                  .add(R.id.fragment_container, mFragment)
+                  .commit();
+       }
   }
 }

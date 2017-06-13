@@ -30,11 +30,10 @@
         android:popupTheme="?actionBarPopupTheme">
     </Toolbar>
 
-    <fragment
-        android:name="com.android.documentsui.inspector.DocumentInspectorFragment"
-        android:id="@+id/properties_fragment"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </fragment>
+    </FrameLayout>
 
 </LinearLayout>
