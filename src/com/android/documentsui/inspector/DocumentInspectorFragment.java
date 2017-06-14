@@ -21,28 +21,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.android.documentsui.R;
 
 public class DocumentInspectorFragment extends Fragment {
 
-  private static final String DOC_URI_ARG = "docUri";
-  private Uri docUri;
+    private static final String DOC_URI_ARG = "docUri";
+    private Uri docUri;
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+          Bundle savedInstanceState) {
 
-      Bundle args = getArguments();
-      docUri = (Uri) args.get(DOC_URI_ARG);
+          Bundle args = getArguments();
+          docUri = (Uri) args.get(DOC_URI_ARG);
 
-      return inflater.inflate(R.layout.document_inspector_fragment, container, false);
-  }
+        return inflater.inflate(R.layout.document_inspector_fragment, container, false);
+    }
 
-  public static DocumentInspectorFragment newInstance(Uri uri) {
-    Bundle args = new Bundle();
-    args.putParcelable(DOC_URI_ARG, uri);
-    DocumentInspectorFragment fragment = new DocumentInspectorFragment();
-    fragment.setArguments(args);
-    return fragment;
-  }
+    public static DocumentInspectorFragment newInstance(Uri uri) {
+        Bundle args = new Bundle();
+        args.putParcelable(DOC_URI_ARG, uri);
+        DocumentInspectorFragment fragment = new DocumentInspectorFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 }
