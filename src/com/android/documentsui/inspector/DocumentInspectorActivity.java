@@ -20,34 +20,39 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toolbar;
+
 import com.android.documentsui.R;
+import com.android.documentsui.files.FilesActivity;
 
 public class DocumentInspectorActivity extends Activity {
 
-  private DocumentInspectorFragment mFragment;
+    private DocumentInspectorFragment mFragment;
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-      super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
+        setContentView(R.layout.document_inspector_activity);
 
-      setContentView(R.layout.document_inspector_activity);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setActionBar(toolbar);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
-      Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-      setActionBar(toolbar);
+        FragmentManager fragmentManager = getFragmentManager();
+        mFragment = (DocumentInspectorFragment) fragmentManager.findFragmentById(
+                R.id.fragment_container);
 
-      FragmentManager fragmentManager = getFragmentManager();
-      mFragment = (DocumentInspectorFragment) fragmentManager.findFragmentById(
-          R.id.fragment_container);
+        if (mFragment == null) {
+            Intent intent = getIntent();
+            Uri docUri = intent.getData();
 
-      if (mFragment == null) {
-          Intent intent = getIntent();
-          Uri docUri = intent.getData();
-
-          mFragment = DocumentInspectorFragment.newInstance(docUri);
-          fragmentManager.beginTransaction()
-                  .add(R.id.fragment_container, mFragment)
-                  .commit();
-       }
-  }
+            mFragment = DocumentInspectorFragment.newInstance(docUri);
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, mFragment)
+                    .commit();
+        }
+    }
 }
