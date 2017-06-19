@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
  */
 public class InspectorProvider extends TestRootProvider {
 
-    private static final String AUTHORITY = "com.android.documentsui.inspectorprovider";
+    public static final String AUTHORITY = "com.android.documentsui.inspectorprovider";
 
     private static final String ROOT_ID = "inspector-root";
     private static final String ROOT_DOC_ID = "root0";
