@@ -63,6 +63,19 @@
             </intent-filter>
       </provider>
 
+      <!-- Provider for testing inspector -->
+      <provider
+          android:name="com.android.documentsui.InspectorProvider"
+          android:authorities="com.android.documentsui.inspectorprovider"
+          android:exported="true"
+          android:grantUriPermissions="true"
+          android:permission="android.permission.MANAGE_DOCUMENTS"
+          android:enabled="true">
+        <intent-filter>
+          <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
+        </intent-filter>
+      </provider>
+
        <!-- Provider with support for paging. -->
        <provider
             android:name="com.android.documentsui.PagingProvider"

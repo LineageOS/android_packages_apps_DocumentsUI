@@ -15,31 +15,58 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.internal.util.Preconditions.checkArgument;
+
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.android.documentsui.R;
+import com.android.documentsui.inspector.InspectorController.Loader;
+import com.android.internal.util.Preconditions;
 
+/**
+ * Displays the Properties view in Files.
+ */
 public class DocumentInspectorFragment extends Fragment {
 
     private static final String DOC_URI_ARG = "docUri";
-    private Uri docUri;
+    private InspectorController mController;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Loader loader = new DocumentLoader(this.getActivity(), this.getLoaderManager());
+        mController = new InspectorController(loader);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-          Bundle savedInstanceState) {
-
-          Bundle args = getArguments();
-          docUri = (Uri) args.get(DOC_URI_ARG);
+        Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.document_inspector_fragment, container, false);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Uri uri = (Uri) getArguments().get(DOC_URI_ARG);
+        mController.loadInfo(uri);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mController.reset();
+    }
+
+    /**
+     * Creates a fragment and sets a Uri as an argument.
+     */
     public static DocumentInspectorFragment newInstance(Uri uri) {
+        checkArgument(uri.getScheme().equals("content"));
         Bundle args = new Bundle();
         args.putParcelable(DOC_URI_ARG, uri);
         DocumentInspectorFragment fragment = new DocumentInspectorFragment();
