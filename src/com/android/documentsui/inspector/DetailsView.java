@@ -25,11 +25,12 @@ import android.widget.TextView;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.R;
+import java.util.function.Consumer;
 
 /**
  * Organizes and Displays the basic details about a file
  */
-public class DetailsView extends LinearLayout {
+public class DetailsView extends LinearLayout implements Consumer<DocumentInfo> {
 
     private final LayoutInflater mInflater;
 
@@ -44,12 +45,6 @@ public class DetailsView extends LinearLayout {
     public DetailsView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public void update(DocumentInfo info) {
-        addRow(R.string.sort_dimension_file_type, info.mimeType);
-        addRow(R.string.sort_dimension_size, formatSize(info.size));
-        addRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
     }
 
     private void addRow(@StringRes int StringId, String value) {
@@ -79,5 +74,12 @@ public class DetailsView extends LinearLayout {
             docSize = String.valueOf(Math.round(tb*100)/100.0) + " TB";
         }
         return docSize;
+    }
+
+    @Override
+    public void accept(DocumentInfo info) {
+        addRow(R.string.sort_dimension_file_type, info.mimeType);
+        addRow(R.string.sort_dimension_size, formatSize(info.size));
+        addRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
     }
 }

@@ -24,11 +24,12 @@ import android.widget.TextView;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.R;
+import java.util.function.Consumer;
 
 /**
  * Organizes and displays the title and thumbnail for a given document
  */
-public class HeaderView extends RelativeLayout {
+public class HeaderView extends RelativeLayout implements Consumer<DocumentInfo> {
 
     private View mHeader;
     private TextView mTitle;
@@ -49,7 +50,8 @@ public class HeaderView extends RelativeLayout {
         mTitle = (TextView) mHeader.findViewById(R.id.inspector_file_title);
     }
 
-    public void update(DocumentInfo info) {
+    @Override
+    public void accept(DocumentInfo info) {
         mTitle.setText(info.displayName);
         this.addView(mHeader);
     }
