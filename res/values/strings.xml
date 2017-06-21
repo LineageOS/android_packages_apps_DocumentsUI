@@ -160,6 +160,9 @@
     <!-- Toast shown when some of the selected documents failed to be deleted [CHAR LIMIT=48] -->
     <string name="toast_failed_delete">Unable to delete some documents</string>
 
+    <!-- Toast shown when a files document info fails to load-->
+    <string name="file_inspector_load_error">Properties could not be loaded</string>
+
     <!-- Title of dialog when prompting user to select an app to share documents with [CHAR LIMIT=32] -->
     <string name="share_via">Share via</string>
 
