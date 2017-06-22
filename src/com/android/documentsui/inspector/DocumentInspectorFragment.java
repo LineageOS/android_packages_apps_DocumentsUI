@@ -23,9 +23,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
 import com.android.documentsui.R;
 import com.android.documentsui.inspector.InspectorController.Loader;
-import com.android.internal.util.Preconditions;
 
 /**
  * Displays the Properties view in Files.
@@ -34,19 +35,25 @@ public class DocumentInspectorFragment extends Fragment {
 
     private static final String DOC_URI_ARG = "docUri";
     private InspectorController mController;
+    private LinearLayout mView;
+    private DetailsView mDetails;
+    private HeaderView mHeader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Loader loader = new DocumentLoader(this.getActivity(), this.getLoaderManager());
-        mController = new InspectorController(loader);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.document_inspector_fragment, container, false);
+        final Loader loader = new DocumentLoader(getActivity(), getLoaderManager());
+        mView = (LinearLayout) inflater.inflate(R.layout.document_inspector_fragment,
+                container, false);
+        mHeader = (HeaderView) mView.findViewById(R.id.inspector_header_view);
+        mDetails = (DetailsView) mView.findViewById(R.id.inspector_details_view);
+        mController = new InspectorController(loader, mView);
+        return mView;
     }
 
     @Override
@@ -60,6 +67,8 @@ public class DocumentInspectorFragment extends Fragment {
     public void onStop() {
         super.onStop();
         mController.reset();
+        mHeader.removeAllViewsInLayout();
+        mDetails.removeAllViewsInLayout();
     }
 
     /**

@@ -15,17 +15,27 @@
     limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.android.documentsui.inspector.HeaderView
-        android:id="@+id/inspector_header_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/inspector_header_height"/>
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:paddingLeft="18dp">
 
-    <com.android.documentsui.inspector.DetailsView
-        android:id="@+id/inspector_details_view"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/key"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@android:color/black"
+        android:textSize="14dp">
+    </TextView>
+
+    <TextView
+        android:id="@+id/value"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/inspector_value"
+        android:textSize="14dp">
+    </TextView>
 </LinearLayout>
