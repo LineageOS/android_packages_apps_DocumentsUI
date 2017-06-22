@@ -58,7 +58,7 @@
 
         <!--  Preserve original launcher activity from Nougat. -->
         <activity-alias
-            android:name=".Launcher"
+            android:name=".LauncherActivity"
             android:targetActivity=".files.LauncherActivity"
             android:label="@string/launcher_label"
             android:icon="@drawable/launcher_icon" >
