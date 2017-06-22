@@ -25,7 +25,6 @@ import android.view.Window;
 import android.widget.Toolbar;
 
 import com.android.documentsui.R;
-import com.android.documentsui.files.FilesActivity;
 
 public class DocumentInspectorActivity extends Activity {
 
@@ -54,5 +53,15 @@ public class DocumentInspectorActivity extends Activity {
                     .add(R.id.fragment_container, mFragment)
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -21,6 +21,8 @@ import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
+
+import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.Loader;
 import com.android.documentsui.testing.TestLoaderManager;
@@ -33,7 +35,6 @@ import org.junit.Test;
 
 public class DocumentLoaderTest extends TestCase {
 
-    private static final String AUTHORITY = "com.android.documentsui.inspectorprovider";
     private static final String TEST_DOC_NAME = "test.txt";
 
     private Context mContext;
@@ -60,7 +61,8 @@ public class DocumentLoaderTest extends TestCase {
     @Test
     public void testLoadsDocument() throws Exception {
         mLoader = new DocumentLoader(mContext, mLoaderManager);
-        Uri validUri = DocumentsContract.buildDocumentUri(AUTHORITY, TEST_DOC_NAME);
+        Uri validUri = DocumentsContract.buildDocumentUri(
+                InspectorProvider.AUTHORITY, TEST_DOC_NAME);
         TestConsumer consumer = new TestConsumer(1);
         mLoader.load(validUri, consumer);
 
