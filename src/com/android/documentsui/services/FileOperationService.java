@@ -180,19 +180,11 @@ public class FileOperationService extends Service implements Job.Listener {
             Log.w(TAG, "Shutting down, but executor reports running jobs: " + unfinished);
         }
 
-        tearDownNotificationChannel();
-
         executor = null;
         deletionExecutor = null;
         handler = null;
 
         if (DEBUG) Log.d(TAG, "Destroyed.");
-    }
-
-    private void tearDownNotificationChannel() {
-        if (features.isNotificationChannelEnabled()) {
-            notificationManager.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID);
-        }
     }
 
     @Override
