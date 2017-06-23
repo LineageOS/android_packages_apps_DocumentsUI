@@ -29,10 +29,10 @@ import java.util.function.Consumer;
 /**
  * Organizes and displays the title and thumbnail for a given document
  */
-public class HeaderView extends RelativeLayout implements Consumer<DocumentInfo> {
+public final class HeaderView extends RelativeLayout implements Consumer<DocumentInfo> {
 
-    private View mHeader;
-    private TextView mTitle;
+    private final View mHeader;
+    private final TextView mTitle;
 
     public HeaderView(Context context) {
         this(context, null);
@@ -52,7 +52,18 @@ public class HeaderView extends RelativeLayout implements Consumer<DocumentInfo>
 
     @Override
     public void accept(DocumentInfo info) {
+        if (!hasHeader()) {
+            addView(mHeader);
+        }
         mTitle.setText(info.displayName);
-        this.addView(mHeader);
+    }
+
+    private boolean hasHeader() {
+        for (int i = 0; i < getChildCount(); i++) {
+            if (getChildAt(i).equals(mHeader)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
