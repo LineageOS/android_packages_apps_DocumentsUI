@@ -15,7 +15,6 @@
  */
 package com.android.documentsui.inspector;
 
-import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.app.Activity;
@@ -41,6 +40,8 @@ public final class InspectorController {
     private final Loader mLoader;
     private final Consumer<DocumentInfo> mHeader;
     private final Consumer<DocumentInfo> mDetails;
+    private final Consumer<DocumentInfo> mDebugView;
+    private final boolean mShowDebug;
     private final Context mContext;
     private final ProvidersAccess mProviders;
     private final Runnable mShowSnackbar;
@@ -50,35 +51,44 @@ public final class InspectorController {
      */
     @VisibleForTesting
     public InspectorController(Context context, Loader loader, ProvidersAccess providers,
-            Consumer<DocumentInfo> header, Consumer<DocumentInfo> details, Runnable showSnackbar) {
+            boolean showDebug, Consumer<DocumentInfo> header, Consumer<DocumentInfo> details,
+            Consumer<DocumentInfo> debugView, Runnable showSnackbar) {
 
         checkArgument(context != null);
         checkArgument(loader != null);
         checkArgument(providers != null);
         checkArgument(header != null);
         checkArgument(details != null);
+        checkArgument(debugView != null);
         checkArgument(showSnackbar != null);
 
         mContext = context;
         mLoader = loader;
+        mShowDebug = showDebug;
         mProviders = providers;
         mHeader = header;
         mDetails = details;
+        mDebugView = debugView;
         mShowSnackbar = showSnackbar;
     }
 
-    public InspectorController(Activity activity, Loader loader, View layout) {
+    public InspectorController(Activity activity, Loader loader, View layout, boolean showDebug) {
 
         this(activity,
                 loader,
                 DocumentsApplication.getProvidersCache (activity),
+                showDebug,
                 (HeaderView) layout.findViewById(R.id.inspector_header_view),
                 (DetailsView) layout.findViewById(R.id.inspector_details_view),
+                (DebugView) layout.findViewById(R.id.inspector_debug_view),
                 () -> {
                     // using a runnable to support unit testing this feature.
                     Snackbars.showInspectorError(activity);
                 }
-            );
+        );
+        if (showDebug) {
+            layout.findViewById(R.id.inspector_debug_view).setVisibility(View.VISIBLE);
+        }
     }
 
     public void reset() {
@@ -101,6 +111,10 @@ public final class InspectorController {
         else {
             mHeader.accept(docInfo);
             mDetails.accept(docInfo);
+
+            if (mShowDebug) {
+                mDebugView.accept(docInfo);
+            }
         }
     }
 

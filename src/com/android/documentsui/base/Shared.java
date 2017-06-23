@@ -105,6 +105,11 @@ public final class Shared {
     public static final String EXTRA_BENCHMARK = "com.android.documentsui.benchmark";
 
     /**
+     * Extra flag used to signify to inspector that debug section can be shown.
+     */
+    public static final String EXTRA_SHOW_DEBUG = "com.android.documentsui.SHOW_DEBUG";
+
+    /**
      * Maximum number of items in a Binder transaction packet.
      */
     public static final int MAX_DOCS_IN_INTENT = 500;
