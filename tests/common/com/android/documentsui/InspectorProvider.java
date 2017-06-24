@@ -15,9 +15,10 @@
  */
 package com.android.documentsui;
 
+import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
+
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.provider.DocumentsContract.Root;
 import java.io.FileNotFoundException;
 
 /**
@@ -26,8 +27,9 @@ import java.io.FileNotFoundException;
 public class InspectorProvider extends TestRootProvider {
 
     public static final String AUTHORITY = "com.android.documentsui.inspectorprovider";
+    public static final String OPEN_IN_PROVIDER_TEST = "OpenInProviderTest";
+    public static final String ROOT_ID = "inspector-root";
 
-    private static final String ROOT_ID = "inspector-root";
     private static final String ROOT_DOC_ID = "root0";
     private static final int ROOT_FLAGS = 0;
 
@@ -39,6 +41,12 @@ public class InspectorProvider extends TestRootProvider {
     public Cursor queryDocument(String documentId, String[] projection)
             throws FileNotFoundException {
 
+        if (OPEN_IN_PROVIDER_TEST.equals(documentId)) {
+            MatrixCursor c = createDocCursor(projection);
+            addFile(c, OPEN_IN_PROVIDER_TEST, FLAG_SUPPORTS_SETTINGS);
+            return c;
+        }
+
         MatrixCursor c = createDocCursor(projection);
         addFolder(c, documentId);
         return c;
@@ -49,8 +57,9 @@ public class InspectorProvider extends TestRootProvider {
         throws FileNotFoundException {
 
         MatrixCursor c = createDocCursor(projection);
+        addFile(c, OPEN_IN_PROVIDER_TEST, FLAG_SUPPORTS_SETTINGS);
         addFile(c, "test.txt");
-        addFile(c, "test1.txt");
+        addFile(c, "update.txt");
         return c;
     }
 }
