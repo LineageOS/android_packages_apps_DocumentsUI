@@ -24,7 +24,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import com.android.documentsui.R;
 import com.android.documentsui.inspector.InspectorController.Loader;
 
@@ -52,7 +51,7 @@ public class DocumentInspectorFragment extends Fragment {
                 container, false);
         mHeader = (HeaderView) mView.findViewById(R.id.inspector_header_view);
         mDetails = (DetailsView) mView.findViewById(R.id.inspector_details_view);
-        mController = new InspectorController(loader, mView);
+        mController = new InspectorController(getActivity(), loader, mView);
         return mView;
     }
 
