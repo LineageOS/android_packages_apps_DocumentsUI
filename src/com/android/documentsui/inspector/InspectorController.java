@@ -15,25 +15,59 @@
  */
 package com.android.documentsui.inspector;
 
+import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 import static com.android.internal.util.Preconditions.checkArgument;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.annotation.VisibleForTesting;
+import android.widget.LinearLayout;
+import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.internal.util.Preconditions;
+import com.android.documentsui.roots.ProvidersAccess;
 import java.util.function.Consumer;
-
 /**
  * A controller that coordinates retrieving document information and sending it to the view.
  */
 public final class InspectorController {
 
     private final Loader mLoader;
+    private final Consumer<DocumentInfo> mHeader;
+    private final Consumer<DocumentInfo> mDetails;
+    private final Context mContext;
+    private final ProvidersAccess mProviders;
 
-    public InspectorController(Loader loader) {
+    /**
+     * InspectorControllerTest relies on this controller.
+     */
+    @VisibleForTesting
+    public InspectorController(Context context, Loader loader, ProvidersAccess providers,
+            Consumer<DocumentInfo> header, Consumer<DocumentInfo> details) {
+
+        checkArgument(context != null);
         checkArgument(loader != null);
+        checkArgument(providers != null);
+        checkArgument(header != null);
+        checkArgument(details != null);
+
+        mContext = context;
         mLoader = loader;
+        mProviders = providers;
+        mHeader = header;
+        mDetails = details;
+    }
+
+    public InspectorController(Context context, Loader loader, LinearLayout layout) {
+
+        this(context,
+                loader,
+                DocumentsApplication.getProvidersCache (context),
+                (HeaderView) layout.findViewById(R.id.inspector_header_view),
+                (DetailsView) layout.findViewById(R.id.inspector_details_view));
     }
 
     public void reset() {
@@ -46,12 +80,28 @@ public final class InspectorController {
 
     /**
      * Updates the view.
-     *
      */
     @Nullable
     private void updateView(@Nullable DocumentInfo docInfo) {
-        //TODO: update the view.
-        Log.d("DocInfo", docInfo.toString());
+        if (docInfo == null) {
+            return;
+        }
+        mHeader.accept(docInfo);
+        mDetails.accept(docInfo);
+    }
+
+    /**
+     * Shows the selected document in it's content provider.
+     *
+     * @param DocumentInfo whose flag FLAG_SUPPORTS_SETTINGS is set.
+     */
+    public void showInProvider(Uri uri) {
+
+        Intent intent = new Intent(DocumentsContract.ACTION_DOCUMENT_SETTINGS);
+        intent.setPackage(mProviders.getPackageName(uri.getAuthority()));
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.setData(uri);
+        mContext.startActivity(intent);
     }
 
     /**

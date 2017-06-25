@@ -20,7 +20,6 @@ import android.app.Instrumentation;
 import android.net.Uri;
 import android.os.RemoteException;
 import android.support.test.filters.LargeTest;
-import android.support.test.uiautomator.UiObjectNotFoundException;
 
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.inspector.DocumentInspectorActivity;
@@ -112,7 +111,7 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         }
     }
 
-    public void testNavigationToInspector() throws UiObjectNotFoundException {
+    public void testNavigationToInspector() throws Exception {
         if(!features.isInspectorEnabled()) {
             return;
         }

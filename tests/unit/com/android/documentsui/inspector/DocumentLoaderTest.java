@@ -21,6 +21,8 @@ import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
+import com.android.documentsui.InspectorProvider;
+import android.test.suitebuilder.annotation.MediumTest;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.Loader;
 import com.android.documentsui.testing.TestLoaderManager;
@@ -31,9 +33,9 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
+@MediumTest
 public class DocumentLoaderTest extends TestCase {
 
-    private static final String AUTHORITY = "com.android.documentsui.inspectorprovider";
     private static final String TEST_DOC_NAME = "test.txt";
 
     private Context mContext;
@@ -45,6 +47,7 @@ public class DocumentLoaderTest extends TestCase {
         super.setUp();
         mContext = InstrumentationRegistry.getTargetContext();
         mLoaderManager = new TestLoaderManager();
+        mLoader = new DocumentLoader(mContext, mLoaderManager);
 
         if (Looper.myLooper() == null) {
             Looper.prepare();
@@ -59,8 +62,8 @@ public class DocumentLoaderTest extends TestCase {
      */
     @Test
     public void testLoadsDocument() throws Exception {
-        mLoader = new DocumentLoader(mContext, mLoaderManager);
-        Uri validUri = DocumentsContract.buildDocumentUri(AUTHORITY, TEST_DOC_NAME);
+        Uri validUri = DocumentsContract.buildDocumentUri(
+                InspectorProvider.AUTHORITY, TEST_DOC_NAME);
         TestConsumer consumer = new TestConsumer(1);
         mLoader.load(validUri, consumer);
 
@@ -81,7 +84,6 @@ public class DocumentLoaderTest extends TestCase {
      */
     @Test
     public void testInvalidInput() throws Exception {
-        mLoader = new DocumentLoader(mContext, mLoaderManager);
         Uri invalidUri = Uri.parse("content://poodles/chuckleberry/ham");
         TestConsumer consumer = new TestConsumer(1);
         mLoader.load(invalidUri, consumer);
@@ -96,7 +98,6 @@ public class DocumentLoaderTest extends TestCase {
     @Test
     public void testNonContentUri() {
 
-        mLoader = new DocumentLoader(mContext, mLoaderManager);
         Uri invalidUri = Uri.parse("http://poodles/chuckleberry/ham");
         TestConsumer consumer = new TestConsumer(1);
 
