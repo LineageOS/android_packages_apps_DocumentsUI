@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.R;
@@ -33,6 +35,7 @@ import java.util.function.Consumer;
 public class DetailsView extends LinearLayout implements Consumer<DocumentInfo> {
 
     private final LayoutInflater mInflater;
+    private final Map<Integer, TextView> rows = new HashMap();
 
     public DetailsView(Context context) {
         this(context, null);
@@ -47,13 +50,18 @@ public class DetailsView extends LinearLayout implements Consumer<DocumentInfo> 
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    private void addRow(@StringRes int StringId, String value) {
-        View row = mInflater.inflate(R.layout.table_row, null);
-        TextView title = (TextView) row.findViewById(R.id.key);
-        title.setText(getResources().getString(StringId));
-        TextView info = (TextView) row.findViewById(R.id.value);
-        info.setText(value);
-        addView(row);
+    private void setRow(@StringRes int keyId, String value) {
+        if(rows.containsKey(keyId)) {
+            rows.get(keyId).setText(value);
+        } else {
+            View row = mInflater.inflate(R.layout.table_row, null);
+            TextView title = (TextView) row.findViewById(R.id.key);
+            title.setText(getResources().getString(keyId));
+            TextView info = (TextView) row.findViewById(R.id.value);
+            info.setText(value);
+            addView(row);
+            rows.put(keyId, info);
+        }
     }
 
     private String formatSize(long bytes) {
@@ -78,8 +86,8 @@ public class DetailsView extends LinearLayout implements Consumer<DocumentInfo> 
 
     @Override
     public void accept(DocumentInfo info) {
-        addRow(R.string.sort_dimension_file_type, info.mimeType);
-        addRow(R.string.sort_dimension_size, formatSize(info.size));
-        addRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
+        setRow(R.string.sort_dimension_file_type, info.mimeType);
+        setRow(R.string.sort_dimension_size, formatSize(info.size));
+        setRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
     }
 }
