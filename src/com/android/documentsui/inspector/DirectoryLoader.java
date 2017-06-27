@@ -78,14 +78,14 @@ public final class DirectoryLoader extends AsyncTask<DocumentInfo, Integer, Docu
         directories.add(directory);
         int count = 0;
 
-        while(directories.size() > 0) {
+        while (directories.size() > 0) {
 
             //makes a cursor from first directory in queue.
             Cursor children = getCursorOfChildren(directories.remove());
             while (children.moveToNext()) {
 
                 //hard stop if we have processed a large amount of files.
-                if(count >= MAXIMUM_FILE_COUNT) {
+                if (count >= MAXIMUM_FILE_COUNT) {
                     return size;
                 }
 
