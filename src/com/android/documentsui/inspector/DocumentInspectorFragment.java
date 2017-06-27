@@ -20,6 +20,7 @@ import static com.android.internal.util.Preconditions.checkArgument;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,6 @@ public class DocumentInspectorFragment extends Fragment {
     private static final String DOC_URI_ARG = "docUri";
     private InspectorController mController;
     private LinearLayout mView;
-    private DetailsView mDetails;
-    private HeaderView mHeader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,8 +48,6 @@ public class DocumentInspectorFragment extends Fragment {
         final Loader loader = new DocumentLoader(getActivity(), getLoaderManager());
         mView = (LinearLayout) inflater.inflate(R.layout.document_inspector_fragment,
                 container, false);
-        mHeader = (HeaderView) mView.findViewById(R.id.inspector_header_view);
-        mDetails = (DetailsView) mView.findViewById(R.id.inspector_details_view);
         mController = new InspectorController(getActivity(), loader, mView);
         return mView;
     }
@@ -66,8 +63,6 @@ public class DocumentInspectorFragment extends Fragment {
     public void onStop() {
         super.onStop();
         mController.reset();
-        mHeader.removeAllViewsInLayout();
-        mDetails.removeAllViewsInLayout();
     }
 
     /**
