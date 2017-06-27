@@ -16,6 +16,9 @@
 package com.android.documentsui.inspector;
 
 import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,18 +28,21 @@ import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import com.android.documentsui.InspectorProvider;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.Loader;
 import com.android.documentsui.testing.TestConsumer;
 import com.android.documentsui.testing.TestLoaderManager;
 import com.android.documentsui.testing.TestProvidersAccess;
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(AndroidJUnit4.class)
 @SmallTest
-public class InspectorControllerTest extends TestCase {
+public class InspectorControllerTest  {
 
     private static final String TEST_DOC_NAME = "OpenInProviderTest";
 
@@ -44,15 +50,21 @@ public class InspectorControllerTest extends TestCase {
     private TestLoaderManager mLoaderManager;
     private Loader mLoader;
     private InspectorController mController;
+    private TestConsumer<DocumentInfo> headerTestDouble;
+    private TestConsumer<DocumentInfo> detailsTestDouble;
+    private Boolean mShowSnackbarsCalled;
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
+
 
         //Needed to create a non null loader for the InspectorController.
         Context loader = InstrumentationRegistry.getTargetContext();
         mLoaderManager = new TestLoaderManager();
         mLoader = new DocumentLoader(loader, mLoaderManager);
+        headerTestDouble = new TestConsumer<>();
+        detailsTestDouble = new TestConsumer<>();
+        mShowSnackbarsCalled = false;
 
         //Crashes if not called before "new TestActivity".
         if (Looper.myLooper() == null) {
@@ -60,8 +72,16 @@ public class InspectorControllerTest extends TestCase {
         }
         mContext = new TestActivity();
 
-        mController = new InspectorController(mContext, mLoader, new TestProvidersAccess(),
-                new TestConsumer<>(), new TestConsumer<>());
+        mController = new InspectorController(
+                mContext,
+                mLoader,
+                new TestProvidersAccess(),
+                headerTestDouble,
+                detailsTestDouble,
+                () -> {
+                    mShowSnackbarsCalled = true;
+                }
+        );
     }
 
     /**
@@ -83,6 +103,33 @@ public class InspectorControllerTest extends TestCase {
         assertNotNull(mContext.started);
         assertEquals( "com.android.documentsui",mContext.started.getPackage());
         assertEquals(uri, mContext.started.getData());
+    }
+
+    /**
+     * Test that valid input will update the view properly. The test uses a test double for header
+     * and details view and asserts that .accept was called on both.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testUpdateViewWithValidInput() throws Exception {
+        mController.updateView(new DocumentInfo());
+        headerTestDouble.assertCalled();
+        detailsTestDouble.assertCalled();
+    }
+
+    /**
+     * Test that update view will handle a null value properly. It uses a runnable to verify that
+     * the static method Snackbars.showInspectorError(Activity activity) is called.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testUpdateViewWithNullValue() throws Exception {
+        mController.updateView(null);
+        assertTrue(mShowSnackbarsCalled);
+        headerTestDouble.assertNotCalled();
+        detailsTestDouble.assertNotCalled();
     }
 
     private static class TestActivity extends Activity {
