@@ -14,19 +14,25 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.android.documentsui.inspector.HeaderView
-        android:id="@+id/inspector_header_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/inspector_header_height" />
-
-    <com.android.documentsui.inspector.DetailsView
-        android:id="@+id/inspector_details_view"
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="match_parent">
+
+        <com.android.documentsui.inspector.HeaderView
+            android:id="@+id/inspector_header_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/inspector_header_height"/>
+
+        <com.android.documentsui.inspector.DetailsView
+            android:id="@+id/inspector_details_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</ScrollView>

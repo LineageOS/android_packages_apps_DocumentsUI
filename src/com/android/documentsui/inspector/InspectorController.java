@@ -25,7 +25,8 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.widget.LinearLayout;
+import android.view.View;
+
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -66,7 +67,7 @@ public final class InspectorController {
         mShowSnackbar = showSnackbar;
     }
 
-    public InspectorController(Activity activity, Loader loader, LinearLayout layout) {
+    public InspectorController(Activity activity, Loader loader, View layout) {
 
         this(activity,
                 loader,

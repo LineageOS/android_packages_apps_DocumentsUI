@@ -23,7 +23,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
 import com.android.documentsui.R;
 import com.android.documentsui.inspector.InspectorController.Loader;
 
@@ -34,7 +35,7 @@ public class DocumentInspectorFragment extends Fragment {
 
     private static final String DOC_URI_ARG = "docUri";
     private InspectorController mController;
-    private LinearLayout mView;
+    private ScrollView mView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class DocumentInspectorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         final Loader loader = new DocumentLoader(getActivity(), getLoaderManager());
-        mView = (LinearLayout) inflater.inflate(R.layout.document_inspector_fragment,
+        mView = (ScrollView) inflater.inflate(R.layout.document_inspector_fragment,
                 container, false);
         mController = new InspectorController(getActivity(), loader, mView);
         return mView;
