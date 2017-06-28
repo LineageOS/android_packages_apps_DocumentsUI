@@ -19,10 +19,19 @@ import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS
 
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.database.MatrixCursor.RowBuilder;
+import android.provider.DocumentsContract.Document;
 import java.io.FileNotFoundException;
 
 /**
  * Content Provider for testing the Document Inspector.
+ *
+ *  Structure of the provider.
+ *
+ *         Top ------------> Middle  ------> Bottom -------> Dummy21 50B
+ *         openInProvider    Dummy1 50B      Dummy11 50B     Dummy22 150B
+ *         test.txt          Dummy2 150B     Dummy12 150B    Dummy23 100B
+ *         update.txt        Dummy3 100B     Dummy13 100B
  */
 public class InspectorProvider extends TestRootProvider {
 
@@ -54,12 +63,51 @@ public class InspectorProvider extends TestRootProvider {
 
     @Override
     public Cursor queryChildDocuments(String s, String[] projection, String s1)
-        throws FileNotFoundException {
+            throws FileNotFoundException {
 
-        MatrixCursor c = createDocCursor(projection);
-        addFile(c, OPEN_IN_PROVIDER_TEST, FLAG_SUPPORTS_SETTINGS);
-        addFile(c, "test.txt");
-        addFile(c, "update.txt");
-        return c;
+        if("Top".equals(s)) {
+            MatrixCursor c = createDocCursor(projection);
+            addFolder(c, "Middle");
+            addFileWithSize(c, "dummy1", 50);
+            addFileWithSize(c, "dummy2", 150);
+            addFileWithSize(c, "dummy3", 100);
+            return c;
+        }
+        else if("Middle".equals(s)) {
+            MatrixCursor c = createDocCursor(projection);
+            addFolder(c, "Bottom");
+            addFileWithSize(c, "dummy11", 50);
+            addFileWithSize(c, "dummy12", 150);
+            addFileWithSize(c, "dummy13", 100);
+            return c;
+        }
+        else if("Bottom".equals(s)) {
+            MatrixCursor c = createDocCursor(projection);
+            addFileWithSize(c, "dummy21", 50);
+            addFileWithSize(c, "dummy22", 150);
+            addFileWithSize(c, "dummy23", 100);
+            return c;
+        }
+        else {
+            MatrixCursor c = createDocCursor(projection);
+            addFolder(c, "Top");
+            addFile(c, OPEN_IN_PROVIDER_TEST, FLAG_SUPPORTS_SETTINGS);
+            addFile(c, "test.txt");
+            addFile(c, "update.txt");
+            return c;
+        }
     }
+
+    private void addFileWithSize(MatrixCursor c, String id, long size) {
+        final RowBuilder row = c.newRow();
+        row.add(Document.COLUMN_DOCUMENT_ID, id);
+        row.add(Document.COLUMN_DISPLAY_NAME, id);
+        row.add(Document.COLUMN_SIZE, size);
+        row.add(Document.COLUMN_MIME_TYPE, "text/plain");
+        row.add(Document.COLUMN_FLAGS, 0);
+        row.add(Document.COLUMN_LAST_MODIFIED, System.currentTimeMillis());
+    }
+
+
+
 }

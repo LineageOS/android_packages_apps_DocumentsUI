@@ -25,12 +25,14 @@ import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.view.View;
-
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Lookup;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.ui.Snackbars;
+import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 /**
  * A controller that coordinates retrieving document information and sending it to the view.
@@ -45,6 +47,7 @@ public final class InspectorController {
     private final Context mContext;
     private final ProvidersAccess mProviders;
     private final Runnable mShowSnackbar;
+    private final Lookup<String, Executor> mExecutors;
 
     /**
      * InspectorControllerTest relies on this controller.
@@ -52,7 +55,8 @@ public final class InspectorController {
     @VisibleForTesting
     public InspectorController(Context context, Loader loader, ProvidersAccess providers,
             boolean showDebug, Consumer<DocumentInfo> header, Consumer<DocumentInfo> details,
-            Consumer<DocumentInfo> debugView, Runnable showSnackbar) {
+            Consumer<DocumentInfo> debugView, Lookup<String, Executor> executors,
+            Runnable showSnackbar) {
 
         checkArgument(context != null);
         checkArgument(loader != null);
@@ -61,6 +65,7 @@ public final class InspectorController {
         checkArgument(details != null);
         checkArgument(debugView != null);
         checkArgument(showSnackbar != null);
+        checkArgument(executors != null);
 
         mContext = context;
         mLoader = loader;
@@ -69,6 +74,7 @@ public final class InspectorController {
         mHeader = header;
         mDetails = details;
         mDebugView = debugView;
+        mExecutors = executors;
         mShowSnackbar = showSnackbar;
     }
 
@@ -81,6 +87,7 @@ public final class InspectorController {
                 (HeaderView) layout.findViewById(R.id.inspector_header_view),
                 (DetailsView) layout.findViewById(R.id.inspector_details_view),
                 (DebugView) layout.findViewById(R.id.inspector_debug_view),
+                    ProviderExecutor::forAuthority,
                 () -> {
                     // using a runnable to support unit testing this feature.
                     Snackbars.showInspectorError(activity);
@@ -100,21 +107,42 @@ public final class InspectorController {
     }
 
     /**
-     * Updates the view.
+     * Updates the view with documentInfo.
      */
     @Nullable
     public void updateView(@Nullable DocumentInfo docInfo) {
 
         if (docInfo == null) {
             mShowSnackbar.run();
-        }
-        else {
+        } else {
             mHeader.accept(docInfo);
             mDetails.accept(docInfo);
+
+            if (docInfo.isDirectory()) {
+                new DirectoryLoader(mContext.getContentResolver(),
+                    this::displayDirectory)
+                    .executeOnExecutor(mExecutors.lookup(docInfo.authority), docInfo);
+            }
 
             if (mShowDebug) {
                 mDebugView.accept(docInfo);
             }
+        }
+    }
+
+    /**
+     * Displays a directory's information to the view.
+     *
+     * @param dirInfo - null if uri was not to a directory.
+     */
+    @Nullable
+    public void displayDirectory(@Nullable DocumentInfo directory) {
+
+        if (directory == null) {
+            mShowSnackbar.run();
+        } else {
+            //update directory information.
+            mDetails.accept(directory);
         }
     }
 

@@ -67,4 +67,8 @@ public class TestPredicate<T> implements Predicate<T> {
             throws InterruptedException, ExecutionException, TimeoutException {
         return mFuture.get(timeout, unit);
     }
+
+    public @Nullable T getLastValue() {
+        return mLastValue;
+    }
 }

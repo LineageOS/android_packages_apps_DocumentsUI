@@ -31,9 +31,11 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import com.android.documentsui.InspectorProvider;
+import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.Loader;
 import com.android.documentsui.testing.TestConsumer;
+import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestLoaderManager;
 import com.android.documentsui.testing.TestProvidersAccess;
 import org.junit.Before;
@@ -50,6 +52,7 @@ public class InspectorControllerTest  {
     private TestLoaderManager mLoaderManager;
     private Loader mLoader;
     private InspectorController mController;
+    private TestEnv mEnv;
     private TestConsumer<DocumentInfo> headerTestDouble;
     private TestConsumer<DocumentInfo> detailsTestDouble;
     private TestConsumer<DocumentInfo> debugTestDouble;
@@ -58,9 +61,9 @@ public class InspectorControllerTest  {
     @Before
     public void setUp() throws Exception {
 
-
         //Needed to create a non null loader for the InspectorController.
         Context loader = InstrumentationRegistry.getTargetContext();
+        mEnv = TestEnv.create();
         mLoaderManager = new TestLoaderManager();
         mLoader = new DocumentLoader(loader, mLoaderManager);
         headerTestDouble = new TestConsumer<>();
@@ -82,6 +85,7 @@ public class InspectorControllerTest  {
                 headerTestDouble,
                 detailsTestDouble,
                 debugTestDouble,
+                ProviderExecutor::forAuthority,
                 () -> {
                     mShowSnackbarsCalled = true;
                 }
@@ -103,16 +107,17 @@ public class InspectorControllerTest  {
     @Test
     public void testShowDebugUpdatesView() throws Exception {
         mController = new InspectorController(
-                mContext,
-                mLoader,
-                new TestProvidersAccess(),
-                true,
-                headerTestDouble,
-                detailsTestDouble,
-                debugTestDouble,
-                () -> {
-                    mShowSnackbarsCalled = true;
-                }
+            mContext,
+            mLoader,
+            new TestProvidersAccess(),
+            true,
+            headerTestDouble,
+            detailsTestDouble,
+            debugTestDouble,
+            ProviderExecutor::forAuthority,
+            () -> {
+                mShowSnackbarsCalled = true;
+            }
         );
 
         mController.updateView(new DocumentInfo());
