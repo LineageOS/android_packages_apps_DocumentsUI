@@ -18,6 +18,7 @@ package com.android.documentsui.inspector;
 import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 import static com.android.internal.util.Preconditions.checkArgument;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.roots.ProvidersAccess;
+import com.android.documentsui.ui.Snackbars;
 import java.util.function.Consumer;
 /**
  * A controller that coordinates retrieving document information and sending it to the view.
@@ -40,34 +42,42 @@ public final class InspectorController {
     private final Consumer<DocumentInfo> mDetails;
     private final Context mContext;
     private final ProvidersAccess mProviders;
+    private final Runnable mShowSnackbar;
 
     /**
      * InspectorControllerTest relies on this controller.
      */
     @VisibleForTesting
     public InspectorController(Context context, Loader loader, ProvidersAccess providers,
-            Consumer<DocumentInfo> header, Consumer<DocumentInfo> details) {
+            Consumer<DocumentInfo> header, Consumer<DocumentInfo> details, Runnable showSnackbar) {
 
         checkArgument(context != null);
         checkArgument(loader != null);
         checkArgument(providers != null);
         checkArgument(header != null);
         checkArgument(details != null);
+        checkArgument(showSnackbar != null);
 
         mContext = context;
         mLoader = loader;
         mProviders = providers;
         mHeader = header;
         mDetails = details;
+        mShowSnackbar = showSnackbar;
     }
 
-    public InspectorController(Context context, Loader loader, LinearLayout layout) {
+    public InspectorController(Activity activity, Loader loader, LinearLayout layout) {
 
-        this(context,
+        this(activity,
                 loader,
-                DocumentsApplication.getProvidersCache (context),
+                DocumentsApplication.getProvidersCache (activity),
                 (HeaderView) layout.findViewById(R.id.inspector_header_view),
-                (DetailsView) layout.findViewById(R.id.inspector_details_view));
+                (DetailsView) layout.findViewById(R.id.inspector_details_view),
+                () -> {
+                    // using a runnable to support unit testing this feature.
+                    Snackbars.showInspectorError(activity);
+                }
+            );
     }
 
     public void reset() {
@@ -82,12 +92,15 @@ public final class InspectorController {
      * Updates the view.
      */
     @Nullable
-    private void updateView(@Nullable DocumentInfo docInfo) {
+    public void updateView(@Nullable DocumentInfo docInfo) {
+
         if (docInfo == null) {
-            return;
+            mShowSnackbar.run();
         }
-        mHeader.accept(docInfo);
-        mDetails.accept(docInfo);
+        else {
+            mHeader.accept(docInfo);
+            mDetails.accept(docInfo);
+        }
     }
 
     /**

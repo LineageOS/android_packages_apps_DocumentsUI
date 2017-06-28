@@ -17,6 +17,7 @@
 package com.android.documentsui.testing;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.concurrent.CompletableFuture;
@@ -52,6 +53,10 @@ public class TestPredicate<T> implements Predicate<T> {
 
     public void assertCalled() {
         assertTrue(mCalled);
+    }
+
+    public void assertNotCalled() {
+        assertFalse(mCalled);
     }
 
     public void nextReturn(boolean value) {
