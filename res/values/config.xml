@@ -52,6 +52,6 @@
     <bool name="feature_debug_mode">false</bool>
 
     <!-- Indicates if internal storage is shown as default or not. -->
-    <bool name="config_defaultIncludeDeviceRoot">false</bool>
+    <bool name="config_default_show_device_root">false</bool>
 
 </resources>

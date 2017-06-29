@@ -47,23 +47,23 @@ public interface ScopedPreferences {
 
     static final class RuntimeScopedPreferences implements ScopedPreferences {
 
-        private boolean defaultIncludeDeviceRoot;
-        private SharedPreferences mSharedPrefs;
-        private String mScope;
+        private final SharedPreferences mSharedPrefs;
+        private final String mScope;
+        private final boolean mDefaultShowDeviceRoot;
 
         private RuntimeScopedPreferences(Context context, SharedPreferences sharedPrefs,
                 String scope)  {
             assert(!TextUtils.isEmpty(scope));
 
-            defaultIncludeDeviceRoot = context.getResources()
-                .getBoolean(R.bool.config_defaultIncludeDeviceRoot);
             mSharedPrefs = sharedPrefs;
             mScope = scope;
+            mDefaultShowDeviceRoot = context.getResources()
+                    .getBoolean(R.bool.config_default_show_device_root);
         }
 
         @Override
         public boolean getShowDeviceRoot() {
-            return mSharedPrefs.getBoolean(INCLUDE_DEVICE_ROOT, defaultIncludeDeviceRoot);
+            return mSharedPrefs.getBoolean(INCLUDE_DEVICE_ROOT, mDefaultShowDeviceRoot);
         }
 
         @Override
