@@ -18,23 +18,20 @@ package com.android.documentsui.inspector;
 import android.annotation.StringRes;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.documentsui.R;
+import com.android.documentsui.base.DocumentInfo;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.R;
 import java.util.function.Consumer;
 
 /**
  * Organizes and Displays the basic details about a file
  */
-public class DetailsView extends LinearLayout implements Consumer<DocumentInfo> {
+public class DetailsView extends TableView implements Consumer<DocumentInfo> {
 
-    private final LayoutInflater mInflater;
     private final Map<Integer, TextView> rows = new HashMap();
 
     public DetailsView(Context context) {
@@ -47,20 +44,15 @@ public class DetailsView extends LinearLayout implements Consumer<DocumentInfo> 
 
     public DetailsView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     private void setRow(@StringRes int keyId, String value) {
         if(rows.containsKey(keyId)) {
             rows.get(keyId).setText(value);
         } else {
-            View row = mInflater.inflate(R.layout.table_row, null);
-            TextView title = (TextView) row.findViewById(R.id.key);
-            title.setText(getResources().getString(keyId));
-            TextView info = (TextView) row.findViewById(R.id.value);
-            info.setText(value);
-            addView(row);
-            rows.put(keyId, info);
+            KeyValueRow row = createKeyValueRow(this);
+            row.setKey(keyId);
+            row.setValue(value);
         }
     }
 

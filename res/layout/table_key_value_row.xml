@@ -14,7 +14,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.android.documentsui.inspector.KeyValueRow
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +23,7 @@
     android:paddingLeft="18dp">
 
     <TextView
-        android:id="@+id/key"
+        android:id="@+id/table_row_key"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -31,11 +32,12 @@
     </TextView>
 
     <TextView
-        android:id="@+id/value"
+        android:id="@+id/table_row_value"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:textColor="@color/inspector_value"
         android:textSize="14dp">
     </TextView>
-</LinearLayout>
+
+</com.android.documentsui.inspector.KeyValueRow>

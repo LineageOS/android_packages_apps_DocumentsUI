@@ -25,6 +25,7 @@ import android.view.Window;
 import android.widget.Toolbar;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.Shared;
 
 public class DocumentInspectorActivity extends Activity {
 
@@ -46,9 +47,10 @@ public class DocumentInspectorActivity extends Activity {
 
         if (mFragment == null) {
             Intent intent = getIntent();
-            Uri docUri = intent.getData();
 
-            mFragment = DocumentInspectorFragment.newInstance(docUri);
+            mFragment = DocumentInspectorFragment.newInstance(intent);
+
+
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, mFragment)
                     .commit();
