@@ -23,16 +23,23 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <com.android.documentsui.inspector.HeaderView
             android:id="@+id/inspector_header_view"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/inspector_header_height"/>
+            android:layout_height="@dimen/inspector_header_height" />
 
         <com.android.documentsui.inspector.DetailsView
             android:id="@+id/inspector_details_view"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+        <com.android.documentsui.inspector.DebugView
+            android:id="@+id/inspector_debug_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
     </LinearLayout>
 </ScrollView>

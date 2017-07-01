@@ -52,6 +52,7 @@ public class InspectorControllerTest  {
     private InspectorController mController;
     private TestConsumer<DocumentInfo> headerTestDouble;
     private TestConsumer<DocumentInfo> detailsTestDouble;
+    private TestConsumer<DocumentInfo> debugTestDouble;
     private Boolean mShowSnackbarsCalled;
 
     @Before
@@ -64,6 +65,7 @@ public class InspectorControllerTest  {
         mLoader = new DocumentLoader(loader, mLoaderManager);
         headerTestDouble = new TestConsumer<>();
         detailsTestDouble = new TestConsumer<>();
+        debugTestDouble = new TestConsumer<>();
         mShowSnackbarsCalled = false;
 
         //Crashes if not called before "new TestActivity".
@@ -76,12 +78,45 @@ public class InspectorControllerTest  {
                 mContext,
                 mLoader,
                 new TestProvidersAccess(),
+                false,
                 headerTestDouble,
                 detailsTestDouble,
+                debugTestDouble,
                 () -> {
                     mShowSnackbarsCalled = true;
                 }
         );
+    }
+
+    /**
+     * Tests Debug view should be hidden and therefore not updated by default.
+     */
+    @Test
+    public void testHideDebugByDefault() throws Exception {
+        mController.updateView(new DocumentInfo());
+        debugTestDouble.assertNotCalled();
+    }
+
+    /**
+     * Tests Debug view should be updated when visible.
+     */
+    @Test
+    public void testShowDebugUpdatesView() throws Exception {
+        mController = new InspectorController(
+                mContext,
+                mLoader,
+                new TestProvidersAccess(),
+                true,
+                headerTestDouble,
+                detailsTestDouble,
+                debugTestDouble,
+                () -> {
+                    mShowSnackbarsCalled = true;
+                }
+        );
+
+        mController.updateView(new DocumentInfo());
+        debugTestDouble.assertCalled();
     }
 
     /**
