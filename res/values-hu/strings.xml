@@ -81,6 +81,8 @@
     <string name="toast_no_application" msgid="7555319548595113121">"A fájlt nem lehet megnyitni"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Az archívumban nem lehet fájlokat megnyitni"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Néhány dokumentumot nem lehet törölni"</string>
+    <!-- no translation found for file_inspector_load_error (1226344446677541109) -->
+    <skip />
     <string name="share_via" msgid="8725082736005677161">"Megosztás itt:"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Fájlok másolása"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Fájlok tömörítése"</string>
