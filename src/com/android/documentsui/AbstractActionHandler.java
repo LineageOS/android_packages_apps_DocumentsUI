@@ -404,6 +404,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
         mState.debugMode = enabled;
         mInjector.features.forceFeature(R.bool.feature_command_interceptor, enabled);
+        mInjector.features.forceFeature(R.bool.feature_inspector, enabled);
         mActivity.invalidateOptionsMenu();
 
         if (enabled) {

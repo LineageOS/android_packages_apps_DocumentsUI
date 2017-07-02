@@ -18,6 +18,7 @@ package com.android.documentsui.inspector;
 import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.Loader;
 
 /**
@@ -46,9 +48,11 @@ public class DocumentInspectorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
         final Loader loader = new DocumentLoader(getActivity(), getLoaderManager());
+
         mView = (ScrollView) inflater.inflate(R.layout.document_inspector_fragment,
                 container, false);
-        mController = new InspectorController(getActivity(), loader, mView);
+        boolean showDebug = (boolean) getArguments().get(Shared.EXTRA_SHOW_DEBUG);
+        mController = new InspectorController(getActivity(), loader, mView, showDebug);
         return mView;
     }
 
@@ -68,10 +72,15 @@ public class DocumentInspectorFragment extends Fragment {
     /**
      * Creates a fragment and sets a Uri as an argument.
      */
-    public static DocumentInspectorFragment newInstance(Uri uri) {
+    public static DocumentInspectorFragment newInstance(Intent intent) {
+        Uri uri = intent.getData();
+        boolean showDebug = intent.getBooleanExtra(Shared.EXTRA_SHOW_DEBUG, false);
+
         checkArgument(uri.getScheme().equals("content"));
         Bundle args = new Bundle();
         args.putParcelable(DOC_URI_ARG, uri);
+        args.putBoolean(Shared.EXTRA_SHOW_DEBUG, showDebug);
+
         DocumentInspectorFragment fragment = new DocumentInspectorFragment();
         fragment.setArguments(args);
         return fragment;

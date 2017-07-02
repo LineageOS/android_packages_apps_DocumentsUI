@@ -23,7 +23,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
@@ -43,6 +42,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.TimeoutTask;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
+import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -678,6 +678,10 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     public void showInspector(DocumentInfo doc) {
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_INSPECTOR);
         Intent intent = new Intent(mActivity, DocumentInspectorActivity.class);
+        intent.putExtra(
+                Shared.EXTRA_SHOW_DEBUG,
+                mFeatures.isDebugSupportEnabled()
+                        && DebugFlags.getDocumentDetailsEnabled());
         intent.setData(doc.derivedUri);
         mActivity.startActivity(intent);
     }
