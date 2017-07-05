@@ -15,13 +15,20 @@
  */
 package com.android.documentsui.inspector;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.documentsui.ProviderExecutor;
+import com.android.documentsui.ThumbnailLoader;
+import com.android.documentsui.base.Display;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.R;
 import java.util.function.Consumer;
@@ -31,8 +38,14 @@ import java.util.function.Consumer;
  */
 public final class HeaderView extends RelativeLayout implements Consumer<DocumentInfo> {
 
+    private static final String TAG = HeaderView.class.getCanonicalName();
+
+    private final Context mContext;
     private final View mHeader;
+    private ImageView mMime;
+    private ImageView mThumbnail;
     private final TextView mTitle;
+    private Point mImageDimensions;
 
     public HeaderView(Context context) {
         this(context, null);
@@ -46,14 +59,25 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
         super(context, attrs, defStyleAttr);
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
+        mContext = context;
         mHeader = inflater.inflate(R.layout.inspector_header, null);
+        mMime = (ImageView) mHeader.findViewById(R.id.inspector_mime);
+        mThumbnail = (ImageView) mHeader.findViewById(R.id.inspector_thumbnail);
         mTitle = (TextView) mHeader.findViewById(R.id.inspector_file_title);
+
+        int width = (int) Display.screenWidth((Activity)context);
+        int height = mContext.getResources().getDimensionPixelSize(R.dimen.inspector_header_height);
+        mImageDimensions = new Point(width, height);
     }
 
     @Override
     public void accept(DocumentInfo info) {
         if (!hasHeader()) {
             addView(mHeader);
+        }
+
+        if(!hasHeaderImage()) {
+            loadHeaderImage(info);
         }
         mTitle.setText(info.displayName);
     }
@@ -65,5 +89,22 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
             }
         }
         return false;
+    }
+
+    private void loadHeaderImage(DocumentInfo info) {
+
+        // load the mime icon.
+        Drawable d = mContext.getContentResolver().getTypeDrawable(info.mimeType);
+        mMime.setImageDrawable(d);
+
+        // load the thumbnail async.
+        final ThumbnailLoader task = new ThumbnailLoader(info.derivedUri, mMime, mThumbnail,
+            mImageDimensions, info.lastModified, ThumbnailLoader.ANIM_FADE_IN, false);
+        task.executeOnExecutor(ProviderExecutor.forAuthority(info.derivedUri.getAuthority()),
+            info.derivedUri);
+    }
+
+    private boolean hasHeaderImage() {
+        return mThumbnail.getAlpha() == 1.0f;
     }
 }
