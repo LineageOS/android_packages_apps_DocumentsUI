@@ -117,6 +117,9 @@
     <!-- Table header for last modified time. [CHAR_LIMIT=18] -->
     <string name="sort_dimension_date">Modified</string>
 
+    <!--Table header for number of children-->
+    <string name="directory_children">Number of Children</string>
+
     <!-- content description to describe ascending sorting used with upward arrow in table header. -->
     <string name="sort_direction_ascending">Ascending</string>
     <!-- content description to describe descending sorting used with downward arrow in table header. -->

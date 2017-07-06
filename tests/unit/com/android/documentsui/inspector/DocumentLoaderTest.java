@@ -33,6 +33,9 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * This test relies the inspector providers test.txt file in inspector root.
+ */
 @MediumTest
 public class DocumentLoaderTest extends TestCase {
 

@@ -81,5 +81,9 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
         setRow(R.string.sort_dimension_file_type, info.mimeType);
         setRow(R.string.sort_dimension_size, formatSize(info.size));
         setRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
+
+        if(info.numberOfChildren != -1) {
+            setRow(R.string.directory_children, String.valueOf(info.numberOfChildren));
+        }
     }
 }
