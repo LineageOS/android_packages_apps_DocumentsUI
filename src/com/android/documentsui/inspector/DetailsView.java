@@ -17,6 +17,7 @@ package com.android.documentsui.inspector;
 
 import android.annotation.StringRes;
 import android.content.Context;
+import android.text.format.Formatter;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -56,30 +57,10 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
         }
     }
 
-    private String formatSize(long bytes) {
-        double kb = bytes/1024.0;
-        double mb = kb/1024.0;
-        double gb = mb/1024.0;
-        double tb = gb/1024.0;
-        String docSize;
-        if (bytes < 1024) {
-            docSize = String.valueOf(Math.round(bytes*100)/100.0) + " B";
-        } else if (kb < 1024) {
-            docSize = String.valueOf(Math.round(kb*100)/100.0) + " KB";
-        } else if (mb < 1024) {
-            docSize = String.valueOf(Math.round(mb*100)/100.0) + " MB";
-        } else if (gb < 1024) {
-            docSize = String.valueOf(Math.round(gb*100)/100.0) + " GB";
-        } else {
-            docSize = String.valueOf(Math.round(tb*100)/100.0) + " TB";
-        }
-        return docSize;
-    }
-
     @Override
     public void accept(DocumentInfo info) {
         setRow(R.string.sort_dimension_file_type, info.mimeType);
-        setRow(R.string.sort_dimension_size, formatSize(info.size));
+        setRow(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
         setRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
 
         if(info.numberOfChildren != -1) {
