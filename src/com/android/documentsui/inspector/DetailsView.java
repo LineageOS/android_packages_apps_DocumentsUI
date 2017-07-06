@@ -33,7 +33,7 @@ import java.util.function.Consumer;
  */
 public class DetailsView extends TableView implements Consumer<DocumentInfo> {
 
-    private final Map<Integer, TextView> rows = new HashMap();
+    private final Map<Integer, KeyValueRow> rows = new HashMap();
 
     public DetailsView(Context context) {
         this(context, null);
@@ -49,11 +49,12 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
 
     private void setRow(@StringRes int keyId, String value) {
         if(rows.containsKey(keyId)) {
-            rows.get(keyId).setText(value);
+            rows.get(keyId).setValue(value);
         } else {
             KeyValueRow row = createKeyValueRow(this);
             row.setKey(keyId);
             row.setValue(value);
+            rows.put(keyId, row);
         }
     }
 
