@@ -17,6 +17,7 @@ package com.android.documentsui.inspector;
 
 import android.annotation.StringRes;
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.text.format.Formatter;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -61,7 +62,8 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
     public void accept(DocumentInfo info) {
         setRow(R.string.sort_dimension_file_type, info.mimeType);
         setRow(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
-        setRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
+        setRow(R.string.sort_dimension_date,
+                DateFormat.getDateFormat(getContext()).format(info.lastModified));
 
         if(info.numberOfChildren != -1) {
             setRow(R.string.directory_children, String.valueOf(info.numberOfChildren));
