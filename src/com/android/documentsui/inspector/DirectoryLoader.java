@@ -28,7 +28,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
 
-public class DirectoryLoader extends AsyncTask<DocumentInfo, Integer, DocumentInfo> {
+/**
+ * Loads more detailed information regarding a directory, specifically its children count and
+ * its total estimated size.
+ */
+public final class DirectoryLoader extends AsyncTask<DocumentInfo, Integer, DocumentInfo> {
 
     private static int MAXIMUM_FILE_COUNT = 5000;
 
@@ -64,7 +68,7 @@ public class DirectoryLoader extends AsyncTask<DocumentInfo, Integer, DocumentIn
     }
 
     private int getChildrenCount(DocumentInfo directory) {
-        return getCursor(directory).getCount();
+        return getCursorOfChildren(directory).getCount();
     }
 
     private long getDirectorySize(DocumentInfo directory) {
@@ -77,16 +81,16 @@ public class DirectoryLoader extends AsyncTask<DocumentInfo, Integer, DocumentIn
         while(directories.size() > 0) {
 
             //makes a cursor from first directory in queue.
-            Cursor cursor = getCursor(directories.remove());
-            while (cursor.moveToNext()) {
+            Cursor children = getCursorOfChildren(directories.remove());
+            while (children.moveToNext()) {
 
                 //hard stop if we have processed a large amount of files.
                 if(count >= MAXIMUM_FILE_COUNT) {
                     return size;
                 }
 
-                //iterate through the directory.
-                DocumentInfo info = DocumentInfo.fromCursor(cursor, directory.authority);
+                //iterate through children of the directory.
+                DocumentInfo info = DocumentInfo.fromCursor(children, directory.authority);
                 if (info.isDirectory()) {
                     directories.add(info);
                 } else {
@@ -95,12 +99,12 @@ public class DirectoryLoader extends AsyncTask<DocumentInfo, Integer, DocumentIn
                 count++;
             }
             //done checking this directory, close the cursor.
-            cursor.close();
+            children.close();
         }
         return size;
     }
 
-    private Cursor getCursor(DocumentInfo directory) {
+    private Cursor getCursorOfChildren(DocumentInfo directory) {
         checkArgument(directory.isDirectory());
 
         Uri children = DocumentsContract.buildChildDocumentsUri(

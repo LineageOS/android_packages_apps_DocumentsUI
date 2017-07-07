@@ -136,11 +136,9 @@ public final class InspectorController {
      * @param dirInfo - null if uri was not to a directory.
      */
     @Nullable
-    public void displayDirectory(@Nullable DocumentInfo directory) {
+    private void displayDirectory(@Nullable DocumentInfo directory) {
 
-        if (directory == null) {
-            mShowSnackbar.run();
-        } else {
+        if (directory != null) {
             //update directory information.
             mDetails.accept(directory);
         }
