@@ -17,11 +17,15 @@ package com.android.documentsui.inspector;
 
 import android.annotation.StringRes;
 import android.content.Context;
+import android.text.format.DateFormat;
+import android.text.format.Formatter;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Lookup;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +36,7 @@ import java.util.function.Consumer;
  */
 public class DetailsView extends TableView implements Consumer<DocumentInfo> {
 
-    private final Map<Integer, TextView> rows = new HashMap();
+    private final Map<Integer, KeyValueRow> rows = new HashMap();
 
     public DetailsView(Context context) {
         this(context, null);
@@ -48,38 +52,26 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
 
     private void setRow(@StringRes int keyId, String value) {
         if(rows.containsKey(keyId)) {
-            rows.get(keyId).setText(value);
+            rows.get(keyId).setValue(value);
         } else {
             KeyValueRow row = createKeyValueRow(this);
             row.setKey(keyId);
             row.setValue(value);
+            rows.put(keyId, row);
         }
-    }
-
-    private String formatSize(long bytes) {
-        double kb = bytes/1024.0;
-        double mb = kb/1024.0;
-        double gb = mb/1024.0;
-        double tb = gb/1024.0;
-        String docSize;
-        if (bytes < 1024) {
-            docSize = String.valueOf(Math.round(bytes*100)/100.0) + " B";
-        } else if (kb < 1024) {
-            docSize = String.valueOf(Math.round(kb*100)/100.0) + " KB";
-        } else if (mb < 1024) {
-            docSize = String.valueOf(Math.round(mb*100)/100.0) + " MB";
-        } else if (gb < 1024) {
-            docSize = String.valueOf(Math.round(gb*100)/100.0) + " GB";
-        } else {
-            docSize = String.valueOf(Math.round(tb*100)/100.0) + " TB";
-        }
-        return docSize;
     }
 
     @Override
     public void accept(DocumentInfo info) {
-        setRow(R.string.sort_dimension_file_type, info.mimeType);
-        setRow(R.string.sort_dimension_size, formatSize(info.size));
-        setRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
+        final Lookup<String, String> fileTypeLookup
+                = DocumentsApplication.getFileTypeLookup(getContext());
+        setRow(R.string.sort_dimension_file_type, fileTypeLookup.lookup(info.mimeType));
+        setRow(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
+        setRow(R.string.sort_dimension_date,
+                DateFormat.getDateFormat(getContext()).format(info.lastModified));
+
+        if(info.numberOfChildren != -1) {
+            setRow(R.string.directory_children, String.valueOf(info.numberOfChildren));
+        }
     }
 }

@@ -60,6 +60,7 @@ public class DocumentInfo implements Durable, Parcelable {
     public String summary;
     public long size;
     public int icon;
+    public int numberOfChildren;
 
     /** Derived fields that aren't persisted */
     public Uri derivedUri;
@@ -80,6 +81,7 @@ public class DocumentInfo implements Durable, Parcelable {
         size = -1;
         icon = 0;
         derivedUri = null;
+        numberOfChildren = -1;
     }
 
     @Override

@@ -63,6 +63,8 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"ಪ್ರಕಾರ"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"ಗಾತ್ರ"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"ಮಾರ್ಪಾಡು"</string>
+    <!-- no translation found for directory_children (8115290268549503262) -->
+    <skip />
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ಆರೋಹಣ"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"ಅವರೋಹಣ"</string>
     <string name="drawer_open" msgid="8071673398187261741">"ರೂಟ್‌ಗಳನ್ನು ತೋರಿಸು"</string>
@@ -81,8 +83,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ಆರ್ಕೈವ್‌ಗಳಲ್ಲಿ ಫೈಲ್‌ಗಳನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ಕೆಲವು ಡಾಕ್ಯುಮೆಂಟ್‌ಗಳನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"</string>
-    <!-- no translation found for file_inspector_load_error (1226344446677541109) -->
-    <skip />
+    <string name="file_inspector_load_error" msgid="1226344446677541109">"ಗುಣಲಕ್ಷಣಗಳನ್ನು ಲೋಡ್ ಮಾಡುವುದು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"</string>
     <string name="share_via" msgid="8725082736005677161">"ಈ ಮೂಲಕ ಹಂಚಿಕೊಳ್ಳಿ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ಫೈಲ್‌ಗಳನ್ನು ನಕಲಿಸಲಾಗುತ್ತಿದೆ"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ಫೈಲ್‌ ಕುಗ್ಗಿಸಲಾಗುತ್ತಿದೆ"</string>
