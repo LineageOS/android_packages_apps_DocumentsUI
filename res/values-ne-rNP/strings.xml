@@ -63,6 +63,8 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"प्रकार"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"आकार"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"परिमार्जित"</string>
+    <!-- no translation found for directory_children (8115290268549503262) -->
+    <skip />
     <string name="sort_direction_ascending" msgid="5882787683763248102">"बढ्दो क्रम"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"घट्दो क्रम"</string>
     <string name="drawer_open" msgid="8071673398187261741">"मूल ठाउँहरू देखाउनुहोस्"</string>
@@ -81,8 +83,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"फाइल खोल्न सकिँदैन"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"अभिलेखहरूमा भएका फाइलहरू खोल्न सकिँदैन"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"केही कागजातहरूलाई मेट्न सकिएन"</string>
-    <!-- no translation found for file_inspector_load_error (1226344446677541109) -->
-    <skip />
+    <string name="file_inspector_load_error" msgid="1226344446677541109">"विशेषताहरू लोड गर्न सकिएन"</string>
     <string name="share_via" msgid="8725082736005677161">"निम्न मार्फत साझेदारी गर्नुहोस्"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फाइलहरूका प्रतिलिपि बनाउँदै"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"फाइलहरू कम्प्रेस गर्दै"</string>
