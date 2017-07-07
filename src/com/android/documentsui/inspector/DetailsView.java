@@ -21,8 +21,10 @@ import android.text.format.Formatter;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Lookup;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +61,9 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
 
     @Override
     public void accept(DocumentInfo info) {
-        setRow(R.string.sort_dimension_file_type, info.mimeType);
+        final Lookup<String, String> fileTypeLookup
+                = DocumentsApplication.getFileTypeLookup(getContext());
+        setRow(R.string.sort_dimension_file_type, fileTypeLookup.lookup(info.mimeType));
         setRow(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
         setRow(R.string.sort_dimension_date, String.valueOf(info.lastModified));
 
