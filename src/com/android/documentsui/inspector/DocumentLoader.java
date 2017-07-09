@@ -21,9 +21,13 @@ import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.Loader;
 import com.android.internal.util.Preconditions;
@@ -32,13 +36,14 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Asynchronously loads a documents metadata into a DocumentInfo object.
+ * Asynchronously loads a document's metadata into a DocumentInfo object.
  */
 public class DocumentLoader implements Loader {
 
     private final Context mContext;
     private final LoaderManager mLoader;
     private List<Integer> loaderIds;
+    private Callbacks mCallbacks;
 
     public DocumentLoader(Context context, LoaderManager loader) {
         checkArgument(context != null);
@@ -69,7 +74,8 @@ public class DocumentLoader implements Loader {
         int loadId = getNextLoaderId();
         checkArgument(mLoader.getLoader(loadId) == null);
         loaderIds.add(loadId);
-        mLoader.restartLoader(loadId, null, new Callbacks(mContext, uri, mLoader, callback));
+        mCallbacks = new Callbacks(mContext, uri, callback);
+        mLoader.restartLoader(loadId, null, mCallbacks);
     }
 
     @Override
@@ -78,6 +84,9 @@ public class DocumentLoader implements Loader {
             mLoader.destroyLoader(id);
         }
         loaderIds.clear();
+        if (mCallbacks.getObserver() != null) {
+            mContext.getContentResolver().unregisterContentObserver(mCallbacks.getObserver());
+        }
     }
 
     /**
@@ -88,19 +97,15 @@ public class DocumentLoader implements Loader {
         private final Context mContext;
         private final Uri mDocUri;
         private final Consumer<DocumentInfo> mDocConsumer;
-        private final LoaderManager mManager;
+        private ContentObserver mObserver;
 
-        Callbacks(Context context, Uri uri, LoaderManager manager,
-                Consumer<DocumentInfo> docConsumer) {
-
+        Callbacks(Context context, Uri uri, Consumer<DocumentInfo> docConsumer) {
             checkArgument(context != null);
             checkArgument(uri != null);
-            checkArgument(manager != null);
             checkArgument(docConsumer != null);
             mContext = context;
             mDocUri = uri;
             mDocConsumer = docConsumer;
-            mManager = manager;
         }
 
         @Override
@@ -114,18 +119,37 @@ public class DocumentLoader implements Loader {
             //returns DocumentInfo null if the cursor is null or isEmpty.
             if (cursor == null || !cursor.moveToFirst()) {
                 mDocConsumer.accept(null);
-            }
-            else {
+            } else {
+                mObserver = new InspectorContentObserver(loader::onContentChanged);
+                cursor.registerContentObserver(mObserver);
                 DocumentInfo docInfo = DocumentInfo.fromCursor(cursor, mDocUri.getAuthority());
                 mDocConsumer.accept(docInfo);
             }
-
-            mManager.destroyLoader(loader.getId());
         }
 
         @Override
         public void onLoaderReset(android.content.Loader<Cursor> loader) {
+            if (mObserver != null) {
+                mContext.getContentResolver().unregisterContentObserver(mObserver);
+            }
+        }
 
+        public ContentObserver getObserver() {
+            return mObserver;
+        }
+    }
+
+    private static final class InspectorContentObserver extends ContentObserver {
+        private final Runnable mContentChangedCallback;
+
+        public InspectorContentObserver(Runnable contentChangedCallback) {
+            super(new Handler(Looper.getMainLooper()));
+            mContentChangedCallback = contentChangedCallback;
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            mContentChangedCallback.run();
         }
     }
 }
