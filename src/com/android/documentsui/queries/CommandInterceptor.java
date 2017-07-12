@@ -155,7 +155,7 @@ public final class CommandInterceptor implements EventHandler<String> {
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
                 boolean enabled = asBool(tokens[1]);
                 DebugFlags.setDocumentDetailsEnabled(enabled);
-                Log.i(TAG, "Set gesture scale enabled to: " + enabled);
+                Log.i(TAG, "Set doc details enabled to: " + enabled);
                 return true;
             }
             Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));
