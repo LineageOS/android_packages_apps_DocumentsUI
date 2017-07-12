@@ -166,16 +166,6 @@ public final class Shared {
     }
 
     /**
-     * Returns a condensed stacktrace in String format, separated by \n.
-     */
-    public static String getStackTrace(Exception e) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        return sw.toString();
-    }
-
-    /**
      * Compare two strings against each other using system default collator in a
      * case-insensitive mode. Clusters strings prefixed with {@link DIR_PREFIX}
      * before other items.
