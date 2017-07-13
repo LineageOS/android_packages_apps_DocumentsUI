@@ -63,8 +63,7 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Mota"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Tamaina"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Aldatze-ordua"</string>
-    <!-- no translation found for directory_children (8115290268549503262) -->
-    <skip />
+    <string name="directory_children" msgid="8115290268549503262">"Haur kopurua"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Gorantz"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Beherantz"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Erakutsi erroko karpetak"</string>
@@ -83,8 +82,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Ezin da ireki fitxategia"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Ezin dira ireki artxiboetako fitxategiak"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Ezin izan dira ezabatu dokumentu batzuk"</string>
-    <!-- no translation found for file_inspector_load_error (1226344446677541109) -->
-    <skip />
+    <string name="file_inspector_load_error" msgid="1226344446677541109">"Ezin izan dira kargatu propietateak"</string>
     <string name="share_via" msgid="8725082736005677161">"Partekatu honekin:"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopiatu fitxategiak"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Fitxategiak konprimatzen"</string>
