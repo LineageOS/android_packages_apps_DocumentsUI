@@ -28,22 +28,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import android.provider.DocumentsContract;
+import android.support.annotation.Nullable;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.Loader;
-import com.android.internal.util.Preconditions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Asynchronously loads a document's metadata into a DocumentInfo object.
+ * Asynchronously loads a document's metadata for the inspector.
  */
 public class DocumentLoader implements Loader {
 
     private final Context mContext;
     private final LoaderManager mLoader;
     private List<Integer> loaderIds;
-    private Callbacks mCallbacks;
+    private @Nullable Callbacks mDocCallbacks;
+    private @Nullable Callbacks mDirCallbacks;
 
     public DocumentLoader(Context context, LoaderManager loader) {
         checkArgument(context != null);
@@ -51,6 +53,77 @@ public class DocumentLoader implements Loader {
         mContext = context;
         mLoader = loader;
         loaderIds = new ArrayList<>();
+    }
+
+    /**
+     * Loads documents metadata.
+     */
+    @Override
+    public void loadDocInfo(Uri uri, Consumer<DocumentInfo> updateView) {
+        //Check that we have correct Uri type and that the loader is not already created.
+        checkArgument(uri.getScheme().equals("content"));
+
+        //get a new loader id.
+        int loadId = getNextLoaderId();
+        checkArgument(mLoader.getLoader(loadId) == null);
+        loaderIds.add(loadId);
+
+        Consumer<Cursor> callback = new Consumer<Cursor>() {
+            @Override
+            public void accept(Cursor cursor) {
+                if (cursor == null || !cursor.moveToFirst()) {
+                    updateView.accept(null);
+                } else {
+                    DocumentInfo docInfo = DocumentInfo.fromCursor(cursor, uri.getAuthority());
+                    updateView.accept(docInfo);
+                }
+            }
+        };
+
+        mDocCallbacks = new Callbacks(mContext, uri, callback);
+        mLoader.restartLoader(loadId, null, mDocCallbacks);
+    }
+
+    /**
+     * Loads a directories item count.
+     */
+    @Override
+    public void loadDirCount(DocumentInfo directory, Consumer<Integer> updateView) {
+        checkArgument(directory.isDirectory());
+        Uri children = DocumentsContract.buildChildDocumentsUri(
+                directory.authority, directory.documentId);
+
+        //get a new loader id.
+        int loadId = getNextLoaderId();
+        checkArgument(mLoader.getLoader(loadId) == null);
+        loaderIds.add(loadId);
+
+        Consumer<Cursor> callback = new Consumer<Cursor>() {
+            @Override
+            public void accept(Cursor cursor) {
+                if(cursor != null && cursor.moveToFirst()) {
+                    updateView.accept(cursor.getCount());
+                }
+            }
+        };
+
+        mDirCallbacks = new Callbacks(mContext, children, callback);
+        mLoader.restartLoader(loadId, null, mDirCallbacks);
+    }
+
+    @Override
+    public void reset() {
+        for (Integer id : loaderIds) {
+            mLoader.destroyLoader(id);
+        }
+        loaderIds.clear();
+
+        if (mDocCallbacks != null && mDocCallbacks.getObserver() != null) {
+            mContext.getContentResolver().unregisterContentObserver(mDocCallbacks.getObserver());
+        }
+        if (mDirCallbacks != null && mDirCallbacks.getObserver() != null) {
+            mContext.getContentResolver().unregisterContentObserver(mDocCallbacks.getObserver());
+        }
     }
 
     private int getNextLoaderId() {
@@ -63,68 +136,38 @@ public class DocumentLoader implements Loader {
     }
 
     /**
-     * @param uri is a Content Uri.
-     */
-    @Override
-    public void load(Uri uri, Consumer<DocumentInfo> callback) {
-        //Check that we have correct Uri type and that the loader is not already created.
-        checkArgument(uri.getScheme().equals("content"));
-
-        //get a new loader id.
-        int loadId = getNextLoaderId();
-        checkArgument(mLoader.getLoader(loadId) == null);
-        loaderIds.add(loadId);
-        mCallbacks = new Callbacks(mContext, uri, callback);
-        mLoader.restartLoader(loadId, null, mCallbacks);
-    }
-
-    @Override
-    public void reset() {
-        for (Integer id : loaderIds) {
-            mLoader.destroyLoader(id);
-        }
-        loaderIds.clear();
-        if (mCallbacks.getObserver() != null) {
-            mContext.getContentResolver().unregisterContentObserver(mCallbacks.getObserver());
-        }
-    }
-
-    /**
-     * Implements the callback interface for the Loader.
+     * Implements the callback interface for cursor loader.
      */
     static final class Callbacks implements LoaderCallbacks<Cursor> {
 
         private final Context mContext;
-        private final Uri mDocUri;
-        private final Consumer<DocumentInfo> mDocConsumer;
+        private final Uri mUri;
+        private final Consumer<Cursor> mCallback;
         private ContentObserver mObserver;
 
-        Callbacks(Context context, Uri uri, Consumer<DocumentInfo> docConsumer) {
+        Callbacks(Context context, Uri uri, Consumer<Cursor> callback) {
             checkArgument(context != null);
             checkArgument(uri != null);
-            checkArgument(docConsumer != null);
+            checkArgument(callback != null);
             mContext = context;
-            mDocUri = uri;
-            mDocConsumer = docConsumer;
+            mUri = uri;
+            mCallback = callback;
         }
 
         @Override
         public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
-            return new CursorLoader(mContext, mDocUri, null, null, null, null);
+            return new CursorLoader(mContext, mUri, null, null, null, null);
         }
 
         @Override
         public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor cursor) {
 
-            //returns DocumentInfo null if the cursor is null or isEmpty.
-            if (cursor == null || !cursor.moveToFirst()) {
-                mDocConsumer.accept(null);
-            } else {
+            if (cursor != null) {
                 mObserver = new InspectorContentObserver(loader::onContentChanged);
                 cursor.registerContentObserver(mObserver);
-                DocumentInfo docInfo = DocumentInfo.fromCursor(cursor, mDocUri.getAuthority());
-                mDocConsumer.accept(docInfo);
             }
+
+            mCallback.accept(cursor);
         }
 
         @Override
