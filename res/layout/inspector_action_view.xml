@@ -14,36 +14,33 @@
      limitations under the License.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/action_header"
-        android:layout_height="48dp"
-        android:layout_width="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:textSize="14sp"
-        android:color="@color/material_subheader"
-        android:gravity="center_vertical"/>
+    <include
+        layout="@layout/inspector_section_title"
+        android:id="@+id/action_header" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/default_app_info"
+	    android:paddingLeft="16dp"
+	    android:paddingRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/default_app_info"
+        android:paddingBottom="10dp"
         android:layout_below="@id/action_header">
 
         <ImageView
+            android:id="@+id/app_icon"
+            android:paddingLeft="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/app_icon"/>
+            android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/app_name"
+            android:paddingLeft="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/app_name"
-            android:paddingLeft="5dp"
             android:layout_toRightOf="@id/app_icon"
             android:layout_centerVertical="true"/>
 
@@ -54,5 +51,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@null"/>
+
         </RelativeLayout>
+
 </RelativeLayout>

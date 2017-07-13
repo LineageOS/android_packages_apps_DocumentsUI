@@ -386,4 +386,8 @@
 
     <!-- Button for continuing a file operation in background, eg. copying, moving or extracting. [CHAR LIMIT=48] -->
     <string name="continue_in_background">Continue in background</string>
+
+    <!-- Title of inspector's debug info section. [CHAR LIMIT=48] -->
+    <string name="inspector_debug_section">Debug info (dev only)</string>
+
 </resources>

@@ -33,7 +33,7 @@ import com.android.documentsui.inspector.InspectorController.Loader;
 /**
  * Displays the Properties view in Files.
  */
-public class DocumentInspectorFragment extends Fragment {
+public class InspectorFragment extends Fragment {
 
     private static final String DOC_URI_ARG = "docUri";
     private InspectorController mController;
@@ -72,7 +72,7 @@ public class DocumentInspectorFragment extends Fragment {
     /**
      * Creates a fragment and sets a Uri as an argument.
      */
-    public static DocumentInspectorFragment newInstance(Intent intent) {
+    public static InspectorFragment newInstance(Intent intent) {
         Uri uri = intent.getData();
         boolean showDebug = intent.getBooleanExtra(Shared.EXTRA_SHOW_DEBUG, false);
 
@@ -81,7 +81,7 @@ public class DocumentInspectorFragment extends Fragment {
         args.putParcelable(DOC_URI_ARG, uri);
         args.putBoolean(Shared.EXTRA_SHOW_DEBUG, showDebug);
 
-        DocumentInspectorFragment fragment = new DocumentInspectorFragment();
+        InspectorFragment fragment = new InspectorFragment();
         fragment.setArguments(args);
         return fragment;
     }

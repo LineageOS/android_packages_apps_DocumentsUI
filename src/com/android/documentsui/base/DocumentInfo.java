@@ -257,6 +257,14 @@ public class DocumentInfo implements Durable, Parcelable {
         return (flags & Document.FLAG_SUPPORTS_RENAME) != 0;
     }
 
+    public boolean isThumbnailSupported() {
+        return (flags & Document.FLAG_SUPPORTS_THUMBNAIL) != 0;
+    }
+
+    public boolean isWeblinkSupported() {
+        return false;  // web link support not back ported to arc-apps.
+    }
+
     public boolean isArchive() {
         return ArchivesProvider.isSupportedArchiveType(mimeType);
     }
