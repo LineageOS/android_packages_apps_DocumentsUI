@@ -15,15 +15,14 @@
  */
 package com.android.documentsui.inspector.actions;
 
-import android.annotation.Nullable;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
+
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+
 import java.util.List;
 
 /**

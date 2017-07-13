@@ -58,7 +58,7 @@ import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.ActionHandler.Addons;
-import com.android.documentsui.inspector.DocumentInspectorActivity;
+import com.android.documentsui.inspector.InspectorActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.Selection;
@@ -677,11 +677,11 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     @Override
     public void showInspector(DocumentInfo doc) {
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_INSPECTOR);
-        Intent intent = new Intent(mActivity, DocumentInspectorActivity.class);
+        Intent intent = new Intent(mActivity, InspectorActivity.class);
         intent.putExtra(
                 Shared.EXTRA_SHOW_DEBUG,
                 mFeatures.isDebugSupportEnabled()
-                        && DebugFlags.getDocumentDetailsEnabled());
+                        || DebugFlags.getDocumentDetailsEnabled());
         intent.setData(doc.derivedUri);
         mActivity.startActivity(intent);
     }
