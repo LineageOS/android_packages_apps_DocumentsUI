@@ -66,10 +66,13 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
         final Lookup<String, String> fileTypeLookup
                 = DocumentsApplication.getFileTypeLookup(getContext());
         setRow(R.string.sort_dimension_file_type, fileTypeLookup.lookup(info.mimeType));
-        setRow(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
-        setRow(R.string.sort_dimension_date,
-                DateFormat.getDateFormat(getContext()).format(info.lastModified));
-
+        if (info.size > 0) {
+            setRow(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
+        }
+        if (info.lastModified > 0) {
+            setRow(R.string.sort_dimension_date,
+                    DateFormat.getDateFormat(getContext()).format(info.lastModified));
+        }
         if(info.numberOfChildren != -1) {
             setRow(R.string.directory_children, String.valueOf(info.numberOfChildren));
         }
