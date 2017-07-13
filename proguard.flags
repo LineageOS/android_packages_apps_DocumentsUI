@@ -16,7 +16,3 @@
 -keep public class android.support.v4.view.accessibility.AccessibilityNodeInfoCompat {
    public static android.support.v4.view.accessibility.AccessibilityNodeInfoCompat obtain();
 }
-
--keepclassmembers public class com.android.documentsui.inspector.InspectorController {
-    *;
-}

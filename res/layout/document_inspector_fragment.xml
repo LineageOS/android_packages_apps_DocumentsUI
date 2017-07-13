@@ -15,14 +15,15 @@
     limitations under the License.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.android.documentsui.inspector.HeaderView
             android:id="@+id/inspector_header_view"
             android:layout_width="match_parent"
@@ -34,12 +35,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <com.android.documentsui.inspector.actions.ActionView
+            android:paddingTop="10dp"
+            android:id="@+id/inspector_show_in_provider_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <com.android.documentsui.inspector.actions.ActionView
+            android:paddingTop="10dp"
+            android:id="@+id/inspector_app_defaults_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
         <com.android.documentsui.inspector.DebugView
             android:id="@+id/inspector_debug_view"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone" />
-
     </LinearLayout>
 </ScrollView>

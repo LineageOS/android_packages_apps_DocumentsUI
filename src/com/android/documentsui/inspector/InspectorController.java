@@ -15,21 +15,28 @@
  */
 package com.android.documentsui.inspector;
 
+import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.view.View;
+import android.view.View.OnClickListener;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.inspector.actions.Action;
+import com.android.documentsui.inspector.actions.ClearDefaultAppAction;
+import com.android.documentsui.inspector.actions.ShowInProviderAction;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.ui.Snackbars;
 import java.util.concurrent.Executor;
@@ -42,9 +49,12 @@ public final class InspectorController {
     private final Loader mLoader;
     private final Consumer<DocumentInfo> mHeader;
     private final Consumer<DocumentInfo> mDetails;
+    private final ActionDisplay mShowProvider;
+    private final ActionDisplay mAppDefaults;
     private final Consumer<DocumentInfo> mDebugView;
     private final boolean mShowDebug;
     private final Context mContext;
+    private final PackageManager mPackageManager;
     private final ProvidersAccess mProviders;
     private final Runnable mShowSnackbar;
     private final Lookup<String, Executor> mExecutors;
@@ -53,26 +63,33 @@ public final class InspectorController {
      * InspectorControllerTest relies on this controller.
      */
     @VisibleForTesting
-    public InspectorController(Context context, Loader loader, ProvidersAccess providers,
-            boolean showDebug, Consumer<DocumentInfo> header, Consumer<DocumentInfo> details,
+    public InspectorController(Context context, Loader loader, PackageManager pm,
+            ProvidersAccess providers, boolean showDebug, Consumer<DocumentInfo> header,
+            Consumer<DocumentInfo> details, ActionDisplay showProvider, ActionDisplay appDefaults,
             Consumer<DocumentInfo> debugView, Lookup<String, Executor> executors,
             Runnable showSnackbar) {
 
         checkArgument(context != null);
         checkArgument(loader != null);
+        checkArgument(pm != null);
         checkArgument(providers != null);
         checkArgument(header != null);
         checkArgument(details != null);
+        checkArgument(showProvider != null);
+        checkArgument(appDefaults != null);
         checkArgument(debugView != null);
         checkArgument(showSnackbar != null);
         checkArgument(executors != null);
 
         mContext = context;
         mLoader = loader;
+        mPackageManager = pm;
         mShowDebug = showDebug;
         mProviders = providers;
         mHeader = header;
         mDetails = details;
+        mShowProvider = showProvider;
+        mAppDefaults = appDefaults;
         mDebugView = debugView;
         mExecutors = executors;
         mShowSnackbar = showSnackbar;
@@ -82,12 +99,15 @@ public final class InspectorController {
 
         this(activity,
                 loader,
+                activity.getPackageManager(),
                 DocumentsApplication.getProvidersCache (activity),
                 showDebug,
                 (HeaderView) layout.findViewById(R.id.inspector_header_view),
                 (DetailsView) layout.findViewById(R.id.inspector_details_view),
+                (ActionDisplay) layout.findViewById(R.id.inspector_show_in_provider_view),
+                (ActionDisplay) layout.findViewById(R.id.inspector_app_defaults_view),
                 (DebugView) layout.findViewById(R.id.inspector_debug_view),
-                    ProviderExecutor::forAuthority,
+                ProviderExecutor::forAuthority,
                 () -> {
                     // using a runnable to support unit testing this feature.
                     Snackbars.showInspectorError(activity);
@@ -122,6 +142,30 @@ public final class InspectorController {
                 new DirectoryLoader(mContext.getContentResolver(),
                     this::displayDirectory)
                     .executeOnExecutor(mExecutors.lookup(docInfo.authority), docInfo);
+            } else {
+
+                mShowProvider.setVisible(docInfo.isSettingsSupported());
+                if (docInfo.isSettingsSupported()) {
+                    Action showProviderAction =
+                        new ShowInProviderAction(mContext, mPackageManager, docInfo, mProviders);
+                    mShowProvider.init(
+                            showProviderAction,
+                            (view) -> {
+                                showInProvider(docInfo.derivedUri);
+                            });
+                }
+
+                Action defaultAction =
+                        new ClearDefaultAppAction(mContext, mPackageManager, docInfo);
+
+                mAppDefaults.setVisible(defaultAction.canPerformAction());
+                if (defaultAction.canPerformAction()) {
+                    mAppDefaults.init(
+                            defaultAction,
+                            (View) -> {
+                                clearDefaultApp(defaultAction.getPackageName());
+                            });
+                }
             }
 
             if (mShowDebug) {
@@ -137,7 +181,6 @@ public final class InspectorController {
      */
     @Nullable
     private void displayDirectory(@Nullable DocumentInfo directory) {
-
         if (directory != null) {
             //update directory information.
             mDetails.accept(directory);
@@ -159,6 +202,20 @@ public final class InspectorController {
     }
 
     /**
+     * Clears the default app that's opens that file type.
+     *
+     * @param packageName of the preferred app.
+     */
+    public void clearDefaultApp(String packageName) {
+        assert packageName != null;
+        mPackageManager.clearPackagePreferredActivities(packageName);
+
+        mAppDefaults.setAppIcon(null);
+        mAppDefaults.setAppName(mContext.getString(R.string.handler_app_not_selected));
+        mAppDefaults.showAction(false);
+    }
+
+    /**
      * Interface for loading document metadata.
      */
     public interface Loader {
@@ -176,5 +233,31 @@ public final class InspectorController {
          * Deletes all loader id's when android lifecycle ends.
          */
         void reset();
+    }
+
+    /**
+     * This interface is for unit testing.
+     */
+    public interface ActionDisplay {
+
+        /**
+         * Initializes the view based on the action.
+         * @param action - ClearDefaultAppAction or ShowInProviderAction
+         * @param listener - listener for when the action is pressed.
+         */
+        void init(Action action, OnClickListener listener);
+
+        /**
+         * Makes the action visible.
+         */
+        void setVisible(boolean visible);
+
+        void setActionHeader(String header);
+
+        void setAppIcon(Drawable icon);
+
+        void setAppName(String name);
+
+        void showAction(boolean visible);
     }
 }
