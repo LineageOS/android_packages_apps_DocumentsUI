@@ -45,6 +45,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * A class to assist with loading and managing the Images (i.e. thumbnails and icons) associated
@@ -199,8 +200,18 @@ public class IconHelper {
                         (cachedThumbnail == null ? ThumbnailLoader.ANIM_FADE_IN :
                                 ThumbnailLoader.ANIM_NO_OP);
 
-                final ThumbnailLoader task = new ThumbnailLoader(uri, iconMime, iconThumb,
-                    mCurrentSize, docLastModified, animator, true);
+                Consumer<Bitmap> callback = new Consumer<Bitmap>() {
+                    @Override
+                    public void accept(Bitmap bitmap) {
+                        if (result != null) {
+                            iconThumb.setImageBitmap(bitmap);
+                            animator.accept(iconMime, iconThumb);
+                        }
+                    }
+                };
+
+                final ThumbnailLoader task = new ThumbnailLoader(uri, iconThumb,
+                    mCurrentSize, docLastModified, callback, true);
 
                 ProviderExecutor.forAuthority(docAuthority).execute(task);
             }
