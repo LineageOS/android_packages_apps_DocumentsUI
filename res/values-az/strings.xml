@@ -63,8 +63,7 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Növ"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Ölçü"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Dəyişmiş"</string>
-    <!-- no translation found for directory_children (8115290268549503262) -->
-    <skip />
+    <string name="directory_children" msgid="8115290268549503262">"Uşaqların Sayı"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Artan sıra ilə"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Azalan sıra ilə"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Kökləri göstərin"</string>
