@@ -17,6 +17,7 @@ package com.android.documentsui.inspector;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -93,13 +94,23 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
 
     private void loadHeaderImage(DocumentInfo info) {
 
-        // load the mime icon.
-        Drawable d = mContext.getContentResolver().getTypeDrawable(info.mimeType);
-        mMime.setImageDrawable(d);
+        Consumer<Bitmap> callback = new Consumer<Bitmap>() {
+            @Override
+            public void accept(Bitmap bitmap) {
+                if (bitmap != null) {
+                    mThumbnail.setImageBitmap(bitmap);
+                    ThumbnailLoader.ANIM_FADE_IN.accept(mMime, mThumbnail);
+                } else {
+                    Drawable mimeIcon = mContext.getContentResolver()
+                            .getTypeDrawable(info.mimeType);
+                    mMime.setImageDrawable(mimeIcon);
+                }
+            }
+        };
 
         // load the thumbnail async.
-        final ThumbnailLoader task = new ThumbnailLoader(info.derivedUri, mMime, mThumbnail,
-            mImageDimensions, info.lastModified, ThumbnailLoader.ANIM_FADE_IN, false);
+        final ThumbnailLoader task = new ThumbnailLoader(info.derivedUri, mThumbnail,
+            mImageDimensions, info.lastModified, callback, false);
         task.executeOnExecutor(ProviderExecutor.forAuthority(info.derivedUri.getAuthority()),
             info.derivedUri);
     }
