@@ -21,16 +21,17 @@ import static android.provider.DocumentsContract.buildChildDocumentsUri;
 import static android.provider.DocumentsContract.buildDocumentUri;
 import static android.provider.DocumentsContract.getDocumentId;
 import static android.provider.DocumentsContract.isChildDocument;
+
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_CONVERTED;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.services.FileOperationService.EXTRA_DIALOG_TYPE;
-import static com.android.documentsui.services.FileOperationService.EXTRA_OPERATION_TYPE;
 import static com.android.documentsui.services.FileOperationService.EXTRA_FAILED_DOCS;
-import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
+import static com.android.documentsui.services.FileOperationService.EXTRA_OPERATION_TYPE;
 import static com.android.documentsui.services.FileOperationService.MESSAGE_FINISH;
 import static com.android.documentsui.services.FileOperationService.MESSAGE_PROGRESS;
+import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 
 import android.annotation.StringRes;
 import android.app.Notification;
@@ -43,7 +44,6 @@ import android.content.res.AssetFileDescriptor;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Handler;
 import android.os.Looper;
@@ -51,6 +51,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
+import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.system.ErrnoException;
@@ -73,14 +74,13 @@ import com.android.documentsui.services.FileOperationService.OpType;
 
 import libcore.io.IoUtils;
 
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SyncFailedException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-
-import javax.annotation.Nullable;
 
 class CopyJob extends ResolvedResourcesJob {
 
@@ -603,6 +603,17 @@ class CopyJob extends ResolvedResourcesJob {
             int len;
             boolean reading = true;
             try {
+                // If we know the source size, and the destination supports disk
+                // space allocation, then allocate the space we'll need. This
+                // uses fallocate() under the hood to optimize on-disk layout
+                // and prevent us from running out of space during large copies.
+                final StorageManager sm = service.getSystemService(StorageManager.class);
+                final long srcSize = srcFile.getStatSize();
+                final FileDescriptor dstFd = dstFile.getFileDescriptor();
+                if (srcSize > 0 && sm.isAllocationSupported(dstFd)) {
+                    sm.allocateBytes(dstFd, srcSize);
+                }
+
                 while ((len = in.read(buffer)) != -1) {
                     if (isCanceled()) {
                         if (DEBUG) Log.d(TAG, "Canceled copy mid-copy of: " + src.derivedUri);
