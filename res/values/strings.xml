@@ -117,8 +117,8 @@
     <!-- Table header for last modified time. [CHAR_LIMIT=18] -->
     <string name="sort_dimension_date">Modified</string>
 
-    <!--Table header for number of children-->
-    <string name="directory_children">Number of Children</string>
+    <!--Table header for number of items in a folder.-->
+    <string name="directory_items">Number of items</string>
 
     <!--File properties dialog section title. In this section we show information about the default handler application for this type of file.-->
     <string name="handler_app_file_opens_with">This kind of file opens with</string>

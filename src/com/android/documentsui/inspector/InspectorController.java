@@ -48,7 +48,7 @@ public final class InspectorController {
 
     private final Loader mLoader;
     private final Consumer<DocumentInfo> mHeader;
-    private final Consumer<DocumentInfo> mDetails;
+    private final DetailsDisplay mDetails;
     private final ActionDisplay mShowProvider;
     private final ActionDisplay mAppDefaults;
     private final Consumer<DocumentInfo> mDebugView;
@@ -65,7 +65,7 @@ public final class InspectorController {
     @VisibleForTesting
     public InspectorController(Context context, Loader loader, PackageManager pm,
             ProvidersAccess providers, boolean showDebug, Consumer<DocumentInfo> header,
-            Consumer<DocumentInfo> details, ActionDisplay showProvider, ActionDisplay appDefaults,
+            DetailsDisplay details, ActionDisplay showProvider, ActionDisplay appDefaults,
             Consumer<DocumentInfo> debugView, Lookup<String, Executor> executors,
             Runnable showSnackbar) {
 
@@ -123,7 +123,7 @@ public final class InspectorController {
     }
 
     public void loadInfo(Uri uri) {
-        mLoader.load(uri, this::updateView);
+        mLoader.loadDocInfo(uri, this::updateView);
     }
 
     /**
@@ -139,9 +139,7 @@ public final class InspectorController {
             mDetails.accept(docInfo);
 
             if (docInfo.isDirectory()) {
-                new DirectoryLoader(mContext.getContentResolver(),
-                    this::displayDirectory)
-                    .executeOnExecutor(mExecutors.lookup(docInfo.authority), docInfo);
+                mLoader.loadDirCount(docInfo, this::displayChildCount);
             } else {
 
                 mShowProvider.setVisible(docInfo.isSettingsSupported());
@@ -177,14 +175,10 @@ public final class InspectorController {
     /**
      * Displays a directory's information to the view.
      *
-     * @param dirInfo - null if uri was not to a directory.
+     * @param count - number of items in the directory.
      */
-    @Nullable
-    private void displayDirectory(@Nullable DocumentInfo directory) {
-        if (directory != null) {
-            //update directory information.
-            mDetails.accept(directory);
-        }
+    private void displayChildCount(Integer count) {
+        mDetails.setChildrenCount(count);
     }
 
     /**
@@ -227,7 +221,15 @@ public final class InspectorController {
          * @param callback - Function to be called when the loader has finished loading metadata. A
          * DocumentInfo will be sent to this method. DocumentInfo may be null.
          */
-        void load(Uri uri, Consumer<DocumentInfo> callback);
+        void loadDocInfo(Uri uri, Consumer<DocumentInfo> callback);
+
+        /**
+         * Loads a folders item count.
+         * @param directory - a documentInfo thats a directory.
+         * @param callback - Function to be called when the loader has finished loading the number
+         * of children.
+         */
+        void loadDirCount(DocumentInfo directory, Consumer<Integer> callback);
 
         /**
          * Deletes all loader id's when android lifecycle ends.
@@ -259,5 +261,15 @@ public final class InspectorController {
         void setAppName(String name);
 
         void showAction(boolean visible);
+    }
+
+    /**
+     * Provides details about a file.
+     */
+    public interface DetailsDisplay {
+
+        void accept(DocumentInfo info);
+
+        void setChildrenCount(int count);
     }
 }

@@ -24,7 +24,6 @@ import static junit.framework.Assert.assertTrue;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Looper;
@@ -38,6 +37,7 @@ import android.view.View.OnClickListener;
 import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 import com.android.documentsui.inspector.InspectorController.Loader;
 import com.android.documentsui.inspector.actions.Action;
 import com.android.documentsui.inspector.InspectorController.ActionDisplay;
@@ -48,7 +48,7 @@ import com.android.documentsui.testing.TestPackageManager;
 import com.android.documentsui.testing.TestPackageManager.TestResolveInfo;
 import com.android.documentsui.testing.TestProvidersAccess;
 import java.util.ArrayList;
-import java.util.List;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,9 +66,9 @@ public class InspectorControllerTest  {
     private InspectorController mController;
     private TestEnv mEnv;
     private TestConsumer<DocumentInfo> mHeaderTestDouble;
-    private TestConsumer<DocumentInfo> mDetailsTestDouble;
-    private ActionTestDouble mShowInProvider;
-    private ActionTestDouble mDefaultsTestDouble;
+    private TestDetails mDetailsTestDouble;
+    private TestAction mShowInProvider;
+    private TestAction mDefaultsTestDouble;
     private TestConsumer<DocumentInfo> mDebugTestDouble;
     private Boolean mShowSnackbarsCalled;
 
@@ -82,9 +82,9 @@ public class InspectorControllerTest  {
         mLoaderManager = new TestLoaderManager();
         mLoader = new DocumentLoader(loader, mLoaderManager);
         mHeaderTestDouble = new TestConsumer<>();
-        mDetailsTestDouble = new TestConsumer<>();
-        mShowInProvider = new ActionTestDouble();
-        mDefaultsTestDouble = new ActionTestDouble();
+        mDetailsTestDouble = new TestDetails();
+        mShowInProvider = new TestAction();
+        mDefaultsTestDouble = new TestAction();
         mDebugTestDouble = new TestConsumer<>();
 
         mShowSnackbarsCalled = false;
@@ -169,7 +169,6 @@ public class InspectorControllerTest  {
         assertEquals("com.android.documentsui", mContext.started.getPackage());
         assertEquals(uri, mContext.started.getData());
     }
-
     /**
      * Test that valid input will update the view properly. The test uses a test double for header
      * and details view and asserts that .accept was called on both.
@@ -273,9 +272,9 @@ public class InspectorControllerTest  {
         }
     }
 
-    private static class ActionTestDouble implements ActionDisplay {
+    private static class TestAction implements ActionDisplay {
 
-        private ActionTestDouble() {
+        private TestAction() {
             becameVisible = false;
         }
 
@@ -309,6 +308,28 @@ public class InspectorControllerTest  {
         @Override
         public void showAction(boolean visible) {
 
+        }
+    }
+
+    private static class TestDetails implements DetailsDisplay {
+
+        private boolean mCalled = false;
+
+        @Override
+        public void accept(DocumentInfo info) {
+            mCalled = true;
+        }
+
+        @Override
+        public void setChildrenCount(int count) {
+        }
+
+        public void assertCalled() {
+            Assert.assertTrue(mCalled);
+        }
+
+        public void assertNotCalled() {
+            Assert.assertFalse(mCalled);
         }
     }
 }

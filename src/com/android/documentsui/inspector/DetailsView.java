@@ -24,13 +24,12 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
-
-import java.util.function.Consumer;
+import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 
 /**
  * Displays the basic details about a file.
  */
-public class DetailsView extends TableView implements Consumer<DocumentInfo> {
+public class DetailsView extends TableView implements DetailsDisplay {
 
     public DetailsView(Context context) {
         this(context, null);
@@ -63,12 +62,13 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
                     DateFormat.getDateFormat(getContext()).format(info.lastModified));
         }
 
-        if (info.numberOfChildren != -1) {
-            put(R.string.directory_children, String.valueOf(info.numberOfChildren));
-        }
-
         if (info.summary != null) {
             put(R.string.sort_dimension_summary, info.summary);
         }
+    }
+
+    @Override
+    public void setChildrenCount(int count) {
+        put(R.string.directory_items, String.valueOf(count));
     }
 }
