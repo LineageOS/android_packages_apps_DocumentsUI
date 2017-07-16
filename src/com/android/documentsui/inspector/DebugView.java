@@ -18,6 +18,7 @@ package com.android.documentsui.inspector;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 
 import java.util.function.Consumer;
@@ -41,19 +42,25 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
     @Override
     public void accept(DocumentInfo info) {
-        addRow("uri", info.derivedUri);
-        addRow("docid", info.documentId);
-        addRow("mimetype: ", info.mimeType);
-        addRow("container", info.isContainer());
-        addRow("virtual", info.isVirtual());
-        addRow("supports create", info.isCreateSupported());
-        addRow("supports delete", info.isDeleteSupported());
-        addRow("supports rename", info.isRenameSupported());
+        setTitle(this, R.string.inspector_debug_section);
+
+        put("Content uri", info.derivedUri);
+        put("Document id", info.documentId);
+        put("Mimetype: ", info.mimeType);
+        put("Is archive", info.isArchive());
+        put("Is container", info.isContainer());
+        put("Is partial", info.isPartial());
+        put("Is virtual", info.isVirtual());
+        put("Supports create", info.isCreateSupported());
+        put("Supports delete", info.isDeleteSupported());
+        put("Supports rename", info.isRenameSupported());
+        put("Supports settings", info.isSettingsSupported());
+        put("Supports thumbnail", info.isThumbnailSupported());
+        put("Supports weblink", info.isWeblinkSupported());
+        put("Supports write", info.isWriteSupported());
     }
 
-    private void addRow(String key, Object value) {
-        KeyValueRow row = createKeyValueRow(this);
-        row.setKey(key);
-        row.setValue(String.valueOf(value));
+    private void put(String key, Object value) {
+        put(key, String.valueOf(value));
     }
 }

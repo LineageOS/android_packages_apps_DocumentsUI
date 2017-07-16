@@ -15,28 +15,21 @@
  */
 package com.android.documentsui.inspector;
 
-import android.annotation.StringRes;
 import android.content.Context;
 import android.text.format.DateFormat;
 import android.text.format.Formatter;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 
 /**
- * Organizes and Displays the basic details about a file
+ * Displays the basic details about a file.
  */
-public class DetailsView extends TableView implements Consumer<DocumentInfo> {
-
-    private final Map<Integer, KeyValueRow> rows = new HashMap();
+public class DetailsView extends TableView implements DetailsDisplay {
 
     public DetailsView(Context context) {
         this(context, null);
@@ -50,32 +43,32 @@ public class DetailsView extends TableView implements Consumer<DocumentInfo> {
         super(context, attrs, defStyleAttr);
     }
 
-    private void setRow(@StringRes int keyId, String value) {
-        if(rows.containsKey(keyId)) {
-            rows.get(keyId).setValue(value);
-        } else {
-            KeyValueRow row = createKeyValueRow(this);
-            row.setKey(keyId);
-            row.setValue(value);
-            rows.put(keyId, row);
+    @Override
+    public void accept(DocumentInfo info) {
+
+        Lookup<String, String> fileTypeLookup =
+                DocumentsApplication.getFileTypeLookup(getContext());
+
+        put(R.string.sort_dimension_file_type, fileTypeLookup.lookup(info.mimeType));
+
+        // TODO: Each of these rows need to be removed if the condition is false and previously
+        // set.
+        if (info.size > 0) {
+            put(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
+        }
+
+        if (info.lastModified > 0) {
+            put(R.string.sort_dimension_date,
+                    DateFormat.getDateFormat(getContext()).format(info.lastModified));
+        }
+
+        if (info.summary != null) {
+            put(R.string.sort_dimension_summary, info.summary);
         }
     }
 
     @Override
-    public void accept(DocumentInfo info) {
-        final Lookup<String, String> fileTypeLookup
-                = DocumentsApplication.getFileTypeLookup(getContext());
-        setRow(R.string.sort_dimension_file_type, fileTypeLookup.lookup(info.mimeType));
-        setRow(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
-        setRow(R.string.sort_dimension_date,
-                DateFormat.getDateFormat(getContext()).format(info.lastModified));
-
-        if(info.numberOfChildren != -1) {
-            setRow(R.string.directory_children, String.valueOf(info.numberOfChildren));
-        }
-
-        if (info.summary != null) {
-            setRow(R.string.sort_dimension_summary, info.summary);
-        }
+    public void setChildrenCount(int count) {
+        put(R.string.directory_items, String.valueOf(count));
     }
 }

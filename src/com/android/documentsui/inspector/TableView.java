@@ -15,13 +15,21 @@
  */
 package com.android.documentsui.inspector;
 
+import android.annotation.StringRes;
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.documentsui.R;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
 
 
 /**
@@ -30,6 +38,10 @@ import com.android.documentsui.R;
 public class TableView extends LinearLayout {
 
     private final LayoutInflater mInflater;
+
+    private final Map<String, KeyValueRow> mRows = new HashMap<>();
+    private final Resources mRes;
+    private @Nullable TextView mTitle;
 
     public TableView(Context context) {
         this(context, null);
@@ -42,11 +54,41 @@ public class TableView extends LinearLayout {
     public TableView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mRes = context.getResources();
+    }
+
+    protected void setTitle(ViewGroup parent, @StringRes int title) {
+        if (mTitle == null) {
+            mTitle = (TextView) mInflater.inflate(R.layout.inspector_section_title, null);
+            parent.addView(mTitle);
+        }
+        mTitle.setText(mContext.getResources().getString(title));
     }
 
     protected KeyValueRow createKeyValueRow(ViewGroup parent) {
         KeyValueRow row = (KeyValueRow) mInflater.inflate(R.layout.table_key_value_row, null);
         parent.addView(row);
         return row;
+    }
+
+    /**
+     * Puts or updates an value in the table view.
+     */
+    protected void put(@StringRes int keyId, String value) {
+        put(mRes.getString(keyId), value);
+    }
+
+    /**
+     * Puts or updates an value in the table view.
+     */
+    protected void put(String key, String value) {
+        if(mRows.containsKey(key)) {
+            mRows.get(key).setValue(value);
+        } else {
+            KeyValueRow row = createKeyValueRow(this);
+            row.setKey(key);
+            row.setValue(value);
+            mRows.put(key, row);
+        }
     }
 }

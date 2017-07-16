@@ -75,6 +75,10 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         super(R.layout.files_activity, TAG);
     }
 
+    // make these methods visible in this package to work around compiler bug http://b/62218600
+    @Override protected boolean focusSidebar() { return super.focusSidebar(); }
+    @Override protected boolean popDir() { return super.popDir(); }
+
     @Override
     public void onCreate(Bundle icicle) {
 

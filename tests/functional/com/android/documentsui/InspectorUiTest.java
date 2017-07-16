@@ -20,14 +20,14 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 
 import com.android.documentsui.bots.UiBot;
-import com.android.documentsui.inspector.DocumentInspectorActivity;
+import com.android.documentsui.inspector.InspectorActivity;
 
-public class InspectorUiTest extends ActivityTest<DocumentInspectorActivity> {
+public class InspectorUiTest extends ActivityTest<InspectorActivity> {
 
     private static final String TEST_DOC_NAME = "test.txt";
 
     public InspectorUiTest() {
-        super(DocumentInspectorActivity.class);
+        super(InspectorActivity.class);
     }
 
     @Override

@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CACHE_CONTENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SET_PREFERRED_APPLICATIONS" />
 
     <application
         android:name=".DocumentsApplication"
@@ -57,7 +58,7 @@
         </activity>
 
         <activity
-            android:name=".inspector.DocumentInspectorActivity"
+            android:name=".inspector.InspectorActivity"
             android:label="@string/menu_inspector"
             android:icon="@drawable/launcher_icon"
             android:theme="@style/DocumentsTheme">

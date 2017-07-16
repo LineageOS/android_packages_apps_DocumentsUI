@@ -60,7 +60,6 @@ public class DocumentInfo implements Durable, Parcelable {
     public String summary;
     public long size;
     public int icon;
-    public int numberOfChildren;
 
     /** Derived fields that aren't persisted */
     public Uri derivedUri;
@@ -81,7 +80,6 @@ public class DocumentInfo implements Durable, Parcelable {
         size = -1;
         icon = 0;
         derivedUri = null;
-        numberOfChildren = -1;
     }
 
     @Override
@@ -257,6 +255,14 @@ public class DocumentInfo implements Durable, Parcelable {
         return (flags & Document.FLAG_SUPPORTS_RENAME) != 0;
     }
 
+    public boolean isThumbnailSupported() {
+        return (flags & Document.FLAG_SUPPORTS_THUMBNAIL) != 0;
+    }
+
+    public boolean isWeblinkSupported() {
+        return (flags & Document.FLAG_WEB_LINKABLE) != 0;
+    }
+
     public boolean isArchive() {
         return ArchivesProvider.isSupportedArchiveType(mimeType);
     }
@@ -276,6 +282,10 @@ public class DocumentInfo implements Durable, Parcelable {
 
     public boolean isVirtual() {
         return (flags & Document.FLAG_VIRTUAL_DOCUMENT) != 0;
+    }
+
+    public boolean isSettingsSupported() {
+        return (flags & Document.FLAG_SUPPORTS_SETTINGS) != 0;
     }
 
     public boolean prefersSortByLastModified() {

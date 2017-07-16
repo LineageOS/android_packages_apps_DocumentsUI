@@ -22,7 +22,7 @@ import android.os.RemoteException;
 import android.support.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
-import com.android.documentsui.inspector.DocumentInspectorActivity;
+import com.android.documentsui.inspector.InspectorActivity;
 
 @LargeTest
 public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
@@ -116,7 +116,7 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
             return;
         }
         Instrumentation.ActivityMonitor monitor = new Instrumentation.ActivityMonitor(
-                DocumentInspectorActivity.class.getName(), null, false);
+                InspectorActivity.class.getName(), null, false);
         bots.directory.selectDocument("file0.log");
         bots.main.clickActionItem("Properties");
         monitor.waitForActivityWithTimeout(TIMEOUT);

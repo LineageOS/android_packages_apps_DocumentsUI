@@ -64,4 +64,6 @@
     <string name="gmap_file_type">Google map</string>
     <!-- Google site file type shown in type column in list view. [CHAR LIMIT=24] -->
     <string name="gsite_file_type">Google site</string>
+    <!-- Generic directory type shown when viewing a folder in the properties view -->
+    <string name="directory_type">Folder</string>
 </resources>

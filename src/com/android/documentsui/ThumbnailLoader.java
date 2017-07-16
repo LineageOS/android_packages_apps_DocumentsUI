@@ -17,11 +17,13 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.Shared.VERBOSE;
 
+import android.annotation.Nullable;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.CancellationSignal;
@@ -32,6 +34,7 @@ import android.view.View;
 import android.widget.ImageView;
 import com.android.documentsui.ProviderExecutor.Preemptable;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  *  Loads a Thumbnails asynchronously then animates from the mime icon to the thumbnail
@@ -54,34 +57,31 @@ public final class ThumbnailLoader extends AsyncTask<Uri, Void, Bitmap> implemen
 
     private final ImageView mIconThumb;
     private final Point mThumbSize;
-    // A callback to apply animation to image views after the thumbnail is loaded.
-    private final BiConsumer<View, View> mImageAnimator;
     private final Uri mUri;
-    private final ImageView mIconMime;
     private final long mLastModified;
+    private final Consumer<Bitmap> mCallback;
     private final boolean mAddToCache;
     private final CancellationSignal mSignal;
 
     /**
      * @param uri - to a thumbnail.
-     * @param iconMime - ImageView for displaying a mime type.
      * @param iconThumb - ImageView to display the thumbnail.
      * @param thumbSize - size of the thumbnail.
      * @param lastModified - used for updating thumbnail caches.
-     * @param animator - used to animate from the mime icon to the thumbnail.
      * @param addToCache - flag that determines if the loader saves the thumbnail to the cache.
      */
-    public ThumbnailLoader(Uri uri, ImageView iconMime, ImageView iconThumb,
-        Point thumbSize, long lastModified, BiConsumer<View, View> animator, boolean addToCache) {
+    public ThumbnailLoader(Uri uri, ImageView iconThumb, Point thumbSize, long lastModified,
+        Consumer<Bitmap> callback, boolean addToCache) {
+
         mUri = uri;
-        mIconMime = iconMime;
         mIconThumb = iconThumb;
         mThumbSize = thumbSize;
-        mImageAnimator = animator;
         mLastModified = lastModified;
+        mCallback = callback;
         mAddToCache = addToCache;
         mSignal = new CancellationSignal();
         mIconThumb.setTag(this);
+
         if (VERBOSE) Log.v(TAG, "Starting icon loader task for " + mUri);
     }
 
@@ -125,10 +125,9 @@ public final class ThumbnailLoader extends AsyncTask<Uri, Void, Bitmap> implemen
     protected void onPostExecute(Bitmap result) {
         if (VERBOSE) Log.v(TAG, "Loader task for " + mUri + " completed");
 
-            if (mIconThumb.getTag() == this && result != null) {
-                mIconThumb.setTag(null);
-                mIconThumb.setImageBitmap(result);
-                mImageAnimator.accept(mIconMime, mIconThumb);
-            }
+        if (mIconThumb.getTag() == this) {
+            mIconThumb.setTag(null);
+            mCallback.accept(result);
+        }
     }
 }

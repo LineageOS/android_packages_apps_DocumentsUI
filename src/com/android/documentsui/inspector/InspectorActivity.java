@@ -18,18 +18,16 @@ package com.android.documentsui.inspector;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toolbar;
 
 import com.android.documentsui.R;
-import com.android.documentsui.base.Shared;
 
-public class DocumentInspectorActivity extends Activity {
+public class InspectorActivity extends Activity {
 
-    private DocumentInspectorFragment mFragment;
+    private InspectorFragment mFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,13 +40,13 @@ public class DocumentInspectorActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         FragmentManager fragmentManager = getFragmentManager();
-        mFragment = (DocumentInspectorFragment) fragmentManager.findFragmentById(
+        mFragment = (InspectorFragment) fragmentManager.findFragmentById(
                 R.id.fragment_container);
 
         if (mFragment == null) {
             Intent intent = getIntent();
 
-            mFragment = DocumentInspectorFragment.newInstance(intent);
+            mFragment = InspectorFragment.newInstance(intent);
 
 
             fragmentManager.beginTransaction()
