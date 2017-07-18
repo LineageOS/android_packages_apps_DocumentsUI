@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,7 +44,6 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
 
     private final Context mContext;
     private final View mHeader;
-    private ImageView mMime;
     private ImageView mThumbnail;
     private final TextView mTitle;
     private Point mImageDimensions;
@@ -62,7 +62,6 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
                 Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
         mHeader = inflater.inflate(R.layout.inspector_header, null);
-        mMime = (ImageView) mHeader.findViewById(R.id.inspector_mime);
         mThumbnail = (ImageView) mHeader.findViewById(R.id.inspector_thumbnail);
         mTitle = (TextView) mHeader.findViewById(R.id.inspector_file_title);
 
@@ -77,8 +76,12 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
             addView(mHeader);
         }
 
-        if(!hasHeaderImage()) {
-            loadHeaderImage(info);
+        if (!hasHeaderImage()) {
+            if (info.isDirectory()) {
+                loadFileIcon(info);
+            } else {
+                loadHeaderImage(info);
+            }
         }
         mTitle.setText(info.displayName);
     }
@@ -92,19 +95,25 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
         return false;
     }
 
+    private void loadFileIcon(DocumentInfo info) {
+        Drawable mimeIcon = mContext.getContentResolver()
+            .getTypeDrawable(info.mimeType);
+        mThumbnail.setScaleType(ScaleType.FIT_CENTER);
+        mThumbnail.setImageDrawable(mimeIcon);
+    }
+
     private void loadHeaderImage(DocumentInfo info) {
 
         Consumer<Bitmap> callback = new Consumer<Bitmap>() {
             @Override
             public void accept(Bitmap bitmap) {
                 if (bitmap != null) {
+                    mThumbnail.setScaleType(ScaleType.CENTER_CROP);
                     mThumbnail.setImageBitmap(bitmap);
-                    ThumbnailLoader.ANIM_FADE_IN.accept(mMime, mThumbnail);
                 } else {
-                    Drawable mimeIcon = mContext.getContentResolver()
-                            .getTypeDrawable(info.mimeType);
-                    mMime.setImageDrawable(mimeIcon);
+                    loadFileIcon(info);
                 }
+                mThumbnail.animate().alpha(1.0f).start();
             }
         };
 
