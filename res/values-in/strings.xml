@@ -41,7 +41,8 @@
     <string name="menu_compress" msgid="37539111904724188">"Kompresi"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Ekstrak ke…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Ganti nama"</string>
-    <string name="menu_inspector" msgid="8633147986551632467">"Properti"</string>
+    <!-- no translation found for menu_inspector (8217713416277319588) -->
+    <skip />
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Lihat di <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Jendela baru"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Potong"</string>
@@ -63,7 +64,24 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Jenis"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Ukuran"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Diubah"</string>
-    <string name="directory_children" msgid="8115290268549503262">"Jumlah Anak"</string>
+    <!-- no translation found for directory_items (6645621978998614003) -->
+    <skip />
+    <!-- no translation found for handler_app_file_opens_with (2667097605117000751) -->
+    <skip />
+    <!-- no translation found for handler_app_belongs_to (5956928604521893459) -->
+    <skip />
+    <!-- no translation found for handler_app_button_info_1 (4271199640671067569) -->
+    <skip />
+    <!-- no translation found for handler_app_button_info_2 (4299969771512815898) -->
+    <skip />
+    <!-- no translation found for handler_app_clear (206579047716445033) -->
+    <skip />
+    <!-- no translation found for handler_app_show_in (7923573101129079048) -->
+    <skip />
+    <!-- no translation found for handler_app_not_selected (8178393676227130360) -->
+    <skip />
+    <!-- no translation found for handler_app_unknown (56574249066388341) -->
+    <skip />
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Naik"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Turun"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Tampilkan root"</string>
@@ -205,4 +223,6 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"arsip<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Timpa <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Lanjutkan di background"</string>
+    <!-- no translation found for inspector_debug_section (3447621501565766900) -->
+    <skip />
 </resources>
