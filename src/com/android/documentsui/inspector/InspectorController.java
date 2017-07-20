@@ -15,7 +15,6 @@
  */
 package com.android.documentsui.inspector;
 
-import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.annotation.StringRes;
@@ -32,6 +31,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.view.View.OnClickListener;
+
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
@@ -42,6 +42,7 @@ import com.android.documentsui.inspector.actions.ClearDefaultAppAction;
 import com.android.documentsui.inspector.actions.ShowInProviderAction;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.ui.Snackbars;
+
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 /**
@@ -172,34 +173,53 @@ public final class InspectorController {
                         });
                 }
             }
+
+            if (docInfo.isMetadataSupported()) {
+                mLoader.getDocumentMetadata(
+                        docInfo.derivedUri,
+                        (Bundle bundle) -> {
+                            onDocumentMetadataLoaded(docInfo.displayName, bundle);
+                        });
+            } else {
+                mMetadata.setVisible(false);
+            }
+
             if (mShowDebug) {
                 mDebugView.accept(docInfo);
             }
         }
     }
 
+    @VisibleForTesting
+    public void onDocumentMetadataLoaded(String displayName, Bundle bundle) {
+        Bundle exif = bundle.getBundle(DocumentsContract.METADATA_EXIF);
+        if (exif != null) {
+            showExifData(displayName, exif);
+        }
+        mMetadata.setVisible(exif != null);
+    }
+
     /**
      * Updates a files metadata to the view.
      * @param docName - the name of the doc. needed for launching a geo intent.
-     * @param args - bundle of metadata.
+     * @param bundle - bundle of metadata.
      */
     @VisibleForTesting
-    public void updateMetadata(String docName, Bundle args) {
+    public void showExifData(String docName, Bundle bundle) {
+        mMetadata.setTitle(R.string.inspector_exif_section);
 
-        mMetadata.setTitle(R.string.inspector_metadata_section);
-
-        if (args.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
-            && args.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
-            int width = args.getInt(ExifInterface.TAG_IMAGE_WIDTH);
-            int height = args.getInt(ExifInterface.TAG_IMAGE_LENGTH);
+        if (bundle.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
+            && bundle.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
+            int width = bundle.getInt(ExifInterface.TAG_IMAGE_WIDTH);
+            int height = bundle.getInt(ExifInterface.TAG_IMAGE_LENGTH);
             mMetadata.put(R.string.metadata_dimensions, String.valueOf(width) + " x "
                 + String.valueOf(height));
         }
 
-        if (args.containsKey(ExifInterface.TAG_GPS_LATITUDE)
-            && args.containsKey(ExifInterface.TAG_GPS_LONGITUDE) ) {
-            double latitude = args.getDouble(ExifInterface.TAG_GPS_LATITUDE);
-            double longitude = args.getDouble(ExifInterface.TAG_GPS_LONGITUDE);
+        if (bundle.containsKey(ExifInterface.TAG_GPS_LATITUDE)
+                && bundle.containsKey(ExifInterface.TAG_GPS_LONGITUDE) ) {
+            double latitude = bundle.getDouble(ExifInterface.TAG_GPS_LATITUDE);
+            double longitude = bundle.getDouble(ExifInterface.TAG_GPS_LONGITUDE);
 
             Intent intent = createGeoIntent(latitude, longitude, docName);
 
@@ -214,28 +234,28 @@ public final class InspectorController {
             }
         }
 
-        if (args.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
-            double altitude = args.getDouble(ExifInterface.TAG_GPS_ALTITUDE);
+        if (bundle.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
+            double altitude = bundle.getDouble(ExifInterface.TAG_GPS_ALTITUDE);
             mMetadata.put(R.string.metadata_altitude, String.valueOf(altitude));
         }
 
-        if (args.containsKey(ExifInterface.TAG_MAKE)) {
-            String make = args.getString(ExifInterface.TAG_MAKE);
+        if (bundle.containsKey(ExifInterface.TAG_MAKE)) {
+            String make = bundle.getString(ExifInterface.TAG_MAKE);
             mMetadata.put(R.string.metadata_make, make);
         }
 
-        if (args.containsKey(ExifInterface.TAG_MODEL)) {
-            String model = args.getString(ExifInterface.TAG_MODEL);
+        if (bundle.containsKey(ExifInterface.TAG_MODEL)) {
+            String model = bundle.getString(ExifInterface.TAG_MODEL);
             mMetadata.put(R.string.metadata_model, model);
         }
 
-        if (args.containsKey(ExifInterface.TAG_APERTURE)) {
-            String aperture = String.valueOf(args.get(ExifInterface.TAG_APERTURE));
+        if (bundle.containsKey(ExifInterface.TAG_APERTURE)) {
+            String aperture = String.valueOf(bundle.get(ExifInterface.TAG_APERTURE));
             mMetadata.put(R.string.metadata_aperture, aperture);
         }
 
-        if (args.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
-            String shutterSpeed = String.valueOf(args.get(ExifInterface.TAG_SHUTTER_SPEED_VALUE));
+        if (bundle.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
+            String shutterSpeed = String.valueOf(bundle.get(ExifInterface.TAG_SHUTTER_SPEED_VALUE));
             mMetadata.put(R.string.metadata_shutter_speed, shutterSpeed);
         }
     }
@@ -327,12 +347,28 @@ public final class InspectorController {
          * Deletes all loader id's when android lifecycle ends.
          */
         void reset();
+
+        /**
+         * @param uri
+         * @param callback
+         */
+        void getDocumentMetadata(Uri uri, Consumer<Bundle> callback);
     }
 
     /**
      * This interface is for unit testing.
      */
-    public interface ActionDisplay {
+    public interface Display {
+        /**
+         * Makes the action visible.
+         */
+        void setVisible(boolean visible);
+    }
+
+    /**
+     * This interface is for unit testing.
+     */
+    public interface ActionDisplay extends Display {
 
         /**
          * Initializes the view based on the action.
@@ -340,11 +376,6 @@ public final class InspectorController {
          * @param listener - listener for when the action is pressed.
          */
         void init(Action action, OnClickListener listener);
-
-        /**
-         * Makes the action visible.
-         */
-        void setVisible(boolean visible);
 
         void setActionHeader(String header);
 
@@ -368,7 +399,7 @@ public final class InspectorController {
     /**
      * Displays a table of image metadata.
      */
-    public interface TableDisplay {
+    public interface TableDisplay extends Display {
 
         /**
          * Sets the title of the data.

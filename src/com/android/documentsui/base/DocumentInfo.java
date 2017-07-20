@@ -223,6 +223,7 @@ public class DocumentInfo implements Durable, Parcelable {
                 + ", isDeleteSupported=" + isDeleteSupported()
                 + ", isCreateSupported=" + isCreateSupported()
                 + ", isRenameSupported=" + isRenameSupported()
+                + ", isMetadataSupported=" + isMetadataSupported()
                 + "} @ "
                 + derivedUri;
     }
@@ -253,6 +254,10 @@ public class DocumentInfo implements Durable, Parcelable {
 
     public boolean isRenameSupported() {
         return (flags & Document.FLAG_SUPPORTS_RENAME) != 0;
+    }
+
+    public boolean isMetadataSupported() {
+        return (flags & Document.FLAG_SUPPORTS_METADATA) != 0;
     }
 
     public boolean isThumbnailSupported() {

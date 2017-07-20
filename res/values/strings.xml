@@ -393,6 +393,9 @@
     <!-- Title of inspector's metadata info section. Note that this is probably camera EXIF data. -->
     <string name="inspector_metadata_section">Metadata</string>
 
+    <!-- Title of inspector section displaying image specific information (like size and embedded camera details, like lat/long). -->
+    <string name="inspector_exif_section">Image information</string>
+
     <!--The height and width of a photo. Note that this is probably camera EXIF data.-->
     <string name="metadata_dimensions">Dimensions</string>
     <!--The location of where a photo was taken. (i.e. latitude, longitude) Note that this is probably camera EXIF data.-->

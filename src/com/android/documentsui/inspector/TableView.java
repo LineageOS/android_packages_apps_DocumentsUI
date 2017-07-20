@@ -22,6 +22,7 @@ import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -74,6 +75,7 @@ public class TableView extends LinearLayout implements TableDisplay {
     /**
      * Puts or updates an value in the table view.
      */
+    @Override
     public void put(@StringRes int keyId, String value) {
         put(mRes.getString(keyId), value);
     }
@@ -94,8 +96,14 @@ public class TableView extends LinearLayout implements TableDisplay {
         }
     }
 
+    @Override
     public void put(@StringRes int keyId, String value, OnClickListener callback) {
         put(keyId, value);
         mRows.get(mRes.getString(keyId)).setOnClickListener(callback);
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 }
