@@ -48,7 +48,7 @@ public final class ShowInProviderAction extends Action {
 
     @Override
     public int getButtonIcon() {
-        return R.drawable.action_open;
+        return R.drawable.ic_action_open;
     }
 
     /**
