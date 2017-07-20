@@ -26,6 +26,8 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 
+import java.util.Locale;
+
 /**
  * Displays the basic details about a file.
  */
@@ -58,8 +60,7 @@ public class DetailsView extends TableView implements DetailsDisplay {
         }
 
         if (info.lastModified > 0) {
-            put(R.string.sort_dimension_date,
-                    DateFormat.getDateFormat(getContext()).format(info.lastModified));
+            put(R.string.sort_dimension_date, formatDate(info.lastModified));
         }
 
         if (info.summary != null) {
@@ -70,5 +71,17 @@ public class DetailsView extends TableView implements DetailsDisplay {
     @Override
     public void setChildrenCount(int count) {
         put(R.string.directory_items, String.valueOf(count));
+    }
+
+    /**
+     * This small helper method combines two different DateFormat subclasses in order to format
+     * both the date and the time based on user locale.
+     * @param date Unix timestamp
+     * @return formatted String of date
+     */
+    private static String formatDate(long date) {
+        String format = DateFormat.getBestDateTimePattern(Locale.getDefault(),
+                "MMM dd, yyyy, hh:mm");
+        return DateFormat.format(format, date).toString();
     }
 }
