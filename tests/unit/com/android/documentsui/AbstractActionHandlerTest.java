@@ -106,7 +106,8 @@ public class AbstractActionHandlerTest {
     }
 
     @Test
-    public void testOpensContainerDocuments_jumpToNewLocation() throws Exception {
+    public void testOpensContainerDocuments_OpenFolderInSearch_JumpsToNewLocation()
+            throws Exception {
         if (!mEnv.features.isLaunchToDocumentEnabled()) {
             return;
         }
@@ -114,6 +115,7 @@ public class AbstractActionHandlerTest {
         mEnv.populateStack();
 
         mEnv.searchViewManager.isSearching = true;
+        mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextPath = new Path(
                 TestProvidersAccess.HOME.rootId,
                 Arrays.asList(TestEnv.FOLDER_1.documentId, TestEnv.FOLDER_2.documentId));
@@ -124,15 +126,18 @@ public class AbstractActionHandlerTest {
         mEnv.beforeAsserts();
 
         assertEquals(mEnv.docs.nextPath.getPath().size(), mEnv.state.stack.size());
-        assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.peek());
+        assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.pop());
+        assertEquals(TestEnv.FOLDER_1, mEnv.state.stack.pop());
     }
 
 
     @Test
-    public void testOpensContainerDocuments_pushToRootDoc_NoFindPathSupport() throws Exception {
+    public void testOpensContainerDocuments_ClickFolderInSearch_PushToRootDoc_NoFindPathSupport()
+            throws Exception {
         mEnv.populateStack();
 
         mEnv.searchViewManager.isSearching = true;
+        mEnv.docs.nextIsDocumentsUri = true;
         mEnv.docs.nextDocuments = Arrays.asList(TestEnv.FOLDER_1, TestEnv.FOLDER_2);
 
         mHandler.openContainerDocument(TestEnv.FOLDER_2);
@@ -142,6 +147,35 @@ public class AbstractActionHandlerTest {
         assertEquals(2, mEnv.state.stack.size());
         assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.pop());
         assertEquals(TestEnv.FOLDER_0, mEnv.state.stack.pop());
+    }
+
+    @Test
+    public void testOpensContainerDocuments_ClickArchiveInSearch_opensArchiveInArchiveProvider()
+            throws Exception {
+        if (!mEnv.features.isLaunchToDocumentEnabled()) {
+            return;
+        }
+
+        mEnv.populateStack();
+
+        mEnv.searchViewManager.isSearching = true;
+        mEnv.docs.nextIsDocumentsUri = true;
+        mEnv.docs.nextPath = new Path(
+                TestProvidersAccess.HOME.rootId,
+                Arrays.asList(TestEnv.FOLDER_1.documentId, TestEnv.FOLDER_2.documentId,
+                        TestEnv.FILE_ARCHIVE.documentId));
+        mEnv.docs.nextDocuments = Arrays.asList(
+                TestEnv.FOLDER_1, TestEnv.FOLDER_2, TestEnv.FILE_ARCHIVE);
+        mEnv.docs.nextDocument = TestEnv.FILE_IN_ARCHIVE;
+
+        mHandler.openContainerDocument(TestEnv.FILE_ARCHIVE);
+
+        mEnv.beforeAsserts();
+
+        assertEquals(mEnv.docs.nextPath.getPath().size(), mEnv.state.stack.size());
+        assertEquals(TestEnv.FILE_IN_ARCHIVE, mEnv.state.stack.pop());
+        assertEquals(TestEnv.FOLDER_2, mEnv.state.stack.pop());
+        assertEquals(TestEnv.FOLDER_1, mEnv.state.stack.pop());
     }
 
     @Test

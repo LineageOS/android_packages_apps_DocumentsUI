@@ -356,6 +356,13 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                         + mState.stack.getRoot());
             }
 
+            final DocumentInfo top = stack.peek();
+            if (top.isArchive()) {
+                // Swap the zip file in original provider and the one provided by ArchiveProvider.
+                stack.pop();
+                stack.push(mDocs.getArchiveDocument(top.derivedUri));
+            }
+
             mState.stack.reset();
             // Update navigator to give horizontal breadcrumb a chance to update documents. It
             // doesn't update its content if the size of document stack doesn't change.
