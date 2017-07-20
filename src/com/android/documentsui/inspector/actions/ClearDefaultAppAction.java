@@ -44,7 +44,7 @@ public final class ClearDefaultAppAction extends Action {
 
     @Override
     public int getButtonIcon() {
-        return R.drawable.action_clear;
+        return R.drawable.ic_action_clear;
     }
 
     /**
