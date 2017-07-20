@@ -73,5 +73,6 @@
     <color name="scroll_track">#fff0f0f0</color>
 
     <color name="inspector_value">#ff939393</color>
+    <color name="inspector_link">#6633b5e5</color>
     <color name="inspector_section_title">#ff939393</color>
 </resources>

@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2017 The Android Open Source Project
  *
@@ -19,23 +20,21 @@ import android.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.android.documentsui.R;
+import com.android.documentsui.inspector.InspectorController.TableDisplay;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
-
 /**
  * Organizes and Displays the basic details about a file
  */
-public class TableView extends LinearLayout {
+public class TableView extends LinearLayout implements TableDisplay {
 
     private final LayoutInflater mInflater;
 
@@ -57,10 +56,11 @@ public class TableView extends LinearLayout {
         mRes = context.getResources();
     }
 
-    protected void setTitle(ViewGroup parent, @StringRes int title) {
+    @Override
+    public void setTitle(@StringRes int title) {
         if (mTitle == null) {
             mTitle = (TextView) mInflater.inflate(R.layout.inspector_section_title, null);
-            parent.addView(mTitle);
+            addView(mTitle);
         }
         mTitle.setText(mContext.getResources().getString(title));
     }
@@ -74,7 +74,7 @@ public class TableView extends LinearLayout {
     /**
      * Puts or updates an value in the table view.
      */
-    protected void put(@StringRes int keyId, String value) {
+    public void put(@StringRes int keyId, String value) {
         put(mRes.getString(keyId), value);
     }
 
@@ -82,13 +82,20 @@ public class TableView extends LinearLayout {
      * Puts or updates an value in the table view.
      */
     protected void put(String key, String value) {
-        if(mRows.containsKey(key)) {
-            mRows.get(key).setValue(value);
+        if (mRows.containsKey(key)) {
+            KeyValueRow row = mRows.get(key);
+            row.removeOnClickListener();
+            row.setValue(value);
         } else {
             KeyValueRow row = createKeyValueRow(this);
             row.setKey(key);
             row.setValue(value);
             mRows.put(key, row);
         }
+    }
+
+    public void put(@StringRes int keyId, String value, OnClickListener callback) {
+        put(keyId, value);
+        mRows.get(mRes.getString(keyId)).setOnClickListener(callback);
     }
 }

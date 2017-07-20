@@ -183,7 +183,7 @@
     <!-- Toast shown when some of the selected documents failed to be deleted [CHAR LIMIT=48] -->
     <string name="toast_failed_delete">Unable to delete some documents</string>
 
-    <!-- Toast shown when a files document info fails to load-->
+    <!--File properties dialog error shown when information about a file could not be loaded-->
     <string name="file_inspector_load_error">Properties could not be loaded</string>
 
     <!-- Title of dialog when prompting user to select an app to share documents with [CHAR LIMIT=32] -->
@@ -389,5 +389,23 @@
 
     <!-- Title of inspector's debug info section. [CHAR LIMIT=48] -->
     <string name="inspector_debug_section">Debug info (dev only)</string>
+
+    <!-- Title of inspector's metadata info section. Note that this is probably camera EXIF data. -->
+    <string name="inspector_metadata_section">Metadata</string>
+
+    <!--The height and width of a photo. Note that this is probably camera EXIF data.-->
+    <string name="metadata_dimensions">Dimensions</string>
+    <!--The location of where a photo was taken. (i.e. latitude, longitude) Note that this is probably camera EXIF data.-->
+    <string name="metadata_location">Location</string>
+    <!--The elevation the photo was taken. Note that this is probably camera EXIF data.-->
+    <string name="metadata_altitude">Altitude</string>
+    <!--The company that made the camera the photo was taken on. Note that this is probably camera EXIF data.-->
+    <string name="metadata_make">Make</string>
+    <!--The camera model that the photo was taken on. Note that this is probably camera EXIF data.-->
+    <string name="metadata_model">Model</string>
+    <!--The value of a photos aperture. Note that this is probably camera EXIF data.-->
+    <string name="metadata_aperture">Aperture</string>
+    <!--The value of a photos shutter speed. Note that this is probably camera EXIF data.-->
+    <string name="metadata_shutter_speed">Shutter speed</string>
 
 </resources>
