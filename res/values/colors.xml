@@ -75,4 +75,5 @@
     <color name="inspector_value">#ff939393</color>
     <color name="inspector_link">#6633b5e5</color>
     <color name="inspector_section_title">#ff939393</color>
+    <color name="inspector_title_background">#40000000</color>
 </resources>
