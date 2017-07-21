@@ -21,7 +21,14 @@ import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOW
 import android.app.ActivityManager.TaskDescription;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.Context;
+import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -183,12 +190,60 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         int iconRes = intent.getIntExtra(LauncherActivity.TASK_ICON_RES, -1);
         assert(iconRes > -1);
 
-        BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(
+        Drawable drawable = getResources().getDrawable(
                 iconRes,
                 null  // we don't care about theme, since the supplier should have handled that.
                 );
 
-        setTaskDescription(new TaskDescription(label, drawable.getBitmap()));
+        setTaskDescription(new TaskDescription(label, flattenDrawableToBitmap(drawable)));
+    }
+
+    // AdaptiveIconDrawable assumes that the consumer of the icon applies the shadow and
+    // recents assume that the provider of the task description handles these. Hence,
+    // we apply the shadow treatment same as Launcher3 implementation.
+    private Bitmap flattenDrawableToBitmap(Drawable d) {
+        // Percent of actual icon size
+        float ICON_SIZE_BLUR_FACTOR = 0.5f/48;
+        // Percent of actual icon size
+        float ICON_SIZE_KEY_SHADOW_DELTA_FACTOR = 1f/48;
+        int KEY_SHADOW_ALPHA = 61;
+        int AMBIENT_SHADOW_ALPHA = 30;
+        if (d instanceof BitmapDrawable) {
+            return ((BitmapDrawable) d).getBitmap();
+        } else if (d instanceof AdaptiveIconDrawable) {
+            AdaptiveIconDrawable aid = (AdaptiveIconDrawable) d;
+            int iconSize = getResources().getDimensionPixelSize(android.R.dimen.app_icon_size);
+            int shadowSize = Math.max(iconSize, aid.getIntrinsicHeight());
+            aid.setBounds(0, 0, shadowSize, shadowSize);
+
+            float blur = ICON_SIZE_BLUR_FACTOR * shadowSize;
+            float keyShadowDistance = ICON_SIZE_KEY_SHADOW_DELTA_FACTOR * shadowSize;
+
+            int bitmapSize = (int) (shadowSize + 2 * blur + keyShadowDistance);
+            Bitmap shadow = Bitmap.createBitmap(bitmapSize, bitmapSize, Bitmap.Config.ARGB_8888);
+
+            Canvas canvas = new Canvas(shadow);
+            canvas.translate(blur + keyShadowDistance / 2, blur);
+
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setColor(Color.TRANSPARENT);
+
+            // Draw ambient shadow
+            paint.setShadowLayer(blur, 0, 0, AMBIENT_SHADOW_ALPHA << 24);
+            canvas.drawPath(aid.getIconMask(), paint);
+
+            // Draw key shadow
+            canvas.translate(0, keyShadowDistance);
+            paint.setShadowLayer(blur, 0, 0, KEY_SHADOW_ALPHA << 24);
+            canvas.drawPath(aid.getIconMask(), paint);
+
+            // Draw original drawable
+            aid.draw(canvas);
+
+            canvas.setBitmap(null);
+            return shadow;
+        }
+        return null;
     }
 
     private void presentFileErrors(Bundle icicle, final Intent intent) {
