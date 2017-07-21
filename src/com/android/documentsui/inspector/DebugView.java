@@ -42,7 +42,7 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
     @Override
     public void accept(DocumentInfo info) {
-        setTitle(this, R.string.inspector_debug_section);
+        setTitle(R.string.inspector_debug_section);
 
         put("Content uri", info.derivedUri);
         put("Document id", info.documentId);

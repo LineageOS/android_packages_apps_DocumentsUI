@@ -37,6 +37,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <com.android.documentsui.inspector.TableView
+            android:id="@+id/inspector_metadata_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <com.android.documentsui.inspector.actions.ActionView
             android:paddingTop="10dp"
             android:id="@+id/inspector_show_in_provider_view"

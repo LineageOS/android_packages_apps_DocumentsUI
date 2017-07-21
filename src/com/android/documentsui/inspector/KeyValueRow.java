@@ -15,11 +15,12 @@
  */
 package com.android.documentsui.inspector;
 
-import static com.android.internal.util.Preconditions.checkNotNull;
-
 import android.annotation.StringRes;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
+import android.graphics.Paint;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ import com.android.documentsui.R;
 public class KeyValueRow extends LinearLayout {
 
     private final Resources mRes;
+    private @Nullable ColorStateList mDefaultTextColor;
 
     public KeyValueRow(Context context) {
         this(context, null);
@@ -61,5 +63,22 @@ public class KeyValueRow extends LinearLayout {
 
     public void setValue(String value) {
         ((TextView) findViewById(R.id.table_row_value)).setText(value);
+    }
+
+    public void setOnClickListener(OnClickListener callback) {
+        TextView clickable = ((TextView) findViewById(R.id.table_row_value));
+        mDefaultTextColor = clickable.getTextColors();
+        clickable.setTextColor(R.color.inspector_link);
+        clickable.setPaintFlags(clickable.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        clickable.setOnClickListener(callback);
+    }
+
+    public void removeOnClickListener() {
+        TextView reset = ((TextView) findViewById(R.id.table_row_value));
+        if (mDefaultTextColor != null) {
+            reset.setTextColor(mDefaultTextColor);
+        }
+        reset.setPaintFlags(reset.getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG);
+        reset.setOnClickListener(null);
     }
 }

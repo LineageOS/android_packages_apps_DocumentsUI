@@ -25,7 +25,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -36,9 +38,11 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View.OnClickListener;
 import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.ProviderExecutor;
+import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 import com.android.documentsui.inspector.InspectorController.Loader;
+import com.android.documentsui.inspector.InspectorController.TableDisplay;
 import com.android.documentsui.inspector.actions.Action;
 import com.android.documentsui.inspector.InspectorController.ActionDisplay;
 import com.android.documentsui.testing.TestConsumer;
@@ -48,6 +52,8 @@ import com.android.documentsui.testing.TestPackageManager;
 import com.android.documentsui.testing.TestPackageManager.TestResolveInfo;
 import com.android.documentsui.testing.TestProvidersAccess;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -67,6 +73,7 @@ public class InspectorControllerTest  {
     private TestEnv mEnv;
     private TestConsumer<DocumentInfo> mHeaderTestDouble;
     private TestDetails mDetailsTestDouble;
+    private TestTable mMetadata;
     private TestAction mShowInProvider;
     private TestAction mDefaultsTestDouble;
     private TestConsumer<DocumentInfo> mDebugTestDouble;
@@ -83,6 +90,7 @@ public class InspectorControllerTest  {
         mLoader = new DocumentLoader(loader, mLoaderManager);
         mHeaderTestDouble = new TestConsumer<>();
         mDetailsTestDouble = new TestDetails();
+        mMetadata = new TestTable();
         mShowInProvider = new TestAction();
         mDefaultsTestDouble = new TestAction();
         mDebugTestDouble = new TestConsumer<>();
@@ -96,20 +104,21 @@ public class InspectorControllerTest  {
         mContext = new TestActivity();
 
         mController = new InspectorController(
-                mContext,
-                mLoader,
-                mPm,
-                new TestProvidersAccess(),
-                false,
-                mHeaderTestDouble,
-                mDetailsTestDouble,
-                mShowInProvider,
-                mDefaultsTestDouble,
-                mDebugTestDouble,
-                ProviderExecutor::forAuthority,
-                () -> {
-                    mShowSnackbarsCalled = true;
-                }
+            mContext,
+            mLoader,
+            mPm,
+            new TestProvidersAccess(),
+            false,
+            mHeaderTestDouble,
+            mDetailsTestDouble,
+            mMetadata,
+            mShowInProvider,
+            mDefaultsTestDouble,
+            mDebugTestDouble,
+            ProviderExecutor::forAuthority,
+            () -> {
+                mShowSnackbarsCalled = true;
+            }
         );
     }
 
@@ -135,6 +144,7 @@ public class InspectorControllerTest  {
             true,
             mHeaderTestDouble,
             mDetailsTestDouble,
+            mMetadata,
             mShowInProvider,
             mDefaultsTestDouble,
             mDebugTestDouble,
@@ -255,11 +265,76 @@ public class InspectorControllerTest  {
      * @throws Exception
      */
     @Test
-    public void testUpdateViewWithNullValue() throws Exception {
+    public void testUpdateView_withNullValue() throws Exception {
         mController.updateView(null);
         assertTrue(mShowSnackbarsCalled);
         mHeaderTestDouble.assertNotCalled();
         mDetailsTestDouble.assertNotCalled();
+    }
+
+    /**
+     * Test that the updateMetadata method in the controller will not print anything if there are no
+     * values for specific keys.
+     * @throws Exception
+     */
+    @Test
+    public void testPrintMetadata_noBundleTags() throws Exception {
+        mController.updateMetadata("No Name", createTestMetadataEmptyBundle());
+        assertTrue(mMetadata.calledBundleKeys.isEmpty());
+    }
+
+    /**
+     * Test that the updateMetadata method is printing metadata for selected items found in the
+     * bundle.
+     */
+    @Test
+    public void testPrintMetadata_BundleTags() throws Exception {
+        mController.updateMetadata("No Name", createTestMetadataBundle());
+
+        Map<Integer, String> expected = new HashMap<>();
+        expected.put(R.string.metadata_dimensions, "3840 x 2160");
+        expected.put(R.string.metadata_location, "37.7749,  -122.4194");
+        expected.put(R.string.metadata_altitude, "1244.0");
+        expected.put(R.string.metadata_make, "Google");
+        expected.put(R.string.metadata_model, "Pixel");
+
+        for (Integer key : expected.keySet()) {
+            assertTrue(expected.get(key).equals(mMetadata.calledBundleKeys.get(key)));
+        }
+    }
+
+    /**
+     * Bundle only supplies half of the values for the pairs that print in printMetaData. No put
+     * method should be called as the correct conditions have not been met.
+     * @throws Exception
+     */
+    @Test
+    public void testPrintMetadata_BundlePartialTags() throws Exception {
+        mController.updateMetadata("No Name", createTestMetadataPartialBundle());
+        assertTrue(mMetadata.calledBundleKeys.isEmpty());
+    }
+
+    private static Bundle createTestMetadataEmptyBundle() {
+        return new Bundle();
+    }
+
+    private static Bundle createTestMetadataBundle() {
+        Bundle data = new Bundle();
+        data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
+        data.putInt(ExifInterface.TAG_IMAGE_LENGTH, 2160);
+        data.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
+        data.putDouble(ExifInterface.TAG_GPS_LONGITUDE, -122.4194);
+        data.putDouble(ExifInterface.TAG_GPS_ALTITUDE, 1244);
+        data.putString(ExifInterface.TAG_MAKE, "Google");
+        data.putString(ExifInterface.TAG_MODEL, "Pixel");
+        return data;
+    }
+
+    private static Bundle createTestMetadataPartialBundle() {
+        Bundle data = new Bundle();
+        data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
+        data.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
+        return data;
     }
 
     private static class TestActivity extends Activity {
@@ -330,6 +405,31 @@ public class InspectorControllerTest  {
 
         public void assertNotCalled() {
             Assert.assertFalse(mCalled);
+        }
+    }
+
+    private static class TestTable implements TableDisplay {
+
+        private Map<Integer, String> calledBundleKeys;
+
+        public TestTable() {
+            calledBundleKeys = new HashMap<>();
+        }
+
+        @Override
+        public void setTitle(int title) {
+
+        }
+
+        @Override
+        public void put(int keyId, String value) {
+            calledBundleKeys.put(keyId, value);
+        }
+
+
+        @Override
+        public void put(int keyId, String value, OnClickListener callback) {
+            calledBundleKeys.put(keyId, value);
         }
     }
 }

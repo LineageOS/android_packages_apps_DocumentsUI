@@ -18,12 +18,15 @@ package com.android.documentsui.inspector;
 import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 import static com.android.internal.util.Preconditions.checkArgument;
 
+import android.annotation.StringRes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -49,6 +52,7 @@ public final class InspectorController {
     private final Loader mLoader;
     private final Consumer<DocumentInfo> mHeader;
     private final DetailsDisplay mDetails;
+    private final TableDisplay mMetadata;
     private final ActionDisplay mShowProvider;
     private final ActionDisplay mAppDefaults;
     private final Consumer<DocumentInfo> mDebugView;
@@ -64,10 +68,10 @@ public final class InspectorController {
      */
     @VisibleForTesting
     public InspectorController(Context context, Loader loader, PackageManager pm,
-            ProvidersAccess providers, boolean showDebug, Consumer<DocumentInfo> header,
-            DetailsDisplay details, ActionDisplay showProvider, ActionDisplay appDefaults,
-            Consumer<DocumentInfo> debugView, Lookup<String, Executor> executors,
-            Runnable showSnackbar) {
+        ProvidersAccess providers, boolean showDebug, Consumer<DocumentInfo> header,
+        DetailsDisplay details, TableDisplay metadata, ActionDisplay showProvider,
+        ActionDisplay appDefaults, Consumer<DocumentInfo> debugView, Lookup<String,
+        Executor> executors, Runnable showSnackbar) {
 
         checkArgument(context != null);
         checkArgument(loader != null);
@@ -75,6 +79,7 @@ public final class InspectorController {
         checkArgument(providers != null);
         checkArgument(header != null);
         checkArgument(details != null);
+        checkArgument(metadata != null);
         checkArgument(showProvider != null);
         checkArgument(appDefaults != null);
         checkArgument(debugView != null);
@@ -88,6 +93,7 @@ public final class InspectorController {
         mProviders = providers;
         mHeader = header;
         mDetails = details;
+        mMetadata = metadata;
         mShowProvider = showProvider;
         mAppDefaults = appDefaults;
         mDebugView = debugView;
@@ -98,20 +104,21 @@ public final class InspectorController {
     public InspectorController(Activity activity, Loader loader, View layout, boolean showDebug) {
 
         this(activity,
-                loader,
-                activity.getPackageManager(),
-                DocumentsApplication.getProvidersCache (activity),
-                showDebug,
-                (HeaderView) layout.findViewById(R.id.inspector_header_view),
-                (DetailsView) layout.findViewById(R.id.inspector_details_view),
-                (ActionDisplay) layout.findViewById(R.id.inspector_show_in_provider_view),
-                (ActionDisplay) layout.findViewById(R.id.inspector_app_defaults_view),
-                (DebugView) layout.findViewById(R.id.inspector_debug_view),
-                ProviderExecutor::forAuthority,
-                () -> {
-                    // using a runnable to support unit testing this feature.
-                    Snackbars.showInspectorError(activity);
-                }
+            loader,
+            activity.getPackageManager(),
+            DocumentsApplication.getProvidersCache (activity),
+            showDebug,
+            (HeaderView) layout.findViewById(R.id.inspector_header_view),
+            (DetailsView) layout.findViewById(R.id.inspector_details_view),
+            (TableView) layout.findViewById(R.id.inspector_metadata_view),
+            (ActionDisplay) layout.findViewById(R.id.inspector_show_in_provider_view),
+            (ActionDisplay) layout.findViewById(R.id.inspector_app_defaults_view),
+            (DebugView) layout.findViewById(R.id.inspector_debug_view),
+            ProviderExecutor::forAuthority,
+            () -> {
+                // using a runnable to support unit testing this feature.
+                Snackbars.showInspectorError(activity);
+            }
         );
         if (showDebug) {
             layout.findViewById(R.id.inspector_debug_view).setVisibility(View.VISIBLE);
@@ -147,28 +154,89 @@ public final class InspectorController {
                     Action showProviderAction =
                         new ShowInProviderAction(mContext, mPackageManager, docInfo, mProviders);
                     mShowProvider.init(
-                            showProviderAction,
-                            (view) -> {
-                                showInProvider(docInfo.derivedUri);
-                            });
+                        showProviderAction,
+                        (view) -> {
+                            showInProvider(docInfo.derivedUri);
+                        });
                 }
 
                 Action defaultAction =
-                        new ClearDefaultAppAction(mContext, mPackageManager, docInfo);
+                    new ClearDefaultAppAction(mContext, mPackageManager, docInfo);
 
                 mAppDefaults.setVisible(defaultAction.canPerformAction());
                 if (defaultAction.canPerformAction()) {
                     mAppDefaults.init(
-                            defaultAction,
-                            (View) -> {
-                                clearDefaultApp(defaultAction.getPackageName());
-                            });
+                        defaultAction,
+                        (View) -> {
+                            clearDefaultApp(defaultAction.getPackageName());
+                        });
                 }
             }
-
             if (mShowDebug) {
                 mDebugView.accept(docInfo);
             }
+        }
+    }
+
+    /**
+     * Updates a files metadata to the view.
+     * @param docName - the name of the doc. needed for launching a geo intent.
+     * @param args - bundle of metadata.
+     */
+    @VisibleForTesting
+    public void updateMetadata(String docName, Bundle args) {
+
+        mMetadata.setTitle(R.string.inspector_metadata_section);
+
+        if (args.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
+            && args.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
+            int width = args.getInt(ExifInterface.TAG_IMAGE_WIDTH);
+            int height = args.getInt(ExifInterface.TAG_IMAGE_LENGTH);
+            mMetadata.put(R.string.metadata_dimensions, String.valueOf(width) + " x "
+                + String.valueOf(height));
+        }
+
+        if (args.containsKey(ExifInterface.TAG_GPS_LATITUDE)
+            && args.containsKey(ExifInterface.TAG_GPS_LONGITUDE) ) {
+            double latitude = args.getDouble(ExifInterface.TAG_GPS_LATITUDE);
+            double longitude = args.getDouble(ExifInterface.TAG_GPS_LONGITUDE);
+
+            Intent intent = createGeoIntent(latitude, longitude, docName);
+
+            if (hasHandler(intent)) {
+                mMetadata.put(R.string.metadata_location,
+                    String.valueOf(latitude) + ",  " + String.valueOf(longitude),
+                    view -> startActivity(intent)
+                );
+            } else {
+                mMetadata.put(R.string.metadata_location, String.valueOf(latitude) + ",  "
+                    + String.valueOf(longitude));
+            }
+        }
+
+        if (args.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
+            double altitude = args.getDouble(ExifInterface.TAG_GPS_ALTITUDE);
+            mMetadata.put(R.string.metadata_altitude, String.valueOf(altitude));
+        }
+
+        if (args.containsKey(ExifInterface.TAG_MAKE)) {
+            String make = args.getString(ExifInterface.TAG_MAKE);
+            mMetadata.put(R.string.metadata_make, make);
+        }
+
+        if (args.containsKey(ExifInterface.TAG_MODEL)) {
+            String model = args.getString(ExifInterface.TAG_MODEL);
+            mMetadata.put(R.string.metadata_model, model);
+        }
+
+        if (args.containsKey(ExifInterface.TAG_APERTURE)) {
+            String aperture = String.valueOf(args.get(ExifInterface.TAG_APERTURE));
+            mMetadata.put(R.string.metadata_aperture, aperture);
+        }
+
+        if (args.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
+            String shutterSpeed = String.valueOf(args.get(ExifInterface.TAG_SHUTTER_SPEED_VALUE));
+            mMetadata.put(R.string.metadata_shutter_speed, shutterSpeed);
         }
     }
 
@@ -179,6 +247,30 @@ public final class InspectorController {
      */
     private void displayChildCount(Integer count) {
         mDetails.setChildrenCount(count);
+    }
+
+    private void startActivity(Intent intent) {
+        assert hasHandler(intent);
+        mContext.startActivity(intent);
+    }
+
+    /**
+     * checks that we can handle a geo-intent.
+     */
+    private boolean hasHandler(Intent intent) {
+        return mPackageManager.resolveActivity(intent, 0) != null;
+    }
+
+    /**
+     * Creates a geo-intent for opening a location in maps.
+     *
+     * @see https://developer.android.com/guide/components/intents-common.html#Maps
+     */
+    private static Intent createGeoIntent(double latitude, double longitude,
+            @Nullable String label) {
+        String data = "geo:0,0?q=" + latitude + " " + longitude + "(" + Uri.encode(label) + ")";
+        Uri uri = Uri.parse(data);
+        return new Intent(Intent.ACTION_VIEW, uri);
     }
 
     /**
@@ -271,5 +363,26 @@ public final class InspectorController {
         void accept(DocumentInfo info);
 
         void setChildrenCount(int count);
+    }
+
+    /**
+     * Displays a table of image metadata.
+     */
+    public interface TableDisplay {
+
+        /**
+         * Sets the title of the data.
+         */
+        void setTitle(@StringRes int title);
+
+        /**
+         * Adds a row in the table.
+         */
+        void put(@StringRes int keyId, String value);
+
+        /**
+         * Adds a row in the table and makes it clickable.
+         */
+        void put(@StringRes int keyId, String value, OnClickListener callback);
     }
 }
