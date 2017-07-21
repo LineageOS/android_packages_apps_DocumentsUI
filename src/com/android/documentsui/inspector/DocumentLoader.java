@@ -19,6 +19,7 @@ import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.database.ContentObserver;
@@ -27,32 +28,37 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.Loader;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Asynchronously loads a document's metadata for the inspector.
+ * Asynchronously loads a document data for the inspector.
  */
 public class DocumentLoader implements Loader {
 
+    private static final String TAG = "DocumentLoader";
+
     private final Context mContext;
-    private final LoaderManager mLoader;
-    private List<Integer> loaderIds;
+    private final LoaderManager mLoaderMgr;
+    private final List<Integer> loaderIds = new ArrayList<>();
     private @Nullable Callbacks mDocCallbacks;
     private @Nullable Callbacks mDirCallbacks;
+    private @Nullable LoaderCallbacks<Bundle> mMetadataCallbacks;
 
-    public DocumentLoader(Context context, LoaderManager loader) {
+    public DocumentLoader(Context context, LoaderManager loaderMgr) {
         checkArgument(context != null);
-        checkArgument(loader != null);
+        checkArgument(loaderMgr != null);
         mContext = context;
-        mLoader = loader;
-        loaderIds = new ArrayList<>();
+        mLoaderMgr = loaderMgr;
     }
 
     /**
@@ -62,11 +68,6 @@ public class DocumentLoader implements Loader {
     public void loadDocInfo(Uri uri, Consumer<DocumentInfo> updateView) {
         //Check that we have correct Uri type and that the loader is not already created.
         checkArgument(uri.getScheme().equals("content"));
-
-        //get a new loader id.
-        int loadId = getNextLoaderId();
-        checkArgument(mLoader.getLoader(loadId) == null);
-        loaderIds.add(loadId);
 
         Consumer<Cursor> callback = new Consumer<Cursor>() {
             @Override
@@ -81,7 +82,7 @@ public class DocumentLoader implements Loader {
         };
 
         mDocCallbacks = new Callbacks(mContext, uri, callback);
-        mLoader.restartLoader(loadId, null, mDocCallbacks);
+        mLoaderMgr.restartLoader(getNextLoaderId(), null, mDocCallbacks);
     }
 
     /**
@@ -93,11 +94,6 @@ public class DocumentLoader implements Loader {
         Uri children = DocumentsContract.buildChildDocumentsUri(
                 directory.authority, directory.documentId);
 
-        //get a new loader id.
-        int loadId = getNextLoaderId();
-        checkArgument(mLoader.getLoader(loadId) == null);
-        loaderIds.add(loadId);
-
         Consumer<Cursor> callback = new Consumer<Cursor>() {
             @Override
             public void accept(Cursor cursor) {
@@ -108,19 +104,74 @@ public class DocumentLoader implements Loader {
         };
 
         mDirCallbacks = new Callbacks(mContext, children, callback);
-        mLoader.restartLoader(loadId, null, mDirCallbacks);
+        mLoaderMgr.restartLoader(getNextLoaderId(), null, mDirCallbacks);
+    }
+
+    @Override
+    public void getDocumentMetadata(Uri uri, Consumer<Bundle> callback) {
+
+        // TODO: For some reason the async loading of metadata isn't working.
+        // This is a hackaround. Tracking bug @ b/63925015
+        try {
+            Bundle syncData = DocumentsContract.getDocumentMetadata(
+                    mContext.getContentResolver(),
+                    uri,
+                    null);
+            callback.accept(syncData);
+        } catch (FileNotFoundException e) {
+            callback.accept(Bundle.EMPTY);
+        }
+
+        Log.d(TAG, "Loading document metadata.");
+
+        mMetadataCallbacks = new LoaderCallbacks<Bundle>() {
+            @Override
+            public android.content.Loader<Bundle> onCreateLoader(int id, Bundle unused) {
+                Log.d(TAG, "Creating loader for metadata.");
+                return new AsyncTaskLoader<Bundle>(mContext) {
+                    @Override
+                    public Bundle loadInBackground() {
+                        try {
+                            Log.d(TAG, "Executing call to load metadata.");
+                            return DocumentsContract.getDocumentMetadata(
+                                    mContext.getContentResolver(),
+                                    uri, null);
+                        } catch (FileNotFoundException e) {
+                            Log.e(TAG, "Failed to load metadata for doc: " + uri, e);
+                        }
+
+                        return null;
+                    }
+                };
+            }
+
+            @Override
+            public void onLoadFinished(android.content.Loader<Bundle> loader, Bundle data) {
+                Log.d(TAG, "Received document metadata. Relaying to callback.");
+                callback.accept(data);
+            }
+
+            @Override
+            public void onLoaderReset(android.content.Loader<Bundle> loader) {
+                Log.d(TAG, "Document metadata reset. Yerp!");
+            }
+        };
+
+        // TODO: Listen for changes on content URI.
+        mLoaderMgr.restartLoader(getNextLoaderId(), null, mMetadataCallbacks);
     }
 
     @Override
     public void reset() {
         for (Integer id : loaderIds) {
-            mLoader.destroyLoader(id);
+            mLoaderMgr.destroyLoader(id);
         }
         loaderIds.clear();
 
         if (mDocCallbacks != null && mDocCallbacks.getObserver() != null) {
             mContext.getContentResolver().unregisterContentObserver(mDocCallbacks.getObserver());
         }
+
         if (mDirCallbacks != null && mDirCallbacks.getObserver() != null) {
             mContext.getContentResolver().unregisterContentObserver(mDocCallbacks.getObserver());
         }
@@ -128,10 +179,11 @@ public class DocumentLoader implements Loader {
 
     private int getNextLoaderId() {
         int id = 0;
-        while(mLoader.getLoader(id) != null) {
+        while(mLoaderMgr.getLoader(id) != null) {
             id++;
             checkArgument(id <= Integer.MAX_VALUE);
         }
+        loaderIds.add(id);
         return id;
     }
 

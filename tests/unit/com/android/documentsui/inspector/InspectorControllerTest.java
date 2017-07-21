@@ -279,7 +279,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testPrintMetadata_noBundleTags() throws Exception {
-        mController.updateMetadata("No Name", createTestMetadataEmptyBundle());
+        mController.showExifData("No Name", createTestMetadataEmptyBundle());
         assertTrue(mMetadata.calledBundleKeys.isEmpty());
     }
 
@@ -289,7 +289,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testPrintMetadata_BundleTags() throws Exception {
-        mController.updateMetadata("No Name", createTestMetadataBundle());
+        mController.showExifData("No Name", createTestMetadataBundle());
 
         Map<Integer, String> expected = new HashMap<>();
         expected.put(R.string.metadata_dimensions, "3840 x 2160");
@@ -310,7 +310,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testPrintMetadata_BundlePartialTags() throws Exception {
-        mController.updateMetadata("No Name", createTestMetadataPartialBundle());
+        mController.showExifData("No Name", createTestMetadataPartialBundle());
         assertTrue(mMetadata.calledBundleKeys.isEmpty());
     }
 
@@ -430,6 +430,10 @@ public class InspectorControllerTest  {
         @Override
         public void put(int keyId, String value, OnClickListener callback) {
             calledBundleKeys.put(keyId, value);
+        }
+
+        @Override
+        public void setVisible(boolean visible) {
         }
     }
 }

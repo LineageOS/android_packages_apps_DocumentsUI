@@ -53,6 +53,7 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
         put("Is virtual", info.isVirtual());
         put("Supports create", info.isCreateSupported());
         put("Supports delete", info.isDeleteSupported());
+        put("Supports metadata", info.isMetadataSupported());
         put("Supports rename", info.isRenameSupported());
         put("Supports settings", info.isSettingsSupported());
         put("Supports thumbnail", info.isThumbnailSupported());
