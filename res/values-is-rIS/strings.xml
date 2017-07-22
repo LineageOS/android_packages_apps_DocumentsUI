@@ -41,8 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Þjappa"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Flytja út í…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Endurnefna"</string>
-    <!-- no translation found for menu_inspector (8217713416277319588) -->
-    <skip />
+    <string name="menu_inspector" msgid="8217713416277319588">"Sækja upplýsingar"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Opna í <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nýr gluggi"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Klippa"</string>
@@ -64,24 +63,15 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Gerð"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Stærð"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Breytt"</string>
-    <!-- no translation found for directory_items (6645621978998614003) -->
-    <skip />
-    <!-- no translation found for handler_app_file_opens_with (2667097605117000751) -->
-    <skip />
-    <!-- no translation found for handler_app_belongs_to (5956928604521893459) -->
-    <skip />
-    <!-- no translation found for handler_app_button_info_1 (4271199640671067569) -->
-    <skip />
-    <!-- no translation found for handler_app_button_info_2 (4299969771512815898) -->
-    <skip />
-    <!-- no translation found for handler_app_clear (206579047716445033) -->
-    <skip />
-    <!-- no translation found for handler_app_show_in (7923573101129079048) -->
-    <skip />
-    <!-- no translation found for handler_app_not_selected (8178393676227130360) -->
-    <skip />
-    <!-- no translation found for handler_app_unknown (56574249066388341) -->
-    <skip />
+    <string name="directory_items" msgid="6645621978998614003">"Fjöldi atriða"</string>
+    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Þessi tegund af skrá opnast með"</string>
+    <string name="handler_app_belongs_to" msgid="5956928604521893459">"Þessi skrá tilheyrir"</string>
+    <string name="handler_app_button_info_1" msgid="4271199640671067569">"Önnur forrit geta opnað þessa skráartegund. Hreinsa"</string>
+    <string name="handler_app_button_info_2" msgid="4299969771512815898">"sem sjálfgefið."</string>
+    <string name="handler_app_clear" msgid="206579047716445033">"Hreinsa"</string>
+    <string name="handler_app_show_in" msgid="7923573101129079048">"Sýna í þjónustu"</string>
+    <string name="handler_app_not_selected" msgid="8178393676227130360">"Ekki valið"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"Óþekkt"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Hækkandi"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Lækkandi"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Sýna rótarsöfn"</string>
@@ -223,6 +213,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"geymsla<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Skrifa yfir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Halda áfram í bakgrunni"</string>
-    <!-- no translation found for inspector_debug_section (3447621501565766900) -->
-    <skip />
+    <string name="inspector_debug_section" msgid="3447621501565766900">"Kembiupplýsingar (aðeins þróunaraðilar)"</string>
 </resources>
