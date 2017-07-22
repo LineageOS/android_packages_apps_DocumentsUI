@@ -225,4 +225,20 @@
     <string name="continue_in_background" msgid="1974214559047793331">"继续在后台执行"</string>
     <!-- no translation found for inspector_debug_section (3447621501565766900) -->
     <skip />
+    <!-- no translation found for inspector_metadata_section (6079048557893790964) -->
+    <skip />
+    <!-- no translation found for metadata_dimensions (8862315437239063661) -->
+    <skip />
+    <!-- no translation found for metadata_location (6554310541123229404) -->
+    <skip />
+    <!-- no translation found for metadata_altitude (7322908625970953996) -->
+    <skip />
+    <!-- no translation found for metadata_make (436110457840345266) -->
+    <skip />
+    <!-- no translation found for metadata_model (8839903701468767090) -->
+    <skip />
+    <!-- no translation found for metadata_aperture (712880940219784858) -->
+    <skip />
+    <!-- no translation found for metadata_shutter_speed (2807089225760465388) -->
+    <skip />
 </resources>
