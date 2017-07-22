@@ -41,8 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Сығу"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Алынуда…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Атауын өзгерту"</string>
-    <!-- no translation found for menu_inspector (8217713416277319588) -->
-    <skip />
+    <string name="menu_inspector" msgid="8217713416277319588">"Ақпарат алу"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> ішінде көру"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Жаңа терезе"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Қиып алу"</string>
@@ -64,24 +63,15 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Tүрі"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Көлемі"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Өзгертілген уақыты"</string>
-    <!-- no translation found for directory_items (6645621978998614003) -->
-    <skip />
-    <!-- no translation found for handler_app_file_opens_with (2667097605117000751) -->
-    <skip />
-    <!-- no translation found for handler_app_belongs_to (5956928604521893459) -->
-    <skip />
-    <!-- no translation found for handler_app_button_info_1 (4271199640671067569) -->
-    <skip />
-    <!-- no translation found for handler_app_button_info_2 (4299969771512815898) -->
-    <skip />
-    <!-- no translation found for handler_app_clear (206579047716445033) -->
-    <skip />
-    <!-- no translation found for handler_app_show_in (7923573101129079048) -->
-    <skip />
-    <!-- no translation found for handler_app_not_selected (8178393676227130360) -->
-    <skip />
-    <!-- no translation found for handler_app_unknown (56574249066388341) -->
-    <skip />
+    <string name="directory_items" msgid="6645621978998614003">"Элементтер саны"</string>
+    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Файлдың бұл түрі келесі арқылы ашылады"</string>
+    <string name="handler_app_belongs_to" msgid="5956928604521893459">"Бұл файл келесіге жатады"</string>
+    <string name="handler_app_button_info_1" msgid="4271199640671067569">"Бұл файл түрін басқа қолданбалар аша алады. Әдепкі"</string>
+    <string name="handler_app_button_info_2" msgid="4299969771512815898">"ретінде тазалау."</string>
+    <string name="handler_app_clear" msgid="206579047716445033">"Тазалау"</string>
+    <string name="handler_app_show_in" msgid="7923573101129079048">"Провайдерде көрсету"</string>
+    <string name="handler_app_not_selected" msgid="8178393676227130360">"Таңдалмады"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"Белгісіз"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Арту ретімен"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Кему ретімен"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Түбір қалтаны көрсету"</string>
@@ -223,6 +213,21 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> қайта жазылсын ба?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Фонда жалғастыру"</string>
-    <!-- no translation found for inspector_debug_section (3447621501565766900) -->
+    <string name="inspector_debug_section" msgid="3447621501565766900">"Түзету туралы ақпарат (тек әзірлеуші)"</string>
+    <!-- no translation found for inspector_metadata_section (6079048557893790964) -->
+    <skip />
+    <!-- no translation found for metadata_dimensions (8862315437239063661) -->
+    <skip />
+    <!-- no translation found for metadata_location (6554310541123229404) -->
+    <skip />
+    <!-- no translation found for metadata_altitude (7322908625970953996) -->
+    <skip />
+    <!-- no translation found for metadata_make (436110457840345266) -->
+    <skip />
+    <!-- no translation found for metadata_model (8839903701468767090) -->
+    <skip />
+    <!-- no translation found for metadata_aperture (712880940219784858) -->
+    <skip />
+    <!-- no translation found for metadata_shutter_speed (2807089225760465388) -->
     <skip />
 </resources>
