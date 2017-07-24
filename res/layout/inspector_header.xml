@@ -32,10 +32,12 @@
         android:textSize="20dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:textColor="@android:color/white"
         android:layout_gravity="center_vertical"
         android:background="@color/inspector_title_background"
+        android:textAlignment="viewStart"
         android:layout_alignBottom="@+id/inspector_thumbnail" />
 
 </RelativeLayout>
