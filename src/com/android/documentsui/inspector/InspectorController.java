@@ -218,67 +218,91 @@ public final class InspectorController {
     /**
      * Updates a files metadata to the view.
      * @param docName - the name of the doc. needed for launching a geo intent.
-     * @param bundle - bundle of metadata.
+     * @param exif - bundle of metadata.
      */
     @VisibleForTesting
-    public void showExifData(String docName, Bundle bundle) {
+    public void showExifData(String docName, Bundle exif) {
         mMetadata.setTitle(R.string.inspector_exif_section);
 
-        if (bundle.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
-            && bundle.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
-            int width = bundle.getInt(ExifInterface.TAG_IMAGE_WIDTH);
-            int height = bundle.getInt(ExifInterface.TAG_IMAGE_LENGTH);
+        if (exif.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
+            && exif.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
+            int width = exif.getInt(ExifInterface.TAG_IMAGE_WIDTH);
+            int height = exif.getInt(ExifInterface.TAG_IMAGE_LENGTH);
             mMetadata.put(R.string.metadata_dimensions, String.valueOf(width) + " x "
                 + String.valueOf(height));
         }
 
-        if (bundle.containsKey(ExifInterface.TAG_DATETIME)) {
-            long date = bundle.getLong(ExifInterface.TAG_DATETIME);
-            mMetadata.put(R.string.metadata_date_time, DateUtils.formatDate(date));
+        if (exif.containsKey(ExifInterface.TAG_DATETIME)) {
+            String date = exif.getString(ExifInterface.TAG_DATETIME);
+            mMetadata.put(R.string.metadata_date_time, date);
         }
 
-        if (bundle.containsKey(ExifInterface.TAG_GPS_LATITUDE)
-                && bundle.containsKey(ExifInterface.TAG_GPS_LONGITUDE) ) {
-            double latitude = bundle.getDouble(ExifInterface.TAG_GPS_LATITUDE);
-            double longitude = bundle.getDouble(ExifInterface.TAG_GPS_LONGITUDE);
 
-            Intent intent = createGeoIntent(latitude, longitude, docName);
+        if (hasExifGpsFields(exif)) {
+            double[] coords = getExifGpsCoords(exif);
+
+            Intent intent = createGeoIntent(coords[0], coords[1], docName);
 
             if (hasHandler(intent)) {
                 mMetadata.put(R.string.metadata_location,
-                    String.valueOf(latitude) + ",  " + String.valueOf(longitude),
-                    view -> startActivity(intent)
+                        String.valueOf(coords[0]) + ",  " + String.valueOf(coords[1]),
+                        view -> startActivity(intent)
                 );
             } else {
-                mMetadata.put(R.string.metadata_location, String.valueOf(latitude) + ",  "
-                    + String.valueOf(longitude));
+                mMetadata.put(R.string.metadata_location, String.valueOf(coords[0]) + ",  "
+                        + String.valueOf(coords[1]));
             }
         }
 
-        if (bundle.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
-            double altitude = bundle.getDouble(ExifInterface.TAG_GPS_ALTITUDE);
+        if (exif.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
+            double altitude = exif.getDouble(ExifInterface.TAG_GPS_ALTITUDE);
             mMetadata.put(R.string.metadata_altitude, String.valueOf(altitude));
         }
 
-        if (bundle.containsKey(ExifInterface.TAG_MAKE)) {
-            String make = bundle.getString(ExifInterface.TAG_MAKE);
+        if (exif.containsKey(ExifInterface.TAG_MAKE)) {
+            String make = exif.getString(ExifInterface.TAG_MAKE);
             mMetadata.put(R.string.metadata_make, make);
         }
 
-        if (bundle.containsKey(ExifInterface.TAG_MODEL)) {
-            String model = bundle.getString(ExifInterface.TAG_MODEL);
+        if (exif.containsKey(ExifInterface.TAG_MODEL)) {
+            String model = exif.getString(ExifInterface.TAG_MODEL);
             mMetadata.put(R.string.metadata_model, model);
         }
 
-        if (bundle.containsKey(ExifInterface.TAG_APERTURE)) {
-            String aperture = String.valueOf(bundle.get(ExifInterface.TAG_APERTURE));
+        if (exif.containsKey(ExifInterface.TAG_APERTURE)) {
+            String aperture = String.valueOf(exif.get(ExifInterface.TAG_APERTURE));
             mMetadata.put(R.string.metadata_aperture, aperture);
         }
 
-        if (bundle.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
-            String shutterSpeed = String.valueOf(bundle.get(ExifInterface.TAG_SHUTTER_SPEED_VALUE));
+        if (exif.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
+            String shutterSpeed = String.valueOf(exif.get(ExifInterface.TAG_SHUTTER_SPEED_VALUE));
             mMetadata.put(R.string.metadata_shutter_speed, shutterSpeed);
         }
+    }
+
+    private boolean hasExifGpsFields(Bundle exif) {
+        return (exif.containsKey(ExifInterface.TAG_GPS_LATITUDE)
+                && exif.containsKey(ExifInterface.TAG_GPS_LONGITUDE)
+                && exif.containsKey(ExifInterface.TAG_GPS_LATITUDE_REF)
+                && exif.containsKey(ExifInterface.TAG_GPS_LONGITUDE_REF));
+    }
+
+    private double[] getExifGpsCoords(Bundle exif) {
+        String lat = exif.getString(ExifInterface.TAG_GPS_LATITUDE);
+        String lon = exif.getString(ExifInterface.TAG_GPS_LONGITUDE);
+        String latRef = exif.getString(ExifInterface.TAG_GPS_LATITUDE_REF);
+        String lonRef = exif.getString(ExifInterface.TAG_GPS_LONGITUDE_REF);
+
+        double round = 1000000.0;
+
+        double[] coordinates = new double[2];
+
+        coordinates[0] = Math.round(
+                ExifInterface.convertRationalLatLonToFloat(lat, latRef) * round) / round;
+        coordinates[1] = Math.round(
+                ExifInterface.convertRationalLatLonToFloat(lon, lonRef) * round) / round;
+
+        return coordinates;
     }
 
     /**
