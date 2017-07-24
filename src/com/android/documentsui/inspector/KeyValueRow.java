@@ -65,6 +65,7 @@ public class KeyValueRow extends LinearLayout {
         ((TextView) findViewById(R.id.table_row_value)).setText(value);
     }
 
+    @Override
     public void setOnClickListener(OnClickListener callback) {
         TextView clickable = ((TextView) findViewById(R.id.table_row_value));
         mDefaultTextColor = clickable.getTextColors();

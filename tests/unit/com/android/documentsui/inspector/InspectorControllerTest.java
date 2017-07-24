@@ -115,7 +115,6 @@ public class InspectorControllerTest  {
             mShowInProvider,
             mDefaultsTestDouble,
             mDebugTestDouble,
-            ProviderExecutor::forAuthority,
             () -> {
                 mShowSnackbarsCalled = true;
             }
@@ -148,7 +147,6 @@ public class InspectorControllerTest  {
             mShowInProvider,
             mDefaultsTestDouble,
             mDebugTestDouble,
-            ProviderExecutor::forAuthority,
             () -> {
                 mShowSnackbarsCalled = true;
             }

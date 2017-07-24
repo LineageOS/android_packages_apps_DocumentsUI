@@ -16,7 +16,9 @@
 package com.android.documentsui.inspector;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.widget.TextView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -63,5 +65,11 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
     private void put(String key, Object value) {
         put(key, String.valueOf(value));
+    }
+
+    private void put(String key, boolean value) {
+        KeyValueRow row = put(key, String.valueOf(value));
+        TextView valueView = ((TextView) row.findViewById(R.id.table_row_value));
+        valueView.setTextColor(value ? 0xFF006400 : 0xFF9A2020);
     }
 }

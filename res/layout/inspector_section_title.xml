@@ -24,7 +24,7 @@
     android:paddingEnd="16dp"
     android:layout_gravity="center_vertical"
     android:fontFamily="sans-serif-medium"
-    android:textSize="14sp"
+    android:textSize="15sp"
     android:textAlignment="viewStart"
     android:textColor="@color/inspector_section_title">
 

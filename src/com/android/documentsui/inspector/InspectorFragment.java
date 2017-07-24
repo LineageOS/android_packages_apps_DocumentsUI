@@ -49,7 +49,7 @@ public class InspectorFragment extends Fragment {
         Bundle savedInstanceState) {
         final Loader loader = new DocumentLoader(getActivity(), getLoaderManager());
 
-        mView = (ScrollView) inflater.inflate(R.layout.document_inspector_fragment,
+        mView = (ScrollView) inflater.inflate(R.layout.inspector_fragment,
                 container, false);
         boolean showDebug = (boolean) getArguments().get(Shared.EXTRA_SHOW_DEBUG);
         mController = new InspectorController(getActivity(), loader, mView, showDebug);
