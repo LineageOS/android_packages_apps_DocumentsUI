@@ -62,17 +62,24 @@ public final class InspectorController {
     private final PackageManager mPackageManager;
     private final ProvidersAccess mProviders;
     private final Runnable mShowSnackbar;
-    private final Lookup<String, Executor> mExecutors;
 
     /**
      * InspectorControllerTest relies on this controller.
      */
     @VisibleForTesting
-    public InspectorController(Context context, Loader loader, PackageManager pm,
-        ProvidersAccess providers, boolean showDebug, Consumer<DocumentInfo> header,
-        DetailsDisplay details, TableDisplay metadata, ActionDisplay showProvider,
-        ActionDisplay appDefaults, Consumer<DocumentInfo> debugView, Lookup<String,
-        Executor> executors, Runnable showSnackbar) {
+    public InspectorController(
+            Context context,
+            Loader loader,
+            PackageManager pm,
+            ProvidersAccess providers,
+            boolean showDebug,
+            Consumer<DocumentInfo> header,
+            DetailsDisplay details,
+            TableDisplay metadata,
+            ActionDisplay showProvider,
+            ActionDisplay appDefaults,
+            Consumer<DocumentInfo> debugView,
+            Runnable showSnackbar) {
 
         checkArgument(context != null);
         checkArgument(loader != null);
@@ -85,7 +92,6 @@ public final class InspectorController {
         checkArgument(appDefaults != null);
         checkArgument(debugView != null);
         checkArgument(showSnackbar != null);
-        checkArgument(executors != null);
 
         mContext = context;
         mLoader = loader;
@@ -98,12 +104,10 @@ public final class InspectorController {
         mShowProvider = showProvider;
         mAppDefaults = appDefaults;
         mDebugView = debugView;
-        mExecutors = executors;
         mShowSnackbar = showSnackbar;
     }
 
     public InspectorController(Activity activity, Loader loader, View layout, boolean showDebug) {
-
         this(activity,
             loader,
             activity.getPackageManager(),
@@ -115,14 +119,15 @@ public final class InspectorController {
             (ActionDisplay) layout.findViewById(R.id.inspector_show_in_provider_view),
             (ActionDisplay) layout.findViewById(R.id.inspector_app_defaults_view),
             (DebugView) layout.findViewById(R.id.inspector_debug_view),
-            ProviderExecutor::forAuthority,
             () -> {
                 // using a runnable to support unit testing this feature.
                 Snackbars.showInspectorError(activity);
             }
         );
         if (showDebug) {
-            layout.findViewById(R.id.inspector_debug_view).setVisibility(View.VISIBLE);
+            View view = layout.findViewById(R.id.inspector_debug_view);
+            view.setVisibility(View.VISIBLE);
+            view.setBackgroundColor(0xFFFFFFFF);
         }
     }
 

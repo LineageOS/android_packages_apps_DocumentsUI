@@ -19,13 +19,14 @@ package com.android.documentsui.inspector;
 import android.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.AttributeSet;
 import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.android.documentsui.R;
 import com.android.documentsui.inspector.InspectorController.TableDisplay;
 
@@ -83,17 +84,19 @@ public class TableView extends LinearLayout implements TableDisplay {
     /**
      * Puts or updates an value in the table view.
      */
-    protected void put(String key, String value) {
-        if (mRows.containsKey(key)) {
-            KeyValueRow row = mRows.get(key);
-            row.removeOnClickListener();
-            row.setValue(value);
-        } else {
-            KeyValueRow row = createKeyValueRow(this);
+    protected KeyValueRow put(String key, String value) {
+        KeyValueRow row = mRows.get(key);
+
+        if (row == null) {
+            row = createKeyValueRow(this);
             row.setKey(key);
-            row.setValue(value);
             mRows.put(key, row);
+        } else {
+            row.removeOnClickListener();
         }
+
+        row.setValue(value);
+        return row;
     }
 
     @Override
