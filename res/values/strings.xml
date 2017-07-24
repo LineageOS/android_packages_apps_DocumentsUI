@@ -411,4 +411,35 @@
     <!--The value of a photos shutter speed. Note that this is probably camera EXIF data.-->
     <string name="metadata_shutter_speed">Shutter speed</string>
 
+    <!--String label for developer/debug file details, specifying a file's uri/content address. -->
+    <string name="debug_content_uri">Uri</string>
+    <!--String label for developer/debug file details, specifying document id. -->
+    <string name="debug_document_id">Document id</string>
+    <!--String label for developer/debug file details, specifying mimetype. -->
+    <string name="debug_mimetype">Mimetype</string>
+    <!--String label for developer/debug file details, specifying that a file is an archive. -->
+    <string name="debug_is_archive">Is archive</string>
+    <!--String label for developer/debug file details, specifying that a file is a container (like a folder or an archive). -->
+    <string name="debug_is_container">Is container</string>
+    <!--String label for developer/debug file details, specifying that a file is partial (being downloaded). -->
+    <string name="debug_is_partial">Is partial</string>
+    <!--String label for developer/debug file details, specifying that a file is virtual (has no byte representation). -->
+    <string name="debug_is_virtual">Is virtual</string>
+    <!--String label for developer/debug file details, specifying that a file supports creating files within it. -->
+    <string name="debug_supports_create">Supports create</string>
+    <!--String label for developer/debug file details, specifying that a file is deletable. -->
+    <string name="debug_supports_delete">Supports delete</string>
+    <!--String label for developer/debug file details, specifying that a file has associated metadata. -->
+    <string name="debug_supports_metadata">Supports metadata</string>
+    <!--String label for developer/debug file details, specifying that a file can be renamed. -->
+    <string name="debug_supports_rename">Supports rename</string>
+    <!--String label for developer/debug file details, specifying that a file supports the "settings" feature. -->
+    <string name="debug_supports_settings">Supports settings</string>
+    <!--String label for developer/debug file details, specifying that a file has a viewable thumbnail. -->
+    <string name="debug_supports_thumbnail">Supports thumbnail</string>
+    <!--String label for developer/debug file details, specifying that a file supports the "weblink" feature. -->
+    <string name="debug_supports_weblink">Supports weblink</string>
+    <!--String label for developer/debug file details, specifying that a file is writable. -->
+    <string name="debug_supports_write">Supports write</string>
+
 </resources>
