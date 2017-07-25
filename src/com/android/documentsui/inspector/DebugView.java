@@ -15,8 +15,9 @@
  */
 package com.android.documentsui.inspector;
 
+import android.annotation.StringRes;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ import java.util.function.Consumer;
  */
 public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
+    private final Resources mRes;
+
     public DebugView(Context context) {
         this(context, null);
     }
@@ -40,35 +43,32 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
     public DebugView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mRes = context.getResources();
     }
 
     @Override
     public void accept(DocumentInfo info) {
         setTitle(R.string.inspector_debug_section);
 
-        put("Content uri", info.derivedUri);
-        put("Document id", info.documentId);
-        put("Mimetype: ", info.mimeType);
-        put("Is archive", info.isArchive());
-        put("Is container", info.isContainer());
-        put("Is partial", info.isPartial());
-        put("Is virtual", info.isVirtual());
-        put("Supports create", info.isCreateSupported());
-        put("Supports delete", info.isDeleteSupported());
-        put("Supports metadata", info.isMetadataSupported());
-        put("Supports rename", info.isRenameSupported());
-        put("Supports settings", info.isSettingsSupported());
-        put("Supports thumbnail", info.isThumbnailSupported());
-        put("Supports weblink", info.isWeblinkSupported());
-        put("Supports write", info.isWriteSupported());
+        put(R.string.debug_content_uri, info.derivedUri.toString());
+        put(R.string.debug_document_id, info.documentId);
+        put(R.string.debug_mimetype, info.mimeType);
+        put(R.string.debug_is_archive, info.isArchive());
+        put(R.string.debug_is_container, info.isContainer());
+        put(R.string.debug_is_partial, info.isPartial());
+        put(R.string.debug_is_virtual, info.isVirtual());
+        put(R.string.debug_supports_create, info.isCreateSupported());
+        put(R.string.debug_supports_delete, info.isDeleteSupported());
+        put(R.string.debug_supports_metadata, info.isMetadataSupported());
+        put(R.string.debug_supports_rename, info.isRenameSupported());
+        put(R.string.debug_supports_settings, info.isSettingsSupported());
+        put(R.string.debug_supports_thumbnail, info.isThumbnailSupported());
+        put(R.string.debug_supports_weblink, info.isWeblinkSupported());
+        put(R.string.debug_supports_write, info.isWriteSupported());
     }
 
-    private void put(String key, Object value) {
-        put(key, String.valueOf(value));
-    }
-
-    private void put(String key, boolean value) {
-        KeyValueRow row = put(key, String.valueOf(value));
+    private void put(@StringRes int key, boolean value) {
+        KeyValueRow row = put(mRes.getString(key), String.valueOf(value));
         TextView valueView = ((TextView) row.findViewById(R.id.table_row_value));
         valueView.setTextColor(value ? 0xFF006400 : 0xFF9A2020);
     }
