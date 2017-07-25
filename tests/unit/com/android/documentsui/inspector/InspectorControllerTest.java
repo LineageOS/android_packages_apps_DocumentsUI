@@ -291,6 +291,7 @@ public class InspectorControllerTest  {
 
         Map<Integer, String> expected = new HashMap<>();
         expected.put(R.string.metadata_dimensions, "3840 x 2160");
+        expected.put(R.string.metadata_date_time, DateUtils.formatDate(1000000L));
         expected.put(R.string.metadata_location, "37.7749,  -122.4194");
         expected.put(R.string.metadata_altitude, "1244.0");
         expected.put(R.string.metadata_make, "Google");
@@ -320,6 +321,7 @@ public class InspectorControllerTest  {
         Bundle data = new Bundle();
         data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
         data.putInt(ExifInterface.TAG_IMAGE_LENGTH, 2160);
+        data.putLong(ExifInterface.TAG_DATETIME, 1000000L);
         data.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
         data.putDouble(ExifInterface.TAG_GPS_LONGITUDE, -122.4194);
         data.putDouble(ExifInterface.TAG_GPS_ALTITUDE, 1244);
