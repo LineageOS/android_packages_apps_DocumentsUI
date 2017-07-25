@@ -184,7 +184,10 @@
     <string name="toast_failed_delete">Unable to delete some documents</string>
 
     <!--File properties dialog error shown when information about a file could not be loaded-->
-    <string name="file_inspector_load_error">Properties could not be loaded</string>
+    <string name="inspector_title">Info</string>
+
+    <!--File properties dialog error shown when information about a file could not be loaded-->
+    <string name="inspector_load_error">File info could not be loaded</string>
 
     <!-- Title of dialog when prompting user to select an app to share documents with [CHAR LIMIT=32] -->
     <string name="share_via">Share via</string>

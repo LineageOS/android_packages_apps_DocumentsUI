@@ -21,7 +21,7 @@
 
     <Toolbar
         android:id="@+id/toolbar"
-        android:title="Properties"
+        android:title="@string/inspector_title"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="?android:attr/colorPrimary"
