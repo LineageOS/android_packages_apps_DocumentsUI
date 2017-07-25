@@ -41,8 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"შეკუმშვა"</string>
     <string name="menu_extract" msgid="8171946945982532262">"ამოღება…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"გადარქმევა"</string>
-    <!-- no translation found for menu_inspector (8217713416277319588) -->
-    <skip />
+    <string name="menu_inspector" msgid="8217713416277319588">"ინფორმაციის მიღება"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>-ში ნახვა"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ახალი ფანჯარა"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ამოჭრა"</string>
@@ -64,24 +63,15 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"ტიპი"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"ზომა"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"ცვლილება"</string>
-    <!-- no translation found for directory_items (6645621978998614003) -->
-    <skip />
-    <!-- no translation found for handler_app_file_opens_with (2667097605117000751) -->
-    <skip />
-    <!-- no translation found for handler_app_belongs_to (5956928604521893459) -->
-    <skip />
-    <!-- no translation found for handler_app_button_info_1 (4271199640671067569) -->
-    <skip />
-    <!-- no translation found for handler_app_button_info_2 (4299969771512815898) -->
-    <skip />
-    <!-- no translation found for handler_app_clear (206579047716445033) -->
-    <skip />
-    <!-- no translation found for handler_app_show_in (7923573101129079048) -->
-    <skip />
-    <!-- no translation found for handler_app_not_selected (8178393676227130360) -->
-    <skip />
-    <!-- no translation found for handler_app_unknown (56574249066388341) -->
-    <skip />
+    <string name="directory_items" msgid="6645621978998614003">"ერთეულების რაოდენობა"</string>
+    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"ამ ტიპის ფაილი იხსნება"</string>
+    <string name="handler_app_belongs_to" msgid="5956928604521893459">"ეს ფაილი ეკუთვნის"</string>
+    <string name="handler_app_button_info_1" msgid="4271199640671067569">"ფაილის ამ ტიპის გახსნა სხვა აპებითაც შეიძლება. გასუფთავება"</string>
+    <string name="handler_app_button_info_2" msgid="4299969771512815898">"როგორც ნაგულისხმევი."</string>
+    <string name="handler_app_clear" msgid="206579047716445033">"გასუფთავება"</string>
+    <string name="handler_app_show_in" msgid="7923573101129079048">"პროვაიდერში ჩვენება"</string>
+    <string name="handler_app_not_selected" msgid="8178393676227130360">"არ არის არჩეული"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"უცნობი"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ზრდადი"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"კლებადი"</string>
     <string name="drawer_open" msgid="8071673398187261741">"ფესვების ჩვენება"</string>
@@ -223,22 +213,45 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"არქივი<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"გსურთ <xliff:g id="NAME">%1$s</xliff:g>-ზე გადაწერა?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"ფონურ რეჟიმში გაგრძელება"</string>
-    <!-- no translation found for inspector_debug_section (3447621501565766900) -->
+    <string name="inspector_debug_section" msgid="3447621501565766900">"შეცდომების გამართვის ინფორმაცია (მხოლოდ დეველ.)"</string>
+    <string name="inspector_metadata_section" msgid="6079048557893790964">"მეტა-მონაცემები"</string>
+    <!-- no translation found for inspector_exif_section (5949046061841867788) -->
     <skip />
-    <!-- no translation found for inspector_metadata_section (6079048557893790964) -->
+    <string name="metadata_dimensions" msgid="8862315437239063661">"ზომები"</string>
+    <string name="metadata_location" msgid="6554310541123229404">"მდებარეობა"</string>
+    <string name="metadata_altitude" msgid="7322908625970953996">"სიმაღლე"</string>
+    <string name="metadata_make" msgid="436110457840345266">"მწარმოებელი"</string>
+    <string name="metadata_model" msgid="8839903701468767090">"მოდელი"</string>
+    <string name="metadata_aperture" msgid="712880940219784858">"აპერტურა"</string>
+    <string name="metadata_shutter_speed" msgid="2807089225760465388">"ობიექტივის საკეტის სისწრაფე"</string>
+    <!-- no translation found for debug_content_uri (8460920347529643588) -->
     <skip />
-    <!-- no translation found for metadata_dimensions (8862315437239063661) -->
+    <!-- no translation found for debug_document_id (7630686573358226123) -->
     <skip />
-    <!-- no translation found for metadata_location (6554310541123229404) -->
+    <!-- no translation found for debug_mimetype (881126898393156098) -->
     <skip />
-    <!-- no translation found for metadata_altitude (7322908625970953996) -->
+    <!-- no translation found for debug_is_archive (3937290750906661828) -->
     <skip />
-    <!-- no translation found for metadata_make (436110457840345266) -->
+    <!-- no translation found for debug_is_container (5266358634381447492) -->
     <skip />
-    <!-- no translation found for metadata_model (8839903701468767090) -->
+    <!-- no translation found for debug_is_partial (2231879552618031141) -->
     <skip />
-    <!-- no translation found for metadata_aperture (712880940219784858) -->
+    <!-- no translation found for debug_is_virtual (6214537066743038611) -->
     <skip />
-    <!-- no translation found for metadata_shutter_speed (2807089225760465388) -->
+    <!-- no translation found for debug_supports_create (3769655246146649138) -->
+    <skip />
+    <!-- no translation found for debug_supports_delete (3625862583805865897) -->
+    <skip />
+    <!-- no translation found for debug_supports_metadata (1730344787404668790) -->
+    <skip />
+    <!-- no translation found for debug_supports_rename (376380110978453101) -->
+    <skip />
+    <!-- no translation found for debug_supports_settings (6666862652450832236) -->
+    <skip />
+    <!-- no translation found for debug_supports_thumbnail (2060482062478670641) -->
+    <skip />
+    <!-- no translation found for debug_supports_weblink (8194688813751988618) -->
+    <skip />
+    <!-- no translation found for debug_supports_write (7536733690733896063) -->
     <skip />
 </resources>

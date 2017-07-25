@@ -214,20 +214,44 @@
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g>ని భర్తీ చేయాలా?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"నేపథ్యంలో కొనసాగించు"</string>
     <string name="inspector_debug_section" msgid="3447621501565766900">"డీబగ్ సమాచారం (డెవలపర్ మాత్రమే)"</string>
-    <!-- no translation found for inspector_metadata_section (6079048557893790964) -->
+    <string name="inspector_metadata_section" msgid="6079048557893790964">"మెటాడేటా"</string>
+    <!-- no translation found for inspector_exif_section (5949046061841867788) -->
     <skip />
-    <!-- no translation found for metadata_dimensions (8862315437239063661) -->
+    <string name="metadata_dimensions" msgid="8862315437239063661">"కొలతలు"</string>
+    <string name="metadata_location" msgid="6554310541123229404">"స్థానం"</string>
+    <string name="metadata_altitude" msgid="7322908625970953996">"ఎత్తు"</string>
+    <string name="metadata_make" msgid="436110457840345266">"రూపొందించండి"</string>
+    <string name="metadata_model" msgid="8839903701468767090">"మోడల్"</string>
+    <string name="metadata_aperture" msgid="712880940219784858">"ఎపర్చర్"</string>
+    <string name="metadata_shutter_speed" msgid="2807089225760465388">"షట్టర్ వేగం"</string>
+    <!-- no translation found for debug_content_uri (8460920347529643588) -->
     <skip />
-    <!-- no translation found for metadata_location (6554310541123229404) -->
+    <!-- no translation found for debug_document_id (7630686573358226123) -->
     <skip />
-    <!-- no translation found for metadata_altitude (7322908625970953996) -->
+    <!-- no translation found for debug_mimetype (881126898393156098) -->
     <skip />
-    <!-- no translation found for metadata_make (436110457840345266) -->
+    <!-- no translation found for debug_is_archive (3937290750906661828) -->
     <skip />
-    <!-- no translation found for metadata_model (8839903701468767090) -->
+    <!-- no translation found for debug_is_container (5266358634381447492) -->
     <skip />
-    <!-- no translation found for metadata_aperture (712880940219784858) -->
+    <!-- no translation found for debug_is_partial (2231879552618031141) -->
     <skip />
-    <!-- no translation found for metadata_shutter_speed (2807089225760465388) -->
+    <!-- no translation found for debug_is_virtual (6214537066743038611) -->
+    <skip />
+    <!-- no translation found for debug_supports_create (3769655246146649138) -->
+    <skip />
+    <!-- no translation found for debug_supports_delete (3625862583805865897) -->
+    <skip />
+    <!-- no translation found for debug_supports_metadata (1730344787404668790) -->
+    <skip />
+    <!-- no translation found for debug_supports_rename (376380110978453101) -->
+    <skip />
+    <!-- no translation found for debug_supports_settings (6666862652450832236) -->
+    <skip />
+    <!-- no translation found for debug_supports_thumbnail (2060482062478670641) -->
+    <skip />
+    <!-- no translation found for debug_supports_weblink (8194688813751988618) -->
+    <skip />
+    <!-- no translation found for debug_supports_write (7536733690733896063) -->
     <skip />
 </resources>

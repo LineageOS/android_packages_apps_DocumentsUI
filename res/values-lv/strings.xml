@@ -41,8 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Saspiest"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Izvilkt..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"Pārdēvēt"</string>
-    <!-- no translation found for menu_inspector (8217713416277319588) -->
-    <skip />
+    <string name="menu_inspector" msgid="8217713416277319588">"Saņemt informāciju"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Skatīt, izmantojot <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Jauns logs"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Izgriezt"</string>
@@ -64,24 +63,15 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Veids"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Lielums"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Izmaiņas"</string>
-    <!-- no translation found for directory_items (6645621978998614003) -->
-    <skip />
-    <!-- no translation found for handler_app_file_opens_with (2667097605117000751) -->
-    <skip />
-    <!-- no translation found for handler_app_belongs_to (5956928604521893459) -->
-    <skip />
-    <!-- no translation found for handler_app_button_info_1 (4271199640671067569) -->
-    <skip />
-    <!-- no translation found for handler_app_button_info_2 (4299969771512815898) -->
-    <skip />
-    <!-- no translation found for handler_app_clear (206579047716445033) -->
-    <skip />
-    <!-- no translation found for handler_app_show_in (7923573101129079048) -->
-    <skip />
-    <!-- no translation found for handler_app_not_selected (8178393676227130360) -->
-    <skip />
-    <!-- no translation found for handler_app_unknown (56574249066388341) -->
-    <skip />
+    <string name="directory_items" msgid="6645621978998614003">"Vienumu skaits"</string>
+    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Šāda veida failu var atvērt lietotnē"</string>
+    <string name="handler_app_belongs_to" msgid="5956928604521893459">"Šis fails pieder:"</string>
+    <string name="handler_app_button_info_1" msgid="4271199640671067569">"Citas lietotnes var atvērt šī tipa failu. Dzēst"</string>
+    <string name="handler_app_button_info_2" msgid="4299969771512815898">"kā noklusējumu."</string>
+    <string name="handler_app_clear" msgid="206579047716445033">"Dzēst"</string>
+    <string name="handler_app_show_in" msgid="7923573101129079048">"Rādīt nodrošinātājā"</string>
+    <string name="handler_app_not_selected" msgid="8178393676227130360">"Nav atlasīta"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"Nezināma"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Augošā secībā"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Dilstošā secībā"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Rādīt saknes"</string>
@@ -244,22 +234,45 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"arhivs<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Vai pārrakstīt failu <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Turpināt izpildi fonā"</string>
-    <!-- no translation found for inspector_debug_section (3447621501565766900) -->
+    <string name="inspector_debug_section" msgid="3447621501565766900">"Atkļūdot informāciju (tikai izstrādātājiem)"</string>
+    <string name="inspector_metadata_section" msgid="6079048557893790964">"Metadati"</string>
+    <!-- no translation found for inspector_exif_section (5949046061841867788) -->
     <skip />
-    <!-- no translation found for inspector_metadata_section (6079048557893790964) -->
+    <string name="metadata_dimensions" msgid="8862315437239063661">"Izmēri"</string>
+    <string name="metadata_location" msgid="6554310541123229404">"Atrašanās vieta"</string>
+    <string name="metadata_altitude" msgid="7322908625970953996">"Augstums"</string>
+    <string name="metadata_make" msgid="436110457840345266">"Ražotājs"</string>
+    <string name="metadata_model" msgid="8839903701468767090">"Modelis"</string>
+    <string name="metadata_aperture" msgid="712880940219784858">"Apertūra"</string>
+    <string name="metadata_shutter_speed" msgid="2807089225760465388">"Slēdža ātrums"</string>
+    <!-- no translation found for debug_content_uri (8460920347529643588) -->
     <skip />
-    <!-- no translation found for metadata_dimensions (8862315437239063661) -->
+    <!-- no translation found for debug_document_id (7630686573358226123) -->
     <skip />
-    <!-- no translation found for metadata_location (6554310541123229404) -->
+    <!-- no translation found for debug_mimetype (881126898393156098) -->
     <skip />
-    <!-- no translation found for metadata_altitude (7322908625970953996) -->
+    <!-- no translation found for debug_is_archive (3937290750906661828) -->
     <skip />
-    <!-- no translation found for metadata_make (436110457840345266) -->
+    <!-- no translation found for debug_is_container (5266358634381447492) -->
     <skip />
-    <!-- no translation found for metadata_model (8839903701468767090) -->
+    <!-- no translation found for debug_is_partial (2231879552618031141) -->
     <skip />
-    <!-- no translation found for metadata_aperture (712880940219784858) -->
+    <!-- no translation found for debug_is_virtual (6214537066743038611) -->
     <skip />
-    <!-- no translation found for metadata_shutter_speed (2807089225760465388) -->
+    <!-- no translation found for debug_supports_create (3769655246146649138) -->
+    <skip />
+    <!-- no translation found for debug_supports_delete (3625862583805865897) -->
+    <skip />
+    <!-- no translation found for debug_supports_metadata (1730344787404668790) -->
+    <skip />
+    <!-- no translation found for debug_supports_rename (376380110978453101) -->
+    <skip />
+    <!-- no translation found for debug_supports_settings (6666862652450832236) -->
+    <skip />
+    <!-- no translation found for debug_supports_thumbnail (2060482062478670641) -->
+    <skip />
+    <!-- no translation found for debug_supports_weblink (8194688813751988618) -->
+    <skip />
+    <!-- no translation found for debug_supports_write (7536733690733896063) -->
     <skip />
 </resources>

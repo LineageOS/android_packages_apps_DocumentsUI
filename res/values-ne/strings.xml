@@ -216,6 +216,8 @@
     <string name="inspector_debug_section" msgid="3447621501565766900">"डिबगसम्बन्धी जानकारी (विकासकर्ताका लागि मात्र)"</string>
     <!-- no translation found for inspector_metadata_section (6079048557893790964) -->
     <skip />
+    <!-- no translation found for inspector_exif_section (5949046061841867788) -->
+    <skip />
     <!-- no translation found for metadata_dimensions (8862315437239063661) -->
     <skip />
     <!-- no translation found for metadata_location (6554310541123229404) -->
@@ -229,5 +231,35 @@
     <!-- no translation found for metadata_aperture (712880940219784858) -->
     <skip />
     <!-- no translation found for metadata_shutter_speed (2807089225760465388) -->
+    <skip />
+    <!-- no translation found for debug_content_uri (8460920347529643588) -->
+    <skip />
+    <!-- no translation found for debug_document_id (7630686573358226123) -->
+    <skip />
+    <!-- no translation found for debug_mimetype (881126898393156098) -->
+    <skip />
+    <!-- no translation found for debug_is_archive (3937290750906661828) -->
+    <skip />
+    <!-- no translation found for debug_is_container (5266358634381447492) -->
+    <skip />
+    <!-- no translation found for debug_is_partial (2231879552618031141) -->
+    <skip />
+    <!-- no translation found for debug_is_virtual (6214537066743038611) -->
+    <skip />
+    <!-- no translation found for debug_supports_create (3769655246146649138) -->
+    <skip />
+    <!-- no translation found for debug_supports_delete (3625862583805865897) -->
+    <skip />
+    <!-- no translation found for debug_supports_metadata (1730344787404668790) -->
+    <skip />
+    <!-- no translation found for debug_supports_rename (376380110978453101) -->
+    <skip />
+    <!-- no translation found for debug_supports_settings (6666862652450832236) -->
+    <skip />
+    <!-- no translation found for debug_supports_thumbnail (2060482062478670641) -->
+    <skip />
+    <!-- no translation found for debug_supports_weblink (8194688813751988618) -->
+    <skip />
+    <!-- no translation found for debug_supports_write (7536733690733896063) -->
     <skip />
 </resources>
