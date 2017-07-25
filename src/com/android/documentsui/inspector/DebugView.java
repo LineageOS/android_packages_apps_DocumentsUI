@@ -18,20 +18,30 @@ package com.android.documentsui.inspector;
 import android.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DummyLookup;
+import com.android.documentsui.base.Lookup;
 
+import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 
 /**
- * Organizes and Displays the basic details about a file
+ * Organizes and Displays the debug information about a file. This view
+ * should only be made visible when build is debuggable and system policies
+ * allow debug "stuff".
  */
 public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
+    private final Context mContext;
     private final Resources mRes;
+    private Lookup<String, Executor> mExecutors = new DummyLookup<>();
 
     public DebugView(Context context) {
         this(context, null);
@@ -43,7 +53,13 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
     public DebugView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         mRes = context.getResources();
+    }
+
+    void init(Lookup<String, Executor> executors) {
+        assert executors != null;
+        mExecutors = executors;
     }
 
     @Override
@@ -52,7 +68,9 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
         put(R.string.debug_content_uri, info.derivedUri.toString());
         put(R.string.debug_document_id, info.documentId);
-        put(R.string.debug_mimetype, info.mimeType);
+        put(R.string.debug_raw_mimetype, info.mimeType);
+        put(R.string.debug_stream_types, "-");
+        put(R.string.debug_raw_size, NumberFormat.getInstance().format(info.size));
         put(R.string.debug_is_archive, info.isArchive());
         put(R.string.debug_is_container, info.isContainer());
         put(R.string.debug_is_partial, info.isPartial());
@@ -65,6 +83,24 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
         put(R.string.debug_supports_thumbnail, info.isThumbnailSupported());
         put(R.string.debug_supports_weblink, info.isWeblinkSupported());
         put(R.string.debug_supports_write, info.isWriteSupported());
+
+        // Load Document stream types of the file. For virtual files, this should be
+        // something other than the primary type of the file.
+        Executor executor = mExecutors.lookup(info.derivedUri.getAuthority());
+        if (executor != null) {
+            new AsyncTask<Void, Void, String[]>() {
+                @Override
+                protected String[] doInBackground(Void... params) {
+                    return mContext.getContentResolver().getStreamTypes(info.derivedUri, "*/*");
+                }
+
+                @Override
+                protected void onPostExecute(String[] streamTypes) {
+                    put(R.string.debug_stream_types,
+                            streamTypes != null ? Arrays.toString(streamTypes) : "[]");
+                }
+            }.executeOnExecutor(executor, (Void[]) null);
+        }
     }
 
     private void put(@StringRes int key, boolean value) {
