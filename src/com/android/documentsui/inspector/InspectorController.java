@@ -36,14 +36,13 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.actions.Action;
 import com.android.documentsui.inspector.actions.ClearDefaultAppAction;
 import com.android.documentsui.inspector.actions.ShowInProviderAction;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.ui.Snackbars;
 
-import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 /**
  * A controller that coordinates retrieving document information and sending it to the view.
@@ -51,17 +50,17 @@ import java.util.function.Consumer;
 public final class InspectorController {
 
     private final Loader mLoader;
-    private final Consumer<DocumentInfo> mHeader;
+    private final HeaderDisplay mHeader;
     private final DetailsDisplay mDetails;
     private final TableDisplay mMetadata;
     private final ActionDisplay mShowProvider;
     private final ActionDisplay mAppDefaults;
     private final Consumer<DocumentInfo> mDebugView;
-    private final boolean mShowDebug;
     private final Context mContext;
     private final PackageManager mPackageManager;
     private final ProvidersAccess mProviders;
     private final Runnable mErrorSnackbar;
+    private Bundle mArgs;
 
     /**
      * InspectorControllerTest relies on this controller.
@@ -72,13 +71,13 @@ public final class InspectorController {
             Loader loader,
             PackageManager pm,
             ProvidersAccess providers,
-            boolean showDebug,
-            Consumer<DocumentInfo> header,
+            HeaderDisplay header,
             DetailsDisplay details,
             TableDisplay metadata,
             ActionDisplay showProvider,
             ActionDisplay appDefaults,
             Consumer<DocumentInfo> debugView,
+            Bundle args,
             Runnable errorRunnable) {
 
         checkArgument(context != null);
@@ -91,45 +90,55 @@ public final class InspectorController {
         checkArgument(showProvider != null);
         checkArgument(appDefaults != null);
         checkArgument(debugView != null);
+        checkArgument(args != null);
         checkArgument(errorRunnable != null);
 
         mContext = context;
         mLoader = loader;
         mPackageManager = pm;
-        mShowDebug = showDebug;
         mProviders = providers;
         mHeader = header;
         mDetails = details;
         mMetadata = metadata;
         mShowProvider = showProvider;
         mAppDefaults = appDefaults;
+        mArgs = args;
         mDebugView = debugView;
+
         mErrorSnackbar = errorRunnable;
     }
 
-    public InspectorController(Activity activity, Loader loader, View layout, boolean showDebug) {
+    /**
+     * @param activity
+     * @param loader
+     * @param layout
+     * @param args Bundle of arguments passed to our host {@link InspectorFragment}. These
+     *     can include extras that enable debug mode ({@link Shared#EXTRA_SHOW_DEBUG}
+     *     and override the file title (@link {@link Intent#EXTRA_TITLE}).
+     */
+    public InspectorController(Activity activity, Loader loader, View layout, Bundle args) {
         this(activity,
             loader,
             activity.getPackageManager(),
             DocumentsApplication.getProvidersCache (activity),
-            showDebug,
             (HeaderView) layout.findViewById(R.id.inspector_header_view),
             (DetailsView) layout.findViewById(R.id.inspector_details_view),
             (TableView) layout.findViewById(R.id.inspector_metadata_view),
             (ActionDisplay) layout.findViewById(R.id.inspector_show_in_provider_view),
             (ActionDisplay) layout.findViewById(R.id.inspector_app_defaults_view),
             (DebugView) layout.findViewById(R.id.inspector_debug_view),
+            args,
             () -> {
                 // using a runnable to support unit testing this feature.
                 Snackbars.showInspectorError(activity);
             }
         );
 
-        if (showDebug) {
+        if (args.getBoolean(Shared.EXTRA_SHOW_DEBUG)) {
             DebugView view = (DebugView) layout.findViewById(R.id.inspector_debug_view);
             view.init(ProviderExecutor::forAuthority);
             view.setVisibility(View.VISIBLE);
-            view.setBackgroundColor(0xFFFFFFFF);
+            view.setBackgroundColor(0xFFFFFFFF);  // it's just debug. We do what we want!
         }
     }
 
@@ -150,7 +159,7 @@ public final class InspectorController {
         if (docInfo == null) {
             mErrorSnackbar.run();
         } else {
-            mHeader.accept(docInfo);
+            mHeader.accept(docInfo, mArgs.getString(Intent.EXTRA_TITLE, docInfo.displayName));
             mDetails.accept(docInfo);
 
             if (docInfo.isDirectory()) {
@@ -191,7 +200,7 @@ public final class InspectorController {
                 mMetadata.setVisible(false);
             }
 
-            if (mShowDebug) {
+            if (mArgs.getBoolean(Shared.EXTRA_SHOW_DEBUG)) {
                 mDebugView.accept(docInfo);
             }
         }
@@ -396,6 +405,13 @@ public final class InspectorController {
         void setAppName(String name);
 
         void showAction(boolean visible);
+    }
+
+    /**
+     * Provides details about a file.
+     */
+    public interface HeaderDisplay {
+        void accept(DocumentInfo info, String displayName);
     }
 
     /**

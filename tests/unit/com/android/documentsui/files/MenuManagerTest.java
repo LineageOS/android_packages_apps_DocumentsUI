@@ -99,6 +99,7 @@ public final class MenuManagerTest {
     private TestMenuItem optionSelectAll;
     private TestMenuItem optionAdvanced;
     private TestMenuItem optionSettings;
+    private TestMenuItem optionInspector;
 
     private TestFeatures features;
     private TestSelectionDetails selectionDetails;
@@ -156,6 +157,7 @@ public final class MenuManagerTest {
         optionSelectAll = testMenu.findItem(R.id.option_menu_select_all);
         optionAdvanced = testMenu.findItem(R.id.option_menu_advanced);
         optionSettings = testMenu.findItem(R.id.option_menu_settings);
+        optionInspector = testMenu.findItem(R.id.option_menu_inspector);
 
         features = new TestFeatures();
 
@@ -351,6 +353,26 @@ public final class MenuManagerTest {
     }
 
     @Test
+    public void testActionMenu_InspectorEnabledForSingleSelection() {
+        features.inspector = true;
+        selectionDetails.size = 1;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeInspector.assertVisible();
+        actionModeInspector.assertEnabled();
+    }
+
+    @Test
+    public void testActionMenu_InspectorDisabledForMultiSelection() {
+        features.inspector = true;
+        selectionDetails.size = 2;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeInspector.assertVisible();
+        actionModeInspector.assertDisabled();
+    }
+
+    @Test
     public void testOptionMenu() {
         mgr.updateOptionMenu(testMenu);
 
@@ -385,6 +407,27 @@ public final class MenuManagerTest {
         mgr.updateOptionMenu(testMenu);
 
         optionSettings.assertVisible();
+    }
+
+    @Test
+    public void testOptionMenu_InspectorAvailable() {
+        features.inspector = true;
+        mgr.updateOptionMenu(testMenu);
+        optionInspector.assertVisible();
+        optionInspector.assertEnabled();
+    }
+
+    @Test
+    public void testOptionMenu_InspectorDisabledInRecentsFolder() {
+        features.inspector = true;
+
+        // synthesize a fake recents root. Not setting an authority or id == recents.
+        RootInfo recents = new RootInfo();
+        assert recents.isRecents();
+        state.stack.changeRoot(recents);
+        mgr.updateOptionMenu(testMenu);
+        optionInspector.assertVisible();
+        optionInspector.assertDisabled();
     }
 
     @Test

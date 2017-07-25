@@ -78,7 +78,7 @@ public abstract class MenuManager {
                 menu.findItem(R.id.option_menu_list));
         updateAdvanced(menu.findItem(R.id.option_menu_advanced));
         updateDebug(menu.findItem(R.id.option_menu_debug));
-
+        updateInspector(menu.findItem(R.id.option_menu_inspector));
         Menus.disableHiddenItems(menu);
     }
 
@@ -273,8 +273,19 @@ public abstract class MenuManager {
         rename.setVisible(false);
     }
 
-    protected void updateInspector(MenuItem properties, SelectionDetails selectionDetails) {
-        properties.setVisible(false);
+    /**
+     * This method is called for standard activity option menu as opposed
+     * to when there is a selection.
+     */
+    protected void updateInspector(MenuItem inspector) {
+        inspector.setVisible(false);
+    }
+
+    /**
+     * This method is called for action mode, when a selection exists.
+     */
+    protected void updateInspector(MenuItem inspector, SelectionDetails selectionDetails) {
+        inspector.setVisible(false);
     }
 
     protected void updateViewInOwner(MenuItem view, SelectionDetails selectionDetails) {

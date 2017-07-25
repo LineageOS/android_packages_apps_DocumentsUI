@@ -45,10 +45,7 @@ public class InspectorActivity extends Activity {
 
         if (mFragment == null) {
             Intent intent = getIntent();
-
             mFragment = InspectorFragment.newInstance(intent);
-
-
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_container, mFragment)
                     .commit();

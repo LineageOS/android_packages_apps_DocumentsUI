@@ -118,7 +118,7 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         Instrumentation.ActivityMonitor monitor = new Instrumentation.ActivityMonitor(
                 InspectorActivity.class.getName(), null, false);
         bots.directory.selectDocument("file0.log");
-        bots.main.clickActionItem("Properties");
+        bots.main.clickActionItem("Get info");
         monitor.waitForActivityWithTimeout(TIMEOUT);
     }
 

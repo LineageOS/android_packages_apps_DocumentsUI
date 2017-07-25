@@ -38,7 +38,6 @@ import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.selection.SelectionManager;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.IntFunction;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
@@ -58,7 +57,9 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
             SelectionManager selectionManager,
             Lookup<String, String> appNameLookup,
             Lookup<String, Uri> uriLookup) {
+
         super(searchManager, displayState, dirDetails);
+
         mFeatures = features;
         mContext = context;
         mSelectionManager = selectionManager;
@@ -265,10 +266,16 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateInspector(MenuItem properties, SelectionDetails selectionDetails) {
+    protected void updateInspector(MenuItem inspector) {
+        inspector.setVisible(mFeatures.isInspectorEnabled());
+        inspector.setEnabled(mFeatures.isInspectorEnabled() && !mState.stack.isRecents());
+    }
+
+    @Override
+    protected void updateInspector(MenuItem inspector, SelectionDetails selectionDetails) {
         boolean visible = mFeatures.isInspectorEnabled();
-        properties.setVisible(visible);
-        properties.setEnabled(visible && selectionDetails.size() == 1);
+        inspector.setVisible(visible);
+        inspector.setEnabled(visible && selectionDetails.size() == 1);
     }
 
     @Override

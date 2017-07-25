@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.testing;
 
+import android.content.Context;
 import android.provider.DocumentsContract.Document;
 import android.support.test.InstrumentationRegistry;
 import android.test.mock.MockContentResolver;
@@ -66,18 +67,16 @@ public class TestEnv {
     public final TestModel archiveModel;
     public final SelectionManager selectionMgr;
     public final TestSearchViewManager searchViewManager;
-    public final Injector injector;
+    public final Injector<?> injector;
     public final Features features;
 
     public final MockContentResolver contentResolver;
     public final Map<String, TestDocumentsProvider> mockProviders;
 
-    private TestEnv(String authority) {
+    private TestEnv(Context context, Features features, String authority) {
+        this.features = features;
         state.sortModel = SortModel.createModel();
         mExecutor = new TestScheduledExecutorService();
-        features = new Features.RuntimeFeatures(
-                InstrumentationRegistry.getInstrumentation().getTargetContext().getResources(),
-                null);
         model = new TestModel(authority, features);
         archiveModel = new TestModel(ArchivesProvider.AUTHORITY, features);
         selectionMgr = SelectionManagers.createTestInstance();
@@ -85,8 +84,8 @@ public class TestEnv {
         injector = new Injector(
                 features,
                 new TestActivityConfig(),
-                null,       //ScopedPreferences are not required for tests
-                null,   //a MessageBuilder is not required for tests
+                null,       // ScopedPreferences are not currently required for tests
+                null,       // MessageBuilder is not currently required for tests
                 dialogs,
                 new TestFileTypeLookup(),
                 (roots) -> {},  // not sure why, but java gets angry when I declare roots type.
@@ -111,12 +110,28 @@ public class TestEnv {
         }
     }
 
+    // Many terrible creational permutations == easy to user for test authors!
+    public static TestEnv create(Features features) {
+        return create(features, TestProvidersAccess.HOME.authority);
+    }
+
     public static TestEnv create() {
         return create(TestProvidersAccess.HOME.authority);
     }
 
+    public static TestEnv create(Features features, String authority) {
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        return create(context, features, authority);
+    }
+
     public static TestEnv create(String authority) {
-        TestEnv env = new TestEnv(authority);
+        Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        Features features = new Features.RuntimeFeatures(context.getResources(), null);
+        return create(context, features, authority);
+    }
+
+    private static TestEnv create(Context context, Features features, String authority) {
+        TestEnv env = new TestEnv(context, features, authority);
         env.reset();
         return env;
     }
@@ -157,8 +172,11 @@ public class TestEnv {
 
     public void populateStack() {
         DocumentInfo rootDoc = model.getDocument("1");
-        Assert.assertNotNull(rootDoc);
-        Assert.assertEquals(rootDoc.displayName, FOLDER_0.displayName);
+
+        // These are test setup sanity checks, not test assertions.
+        assert rootDoc != null;
+        assert rootDoc.isDirectory();
+        assert FOLDER_0.equals(rootDoc);
 
         state.stack.changeRoot(TestProvidersAccess.HOME);
         state.stack.push(rootDoc);
