@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,12 @@
  */
 package com.android.documentsui.base;
 
-import java.util.function.Function;
-
-import javax.annotation.Nullable;
-
 /**
- * A {@link Function}-like interface for looking up information.
- *
- * @param K input type (the "key").
- * @param V output type (the "value").
+ * Lookup that always returns null.
  */
-@FunctionalInterface
-public interface Lookup<K, V> {
-    @Nullable V lookup(K key);
+public final class DummyLookup<K, V> implements Lookup<K, V> {
+    @Override
+    public V lookup(K key) {
+        return null;
+    }
 }

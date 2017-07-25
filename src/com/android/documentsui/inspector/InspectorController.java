@@ -61,7 +61,7 @@ public final class InspectorController {
     private final Context mContext;
     private final PackageManager mPackageManager;
     private final ProvidersAccess mProviders;
-    private final Runnable mShowSnackbar;
+    private final Runnable mErrorSnackbar;
 
     /**
      * InspectorControllerTest relies on this controller.
@@ -79,7 +79,7 @@ public final class InspectorController {
             ActionDisplay showProvider,
             ActionDisplay appDefaults,
             Consumer<DocumentInfo> debugView,
-            Runnable showSnackbar) {
+            Runnable errorRunnable) {
 
         checkArgument(context != null);
         checkArgument(loader != null);
@@ -91,7 +91,7 @@ public final class InspectorController {
         checkArgument(showProvider != null);
         checkArgument(appDefaults != null);
         checkArgument(debugView != null);
-        checkArgument(showSnackbar != null);
+        checkArgument(errorRunnable != null);
 
         mContext = context;
         mLoader = loader;
@@ -104,7 +104,7 @@ public final class InspectorController {
         mShowProvider = showProvider;
         mAppDefaults = appDefaults;
         mDebugView = debugView;
-        mShowSnackbar = showSnackbar;
+        mErrorSnackbar = errorRunnable;
     }
 
     public InspectorController(Activity activity, Loader loader, View layout, boolean showDebug) {
@@ -124,8 +124,10 @@ public final class InspectorController {
                 Snackbars.showInspectorError(activity);
             }
         );
+
         if (showDebug) {
-            View view = layout.findViewById(R.id.inspector_debug_view);
+            DebugView view = (DebugView) layout.findViewById(R.id.inspector_debug_view);
+            view.init(ProviderExecutor::forAuthority);
             view.setVisibility(View.VISIBLE);
             view.setBackgroundColor(0xFFFFFFFF);
         }
@@ -146,7 +148,7 @@ public final class InspectorController {
     public void updateView(@Nullable DocumentInfo docInfo) {
 
         if (docInfo == null) {
-            mShowSnackbar.run();
+            mErrorSnackbar.run();
         } else {
             mHeader.accept(docInfo);
             mDetails.accept(docInfo);

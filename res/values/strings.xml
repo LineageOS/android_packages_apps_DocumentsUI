@@ -123,7 +123,7 @@
     <!--File properties dialog section title. In this section we show information about the default handler application for this type of file.-->
     <string name="handler_app_file_opens_with">This kind of file opens with</string>
     <!--File properties dialog section title. In this section we show information about a files provider. (e.g. system, drive, dropbox, etc)-->
-    <string name="handler_app_belongs_to">This file belongs to</string>
+    <string name="handler_app_belongs_to">This file is supplied by</string>
 
     <!--File properties dialog button description for clearing the default app. the name of the app
      will be inserted programmatically inbetween these two strings-->
@@ -416,7 +416,11 @@
     <!--String label for developer/debug file details, specifying document id. -->
     <string name="debug_document_id">Document id</string>
     <!--String label for developer/debug file details, specifying mimetype. -->
-    <string name="debug_mimetype">Mimetype</string>
+    <string name="debug_raw_mimetype">Raw mimetype</string>
+    <!--String label for developer/debug file details, specifying which stream types are available. -->
+    <string name="debug_stream_types">Stream types</string>
+    <!--String label for developer/debug file details, specifying the size of the file in bytes. -->
+    <string name="debug_raw_size">Raw size (bytes)</string>
     <!--String label for developer/debug file details, specifying that a file is an archive. -->
     <string name="debug_is_archive">Is archive</string>
     <!--String label for developer/debug file details, specifying that a file is a container (like a folder or an archive). -->
