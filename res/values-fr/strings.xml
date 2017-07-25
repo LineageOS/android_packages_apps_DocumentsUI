@@ -70,8 +70,8 @@
     <string name="handler_app_button_info_2" msgid="4299969771512815898">"pour qu\'elle ne soit plus l\'application par défaut."</string>
     <string name="handler_app_clear" msgid="206579047716445033">"Désactiver"</string>
     <string name="handler_app_show_in" msgid="7923573101129079048">"Afficher dans le fournisseur"</string>
-    <string name="handler_app_not_selected" msgid="8178393676227130360">"Non sélectionné"</string>
-    <string name="handler_app_unknown" msgid="56574249066388341">"Inconnu"</string>
+    <string name="handler_app_not_selected" msgid="8178393676227130360">"Non sélectionnée"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"Inconnue"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Croissant"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Décroissant"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Afficher les répertoires racines"</string>

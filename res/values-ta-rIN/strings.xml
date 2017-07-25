@@ -213,5 +213,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"காப்பகம்<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g>ஐ மேலெழுதவா?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"பின்னணியில் தொடர்க"</string>
-    <string name="inspector_debug_section" msgid="3447621501565766900">"பிழைத்திருத்தத் தகவல் (dev மட்டும்)"</string>
+    <string name="inspector_debug_section" msgid="3447621501565766900">"பிழைத்திருத்தத் தகவல் (டெவெலப்பர்கள் மட்டும்)"</string>
 </resources>
