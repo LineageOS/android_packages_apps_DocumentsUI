@@ -125,16 +125,6 @@
     <!--File properties dialog section title. In this section we show information about a files provider. (e.g. system, drive, dropbox, etc)-->
     <string name="handler_app_belongs_to">This file is supplied by</string>
 
-    <!--File properties dialog button description for clearing the default app. the name of the app
-     will be inserted programmatically inbetween these two strings-->
-    <string name="handler_app_button_info_1">Other apps can open this file type. Clear</string>
-    <string name="handler_app_button_info_2">as the default.</string>
-
-    <!--File properties dialog button label to clear the default app-->
-    <string name="handler_app_clear">Clear</string>
-    <!--File properties dialog button label to show a document in a provider-->
-    <string name="handler_app_show_in">Show in provider</string>
-
     <!--File properties dialog user message if a default app has not been selected-->
     <string name="handler_app_not_selected">Not selected</string>
     <!--File properties dialog user message if the default app is unknown-->
