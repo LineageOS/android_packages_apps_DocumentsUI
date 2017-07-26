@@ -223,6 +223,11 @@ public final class InspectorController {
                 + String.valueOf(height));
         }
 
+        if (bundle.containsKey(ExifInterface.TAG_DATETIME)) {
+            long date = bundle.getLong(ExifInterface.TAG_DATETIME);
+            mMetadata.put(R.string.metadata_date_time, DateUtils.formatDate(date));
+        }
+
         if (bundle.containsKey(ExifInterface.TAG_GPS_LATITUDE)
                 && bundle.containsKey(ExifInterface.TAG_GPS_LONGITUDE) ) {
             double latitude = bundle.getDouble(ExifInterface.TAG_GPS_LATITUDE);

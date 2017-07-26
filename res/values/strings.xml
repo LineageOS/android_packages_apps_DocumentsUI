@@ -413,6 +413,9 @@
     <string name="metadata_aperture">Aperture</string>
     <!--The value of a photos shutter speed. Note that this is probably camera EXIF data.-->
     <string name="metadata_shutter_speed">Shutter speed</string>
+    <!--When a photo was taken. Note that this is probably camera EXIF data.-->
+    <string name="metadata_date_time">Taken on</string>
+
 
     <!--String label for developer/debug file details, specifying a file's uri/content address. -->
     <string name="debug_content_uri">Uri</string>
