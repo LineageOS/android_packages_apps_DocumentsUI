@@ -25,6 +25,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.DragEvent;
@@ -680,8 +681,8 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         Intent intent = new Intent(mActivity, InspectorActivity.class);
         intent.putExtra(
                 Shared.EXTRA_SHOW_DEBUG,
-                mFeatures.isDebugSupportEnabled()
-                        || DebugFlags.getDocumentDetailsEnabled());
+                mFeatures.isDebugSupportEnabled() &&
+                        (Build.IS_DEBUGGABLE || DebugFlags.getDocumentDetailsEnabled()));
         intent.setData(doc.derivedUri);
         mActivity.startActivity(intent);
     }
