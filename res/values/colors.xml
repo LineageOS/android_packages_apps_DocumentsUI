@@ -64,7 +64,10 @@
     <color name="item_drag_shadow_background">@*android:color/white</color>
     <color name="item_drag_shadow_container_background">@*android:color/transparent</color>
 
-    <color name="shortcut_background">@*android:color/Blue_700</color>
+    <color name="downloads_icon_background">#ff4688f2</color>
+    <color name="app_icon_background">#ff4688f2</color>
+    <color name="shortcut_foreground">#ff3367d6</color>
+    <color name="shortcut_background">#fff5f5f5</color>
 
     <color name="dialog_title">@*android:color/primary_text_default_material_light</color>
 
