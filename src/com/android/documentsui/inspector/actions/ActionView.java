@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.inspector.actions;
 
+import android.annotation.Nullable;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -84,8 +85,14 @@ public final class ActionView extends LinearLayout implements InspectorControlle
     }
 
     @Override
-    public void setAppIcon(Drawable icon) {
-        mAppIcon.setImageDrawable(icon);
+    public void setAppIcon(@Nullable Drawable icon) {
+
+        if (icon != null) {
+            mAppIcon.setVisibility(View.VISIBLE);
+            mAppIcon.setImageDrawable(icon);
+        } else {
+            mAppIcon.setVisibility(View.GONE);
+        }
     }
 
     @Override
