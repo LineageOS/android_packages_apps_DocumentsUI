@@ -44,7 +44,7 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.ActionDisplay;
 import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 import com.android.documentsui.inspector.InspectorController.HeaderDisplay;
-import com.android.documentsui.inspector.InspectorController.Loader;
+import com.android.documentsui.inspector.InspectorController.DataSupplier;
 import com.android.documentsui.inspector.InspectorController.TableDisplay;
 import com.android.documentsui.inspector.actions.Action;
 import com.android.documentsui.testing.TestConsumer;
@@ -71,7 +71,7 @@ public class InspectorControllerTest  {
 
     private TestActivity mContext;
     private TestLoaderManager mLoaderManager;
-    private Loader mLoader;
+    private DataSupplier mLoader;
     private TestPackageManager mPm;
     private InspectorController mController;
     private TestEnv mEnv;
@@ -92,7 +92,7 @@ public class InspectorControllerTest  {
         mEnv = TestEnv.create();
         mPm = TestPackageManager.create();
         mLoaderManager = new TestLoaderManager();
-        mLoader = new DocumentLoader(loader, mLoaderManager);
+        mLoader = new RuntimeDataSupplier(loader, mLoaderManager);
         mHeaderTestDouble = new TestHeader();
         mDetailsTestDouble = new TestDetails();
         mMetadata = new TestTable();

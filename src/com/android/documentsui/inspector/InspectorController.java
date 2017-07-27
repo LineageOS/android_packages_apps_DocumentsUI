@@ -49,7 +49,7 @@ import java.util.function.Consumer;
  */
 public final class InspectorController {
 
-    private final Loader mLoader;
+    private final DataSupplier mLoader;
     private final HeaderDisplay mHeader;
     private final DetailsDisplay mDetails;
     private final TableDisplay mMetadata;
@@ -68,7 +68,7 @@ public final class InspectorController {
     @VisibleForTesting
     public InspectorController(
             Context context,
-            Loader loader,
+            DataSupplier loader,
             PackageManager pm,
             ProvidersAccess providers,
             HeaderDisplay header,
@@ -116,7 +116,7 @@ public final class InspectorController {
      *     can include extras that enable debug mode ({@link Shared#EXTRA_SHOW_DEBUG}
      *     and override the file title (@link {@link Intent#EXTRA_TITLE}).
      */
-    public InspectorController(Activity activity, Loader loader, View layout, Bundle args) {
+    public InspectorController(Activity activity, DataSupplier loader, View layout, Bundle args) {
         this(activity,
             loader,
             activity.getPackageManager(),
@@ -343,9 +343,9 @@ public final class InspectorController {
     }
 
     /**
-     * Interface for loading document metadata.
+     * Interface for loading all the various forms of document datal
      */
-    public interface Loader {
+    public interface DataSupplier {
 
         /**
          * Starts the Asynchronous process of loading file data.

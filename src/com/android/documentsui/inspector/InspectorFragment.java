@@ -28,7 +28,7 @@ import android.widget.ScrollView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.inspector.InspectorController.Loader;
+import com.android.documentsui.inspector.InspectorController.DataSupplier;
 
 /**
  * Displays the Properties view in Files.
@@ -47,7 +47,7 @@ public class InspectorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-        final Loader loader = new DocumentLoader(getActivity(), getLoaderManager());
+        final DataSupplier loader = new RuntimeDataSupplier(getActivity(), getLoaderManager());
 
         mView = (ScrollView) inflater.inflate(R.layout.inspector_fragment,
                 container, false);
