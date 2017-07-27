@@ -18,10 +18,12 @@ package com.android.documentsui;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
+import android.support.test.filters.LargeTest;
 
 import com.android.documentsui.bots.UiBot;
 import com.android.documentsui.inspector.InspectorActivity;
 
+@LargeTest
 public class InspectorUiTest extends ActivityTest<InspectorActivity> {
 
     private static final String TEST_DOC_NAME = "test.txt";
@@ -60,7 +62,9 @@ public class InspectorUiTest extends ActivityTest<InspectorActivity> {
         if (!features.isInspectorEnabled()) {
             return;
         }
-        bots.inspector.assertRowPresent(getActivity().getString(R.string.sort_dimension_file_type),
-                "vnd.android.document/directory", getActivity());
+        bots.inspector.assertRowPresent(
+                getActivity().getString(R.string.sort_dimension_file_type),
+                "Folder",
+                getActivity());
     }
 }

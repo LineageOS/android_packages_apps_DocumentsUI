@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.DragEvent;
 
@@ -679,11 +680,26 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     public void showInspector(DocumentInfo doc) {
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_INSPECTOR);
         Intent intent = new Intent(mActivity, InspectorActivity.class);
+        intent.setData(doc.derivedUri);
+
+        // permit the display of debug info about the file.
         intent.putExtra(
                 Shared.EXTRA_SHOW_DEBUG,
                 mFeatures.isDebugSupportEnabled() &&
                         (Build.IS_DEBUGGABLE || DebugFlags.getDocumentDetailsEnabled()));
-        intent.setData(doc.derivedUri);
+
+        // The "root document" (top level folder in a root) don't usually have a
+        // human friendly display name. That's because we've never shown the root
+        // folder's name to anyone.
+        // For that reason when the doc being inspected is the root folder,
+        // we override the displayName of the doc w/ the Root's name instead.
+        // The Root's name is shown to the user in the sidebar.
+        if (doc.isDirectory() && mState.stack.size() == 1 && mState.stack.get(0).equals(doc)) {
+            RootInfo root = mActivity.getCurrentRoot();
+            // Recents root title isn't defined, but inspector is disabled for recents root folder.
+            assert !TextUtils.isEmpty(root.title);
+            intent.putExtra(Intent.EXTRA_TITLE, root.title);
+        }
         mActivity.startActivity(intent);
     }
 

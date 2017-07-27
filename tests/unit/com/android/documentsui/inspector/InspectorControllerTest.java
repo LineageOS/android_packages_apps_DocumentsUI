@@ -15,7 +15,6 @@
  */
 package com.android.documentsui.inspector;
 
-import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -36,28 +35,33 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View.OnClickListener;
+
 import com.android.documentsui.InspectorProvider;
-import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
+import com.android.documentsui.TestProviderActivity;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.inspector.InspectorController.ActionDisplay;
 import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
+import com.android.documentsui.inspector.InspectorController.HeaderDisplay;
 import com.android.documentsui.inspector.InspectorController.Loader;
 import com.android.documentsui.inspector.InspectorController.TableDisplay;
 import com.android.documentsui.inspector.actions.Action;
-import com.android.documentsui.inspector.InspectorController.ActionDisplay;
 import com.android.documentsui.testing.TestConsumer;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestLoaderManager;
 import com.android.documentsui.testing.TestPackageManager;
 import com.android.documentsui.testing.TestPackageManager.TestResolveInfo;
 import com.android.documentsui.testing.TestProvidersAccess;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -71,12 +75,13 @@ public class InspectorControllerTest  {
     private TestPackageManager mPm;
     private InspectorController mController;
     private TestEnv mEnv;
-    private TestConsumer<DocumentInfo> mHeaderTestDouble;
+    private TestHeader mHeaderTestDouble;
     private TestDetails mDetailsTestDouble;
     private TestTable mMetadata;
     private TestAction mShowInProvider;
     private TestAction mDefaultsTestDouble;
     private TestConsumer<DocumentInfo> mDebugTestDouble;
+    private Bundle mTestArgs;
     private Boolean mShowSnackbarsCalled;
 
     @Before
@@ -88,12 +93,13 @@ public class InspectorControllerTest  {
         mPm = TestPackageManager.create();
         mLoaderManager = new TestLoaderManager();
         mLoader = new DocumentLoader(loader, mLoaderManager);
-        mHeaderTestDouble = new TestConsumer<>();
+        mHeaderTestDouble = new TestHeader();
         mDetailsTestDouble = new TestDetails();
         mMetadata = new TestTable();
         mShowInProvider = new TestAction();
         mDefaultsTestDouble = new TestAction();
         mDebugTestDouble = new TestConsumer<>();
+        mTestArgs = new Bundle();
 
         mShowSnackbarsCalled = false;
 
@@ -108,13 +114,13 @@ public class InspectorControllerTest  {
             mLoader,
             mPm,
             new TestProvidersAccess(),
-            false,
             mHeaderTestDouble,
             mDetailsTestDouble,
             mMetadata,
             mShowInProvider,
             mDefaultsTestDouble,
             mDebugTestDouble,
+            mTestArgs,
             () -> {
                 mShowSnackbarsCalled = true;
             }
@@ -135,18 +141,19 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testShowDebugUpdatesView() throws Exception {
+        mTestArgs.putBoolean(Shared.EXTRA_SHOW_DEBUG, true);
         mController = new InspectorController(
             mContext,
             mLoader,
             mPm,
             new TestProvidersAccess(),
-            true,
             mHeaderTestDouble,
             mDetailsTestDouble,
             mMetadata,
             mShowInProvider,
             mDefaultsTestDouble,
             mDebugTestDouble,
+            mTestArgs,
             () -> {
                 mShowSnackbarsCalled = true;
             }
@@ -154,6 +161,33 @@ public class InspectorControllerTest  {
 
         mController.updateView(new DocumentInfo());
         mDebugTestDouble.assertCalled();
+    }
+
+    /**
+     * Tests Debug view should be updated when visible.
+     */
+    @Test
+    public void testExtraTitleOverridesDisplayName() throws Exception {
+        mTestArgs.putString(Intent.EXTRA_TITLE, "hammy!");
+        mController = new InspectorController(
+            mContext,
+            mLoader,
+            mPm,
+            new TestProvidersAccess(),
+            mHeaderTestDouble,
+            mDetailsTestDouble,
+            mMetadata,
+            mShowInProvider,
+            mDefaultsTestDouble,
+            mDebugTestDouble,
+            mTestArgs,
+            () -> {
+                mShowSnackbarsCalled = true;
+            }
+        );
+
+        mController.updateView(new DocumentInfo());
+        mHeaderTestDouble.assertTitle("hammy!");
     }
 
     /**
@@ -383,6 +417,31 @@ public class InspectorControllerTest  {
         @Override
         public void showAction(boolean visible) {
 
+        }
+    }
+
+
+    private static class TestHeader implements HeaderDisplay {
+
+        private boolean mCalled = false;
+        private @Nullable String mTitle;
+
+        @Override
+        public void accept(DocumentInfo info, String displayName) {
+            mCalled = true;
+            mTitle = displayName;
+        }
+
+        public void assertTitle(String expected) {
+            Assert.assertEquals(expected, mTitle);
+        }
+
+        public void assertCalled() {
+            Assert.assertTrue(mCalled);
+        }
+
+        public void assertNotCalled() {
+            Assert.assertFalse(mCalled);
         }
     }
 

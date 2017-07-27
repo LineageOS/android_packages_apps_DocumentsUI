@@ -29,18 +29,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.documentsui.ProviderExecutor;
+import com.android.documentsui.R;
 import com.android.documentsui.ThumbnailLoader;
 import com.android.documentsui.base.Display;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.R;
+import com.android.documentsui.inspector.InspectorController.HeaderDisplay;
+
 import java.util.function.Consumer;
 
 /**
  * Organizes and displays the title and thumbnail for a given document
  */
-public final class HeaderView extends RelativeLayout implements Consumer<DocumentInfo> {
-
-    private static final String TAG = HeaderView.class.getCanonicalName();
+public final class HeaderView extends RelativeLayout implements HeaderDisplay {
 
     private final Context mContext;
     private final View mHeader;
@@ -68,50 +68,27 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
         int width = (int) Display.screenWidth((Activity)context);
         int height = mContext.getResources().getDimensionPixelSize(R.dimen.inspector_header_height);
         mImageDimensions = new Point(width, height);
+        addView(mHeader);
     }
 
     @Override
-    public void accept(DocumentInfo info) {
-        if (!hasHeader()) {
-            addView(mHeader);
-        }
-
-        if (!hasHeaderImage()) {
-            if (info.isDirectory()) {
-                loadFileIcon(info);
-            } else {
-                loadHeaderImage(info);
-            }
-        }
-        mTitle.setText(info.displayName);
-    }
-
-    private boolean hasHeader() {
-        for (int i = 0; i < getChildCount(); i++) {
-            if (getChildAt(i).equals(mHeader)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void loadFileIcon(DocumentInfo info) {
-        Drawable mimeIcon = mContext.getContentResolver()
-            .getTypeDrawable(info.mimeType);
-        mThumbnail.setScaleType(ScaleType.FIT_CENTER);
-        mThumbnail.setImageDrawable(mimeIcon);
+    public void accept(DocumentInfo info, String displayName) {
+        loadHeaderImage(info);
+        mTitle.setText(displayName);
     }
 
     private void loadHeaderImage(DocumentInfo info) {
-
         Consumer<Bitmap> callback = new Consumer<Bitmap>() {
             @Override
-            public void accept(Bitmap bitmap) {
-                if (bitmap != null) {
+            public void accept(Bitmap thumbnail) {
+                if (thumbnail != null) {
                     mThumbnail.setScaleType(ScaleType.CENTER_CROP);
-                    mThumbnail.setImageBitmap(bitmap);
+                    mThumbnail.setImageBitmap(thumbnail);
                 } else {
-                    loadFileIcon(info);
+                    Drawable mimeIcon =
+                            mContext.getContentResolver().getTypeDrawable(info.mimeType);
+                    mThumbnail.setScaleType(ScaleType.FIT_CENTER);
+                    mThumbnail.setImageDrawable(mimeIcon);
                 }
                 mThumbnail.animate().alpha(1.0f).start();
             }
@@ -119,12 +96,8 @@ public final class HeaderView extends RelativeLayout implements Consumer<Documen
 
         // load the thumbnail async.
         final ThumbnailLoader task = new ThumbnailLoader(info.derivedUri, mThumbnail,
-            mImageDimensions, info.lastModified, callback, false);
+                mImageDimensions, info.lastModified, callback, false);
         task.executeOnExecutor(ProviderExecutor.forAuthority(info.derivedUri.getAuthority()),
-            info.derivedUri);
-    }
-
-    private boolean hasHeaderImage() {
-        return mThumbnail.getAlpha() == 1.0f;
+                info.derivedUri);
     }
 }
