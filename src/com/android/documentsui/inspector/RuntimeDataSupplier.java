@@ -19,7 +19,6 @@ import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.database.ContentObserver;
@@ -30,22 +29,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.inspector.InspectorController.Loader;
+import com.android.documentsui.inspector.InspectorController.DataSupplier;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 /**
  * Asynchronously loads a document data for the inspector.
+ *
+ * <p>This loader is not a Loader! Its our own funky loader.
  */
-public class DocumentLoader implements Loader {
-
-    private static final String TAG = "DocumentLoader";
+public class RuntimeDataSupplier implements DataSupplier {
 
     private final Context mContext;
     private final LoaderManager mLoaderMgr;
@@ -54,7 +51,7 @@ public class DocumentLoader implements Loader {
     private @Nullable Callbacks mDirCallbacks;
     private @Nullable LoaderCallbacks<Bundle> mMetadataCallbacks;
 
-    public DocumentLoader(Context context, LoaderManager loaderMgr) {
+    public RuntimeDataSupplier(Context context, LoaderManager loaderMgr) {
         checkArgument(context != null);
         checkArgument(loaderMgr != null);
         mContext = context;
@@ -72,6 +69,7 @@ public class DocumentLoader implements Loader {
         Consumer<Cursor> callback = new Consumer<Cursor>() {
             @Override
             public void accept(Cursor cursor) {
+
                 if (cursor == null || !cursor.moveToFirst()) {
                     updateView.accept(null);
                 } else {
@@ -109,51 +107,19 @@ public class DocumentLoader implements Loader {
 
     @Override
     public void getDocumentMetadata(Uri uri, Consumer<Bundle> callback) {
-
-        // TODO: For some reason the async loading of metadata isn't working.
-        // This is a hackaround. Tracking bug @ b/63925015
-        try {
-            Bundle syncData = DocumentsContract.getDocumentMetadata(
-                    mContext.getContentResolver(),
-                    uri,
-                    null);
-            callback.accept(syncData);
-        } catch (FileNotFoundException e) {
-            callback.accept(Bundle.EMPTY);
-        }
-
-        Log.d(TAG, "Loading document metadata.");
-
         mMetadataCallbacks = new LoaderCallbacks<Bundle>() {
             @Override
             public android.content.Loader<Bundle> onCreateLoader(int id, Bundle unused) {
-                Log.d(TAG, "Creating loader for metadata.");
-                return new AsyncTaskLoader<Bundle>(mContext) {
-                    @Override
-                    public Bundle loadInBackground() {
-                        try {
-                            Log.d(TAG, "Executing call to load metadata.");
-                            return DocumentsContract.getDocumentMetadata(
-                                    mContext.getContentResolver(),
-                                    uri, null);
-                        } catch (FileNotFoundException e) {
-                            Log.e(TAG, "Failed to load metadata for doc: " + uri, e);
-                        }
-
-                        return null;
-                    }
-                };
+                return new MetadataLoader(mContext, uri);
             }
 
             @Override
             public void onLoadFinished(android.content.Loader<Bundle> loader, Bundle data) {
-                Log.d(TAG, "Received document metadata. Relaying to callback.");
                 callback.accept(data);
             }
 
             @Override
             public void onLoaderReset(android.content.Loader<Bundle> loader) {
-                Log.d(TAG, "Document metadata reset. Yerp!");
             }
         };
 
