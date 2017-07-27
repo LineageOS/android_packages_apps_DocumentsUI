@@ -132,8 +132,29 @@ public class MediaView extends TableView implements MediaDisplay {
         }
 
         if (tags.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
-            String shutterSpeed = String.valueOf(tags.get(ExifInterface.TAG_SHUTTER_SPEED_VALUE));
+            String shutterSpeed = String.valueOf(
+                    formatShutterSpeed(tags.getDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE)));
             table.put(R.string.metadata_shutter_speed, shutterSpeed);
         }
     }
+
+    /**
+     *
+     * @param speed a value n, where shutter speed equals 1/(2^n)
+     * @return a String containing either a fraction that displays 1 over a positive integer, or a
+     * double rounded to one decimal, depending on if 1/(2^n) is less than or greater than 1,
+     * respectively.
+     */
+    private static String formatShutterSpeed(double speed) {
+        if (speed <= 0) {
+            double shutterSpeed = Math.pow(2, -1 * speed);
+            String formattedSpeed = String.valueOf(Math.round(shutterSpeed * 10.0) / 10.0);
+            return formattedSpeed;
+        } else {
+            int approximateSpeedDenom = (int) Math.pow(2, speed) + 1;
+            String formattedSpeed = "1/" + String.valueOf(approximateSpeedDenom);
+            return formattedSpeed;
+        }
+    }
+
 }

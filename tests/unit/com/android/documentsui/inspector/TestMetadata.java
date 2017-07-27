@@ -34,6 +34,7 @@ final class TestMetadata {
         exif.putDouble(ExifInterface.TAG_GPS_ALTITUDE, 1244);
         exif.putString(ExifInterface.TAG_MAKE, "Google");
         exif.putString(ExifInterface.TAG_MODEL, "Pixel");
+        exif.putDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE, 6.643);
         container.putBundle(DocumentsContract.METADATA_EXIF, exif);
     }
 }
