@@ -37,6 +37,8 @@ import com.android.documentsui.inspector.InspectorController.HeaderDisplay;
 
 import java.util.function.Consumer;
 
+import javax.annotation.Nullable;
+
 /**
  * Organizes and displays the title and thumbnail for a given document
  */
@@ -77,27 +79,40 @@ public final class HeaderView extends RelativeLayout implements HeaderDisplay {
         mTitle.setText(displayName);
     }
 
-    private void loadHeaderImage(DocumentInfo info) {
-        Consumer<Bitmap> callback = new Consumer<Bitmap>() {
-            @Override
-            public void accept(Bitmap thumbnail) {
-                if (thumbnail != null) {
-                    mThumbnail.setScaleType(ScaleType.CENTER_CROP);
-                    mThumbnail.setImageBitmap(thumbnail);
-                } else {
-                    Drawable mimeIcon =
-                            mContext.getContentResolver().getTypeDrawable(info.mimeType);
-                    mThumbnail.setScaleType(ScaleType.FIT_CENTER);
-                    mThumbnail.setImageDrawable(mimeIcon);
+    private void loadHeaderImage(DocumentInfo doc) {
+        if (!doc.isThumbnailSupported()) {
+            showImage(doc, null);
+        } else {
+            Consumer<Bitmap> callback = new Consumer<Bitmap>() {
+                @Override
+                public void accept(Bitmap thumbnail) {
+                    showImage(doc, thumbnail);
                 }
-                mThumbnail.animate().alpha(1.0f).start();
-            }
-        };
+            };
+            // load the thumbnail async.
+            final ThumbnailLoader task = new ThumbnailLoader(doc.derivedUri, mThumbnail,
+                    mImageDimensions, doc.lastModified, callback, false);
+            task.executeOnExecutor(ProviderExecutor.forAuthority(doc.derivedUri.getAuthority()),
+                    doc.derivedUri);
+        }
+    }
 
-        // load the thumbnail async.
-        final ThumbnailLoader task = new ThumbnailLoader(info.derivedUri, mThumbnail,
-                mImageDimensions, info.lastModified, callback, false);
-        task.executeOnExecutor(ProviderExecutor.forAuthority(info.derivedUri.getAuthority()),
-                info.derivedUri);
+    /**
+     * Shows the supplied image, falling back to a mimetype icon if the image is null.
+     */
+    private void showImage(DocumentInfo info, @Nullable Bitmap thumbnail) {
+        if (thumbnail != null) {
+            mThumbnail.resetPaddingToInitialValues();
+            mThumbnail.setScaleType(ScaleType.CENTER_CROP);
+            mThumbnail.setImageBitmap(thumbnail);
+        } else {
+            mThumbnail.setPadding(0, 0, 0, mTitle.getHeight());
+
+            Drawable mimeIcon =
+                    mContext.getContentResolver().getTypeDrawable(info.mimeType);
+            mThumbnail.setScaleType(ScaleType.FIT_CENTER);
+            mThumbnail.setImageDrawable(mimeIcon);
+        }
+        mThumbnail.animate().alpha(1.0f).start();
     }
 }
