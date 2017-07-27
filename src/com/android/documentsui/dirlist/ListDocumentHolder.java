@@ -177,7 +177,13 @@ final class ListDocumentHolder extends DocumentHolder {
             // Note, we don't show any details for any directory...ever.
             hasDetails = false;
         } else {
-            if (mDoc.summary != null) {
+            // Show summary if the file is partial. Otherwise, there tends
+            // to be a bunch of confusing junk in the summary field
+            // as populated by Downlaods (and others). So to make things
+            // simpler and clearer for the user in list view, we only
+            // show the summary if the file is partial >
+            // which we believe to mean actively downloading.
+            if (mDoc.isPartial() && mDoc.summary != null) {
                 hasDetails = true;
                 mSummary.setText(mDoc.summary);
                 mSummary.setVisibility(View.VISIBLE);
