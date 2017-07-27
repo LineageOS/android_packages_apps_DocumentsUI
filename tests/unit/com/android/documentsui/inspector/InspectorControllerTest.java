@@ -34,6 +34,7 @@ import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.util.Log;
 import android.view.View.OnClickListener;
 
 import com.android.documentsui.InspectorProvider;
@@ -324,16 +325,14 @@ public class InspectorControllerTest  {
         mController.showExifData("No Name", createTestMetadataBundle());
 
         Map<Integer, String> expected = new HashMap<>();
-        expected.put(R.string.metadata_dimensions, "3840 x 2160");
-        expected.put(R.string.metadata_date_time, DateUtils.formatDate(1000000L));
-        expected.put(R.string.metadata_location, "37.7749,  -122.4194");
-        expected.put(R.string.metadata_altitude, "1244.0");
-        expected.put(R.string.metadata_make, "Google");
-        expected.put(R.string.metadata_model, "Pixel");
+        mMetadata.assertHasRow(R.string.metadata_dimensions, "3840 x 2160");
+        mMetadata.assertHasRow(R.string.metadata_dimensions, "3840 x 2160");
+        mMetadata.assertHasRow(R.string.metadata_date_time, "Jan 01, 1970, 12:16 AM");
+        mMetadata.assertHasRow(R.string.metadata_location, "33.995918,  -118.475342");
+        mMetadata.assertHasRow(R.string.metadata_altitude, "1244.0");
+        mMetadata.assertHasRow(R.string.metadata_make, "Google");
+        mMetadata.assertHasRow(R.string.metadata_model, "Pixel");
 
-        for (Integer key : expected.keySet()) {
-            assertTrue(expected.get(key).equals(mMetadata.calledBundleKeys.get(key)));
-        }
     }
 
     /**
@@ -352,16 +351,18 @@ public class InspectorControllerTest  {
     }
 
     private static Bundle createTestMetadataBundle() {
-        Bundle data = new Bundle();
-        data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
-        data.putInt(ExifInterface.TAG_IMAGE_LENGTH, 2160);
-        data.putLong(ExifInterface.TAG_DATETIME, 1000000L);
-        data.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
-        data.putDouble(ExifInterface.TAG_GPS_LONGITUDE, -122.4194);
-        data.putDouble(ExifInterface.TAG_GPS_ALTITUDE, 1244);
-        data.putString(ExifInterface.TAG_MAKE, "Google");
-        data.putString(ExifInterface.TAG_MODEL, "Pixel");
-        return data;
+        Bundle exif = new Bundle();
+        exif.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
+        exif.putInt(ExifInterface.TAG_IMAGE_LENGTH, 2160);
+        exif.putString(ExifInterface.TAG_DATETIME, "Jan 01, 1970, 12:16 AM");
+        exif.putString(ExifInterface.TAG_GPS_LATITUDE, "33/1,59/1,4530/100");
+        exif.putString(ExifInterface.TAG_GPS_LONGITUDE, "118/1,28/1,3124/100");
+        exif.putString(ExifInterface.TAG_GPS_LATITUDE_REF, "N");
+        exif.putString(ExifInterface.TAG_GPS_LONGITUDE_REF, "W");
+        exif.putDouble(ExifInterface.TAG_GPS_ALTITUDE, 1244);
+        exif.putString(ExifInterface.TAG_MAKE, "Google");
+        exif.putString(ExifInterface.TAG_MODEL, "Pixel");
+        return exif;
     }
 
     private static Bundle createTestMetadataPartialBundle() {
@@ -478,6 +479,10 @@ public class InspectorControllerTest  {
         @Override
         public void setTitle(int title) {
 
+        }
+
+        public void assertHasRow(int keyId, String expected) {
+            assertEquals(expected, calledBundleKeys.get(keyId));
         }
 
         @Override
