@@ -43,25 +43,31 @@ public class DetailsView extends TableView implements DetailsDisplay {
     }
 
     @Override
-    public void accept(DocumentInfo info) {
+    public void accept(DocumentInfo doc) {
 
         Lookup<String, String> fileTypeLookup =
                 DocumentsApplication.getFileTypeLookup(getContext());
 
-        put(R.string.sort_dimension_file_type, fileTypeLookup.lookup(info.mimeType));
+        put(R.string.sort_dimension_file_type, fileTypeLookup.lookup(doc.mimeType));
 
         // TODO: Each of these rows need to be removed if the condition is false and previously
         // set.
-        if (info.size > 0) {
-            put(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), info.size));
+        if (doc.size > 0) {
+            put(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), doc.size));
         }
 
-        if (info.lastModified > 0) {
-            put(R.string.sort_dimension_date, DateUtils.formatDate(info.lastModified));
+        if (doc.lastModified > 0) {
+            put(R.string.sort_dimension_date, DateUtils.formatDate(doc.lastModified));
         }
 
-        if (info.summary != null) {
-            put(R.string.sort_dimension_summary, info.summary);
+        // We only show summary field when doc is partial (meaning an active download).
+        // The rest of the time "summary" tends to be less than useful. For example
+        // after a download is completed DownloadsProvider include the orig filename
+        // in the summary field. This is confusing to folks in-and-if-itself, but
+        // after the file is renamed, it creates even more confusion (since it still
+        // shows the original). For that reason, and others. We only display on partial files.
+        if (doc.isPartial() && doc.summary != null) {
+            put(R.string.sort_dimension_summary, doc.summary);
         }
     }
 
