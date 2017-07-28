@@ -46,10 +46,7 @@ final class MetadataLoader extends AsyncTaskLoader<Bundle> {
     @Override
     public Bundle loadInBackground() {
         try {
-            return DocumentsContract.getDocumentMetadata(
-                    mContext.getContentResolver(),
-                    mUri,
-                    null);
+            return DocumentsContract.getDocumentMetadata(mContext.getContentResolver(), mUri);
         } catch (FileNotFoundException e) {
             Log.e(TAG, "Failed to load metadata for doc: " + mUri, e);
         }
