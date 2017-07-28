@@ -15,38 +15,34 @@
  */
 package com.android.documentsui.inspector;
 
+import static junit.framework.Assert.fail;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.support.annotation.Nullable;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
 import android.view.View.OnClickListener;
 
 import com.android.documentsui.InspectorProvider;
-import com.android.documentsui.R;
 import com.android.documentsui.TestProviderActivity;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.ActionDisplay;
+import com.android.documentsui.inspector.InspectorController.DataSupplier;
 import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 import com.android.documentsui.inspector.InspectorController.HeaderDisplay;
-import com.android.documentsui.inspector.InspectorController.DataSupplier;
-import com.android.documentsui.inspector.InspectorController.TableDisplay;
+import com.android.documentsui.inspector.InspectorController.MediaDisplay;
 import com.android.documentsui.inspector.actions.Action;
 import com.android.documentsui.testing.TestConsumer;
 import com.android.documentsui.testing.TestEnv;
@@ -61,8 +57,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.function.Consumer;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -70,62 +65,64 @@ public class InspectorControllerTest  {
 
     private static final String OPEN_IN_PROVIDER_DOC = "OpenInProviderTest";
 
-    private TestActivity mContext;
+    private TestActivity mActivity;
     private TestLoaderManager mLoaderManager;
-    private DataSupplier mLoader;
+    private TestDataSupplier mDataSupplier;
     private TestPackageManager mPm;
     private InspectorController mController;
     private TestEnv mEnv;
     private TestHeader mHeaderTestDouble;
     private TestDetails mDetailsTestDouble;
-    private TestTable mMetadata;
+    private TestMedia mMedia;
     private TestAction mShowInProvider;
     private TestAction mDefaultsTestDouble;
     private TestConsumer<DocumentInfo> mDebugTestDouble;
+    private TestRunnable mErrCallback;
     private Bundle mTestArgs;
-    private Boolean mShowSnackbarsCalled;
 
     @Before
     public void setUp() throws Exception {
 
-        //Needed to create a non null loader for the InspectorController.
-        Context loader = InstrumentationRegistry.getTargetContext();
         mEnv = TestEnv.create();
         mPm = TestPackageManager.create();
         mLoaderManager = new TestLoaderManager();
-        mLoader = new RuntimeDataSupplier(loader, mLoaderManager);
+        mDataSupplier = new TestDataSupplier();
         mHeaderTestDouble = new TestHeader();
         mDetailsTestDouble = new TestDetails();
-        mMetadata = new TestTable();
+        mMedia = new TestMedia();
         mShowInProvider = new TestAction();
         mDefaultsTestDouble = new TestAction();
         mDebugTestDouble = new TestConsumer<>();
+        mErrCallback = new TestRunnable();
         mTestArgs = new Bundle();
 
-        mShowSnackbarsCalled = false;
+        // Add some fake data.
+        mDataSupplier.mDoc = TestEnv.FILE_JPG;
+        mDataSupplier.mMetadata = new Bundle();
+        TestMetadata.populateExifData(mDataSupplier.mMetadata);
 
-        //Crashes if not called before "new TestActivity".
+        // Crashes if not called before "new TestActivity".
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
-        mContext = new TestActivity();
+        mActivity = new TestActivity();
+        recreateController();
+    }
 
+    private void recreateController() {
         mController = new InspectorController(
-            mContext,
-            mLoader,
-            mPm,
-            new TestProvidersAccess(),
-            mHeaderTestDouble,
-            mDetailsTestDouble,
-            mMetadata,
-            mShowInProvider,
-            mDefaultsTestDouble,
-            mDebugTestDouble,
-            mTestArgs,
-            () -> {
-                mShowSnackbarsCalled = true;
-            }
-        );
+                mActivity,
+                mDataSupplier,
+                mPm,
+                new TestProvidersAccess(),
+                mHeaderTestDouble,
+                mDetailsTestDouble,
+                mMedia,
+                mShowInProvider,
+                mDefaultsTestDouble,
+                mDebugTestDouble,
+                mTestArgs,
+                mErrCallback);
     }
 
     /**
@@ -133,7 +130,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testHideDebugByDefault() throws Exception {
-        mController.updateView(new DocumentInfo());
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
         mDebugTestDouble.assertNotCalled();
     }
 
@@ -143,24 +140,8 @@ public class InspectorControllerTest  {
     @Test
     public void testShowDebugUpdatesView() throws Exception {
         mTestArgs.putBoolean(Shared.EXTRA_SHOW_DEBUG, true);
-        mController = new InspectorController(
-            mContext,
-            mLoader,
-            mPm,
-            new TestProvidersAccess(),
-            mHeaderTestDouble,
-            mDetailsTestDouble,
-            mMetadata,
-            mShowInProvider,
-            mDefaultsTestDouble,
-            mDebugTestDouble,
-            mTestArgs,
-            () -> {
-                mShowSnackbarsCalled = true;
-            }
-        );
-
-        mController.updateView(new DocumentInfo());
+        recreateController();
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
         mDebugTestDouble.assertCalled();
     }
 
@@ -170,24 +151,8 @@ public class InspectorControllerTest  {
     @Test
     public void testExtraTitleOverridesDisplayName() throws Exception {
         mTestArgs.putString(Intent.EXTRA_TITLE, "hammy!");
-        mController = new InspectorController(
-            mContext,
-            mLoader,
-            mPm,
-            new TestProvidersAccess(),
-            mHeaderTestDouble,
-            mDetailsTestDouble,
-            mMetadata,
-            mShowInProvider,
-            mDefaultsTestDouble,
-            mDebugTestDouble,
-            mTestArgs,
-            () -> {
-                mShowSnackbarsCalled = true;
-            }
-        );
-
-        mController.updateView(new DocumentInfo());
+        recreateController();
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
         mHeaderTestDouble.assertTitle("hammy!");
     }
 
@@ -208,9 +173,9 @@ public class InspectorControllerTest  {
             OPEN_IN_PROVIDER_DOC);
         mController.showInProvider(uri);
 
-        assertNotNull(mContext.started);
-        assertEquals("com.android.documentsui", mContext.started.getPackage());
-        assertEquals(uri, mContext.started.getData());
+        assertNotNull(mActivity.started);
+        assertEquals("com.android.documentsui", mActivity.started.getPackage());
+        assertEquals(uri, mActivity.started.getData());
     }
     /**
      * Test that valid input will update the view properly. The test uses a test double for header
@@ -220,7 +185,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testUpdateViewWithValidInput() throws Exception {
-        mController.updateView(new DocumentInfo());
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
         mHeaderTestDouble.assertCalled();
         mDetailsTestDouble.assertCalled();
     }
@@ -236,9 +201,9 @@ public class InspectorControllerTest  {
         DocumentInfo doc = new DocumentInfo();
         doc.derivedUri =
             DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, OPEN_IN_PROVIDER_DOC);
-
         doc.flags = doc.flags | Document.FLAG_SUPPORTS_SETTINGS;
-        mController.updateView(doc);
+        mDataSupplier.mDoc = doc;
+        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
         assertTrue(mShowInProvider.becameVisible);
     }
 
@@ -249,11 +214,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testShowInProvider_invisible() throws Exception {
-        DocumentInfo doc = new DocumentInfo();
-        doc.derivedUri =
-            DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, OPEN_IN_PROVIDER_DOC);
-
-        mController.updateView(doc);
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
         assertFalse(mShowInProvider.becameVisible);
     }
 
@@ -263,7 +224,6 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testAppDefaults_visible() throws Exception {
-
         mPm.queryIntentProvidersResults = new ArrayList<>();
         mPm.queryIntentProvidersResults.add(new TestResolveInfo());
         mPm.queryIntentProvidersResults.add(new TestResolveInfo());
@@ -271,7 +231,8 @@ public class InspectorControllerTest  {
         doc.derivedUri =
             DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, OPEN_IN_PROVIDER_DOC);
 
-        mController.updateView(doc);
+        mDataSupplier.mDoc = doc;
+        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
         assertTrue(mDefaultsTestDouble.becameVisible);
     }
 
@@ -287,7 +248,8 @@ public class InspectorControllerTest  {
         doc.derivedUri =
             DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, OPEN_IN_PROVIDER_DOC);
 
-        mController.updateView(doc);
+        mDataSupplier.mDoc = doc;
+        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
         assertFalse(mDefaultsTestDouble.becameVisible);
     }
 
@@ -299,77 +261,57 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testUpdateView_withNullValue() throws Exception {
-        mController.updateView(null);
-        assertTrue(mShowSnackbarsCalled);
+        mDataSupplier.mDoc = null;
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+
+        mErrCallback.assertCalled();
         mHeaderTestDouble.assertNotCalled();
         mDetailsTestDouble.assertNotCalled();
     }
 
-    /**
-     * Test that the updateMetadata method in the controller will not print anything if there are no
-     * values for specific keys.
-     * @throws Exception
-     */
     @Test
-    public void testPrintMetadata_noBundleTags() throws Exception {
-        mController.showExifData("No Name", createTestMetadataEmptyBundle());
-        assertTrue(mMetadata.calledBundleKeys.isEmpty());
+    public void testMetadata_GeoHandlerInstalled() {
+        DocumentInfo doc = TestEnv.clone(TestEnv.FILE_JPG);
+        doc.flags |= DocumentsContract.Document.FLAG_SUPPORTS_METADATA;
+        mDataSupplier.mDoc = doc;
+        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
+        mMedia.assertGeoCallbackInstalled();
     }
 
-    /**
-     * Test that the updateMetadata method is printing metadata for selected items found in the
-     * bundle.
-     */
     @Test
-    public void testPrintMetadata_BundleTags() throws Exception {
-        mController.showExifData("No Name", createTestMetadataBundle());
-
-        Map<Integer, String> expected = new HashMap<>();
-        mMetadata.assertHasRow(R.string.metadata_dimensions, "3840 x 2160");
-        mMetadata.assertHasRow(R.string.metadata_dimensions, "3840 x 2160");
-        mMetadata.assertHasRow(R.string.metadata_date_time, "Jan 01, 1970, 12:16 AM");
-        mMetadata.assertHasRow(R.string.metadata_location, "33.995918,  -118.475342");
-        mMetadata.assertHasRow(R.string.metadata_altitude, "1244.0");
-        mMetadata.assertHasRow(R.string.metadata_make, "Google");
-        mMetadata.assertHasRow(R.string.metadata_model, "Pixel");
-
+    public void testMetadata_notDisplayedWhenNotReturned() {
+        DocumentInfo doc = TestEnv.clone(TestEnv.FILE_JPG);
+        doc.flags |= DocumentsContract.Document.FLAG_SUPPORTS_METADATA;
+        mDataSupplier.mDoc = doc;
+        mDataSupplier.mMetadata = null;  // sorry, no results sucka!
+        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
     }
 
-    /**
-     * Bundle only supplies half of the values for the pairs that print in printMetaData. No put
-     * method should be called as the correct conditions have not been met.
-     * @throws Exception
-     */
     @Test
-    public void testPrintMetadata_BundlePartialTags() throws Exception {
-        mController.showExifData("No Name", createTestMetadataPartialBundle());
-        assertTrue(mMetadata.calledBundleKeys.isEmpty());
+    public void testMetadata_notDisplayedDocWithoutSupportFlag() {
+        assert !TestEnv.FILE_JPG.isMetadataSupported();
+        mDataSupplier.mDoc = TestEnv.FILE_JPG;  // this is the default value. For "good measure".
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+        mMedia.assertVisible(false);
+        mMedia.assertEmpty();
     }
 
-    private static Bundle createTestMetadataEmptyBundle() {
-        return new Bundle();
-    }
-
-    private static Bundle createTestMetadataBundle() {
-        Bundle exif = new Bundle();
-        exif.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
-        exif.putInt(ExifInterface.TAG_IMAGE_LENGTH, 2160);
-        exif.putString(ExifInterface.TAG_DATETIME, "Jan 01, 1970, 12:16 AM");
-        exif.putString(ExifInterface.TAG_GPS_LATITUDE, "33/1,59/1,4530/100");
-        exif.putString(ExifInterface.TAG_GPS_LONGITUDE, "118/1,28/1,3124/100");
-        exif.putString(ExifInterface.TAG_GPS_LATITUDE_REF, "N");
-        exif.putString(ExifInterface.TAG_GPS_LONGITUDE_REF, "W");
-        exif.putDouble(ExifInterface.TAG_GPS_ALTITUDE, 1244);
-        exif.putString(ExifInterface.TAG_MAKE, "Google");
-        exif.putString(ExifInterface.TAG_MODEL, "Pixel");
-        return exif;
-    }
-
-    private static Bundle createTestMetadataPartialBundle() {
-        Bundle data = new Bundle();
-        data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
-        data.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
-        return data;
+    @Test
+    public void testMetadata_GeoHandlerStartsAction() {
+        DocumentInfo doc = TestEnv.clone(TestEnv.FILE_JPG);
+        doc.flags |= DocumentsContract.Document.FLAG_SUPPORTS_METADATA;
+        mDataSupplier.mDoc = doc;
+        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
+        mMedia.mGeoClickCallback.run();
+        Intent geoIntent = mActivity.started;
+        assertEquals(Intent.ACTION_VIEW, geoIntent.getAction());
+        assertNotNull(geoIntent);
+        Uri uri = geoIntent.getData();
+        assertEquals("geo", uri.getScheme());
+        String strUri = uri.toSafeString();
+        assertTrue(strUri.contains("33."));
+        assertTrue(strUri.contains("-118."));
+        assertTrue(strUri.contains(TestEnv.FILE_JPG.displayName));
     }
 
     private static class TestActivity extends Activity {
@@ -468,36 +410,56 @@ public class InspectorControllerTest  {
         }
     }
 
-    private static class TestTable implements TableDisplay {
+    private static class TestMedia extends TestTable implements MediaDisplay {
 
-        private Map<Integer, String> calledBundleKeys;
+        private @Nullable Runnable mGeoClickCallback;
 
-        public TestTable() {
-            calledBundleKeys = new HashMap<>();
+        @Override
+        public void accept(DocumentInfo info, Bundle metadata, Runnable geoClickCallback) {
+            mGeoClickCallback = geoClickCallback;
+        }
+
+        void assertGeoCallbackInstalled() {
+            assertNotNull(mGeoClickCallback);
+        }
+    }
+
+    private static final class TestDataSupplier implements DataSupplier {
+
+        private @Nullable DocumentInfo mDoc;
+        private @Nullable Bundle mMetadata;
+
+        @Override
+        public void loadDocInfo(Uri uri, Consumer<DocumentInfo> callback) {
+            callback.accept(mDoc);
         }
 
         @Override
-        public void setTitle(int title) {
-
-        }
-
-        public void assertHasRow(int keyId, String expected) {
-            assertEquals(expected, calledBundleKeys.get(keyId));
+        public void getDocumentMetadata(Uri uri, Consumer<Bundle> callback) {
+            callback.accept(mMetadata);
         }
 
         @Override
-        public void put(int keyId, String value) {
-            calledBundleKeys.put(keyId, value);
-        }
-
-
-        @Override
-        public void put(int keyId, String value, OnClickListener callback) {
-            calledBundleKeys.put(keyId, value);
+        public void loadDirCount(DocumentInfo directory, Consumer<Integer> callback) {
+            throw new UnsupportedOperationException();
         }
 
         @Override
-        public void setVisible(boolean visible) {
+        public void reset() {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    private static final class TestRunnable implements Runnable {
+        private boolean mCalled;
+
+        @Override
+        public void run() {
+            mCalled = true;
+        }
+
+        void assertCalled() {
+            assertTrue(mCalled);
         }
     }
 }

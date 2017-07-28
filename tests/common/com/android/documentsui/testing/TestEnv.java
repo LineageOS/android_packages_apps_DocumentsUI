@@ -16,6 +16,7 @@
 package com.android.documentsui.testing;
 
 import android.content.Context;
+import android.net.Uri;
 import android.provider.DocumentsContract.Document;
 import android.support.test.InstrumentationRegistry;
 import android.test.mock.MockContentResolver;
@@ -194,5 +195,22 @@ public class TestEnv {
         List<String> ids = new ArrayList<>(1);
         ids.add(info.documentId);
         selectionMgr.setItemsSelected(ids, true);
+    }
+
+    // Easily copy docs, so we don't pollute static data across tests.
+    public static DocumentInfo clone(DocumentInfo a) {
+        DocumentInfo b = new DocumentInfo();
+        b.authority = a.authority;
+        b.documentId = a.documentId;
+        b.mimeType = a.mimeType;
+        b.displayName = a.displayName;
+        b.lastModified = a.lastModified;
+        b.flags = a.flags;
+        b.summary = a.summary;
+        b.size = a.size;
+        b.icon = a.icon;
+        b.derivedUri = a.derivedUri;
+
+        return b;
     }
 }
