@@ -65,11 +65,7 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Đã sửa đổi"</string>
     <string name="directory_items" msgid="6645621978998614003">"Số mục"</string>
     <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Loại tệp này mở bằng"</string>
-    <string name="handler_app_belongs_to" msgid="5956928604521893459">"Tệp này thuộc về"</string>
-    <string name="handler_app_button_info_1" msgid="4271199640671067569">"Các ứng dụng khác có thể mở loại tệp này. Xóa"</string>
-    <string name="handler_app_button_info_2" msgid="4299969771512815898">"dưới dạng ứng dụng mặc định."</string>
-    <string name="handler_app_clear" msgid="206579047716445033">"Xóa"</string>
-    <string name="handler_app_show_in" msgid="7923573101129079048">"Hiển thị trong nhà cung cấp"</string>
+    <string name="handler_app_belongs_to" msgid="5951849884187825813">"Tệp này được cung cấp bởi"</string>
     <string name="handler_app_not_selected" msgid="8178393676227130360">"Chưa chọn"</string>
     <string name="handler_app_unknown" msgid="56574249066388341">"Không xác định"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Tăng dần"</string>
@@ -90,7 +86,8 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Không thể mở tệp"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Không thể mở tệp trong lưu trữ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Không thể xóa một số tài liệu"</string>
-    <string name="file_inspector_load_error" msgid="1226344446677541109">"Không thể tải các thuộc tính"</string>
+    <string name="inspector_title" msgid="3950518639689416990">"Thông tin"</string>
+    <string name="inspector_load_error" msgid="2790073937911591283">"Không thể tải thông tin tệp"</string>
     <string name="share_via" msgid="8725082736005677161">"Chia sẻ qua"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Đang sao chép tệp"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Nén tệp"</string>
@@ -215,8 +212,7 @@
     <string name="continue_in_background" msgid="1974214559047793331">"Tiếp tục ở chế độ nền"</string>
     <string name="inspector_debug_section" msgid="3447621501565766900">"Thông tin gỡ lỗi (chỉ dành cho nhà phát triển)"</string>
     <string name="inspector_metadata_section" msgid="6079048557893790964">"Siêu dữ liệu"</string>
-    <!-- no translation found for inspector_exif_section (5949046061841867788) -->
-    <skip />
+    <string name="inspector_exif_section" msgid="5949046061841867788">"Thông tin hình ảnh"</string>
     <string name="metadata_dimensions" msgid="8862315437239063661">"Kích thước"</string>
     <string name="metadata_location" msgid="6554310541123229404">"Địa điểm"</string>
     <string name="metadata_altitude" msgid="7322908625970953996">"Độ cao"</string>
@@ -224,34 +220,22 @@
     <string name="metadata_model" msgid="8839903701468767090">"Kiểu máy"</string>
     <string name="metadata_aperture" msgid="712880940219784858">"Khẩu độ"</string>
     <string name="metadata_shutter_speed" msgid="2807089225760465388">"Tốc độ chụp"</string>
-    <!-- no translation found for debug_content_uri (8460920347529643588) -->
-    <skip />
-    <!-- no translation found for debug_document_id (7630686573358226123) -->
-    <skip />
-    <!-- no translation found for debug_mimetype (881126898393156098) -->
-    <skip />
-    <!-- no translation found for debug_is_archive (3937290750906661828) -->
-    <skip />
-    <!-- no translation found for debug_is_container (5266358634381447492) -->
-    <skip />
-    <!-- no translation found for debug_is_partial (2231879552618031141) -->
-    <skip />
-    <!-- no translation found for debug_is_virtual (6214537066743038611) -->
-    <skip />
-    <!-- no translation found for debug_supports_create (3769655246146649138) -->
-    <skip />
-    <!-- no translation found for debug_supports_delete (3625862583805865897) -->
-    <skip />
-    <!-- no translation found for debug_supports_metadata (1730344787404668790) -->
-    <skip />
-    <!-- no translation found for debug_supports_rename (376380110978453101) -->
-    <skip />
-    <!-- no translation found for debug_supports_settings (6666862652450832236) -->
-    <skip />
-    <!-- no translation found for debug_supports_thumbnail (2060482062478670641) -->
-    <skip />
-    <!-- no translation found for debug_supports_weblink (8194688813751988618) -->
-    <skip />
-    <!-- no translation found for debug_supports_write (7536733690733896063) -->
-    <skip />
+    <string name="metadata_date_time" msgid="8507961609290985252">"Chụp vào"</string>
+    <string name="debug_content_uri" msgid="8460920347529643588">"Uri"</string>
+    <string name="debug_document_id" msgid="7630686573358226123">"Id tài liệu"</string>
+    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Raw mimetype"</string>
+    <string name="debug_stream_types" msgid="504840680506484652">"Loại luồng"</string>
+    <string name="debug_raw_size" msgid="4572969238401166095">"Kích thước tệp Raw (byte)"</string>
+    <string name="debug_is_archive" msgid="3937290750906661828">"Là tệp lưu trữ"</string>
+    <string name="debug_is_container" msgid="5266358634381447492">"Là tệp chứa"</string>
+    <string name="debug_is_partial" msgid="2231879552618031141">"Là một phần tệp"</string>
+    <string name="debug_is_virtual" msgid="6214537066743038611">"Là tệp ảo"</string>
+    <string name="debug_supports_create" msgid="3769655246146649138">"Hỗ trợ tạo"</string>
+    <string name="debug_supports_delete" msgid="3625862583805865897">"Hỗ trợ xóa"</string>
+    <string name="debug_supports_metadata" msgid="1730344787404668790">"Hỗ trợ siêu dữ liệu"</string>
+    <string name="debug_supports_rename" msgid="376380110978453101">"Hỗ trợ đổi tên"</string>
+    <string name="debug_supports_settings" msgid="6666862652450832236">"Hỗ trợ cài đặt"</string>
+    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"Hỗ trợ hình thu nhỏ"</string>
+    <string name="debug_supports_weblink" msgid="8194688813751988618">"Hỗ trợ liên kết web"</string>
+    <string name="debug_supports_write" msgid="7536733690733896063">"Hỗ trợ ghi"</string>
 </resources>

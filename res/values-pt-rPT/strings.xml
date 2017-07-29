@@ -65,12 +65,7 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Modificado"</string>
     <string name="directory_items" msgid="6645621978998614003">"Número de itens"</string>
     <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Este tipo de ficheiro abre com a aplicação"</string>
-    <!-- no translation found for handler_app_belongs_to (5951849884187825813) -->
-    <skip />
-    <string name="handler_app_button_info_1" msgid="4271199640671067569">"Não é possível abrir este tipo de ficheiro com outras aplicações. Limpar"</string>
-    <string name="handler_app_button_info_2" msgid="4299969771512815898">"como predefinição."</string>
-    <string name="handler_app_clear" msgid="206579047716445033">"Limpar"</string>
-    <string name="handler_app_show_in" msgid="7923573101129079048">"Mostrar no fornecedor"</string>
+    <string name="handler_app_belongs_to" msgid="5951849884187825813">"Este ficheiro é fornecido por"</string>
     <string name="handler_app_not_selected" msgid="8178393676227130360">"Não selecionada"</string>
     <string name="handler_app_unknown" msgid="56574249066388341">"Desconhecida"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendente"</string>
@@ -91,10 +86,8 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Não é possível abrir o ficheiro"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Não é possível abrir ficheiros nos arquivos"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Não é possível eliminar alguns documentos"</string>
-    <!-- no translation found for inspector_title (3950518639689416990) -->
-    <skip />
-    <!-- no translation found for inspector_load_error (2790073937911591283) -->
-    <skip />
+    <string name="inspector_title" msgid="3950518639689416990">"Informações"</string>
+    <string name="inspector_load_error" msgid="2790073937911591283">"Não foi possível carregar as informações do ficheiro."</string>
     <string name="share_via" msgid="8725082736005677161">"Partilhar através de"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"A copiar ficheiros"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"A comprimir ficheiros…"</string>
@@ -219,8 +212,7 @@
     <string name="continue_in_background" msgid="1974214559047793331">"Continuar em segundo plano"</string>
     <string name="inspector_debug_section" msgid="3447621501565766900">"Informação de depuração (apenas programadores)"</string>
     <string name="inspector_metadata_section" msgid="6079048557893790964">"Metadados"</string>
-    <!-- no translation found for inspector_exif_section (5949046061841867788) -->
-    <skip />
+    <string name="inspector_exif_section" msgid="5949046061841867788">"Informações da imagem"</string>
     <string name="metadata_dimensions" msgid="8862315437239063661">"Dimensões"</string>
     <string name="metadata_location" msgid="6554310541123229404">"Localização"</string>
     <string name="metadata_altitude" msgid="7322908625970953996">"Altitude"</string>
@@ -228,38 +220,22 @@
     <string name="metadata_model" msgid="8839903701468767090">"Modelo"</string>
     <string name="metadata_aperture" msgid="712880940219784858">"Abertura"</string>
     <string name="metadata_shutter_speed" msgid="2807089225760465388">"Velocidade do obturador"</string>
-    <!-- no translation found for debug_content_uri (8460920347529643588) -->
-    <skip />
-    <!-- no translation found for debug_document_id (7630686573358226123) -->
-    <skip />
-    <!-- no translation found for debug_raw_mimetype (6862426718015078252) -->
-    <skip />
-    <!-- no translation found for debug_stream_types (504840680506484652) -->
-    <skip />
-    <!-- no translation found for debug_raw_size (4572969238401166095) -->
-    <skip />
-    <!-- no translation found for debug_is_archive (3937290750906661828) -->
-    <skip />
-    <!-- no translation found for debug_is_container (5266358634381447492) -->
-    <skip />
-    <!-- no translation found for debug_is_partial (2231879552618031141) -->
-    <skip />
-    <!-- no translation found for debug_is_virtual (6214537066743038611) -->
-    <skip />
-    <!-- no translation found for debug_supports_create (3769655246146649138) -->
-    <skip />
-    <!-- no translation found for debug_supports_delete (3625862583805865897) -->
-    <skip />
-    <!-- no translation found for debug_supports_metadata (1730344787404668790) -->
-    <skip />
-    <!-- no translation found for debug_supports_rename (376380110978453101) -->
-    <skip />
-    <!-- no translation found for debug_supports_settings (6666862652450832236) -->
-    <skip />
-    <!-- no translation found for debug_supports_thumbnail (2060482062478670641) -->
-    <skip />
-    <!-- no translation found for debug_supports_weblink (8194688813751988618) -->
-    <skip />
-    <!-- no translation found for debug_supports_write (7536733690733896063) -->
-    <skip />
+    <string name="metadata_date_time" msgid="8507961609290985252">"Tirada em"</string>
+    <string name="debug_content_uri" msgid="8460920347529643588">"URI"</string>
+    <string name="debug_document_id" msgid="7630686573358226123">"ID do documento"</string>
+    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Mimetype não processado"</string>
+    <string name="debug_stream_types" msgid="504840680506484652">"Tipos de transmissão em fluxo contínuo"</string>
+    <string name="debug_raw_size" msgid="4572969238401166095">"Tamanho não processado (bytes)"</string>
+    <string name="debug_is_archive" msgid="3937290750906661828">"É arquivo"</string>
+    <string name="debug_is_container" msgid="5266358634381447492">"É contentor"</string>
+    <string name="debug_is_partial" msgid="2231879552618031141">"É parcial"</string>
+    <string name="debug_is_virtual" msgid="6214537066743038611">"É virtual"</string>
+    <string name="debug_supports_create" msgid="3769655246146649138">"Suporta a criação"</string>
+    <string name="debug_supports_delete" msgid="3625862583805865897">"Suporta a eliminação"</string>
+    <string name="debug_supports_metadata" msgid="1730344787404668790">"Suporta metadados"</string>
+    <string name="debug_supports_rename" msgid="376380110978453101">"Suporta a mudança de nome"</string>
+    <string name="debug_supports_settings" msgid="6666862652450832236">"Suporta as definições"</string>
+    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"Suporta a miniatura"</string>
+    <string name="debug_supports_weblink" msgid="8194688813751988618">"Suporta o link da Web"</string>
+    <string name="debug_supports_write" msgid="7536733690733896063">"Suporta a escrita"</string>
 </resources>
