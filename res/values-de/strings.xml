@@ -64,12 +64,12 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"Größe"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Geändert"</string>
     <string name="directory_items" msgid="6645621978998614003">"Anzahl der Elemente"</string>
-    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Dieser Dateityp kann geöffnet werden mit:"</string>
+    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Dieser Dateityp wird mit der folgenden App geöffnet:"</string>
     <string name="handler_app_belongs_to" msgid="5956928604521893459">"Diese Datei gehört zu"</string>
-    <string name="handler_app_button_info_1" msgid="4271199640671067569">"Andere Apps können diesen Dateityp öffnen."</string>
-    <string name="handler_app_button_info_2" msgid="4299969771512815898">"als Standardeinstellung löschen."</string>
+    <string name="handler_app_button_info_1" msgid="4271199640671067569">"Dieser Dateityp kann von anderen Apps geöffnet werden. Mit dieser Einstellung wird festgelegt, dass"</string>
+    <string name="handler_app_button_info_2" msgid="4299969771512815898">"nicht mehr die Standardapp ist."</string>
     <string name="handler_app_clear" msgid="206579047716445033">"Löschen"</string>
-    <string name="handler_app_show_in" msgid="7923573101129079048">"Bei Anbieter anzeigen"</string>
+    <string name="handler_app_show_in" msgid="7923573101129079048">"In Anbieter anzeigen"</string>
     <string name="handler_app_not_selected" msgid="8178393676227130360">"Nicht ausgewählt"</string>
     <string name="handler_app_unknown" msgid="56574249066388341">"Unbekannt"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Aufsteigend"</string>
