@@ -65,11 +65,7 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"ਸੋਧਣ ਦਾ ਸਮਾਂ"</string>
     <string name="directory_items" msgid="6645621978998614003">"ਆਈਟਮਾਂ ਦੀ ਗਿਣਤੀ"</string>
     <string name="handler_app_file_opens_with" msgid="2667097605117000751">"ਇਸ ਕਿਸਮ ਦੀ ਫ਼ਾਈਲ ਇਸ ਨਾਲ ਖੁੱਲ੍ਹਦੀ ਹੈ:"</string>
-    <string name="handler_app_belongs_to" msgid="5956928604521893459">"ਇਹ ਫ਼ਾਈਲ ਇਸ ਨਾਲ ਸਬੰਧਿਤ ਹੈ:"</string>
-    <string name="handler_app_button_info_1" msgid="4271199640671067569">"ਦੂਜੀਆਂ ਐਪਾਂ ਇਸ ਫ਼ਾਈਲ ਕਿਸਮ ਨੂੰ ਖੋਲ੍ਹ ਸਕਦੀਆਂ ਹਨ। ਕਲੀਅਰ ਕਰੋ"</string>
-    <string name="handler_app_button_info_2" msgid="4299969771512815898">"ਪੂਰਵ-ਨਿਰਧਾਰਤ ਵਜੋਂ।"</string>
-    <string name="handler_app_clear" msgid="206579047716445033">"ਕਲੀਅਰ ਕਰੋ"</string>
-    <string name="handler_app_show_in" msgid="7923573101129079048">"ਪ੍ਰਦਾਨਕ ਵਿੱਚ ਦਿਖਾਓ"</string>
+    <string name="handler_app_belongs_to" msgid="5951849884187825813">"ਇਹ ਫ਼ਾਈਲ ਇਹਨਾਂ ਵੱਲੋਂ ਦਿੱਤੀ ਗਈ ਹੈ"</string>
     <string name="handler_app_not_selected" msgid="8178393676227130360">"ਚੁਣੀ ਨਹੀਂ ਗਈ"</string>
     <string name="handler_app_unknown" msgid="56574249066388341">"ਅਗਿਆਤ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ਵਧਦਾ ਕ੍ਰਮ"</string>
@@ -90,7 +86,8 @@
     <string name="toast_no_application" msgid="7555319548595113121">"ਫ਼ਾਈਲ ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ਪੁਰਾਲੇਖਾਂ ਵਿੱਚ ਫ਼ਾਈਲਾਂ ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ਕੁਝ ਦਸਤਾਵੇਜ਼ਾਂ ਨੂੰ ਮਿਟਾਉਣ ਦੇ ਅਯੋਗ"</string>
-    <string name="file_inspector_load_error" msgid="1226344446677541109">"ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ ਨੂੰ ਲੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ"</string>
+    <string name="inspector_title" msgid="3950518639689416990">"ਜਾਣਕਾਰੀ"</string>
+    <string name="inspector_load_error" msgid="2790073937911591283">"ਫ਼ਾਈਲ ਜਾਣਕਾਰੀ ਲੋਡ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕੀ"</string>
     <string name="share_via" msgid="8725082736005677161">"ਇਸ ਰਾਹੀਂ ਸਾਂਝਾ ਕਰੋ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ਫ਼ਾਈਲਾਂ ਕਾਪੀ ਕਰ ਰਿਹਾ ਹੈ"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ਆਕਾਰ ਛੋਟਾ ਕੀਤਾ ਜਾ ਰਿਹਾ"</string>
@@ -214,52 +211,31 @@
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> ਉੱਤੇ ਲਿਖੀਏ?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"ਬੈਕਗ੍ਰਾਊਂਡ ਵਿੱਚ ਜਾਰੀ ਰੱਖੋ"</string>
     <string name="inspector_debug_section" msgid="3447621501565766900">"ਡੀਬੱਗ ਜਾਣਕਾਰੀ (ਸਿਰਫ਼ ਵਿਕਾਸਕਾਰ)"</string>
-    <!-- no translation found for inspector_metadata_section (6079048557893790964) -->
-    <skip />
-    <!-- no translation found for inspector_exif_section (5949046061841867788) -->
-    <skip />
-    <!-- no translation found for metadata_dimensions (8862315437239063661) -->
-    <skip />
-    <!-- no translation found for metadata_location (6554310541123229404) -->
-    <skip />
-    <!-- no translation found for metadata_altitude (7322908625970953996) -->
-    <skip />
-    <!-- no translation found for metadata_make (436110457840345266) -->
-    <skip />
-    <!-- no translation found for metadata_model (8839903701468767090) -->
-    <skip />
-    <!-- no translation found for metadata_aperture (712880940219784858) -->
-    <skip />
-    <!-- no translation found for metadata_shutter_speed (2807089225760465388) -->
-    <skip />
-    <!-- no translation found for debug_content_uri (8460920347529643588) -->
-    <skip />
-    <!-- no translation found for debug_document_id (7630686573358226123) -->
-    <skip />
-    <!-- no translation found for debug_mimetype (881126898393156098) -->
-    <skip />
-    <!-- no translation found for debug_is_archive (3937290750906661828) -->
-    <skip />
-    <!-- no translation found for debug_is_container (5266358634381447492) -->
-    <skip />
-    <!-- no translation found for debug_is_partial (2231879552618031141) -->
-    <skip />
-    <!-- no translation found for debug_is_virtual (6214537066743038611) -->
-    <skip />
-    <!-- no translation found for debug_supports_create (3769655246146649138) -->
-    <skip />
-    <!-- no translation found for debug_supports_delete (3625862583805865897) -->
-    <skip />
-    <!-- no translation found for debug_supports_metadata (1730344787404668790) -->
-    <skip />
-    <!-- no translation found for debug_supports_rename (376380110978453101) -->
-    <skip />
-    <!-- no translation found for debug_supports_settings (6666862652450832236) -->
-    <skip />
-    <!-- no translation found for debug_supports_thumbnail (2060482062478670641) -->
-    <skip />
-    <!-- no translation found for debug_supports_weblink (8194688813751988618) -->
-    <skip />
-    <!-- no translation found for debug_supports_write (7536733690733896063) -->
-    <skip />
+    <string name="inspector_metadata_section" msgid="6079048557893790964">"ਮੈਟਾਡੈਟਾ"</string>
+    <string name="inspector_exif_section" msgid="5949046061841867788">"ਚਿੱਤਰ ਜਾਣਕਾਰੀ"</string>
+    <string name="metadata_dimensions" msgid="8862315437239063661">"ਆਯਾਮ"</string>
+    <string name="metadata_location" msgid="6554310541123229404">"ਟਿਕਾਣਾ"</string>
+    <string name="metadata_altitude" msgid="7322908625970953996">"ਉਚਾਈ"</string>
+    <string name="metadata_make" msgid="436110457840345266">"ਨਿਰਮਾਤਾ"</string>
+    <string name="metadata_model" msgid="8839903701468767090">"ਮਾਡਲ"</string>
+    <string name="metadata_aperture" msgid="712880940219784858">"ਕੈਮਰੇ ਦੀ ਮੋਰੀ"</string>
+    <string name="metadata_shutter_speed" msgid="2807089225760465388">"ਸ਼ਟਰ ਦੀ ਗਤੀ"</string>
+    <string name="metadata_date_time" msgid="8507961609290985252">"ਇਸ ਮਿਤੀ ਨੂੰ ਖਿੱਚੀ ਗਈ"</string>
+    <string name="debug_content_uri" msgid="8460920347529643588">"Uri"</string>
+    <string name="debug_document_id" msgid="7630686573358226123">"ਦਸਤਾਵੇਜ਼ ਆਈ.ਡੀ."</string>
+    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Raw mimetype"</string>
+    <string name="debug_stream_types" msgid="504840680506484652">"ਸਟ੍ਰੀਮ ਦੀਆਂ ਕਿਸਮਾਂ"</string>
+    <string name="debug_raw_size" msgid="4572969238401166095">"Raw ਆਕਾਰ (ਬਾਈਟ)"</string>
+    <string name="debug_is_archive" msgid="3937290750906661828">"ਪੁਰਾਲੇਖ ਹੈ"</string>
+    <string name="debug_is_container" msgid="5266358634381447492">"ਕੰਟੇਨਰ ਹੈ"</string>
+    <string name="debug_is_partial" msgid="2231879552618031141">"ਅਧੂਰੀ ਹੈ"</string>
+    <string name="debug_is_virtual" msgid="6214537066743038611">"ਆਭਾਸੀ ਹੈ"</string>
+    <string name="debug_supports_create" msgid="3769655246146649138">"ਬਣਾਉਣ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
+    <string name="debug_supports_delete" msgid="3625862583805865897">"ਮਿਟਾਉਣ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
+    <string name="debug_supports_metadata" msgid="1730344787404668790">"ਮੈਟਾਡੈਟੇ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
+    <string name="debug_supports_rename" msgid="376380110978453101">"ਨਾਮ ਬਦਲਣ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
+    <string name="debug_supports_settings" msgid="6666862652450832236">"ਸੈਟਿੰਗਾਂ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
+    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"ਲਘੂ ਚਿੱਤਰ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
+    <string name="debug_supports_weblink" msgid="8194688813751988618">"ਵੈੱਬਲਿੰਕ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
+    <string name="debug_supports_write" msgid="7536733690733896063">"ਲਿਖਣ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
 </resources>
