@@ -21,6 +21,7 @@ import android.media.MediaMetadata;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.annotation.VisibleForTesting;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 
 import com.android.documentsui.R;
@@ -71,8 +72,8 @@ public class MediaView extends TableView implements MediaDisplay {
 
     private void showVideoData(DocumentInfo doc, Bundle tags) {
         if (tags.containsKey(MediaMetadata.METADATA_KEY_DURATION)) {
-            float seconds = tags.getInt(MediaMetadata.METADATA_KEY_DURATION) / 1000.0f;
-            put(R.string.metadata_duration, seconds + "s");
+            int millis = tags.getInt(MediaMetadata.METADATA_KEY_DURATION);
+            put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis));
         }
     }
 

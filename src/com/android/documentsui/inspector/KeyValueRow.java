@@ -61,7 +61,7 @@ public class KeyValueRow extends LinearLayout {
         setKey(mRes.getString(id));
     }
 
-    public void setValue(String value) {
+    public void setValue(CharSequence value) {
         ((TextView) findViewById(R.id.table_row_value)).setText(value);
     }
 

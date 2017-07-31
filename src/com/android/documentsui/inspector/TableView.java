@@ -77,14 +77,14 @@ public class TableView extends LinearLayout implements TableDisplay {
      * Puts or updates an value in the table view.
      */
     @Override
-    public void put(@StringRes int keyId, String value) {
+    public void put(@StringRes int keyId, CharSequence value) {
         put(mRes.getString(keyId), value);
     }
 
     /**
      * Puts or updates an value in the table view.
      */
-    protected KeyValueRow put(String key, String value) {
+    protected KeyValueRow put(String key, CharSequence value) {
         KeyValueRow row = mRows.get(key);
 
         if (row == null) {
@@ -100,7 +100,7 @@ public class TableView extends LinearLayout implements TableDisplay {
     }
 
     @Override
-    public void put(@StringRes int keyId, String value, OnClickListener callback) {
+    public void put(@StringRes int keyId, CharSequence value, OnClickListener callback) {
         put(keyId, value);
         mRows.get(mRes.getString(keyId)).setOnClickListener(callback);
     }

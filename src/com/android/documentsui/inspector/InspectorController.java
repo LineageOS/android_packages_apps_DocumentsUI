@@ -391,12 +391,12 @@ public final class InspectorController {
         /**
          * Adds a row in the table.
          */
-        void put(@StringRes int keyId, String value);
+        void put(@StringRes int keyId, CharSequence value);
 
         /**
          * Adds a row in the table and makes it clickable.
          */
-        void put(@StringRes int keyId, String value, OnClickListener callback);
+        void put(@StringRes int keyId, CharSequence value, OnClickListener callback);
 
         /**
          * Returns true if there are now rows in the display. Does not consider the title.

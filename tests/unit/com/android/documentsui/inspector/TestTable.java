@@ -30,7 +30,7 @@ import java.util.Map;
  */
 class TestTable implements TableDisplay {
 
-    private Map<Integer, String> calledBundleKeys;
+    private Map<Integer, CharSequence> calledBundleKeys;
     private boolean mVisible;
 
     public TestTable() {
@@ -47,12 +47,12 @@ class TestTable implements TableDisplay {
     }
 
     @Override
-    public void put(int keyId, String value) {
+    public void put(int keyId, CharSequence value) {
         calledBundleKeys.put(keyId, value);
     }
 
     @Override
-    public void put(int keyId, String value, OnClickListener callback) {
+    public void put(int keyId, CharSequence value, OnClickListener callback) {
         calledBundleKeys.put(keyId, value);
     }
 
