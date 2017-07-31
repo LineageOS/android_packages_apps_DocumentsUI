@@ -23,7 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
@@ -52,7 +51,7 @@ public final class InspectorController {
     private final DataSupplier mLoader;
     private final HeaderDisplay mHeader;
     private final DetailsDisplay mDetails;
-    private final TableDisplay mMetadata;
+    private final MediaDisplay mMedia;
     private final ActionDisplay mShowProvider;
     private final ActionDisplay mAppDefaults;
     private final Consumer<DocumentInfo> mDebugView;
@@ -73,7 +72,7 @@ public final class InspectorController {
             ProvidersAccess providers,
             HeaderDisplay header,
             DetailsDisplay details,
-            TableDisplay metadata,
+            MediaDisplay media,
             ActionDisplay showProvider,
             ActionDisplay appDefaults,
             Consumer<DocumentInfo> debugView,
@@ -86,7 +85,7 @@ public final class InspectorController {
         checkArgument(providers != null);
         checkArgument(header != null);
         checkArgument(details != null);
-        checkArgument(metadata != null);
+        checkArgument(media != null);
         checkArgument(showProvider != null);
         checkArgument(appDefaults != null);
         checkArgument(debugView != null);
@@ -99,7 +98,7 @@ public final class InspectorController {
         mProviders = providers;
         mHeader = header;
         mDetails = details;
-        mMetadata = metadata;
+        mMedia = media;
         mShowProvider = showProvider;
         mAppDefaults = appDefaults;
         mArgs = args;
@@ -123,7 +122,7 @@ public final class InspectorController {
             DocumentsApplication.getProvidersCache (activity),
             (HeaderView) layout.findViewById(R.id.inspector_header_view),
             (DetailsView) layout.findViewById(R.id.inspector_details_view),
-            (TableView) layout.findViewById(R.id.inspector_metadata_view),
+            (MediaView) layout.findViewById(R.id.inspector_media_view),
             (ActionDisplay) layout.findViewById(R.id.inspector_show_in_provider_view),
             (ActionDisplay) layout.findViewById(R.id.inspector_app_defaults_view),
             (DebugView) layout.findViewById(R.id.inspector_debug_view),
@@ -153,9 +152,7 @@ public final class InspectorController {
     /**
      * Updates the view with documentInfo.
      */
-    @Nullable
-    public void updateView(@Nullable DocumentInfo docInfo) {
-
+    private void updateView(@Nullable DocumentInfo docInfo) {
         if (docInfo == null) {
             mErrorSnackbar.run();
         } else {
@@ -194,11 +191,10 @@ public final class InspectorController {
                 mLoader.getDocumentMetadata(
                         docInfo.derivedUri,
                         (Bundle bundle) -> {
-                            onDocumentMetadataLoaded(docInfo.displayName, bundle);
+                            onDocumentMetadataLoaded(docInfo, bundle);
                         });
-            } else {
-                mMetadata.setVisible(false);
             }
+            mMedia.setVisible(!mMedia.isEmpty());
 
             if (mArgs.getBoolean(Shared.EXTRA_SHOW_DEBUG)) {
                 mDebugView.accept(docInfo);
@@ -206,103 +202,24 @@ public final class InspectorController {
         }
     }
 
-    @VisibleForTesting
-    public void onDocumentMetadataLoaded(String displayName, Bundle bundle) {
-        Bundle exif = bundle.getBundle(DocumentsContract.METADATA_EXIF);
-        if (exif != null) {
-            showExifData(displayName, exif);
-        }
-        mMetadata.setVisible(exif != null);
-    }
-
-    /**
-     * Updates a files metadata to the view.
-     * @param docName - the name of the doc. needed for launching a geo intent.
-     * @param exif - bundle of metadata.
-     */
-    @VisibleForTesting
-    public void showExifData(String docName, Bundle exif) {
-        mMetadata.setTitle(R.string.inspector_exif_section);
-
-        if (exif.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
-            && exif.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
-            int width = exif.getInt(ExifInterface.TAG_IMAGE_WIDTH);
-            int height = exif.getInt(ExifInterface.TAG_IMAGE_LENGTH);
-            mMetadata.put(R.string.metadata_dimensions, String.valueOf(width) + " x "
-                + String.valueOf(height));
+    private void onDocumentMetadataLoaded(DocumentInfo doc, @Nullable Bundle metadata) {
+        if (metadata == null) {
+            return;
         }
 
-        if (exif.containsKey(ExifInterface.TAG_DATETIME)) {
-            String date = exif.getString(ExifInterface.TAG_DATETIME);
-            mMetadata.put(R.string.metadata_date_time, date);
-        }
-
-
-        if (hasExifGpsFields(exif)) {
-            double[] coords = getExifGpsCoords(exif);
-
-            Intent intent = createGeoIntent(coords[0], coords[1], docName);
-
+        Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
+        Runnable geoClickListener = null;
+        if (exif != null && MetadataUtils.hasExifGpsFields(exif)) {
+            double[] coords = MetadataUtils.getExifGpsCoords(exif);
+            final Intent intent = createGeoIntent(coords[0], coords[1], doc.displayName);
             if (hasHandler(intent)) {
-                mMetadata.put(R.string.metadata_location,
-                        String.valueOf(coords[0]) + ",  " + String.valueOf(coords[1]),
-                        view -> startActivity(intent)
-                );
-            } else {
-                mMetadata.put(R.string.metadata_location, String.valueOf(coords[0]) + ",  "
-                        + String.valueOf(coords[1]));
+                geoClickListener = () -> {
+                    startActivity(intent);
+                };
             }
         }
 
-        if (exif.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
-            double altitude = exif.getDouble(ExifInterface.TAG_GPS_ALTITUDE);
-            mMetadata.put(R.string.metadata_altitude, String.valueOf(altitude));
-        }
-
-        if (exif.containsKey(ExifInterface.TAG_MAKE)) {
-            String make = exif.getString(ExifInterface.TAG_MAKE);
-            mMetadata.put(R.string.metadata_make, make);
-        }
-
-        if (exif.containsKey(ExifInterface.TAG_MODEL)) {
-            String model = exif.getString(ExifInterface.TAG_MODEL);
-            mMetadata.put(R.string.metadata_model, model);
-        }
-
-        if (exif.containsKey(ExifInterface.TAG_APERTURE)) {
-            String aperture = String.valueOf(exif.get(ExifInterface.TAG_APERTURE));
-            mMetadata.put(R.string.metadata_aperture, aperture);
-        }
-
-        if (exif.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
-            String shutterSpeed = String.valueOf(exif.get(ExifInterface.TAG_SHUTTER_SPEED_VALUE));
-            mMetadata.put(R.string.metadata_shutter_speed, shutterSpeed);
-        }
-    }
-
-    private boolean hasExifGpsFields(Bundle exif) {
-        return (exif.containsKey(ExifInterface.TAG_GPS_LATITUDE)
-                && exif.containsKey(ExifInterface.TAG_GPS_LONGITUDE)
-                && exif.containsKey(ExifInterface.TAG_GPS_LATITUDE_REF)
-                && exif.containsKey(ExifInterface.TAG_GPS_LONGITUDE_REF));
-    }
-
-    private double[] getExifGpsCoords(Bundle exif) {
-        String lat = exif.getString(ExifInterface.TAG_GPS_LATITUDE);
-        String lon = exif.getString(ExifInterface.TAG_GPS_LONGITUDE);
-        String latRef = exif.getString(ExifInterface.TAG_GPS_LATITUDE_REF);
-        String lonRef = exif.getString(ExifInterface.TAG_GPS_LONGITUDE_REF);
-
-        double round = 1000000.0;
-
-        double[] coordinates = new double[2];
-
-        coordinates[0] = Math.round(
-                ExifInterface.convertRationalLatLonToFloat(lat, latRef) * round) / round;
-        coordinates[1] = Math.round(
-                ExifInterface.convertRationalLatLonToFloat(lon, lonRef) * round) / round;
-
-        return coordinates;
+        mMedia.accept(doc, metadata, geoClickListener);
     }
 
     /**
@@ -367,7 +284,8 @@ public final class InspectorController {
     }
 
     /**
-     * Interface for loading all the various forms of document datal
+     * Interface for loading all the various forms of document data. This primarily
+     * allows us to easily supply test data in tests.
      */
     public interface DataSupplier {
 
@@ -439,13 +357,25 @@ public final class InspectorController {
     }
 
     /**
-     * Provides details about a file.
+     * Provides basic details about a file.
      */
     public interface DetailsDisplay {
 
         void accept(DocumentInfo info);
 
         void setChildrenCount(int count);
+    }
+
+    /**
+     * Provides details about a media file.
+     */
+    public interface MediaDisplay extends Display {
+        void accept(DocumentInfo info, Bundle metadata, @Nullable Runnable geoClickListener);
+
+        /**
+         * Returns true if there are now rows in the display. Does not consider the title.
+         */
+        boolean isEmpty();
     }
 
     /**
@@ -467,5 +397,10 @@ public final class InspectorController {
          * Adds a row in the table and makes it clickable.
          */
         void put(@StringRes int keyId, String value, OnClickListener callback);
+
+        /**
+         * Returns true if there are now rows in the display. Does not consider the title.
+         */
+        boolean isEmpty();
     }
 }

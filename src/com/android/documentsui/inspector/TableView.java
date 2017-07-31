@@ -106,6 +106,11 @@ public class TableView extends LinearLayout implements TableDisplay {
     }
 
     @Override
+    public boolean isEmpty() {
+        return mRows.isEmpty();
+    }
+
+    @Override
     public void setVisible(boolean visible) {
         setVisibility(visible ? View.VISIBLE : View.GONE);
     }

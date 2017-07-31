@@ -373,11 +373,8 @@
     <!-- Title of inspector's debug info section. [CHAR LIMIT=48] -->
     <string name="inspector_debug_section">Debug info (dev only)</string>
 
-    <!-- Title of inspector's metadata info section. Note that this is probably camera EXIF data. -->
-    <string name="inspector_metadata_section">Metadata</string>
-
-    <!-- Title of inspector section displaying image specific information (like size and embedded camera details, like lat/long). -->
-    <string name="inspector_exif_section">Image information</string>
+    <!-- Title of inspector's media details info section. Shows information related to camera, dimensions, and authors. -->
+    <string name="inspector_metadata_section">Media details</string>
 
     <!-- File properties dialog section title. In this section we show information about the default handler application for this type of file.-->
     <string name="handler_app_file_opens_with">This kind of file opens with</string>
@@ -404,6 +401,8 @@
     <string name="metadata_aperture">Aperture</string>
     <!--The value of a photos shutter speed. Note that this is probably camera EXIF data.-->
     <string name="metadata_shutter_speed">Shutter speed</string>
+    <!--When a photo was taken. Note that this is probably camera EXIF data.-->
+    <string name="metadata_duration">Duration</string>
     <!--When a photo was taken. Note that this is probably camera EXIF data.-->
     <string name="metadata_date_time">Taken on</string>
 
