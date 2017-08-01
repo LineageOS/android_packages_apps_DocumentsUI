@@ -58,6 +58,7 @@ public class MediaViewTest {
         mTable.assertHasRow(R.string.metadata_altitude, "1244.0");
         mTable.assertHasRow(R.string.metadata_make, "Google");
         mTable.assertHasRow(R.string.metadata_model, "Pixel");
+        mTable.assertHasRow(R.string.metadata_shutter_speed, "1/100");
     }
 
     /**
