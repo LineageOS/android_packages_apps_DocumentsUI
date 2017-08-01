@@ -71,7 +71,7 @@
     <string name="handler_app_clear" msgid="206579047716445033">"Borrar"</string>
     <string name="handler_app_show_in" msgid="7923573101129079048">"Mostrar no provedor"</string>
     <string name="handler_app_not_selected" msgid="8178393676227130360">"Non seleccionada"</string>
-    <string name="handler_app_unknown" msgid="56574249066388341">"Descoñecido"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"Descoñecida"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendente"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Descendente"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Mostrar raíces"</string>
