@@ -16,6 +16,7 @@
 package com.android.documentsui.inspector;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.media.ExifInterface;
 import android.media.MediaMetadata;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ public class MediaView extends TableView implements MediaDisplay {
 
     private static final String METADATA_KEY_AUDIO = "android.media.metadata.audio";
     private static final String METADATA_KEY_VIDEO = "android.media.metadata.video";
+    private Resources mResources;
 
     public MediaView(Context context) {
         this(context, null);
@@ -51,6 +53,7 @@ public class MediaView extends TableView implements MediaDisplay {
 
     public MediaView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mResources = context.getResources();
     }
 
     @Override
@@ -59,7 +62,7 @@ public class MediaView extends TableView implements MediaDisplay {
 
         Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
         if (exif != null) {
-            showExifData(this, doc, exif, geoClickListener);
+            showExifData(this, mResources, doc, exif, geoClickListener);
         }
 
         Bundle video = metadata.getBundle(METADATA_KEY_VIDEO);
@@ -80,6 +83,7 @@ public class MediaView extends TableView implements MediaDisplay {
     @VisibleForTesting
     public static void showExifData(
             TableDisplay table,
+            Resources resources,
             DocumentInfo doc,
             Bundle tags,
             @Nullable Runnable geoClickListener) {
@@ -88,8 +92,10 @@ public class MediaView extends TableView implements MediaDisplay {
             && tags.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
             int width = tags.getInt(ExifInterface.TAG_IMAGE_WIDTH);
             int height = tags.getInt(ExifInterface.TAG_IMAGE_LENGTH);
+            float megaPixels = height * width / 1000000f;
             table.put(R.string.metadata_dimensions,
-                    String.valueOf(width) + " x " + String.valueOf(height));
+                    resources.getString(
+                            R.string.metadata_dimensions_display, width, height, megaPixels));
         }
 
         if (tags.containsKey(ExifInterface.TAG_DATETIME)) {

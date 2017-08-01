@@ -42,6 +42,10 @@ class TestTable implements TableDisplay {
 
     }
 
+    public void assertRowContains(int keyId, String expected) {
+        assertTrue(String.valueOf(calledBundleKeys.get(keyId)).contains(expected));
+    }
+
     public void assertHasRow(int keyId, String expected) {
         assertEquals(expected, calledBundleKeys.get(keyId));
     }
