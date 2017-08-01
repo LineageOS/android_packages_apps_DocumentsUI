@@ -43,6 +43,7 @@
         android:textColor="@color/inspector_value"
         android:textSize="14sp"
         android:textIsSelectable="true"
+        android:selectAllOnFocus="true"
         android:textAlignment="viewStart">
     </TextView>
 
