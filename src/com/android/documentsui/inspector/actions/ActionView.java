@@ -35,6 +35,7 @@ import com.android.documentsui.inspector.InspectorController;
  */
 public final class ActionView extends LinearLayout implements InspectorController.ActionDisplay {
 
+    private Context mContext;
     private final TextView mHeader;
     private final ImageView mAppIcon;
     private final TextView mAppName;
@@ -56,6 +57,7 @@ public final class ActionView extends LinearLayout implements InspectorControlle
         View view = inflater.inflate(R.layout.inspector_action_view, null);
         addView(view);
 
+        mContext = context;
         mHeader = (TextView) findViewById(R.id.action_header);
         mAppIcon = (ImageView) findViewById(R.id.app_icon);
         mAppName = (TextView) findViewById(R.id.app_name);
@@ -69,6 +71,7 @@ public final class ActionView extends LinearLayout implements InspectorControlle
 
         setAppIcon(mAction.getAppIcon());
         setAppName(mAction.getAppName());
+        mActionButton.setContentDescription(mContext.getString(action.getButtonLabel()));
 
         mActionButton.setOnClickListener(listener);
         showAction(true);
