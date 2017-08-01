@@ -54,7 +54,7 @@ public final class InspectorController {
     private final MediaDisplay mMedia;
     private final ActionDisplay mShowProvider;
     private final ActionDisplay mAppDefaults;
-    private final Consumer<DocumentInfo> mDebugView;
+    private final DebugDisplay mDebugView;
     private final Context mContext;
     private final PackageManager mPackageManager;
     private final ProvidersAccess mProviders;
@@ -75,7 +75,7 @@ public final class InspectorController {
             MediaDisplay media,
             ActionDisplay showProvider,
             ActionDisplay appDefaults,
-            Consumer<DocumentInfo> debugView,
+            DebugDisplay debugView,
             Bundle args,
             Runnable errorRunnable) {
 
@@ -136,8 +136,6 @@ public final class InspectorController {
         if (args.getBoolean(Shared.EXTRA_SHOW_DEBUG)) {
             DebugView view = (DebugView) layout.findViewById(R.id.inspector_debug_view);
             view.init(ProviderExecutor::forAuthority);
-            view.setVisibility(View.VISIBLE);
-            view.setBackgroundColor(0xFFFFFFFF);  // it's just debug. We do what we want!
         }
     }
 
@@ -199,6 +197,8 @@ public final class InspectorController {
             if (mArgs.getBoolean(Shared.EXTRA_SHOW_DEBUG)) {
                 mDebugView.accept(docInfo);
             }
+            mDebugView.setVisible(mArgs.getBoolean(Shared.EXTRA_SHOW_DEBUG)
+                    && !mDebugView.isEmpty());
         }
     }
 
@@ -220,6 +220,10 @@ public final class InspectorController {
         }
 
         mMedia.accept(doc, metadata, geoClickListener);
+
+        if (mArgs.getBoolean(Shared.EXTRA_SHOW_DEBUG)) {
+            mDebugView.accept(metadata);
+        }
     }
 
     /**
@@ -371,6 +375,19 @@ public final class InspectorController {
      */
     public interface MediaDisplay extends Display {
         void accept(DocumentInfo info, Bundle metadata, @Nullable Runnable geoClickListener);
+
+        /**
+         * Returns true if there are now rows in the display. Does not consider the title.
+         */
+        boolean isEmpty();
+    }
+
+    /**
+     * Provides details about a media file.
+     */
+    public interface DebugDisplay extends Display {
+        void accept(DocumentInfo info);
+        void accept(Bundle metadata);
 
         /**
          * Returns true if there are now rows in the display. Does not consider the title.

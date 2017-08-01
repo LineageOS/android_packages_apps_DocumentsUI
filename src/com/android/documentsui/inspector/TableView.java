@@ -19,7 +19,6 @@ package com.android.documentsui.inspector;
 import android.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,9 +39,9 @@ public class TableView extends LinearLayout implements TableDisplay {
 
     private final LayoutInflater mInflater;
 
-    private final Map<String, KeyValueRow> mRows = new HashMap<>();
+    private final Map<CharSequence, KeyValueRow> mRows = new HashMap<>();
     private final Resources mRes;
-    private @Nullable TextView mTitle;
+    private Map<CharSequence, TextView> mTitles = new HashMap<>();
 
     public TableView(Context context) {
         this(context, null);
@@ -60,11 +59,18 @@ public class TableView extends LinearLayout implements TableDisplay {
 
     @Override
     public void setTitle(@StringRes int title) {
-        if (mTitle == null) {
-            mTitle = (TextView) mInflater.inflate(R.layout.inspector_section_title, null);
-            addView(mTitle);
+        putTitle(mContext.getResources().getString(title));
+    }
+
+    // A naughty title method (that takes strings, not message ids), mostly for DebugView.
+    protected void putTitle(CharSequence title) {
+        TextView view = mTitles.get(title);
+        if (view == null) {
+            view = (TextView) mInflater.inflate(R.layout.inspector_section_title, null);
+            addView(view);
+            mTitles.put(title, view);
         }
-        mTitle.setText(mContext.getResources().getString(title));
+        view.setText(title);
     }
 
     protected KeyValueRow createKeyValueRow(ViewGroup parent) {
@@ -84,7 +90,7 @@ public class TableView extends LinearLayout implements TableDisplay {
     /**
      * Puts or updates an value in the table view.
      */
-    protected KeyValueRow put(String key, CharSequence value) {
+    protected KeyValueRow put(CharSequence key, CharSequence value) {
         KeyValueRow row = mRows.get(key);
 
         if (row == null) {

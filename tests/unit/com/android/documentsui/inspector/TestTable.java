@@ -16,6 +16,7 @@
 package com.android.documentsui.inspector;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.view.View.OnClickListener;
@@ -39,14 +40,9 @@ class TestTable implements TableDisplay {
 
     @Override
     public void setTitle(int title) {
-
     }
 
-    public void assertRowContains(int keyId, String expected) {
-        assertTrue(String.valueOf(calledBundleKeys.get(keyId)).contains(expected));
-    }
-
-    public void assertHasRow(int keyId, String expected) {
+    public void assertHasRow(int keyId, CharSequence expected) {
         assertEquals(expected, calledBundleKeys.get(keyId));
     }
 
@@ -72,6 +68,10 @@ class TestTable implements TableDisplay {
 
     void assertEmpty() {
         assertTrue(calledBundleKeys.isEmpty());
+    }
+
+    void assertNotEmpty() {
+        assertFalse(calledBundleKeys.isEmpty());
     }
 
     void assertVisible(boolean expected) {

@@ -53,7 +53,7 @@ public class KeyValueRow extends LinearLayout {
      * Sets the raw value of the key. Only localized values
      * should be passed.
      */
-    public void setKey(String key) {
+    public void setKey(CharSequence key) {
         ((TextView) findViewById(R.id.table_row_key)).setText(key);
     }
 

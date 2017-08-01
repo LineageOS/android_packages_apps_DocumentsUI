@@ -35,11 +35,13 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View.OnClickListener;
 
 import com.android.documentsui.InspectorProvider;
+import com.android.documentsui.R;
 import com.android.documentsui.TestProviderActivity;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.ActionDisplay;
 import com.android.documentsui.inspector.InspectorController.DataSupplier;
+import com.android.documentsui.inspector.InspectorController.DebugDisplay;
 import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 import com.android.documentsui.inspector.InspectorController.HeaderDisplay;
 import com.android.documentsui.inspector.InspectorController.MediaDisplay;
@@ -76,7 +78,7 @@ public class InspectorControllerTest  {
     private TestMedia mMedia;
     private TestAction mShowInProvider;
     private TestAction mDefaultsTestDouble;
-    private TestConsumer<DocumentInfo> mDebugTestDouble;
+    private TestDebug mDebugTestDouble;
     private TestRunnable mErrCallback;
     private Bundle mTestArgs;
 
@@ -92,7 +94,7 @@ public class InspectorControllerTest  {
         mMedia = new TestMedia();
         mShowInProvider = new TestAction();
         mDefaultsTestDouble = new TestAction();
-        mDebugTestDouble = new TestConsumer<>();
+        mDebugTestDouble = new TestDebug();
         mErrCallback = new TestRunnable();
         mTestArgs = new Bundle();
 
@@ -131,7 +133,8 @@ public class InspectorControllerTest  {
     @Test
     public void testHideDebugByDefault() throws Exception {
         mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
-        mDebugTestDouble.assertNotCalled();
+        mDebugTestDouble.assertVisible(false);
+        mDebugTestDouble.assertEmpty();
     }
 
     /**
@@ -142,7 +145,8 @@ public class InspectorControllerTest  {
         mTestArgs.putBoolean(Shared.EXTRA_SHOW_DEBUG, true);
         recreateController();
         mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
-        mDebugTestDouble.assertCalled();
+        mDebugTestDouble.assertVisible(true);
+        mDebugTestDouble.assertNotEmpty();
     }
 
     /**
@@ -421,6 +425,20 @@ public class InspectorControllerTest  {
 
         void assertGeoCallbackInstalled() {
             assertNotNull(mGeoClickCallback);
+        }
+    }
+
+    private static class TestDebug extends TestTable implements DebugDisplay {
+
+        @Override
+        public void accept(DocumentInfo info) {
+            // We have to emulate some of the real DebugView behavior
+            // because the controller makes us visible if we're not-empty.
+            put(R.string.debug_content_uri, info.derivedUri.toString());
+        }
+
+        @Override
+        public void accept(Bundle metadata) {
         }
     }
 

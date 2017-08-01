@@ -26,6 +26,9 @@
          This section is only visible to developers or people running debug builds. [CHAR LIMIT=48] -->
     <string name="inspector_debug_section">Debug info (dev only)</string>
 
+    <!-- Title of inspector's debug info metadata sub-section. [CHAR LIMIT=48] -->
+    <string name="inspector_debug_metadata_section">Raw metadata: <xliff:g id="metadataType" example="EXIF">%1$s</xliff:g></string>
+
     <!-- Title of inspector's media details info section. Shows information related to camera, dimensions, and authors. -->
     <string name="inspector_metadata_section">Media details</string>
 
