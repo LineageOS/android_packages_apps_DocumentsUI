@@ -23,8 +23,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.R;
 import com.android.documentsui.testing.TestEnv;
+import com.android.documentsui.testing.TestResources;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,11 +33,14 @@ import org.junit.runner.RunWith;
 @SmallTest
 public class MediaViewTest {
 
+    private TestResources mResources;
     private TestTable mTable;
     private Bundle mMetadata;
 
     @Before
     public void setUp() {
+        mResources = TestResources.create();
+        mResources.strings.put(R.string.metadata_dimensions_display, "%d x %d, %.1fMP");
         mTable = new TestTable();
         mMetadata = new Bundle();
         TestMetadata.populateExifData(mMetadata);
@@ -50,9 +53,9 @@ public class MediaViewTest {
     @Test
     public void testPrintMetadata_BundleTags() throws Exception {
         Bundle exif = mMetadata.getBundle(DocumentsContract.METADATA_EXIF);
-        MediaView.showExifData(mTable, TestEnv.FILE_JPG, exif, null);
+        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, exif, null);
 
-        mTable.assertHasRow(R.string.metadata_dimensions, "3840 x 2160");
+        mTable.assertHasRow(R.string.metadata_dimensions, "3840 x 2160, 8.3MP");
         mTable.assertHasRow(R.string.metadata_date_time, "Jan 01, 1970, 12:16 AM");
         mTable.assertHasRow(R.string.metadata_location, "33.995918,  -118.475342");
         mTable.assertHasRow(R.string.metadata_altitude, "1244.0");
@@ -73,7 +76,7 @@ public class MediaViewTest {
         exif.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
 
         mMetadata.putBundle(DocumentsContract.METADATA_EXIF, exif);
-        MediaView.showExifData(mTable, TestEnv.FILE_JPG, mMetadata, null);
+        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, mMetadata, null);
         mTable.assertEmpty();
     }
 }
