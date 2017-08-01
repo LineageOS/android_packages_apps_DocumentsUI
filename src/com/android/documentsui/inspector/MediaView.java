@@ -67,16 +67,23 @@ public class MediaView extends TableView implements MediaDisplay {
 
         Bundle video = metadata.getBundle(METADATA_KEY_VIDEO);
         if (video != null) {
-            showVideoData(doc, video);
+            showVideoData(this, mResources, doc, video);
         }
 
         setVisible(!isEmpty());
     }
 
-    private void showVideoData(DocumentInfo doc, Bundle tags) {
+    private static void showVideoData(
+            TableDisplay table,
+            Resources resources,
+            DocumentInfo doc,
+            Bundle tags) {
+
+        addDimensionsRow(table, resources, tags);
+
         if (tags.containsKey(MediaMetadata.METADATA_KEY_DURATION)) {
             int millis = tags.getInt(MediaMetadata.METADATA_KEY_DURATION);
-            put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis));
+            table.put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis));
         }
     }
 
@@ -88,15 +95,7 @@ public class MediaView extends TableView implements MediaDisplay {
             Bundle tags,
             @Nullable Runnable geoClickListener) {
 
-        if (tags.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
-            && tags.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
-            int width = tags.getInt(ExifInterface.TAG_IMAGE_WIDTH);
-            int height = tags.getInt(ExifInterface.TAG_IMAGE_LENGTH);
-            float megaPixels = height * width / 1000000f;
-            table.put(R.string.metadata_dimensions,
-                    resources.getString(
-                            R.string.metadata_dimensions_display, width, height, megaPixels));
-        }
+        addDimensionsRow(table, resources, tags);
 
         if (tags.containsKey(ExifInterface.TAG_DATETIME)) {
             String date = tags.getString(ExifInterface.TAG_DATETIME);
@@ -164,4 +163,20 @@ public class MediaView extends TableView implements MediaDisplay {
         }
     }
 
+    /**
+     * @param table
+     * @param resources
+     * @param tags
+     */
+    private static void addDimensionsRow(TableDisplay table, Resources resources, Bundle tags) {
+        if (tags.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
+            && tags.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
+            int width = tags.getInt(ExifInterface.TAG_IMAGE_WIDTH);
+            int height = tags.getInt(ExifInterface.TAG_IMAGE_LENGTH);
+            float megaPixels = height * width / 1000000f;
+            table.put(R.string.metadata_dimensions,
+                    resources.getString(
+                            R.string.metadata_dimensions_display, width, height, megaPixels));
+        }
+    }
 }
