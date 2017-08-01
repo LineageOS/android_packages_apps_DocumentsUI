@@ -230,7 +230,7 @@
     <string name="debug_is_container" msgid="5266358634381447492">"ਕੰਟੇਨਰ ਹੈ"</string>
     <string name="debug_is_partial" msgid="2231879552618031141">"ਅਧੂਰੀ ਹੈ"</string>
     <string name="debug_is_virtual" msgid="6214537066743038611">"ਆਭਾਸੀ ਹੈ"</string>
-    <string name="debug_supports_create" msgid="3769655246146649138">"ਬਣਾਉਣ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
+    <string name="debug_supports_create" msgid="3769655246146649138">"ਆਪਣੇ ਅੰਦਰ ਫ਼ਾਈਲਾਂ ਬਣਾਉਣ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
     <string name="debug_supports_delete" msgid="3625862583805865897">"ਮਿਟਾਉਣ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
     <string name="debug_supports_metadata" msgid="1730344787404668790">"ਮੈਟਾਡੈਟੇ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>
     <string name="debug_supports_rename" msgid="376380110978453101">"ਨਾਮ ਬਦਲਣ ਦਾ ਸਮਰਥਨ ਕਰਦੀ ਹੈ"</string>

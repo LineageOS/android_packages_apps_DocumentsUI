@@ -223,8 +223,8 @@
     <string name="metadata_date_time" msgid="8507961609290985252">"Data de la foto:"</string>
     <string name="debug_content_uri" msgid="8460920347529643588">"URI"</string>
     <string name="debug_document_id" msgid="7630686573358226123">"Identificador del document"</string>
-    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Tipus de MIME sense processar"</string>
-    <string name="debug_stream_types" msgid="504840680506484652">"Tipus de reproduccions en temps real"</string>
+    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Tipus MIME sense processar"</string>
+    <string name="debug_stream_types" msgid="504840680506484652">"Tipus de fluxos"</string>
     <string name="debug_raw_size" msgid="4572969238401166095">"Mida sense processar (bytes)"</string>
     <string name="debug_is_archive" msgid="3937290750906661828">"És un arxiu"</string>
     <string name="debug_is_container" msgid="5266358634381447492">"És un contenidor"</string>
