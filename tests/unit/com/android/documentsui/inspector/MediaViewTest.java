@@ -52,6 +52,7 @@ public class MediaViewTest {
      */
     @Test
     public void testPrintMetadata_BundleTags() throws Exception {
+        mResources.strings.put(R.string.metadata_aperture_format, "f/%.1f");
         Bundle exif = mMetadata.getBundle(DocumentsContract.METADATA_EXIF);
         MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, exif, null);
 
@@ -62,6 +63,7 @@ public class MediaViewTest {
         mTable.assertHasRow(R.string.metadata_make, "Google");
         mTable.assertHasRow(R.string.metadata_model, "Pixel");
         mTable.assertHasRow(R.string.metadata_shutter_speed, "1/100");
+        mTable.assertHasRow(R.string.metadata_aperture, "f/2.0");
     }
 
     /**

@@ -133,8 +133,8 @@ public class MediaView extends TableView implements MediaDisplay {
         }
 
         if (tags.containsKey(ExifInterface.TAG_APERTURE)) {
-            String aperture = String.valueOf(tags.get(ExifInterface.TAG_APERTURE));
-            table.put(R.string.metadata_aperture, aperture);
+            table.put(R.string.metadata_aperture, resources.getString(
+                    R.string.metadata_aperture_format, tags.getDouble(ExifInterface.TAG_APERTURE)));
         }
 
         if (tags.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
@@ -145,7 +145,6 @@ public class MediaView extends TableView implements MediaDisplay {
     }
 
     /**
-     *
      * @param speed a value n, where shutter speed equals 1/(2^n)
      * @return a String containing either a fraction that displays 1 over a positive integer, or a
      * double rounded to one decimal, depending on if 1/(2^n) is less than or greater than 1,

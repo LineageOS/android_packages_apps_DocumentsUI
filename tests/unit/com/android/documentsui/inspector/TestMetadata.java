@@ -35,6 +35,7 @@ final class TestMetadata {
         exif.putString(ExifInterface.TAG_MAKE, "Google");
         exif.putString(ExifInterface.TAG_MODEL, "Pixel");
         exif.putDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE, 6.643);
+        exif.putDouble(ExifInterface.TAG_APERTURE, 2.0);
         container.putBundle(DocumentsContract.METADATA_EXIF, exif);
     }
 }

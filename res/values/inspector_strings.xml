@@ -66,6 +66,9 @@
     <!--When a photo was taken. Note that this is probably camera EXIF data.-->
     <string name="metadata_date_time">Taken on</string>
 
+    <!-- Message presenting EXIF aperture information in the tradition "f/2.0" format familiar to users. This format is basically an industry standard that shouldn't be translated, so it is marked as not translatable. -->
+    <string name="metadata_aperture_format" translatable="false">f/<xliff:g id="aperture" example="2.0">%1$,.1f</xliff:g></string>
+
     <!--String label for developer/debug file details, specifying which stream types are available. -->
     <string name="debug_stream_types">Stream types</string>
     <!--String label for developer/debug file details, specifying the size of the file in bytes. -->
