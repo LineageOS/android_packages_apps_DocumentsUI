@@ -65,8 +65,7 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Өзгертілген уақыты"</string>
     <string name="directory_items" msgid="6645621978998614003">"Элементтер саны"</string>
     <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Файлдың бұл түрі келесі арқылы ашылады"</string>
-    <!-- no translation found for handler_app_belongs_to (5951849884187825813) -->
-    <skip />
+    <string name="handler_app_belongs_to" msgid="5951849884187825813">"Файлды ұсынушы"</string>
     <string name="handler_app_not_selected" msgid="8178393676227130360">"Таңдалмады"</string>
     <string name="handler_app_unknown" msgid="56574249066388341">"Белгісіз"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Арту ретімен"</string>
@@ -87,10 +86,8 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Файл ашылмады"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Мұрағаттағы файлдар ашылмайды"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Кейбір құжаттар жойылмады"</string>
-    <!-- no translation found for inspector_title (3950518639689416990) -->
-    <skip />
-    <!-- no translation found for inspector_load_error (2790073937911591283) -->
-    <skip />
+    <string name="inspector_title" msgid="3950518639689416990">"Ақпарат"</string>
+    <string name="inspector_load_error" msgid="2790073937911591283">"Файл ақпараты жүктелмеді"</string>
     <string name="share_via" msgid="8725082736005677161">"Бөлісу әдісі"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Файлдар көшірілуде"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Файлдар сығу"</string>
@@ -215,8 +212,7 @@
     <string name="continue_in_background" msgid="1974214559047793331">"Фонда жалғастыру"</string>
     <string name="inspector_debug_section" msgid="3447621501565766900">"Түзету туралы ақпарат (тек әзірлеуші)"</string>
     <string name="inspector_metadata_section" msgid="6079048557893790964">"Метадеректер"</string>
-    <!-- no translation found for inspector_exif_section (5949046061841867788) -->
-    <skip />
+    <string name="inspector_exif_section" msgid="5949046061841867788">"Кескін ақпараты"</string>
     <string name="metadata_dimensions" msgid="8862315437239063661">"Өлшемдер"</string>
     <string name="metadata_location" msgid="6554310541123229404">"Орналасқан жер"</string>
     <string name="metadata_altitude" msgid="7322908625970953996">"Биіктік"</string>
@@ -225,38 +221,21 @@
     <string name="metadata_aperture" msgid="712880940219784858">"Aпертура"</string>
     <string name="metadata_shutter_speed" msgid="2807089225760465388">"Ысырма жылдамдығы"</string>
     <string name="metadata_date_time" msgid="8507961609290985252">"Түсірілді"</string>
-    <!-- no translation found for debug_content_uri (8460920347529643588) -->
-    <skip />
-    <!-- no translation found for debug_document_id (7630686573358226123) -->
-    <skip />
-    <!-- no translation found for debug_raw_mimetype (6862426718015078252) -->
-    <skip />
-    <!-- no translation found for debug_stream_types (504840680506484652) -->
-    <skip />
-    <!-- no translation found for debug_raw_size (4572969238401166095) -->
-    <skip />
-    <!-- no translation found for debug_is_archive (3937290750906661828) -->
-    <skip />
-    <!-- no translation found for debug_is_container (5266358634381447492) -->
-    <skip />
-    <!-- no translation found for debug_is_partial (2231879552618031141) -->
-    <skip />
-    <!-- no translation found for debug_is_virtual (6214537066743038611) -->
-    <skip />
-    <!-- no translation found for debug_supports_create (3769655246146649138) -->
-    <skip />
-    <!-- no translation found for debug_supports_delete (3625862583805865897) -->
-    <skip />
-    <!-- no translation found for debug_supports_metadata (1730344787404668790) -->
-    <skip />
-    <!-- no translation found for debug_supports_rename (376380110978453101) -->
-    <skip />
-    <!-- no translation found for debug_supports_settings (6666862652450832236) -->
-    <skip />
-    <!-- no translation found for debug_supports_thumbnail (2060482062478670641) -->
-    <skip />
-    <!-- no translation found for debug_supports_weblink (8194688813751988618) -->
-    <skip />
-    <!-- no translation found for debug_supports_write (7536733690733896063) -->
-    <skip />
+    <string name="debug_content_uri" msgid="8460920347529643588">"URI"</string>
+    <string name="debug_document_id" msgid="7630686573358226123">"Құжат идентификаторы"</string>
+    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Өңделмеген MIME типі"</string>
+    <string name="debug_stream_types" msgid="504840680506484652">"Трансляция түрлері"</string>
+    <string name="debug_raw_size" msgid="4572969238401166095">"Өңделмеген өлшемі (байт)"</string>
+    <string name="debug_is_archive" msgid="3937290750906661828">"Мұрағат"</string>
+    <string name="debug_is_container" msgid="5266358634381447492">"Контейнер"</string>
+    <string name="debug_is_partial" msgid="2231879552618031141">"Жартылай"</string>
+    <string name="debug_is_virtual" msgid="6214537066743038611">"Виртуалды"</string>
+    <string name="debug_supports_create" msgid="3769655246146649138">"Жасауды қолдайды"</string>
+    <string name="debug_supports_delete" msgid="3625862583805865897">"Жоюды қолдайды"</string>
+    <string name="debug_supports_metadata" msgid="1730344787404668790">"Метадеректерді қолдайды"</string>
+    <string name="debug_supports_rename" msgid="376380110978453101">"Атауын өзгертуді қолдайды"</string>
+    <string name="debug_supports_settings" msgid="6666862652450832236">"Параметрлерді қолдайды"</string>
+    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"Нобайды қолдайды"</string>
+    <string name="debug_supports_weblink" msgid="8194688813751988618">"Вебсілтемені қолдайды"</string>
+    <string name="debug_supports_write" msgid="7536733690733896063">"Жазуды қолдайды"</string>
 </resources>

@@ -225,7 +225,7 @@
     <string name="debug_document_id" msgid="7630686573358226123">"दस्तऐवज आयडी"</string>
     <string name="debug_raw_mimetype" msgid="6862426718015078252">"अविश्लेषित माइमटाईप"</string>
     <string name="debug_stream_types" msgid="504840680506484652">"स्ट्रीम प्रकार"</string>
-    <string name="debug_raw_size" msgid="4572969238401166095">"अपूर्ण आकार (बाइट)"</string>
+    <string name="debug_raw_size" msgid="4572969238401166095">"अविश्लेषित आकार (बाइट)"</string>
     <string name="debug_is_archive" msgid="3937290750906661828">"संग्रहण आहे"</string>
     <string name="debug_is_container" msgid="5266358634381447492">"कंटेनर आहे"</string>
     <string name="debug_is_partial" msgid="2231879552618031141">"आंशिक आहे"</string>

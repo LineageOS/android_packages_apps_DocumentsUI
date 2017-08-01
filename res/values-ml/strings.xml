@@ -230,12 +230,12 @@
     <string name="debug_is_container" msgid="5266358634381447492">"കണ്ടെയിനർ ആണ്"</string>
     <string name="debug_is_partial" msgid="2231879552618031141">"ഭാഗികം ആണ്"</string>
     <string name="debug_is_virtual" msgid="6214537066743038611">"വെർച്വൽ ആണ്"</string>
-    <string name="debug_supports_create" msgid="3769655246146649138">"സൃഷ്‌ടിക്കൽ പ്രവർത്തിക്കുന്നു"</string>
-    <string name="debug_supports_delete" msgid="3625862583805865897">"ഇല്ലാതാക്കൽ പ്രവർത്തിക്കുന്നു"</string>
-    <string name="debug_supports_metadata" msgid="1730344787404668790">"മെറ്റാഡാറ്റ പ്രവർത്തിക്കുന്നു"</string>
-    <string name="debug_supports_rename" msgid="376380110978453101">"പേരുമാറ്റൽ പ്രവർത്തിക്കുന്നു"</string>
-    <string name="debug_supports_settings" msgid="6666862652450832236">"ക്രമീകരണം പ്രവർത്തിക്കുന്നു"</string>
-    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"ലഘുചിത്രം പ്രവർത്തിക്കുന്നു"</string>
-    <string name="debug_supports_weblink" msgid="8194688813751988618">"വെബ് ലിങ്ക് പ്രവർത്തിക്കുന്നു"</string>
-    <string name="debug_supports_write" msgid="7536733690733896063">"റൈറ്റുചെയ്യൽ പ്രവർത്തിക്കുന്നു"</string>
+    <string name="debug_supports_create" msgid="3769655246146649138">"ഫയൽ സൃഷ്‌ടിക്കലിനെ പിന്തുണയ്ക്കുന്നു"</string>
+    <string name="debug_supports_delete" msgid="3625862583805865897">"ഫയൽ ഇല്ലാതാക്കലിനെ പിന്തുണയ്ക്കുന്നു"</string>
+    <string name="debug_supports_metadata" msgid="1730344787404668790">"മെറ്റാഡാറ്റയെ പിന്തുണയ്ക്കുന്നു"</string>
+    <string name="debug_supports_rename" msgid="376380110978453101">"പേരുമാറ്റലിനെ പിന്തുണയ്ക്കുന്നു"</string>
+    <string name="debug_supports_settings" msgid="6666862652450832236">"ക്രമീകരണത്തെ പിന്തുണയ്ക്കുന്നു"</string>
+    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"ലഘുചിത്രത്തെ പിന്തുണയ്ക്കുന്നു"</string>
+    <string name="debug_supports_weblink" msgid="8194688813751988618">"വെബ്‌ലിങ്കിനെ പിന്തുണയ്ക്കുന്നു"</string>
+    <string name="debug_supports_write" msgid="7536733690733896063">"റൈറ്റുചെയ്യലിനെ പിന്തുണയ്ക്കുന്നു"</string>
 </resources>

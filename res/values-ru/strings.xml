@@ -262,7 +262,7 @@
     <string name="metadata_model" msgid="8839903701468767090">"Модель"</string>
     <string name="metadata_aperture" msgid="712880940219784858">"Диафрагма"</string>
     <string name="metadata_shutter_speed" msgid="2807089225760465388">"Выдержка"</string>
-    <string name="metadata_date_time" msgid="8507961609290985252">"Дата создания"</string>
+    <string name="metadata_date_time" msgid="8507961609290985252">"Дата съемки"</string>
     <string name="debug_content_uri" msgid="8460920347529643588">"URI"</string>
     <string name="debug_document_id" msgid="7630686573358226123">"Идентификатор документа"</string>
     <string name="debug_raw_mimetype" msgid="6862426718015078252">"Исходный MIME-тип"</string>

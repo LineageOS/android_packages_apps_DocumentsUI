@@ -67,7 +67,7 @@
     <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Este tipo de ficheiro ábrese con"</string>
     <string name="handler_app_belongs_to" msgid="5951849884187825813">"Provedor do ficheiro:"</string>
     <string name="handler_app_not_selected" msgid="8178393676227130360">"Non seleccionada"</string>
-    <string name="handler_app_unknown" msgid="56574249066388341">"Descoñecido"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"Descoñecida"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendente"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Descendente"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Mostrar raíces"</string>
