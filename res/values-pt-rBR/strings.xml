@@ -57,6 +57,10 @@
     <string name="button_move" msgid="8596460499325291272">"Mover"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Dispensar"</string>
     <string name="button_retry" msgid="4011461781916631389">"Tentar novamente"</string>
+    <!-- no translation found for button_clear (5412304437764369441) -->
+    <skip />
+    <!-- no translation found for button_show_provider (6905880493806292753) -->
+    <skip />
     <string name="not_sorted" msgid="7813496644889115530">"Sem classificação"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nome"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Resumo"</string>
@@ -64,10 +68,6 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"Tamanho"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Modificação"</string>
     <string name="directory_items" msgid="6645621978998614003">"Número de itens"</string>
-    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Este tipo de arquivo é aberto no app"</string>
-    <string name="handler_app_belongs_to" msgid="5951849884187825813">"Este arquivo é fornecido por"</string>
-    <string name="handler_app_not_selected" msgid="8178393676227130360">"Não selecionado"</string>
-    <string name="handler_app_unknown" msgid="56574249066388341">"Desconhecido"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Crescente"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Decrescente"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Mostrar raízes"</string>
@@ -86,8 +86,6 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Não é possível abrir o arquivo"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Não é possível abrir itens arquivados"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Não foi possível excluir alguns documentos"</string>
-    <string name="inspector_title" msgid="3950518639689416990">"Informações"</string>
-    <string name="inspector_load_error" msgid="2790073937911591283">"Não foi possível carregar as informações do arquivo"</string>
     <string name="share_via" msgid="8725082736005677161">"Compartilhar via"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Copiando arquivos"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Compactando arquivos"</string>
@@ -210,32 +208,4 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"arquivo<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Substituir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Continuar em segundo plano"</string>
-    <string name="inspector_debug_section" msgid="3447621501565766900">"Info de depuração (apenas desenvolvimento)"</string>
-    <string name="inspector_metadata_section" msgid="6079048557893790964">"Metadados"</string>
-    <string name="inspector_exif_section" msgid="5949046061841867788">"Informações da imagem"</string>
-    <string name="metadata_dimensions" msgid="8862315437239063661">"Dimensões"</string>
-    <string name="metadata_location" msgid="6554310541123229404">"Local"</string>
-    <string name="metadata_altitude" msgid="7322908625970953996">"Altitude"</string>
-    <string name="metadata_make" msgid="436110457840345266">"Marca"</string>
-    <string name="metadata_model" msgid="8839903701468767090">"Modelo"</string>
-    <string name="metadata_aperture" msgid="712880940219784858">"Abertura"</string>
-    <string name="metadata_shutter_speed" msgid="2807089225760465388">"Velocidade do obturador"</string>
-    <string name="metadata_date_time" msgid="8507961609290985252">"Tirada em"</string>
-    <string name="debug_content_uri" msgid="8460920347529643588">"Uri"</string>
-    <string name="debug_document_id" msgid="7630686573358226123">"Código do documento"</string>
-    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Tipo mime bruto"</string>
-    <string name="debug_stream_types" msgid="504840680506484652">"Tipos de stream"</string>
-    <string name="debug_raw_size" msgid="4572969238401166095">"Tamanho bruto (bytes)"</string>
-    <string name="debug_is_archive" msgid="3937290750906661828">"É um arquivo"</string>
-    <string name="debug_is_container" msgid="5266358634381447492">"É um contêiner"</string>
-    <string name="debug_is_partial" msgid="2231879552618031141">"É parcial"</string>
-    <string name="debug_is_virtual" msgid="6214537066743038611">"É virtual"</string>
-    <string name="debug_supports_create" msgid="3769655246146649138">"Compatível com criação"</string>
-    <string name="debug_supports_delete" msgid="3625862583805865897">"Pode ser excluído"</string>
-    <string name="debug_supports_metadata" msgid="1730344787404668790">"Compatível com metadados"</string>
-    <string name="debug_supports_rename" msgid="376380110978453101">"Pode ser renomeado"</string>
-    <string name="debug_supports_settings" msgid="6666862652450832236">"Compatível com configurações"</string>
-    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"Compatível com miniatura"</string>
-    <string name="debug_supports_weblink" msgid="8194688813751988618">"Compatível com link da Web"</string>
-    <string name="debug_supports_write" msgid="7536733690733896063">"Pode ser gravado"</string>
 </resources>
