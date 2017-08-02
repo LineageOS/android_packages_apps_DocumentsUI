@@ -58,7 +58,7 @@ public class MediaViewTest {
 
         mTable.assertHasRow(R.string.metadata_dimensions, "3840 x 2160, 8.3MP");
         mTable.assertHasRow(R.string.metadata_date_time, "Jan 01, 1970, 12:16 AM");
-        mTable.assertHasRow(R.string.metadata_location, "33.995918,  -118.475342");
+        mTable.assertHasRow(R.string.metadata_coordinates, "33.996,  -118.475");
         mTable.assertHasRow(R.string.metadata_altitude, "1244.0");
         mTable.assertHasRow(R.string.metadata_make, "Google");
         mTable.assertHasRow(R.string.metadata_model, "Pixel");

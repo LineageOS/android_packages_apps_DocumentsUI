@@ -50,7 +50,7 @@
      In U.S. English this is denoted by a number followed by "MP". E.g. 12.2MP or 8MP. -->
     <string name="metadata_dimensions_display"><xliff:g id="width" example="1280">%1$d</xliff:g> x <xliff:g id="height" example="1024">%2$d</xliff:g> - <xliff:g id="megapixels" example="12.2">%3$,.1f</xliff:g>MP</string>
     <!--The location of where a photo was taken. (i.e. latitude, longitude) Note that this is probably camera EXIF data.-->
-    <string name="metadata_location">Location</string>
+    <string name="metadata_coordinates">Coordinates</string>
     <!--The elevation the photo was taken. Note that this is probably camera EXIF data.-->
     <string name="metadata_altitude">Altitude</string>
     <!--The company that made the camera the photo was taken on. Note that this is probably camera EXIF data.-->

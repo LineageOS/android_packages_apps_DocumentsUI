@@ -35,7 +35,7 @@ final class MetadataUtils {
         String latRef = exif.getString(ExifInterface.TAG_GPS_LATITUDE_REF);
         String lonRef = exif.getString(ExifInterface.TAG_GPS_LONGITUDE_REF);
 
-        double round = 1000000.0;
+        double round = 1000.0;
 
         double[] coordinates = new double[2];
 
