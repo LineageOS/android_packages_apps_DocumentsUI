@@ -48,11 +48,13 @@ public class DetailsView extends TableView implements DetailsDisplay {
         Lookup<String, String> fileTypeLookup =
                 DocumentsApplication.getFileTypeLookup(getContext());
 
-        put(R.string.sort_dimension_file_type, fileTypeLookup.lookup(doc.mimeType));
+        String mimeType = fileTypeLookup.lookup(doc.mimeType);
+
+        put(R.string.sort_dimension_file_type, mimeType);
 
         // TODO: Each of these rows need to be removed if the condition is false and previously
         // set.
-        if (doc.size > 0) {
+        if (doc.size > 0 && !doc.isDirectory()) {
             put(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), doc.size));
         }
 
