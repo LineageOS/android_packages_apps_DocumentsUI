@@ -15,35 +15,77 @@
  */
 package com.android.documentsui.inspector;
 
+import static com.android.internal.util.Preconditions.checkNotNull;
+
 import android.media.ExifInterface;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+
+import com.android.documentsui.base.Shared;
+
+import javax.annotation.Nullable;
 
 final class MetadataUtils {
 
     private MetadataUtils() {}
 
-    static boolean hasExifGpsFields(Bundle exif) {
-        return (exif.containsKey(ExifInterface.TAG_GPS_LATITUDE)
+    static boolean hasGeoCoordinates(@Nullable Bundle metadata) {
+        if (metadata == null) {
+            return false;
+        }
+        return hasVideoCoordinates(metadata.getBundle(Shared.METADATA_KEY_VIDEO))
+                || hasExifGpsFields(metadata.getBundle(DocumentsContract.METADATA_EXIF));
+    }
+
+    static boolean hasVideoCoordinates(@Nullable Bundle data) {
+        return data != null && (data.containsKey(Shared.METADATA_VIDEO_LATITUDE)
+                && data.containsKey(Shared.METADATA_VIDEO_LONGITUTE));
+    }
+
+    static boolean hasExifGpsFields(@Nullable Bundle exif) {
+        return exif != null && (exif.containsKey(ExifInterface.TAG_GPS_LATITUDE)
                 && exif.containsKey(ExifInterface.TAG_GPS_LONGITUDE)
                 && exif.containsKey(ExifInterface.TAG_GPS_LATITUDE_REF)
                 && exif.containsKey(ExifInterface.TAG_GPS_LONGITUDE_REF));
     }
 
-    static double[] getExifGpsCoords(Bundle exif) {
+    static float[] getGeoCoordinates(Bundle metadata) {
+        assert hasGeoCoordinates(metadata);
+        checkNotNull(metadata);
+
+        Bundle bundle = metadata.getBundle(DocumentsContract.METADATA_EXIF);
+        if (hasExifGpsFields(bundle)) {
+            return getExifGpsCoords(bundle);
+        }
+
+        bundle = metadata.getBundle(Shared.METADATA_KEY_VIDEO);
+        if (hasVideoCoordinates(bundle)) {
+            return getVideoCoords(bundle);
+        }
+
+        // This should never happen, because callers should always check w/ hasGeoCoordinates first.
+        throw new IllegalArgumentException("Invalid metadata bundle: " + metadata);
+    }
+
+    static float[] getExifGpsCoords(Bundle exif) {
+        assert hasExifGpsFields(exif);
+
         String lat = exif.getString(ExifInterface.TAG_GPS_LATITUDE);
         String lon = exif.getString(ExifInterface.TAG_GPS_LONGITUDE);
         String latRef = exif.getString(ExifInterface.TAG_GPS_LATITUDE_REF);
         String lonRef = exif.getString(ExifInterface.TAG_GPS_LONGITUDE_REF);
 
-        double round = 1000.0;
+        return new float[] {
+            ExifInterface.convertRationalLatLonToFloat(lat, latRef),
+            ExifInterface.convertRationalLatLonToFloat(lon, lonRef)
+        };
+    }
 
-        double[] coordinates = new double[2];
-
-        coordinates[0] = Math.round(
-                ExifInterface.convertRationalLatLonToFloat(lat, latRef) * round) / round;
-        coordinates[1] = Math.round(
-                ExifInterface.convertRationalLatLonToFloat(lon, lonRef) * round) / round;
-
-        return coordinates;
+    static float[] getVideoCoords(Bundle data) {
+        assert hasVideoCoordinates(data);
+        return new float[] {
+                data.getFloat(Shared.METADATA_VIDEO_LATITUDE),
+                data.getFloat(Shared.METADATA_VIDEO_LONGITUTE)
+        };
     }
 }
