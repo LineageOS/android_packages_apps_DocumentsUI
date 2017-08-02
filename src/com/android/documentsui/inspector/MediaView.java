@@ -139,6 +139,18 @@ public class MediaView extends TableView implements MediaDisplay {
                     formatShutterSpeed(tags.getDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE)));
             table.put(R.string.metadata_shutter_speed, shutterSpeed);
         }
+
+        if (tags.containsKey(ExifInterface.TAG_FOCAL_LENGTH)) {
+            int length = (int) tags.getDouble(ExifInterface.TAG_FOCAL_LENGTH);
+            table.put(R.string.metadata_focal_length,
+                    String.format(resources.getString(R.string.metadata_focal_format), length));
+        }
+
+        if (tags.containsKey(ExifInterface.TAG_ISO_SPEED_RATINGS)) {
+            int iso = tags.getInt(ExifInterface.TAG_ISO_SPEED_RATINGS);
+            table.put(R.string.metadata_iso_speed_ratings,
+                    String.format(resources.getString(R.string.metadata_iso_format), iso));
+        }
     }
 
     /**
