@@ -57,6 +57,10 @@
     <string name="button_move" msgid="8596460499325291272">"Перамясціць"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Адхіліць"</string>
     <string name="button_retry" msgid="4011461781916631389">"Паўтарыць спробу"</string>
+    <!-- no translation found for button_clear (5412304437764369441) -->
+    <skip />
+    <!-- no translation found for button_show_provider (6905880493806292753) -->
+    <skip />
     <string name="not_sorted" msgid="7813496644889115530">"Не адсартаваны"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Назва"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Кароткае апісанне"</string>
@@ -64,10 +68,6 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"Памер"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Зменены"</string>
     <string name="directory_items" msgid="6645621978998614003">"Колькасць элементаў"</string>
-    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Такія файлы адкрываюцца з дапамогай"</string>
-    <string name="handler_app_belongs_to" msgid="5951849884187825813">"Гэты файл паходзіць з:"</string>
-    <string name="handler_app_not_selected" msgid="8178393676227130360">"Не выбрана"</string>
-    <string name="handler_app_unknown" msgid="56574249066388341">"Невядома"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Па ўзрастанні"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Па ўбыванні"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Паказаць каранёвыя папкі"</string>
@@ -86,8 +86,6 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Немагчыма адкрыць файл"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Немагчыма адкрыць файлы ў архівах"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Немагчыма выдаліць некаторыя дакументы"</string>
-    <string name="inspector_title" msgid="3950518639689416990">"Інфармацыя"</string>
-    <string name="inspector_load_error" msgid="2790073937911591283">"Не атрымалася загрузіць звесткі пра файл"</string>
     <string name="share_via" msgid="8725082736005677161">"Абагуліць праз"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Капіраванне файлаў"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Ідзе сцісканне файлаў"</string>
@@ -252,32 +250,4 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"архіў<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Перазапісаць <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Працягнуць у фонавым рэжыме"</string>
-    <string name="inspector_debug_section" msgid="3447621501565766900">"Адладачная інф-цыя (толькі для распрацоўшчыкаў)"</string>
-    <string name="inspector_metadata_section" msgid="6079048557893790964">"Метаданыя"</string>
-    <string name="inspector_exif_section" msgid="5949046061841867788">"Звесткі пра выяву"</string>
-    <string name="metadata_dimensions" msgid="8862315437239063661">"Памеры"</string>
-    <string name="metadata_location" msgid="6554310541123229404">"Месцазнаходжанне"</string>
-    <string name="metadata_altitude" msgid="7322908625970953996">"Вышыня"</string>
-    <string name="metadata_make" msgid="436110457840345266">"Вытворца"</string>
-    <string name="metadata_model" msgid="8839903701468767090">"Мадэль"</string>
-    <string name="metadata_aperture" msgid="712880940219784858">"Апертура"</string>
-    <string name="metadata_shutter_speed" msgid="2807089225760465388">"Хуткасць затвора"</string>
-    <string name="metadata_date_time" msgid="8507961609290985252">"Знята"</string>
-    <string name="debug_content_uri" msgid="8460920347529643588">"Uri"</string>
-    <string name="debug_document_id" msgid="7630686573358226123">"Ідэнтыфікатар дакумента"</string>
-    <string name="debug_raw_mimetype" msgid="6862426718015078252">"MIME-тып файла RAW"</string>
-    <string name="debug_stream_types" msgid="504840680506484652">"Тыпы плыні"</string>
-    <string name="debug_raw_size" msgid="4572969238401166095">"Памер файла RAW (у байтах)"</string>
-    <string name="debug_is_archive" msgid="3937290750906661828">"Архіў"</string>
-    <string name="debug_is_container" msgid="5266358634381447492">"Кантэйнер"</string>
-    <string name="debug_is_partial" msgid="2231879552618031141">"Частка"</string>
-    <string name="debug_is_virtual" msgid="6214537066743038611">"Віртуальны"</string>
-    <string name="debug_supports_create" msgid="3769655246146649138">"Падтрымлівае стварэнне"</string>
-    <string name="debug_supports_delete" msgid="3625862583805865897">"Падтрымлівае выдаленне"</string>
-    <string name="debug_supports_metadata" msgid="1730344787404668790">"Падтрымлівае метаданыя"</string>
-    <string name="debug_supports_rename" msgid="376380110978453101">"Падтрымлівае перайменаванне"</string>
-    <string name="debug_supports_settings" msgid="6666862652450832236">"Падтрымлівае налады"</string>
-    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"Падтрымлівае мініяцюры"</string>
-    <string name="debug_supports_weblink" msgid="8194688813751988618">"Падтрымлівае вэб-спасылкі"</string>
-    <string name="debug_supports_write" msgid="7536733690733896063">"Падтрымлівае запіс"</string>
 </resources>

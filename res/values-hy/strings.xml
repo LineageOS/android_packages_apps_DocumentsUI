@@ -57,6 +57,10 @@
     <string name="button_move" msgid="8596460499325291272">"Տեղափոխել"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Փակել"</string>
     <string name="button_retry" msgid="4011461781916631389">"Փորձել նորից"</string>
+    <!-- no translation found for button_clear (5412304437764369441) -->
+    <skip />
+    <!-- no translation found for button_show_provider (6905880493806292753) -->
+    <skip />
     <string name="not_sorted" msgid="7813496644889115530">"Տեսակավորված չեն"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Անունը"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Ամփոփագիր"</string>
@@ -64,10 +68,6 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"Չափը"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Փոփոխվել է"</string>
     <string name="directory_items" msgid="6645621978998614003">"Տարրերի քանակ"</string>
-    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Այս տեսակի ֆայլերի բացման հավելված"</string>
-    <string name="handler_app_belongs_to" msgid="5951849884187825813">"Այս ֆայլի մատակարարն է՝"</string>
-    <string name="handler_app_not_selected" msgid="8178393676227130360">"Ընտրված չէ"</string>
-    <string name="handler_app_unknown" msgid="56574249066388341">"Անհայտ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Աճման կարգով"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Նվազման կարգով"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Ցույց տալ արմատները"</string>
@@ -86,8 +86,6 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Հնարավոր չէ բացել ֆայլը"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Հնարավոր չէ բացել արխիվացված ֆայլերը"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Հնարավոր չէ ջնջել որոշ փաստաթղթեր"</string>
-    <string name="inspector_title" msgid="3950518639689416990">"Տեղեկություններ"</string>
-    <string name="inspector_load_error" msgid="2790073937911591283">"Չհաջողվեց բեռնել ֆայլի տվյալները"</string>
     <string name="share_via" msgid="8725082736005677161">"Կիսվել"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Ֆայլերի պատճենում"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Ֆայլերի սեղմում"</string>
@@ -210,32 +208,4 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Փոխարինե՞լ <xliff:g id="NAME">%1$s</xliff:g> ֆայլը։"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Շարունակել ֆոնում"</string>
-    <string name="inspector_debug_section" msgid="3447621501565766900">"Վրիպազերծման տեղեկություններ (միայն մշակող)"</string>
-    <string name="inspector_metadata_section" msgid="6079048557893790964">"Մետատվյալներ"</string>
-    <string name="inspector_exif_section" msgid="5949046061841867788">"Պատկերի տվյալները"</string>
-    <string name="metadata_dimensions" msgid="8862315437239063661">"Չափեր"</string>
-    <string name="metadata_location" msgid="6554310541123229404">"Վայր"</string>
-    <string name="metadata_altitude" msgid="7322908625970953996">"Բարձրություն"</string>
-    <string name="metadata_make" msgid="436110457840345266">"Մակնիշ"</string>
-    <string name="metadata_model" msgid="8839903701468767090">"Մոդել"</string>
-    <string name="metadata_aperture" msgid="712880940219784858">"Բացվածք"</string>
-    <string name="metadata_shutter_speed" msgid="2807089225760465388">"Պահաժամ"</string>
-    <string name="metadata_date_time" msgid="8507961609290985252">"Լուսանկարվել է՝"</string>
-    <string name="debug_content_uri" msgid="8460920347529643588">"Uri"</string>
-    <string name="debug_document_id" msgid="7630686573358226123">"Փաստաթղթի id"</string>
-    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Raw MIME տեսակ"</string>
-    <string name="debug_stream_types" msgid="504840680506484652">"Հոսքի տեսակներ"</string>
-    <string name="debug_raw_size" msgid="4572969238401166095">"Raw ֆայլի չափ (բայթ)"</string>
-    <string name="debug_is_archive" msgid="3937290750906661828">"Արխիվ է"</string>
-    <string name="debug_is_container" msgid="5266358634381447492">"Զետեղարան է"</string>
-    <string name="debug_is_partial" msgid="2231879552618031141">"Ներբեռնվել է մասամբ"</string>
-    <string name="debug_is_virtual" msgid="6214537066743038611">"Վիրտուալ է"</string>
-    <string name="debug_supports_create" msgid="3769655246146649138">"Աջակցում է ստեղծումը"</string>
-    <string name="debug_supports_delete" msgid="3625862583805865897">"Աջակցում է ջնջումը"</string>
-    <string name="debug_supports_metadata" msgid="1730344787404668790">"Աջակցում է մետատվյալները"</string>
-    <string name="debug_supports_rename" msgid="376380110978453101">"Աջակցում է վերանվանումը"</string>
-    <string name="debug_supports_settings" msgid="6666862652450832236">"Աջակցում է կարգավորումները"</string>
-    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"Աջակցում է մանրապատկերները"</string>
-    <string name="debug_supports_weblink" msgid="8194688813751988618">"Աջակցում է վեբ հղումը"</string>
-    <string name="debug_supports_write" msgid="7536733690733896063">"Աջակցում է գրելը"</string>
 </resources>

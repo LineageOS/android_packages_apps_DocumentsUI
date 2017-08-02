@@ -57,6 +57,10 @@
     <string name="button_move" msgid="8596460499325291272">"ရွှေ့ရန်"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ပယ်ရန်"</string>
     <string name="button_retry" msgid="4011461781916631389">"ပြန်စမ်းကြည့်ပါ"</string>
+    <!-- no translation found for button_clear (5412304437764369441) -->
+    <skip />
+    <!-- no translation found for button_show_provider (6905880493806292753) -->
+    <skip />
     <string name="not_sorted" msgid="7813496644889115530">"စီမထားပါ"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"အမည်"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"အနှစ်ချုပ်"</string>
@@ -64,10 +68,6 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"အရွယ်အစား"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"မွမ်းမံပြီး"</string>
     <string name="directory_items" msgid="6645621978998614003">"ပစ္စည်းအရေအတွက်"</string>
-    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"၎င်းဖိုင်အမျိုးအစားကို ဖွင့်နိုင်သည့်အက်ပ်−"</string>
-    <string name="handler_app_belongs_to" msgid="5951849884187825813">"ဤဖိုင်အား ဝန်ဆောင်ပေးသူ−"</string>
-    <string name="handler_app_not_selected" msgid="8178393676227130360">"ရွေးမထားပါ"</string>
-    <string name="handler_app_unknown" msgid="56574249066388341">"အမျိုးအမည်မသိ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ငယ်စဉ်ကြီးလိုက်"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"ကြီးစဉ်ငယ်လိုက်"</string>
     <string name="drawer_open" msgid="8071673398187261741">"ပင်မဖိုင်တွဲများကို ပြပါ"</string>
@@ -86,8 +86,6 @@
     <string name="toast_no_application" msgid="7555319548595113121">"ဖိုင်ကို ဖွင့်၍မရပါ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"မှတ်တမ်းဟောင်းထဲမှ ဖိုင်များကို ဖွင့်၍မရပါ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"အချို့စာဖိုင်များကို ဖျက်၍မရပါ"</string>
-    <string name="inspector_title" msgid="3950518639689416990">"အချက်အလက်"</string>
-    <string name="inspector_load_error" msgid="2790073937911591283">"ဖိုင်အချက်အလက်များကို ဖွင့်၍မရပါ"</string>
     <string name="share_via" msgid="8725082736005677161">"အောက်ပါနည်းလမ်းဖြင့် မျှဝေပါ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ဖိုင်များကူးယူနေသည်"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ဖိုင်များကို ချုံ့နေသည်"</string>
@@ -210,32 +208,4 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"မှတ်တမ်းဟောင်း<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> ကို အစားထိုးလိုပါသလား။"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"နောက်ခံတွင် ဆက်လုပ်ရန်"</string>
-    <string name="inspector_debug_section" msgid="3447621501565766900">"အမှားရှာပြင်ရန် အချက်အလက်(ဆော့ဖ်ဝဲအင်ဂျင်နီယာသာ)"</string>
-    <string name="inspector_metadata_section" msgid="6079048557893790964">"မက်တာဒေတာ"</string>
-    <string name="inspector_exif_section" msgid="5949046061841867788">"ရုပ်ပုံအချက်အလက်"</string>
-    <string name="metadata_dimensions" msgid="8862315437239063661">"အတိုင်းအတာများ"</string>
-    <string name="metadata_location" msgid="6554310541123229404">"တည်နေရာ"</string>
-    <string name="metadata_altitude" msgid="7322908625970953996">"အမြင့်"</string>
-    <string name="metadata_make" msgid="436110457840345266">"ထုတ်လုပ်သူ"</string>
-    <string name="metadata_model" msgid="8839903701468767090">"မော်ဒယ်"</string>
-    <string name="metadata_aperture" msgid="712880940219784858">"အလင်းဝင်ပေါက်"</string>
-    <string name="metadata_shutter_speed" msgid="2807089225760465388">"ရှပ်တာအမြန်နှုန်း"</string>
-    <string name="metadata_date_time" msgid="8507961609290985252">"ရိုက်ထားသည့်အချိန်−"</string>
-    <string name="debug_content_uri" msgid="8460920347529643588">"Uri"</string>
-    <string name="debug_document_id" msgid="7630686573358226123">"ဖိုင် ID"</string>
-    <string name="debug_raw_mimetype" msgid="6862426718015078252">"အကြမ်းထည် ဒေတာအမျိုးအစား"</string>
-    <string name="debug_stream_types" msgid="504840680506484652">"ထုတ်လွှင့်မှုအမျိုးအစားများ"</string>
-    <string name="debug_raw_size" msgid="4572969238401166095">"အကြမ်းထည် အရွယ်အစား (ဘိုက်)"</string>
-    <string name="debug_is_archive" msgid="3937290750906661828">"မှတ်တမ်းဟောင်းဖြစ်သည်"</string>
-    <string name="debug_is_container" msgid="5266358634381447492">"သိမ်းဆည်းရန် နေရာဖြစ်သည်"</string>
-    <string name="debug_is_partial" msgid="2231879552618031141">"တစ်စိတ်တစ်ပိုင်းသာ ဖြစ်သည်"</string>
-    <string name="debug_is_virtual" msgid="6214537066743038611">"အတုဖြစ်သည်"</string>
-    <string name="debug_supports_create" msgid="3769655246146649138">"ပြုလုပ်ခြင်းကို ပံ့ပိုးသည်"</string>
-    <string name="debug_supports_delete" msgid="3625862583805865897">"ဖျက်ခြင်းကို ပံ့ပိုးသည်"</string>
-    <string name="debug_supports_metadata" msgid="1730344787404668790">"မက်တာဒေတာကို ပံ့ပိုးသည်"</string>
-    <string name="debug_supports_rename" msgid="376380110978453101">"အမည်ပြောင်းခြင်းကို ပံ့ပိုးသည်"</string>
-    <string name="debug_supports_settings" msgid="6666862652450832236">"ဆက်တင်များကို ပံ့ပိုးသည်"</string>
-    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"ပုံသေးကို ပံ့ပိုးသည်"</string>
-    <string name="debug_supports_weblink" msgid="8194688813751988618">"ဝဘ်လင့်ခ်ကို ပံ့ပိုးသည်"</string>
-    <string name="debug_supports_write" msgid="7536733690733896063">"ရေးသားခြင်းကို ပံ့ပိုးသည်"</string>
 </resources>
