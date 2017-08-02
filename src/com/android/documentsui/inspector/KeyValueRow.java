@@ -25,6 +25,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.textclassifier.TextClassifier;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class KeyValueRow extends LinearLayout {
 
     private final Resources mRes;
     private @Nullable ColorStateList mDefaultTextColor;
+    private @Nullable TextClassifier mClassifier;
 
     public KeyValueRow(Context context) {
         this(context, null);
@@ -48,8 +50,11 @@ public class KeyValueRow extends LinearLayout {
 
     public KeyValueRow(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         mRes = context.getResources();
+    }
+
+    public void setTextClassifier(TextClassifier classifier) {
+        mClassifier = classifier;
     }
 
     /**
@@ -67,6 +72,7 @@ public class KeyValueRow extends LinearLayout {
     public void setValue(CharSequence value) {
         TextView text = ((TextView) findViewById(R.id.table_row_value));
         text.setText(value);
+        text.setTextClassifier(mClassifier);
         text.setOnLongClickListener((View view) -> {
 
             CharSequence textValue = text.getText();

@@ -22,6 +22,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.textclassifier.TextClassifier;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,7 +41,8 @@ public class TableView extends LinearLayout implements TableDisplay {
 
     private final Map<CharSequence, KeyValueRow> mRows = new HashMap<>();
     private final Resources mRes;
-    private Map<CharSequence, TextView> mTitles = new HashMap<>();
+    private final Map<CharSequence, TextView> mTitles = new HashMap<>();
+    private final TextClassifier mClassifier;
 
     public TableView(Context context) {
         this(context, null);
@@ -54,6 +56,7 @@ public class TableView extends LinearLayout implements TableDisplay {
         super(context, attrs, defStyleAttr);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mRes = context.getResources();
+        mClassifier = GpsCoordinatesTextClassifier.create(context);
     }
 
     void setTitle(@StringRes int title, boolean showDivider) {
@@ -79,6 +82,7 @@ public class TableView extends LinearLayout implements TableDisplay {
     protected KeyValueRow createKeyValueRow(ViewGroup parent) {
         KeyValueRow row = (KeyValueRow) mInflater.inflate(R.layout.table_key_value_row, null);
         parent.addView(row);
+        row.setTextClassifier(mClassifier);
         return row;
     }
 
@@ -106,6 +110,7 @@ public class TableView extends LinearLayout implements TableDisplay {
         }
 
         row.setValue(value);
+        row.setTextClassifier(mClassifier);
         return row;
     }
 
