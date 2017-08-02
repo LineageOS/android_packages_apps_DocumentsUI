@@ -27,6 +27,7 @@ import android.util.AttributeSet;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.MediaDisplay;
 import com.android.documentsui.inspector.InspectorController.TableDisplay;
 
@@ -39,9 +40,7 @@ import javax.annotation.Nullable;
  */
 public class MediaView extends TableView implements MediaDisplay {
 
-    private static final String METADATA_KEY_AUDIO = "android.media.metadata.audio";
-    private static final String METADATA_KEY_VIDEO = "android.media.metadata.video";
-    private Resources mResources;
+    private final Resources mResources;
 
     public MediaView(Context context) {
         this(context, null);
@@ -65,7 +64,7 @@ public class MediaView extends TableView implements MediaDisplay {
             showExifData(this, mResources, doc, exif, geoClickListener);
         }
 
-        Bundle video = metadata.getBundle(METADATA_KEY_VIDEO);
+        Bundle video = metadata.getBundle(Shared.METADATA_KEY_VIDEO);
         if (video != null) {
             showVideoData(this, mResources, doc, video);
         }
@@ -73,17 +72,15 @@ public class MediaView extends TableView implements MediaDisplay {
         setVisible(!isEmpty());
     }
 
-    private static void showVideoData(
-            TableDisplay table,
-            Resources resources,
-            DocumentInfo doc,
-            Bundle tags) {
+    @VisibleForTesting
+    public static void showVideoData(
+            TableDisplay table, Resources resources, DocumentInfo doc, Bundle tags) {
 
         addDimensionsRow(table, resources, tags);
 
         if (tags.containsKey(MediaMetadata.METADATA_KEY_DURATION)) {
             int millis = tags.getInt(MediaMetadata.METADATA_KEY_DURATION);
-            table.put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis));
+            table.put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis / 1000));
         }
     }
 

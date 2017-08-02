@@ -31,11 +31,11 @@ import java.util.Map;
  */
 class TestTable implements TableDisplay {
 
-    private Map<Integer, CharSequence> calledBundleKeys;
+    private Map<Integer, CharSequence> mRows;
     private boolean mVisible;
 
     public TestTable() {
-        calledBundleKeys = new HashMap<>();
+        mRows = new HashMap<>();
     }
 
     @Override
@@ -43,17 +43,17 @@ class TestTable implements TableDisplay {
     }
 
     public void assertHasRow(int keyId, CharSequence expected) {
-        assertEquals(expected, calledBundleKeys.get(keyId));
+        assertEquals(expected, mRows.get(keyId));
     }
 
     @Override
     public void put(int keyId, CharSequence value) {
-        calledBundleKeys.put(keyId, value);
+        mRows.put(keyId, value);
     }
 
     @Override
     public void put(int keyId, CharSequence value, OnClickListener callback) {
-        calledBundleKeys.put(keyId, value);
+        mRows.put(keyId, value);
     }
 
     @Override
@@ -63,15 +63,15 @@ class TestTable implements TableDisplay {
 
     @Override
     public boolean isEmpty() {
-        return calledBundleKeys.isEmpty();
+        return mRows.isEmpty();
     }
 
     void assertEmpty() {
-        assertTrue(calledBundleKeys.isEmpty());
+        assertTrue(mRows.isEmpty());
     }
 
     void assertNotEmpty() {
-        assertFalse(calledBundleKeys.isEmpty());
+        assertFalse(mRows.isEmpty());
     }
 
     void assertVisible(boolean expected) {

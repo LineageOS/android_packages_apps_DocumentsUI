@@ -16,12 +16,14 @@
 package com.android.documentsui.inspector;
 
 import android.media.ExifInterface;
+import android.media.MediaMetadata;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestResources;
 
@@ -44,6 +46,7 @@ public class MediaViewTest {
         mTable = new TestTable();
         mMetadata = new Bundle();
         TestMetadata.populateExifData(mMetadata);
+        TestMetadata.populateVideoData(mMetadata);
     }
 
     /**
@@ -51,7 +54,7 @@ public class MediaViewTest {
      * bundle.
      */
     @Test
-    public void testPrintMetadata_BundleTags() throws Exception {
+    public void testShowExifData() throws Exception {
         mResources.strings.put(R.string.metadata_aperture_format, "f/%.1f");
         Bundle exif = mMetadata.getBundle(DocumentsContract.METADATA_EXIF);
         MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, exif, null);
@@ -72,13 +75,53 @@ public class MediaViewTest {
      * @throws Exception
      */
     @Test
-    public void testPrintMetadata_BundlePartialTags() throws Exception {
-        Bundle exif = new Bundle();
-        exif.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
-        exif.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
+    public void testShowExifData_PartialGpsTags() throws Exception {
+        Bundle data = new Bundle();
+        data.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
 
-        mMetadata.putBundle(DocumentsContract.METADATA_EXIF, exif);
+        mMetadata.putBundle(DocumentsContract.METADATA_EXIF, data);
         MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, mMetadata, null);
         mTable.assertEmpty();
+    }
+
+    /**
+     * Bundle only supplies half of the values for the pairs that print in printMetaData. No put
+     * method should be called as the correct conditions have not been met.
+     * @throws Exception
+     */
+    @Test
+    public void testShowExifData_PartialDimensionTags() throws Exception {
+        Bundle data = new Bundle();
+        data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
+
+        mMetadata.putBundle(DocumentsContract.METADATA_EXIF, data);
+        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, mMetadata, null);
+        mTable.assertEmpty();
+    }
+
+    /**
+     * Test that the updateMetadata method is printing metadata for selected items found in the
+     * bundle.
+     */
+    @Test
+    public void testShowVideoData() throws Exception {
+        Bundle data = mMetadata.getBundle(Shared.METADATA_KEY_VIDEO);
+        MediaView.showVideoData(mTable, mResources, TestEnv.FILE_MP4, data);
+
+        mTable.assertHasRow(R.string.metadata_duration, "01:12");
+        mTable.assertHasRow(R.string.metadata_dimensions, "1920 x 1080, 2.1MP");
+    }
+
+    /**
+     * Test that the updateMetadata method is printing metadata for selected items found in the
+     * bundle.
+     */
+    @Test
+    public void testShowVideoData_HourPlusDuration() throws Exception {
+        Bundle data = mMetadata.getBundle(Shared.METADATA_KEY_VIDEO);
+        data.putInt(MediaMetadata.METADATA_KEY_DURATION, 21660000);
+        MediaView.showVideoData(mTable, mResources, TestEnv.FILE_MP4, data);
+
+        mTable.assertHasRow(R.string.metadata_duration, "6:01:00");
     }
 }
