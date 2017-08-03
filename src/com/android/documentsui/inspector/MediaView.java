@@ -118,14 +118,14 @@ public class MediaView extends TableView implements MediaDisplay {
             table.put(R.string.metadata_altitude, String.valueOf(altitude));
         }
 
-        if (tags.containsKey(ExifInterface.TAG_MAKE)) {
-            String make = tags.getString(ExifInterface.TAG_MAKE);
-            table.put(R.string.metadata_make, make);
-        }
-
-        if (tags.containsKey(ExifInterface.TAG_MODEL)) {
-            String model = tags.getString(ExifInterface.TAG_MODEL);
-            table.put(R.string.metadata_model, model);
+        if (tags.containsKey(ExifInterface.TAG_MAKE) || tags.containsKey(ExifInterface.TAG_MODEL)) {
+                String make = tags.getString(ExifInterface.TAG_MAKE);
+                String model = tags.getString(ExifInterface.TAG_MODEL);
+                make = make != null ? make : "";
+                model = model != null ? model : "";
+                table.put(
+                        R.string.metadata_camera,
+                        resources.getString(R.string.metadata_camera_format, make, model));
         }
 
         if (tags.containsKey(ExifInterface.TAG_APERTURE)) {
@@ -140,7 +140,7 @@ public class MediaView extends TableView implements MediaDisplay {
         }
 
         if (tags.containsKey(ExifInterface.TAG_FOCAL_LENGTH)) {
-            int length = (int) tags.getDouble(ExifInterface.TAG_FOCAL_LENGTH);
+            float length = (float) tags.getDouble(ExifInterface.TAG_FOCAL_LENGTH);
             table.put(R.string.metadata_focal_length,
                     String.format(resources.getString(R.string.metadata_focal_format), length));
         }

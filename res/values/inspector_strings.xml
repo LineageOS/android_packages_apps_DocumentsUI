@@ -55,10 +55,10 @@
     <string name="metadata_coordinates_format"><xliff:g id="latitude" example="33.996">%1$,.3f</xliff:g>, <xliff:g id="longitude" example="-118.476">%2$,.3f</xliff:g></string>
     <!-- The elevation a photo was taken. -->
     <string name="metadata_altitude">Altitude</string>
-    <!-- The company that made the camera the photo was taken on. -->
-    <string name="metadata_make">Make</string>
-    <!-- The camera model that the photo was taken on. -->
-    <string name="metadata_model">Model</string>
+    <!-- The camera make and model. -->
+    <string name="metadata_camera">Camera</string>
+    <!-- The camera make and model. Where make is usually the company, and model is the individual camera model name. -->
+    <string name="metadata_camera_format"><xliff:g id="make" example="Sony">%s</xliff:g> <xliff:g id="model" example="Snazzy Snapper">%s</xliff:g></string>
     <!-- The value of a photos aperture. Note that this is probably camera EXIF data.-->
     <string name="metadata_aperture">Aperture</string>
     <!-- The value of a photos shutter speed. Note that this is probably camera EXIF data.-->
@@ -70,11 +70,11 @@
     <!--The tag for the focal length of a camera. Note that this is probably camera EXIF data-->
     <string name="metadata_focal_length">Focal length</string>
     <!--The format for displaying the focal length of a camera. Note that this is probably camera EXIF data-->
-    <string name="metadata_focal_format"><xliff:g id="length" example="24">%1$d </xliff:g>mm</string>
+    <string name="metadata_focal_format"><xliff:g id="length" example="4.67mm">%1$,.2f</xliff:g>mm</string>
     <!--The tag for the ISO Speed of a camera. Note that this is probably camera EXIF data-->
     <string name="metadata_iso_speed_ratings">ISO Speed</string>
     <!--The format for displaying ISO speed. Note that this is probably camera EXIF data-->
-    <string name="metadata_iso_format">ISO <xliff:g id="iso_speed" example="35">%1$d</xliff:g></string>
+    <string name="metadata_iso_format">ISO <xliff:g id="iso_speed" example="200">%1$d</xliff:g></string>
 
     <!-- Message presenting EXIF aperture information in the tradition "f/2.0" format familiar to users. This format is basically an industry standard that shouldn't be translated, so it is marked as not translatable. -->
     <string name="metadata_aperture_format" translatable="false">f/<xliff:g id="aperture" example="2.0">%1$,.1f</xliff:g></string>

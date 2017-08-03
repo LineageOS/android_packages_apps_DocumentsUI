@@ -42,9 +42,11 @@ public class MediaViewTest {
     @Before
     public void setUp() {
         mResources = TestResources.create();
+        // TODO: We should just be using the real underlying resources.
         mResources.strings.put(R.string.metadata_dimensions_format, "%d x %d, %.1fMP");
         mResources.strings.put(R.string.metadata_aperture_format, "f/%.1f");
         mResources.strings.put(R.string.metadata_coordinates_format, "%.3f, %.3f");
+        mResources.strings.put(R.string.metadata_camera_format, "%s %s");
         mTable = new TestTable();
         mMetadata = new Bundle();
         TestMetadata.populateExifData(mMetadata);
@@ -67,11 +69,10 @@ public class MediaViewTest {
         mTable.assertHasRow(R.string.metadata_date_time, "Jan 01, 1970, 12:16 AM");
         mTable.assertHasRow(R.string.metadata_coordinates, "33.996, -118.475");
         mTable.assertHasRow(R.string.metadata_altitude, "1244.0");
-        mTable.assertHasRow(R.string.metadata_make, "Google");
-        mTable.assertHasRow(R.string.metadata_model, "Pixel");
+        mTable.assertHasRow(R.string.metadata_camera, "Google Pixel");
         mTable.assertHasRow(R.string.metadata_shutter_speed, "1/100");
         mTable.assertHasRow(R.string.metadata_aperture, "f/2.0");
-        mTable.assertHasRow(R.string.metadata_focal_length, "8 mm");
+        mTable.assertHasRow(R.string.metadata_focal_length, "8.00mm");
         mTable.assertHasRow(R.string.metadata_iso_speed_ratings, "ISO 120");
     }
 
