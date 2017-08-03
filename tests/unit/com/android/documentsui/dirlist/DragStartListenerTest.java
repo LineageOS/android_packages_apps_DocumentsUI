@@ -18,7 +18,7 @@ package com.android.documentsui.dirlist;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.TestCase.fail;
+import static junit.framework.Assert.fail;
 
 import android.provider.DocumentsContract;
 import android.support.test.filters.SmallTest;
@@ -26,18 +26,17 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.MenuManager;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DragStartListener.ActiveListener;
-import com.android.documentsui.base.Events.InputEvent;
-import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestDragAndDropManager;
 import com.android.documentsui.testing.TestEvent;
-import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestSelectionDetails;
 import com.android.documentsui.testing.Views;
 
@@ -86,7 +85,7 @@ public class DragStartListenerTest {
                 },
                 // docInfo Converter
                 (Selection selection) -> {
-                    return new ArrayList<DocumentInfo>();
+                    return new ArrayList<>();
                 },
                 mManager);
 
@@ -123,7 +122,8 @@ public class DragStartListenerTest {
 
     @Test
     public void testThrows_OnNonPrimaryMove() {
-        assertThrows(mEvent.pressButton(MotionEvent.BUTTON_PRIMARY).build());
+        mEvent.releaseButton(MotionEvent.BUTTON_PRIMARY);
+        assertThrows(mEvent.pressButton(MotionEvent.BUTTON_SECONDARY).build());
     }
 
     @Test
@@ -187,8 +187,8 @@ public class DragStartListenerTest {
 
     private void assertThrows(InputEvent e) {
         try {
-            assertFalse(mListener.onMouseDragEvent(e));
+            mListener.onMouseDragEvent(e);
             fail();
-        } catch (AssertionError expected) {}
+        } catch (IllegalArgumentException expected) {}
     }
 }
