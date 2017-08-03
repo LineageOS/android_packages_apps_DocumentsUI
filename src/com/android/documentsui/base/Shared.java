@@ -59,6 +59,10 @@ public final class Shared {
     public static final String ACTION_PICK_COPY_DESTINATION =
             "com.android.documentsui.PICK_COPY_DESTINATION";
 
+    // These values track values declared in MediaDocumentsProvider.
+    public static final String METADATA_KEY_AUDIO = "android.media.metadata.audio";
+    public static final String METADATA_KEY_VIDEO = "android.media.metadata.video";
+
     /**
      * Extra boolean flag for {@link #ACTION_PICK_COPY_DESTINATION}, which
      * specifies if the destination directory needs to create new directory or not.
