@@ -54,7 +54,7 @@ public class DetailsView extends TableView implements DetailsDisplay {
 
         // TODO: Each of these rows need to be removed if the condition is false and previously
         // set.
-        if (doc.size > 0 && !doc.isDirectory()) {
+        if (doc.size >= 0 && !doc.isDirectory()) {
             put(R.string.sort_dimension_size, Formatter.formatFileSize(getContext(), doc.size));
         }
 
