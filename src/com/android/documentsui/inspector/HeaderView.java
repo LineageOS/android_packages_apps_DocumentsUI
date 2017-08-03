@@ -20,6 +20,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.text.Selection;
+import android.text.Spannable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +79,12 @@ public final class HeaderView extends RelativeLayout implements HeaderDisplay {
     public void accept(DocumentInfo info, String displayName) {
         loadHeaderImage(info);
         mTitle.setText(displayName);
+        mTitle.setCustomSelectionActionModeCallback(
+                new HeaderTextSelector(mTitle, this::selectText));
+    }
+
+    private void selectText(Spannable text, int start, int stop) {
+        Selection.setSelection(text, start, stop);
     }
 
     private void loadHeaderImage(DocumentInfo doc) {
