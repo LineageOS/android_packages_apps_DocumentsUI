@@ -37,6 +37,7 @@
         android:textColor="@android:color/white"
         android:layout_gravity="center_vertical"
         android:background="@color/inspector_title_background"
+        android:textIsSelectable="true"
         android:textAlignment="viewStart"
         android:layout_alignBottom="@+id/inspector_thumbnail" />
 

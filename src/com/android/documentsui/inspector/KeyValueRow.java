@@ -21,7 +21,10 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.text.Selection;
+import android.text.Spannable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,7 +56,7 @@ public class KeyValueRow extends LinearLayout {
      * Sets the raw value of the key. Only localized values
      * should be passed.
      */
-    public void setKey(String key) {
+    public void setKey(CharSequence key) {
         ((TextView) findViewById(R.id.table_row_key)).setText(key);
     }
 
@@ -61,8 +64,20 @@ public class KeyValueRow extends LinearLayout {
         setKey(mRes.getString(id));
     }
 
-    public void setValue(String value) {
-        ((TextView) findViewById(R.id.table_row_value)).setText(value);
+    public void setValue(CharSequence value) {
+        TextView text = ((TextView) findViewById(R.id.table_row_value));
+        text.setText(value);
+        text.setOnLongClickListener((View view) -> {
+
+            CharSequence textValue = text.getText();
+            if (textValue instanceof Spannable) {
+                Spannable spn = (Spannable) textValue;
+                Selection.selectAll(spn);
+            }
+            // we still want the default selection arrows and menu after we specified to select
+            // all text in the TextView.
+            return false;
+        });
     }
 
     @Override

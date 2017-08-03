@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:paddingEnd="5dp"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         android:textAlignment="viewStart">
@@ -41,6 +42,7 @@
         android:layout_weight="1"
         android:textColor="@color/inspector_value"
         android:textSize="14sp"
+        android:textIsSelectable="true"
         android:textAlignment="viewStart">
     </TextView>
 

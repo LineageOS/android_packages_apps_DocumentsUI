@@ -273,6 +273,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testActionsMenu_canViewInOwner() {
+        activity.resources.strings.put(R.string.menu_view_in_owner, "Insert name here! %s");
         selectionDetails.canViewInOwner = true;
         mgr.updateActionMenu(testMenu, selectionDetails);
 

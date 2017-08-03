@@ -16,15 +16,18 @@
 package com.android.documentsui.inspector;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.media.ExifInterface;
 import android.media.MediaMetadata;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.annotation.VisibleForTesting;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.MediaDisplay;
 import com.android.documentsui.inspector.InspectorController.TableDisplay;
 
@@ -37,8 +40,7 @@ import javax.annotation.Nullable;
  */
 public class MediaView extends TableView implements MediaDisplay {
 
-    private static final String METADATA_KEY_AUDIO = "android.media.metadata.audio";
-    private static final String METADATA_KEY_VIDEO = "android.media.metadata.video";
+    private final Resources mResources;
 
     public MediaView(Context context) {
         this(context, null);
@@ -50,6 +52,7 @@ public class MediaView extends TableView implements MediaDisplay {
 
     public MediaView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mResources = context.getResources();
     }
 
     @Override
@@ -58,38 +61,38 @@ public class MediaView extends TableView implements MediaDisplay {
 
         Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
         if (exif != null) {
-            showExifData(this, doc, exif, geoClickListener);
+            showExifData(this, mResources, doc, exif, geoClickListener);
         }
 
-        Bundle video = metadata.getBundle(METADATA_KEY_VIDEO);
+        Bundle video = metadata.getBundle(Shared.METADATA_KEY_VIDEO);
         if (video != null) {
-            showVideoData(doc, video);
+            showVideoData(this, mResources, doc, video);
         }
 
         setVisible(!isEmpty());
     }
 
-    private void showVideoData(DocumentInfo doc, Bundle tags) {
+    @VisibleForTesting
+    public static void showVideoData(
+            TableDisplay table, Resources resources, DocumentInfo doc, Bundle tags) {
+
+        addDimensionsRow(table, resources, tags);
+
         if (tags.containsKey(MediaMetadata.METADATA_KEY_DURATION)) {
-            float seconds = tags.getInt(MediaMetadata.METADATA_KEY_DURATION) / 1000.0f;
-            put(R.string.metadata_duration, seconds + "s");
+            int millis = tags.getInt(MediaMetadata.METADATA_KEY_DURATION);
+            table.put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis / 1000));
         }
     }
 
     @VisibleForTesting
     public static void showExifData(
             TableDisplay table,
+            Resources resources,
             DocumentInfo doc,
             Bundle tags,
             @Nullable Runnable geoClickListener) {
 
-        if (tags.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
-            && tags.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
-            int width = tags.getInt(ExifInterface.TAG_IMAGE_WIDTH);
-            int height = tags.getInt(ExifInterface.TAG_IMAGE_LENGTH);
-            table.put(R.string.metadata_dimensions,
-                    String.valueOf(width) + " x " + String.valueOf(height));
-        }
+        addDimensionsRow(table, resources, tags);
 
         if (tags.containsKey(ExifInterface.TAG_DATETIME)) {
             String date = tags.getString(ExifInterface.TAG_DATETIME);
@@ -127,13 +130,49 @@ public class MediaView extends TableView implements MediaDisplay {
         }
 
         if (tags.containsKey(ExifInterface.TAG_APERTURE)) {
-            String aperture = String.valueOf(tags.get(ExifInterface.TAG_APERTURE));
-            table.put(R.string.metadata_aperture, aperture);
+            table.put(R.string.metadata_aperture, resources.getString(
+                    R.string.metadata_aperture_format, tags.getDouble(ExifInterface.TAG_APERTURE)));
         }
 
         if (tags.containsKey(ExifInterface.TAG_SHUTTER_SPEED_VALUE)) {
-            String shutterSpeed = String.valueOf(tags.get(ExifInterface.TAG_SHUTTER_SPEED_VALUE));
+            String shutterSpeed = String.valueOf(
+                    formatShutterSpeed(tags.getDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE)));
             table.put(R.string.metadata_shutter_speed, shutterSpeed);
+        }
+    }
+
+    /**
+     * @param speed a value n, where shutter speed equals 1/(2^n)
+     * @return a String containing either a fraction that displays 1 over a positive integer, or a
+     * double rounded to one decimal, depending on if 1/(2^n) is less than or greater than 1,
+     * respectively.
+     */
+    private static String formatShutterSpeed(double speed) {
+        if (speed <= 0) {
+            double shutterSpeed = Math.pow(2, -1 * speed);
+            String formattedSpeed = String.valueOf(Math.round(shutterSpeed * 10.0) / 10.0);
+            return formattedSpeed;
+        } else {
+            int approximateSpeedDenom = (int) Math.pow(2, speed) + 1;
+            String formattedSpeed = "1/" + String.valueOf(approximateSpeedDenom);
+            return formattedSpeed;
+        }
+    }
+
+    /**
+     * @param table
+     * @param resources
+     * @param tags
+     */
+    private static void addDimensionsRow(TableDisplay table, Resources resources, Bundle tags) {
+        if (tags.containsKey(ExifInterface.TAG_IMAGE_WIDTH)
+            && tags.containsKey(ExifInterface.TAG_IMAGE_LENGTH)) {
+            int width = tags.getInt(ExifInterface.TAG_IMAGE_WIDTH);
+            int height = tags.getInt(ExifInterface.TAG_IMAGE_LENGTH);
+            float megaPixels = height * width / 1000000f;
+            table.put(R.string.metadata_dimensions,
+                    resources.getString(
+                            R.string.metadata_dimensions_display, width, height, megaPixels));
         }
     }
 }

@@ -19,6 +19,8 @@ import android.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -26,18 +28,18 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DummyLookup;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.inspector.InspectorController.DebugDisplay;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.concurrent.Executor;
-import java.util.function.Consumer;
 
 /**
  * Organizes and Displays the debug information about a file. This view
  * should only be made visible when build is debuggable and system policies
  * allow debug "stuff".
  */
-public class DebugView extends TableView implements Consumer<DocumentInfo> {
+public class DebugView extends TableView implements DebugDisplay {
 
     private final Context mContext;
     private final Resources mRes;
@@ -59,6 +61,7 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
 
     void init(Lookup<String, Executor> executors) {
         assert executors != null;
+        setBackgroundColor(0xFFFFFFFF);  // it's just debug. We do what we want!
         mExecutors = executors;
     }
 
@@ -100,6 +103,31 @@ public class DebugView extends TableView implements Consumer<DocumentInfo> {
                             streamTypes != null ? Arrays.toString(streamTypes) : "[]");
                 }
             }.executeOnExecutor(executor, (Void[]) null);
+        }
+    }
+
+    @Override
+    public void accept(Bundle metadata) {
+        if (metadata == null) {
+            return;
+        }
+
+        String[] types = metadata.getStringArray(DocumentsContract.METADATA_TYPES);
+        if (types == null) {
+            return;
+        }
+
+        for (String type : types) {
+            dumpMetadata(type, metadata.getBundle(type));
+        }
+    }
+
+    private void dumpMetadata(String type, Bundle bundle) {
+        String title = mContext.getResources().getString(
+                R.string.inspector_debug_metadata_section);
+        putTitle(String.format(title, type));
+        for (String key : bundle.keySet()) {
+            put(key, String.valueOf(bundle.get(key)));
         }
     }
 

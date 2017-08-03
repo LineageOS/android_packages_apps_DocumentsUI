@@ -16,6 +16,7 @@
 package com.android.documentsui.inspector;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.view.View.OnClickListener;
@@ -30,30 +31,29 @@ import java.util.Map;
  */
 class TestTable implements TableDisplay {
 
-    private Map<Integer, String> calledBundleKeys;
+    private Map<Integer, CharSequence> mRows;
     private boolean mVisible;
 
     public TestTable() {
-        calledBundleKeys = new HashMap<>();
+        mRows = new HashMap<>();
     }
 
     @Override
     public void setTitle(int title) {
-
     }
 
-    public void assertHasRow(int keyId, String expected) {
-        assertEquals(expected, calledBundleKeys.get(keyId));
-    }
-
-    @Override
-    public void put(int keyId, String value) {
-        calledBundleKeys.put(keyId, value);
+    public void assertHasRow(int keyId, CharSequence expected) {
+        assertEquals(expected, mRows.get(keyId));
     }
 
     @Override
-    public void put(int keyId, String value, OnClickListener callback) {
-        calledBundleKeys.put(keyId, value);
+    public void put(int keyId, CharSequence value) {
+        mRows.put(keyId, value);
+    }
+
+    @Override
+    public void put(int keyId, CharSequence value, OnClickListener callback) {
+        mRows.put(keyId, value);
     }
 
     @Override
@@ -63,11 +63,15 @@ class TestTable implements TableDisplay {
 
     @Override
     public boolean isEmpty() {
-        return calledBundleKeys.isEmpty();
+        return mRows.isEmpty();
     }
 
     void assertEmpty() {
-        assertTrue(calledBundleKeys.isEmpty());
+        assertTrue(mRows.isEmpty());
+    }
+
+    void assertNotEmpty() {
+        assertFalse(mRows.isEmpty());
     }
 
     void assertVisible(boolean expected) {

@@ -51,6 +51,7 @@ public class TestEnv {
     public static DocumentInfo FILE_JPG;
     public static DocumentInfo FILE_GIF;
     public static DocumentInfo FILE_PDF;
+    public static DocumentInfo FILE_MP4;
     public static DocumentInfo FILE_APK;
     public static DocumentInfo FILE_PARTIAL;
     public static DocumentInfo FILE_ARCHIVE;
@@ -152,6 +153,7 @@ public class TestEnv {
         FILE_JPG = model.createFile("jiffy.jpg");
         FILE_GIF = model.createFile("glibby.gif");
         FILE_PDF = model.createFile("busy.pdf");
+        FILE_MP4 = model.createFile("cameravideo.mp4");
         FILE_APK = model.createFile("becareful.apk");
         FILE_PARTIAL = model.createFile(
                 "UbuntuFlappyBird.iso",

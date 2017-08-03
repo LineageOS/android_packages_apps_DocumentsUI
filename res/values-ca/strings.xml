@@ -57,6 +57,10 @@
     <string name="button_move" msgid="8596460499325291272">"Mou"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Ignora"</string>
     <string name="button_retry" msgid="4011461781916631389">"Torna-ho a provar"</string>
+    <!-- no translation found for button_clear (5412304437764369441) -->
+    <skip />
+    <!-- no translation found for button_show_provider (6905880493806292753) -->
+    <skip />
     <string name="not_sorted" msgid="7813496644889115530">"Sense ordenar"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nom"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Resum"</string>
@@ -64,10 +68,6 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"Mida"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Modificat"</string>
     <string name="directory_items" msgid="6645621978998614003">"Nombre d\'elements"</string>
-    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Aquest tipus de fitxer s\'obre amb"</string>
-    <string name="handler_app_belongs_to" msgid="5951849884187825813">"Aquest fitxer prové de:"</string>
-    <string name="handler_app_not_selected" msgid="8178393676227130360">"No s\'ha seleccionat"</string>
-    <string name="handler_app_unknown" msgid="56574249066388341">"Desconeguda"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendent"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Descendent"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Mostra les arrels"</string>
@@ -86,8 +86,6 @@
     <string name="toast_no_application" msgid="7555319548595113121">"No es pot obrir el fitxer"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"No es poden obrir els fitxers dels arxius"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"No es poden suprimir alguns documents"</string>
-    <string name="inspector_title" msgid="3950518639689416990">"Informació"</string>
-    <string name="inspector_load_error" msgid="2790073937911591283">"No s\'ha pogut carregar la informació del fitxer"</string>
     <string name="share_via" msgid="8725082736005677161">"Comparteix mitjançant"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"S\'estan copiant fitxers"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Comprimint els fitxers"</string>
@@ -210,32 +208,4 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"fitxer<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Vols sobreescriure <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Continua en segon pla"</string>
-    <string name="inspector_debug_section" msgid="3447621501565766900">"Informació de depuració (per a desenvolupadors)"</string>
-    <string name="inspector_metadata_section" msgid="6079048557893790964">"Metadades"</string>
-    <string name="inspector_exif_section" msgid="5949046061841867788">"Informació de la imatge"</string>
-    <string name="metadata_dimensions" msgid="8862315437239063661">"Dimensions"</string>
-    <string name="metadata_location" msgid="6554310541123229404">"Ubicació"</string>
-    <string name="metadata_altitude" msgid="7322908625970953996">"Altitud"</string>
-    <string name="metadata_make" msgid="436110457840345266">"Marca"</string>
-    <string name="metadata_model" msgid="8839903701468767090">"Model"</string>
-    <string name="metadata_aperture" msgid="712880940219784858">"Obertura"</string>
-    <string name="metadata_shutter_speed" msgid="2807089225760465388">"Velocitat de l\'obturador"</string>
-    <string name="metadata_date_time" msgid="8507961609290985252">"Data de la foto:"</string>
-    <string name="debug_content_uri" msgid="8460920347529643588">"URI"</string>
-    <string name="debug_document_id" msgid="7630686573358226123">"Identificador del document"</string>
-    <string name="debug_raw_mimetype" msgid="6862426718015078252">"Tipus de MIME sense processar"</string>
-    <string name="debug_stream_types" msgid="504840680506484652">"Tipus de reproduccions en temps real"</string>
-    <string name="debug_raw_size" msgid="4572969238401166095">"Mida sense processar (bytes)"</string>
-    <string name="debug_is_archive" msgid="3937290750906661828">"És un arxiu"</string>
-    <string name="debug_is_container" msgid="5266358634381447492">"És un contenidor"</string>
-    <string name="debug_is_partial" msgid="2231879552618031141">"No està complet"</string>
-    <string name="debug_is_virtual" msgid="6214537066743038611">"És virtual"</string>
-    <string name="debug_supports_create" msgid="3769655246146649138">"S’hi poden crear fitxers"</string>
-    <string name="debug_supports_delete" msgid="3625862583805865897">"Es pot suprimir"</string>
-    <string name="debug_supports_metadata" msgid="1730344787404668790">"S’hi poden incloure metadades"</string>
-    <string name="debug_supports_rename" msgid="376380110978453101">"Es pot canviar de nom"</string>
-    <string name="debug_supports_settings" msgid="6666862652450832236">"Es pot configurar"</string>
-    <string name="debug_supports_thumbnail" msgid="2060482062478670641">"S’hi poden incloure miniatures"</string>
-    <string name="debug_supports_weblink" msgid="8194688813751988618">"S’hi poden incloure enllaços web"</string>
-    <string name="debug_supports_write" msgid="7536733690733896063">"S\'hi pot escriure"</string>
 </resources>
