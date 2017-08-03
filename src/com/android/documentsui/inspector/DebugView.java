@@ -31,7 +31,10 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.inspector.InspectorController.DebugDisplay;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 /**
@@ -126,7 +129,9 @@ public class DebugView extends TableView implements DebugDisplay {
         String title = mContext.getResources().getString(
                 R.string.inspector_debug_metadata_section);
         putTitle(String.format(title, type));
-        for (String key : bundle.keySet()) {
+        List<String> keys = new ArrayList<>(bundle.keySet());
+        Collections.sort(keys);
+        for (String key : keys) {
             put(key, String.valueOf(bundle.get(key)));
         }
     }
