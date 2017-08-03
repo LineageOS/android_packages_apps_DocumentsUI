@@ -102,14 +102,14 @@ public class MediaView extends TableView implements MediaDisplay {
         if (MetadataUtils.hasExifGpsFields(tags)) {
             double[] coords = MetadataUtils.getExifGpsCoords(tags);
             if (geoClickListener != null) {
-                table.put(R.string.metadata_location,
+                table.put(R.string.metadata_coordinates,
                         String.valueOf(coords[0]) + ",  " + String.valueOf(coords[1]),
                         view -> {
                             geoClickListener.run();
                         }
                 );
             } else {
-                table.put(R.string.metadata_location,
+                table.put(R.string.metadata_coordinates,
                         String.valueOf(coords[0]) + ",  " + String.valueOf(coords[1]));
             }
         }
