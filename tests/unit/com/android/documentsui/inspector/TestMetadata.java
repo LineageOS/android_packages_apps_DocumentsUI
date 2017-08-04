@@ -29,21 +29,18 @@ final class TestMetadata {
         Bundle data = new Bundle();
         container.putBundle(DocumentsContract.METADATA_EXIF, data);
 
-        Bundle exif = new Bundle();
-        exif.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
-        exif.putInt(ExifInterface.TAG_IMAGE_LENGTH, 2160);
-        exif.putString(ExifInterface.TAG_DATETIME, "Jan 01, 1970, 12:16 AM");
-        exif.putString(ExifInterface.TAG_GPS_LATITUDE, "33/1,59/1,4530/100");
-        exif.putString(ExifInterface.TAG_GPS_LONGITUDE, "118/1,28/1,3124/100");
-        exif.putString(ExifInterface.TAG_GPS_LATITUDE_REF, "N");
-        exif.putString(ExifInterface.TAG_GPS_LONGITUDE_REF, "W");
-        exif.putDouble(ExifInterface.TAG_GPS_ALTITUDE, 1244);
-        exif.putString(ExifInterface.TAG_MAKE, "Google");
-        exif.putString(ExifInterface.TAG_MODEL, "Pixel");
-        exif.putDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE, 6.643);
-        exif.putDouble(ExifInterface.TAG_APERTURE, 2.0);
-        exif.putDouble(ExifInterface.TAG_FOCAL_LENGTH, 8.0);
-        exif.putInt(ExifInterface.TAG_ISO_SPEED_RATINGS, 120);
+        data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
+        data.putInt(ExifInterface.TAG_IMAGE_LENGTH, 2160);
+        data.putString(ExifInterface.TAG_DATETIME, "Jan 01, 1970, 12:16 AM");
+        data.putString(ExifInterface.TAG_GPS_LATITUDE, "33/1,59/1,4530/100");
+        data.putString(ExifInterface.TAG_GPS_LONGITUDE, "118/1,28/1,3124/100");
+        data.putString(ExifInterface.TAG_GPS_LATITUDE_REF, "N");
+        data.putString(ExifInterface.TAG_GPS_LONGITUDE_REF, "W");
+        data.putDouble(ExifInterface.TAG_GPS_ALTITUDE, 1244);
+        data.putString(ExifInterface.TAG_MAKE, "Google");
+        data.putString(ExifInterface.TAG_MODEL, "Pixel");
+        data.putDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE, 6.643);
+        data.putDouble(ExifInterface.TAG_APERTURE, 2.0);
     }
 
     static void populateVideoData(Bundle container) {
