@@ -58,10 +58,15 @@ public final class ActionView extends LinearLayout implements InspectorControlle
         addView(view);
 
         mContext = context;
-        mHeader = (TextView) findViewById(R.id.action_header);
+        mHeader = getSectionTitle();
         mAppIcon = (ImageView) findViewById(R.id.app_icon);
         mAppName = (TextView) findViewById(R.id.app_name);
         mActionButton = (ImageButton) findViewById(R.id.inspector_action_button);
+    }
+
+    public TextView getSectionTitle() {
+        LinearLayout header = (LinearLayout) findViewById(R.id.action_header);
+        return (TextView) header.findViewById(R.id.inspector_header_title);
     }
 
     @Override

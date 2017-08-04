@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2017 The Android Open Source Project
  *
@@ -66,8 +65,10 @@ public class TableView extends LinearLayout implements TableDisplay {
     protected void putTitle(CharSequence title) {
         TextView view = mTitles.get(title);
         if (view == null) {
-            view = (TextView) mInflater.inflate(R.layout.inspector_section_title, null);
-            addView(view);
+            LinearLayout layout =
+                (LinearLayout) mInflater.inflate(R.layout.inspector_section_title, null);
+            view = (TextView) layout.findViewById(R.id.inspector_header_title);
+            addView(layout);
             mTitles.put(title, view);
         }
         view.setText(title);
