@@ -17,8 +17,11 @@ package com.android.documentsui.inspector;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.ExifInterface;
 import android.media.MediaMetadata;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.annotation.VisibleForTesting;
@@ -31,6 +34,9 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.MediaDisplay;
 import com.android.documentsui.inspector.InspectorController.TableDisplay;
 
+import java.io.IOException;
+import java.util.function.Consumer;
+
 import javax.annotation.Nullable;
 
 /**
@@ -41,6 +47,7 @@ import javax.annotation.Nullable;
 public class MediaView extends TableView implements MediaDisplay {
 
     private final Resources mResources;
+    private final Context mContext;
 
     public MediaView(Context context) {
         this(context, null);
@@ -52,6 +59,7 @@ public class MediaView extends TableView implements MediaDisplay {
 
     public MediaView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         mResources = context.getResources();
     }
 
@@ -61,7 +69,7 @@ public class MediaView extends TableView implements MediaDisplay {
 
         Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
         if (exif != null) {
-            showExifData(this, mResources, doc, exif, geoClickListener);
+            showExifData(this, mResources, doc, exif, geoClickListener, this::getAddress);
         }
 
         Bundle video = metadata.getBundle(Shared.METADATA_KEY_VIDEO);
@@ -126,18 +134,14 @@ public class MediaView extends TableView implements MediaDisplay {
             Resources resources,
             DocumentInfo doc,
             Bundle tags,
-            @Nullable Runnable geoClickListener) {
+            @Nullable Runnable geoClickListener,
+            Consumer<float[]> geoAddressFetcher) {
 
         addDimensionsRow(table, resources, tags);
 
         if (tags.containsKey(ExifInterface.TAG_DATETIME)) {
             String date = tags.getString(ExifInterface.TAG_DATETIME);
             table.put(R.string.metadata_date_time, date);
-        }
-
-        if (MetadataUtils.hasExifGpsFields(tags)) {
-            float[] coords = MetadataUtils.getExifGpsCoords(tags);
-            showCoordiantes(table, resources, coords, geoClickListener);
         }
 
         if (tags.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
@@ -178,6 +182,11 @@ public class MediaView extends TableView implements MediaDisplay {
                     String.format(resources.getString(R.string.metadata_iso_format), iso));
         }
 
+        if (MetadataUtils.hasExifGpsFields(tags)) {
+            float[] coords = MetadataUtils.getExifGpsCoords(tags);
+            showCoordiantes(table, resources, coords, geoClickListener);
+            geoAddressFetcher.accept(coords);
+        }
     }
 
     private static void showCoordiantes(
@@ -199,6 +208,53 @@ public class MediaView extends TableView implements MediaDisplay {
         } else {
             table.put(R.string.metadata_coordinates, value);
         }
+    }
+
+    /**
+     * Attempts to retrieve an approximate address and displays the address if it can find one.
+     * @param coords the coordinates that gets an address.
+     */
+    private void getAddress(float[] coords) {
+        new AsyncTask<Float, Void, Address>() {
+            @Override
+            protected Address doInBackground(Float... coords) {
+                assert (coords.length == 2);
+                Geocoder geocoder = new Geocoder(mContext);
+                try {
+                    Address address = geocoder.getFromLocation(coords[0], // latitude
+                            coords[1], // longitude
+                            1 // amount of results returned
+                    ).get(0);
+                    return address;
+                } catch (IOException e) {
+                    return null;
+                }
+            }
+            @Override
+            protected void onPostExecute(@Nullable Address address) {
+                if (address != null) {
+                    TableDisplay table = MediaView.this;
+                    if (address.getMaxAddressLineIndex() >= 0) {
+                        String formattedAddress;
+                        StringBuilder addressBuilder = new StringBuilder("");
+                        addressBuilder.append(address.getAddressLine(0));
+                        for (int i = 1; i < address.getMaxAddressLineIndex(); i++) {
+                            addressBuilder.append("\n");
+                            addressBuilder.append(address.getAddressLine(i));
+                        }
+                        formattedAddress = addressBuilder.toString();
+                        table.put(R.string.metadata_address, formattedAddress);
+                    } else if (address.getLocality() != null) {
+                        table.put(R.string.metadata_address, address.getLocality());
+                    } else if (address.getSubAdminArea() != null) {
+                        table.put(R.string.metadata_address, address.getSubAdminArea());
+                    } else if (address.getAdminArea() != null) {
+                        table.put(R.string.metadata_address, address.getAdminArea());
+                    } else if (address.getCountryName() != null) {
+                        table.put(R.string.metadata_address, address.getCountryName());
+                    }                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, coords[0], coords[1]);
     }
 
     /**

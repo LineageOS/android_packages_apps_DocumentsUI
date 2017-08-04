@@ -83,6 +83,8 @@
     <string name="metadata_composer">Composer</string>
     <!--The album the file is in, Note this is probably MP3 ID3 tags-->
     <string name="metadata_album">Album</string>
+    <!-- The address nearest to where a photo was taken -->
+    <string name="metadata_address">Location</string>
 
     <!-- String label for developer/debug file details, specifying which stream types are available. -->
     <string name="debug_stream_types">Stream types</string>

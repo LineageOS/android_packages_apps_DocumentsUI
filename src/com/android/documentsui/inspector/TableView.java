@@ -83,15 +83,16 @@ public class TableView extends LinearLayout implements TableDisplay {
     }
 
     /**
-     * Puts or updates an value in the table view.
+     * Puts or updates a value in the table view.
      */
     @Override
     public void put(@StringRes int keyId, CharSequence value) {
         put(mRes.getString(keyId), value);
     }
 
+
     /**
-     * Puts or updates an value in the table view.
+     * Puts or updates a value in the table view.
      */
     protected KeyValueRow put(CharSequence key, CharSequence value) {
         KeyValueRow row = mRows.get(key);

@@ -17,6 +17,7 @@ package com.android.documentsui.inspector;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import android.view.View.OnClickListener;
@@ -40,6 +41,10 @@ class TestTable implements TableDisplay {
 
     public void assertHasRow(int keyId, CharSequence expected) {
         assertEquals(expected, mRows.get(keyId));
+    }
+
+    public void assertNotInTable (int keyId) {
+        assertNull(mRows.get(keyId));
     }
 
     @Override
