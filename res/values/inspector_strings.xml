@@ -58,7 +58,7 @@
     <!-- The camera make and model. -->
     <string name="metadata_camera">Camera</string>
     <!-- The camera make and model. Where make is usually the company, and model is the individual camera model name. -->
-    <string name="metadata_camera_format"><xliff:g id="make" example="Sony">%s</xliff:g> <xliff:g id="model" example="Snazzy Snapper">%s</xliff:g></string>
+    <string name="metadata_camera_format"><xliff:g id="make" example="Sony">%1$s</xliff:g> <xliff:g id="model" example="Snazzy Snapper">%2$s</xliff:g></string>
     <!-- The value of a photos aperture. Note that this is probably camera EXIF data.-->
     <string name="metadata_aperture">Aperture</string>
     <!-- The value of a photos shutter speed. Note that this is probably camera EXIF data.-->
