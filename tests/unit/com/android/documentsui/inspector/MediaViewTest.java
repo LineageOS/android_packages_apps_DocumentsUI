@@ -59,7 +59,8 @@ public class MediaViewTest {
      */
     @Test
     public void testShowExifData() throws Exception {
-        mResources.strings.put(R.string.metadata_aperture_format, "f/%.1f");
+        mResources.strings.put(R.string.metadata_focal_format, "%.2f mm");
+        mResources.strings.put(R.string.metadata_iso_format, "ISO %d");
         Bundle exif = mMetadata.getBundle(DocumentsContract.METADATA_EXIF);
         MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, exif, null);
 
@@ -70,6 +71,8 @@ public class MediaViewTest {
         mTable.assertHasRow(R.string.metadata_camera, "Google Pixel");
         mTable.assertHasRow(R.string.metadata_shutter_speed, "1/100");
         mTable.assertHasRow(R.string.metadata_aperture, "f/2.0");
+        mTable.assertHasRow(R.string.metadata_iso_speed_ratings, "ISO 120");
+        mTable.assertHasRow(R.string.metadata_focal_length, "4.27 mm");
     }
 
     /**

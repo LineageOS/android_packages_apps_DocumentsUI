@@ -41,6 +41,8 @@ final class TestMetadata {
         data.putString(ExifInterface.TAG_MODEL, "Pixel");
         data.putDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE, 6.643);
         data.putDouble(ExifInterface.TAG_APERTURE, 2.0);
+        data.putInt(ExifInterface.TAG_ISO_SPEED_RATINGS, 120);
+        data.putDouble(ExifInterface.TAG_FOCAL_LENGTH, 4.27);
     }
 
     static void populateVideoData(Bundle container) {
