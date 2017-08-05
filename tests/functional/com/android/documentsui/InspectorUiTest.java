@@ -58,13 +58,17 @@ public class InspectorUiTest extends ActivityTest<InspectorActivity> {
         bots.inspector.assertTitle("test.txt");
     }
 
-    public void testDisplayFileType() throws Exception {
+    public void testFolderDetails() throws Exception {
         if (!features.isInspectorEnabled()) {
             return;
         }
-        bots.inspector.assertRowPresent(
+        bots.inspector.assertRowEquals(
                 getActivity().getString(R.string.sort_dimension_file_type),
                 "Folder",
+                getActivity());
+        bots.inspector.assertRowEquals(
+                getActivity().getString(R.string.directory_items),
+                "4",
                 getActivity());
     }
 }
