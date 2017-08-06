@@ -39,8 +39,6 @@ import android.view.WindowManager;
 import com.android.documentsui.R;
 import com.android.documentsui.ui.MessageBuilder;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +60,8 @@ public final class Shared {
     // These values track values declared in MediaDocumentsProvider.
     public static final String METADATA_KEY_AUDIO = "android.media.metadata.audio";
     public static final String METADATA_KEY_VIDEO = "android.media.metadata.video";
+    public static final String METADATA_VIDEO_LATITUDE = "android.media.metadata.video:latitude";
+    public static final String METADATA_VIDEO_LONGITUTE = "android.media.metadata.video:longitude";
 
     /**
      * Extra boolean flag for {@link #ACTION_PICK_COPY_DESTINATION}, which

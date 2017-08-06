@@ -17,6 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.net.Uri;
 import android.support.annotation.VisibleForTesting;
@@ -98,7 +99,7 @@ interface DragStartListener {
 
         @Override
         public final boolean onMouseDragEvent(InputEvent event) {
-            assert(Events.isMouseDragEvent(event));
+            checkArgument(Events.isMouseDragEvent(event));
             return startDrag(mViewFinder.findView(event.getX(), event.getY()), event);
         }
 

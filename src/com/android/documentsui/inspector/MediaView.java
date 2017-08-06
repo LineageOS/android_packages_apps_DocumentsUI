@@ -66,7 +66,7 @@ public class MediaView extends TableView implements MediaDisplay {
 
         Bundle video = metadata.getBundle(Shared.METADATA_KEY_VIDEO);
         if (video != null) {
-            showVideoData(this, mResources, doc, video);
+            showVideoData(this, mResources, doc, video, geoClickListener);
         }
 
         setVisible(!isEmpty());
@@ -74,9 +74,18 @@ public class MediaView extends TableView implements MediaDisplay {
 
     @VisibleForTesting
     public static void showVideoData(
-            TableDisplay table, Resources resources, DocumentInfo doc, Bundle tags) {
+            TableDisplay table,
+            Resources resources,
+            DocumentInfo doc,
+            Bundle tags,
+            @Nullable Runnable geoClickListener) {
 
         addDimensionsRow(table, resources, tags);
+
+        if (MetadataUtils.hasVideoCoordinates(tags)) {
+            float[] coords = MetadataUtils.getVideoCoords(tags);
+            showCoordiantes(table, resources, coords, geoClickListener);
+        }
 
         if (tags.containsKey(MediaMetadata.METADATA_KEY_DURATION)) {
             int millis = tags.getInt(MediaMetadata.METADATA_KEY_DURATION);
@@ -100,18 +109,8 @@ public class MediaView extends TableView implements MediaDisplay {
         }
 
         if (MetadataUtils.hasExifGpsFields(tags)) {
-            double[] coords = MetadataUtils.getExifGpsCoords(tags);
-            if (geoClickListener != null) {
-                table.put(R.string.metadata_location,
-                        String.valueOf(coords[0]) + ",  " + String.valueOf(coords[1]),
-                        view -> {
-                            geoClickListener.run();
-                        }
-                );
-            } else {
-                table.put(R.string.metadata_location,
-                        String.valueOf(coords[0]) + ",  " + String.valueOf(coords[1]));
-            }
+            float[] coords = MetadataUtils.getExifGpsCoords(tags);
+            showCoordiantes(table, resources, coords, geoClickListener);
         }
 
         if (tags.containsKey(ExifInterface.TAG_GPS_ALTITUDE)) {
@@ -119,14 +118,14 @@ public class MediaView extends TableView implements MediaDisplay {
             table.put(R.string.metadata_altitude, String.valueOf(altitude));
         }
 
-        if (tags.containsKey(ExifInterface.TAG_MAKE)) {
-            String make = tags.getString(ExifInterface.TAG_MAKE);
-            table.put(R.string.metadata_make, make);
-        }
-
-        if (tags.containsKey(ExifInterface.TAG_MODEL)) {
-            String model = tags.getString(ExifInterface.TAG_MODEL);
-            table.put(R.string.metadata_model, model);
+        if (tags.containsKey(ExifInterface.TAG_MAKE) || tags.containsKey(ExifInterface.TAG_MODEL)) {
+                String make = tags.getString(ExifInterface.TAG_MAKE);
+                String model = tags.getString(ExifInterface.TAG_MODEL);
+                make = make != null ? make : "";
+                model = model != null ? model : "";
+                table.put(
+                        R.string.metadata_camera,
+                        resources.getString(R.string.metadata_camera_format, make, model));
         }
 
         if (tags.containsKey(ExifInterface.TAG_APERTURE)) {
@@ -138,6 +137,40 @@ public class MediaView extends TableView implements MediaDisplay {
             String shutterSpeed = String.valueOf(
                     formatShutterSpeed(tags.getDouble(ExifInterface.TAG_SHUTTER_SPEED_VALUE)));
             table.put(R.string.metadata_shutter_speed, shutterSpeed);
+        }
+
+        if (tags.containsKey(ExifInterface.TAG_FOCAL_LENGTH)) {
+            double length = tags.getDouble(ExifInterface.TAG_FOCAL_LENGTH);
+            table.put(R.string.metadata_focal_length,
+                    String.format(resources.getString(R.string.metadata_focal_format), length));
+        }
+
+        if (tags.containsKey(ExifInterface.TAG_ISO_SPEED_RATINGS)) {
+            int iso = tags.getInt(ExifInterface.TAG_ISO_SPEED_RATINGS);
+            table.put(R.string.metadata_iso_speed_ratings,
+                    String.format(resources.getString(R.string.metadata_iso_format), iso));
+        }
+
+    }
+
+    private static void showCoordiantes(
+            TableDisplay table,
+            Resources resources,
+            float[] coords,
+            @Nullable Runnable geoClickListener) {
+
+        String value = resources.getString(
+                R.string.metadata_coordinates_format, coords[0], coords[1]);
+        if (geoClickListener != null) {
+            table.put(
+                    R.string.metadata_coordinates,
+                    value,
+                    view -> {
+                        geoClickListener.run();
+                    }
+            );
+        } else {
+            table.put(R.string.metadata_coordinates, value);
         }
     }
 
@@ -172,7 +205,7 @@ public class MediaView extends TableView implements MediaDisplay {
             float megaPixels = height * width / 1000000f;
             table.put(R.string.metadata_dimensions,
                     resources.getString(
-                            R.string.metadata_dimensions_display, width, height, megaPixels));
+                            R.string.metadata_dimensions_format, width, height, megaPixels));
         }
     }
 }

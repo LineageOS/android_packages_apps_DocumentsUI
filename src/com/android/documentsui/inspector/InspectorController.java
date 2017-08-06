@@ -207,10 +207,9 @@ public final class InspectorController {
             return;
         }
 
-        Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
         Runnable geoClickListener = null;
-        if (exif != null && MetadataUtils.hasExifGpsFields(exif)) {
-            double[] coords = MetadataUtils.getExifGpsCoords(exif);
+        if (MetadataUtils.hasGeoCoordinates(metadata)) {
+            float[] coords = MetadataUtils.getGeoCoordinates(metadata);
             final Intent intent = createGeoIntent(coords[0], coords[1], doc.displayName);
             if (hasHandler(intent)) {
                 geoClickListener = () -> {
@@ -252,9 +251,10 @@ public final class InspectorController {
      *
      * @see https://developer.android.com/guide/components/intents-common.html#Maps
      */
-    private static Intent createGeoIntent(double latitude, double longitude,
-            @Nullable String label) {
-        String data = "geo:0,0?q=" + latitude + " " + longitude + "(" + Uri.encode(label) + ")";
+    private static Intent createGeoIntent(
+            float latitude, float longitude, @Nullable String label) {
+        label = Uri.encode(label == null ? "" : label);
+        String data = "geo:0,0?q=" + latitude + " " + longitude + "(" + label + ")";
         Uri uri = Uri.parse(data);
         return new Intent(Intent.ACTION_VIEW, uri);
     }

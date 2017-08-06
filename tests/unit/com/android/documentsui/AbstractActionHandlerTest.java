@@ -17,7 +17,7 @@
 package com.android.documentsui;
 
 import static junit.framework.Assert.assertTrue;
-
+import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
@@ -179,15 +179,13 @@ public class AbstractActionHandlerTest {
     }
 
     @Test
-    public void testOpensDocument_AssertionErrorIfAlreadyInStack() throws Exception {
+    public void testOpensDocument_ExceptionIfAlreadyInStack() throws Exception {
         mEnv.populateStack();
-        boolean threw = false;
         try {
             mEnv.state.stack.push(TestEnv.FOLDER_0);
-        } catch (AssertionError e) {
-            threw = true;
+            fail("Should have thrown IllegalArgumentException.");
+        } catch (IllegalArgumentException expected) {
         }
-        assertTrue(threw);
     }
 
     @Test
