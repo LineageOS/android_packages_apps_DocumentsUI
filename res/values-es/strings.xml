@@ -41,6 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Comprimir"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Extraer a…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Cambiar nombre"</string>
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"Ver en <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nueva ventana"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Cortar"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Copiar"</string>
@@ -53,7 +54,7 @@
     <string name="button_compress" msgid="8951561310857223966">"Comprimir"</string>
     <string name="button_extract" msgid="1038674453689912247">"Extraer"</string>
     <string name="button_move" msgid="8596460499325291272">"Mover"</string>
-    <string name="button_dismiss" msgid="7235249361023803349">"Ignorar"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Descartar"</string>
     <string name="button_retry" msgid="4011461781916631389">"Volver a intentarlo"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Sin ordenar"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nombre"</string>
@@ -156,10 +157,8 @@
       <item quantity="other">Se han copiado <xliff:g id="COUNT_1">%1$d</xliff:g> elementos al portapapeles.</item>
       <item quantity="one">Se ha copiado <xliff:g id="COUNT_0">%1$d</xliff:g> elemento al portapapeles.</item>
     </plurals>
-    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
-    <skip />
-    <!-- no translation found for file_operation_error (2234357335716533795) -->
-    <skip />
+    <string name="file_operation_rejected" msgid="4301554203329008794">"No se admite esta operación en el archivo."</string>
+    <string name="file_operation_error" msgid="2234357335716533795">"No se puede hacer la operación en el archivo."</string>
     <string name="rename_error" msgid="6700093173508118635">"No se ha podido cambiar el nombre del documento"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Expulsar"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Se han convertido algunos archivos"</string>
@@ -194,8 +193,9 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Imágenes"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"No se puede abrir el archivo para explorarlo porque está dañado o su formato es incompatible."</string>
     <string name="name_conflict" msgid="28407269328862986">"Ya existe un archivo con este nombre."</string>
-    <string name="authentication_required" msgid="147352435273287559">"Es necesario autenticarse para ver el contenido de este directorio"</string>
-    <string name="open_app" msgid="8467890061226696744">"Abrir <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="authentication_required" msgid="8030880723643436099">"Para ver este directorio, inicia sesión en <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="cant_display_content" msgid="8633226333229417237">"No se ha podido mostrar el contenido"</string>
+    <string name="sign_in" msgid="6253762676723505592">"Iniciar sesión"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archivo<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"¿Sobrescribir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>

@@ -41,12 +41,13 @@
     <string name="menu_compress" msgid="37539111904724188">"Compactar"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Extrair para…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Renomear"</string>
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"Ver em <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nova janela"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Recortar"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Copiar"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Colar"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"Colar na pasta"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"Mostrar armaz. interno"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"Armazenamento interno"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Ocultar armaz. interno"</string>
     <string name="button_select" msgid="240863497069321364">"Selecionar"</string>
     <string name="button_copy" msgid="8219059853840996027">"Copiar"</string>
@@ -76,7 +77,7 @@
     <string name="empty" msgid="5300254272613103004">"Nenhum item"</string>
     <string name="no_results" msgid="2371026325236359209">"Nenhum resultado em %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Não é possível abrir o arquivo"</string>
-    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Não foi possível abrir os arquivos"</string>
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Não é possível abrir itens arquivados"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Não foi possível excluir alguns documentos"</string>
     <string name="share_via" msgid="8725082736005677161">"Compartilhar via"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Copiando arquivos"</string>
@@ -156,10 +157,8 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> item copiado para a área de transferência</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> itens copiados para a área de transferência</item>
     </plurals>
-    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
-    <skip />
-    <!-- no translation found for file_operation_error (2234357335716533795) -->
-    <skip />
+    <string name="file_operation_rejected" msgid="4301554203329008794">"A operação do arquivo não é compatível."</string>
+    <string name="file_operation_error" msgid="2234357335716533795">"Falha na operação do arquivo."</string>
     <string name="rename_error" msgid="6700093173508118635">"Falha ao renomear documento"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Ejetar"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Alguns arquivos foram convertidos"</string>
@@ -194,8 +193,9 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Imagens"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Não foi possível abrir o arquivo para navegação, pois ele está corrompido ou tem um formato incompatível."</string>
     <string name="name_conflict" msgid="28407269328862986">"Já existe um arquivo com esse nome."</string>
-    <string name="authentication_required" msgid="147352435273287559">"É necessária autenticação para ver o conteúdo deste diretório"</string>
-    <string name="open_app" msgid="8467890061226696744">"Abrir <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="authentication_required" msgid="8030880723643436099">"Para ver esse diretório, faça login em <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="cant_display_content" msgid="8633226333229417237">"Não é possível exibir conteúdos"</string>
+    <string name="sign_in" msgid="6253762676723505592">"Fazer login"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arquivo<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Substituir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
 </resources>
