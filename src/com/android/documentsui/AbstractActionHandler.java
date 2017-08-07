@@ -230,6 +230,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         throw new UnsupportedOperationException("Can't open document.");
     }
 
+    @Override
     public void showInspector(DocumentInfo doc) {
         throw new UnsupportedOperationException("Can't open properties.");
     }
