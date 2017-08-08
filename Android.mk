@@ -11,6 +11,7 @@ LOCAL_STATIC_JAVA_LIBRARIES += guava
 LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
 
 LOCAL_STATIC_ANDROID_LIBRARIES := \
+        android-support-core-ui \
         android-support-v4 \
         android-support-v7-appcompat \
         android-support-v13 \
