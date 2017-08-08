@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 
 import com.android.documentsui.R;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.DataSupplier;
 
 /**
