@@ -57,10 +57,8 @@
     <string name="button_move" msgid="8596460499325291272">"ಸರಿಸು"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ವಜಾಗೊಳಿಸಿ"</string>
     <string name="button_retry" msgid="4011461781916631389">"ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ"</string>
-    <!-- no translation found for button_clear (5412304437764369441) -->
-    <skip />
-    <!-- no translation found for button_show_provider (6905880493806292753) -->
-    <skip />
+    <string name="button_clear" msgid="5412304437764369441">"ತೆರವುಗೊಳಿಸಿ"</string>
+    <string name="button_show_provider" msgid="6905880493806292753">"ಒದಗಿಸುವವರಲ್ಲಿ ತೋರಿಸಿ"</string>
     <string name="not_sorted" msgid="7813496644889115530">"ವಿಂಗಡಿಸಲಾಗಿಲ್ಲ"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"ಹೆಸರು"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"ಸಾರಾಂಶ"</string>
