@@ -70,7 +70,7 @@ public class DebugView extends TableView implements DebugDisplay {
 
     @Override
     public void accept(DocumentInfo info) {
-        setTitle(R.string.inspector_debug_section);
+        setTitle(R.string.inspector_debug_section, false);
 
         put(R.string.debug_content_uri, info.derivedUri.toString());
         put(R.string.debug_document_id, info.documentId);
@@ -128,7 +128,7 @@ public class DebugView extends TableView implements DebugDisplay {
     private void dumpMetadata(String type, Bundle bundle) {
         String title = mContext.getResources().getString(
                 R.string.inspector_debug_metadata_section);
-        putTitle(String.format(title, type));
+        putTitle(String.format(title, type), true);
         List<String> keys = new ArrayList<>(bundle.keySet());
         Collections.sort(keys);
         for (String key : keys) {
