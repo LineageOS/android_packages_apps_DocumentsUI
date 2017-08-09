@@ -67,7 +67,7 @@
     <string name="handler_app_file_opens_with" msgid="2667097605117000751">"Mota honetako fitxategiak aplikazio honekin ireki daitezke:"</string>
     <string name="handler_app_belongs_to" msgid="5956928604521893459">"Fitxategiaren jabea:"</string>
     <string name="handler_app_button_info_1" msgid="4271199640671067569">"Beste aplikazio batzuekin ere ireki daitezke mota honetako fitxategiak. Garbitu"</string>
-    <string name="handler_app_button_info_2" msgid="4299969771512815898">"lehenespena."</string>
+    <string name="handler_app_button_info_2" msgid="4299969771512815898">"aplikazioaren lehenespena."</string>
     <string name="handler_app_clear" msgid="206579047716445033">"Garbitu"</string>
     <string name="handler_app_show_in" msgid="7923573101129079048">"Erakutsi hornitzailean"</string>
     <string name="handler_app_not_selected" msgid="8178393676227130360">"Hautatu gabe"</string>
