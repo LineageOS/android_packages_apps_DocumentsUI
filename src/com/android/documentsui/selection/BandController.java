@@ -37,7 +37,6 @@ import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.dirlist.DocumentsAdapter;
-import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.ui.ViewAutoScroller;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
@@ -749,6 +748,11 @@ public class BandController extends OnScrollListener {
             }
 
             @Override
+            public int hashCode() {
+                return lowerLimit ^ upperLimit;
+            }
+
+            @Override
             public boolean equals(Object other) {
                 if (!(other instanceof GridModel.Limits)) {
                     return false;
@@ -871,6 +875,14 @@ public class BandController extends OnScrollListener {
             }
 
             @Override
+            public int hashCode() {
+                return mFirstKnownItem.lowerLimit
+                        ^ mLastKnownItem.upperLimit
+                        ^ limitsBeforeCoordinate.upperLimit
+                        ^ limitsBeforeCoordinate.lowerLimit;
+            }
+
+            @Override
             public boolean equals(Object other) {
                 if (!(other instanceof GridModel.RelativeCoordinate)) {
                     return false;
@@ -897,6 +909,12 @@ public class BandController extends OnScrollListener {
             RelativePoint(Point point) {
                 this.xLocation = new RelativeCoordinate(mColumnBounds, point.x);
                 this.yLocation = new RelativeCoordinate(mRowBounds, point.y);
+            }
+
+            @Override
+            public int hashCode() {
+                return xLocation.toComparisonValue()
+                        ^ yLocation.toComparisonValue();
             }
 
             @Override
