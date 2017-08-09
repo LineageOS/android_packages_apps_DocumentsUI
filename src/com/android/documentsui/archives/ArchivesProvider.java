@@ -152,8 +152,8 @@ public class ArchivesProvider extends DocumentsProvider {
     public @Nullable Bundle getDocumentMetadata(String documentId)
             throws FileNotFoundException {
 
-        Archive archive = getLoaderOrThrow(documentId).get();
-        String mimeType = archive.getDocumentType(documentId);
+        final Archive archive = getLoaderOrThrow(documentId).get();
+        final String mimeType = archive.getDocumentType(documentId);
 
         if (!MetadataReader.isSupportedMimeType(mimeType)) {
             return null;
@@ -163,11 +163,11 @@ public class ArchivesProvider extends DocumentsProvider {
         try {
             stream = new ParcelFileDescriptor.AutoCloseInputStream(
                     openDocument(documentId, "r", null));
-            Bundle metadata = new Bundle();
+            final Bundle metadata = new Bundle();
             MetadataReader.getMetadata(metadata, stream, mimeType, null);
             return metadata;
         } catch (IOException e) {
-            Log.e(TAG, "An error occurred retrieving the metadata", e);
+            Log.e(TAG, "An error occurred retrieving the metadata.", e);
             return null;
         } finally {
             IoUtils.closeQuietly(stream);
