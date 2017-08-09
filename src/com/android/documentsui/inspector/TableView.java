@@ -56,17 +56,19 @@ public class TableView extends LinearLayout implements TableDisplay {
         mRes = context.getResources();
     }
 
-    @Override
-    public void setTitle(@StringRes int title) {
-        putTitle(mContext.getResources().getString(title));
+    void setTitle(@StringRes int title, boolean showDivider) {
+        putTitle(mContext.getResources().getString(title), showDivider);
     }
 
     // A naughty title method (that takes strings, not message ids), mostly for DebugView.
-    protected void putTitle(CharSequence title) {
+    protected void putTitle(CharSequence title, boolean showDivider) {
         TextView view = mTitles.get(title);
         if (view == null) {
             LinearLayout layout =
                 (LinearLayout) mInflater.inflate(R.layout.inspector_section_title, null);
+            if (!showDivider) {
+                layout.setDividerDrawable(null);
+            }
             view = (TextView) layout.findViewById(R.id.inspector_header_title);
             addView(layout);
             mTitles.put(title, view);
