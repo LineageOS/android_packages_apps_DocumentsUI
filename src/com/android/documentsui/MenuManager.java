@@ -62,8 +62,8 @@ public abstract class MenuManager {
         updateCopyTo(menu.findItem(R.id.action_menu_copy_to), selection);
         updateCompress(menu.findItem(R.id.action_menu_compress), selection);
         updateExtractTo(menu.findItem(R.id.action_menu_extract_to), selection);
+        updateInspect(menu.findItem(R.id.action_menu_inspect), selection);
         updateViewInOwner(menu.findItem(R.id.action_menu_view_in_owner), selection);
-        updateInspector(menu.findItem(R.id.action_menu_inspector), selection);
 
         Menus.disableHiddenItems(menu);
     }
@@ -78,7 +78,7 @@ public abstract class MenuManager {
                 menu.findItem(R.id.option_menu_list));
         updateAdvanced(menu.findItem(R.id.option_menu_advanced));
         updateDebug(menu.findItem(R.id.option_menu_debug));
-        updateInspector(menu.findItem(R.id.option_menu_inspector));
+        updateInspector(menu.findItem(R.id.option_menu_inspect));
         Menus.disableHiddenItems(menu);
     }
 
@@ -94,7 +94,8 @@ public abstract class MenuManager {
         // Pickers don't have any context menu at this moment.
     }
 
-    public void inflateContextMenuForContainer(Menu menu, MenuInflater inflater) {
+    public void inflateContextMenuForContainer(
+            Menu menu, MenuInflater inflater, SelectionDetails selectionDetails) {
         throw new UnsupportedOperationException("Pickers don't allow context menu.");
     }
 
@@ -115,7 +116,7 @@ public abstract class MenuManager {
      */
     @VisibleForTesting
     public void updateContextMenuForFiles(Menu menu, SelectionDetails selectionDetails) {
-        assert(selectionDetails != null);
+        assert selectionDetails != null;
 
         MenuItem share = menu.findItem(R.id.dir_menu_share);
         MenuItem open = menu.findItem(R.id.dir_menu_open);
@@ -144,7 +145,7 @@ public abstract class MenuManager {
      */
     @VisibleForTesting
     public void updateContextMenuForDirs(Menu menu, SelectionDetails selectionDetails) {
-        assert(selectionDetails != null);
+        assert selectionDetails != null;
 
         MenuItem openInNewWindow = menu.findItem(R.id.dir_menu_open_in_new_window);
         MenuItem rename = menu.findItem(R.id.dir_menu_rename);
@@ -164,11 +165,12 @@ public abstract class MenuManager {
      */
     @VisibleForTesting
     public void updateContextMenu(Menu menu, SelectionDetails selectionDetails) {
-        assert(selectionDetails != null);
+        assert selectionDetails != null;
 
         MenuItem cut = menu.findItem(R.id.dir_menu_cut_to_clipboard);
         MenuItem copy = menu.findItem(R.id.dir_menu_copy_to_clipboard);
         MenuItem delete = menu.findItem(R.id.dir_menu_delete);
+        MenuItem inspect = menu.findItem(R.id.dir_menu_inspect);
 
         final boolean canCopy =
                 selectionDetails.size() > 0 && !selectionDetails.containsPartialFiles();
@@ -176,22 +178,27 @@ public abstract class MenuManager {
         cut.setEnabled(canCopy && canDelete);
         copy.setEnabled(canCopy);
         delete.setEnabled(canDelete);
+
+        inspect.setEnabled(selectionDetails.size() == 1);
     }
 
     /**
+     * @param selectionDetails
      * @see DirectoryFragment#onCreateContextMenu
      *
      * Called when user tries to generate a context menu anchored to an empty pane.
      */
     @VisibleForTesting
-    public void updateContextMenuForContainer(Menu menu) {
+    public void updateContextMenuForContainer(Menu menu, SelectionDetails selectionDetails) {
         MenuItem paste = menu.findItem(R.id.dir_menu_paste_from_clipboard);
         MenuItem selectAll = menu.findItem(R.id.dir_menu_select_all);
         MenuItem createDir = menu.findItem(R.id.dir_menu_create_dir);
+        MenuItem inspect = menu.findItem(R.id.dir_menu_inspect);
 
         paste.setEnabled(mDirDetails.hasItemsToPaste() && mDirDetails.canCreateDoc());
         updateSelectAll(selectAll);
         updateCreateDir(createDir);
+        updateInspect(inspect, selectionDetails);
     }
 
     /**
@@ -284,8 +291,8 @@ public abstract class MenuManager {
     /**
      * This method is called for action mode, when a selection exists.
      */
-    protected void updateInspector(MenuItem inspector, SelectionDetails selectionDetails) {
-        inspector.setVisible(false);
+    protected void updateInspect(MenuItem inspect, SelectionDetails selectionDetails) {
+        inspect.setVisible(false);
     }
 
     protected void updateViewInOwner(MenuItem view, SelectionDetails selectionDetails) {

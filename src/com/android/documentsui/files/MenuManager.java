@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.R;
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
@@ -110,9 +111,10 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    public void inflateContextMenuForContainer(Menu menu, MenuInflater inflater) {
+    public void inflateContextMenuForContainer(
+            Menu menu, MenuInflater inflater, SelectionDetails selectionDetails) {
         inflater.inflate(R.menu.container_context_menu, menu);
-        updateContextMenuForContainer(menu);
+        updateContextMenuForContainer(menu, selectionDetails);
     }
 
     @Override
@@ -272,10 +274,10 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateInspector(MenuItem inspector, SelectionDetails selectionDetails) {
+    protected void updateInspect(MenuItem inspector, SelectionDetails selectionDetails) {
         boolean visible = mFeatures.isInspectorEnabled();
         inspector.setVisible(visible);
-        inspector.setEnabled(visible && selectionDetails.size() == 1);
+        inspector.setEnabled(visible && selectionDetails.size() <= 1);
     }
 
     @Override
