@@ -57,10 +57,8 @@
     <string name="button_move" msgid="8596460499325291272">"Teisalda"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Loobu"</string>
     <string name="button_retry" msgid="4011461781916631389">"Proovi uuesti"</string>
-    <!-- no translation found for button_clear (5412304437764369441) -->
-    <skip />
-    <!-- no translation found for button_show_provider (6905880493806292753) -->
-    <skip />
+    <string name="button_clear" msgid="5412304437764369441">"Kustuta"</string>
+    <string name="button_show_provider" msgid="6905880493806292753">"Kuva teenuses"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Sortimata"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nimi"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Kokkuvõte"</string>

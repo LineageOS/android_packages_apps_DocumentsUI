@@ -38,10 +38,6 @@ class TestTable implements TableDisplay {
         mRows = new HashMap<>();
     }
 
-    @Override
-    public void setTitle(int title) {
-    }
-
     public void assertHasRow(int keyId, CharSequence expected) {
         assertEquals(expected, mRows.get(keyId));
     }

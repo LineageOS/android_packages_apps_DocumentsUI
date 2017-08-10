@@ -401,11 +401,6 @@ public final class InspectorController {
     public interface TableDisplay extends Display {
 
         /**
-         * Sets the title of the data.
-         */
-        void setTitle(@StringRes int title);
-
-        /**
          * Adds a row in the table.
          */
         void put(@StringRes int keyId, CharSequence value);

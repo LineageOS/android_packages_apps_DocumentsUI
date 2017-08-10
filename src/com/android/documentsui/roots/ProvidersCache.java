@@ -380,6 +380,7 @@ public class ProvidersCache implements ProvidersAccess {
         }
     }
 
+    @Override
     public RootInfo getDefaultRootBlocking(State state) {
         for (RootInfo root : ProvidersAccess.getMatchingRoots(getRootsBlocking(), state)) {
             if (root.isDownloads()) {

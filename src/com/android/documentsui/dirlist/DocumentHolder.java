@@ -163,6 +163,7 @@ public abstract class DocumentHolder
         }
     }
 
+    @SuppressWarnings("TypeParameterUnusedInFormals")
     private static <V extends View> V inflateLayout(Context context, ViewGroup parent, int layout) {
         final LayoutInflater inflater = LayoutInflater.from(context);
         return (V) inflater.inflate(layout, parent, false);

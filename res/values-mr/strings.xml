@@ -57,10 +57,8 @@
     <string name="button_move" msgid="8596460499325291272">"हलवा"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"डिसमिस करा"</string>
     <string name="button_retry" msgid="4011461781916631389">"पुन्हा प्रयत्न करा"</string>
-    <!-- no translation found for button_clear (5412304437764369441) -->
-    <skip />
-    <!-- no translation found for button_show_provider (6905880493806292753) -->
-    <skip />
+    <string name="button_clear" msgid="5412304437764369441">"साफ करा"</string>
+    <string name="button_show_provider" msgid="6905880493806292753">"पुरवठादारामध्ये दाखवा"</string>
     <string name="not_sorted" msgid="7813496644889115530">"क्रमवारी लावलेली नाही"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"नाव"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"सारांश"</string>
