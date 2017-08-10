@@ -63,7 +63,7 @@
     <string name="metadata_aperture">Aperture</string>
     <!-- The value of a photos shutter speed. Note that this is probably camera EXIF data.-->
     <string name="metadata_shutter_speed">Shutter speed</string>
-    <!-- When a photo was taken. Note that this is probably camera EXIF data.-->
+    <!-- How long a video/audio file is.-->
     <string name="metadata_duration">Duration</string>
     <!-- When a photo was taken. Note that this is probably camera EXIF data.-->
     <string name="metadata_date_time">Taken on</string>
@@ -77,6 +77,12 @@
     <string name="metadata_iso_speed_ratings">ISO equivalent</string>
     <!--The format for displaying ISO speed. Note that this is probably camera EXIF data-->
     <string name="metadata_iso_format">ISO <xliff:g id="iso_speed" example="35">%1$d</xliff:g></string>
+    <!--The title of the audio file, Note this is probably MP3 ID3 tags.-->
+    <string name="metadata_artist">Artist</string>
+    <!--The composer for the audio file, Note this is probably MP3 ID3 tags-->
+    <string name="metadata_composer">Composer</string>
+    <!--The album the file is in, Note this is probably MP3 ID3 tags-->
+    <string name="metadata_album">Album</string>
 
     <!-- String label for developer/debug file details, specifying which stream types are available. -->
     <string name="debug_stream_types">Stream types</string>

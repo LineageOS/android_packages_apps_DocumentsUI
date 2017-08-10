@@ -51,6 +51,7 @@ public class MediaViewTest {
         mMetadata = new Bundle();
         TestMetadata.populateExifData(mMetadata);
         TestMetadata.populateVideoData(mMetadata);
+        TestMetadata.populateAudioData(mMetadata);
     }
 
     /**
@@ -116,6 +117,17 @@ public class MediaViewTest {
 
         mTable.assertHasRow(R.string.metadata_duration, "01:12");
         mTable.assertHasRow(R.string.metadata_dimensions, "1920 x 1080, 2.1MP");
+    }
+
+    @Test
+    public void testShowAudioData() throws Exception {
+        Bundle data = mMetadata.getBundle(Shared.METADATA_KEY_AUDIO);
+        MediaView.showAudioData(mTable, data);
+
+        mTable.assertHasRow(R.string.metadata_duration, "01:12");
+        mTable.assertHasRow(R.string.metadata_artist, "artist");
+        mTable.assertHasRow(R.string.metadata_composer, "composer");
+        mTable.assertHasRow(R.string.metadata_album, "album");
     }
 
     /**

@@ -69,7 +69,34 @@ public class MediaView extends TableView implements MediaDisplay {
             showVideoData(this, mResources, doc, video, geoClickListener);
         }
 
+        Bundle audio = metadata.getBundle(Shared.METADATA_KEY_AUDIO);
+        if (audio != null) {
+            showAudioData(this, audio);
+        }
+
         setVisible(!isEmpty());
+    }
+
+    @VisibleForTesting
+    public static void showAudioData(TableDisplay table, Bundle tags) {
+
+        if (tags.containsKey(MediaMetadata.METADATA_KEY_ARTIST)) {
+            table.put(R.string.metadata_artist, tags.getString(MediaMetadata.METADATA_KEY_ARTIST));
+        }
+
+        if (tags.containsKey(MediaMetadata.METADATA_KEY_COMPOSER)) {
+            table.put(R.string.metadata_composer,
+                    tags.getString(MediaMetadata.METADATA_KEY_COMPOSER));
+        }
+
+        if (tags.containsKey(MediaMetadata.METADATA_KEY_ALBUM)) {
+            table.put(R.string.metadata_album, tags.getString(MediaMetadata.METADATA_KEY_ALBUM));
+        }
+
+        if (tags.containsKey(MediaMetadata.METADATA_KEY_DURATION)) {
+            int millis = tags.getInt(MediaMetadata.METADATA_KEY_DURATION);
+            table.put(R.string.metadata_duration, DateUtils.formatElapsedTime(millis / 1000));
+        }
     }
 
     @VisibleForTesting

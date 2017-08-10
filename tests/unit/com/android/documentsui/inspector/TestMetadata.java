@@ -54,4 +54,14 @@ final class TestMetadata {
         data.putInt(ExifInterface.TAG_IMAGE_LENGTH, 1080);
         data.putInt(MediaMetadata.METADATA_KEY_DURATION, 72000);
     }
+
+    static void populateAudioData(Bundle container) {
+        Bundle data = new Bundle();
+        container.putBundle(Shared.METADATA_KEY_AUDIO, data);
+
+        data.putInt(MediaMetadata.METADATA_KEY_DURATION, 72000);
+        data.putString(MediaMetadata.METADATA_KEY_ARTIST, "artist");
+        data.putString(MediaMetadata.METADATA_KEY_COMPOSER, "composer");
+        data.putString(MediaMetadata.METADATA_KEY_ALBUM, "album");
+    }
 }
