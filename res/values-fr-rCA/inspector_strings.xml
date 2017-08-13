@@ -40,6 +40,14 @@
     <string name="metadata_focal_format" msgid="8542211707962355623">"<xliff:g id="LENGTH">%1$.2f </xliff:g> mm"</string>
     <string name="metadata_iso_speed_ratings" msgid="1699781252899759058">"Équivalent ISO"</string>
     <string name="metadata_iso_format" msgid="4153285204012694861">"ISO <xliff:g id="ISO_SPEED">%1$d</xliff:g>"</string>
+    <!-- no translation found for metadata_artist (8972421485694988540) -->
+    <skip />
+    <!-- no translation found for metadata_composer (4696926808308256056) -->
+    <skip />
+    <!-- no translation found for metadata_album (1661699531214720236) -->
+    <skip />
+    <!-- no translation found for metadata_address (1849921023707744640) -->
+    <skip />
     <string name="debug_stream_types" msgid="2088565280360139333">"Types de flux"</string>
     <string name="debug_raw_size" msgid="7487139640175650185">"Taille brute (en octets)"</string>
 </resources>

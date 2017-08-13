@@ -35,11 +35,19 @@
     <string name="metadata_aperture" msgid="6538741952698935357">"അപ്‌റേച്ചർ"</string>
     <string name="metadata_shutter_speed" msgid="8204739885103326131">"ഷട്ടര്‍ വേഗത"</string>
     <string name="metadata_duration" msgid="3115494422055472715">"ദൈര്‍ഘ്യം"</string>
-    <string name="metadata_date_time" msgid="1090351199248114406">"എടുത്തു"</string>
+    <string name="metadata_date_time" msgid="1090351199248114406">"എടുത്തത്"</string>
     <string name="metadata_focal_length" msgid="3440735161407699893">"ഫോക്കൽ ദൈർഘ്യം"</string>
     <string name="metadata_focal_format" msgid="8542211707962355623">"<xliff:g id="LENGTH">%1$.2f </xliff:g>മി.മീ"</string>
     <string name="metadata_iso_speed_ratings" msgid="1699781252899759058">"ISO തത്തുല്യം"</string>
     <string name="metadata_iso_format" msgid="4153285204012694861">"ISO <xliff:g id="ISO_SPEED">%1$d</xliff:g>"</string>
+    <!-- no translation found for metadata_artist (8972421485694988540) -->
+    <skip />
+    <!-- no translation found for metadata_composer (4696926808308256056) -->
+    <skip />
+    <!-- no translation found for metadata_album (1661699531214720236) -->
+    <skip />
+    <!-- no translation found for metadata_address (1849921023707744640) -->
+    <skip />
     <string name="debug_stream_types" msgid="2088565280360139333">"സ്‌ട്രീം തരങ്ങൾ"</string>
     <string name="debug_raw_size" msgid="7487139640175650185">"റോ വലുപ്പം (ബൈറ്റുകൾ)"</string>
 </resources>

@@ -31,6 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.function.Consumer;
+
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class MediaViewTest {
@@ -38,6 +40,10 @@ public class MediaViewTest {
     private TestResources mResources;
     private TestTable mTable;
     private Bundle mMetadata;
+    private Consumer<float[]> mGeo = (float[] coords) -> {
+        mTable.put(R.string.metadata_address, "1234 Street Street\n"
+                + "City, State, 56789");
+    };
 
     @Before
     public void setUp() {
@@ -51,6 +57,7 @@ public class MediaViewTest {
         mMetadata = new Bundle();
         TestMetadata.populateExifData(mMetadata);
         TestMetadata.populateVideoData(mMetadata);
+        TestMetadata.populateAudioData(mMetadata);
     }
 
     /**
@@ -62,7 +69,7 @@ public class MediaViewTest {
         mResources.strings.put(R.string.metadata_focal_format, "%.2f mm");
         mResources.strings.put(R.string.metadata_iso_format, "ISO %d");
         Bundle exif = mMetadata.getBundle(DocumentsContract.METADATA_EXIF);
-        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, exif, null);
+        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, exif, null, mGeo);
 
         mTable.assertHasRow(R.string.metadata_dimensions, "3840 x 2160, 8.3MP");
         mTable.assertHasRow(R.string.metadata_date_time, "Jan 01, 1970, 12:16 AM");
@@ -73,6 +80,8 @@ public class MediaViewTest {
         mTable.assertHasRow(R.string.metadata_aperture, "f/2.0");
         mTable.assertHasRow(R.string.metadata_iso_speed_ratings, "ISO 120");
         mTable.assertHasRow(R.string.metadata_focal_length, "4.27 mm");
+        mTable.assertHasRow(R.string.metadata_address, "1234 Street Street\n"
+                + "City, State, 56789");
     }
 
     /**
@@ -86,7 +95,7 @@ public class MediaViewTest {
         data.putDouble(ExifInterface.TAG_GPS_LATITUDE, 37.7749);
 
         mMetadata.putBundle(DocumentsContract.METADATA_EXIF, data);
-        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, mMetadata, null);
+        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, mMetadata, null, mGeo);
         mTable.assertEmpty();
     }
 
@@ -101,7 +110,7 @@ public class MediaViewTest {
         data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
 
         mMetadata.putBundle(DocumentsContract.METADATA_EXIF, data);
-        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, mMetadata, null);
+        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, mMetadata, null, mGeo);
         mTable.assertEmpty();
     }
 
@@ -118,6 +127,17 @@ public class MediaViewTest {
         mTable.assertHasRow(R.string.metadata_dimensions, "1920 x 1080, 2.1MP");
     }
 
+    @Test
+    public void testShowAudioData() throws Exception {
+        Bundle data = mMetadata.getBundle(Shared.METADATA_KEY_AUDIO);
+        MediaView.showAudioData(mTable, data);
+
+        mTable.assertHasRow(R.string.metadata_duration, "01:12");
+        mTable.assertHasRow(R.string.metadata_artist, "artist");
+        mTable.assertHasRow(R.string.metadata_composer, "composer");
+        mTable.assertHasRow(R.string.metadata_album, "album");
+    }
+
     /**
      * Test that the updateMetadata method is printing metadata for selected items found in the
      * bundle.
@@ -129,5 +149,18 @@ public class MediaViewTest {
         MediaView.showVideoData(mTable, mResources, TestEnv.FILE_MP4, data, null);
 
         mTable.assertHasRow(R.string.metadata_duration, "6:01:00");
+    }
+
+    @Test
+    public void testGetAddress() throws Exception {
+        Consumer<float[]> badAddress = (float[] coords) -> {
+        };
+        Bundle data = new Bundle();
+        data.putInt(ExifInterface.TAG_IMAGE_WIDTH, 3840);
+        data.putInt(ExifInterface.TAG_IMAGE_LENGTH, 2160);
+
+        mMetadata.getBundle(DocumentsContract.METADATA_EXIF);
+        MediaView.showExifData(mTable, mResources, TestEnv.FILE_JPG, mMetadata, null, badAddress);
+        mTable.assertNotInTable(R.string.metadata_address);
     }
 }
