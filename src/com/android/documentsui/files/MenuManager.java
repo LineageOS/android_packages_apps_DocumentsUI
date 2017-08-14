@@ -111,10 +111,9 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    public void inflateContextMenuForContainer(
-            Menu menu, MenuInflater inflater, SelectionDetails selectionDetails) {
+    public void inflateContextMenuForContainer(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.container_context_menu, menu);
-        updateContextMenuForContainer(menu, selectionDetails);
+        updateContextMenuForContainer(menu);
     }
 
     @Override
@@ -268,16 +267,16 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateInspector(MenuItem inspector) {
-        inspector.setVisible(mFeatures.isInspectorEnabled());
-        inspector.setEnabled(mFeatures.isInspectorEnabled() && !mState.stack.isRecents());
+    protected void updateInspect(MenuItem inspect) {
+        inspect.setVisible(mFeatures.isInspectorEnabled());
+        inspect.setEnabled(mFeatures.isInspectorEnabled() && !mState.stack.isRecents());
     }
 
     @Override
-    protected void updateInspect(MenuItem inspector, SelectionDetails selectionDetails) {
+    protected void updateInspect(MenuItem inspect, SelectionDetails selectionDetails) {
         boolean visible = mFeatures.isInspectorEnabled();
-        inspector.setVisible(visible);
-        inspector.setEnabled(visible && selectionDetails.size() <= 1);
+        inspect.setVisible(visible);
+        inspect.setEnabled(visible && selectionDetails.size() <= 1);
     }
 
     @Override

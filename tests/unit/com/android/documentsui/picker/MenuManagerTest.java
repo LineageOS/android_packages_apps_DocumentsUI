@@ -237,7 +237,7 @@ public final class MenuManagerTest {
         dirDetails.canCreateDoc = false;
         dirDetails.canCreateDirectory = false;
 
-        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
+        mgr.updateContextMenuForContainer(testMenu);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -252,7 +252,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = false;
         dirDetails.canCreateDoc = true;
 
-        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
+        mgr.updateContextMenuForContainer(testMenu);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -267,7 +267,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = true;
         dirDetails.canCreateDoc = false;
 
-        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
+        mgr.updateContextMenuForContainer(testMenu);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -282,7 +282,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = true;
         dirDetails.canCreateDoc = true;
 
-        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
+        mgr.updateContextMenuForContainer(testMenu);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -296,7 +296,7 @@ public final class MenuManagerTest {
     public void testContextMenu_EmptyArea_CanCreateDirectory() {
         dirDetails.canCreateDirectory = true;
 
-        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
+        mgr.updateContextMenuForContainer(testMenu);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();

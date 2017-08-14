@@ -78,7 +78,7 @@ public abstract class MenuManager {
                 menu.findItem(R.id.option_menu_list));
         updateAdvanced(menu.findItem(R.id.option_menu_advanced));
         updateDebug(menu.findItem(R.id.option_menu_debug));
-        updateInspector(menu.findItem(R.id.option_menu_inspect));
+        updateInspect(menu.findItem(R.id.option_menu_inspect));
         Menus.disableHiddenItems(menu);
     }
 
@@ -94,8 +94,7 @@ public abstract class MenuManager {
         // Pickers don't have any context menu at this moment.
     }
 
-    public void inflateContextMenuForContainer(
-            Menu menu, MenuInflater inflater, SelectionDetails selectionDetails) {
+    public void inflateContextMenuForContainer(Menu menu, MenuInflater inflater) {
         throw new UnsupportedOperationException("Pickers don't allow context menu.");
     }
 
@@ -183,13 +182,12 @@ public abstract class MenuManager {
     }
 
     /**
-     * @param selectionDetails
      * @see DirectoryFragment#onCreateContextMenu
      *
      * Called when user tries to generate a context menu anchored to an empty pane.
      */
     @VisibleForTesting
-    public void updateContextMenuForContainer(Menu menu, SelectionDetails selectionDetails) {
+    public void updateContextMenuForContainer(Menu menu) {
         MenuItem paste = menu.findItem(R.id.dir_menu_paste_from_clipboard);
         MenuItem selectAll = menu.findItem(R.id.dir_menu_select_all);
         MenuItem createDir = menu.findItem(R.id.dir_menu_create_dir);
@@ -198,7 +196,7 @@ public abstract class MenuManager {
         paste.setEnabled(mDirDetails.hasItemsToPaste() && mDirDetails.canCreateDoc());
         updateSelectAll(selectAll);
         updateCreateDir(createDir);
-        updateInspect(inspect, selectionDetails);
+        updateInspect(inspect);
     }
 
     /**
@@ -284,7 +282,7 @@ public abstract class MenuManager {
      * This method is called for standard activity option menu as opposed
      * to when there is a selection.
      */
-    protected void updateInspector(MenuItem inspector) {
+    protected void updateInspect(MenuItem inspector) {
         inspector.setVisible(false);
     }
 

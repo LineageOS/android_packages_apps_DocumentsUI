@@ -450,8 +450,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             // TODO: inject DirectoryDetails into MenuManager constructor
             // Since both classes are supplied by Activity and created
             // at the same time.
-            mInjector.menuManager.inflateContextMenuForContainer(
-                    menu, inflater, mSelectionMetadata);
+            mInjector.menuManager.inflateContextMenuForContainer(menu, inflater);
         } else {
             mInjector.menuManager.inflateContextMenuForDocs(
                     menu, inflater, mSelectionMetadata);
