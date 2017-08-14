@@ -66,8 +66,9 @@ public final class MenuManagerTest {
     private TestMenuItem dirRename;
     private TestMenuItem dirDelete;
     private TestMenuItem dirViewInOwner;
-    private TestMenuItem dirOpenInNewWindow;
     private TestMenuItem dirPasteIntoFolder;
+    private TestMenuItem dirInspect;
+    private TestMenuItem dirOpenInNewWindow;
 
     /* Root List Context Menu items */
     private TestMenuItem rootEjectRoot;
@@ -116,6 +117,8 @@ public final class MenuManagerTest {
     @Before
     public void setUp() {
         testMenu = TestMenu.create();
+
+        // The context menu on anything in DirectoryList (including no selection).
         dirShare = testMenu.findItem(R.id.dir_menu_share);
         dirOpen = testMenu.findItem(R.id.dir_menu_open);
         dirOpenWith = testMenu.findItem(R.id.dir_menu_open_with);
@@ -127,14 +130,16 @@ public final class MenuManagerTest {
         dirRename = testMenu.findItem(R.id.dir_menu_rename);
         dirDelete = testMenu.findItem(R.id.dir_menu_delete);
         dirViewInOwner = testMenu.findItem(R.id.dir_menu_view_in_owner);
-        dirOpenInNewWindow = testMenu.findItem(R.id.dir_menu_open_in_new_window);
         dirPasteIntoFolder = testMenu.findItem(R.id.dir_menu_paste_into_folder);
+        dirInspect = testMenu.findItem(R.id.dir_menu_inspect);
+        dirOpenInNewWindow = testMenu.findItem(R.id.dir_menu_open_in_new_window);
 
         rootEjectRoot = testMenu.findItem(R.id.root_menu_eject_root);
         rootOpenInNewWindow = testMenu.findItem(R.id.root_menu_open_in_new_window);
         rootPasteIntoFolder = testMenu.findItem(R.id.root_menu_paste_into_folder);
         rootSettings = testMenu.findItem(R.id.root_menu_settings);
 
+        // Menu actions (including overflow) when action mode *is* active.
         actionModeOpen = testMenu.findItem(R.id.action_menu_open);
         actionModeOpenWith = testMenu.findItem(R.id.action_menu_open_with);
         actionModeShare = testMenu.findItem(R.id.action_menu_share);
@@ -145,9 +150,10 @@ public final class MenuManagerTest {
         actionModeMoveTo = testMenu.findItem(R.id.action_menu_move_to);
         actionModeCompress = testMenu.findItem(R.id.action_menu_compress);
         actionModeRename = testMenu.findItem(R.id.action_menu_rename);
-        actionModeInspector = testMenu.findItem(R.id.action_menu_inspector);
+        actionModeInspector = testMenu.findItem(R.id.action_menu_inspect);
         actionModeViewInOwner = testMenu.findItem(R.id.action_menu_view_in_owner);
 
+        // Menu actions (including overflow) when action mode is not active.
         optionSearch = testMenu.findItem(R.id.option_menu_search);
         optionDebug = testMenu.findItem(R.id.option_menu_debug);
         optionGrid = testMenu.findItem(R.id.option_menu_grid);
@@ -157,7 +163,7 @@ public final class MenuManagerTest {
         optionSelectAll = testMenu.findItem(R.id.option_menu_select_all);
         optionAdvanced = testMenu.findItem(R.id.option_menu_advanced);
         optionSettings = testMenu.findItem(R.id.option_menu_settings);
-        optionInspector = testMenu.findItem(R.id.option_menu_inspector);
+        optionInspector = testMenu.findItem(R.id.option_menu_inspect);
 
         features = new TestFeatures();
 
@@ -466,7 +472,7 @@ public final class MenuManagerTest {
 
     @Test
     public void testContextMenu_EmptyArea() {
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -481,7 +487,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = false;
         dirDetails.canCreateDoc = true;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -496,7 +502,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = true;
         dirDetails.canCreateDoc = false;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -511,7 +517,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = true;
         dirDetails.canCreateDoc = true;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -525,7 +531,7 @@ public final class MenuManagerTest {
     public void testContextMenu_EmptyArea_CanCreateDirectory() {
         dirDetails.canCreateDirectory = true;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -665,6 +671,22 @@ public final class MenuManagerTest {
         dirCopyToClipboard.assertEnabled();
         dirDelete.assertVisible();
         dirDelete.assertDisabled();
+    }
+
+    @Test
+    public void testContextMenu_CanInspectSingleSelection() {
+        selectionDetails.size = 1;
+        mgr.updateContextMenuForFiles(testMenu, selectionDetails);
+        dirInspect.assertVisible();
+        dirInspect.assertEnabled();
+    }
+
+    @Test
+    public void testContextMenu_CanInspectNoSelection() {
+        selectionDetails.size = 0;
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
+        dirInspect.assertVisible();
+        dirInspect.assertEnabled();
     }
 
     @Test

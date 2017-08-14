@@ -352,7 +352,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
             case R.id.option_menu_select_all:
                 mInjector.actions.selectAllFiles();
                 break;
-            case R.id.option_menu_inspector:
+            case R.id.option_menu_inspect:
                 mInjector.actions.showInspector(getCurrentDirectory());
                 break;
             default:
