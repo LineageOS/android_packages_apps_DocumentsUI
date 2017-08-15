@@ -201,7 +201,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         final View view = inflater.inflate(R.layout.fragment_directory, container, false);
 
         mProgressBar = view.findViewById(R.id.progressbar);
-        assert(mProgressBar != null);
+        assert mProgressBar != null;
 
         mRecView = (RecyclerView) view.findViewById(R.id.dir_list);
         mRecView.setRecyclerListener(
@@ -452,7 +452,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             // at the same time.
             mInjector.menuManager.inflateContextMenuForContainer(menu, inflater);
         } else {
-            mInjector.menuManager.inflateContextMenuForDocs(menu, inflater, mSelectionMetadata);
+            mInjector.menuManager.inflateContextMenuForDocs(
+                    menu, inflater, mSelectionMetadata);
         }
     }
 
@@ -537,7 +538,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
      * @param mode The new view mode.
      */
     private void scaleLayout(float scale) {
-        assert(Build.IS_DEBUGGABLE);
+        assert Build.IS_DEBUGGABLE;
+
         if (VERBOSE) Log.v(
                 TAG, "Handling scale event: " + scale + ", existing scale: " + mLiveScale);
 
@@ -669,11 +671,15 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 transferDocuments(selection, null, FileOperationService.OPERATION_MOVE);
                 return true;
 
-            case R.id.action_menu_inspector:
+            case R.id.action_menu_inspect:
+            case R.id.dir_menu_inspect:
                 mActionModeController.finishActionMode();
-                assert(selection.size() == 1);
-                DocumentInfo doc = mModel.getDocuments(selection).get(0);
-                mActions.showInspector(doc);
+                assert selection.size() <= 1;
+                DocumentInfo doc = selection.isEmpty()
+                        ? mActivity.getCurrentDirectory()
+                        : mModel.getDocuments(selection).get(0);
+
+                        mActions.showInspector(doc);
                 return true;
 
             case R.id.dir_menu_cut_to_clipboard:
@@ -749,7 +755,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private void showChooserForDoc(final Selection selected) {
         Metrics.logUserAction(getContext(), Metrics.USER_ACTION_OPEN);
 
-        assert(selected.size() == 1);
+        assert selected.size() == 1;
         DocumentInfo doc =
                 DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
         mActions.showChooserForDoc(doc);
@@ -780,7 +786,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             throw new RuntimeException("Failed to create uri supplier.", e);
         }
 
-        final DocumentInfo parent = mState.stack.peek();
+        final DocumentInfo parent = mActivity.getCurrentDirectory();
         final FileOperation operation = new FileOperation.Builder()
                 .withOpType(mode)
                 .withSrcParent(parent == null ? null : parent.derivedUri)
@@ -871,7 +877,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         // Batch renaming not supported
         // Rename option is only available in menu when 1 document selected
-        assert(selected.size() == 1);
+        assert selected.size() == 1;
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.getDocuments(selected);
@@ -937,7 +943,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         }
 
         if (v == mRecView) {
-            return mState.stack.peek();
+            return mActivity.getCurrentDirectory();
         }
 
         return null;
@@ -987,7 +993,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
             return mInjector.config.canSelectType(docMimeType, docFlags, mState);
         } else {
-        final DocumentInfo parent = mState.stack.peek();
+        final DocumentInfo parent = mActivity.getCurrentDirectory();
             // Right now all selected items can be deselected.
             return true;
         }
@@ -1056,7 +1062,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             cache.removeUri(mModel.getItemUri(ids[i]));
         }
 
-        final DocumentInfo doc = mState.stack.peek();
+        final DocumentInfo doc = mActivity.getCurrentDirectory();
         mActions.refreshDocument(doc, (boolean refreshSupported) -> {
             if (refreshSupported) {
                 mRefreshLayout.setRefreshing(false);

@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.R;
+import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
@@ -266,16 +267,16 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateInspector(MenuItem inspector) {
-        inspector.setVisible(mFeatures.isInspectorEnabled());
-        inspector.setEnabled(mFeatures.isInspectorEnabled() && !mState.stack.isRecents());
+    protected void updateInspect(MenuItem inspect) {
+        inspect.setVisible(mFeatures.isInspectorEnabled());
+        inspect.setEnabled(mFeatures.isInspectorEnabled() && !mState.stack.isRecents());
     }
 
     @Override
-    protected void updateInspector(MenuItem inspector, SelectionDetails selectionDetails) {
+    protected void updateInspect(MenuItem inspect, SelectionDetails selectionDetails) {
         boolean visible = mFeatures.isInspectorEnabled();
-        inspector.setVisible(visible);
-        inspector.setEnabled(visible && selectionDetails.size() == 1);
+        inspect.setVisible(visible);
+        inspect.setEnabled(visible && selectionDetails.size() <= 1);
     }
 
     @Override
