@@ -41,7 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Þjappa"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Flytja út í…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Endurnefna"</string>
-    <string name="menu_inspector" msgid="8217713416277319588">"Sækja upplýsingar"</string>
+    <string name="menu_inspect" msgid="7279855349299446224">"Sækja upplýsingar"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Opna í <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nýr gluggi"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Klippa"</string>
