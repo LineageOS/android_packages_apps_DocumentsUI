@@ -329,7 +329,7 @@ public class BandController extends OnScrollListener {
         mModel.endSelection();
         int firstSelected = mModel.getPositionNearestOrigin();
         if (firstSelected != NOT_SET) {
-            if (mSelection.contains(mAdapter.getModelId(firstSelected))) {
+            if (mSelection.contains(mAdapter.getStableId(firstSelected))) {
                 // TODO: firstSelected should really be lastSelected, we want to anchor the item
                 // where the mouse-up occurred.
                 mSelectionManager.setSelectionRangeBegin(firstSelected);
@@ -650,7 +650,7 @@ public class BandController extends OnScrollListener {
                     final int rowKey = mRowBounds.get(row).lowerLimit;
                     int position = items.get(rowKey, NOT_SET);
                     if (position != NOT_SET) {
-                        String id = mAdapter.getModelId(position);
+                        String id = mAdapter.getStableId(position);
                         if (id != null) {
                             // The adapter inserts items for UI layout purposes that aren't associated
                             // with files.  Those will have a null model ID.  Don't select them.

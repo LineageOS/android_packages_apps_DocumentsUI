@@ -59,7 +59,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         env = new TestEnvironment(numChildren, numColumns);
         adapter = new TestDocumentsAdapter(new ArrayList<String>()) {
             @Override
-            public String getModelId(int position) {
+            public String getStableId(int position) {
                 return Integer.toString(position);
             }
 

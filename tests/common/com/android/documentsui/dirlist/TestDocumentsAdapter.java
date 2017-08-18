@@ -43,16 +43,16 @@ public class TestDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    public List<String> getModelIds() {
+    public List<String> getStableIds() {
         return mModelIds;
     }
 
     @Override
-    public void onItemSelectionChanged(String id) {
+    public void onSelectionStateChanged(String id) {
     }
 
     @Override
-    public String getModelId(int position) {
+    public String getStableId(int position) {
         return mModelIds.get(position);
     }
 

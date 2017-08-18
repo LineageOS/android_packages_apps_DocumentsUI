@@ -167,7 +167,7 @@ public final class FocusManager implements FocusHandler {
             return;
         }
 
-        int pos = mScope.adapter.getModelIds().indexOf(mScope.pendingFocusId);
+        int pos = mScope.adapter.getStableIds().indexOf(mScope.pendingFocusId);
         if (pos != -1) {
             focusItem(pos);
         }
@@ -558,7 +558,7 @@ public final class FocusManager implements FocusHandler {
             int itemCount = mScope.adapter.getItemCount();
             List<String> index = new ArrayList<>(itemCount);
             for (int i = 0; i < itemCount; i++) {
-                String modelId = mScope.adapter.getModelId(i);
+                String modelId = mScope.adapter.getStableId(i);
                 Cursor cursor = mScope.model.getItem(modelId);
                 if (modelId != null && cursor != null) {
                     String title = getCursorString(cursor, Document.COLUMN_DISPLAY_NAME);

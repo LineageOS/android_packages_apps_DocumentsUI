@@ -156,7 +156,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    public String getModelId(int adapterPosition) {
+    public String getStableId(int adapterPosition) {
         return mModelIds.get(adapterPosition);
     }
 
@@ -166,7 +166,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    public List<String> getModelIds() {
+    public List<String> getStableIds() {
         return mModelIds;
     }
 
@@ -191,7 +191,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    public void onItemSelectionChanged(String id) {
+    public void onSelectionStateChanged(String id) {
         int position = mModelIds.indexOf(id);
 
         if (position >= 0) {

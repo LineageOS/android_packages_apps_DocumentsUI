@@ -238,8 +238,8 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    public List<String> getModelIds() {
-        return mDelegate.getModelIds();
+    public List<String> getStableIds() {
+        return mDelegate.getStableIds();
     }
 
     @Override
@@ -248,7 +248,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    public String getModelId(int p) {
+    public String getStableId(int p) {
         if (p == mBreakPosition) {
             return null;
         }
@@ -261,12 +261,12 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
             return null;
         }
 
-        return mDelegate.getModelId(toDelegatePosition(p));
+        return mDelegate.getStableId(toDelegatePosition(p));
     }
 
     @Override
-    public void onItemSelectionChanged(String id) {
-        mDelegate.onItemSelectionChanged(id);
+    public void onSelectionStateChanged(String id) {
+        mDelegate.onSelectionStateChanged(id);
     }
 
     // Listener we add to our delegate. This allows us to relay events published
