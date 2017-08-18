@@ -94,7 +94,6 @@ import com.android.documentsui.selection.BandController;
 import com.android.documentsui.selection.GestureSelector;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionMetadata;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -324,7 +323,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 new AccessibilityEventRouter(mRecView,
                         (View child) -> onAccessibilityClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
-        mSelectionMgr.addItemCallback(mSelectionMetadata);
+        mSelectionMgr.addEventListener(mSelectionMetadata);
 
         GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView, mReloadLock);
 
@@ -386,7 +385,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mSelectionMetadata,
                 this::handleMenuItemClick);
 
-        mSelectionMgr.addCallback(mActionModeController);
+        mSelectionMgr.addEventListener(mActionModeController);
 
         final ActivityManager am = (ActivityManager) mActivity.getSystemService(
                 Context.ACTIVITY_SERVICE);

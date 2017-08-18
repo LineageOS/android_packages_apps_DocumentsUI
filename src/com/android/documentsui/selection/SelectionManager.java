@@ -61,8 +61,7 @@ public final class SelectionManager {
 
     private final Selection mSelection = new Selection();
 
-    private final List<Callback> mCallbacks = new ArrayList<>(1);
-    private final List<ItemCallback> mItemCallbacks = new ArrayList<>(1);
+    private final List<EventListener> mEventListeners = new ArrayList<>(1);
 
     private @Nullable DocumentsAdapter mAdapter;
     private @Nullable Range mRanger;
@@ -77,8 +76,7 @@ public final class SelectionManager {
 
     public SelectionManager reset(DocumentsAdapter adapter, SelectionPredicate canSetState) {
 
-        mCallbacks.clear();
-        mItemCallbacks.clear();
+        mEventListeners.clear();
         if (mAdapter != null && mAdapterObserver != null) {
             mAdapter.unregisterAdapterDataObserver(mAdapterObserver);
         }
@@ -148,14 +146,9 @@ public final class SelectionManager {
      *
      * @param callback
      */
-    public void addCallback(Callback callback) {
+    public void addEventListener(EventListener callback) {
         assert(callback != null);
-        mCallbacks.add(callback);
-    }
-
-    public void addItemCallback(ItemCallback itemCallback) {
-        assert(itemCallback != null);
-        mItemCallbacks.add(itemCallback);
+        mEventListeners.add(callback);
     }
 
     public boolean hasSelection() {
@@ -435,18 +428,17 @@ public final class SelectionManager {
     }
 
     private void notifyDataChanged() {
-        final int lastListener = mItemCallbacks.size() - 1;
 
-        for (int i = lastListener; i >= 0; i--) {
-            mItemCallbacks.get(i).onSelectionReset();
-        }
+        notifySelectionReset();
 
+        final int lastListener = mEventListeners.size() - 1;
         for (String id : mSelection) {
+            // TODO: Why do we deselect in notify changed.
             if (!canSetState(id, true)) {
                 attemptDeselect(id);
             } else {
                 for (int i = lastListener; i >= 0; i--) {
-                    mItemCallbacks.get(i).onItemStateChanged(id, true);
+                    mEventListeners.get(i).onItemStateChanged(id, true);
                 }
             }
         }
@@ -458,9 +450,9 @@ public final class SelectionManager {
      */
     void notifyItemStateChanged(String id, boolean selected) {
         assert(id != null);
-        int lastListener = mItemCallbacks.size() - 1;
+        int lastListener = mEventListeners.size() - 1;
         for (int i = lastListener; i >= 0; i--) {
-            mItemCallbacks.get(i).onItemStateChanged(id, selected);
+            mEventListeners.get(i).onItemStateChanged(id, selected);
         }
         mAdapter.onItemSelectionChanged(id);
     }
@@ -472,16 +464,23 @@ public final class SelectionManager {
      * selection from one item to another.
      */
     void notifySelectionChanged() {
-        int lastListener = mCallbacks.size() - 1;
+        int lastListener = mEventListeners.size() - 1;
         for (int i = lastListener; i > -1; i--) {
-            mCallbacks.get(i).onSelectionChanged();
+            mEventListeners.get(i).onSelectionChanged();
         }
     }
 
     private void notifySelectionRestored() {
-        int lastListener = mCallbacks.size() - 1;
+        int lastListener = mEventListeners.size() - 1;
         for (int i = lastListener; i > -1; i--) {
-            mCallbacks.get(i).onSelectionRestored();
+            mEventListeners.get(i).onSelectionRestored();
+        }
+    }
+
+    private void notifySelectionReset() {
+        int lastListener = mEventListeners.size() - 1;
+        for (int i = lastListener; i > -1; i--) {
+            mEventListeners.get(i).onSelectionReset();
         }
     }
 
@@ -549,13 +548,18 @@ public final class SelectionManager {
         notifySelectionChanged();
     }
 
-    public interface ItemCallback {
+    public interface EventListener {
+
+        /**
+         * Called when state of an item has been changed.
+         */
         void onItemStateChanged(String id, boolean selected);
 
+        /**
+         * Called when selection is reset (cleared).
+         */
         void onSelectionReset();
-    }
 
-    public interface Callback {
         /**
          * Called immediately after completion of any set of changes.
          */

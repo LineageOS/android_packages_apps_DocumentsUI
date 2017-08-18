@@ -45,7 +45,7 @@ import java.util.function.IntConsumer;
  * A controller that listens to selection changes and manages life cycles of action modes.
  */
 public class ActionModeController
-        implements SelectionManager.Callback, ActionMode.Callback, ActionModeAddons {
+        implements SelectionManager.EventListener, ActionMode.Callback, ActionModeAddons {
 
     private static final String TAG = "ActionModeController";
 
@@ -120,6 +120,16 @@ public class ActionModeController
             mActionMode.setTitle(title);
             mActivity.getWindow().setTitle(title);
         }
+    }
+
+    @Override
+    public void onItemStateChanged(String id, boolean selected) {
+        // Not utilized.
+    }
+
+    @Override
+    public void onSelectionReset() {
+        // Not utilized.
     }
 
     // Called when the user exits the action mode
