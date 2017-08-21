@@ -17,7 +17,6 @@
 package com.android.documentsui.selection;
 
 import android.support.annotation.IntDef;
-import android.support.v7.widget.RecyclerView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -48,36 +47,12 @@ public interface SelectionManager {
     public @interface RangeType {}
 
     /**
-     * Reset allows fragment state to be utilized in the (re-)initialization of the
-     * SelectionManager instance owned by the containing activity.
-     *
-     * This is an historically DocumentsUI specific behavior, and a relic
-     * of the fact that we employ fragment transactions for directory navigation.
-     * As application logic migrated up from the fragment to the activity,
-     * less and less state from the fragment has been necessarily pushed out
-     * of DirectoryFragment. But the migration of logic up to the activity
-     * was never fully concluded leaving this less than desirable arrangement
-     * where we depend on post-construction initialization.
-     *
-     * Ideally all of the information necessary to initialize this object can be initialized
-     * at time of construction.
-     *
-     * @param adapter
-     * @param canSetState
-     * @return
-     */
-    SelectionManager reset(
-            RecyclerView.Adapter<?> adapter,
-            SelectionManager.Environment idLookup,
-            SelectionManager.SelectionPredicate canSetState);
-
-    /**
      * Adds {@code callback} such that it will be notified when {@code MultiSelectManager}
      * events occur.
      *
      * @param callback
      */
-    void addEventListener(SelectionManager.EventListener callback);
+    void addEventListener(EventListener listener);
 
     boolean hasSelection();
 

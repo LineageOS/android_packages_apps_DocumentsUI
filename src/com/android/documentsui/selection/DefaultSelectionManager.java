@@ -38,33 +38,20 @@ import javax.annotation.Nullable;
 public final class DefaultSelectionManager implements SelectionManager {
 
     private final Selection mSelection = new Selection();
-
     private final List<SelectionManager.EventListener> mEventListeners = new ArrayList<>(1);
+    private final RecyclerView.Adapter<?> mAdapter;
+    private final SelectionManager.Environment mIdLookup;
+    private final boolean mSingleSelect;
+    private final SelectionPredicate mCanSetState;
+    private final RecyclerView.AdapterDataObserver mAdapterObserver;
 
-    private @Nullable RecyclerView.Adapter<?> mAdapter;
-    private @Nullable SelectionManager.Environment mIdLookup;
     private @Nullable Range mRanger;
-    private boolean mSingleSelect;
 
-    private RecyclerView.AdapterDataObserver mAdapterObserver;
-    private SelectionManager.SelectionPredicate mCanSetState;
-
-    public DefaultSelectionManager(@SelectionMode int mode) {
-        mSingleSelect = mode == MODE_SINGLE;
-    }
-
-    @Override
-    public SelectionManager reset(
+    public DefaultSelectionManager(
+            @SelectionMode int mode,
             RecyclerView.Adapter<?> adapter,
             SelectionManager.Environment idLookup,
-            SelectionManager.SelectionPredicate canSetState) {
-
-        mEventListeners.clear();
-        if (mAdapter != null && mAdapterObserver != null) {
-            mAdapter.unregisterAdapterDataObserver(mAdapterObserver);
-        }
-
-        clearSelectionQuietly();
+            SelectionPredicate canSetState) {
 
         assert adapter != null;
         assert idLookup != null;
@@ -73,6 +60,8 @@ public final class DefaultSelectionManager implements SelectionManager {
         mAdapter = adapter;
         mIdLookup = idLookup;
         mCanSetState = canSetState;
+
+        mSingleSelect = mode == MODE_SINGLE;
 
         mAdapterObserver = new RecyclerView.AdapterDataObserver() {
 
@@ -115,7 +104,6 @@ public final class DefaultSelectionManager implements SelectionManager {
         };
 
         mAdapter.registerAdapterDataObserver(mAdapterObserver);
-        return this;
     }
 
     @Override
@@ -372,7 +360,7 @@ public final class DefaultSelectionManager implements SelectionManager {
         return true;
     }
 
-    boolean canSetState(String id, boolean nextState) {
+    private boolean canSetState(String id, boolean nextState) {
         return mCanSetState.test(id, nextState);
     }
 
@@ -397,7 +385,7 @@ public final class DefaultSelectionManager implements SelectionManager {
      * Notifies registered listeners when the selection status of a single item
      * (identified by {@code position}) changes.
      */
-    void notifyItemStateChanged(String id, boolean selected) {
+    private void notifyItemStateChanged(String id, boolean selected) {
         assert id != null;
         int lastListener = mEventListeners.size() - 1;
         for (int i = lastListener; i >= 0; i--) {
@@ -412,7 +400,7 @@ public final class DefaultSelectionManager implements SelectionManager {
      * is complete, e.g. clearingSelection, or updating the single
      * selection from one item to another.
      */
-    void notifySelectionChanged() {
+    private void notifySelectionChanged() {
         int lastListener = mEventListeners.size() - 1;
         for (int i = lastListener; i > -1; i--) {
             mEventListeners.get(i).onSelectionChanged();
@@ -433,7 +421,7 @@ public final class DefaultSelectionManager implements SelectionManager {
         }
     }
 
-    void updateForRange(int begin, int end, boolean selected, @RangeType int type) {
+    private void updateForRange(int begin, int end, boolean selected, @RangeType int type) {
         switch (type) {
             case RANGE_REGULAR:
                 updateForRegularRange(begin, end, selected);

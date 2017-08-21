@@ -22,7 +22,6 @@ import android.util.SparseBooleanArray;
 
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +48,6 @@ public class DefaultSelectionManagerTest {
     public void setUp() throws Exception {
         mListener = new TestSelectionEventListener();
         mAdapter = new TestDocumentsAdapter(ITEMS);
-        mManager = new DefaultSelectionManager(SelectionManager.MODE_MULTIPLE);
         SelectionManager.SelectionPredicate canSelect = new SelectionManager.SelectionPredicate() {
 
             @Override
@@ -58,7 +56,8 @@ public class DefaultSelectionManagerTest {
             }
 
         };
-        mManager.reset(mAdapter, mAdapter, canSelect);
+        mManager = new DefaultSelectionManager(
+                SelectionManager.MODE_MULTIPLE, mAdapter, mAdapter, canSelect);
         mManager.addEventListener(mListener);
 
         mSelection = new SelectionProbe(mManager, mListener);

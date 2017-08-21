@@ -69,7 +69,7 @@ public class Injector<T extends ActionHandler> {
     public FocusManager focusManager;
 
     @ContentScoped
-    public SelectionManager selectionMgr;
+    public DocsSelectionManager selectionMgr;
 
     private final Model mModel;
 
