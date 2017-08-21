@@ -16,8 +16,6 @@
 
 package com.android.documentsui.selection;
 
-import static com.android.documentsui.base.Shared.DEBUG;
-
 import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +37,8 @@ import javax.annotation.Nullable;
  * the interception going if necessary.
  */
 public final class GestureSelector {
+
+    private static final boolean DEBUG = false;
     private final String TAG = "GestureSelector";
 
     private final SelectionManager mSelectionMgr;
@@ -85,6 +85,7 @@ public final class GestureSelector {
             SelectionManager selectionMgr,
             RecyclerView scrollView,
             DirectoryReloadLock lock) {
+
         ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
             @Override
             public void scrollBy(int dy) {

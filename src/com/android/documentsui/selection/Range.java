@@ -15,8 +15,8 @@
  */
 package com.android.documentsui.selection;
 
-import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.base.Shared.VERBOSE;
+import static com.android.documentsui.selection.Shared.DEBUG;
+import static com.android.documentsui.selection.Shared.TAG;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +27,7 @@ import com.android.documentsui.selection.SelectionManager.RangeType;
  * Class providing support for managing range selections.
  */
 final class Range {
+
     private static final int UNDEFINED = -1;
 
     private final Range.RangeUpdater mUpdater;
@@ -34,7 +35,7 @@ final class Range {
     private int mEnd = UNDEFINED;
 
     public Range(Range.RangeUpdater updater, int begin) {
-        if (DEBUG) Log.d(SelectionManager.TAG, "New Ranger created beginning @ " + begin);
+        if (DEBUG) Log.d(TAG, "New Ranger created beginning @ " + begin);
         mUpdater = updater;
         mBegin = begin;
     }
@@ -72,7 +73,7 @@ final class Range {
         assert(mBegin != mEnd);
 
         if (position == mEnd) {
-            if (VERBOSE) Log.v(SelectionManager.TAG, "Ignoring no-op revision for range: " + this);
+            if (DEBUG) Log.v(TAG, "Ignoring no-op revision for range: " + this);
         }
 
         if (mEnd > mBegin) {

@@ -94,6 +94,7 @@ import com.android.documentsui.selection.BandController;
 import com.android.documentsui.selection.GestureSelector;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -315,7 +316,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        mSelectionMgr = mInjector.getSelectionManager(mAdapter, this::canSetSelectionState);
+        SelectionManager.SelectionPredicate canSelect = this::canSetSelectionState;
+        mSelectionMgr = mInjector.getSelectionManager(mAdapter, canSelect);
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
         mActions = mInjector.getActionHandler(mReloadLock);
 
@@ -332,6 +334,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     mRecView,
                     mAdapter,
                     mSelectionMgr,
+                    canSelect,
                     mReloadLock,
                     (int pos) -> {
                         // The band selection model only operates on documents and directories.

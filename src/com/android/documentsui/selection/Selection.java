@@ -101,7 +101,8 @@ public final class Selection implements Iterable<String>, Parcelable {
      * one (if it exists) is abandoned.
      * @return Map of ids added or removed. Added ids have a value of true, removed are false.
      */
-    @VisibleForTesting
+    // TODO: Make this private to selectionmanager. Even other selection classes like BandController
+    // should not be reaching in and modify selection state.
     protected Map<String, Boolean> setProvisionalSelection(Set<String> newSelection) {
         Map<String, Boolean> delta = new HashMap<>();
 

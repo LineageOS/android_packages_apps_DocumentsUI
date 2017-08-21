@@ -21,8 +21,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.base.Features;
 import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.testing.TestModel;
 import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.testing.TestModel;
 import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestRecyclerView;

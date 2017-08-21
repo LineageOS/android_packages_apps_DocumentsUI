@@ -57,6 +57,7 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.ScopedPreferences;
+import com.android.documentsui.selection.DefaultSelectionManager;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
@@ -105,7 +106,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         super.onCreate(icicle);
 
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(this);
-        mInjector.selectionMgr = new SelectionManager(SelectionManager.MODE_MULTIPLE);
+        mInjector.selectionMgr = new DefaultSelectionManager(SelectionManager.MODE_MULTIPLE);
 
         mInjector.focusManager = new FocusManager(
                 mInjector.features,

@@ -20,13 +20,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.DefaultSelectionManager;
 import com.android.documentsui.selection.Selection;
 
 /**
- * Helper class for making assertions against the state of a {@link SelectionManager} instance and
- * the consistency of states between {@link SelectionManager} and
- * {@link SelectionManager.ItemEventCallback}.
+ * Helper class for making assertions against the state of a {@link DefaultSelectionManager} instance and
+ * the consistency of states between {@link DefaultSelectionManager} and
+ * {@link DefaultSelectionManager.ItemEventCallback}.
  */
 public final class SelectionProbe {
 

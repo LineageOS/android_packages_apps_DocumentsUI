@@ -49,6 +49,7 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.ScopedPreferences;
+import com.android.documentsui.selection.DefaultSelectionManager;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
@@ -94,7 +95,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
         super.onCreate(icicle);
 
-        mInjector.selectionMgr = new SelectionManager(
+        mInjector.selectionMgr = new DefaultSelectionManager(
                 mState.allowMultiple
                         ? SelectionManager.MODE_MULTIPLE
                         : SelectionManager.MODE_SINGLE);

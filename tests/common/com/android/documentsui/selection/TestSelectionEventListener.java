@@ -48,6 +48,7 @@ public class TestSelectionEventListener implements SelectionManager.EventListene
 
     @Override
     public void onSelectionReset() {
+        mSelectionReset = true;
         mSelected.clear();
     }
 

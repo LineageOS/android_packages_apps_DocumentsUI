@@ -32,7 +32,6 @@ import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import com.android.internal.annotations.VisibleForTesting;
@@ -120,7 +119,7 @@ public class Injector<T extends ActionHandler> {
     }
 
     public SelectionManager getSelectionManager(
-            DocumentsAdapter adapter, SelectionPredicate canSetState) {
+            DocumentsAdapter adapter, SelectionManager.SelectionPredicate canSetState) {
         return selectionMgr.reset(adapter, adapter, canSetState);
     }
 

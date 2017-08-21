@@ -20,11 +20,9 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseBooleanArray;
 
-import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.selection.Selection;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.dirlist.TestDocumentsAdapter;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,13 +35,13 @@ import java.util.Set;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class SelectionManagerTest {
+public class DefaultSelectionManagerTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
     private final Set<String> mIgnored = new HashSet<>();
     private TestDocumentsAdapter mAdapter;
-    private SelectionManager mManager;
+    private DefaultSelectionManager mManager;
     private TestSelectionEventListener mListener;
     private SelectionProbe mSelection;
 
@@ -51,10 +49,16 @@ public class SelectionManagerTest {
     public void setUp() throws Exception {
         mListener = new TestSelectionEventListener();
         mAdapter = new TestDocumentsAdapter(ITEMS);
-        mManager = SelectionManagers.createTestInstance(
-                mAdapter,
-                SelectionManager.MODE_MULTIPLE,
-                (String id, boolean nextState) -> (!nextState || !mIgnored.contains(id)));
+        mManager = new DefaultSelectionManager(SelectionManager.MODE_MULTIPLE);
+        SelectionManager.SelectionPredicate canSelect = new SelectionManager.SelectionPredicate() {
+
+            @Override
+            public boolean test(String id, boolean nextState) {
+                return !nextState || !mIgnored.contains(id);
+            }
+
+        };
+        mManager.reset(mAdapter, mAdapter, canSelect);
         mManager.addEventListener(mListener);
 
         mSelection = new SelectionProbe(mManager, mListener);

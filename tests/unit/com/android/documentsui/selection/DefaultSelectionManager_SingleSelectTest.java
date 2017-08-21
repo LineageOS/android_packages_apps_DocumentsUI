@@ -33,7 +33,7 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class SelectionManager_SingleSelectTest {
+public class DefaultSelectionManager_SingleSelectTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 

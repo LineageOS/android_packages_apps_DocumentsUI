@@ -32,7 +32,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.DefaultSelectionManager;
 
 import java.util.Collection;
 

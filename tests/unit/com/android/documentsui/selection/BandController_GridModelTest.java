@@ -17,22 +17,30 @@
 package com.android.documentsui.selection;
 
 import static com.android.documentsui.selection.BandController.GridModel.NOT_SET;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.BandController.GridModel;
+
+import org.junit.After;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@RunWith(AndroidJUnit4.class)
 @SmallTest
-public class BandController_GridModelTest extends AndroidTestCase {
+public class BandController_GridModelTest {
 
     private static final int VIEW_PADDING_PX = 5;
     private static final int CHILD_VIEW_EDGE_PX = 100;
@@ -55,43 +63,14 @@ public class BandController_GridModelTest extends AndroidTestCase {
     private Point mSelectionOrigin;
     private Point mSelectionPoint;
 
-    private void initData(final int numChildren, int numColumns) {
-        env = new TestEnvironment(numChildren, numColumns);
-        adapter = new TestDocumentsAdapter(new ArrayList<String>()) {
-            @Override
-            public String getStableId(int position) {
-                return Integer.toString(position);
-            }
-
-            @Override
-            public int getItemCount() {
-                return numChildren;
-            }
-        };
-
-        viewWidth = VIEW_PADDING_PX + numColumns * (VIEW_PADDING_PX + CHILD_VIEW_EDGE_PX);
-        model = new GridModel(env, (int pos) -> true, adapter);
-        model.addOnSelectionChangedListener(
-                new GridModel.OnSelectionChangedListener() {
-                    @Override
-                    public void onSelectionChanged(Set<String> updatedSelection) {
-                        lastSelection = updatedSelection;
-                    }
-
-                    @Override
-                    public boolean onBeforeItemStateChange(String id, boolean nextState) {
-                        return true;
-                    }
-                });
-    }
-
-    @Override
+    @After
     public void tearDown() {
         model = null;
         env = null;
         lastSelection = null;
     }
 
+    @Test
     public void testSelectionLeftOfItems() {
         initData(20, 5);
         startSelection(new Point(0, 10));
@@ -100,6 +79,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         assertEquals(NOT_SET, model.getPositionNearestOrigin());
     }
 
+    @Test
     public void testSelectionRightOfItems() {
         initData(20, 4);
         startSelection(new Point(viewWidth - 1, 10));
@@ -108,6 +88,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         assertEquals(NOT_SET, model.getPositionNearestOrigin());
     }
 
+    @Test
     public void testSelectionAboveItems() {
         initData(20, 4);
         startSelection(new Point(10, 0));
@@ -116,6 +97,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         assertEquals(NOT_SET, model.getPositionNearestOrigin());
     }
 
+    @Test
     public void testSelectionBelowItems() {
         initData(5, 4);
         startSelection(new Point(10, VIEWPORT_HEIGHT - 1));
@@ -124,6 +106,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         assertEquals(NOT_SET, model.getPositionNearestOrigin());
     }
 
+    @Test
     public void testVerticalSelectionBetweenItems() {
         initData(20, 4);
         startSelection(new Point(106, 0));
@@ -132,6 +115,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         assertEquals(NOT_SET, model.getPositionNearestOrigin());
     }
 
+    @Test
     public void testHorizontalSelectionBetweenItems() {
         initData(20, 4);
         startSelection(new Point(0, 105));
@@ -140,6 +124,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         assertEquals(NOT_SET, model.getPositionNearestOrigin());
     }
 
+    @Test
     public void testGrowingAndShrinkingSelection() {
         initData(20, 4);
         startSelection(new Point(0, 0));
@@ -183,6 +168,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         assertEquals(NOT_SET, model.getPositionNearestOrigin());
     }
 
+    @Test
     public void testSelectionMovingAroundOrigin() {
         initData(16, 4);
 
@@ -204,6 +190,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
         assertEquals(7, model.getPositionNearestOrigin());
     }
 
+    @Test
     public void testScrollingBandSelect() {
         initData(40, 4);
 
@@ -227,6 +214,36 @@ public class BandController_GridModelTest extends AndroidTestCase {
         verifySelection();
 
         assertEquals(0, model.getPositionNearestOrigin());
+    }
+
+    private void initData(final int numChildren, int numColumns) {
+        env = new TestEnvironment(numChildren, numColumns);
+        adapter = new TestDocumentsAdapter(new ArrayList<String>()) {
+            @Override
+            public String getStableId(int position) {
+                return Integer.toString(position);
+            }
+
+            @Override
+            public int getItemCount() {
+                return numChildren;
+            }
+        };
+
+        viewWidth = VIEW_PADDING_PX + numColumns * (VIEW_PADDING_PX + CHILD_VIEW_EDGE_PX);
+        model = new GridModel(env, (int pos) -> true, adapter);
+        model.addOnSelectionChangedListener(
+                new GridModel.OnSelectionChangedListener() {
+                    @Override
+                    public void onSelectionChanged(Set<String> updatedSelection) {
+                        lastSelection = updatedSelection;
+                    }
+
+                    @Override
+                    public boolean onBeforeItemStateChange(String id, boolean nextState) {
+                        return true;
+                    }
+                });
     }
 
     /** Returns the current selection area as a Rect. */
@@ -458,6 +475,7 @@ public class BandController_GridModelTest extends AndroidTestCase {
                 rect = r;
             }
 
+            @Override
             public String toString() {
                 return name + ": " + rect;
             }

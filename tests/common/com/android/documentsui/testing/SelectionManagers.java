@@ -18,35 +18,40 @@ package com.android.documentsui.testing;
 
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
+import com.android.documentsui.selection.DefaultSelectionManager;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionMode;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 
 import java.util.Collections;
 import java.util.List;
 
 public class SelectionManagers {
+
+    public static final SelectionManager.SelectionPredicate CAN_SELECT_ANYTHING = new SelectionManager.SelectionPredicate() {
+        @Override
+        public boolean test(String id, boolean nextState) {
+            return true;
+        }
+    };
+
     private SelectionManagers() {}
 
-    public static SelectionManager createTestInstance() {
+    public static DefaultSelectionManager createTestInstance() {
         return createTestInstance(Collections.emptyList());
     }
 
-    public static SelectionManager createTestInstance(List<String> docs) {
+    public static DefaultSelectionManager createTestInstance(List<String> docs) {
         return createTestInstance(docs, SelectionManager.MODE_MULTIPLE);
     }
 
-    public static SelectionManager createTestInstance(
+    public static DefaultSelectionManager createTestInstance(
             List<String> docs, @SelectionMode int mode) {
-        return createTestInstance(
-                new TestDocumentsAdapter(docs),
-                mode,
-                (String id, boolean nextState) -> true);
+        return createTestInstance(new TestDocumentsAdapter(docs), mode, CAN_SELECT_ANYTHING);
     }
 
-    public static SelectionManager createTestInstance(
-            DocumentsAdapter adapter, @SelectionMode int mode, SelectionPredicate canSetState) {
-        SelectionManager manager = new SelectionManager(mode);
+    public static DefaultSelectionManager createTestInstance(
+            DocumentsAdapter adapter, @SelectionMode int mode, SelectionManager.SelectionPredicate canSetState) {
+        DefaultSelectionManager manager = new DefaultSelectionManager(mode);
         manager.reset(adapter, adapter, canSetState);
 
         return manager;

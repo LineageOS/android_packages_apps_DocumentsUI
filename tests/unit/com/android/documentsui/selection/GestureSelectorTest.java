@@ -16,15 +16,22 @@
 
 package com.android.documentsui.selection;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
-import com.android.documentsui.selection.GestureSelector;
 import com.android.documentsui.testing.TestEvent;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
 @SmallTest
-public class GestureSelectorTest extends AndroidTestCase {
+public class GestureSelectorTest {
 
     TestEvent.Builder e;
 
@@ -34,29 +41,33 @@ public class GestureSelectorTest extends AndroidTestCase {
     static final int TOP_BORDER = 20;
     static final int BOTTOM_BORDER = 40;
 
-    @Override
-    public void setUp() throws Exception {
+    @Before
+    public void setup() throws Exception {
         e = TestEvent.builder()
                 .location(100, 100);
     }
 
+    @Test
     public void testLTRPastLastItem() {
         assertTrue(GestureSelector.isPastLastItem(
                 TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_LTR));
     }
 
+    @Test
     public void testLTRPastLastItem_Inverse() {
         e.location(10, 10);
         assertFalse(GestureSelector.isPastLastItem(
                 TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_LTR));
     }
 
+    @Test
     public void testRTLPastLastItem() {
         e.location(10, 30);
         assertTrue(GestureSelector.isPastLastItem(
                 TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_RTL));
     }
 
+    @Test
     public void testRTLPastLastItem_Inverse() {
         assertFalse(GestureSelector.isPastLastItem(
                 TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_RTL));
