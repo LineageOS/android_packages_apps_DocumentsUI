@@ -23,8 +23,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.android.documentsui.dirlist.DocumentsAdapter;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -61,10 +59,10 @@ public final class SelectionManager {
 
     private final Selection mSelection = new Selection();
 
-    private final List<Callback> mCallbacks = new ArrayList<>(1);
-    private final List<ItemCallback> mItemCallbacks = new ArrayList<>(1);
+    private final List<EventListener> mEventListeners = new ArrayList<>(1);
 
-    private @Nullable DocumentsAdapter mAdapter;
+    private @Nullable RecyclerView.Adapter<?> mAdapter;
+    private @Nullable Environment mIdLookup;
     private @Nullable Range mRanger;
     private boolean mSingleSelect;
 
@@ -75,20 +73,43 @@ public final class SelectionManager {
         mSingleSelect = mode == MODE_SINGLE;
     }
 
-    public SelectionManager reset(DocumentsAdapter adapter, SelectionPredicate canSetState) {
+    /**
+     * Reset allows fragment state to be utilized in the (re-)initialization of the
+     * SelectionManager instance owned by the containing activity.
+     *
+     * This is an historically DocumentsUI specific behavior, and a relic
+     * of the fact that we employ fragment transactions for directory navigation.
+     * As application logic migrated up from the fragment to the activity,
+     * less and less state from the fragment has been necessarily pushed out
+     * of DirectoryFragment. But the migration of logic up to the activity
+     * was never fully concluded leaving this less than desirable arrangement
+     * where we depend on post-construction initialization.
+     *
+     * Ideally all of the information necessary to initialize this object can be initialized
+     * at time of construction.
+     *
+     * @param adapter
+     * @param canSetState
+     * @return
+     */
+    public SelectionManager reset(
+            RecyclerView.Adapter<?> adapter,
+            Environment idLookup,
+            SelectionPredicate canSetState) {
 
-        mCallbacks.clear();
-        mItemCallbacks.clear();
+        mEventListeners.clear();
         if (mAdapter != null && mAdapterObserver != null) {
             mAdapter.unregisterAdapterDataObserver(mAdapterObserver);
         }
 
         clearSelectionQuietly();
 
-        assert(adapter != null);
-        assert(canSetState != null);
+        assert adapter != null;
+        assert idLookup != null;
+        assert canSetState != null;
 
         mAdapter = adapter;
+        mIdLookup = idLookup;
         mCanSetState = canSetState;
 
         mAdapterObserver = new RecyclerView.AdapterDataObserver() {
@@ -97,11 +118,9 @@ public final class SelectionManager {
 
             @Override
             public void onChanged() {
-                mModelIds = mAdapter.getModelIds();
-
                 // Update the selection to remove any disappeared IDs.
                 mSelection.cancelProvisionalSelection();
-                mSelection.intersect(mModelIds);
+                mSelection.intersect(mIdLookup.getStableIds());
 
                 notifyDataChanged();
             }
@@ -119,8 +138,8 @@ public final class SelectionManager {
 
             @Override
             public void onItemRangeRemoved(int startPosition, int itemCount) {
-                assert(startPosition >= 0);
-                assert(itemCount > 0);
+                assert startPosition >= 0;
+                assert itemCount > 0;
 
                 mSelection.cancelProvisionalSelection();
                 // Remove any disappeared IDs from the selection.
@@ -148,14 +167,9 @@ public final class SelectionManager {
      *
      * @param callback
      */
-    public void addCallback(Callback callback) {
-        assert(callback != null);
-        mCallbacks.add(callback);
-    }
-
-    public void addItemCallback(ItemCallback itemCallback) {
-        assert(itemCallback != null);
-        mItemCallbacks.add(itemCallback);
+    public void addEventListener(EventListener callback) {
+        assert callback != null;
+        mEventListeners.add(callback);
     }
 
     public boolean hasSelection() {
@@ -272,7 +286,7 @@ public final class SelectionManager {
      * @param modelId
      */
     public void toggleSelection(String modelId) {
-        assert(modelId != null);
+        assert modelId != null;
 
         final boolean changed = mSelection.contains(modelId)
                 ? attemptDeselect(modelId)
@@ -290,7 +304,7 @@ public final class SelectionManager {
      * @param pos The anchor position for the selection range.
      */
     public void startRangeSelection(int pos) {
-        attemptSelect(mAdapter.getModelId(pos));
+        attemptSelect(mIdLookup.getStableId(pos));
         setSelectionRangeBegin(pos);
     }
 
@@ -307,7 +321,7 @@ public final class SelectionManager {
      * beforehand.
      */
     public void formNewSelectionRange(int startPos, int endPos) {
-        assert(!mSelection.contains(mAdapter.getModelId(startPos)));
+        assert !mSelection.contains(mIdLookup.getStableId(startPos));
         startRangeSelection(startPos);
         snapRangeSelection(endPos);
     }
@@ -371,7 +385,7 @@ public final class SelectionManager {
             return;
         }
 
-        if (mSelection.contains(mAdapter.getModelId(position))) {
+        if (mSelection.contains(mIdLookup.getStableId(position))) {
             mRanger = new Range(this::updateForRange, position);
         }
     }
@@ -393,7 +407,7 @@ public final class SelectionManager {
      * @return True if the update was applied.
      */
     private boolean attemptDeselect(String id) {
-        assert(id != null);
+        assert id != null;
         if (canSetState(id, false)) {
             mSelection.remove(id);
             notifyItemStateChanged(id, false);
@@ -417,7 +431,7 @@ public final class SelectionManager {
      * @return True if the update was applied.
      */
     private boolean attemptSelect(String id) {
-        assert(id != null);
+        assert id != null;
         boolean canSelect = canSetState(id, true);
         if (!canSelect) {
             return false;
@@ -435,18 +449,17 @@ public final class SelectionManager {
     }
 
     private void notifyDataChanged() {
-        final int lastListener = mItemCallbacks.size() - 1;
 
-        for (int i = lastListener; i >= 0; i--) {
-            mItemCallbacks.get(i).onSelectionReset();
-        }
+        notifySelectionReset();
 
+        final int lastListener = mEventListeners.size() - 1;
         for (String id : mSelection) {
+            // TODO: Why do we deselect in notify changed.
             if (!canSetState(id, true)) {
                 attemptDeselect(id);
             } else {
                 for (int i = lastListener; i >= 0; i--) {
-                    mItemCallbacks.get(i).onItemStateChanged(id, true);
+                    mEventListeners.get(i).onItemStateChanged(id, true);
                 }
             }
         }
@@ -457,12 +470,12 @@ public final class SelectionManager {
      * (identified by {@code position}) changes.
      */
     void notifyItemStateChanged(String id, boolean selected) {
-        assert(id != null);
-        int lastListener = mItemCallbacks.size() - 1;
+        assert id != null;
+        int lastListener = mEventListeners.size() - 1;
         for (int i = lastListener; i >= 0; i--) {
-            mItemCallbacks.get(i).onItemStateChanged(id, selected);
+            mEventListeners.get(i).onItemStateChanged(id, selected);
         }
-        mAdapter.onItemSelectionChanged(id);
+        mIdLookup.onSelectionStateChanged(id);
     }
 
     /**
@@ -472,16 +485,23 @@ public final class SelectionManager {
      * selection from one item to another.
      */
     void notifySelectionChanged() {
-        int lastListener = mCallbacks.size() - 1;
+        int lastListener = mEventListeners.size() - 1;
         for (int i = lastListener; i > -1; i--) {
-            mCallbacks.get(i).onSelectionChanged();
+            mEventListeners.get(i).onSelectionChanged();
         }
     }
 
     private void notifySelectionRestored() {
-        int lastListener = mCallbacks.size() - 1;
+        int lastListener = mEventListeners.size() - 1;
         for (int i = lastListener; i > -1; i--) {
-            mCallbacks.get(i).onSelectionRestored();
+            mEventListeners.get(i).onSelectionRestored();
+        }
+    }
+
+    private void notifySelectionReset() {
+        int lastListener = mEventListeners.size() - 1;
+        for (int i = lastListener; i > -1; i--) {
+            mEventListeners.get(i).onSelectionReset();
         }
     }
 
@@ -499,9 +519,9 @@ public final class SelectionManager {
     }
 
     private void updateForRegularRange(int begin, int end, boolean selected) {
-        assert(end >= begin);
+        assert end >= begin;
         for (int i = begin; i <= end; i++) {
-            String id = mAdapter.getModelId(i);
+            String id = mIdLookup.getStableId(i);
             if (id == null) {
                 continue;
             }
@@ -521,9 +541,9 @@ public final class SelectionManager {
     }
 
     private void updateForProvisionalRange(int begin, int end, boolean selected) {
-        assert (end >= begin);
+        assert end >= begin;
         for (int i = begin; i <= end; i++) {
-            String id = mAdapter.getModelId(i);
+            String id = mIdLookup.getStableId(i);
             if (id == null) {
                 continue;
             }
@@ -549,13 +569,18 @@ public final class SelectionManager {
         notifySelectionChanged();
     }
 
-    public interface ItemCallback {
+    public interface EventListener {
+
+        /**
+         * Called when state of an item has been changed.
+         */
         void onItemStateChanged(String id, boolean selected);
 
+        /**
+         * Called when selection is reset (cleared).
+         */
         void onSelectionReset();
-    }
 
-    public interface Callback {
         /**
          * Called immediately after completion of any set of changes.
          */
@@ -570,5 +595,28 @@ public final class SelectionManager {
     @FunctionalInterface
     public interface SelectionPredicate {
         boolean test(String id, boolean nextState);
+    }
+
+    /**
+     * Facilitates the use of stable ids.
+     */
+    public interface Environment {
+
+        /**
+         * @return The model ID of the item at the given adapter position.
+         */
+        String getStableId(int position);
+
+        /**
+         * Returns a list of model IDs of items currently in the adapter.
+         *
+         * @return A list of all known stable IDs.
+         */
+        List<String> getStableIds();
+
+        /**
+         * Triggers item-change notifications by stable ID (as opposed to position).
+         */
+        void onSelectionStateChanged(String id);
     }
 }

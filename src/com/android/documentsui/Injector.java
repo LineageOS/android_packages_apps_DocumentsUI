@@ -121,7 +121,7 @@ public class Injector<T extends ActionHandler> {
 
     public SelectionManager getSelectionManager(
             DocumentsAdapter adapter, SelectionPredicate canSetState) {
-        return selectionMgr.reset(adapter, canSetState);
+        return selectionMgr.reset(adapter, adapter, canSetState);
     }
 
     public final ActionModeController getActionModeController(

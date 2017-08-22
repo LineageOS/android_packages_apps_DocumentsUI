@@ -47,7 +47,7 @@ public class SelectionManagers {
     public static SelectionManager createTestInstance(
             DocumentsAdapter adapter, @SelectionMode int mode, SelectionPredicate canSetState) {
         SelectionManager manager = new SelectionManager(mode);
-        manager.reset(adapter, canSetState);
+        manager.reset(adapter, adapter, canSetState);
 
         return manager;
     }

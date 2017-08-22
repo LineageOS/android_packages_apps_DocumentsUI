@@ -16,14 +16,13 @@
 
 package com.android.documentsui.selection;
 
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.fail;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.testing.SelectionManagers;
 
 import org.junit.Before;
@@ -39,15 +38,15 @@ public class SelectionManager_SingleSelectTest {
     private static final List<String> ITEMS = TestData.create(100);
 
     private SelectionManager mManager;
-    private TestSelectionListener mCallback;
+    private TestSelectionEventListener mListener;
     private TestDocumentsAdapter mAdapter;
     private SelectionProbe mSelection;
 
     @Before
     public void setUp() throws Exception {
-        mCallback = new TestSelectionListener();
+        mListener = new TestSelectionEventListener();
         mManager = SelectionManagers.createTestInstance(ITEMS, SelectionManager.MODE_SINGLE);
-        mManager.addCallback(mCallback);
+        mManager.addEventListener(mListener);
 
         mSelection = new SelectionProbe(mManager);
     }
@@ -56,21 +55,21 @@ public class SelectionManager_SingleSelectTest {
     public void testSimpleSelect() {
         mManager.toggleSelection(ITEMS.get(3));
         mManager.toggleSelection(ITEMS.get(4));
-        mCallback.assertSelectionChanged();
+        mListener.assertSelectionChanged();
         mSelection.assertSelection(4);
     }
 
     @Test
     public void testRangeSelectionNotEstablished() {
         mManager.toggleSelection(ITEMS.get(3));
-        mCallback.reset();
+        mListener.reset();
 
         try {
             mManager.snapRangeSelection(10);
             fail("Should have thrown.");
         } catch (Exception expected) {}
 
-        mCallback.assertSelectionUnchanged();
+        mListener.assertSelectionUnchanged();
         mSelection.assertSelection(3);
     }
 }

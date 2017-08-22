@@ -16,16 +16,24 @@
 
 package com.android.documentsui.selection;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class TestItemSelectionListener implements SelectionManager.ItemCallback {
+public class TestSelectionEventListener implements SelectionManager.EventListener {
 
     private final Set<String> mSelected = new HashSet<>();
+    private boolean mSelectionChanged = false;
+    private boolean mSelectionReset = false;
+
+    public void reset() {
+        mSelected.clear();
+        mSelectionChanged = false;
+        mSelectionReset = false;
+    }
 
     @Override
     public void onItemStateChanged(String id, boolean selected) {
@@ -43,6 +51,14 @@ public class TestItemSelectionListener implements SelectionManager.ItemCallback 
         mSelected.clear();
     }
 
+    @Override
+    public void onSelectionChanged() {
+        mSelectionChanged = true;
+    }
+
+    @Override
+    public void onSelectionRestored() {}
+
     void assertNoSelection() {
         assertTrue(mSelected.isEmpty());
     }
@@ -57,5 +73,17 @@ public class TestItemSelectionListener implements SelectionManager.ItemCallback 
 
     void assertNotSelected(String id) {
         assertFalse(id + " is already selected", mSelected.contains(id));
+    }
+
+    public void assertSelectionChanged() {
+        assertTrue(mSelectionChanged);
+    }
+
+    public void assertSelectionUnchanged() {
+        assertFalse(mSelectionChanged);
+    }
+
+    public void assertSelectionReset() {
+        assertTrue(mSelectionReset);
     }
 }
