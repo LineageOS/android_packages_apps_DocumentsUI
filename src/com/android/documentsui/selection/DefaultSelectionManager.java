@@ -41,9 +41,10 @@ public final class DefaultSelectionManager implements SelectionManager {
     private final List<EventListener> mEventListeners = new ArrayList<>(1);
     private final RecyclerView.Adapter<?> mAdapter;
     private final StableIdProvider mStableIds;
-    private final boolean mSingleSelect;
     private final SelectionPredicate mCanSetState;
     private final RecyclerView.AdapterDataObserver mAdapterObserver;
+
+    private final boolean mSingleSelect;
 
     private @Nullable Range mRanger;
 
@@ -114,12 +115,6 @@ public final class DefaultSelectionManager implements SelectionManager {
         };
 
         mAdapter.registerAdapterDataObserver(mAdapterObserver);
-    }
-
-    @Override
-    public void bindController(BandController controller) {
-        // Provides BandController with access to private mSelection state.
-        controller.bindSelection(mSelection);
     }
 
     @Override

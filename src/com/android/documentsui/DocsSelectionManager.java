@@ -55,11 +55,6 @@ public final class DocsSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void bindController(BandController controller) {
-        mDelegate.bindController(controller);
-    }
-
-    @Override
     public void addEventListener(EventListener listener) {
         mDelegate.addEventListener(listener);
     }

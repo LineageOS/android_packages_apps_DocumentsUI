@@ -62,6 +62,8 @@ public class BandController extends OnScrollListener {
     private final SelectionEnvironment mEnvironment;
     private final DocumentsAdapter mAdapter;
     private final SelectionManager mSelectionMgr;
+    private final Selection mSelection;
+    private final SelectionPredicate mCanSelect;
     private final DirectoryReloadLock mLock;
     private final Runnable mViewScroller;
     private final GridModel.OnSelectionChangedListener mGridListener;
@@ -72,16 +74,15 @@ public class BandController extends OnScrollListener {
     @Nullable private Point mOrigin;
     @Nullable private BandController.GridModel mModel;
 
-    private Selection mSelection;
-    private SelectionManager.SelectionPredicate mCanSelect;
 
     public BandController(
             final RecyclerView view,
             DocumentsAdapter adapter,
             SelectionManager selectionManager,
-            SelectionManager.SelectionPredicate canSelect,
+            SelectionPredicate canSelect,
             DirectoryReloadLock lock,
             IntPredicate gridItemTester) {
+
         this(new RuntimeSelectionEnvironment(view), adapter, selectionManager,
                 canSelect, lock, gridItemTester);
     }
@@ -91,12 +92,13 @@ public class BandController extends OnScrollListener {
             SelectionEnvironment env,
             DocumentsAdapter adapter,
             SelectionManager selectionManager,
-            SelectionManager.SelectionPredicate canSelect,
+            SelectionPredicate canSelect,
             DirectoryReloadLock lock,
             IntPredicate gridItemTester) {
 
         mLock = lock;
-        selectionManager.bindController(this);
+
+        mSelection = selectionManager.getSelection();
 
         mEnvironment = env;
         mAdapter = adapter;
@@ -184,10 +186,6 @@ public class BandController extends OnScrollListener {
     @VisibleForTesting
     boolean isActive() {
         return mModel != null;
-    }
-
-    void bindSelection(Selection selection) {
-        mSelection = selection;
     }
 
     public boolean onInterceptTouchEvent(InputEvent e) {

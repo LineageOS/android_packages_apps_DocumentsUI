@@ -183,16 +183,6 @@ public interface SelectionManager {
     void snapProvisionalRangeSelection(int pos);
 
     /**
-     * Binds band controller to this selection manager, endowing it with special
-     * powers (like control of provisional selection).
-     * @param controller
-     */
-    // TODO: This too is smelly. We're poking a hole in selection manager so that
-    // our "friend" can do special stuff. Having a friend is great, but exposing that
-    // in our interface is clunky and smelly. Replace this with package scoped access.
-    void bindController(BandController controller);
-
-    /**
      * Interface allowing clients access to information about Selection state change.
      */
     interface EventListener {

@@ -145,9 +145,7 @@ public class ActionModeController
         mActionMode = null;
         mMenu = null;
 
-        // clear selection
         mSelectionMgr.clearSelection();
-        mSelected.clear();
 
         // Reset window title back to activity title, i.e. Root name
         mActivity.getWindow().setTitle(mActivity.getTitle());

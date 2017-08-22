@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * Object representing the current selection. Provides read only access
  * public access, and private write access.
  */
-public final class Selection implements Iterable<String>, Parcelable {
+public class Selection implements Iterable<String>, Parcelable {
 
     // This class tracks selected items by managing two sets: the saved selection, and the total
     // selection. Saved selections are those which have been completed by tapping an item or by
@@ -165,10 +165,7 @@ public final class Selection implements Iterable<String>, Parcelable {
         mProvisionalSelection.clear();
     }
 
-    /** @hide */
-    // This should NOT be exposed.
-    @VisibleForTesting
-    public boolean add(String id) {
+    boolean add(String id) {
         if (!mSelection.contains(id)) {
             mSelection.add(id);
             return true;
@@ -176,9 +173,6 @@ public final class Selection implements Iterable<String>, Parcelable {
         return false;
     }
 
-    /** @hide */
-    // This should NOT be exposed.
-    @VisibleForTesting
     boolean remove(String id) {
         if (mSelection.contains(id)) {
             mSelection.remove(id);
@@ -187,14 +181,14 @@ public final class Selection implements Iterable<String>, Parcelable {
         return false;
     }
 
-    public void clear() {
+    void clear() {
         mSelection.clear();
     }
 
     /**
      * Trims this selection to be the intersection of itself with the set of given IDs.
      */
-    public void intersect(Collection<String> ids) {
+    void intersect(Collection<String> ids) {
         mSelection.retainAll(ids);
         mProvisionalSelection.retainAll(ids);
     }
