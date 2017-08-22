@@ -21,7 +21,7 @@ import static com.android.documentsui.selection.Shared.TAG;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.android.documentsui.selection.SelectionManager.RangeType;
+import com.android.documentsui.selection.DefaultSelectionManager.RangeType;
 
 /**
  * Class providing support for managing range selections.

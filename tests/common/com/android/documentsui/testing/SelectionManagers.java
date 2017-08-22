@@ -19,8 +19,8 @@ package com.android.documentsui.testing;
 import com.android.documentsui.DocsSelectionManager;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionManager.SelectionMode;
+import com.android.documentsui.selection.DefaultSelectionManager;
+import com.android.documentsui.selection.DefaultSelectionManager.SelectionMode;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 
 import java.util.Collections;
@@ -42,7 +42,7 @@ public class SelectionManagers {
     }
 
     public static DocsSelectionManager createTestInstance(List<String> docs) {
-        return createTestInstance(docs, SelectionManager.MODE_MULTIPLE);
+        return createTestInstance(docs, DefaultSelectionManager.MODE_MULTIPLE);
     }
 
     public static DocsSelectionManager createTestInstance(
@@ -52,7 +52,9 @@ public class SelectionManagers {
 
     public static DocsSelectionManager createTestInstance(
             DocumentsAdapter adapter, @SelectionMode int mode, SelectionPredicate canSetState) {
-        DocsSelectionManager manager = new DocsSelectionManager(mode);
+        DocsSelectionManager manager = mode == DefaultSelectionManager.MODE_SINGLE
+                ? DocsSelectionManager.createSingleSelect()
+                : DocsSelectionManager.createMultiSelect();
         manager.reset(adapter, adapter, canSetState);
 
         return manager;

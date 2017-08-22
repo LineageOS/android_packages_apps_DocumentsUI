@@ -57,7 +57,7 @@ public class DefaultSelectionManagerTest {
 
         };
         mManager = new DefaultSelectionManager(
-                SelectionManager.MODE_MULTIPLE, mAdapter, mAdapter, canSelect);
+                DefaultSelectionManager.MODE_MULTIPLE, mAdapter, mAdapter, canSelect);
         mManager.addEventListener(mListener);
 
         mSelection = new SelectionProbe(mManager, mListener);

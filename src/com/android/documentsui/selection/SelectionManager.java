@@ -30,37 +30,6 @@ import java.util.Set;
  */
 public interface SelectionManager {
 
-    int MODE_MULTIPLE = 0;
-    int MODE_SINGLE = 1;
-    @IntDef(flag = true, value = {
-            MODE_MULTIPLE,
-            MODE_SINGLE
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface SelectionMode {}
-
-    int RANGE_REGULAR = 0;
-    /**
-     * "Provisional" selection represents a overlay on the primary selection. A provisional
-     * selection maybe be eventually added to the primary selection, or it may be abandoned.
-     *
-     *  <p>E.g. BandController creates a provisional selection while a user is actively
-     *  selecting items with the band. Provisionally selected items are considered to be
-     *  selected in {@link Selection#contains(String)} and related methods. A provisional
-     *  may be abandoned or applied by selection components (like {@link BandController}).
-     *
-     *  <p>A provisional selection may intersect the primary selection, however clearing
-     *  the provisional selection will not affect the primary selection where the two may
-     *  intersect.
-     */
-    int RANGE_PROVISIONAL = 1;
-    @IntDef({
-        RANGE_REGULAR,
-        RANGE_PROVISIONAL
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface RangeType {}
-
     /**
      * Adds {@code callback} such that it will be notified when {@code MultiSelectManager}
      * events occur.
