@@ -43,20 +43,20 @@ public final class DocsSelectionManager implements SelectionManager {
 
     public SelectionManager reset(
             RecyclerView.Adapter<?> adapter,
-            SelectionManager.Environment idLookup,
-            SelectionManager.SelectionPredicate canSetState) {
+            StableIdProvider stableIds,
+            SelectionPredicate canSetState) {
 
         if (mDelegate != null) {
             mDelegate.clearSelection();
         }
 
-        mDelegate = new DefaultSelectionManager(mSelectionMode, adapter, idLookup, canSetState);
+        mDelegate = new DefaultSelectionManager(mSelectionMode, adapter, stableIds, canSetState);
         return this;
     }
 
     @Override
-    public void bindContoller(BandController controller) {
-        mDelegate.bindContoller(controller);
+    public void bindController(BandController controller) {
+        mDelegate.bindController(controller);
     }
 
     @Override
@@ -75,14 +75,14 @@ public final class DocsSelectionManager implements SelectionManager {
     }
 
     @Override
-    public Selection getSelection(Selection dest) {
-        return mDelegate.getSelection(dest);
+    public void copySelection(Selection dest) {
+        mDelegate.copySelection(dest);
     }
 
-    @Override
     @VisibleForTesting
     public void replaceSelection(Iterable<String> ids) {
-        mDelegate.replaceSelection(ids);
+        mDelegate.clearSelection();
+        mDelegate.setItemsSelected(ids, true);
     }
 
     @Override

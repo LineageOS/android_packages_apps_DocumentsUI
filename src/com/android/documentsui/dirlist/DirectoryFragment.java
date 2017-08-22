@@ -430,7 +430,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void retainState(RetainedState state) {
-        state.selection = mSelectionMgr.getSelection(new Selection());
+        state.selection = new Selection();
+        mSelectionMgr.copySelection(state.selection);
     }
 
     @Override
@@ -610,7 +611,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private boolean handleMenuItemClick(MenuItem item) {
-        Selection selection = mSelectionMgr.getSelection(new Selection());
+        Selection selection = new Selection();
+        mSelectionMgr.copySelection(selection);
 
         switch (item.getItemId()) {
             case R.id.action_menu_open:
@@ -995,7 +997,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
             return mInjector.config.canSelectType(docMimeType, docFlags, mState);
         } else {
-        final DocumentInfo parent = mActivity.getCurrentDirectory();
+            final DocumentInfo parent = mActivity.getCurrentDirectory();
             // Right now all selected items can be deselected.
             return true;
         }

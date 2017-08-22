@@ -34,7 +34,7 @@ import com.android.documentsui.selection.SelectionManager;
 import java.util.List;
 
 /**
- * DocumentsAdapter provides glue between a directory Model, and RecylcerView. We've
+ * DocumentsAdapter provides glue between a directory Model, and RecyclerView. We've
  * abstracted this a bit in order to decompose some specialized support
  * for adding dummy layout objects (@see SectionBreakDocumentsAdapter). Handling of the
  * dummy layout objects was error prone when interspersed with the core mode / adapter code.
@@ -43,7 +43,7 @@ import java.util.List;
  * @see DirectoryAddonsAdapter
  */
 public abstract class DocumentsAdapter
-        extends RecyclerView.Adapter<DocumentHolder> implements SelectionManager.Environment {
+        extends RecyclerView.Adapter<DocumentHolder> implements SelectionManager.StableIdProvider {
     // Item types used by ModelBackedDocumentsAdapter
     public static final int ITEM_TYPE_DOCUMENT = 1;
     public static final int ITEM_TYPE_DIRECTORY = 2;

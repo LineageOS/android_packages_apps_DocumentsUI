@@ -160,7 +160,7 @@ interface DragStartListener {
             }
 
             if (mSelectionMgr.getSelection().contains(modelId)) {
-                mSelectionMgr.getSelection(selection);
+                mSelectionMgr.copySelection(selection);
             } else {
                 selection.add(modelId);
                 mSelectionMgr.clearSelection();

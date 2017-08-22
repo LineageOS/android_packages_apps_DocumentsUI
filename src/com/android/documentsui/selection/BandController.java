@@ -96,7 +96,7 @@ public class BandController extends OnScrollListener {
             IntPredicate gridItemTester) {
 
         mLock = lock;
-        selectionManager.bindContoller(this);
+        selectionManager.bindController(this);
 
         mEnvironment = env;
         mAdapter = adapter;

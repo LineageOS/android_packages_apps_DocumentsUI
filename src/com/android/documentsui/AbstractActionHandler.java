@@ -533,7 +533,9 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     protected Selection getStableSelection() {
-        return mSelectionMgr.getSelection(new Selection());
+        Selection selection = new Selection();
+        mSelectionMgr.copySelection(selection);
+        return selection;
     }
 
     @Override

@@ -21,13 +21,14 @@ import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionMode;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 
 import java.util.Collections;
 import java.util.List;
 
 public class SelectionManagers {
 
-    public static final SelectionManager.SelectionPredicate CAN_SELECT_ANYTHING = new SelectionManager.SelectionPredicate() {
+    public static final SelectionPredicate CAN_SELECT_ANYTHING = new SelectionPredicate() {
         @Override
         public boolean test(String id, boolean nextState) {
             return true;
@@ -50,7 +51,7 @@ public class SelectionManagers {
     }
 
     public static DocsSelectionManager createTestInstance(
-            DocumentsAdapter adapter, @SelectionMode int mode, SelectionManager.SelectionPredicate canSetState) {
+            DocumentsAdapter adapter, @SelectionMode int mode, SelectionPredicate canSetState) {
         DocsSelectionManager manager = new DocsSelectionManager(mode);
         manager.reset(adapter, adapter, canSetState);
 

@@ -74,7 +74,7 @@ public class ActionModeController
 
     @Override
     public void onSelectionChanged() {
-        mSelectionMgr.getSelection(mSelected);
+        mSelectionMgr.copySelection(mSelected);
         if (mSelected.size() > 0) {
             if (mActionMode == null) {
                 if (DEBUG) Log.d(TAG, "Starting action mode.");
@@ -99,7 +99,7 @@ public class ActionModeController
 
     @Override
     public void onSelectionRestored() {
-        mSelectionMgr.getSelection(mSelected);
+        mSelectionMgr.copySelection(mSelected);
         if (mSelected.size() > 0) {
             if (mActionMode == null) {
                 if (DEBUG) Log.d(TAG, "Starting action mode.");

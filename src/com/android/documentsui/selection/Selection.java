@@ -103,7 +103,7 @@ public final class Selection implements Iterable<String>, Parcelable {
      */
     // TODO: Make this private to selectionmanager. Even other selection classes like BandController
     // should not be reaching in and modify selection state.
-    protected Map<String, Boolean> setProvisionalSelection(Set<String> newSelection) {
+    Map<String, Boolean> setProvisionalSelection(Set<String> newSelection) {
         Map<String, Boolean> delta = new HashMap<>();
 
         for (String id: mProvisionalSelection) {
@@ -166,6 +166,7 @@ public final class Selection implements Iterable<String>, Parcelable {
     }
 
     /** @hide */
+    // This should NOT be exposed.
     @VisibleForTesting
     public boolean add(String id) {
         if (!mSelection.contains(id)) {
@@ -176,6 +177,7 @@ public final class Selection implements Iterable<String>, Parcelable {
     }
 
     /** @hide */
+    // This should NOT be exposed.
     @VisibleForTesting
     boolean remove(String id) {
         if (mSelection.contains(id)) {

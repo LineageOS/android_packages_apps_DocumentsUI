@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * SelectionManager provides support for managing selection within a RecyclerView instance.
  *
+ * @see DefaultSelectionManager for details on usage.
  */
 public interface SelectionManager {
 
@@ -35,16 +37,29 @@ public interface SelectionManager {
             MODE_SINGLE
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface SelectionMode {}
+    @interface SelectionMode {}
 
     int RANGE_REGULAR = 0;
+    /**
+     * "Provisional" selection represents a overlay on the primary selection. A provisional
+     * selection maybe be eventually added to the primary selection, or it may be abandoned.
+     *
+     *  <p>E.g. BandController creates a provisional selection while a user is actively
+     *  selecting items with the band. Provisionally selected items are considered to be
+     *  selected in {@link Selection#contains(String)} and related methods. A provisional
+     *  may be abandoned or applied by selection components (like {@link BandController}).
+     *
+     *  <p>A provisional selection may intersect the primary selection, however clearing
+     *  the provisional selection will not affect the primary selection where the two may
+     *  intersect.
+     */
     int RANGE_PROVISIONAL = 1;
     @IntDef({
         RANGE_REGULAR,
         RANGE_PROVISIONAL
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface RangeType {}
+    @interface RangeType {}
 
     /**
      * Adds {@code callback} such that it will be notified when {@code MultiSelectManager}
@@ -59,7 +74,7 @@ public interface SelectionManager {
     /**
      * Returns a Selection object that provides a live view on the current selection.
      *
-     * @see #getSelection(Selection) on how to get a snapshot
+     * @see #copySelection(Selection) on how to get a snapshot
      *     of the selection that will not reflect future changes
      *     to selection.
      *
@@ -70,16 +85,12 @@ public interface SelectionManager {
     /**
      * Updates {@code dest} to reflect the current selection.
      * @param dest
-     *
-     * @return The Selection instance passed in, for convenience.
      */
-    Selection getSelection(Selection dest);
-
-    void replaceSelection(Iterable<String> ids);
+    void copySelection(Selection dest);
 
     /**
      * Restores the selected state of specified items. Used in cases such as restore the selection
-     * after rotation etc.
+     * after rotation etc. Provisional selection, being provisional 'n all, isn't restored.
      */
     void restoreSelection(Selection other);
 
@@ -113,11 +124,24 @@ public interface SelectionManager {
      */
     void startRangeSelection(int pos);
 
+    /**
+     * Sets the end point for the active range selection.
+     *
+     * <p>This function should only be called when a range selection is active
+     * (see {@link #isRangeSelectionActive()}. Items in the range [anchor, end] will be
+     * selected.
+     *
+     * @param pos The new end position for the selection range.
+     * @param type The type of selection the range should utilize.
+     *
+     * @throws IllegalStateException if a range selection is not active. Range selection
+     *         must have been started by a call to {@link #startRangeSelection(int)}.
+     */
     void snapRangeSelection(int pos);
 
     /*
-     * Starts and extends range selection in one go. This assumes item at startPos is not selected
-     * beforehand.
+     * Creates a fully formed range selection in one go. This assumes item at
+     * {@code startPos} is not selected beforehand.
      */
     void formNewSelectionRange(int startPos, int endPos);
 
@@ -163,8 +187,14 @@ public interface SelectionManager {
      * powers (like control of provisional selection).
      * @param controller
      */
-    void bindContoller(BandController controller);
+    // TODO: This too is smelly. We're poking a hole in selection manager so that
+    // our "friend" can do special stuff. Having a friend is great, but exposing that
+    // in our interface is clunky and smelly. Replace this with package scoped access.
+    void bindController(BandController controller);
 
+    /**
+     * Interface allowing clients access to information about Selection state change.
+     */
     interface EventListener {
 
         /**
@@ -191,7 +221,7 @@ public interface SelectionManager {
     /**
      * Facilitates the use of stable ids.
      */
-    interface Environment {
+    interface StableIdProvider {
 
         /**
          * @return The model ID of the item at the given adapter position.

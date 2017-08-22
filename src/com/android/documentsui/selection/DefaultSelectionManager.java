@@ -19,8 +19,8 @@ package com.android.documentsui.selection;
 import static com.android.documentsui.selection.Shared.DEBUG;
 import static com.android.documentsui.selection.Shared.TAG;
 
-import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -31,34 +31,44 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * MultiSelectManager provides support traditional multi-item selection support to RecyclerView.
+ * SelectManager providing support traditional multi-item selection support to RecyclerView.
  * Additionally it can be configured to restrict selection to a single element, @see
  * #setSelectMode.
  */
 public final class DefaultSelectionManager implements SelectionManager {
 
     private final Selection mSelection = new Selection();
-    private final List<SelectionManager.EventListener> mEventListeners = new ArrayList<>(1);
+    private final List<EventListener> mEventListeners = new ArrayList<>(1);
     private final RecyclerView.Adapter<?> mAdapter;
-    private final SelectionManager.Environment mIdLookup;
+    private final StableIdProvider mStableIds;
     private final boolean mSingleSelect;
     private final SelectionPredicate mCanSetState;
     private final RecyclerView.AdapterDataObserver mAdapterObserver;
 
     private @Nullable Range mRanger;
 
+    /**
+     * Creates a new instance.
+     *
+     * @param mode single or multiple selection mode. In single selection mode
+     *     users can only select a single item.
+     * @param adapter {@link Adapter} for the RecyclerView this instance is coupled with.
+     * @param stableIds client supplied class providing access to stable ids.
+     * @param canSetState A predicate allowing the client to disallow selection
+     *     of individual elements.
+     */
     public DefaultSelectionManager(
             @SelectionMode int mode,
             RecyclerView.Adapter<?> adapter,
-            SelectionManager.Environment idLookup,
+            StableIdProvider stableIds,
             SelectionPredicate canSetState) {
 
         assert adapter != null;
-        assert idLookup != null;
+        assert stableIds != null;
         assert canSetState != null;
 
         mAdapter = adapter;
-        mIdLookup = idLookup;
+        mStableIds = stableIds;
         mCanSetState = canSetState;
 
         mSingleSelect = mode == MODE_SINGLE;
@@ -71,7 +81,7 @@ public final class DefaultSelectionManager implements SelectionManager {
             public void onChanged() {
                 // Update the selection to remove any disappeared IDs.
                 mSelection.cancelProvisionalSelection();
-                mSelection.intersect(mIdLookup.getStableIds());
+                mSelection.intersect(mStableIds.getStableIds());
 
                 notifyDataChanged();
             }
@@ -107,13 +117,13 @@ public final class DefaultSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void bindContoller(BandController controller) {
+    public void bindController(BandController controller) {
         // Provides BandController with access to private mSelection state.
         controller.bindSelection(mSelection);
     }
 
     @Override
-    public void addEventListener(SelectionManager.EventListener callback) {
+    public void addEventListener(EventListener callback) {
         assert callback != null;
         mEventListeners.add(callback);
     }
@@ -129,16 +139,8 @@ public final class DefaultSelectionManager implements SelectionManager {
     }
 
     @Override
-    public Selection getSelection(Selection dest) {
+    public void copySelection(Selection dest) {
         dest.copyFrom(mSelection);
-        return dest;
-    }
-
-    @Override
-    @VisibleForTesting
-    public void replaceSelection(Iterable<String> ids) {
-        clearSelection();
-        setItemsSelected(ids, true);
     }
 
     @Override
@@ -191,7 +193,8 @@ public final class DefaultSelectionManager implements SelectionManager {
             return;
         }
 
-        Selection oldSelection = getSelection(new Selection());
+        Selection oldSelection = new Selection();
+        copySelection(oldSelection);
         mSelection.clear();
 
         for (String id: oldSelection.mSelection) {
@@ -217,7 +220,7 @@ public final class DefaultSelectionManager implements SelectionManager {
 
     @Override
     public void startRangeSelection(int pos) {
-        attemptSelect(mIdLookup.getStableId(pos));
+        attemptSelect(mStableIds.getStableId(pos));
         setSelectionRangeBegin(pos);
     }
 
@@ -237,7 +240,7 @@ public final class DefaultSelectionManager implements SelectionManager {
      */
     @Override
     public void formNewSelectionRange(int startPos, int endPos) {
-        assert !mSelection.contains(mIdLookup.getStableId(startPos));
+        assert !mSelection.contains(mStableIds.getStableId(startPos));
         startRangeSelection(startPos);
         snapRangeSelection(endPos);
     }
@@ -301,7 +304,7 @@ public final class DefaultSelectionManager implements SelectionManager {
             return;
         }
 
-        if (mSelection.contains(mIdLookup.getStableId(position))) {
+        if (mSelection.contains(mStableIds.getStableId(position))) {
             mRanger = new Range(this::updateForRange, position);
         }
     }
@@ -365,7 +368,6 @@ public final class DefaultSelectionManager implements SelectionManager {
     }
 
     private void notifyDataChanged() {
-
         notifySelectionReset();
 
         final int lastListener = mEventListeners.size() - 1;
@@ -387,11 +389,11 @@ public final class DefaultSelectionManager implements SelectionManager {
      */
     private void notifyItemStateChanged(String id, boolean selected) {
         assert id != null;
-        int lastListener = mEventListeners.size() - 1;
-        for (int i = lastListener; i >= 0; i--) {
+        int lastListenerIndex = mEventListeners.size() - 1;
+        for (int i = lastListenerIndex; i >= 0; i--) {
             mEventListeners.get(i).onItemStateChanged(id, selected);
         }
-        mIdLookup.onSelectionStateChanged(id);
+        mStableIds.onSelectionStateChanged(id);
     }
 
     /**
@@ -401,22 +403,22 @@ public final class DefaultSelectionManager implements SelectionManager {
      * selection from one item to another.
      */
     private void notifySelectionChanged() {
-        int lastListener = mEventListeners.size() - 1;
-        for (int i = lastListener; i > -1; i--) {
+        int lastListenerIndex = mEventListeners.size() - 1;
+        for (int i = lastListenerIndex; i >= 0; i--) {
             mEventListeners.get(i).onSelectionChanged();
         }
     }
 
     private void notifySelectionRestored() {
-        int lastListener = mEventListeners.size() - 1;
-        for (int i = lastListener; i > -1; i--) {
+        int lastListenerIndex = mEventListeners.size() - 1;
+        for (int i = lastListenerIndex; i >= 0; i--) {
             mEventListeners.get(i).onSelectionRestored();
         }
     }
 
     private void notifySelectionReset() {
-        int lastListener = mEventListeners.size() - 1;
-        for (int i = lastListener; i > -1; i--) {
+        int lastListenerIndex = mEventListeners.size() - 1;
+        for (int i = lastListenerIndex; i >= 0; i--) {
             mEventListeners.get(i).onSelectionReset();
         }
     }
@@ -437,7 +439,7 @@ public final class DefaultSelectionManager implements SelectionManager {
     private void updateForRegularRange(int begin, int end, boolean selected) {
         assert end >= begin;
         for (int i = begin; i <= end; i++) {
-            String id = mIdLookup.getStableId(i);
+            String id = mStableIds.getStableId(i);
             if (id == null) {
                 continue;
             }
@@ -459,7 +461,7 @@ public final class DefaultSelectionManager implements SelectionManager {
     private void updateForProvisionalRange(int begin, int end, boolean selected) {
         assert end >= begin;
         for (int i = begin; i <= end; i++) {
-            String id = mIdLookup.getStableId(i);
+            String id = mStableIds.getStableId(i);
             if (id == null) {
                 continue;
             }
