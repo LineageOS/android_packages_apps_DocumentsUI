@@ -58,7 +58,7 @@ import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.ProvidersAccess;
-import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.sidebar.EjectRootTask;
 import com.android.documentsui.ui.Snackbars;
@@ -532,8 +532,10 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         loadRoot(Shared.getDefaultRootUri(mActivity));
     }
 
-    protected Selection getStableSelection() {
-        return mSelectionMgr.getSelection(new Selection());
+    protected MutableSelection getStableSelection() {
+        MutableSelection selection = new MutableSelection();
+        mSelectionMgr.copySelection(selection);
+        return selection;
     }
 
     @Override

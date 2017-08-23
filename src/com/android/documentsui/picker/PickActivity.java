@@ -34,6 +34,7 @@ import android.view.Menu;
 
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
+import com.android.documentsui.DocsSelectionManager;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
@@ -94,7 +95,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
         super.onCreate(icicle);
 
-        mInjector.selectionMgr = new SelectionManager(
+        mInjector.selectionMgr = new DocsSelectionManager(
                 mState.allowMultiple
                         ? SelectionManager.MODE_MULTIPLE
                         : SelectionManager.MODE_SINGLE);

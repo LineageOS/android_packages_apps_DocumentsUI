@@ -94,7 +94,7 @@ import com.android.documentsui.selection.BandController;
 import com.android.documentsui.selection.GestureSelector;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionMetadata;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -316,7 +316,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        mSelectionMgr = mInjector.getSelectionManager(mAdapter, this::canSetSelectionState);
+        SelectionManager.SelectionPredicate canSelect = this::canSetSelectionState;
+        mSelectionMgr = mInjector.getSelectionManager(mAdapter, canSelect);
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
         mActions = mInjector.getActionHandler(mReloadLock);
 
@@ -324,7 +325,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 new AccessibilityEventRouter(mRecView,
                         (View child) -> onAccessibilityClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
-        mSelectionMgr.addItemCallback(mSelectionMetadata);
+        mSelectionMgr.addEventListener(mSelectionMetadata);
 
         GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView, mReloadLock);
 
@@ -333,6 +334,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     mRecView,
                     mAdapter,
                     mSelectionMgr,
+                    canSelect,
                     mReloadLock,
                     (int pos) -> {
                         // The band selection model only operates on documents and directories.
@@ -386,7 +388,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mSelectionMetadata,
                 this::handleMenuItemClick);
 
-        mSelectionMgr.addCallback(mActionModeController);
+        mSelectionMgr.addEventListener(mActionModeController);
 
         final ActivityManager am = (ActivityManager) mActivity.getSystemService(
                 Context.ACTIVITY_SERVICE);
@@ -428,7 +430,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void retainState(RetainedState state) {
-        state.selection = mSelectionMgr.getSelection(new Selection());
+        state.selection = new Selection();
+        mSelectionMgr.copySelection(state.selection);
     }
 
     @Override
@@ -608,7 +611,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private boolean handleMenuItemClick(MenuItem item) {
-        Selection selection = mSelectionMgr.getSelection(new Selection());
+        Selection selection = new Selection();
+        mSelectionMgr.copySelection(selection);
 
         switch (item.getItemId()) {
             case R.id.action_menu_open:
@@ -993,7 +997,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             final int docFlags = getCursorInt(cursor, Document.COLUMN_FLAGS);
             return mInjector.config.canSelectType(docMimeType, docFlags, mState);
         } else {
-        final DocumentInfo parent = mActivity.getCurrentDirectory();
+            final DocumentInfo parent = mActivity.getCurrentDirectory();
             // Right now all selected items can be deselected.
             return true;
         }

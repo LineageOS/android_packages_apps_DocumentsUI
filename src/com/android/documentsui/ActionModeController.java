@@ -45,7 +45,7 @@ import java.util.function.IntConsumer;
  * A controller that listens to selection changes and manages life cycles of action modes.
  */
 public class ActionModeController
-        implements SelectionManager.Callback, ActionMode.Callback, ActionModeAddons {
+        implements SelectionManager.EventListener, ActionMode.Callback, ActionModeAddons {
 
     private static final String TAG = "ActionModeController";
 
@@ -74,7 +74,7 @@ public class ActionModeController
 
     @Override
     public void onSelectionChanged() {
-        mSelectionMgr.getSelection(mSelected);
+        mSelectionMgr.copySelection(mSelected);
         if (mSelected.size() > 0) {
             if (mActionMode == null) {
                 if (DEBUG) Log.d(TAG, "Starting action mode.");
@@ -99,7 +99,7 @@ public class ActionModeController
 
     @Override
     public void onSelectionRestored() {
-        mSelectionMgr.getSelection(mSelected);
+        mSelectionMgr.copySelection(mSelected);
         if (mSelected.size() > 0) {
             if (mActionMode == null) {
                 if (DEBUG) Log.d(TAG, "Starting action mode.");
@@ -122,6 +122,16 @@ public class ActionModeController
         }
     }
 
+    @Override
+    public void onItemStateChanged(String id, boolean selected) {
+        // Not utilized.
+    }
+
+    @Override
+    public void onSelectionReset() {
+        // Not utilized.
+    }
+
     // Called when the user exits the action mode
     @Override
     public void onDestroyActionMode(ActionMode mode) {
@@ -135,9 +145,7 @@ public class ActionModeController
         mActionMode = null;
         mMenu = null;
 
-        // clear selection
         mSelectionMgr.clearSelection();
-        mSelected.clear();
 
         // Reset window title back to activity title, i.e. Root name
         mActivity.getWindow().setTitle(mActivity.getTitle());

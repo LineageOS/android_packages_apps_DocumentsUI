@@ -63,6 +63,7 @@ import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.inspector.InspectorActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
+import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -220,7 +221,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     private Selection getSelectedOrFocused() {
-        final Selection selection = this.getStableSelection();
+        final MutableSelection selection = this.getStableSelection();
         if (selection.isEmpty()) {
             String focusModelId = mFocusHandler.getFocusModelId();
             if (focusModelId != null) {

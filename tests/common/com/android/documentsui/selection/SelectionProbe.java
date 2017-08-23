@@ -20,29 +20,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.Selection;
-
 /**
- * Helper class for making assertions against the state of a {@link SelectionManager} instance and
- * the consistency of states between {@link SelectionManager} and
- * {@link SelectionManager.ItemCallback}.
+ * Helper class for making assertions against the state of a {@link DefaultSelectionManager} instance and
+ * the consistency of states between {@link DefaultSelectionManager} and
+ * {@link DefaultSelectionManager.ItemEventCallback}.
  */
 public final class SelectionProbe {
 
     private final SelectionManager mMgr;
-    private final TestItemSelectionListener mTestCallback;
+    private final TestSelectionEventListener mSelectionListener;
 
     public SelectionProbe(SelectionManager mgr) {
         mMgr = mgr;
-        mTestCallback = new TestItemSelectionListener();
-
-        mMgr.addItemCallback(mTestCallback);
+        mSelectionListener = new TestSelectionEventListener();
+        mMgr.addEventListener(mSelectionListener);
     }
 
-    public SelectionProbe(SelectionManager mgr, TestItemSelectionListener testCallback) {
+    public SelectionProbe(SelectionManager mgr, TestSelectionEventListener selectionListener) {
         mMgr = mgr;
-        mTestCallback = testCallback;
+        mSelectionListener = selectionListener;
     }
 
     public void assertRangeSelected(int begin, int end) {
@@ -66,20 +62,20 @@ public final class SelectionProbe {
         Selection selection = mMgr.getSelection();
         assertEquals(selection.toString(), expected, selection.size());
 
-        mTestCallback.assertSelectionSize(expected);
+        mSelectionListener.assertSelectionSize(expected);
     }
 
     public void assertNoSelection() {
         assertSelectionSize(0);
 
-        mTestCallback.assertNoSelection();
+        mSelectionListener.assertNoSelection();
     }
 
     public void assertSelection(int... ids) {
         assertSelected(ids);
         assertEquals(ids.length, mMgr.getSelection().size());
 
-        mTestCallback.assertSelectionSize(ids.length);
+        mSelectionListener.assertSelectionSize(ids.length);
     }
 
     public void assertSelected(int... ids) {
@@ -88,7 +84,7 @@ public final class SelectionProbe {
             String sid = String.valueOf(id);
             assertTrue(sid + " is not in selection " + sel, sel.contains(sid));
 
-            mTestCallback.assertSelected(sid);
+            mSelectionListener.assertSelected(sid);
         }
     }
 
@@ -98,7 +94,7 @@ public final class SelectionProbe {
             String sid = String.valueOf(id);
             assertFalse(sid + " is in selection " + sel, sel.contains(sid));
 
-            mTestCallback.assertNotSelected(sid);
+            mSelectionListener.assertNotSelected(sid);
         }
     }
 

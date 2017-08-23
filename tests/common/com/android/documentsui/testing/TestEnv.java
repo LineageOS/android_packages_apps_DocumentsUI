@@ -16,11 +16,11 @@
 package com.android.documentsui.testing;
 
 import android.content.Context;
-import android.net.Uri;
 import android.provider.DocumentsContract.Document;
 import android.support.test.InstrumentationRegistry;
 import android.test.mock.MockContentResolver;
 
+import com.android.documentsui.DocsSelectionManager;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.archives.ArchivesProvider;
@@ -29,11 +29,8 @@ import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestFocusHandler;
-import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.ui.TestDialogController;
-
-import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +64,7 @@ public class TestEnv {
     public final TestDialogController dialogs = new TestDialogController();
     public final TestModel model;
     public final TestModel archiveModel;
-    public final SelectionManager selectionMgr;
+    public final DocsSelectionManager selectionMgr;
     public final TestSearchViewManager searchViewManager;
     public final Injector<?> injector;
     public final Features features;

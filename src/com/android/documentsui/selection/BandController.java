@@ -16,7 +16,6 @@
 
 package com.android.documentsui.selection;
 
-import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.ui.ViewAutoScroller.NOT_SET;
 
 import android.graphics.Point;
@@ -37,6 +36,7 @@ import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.dirlist.DocumentsAdapter;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.ui.ViewAutoScroller;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.IntPredicate;
 
@@ -56,12 +55,15 @@ import java.util.function.IntPredicate;
  */
 public class BandController extends OnScrollListener {
 
+    private static final boolean DEBUG = false;
     private static final String TAG = "BandController";
 
     private final Runnable mModelBuilder;
     private final SelectionEnvironment mEnvironment;
     private final DocumentsAdapter mAdapter;
-    private final SelectionManager mSelectionManager;
+    private final SelectionManager mSelectionMgr;
+    private final Selection mSelection;
+    private final SelectionPredicate mCanSelect;
     private final DirectoryReloadLock mLock;
     private final Runnable mViewScroller;
     private final GridModel.OnSelectionChangedListener mGridListener;
@@ -72,16 +74,17 @@ public class BandController extends OnScrollListener {
     @Nullable private Point mOrigin;
     @Nullable private BandController.GridModel mModel;
 
-    private Selection mSelection;
 
     public BandController(
             final RecyclerView view,
             DocumentsAdapter adapter,
             SelectionManager selectionManager,
+            SelectionPredicate canSelect,
             DirectoryReloadLock lock,
             IntPredicate gridItemTester) {
+
         this(new RuntimeSelectionEnvironment(view), adapter, selectionManager,
-                lock, gridItemTester);
+                canSelect, lock, gridItemTester);
     }
 
     @VisibleForTesting
@@ -89,15 +92,18 @@ public class BandController extends OnScrollListener {
             SelectionEnvironment env,
             DocumentsAdapter adapter,
             SelectionManager selectionManager,
+            SelectionPredicate canSelect,
             DirectoryReloadLock lock,
             IntPredicate gridItemTester) {
 
         mLock = lock;
-        selectionManager.bindContoller(this);
+
+        mSelection = selectionManager.getSelection();
 
         mEnvironment = env;
         mAdapter = adapter;
-        mSelectionManager = selectionManager;
+        mSelectionMgr = selectionManager;
+        mCanSelect = canSelect;
 
         mEnvironment.addOnScrollListener(this);
         mViewScroller = new ViewAutoScroller(
@@ -159,12 +165,12 @@ public class BandController extends OnScrollListener {
 
             @Override
             public void onSelectionChanged(Set<String> updatedSelection) {
-                BandController.this.onSelectionChanged(updatedSelection);
+                mSelectionMgr.setProvisionalSelection(updatedSelection);
             }
 
             @Override
             public boolean onBeforeItemStateChange(String id, boolean nextState) {
-                return BandController.this.onBeforeItemStateChange(id, nextState);
+                return mCanSelect.test(id, nextState);
             }
         };
 
@@ -182,14 +188,10 @@ public class BandController extends OnScrollListener {
         return mModel != null;
     }
 
-    void bindSelection(Selection selection) {
-        mSelection = selection;
-    }
-
     public boolean onInterceptTouchEvent(InputEvent e) {
         if (shouldStart(e)) {
             if (!e.isCtrlKeyDown()) {
-                mSelectionManager.clearSelection();
+                mSelectionMgr.clearSelection();
             }
             startBandSelect(e.getOrigin());
         } else if (shouldStop(e)) {
@@ -329,10 +331,10 @@ public class BandController extends OnScrollListener {
         mModel.endSelection();
         int firstSelected = mModel.getPositionNearestOrigin();
         if (firstSelected != NOT_SET) {
-            if (mSelection.contains(mAdapter.getModelId(firstSelected))) {
+            if (mSelection.contains(mAdapter.getStableId(firstSelected))) {
                 // TODO: firstSelected should really be lastSelected, we want to anchor the item
                 // where the mouse-up occurred.
-                mSelectionManager.setSelectionRangeBegin(firstSelected);
+                mSelectionMgr.setSelectionRangeBegin(firstSelected);
             } else {
                 // TODO: Check if this is really happening.
                 Log.w(TAG, "First selected by band is NOT in selection!");
@@ -342,18 +344,6 @@ public class BandController extends OnScrollListener {
         mModel = null;
         mOrigin = null;
         mLock.unblock();
-    }
-
-    private void onSelectionChanged(Set<String> updatedSelection) {
-        Map<String, Boolean> delta = mSelection.setProvisionalSelection(updatedSelection);
-        for (Map.Entry<String, Boolean> entry: delta.entrySet()) {
-            mSelectionManager.notifyItemStateChanged(entry.getKey(), entry.getValue());
-        }
-        mSelectionManager.notifySelectionChanged();
-    }
-
-    private boolean onBeforeItemStateChange(String id, boolean nextState) {
-        return mSelectionManager.canSetState(id, nextState);
     }
 
     @Override
@@ -429,7 +419,11 @@ public class BandController extends OnScrollListener {
         // should expand from when Shift+click is used.
         private int mPositionNearestOrigin = NOT_SET;
 
-        GridModel(SelectionEnvironment helper, IntPredicate gridItemTester, DocumentsAdapter adapter) {
+        GridModel(
+                SelectionEnvironment helper,
+                IntPredicate gridItemTester,
+                DocumentsAdapter adapter) {
+
             mHelper = helper;
             mAdapter = adapter;
             mGridItemTester = gridItemTester;
@@ -650,7 +644,7 @@ public class BandController extends OnScrollListener {
                     final int rowKey = mRowBounds.get(row).lowerLimit;
                     int position = items.get(rowKey, NOT_SET);
                     if (position != NOT_SET) {
-                        String id = mAdapter.getModelId(position);
+                        String id = mAdapter.getStableId(position);
                         if (id != null) {
                             // The adapter inserts items for UI layout purposes that aren't associated
                             // with files.  Those will have a null model ID.  Don't select them.

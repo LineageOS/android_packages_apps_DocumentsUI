@@ -31,6 +31,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.State;
+import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 
@@ -150,8 +151,8 @@ interface DragStartListener {
          * coordinates of the event, return a valid selection for drag and drop operation
          */
         @VisibleForTesting
-        Selection getSelectionToBeCopied(String modelId, InputEvent event) {
-            Selection selection = new Selection();
+        MutableSelection getSelectionToBeCopied(String modelId, InputEvent event) {
+            MutableSelection selection = new MutableSelection();
             // If CTRL-key is held down and there's other existing selection, add item to
             // selection (if not already selected)
             if (event.isCtrlKeyDown() && !mSelectionMgr.getSelection().contains(modelId)
@@ -160,7 +161,7 @@ interface DragStartListener {
             }
 
             if (mSelectionMgr.getSelection().contains(modelId)) {
-                mSelectionMgr.getSelection(selection);
+                mSelectionMgr.copySelection(selection);
             } else {
                 selection.add(modelId);
                 mSelectionMgr.clearSelection();
