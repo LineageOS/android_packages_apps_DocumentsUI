@@ -32,6 +32,7 @@ import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import com.android.internal.annotations.VisibleForTesting;
@@ -131,20 +132,21 @@ public class Injector<T extends ActionHandler> {
     /**
      * Obtains action handler and resets it if necessary.
      *
-     * @param reloadLock the lock held by
-     *            {@link com.android.documentsui.selection.addons.BandController} to prevent loader
-     *            from updating result during band selection. May be {@code null} if called from
-     *            {@link com.android.documentsui.sidebar.RootsFragment}.
+     * @param contentLock the lock held by
+     *            {@link com.android.documentsui.selection.addons.BandController} and
+     *            {@link com.android.documentsui.selection.addons.GestureSelector} to prevent loader
+     *            from updating result during band/gesture selection. May be {@code null} if called
+     *            from {@link com.android.documentsui.sidebar.RootsFragment}.
      * @return the action handler
      */
-    public T getActionHandler(@Nullable DirectoryReloadLock reloadLock) {
+    public T getActionHandler(@Nullable ContentLock contentLock) {
 
         // provide our friend, RootsFragment, early access to this special feature!
-        if (reloadLock == null) {
+        if (contentLock == null) {
             return actions;
         }
 
-        return actions.reset(reloadLock);
+        return actions.reset(contentLock);
     }
 
     /**

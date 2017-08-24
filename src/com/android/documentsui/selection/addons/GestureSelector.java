@@ -22,12 +22,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.ui.ViewAutoScroller;
-import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
-import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
+import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
+import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
 
 import java.util.function.IntSupplier;
 
@@ -46,7 +44,7 @@ public final class GestureSelector {
     private final Runnable mDragScroller;
     private final IntSupplier mHeight;
     private final ViewFinder mViewFinder;
-    private final DirectoryReloadLock mLock;
+    private final ContentLock mLock;
     private int mLastStartedItemPos = -1;
     private boolean mStarted = false;
     private Point mLastInterceptedPoint;
@@ -55,14 +53,15 @@ public final class GestureSelector {
             SelectionManager selectionMgr,
             IntSupplier heightSupplier,
             ViewFinder viewFinder,
-            ScrollActionDelegate actionDelegate,
-            DirectoryReloadLock lock) {
+            Callbacks scrollCallbacks,
+            ContentLock lock) {
+
         mSelectionMgr = selectionMgr;
         mHeight = heightSupplier;
         mViewFinder = viewFinder;
         mLock = lock;
 
-        ScrollDistanceDelegate distanceDelegate = new ScrollDistanceDelegate() {
+        ScrollHost host = new ScrollHost() {
             @Override
             public Point getCurrentPosition() {
                 return mLastInterceptedPoint;
@@ -79,15 +78,13 @@ public final class GestureSelector {
             }
         };
 
-        mDragScroller = new ViewAutoScroller(distanceDelegate, actionDelegate);
+        mDragScroller = new ViewAutoScroller(host, scrollCallbacks);
     }
 
     public static GestureSelector create(
-            SelectionManager selectionMgr,
-            RecyclerView scrollView,
-            DirectoryReloadLock lock) {
+            SelectionManager selectionMgr, RecyclerView scrollView, ContentLock lock) {
 
-        ScrollActionDelegate actionDelegate = new ScrollActionDelegate() {
+        Callbacks actionDelegate = new Callbacks() {
             @Override
             public void scrollBy(int dy) {
                 scrollView.scrollBy(0, dy);
@@ -103,13 +100,13 @@ public final class GestureSelector {
                 scrollView.removeCallbacks(r);
             }
         };
-        GestureSelector helper =
-                new GestureSelector(
-                        selectionMgr,
-                        scrollView::getHeight,
-                        scrollView::findChildViewUnder,
-                        actionDelegate,
-                        lock);
+
+        GestureSelector helper = new GestureSelector(
+                selectionMgr,
+                scrollView::getHeight,
+                scrollView::findChildViewUnder,
+                actionDelegate,
+                lock);
 
         return helper;
     }

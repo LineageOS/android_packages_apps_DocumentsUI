@@ -16,8 +16,6 @@
 
 package com.android.documentsui.selection.addons;
 
-import static com.android.documentsui.ui.ViewAutoScroller.NOT_SET;
-
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -32,16 +30,14 @@ import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 import android.view.View;
 
-import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.selection.SelectionManager.StableIdProvider;
-import com.android.documentsui.ui.ViewAutoScroller;
-import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
-import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
+import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
+import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +55,9 @@ public class BandController {
     static final boolean DEBUG = false;
     static final String TAG = "BandController";
 
+    // magical value indicating that a value has not been previously set. primitive null :)
+    private static final int NOT_SET = -1;
+
     private final Runnable mModelBuilder;
 
     private final SelectionHost mHost;
@@ -67,7 +66,7 @@ public class BandController {
     private final SelectionManager mSelectionMgr;
     private final Selection mSelection;
     private final SelectionPredicate mSelectionPredicate;
-    private final DirectoryReloadLock mLock;
+    private final ContentLock mLock;
     private final Runnable mViewScroller;
     private final GridModel.OnSelectionChangedListener mGridListener;
     private final List<Runnable> mStartBandSelectListeners = new ArrayList<>();
@@ -82,7 +81,7 @@ public class BandController {
             StableIdProvider stableIds,
             SelectionManager selectionManager,
             SelectionPredicate selectionPredicate,
-            DirectoryReloadLock lock) {
+            ContentLock lock) {
 
         this(new RecyclerViewSelectionHost(view),
                 view.getAdapter(),
@@ -99,7 +98,7 @@ public class BandController {
             StableIdProvider stableIds,
             SelectionManager selectionManager,
             SelectionPredicate selectionPredicate,
-            DirectoryReloadLock lock) {
+            ContentLock lock) {
 
         mHost = host;
         mStableIds = stableIds;
@@ -120,7 +119,7 @@ public class BandController {
                 });
 
         mViewScroller = new ViewAutoScroller(
-                new ScrollDistanceDelegate() {
+                new ScrollHost() {
                     @Override
                     public Point getCurrentPosition() {
                         return mCurrentPosition;
@@ -372,8 +371,6 @@ public class BandController {
      */
     @VisibleForTesting
     static final class GridModel {
-
-        public static final int NOT_SET = -1;
 
         // Enum values used to determine the corner at which the origin is located within the
         private static final int UPPER = 0x00;
@@ -1055,7 +1052,7 @@ public class BandController {
      * Provides functionality for BandController. Exists primarily to tests that are
      * fully isolated from RecyclerView.
      */
-    interface SelectionHost extends ScrollActionDelegate {
+    interface SelectionHost extends Callbacks {
         void showBand(Rect rect);
         void hideBand();
         void addOnScrollListener(RecyclerView.OnScrollListener listener);

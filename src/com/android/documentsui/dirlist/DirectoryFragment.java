@@ -63,7 +63,6 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
-import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
@@ -94,6 +93,7 @@ import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.selection.addons.BandController;
+import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.selection.addons.GestureSelector;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -176,7 +176,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private View mProgressBar;
 
     private DirectoryState mLocalState;
-    private DirectoryReloadLock mReloadLock = new DirectoryReloadLock();
+
+    // Blocks loading/reloading of content while user is actively making selection.
+    private ContentLock mContentLock = new ContentLock();
 
     private Runnable mBandSelectStarted;
 
@@ -344,7 +346,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mSelectionMgr = mInjector.getSelectionManager(mAdapter, selectionPredicate);
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
-        mActions = mInjector.getActionHandler(mReloadLock);
+        mActions = mInjector.getActionHandler(mContentLock);
 
         mRecView.setAccessibilityDelegateCompat(
                 new AccessibilityEventRouter(mRecView,
@@ -352,7 +354,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addEventListener(mSelectionMetadata);
 
-        GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView, mReloadLock);
+        GestureSelector gestureSel =
+                GestureSelector.create(mSelectionMgr, mRecView, mContentLock);
 
         if (mState.allowMultiple) {
             mBandController = new BandController(
@@ -360,7 +363,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     mAdapter,  // stableIds provider.
                     mSelectionMgr,
                     selectionPredicate,
-                    mReloadLock);
+                    mContentLock);
 
             mBandSelectStarted = mFocusManager::clearFocus;
             mBandController.addBandSelectStartedListener(mBandSelectStarted);

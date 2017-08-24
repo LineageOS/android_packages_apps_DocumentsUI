@@ -26,7 +26,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.view.MotionEvent;
 
-import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.testing.SelectionManagers;
@@ -57,7 +56,7 @@ public class BandControllerTest {
                 adapter,  // stableIds
                 SelectionManagers.createTestInstance(ITEMS),
                 SelectionManagers.CAN_SET_ANYTHING,
-                new DirectoryReloadLock()) {
+                new ContentLock()) {
           @Override
           public boolean isActive() {
               return mIsActive;
@@ -133,7 +132,8 @@ public class BandControllerTest {
                 emptyAdapter,
                 SelectionManagers.createTestInstance(ITEMS),
                 SelectionManagers.CAN_SET_ANYTHING,
-                new DirectoryReloadLock());
+                new ContentLock());
+
         assertFalse(mBandController.shouldStart(goodStartEventBuilder().build()));
     }
 

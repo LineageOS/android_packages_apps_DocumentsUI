@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-
-package com.android.documentsui.ui;
+package com.android.documentsui.selection.addons;
 
 import android.graphics.Point;
 
@@ -27,19 +26,20 @@ import android.graphics.Point;
  * past top/bottom of the screen.
  */
 public final class ViewAutoScroller implements Runnable {
-    public static final int NOT_SET = -1;
+
     // ratio used to calculate the top/bottom hotspot region; used with view height
     public static final float TOP_BOTTOM_THRESHOLD_RATIO = 0.125f;
     public static final int MAX_SCROLL_STEP = 70;
 
-    // Top and bottom inner buffer such that user's cursor does not have to be exactly off screen
-    // for auto scrolling to begin
-    private final ScrollDistanceDelegate mCalcDelegate;
-    private final ScrollActionDelegate mUiDelegate;
+    private ScrollHost mHost;
+    private Callbacks mCallbacks;
 
-    public ViewAutoScroller(ScrollDistanceDelegate calcDelegate, ScrollActionDelegate uiDelegate) {
-        mCalcDelegate = calcDelegate;
-        mUiDelegate = uiDelegate;
+    public ViewAutoScroller(ScrollHost scrollHost, Callbacks callbacks) {
+        assert scrollHost != null;
+        assert callbacks != null;
+
+        mHost = scrollHost;
+        mCallbacks = callbacks;
     }
 
     /**
@@ -56,18 +56,18 @@ public final class ViewAutoScroller implements Runnable {
         // pointer are in these buffer pixels.
         int pixelsPastView = 0;
 
-        final int topBottomThreshold = (int) (mCalcDelegate.getViewHeight()
+        final int topBottomThreshold = (int) (mHost.getViewHeight()
                 * TOP_BOTTOM_THRESHOLD_RATIO);
 
-        if (mCalcDelegate.getCurrentPosition().y <= topBottomThreshold) {
-            pixelsPastView = mCalcDelegate.getCurrentPosition().y - topBottomThreshold;
-        } else if (mCalcDelegate.getCurrentPosition().y >= mCalcDelegate.getViewHeight()
+        if (mHost.getCurrentPosition().y <= topBottomThreshold) {
+            pixelsPastView = mHost.getCurrentPosition().y - topBottomThreshold;
+        } else if (mHost.getCurrentPosition().y >= mHost.getViewHeight()
                 - topBottomThreshold) {
-            pixelsPastView = mCalcDelegate.getCurrentPosition().y - mCalcDelegate.getViewHeight()
+            pixelsPastView = mHost.getCurrentPosition().y - mHost.getViewHeight()
                     + topBottomThreshold;
         }
 
-        if (!mCalcDelegate.isActive() || pixelsPastView == 0) {
+        if (!mHost.isActive() || pixelsPastView == 0) {
             // If the operation that started the scrolling is no longer inactive, or if it is active
             // but not at the edge of the view, no scrolling is necessary.
             return;
@@ -79,11 +79,11 @@ public final class ViewAutoScroller implements Runnable {
 
         // Compute the number of pixels to scroll, and scroll that many pixels.
         final int numPixels = computeScrollDistance(pixelsPastView);
-        mUiDelegate.scrollBy(numPixels);
+        mCallbacks.scrollBy(numPixels);
 
         // Remove callback to this, and then properly run at next frame again
-        mUiDelegate.removeCallback(this);
-        mUiDelegate.runAtNextFrame(this);
+        mCallbacks.removeCallback(this);
+        mCallbacks.runAtNextFrame(this);
     }
 
     /**
@@ -93,7 +93,7 @@ public final class ViewAutoScroller implements Runnable {
      * @return
      */
     public int computeScrollDistance(int pixelsPastView) {
-        final int topBottomThreshold = (int) (mCalcDelegate.getViewHeight()
+        final int topBottomThreshold = (int) (mHost.getViewHeight()
                 * TOP_BOTTOM_THRESHOLD_RATIO);
 
         final int direction = (int) Math.signum(pixelsPastView);
@@ -131,16 +131,17 @@ public final class ViewAutoScroller implements Runnable {
      * Used by {@link run} to properly calculate the proper amount of pixels to scroll given time
      * passed since scroll started, and to properly scroll / proper listener clean up if necessary.
      */
-    public interface ScrollDistanceDelegate {
+    public interface ScrollHost {
         public Point getCurrentPosition();
         public int getViewHeight();
         public boolean isActive();
     }
 
     /**
-     * Used by {@link run} to do UI tasks, such as scrolling and rerunning at next UI cycle.
+     * Callback used by scroller to perform UI tasks, such as scrolling and rerunning at next UI
+     * cycle.
      */
-    public interface ScrollActionDelegate {
+    public interface Callbacks {
         public void scrollBy(int dy);
         public void runAtNextFrame(Runnable r);
         public void removeCallback(Runnable r);
