@@ -130,10 +130,11 @@ public class Injector<T extends ActionHandler> {
 
     /**
      * Obtains action handler and resets it if necessary.
-     * @param reloadLock the lock held by {@link com.android.documentsui.selection.BandController}
-     *                   to prevent loader from updating result during band selection. May be
-     *                   {@code null} if called from
-     *                   {@link com.android.documentsui.sidebar.RootsFragment}.
+     *
+     * @param reloadLock the lock held by
+     *            {@link com.android.documentsui.selection.addons.BandController} to prevent loader
+     *            from updating result during band selection. May be {@code null} if called from
+     *            {@link com.android.documentsui.sidebar.RootsFragment}.
      * @return the action handler
      */
     public T getActionHandler(@Nullable DirectoryReloadLock reloadLock) {

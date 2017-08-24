@@ -115,23 +115,28 @@ public final class DocsSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void snapProvisionalRangeSelection(int pos) {
-        mDelegate.snapProvisionalRangeSelection(pos);
-    }
-
-    @Override
     public void formNewSelectionRange(int startPos, int endPos) {
         mDelegate.formNewSelectionRange(startPos, endPos);
     }
 
     @Override
-    public void cancelProvisionalSelection() {
-        mDelegate.cancelProvisionalSelection();
+    public void snapProvisionalRangeSelection(int pos) {
+        mDelegate.snapProvisionalRangeSelection(pos);
+    }
+
+    @Override
+    public void clearProvisionalSelection() {
+        mDelegate.clearProvisionalSelection();
     }
 
     @Override
     public void setProvisionalSelection(Set<String> newSelection) {
         mDelegate.setProvisionalSelection(newSelection);
+    }
+
+    @Override
+    public void mergeProvisionalSelection() {
+        mDelegate.mergeProvisionalSelection();
     }
 
     @Override

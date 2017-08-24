@@ -200,7 +200,12 @@ public class DocsSelectionManagerTest {
         }
 
         @Override
-        public void cancelProvisionalSelection() {
+        public void clearProvisionalSelection() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void mergeProvisionalSelection() {
             throw new UnsupportedOperationException();
         }
 

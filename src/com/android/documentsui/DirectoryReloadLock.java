@@ -23,7 +23,7 @@ import android.annotation.Nullable;
 import android.util.Log;
 
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.selection.BandController;
+import com.android.documentsui.selection.addons.BandController;
 
 /**
  * A lock used by {@link DirectoryLoader} and {@link BandController} to ensure refresh is blocked

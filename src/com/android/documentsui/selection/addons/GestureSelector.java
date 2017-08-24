@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.selection;
+package com.android.documentsui.selection.addons;
 
 import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
@@ -24,6 +24,7 @@ import android.view.View;
 
 import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.ui.ViewAutoScroller;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
@@ -189,7 +190,7 @@ public final class GestureSelector {
     // Essentially, since this means all gesture movement is over, reset everything and apply
     // provisional selection.
     private void handleUpEvent(InputEvent e) {
-        mSelectionMgr.getSelection().applyProvisionalSelection();
+        mSelectionMgr.mergeProvisionalSelection();
         endSelection();
     }
 
@@ -197,7 +198,7 @@ public final class GestureSelector {
     // This means this gesture selection is aborted, so reset everything and abandon provisional
     // selection.
     private void handleCancelEvent(InputEvent e) {
-        mSelectionMgr.cancelProvisionalSelection();
+        mSelectionMgr.clearProvisionalSelection();
         endSelection();
     }
 

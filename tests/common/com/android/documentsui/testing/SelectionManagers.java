@@ -28,9 +28,14 @@ import java.util.List;
 
 public class SelectionManagers {
 
-    public static final SelectionPredicate CAN_SELECT_ANYTHING = new SelectionPredicate() {
+    public static final SelectionPredicate CAN_SET_ANYTHING = new SelectionPredicate() {
         @Override
-        public boolean test(String id, boolean nextState) {
+        public boolean canSetStateForId(String id, boolean nextState) {
+            return true;
+        }
+
+        @Override
+        public boolean canSetStateAtPosition(int position, boolean nextState) {
             return true;
         }
     };
@@ -47,7 +52,7 @@ public class SelectionManagers {
 
     public static DocsSelectionManager createTestInstance(
             List<String> docs, @SelectionMode int mode) {
-        return createTestInstance(new TestDocumentsAdapter(docs), mode, CAN_SELECT_ANYTHING);
+        return createTestInstance(new TestDocumentsAdapter(docs), mode, CAN_SET_ANYTHING);
     }
 
     public static DocsSelectionManager createTestInstance(

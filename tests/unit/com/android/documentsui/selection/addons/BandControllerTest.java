@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.selection;
+package com.android.documentsui.selection.addons;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -50,14 +50,14 @@ public class BandControllerTest {
     @Before
     public void setup() throws Exception {
         mIsActive = false;
+        TestDocumentsAdapter adapter = new TestDocumentsAdapter(ITEMS);
         mBandController = new BandController(
-                new TestSelectionEnvironment(),
-                new TestDocumentsAdapter(ITEMS),
+                new TestSelectionHost(),
+                adapter,  // adapter
+                adapter,  // stableIds
                 SelectionManagers.createTestInstance(ITEMS),
-                SelectionManagers.CAN_SELECT_ANYTHING,
-                new DirectoryReloadLock(),
-                null  // "gridItemTester"
-                ) {
+                SelectionManagers.CAN_SET_ANYTHING,
+                new DirectoryReloadLock()) {
           @Override
           public boolean isActive() {
               return mIsActive;
@@ -126,14 +126,14 @@ public class BandControllerTest {
 
     @Test
     public void testBadStart_NoItems() {
+        TestDocumentsAdapter emptyAdapter = new TestDocumentsAdapter(Collections.EMPTY_LIST);
         mBandController = new BandController(
-                new TestSelectionEnvironment(),
-                new TestDocumentsAdapter(Collections.EMPTY_LIST),
+                new TestSelectionHost(),
+                emptyAdapter,
+                emptyAdapter,
                 SelectionManagers.createTestInstance(ITEMS),
-                SelectionManagers.CAN_SELECT_ANYTHING,
-                new DirectoryReloadLock(),
-                null   // gridItemTester
-                );
+                SelectionManagers.CAN_SET_ANYTHING,
+                new DirectoryReloadLock());
         assertFalse(mBandController.shouldStart(goodStartEventBuilder().build()));
     }
 
@@ -197,7 +197,7 @@ public class BandControllerTest {
         return new Builder().mouse().action(MotionEvent.ACTION_UP).notInDragHotspot();
     }
 
-    private final class TestSelectionEnvironment implements BandController.SelectionEnvironment {
+    private final class TestSelectionHost implements BandController.SelectionHost {
         @Override
         public void scrollBy(int dy) {
         }

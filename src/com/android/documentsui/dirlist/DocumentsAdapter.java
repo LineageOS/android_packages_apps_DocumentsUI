@@ -68,10 +68,6 @@ public abstract class DocumentsAdapter
         throw new UnsupportedOperationException();
     }
 
-    public boolean hasModelIds() {
-        return !getStableIds().isEmpty();
-    }
-
     static boolean isDirectory(Cursor cursor) {
         final String mimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
         return Document.MIME_TYPE_DIR.equals(mimeType);
