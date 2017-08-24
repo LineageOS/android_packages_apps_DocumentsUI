@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="inspector_title" msgid="1924760928091740238">"माहिती"</string>
     <string name="inspector_load_error" msgid="7522190243413249291">"फाइलची माहिती लोड करता आली नाही"</string>
-    <string name="inspector_debug_section" msgid="2576052661505700421">"डीबग माहिती (फक्त विकासकांसाठी)"</string>
+    <string name="inspector_debug_section" msgid="2576052661505700421">"डीबग माहिती (फक्त डेव्हलपरसाठी)"</string>
     <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"अविश्लेषित मेटाडेटा: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
     <string name="inspector_metadata_section" msgid="6077622515328240575">"मीडिया तपशील"</string>
     <string name="handler_app_file_opens_with" msgid="5272329600389613550">"या प्रकारची फाइल ज्याने उघडेल ते"</string>
@@ -45,5 +45,5 @@
     <string name="metadata_album" msgid="1661699531214720236">"अल्बम"</string>
     <string name="metadata_address" msgid="1849921023707744640">"स्थान"</string>
     <string name="debug_stream_types" msgid="2088565280360139333">"स्ट्रीम प्रकार"</string>
-    <string name="debug_raw_size" msgid="7487139640175650185">"अविश्लेषित आकार (बाइट)"</string>
+    <string name="debug_raw_size" msgid="7487139640175650185">"रॉ आकार (बाइट)"</string>
 </resources>
