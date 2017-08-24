@@ -41,7 +41,7 @@
     <string name="metadata_iso_speed_ratings" msgid="1699781252899759058">"ISO ਦੇ ਬਰਾਬਰ"</string>
     <string name="metadata_iso_format" msgid="4153285204012694861">"ISO <xliff:g id="ISO_SPEED">%1$d</xliff:g>"</string>
     <string name="metadata_artist" msgid="8972421485694988540">"ਕਲਾਕਾਰ"</string>
-    <string name="metadata_composer" msgid="4696926808308256056">"ਸੰਗੀਤਕਾਰ"</string>
+    <string name="metadata_composer" msgid="4696926808308256056">"ਗੀਤਕਾਰ"</string>
     <string name="metadata_album" msgid="1661699531214720236">"ਐਲਬਮ"</string>
     <string name="metadata_address" msgid="1849921023707744640">"ਟਿਕਾਣਾ"</string>
     <string name="debug_stream_types" msgid="2088565280360139333">"ਸਟ੍ਰੀਮ ਦੀਆਂ ਕਿਸਮਾਂ"</string>
