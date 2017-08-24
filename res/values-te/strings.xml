@@ -180,7 +180,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ఎంచుకోబడింది</item>
     </plurals>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> అంశాలు</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> వస్తువులు</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> అంశం</item>
     </plurals>
     <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\"ని తొలగించాలా?"</string>
