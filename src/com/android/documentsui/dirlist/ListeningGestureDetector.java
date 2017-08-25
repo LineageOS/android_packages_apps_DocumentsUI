@@ -33,9 +33,9 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Events.MotionInputEvent;
+import com.android.documentsui.selection.addons.BandController;
+import com.android.documentsui.selection.addons.GestureSelector;
 import com.android.documentsui.base.Features;
-import com.android.documentsui.selection.BandController;
-import com.android.documentsui.selection.GestureSelector;
 
 import java.util.function.Consumer;
 

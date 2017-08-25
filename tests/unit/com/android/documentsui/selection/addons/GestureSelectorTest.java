@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.selection;
+package com.android.documentsui.selection.addons;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -23,6 +23,7 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
+import com.android.documentsui.selection.addons.GestureSelector;
 import com.android.documentsui.testing.TestEvent;
 
 import org.junit.Before;

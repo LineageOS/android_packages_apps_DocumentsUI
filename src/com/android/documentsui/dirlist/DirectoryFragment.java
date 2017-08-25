@@ -90,11 +90,11 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.picker.PickActivity;
-import com.android.documentsui.selection.BandController;
-import com.android.documentsui.selection.GestureSelector;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
+import com.android.documentsui.selection.addons.BandController;
+import com.android.documentsui.selection.addons.GestureSelector;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -316,8 +316,33 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        SelectionManager.SelectionPredicate canSelect = this::canSetSelectionState;
-        mSelectionMgr = mInjector.getSelectionManager(mAdapter, canSelect);
+        SelectionPredicate selectionPredicate = new SelectionPredicate() {
+
+            @Override
+            public boolean canSetStateForId(String id, boolean nextState) {
+                return canSetSelectionState(id, nextState);
+            }
+
+            @Override
+            public boolean canSetStateAtPosition(int position, boolean nextState) {
+                // This method features a nextState arg for symmetry.
+                // But, there are no current uses for checking un-selecting state by position.
+                // So rather than have some unsuspecting client think canSetState(int, false)
+                // will ever do anything. Let's just be grumpy about it.
+                assert nextState == true;
+
+                // NOTE: Given that we have logic in some places disallowing selection,
+                // it may be a bug that Band and Gesture based selections don't
+                // also verify something can be unselected.
+
+                // The band selection model only operates on documents and directories.
+                // Exclude other types of adapter items like whitespace and dividers.
+                RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(position);
+                return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
+            }
+        };
+
+        mSelectionMgr = mInjector.getSelectionManager(mAdapter, selectionPredicate);
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
         mActions = mInjector.getActionHandler(mReloadLock);
 
@@ -332,16 +357,11 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         if (mState.allowMultiple) {
             mBandController = new BandController(
                     mRecView,
-                    mAdapter,
+                    mAdapter,  // stableIds provider.
                     mSelectionMgr,
-                    canSelect,
-                    mReloadLock,
-                    (int pos) -> {
-                        // The band selection model only operates on documents and directories.
-                        // Exclude other types of adapter items like whitespace and dividers.
-                        RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(pos);
-                        return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
-                    });
+                    selectionPredicate,
+                    mReloadLock);
+
             mBandSelectStarted = mFocusManager::clearFocus;
             mBandController.addBandSelectStartedListener(mBandSelectStarted);
         }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.selection;
+package com.android.documentsui.selection.addons;
 
 import static com.android.documentsui.ui.ViewAutoScroller.NOT_SET;
 
@@ -35,8 +35,10 @@ import android.view.View;
 import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Events.InputEvent;
-import com.android.documentsui.dirlist.DocumentsAdapter;
+import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
+import com.android.documentsui.selection.SelectionManager.StableIdProvider;
 import com.android.documentsui.ui.ViewAutoScroller;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollActionDelegate;
 import com.android.documentsui.ui.ViewAutoScroller.ScrollDistanceDelegate;
@@ -46,24 +48,25 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.IntPredicate;
 
 /**
- * Provides mouse driven band-select support when used in conjunction with {@link RecyclerView}
- * and {@link SelectionManager}. This class is responsible for rendering the band select
- * overlay and selecting overlaid items via SelectionManager.
+ * Provides mouse driven band-selection support when used in conjunction with
+ * a {@link RecyclerView} instance and a {@link SelectionManager}. This class is responsible
+ * for rendering the band select overlay and selecting overlaid items via SelectionManager.
  */
-public class BandController extends OnScrollListener {
+public class BandController {
 
-    private static final boolean DEBUG = false;
-    private static final String TAG = "BandController";
+    static final boolean DEBUG = false;
+    static final String TAG = "BandController";
 
     private final Runnable mModelBuilder;
-    private final SelectionEnvironment mEnvironment;
-    private final DocumentsAdapter mAdapter;
+
+    private final SelectionHost mHost;
+    private final StableIdProvider mStableIds;
+    private final RecyclerView.Adapter<?> mAdapter;
     private final SelectionManager mSelectionMgr;
     private final Selection mSelection;
-    private final SelectionPredicate mCanSelect;
+    private final SelectionPredicate mSelectionPredicate;
     private final DirectoryReloadLock mLock;
     private final Runnable mViewScroller;
     private final GridModel.OnSelectionChangedListener mGridListener;
@@ -72,40 +75,50 @@ public class BandController extends OnScrollListener {
     @Nullable private Rect mBounds;
     @Nullable private Point mCurrentPosition;
     @Nullable private Point mOrigin;
-    @Nullable private BandController.GridModel mModel;
-
+    @Nullable private GridModel mModel;
 
     public BandController(
             final RecyclerView view,
-            DocumentsAdapter adapter,
+            StableIdProvider stableIds,
             SelectionManager selectionManager,
-            SelectionPredicate canSelect,
-            DirectoryReloadLock lock,
-            IntPredicate gridItemTester) {
+            SelectionPredicate selectionPredicate,
+            DirectoryReloadLock lock) {
 
-        this(new RuntimeSelectionEnvironment(view), adapter, selectionManager,
-                canSelect, lock, gridItemTester);
+        this(new RecyclerViewSelectionHost(view),
+                view.getAdapter(),
+                stableIds,
+                selectionManager,
+                selectionPredicate,
+                lock);
     }
 
     @VisibleForTesting
     BandController(
-            SelectionEnvironment env,
-            DocumentsAdapter adapter,
+            SelectionHost host,
+            RecyclerView.Adapter<?> adapter,
+            StableIdProvider stableIds,
             SelectionManager selectionManager,
-            SelectionPredicate canSelect,
-            DirectoryReloadLock lock,
-            IntPredicate gridItemTester) {
+            SelectionPredicate selectionPredicate,
+            DirectoryReloadLock lock) {
+
+        mHost = host;
+        mStableIds = stableIds;
+        mAdapter = adapter;
+        mSelectionMgr = selectionManager;
+        mSelectionPredicate = selectionPredicate;
 
         mLock = lock;
 
         mSelection = selectionManager.getSelection();
 
-        mEnvironment = env;
-        mAdapter = adapter;
-        mSelectionMgr = selectionManager;
-        mCanSelect = canSelect;
+        mHost.addOnScrollListener(
+                new OnScrollListener() {
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        BandController.this.onScrolled(recyclerView, dx, dy);
+                    }
+                });
 
-        mEnvironment.addOnScrollListener(this);
         mViewScroller = new ViewAutoScroller(
                 new ScrollDistanceDelegate() {
                     @Override
@@ -115,7 +128,7 @@ public class BandController extends OnScrollListener {
 
                     @Override
                     public int getViewHeight() {
-                        return mEnvironment.getHeight();
+                        return mHost.getHeight();
                     }
 
                     @Override
@@ -123,7 +136,7 @@ public class BandController extends OnScrollListener {
                         return BandController.this.isActive();
                     }
                 },
-                env);
+                host);
 
         mAdapter.registerAdapterDataObserver(
                 new RecyclerView.AdapterDataObserver() {
@@ -162,22 +175,16 @@ public class BandController extends OnScrollListener {
                 });
 
         mGridListener = new GridModel.OnSelectionChangedListener() {
-
-            @Override
-            public void onSelectionChanged(Set<String> updatedSelection) {
-                mSelectionMgr.setProvisionalSelection(updatedSelection);
-            }
-
-            @Override
-            public boolean onBeforeItemStateChange(String id, boolean nextState) {
-                return mCanSelect.test(id, nextState);
-            }
-        };
+                @Override
+                public void onSelectionChanged(Set<String> updatedSelection) {
+                    mSelectionMgr.setProvisionalSelection(updatedSelection);
+                }
+            };
 
         mModelBuilder = new Runnable() {
             @Override
             public void run() {
-                mModel = new GridModel(mEnvironment, gridItemTester, mAdapter);
+                mModel = new GridModel(mHost, mStableIds, mSelectionPredicate);
                 mModel.addOnSelectionChangedListener(mGridListener);
             }
         };
@@ -242,10 +249,11 @@ public class BandController extends OnScrollListener {
         // don't get routed correctly to onTouchEvent.
         return !isActive()
                 && e.isActionMove() // the initial button move via mouse-touch (ie. down press)
-                && mAdapter.hasModelIds() // we want to check against actual modelIds count to
-                                          // avoid dummy view count from the AdapterWrapper
+                // The adapter inserts items for UI layout purposes that aren't
+                // associated with files. Checking against actual modelIds count
+                // effectively ignores those UI layout items.
+                && !mStableIds.getStableIds().isEmpty()
                 && !e.isOverDragHotspot();
-
     }
 
     public boolean shouldStop(InputEvent input) {
@@ -303,9 +311,9 @@ public class BandController extends OnScrollListener {
      * Scrolls the view if necessary.
      */
     private void scrollViewIfNecessary() {
-        mEnvironment.removeCallback(mViewScroller);
+        mHost.removeCallback(mViewScroller);
         mViewScroller.run();
-        mEnvironment.invalidateView();
+        mHost.invalidateView();
     }
 
     /**
@@ -317,7 +325,7 @@ public class BandController extends OnScrollListener {
                 Math.min(mOrigin.y, mCurrentPosition.y),
                 Math.max(mOrigin.x, mCurrentPosition.x),
                 Math.max(mOrigin.y, mCurrentPosition.y));
-        mEnvironment.showBand(mBounds);
+        mHost.showBand(mBounds);
     }
 
     /**
@@ -326,12 +334,12 @@ public class BandController extends OnScrollListener {
     private void endBandSelect() {
         if (DEBUG) Log.d(TAG, "Ending band select.");
 
-        mEnvironment.hideBand();
-        mSelection.applyProvisionalSelection();
+        mHost.hideBand();
+        mSelectionMgr.mergeProvisionalSelection();
         mModel.endSelection();
         int firstSelected = mModel.getPositionNearestOrigin();
         if (firstSelected != NOT_SET) {
-            if (mSelection.contains(mAdapter.getStableId(firstSelected))) {
+            if (mSelection.contains(mStableIds.getStableId(firstSelected))) {
                 // TODO: firstSelected should really be lastSelected, we want to anchor the item
                 // where the mouse-up occurred.
                 mSelectionMgr.setSelectionRangeBegin(firstSelected);
@@ -346,8 +354,7 @@ public class BandController extends OnScrollListener {
         mLock.unblock();
     }
 
-    @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+    private void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (!isActive()) {
             return;
         }
@@ -364,7 +371,7 @@ public class BandController extends OnScrollListener {
      * it alerts listeners of which items are covered by the selections.
      */
     @VisibleForTesting
-    static final class GridModel extends RecyclerView.OnScrollListener {
+    static final class GridModel {
 
         public static final int NOT_SET = -1;
 
@@ -378,11 +385,11 @@ public class BandController extends OnScrollListener {
         private static final int LOWER_LEFT = LOWER | LEFT;
         private static final int LOWER_RIGHT = LOWER | RIGHT;
 
-        private final SelectionEnvironment mHelper;
-        private final IntPredicate mGridItemTester;
-        private final DocumentsAdapter mAdapter;
+        private final SelectionHost mHost;
+        private final StableIdProvider mStableIds;
+        private final SelectionPredicate mSelectionPredicate;
 
-        private final List<GridModel.OnSelectionChangedListener> mOnSelectionChangedListeners =
+        private final List<OnSelectionChangedListener> mOnSelectionChangedListeners =
                 new ArrayList<>();
 
         // Map from the x-value of the left side of a SparseBooleanArray of adapter positions, keyed
@@ -419,23 +426,33 @@ public class BandController extends OnScrollListener {
         // should expand from when Shift+click is used.
         private int mPositionNearestOrigin = NOT_SET;
 
-        GridModel(
-                SelectionEnvironment helper,
-                IntPredicate gridItemTester,
-                DocumentsAdapter adapter) {
+        private final OnScrollListener mScrollListener;
 
-            mHelper = helper;
-            mAdapter = adapter;
-            mGridItemTester = gridItemTester;
-            mHelper.addOnScrollListener(this);
+        GridModel(
+                SelectionHost host,
+                StableIdProvider stableIds,
+                SelectionPredicate selectionPredicate) {
+
+            mHost = host;
+            mStableIds = stableIds;
+            mSelectionPredicate = selectionPredicate;
+
+            mScrollListener = new OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    GridModel.this.onScrolled(recyclerView, dx, dy);
+                }
+            };
+
+            mHost.addOnScrollListener(mScrollListener);
         }
 
         /**
          * Stops listening to the view's scrolls. Call this function before discarding a
-         * BandSelecModel object to prevent memory leaks.
+         * GridModel object to prevent memory leaks.
          */
         void stopListening() {
-            mHelper.removeOnScrollListener(this);
+            mHost.removeOnScrollListener(mScrollListener);
         }
 
         /**
@@ -453,7 +470,7 @@ public class BandController extends OnScrollListener {
             }
 
             mIsActive = true;
-            mPointer = mHelper.createAbsolutePoint(relativeOrigin);
+            mPointer = mHost.createAbsolutePoint(relativeOrigin);
             mRelativeOrigin = new RelativePoint(mPointer);
             mRelativePointer = new RelativePoint(mPointer);
             computeCurrentSelection();
@@ -470,7 +487,7 @@ public class BandController extends OnScrollListener {
          */
         @VisibleForTesting
         void resizeSelection(Point relativePointer) {
-            mPointer = mHelper.createAbsolutePoint(relativePointer);
+            mPointer = mHost.createAbsolutePoint(relativePointer);
             updateModel();
         }
 
@@ -489,8 +506,7 @@ public class BandController extends OnScrollListener {
             return mPositionNearestOrigin;
         }
 
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        private void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             if (!mIsActive) {
                 return;
             }
@@ -505,16 +521,16 @@ public class BandController extends OnScrollListener {
          * Queries the view for all children and records their location metadata.
          */
         private void recordVisibleChildren() {
-            for (int i = 0; i < mHelper.getVisibleChildCount(); i++) {
-                int adapterPosition = mHelper.getAdapterPositionAt(i);
+            for (int i = 0; i < mHost.getVisibleChildCount(); i++) {
+                int adapterPosition = mHost.getAdapterPositionAt(i);
                 // Sometimes the view is not attached, as we notify the multi selection manager
                 // synchronously, while views are attached asynchronously. As a result items which
                 // are in the adapter may not actually have a corresponding view (yet).
-                if (mHelper.hasView(adapterPosition) &&
-                        mGridItemTester.test(adapterPosition) &&
+                if (mHost.hasView(adapterPosition) &&
+                        mSelectionPredicate.canSetStateAtPosition(adapterPosition, true) &&
                         !mKnownPositions.get(adapterPosition)) {
                     mKnownPositions.put(adapterPosition, true);
-                    recordItemData(mHelper.getAbsoluteRectForChildViewAt(i), adapterPosition);
+                    recordItemData(mHost.getAbsoluteRectForChildViewAt(i), adapterPosition);
                 }
             }
         }
@@ -532,7 +548,7 @@ public class BandController extends OnScrollListener {
          * @param adapterPosition The position of the child view being processed.
          */
         private void recordItemData(Rect absoluteChildRect, int adapterPosition) {
-            if (mColumnBounds.size() != mHelper.getColumnCount()) {
+            if (mColumnBounds.size() != mHost.getColumnCount()) {
                 // If not all x-limits have been recorded, record this one.
                 recordLimits(
                         mColumnBounds, new Limits(absoluteChildRect.left, absoluteChildRect.right));
@@ -592,7 +608,7 @@ public class BandController extends OnScrollListener {
          * function.
          */
         private void notifyListeners() {
-            for (GridModel.OnSelectionChangedListener listener : mOnSelectionChangedListeners) {
+            for (OnSelectionChangedListener listener : mOnSelectionChangedListeners) {
                 listener.onSelectionChanged(mSelection);
             }
         }
@@ -632,7 +648,7 @@ public class BandController extends OnScrollListener {
          */
         private void updateSelection(
                 int columnStartIndex, int columnEndIndex, int rowStartIndex, int rowEndIndex) {
-            if (DEBUG) Log.d(TAG, String.format("updateSelection: %d, %d, %d, %d",
+            if (BandController.DEBUG) Log.d(BandController.TAG, String.format("updateSelection: %d, %d, %d, %d",
                     columnStartIndex, columnEndIndex, rowStartIndex, rowEndIndex));
 
             mSelection.clear();
@@ -644,10 +660,11 @@ public class BandController extends OnScrollListener {
                     final int rowKey = mRowBounds.get(row).lowerLimit;
                     int position = items.get(rowKey, NOT_SET);
                     if (position != NOT_SET) {
-                        String id = mAdapter.getStableId(position);
+                        String id = mStableIds.getStableId(position);
                         if (id != null) {
-                            // The adapter inserts items for UI layout purposes that aren't associated
-                            // with files.  Those will have a null model ID.  Don't select them.
+                            // The adapter inserts items for UI layout purposes that aren't
+                            // associated with files. Those will have a null model ID.
+                            // Don't select them.
                             if (canSelect(id)) {
                                 mSelection.add(id);
                             }
@@ -670,8 +687,8 @@ public class BandController extends OnScrollListener {
             // TODO: Simplify the logic, so the check whether we can select is done in one place.
             // Consider injecting ActivityConfig, or move the checks from MultiSelectManager to
             // Selection.
-            for (GridModel.OnSelectionChangedListener listener : mOnSelectionChangedListeners) {
-                if (!listener.onBeforeItemStateChange(id, true)) {
+            for (OnSelectionChangedListener listener : mOnSelectionChangedListeners) {
+                if (!mSelectionPredicate.canSetStateForId(id, true)) {
                     return false;
                 }
             }
@@ -710,14 +727,13 @@ public class BandController extends OnScrollListener {
          */
         static interface OnSelectionChangedListener {
             public void onSelectionChanged(Set<String> updatedSelection);
-            public boolean onBeforeItemStateChange(String id, boolean nextState);
         }
 
-        void addOnSelectionChangedListener(GridModel.OnSelectionChangedListener listener) {
+        void addOnSelectionChangedListener(OnSelectionChangedListener listener) {
             mOnSelectionChangedListeners.add(listener);
         }
 
-        void removeOnSelectionChangedListener(GridModel.OnSelectionChangedListener listener) {
+        void removeOnSelectionChangedListener(OnSelectionChangedListener listener) {
             mOnSelectionChangedListeners.remove(listener);
         }
 
@@ -1039,7 +1055,7 @@ public class BandController extends OnScrollListener {
      * Provides functionality for BandController. Exists primarily to tests that are
      * fully isolated from RecyclerView.
      */
-    interface SelectionEnvironment extends ScrollActionDelegate {
+    interface SelectionHost extends ScrollActionDelegate {
         void showBand(Rect rect);
         void hideBand();
         void addOnScrollListener(RecyclerView.OnScrollListener listener);
@@ -1059,14 +1075,14 @@ public class BandController extends OnScrollListener {
     }
 
     /** Recycler view facade implementation backed by good ol' RecyclerView. */
-    private static final class RuntimeSelectionEnvironment implements SelectionEnvironment {
+    private static final class RecyclerViewSelectionHost implements SelectionHost {
 
         private final RecyclerView mView;
         private final Drawable mBand;
 
         private boolean mIsOverlayShown = false;
 
-        RuntimeSelectionEnvironment(RecyclerView view) {
+        RecyclerViewSelectionHost(RecyclerView view) {
             mView = view;
             mBand = mView.getContext().getTheme().getDrawable(R.drawable.band_select_overlay);
         }

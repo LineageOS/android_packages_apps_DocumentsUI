@@ -16,10 +16,6 @@
 
 package com.android.documentsui.selection;
 
-import android.support.annotation.IntDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.Set;
 
@@ -117,7 +113,7 @@ public interface SelectionManager {
     /**
      * Stops an in-progress range selection. All selection done with
      * {@link #snapRangeSelection(int, int)} with type RANGE_PROVISIONAL will be lost if
-     * {@link Selection#applyProvisionalSelection()} is not called beforehand.
+     * {@link Selection#mergeProvisionalSelection()} is not called beforehand.
      */
     void endRangeSelection();
 
@@ -141,7 +137,7 @@ public interface SelectionManager {
     /**
      *
      */
-    void cancelProvisionalSelection();
+    void clearProvisionalSelection();
 
     /**
      * @param pos
@@ -150,6 +146,8 @@ public interface SelectionManager {
     // then selection manager can have a startProvisionalRange and startRange. Or
     // maybe ranges always start life as provisional.
     void snapProvisionalRangeSelection(int pos);
+
+    void mergeProvisionalSelection();
 
     /**
      * Interface allowing clients access to information about Selection state change.
@@ -181,7 +179,6 @@ public interface SelectionManager {
      * Facilitates the use of stable ids.
      */
     interface StableIdProvider {
-
         /**
          * @return The model ID of the item at the given adapter position.
          */
@@ -200,7 +197,15 @@ public interface SelectionManager {
         void onSelectionStateChanged(String id);
     }
 
+    /**
+     * Implement SelectionPredicate to control when items can be selected or unselected.
+     */
     interface SelectionPredicate {
-        boolean test(String id, boolean nextState);
+
+        /** @return true if the item at {@code id} can be set to {@code nextState}. */
+        boolean canSetStateForId(String id, boolean nextState);
+
+        /** @return true if the item at {@code id} can be set to {@code nextState}. */
+        boolean canSetStateAtPosition(int position, boolean nextState);
     }
 }

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.selection;
+package com.android.documentsui.selection.addons;
 
-import static com.android.documentsui.selection.BandController.GridModel.NOT_SET;
+import static com.android.documentsui.selection.addons.BandController.GridModel.NOT_SET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -28,7 +28,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.BandController.GridModel;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
+import com.android.documentsui.selection.addons.BandController.GridModel;
 
 import org.junit.After;
 import org.junit.Test;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class BandController_GridModelTest {
@@ -45,12 +48,23 @@ public class BandController_GridModelTest {
     private static final int VIEW_PADDING_PX = 5;
     private static final int CHILD_VIEW_EDGE_PX = 100;
     private static final int VIEWPORT_HEIGHT = 500;
+    private static final SelectionPredicate CAN_SET_ANYTHING = new SelectionPredicate() {
+        @Override
+        public boolean canSetStateForId(String id, boolean nextState) {
+            return true;
+        }
 
-    private GridModel model;
-    private TestEnvironment env;
-    private TestDocumentsAdapter adapter;
-    private Set<String> lastSelection;
-    private int viewWidth;
+        @Override
+        public boolean canSetStateAtPosition(int position, boolean nextState) {
+            return true;
+        }
+    };
+
+    private GridModel mModel;
+    private TestHost mHost;
+    private TestDocumentsAdapter mAdapter;
+    private Set<String> mLastSelection;
+    private int mViewWidth;
 
     // TLDR: Don't call model.{start|resize}Selection; use the local #startSelection and
     // #resizeSelection methods instead.
@@ -65,9 +79,9 @@ public class BandController_GridModelTest {
 
     @After
     public void tearDown() {
-        model = null;
-        env = null;
-        lastSelection = null;
+        mModel = null;
+        mHost = null;
+        mLastSelection = null;
     }
 
     @Test
@@ -76,16 +90,16 @@ public class BandController_GridModelTest {
         startSelection(new Point(0, 10));
         resizeSelection(new Point(1, 11));
         assertNoSelection();
-        assertEquals(NOT_SET, model.getPositionNearestOrigin());
+        assertEquals(NOT_SET, mModel.getPositionNearestOrigin());
     }
 
     @Test
     public void testSelectionRightOfItems() {
         initData(20, 4);
-        startSelection(new Point(viewWidth - 1, 10));
-        resizeSelection(new Point(viewWidth - 2, 11));
+        startSelection(new Point(mViewWidth - 1, 10));
+        resizeSelection(new Point(mViewWidth - 2, 11));
         assertNoSelection();
-        assertEquals(NOT_SET, model.getPositionNearestOrigin());
+        assertEquals(NOT_SET, mModel.getPositionNearestOrigin());
     }
 
     @Test
@@ -94,7 +108,7 @@ public class BandController_GridModelTest {
         startSelection(new Point(10, 0));
         resizeSelection(new Point(11, 1));
         assertNoSelection();
-        assertEquals(NOT_SET, model.getPositionNearestOrigin());
+        assertEquals(NOT_SET, mModel.getPositionNearestOrigin());
     }
 
     @Test
@@ -103,7 +117,7 @@ public class BandController_GridModelTest {
         startSelection(new Point(10, VIEWPORT_HEIGHT - 1));
         resizeSelection(new Point(11, VIEWPORT_HEIGHT - 2));
         assertNoSelection();
-        assertEquals(NOT_SET, model.getPositionNearestOrigin());
+        assertEquals(NOT_SET, mModel.getPositionNearestOrigin());
     }
 
     @Test
@@ -112,7 +126,7 @@ public class BandController_GridModelTest {
         startSelection(new Point(106, 0));
         resizeSelection(new Point(107, 200));
         assertNoSelection();
-        assertEquals(NOT_SET, model.getPositionNearestOrigin());
+        assertEquals(NOT_SET, mModel.getPositionNearestOrigin());
     }
 
     @Test
@@ -121,7 +135,7 @@ public class BandController_GridModelTest {
         startSelection(new Point(0, 105));
         resizeSelection(new Point(200, 106));
         assertNoSelection();
-        assertEquals(NOT_SET, model.getPositionNearestOrigin());
+        assertEquals(NOT_SET, mModel.getPositionNearestOrigin());
     }
 
     @Test
@@ -165,7 +179,7 @@ public class BandController_GridModelTest {
         resizeSelection(new Point(0, 0));
         verifySelection();
 
-        assertEquals(NOT_SET, model.getPositionNearestOrigin());
+        assertEquals(NOT_SET, mModel.getPositionNearestOrigin());
     }
 
     @Test
@@ -173,7 +187,7 @@ public class BandController_GridModelTest {
         initData(16, 4);
 
         startSelection(new Point(210, 210));
-        resizeSelection(new Point(viewWidth - 1, 0));
+        resizeSelection(new Point(mViewWidth - 1, 0));
         verifySelection();
 
         resizeSelection(new Point(0, 0));
@@ -182,12 +196,12 @@ public class BandController_GridModelTest {
         resizeSelection(new Point(0, 420));
         verifySelection();
 
-        resizeSelection(new Point(viewWidth - 1, 420));
+        resizeSelection(new Point(mViewWidth - 1, 420));
         verifySelection();
 
         // This is manually figured and will need to be adjusted if the separator position is
         // changed.
-        assertEquals(7, model.getPositionNearestOrigin());
+        assertEquals(7, mModel.getPositionNearestOrigin());
     }
 
     @Test
@@ -213,12 +227,12 @@ public class BandController_GridModelTest {
         resizeSelection(new Point(100, VIEWPORT_HEIGHT - 1));
         verifySelection();
 
-        assertEquals(0, model.getPositionNearestOrigin());
+        assertEquals(0, mModel.getPositionNearestOrigin());
     }
 
     private void initData(final int numChildren, int numColumns) {
-        env = new TestEnvironment(numChildren, numColumns);
-        adapter = new TestDocumentsAdapter(new ArrayList<String>()) {
+        mHost = new TestHost(numChildren, numColumns);
+        mAdapter = new TestDocumentsAdapter(new ArrayList<String>()) {
             @Override
             public String getStableId(int position) {
                 return Integer.toString(position);
@@ -230,18 +244,14 @@ public class BandController_GridModelTest {
             }
         };
 
-        viewWidth = VIEW_PADDING_PX + numColumns * (VIEW_PADDING_PX + CHILD_VIEW_EDGE_PX);
-        model = new GridModel(env, (int pos) -> true, adapter);
-        model.addOnSelectionChangedListener(
+        mViewWidth = VIEW_PADDING_PX + numColumns * (VIEW_PADDING_PX + CHILD_VIEW_EDGE_PX);
+
+        mModel = new GridModel(mHost, mAdapter, CAN_SET_ANYTHING);
+        mModel.addOnSelectionChangedListener(
                 new GridModel.OnSelectionChangedListener() {
                     @Override
                     public void onSelectionChanged(Set<String> updatedSelection) {
-                        lastSelection = updatedSelection;
-                    }
-
-                    @Override
-                    public boolean onBeforeItemStateChange(String id, boolean nextState) {
-                        return true;
+                        mLastSelection = updatedSelection;
                     }
                 });
     }
@@ -261,43 +271,43 @@ public class BandController_GridModelTest {
 
     /** Asserts that the selection is currently empty. */
     private void assertNoSelection() {
-        assertEquals("Unexpected items " + lastSelection + " in selection " + getSelectionArea(),
-                0, lastSelection.size());
+        assertEquals("Unexpected items " + mLastSelection + " in selection " + getSelectionArea(),
+                0, mLastSelection.size());
     }
 
     /** Verifies the selection using actual bbox checks. */
     private void verifySelection() {
         Rect selectionArea = getSelectionArea();
-        for (TestEnvironment.Item item: env.items) {
+        for (TestHost.Item item: mHost.items) {
             if (Rect.intersects(selectionArea, item.rect)) {
                 assertTrue("Expected item " + item + " was not in selection " + selectionArea,
-                        lastSelection.contains(item.name));
+                        mLastSelection.contains(item.name));
             } else {
                 assertFalse("Unexpected item " + item + " in selection" + selectionArea,
-                        lastSelection.contains(item.name));
+                        mLastSelection.contains(item.name));
             }
         }
     }
 
     private void startSelection(Point p) {
-        model.startSelection(p);
-        mSelectionOrigin = env.createAbsolutePoint(p);
+        mModel.startSelection(p);
+        mSelectionOrigin = mHost.createAbsolutePoint(p);
     }
 
     private void resizeSelection(Point p) {
-        model.resizeSelection(p);
-        mSelectionPoint = env.createAbsolutePoint(p);
+        mModel.resizeSelection(p);
+        mSelectionPoint = mHost.createAbsolutePoint(p);
     }
 
     private void scroll(int dy) {
-        assertTrue(env.verticalOffset + VIEWPORT_HEIGHT + dy <= env.getTotalHeight());
-        env.verticalOffset += dy;
+        assertTrue(mHost.verticalOffset + VIEWPORT_HEIGHT + dy <= mHost.getTotalHeight());
+        mHost.verticalOffset += dy;
         // Correct the cached selection point as well.
         mSelectionPoint.y += dy;
-        model.onScrolled(null, 0, dy);
+        mHost.mScrollListener.onScrolled(null, 0, dy);
     }
 
-    private static final class TestEnvironment implements BandController.SelectionEnvironment {
+    private static final class TestHost implements BandController.SelectionHost {
 
         private final int mNumColumns;
         private final int mNumRows;
@@ -308,7 +318,10 @@ public class BandController_GridModelTest {
         public int verticalOffset = 0;
         private List<Item> items = new ArrayList<>();
 
-        public TestEnvironment(int numChildren, int numColumns) {
+        // Installed by GridModel on construction.
+        private @Nullable OnScrollListener mScrollListener;
+
+        public TestHost(int numChildren, int numColumns) {
             mNumChildren = numChildren;
             mNumColumns = numColumns;
             mSeparatorPosition = mNumColumns + 1;
@@ -380,7 +393,9 @@ public class BandController_GridModelTest {
         }
 
         @Override
-        public void addOnScrollListener(OnScrollListener listener) {}
+        public void addOnScrollListener(OnScrollListener listener) {
+            mScrollListener = listener;
+        }
 
         @Override
         public void removeOnScrollListener(OnScrollListener listener) {}
