@@ -24,8 +24,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.util.Log;
 
-import com.android.documentsui.selection.addons.BandSelector;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -52,18 +50,19 @@ public final class DefaultSelectionManager implements SelectionManager {
     public @interface SelectionMode {}
 
     private static final int RANGE_REGULAR = 0;
+
     /**
      * "Provisional" selection represents a overlay on the primary selection. A provisional
      * selection maybe be eventually added to the primary selection, or it may be abandoned.
      *
-     *  <p>E.g. BandController creates a provisional selection while a user is actively
-     *  selecting items with the band. Provisionally selected items are considered to be
-     *  selected in {@link Selection#contains(String)} and related methods. A provisional
-     *  may be abandoned or applied by selection components (like {@link BandSelector}).
+     * <p>E.g. BandController creates a provisional selection while a user is actively selecting
+     * items with the band. Provisionally selected items are considered to be selected in
+     * {@link Selection#contains(String)} and related methods. A provisional may be abandoned or
+     * applied by selection components (like
+     * {@link com.android.documentsui.selection.addons.BandSelector}).
      *
-     *  <p>A provisional selection may intersect the primary selection, however clearing
-     *  the provisional selection will not affect the primary selection where the two may
-     *  intersect.
+     * <p>A provisional selection may intersect the primary selection, however clearing the
+     * provisional selection will not affect the primary selection where the two may intersect.
      */
     private static final int RANGE_PROVISIONAL = 1;
     @IntDef({

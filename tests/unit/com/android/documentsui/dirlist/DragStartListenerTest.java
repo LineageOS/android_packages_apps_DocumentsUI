@@ -29,17 +29,19 @@ import android.view.View;
 import com.android.documentsui.DocsSelectionManager;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Events.InputEvent;
+import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.State;
-import com.android.documentsui.dirlist.DragStartListener.ActiveListener;
+import com.android.documentsui.dirlist.DragStartListener.RuntimeDragStartListener;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestDragAndDropManager;
-import com.android.documentsui.testing.TestEvent;
+import com.android.documentsui.testing.TestEventDetailsLookup;
+import com.android.documentsui.testing.TestEvents;
 import com.android.documentsui.testing.TestSelectionDetails;
 import com.android.documentsui.testing.Views;
+import com.android.internal.widget.RecyclerView;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,9 +53,10 @@ import java.util.ArrayList;
 @SmallTest
 public class DragStartListenerTest {
 
-    private ActiveListener mListener;
-    private TestEvent.Builder mEvent;
+    private RuntimeDragStartListener mListener;
+    private TestEvents.Builder mEvent;
     private DocsSelectionManager mMultiSelectManager;
+    private TestEventDetailsLookup mDocLookup;
     private SelectionDetails mSelectionDetails;
     private String mViewModelId;
     private TestDragAndDropManager mManager;
@@ -63,6 +66,7 @@ public class DragStartListenerTest {
         mMultiSelectManager = SelectionManagers.createTestInstance();
         mManager = new TestDragAndDropManager();
         mSelectionDetails = new TestSelectionDetails();
+        mDocLookup = new TestEventDetailsLookup();
 
         DocumentInfo doc = new DocumentInfo();
         doc.authority = Providers.AUTHORITY_STORAGE;
@@ -71,9 +75,11 @@ public class DragStartListenerTest {
 
         State state = new State();
         state.stack.push(doc);
-        mListener = new DragStartListener.ActiveListener(
+
+        mListener = new DragStartListener.RuntimeDragStartListener(
                 null, // icon helper
                 state,
+                mDocLookup,
                 mMultiSelectManager,
                 mSelectionDetails,
                 // view finder
@@ -92,12 +98,16 @@ public class DragStartListenerTest {
 
         mViewModelId = "1234";
 
-        mEvent = TestEvent.builder()
+        mDocLookup.initAt(1).setInItemDragRegion(true);
+        mEvent = TestEvents.builder()
                 .action(MotionEvent.ACTION_MOVE)
                 .mouse()
-                .at(1)
-                .inDragHotspot()
                 .primary();
+    }
+
+    @Test
+    public void testMouseEvent() {
+        assertTrue(Events.isMouseDragEvent(mEvent.build()));
     }
 
     @Test
@@ -115,10 +125,7 @@ public class DragStartListenerTest {
 
     @Test
     public void testThrows_OnNonMouseMove() {
-        TestEvent e = TestEvent.builder()
-                .at(1)
-                .action(MotionEvent.ACTION_MOVE).build();
-        assertThrows(e);
+        assertThrows(mEvent.touch().build());
     }
 
     @Test
@@ -134,7 +141,8 @@ public class DragStartListenerTest {
 
     @Test
     public void testThrows_WhenNotOnItem() {
-        assertThrows(mEvent.at(-1).build());
+        mDocLookup.initAt(RecyclerView.NO_POSITION);
+        assertThrows(mEvent.build());
     }
 
     @Test
@@ -186,7 +194,7 @@ public class DragStartListenerTest {
         assertTrue(selection.contains("5678"));
     }
 
-    private void assertThrows(InputEvent e) {
+    private void assertThrows(MotionEvent e) {
         try {
             mListener.onMouseDragEvent(e);
             fail();

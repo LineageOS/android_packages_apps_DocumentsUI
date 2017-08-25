@@ -21,12 +21,11 @@ import static org.junit.Assert.assertTrue;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.selection.addons.GestureSelector;
-import com.android.documentsui.testing.TestEvent;
+import com.android.documentsui.selection.addons.GestureSelector.RecyclerViewDelegate;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -34,43 +33,43 @@ import org.junit.runner.RunWith;
 @SmallTest
 public class GestureSelectorTest {
 
-    TestEvent.Builder e;
-
     // Simulate a (20, 20) box locating at (20, 20)
     static final int LEFT_BORDER = 20;
     static final int RIGHT_BORDER = 40;
     static final int TOP_BORDER = 20;
     static final int BOTTOM_BORDER = 40;
 
-    @Before
-    public void setup() throws Exception {
-        e = TestEvent.builder()
-                .location(100, 100);
+    @Test
+    public void testLtrPastLastItem() {
+        MotionEvent event = createEvent(100, 100);
+        assertTrue(RecyclerViewDelegate.isPastLastItem(
+                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, event, View.LAYOUT_DIRECTION_LTR));
     }
 
     @Test
-    public void testLTRPastLastItem() {
-        assertTrue(GestureSelector.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_LTR));
+    public void testLtrPastLastItem_Inverse() {
+        MotionEvent event = createEvent(10, 10);
+        assertFalse(RecyclerViewDelegate.isPastLastItem(
+                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, event, View.LAYOUT_DIRECTION_LTR));
     }
 
     @Test
-    public void testLTRPastLastItem_Inverse() {
-        e.location(10, 10);
-        assertFalse(GestureSelector.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_LTR));
+    public void testRtlPastLastItem() {
+        MotionEvent event = createEvent(10, 30);
+        assertTrue(RecyclerViewDelegate.isPastLastItem(
+                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, event, View.LAYOUT_DIRECTION_RTL));
     }
 
     @Test
-    public void testRTLPastLastItem() {
-        e.location(10, 30);
-        assertTrue(GestureSelector.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_RTL));
+    public void testRtlPastLastItem_Inverse() {
+        MotionEvent event = createEvent(100, 100);
+        assertFalse(RecyclerViewDelegate.isPastLastItem(
+                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, event, View.LAYOUT_DIRECTION_RTL));
     }
 
-    @Test
-    public void testRTLPastLastItem_Inverse() {
-        assertFalse(GestureSelector.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, e.build(), View.LAYOUT_DIRECTION_RTL));
+    private static MotionEvent createEvent(int x, int y) {
+        int metaState = 0;
+        return MotionEvent.obtain(
+                0, 0, MotionEvent.ACTION_MOVE, x, y, 0, 0, metaState, 0, 0, 0, 0);
     }
 }

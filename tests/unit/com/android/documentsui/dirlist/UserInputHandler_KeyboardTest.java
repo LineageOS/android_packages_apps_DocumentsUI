@@ -16,18 +16,18 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.testing.TestEvents.Mouse.CLICK;
+
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionProbe;
 import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestActionHandler;
-import com.android.documentsui.testing.TestEvent;
-import com.android.documentsui.testing.TestEvent.Builder;
+import com.android.documentsui.testing.TestEventDetailsLookup;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestPredicate;
 
@@ -43,24 +43,24 @@ public final class UserInputHandler_KeyboardTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
-    private UserInputHandler<TestEvent> mInputHandler;
+    private UserInputHandler mInputHandler;
     private TestActionHandler mActionHandler;
+    private TestEventDetailsLookup mDetailsLookup;
     private TestFocusHandler mFocusHandler;
     private SelectionProbe mSelection;
 
     private TestPredicate<DocumentDetails> mCanSelect;
-    private TestEventHandler<InputEvent> mRightClickHandler;
-    private TestEventHandler<InputEvent> mDragAndDropHandler;
-    private TestEventHandler<InputEvent> mGestureSelectHandler;
+    private TestEventHandler<MotionEvent> mRightClickHandler;
+    private TestEventHandler<MotionEvent> mDragAndDropHandler;
+    private TestEventHandler<MotionEvent> mGestureSelectHandler;
     private TestEventHandler<Void> mPerformHapticFeedback;
-
-    private Builder mEvent;
 
     @Before
     public void setUp() {
         SelectionManager selectionMgr = SelectionManagers.createTestInstance(ITEMS);
 
         mActionHandler = new TestActionHandler();
+        mDetailsLookup = new TestEventDetailsLookup();
         mSelection = new SelectionProbe(selectionMgr);
         mFocusHandler = new TestFocusHandler();
         mCanSelect = new TestPredicate<>();
@@ -68,26 +68,22 @@ public final class UserInputHandler_KeyboardTest {
         mDragAndDropHandler = new TestEventHandler<>();
         mGestureSelectHandler = new TestEventHandler<>();
 
-        mInputHandler = new UserInputHandler<>(
+        mInputHandler = new UserInputHandler(
                 mActionHandler,
                 mFocusHandler,
                 selectionMgr,
-                (MotionEvent event) -> {
-                    throw new UnsupportedOperationException("Not exercised in tests.");
-                },
+                mDetailsLookup,
                 mCanSelect,
                 mRightClickHandler::accept,
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept,
                 () -> mPerformHapticFeedback.accept(null));
-
-        mEvent = TestEvent.builder().mouse().overDocIcon();
     }
 
     @Test
     public void testArrowKey_nonShiftClearsSelection() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(11).build());
-        mSelection.assertSelection(11);
+        mDetailsLookup.initAt(11).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
 
         mFocusHandler.handleKey = true;
         KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_UP);

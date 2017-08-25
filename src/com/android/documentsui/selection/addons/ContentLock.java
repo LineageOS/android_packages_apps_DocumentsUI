@@ -15,7 +15,8 @@
  */
 package com.android.documentsui.selection.addons;
 
-import static com.android.documentsui.base.Shared.VERBOSE;
+import static com.android.documentsui.selection.Shared.DEBUG;
+import static com.android.documentsui.selection.Shared.TAG  ;
 
 import android.annotation.MainThread;
 import android.annotation.Nullable;
@@ -27,7 +28,6 @@ import android.util.Log;
  * selection is in-progress. While locked, clients should block changes to content.
  */
 public class ContentLock {
-    private static final String TAG = "ContentLock";
 
     private int mLocks = 0;
     private @Nullable Runnable mCallback;
@@ -40,7 +40,7 @@ public class ContentLock {
         assert Looper.getMainLooper().equals(Looper.myLooper());
 
         mLocks++;
-        if (VERBOSE) Log.v(TAG, "Incremented lock count to " + mLocks + ".");
+        if (DEBUG) Log.v(TAG, "Incremented content lock count to " + mLocks + ".");
     }
 
     /**
@@ -53,7 +53,7 @@ public class ContentLock {
         assert mLocks > 0;
 
         mLocks--;
-        if (VERBOSE) Log.v(TAG, "Decremented lock count to " + mLocks + ".");
+        if (DEBUG) Log.v(TAG, "Decremented content lock count to " + mLocks + ".");
 
         if (mLocks == 0 && mCallback != null) {
             mCallback.run();

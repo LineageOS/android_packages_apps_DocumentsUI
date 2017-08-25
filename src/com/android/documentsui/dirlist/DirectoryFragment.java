@@ -75,10 +75,9 @@ import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.EventDetailsLookup;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.EventListener;
-import com.android.documentsui.base.Events.InputEvent;
-import com.android.documentsui.base.Events.MotionInputEvent;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -93,6 +92,8 @@ import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 import com.android.documentsui.selection.addons.BandSelector;
+import com.android.documentsui.selection.addons.BandSelector.BandPredicate;
+import com.android.documentsui.selection.addons.BandSelector.SelectionHost;
 import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.selection.addons.GestureSelector;
 import com.android.documentsui.services.FileOperation;
@@ -157,8 +158,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     @ContentScoped
     private ActionModeController mActionModeController;
 
+    private EventDetailsLookup mDetailsLookup;
     private SelectionMetadata mSelectionMetadata;
-    private UserInputHandler<InputEvent> mInputHandler;
+    private UserInputHandler mInputHandler;
     private @Nullable BandSelector mBandController;
     private @Nullable DragHoverListener mDragHoverListener;
     private IconHelper mIconHelper;
@@ -353,13 +355,28 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                         (View child) -> onAccessibilityClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addEventListener(mSelectionMetadata);
+        mDetailsLookup = new RuntimeEventDetailsLookup(mRecView);
 
         GestureSelector gestureSel =
                 GestureSelector.create(mSelectionMgr, mRecView, mContentLock);
 
         if (mState.allowMultiple) {
+            BandPredicate bandPredicate = new BandPredicate() {
+                @Override
+                public boolean canInitiate(MotionEvent e) {
+                    View view = mRecView.findChildViewUnder(e.getX(), e.getY());
+                    if (view instanceof DocumentDetails) {
+                        return ((DocumentDetails) view).inDragRegion(e);
+                    }
+                    return true;
+                }
+            };
+
+            SelectionHost host = BandSelector.createHost(
+                    mRecView, R.drawable.band_select_overlay, bandPredicate);
             mBandController = new BandSelector(
-                    mRecView,
+                    host,
+                    mAdapter,
                     mAdapter,  // stableIds provider.
                     mSelectionMgr,
                     selectionPredicate,
@@ -376,20 +393,26 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                         mSelectionMgr,
                         mSelectionMetadata,
                         mState,
+                        mDetailsLookup,
                         this::getModelId,
                         mRecView::findChildViewUnder,
                         DocumentsApplication.getDragAndDropManager(mActivity))
                 : DragStartListener.DUMMY;
 
-        EventHandler<InputEvent> gestureHandler = mState.allowMultiple
-                ? gestureSel::start
+        EventHandler<MotionEvent> gestureHandler = mState.allowMultiple
+                ? new EventHandler<MotionEvent>() {
+                    @Override
+                    public boolean accept(MotionEvent event) {
+                        return gestureSel.start();
+                    }
+                }
                 : EventHandler.createStub(false);
 
-        mInputHandler = new UserInputHandler<>(
+        mInputHandler = new UserInputHandler(
                 mActions,
                 mFocusManager,
                 mSelectionMgr,
-                (MotionEvent t) -> MotionInputEvent.obtain(t, mRecView),
+                mDetailsLookup,
                 this::canSelect,
                 this::onContextMenuClick,
                 mDragStartListener::onTouchDragEvent,
@@ -397,8 +420,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 () -> mRecView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS));
 
         new ListeningGestureDetector(
-                mInjector.features,
                 this.getContext(),
+                mInjector.features,
                 mRecView,
                 mDragStartListener::onMouseDragEvent,
                 mRefreshLayout::setEnabled,
@@ -509,11 +532,14 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 jobId);
     }
 
-    protected boolean onContextMenuClick(InputEvent e) {
+    // TODO: Move to UserInputHander.
+    protected boolean onContextMenuClick(MotionEvent e) {
         final View v;
         final float x, y;
-        if (e.isOverModelItem()) {
-            DocumentHolder doc = (DocumentHolder) e.getDocumentDetails();
+        if (mDetailsLookup.overModelItem(e)) {
+            // Oooo. Naughty. This is test hostile code, since it makes assumptions
+            // about the document details being a holder.
+            DocumentHolder doc = (DocumentHolder) mDetailsLookup.getDocumentDetails(e);
 
             v = doc.itemView;
             x = e.getX() - v.getLeft();
