@@ -26,7 +26,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.view.MotionEvent;
 
-import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.testing.SelectionManagers;
@@ -41,23 +40,23 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class BandControllerTest {
+public class BandSelectorTest {
 
     private static final List<String> ITEMS = TestData.create(10);
-    private BandController mBandController;
+    private BandSelector mBandController;
     private boolean mIsActive;
 
     @Before
     public void setup() throws Exception {
         mIsActive = false;
         TestDocumentsAdapter adapter = new TestDocumentsAdapter(ITEMS);
-        mBandController = new BandController(
+        mBandController = new BandSelector(
                 new TestSelectionHost(),
                 adapter,  // adapter
                 adapter,  // stableIds
                 SelectionManagers.createTestInstance(ITEMS),
                 SelectionManagers.CAN_SET_ANYTHING,
-                new DirectoryReloadLock()) {
+                new ContentLock()) {
           @Override
           public boolean isActive() {
               return mIsActive;
@@ -127,13 +126,14 @@ public class BandControllerTest {
     @Test
     public void testBadStart_NoItems() {
         TestDocumentsAdapter emptyAdapter = new TestDocumentsAdapter(Collections.EMPTY_LIST);
-        mBandController = new BandController(
+        mBandController = new BandSelector(
                 new TestSelectionHost(),
                 emptyAdapter,
                 emptyAdapter,
                 SelectionManagers.createTestInstance(ITEMS),
                 SelectionManagers.CAN_SET_ANYTHING,
-                new DirectoryReloadLock());
+                new ContentLock());
+
         assertFalse(mBandController.shouldStart(goodStartEventBuilder().build()));
     }
 
@@ -197,7 +197,7 @@ public class BandControllerTest {
         return new Builder().mouse().action(MotionEvent.ACTION_UP).notInDragHotspot();
     }
 
-    private final class TestSelectionHost implements BandController.SelectionHost {
+    private final class TestSelectionHost implements BandSelector.SelectionHost {
         @Override
         public void scrollBy(int dy) {
         }

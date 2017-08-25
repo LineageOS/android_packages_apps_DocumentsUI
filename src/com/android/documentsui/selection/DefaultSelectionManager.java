@@ -24,7 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.util.Log;
 
-import com.android.documentsui.selection.addons.BandController;
+import com.android.documentsui.selection.addons.BandSelector;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -59,7 +59,7 @@ public final class DefaultSelectionManager implements SelectionManager {
      *  <p>E.g. BandController creates a provisional selection while a user is actively
      *  selecting items with the band. Provisionally selected items are considered to be
      *  selected in {@link Selection#contains(String)} and related methods. A provisional
-     *  may be abandoned or applied by selection components (like {@link BandController}).
+     *  may be abandoned or applied by selection components (like {@link BandSelector}).
      *
      *  <p>A provisional selection may intersect the primary selection, however clearing
      *  the provisional selection will not affect the primary selection where the two may

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui;
+package com.android.documentsui.selection.addons;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -28,45 +28,49 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class DirectoryReloadLockTest {
+public class ContentLockTest {
 
-    private DirectoryReloadLock lock = new DirectoryReloadLock();
-    private boolean called;
-    private Runnable callback = () -> {
-        called = true;
+    private ContentLock mLock = new ContentLock();
+    private boolean mCalled;
+
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mCalled = true;
+        }
     };
 
     @Before
     public void setUp() {
-        called = false;
+        mCalled = false;
     }
 
     @Test
     public void testNotBlocking_callbackNotBlocked() {
-        lock.tryUpdate(callback);
-        assertTrue(called);
+        mLock.runWhenUnlocked(mRunnable);
+        assertTrue(mCalled);
     }
 
     @Test
     public void testToggleBlocking_callbackNotBlocked() {
-        lock.block();
-        lock.unblock();
-        lock.tryUpdate(callback);
-        assertTrue(called);
+        mLock.block();
+        mLock.unblock();
+        mLock.runWhenUnlocked(mRunnable);
+        assertTrue(mCalled);
     }
 
     @Test
     public void testBlocking_callbackBlocked() {
-        lock.block();
-        lock.tryUpdate(callback);
-        assertFalse(called);
+        mLock.block();
+        mLock.runWhenUnlocked(mRunnable);
+        assertFalse(mCalled);
     }
 
     @Test
     public void testBlockthenUnblock_callbackNotBlocked() {
-        lock.block();
-        lock.tryUpdate(callback);
-        lock.unblock();
-        assertTrue(called);
+        mLock.block();
+        mLock.runWhenUnlocked(mRunnable);
+        mLock.unblock();
+        assertTrue(mCalled);
     }
 }

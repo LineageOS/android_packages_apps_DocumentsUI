@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.ui;
+package com.android.documentsui.selection.addons;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -23,7 +23,8 @@ import android.graphics.Point;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.ui.ViewAutoScroller;
+import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
+import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,15 +47,16 @@ public final class ViewAutoScrollerTest {
     private ViewAutoScroller mAutoScroller;
     private Point mPoint;
     private boolean mActive;
-    private ViewAutoScroller.ScrollDistanceDelegate mDistanceDelegate;
-    private ViewAutoScroller.ScrollActionDelegate mActionDelegate;
+    private ScrollHost mHost;
+    private Callbacks mCallbacks;
     private IntConsumer mScrollAssert;
 
     @Before
     public void setUp() {
         mActive = false;
         mPoint = new Point();
-        mDistanceDelegate = new ViewAutoScroller.ScrollDistanceDelegate() {
+
+        mHost = new ScrollHost() {
             @Override
             public boolean isActive() {
                 return mActive;
@@ -70,7 +72,8 @@ public final class ViewAutoScrollerTest {
                 return mPoint;
             }
         };
-        mActionDelegate = new ViewAutoScroller.ScrollActionDelegate() {
+
+        mCallbacks = new Callbacks() {
             @Override
             public void scrollBy(int dy) {
                 mScrollAssert.accept(dy);
@@ -84,7 +87,8 @@ public final class ViewAutoScrollerTest {
             public void removeCallback(Runnable r) {
             }
         };
-        mAutoScroller = new ViewAutoScroller(mDistanceDelegate, mActionDelegate);
+
+        mAutoScroller = new ViewAutoScroller(mHost, mCallbacks);
     }
 
     @Test
