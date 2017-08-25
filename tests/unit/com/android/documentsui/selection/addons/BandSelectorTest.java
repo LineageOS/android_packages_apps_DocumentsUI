@@ -40,17 +40,17 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class BandControllerTest {
+public class BandSelectorTest {
 
     private static final List<String> ITEMS = TestData.create(10);
-    private BandController mBandController;
+    private BandSelector mBandController;
     private boolean mIsActive;
 
     @Before
     public void setup() throws Exception {
         mIsActive = false;
         TestDocumentsAdapter adapter = new TestDocumentsAdapter(ITEMS);
-        mBandController = new BandController(
+        mBandController = new BandSelector(
                 new TestSelectionHost(),
                 adapter,  // adapter
                 adapter,  // stableIds
@@ -126,7 +126,7 @@ public class BandControllerTest {
     @Test
     public void testBadStart_NoItems() {
         TestDocumentsAdapter emptyAdapter = new TestDocumentsAdapter(Collections.EMPTY_LIST);
-        mBandController = new BandController(
+        mBandController = new BandSelector(
                 new TestSelectionHost(),
                 emptyAdapter,
                 emptyAdapter,
@@ -197,7 +197,7 @@ public class BandControllerTest {
         return new Builder().mouse().action(MotionEvent.ACTION_UP).notInDragHotspot();
     }
 
-    private final class TestSelectionHost implements BandController.SelectionHost {
+    private final class TestSelectionHost implements BandSelector.SelectionHost {
         @Override
         public void scrollBy(int dy) {
         }

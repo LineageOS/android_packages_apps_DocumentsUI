@@ -133,7 +133,7 @@ public class Injector<T extends ActionHandler> {
      * Obtains action handler and resets it if necessary.
      *
      * @param contentLock the lock held by
-     *            {@link com.android.documentsui.selection.addons.BandController} and
+     *            {@link com.android.documentsui.selection.addons.BandSelector} and
      *            {@link com.android.documentsui.selection.addons.GestureSelector} to prevent loader
      *            from updating result during band/gesture selection. May be {@code null} if called
      *            from {@link com.android.documentsui.sidebar.RootsFragment}.

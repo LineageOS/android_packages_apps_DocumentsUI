@@ -23,7 +23,7 @@ import android.os.Looper;
 import android.util.Log;
 
 /**
- * A lock used by {@link BandController} and {@link GestureSelector} to signal to clients when
+ * A lock used by {@link BandSelector} and {@link GestureSelector} to signal to clients when
  * selection is in-progress. While locked, clients should block changes to content.
  */
 public class ContentLock {

@@ -16,7 +16,7 @@
 
 package com.android.documentsui.selection.addons;
 
-import static com.android.documentsui.selection.addons.BandController.GridModel.NOT_SET;
+import static com.android.documentsui.selection.addons.GridModel.NOT_SET;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +29,6 @@ import android.support.v7.widget.RecyclerView.OnScrollListener;
 
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
-import com.android.documentsui.selection.addons.BandController.GridModel;
 
 import org.junit.After;
 import org.junit.Test;
@@ -43,7 +42,7 @@ import javax.annotation.Nullable;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class BandController_GridModelTest {
+public class GridModelTest {
 
     private static final int VIEW_PADDING_PX = 5;
     private static final int CHILD_VIEW_EDGE_PX = 100;
@@ -307,7 +306,7 @@ public class BandController_GridModelTest {
         mHost.mScrollListener.onScrolled(null, 0, dy);
     }
 
-    private static final class TestHost implements BandController.SelectionHost {
+    private static final class TestHost implements BandSelector.SelectionHost {
 
         private final int mNumColumns;
         private final int mNumRows;

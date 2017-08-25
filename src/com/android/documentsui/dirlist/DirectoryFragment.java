@@ -92,7 +92,7 @@ import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
-import com.android.documentsui.selection.addons.BandController;
+import com.android.documentsui.selection.addons.BandSelector;
 import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.selection.addons.GestureSelector;
 import com.android.documentsui.services.FileOperation;
@@ -159,7 +159,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private SelectionMetadata mSelectionMetadata;
     private UserInputHandler<InputEvent> mInputHandler;
-    private @Nullable BandController mBandController;
+    private @Nullable BandSelector mBandController;
     private @Nullable DragHoverListener mDragHoverListener;
     private IconHelper mIconHelper;
     private SwipeRefreshLayout mRefreshLayout;
@@ -358,7 +358,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 GestureSelector.create(mSelectionMgr, mRecView, mContentLock);
 
         if (mState.allowMultiple) {
-            mBandController = new BandController(
+            mBandController = new BandSelector(
                     mRecView,
                     mAdapter,  // stableIds provider.
                     mSelectionMgr,
