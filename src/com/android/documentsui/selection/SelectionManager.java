@@ -16,10 +16,6 @@
 
 package com.android.documentsui.selection;
 
-import android.support.annotation.IntDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.Set;
 
@@ -29,37 +25,6 @@ import java.util.Set;
  * @see DefaultSelectionManager for details on usage.
  */
 public interface SelectionManager {
-
-    int MODE_MULTIPLE = 0;
-    int MODE_SINGLE = 1;
-    @IntDef(flag = true, value = {
-            MODE_MULTIPLE,
-            MODE_SINGLE
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface SelectionMode {}
-
-    int RANGE_REGULAR = 0;
-    /**
-     * "Provisional" selection represents a overlay on the primary selection. A provisional
-     * selection maybe be eventually added to the primary selection, or it may be abandoned.
-     *
-     *  <p>E.g. BandController creates a provisional selection while a user is actively
-     *  selecting items with the band. Provisionally selected items are considered to be
-     *  selected in {@link Selection#contains(String)} and related methods. A provisional
-     *  may be abandoned or applied by selection components (like {@link BandController}).
-     *
-     *  <p>A provisional selection may intersect the primary selection, however clearing
-     *  the provisional selection will not affect the primary selection where the two may
-     *  intersect.
-     */
-    int RANGE_PROVISIONAL = 1;
-    @IntDef({
-        RANGE_REGULAR,
-        RANGE_PROVISIONAL
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface RangeType {}
 
     /**
      * Adds {@code callback} such that it will be notified when {@code MultiSelectManager}
@@ -148,7 +113,7 @@ public interface SelectionManager {
     /**
      * Stops an in-progress range selection. All selection done with
      * {@link #snapRangeSelection(int, int)} with type RANGE_PROVISIONAL will be lost if
-     * {@link Selection#applyProvisionalSelection()} is not called beforehand.
+     * {@link Selection#mergeProvisionalSelection()} is not called beforehand.
      */
     void endRangeSelection();
 
@@ -172,7 +137,7 @@ public interface SelectionManager {
     /**
      *
      */
-    void cancelProvisionalSelection();
+    void clearProvisionalSelection();
 
     /**
      * @param pos
@@ -181,6 +146,8 @@ public interface SelectionManager {
     // then selection manager can have a startProvisionalRange and startRange. Or
     // maybe ranges always start life as provisional.
     void snapProvisionalRangeSelection(int pos);
+
+    void mergeProvisionalSelection();
 
     /**
      * Interface allowing clients access to information about Selection state change.
@@ -212,7 +179,6 @@ public interface SelectionManager {
      * Facilitates the use of stable ids.
      */
     interface StableIdProvider {
-
         /**
          * @return The model ID of the item at the given adapter position.
          */
@@ -231,7 +197,15 @@ public interface SelectionManager {
         void onSelectionStateChanged(String id);
     }
 
+    /**
+     * Implement SelectionPredicate to control when items can be selected or unselected.
+     */
     interface SelectionPredicate {
-        boolean test(String id, boolean nextState);
+
+        /** @return true if the item at {@code id} can be set to {@code nextState}. */
+        boolean canSetStateForId(String id, boolean nextState);
+
+        /** @return true if the item at {@code id} can be set to {@code nextState}. */
+        boolean canSetStateAtPosition(int position, boolean nextState);
     }
 }

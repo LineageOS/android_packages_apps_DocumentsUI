@@ -19,8 +19,8 @@ package com.android.documentsui.testing;
 import com.android.documentsui.DocsSelectionManager;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionManager.SelectionMode;
+import com.android.documentsui.selection.DefaultSelectionManager;
+import com.android.documentsui.selection.DefaultSelectionManager.SelectionMode;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 
 import java.util.Collections;
@@ -28,9 +28,14 @@ import java.util.List;
 
 public class SelectionManagers {
 
-    public static final SelectionPredicate CAN_SELECT_ANYTHING = new SelectionPredicate() {
+    public static final SelectionPredicate CAN_SET_ANYTHING = new SelectionPredicate() {
         @Override
-        public boolean test(String id, boolean nextState) {
+        public boolean canSetStateForId(String id, boolean nextState) {
+            return true;
+        }
+
+        @Override
+        public boolean canSetStateAtPosition(int position, boolean nextState) {
             return true;
         }
     };
@@ -42,17 +47,19 @@ public class SelectionManagers {
     }
 
     public static DocsSelectionManager createTestInstance(List<String> docs) {
-        return createTestInstance(docs, SelectionManager.MODE_MULTIPLE);
+        return createTestInstance(docs, DefaultSelectionManager.MODE_MULTIPLE);
     }
 
     public static DocsSelectionManager createTestInstance(
             List<String> docs, @SelectionMode int mode) {
-        return createTestInstance(new TestDocumentsAdapter(docs), mode, CAN_SELECT_ANYTHING);
+        return createTestInstance(new TestDocumentsAdapter(docs), mode, CAN_SET_ANYTHING);
     }
 
     public static DocsSelectionManager createTestInstance(
             DocumentsAdapter adapter, @SelectionMode int mode, SelectionPredicate canSetState) {
-        DocsSelectionManager manager = new DocsSelectionManager(mode);
+        DocsSelectionManager manager = mode == DefaultSelectionManager.MODE_SINGLE
+                ? DocsSelectionManager.createSingleSelect()
+                : DocsSelectionManager.createMultiSelect();
         manager.reset(adapter, adapter, canSetState);
 
         return manager;

@@ -45,7 +45,7 @@ public class DefaultSelectionManager_SingleSelectTest {
     @Before
     public void setUp() throws Exception {
         mListener = new TestSelectionEventListener();
-        mManager = SelectionManagers.createTestInstance(ITEMS, SelectionManager.MODE_SINGLE);
+        mManager = SelectionManagers.createTestInstance(ITEMS, DefaultSelectionManager.MODE_SINGLE);
         mManager.addEventListener(mListener);
 
         mSelection = new SelectionProbe(mManager);

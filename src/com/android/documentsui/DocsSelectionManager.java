@@ -19,8 +19,8 @@ package com.android.documentsui;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 
-import com.android.documentsui.selection.BandController;
 import com.android.documentsui.selection.DefaultSelectionManager;
+import com.android.documentsui.selection.DefaultSelectionManager.SelectionMode;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 
@@ -34,10 +34,14 @@ import javax.annotation.Nullable;
  */
 public final class DocsSelectionManager implements SelectionManager {
 
+    private final DelegateFactory mFactory;
     private final @SelectionMode int mSelectionMode;
-    private @Nullable DefaultSelectionManager mDelegate;
 
-    public DocsSelectionManager(@SelectionMode int mode) {
+    private @Nullable SelectionManager mDelegate;
+
+    @VisibleForTesting
+    DocsSelectionManager(DelegateFactory factory, @SelectionMode int mode) {
+        mFactory = factory;
         mSelectionMode = mode;
     }
 
@@ -50,7 +54,7 @@ public final class DocsSelectionManager implements SelectionManager {
             mDelegate.clearSelection();
         }
 
-        mDelegate = new DefaultSelectionManager(mSelectionMode, adapter, stableIds, canSetState);
+        mDelegate = mFactory.create(mSelectionMode, adapter, stableIds, canSetState);
         return this;
     }
 
@@ -111,23 +115,28 @@ public final class DocsSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void snapProvisionalRangeSelection(int pos) {
-        mDelegate.snapProvisionalRangeSelection(pos);
-    }
-
-    @Override
     public void formNewSelectionRange(int startPos, int endPos) {
         mDelegate.formNewSelectionRange(startPos, endPos);
     }
 
     @Override
-    public void cancelProvisionalSelection() {
-        mDelegate.cancelProvisionalSelection();
+    public void snapProvisionalRangeSelection(int pos) {
+        mDelegate.snapProvisionalRangeSelection(pos);
+    }
+
+    @Override
+    public void clearProvisionalSelection() {
+        mDelegate.clearProvisionalSelection();
     }
 
     @Override
     public void setProvisionalSelection(Set<String> newSelection) {
         mDelegate.setProvisionalSelection(newSelection);
+    }
+
+    @Override
+    public void mergeProvisionalSelection() {
+        mDelegate.mergeProvisionalSelection();
     }
 
     @Override
@@ -143,5 +152,35 @@ public final class DocsSelectionManager implements SelectionManager {
     @Override
     public void setSelectionRangeBegin(int position) {
         mDelegate.setSelectionRangeBegin(position);
+    }
+
+    public static DocsSelectionManager createMultiSelect() {
+        return new DocsSelectionManager(
+                DelegateFactory.INSTANCE,
+                DefaultSelectionManager.MODE_MULTIPLE);
+    }
+
+    public static DocsSelectionManager createSingleSelect() {
+        return new DocsSelectionManager(
+                DelegateFactory.INSTANCE,
+                DefaultSelectionManager.MODE_SINGLE);
+    }
+
+    /**
+     * Use of a factory to create selection manager instances allows testable instances to
+     * be inject from tests.
+     */
+    @VisibleForTesting
+    static class DelegateFactory {
+        static final DelegateFactory INSTANCE = new DelegateFactory();
+
+        SelectionManager create(
+                @SelectionMode int mode,
+                RecyclerView.Adapter<?> adapter,
+                StableIdProvider stableIds,
+                SelectionPredicate canSetState) {
+
+            return new DefaultSelectionManager(mode, adapter, stableIds, canSetState);
+        }
     }
 }

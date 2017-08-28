@@ -33,9 +33,9 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Events.MotionInputEvent;
+import com.android.documentsui.selection.addons.BandSelector;
+import com.android.documentsui.selection.addons.GestureSelector;
 import com.android.documentsui.base.Features;
-import com.android.documentsui.selection.BandController;
-import com.android.documentsui.selection.GestureSelector;
 
 import java.util.function.Consumer;
 
@@ -50,7 +50,7 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
     private final GestureSelector mGestureSelector;
     private final EventHandler<InputEvent> mMouseDragListener;
     private final BooleanConsumer mRefreshLayoutEnabler;
-    private final BandController mBandController;
+    private final BandSelector mBandController;
     private final MouseDelegate mMouseDelegate = new MouseDelegate();
     private final TouchDelegate mTouchDelegate = new TouchDelegate();
 
@@ -65,7 +65,7 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
             BooleanConsumer refreshLayoutEnabler,
             GestureSelector gestureSelector,
             UserInputHandler<? extends InputEvent> handler,
-            @Nullable BandController bandController,
+            @Nullable BandSelector bandController,
             Consumer<Float> scaleHandler) {
 
         super(context, handler);

@@ -151,7 +151,7 @@ public class Selection implements Iterable<String>, Parcelable {
      * cause items in this existing provisional selection to become deselected.
      */
     @VisibleForTesting
-    protected void applyProvisionalSelection() {
+    protected void mergeProvisionalSelection() {
         mSelection.addAll(mProvisionalSelection);
         mProvisionalSelection.clear();
     }
@@ -161,38 +161,57 @@ public class Selection implements Iterable<String>, Parcelable {
      * now deselected.
      */
     @VisibleForTesting
-    void cancelProvisionalSelection() {
+    void clearProvisionalSelection() {
         mProvisionalSelection.clear();
     }
 
+    /**
+     * Adds a new item to the primary selection.
+     *
+     * @return true if the operation resulted in a modification to the selection.
+     */
     boolean add(String id) {
-        if (!mSelection.contains(id)) {
-            mSelection.add(id);
-            return true;
-        }
-        return false;
-    }
-
-    boolean remove(String id) {
         if (mSelection.contains(id)) {
-            mSelection.remove(id);
-            return true;
+            return false;
         }
-        return false;
+
+        mSelection.add(id);
+        return true;
     }
 
+    /**
+     * Removes an item from the primary selection.
+     *
+     * @return true if the operation resulted in a modification to the selection.
+     */
+    boolean remove(String id) {
+        if (!mSelection.contains(id)) {
+            return false;
+        }
+
+        mSelection.remove(id);
+        return true;
+    }
+
+    /**
+     * Clears the primary selection. The provisional selection, if any, is unaffected.
+     */
     void clear() {
         mSelection.clear();
     }
 
     /**
-     * Trims this selection to be the intersection of itself with the set of given IDs.
+     * Trims this selection to be the intersection of itself and {@code ids}.
      */
     void intersect(Collection<String> ids) {
         mSelection.retainAll(ids);
         mProvisionalSelection.retainAll(ids);
     }
 
+    /**
+     * Clones primary and provisional selection from supplied {@link Selection}.
+     * Does not copy active range data.
+     */
     @VisibleForTesting
     void copyFrom(Selection source) {
         mSelection.clear();
@@ -210,7 +229,7 @@ public class Selection implements Iterable<String>, Parcelable {
 
         StringBuilder buffer = new StringBuilder(size() * 28);
         buffer.append("Selection{")
-            .append("applied{size=" + mSelection.size())
+            .append("primary{size=" + mSelection.size())
             .append(", entries=" + mSelection)
             .append("}, provisional{size=" + mProvisionalSelection.size())
             .append(", entries=" + mProvisionalSelection)

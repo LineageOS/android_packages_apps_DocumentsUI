@@ -19,7 +19,6 @@ package com.android.documentsui;
 import android.annotation.IntDef;
 import android.app.PendingIntent;
 import android.content.ContentProvider;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
@@ -30,7 +29,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentDetails;
-import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.addons.ContentLock;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -158,5 +157,5 @@ public interface ActionHandler {
      * Allow action handler to be initialized in a new scope.
      * @return this
      */
-    <T extends ActionHandler> T reset(DirectoryReloadLock reloadLock);
+    <T extends ActionHandler> T reset(ContentLock contentLock);
 }

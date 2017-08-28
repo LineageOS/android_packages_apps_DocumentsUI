@@ -22,6 +22,7 @@ import android.util.SparseBooleanArray;
 
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
+import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -48,16 +49,20 @@ public class DefaultSelectionManagerTest {
     public void setUp() throws Exception {
         mListener = new TestSelectionEventListener();
         mAdapter = new TestDocumentsAdapter(ITEMS);
-        SelectionManager.SelectionPredicate canSelect = new SelectionManager.SelectionPredicate() {
+        SelectionPredicate canSelect = new SelectionPredicate() {
 
             @Override
-            public boolean test(String id, boolean nextState) {
+            public boolean canSetStateForId(String id, boolean nextState) {
                 return !nextState || !mIgnored.contains(id);
             }
 
+            @Override
+            public boolean canSetStateAtPosition(int position, boolean nextState) {
+                throw new UnsupportedOperationException("Not implemented.");
+            }
         };
         mManager = new DefaultSelectionManager(
-                SelectionManager.MODE_MULTIPLE, mAdapter, mAdapter, canSelect);
+                DefaultSelectionManager.MODE_MULTIPLE, mAdapter, mAdapter, canSelect);
         mManager.addEventListener(mListener);
 
         mSelection = new SelectionProbe(mManager, mListener);
@@ -190,7 +195,7 @@ public class DefaultSelectionManagerTest {
         mManager.startRangeSelection(13);
         mManager.snapProvisionalRangeSelection(15);
         mSelection.assertRangeSelection(13, 15);
-        mManager.getSelection().applyProvisionalSelection();
+        mManager.getSelection().mergeProvisionalSelection();
         mManager.endRangeSelection();
         mSelection.assertSelectionSize(3);
     }
@@ -212,7 +217,7 @@ public class DefaultSelectionManagerTest {
         mManager.startRangeSelection(13);
         mManager.snapProvisionalRangeSelection(15);
         mSelection.assertRangeSelection(13, 15);
-        mManager.getSelection().applyProvisionalSelection();
+        mManager.getSelection().mergeProvisionalSelection();
         mManager.snapRangeSelection(18);
         mSelection.assertRangeSelection(13, 18);
     }
@@ -305,7 +310,7 @@ public class DefaultSelectionManagerTest {
         provisional.append(1, true);
         provisional.append(2, true);
         s.setProvisionalSelection(getItemIds(provisional));
-        s.applyProvisionalSelection();
+        s.mergeProvisionalSelection();
 
         mSelection.assertSelection(1, 2);
     }
@@ -320,7 +325,7 @@ public class DefaultSelectionManagerTest {
         provisional.append(3, true);
         provisional.append(4, true);
         s.setProvisionalSelection(getItemIds(provisional));
-        s.cancelProvisionalSelection();
+        s.clearProvisionalSelection();
 
         // Original selection should remain.
         mSelection.assertSelection(1, 2);

@@ -60,6 +60,7 @@ import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.sidebar.EjectRootTask;
 import com.android.documentsui.ui.Snackbars;
 
@@ -101,7 +102,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
     private Runnable mDisplayStateChangedListener;
 
-    private DirectoryReloadLock mDirectoryReloadLock;
+    private ContentLock mContentLock;
 
     @Override
     public void registerDisplayStateChangedListener(Runnable l) {
@@ -539,8 +540,8 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
-    public ActionHandler reset(DirectoryReloadLock reloadLock) {
-        mDirectoryReloadLock = reloadLock;
+    public ActionHandler reset(ContentLock reloadLock) {
+        mContentLock = reloadLock;
         mActivity.getLoaderManager().destroyLoader(LOADER_ID);
         return this;
     }
@@ -588,7 +589,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
                         contentsUri,
                         mState.sortModel,
                         mInjector.fileTypeLookup,
-                        mDirectoryReloadLock,
+                        mContentLock,
                         mSearchMgr.isSearching());
             }
         }

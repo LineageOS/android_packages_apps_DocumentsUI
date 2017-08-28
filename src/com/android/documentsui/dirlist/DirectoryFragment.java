@@ -63,7 +63,6 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
-import com.android.documentsui.DirectoryReloadLock;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
@@ -90,11 +89,12 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.picker.PickActivity;
-import com.android.documentsui.selection.BandController;
-import com.android.documentsui.selection.GestureSelector;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
+import com.android.documentsui.selection.addons.BandSelector;
+import com.android.documentsui.selection.addons.ContentLock;
+import com.android.documentsui.selection.addons.GestureSelector;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -159,7 +159,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private SelectionMetadata mSelectionMetadata;
     private UserInputHandler<InputEvent> mInputHandler;
-    private @Nullable BandController mBandController;
+    private @Nullable BandSelector mBandController;
     private @Nullable DragHoverListener mDragHoverListener;
     private IconHelper mIconHelper;
     private SwipeRefreshLayout mRefreshLayout;
@@ -176,7 +176,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private View mProgressBar;
 
     private DirectoryState mLocalState;
-    private DirectoryReloadLock mReloadLock = new DirectoryReloadLock();
+
+    // Blocks loading/reloading of content while user is actively making selection.
+    private ContentLock mContentLock = new ContentLock();
 
     private Runnable mBandSelectStarted;
 
@@ -316,10 +318,35 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        SelectionManager.SelectionPredicate canSelect = this::canSetSelectionState;
-        mSelectionMgr = mInjector.getSelectionManager(mAdapter, canSelect);
+        SelectionPredicate selectionPredicate = new SelectionPredicate() {
+
+            @Override
+            public boolean canSetStateForId(String id, boolean nextState) {
+                return canSetSelectionState(id, nextState);
+            }
+
+            @Override
+            public boolean canSetStateAtPosition(int position, boolean nextState) {
+                // This method features a nextState arg for symmetry.
+                // But, there are no current uses for checking un-selecting state by position.
+                // So rather than have some unsuspecting client think canSetState(int, false)
+                // will ever do anything. Let's just be grumpy about it.
+                assert nextState == true;
+
+                // NOTE: Given that we have logic in some places disallowing selection,
+                // it may be a bug that Band and Gesture based selections don't
+                // also verify something can be unselected.
+
+                // The band selection model only operates on documents and directories.
+                // Exclude other types of adapter items like whitespace and dividers.
+                RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(position);
+                return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
+            }
+        };
+
+        mSelectionMgr = mInjector.getSelectionManager(mAdapter, selectionPredicate);
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
-        mActions = mInjector.getActionHandler(mReloadLock);
+        mActions = mInjector.getActionHandler(mContentLock);
 
         mRecView.setAccessibilityDelegateCompat(
                 new AccessibilityEventRouter(mRecView,
@@ -327,21 +354,17 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mSelectionMgr.addEventListener(mSelectionMetadata);
 
-        GestureSelector gestureSel = GestureSelector.create(mSelectionMgr, mRecView, mReloadLock);
+        GestureSelector gestureSel =
+                GestureSelector.create(mSelectionMgr, mRecView, mContentLock);
 
         if (mState.allowMultiple) {
-            mBandController = new BandController(
+            mBandController = new BandSelector(
                     mRecView,
-                    mAdapter,
+                    mAdapter,  // stableIds provider.
                     mSelectionMgr,
-                    canSelect,
-                    mReloadLock,
-                    (int pos) -> {
-                        // The band selection model only operates on documents and directories.
-                        // Exclude other types of adapter items like whitespace and dividers.
-                        RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(pos);
-                        return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
-                    });
+                    selectionPredicate,
+                    mContentLock);
+
             mBandSelectStarted = mFocusManager::clearFocus;
             mBandController.addBandSelectStartedListener(mBandSelectStarted);
         }

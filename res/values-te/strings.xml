@@ -27,7 +27,7 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"కొత్త ఫోల్డర్"</string>
     <string name="menu_grid" msgid="1453636521731880680">"గ్రిడ్ వీక్షణ"</string>
     <string name="menu_list" msgid="6714267452146410402">"జాబితా వీక్షణ"</string>
-    <string name="menu_search" msgid="1876699106790719849">"శోధించు"</string>
+    <string name="menu_search" msgid="1876699106790719849">"వెతుకు"</string>
     <string name="menu_settings" msgid="6520844520117939047">"నిల్వ సెట్టింగ్‌లు"</string>
     <string name="menu_open" msgid="9092138100049759315">"తెరువు"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"దీనితో తెరువు"</string>
@@ -180,7 +180,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ఎంచుకోబడింది</item>
     </plurals>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> అంశాలు</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> వస్తువులు</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> అంశం</item>
     </plurals>
     <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\"ని తొలగించాలా?"</string>
