@@ -174,7 +174,7 @@
     <string name="file_operation_rejected" msgid="4301554203329008794">"ಫೈಲ್ ಕಾರ್ಯಾಚರಣೆಗೆ ಬೆಂಬಲವಿಲ್ಲ."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"ಫೈಲ್ ಕಾರ್ಯಾಚರಣೆ ವಿಫಲವಾಗಿದೆ."</string>
     <string name="rename_error" msgid="6700093173508118635">"ಡಾಕ್ಯುಮೆಂಟ್ ಮರುಹೆಸರಿಸಲು ವಿಫಲವಾಗಿದೆ"</string>
-    <string name="menu_eject_root" msgid="9215040039374893613">"ಎಜೆಕ್ಟ್‌‌"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"ಇಜೆಕ್ಟ್‌‌"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"ಕೆಲವು ಫೈಲ್‌ಗಳನ್ನು ಪರಿವರ್ತಿಸಲಾಗಿದೆ"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="STORAGE"><i>^3</i></xliff:g> ರಲ್ಲಿ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ಡೈರೆಕ್ಟರಿಗೆ <xliff:g id="APPNAME"><b>^1</b></xliff:g> ಪ್ರವೇಶ ನೀಡುವುದೇ?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ಡೈರೆಕ್ಟರಿಗೆ <xliff:g id="APPNAME"><b>^1</b></xliff:g> ಗೆ ಪ್ರವೇಶ ನೀಡುವುದೇ?"</string>
