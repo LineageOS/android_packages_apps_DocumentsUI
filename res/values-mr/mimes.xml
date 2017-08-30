@@ -29,7 +29,7 @@
     <string name="apk_file_type" msgid="6004275470389462277">"Android अॅप्लिकेशन"</string>
     <string name="txt_file_type" msgid="4677767777860724696">"साधा मजकूर"</string>
     <string name="html_file_type" msgid="2034229603117527970">"HTML दस्तऐवज"</string>
-    <string name="pdf_file_type" msgid="3382260303795039988">"PDF दस्तऐवज"</string>
+    <string name="pdf_file_type" msgid="3382260303795039988">"पीडीएफ दस्तऐवज"</string>
     <string name="word_file_type" msgid="2366349268129894972">"Word दस्तऐवज"</string>
     <string name="ppt_file_type" msgid="2570841599899893925">"PowerPoint सादरीकरण"</string>
     <string name="excel_file_type" msgid="8363932635044575463">"Excel स्प्रेडशीट"</string>

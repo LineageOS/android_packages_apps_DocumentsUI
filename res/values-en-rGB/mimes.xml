@@ -18,44 +18,28 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="generic_extention_file_type" msgid="5947398320635880291">"<xliff:g id="EXTENSION">%1$s</xliff:g> file"</string>
-    <!-- no translation found for generic_file_type (1415477154743494280) -->
-    <skip />
-    <!-- no translation found for image_file_type (3011633523704887793) -->
-    <skip />
+    <string name="generic_file_type" msgid="1415477154743494280">"File"</string>
+    <string name="image_file_type" msgid="3011633523704887793">"Image"</string>
     <string name="image_extension_file_type" msgid="992617216367594851">"<xliff:g id="FILETYPE">%1$s</xliff:g> image"</string>
-    <!-- no translation found for audio_file_type (3790525543519624632) -->
-    <skip />
+    <string name="audio_file_type" msgid="3790525543519624632">"Audio"</string>
     <string name="audio_extension_file_type" msgid="6334293531796491314">"<xliff:g id="FILETYPE">%1$s</xliff:g> audio"</string>
-    <!-- no translation found for video_file_type (7290473366042482095) -->
-    <skip />
+    <string name="video_file_type" msgid="7290473366042482095">"Video"</string>
     <string name="video_extension_file_type" msgid="6352763029831291433">"<xliff:g id="FILETYPE">%1$s</xliff:g> video"</string>
     <string name="archive_file_type" msgid="1463432996680398798">"<xliff:g id="FILETYPE">%1$s</xliff:g> archive"</string>
-    <!-- no translation found for apk_file_type (6004275470389462277) -->
-    <skip />
-    <!-- no translation found for txt_file_type (4677767777860724696) -->
-    <skip />
+    <string name="apk_file_type" msgid="6004275470389462277">"Android application"</string>
+    <string name="txt_file_type" msgid="4677767777860724696">"Plain text"</string>
     <string name="html_file_type" msgid="2034229603117527970">"HTML document"</string>
     <string name="pdf_file_type" msgid="3382260303795039988">"PDF document"</string>
-    <!-- no translation found for word_file_type (2366349268129894972) -->
-    <skip />
+    <string name="word_file_type" msgid="2366349268129894972">"Word document"</string>
     <string name="ppt_file_type" msgid="2570841599899893925">"PowerPoint presentation"</string>
-    <!-- no translation found for excel_file_type (8363932635044575463) -->
-    <skip />
-    <!-- no translation found for gdoc_file_type (242328101061228382) -->
-    <skip />
-    <!-- no translation found for gsheet_file_type (8055591929133067952) -->
-    <skip />
-    <!-- no translation found for gslides_file_type (8359750985956690177) -->
-    <skip />
-    <!-- no translation found for gdraw_file_type (655688091676820371) -->
-    <skip />
-    <!-- no translation found for gtable_file_type (7332773878374650335) -->
-    <skip />
-    <!-- no translation found for gform_file_type (4803176103746107611) -->
-    <skip />
-    <!-- no translation found for gmap_file_type (6684180781808007016) -->
-    <skip />
+    <string name="excel_file_type" msgid="8363932635044575463">"Excel spreadsheet"</string>
+    <string name="gdoc_file_type" msgid="242328101061228382">"Google document"</string>
+    <string name="gsheet_file_type" msgid="8055591929133067952">"Google spreadsheet"</string>
+    <string name="gslides_file_type" msgid="8359750985956690177">"Google presentation"</string>
+    <string name="gdraw_file_type" msgid="655688091676820371">"Google drawing"</string>
+    <string name="gtable_file_type" msgid="7332773878374650335">"Google table"</string>
+    <string name="gform_file_type" msgid="4803176103746107611">"Google form"</string>
+    <string name="gmap_file_type" msgid="6684180781808007016">"Google map"</string>
     <string name="gsite_file_type" msgid="3742812051249149526">"Google site"</string>
-    <!-- no translation found for directory_type (2702987727566226354) -->
-    <skip />
+    <string name="directory_type" msgid="2702987727566226354">"Folder"</string>
 </resources>
