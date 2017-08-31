@@ -29,7 +29,7 @@ import android.view.MotionEvent;
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.testing.SelectionManagers;
-import com.android.documentsui.testing.TestEvent.Builder;
+import com.android.documentsui.testing.TestEvents.Builder;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,13 +45,19 @@ public class BandSelectorTest {
     private static final List<String> ITEMS = TestData.create(10);
     private BandSelector mBandController;
     private boolean mIsActive;
+    private Builder mStartBuilder;
+    private Builder mStopBuilder;
+    private MotionEvent mStartEvent;
+    private MotionEvent mStopEvent;
+    private TestSelectionHost mSelectionHost;
 
     @Before
     public void setup() throws Exception {
         mIsActive = false;
         TestDocumentsAdapter adapter = new TestDocumentsAdapter(ITEMS);
+        mSelectionHost = new TestSelectionHost();
         mBandController = new BandSelector(
-                new TestSelectionHost(),
+                mSelectionHost,
                 adapter,  // adapter
                 adapter,  // stableIds
                 SelectionManagers.createTestInstance(ITEMS),
@@ -62,65 +68,70 @@ public class BandSelectorTest {
               return mIsActive;
           }
         };
+
+        mStartBuilder = new Builder().mouse().primary().action(MotionEvent.ACTION_MOVE);
+        mStopBuilder = new Builder().mouse().action(MotionEvent.ACTION_UP);
+        mStartEvent = mStartBuilder.build();
+        mStopEvent = mStopBuilder.build();
     }
 
     @Test
     public void testGoodStart() {
-        assertTrue(mBandController.shouldStart(goodStartEventBuilder().build()));
+        assertTrue(mBandController.shouldStart(mStartEvent));
     }
 
     @Test
     public void testBadStart_NoButtons() {
         assertFalse(mBandController.shouldStart(
-                goodStartEventBuilder().releaseButton(MotionEvent.BUTTON_PRIMARY).build()));
+                mStartBuilder.releaseButton(MotionEvent.BUTTON_PRIMARY).build()));
     }
 
     @Test
     public void testBadStart_SecondaryButton() {
         assertFalse(
-                mBandController.shouldStart(goodStartEventBuilder().secondary().build()));
+                mBandController.shouldStart(mStartBuilder.secondary().build()));
     }
 
     @Test
     public void testBadStart_TertiaryButton() {
         assertFalse(
-                mBandController.shouldStart(goodStartEventBuilder().tertiary().build()));
+                mBandController.shouldStart(mStartBuilder.tertiary().build()));
     }
 
     @Test
     public void testBadStart_Touch() {
         assertFalse(mBandController.shouldStart(
-                goodStartEventBuilder().touch().releaseButton(MotionEvent.BUTTON_PRIMARY).build()));
+                mStartBuilder.touch().releaseButton(MotionEvent.BUTTON_PRIMARY).build()));
     }
 
     @Test
-    public void testBadStart_inDragSpot() {
-        assertFalse(
-                mBandController.shouldStart(goodStartEventBuilder().at(1).inDragHotspot().build()));
+    public void testBadStart_RespectsCanInitiateBand() {
+        mSelectionHost.mCanInitiateBand = false;
+        assertFalse(mBandController.shouldStart(mStartEvent));
     }
 
     @Test
     public void testBadStart_ActionDown() {
         assertFalse(mBandController
-                .shouldStart(goodStartEventBuilder().action(MotionEvent.ACTION_DOWN).build()));
+                .shouldStart(mStartBuilder.action(MotionEvent.ACTION_DOWN).build()));
     }
 
     @Test
     public void testBadStart_ActionUp() {
         assertFalse(mBandController
-                .shouldStart(goodStartEventBuilder().action(MotionEvent.ACTION_UP).build()));
+                .shouldStart(mStartBuilder.action(MotionEvent.ACTION_UP).build()));
     }
 
     @Test
     public void testBadStart_ActionPointerDown() {
         assertFalse(mBandController.shouldStart(
-                goodStartEventBuilder().action(MotionEvent.ACTION_POINTER_DOWN).build()));
+                mStartBuilder.action(MotionEvent.ACTION_POINTER_DOWN).build()));
     }
 
     @Test
     public void testBadStart_ActionPointerUp() {
         assertFalse(mBandController.shouldStart(
-                goodStartEventBuilder().action(MotionEvent.ACTION_POINTER_UP).build()));
+                mStartBuilder.action(MotionEvent.ACTION_POINTER_UP).build()));
     }
 
     @Test
@@ -134,70 +145,64 @@ public class BandSelectorTest {
                 SelectionManagers.CAN_SET_ANYTHING,
                 new ContentLock());
 
-        assertFalse(mBandController.shouldStart(goodStartEventBuilder().build()));
+        assertFalse(mBandController.shouldStart(mStartEvent));
     }
 
     @Test
     public void testBadStart_alreadyActive() {
         mIsActive = true;
-        assertFalse(mBandController.shouldStart(goodStartEventBuilder().build()));
+        assertFalse(mBandController.shouldStart(mStartEvent));
     }
 
     @Test
     public void testGoodStop() {
         mIsActive = true;
-        assertTrue(mBandController.shouldStop(goodStopEventBuilder().build()));
+        assertTrue(mBandController.shouldStop(mStopEvent));
     }
 
     @Test
     public void testGoodStop_PointerUp() {
         mIsActive = true;
         assertTrue(mBandController
-                .shouldStop(goodStopEventBuilder().action(MotionEvent.ACTION_POINTER_UP).build()));
+                .shouldStop(mStopBuilder.action(MotionEvent.ACTION_POINTER_UP).build()));
     }
 
     @Test
     public void testGoodStop_Cancel() {
         mIsActive = true;
         assertTrue(mBandController
-                .shouldStop(goodStopEventBuilder().action(MotionEvent.ACTION_CANCEL).build()));
+                .shouldStop(mStopBuilder.action(MotionEvent.ACTION_CANCEL).build()));
     }
 
     @Test
     public void testBadStop_NotActive() {
-        assertFalse(mBandController.shouldStop(goodStopEventBuilder().build()));
+        assertFalse(mBandController.shouldStop(mStopEvent));
     }
 
     @Test
     public void testBadStop_NonMouse() {
         mIsActive = true;
-        assertFalse(mBandController.shouldStop(goodStopEventBuilder().touch().build()));
+        assertFalse(mBandController.shouldStop(mStopBuilder.touch().build()));
     }
 
     @Test
     public void testBadStop_Move() {
         mIsActive = true;
         assertFalse(mBandController.shouldStop(
-                goodStopEventBuilder().action(MotionEvent.ACTION_MOVE).touch().build()));
+                mStopBuilder.action(MotionEvent.ACTION_MOVE).touch().build()));
     }
 
     @Test
     public void testBadStop_Down() {
         mIsActive = true;
         assertFalse(mBandController.shouldStop(
-                goodStopEventBuilder().action(MotionEvent.ACTION_DOWN).touch().build()));
-    }
-
-
-    private Builder goodStartEventBuilder() {
-        return new Builder().mouse().primary().action(MotionEvent.ACTION_MOVE).notInDragHotspot();
-    }
-
-    private Builder goodStopEventBuilder() {
-        return new Builder().mouse().action(MotionEvent.ACTION_UP).notInDragHotspot();
+                mStopBuilder.action(MotionEvent.ACTION_DOWN).touch().build()));
     }
 
     private final class TestSelectionHost implements BandSelector.SelectionHost {
+
+        private boolean mCanInitiateBand = true;
+
         @Override
         public void scrollBy(int dy) {
         }
@@ -268,6 +273,11 @@ public class BandSelectorTest {
         @Override
         public boolean hasView(int adapterPosition) {
             return false;
+        }
+
+        @Override
+        public boolean canInitiateBand(MotionEvent e) {
+            return mCanInitiateBand;
         }
     }
 }
