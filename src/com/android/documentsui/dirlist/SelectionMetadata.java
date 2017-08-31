@@ -27,15 +27,15 @@ import com.android.documentsui.MenuManager;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper.StubSelectionObserver;
 
 import java.util.function.Function;
 
 /**
  * A class that holds metadata
  */
-public class SelectionMetadata
-        implements MenuManager.SelectionDetails, SelectionManager.EventListener {
+public class SelectionMetadata extends StubSelectionObserver
+        implements MenuManager.SelectionDetails {
 
     private static final String TAG = "SelectionMetadata";
     private final static int FLAG_CAN_DELETE =
@@ -100,16 +100,6 @@ public class SelectionMetadata
         if (ArchivesProvider.AUTHORITY.equals(authority)) {
             mInArchiveCount += delta;
         }
-    }
-
-    @Override
-    public void onSelectionChanged() {
-        // Not utilized.
-    }
-
-    @Override
-    public void onSelectionRestored() {
-        // Not utilized.
     }
 
     @Override

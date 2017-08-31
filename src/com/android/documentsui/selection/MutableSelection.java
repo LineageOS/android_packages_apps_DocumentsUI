@@ -17,8 +17,8 @@ package com.android.documentsui.selection;
 
 /**
  * Subclass of Selection exposing public support for mutating the underlying selection data.
- * This is useful for clients of {@link SelectionManager} that wish to manipulate
- * a copy of selection data obtained via {@link SelectionManager#copySelection(Selection)}.
+ * This is useful for clients of {@link SelectionHelper} that wish to manipulate
+ * a copy of selection data obtained via {@link SelectionHelper#copySelection(Selection)}.
  */
 public final class MutableSelection extends Selection {
 

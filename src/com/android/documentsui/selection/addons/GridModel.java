@@ -16,6 +16,8 @@
 
 package com.android.documentsui.selection.addons;
 
+import static android.support.v4.util.Preconditions.checkArgument;
+
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.annotation.VisibleForTesting;
@@ -26,9 +28,9 @@ import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
-import com.android.documentsui.selection.SelectionManager.StableIdProvider;
-import com.android.documentsui.selection.addons.BandSelector.SelectionHost;
+import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
+import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
+import com.android.documentsui.selection.addons.BandSelectionHelper.SelectionHost;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -290,7 +292,9 @@ final class GridModel {
     private void updateSelection(Rect rect) {
         int columnStart =
                 Collections.binarySearch(mColumnBounds, new Limits(rect.left, rect.left));
-        assert(columnStart >= 0);
+
+        checkArgument(columnStart >= 0, "Rect doesn't intesect any known column.");
+
         int columnEnd = columnStart;
 
         for (int i = columnStart; i < mColumnBounds.size()
@@ -319,8 +323,12 @@ final class GridModel {
      */
     private void updateSelection(
             int columnStartIndex, int columnEndIndex, int rowStartIndex, int rowEndIndex) {
-        if (BandSelector.DEBUG) Log.d(BandSelector.TAG, String.format("updateSelection: %d, %d, %d, %d",
-                columnStartIndex, columnEndIndex, rowStartIndex, rowEndIndex));
+
+        if (BandSelectionHelper.DEBUG) {
+            Log.d(BandSelectionHelper.TAG, String.format(
+                    "updateSelection: %d, %d, %d, %d",
+                    columnStartIndex, columnEndIndex, rowStartIndex, rowEndIndex));
+        }
 
         mSelection.clear();
         for (int column = columnStartIndex; column <= columnEndIndex; column++) {
@@ -356,14 +364,9 @@ final class GridModel {
      */
     private boolean canSelect(String id) {
         // TODO: Simplify the logic, so the check whether we can select is done in one place.
-        // Consider injecting ActivityConfig, or move the checks from MultiSelectManager to
+        // Consider injecting ActivityConfig, or move the checks from DefaultSelectionManager to
         // Selection.
-        for (OnSelectionChangedListener listener : mOnSelectionChangedListeners) {
-            if (!mSelectionPredicate.canSetStateForId(id, true)) {
-                return false;
-            }
-        }
-        return true;
+        return mSelectionPredicate.canSetStateForId(id, true);
     }
 
     /**
@@ -404,8 +407,12 @@ final class GridModel {
         mOnSelectionChangedListeners.add(listener);
     }
 
-    void removeOnSelectionChangedListener(OnSelectionChangedListener listener) {
-        mOnSelectionChangedListeners.remove(listener);
+    /**
+     * Called when {@link BandSelectionHelper} is finished with a GridModel.
+     */
+    void onDestroy() {
+        mOnSelectionChangedListeners.clear();
+        stopListening();
     }
 
     /**
@@ -532,7 +539,8 @@ final class GridModel {
                 }
             } else {
                 Limits limitsBeforeIndex = limitsList.get(~index - 1);
-                if (limitsBeforeIndex.lowerLimit <= value && value <= limitsBeforeIndex.upperLimit) {
+                if (limitsBeforeIndex.lowerLimit <= value
+                        && value <= limitsBeforeIndex.upperLimit) {
                     this.type = WITHIN_LIMITS;
                     this.limitsBeforeCoordinate = limitsList.get(~index - 1);
                 } else {

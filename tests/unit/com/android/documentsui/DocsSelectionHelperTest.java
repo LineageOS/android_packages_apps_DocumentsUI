@@ -23,12 +23,12 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.Adapter;
 
-import com.android.documentsui.DocsSelectionManager.DelegateFactory;
-import com.android.documentsui.selection.DefaultSelectionManager;
+import com.android.documentsui.DocsSelectionHelper.DelegateFactory;
+import com.android.documentsui.selection.DefaultSelectionHelper;
 import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
-import com.android.documentsui.selection.SelectionManager.StableIdProvider;
+import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
+import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,9 +45,9 @@ import java.util.Set;
  */
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class DocsSelectionManagerTest {
+public class DocsSelectionHelperTest {
 
-    private DocsSelectionManager mSelectionMgr;
+    private DocsSelectionHelper mSelectionMgr;
     private List<TestSelectionManager> mCreated;
     private DelegateFactory mFactory;
 
@@ -68,7 +68,7 @@ public class DocsSelectionManagerTest {
             }
         };
 
-        mSelectionMgr = new DocsSelectionManager(mFactory, DefaultSelectionManager.MODE_MULTIPLE);
+        mSelectionMgr = new DocsSelectionHelper(mFactory, DefaultSelectionHelper.MODE_MULTIPLE);
     }
 
     @Test
@@ -104,7 +104,7 @@ public class DocsSelectionManagerTest {
         assertEquals(count, mCreated.size());
     }
 
-    private static final class TestSelectionManager implements SelectionManager {
+    private static final class TestSelectionManager implements SelectionHelper {
 
         private boolean mCleared;
         private Map<String, Boolean> mSelected = new HashMap<>();
@@ -122,7 +122,7 @@ public class DocsSelectionManagerTest {
         }
 
         @Override
-        public void addEventListener(EventListener listener) {
+        public void addObserver(SelectionObserver listener) {
             throw new UnsupportedOperationException();
         }
 
@@ -138,6 +138,11 @@ public class DocsSelectionManagerTest {
 
         @Override
         public void copySelection(Selection dest) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean isSelected(String id) {
             throw new UnsupportedOperationException();
         }
 
@@ -160,42 +165,42 @@ public class DocsSelectionManagerTest {
         }
 
         @Override
-        public void toggleSelection(String modelId) {
+        public boolean select(String itemId) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void startRangeSelection(int pos) {
+        public boolean deselect(String itemId) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void snapRangeSelection(int pos) {
+        public void startRange(int pos) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void formNewSelectionRange(int startPos, int endPos) {
+        public void extendRange(int pos) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void endRangeSelection() {
+        public void endRange() {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public boolean isRangeSelectionActive() {
+        public boolean isRangeActive() {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void setSelectionRangeBegin(int position) {
+        public void anchorRange(int position) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void setProvisionalSelection(Set<String> newSelection) {
+        public void extendProvisionalRange(int pos) {
             throw new UnsupportedOperationException();
         }
 
@@ -210,7 +215,7 @@ public class DocsSelectionManagerTest {
         }
 
         @Override
-        public void snapProvisionalRangeSelection(int pos) {
+        public void setProvisionalSelection(Set<String> newSelection) {
             throw new UnsupportedOperationException();
         }
     }

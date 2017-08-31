@@ -22,8 +22,7 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.testing.SelectionHelpers;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,39 +32,38 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class DefaultSelectionManager_SingleSelectTest {
+public class DefaultSelectionHelper_SingleSelectTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
-    private SelectionManager mManager;
-    private TestSelectionEventListener mListener;
-    private TestDocumentsAdapter mAdapter;
+    private SelectionHelper mManager;
+    private TestSelectionObserver mListener;
     private SelectionProbe mSelection;
 
     @Before
     public void setUp() throws Exception {
-        mListener = new TestSelectionEventListener();
-        mManager = SelectionManagers.createTestInstance(ITEMS, DefaultSelectionManager.MODE_SINGLE);
-        mManager.addEventListener(mListener);
+        mListener = new TestSelectionObserver();
+        mManager = SelectionHelpers.createTestInstance(ITEMS, DefaultSelectionHelper.MODE_SINGLE);
+        mManager.addObserver(mListener);
 
         mSelection = new SelectionProbe(mManager);
     }
 
     @Test
     public void testSimpleSelect() {
-        mManager.toggleSelection(ITEMS.get(3));
-        mManager.toggleSelection(ITEMS.get(4));
+        mManager.select(ITEMS.get(3));
+        mManager.select(ITEMS.get(4));
         mListener.assertSelectionChanged();
         mSelection.assertSelection(4);
     }
 
     @Test
     public void testRangeSelectionNotEstablished() {
-        mManager.toggleSelection(ITEMS.get(3));
+        mManager.select(ITEMS.get(3));
         mListener.reset();
 
         try {
-            mManager.snapRangeSelection(10);
+            mManager.extendRange(10);
             fail("Should have thrown.");
         } catch (Exception expected) {}
 

@@ -38,7 +38,7 @@ import android.view.MenuItem;
 
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
-import com.android.documentsui.DocsSelectionManager;
+import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
@@ -104,7 +104,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         super.onCreate(icicle);
 
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(this);
-        mInjector.selectionMgr = DocsSelectionManager.createMultiSelect();
+        mInjector.selectionMgr = DocsSelectionHelper.createMultiSelect();
 
         mInjector.focusManager = new FocusManager(
                 mInjector.features,

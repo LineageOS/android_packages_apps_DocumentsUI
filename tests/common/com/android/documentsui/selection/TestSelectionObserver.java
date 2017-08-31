@@ -23,11 +23,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TestSelectionEventListener implements SelectionManager.EventListener {
+public class TestSelectionObserver implements SelectionHelper.SelectionObserver {
 
     private final Set<String> mSelected = new HashSet<>();
     private boolean mSelectionChanged = false;
     private boolean mSelectionReset = false;
+    private boolean mSelectionRestored = false;
 
     public void reset() {
         mSelected.clear();
@@ -58,7 +59,9 @@ public class TestSelectionEventListener implements SelectionManager.EventListene
     }
 
     @Override
-    public void onSelectionRestored() {}
+    public void onSelectionRestored() {
+        mSelectionRestored = true;
+    }
 
     void assertNoSelection() {
         assertTrue(mSelected.isEmpty());
@@ -86,5 +89,9 @@ public class TestSelectionEventListener implements SelectionManager.EventListene
 
     public void assertSelectionReset() {
         assertTrue(mSelectionReset);
+    }
+
+    public void assertSelectionRestored() {
+        assertTrue(mSelectionRestored);
     }
 }

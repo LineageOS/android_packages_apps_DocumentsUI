@@ -24,9 +24,9 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.MotionEvent;
 
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.SelectionProbe;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEventDetailsLookup;
 import com.android.documentsui.testing.TestEventHandler;
@@ -63,7 +63,7 @@ public final class UserInputHandler_RangeTest {
     @Before
     public void setUp() {
 
-        SelectionManager selectionMgr = SelectionManagers.createTestInstance(ITEMS);
+        SelectionHelper selectionMgr = SelectionHelpers.createTestInstance(ITEMS);
         mActionHandler = new TestActionHandler();
         mDetailsLookup = new TestEventDetailsLookup();
         mFocusHandler = new TestFocusHandler();

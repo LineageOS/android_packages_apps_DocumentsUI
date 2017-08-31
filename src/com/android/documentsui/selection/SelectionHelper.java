@@ -22,17 +22,24 @@ import java.util.Set;
 /**
  * SelectionManager provides support for managing selection within a RecyclerView instance.
  *
- * @see DefaultSelectionManager for details on usage.
+ * @see DefaultSelectionHelper for details on instantiation.
  */
-public interface SelectionManager {
+public interface SelectionHelper {
 
     /**
-     * Adds {@code callback} such that it will be notified when {@code MultiSelectManager}
-     * events occur.
-     *
-     * @param callback
+     * This value is included in the payload when SelectionHelper implementations
+     * notify RecyclerView of changes. Clients can look for this in
+     * {@code onBindViewHolder} to know if the bind event is occurring in response
+     * to a selection state change.
      */
-    void addEventListener(EventListener listener);
+    public static final String SELECTION_CHANGED_MARKER = "Selection-Changed";
+
+    /**
+     * Adds {@code observe} to be notified when changes to selection occur.
+     *
+     * @param observer
+     */
+    void addObserver(SelectionObserver observer);
 
     boolean hasSelection();
 
@@ -52,6 +59,12 @@ public interface SelectionManager {
      * @param dest
      */
     void copySelection(Selection dest);
+
+    /**
+     * @return true if the item specified by its id is selected. Shorthand for
+     * {@code getSelection().contains(String)}.
+     */
+    boolean isSelected(String id);
 
     /**
      * Restores the selected state of specified items. Used in cases such as restore the selection
@@ -75,11 +88,20 @@ public interface SelectionManager {
     void clearSelection();
 
     /**
-     * Toggles selection on the item with the given model ID.
+     * Attempts to select an item.
      *
-     * @param modelId
+     * @return true if the item was selected. False if the item was not selected, or was
+     *         was already selected prior to the method being called.
      */
-    void toggleSelection(String modelId);
+    boolean select(String itemId);
+
+    /**
+     * Attempts to deselect an item.
+     *
+     * @return true if the item was deselected. False if the item was not deselected, or was
+     *         was already deselected prior to the method being called.
+     */
+    boolean deselect(String itemId);
 
     /**
      * Starts a range selection. If a range selection is already active, this will start a new range
@@ -87,47 +109,49 @@ public interface SelectionManager {
      *
      * @param pos The anchor position for the selection range.
      */
-    void startRangeSelection(int pos);
+    void startRange(int pos);
 
     /**
      * Sets the end point for the active range selection.
      *
      * <p>This function should only be called when a range selection is active
-     * (see {@link #isRangeSelectionActive()}. Items in the range [anchor, end] will be
+     * (see {@link #isRangeActive()}. Items in the range [anchor, end] will be
      * selected.
      *
      * @param pos The new end position for the selection range.
      * @param type The type of selection the range should utilize.
      *
      * @throws IllegalStateException if a range selection is not active. Range selection
-     *         must have been started by a call to {@link #startRangeSelection(int)}.
+     *         must have been started by a call to {@link #startRange(int)}.
      */
-    void snapRangeSelection(int pos);
-
-    /*
-     * Creates a fully formed range selection in one go. This assumes item at
-     * {@code startPos} is not selected beforehand.
-     */
-    void formNewSelectionRange(int startPos, int endPos);
+    void extendRange(int pos);
 
     /**
      * Stops an in-progress range selection. All selection done with
-     * {@link #snapRangeSelection(int, int)} with type RANGE_PROVISIONAL will be lost if
+     * {@link #extendProvisionalRange(int)} will be lost if
      * {@link Selection#mergeProvisionalSelection()} is not called beforehand.
      */
-    void endRangeSelection();
+    void endRange();
 
     /**
      * @return Whether or not there is a current range selection active.
      */
-    boolean isRangeSelectionActive();
+    boolean isRangeActive();
 
     /**
      * Sets the magic location at which a selection range begins (the selection anchor). This value
      * is consulted when determining how to extend, and modify selection ranges. Calling this when a
      * range selection is active will reset the range selection.
      */
-    void setSelectionRangeBegin(int position);
+    void anchorRange(int position);
+
+    /**
+     * @param pos
+     */
+    // TODO: This is smelly. Maybe this type of logic needs to move into range selection,
+    // then selection manager can have a startProvisionalRange and startRange. Or
+    // maybe ranges always start life as provisional.
+    void extendProvisionalRange(int pos);
 
     /**
      * @param newSelection
@@ -139,20 +163,12 @@ public interface SelectionManager {
      */
     void clearProvisionalSelection();
 
-    /**
-     * @param pos
-     */
-    // TODO: This is smelly. Maybe this type of logic needs to move into range selection,
-    // then selection manager can have a startProvisionalRange and startRange. Or
-    // maybe ranges always start life as provisional.
-    void snapProvisionalRangeSelection(int pos);
-
     void mergeProvisionalSelection();
 
     /**
-     * Interface allowing clients access to information about Selection state change.
+     * Observer interface providing access to information about Selection state changes.
      */
-    interface EventListener {
+    interface SelectionObserver {
 
         /**
          * Called when state of an item has been changed.
@@ -160,19 +176,49 @@ public interface SelectionManager {
         void onItemStateChanged(String id, boolean selected);
 
         /**
-         * Called when selection is reset (cleared).
+         * Called when the underlying data set has change. After this method is called
+         * the selection manager will attempt traverse the existing selection,
+         * calling {@link #onItemStateChanged(String, boolean)} for each selected item,
+         * and deselecting any items that cannot be selected given the updated dataset.
          */
         void onSelectionReset();
 
         /**
-         * Called immediately after completion of any set of changes.
+         * Called immediately after completion of any set of changes, excluding
+         * those resulting in calls to {@link #onSelectionReset()} and
+         * {@link #onSelectionRestored()}.
          */
         void onSelectionChanged();
 
         /**
          * Called immediately after selection is restored.
+         * {@link #onItemStateChanged(String, boolean)} will not be called
+         * for individual items in the selection.
          */
         void onSelectionRestored();
+    }
+
+    /**
+     * Stub observer class that can be used either as a base class for observers
+     * that are interested only in a subset of events, or as a test stub.
+     */
+    static class StubSelectionObserver implements SelectionObserver {
+
+        @Override
+        public void onItemStateChanged(String id, boolean selected) {
+        }
+
+        @Override
+        public void onSelectionReset() {
+        }
+
+        @Override
+        public void onSelectionChanged() {
+        }
+
+        @Override
+        public void onSelectionRestored() {
+        }
     }
 
     /**
@@ -185,16 +231,14 @@ public interface SelectionManager {
         String getStableId(int position);
 
         /**
-         * Returns a list of model IDs of items currently in the adapter.
-         *
+         * @return the position of a stable ID, or RecyclerView.NO_POSITION.
+         */
+        int getPosition(String id);
+
+        /**
          * @return A list of all known stable IDs.
          */
         List<String> getStableIds();
-
-        /**
-         * Triggers item-change notifications by stable ID (as opposed to position).
-         */
-        void onSelectionStateChanged(String id);
     }
 
     /**

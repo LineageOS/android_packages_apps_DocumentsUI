@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import static android.support.v4.util.Preconditions.checkArgument;
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.Shared.VERBOSE;
 
@@ -28,7 +29,7 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.base.EventDetailsLookup;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 
 import java.util.function.Predicate;
 
@@ -45,7 +46,7 @@ public final class UserInputHandler
 
     private ActionHandler mActions;
     private final FocusHandler mFocusHandler;
-    private final SelectionManager mSelectionMgr;
+    private final SelectionHelper mSelectionMgr;
     private final EventDetailsLookup mDetailsLookup;
     private final Predicate<DocumentDetails> mSelectable;
     private final EventHandler<MotionEvent> mContextMenuClickHandler;
@@ -61,7 +62,7 @@ public final class UserInputHandler
     public UserInputHandler(
             ActionHandler actions,
             FocusHandler focusHandler,
-            SelectionManager selectionMgr,
+            SelectionHelper selectionMgr,
             EventDetailsLookup detailsLookup,
             Predicate<DocumentDetails> selectable,
             EventHandler<MotionEvent> contextMenuClickHandler,
@@ -142,10 +143,12 @@ public final class UserInputHandler
     }
 
     private boolean selectDocument(DocumentDetails doc) {
-        assert doc != null;
-        assert doc.hasModelId();
-        mSelectionMgr.toggleSelection(doc.getModelId());
-        mSelectionMgr.setSelectionRangeBegin(doc.getAdapterPosition());
+        checkArgument(doc != null);
+        checkArgument(doc.hasModelId());
+
+        if (mSelectionMgr.select(doc.getModelId())) {
+            mSelectionMgr.anchorRange(doc.getAdapterPosition());
+        }
 
         // we set the focus on this doc so it will be the origin for keyboard events or shift+clicks
         // if there is only a single item selected, otherwise clear focus
@@ -158,8 +161,8 @@ public final class UserInputHandler
     }
 
     private boolean focusDocument(DocumentDetails doc) {
-        assert doc != null;
-        assert doc.hasModelId();
+        checkArgument(doc != null);
+        checkArgument(doc.hasModelId());
 
         mSelectionMgr.clearSelection();
         mFocusHandler.focusDocument(doc.getModelId());
@@ -167,12 +170,12 @@ public final class UserInputHandler
     }
 
     private void extendSelectionRange(DocumentDetails doc) {
-        mSelectionMgr.snapRangeSelection(doc.getAdapterPosition());
+        mSelectionMgr.extendRange(doc.getAdapterPosition());
         mFocusHandler.focusDocument(doc.getModelId());
     }
 
     boolean isRangeExtension(MotionEvent e) {
-        return Events.isShiftKeyPressed(e) && mSelectionMgr.isRangeSelectionActive();
+        return Events.isShiftKeyPressed(e) && mSelectionMgr.isRangeActive();
     }
 
     private boolean shouldClearSelection(MotionEvent e, DocumentDetails doc) {
@@ -202,8 +205,6 @@ public final class UserInputHandler
         boolean onSingleTapUp(MotionEvent e) {
             if (VERBOSE) Log.v(TTAG, "Delegated onSingleTapUp event.");
 
-            // if (!event.isOverModelItem()) {
-
             if (!mDetailsLookup.overModelItem(e)) {
                 if (DEBUG) Log.d(TTAG, "Tap not associated w/ model item. Clearing selection.");
                 mSelectionMgr.clearSelection();
@@ -214,8 +215,8 @@ public final class UserInputHandler
             if (mSelectionMgr.hasSelection()) {
                 if (isRangeExtension(e)) {
                     extendSelectionRange(doc);
-                } else if (mSelectionMgr.getSelection().contains(doc.getModelId())) {
-                    mSelectionMgr.toggleSelection(doc.getModelId());
+                } else if (mSelectionMgr.isSelected(doc.getModelId())) {
+                    mSelectionMgr.deselect(doc.getModelId());
                 } else {
                     selectDocument(doc);
                 }
@@ -333,8 +334,9 @@ public final class UserInputHandler
                         mSelectionMgr.clearSelection();
                     }
                     if (isSelected(doc)) {
-                        mSelectionMgr.toggleSelection(doc.getModelId());
-                        mFocusHandler.clearFocus();
+                        if (mSelectionMgr.deselect(doc.getModelId())) {
+                            mFocusHandler.clearFocus();
+                        }
                     } else {
                         selectOrFocusItem(e);
                     }
@@ -375,8 +377,8 @@ public final class UserInputHandler
             }
 
             if (mFocusHandler.hasFocusedItem() && Events.isShiftKeyPressed(e)) {
-                mSelectionMgr.formNewSelectionRange(mFocusHandler.getFocusPosition(),
-                        doc.getAdapterPosition());
+                mSelectionMgr.startRange(mFocusHandler.getFocusPosition());
+                mSelectionMgr.extendRange(doc.getAdapterPosition());
             } else {
                 selectOrFocusItem(e);
             }
@@ -464,13 +466,13 @@ public final class UserInputHandler
                 // bounds of the in-progress range selection. Each time an unshifted navigation
                 // event is received, the range selection is restarted.
                 if (shouldExtendSelection(doc, event)) {
-                    if (!mSelectionMgr.isRangeSelectionActive()) {
+                    if (!mSelectionMgr.isRangeActive()) {
                         // Start a range selection if one isn't active
-                        mSelectionMgr.startRangeSelection(doc.getAdapterPosition());
+                        mSelectionMgr.startRange(doc.getAdapterPosition());
                     }
-                    mSelectionMgr.snapRangeSelection(mFocusHandler.getFocusPosition());
+                    mSelectionMgr.extendRange(mFocusHandler.getFocusPosition());
                 } else {
-                    mSelectionMgr.endRangeSelection();
+                    mSelectionMgr.endRange();
                     mSelectionMgr.clearSelection();
                 }
                 return true;

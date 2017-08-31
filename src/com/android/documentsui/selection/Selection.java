@@ -30,22 +30,29 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * Object representing the current selection. Provides read only access
- * public access, and private write access.
+ * Object representing the current selection and provisional selection. Provides read only public
+ * access, and private write access.
+ * <p>
+ * This class tracks selected items by managing two sets:
+ *
+ * <li>primary selection
+ *
+ * Primary selection consists of items tapped by a user or by lassoed by band select operation.
+ *
+ * <li>provisional selection
+ *
+ * Provisional selections are selections which have been temporarily created
+ * by an in-progress band select or gesture selection. Once the user releases the mouse button
+ * or lifts their finger the corresponding provisional selection should be converted into
+ * primary selection.
+ *
+ * <p>The total selection is the combination of
+ * both the core selection and the provisional selection. Tracking both separately is necessary to
+ * ensure that items in the core selection are not "erased" from the core selection when they
+ * are temporarily included in a secondary selection (like band selection).
  */
 public class Selection implements Iterable<String>, Parcelable {
 
-    // This class tracks selected items by managing two sets: the saved selection, and the total
-    // selection. Saved selections are those which have been completed by tapping an item or by
-    // completing a band select operation. Provisional selections are selections which have been
-    // temporarily created by an in-progress band select operation (once the user releases the
-    // mouse button during a band select operation, the selected items become saved). The total
-    // selection is the combination of both the saved selection and the provisional
-    // selection. Tracking both separately is necessary to ensure that saved selections do not
-    // become deselected when they are removed from the provisional selection; for example, if
-    // item A is tapped (and selected), then an in-progress band select covers A then uncovers
-    // A, A should still be selected as it has been saved. To ensure this behavior, the saved
-    // selection must be tracked separately.
     final Set<String> mSelection;
     final Set<String> mProvisionalSelection;
 
@@ -101,14 +108,12 @@ public class Selection implements Iterable<String>, Parcelable {
      * one (if it exists) is abandoned.
      * @return Map of ids added or removed. Added ids have a value of true, removed are false.
      */
-    // TODO: Make this private to selectionmanager. Even other selection classes like BandController
-    // should not be reaching in and modify selection state.
     Map<String, Boolean> setProvisionalSelection(Set<String> newSelection) {
         Map<String, Boolean> delta = new HashMap<>();
 
         for (String id: mProvisionalSelection) {
-            // Mark each item that used to be in the selection but is unsaved and not in the new
-            // provisional selection.
+            // Mark each item that used to be in the provisional selection
+            // but is not in the new provisional selection.
             if (!newSelection.contains(id) && !mSelection.contains(id)) {
                 delta.put(id, false);
             }
@@ -243,17 +248,19 @@ public class Selection implements Iterable<String>, Parcelable {
     }
 
     @Override
-    public boolean equals(Object that) {
-      if (this == that) {
-          return true;
-      }
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
 
-      if (!(that instanceof Selection)) {
-          return false;
-      }
+        return other instanceof Selection
+            ? equals((Selection) other)
+            : false;
+    }
 
-      return mSelection.equals(((Selection) that).mSelection) &&
-              mProvisionalSelection.equals(((Selection) that).mProvisionalSelection);
+    private boolean equals(Selection other) {
+        return mSelection.equals(((Selection) other).mSelection) &&
+                mProvisionalSelection.equals(((Selection) other).mProvisionalSelection);
     }
 
     @Override

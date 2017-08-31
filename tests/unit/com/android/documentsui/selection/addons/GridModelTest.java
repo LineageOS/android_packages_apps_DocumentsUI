@@ -29,7 +29,9 @@ import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.view.MotionEvent;
 
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
+import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
+import com.android.documentsui.selection.addons.BandSelectionHelper;
+import com.android.documentsui.selection.addons.GridModel;
 
 import org.junit.After;
 import org.junit.Test;
@@ -307,7 +309,7 @@ public class GridModelTest {
         mHost.mScrollListener.onScrolled(null, 0, dy);
     }
 
-    private static final class TestHost implements BandSelector.SelectionHost {
+    private static final class TestHost implements BandSelectionHelper.SelectionHost {
 
         private final int mNumColumns;
         private final int mNumRows;

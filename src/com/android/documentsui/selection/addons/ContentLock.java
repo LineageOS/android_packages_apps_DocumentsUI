@@ -16,7 +16,7 @@
 package com.android.documentsui.selection.addons;
 
 import static com.android.documentsui.selection.Shared.DEBUG;
-import static com.android.documentsui.selection.Shared.TAG  ;
+import static com.android.documentsui.selection.Shared.TAG;
 
 import android.annotation.MainThread;
 import android.annotation.Nullable;
@@ -24,8 +24,8 @@ import android.os.Looper;
 import android.util.Log;
 
 /**
- * A lock used by {@link BandSelector} and {@link GestureSelector} to signal to clients when
- * selection is in-progress. While locked, clients should block changes to content.
+ * A lock used by {@link BandSelectionHelper} and {@link GestureSelectionHelper} to signal to
+ * clients when selection is in-progress. While locked, clients should block changes to content.
  */
 public class ContentLock {
 

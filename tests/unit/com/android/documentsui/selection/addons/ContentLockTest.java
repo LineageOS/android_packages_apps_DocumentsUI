@@ -22,6 +22,8 @@ import static org.junit.Assert.assertTrue;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.selection.addons.ContentLock;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

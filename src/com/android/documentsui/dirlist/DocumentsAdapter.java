@@ -29,9 +29,7 @@ import com.android.documentsui.Model;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
-import com.android.documentsui.selection.SelectionManager;
-
-import java.util.List;
+import com.android.documentsui.selection.SelectionHelper;
 
 /**
  * DocumentsAdapter provides glue between a directory Model, and RecyclerView. We've
@@ -43,7 +41,7 @@ import java.util.List;
  * @see DirectoryAddonsAdapter
  */
 public abstract class DocumentsAdapter
-        extends RecyclerView.Adapter<DocumentHolder> implements SelectionManager.StableIdProvider {
+        extends RecyclerView.Adapter<DocumentHolder> implements SelectionHelper.StableIdProvider {
     // Item types used by ModelBackedDocumentsAdapter
     public static final int ITEM_TYPE_DOCUMENT = 1;
     public static final int ITEM_TYPE_DIRECTORY = 2;
@@ -51,9 +49,6 @@ public abstract class DocumentsAdapter
     public static final int ITEM_TYPE_SECTION_BREAK = Integer.MAX_VALUE;
     public static final int ITEM_TYPE_HEADER_MESSAGE = Integer.MAX_VALUE - 1;
     public static final int ITEM_TYPE_INFLATED_MESSAGE = Integer.MAX_VALUE - 2;
-
-    // Payloads for notifyItemChange to distinguish between selection and other events.
-    static final String SELECTION_CHANGED_MARKER = "Selection-Changed";
 
     public abstract int getAdapterPosition(String modelId);
 

@@ -15,24 +15,23 @@
  */
 package com.android.documentsui.selection;
 
+import static android.support.v4.util.Preconditions.checkArgument;
+import static android.support.v7.widget.RecyclerView.NO_POSITION;
 import static com.android.documentsui.selection.Shared.DEBUG;
 import static com.android.documentsui.selection.Shared.TAG;
 
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.android.documentsui.selection.DefaultSelectionManager.RangeType;
+import com.android.documentsui.selection.DefaultSelectionHelper.RangeType;
 
 /**
  * Class providing support for managing range selections.
  */
 final class Range {
 
-    private static final int UNDEFINED = -1;
-
     private final Range.RangeUpdater mUpdater;
     private final int mBegin;
-    private int mEnd = UNDEFINED;
+    private int mEnd = NO_POSITION;
 
     public Range(Range.RangeUpdater updater, int begin) {
         if (DEBUG) Log.d(TAG, "New Ranger created beginning @ " + begin);
@@ -40,12 +39,12 @@ final class Range {
         mBegin = begin;
     }
 
-    void snapSelection(int position, @RangeType int type) {
-        assert(position != RecyclerView.NO_POSITION);
+    void extendSelection(int position, @RangeType int type) {
+        checkArgument(position != NO_POSITION, "Position cannot be NO_POSITION.");
 
-        if (mEnd == UNDEFINED || mEnd == mBegin) {
+        if (mEnd == NO_POSITION || mEnd == mBegin) {
             // Reset mEnd so it can be established in establishRange.
-            mEnd = UNDEFINED;
+            mEnd = NO_POSITION;
             establishRange(position, type);
         } else {
             reviseRange(position, type);
@@ -53,7 +52,7 @@ final class Range {
     }
 
     private void establishRange(int position, @RangeType int type) {
-        assert(mEnd == UNDEFINED);
+        checkArgument(mEnd == NO_POSITION, "End has already been set.");
 
         if (position == mBegin) {
             mEnd = position;
@@ -69,8 +68,8 @@ final class Range {
     }
 
     private void reviseRange(int position, @RangeType int type) {
-        assert(mEnd != UNDEFINED);
-        assert(mBegin != mEnd);
+        checkArgument(mEnd != NO_POSITION, "End must already be set.");
+        checkArgument(mBegin != mEnd, "Beging and end point to same position.");
 
         if (position == mEnd) {
             if (DEBUG) Log.v(TAG, "Ignoring no-op revision for range: " + this);
@@ -87,7 +86,7 @@ final class Range {
     }
 
     /**
-     * Updates an existing ascending seleciton.
+     * Updates an existing ascending selection.
      * @param position
      */
     private void reviseAscendingRange(int position, @RangeType int type) {
@@ -143,8 +142,7 @@ final class Range {
     }
 
     /*
-     * @see {@link MultiSelectManager#updateForRegularRange(int, int , boolean)} and {@link
-     * MultiSelectManager#updateForProvisionalRange(int, int, boolean)}
+     * @see {@link DefaultSelectionManager#updateForRange(int, int , boolean, int)}.
      */
     @FunctionalInterface
     interface RangeUpdater {
