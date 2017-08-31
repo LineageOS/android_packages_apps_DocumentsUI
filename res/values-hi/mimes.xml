@@ -29,7 +29,7 @@
     <string name="apk_file_type" msgid="6004275470389462277">"Android ऐप्लिकेशन"</string>
     <string name="txt_file_type" msgid="4677767777860724696">"सादा पाठ"</string>
     <string name="html_file_type" msgid="2034229603117527970">"HTML दस्‍तावेज़"</string>
-    <string name="pdf_file_type" msgid="3382260303795039988">"PDF दस्तावेज़"</string>
+    <string name="pdf_file_type" msgid="3382260303795039988">"पीडीएफ़ दस्तावेज़"</string>
     <string name="word_file_type" msgid="2366349268129894972">"Word दस्तावेज़"</string>
     <string name="ppt_file_type" msgid="2570841599899893925">"PowerPoint प्रस्तुतिकरण"</string>
     <string name="excel_file_type" msgid="8363932635044575463">"Excel स्प्रैडशीट"</string>
@@ -37,7 +37,7 @@
     <string name="gsheet_file_type" msgid="8055591929133067952">"Google स्प्रैडशीट"</string>
     <string name="gslides_file_type" msgid="8359750985956690177">"Google प्रस्तुतिकरण"</string>
     <string name="gdraw_file_type" msgid="655688091676820371">"Google आरेखण"</string>
-    <string name="gtable_file_type" msgid="7332773878374650335">"Google तालिका"</string>
+    <string name="gtable_file_type" msgid="7332773878374650335">"Google टेबल"</string>
     <string name="gform_file_type" msgid="4803176103746107611">"Google फ़ॉर्म"</string>
     <string name="gmap_file_type" msgid="6684180781808007016">"Google मानचित्र"</string>
     <string name="gsite_file_type" msgid="3742812051249149526">"Google साइट"</string>
