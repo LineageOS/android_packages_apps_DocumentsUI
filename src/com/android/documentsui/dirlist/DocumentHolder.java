@@ -16,25 +16,19 @@
 
 package com.android.documentsui.dirlist;
 
-import android.annotation.ColorInt;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Rect;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.android.documentsui.R;
-import com.android.documentsui.base.DebugFlags;
-import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.ui.DocumentDebugInfo;
 
@@ -128,24 +122,12 @@ public abstract class DocumentHolder
     }
 
     @Override
-    public boolean isInSelectionHotspot(InputEvent event) {
-        // Do everything in global coordinates - it makes things simpler.
-        int[] coords = new int[2];
-        mSelectionHotspot.getLocationOnScreen(coords);
-        Rect rect = new Rect(coords[0], coords[1], coords[0] + mSelectionHotspot.getWidth(),
-                coords[1] + mSelectionHotspot.getHeight());
-
-        // If the tap occurred within the icon rect, consider it a selection.
-        return rect.contains((int) event.getRawX(), (int) event.getRawY());
-    }
-
-    @Override
-    public boolean isInDragHotspot(InputEvent event) {
+    public boolean inDragRegion(MotionEvent event) {
         return false;
     }
 
     @Override
-    public boolean isOverDocIcon(InputEvent event) {
+    public boolean inSelectRegion(MotionEvent event) {
         return false;
     }
 

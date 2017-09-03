@@ -81,7 +81,7 @@
     <string name="metadata_artist">Artist</string>
     <!--The composer for the audio file, Note this is probably MP3 ID3 tags-->
     <string name="metadata_composer">Composer</string>
-    <!--The album the file is in, Note this is probably MP3 ID3 tags-->
+    <!--The title of the album (i.e. collection of recordings) the song belongs to. Note this is probably MP3 ID3 tags-->
     <string name="metadata_album">Album</string>
     <!-- The address nearest to where a photo was taken -->
     <string name="metadata_address">Location</string>

@@ -16,6 +16,9 @@
 
 package com.android.documentsui.selection.addons;
 
+import static com.android.internal.util.Preconditions.checkArgument;
+
+import android.annotation.DrawableRes;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -25,10 +28,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.R;
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
@@ -69,22 +71,6 @@ public class BandSelector {
     @Nullable private GridModel mModel;
 
     public BandSelector(
-            final RecyclerView view,
-            StableIdProvider stableIds,
-            SelectionManager selectionManager,
-            SelectionPredicate selectionPredicate,
-            ContentLock lock) {
-
-        this(new RecyclerViewSelectionHost(view),
-                view.getAdapter(),
-                stableIds,
-                selectionManager,
-                selectionPredicate,
-                lock);
-    }
-
-    @VisibleForTesting
-    BandSelector(
             SelectionHost host,
             RecyclerView.Adapter<?> adapter,
             StableIdProvider stableIds,
@@ -186,12 +172,13 @@ public class BandSelector {
         return mModel != null;
     }
 
-    public boolean onInterceptTouchEvent(InputEvent e) {
+    public boolean onInterceptTouchEvent(MotionEvent e) {
         if (shouldStart(e)) {
-            if (!e.isCtrlKeyDown()) {
+            if (!MotionEvents.isCtrlPressed(e)) {
                 mSelectionMgr.clearSelection();
             }
-            startBandSelect(e.getOrigin());
+
+            startBandSelect(MotionEvents.getOrigin(e));
         } else if (shouldStop(e)) {
             endBandSelect();
         }
@@ -221,15 +208,16 @@ public class BandSelector {
         }
     }
 
-    public boolean shouldStart(InputEvent e) {
+    public boolean shouldStart(MotionEvent e) {
         // Don't start, or extend bands on non-left clicks.
-        if (!e.isPrimaryButtonPressed()) {
+        if (!MotionEvents.isPrimaryButtonPressed(e)) {
             return false;
         }
 
-        if (!e.isMouseEvent() && isActive()) {
-            // Weird things happen if we keep up band select
-            // when touch events happen.
+        // TODO: Refactor to NOT have side-effects on this "should" method.
+        // Weird things happen if we keep up band select
+        // when touch events happen.
+        if (isActive() && !MotionEvents.isMouseEvent(e)) {
             endBandSelect();
             return false;
         }
@@ -239,28 +227,30 @@ public class BandSelector {
         // mouse moves, or else starting band selection on mouse down can cause problems as events
         // don't get routed correctly to onTouchEvent.
         return !isActive()
-                && e.isActionMove() // the initial button move via mouse-touch (ie. down press)
+                && MotionEvents.isActionMove(e) // the initial button move via mouse-touch (ie. down press)
                 // The adapter inserts items for UI layout purposes that aren't
                 // associated with files. Checking against actual modelIds count
                 // effectively ignores those UI layout items.
                 && !mStableIds.getStableIds().isEmpty()
-                && !e.isOverDragHotspot();
+                && mHost.canInitiateBand(e);
     }
 
-    public boolean shouldStop(InputEvent input) {
+    public boolean shouldStop(MotionEvent e) {
         return isActive()
-                && input.isMouseEvent()
-                && (input.isActionUp() || input.isMultiPointerActionUp() || input.isActionCancel());
+                && MotionEvents.isMouseEvent(e)
+                && (MotionEvents.isActionUp(e)
+                        || MotionEvents.isMultiPointerActionUp(e)
+                        || MotionEvents.isActionCancel(e));
     }
 
     /**
      * Processes a MotionEvent by starting, ending, or resizing the band select overlay.
      * @param input
      */
-    public void onTouchEvent(InputEvent input) {
-        assert(input.isMouseEvent());
+    public void onTouchEvent(MotionEvent e) {
+        assert MotionEvents.isMouseEvent(e);
 
-        if (shouldStop(input)) {
+        if (shouldStop(e)) {
             endBandSelect();
             return;
         }
@@ -272,9 +262,11 @@ public class BandSelector {
             return;
         }
 
-        assert(input.isActionMove());
-        mCurrentPosition = input.getOrigin();
-        mModel.resizeSelection(input.getOrigin());
+        assert MotionEvents.isActionMove(e);
+
+        mCurrentPosition = MotionEvents.getOrigin(e);
+        mModel.resizeSelection(mCurrentPosition);
+
         scrollViewIfNecessary();
         resizeBandSelectRectangle();
     }
@@ -360,7 +352,8 @@ public class BandSelector {
      * Provides functionality for BandController. Exists primarily to tests that are
      * fully isolated from RecyclerView.
      */
-    interface SelectionHost extends Callbacks {
+    public interface SelectionHost extends Callbacks {
+        boolean canInitiateBand(MotionEvent e);
         void showBand(Rect rect);
         void hideBand();
         void addOnScrollListener(RecyclerView.OnScrollListener listener);
@@ -379,17 +372,62 @@ public class BandSelector {
         boolean hasView(int adapterPosition);
     }
 
-    /** Recycler view facade implementation backed by good ol' RecyclerView. */
+    public interface BandPredicate {
+        boolean canInitiate(MotionEvent e);
+    }
+
+    public static SelectionHost createHost(
+            final RecyclerView view,
+            @DrawableRes int bandOverlayId) {
+
+        BandPredicate bandPredicate = new BandPredicate() {
+            @Override
+            public boolean canInitiate(MotionEvent e) {
+                View itemView = view.findChildViewUnder(e.getX(), e.getY());
+                int position = itemView != null
+                        ? view.getChildAdapterPosition(itemView)
+                        : RecyclerView.NO_POSITION;
+
+                return position == RecyclerView.NO_POSITION;
+            }
+        };
+
+        return createHost(view, bandOverlayId, bandPredicate);
+    }
+
+    public static SelectionHost createHost(
+            RecyclerView view,
+            @DrawableRes int bandOverlayId,
+            BandPredicate bandPredicate) {
+
+        return new RecyclerViewSelectionHost(view, bandOverlayId, bandPredicate);
+    }
+
+    /** RecyclerView facade implementation backed by good ol' RecyclerView. */
     private static final class RecyclerViewSelectionHost implements SelectionHost {
 
         private final RecyclerView mView;
         private final Drawable mBand;
 
         private boolean mIsOverlayShown = false;
+        private BandPredicate mBandPredicate;
 
-        RecyclerViewSelectionHost(RecyclerView view) {
+        private RecyclerViewSelectionHost(
+                RecyclerView view,
+                @DrawableRes int bandOverlayId,
+                BandPredicate bandPredicate) {
+
+            checkArgument(view != null);
+            checkArgument(bandPredicate != null);
+
             mView = view;
-            mBand = mView.getContext().getTheme().getDrawable(R.drawable.band_select_overlay);
+            mBand = mView.getContext().getTheme().getDrawable(bandOverlayId);
+            mBandPredicate = bandPredicate;
+        }
+
+        @Override
+        public boolean canInitiateBand(MotionEvent e) {
+            return mBandPredicate.canInitiate(e);
         }
 
         @Override

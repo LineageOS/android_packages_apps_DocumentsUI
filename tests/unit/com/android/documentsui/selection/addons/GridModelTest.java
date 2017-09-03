@@ -26,6 +26,7 @@ import android.graphics.Rect;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
+import android.view.MotionEvent;
 
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
@@ -493,6 +494,11 @@ public class GridModelTest {
             public String toString() {
                 return name + ": " + rect;
             }
+        }
+
+        @Override
+        public boolean canInitiateBand(MotionEvent e) {
+            throw new UnsupportedOperationException("Unimplemented.");
         }
     }
 }

@@ -19,19 +19,17 @@ package com.android.documentsui.dirlist;
 import static com.android.documentsui.base.Shared.DEBUG;
 import static com.android.documentsui.base.Shared.VERBOSE;
 
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.android.documentsui.ActionHandler;
+import com.android.documentsui.base.EventDetailsLookup;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
@@ -39,7 +37,7 @@ import javax.annotation.Nullable;
 /**
  * Grand unified-ish gesture/event listener for items in the directory list.
  */
-public final class UserInputHandler<T extends InputEvent>
+public final class UserInputHandler
         extends GestureDetector.SimpleOnGestureListener
         implements DocumentHolder.KeyboardEventListener {
 
@@ -48,34 +46,33 @@ public final class UserInputHandler<T extends InputEvent>
     private ActionHandler mActions;
     private final FocusHandler mFocusHandler;
     private final SelectionManager mSelectionMgr;
-    private final Function<MotionEvent, T> mEventConverter;
+    private final EventDetailsLookup mDetailsLookup;
     private final Predicate<DocumentDetails> mSelectable;
-
-    private final EventHandler<InputEvent> mContextMenuClickHandler;
-
-    private final EventHandler<InputEvent> mTouchDragListener;
-    private final EventHandler<InputEvent> mGestureSelectHandler;
+    private final EventHandler<MotionEvent> mContextMenuClickHandler;
+    private final EventHandler<MotionEvent> mTouchDragListener;
+    private final EventHandler<MotionEvent> mGestureSelectHandler;
     private final Runnable mPerformHapticFeedback;
 
     private final TouchInputDelegate mTouchDelegate;
     private final MouseInputDelegate mMouseDelegate;
     private final KeyInputHandler mKeyListener;
 
+
     public UserInputHandler(
             ActionHandler actions,
             FocusHandler focusHandler,
             SelectionManager selectionMgr,
-            Function<MotionEvent, T> eventConverter,
+            EventDetailsLookup detailsLookup,
             Predicate<DocumentDetails> selectable,
-            EventHandler<InputEvent> contextMenuClickHandler,
-            EventHandler<InputEvent> touchDragListener,
-            EventHandler<InputEvent> gestureSelectHandler,
+            EventHandler<MotionEvent> contextMenuClickHandler,
+            EventHandler<MotionEvent> touchDragListener,
+            EventHandler<MotionEvent> gestureSelectHandler,
             Runnable performHapticFeedback) {
 
         mActions = actions;
         mFocusHandler = focusHandler;
         mSelectionMgr = selectionMgr;
-        mEventConverter = eventConverter;
+        mDetailsLookup = detailsLookup;
         mSelectable = selectable;
         mContextMenuClickHandler = contextMenuClickHandler;
         mTouchDragListener = touchDragListener;
@@ -89,88 +86,46 @@ public final class UserInputHandler<T extends InputEvent>
 
     @Override
     public boolean onDown(MotionEvent e) {
-        try (T event = mEventConverter.apply(e)) {
-            return onDown(event);
-        }
-    }
-
-    @VisibleForTesting
-    boolean onDown(T event) {
-        return event.isMouseEvent()
-                ? mMouseDelegate.onDown(event)
-                : mTouchDelegate.onDown(event);
+        return Events.isMouseEvent(e)
+                ? mMouseDelegate.onDown(e)
+                : mTouchDelegate.onDown(e);
     }
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2,
             float distanceX, float distanceY) {
-        try (T event = mEventConverter.apply(e2)) {
-            return onScroll(event);
-        }
-    }
-
-    @VisibleForTesting
-    boolean onScroll(T event) {
-        return event.isMouseEvent()
-                ? mMouseDelegate.onScroll(event)
-                : mTouchDelegate.onScroll(event);
+        return Events.isMouseEvent(e2)
+                ? mMouseDelegate.onScroll(e2)
+                : mTouchDelegate.onScroll(e2);
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        try (T event = mEventConverter.apply(e)) {
-            return onSingleTapUp(event);
-        }
-    }
-
-    @VisibleForTesting
-    boolean onSingleTapUp(T event) {
-        return event.isMouseEvent()
-                ? mMouseDelegate.onSingleTapUp(event)
-                : mTouchDelegate.onSingleTapUp(event);
+        return Events.isMouseEvent(e)
+                ? mMouseDelegate.onSingleTapUp(e)
+                : mTouchDelegate.onSingleTapUp(e);
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        try (T event = mEventConverter.apply(e)) {
-            return onSingleTapConfirmed(event);
-        }
-    }
-
-    @VisibleForTesting
-    boolean onSingleTapConfirmed(T event) {
-        return event.isMouseEvent()
-                ? mMouseDelegate.onSingleTapConfirmed(event)
-                : mTouchDelegate.onSingleTapConfirmed(event);
+        return Events.isMouseEvent(e)
+                ? mMouseDelegate.onSingleTapConfirmed(e)
+                : mTouchDelegate.onSingleTapConfirmed(e);
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        try (T event = mEventConverter.apply(e)) {
-            return onDoubleTap(event);
-        }
-    }
-
-    @VisibleForTesting
-    boolean onDoubleTap(T event) {
-        return event.isMouseEvent()
-                ? mMouseDelegate.onDoubleTap(event)
-                : mTouchDelegate.onDoubleTap(event);
+        return Events.isMouseEvent(e)
+                ? mMouseDelegate.onDoubleTap(e)
+                : mTouchDelegate.onDoubleTap(e);
     }
 
     @Override
     public void onLongPress(MotionEvent e) {
-        try (T event = mEventConverter.apply(e)) {
-            onLongPress(event);
-        }
-    }
-
-    @VisibleForTesting
-    void onLongPress(T event) {
-        if (event.isMouseEvent()) {
-            mMouseDelegate.onLongPress(event);
+        if (Events.isMouseEvent(e)) {
+            mMouseDelegate.onLongPress(e);
         } else {
-            mTouchDelegate.onLongPress(event);
+            mTouchDelegate.onLongPress(e);
         }
     }
 
@@ -178,9 +133,7 @@ public final class UserInputHandler<T extends InputEvent>
     // ListeningGestureDetector#onTouch directly calls this method to support context menu in empty
     // view
     boolean onRightClick(MotionEvent e) {
-        try (T event = mEventConverter.apply(e)) {
-            return mMouseDelegate.onRightClick(event);
-        }
+        return mMouseDelegate.onRightClick(e);
     }
 
     @Override
@@ -189,8 +142,8 @@ public final class UserInputHandler<T extends InputEvent>
     }
 
     private boolean selectDocument(DocumentDetails doc) {
-        assert(doc != null);
-        assert(doc.hasModelId());
+        assert doc != null;
+        assert doc.hasModelId();
         mSelectionMgr.toggleSelection(doc.getModelId());
         mSelectionMgr.setSelectionRangeBegin(doc.getAdapterPosition());
 
@@ -205,8 +158,8 @@ public final class UserInputHandler<T extends InputEvent>
     }
 
     private boolean focusDocument(DocumentDetails doc) {
-        assert(doc != null);
-        assert(doc.hasModelId());
+        assert doc != null;
+        assert doc.hasModelId();
 
         mSelectionMgr.clearSelection();
         mFocusHandler.focusDocument(doc.getModelId());
@@ -218,14 +171,13 @@ public final class UserInputHandler<T extends InputEvent>
         mFocusHandler.focusDocument(doc.getModelId());
     }
 
-    boolean isRangeExtension(T event) {
-        return event.isShiftKeyDown() && mSelectionMgr.isRangeSelectionActive();
+    boolean isRangeExtension(MotionEvent e) {
+        return Events.isShiftKeyPressed(e) && mSelectionMgr.isRangeSelectionActive();
     }
 
-    private boolean shouldClearSelection(T event, DocumentDetails doc) {
-        return !event.isCtrlKeyDown()
-                && !doc.isInSelectionHotspot(event)
-                && !doc.isOverDocIcon(event)
+    private boolean shouldClearSelection(MotionEvent e, DocumentDetails doc) {
+        return !Events.isCtrlKeyPressed(e)
+                && !doc.inSelectRegion(e)
                 && !isSelected(doc);
     }
 
@@ -236,28 +188,31 @@ public final class UserInputHandler<T extends InputEvent>
     private static final String TTAG = "TouchInputDelegate";
     private final class TouchInputDelegate {
 
-        boolean onDown(T event) {
+        boolean onDown(MotionEvent e) {
             if (VERBOSE) Log.v(TTAG, "Delegated onDown event.");
             return false;
         }
 
         // Don't consume so the RecyclerView will get the event and will get touch-based scrolling
-        boolean onScroll(T event) {
+        boolean onScroll(MotionEvent e) {
             if (VERBOSE) Log.v(TTAG, "Delegated onScroll event.");
             return false;
         }
 
-        boolean onSingleTapUp(T event) {
+        boolean onSingleTapUp(MotionEvent e) {
             if (VERBOSE) Log.v(TTAG, "Delegated onSingleTapUp event.");
-            if (!event.isOverModelItem()) {
+
+            // if (!event.isOverModelItem()) {
+
+            if (!mDetailsLookup.overModelItem(e)) {
                 if (DEBUG) Log.d(TTAG, "Tap not associated w/ model item. Clearing selection.");
                 mSelectionMgr.clearSelection();
                 return false;
             }
 
-            DocumentDetails doc = event.getDocumentDetails();
+            DocumentDetails doc = mDetailsLookup.getDocumentDetails(e);
             if (mSelectionMgr.hasSelection()) {
-                if (isRangeExtension(event)) {
+                if (isRangeExtension(e)) {
                     extendSelectionRange(doc);
                 } else if (mSelectionMgr.getSelection().contains(doc.getModelId())) {
                     mSelectionMgr.toggleSelection(doc.getModelId());
@@ -270,32 +225,32 @@ public final class UserInputHandler<T extends InputEvent>
 
             // Touch events select if they occur in the selection hotspot,
             // otherwise they activate.
-            return doc.isInSelectionHotspot(event)
+            return doc.inSelectRegion(e)
                     ? selectDocument(doc)
                     : mActions.openDocument(doc, ActionHandler.VIEW_TYPE_PREVIEW,
                             ActionHandler.VIEW_TYPE_REGULAR);
         }
 
-        boolean onSingleTapConfirmed(T event) {
+        boolean onSingleTapConfirmed(MotionEvent e) {
             if (VERBOSE) Log.v(TTAG, "Delegated onSingleTapConfirmed event.");
             return false;
         }
 
-        boolean onDoubleTap(T event) {
+        boolean onDoubleTap(MotionEvent e) {
             if (VERBOSE) Log.v(TTAG, "Delegated onDoubleTap event.");
             return false;
         }
 
-        final void onLongPress(T event) {
+        final void onLongPress(MotionEvent e) {
             if (VERBOSE) Log.v(TTAG, "Delegated onLongPress event.");
-            if (!event.isOverModelItem()) {
+            if (!mDetailsLookup.overModelItem(e)) {
                 if (DEBUG) Log.d(TTAG, "Ignoring LongPress on non-model-backed item.");
                 return;
             }
 
-            DocumentDetails doc = event.getDocumentDetails();
+            DocumentDetails doc = mDetailsLookup.getDocumentDetails(e);
             boolean handled = false;
-            if (isRangeExtension(event)) {
+            if (isRangeExtension(e)) {
                 extendSelectionRange(doc);
                 handled = true;
             } else {
@@ -304,13 +259,13 @@ public final class UserInputHandler<T extends InputEvent>
                     // If we cannot select it, we didn't apply anchoring - therefore should not
                     // start gesture selection
                     if (mSelectable.test(doc)) {
-                        mGestureSelectHandler.accept(event);
+                        mGestureSelectHandler.accept(e);
                         handled = true;
                     }
                 } else {
                     // We only initiate drag and drop on long press for touch to allow regular
                     // touch-based scrolling
-                    mTouchDragListener.accept(event);
+                    mTouchDragListener.accept(e);
                     handled = true;
                 }
             }
@@ -327,25 +282,25 @@ public final class UserInputHandler<T extends InputEvent>
         // true when the previous event has consumed a right click motion event
         private boolean mHandledOnDown;
 
-        boolean onDown(T event) {
+        boolean onDown(MotionEvent e) {
             if (VERBOSE) Log.v(MTAG, "Delegated onDown event.");
-            if (event.isSecondaryButtonPressed()
-                    || (event.isAltKeyDown() && event.isPrimaryButtonPressed())) {
+            if (Events.isSecondaryButtonPressed(e)
+                    || (Events.isAltKeyPressed(e) && Events.isPrimaryButtonPressed(e))) {
                 mHandledOnDown = true;
-                return onRightClick(event);
+                return onRightClick(e);
             }
 
             return false;
         }
 
         // Don't scroll content window in response to mouse drag
-        boolean onScroll(T event) {
+        boolean onScroll(MotionEvent e) {
             if (VERBOSE) Log.v(MTAG, "Delegated onScroll event.");
             // If it's two-finger trackpad scrolling, we want to scroll
-            return !event.isTouchpadScroll();
+            return !Events.isTouchpadScroll(e);
         }
 
-        boolean onSingleTapUp(T event) {
+        boolean onSingleTapUp(MotionEvent e) {
             if (VERBOSE) Log.v(MTAG, "Delegated onSingleTapUp event.");
 
             // See b/27377794. Since we don't get a button state back from UP events, we have to
@@ -357,31 +312,31 @@ public final class UserInputHandler<T extends InputEvent>
                 return false;
             }
 
-            if (!event.isOverModelItem()) {
+            if (!mDetailsLookup.overModelItem(e)) {
                 if (DEBUG) Log.d(MTAG, "Tap not associated w/ model item. Clearing selection.");
                 mSelectionMgr.clearSelection();
                 mFocusHandler.clearFocus();
                 return false;
             }
 
-            if (event.isTertiaryButtonPressed()) {
+            if (Events.isTertiaryButtonPressed(e)) {
                 if (DEBUG) Log.d(MTAG, "Ignoring middle click");
                 return false;
             }
 
-            DocumentDetails doc = event.getDocumentDetails();
+            DocumentDetails doc = mDetailsLookup.getDocumentDetails(e);
             if (mSelectionMgr.hasSelection()) {
-                if (isRangeExtension(event)) {
+                if (isRangeExtension(e)) {
                     extendSelectionRange(doc);
                 } else {
-                    if (shouldClearSelection(event, doc)) {
+                    if (shouldClearSelection(e, doc)) {
                         mSelectionMgr.clearSelection();
                     }
                     if (isSelected(doc)) {
                         mSelectionMgr.toggleSelection(doc.getModelId());
                         mFocusHandler.clearFocus();
                     } else {
-                        selectOrFocusItem(event);
+                        selectOrFocusItem(e);
                     }
                 }
                 mHandledTapUp = true;
@@ -391,7 +346,7 @@ public final class UserInputHandler<T extends InputEvent>
             return false;
         }
 
-        boolean onSingleTapConfirmed(T event) {
+        boolean onSingleTapConfirmed(MotionEvent e) {
             if (VERBOSE) Log.v(MTAG, "Delegated onSingleTapConfirmed event.");
             if (mHandledTapUp) {
                 if (VERBOSE) Log.v(MTAG, "Ignoring onSingleTapConfirmed, previously handled in onSingleTapUp.");
@@ -403,59 +358,59 @@ public final class UserInputHandler<T extends InputEvent>
                 return false;  // should have been handled by onSingleTapUp.
             }
 
-            if (!event.isOverItem()) {
+            if (!mDetailsLookup.overItem(e)) {
                 if (DEBUG) Log.d(MTAG, "Ignoring Confirmed Tap on non-item.");
                 return false;
             }
 
-            if (event.isTertiaryButtonPressed()) {
+            if (Events.isTertiaryButtonPressed(e)) {
                 if (DEBUG) Log.d(MTAG, "Ignoring middle click");
                 return false;
             }
 
-            @Nullable DocumentDetails doc = event.getDocumentDetails();
+            @Nullable DocumentDetails doc = mDetailsLookup.getDocumentDetails(e);
             if (doc == null || !doc.hasModelId()) {
                 Log.w(MTAG, "Ignoring Confirmed Tap. No document details associated w/ event.");
                 return false;
             }
 
-            if (mFocusHandler.hasFocusedItem() && event.isShiftKeyDown()) {
+            if (mFocusHandler.hasFocusedItem() && Events.isShiftKeyPressed(e)) {
                 mSelectionMgr.formNewSelectionRange(mFocusHandler.getFocusPosition(),
                         doc.getAdapterPosition());
             } else {
-                selectOrFocusItem(event);
+                selectOrFocusItem(e);
             }
             return true;
         }
 
-        boolean onDoubleTap(T event) {
+        boolean onDoubleTap(MotionEvent e) {
             if (VERBOSE) Log.v(MTAG, "Delegated onDoubleTap event.");
             mHandledTapUp = false;
 
-            if (!event.isOverModelItem()) {
+            if (!mDetailsLookup.overModelItem(e)) {
                 if (DEBUG) Log.d(MTAG, "Ignoring DoubleTap on non-model-backed item.");
                 return false;
             }
 
-            if (event.isTertiaryButtonPressed()) {
+            if (Events.isTertiaryButtonPressed(e)) {
                 if (DEBUG) Log.d(MTAG, "Ignoring middle click");
                 return false;
             }
 
-            DocumentDetails doc = event.getDocumentDetails();
+            @Nullable DocumentDetails doc = mDetailsLookup.getDocumentDetails(e);
             return mActions.openDocument(doc, ActionHandler.VIEW_TYPE_REGULAR,
                     ActionHandler.VIEW_TYPE_PREVIEW);
         }
 
-        final void onLongPress(T event) {
+        final void onLongPress(MotionEvent e) {
             if (VERBOSE) Log.v(MTAG, "Delegated onLongPress event.");
             return;
         }
 
-        private boolean onRightClick(T event) {
+        private boolean onRightClick(MotionEvent e) {
             if (VERBOSE) Log.v(MTAG, "Delegated onRightClick event.");
-            if (event.isOverModelItem()) {
-                DocumentDetails doc = event.getDocumentDetails();
+            if (mDetailsLookup.overModelItem(e)) {
+                @Nullable DocumentDetails doc = mDetailsLookup.getDocumentDetails(e);
                 if (!mSelectionMgr.getSelection().contains(doc.getModelId())) {
                     mSelectionMgr.clearSelection();
                     selectDocument(doc);
@@ -465,14 +420,15 @@ public final class UserInputHandler<T extends InputEvent>
             // We always delegate final handling of the event,
             // since the handler might want to show a context menu
             // in an empty area or some other weirdo view.
-            return mContextMenuClickHandler.accept(event);
+            return mContextMenuClickHandler.accept(e);
         }
 
-        private void selectOrFocusItem(T event) {
-            if (event.isOverDocIcon() || event.isCtrlKeyDown()) {
-                selectDocument(event.getDocumentDetails());
+        private void selectOrFocusItem(MotionEvent e) {
+            DocumentDetails doc = mDetailsLookup.getDocumentDetails(e);
+            if (mDetailsLookup.inItemSelectRegion(e) || Events.isCtrlKeyPressed(e)) {
+                selectDocument(doc);
             } else {
-                focusDocument(event.getDocumentDetails());
+                focusDocument(doc);
             }
         }
     }

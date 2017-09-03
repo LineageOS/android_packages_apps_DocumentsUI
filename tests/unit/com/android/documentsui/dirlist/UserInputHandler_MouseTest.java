@@ -16,6 +16,12 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.testing.TestEvents.Mouse.ALT_CLICK;
+import static com.android.documentsui.testing.TestEvents.Mouse.CLICK;
+import static com.android.documentsui.testing.TestEvents.Mouse.CTRL_CLICK;
+import static com.android.documentsui.testing.TestEvents.Mouse.SECONDARY_CLICK;
+import static com.android.documentsui.testing.TestEvents.Mouse.SHIFT_CLICK;
+import static com.android.documentsui.testing.TestEvents.Mouse.TERTIARY_CLICK;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -24,14 +30,15 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionProbe;
 import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestActionHandler;
-import com.android.documentsui.testing.TestEvent;
-import com.android.documentsui.testing.TestEvent.Builder;
+import com.android.documentsui.testing.TestDocumentDetails;
+import com.android.documentsui.testing.TestEventDetailsLookup;
 import com.android.documentsui.testing.TestEventHandler;
+import com.android.documentsui.testing.TestEvents;
+import com.android.documentsui.testing.TestEvents.Builder;
 import com.android.documentsui.testing.TestPredicate;
 
 import org.junit.Before;
@@ -46,15 +53,16 @@ public final class UserInputHandler_MouseTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
-    private UserInputHandler<TestEvent> mInputHandler;
+    private UserInputHandler mInputHandler;
     private TestActionHandler mActionHandler;
+    private TestEventDetailsLookup mDetailsLookup;
     private TestFocusHandler mFocusHandler;
     private SelectionProbe mSelection;
     private SelectionManager mSelectionMgr;
     private TestPredicate<DocumentDetails> mCanSelect;
-    private TestEventHandler<InputEvent> mContextMenuClickHandler;
-    private TestEventHandler<InputEvent> mDragAndDropHandler;
-    private TestEventHandler<InputEvent> mGestureSelectHandler;
+    private TestEventHandler<MotionEvent> mContextMenuClickHandler;
+    private TestEventHandler<MotionEvent> mDragAndDropHandler;
+    private TestEventHandler<MotionEvent> mGestureSelectHandler;
     private TestEventHandler<Void> mPerformHapticFeedback;
 
     private Builder mEvent;
@@ -64,7 +72,7 @@ public final class UserInputHandler_MouseTest {
 
         mSelectionMgr = SelectionManagers.createTestInstance(ITEMS);
         mActionHandler = new TestActionHandler();
-
+        mDetailsLookup = new TestEventDetailsLookup();
         mSelection = new SelectionProbe(mSelectionMgr);
         mCanSelect = new TestPredicate<>();
         mContextMenuClickHandler = new TestEventHandler<>();
@@ -72,80 +80,106 @@ public final class UserInputHandler_MouseTest {
         mGestureSelectHandler = new TestEventHandler<>();
         mFocusHandler = new TestFocusHandler();
 
-        mInputHandler = new UserInputHandler<>(
+        mInputHandler = new UserInputHandler(
                 mActionHandler,
                 mFocusHandler,
                 mSelectionMgr,
-                (MotionEvent event) -> {
-                    throw new UnsupportedOperationException("Not exercised in tests.");
-                },
+                mDetailsLookup,
                 mCanSelect,
                 mContextMenuClickHandler::accept,
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept,
                 () -> mPerformHapticFeedback.accept(null));
 
-        mEvent = TestEvent.builder().mouse().overDocIcon();
+        mEvent = TestEvents.builder().mouse();
+        mDetailsLookup.initAt(RecyclerView.NO_POSITION);
     }
 
     @Test
     public void testConfirmedClick_StartsSelection() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(11).build());
+        mDetailsLookup.initAt(11).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
+
         mSelection.assertSelection(11);
     }
 
     @Test
-    public void testClickOnIconWithExistingSelection_AddsToSelection() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(11).build());
-        mInputHandler.onSingleTapUp(mEvent.at(10).build());
+    public void testClickOnSelectRegion_AddsToSelection() {
+        mDetailsLookup.initAt(11).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
+
+        mDetailsLookup.initAt(10).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapUp(CLICK);
+
         mSelection.assertSelected(10, 11);
     }
 
     @Test
     public void testClickOnIconOfSelectedItem_RemovesFromSelection() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(8).build());
-        mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
+        mDetailsLookup.initAt(8).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
+
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(SHIFT_CLICK);
         mSelection.assertSelected(8, 9, 10, 11);
 
-        mInputHandler.onSingleTapUp(mEvent.at(9).unshift().build());
+        mDetailsLookup.initAt(9);
+        mInputHandler.onSingleTapUp(CLICK);
         mSelection.assertSelected(8, 10, 11);
     }
 
     @Test
     public void testRightClickDown_StartsContextMenu() {
-        mInputHandler.onDown(mEvent.secondary().build());
-        mContextMenuClickHandler.assertLastArgument(mEvent.secondary().build());
+        // sadly, MotionEvent doesn't implement equals. Save off the reference for comparison.
+        mInputHandler.onDown(SECONDARY_CLICK);
+        mContextMenuClickHandler.assertLastArgument(SECONDARY_CLICK);
     }
 
     @Test
     public void testAltClickDown_StartsContextMenu() {
-        mInputHandler.onDown(mEvent.primary().alt().build());
-        mContextMenuClickHandler.assertLastArgument(mEvent.primary().alt().build());
+        mInputHandler.onDown(ALT_CLICK);
+        mContextMenuClickHandler.assertLastArgument(ALT_CLICK);
     }
 
     @Test
     public void testScroll_shouldTrap() {
-        assertTrue(mInputHandler.onScroll(mEvent.at(0).action(MotionEvent.ACTION_MOVE).primary().build()));
+        mDetailsLookup.initAt(0);
+        assertTrue(mInputHandler.onScroll(
+                null,
+                mEvent.action(MotionEvent.ACTION_MOVE).primary().build(),
+                0,
+                0));
     }
 
     @Test
     public void testScroll_NoTrapForTwoFinger() {
-        assertFalse(mInputHandler.onScroll(mEvent.at(0).action(MotionEvent.ACTION_MOVE).build()));
+        mDetailsLookup.initAt(0);
+        assertFalse(mInputHandler.onScroll(
+                null,
+                mEvent.action(MotionEvent.ACTION_MOVE).build(),
+                0,
+                0));
     }
 
     @Test
     public void testUnconfirmedCtrlClick_AddsToExistingSelection() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+        mDetailsLookup.initAt(7).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
 
-        mInputHandler.onSingleTapUp(mEvent.at(11).ctrl().build());
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(CTRL_CLICK);
+
         mSelection.assertSelection(7, 11);
     }
 
     @Test
     public void testUnconfirmedShiftClick_ExtendsSelection() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+        mDetailsLookup.initAt(7).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
 
-        mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(SHIFT_CLICK);
+
         mSelection.assertSelection(7, 8, 9, 10, 11);
     }
 
@@ -153,43 +187,55 @@ public final class UserInputHandler_MouseTest {
     public void testConfirmedShiftClick_ExtendsSelectionFromOriginFocus() {
         mFocusHandler.focusPos = 7;
         mFocusHandler.focusModelId = "7";
+
         // This is a hack-y test, since the real FocusManager would've set range begin itself.
         mSelectionMgr.setSelectionRangeBegin(7);
         mSelection.assertNoSelection();
 
-        mInputHandler.onSingleTapConfirmed(mEvent.at(11).shift().build());
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapConfirmed(SHIFT_CLICK);
         mSelection.assertSelection(7, 8, 9, 10, 11);
     }
 
     @Test
     public void testUnconfirmedShiftClick_RotatesAroundOrigin() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+        mDetailsLookup.initAt(7).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
 
-        mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(SHIFT_CLICK);
         mSelection.assertSelection(7, 8, 9, 10, 11);
 
-        mInputHandler.onSingleTapUp(mEvent.at(5).shift().build());
+        mDetailsLookup.initAt(5);
+        mInputHandler.onSingleTapUp(SHIFT_CLICK);
+
         mSelection.assertSelection(5, 6, 7);
         mSelection.assertNotSelected(8, 9, 10, 11);
     }
 
     @Test
     public void testUnconfirmedShiftCtrlClick_Combination() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+        mDetailsLookup.initAt(7).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
 
-        mInputHandler.onSingleTapUp(mEvent.at(11).shift().build());
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(SHIFT_CLICK);
         mSelection.assertSelection(7, 8, 9, 10, 11);
 
-        mInputHandler.onSingleTapUp(mEvent.at(5).unshift().ctrl().build());
+        mDetailsLookup.initAt(5);
+        mInputHandler.onSingleTapUp(CTRL_CLICK);
 
         mSelection.assertSelection(5, 7, 8, 9, 10, 11);
     }
 
     @Test
     public void testUnconfirmedShiftCtrlClick_ShiftTakesPriority() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(7).build());
+        mDetailsLookup.initAt(7).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
 
-        mInputHandler.onSingleTapUp(mEvent.at(11).ctrl().shift().build());
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(mEvent.ctrl().shift().build());
+
         mSelection.assertSelection(7, 8, 9, 10, 11);
     }
 
@@ -198,48 +244,65 @@ public final class UserInputHandler_MouseTest {
 
     @Test
     public void testDoubleClick_Opens() {
-        mInputHandler.onDoubleTap(mEvent.at(11).build());
-        mActionHandler.open.assertLastArgument(mEvent.build().getDocumentDetails());
+        TestDocumentDetails doc = mDetailsLookup.initAt(11);
+        mInputHandler.onDoubleTap(CLICK);
+
+        mActionHandler.open.assertLastArgument(doc);
     }
 
     @Test
     public void testMiddleClick_DoesNothing() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(11).tertiary().build());
+        mDetailsLookup.initAt(11).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(TERTIARY_CLICK);
+
         mSelection.assertNoSelection();
     }
 
     @Test
     public void testClickOff_ClearsSelection() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(11).build());
-        mInputHandler.onSingleTapUp(mEvent.at(RecyclerView.NO_POSITION).build());
+        mDetailsLookup.initAt(11).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
+
+        mDetailsLookup.initAt(RecyclerView.NO_POSITION);
+        mInputHandler.onSingleTapUp(CLICK);
+
         mSelection.assertNoSelection();
     }
 
     @Test
     public void testClick_Focuses() {
-        int id = 11;
-        mInputHandler.onSingleTapConfirmed(mEvent.at(id).notOverDocIcon().build());
-        assertTrue(mFocusHandler.getFocusModelId().equals(Integer.toString(id)));
+        mDetailsLookup.initAt(11).setInItemSelectRegion(false);
+        mInputHandler.onSingleTapConfirmed(CLICK);
+
+        mFocusHandler.assertHasFocus(true);
+        mFocusHandler.assertFocused("11");
     }
 
     @Test
     public void testClickOff_ClearsFocus() {
-        int id = 11;
-        mInputHandler.onSingleTapConfirmed(mEvent.at(id).notOverDocIcon().build());
-        assertTrue(mFocusHandler.hasFocusedItem());
-        mInputHandler.onSingleTapUp(mEvent.at(RecyclerView.NO_POSITION).build());
-        assertFalse(mFocusHandler.hasFocusedItem());
+        mDetailsLookup.initAt(11).setInItemSelectRegion(false);
+        mInputHandler.onSingleTapConfirmed(CLICK);
+        mFocusHandler.assertHasFocus(true);
+
+        mDetailsLookup.initAt(RecyclerView.NO_POSITION);
+        mInputHandler.onSingleTapUp(CLICK);
+        mFocusHandler.assertHasFocus(false);
     }
 
     @Test
     public void testClickOffSelection_RemovesSelectionAndFocuses() {
-        mInputHandler.onSingleTapConfirmed(mEvent.at(1).build());
-        mInputHandler.onSingleTapUp(mEvent.at(5).shift().build());
+        mDetailsLookup.initAt(1).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapConfirmed(CLICK);
+
+        mDetailsLookup.initAt(5);
+        mInputHandler.onSingleTapUp(SHIFT_CLICK);
+
         mSelection.assertSelection(1, 2, 3, 4, 5);
 
-        int id = 11;
-        mInputHandler.onSingleTapUp(mEvent.at(id).unshift().notOverDocIcon().build());
-        assertTrue(mFocusHandler.getFocusModelId().equals(Integer.toString(id)));
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(CLICK);
+
+        assertTrue(mFocusHandler.getFocusModelId().equals("11"));
         mSelection.assertNoSelection();
     }
 }

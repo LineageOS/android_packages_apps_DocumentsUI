@@ -23,6 +23,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.text.format.Formatter;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -31,7 +32,6 @@ import android.widget.TextView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
@@ -114,7 +114,7 @@ final class ListDocumentHolder extends DocumentHolder {
     }
 
     @Override
-    public boolean isInDragHotspot(InputEvent event) {
+    public boolean inDragRegion(MotionEvent event) {
         // If itemView is activated = selected, then whole region is interactive
         if (itemView.isActivated()) {
             return true;
@@ -139,7 +139,7 @@ final class ListDocumentHolder extends DocumentHolder {
     }
 
     @Override
-    public boolean isOverDocIcon(InputEvent event) {
+    public boolean inSelectRegion(MotionEvent event) {
         Rect iconRect = new Rect();
         mIconLayout.getGlobalVisibleRect(iconRect);
 

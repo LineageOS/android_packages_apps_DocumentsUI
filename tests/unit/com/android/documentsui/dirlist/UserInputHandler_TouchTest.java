@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.testing.TestEvents.Touch.TAP;
 import static org.junit.Assert.assertFalse;
 
 import android.support.test.filters.SmallTest;
@@ -23,13 +24,11 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.selection.SelectionManager;
 import com.android.documentsui.selection.SelectionProbe;
 import com.android.documentsui.testing.SelectionManagers;
 import com.android.documentsui.testing.TestActionHandler;
-import com.android.documentsui.testing.TestEvent;
-import com.android.documentsui.testing.TestEvent.Builder;
+import com.android.documentsui.testing.TestEventDetailsLookup;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestPredicate;
 
@@ -45,23 +44,22 @@ public final class UserInputHandler_TouchTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
-    private UserInputHandler<TestEvent> mInputHandler;
+    private UserInputHandler mInputHandler;
     private TestActionHandler mActionHandler;
-
+    private TestEventDetailsLookup mDetailsLookup;
     private SelectionProbe mSelection;
     private TestPredicate<DocumentDetails> mCanSelect;
-    private TestEventHandler<InputEvent> mRightClickHandler;
-    private TestEventHandler<InputEvent> mDragAndDropHandler;
-    private TestEventHandler<InputEvent> mGestureSelectHandler;
+    private TestEventHandler<MotionEvent> mRightClickHandler;
+    private TestEventHandler<MotionEvent> mDragAndDropHandler;
+    private TestEventHandler<MotionEvent> mGestureSelectHandler;
     private TestEventHandler<Void> mPerformHapticFeedback;
-
-    private Builder mEvent;
 
     @Before
     public void setUp() {
         SelectionManager selectionMgr = SelectionManagers.createTestInstance(ITEMS);
 
         mActionHandler = new TestActionHandler();
+        mDetailsLookup = new TestEventDetailsLookup();
 
         mSelection = new SelectionProbe(selectionMgr);
         mCanSelect = new TestPredicate<>();
@@ -70,72 +68,109 @@ public final class UserInputHandler_TouchTest {
         mGestureSelectHandler = new TestEventHandler<>();
         mPerformHapticFeedback = new TestEventHandler<>();
 
-        mInputHandler = new UserInputHandler<>(
+        mInputHandler = new UserInputHandler(
                 mActionHandler,
                 new TestFocusHandler(),
                 selectionMgr,
-                (MotionEvent event) -> {
-                    throw new UnsupportedOperationException("Not exercised in tests.");
-                },
+                mDetailsLookup,
                 mCanSelect,
                 mRightClickHandler::accept,
                 mDragAndDropHandler::accept,
                 mGestureSelectHandler::accept,
                 () -> mPerformHapticFeedback.accept(null));
-
-        mEvent = TestEvent.builder();
     }
 
     @Test
     public void testTap_ActivatesWhenNoExistingSelection() {
-        mInputHandler.onSingleTapUp(mEvent.at(11).build());
-        mActionHandler.open.assertLastArgument(mEvent.build().getDocumentDetails());
+        DocumentDetails doc = mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(TAP);
+
+        mActionHandler.open.assertLastArgument(doc);
     }
 
     @Test
     public void testScroll_shouldNotBeTrapped() {
-        assertFalse(mInputHandler.onScroll(mEvent.build()));
+        assertFalse(mInputHandler.onScroll(null, TAP, 0, 0));
     }
 
     @Test
     public void testLongPress_StartsSelectionMode() {
         mCanSelect.nextReturn(true);
-        TestEvent event = mEvent.at(7).build();
-        mInputHandler.onLongPress(event);
+
+        mDetailsLookup.initAt(7);
+        mInputHandler.onLongPress(TAP);
+
         mSelection.assertSelection(7);
+    }
+
+
+    @Test
+    public void testSelectHotspot_StartsSelectionMode() {
+        mCanSelect.nextReturn(true);
+
+        mDetailsLookup.initAt(7).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapUp(TAP);
+
+        mSelection.assertSelection(7);
+    }
+
+    @Test
+    public void testSelectionHotspot_UnselectsSelectedItem() {
+        mDetailsLookup.initAt(11);
+        mInputHandler.onLongPress(TAP);
+
+        mDetailsLookup.initAt(11).setInItemSelectRegion(true);
+        mInputHandler.onSingleTapUp(TAP);
+
+        mSelection.assertNoSelection();
+    }
+
+    @Test
+    public void testStartsSelection_PerformsHapticFeedback() {
+        mCanSelect.nextReturn(true);
+
+        mDetailsLookup.initAt(7);
+        mInputHandler.onLongPress(TAP);
+
         mPerformHapticFeedback.assertCalled();
     }
 
     @Test
-    public void testLongPress_SecondPressAddsSelection() {
+    public void testLongPress_AddsToSelection() {
         mCanSelect.nextReturn(true);
-        TestEvent event1 = mEvent.at(7).build();
-        TestEvent event2 = mEvent.at(99).build();
-        TestEvent event3 = mEvent.at(13).build();
-        mInputHandler.onLongPress(event1);
-        mPerformHapticFeedback.assertCalled();
-        mPerformHapticFeedback.reset();
-        mInputHandler.onLongPress(event2);
-        mPerformHapticFeedback.assertCalled();
-        mPerformHapticFeedback.reset();
-        mInputHandler.onLongPress(event3);
-        mPerformHapticFeedback.assertCalled();
-        mPerformHapticFeedback.reset();
+
+        mDetailsLookup.initAt(7);
+        mInputHandler.onLongPress(TAP);
+
+        mDetailsLookup.initAt(99);
+        mInputHandler.onLongPress(TAP);
+
+        mDetailsLookup.initAt(13);
+        mInputHandler.onLongPress(TAP);
+
         mSelection.assertSelection(7, 13, 99);
     }
 
     @Test
     public void testTap_UnselectsSelectedItem() {
-        mInputHandler.onLongPress(mEvent.at(7).build());
-        mInputHandler.onSingleTapUp(mEvent.at(7).build());
+        mDetailsLookup.initAt(11);
+        mInputHandler.onLongPress(TAP);
+        mInputHandler.onSingleTapUp(TAP);
+
         mSelection.assertNoSelection();
     }
 
     @Test
     public void testTapOff_ClearsSelection() {
-        mInputHandler.onLongPress(mEvent.at(7).build());
-        mInputHandler.onSingleTapUp(mEvent.at(11).build());
-        mInputHandler.onSingleTapUp(mEvent.at(RecyclerView.NO_POSITION).build());
+        mDetailsLookup.initAt(7);
+        mInputHandler.onLongPress(TAP);
+
+        mDetailsLookup.initAt(11);
+        mInputHandler.onSingleTapUp(TAP);
+
+        mDetailsLookup.initAt(RecyclerView.NO_POSITION).setInItemSelectRegion(false);
+        mInputHandler.onSingleTapUp(TAP);
+
         mSelection.assertNoSelection();
     }
 }

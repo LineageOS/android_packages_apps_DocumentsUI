@@ -22,14 +22,15 @@ import static com.android.internal.util.Preconditions.checkArgument;
 import android.net.Uri;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.documentsui.DragAndDropManager;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.Model;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.EventDetailsLookup;
 import com.android.documentsui.base.Events;
-import com.android.documentsui.base.Events.InputEvent;
 import com.android.documentsui.base.State;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
@@ -44,31 +45,32 @@ import javax.annotation.Nullable;
 /**
  * Listens for potential "drag-like" events and kick-start dragging as needed. Also allows external
  * direct call to {@code #startDrag(RecyclerView, View)} if explicit start is needed, such as long-
- * pressing on an item via touch. (e.g. {@link UserInputHandler#onLongPress(InputEvent)} via touch.)
+ * pressing on an item via touch. (e.g. {@link UserInputHandler#onLongPress(MotionEvent)} via touch.)
  */
 interface DragStartListener {
 
     static final DragStartListener DUMMY = new DragStartListener() {
         @Override
-        public boolean onMouseDragEvent(InputEvent event) {
+        public boolean onMouseDragEvent(MotionEvent event) {
             return false;
         }
         @Override
-        public boolean onTouchDragEvent(InputEvent event) {
+        public boolean onTouchDragEvent(MotionEvent event) {
             return false;
         }
     };
 
-    boolean onMouseDragEvent(InputEvent event);
-    boolean onTouchDragEvent(InputEvent event);
+    boolean onMouseDragEvent(MotionEvent event);
+    boolean onTouchDragEvent(MotionEvent event);
 
     @VisibleForTesting
-    class ActiveListener implements DragStartListener {
+    class RuntimeDragStartListener implements DragStartListener {
 
         private static String TAG = "DragStartListener";
 
         private final IconHelper mIconHelper;
         private final State mState;
+        private final EventDetailsLookup mDetailsLookup;
         private final SelectionManager mSelectionMgr;
         private final SelectionDetails mSelectionDetails;
         private final ViewFinder mViewFinder;
@@ -76,11 +78,13 @@ interface DragStartListener {
         private final Function<Selection, List<DocumentInfo>> mDocsConverter;
         private final DragAndDropManager mDragAndDropManager;
 
+
         // use DragStartListener.create
         @VisibleForTesting
-        public ActiveListener(
+        public RuntimeDragStartListener(
                 IconHelper iconHelper,
                 State state,
+                EventDetailsLookup detailsLookup,
                 SelectionManager selectionMgr,
                 SelectionDetails selectionDetails,
                 ViewFinder viewFinder,
@@ -90,6 +94,7 @@ interface DragStartListener {
 
             mIconHelper = iconHelper;
             mState = state;
+            mDetailsLookup = detailsLookup;
             mSelectionMgr = selectionMgr;
             mSelectionDetails = selectionDetails;
             mViewFinder = viewFinder;
@@ -99,20 +104,22 @@ interface DragStartListener {
         }
 
         @Override
-        public final boolean onMouseDragEvent(InputEvent event) {
+        public final boolean onMouseDragEvent(MotionEvent event) {
             checkArgument(Events.isMouseDragEvent(event));
+            checkArgument(mDetailsLookup.inItemDragRegion(event));
+
             return startDrag(mViewFinder.findView(event.getX(), event.getY()), event);
         }
 
         @Override
-        public final boolean onTouchDragEvent(InputEvent event) {
+        public final boolean onTouchDragEvent(MotionEvent event) {
             return startDrag(mViewFinder.findView(event.getX(), event.getY()), event);
         }
 
         /**
          * May be called externally when drag is initiated from other event handling code.
          */
-        private boolean startDrag(@Nullable View view, InputEvent event) {
+        private boolean startDrag(@Nullable View view, MotionEvent event) {
 
             if (view == null) {
                 if (DEBUG) Log.d(TAG, "Ignoring drag event, null view.");
@@ -147,15 +154,15 @@ interface DragStartListener {
         }
 
         /**
-         * Given the InputEvent (for CTRL case) and modelId of the view associated with the
+         * Given the MotionEvent (for CTRL case) and modelId of the view associated with the
          * coordinates of the event, return a valid selection for drag and drop operation
          */
         @VisibleForTesting
-        MutableSelection getSelectionToBeCopied(String modelId, InputEvent event) {
+        MutableSelection getSelectionToBeCopied(String modelId, MotionEvent event) {
             MutableSelection selection = new MutableSelection();
             // If CTRL-key is held down and there's other existing selection, add item to
             // selection (if not already selected)
-            if (event.isCtrlKeyDown() && !mSelectionMgr.getSelection().contains(modelId)
+            if (Events.isCtrlKeyPressed(event) && !mSelectionMgr.getSelection().contains(modelId)
                     && mSelectionMgr.hasSelection()) {
                 mSelectionMgr.toggleSelection(modelId);
             }
@@ -176,13 +183,15 @@ interface DragStartListener {
             SelectionManager selectionMgr,
             SelectionDetails selectionDetails,
             State state,
+            EventDetailsLookup detailsLookup,
             Function<View, String> idFinder,
             ViewFinder viewFinder,
             DragAndDropManager dragAndDropManager) {
 
-        return new ActiveListener(
+        return new RuntimeDragStartListener(
                 iconHelper,
                 state,
+                detailsLookup,
                 selectionMgr,
                 selectionDetails,
                 viewFinder,

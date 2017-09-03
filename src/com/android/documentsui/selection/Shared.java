@@ -15,11 +15,13 @@
  */
 package com.android.documentsui.selection;
 
-final class Shared {
+/**
+ * Shared constants used in this and descendant packages.
+ */
+public final class Shared {
 
     private Shared() {}
 
-    static final String TAG = "SelectionManager";
-    static final boolean DEBUG = false;
-    static final boolean VERBOSE = false;
+    public static final String TAG = "SelectionManager";
+    public static final boolean DEBUG = false;
 }
