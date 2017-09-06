@@ -20,7 +20,7 @@
     <string name="inspector_load_error" msgid="7522190243413249291">"Imeshindwa kupakia maelezo ya faili"</string>
     <string name="inspector_debug_section" msgid="2576052661505700421">"Maelezo ya utatuzi (usanidi pekee)"</string>
     <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"Metadata ghafi: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
-    <string name="inspector_metadata_section" msgid="6077622515328240575">"Maelezo ya midia"</string>
+    <string name="inspector_metadata_section" msgid="6077622515328240575">"Maelezo ya faili"</string>
     <string name="handler_app_file_opens_with" msgid="5272329600389613550">"Aina hii ya faili inafunguka kwa kutumia"</string>
     <string name="handler_app_belongs_to" msgid="5444507329303253553">"Faili hii imetoka kwenye"</string>
     <string name="handler_app_not_selected" msgid="1294439257183908786">"Haijachaguliwa"</string>
