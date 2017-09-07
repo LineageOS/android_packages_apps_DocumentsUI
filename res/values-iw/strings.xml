@@ -32,9 +32,9 @@
     <string name="menu_open" msgid="9092138100049759315">"פתח"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"פתיחה באמצעות"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"פתיחה בחלון חדש"</string>
-    <string name="menu_save" msgid="5195367497138965168">"שמור"</string>
+    <string name="menu_save" msgid="5195367497138965168">"שמירה"</string>
     <string name="menu_share" msgid="4307140947108068356">"שתף"</string>
-    <string name="menu_delete" msgid="1022254131543256626">"מחק"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"מחיקה"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"בחר הכל"</string>
     <string name="menu_copy" msgid="7404820171352314754">"העתק אל…"</string>
     <string name="menu_move" msgid="2310760789561129882">"העבר אל…"</string>
@@ -57,7 +57,7 @@
     <string name="button_move" msgid="8596460499325291272">"העבר"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ביטול"</string>
     <string name="button_retry" msgid="4011461781916631389">"נסה שנית"</string>
-    <string name="button_clear" msgid="5412304437764369441">"נקה"</string>
+    <string name="button_clear" msgid="5412304437764369441">"ניקוי"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"הצג באפליקציה של הספק"</string>
     <string name="not_sorted" msgid="7813496644889115530">"לא ממוין"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"שם"</string>
