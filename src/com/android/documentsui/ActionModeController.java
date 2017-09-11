@@ -35,13 +35,13 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Menus;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.SelectionHelper.StubSelectionObserver;
+import com.android.documentsui.selection.SelectionHelper.SelectionObserver;
 import com.android.documentsui.ui.MessageBuilder;
 
 /**
  * A controller that listens to selection changes and manages life cycles of action modes.
  */
-public class ActionModeController extends StubSelectionObserver
+public class ActionModeController extends SelectionObserver
         implements ActionMode.Callback, ActionModeAddons {
 
     private static final String TAG = "ActionModeController";

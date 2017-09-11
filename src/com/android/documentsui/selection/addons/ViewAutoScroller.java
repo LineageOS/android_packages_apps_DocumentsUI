@@ -32,9 +32,9 @@ public final class ViewAutoScroller implements Runnable {
     public static final int MAX_SCROLL_STEP = 70;
 
     private ScrollHost mHost;
-    private Callbacks mCallbacks;
+    private ScrollerCallbacks mCallbacks;
 
-    public ViewAutoScroller(ScrollHost scrollHost, Callbacks callbacks) {
+    public ViewAutoScroller(ScrollHost scrollHost, ScrollerCallbacks callbacks) {
         assert scrollHost != null;
         assert callbacks != null;
 
@@ -93,8 +93,8 @@ public final class ViewAutoScroller implements Runnable {
      * @return
      */
     public int computeScrollDistance(int pixelsPastView) {
-        final int topBottomThreshold = (int) (mHost.getViewHeight()
-                * TOP_BOTTOM_THRESHOLD_RATIO);
+        final int topBottomThreshold =
+                (int) (mHost.getViewHeight() * TOP_BOTTOM_THRESHOLD_RATIO);
 
         final int direction = (int) Math.signum(pixelsPastView);
         final int absPastView = Math.abs(pixelsPastView);
@@ -131,19 +131,19 @@ public final class ViewAutoScroller implements Runnable {
      * Used by {@link run} to properly calculate the proper amount of pixels to scroll given time
      * passed since scroll started, and to properly scroll / proper listener clean up if necessary.
      */
-    public interface ScrollHost {
-        public Point getCurrentPosition();
-        public int getViewHeight();
-        public boolean isActive();
+    public static abstract class ScrollHost {
+        public abstract Point getCurrentPosition();
+        public abstract int getViewHeight();
+        public abstract boolean isActive();
     }
 
     /**
      * Callback used by scroller to perform UI tasks, such as scrolling and rerunning at next UI
      * cycle.
      */
-    public interface Callbacks {
-        public void scrollBy(int dy);
-        public void runAtNextFrame(Runnable r);
-        public void removeCallback(Runnable r);
+    public static abstract class ScrollerCallbacks {
+        public void scrollBy(int dy) {}
+        public void runAtNextFrame(Runnable r) {}
+        public void removeCallback(Runnable r) {}
     }
 }

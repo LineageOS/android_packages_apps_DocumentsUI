@@ -30,7 +30,7 @@ import android.util.SparseIntArray;
 
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
-import com.android.documentsui.selection.addons.BandSelectionHelper.SelectionHost;
+import com.android.documentsui.selection.addons.BandSelectionHelper.BandHost;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,11 +58,11 @@ final class GridModel {
     private static final int LOWER_LEFT = LOWER | LEFT;
     private static final int LOWER_RIGHT = LOWER | RIGHT;
 
-    private final SelectionHost mHost;
+    private final BandHost mHost;
     private final StableIdProvider mStableIds;
     private final SelectionPredicate mSelectionPredicate;
 
-    private final List<OnSelectionChangedListener> mOnSelectionChangedListeners =
+    private final List<SelectionObserver> mOnSelectionChangedListeners =
             new ArrayList<>();
 
     // Map from the x-value of the left side of a SparseBooleanArray of adapter positions, keyed
@@ -102,7 +102,7 @@ final class GridModel {
     private final OnScrollListener mScrollListener;
 
     GridModel(
-            SelectionHost host,
+            BandHost host,
             StableIdProvider stableIds,
             SelectionPredicate selectionPredicate) {
 
@@ -147,7 +147,7 @@ final class GridModel {
         mRelativeOrigin = new RelativePoint(mPointer);
         mRelativePointer = new RelativePoint(mPointer);
         computeCurrentSelection();
-        notifyListeners();
+        notifySelectionChanged();
     }
 
     /**
@@ -260,7 +260,7 @@ final class GridModel {
         }
 
         computeCurrentSelection();
-        notifyListeners();
+        notifySelectionChanged();
     }
 
     /**
@@ -280,8 +280,8 @@ final class GridModel {
      * mSelection, so computeCurrentSelection() should be called before this
      * function.
      */
-    private void notifyListeners() {
-        for (OnSelectionChangedListener listener : mOnSelectionChangedListeners) {
+    private void notifySelectionChanged() {
+        for (SelectionObserver listener : mOnSelectionChangedListeners) {
             listener.onSelectionChanged(mSelection);
         }
     }
@@ -359,13 +359,7 @@ final class GridModel {
         }
     }
 
-    /**
-     * @return True if the item is selectable.
-     */
     private boolean canSelect(String id) {
-        // TODO: Simplify the logic, so the check whether we can select is done in one place.
-        // Consider injecting ActivityConfig, or move the checks from DefaultSelectionManager to
-        // Selection.
         return mSelectionPredicate.canSetStateForId(id, true);
     }
 
@@ -399,11 +393,11 @@ final class GridModel {
     /**
      * Listener for changes in which items have been band selected.
      */
-    static interface OnSelectionChangedListener {
-        public void onSelectionChanged(Set<String> updatedSelection);
+    public static abstract class SelectionObserver {
+        abstract void onSelectionChanged(Set<String> updatedSelection);
     }
 
-    void addOnSelectionChangedListener(OnSelectionChangedListener listener) {
+    void addOnSelectionChangedListener(SelectionObserver listener) {
         mOnSelectionChangedListeners.add(listener);
     }
 

@@ -17,6 +17,7 @@
 package com.android.documentsui.testing;
 
 import com.android.documentsui.DocsSelectionHelper;
+import com.android.documentsui.dirlist.DocsStableIdProvider;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.DefaultSelectionHelper;
@@ -60,7 +61,8 @@ public class SelectionHelpers {
         DocsSelectionHelper manager = mode == DefaultSelectionHelper.MODE_SINGLE
                 ? DocsSelectionHelper.createSingleSelect()
                 : DocsSelectionHelper.createMultiSelect();
-        manager.reset(adapter, adapter, canSetState);
+
+        manager.reset(adapter, new DocsStableIdProvider(adapter), canSetState);
 
         return manager;
     }

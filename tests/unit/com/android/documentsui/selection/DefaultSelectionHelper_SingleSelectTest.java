@@ -21,9 +21,6 @@ import static org.junit.Assert.fail;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.testing.SelectionHelpers;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,36 +31,44 @@ import java.util.List;
 @SmallTest
 public class DefaultSelectionHelper_SingleSelectTest {
 
-    private static final List<String> ITEMS = TestData.create(100);
-
-    private SelectionHelper mManager;
+    private List<String> mItems;
+    private SelectionHelper mHelper;
     private TestSelectionObserver mListener;
     private SelectionProbe mSelection;
 
     @Before
     public void setUp() throws Exception {
+        mItems = TestAdapter.createItemList(100);
         mListener = new TestSelectionObserver();
-        mManager = SelectionHelpers.createTestInstance(ITEMS, DefaultSelectionHelper.MODE_SINGLE);
-        mManager.addObserver(mListener);
+        TestAdapter adapter = new TestAdapter();
+        adapter.updateTestModelIds(mItems);
 
-        mSelection = new SelectionProbe(mManager);
+        mHelper = new DefaultSelectionHelper(
+                DefaultSelectionHelper.MODE_SINGLE,
+                adapter,
+                new TestStableIdProvider(adapter),
+                SelectionPredicates.CAN_SET_ANYTHING);
+
+        mHelper.addObserver(mListener);
+
+        mSelection = new SelectionProbe(mHelper);
     }
 
     @Test
     public void testSimpleSelect() {
-        mManager.select(ITEMS.get(3));
-        mManager.select(ITEMS.get(4));
+        mHelper.select(mItems.get(3));
+        mHelper.select(mItems.get(4));
         mListener.assertSelectionChanged();
         mSelection.assertSelection(4);
     }
 
     @Test
     public void testRangeSelectionNotEstablished() {
-        mManager.select(ITEMS.get(3));
+        mHelper.select(mItems.get(3));
         mListener.reset();
 
         try {
-            mManager.extendRange(10);
+            mHelper.extendRange(10);
             fail("Should have thrown.");
         } catch (Exception expected) {}
 

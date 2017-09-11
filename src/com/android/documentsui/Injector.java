@@ -28,6 +28,7 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.dirlist.DocsStableIdProvider;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
@@ -121,7 +122,7 @@ public class Injector<T extends ActionHandler> {
 
     public SelectionHelper getSelectionManager(
             DocumentsAdapter adapter, SelectionHelper.SelectionPredicate canSetState) {
-        return selectionMgr.reset(adapter, adapter, canSetState);
+        return selectionMgr.reset(adapter, new DocsStableIdProvider(adapter), canSetState);
     }
 
     public final ActionModeController getActionModeController(

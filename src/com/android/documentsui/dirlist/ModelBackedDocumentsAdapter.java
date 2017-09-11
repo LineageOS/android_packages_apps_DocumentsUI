@@ -173,6 +173,12 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
     }
 
     @Override
+    public int getPosition(String id) {
+        int position = mModelIds.indexOf(id);
+        return position >= 0 ? position : RecyclerView.NO_POSITION;
+    }
+
+    @Override
     public int getItemViewType(int position) {
         return isDirectory(mEnv.getModel(), position)
                 ? ITEM_TYPE_DIRECTORY
@@ -190,13 +196,5 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
                 return true;
         }
         return false;
-    }
-
-    @Override
-    public int getPosition(String id) {
-        int position = mModelIds.indexOf(id);
-        return position >= 0
-                ? position
-                : RecyclerView.NO_POSITION;
     }
 }

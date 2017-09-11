@@ -28,10 +28,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.view.MotionEvent;
 
-import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
-import com.android.documentsui.selection.addons.BandSelectionHelper;
-import com.android.documentsui.selection.addons.GridModel;
+import com.android.documentsui.selection.SelectionPredicates;
+import com.android.documentsui.selection.TestAdapter;
+import com.android.documentsui.selection.TestStableIdProvider;
+import com.android.documentsui.selection.addons.BandSelectionHelper.BandHost;
 
 import org.junit.After;
 import org.junit.Test;
@@ -50,21 +50,10 @@ public class GridModelTest {
     private static final int VIEW_PADDING_PX = 5;
     private static final int CHILD_VIEW_EDGE_PX = 100;
     private static final int VIEWPORT_HEIGHT = 500;
-    private static final SelectionPredicate CAN_SET_ANYTHING = new SelectionPredicate() {
-        @Override
-        public boolean canSetStateForId(String id, boolean nextState) {
-            return true;
-        }
-
-        @Override
-        public boolean canSetStateAtPosition(int position, boolean nextState) {
-            return true;
-        }
-    };
 
     private GridModel mModel;
     private TestHost mHost;
-    private TestDocumentsAdapter mAdapter;
+    private TestAdapter mAdapter;
     private Set<String> mLastSelection;
     private int mViewWidth;
 
@@ -234,7 +223,7 @@ public class GridModelTest {
 
     private void initData(final int numChildren, int numColumns) {
         mHost = new TestHost(numChildren, numColumns);
-        mAdapter = new TestDocumentsAdapter(new ArrayList<String>()) {
+        mAdapter = new TestAdapter() {
             @Override
             public String getStableId(int position) {
                 return Integer.toString(position);
@@ -248,9 +237,13 @@ public class GridModelTest {
 
         mViewWidth = VIEW_PADDING_PX + numColumns * (VIEW_PADDING_PX + CHILD_VIEW_EDGE_PX);
 
-        mModel = new GridModel(mHost, mAdapter, CAN_SET_ANYTHING);
+        mModel = new GridModel(
+                mHost,
+                new TestStableIdProvider(mAdapter),
+                SelectionPredicates.CAN_SET_ANYTHING);
+
         mModel.addOnSelectionChangedListener(
-                new GridModel.OnSelectionChangedListener() {
+                new GridModel.SelectionObserver() {
                     @Override
                     public void onSelectionChanged(Set<String> updatedSelection) {
                         mLastSelection = updatedSelection;
@@ -309,7 +302,7 @@ public class GridModelTest {
         mHost.mScrollListener.onScrolled(null, 0, dy);
     }
 
-    private static final class TestHost implements BandSelectionHelper.SelectionHost {
+    private static final class TestHost extends BandHost {
 
         private final int mNumColumns;
         private final int mNumRows;

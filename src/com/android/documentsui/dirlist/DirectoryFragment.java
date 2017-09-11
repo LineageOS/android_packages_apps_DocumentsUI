@@ -91,10 +91,10 @@ import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
+import com.android.documentsui.selection.addons.BandPredicate;
 import com.android.documentsui.selection.addons.BandSelectionHelper;
-import com.android.documentsui.selection.addons.BandSelectionHelper.BandPredicate;
-import com.android.documentsui.selection.addons.BandSelectionHelper.SelectionHost;
 import com.android.documentsui.selection.addons.ContentLock;
+import com.android.documentsui.selection.addons.DefaultBandHost;
 import com.android.documentsui.selection.addons.GestureSelectionHelper;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -372,12 +372,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 }
             };
 
-            SelectionHost host = BandSelectionHelper.createHost(
-                    mRecView, R.drawable.band_select_overlay, bandPredicate);
             mBandSelector = new BandSelectionHelper(
-                    host,
-                    mAdapter,  // recycler view adapter.
-                    mAdapter,  // stableIds provider.
+                    new DefaultBandHost(mRecView, R.drawable.band_select_overlay, bandPredicate),
+                    mAdapter,
+                    new DocsStableIdProvider(mAdapter),
                     mSelectionMgr,
                     selectionPredicate,
                     mContentLock);
