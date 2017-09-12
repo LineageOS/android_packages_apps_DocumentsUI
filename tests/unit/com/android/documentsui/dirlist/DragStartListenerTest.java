@@ -26,7 +26,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.DocsSelectionManager;
+import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events;
@@ -35,7 +35,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DragStartListener.RuntimeDragStartListener;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestDragAndDropManager;
 import com.android.documentsui.testing.TestEventDetailsLookup;
 import com.android.documentsui.testing.TestEvents;
@@ -55,7 +55,7 @@ public class DragStartListenerTest {
 
     private RuntimeDragStartListener mListener;
     private TestEvents.Builder mEvent;
-    private DocsSelectionManager mMultiSelectManager;
+    private DocsSelectionHelper mSelectionMgr;
     private TestEventDetailsLookup mDocLookup;
     private SelectionDetails mSelectionDetails;
     private String mViewModelId;
@@ -63,7 +63,7 @@ public class DragStartListenerTest {
 
     @Before
     public void setUp() throws Exception {
-        mMultiSelectManager = SelectionManagers.createTestInstance();
+        mSelectionMgr = SelectionHelpers.createTestInstance();
         mManager = new TestDragAndDropManager();
         mSelectionDetails = new TestSelectionDetails();
         mDocLookup = new TestEventDetailsLookup();
@@ -80,7 +80,7 @@ public class DragStartListenerTest {
                 null, // icon helper
                 state,
                 mDocLookup,
-                mMultiSelectManager,
+                mSelectionMgr,
                 mSelectionDetails,
                 // view finder
                 (float x, float y) -> {
@@ -158,7 +158,7 @@ public class DragStartListenerTest {
         MutableSelection selection = new MutableSelection();
         selection.add("1234");
         selection.add("5678");
-        mMultiSelectManager.replaceSelection(selection);
+        mSelectionMgr.replaceSelection(selection);
 
         selection = mListener.getSelectionToBeCopied("1234",
                 mEvent.action(MotionEvent.ACTION_MOVE).build());
@@ -171,21 +171,21 @@ public class DragStartListenerTest {
     public void testDragStart_newNonSelectedItem() {
         MutableSelection selection = new MutableSelection();
         selection.add("5678");
-        mMultiSelectManager.replaceSelection(selection);
+        mSelectionMgr.replaceSelection(selection);
 
         selection = mListener.getSelectionToBeCopied("1234",
                 mEvent.action(MotionEvent.ACTION_MOVE).build());
         assertTrue(selection.size() == 1);
         assertTrue(selection.contains("1234"));
         // After this, selection should be cleared
-        assertFalse(mMultiSelectManager.hasSelection());
+        assertFalse(mSelectionMgr.hasSelection());
     }
 
     @Test
     public void testCtrlDragStart_newNonSelectedItem() {
         MutableSelection selection = new MutableSelection();
         selection.add("5678");
-        mMultiSelectManager.replaceSelection(selection);
+        mSelectionMgr.replaceSelection(selection);
 
         selection = mListener.getSelectionToBeCopied("1234",
                 mEvent.action(MotionEvent.ACTION_MOVE).ctrl().build());

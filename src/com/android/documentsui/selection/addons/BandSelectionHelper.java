@@ -32,9 +32,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
-import com.android.documentsui.selection.SelectionManager.StableIdProvider;
+import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
+import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
 import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
 import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
 
@@ -44,37 +44,39 @@ import java.util.Set;
 
 /**
  * Provides mouse driven band-selection support when used in conjunction with
- * a {@link RecyclerView} instance and a {@link SelectionManager}. This class is responsible
+ * a {@link RecyclerView} instance and a {@link SelectionHelper}. This class is responsible
  * for rendering the band select overlay and selecting overlaid items via SelectionManager.
+ *
+ * <p>Usage:
+ *
+ * <p><pre>TODO</pre>
  */
-public class BandSelector {
+public class BandSelectionHelper {
 
     static final boolean DEBUG = false;
     static final String TAG = "BandController";
 
-    private final Runnable mModelBuilder;
-
     private final SelectionHost mHost;
     private final StableIdProvider mStableIds;
     private final RecyclerView.Adapter<?> mAdapter;
-    private final SelectionManager mSelectionMgr;
+    private final SelectionHelper mSelectionMgr;
     private final Selection mSelection;
     private final SelectionPredicate mSelectionPredicate;
     private final ContentLock mLock;
     private final Runnable mViewScroller;
     private final GridModel.OnSelectionChangedListener mGridListener;
-    private final List<Runnable> mStartBandSelectListeners = new ArrayList<>();
+    private final List<Runnable> mBandStartedListeners = new ArrayList<>();
 
     @Nullable private Rect mBounds;
     @Nullable private Point mCurrentPosition;
     @Nullable private Point mOrigin;
     @Nullable private GridModel mModel;
 
-    public BandSelector(
+    public BandSelectionHelper(
             SelectionHost host,
             RecyclerView.Adapter<?> adapter,
             StableIdProvider stableIds,
-            SelectionManager selectionManager,
+            SelectionHelper selectionManager,
             SelectionPredicate selectionPredicate,
             ContentLock lock) {
 
@@ -92,7 +94,7 @@ public class BandSelector {
                 new OnScrollListener() {
                     @Override
                     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        BandSelector.this.onScrolled(recyclerView, dx, dy);
+                        BandSelectionHelper.this.onScrolled(recyclerView, dx, dy);
                     }
                 });
 
@@ -110,7 +112,7 @@ public class BandSelector {
 
                     @Override
                     public boolean isActive() {
-                        return BandSelector.this.isActive();
+                        return BandSelectionHelper.this.isActive();
                     }
                 },
                 host);
@@ -157,14 +159,15 @@ public class BandSelector {
                     mSelectionMgr.setProvisionalSelection(updatedSelection);
                 }
             };
+    }
 
-        mModelBuilder = new Runnable() {
-            @Override
-            public void run() {
-                mModel = new GridModel(mHost, mStableIds, mSelectionPredicate);
-                mModel.addOnSelectionChangedListener(mGridListener);
-            }
-        };
+    public void createModel() {
+        if (mModel != null) {
+            mModel.onDestroy();
+        }
+
+        mModel = new GridModel(mHost, mStableIds, mSelectionPredicate);
+        mModel.addOnSelectionChangedListener(mGridListener);
     }
 
     @VisibleForTesting
@@ -186,25 +189,27 @@ public class BandSelector {
         return isActive();
     }
 
-    public void addBandSelectStartedListener(Runnable listener) {
-        mStartBandSelectListeners.add(listener);
-    }
-
-    public void removeBandSelectStartedListener(Runnable listener) {
-        mStartBandSelectListeners.remove(listener);
+    /**
+     * Adds a new listener to be notified when band is created.
+     */
+    public void addOnBandStartedListener(Runnable listener) {
+        mBandStartedListeners.add(listener);
     }
 
     /**
-     * Handle a change in layout by cleaning up and getting rid of the old model and creating
-     * a new model which will track the new layout.
+     * Removes listener. No-op if listener was not previously installed.
      */
-    public void handleLayoutChanged() {
-        if (mModel != null) {
-            mModel.removeOnSelectionChangedListener(mGridListener);
-            mModel.stopListening();
+    public void removeOnBandStartedListener(Runnable listener) {
+        mBandStartedListeners.remove(listener);
+    }
 
-            // build a new model, all fresh and happy.
-            mModelBuilder.run();
+    /**
+     * Clients must call this when there are any material changes to the layout of items
+     * in RecyclerView.
+     */
+    public void onLayoutChanged() {
+        if (mModel != null) {
+            createModel();
         }
     }
 
@@ -278,14 +283,14 @@ public class BandSelector {
         if (DEBUG) Log.d(TAG, "Starting band select @ " + origin);
 
         mLock.block();
-        notifyBandSelectStartedListeners();
+        onBandStarted();
         mOrigin = origin;
-        mModelBuilder.run();  // Creates a new selection model.
+        createModel();
         mModel.startSelection(mOrigin);
     }
 
-    private void notifyBandSelectStartedListeners() {
-        for (Runnable listener : mStartBandSelectListeners) {
+    private void onBandStarted() {
+        for (Runnable listener : mBandStartedListeners) {
             listener.run();
         }
     }
@@ -325,7 +330,7 @@ public class BandSelector {
             if (mSelection.contains(mStableIds.getStableId(firstSelected))) {
                 // TODO: firstSelected should really be lastSelected, we want to anchor the item
                 // where the mouse-up occurred.
-                mSelectionMgr.setSelectionRangeBegin(firstSelected);
+                mSelectionMgr.anchorRange(firstSelected);
             } else {
                 // TODO: Check if this is really happening.
                 Log.w(TAG, "First selected by band is NOT in selection!");

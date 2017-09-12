@@ -24,9 +24,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.SelectionProbe;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEventDetailsLookup;
 import com.android.documentsui.testing.TestEventHandler;
@@ -45,6 +45,7 @@ public final class UserInputHandler_TouchTest {
     private static final List<String> ITEMS = TestData.create(100);
 
     private UserInputHandler mInputHandler;
+    private SelectionHelper mSelectionMgr;
     private TestActionHandler mActionHandler;
     private TestEventDetailsLookup mDetailsLookup;
     private SelectionProbe mSelection;
@@ -54,14 +55,14 @@ public final class UserInputHandler_TouchTest {
     private TestEventHandler<MotionEvent> mGestureSelectHandler;
     private TestEventHandler<Void> mPerformHapticFeedback;
 
+
     @Before
     public void setUp() {
-        SelectionManager selectionMgr = SelectionManagers.createTestInstance(ITEMS);
-
+        mSelectionMgr = SelectionHelpers.createTestInstance(ITEMS);
         mActionHandler = new TestActionHandler();
         mDetailsLookup = new TestEventDetailsLookup();
 
-        mSelection = new SelectionProbe(selectionMgr);
+        mSelection = new SelectionProbe(mSelectionMgr);
         mCanSelect = new TestPredicate<>();
         mRightClickHandler = new TestEventHandler<>();
         mDragAndDropHandler = new TestEventHandler<>();
@@ -71,7 +72,7 @@ public final class UserInputHandler_TouchTest {
         mInputHandler = new UserInputHandler(
                 mActionHandler,
                 new TestFocusHandler(),
-                selectionMgr,
+                mSelectionMgr,
                 mDetailsLookup,
                 mCanSelect,
                 mRightClickHandler::accept,
@@ -116,8 +117,7 @@ public final class UserInputHandler_TouchTest {
 
     @Test
     public void testSelectionHotspot_UnselectsSelectedItem() {
-        mDetailsLookup.initAt(11);
-        mInputHandler.onLongPress(TAP);
+        mSelectionMgr.select("11");
 
         mDetailsLookup.initAt(11).setInItemSelectRegion(true);
         mInputHandler.onSingleTapUp(TAP);
@@ -153,8 +153,9 @@ public final class UserInputHandler_TouchTest {
 
     @Test
     public void testTap_UnselectsSelectedItem() {
+        mSelectionMgr.select("11");
+
         mDetailsLookup.initAt(11);
-        mInputHandler.onLongPress(TAP);
         mInputHandler.onSingleTapUp(TAP);
 
         mSelection.assertNoSelection();
@@ -162,9 +163,12 @@ public final class UserInputHandler_TouchTest {
 
     @Test
     public void testTapOff_ClearsSelection() {
+        mSelectionMgr.select("7");
         mDetailsLookup.initAt(7);
+
         mInputHandler.onLongPress(TAP);
 
+        mSelectionMgr.select("11");
         mDetailsLookup.initAt(11);
         mInputHandler.onSingleTapUp(TAP);
 

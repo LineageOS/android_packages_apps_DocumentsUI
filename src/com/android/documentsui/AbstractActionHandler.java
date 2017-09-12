@@ -59,7 +59,7 @@ import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.MutableSelection;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.sidebar.EjectRootTask;
 import com.android.documentsui.ui.Snackbars;
@@ -93,7 +93,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final ProvidersAccess mProviders;
     protected final DocumentsAccess mDocs;
     protected final FocusHandler mFocusHandler;
-    protected final SelectionManager mSelectionMgr;
+    protected final SelectionHelper mSelectionMgr;
     protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
     protected final Injector<?> mInjector;

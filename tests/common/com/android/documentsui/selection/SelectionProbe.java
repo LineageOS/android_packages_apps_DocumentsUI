@@ -21,22 +21,22 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Helper class for making assertions against the state of a {@link DefaultSelectionManager} instance and
- * the consistency of states between {@link DefaultSelectionManager} and
- * {@link DefaultSelectionManager.ItemEventCallback}.
+ * Helper class for making assertions against the state of a {@link DefaultSelectionHelper} instance
+ * and the consistency of states between {@link DefaultSelectionHelper} and
+ * {@link DefaultSelectionHelper.ItemEventCallback}.
  */
 public final class SelectionProbe {
 
-    private final SelectionManager mMgr;
-    private final TestSelectionEventListener mSelectionListener;
+    private final SelectionHelper mMgr;
+    private final TestSelectionObserver mSelectionListener;
 
-    public SelectionProbe(SelectionManager mgr) {
+    public SelectionProbe(SelectionHelper mgr) {
         mMgr = mgr;
-        mSelectionListener = new TestSelectionEventListener();
-        mMgr.addEventListener(mSelectionListener);
+        mSelectionListener = new TestSelectionObserver();
+        mMgr.addObserver(mSelectionListener);
     }
 
-    public SelectionProbe(SelectionManager mgr, TestSelectionEventListener selectionListener) {
+    public SelectionProbe(SelectionHelper mgr, TestSelectionObserver selectionListener) {
         mMgr = mgr;
         mSelectionListener = selectionListener;
     }
@@ -100,7 +100,7 @@ public final class SelectionProbe {
 
     public void select(int...positions) {
         for (int position : positions) {
-            mMgr.toggleSelection(String.valueOf(position));
+            mMgr.select(String.valueOf(position));
         }
     }
 }

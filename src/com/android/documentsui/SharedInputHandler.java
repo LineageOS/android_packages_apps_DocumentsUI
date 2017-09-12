@@ -24,7 +24,7 @@ import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Procedure;
 import com.android.documentsui.dirlist.FocusHandler;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 
 public class SharedInputHandler {
 
@@ -34,11 +34,11 @@ public class SharedInputHandler {
     private final Procedure mSearchCanceler;
     private final Procedure mDirPopper;
     private final Features mFeatures;
-    private final SelectionManager mSelectionMgr;
+    private final SelectionHelper mSelectionMgr;
 
     public SharedInputHandler(
             FocusHandler focusHandler,
-            SelectionManager selectionMgr,
+            SelectionHelper selectionMgr,
             Procedure searchCanceler,
             Procedure dirPopper,
             Features features) {

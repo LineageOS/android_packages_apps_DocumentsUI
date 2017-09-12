@@ -19,10 +19,10 @@ package com.android.documentsui;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 
-import com.android.documentsui.selection.DefaultSelectionManager;
-import com.android.documentsui.selection.DefaultSelectionManager.SelectionMode;
+import com.android.documentsui.selection.DefaultSelectionHelper;
+import com.android.documentsui.selection.DefaultSelectionHelper.SelectionMode;
 import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 
 import java.util.Set;
 
@@ -32,20 +32,20 @@ import javax.annotation.Nullable;
  * DocumentsUI SelectManager implementation that creates delegate instances
  * each time reset is called.
  */
-public final class DocsSelectionManager implements SelectionManager {
+public final class DocsSelectionHelper implements SelectionHelper {
 
     private final DelegateFactory mFactory;
     private final @SelectionMode int mSelectionMode;
 
-    private @Nullable SelectionManager mDelegate;
+    private @Nullable SelectionHelper mDelegate;
 
     @VisibleForTesting
-    DocsSelectionManager(DelegateFactory factory, @SelectionMode int mode) {
+    DocsSelectionHelper(DelegateFactory factory, @SelectionMode int mode) {
         mFactory = factory;
         mSelectionMode = mode;
     }
 
-    public SelectionManager reset(
+    public SelectionHelper reset(
             RecyclerView.Adapter<?> adapter,
             StableIdProvider stableIds,
             SelectionPredicate canSetState) {
@@ -59,8 +59,8 @@ public final class DocsSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void addEventListener(EventListener listener) {
-        mDelegate.addEventListener(listener);
+    public void addObserver(SelectionObserver listener) {
+        mDelegate.addObserver(listener);
     }
 
     @Override
@@ -76,6 +76,11 @@ public final class DocsSelectionManager implements SelectionManager {
     @Override
     public void copySelection(Selection dest) {
         mDelegate.copySelection(dest);
+    }
+
+    @Override
+    public boolean isSelected(String id) {
+        return mDelegate.isSelected(id);
     }
 
     @VisibleForTesting
@@ -100,28 +105,28 @@ public final class DocsSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void toggleSelection(String modelId) {
-        mDelegate.toggleSelection(modelId);
+    public boolean select(String modelId) {
+        return mDelegate.select(modelId);
     }
 
     @Override
-    public void startRangeSelection(int pos) {
-        mDelegate.startRangeSelection(pos);
+    public boolean deselect(String modelId) {
+        return mDelegate.deselect(modelId);
     }
 
     @Override
-    public void snapRangeSelection(int pos) {
-        mDelegate.snapRangeSelection(pos);
+    public void startRange(int pos) {
+        mDelegate.startRange(pos);
     }
 
     @Override
-    public void formNewSelectionRange(int startPos, int endPos) {
-        mDelegate.formNewSelectionRange(startPos, endPos);
+    public void extendRange(int pos) {
+        mDelegate.extendRange(pos);
     }
 
     @Override
-    public void snapProvisionalRangeSelection(int pos) {
-        mDelegate.snapProvisionalRangeSelection(pos);
+    public void extendProvisionalRange(int pos) {
+        mDelegate.extendProvisionalRange(pos);
     }
 
     @Override
@@ -140,30 +145,30 @@ public final class DocsSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void endRangeSelection() {
-        mDelegate.endRangeSelection();
+    public void endRange() {
+        mDelegate.endRange();
     }
 
     @Override
-    public boolean isRangeSelectionActive() {
-        return mDelegate.isRangeSelectionActive();
+    public boolean isRangeActive() {
+        return mDelegate.isRangeActive();
     }
 
     @Override
-    public void setSelectionRangeBegin(int position) {
-        mDelegate.setSelectionRangeBegin(position);
+    public void anchorRange(int position) {
+        mDelegate.anchorRange(position);
     }
 
-    public static DocsSelectionManager createMultiSelect() {
-        return new DocsSelectionManager(
+    public static DocsSelectionHelper createMultiSelect() {
+        return new DocsSelectionHelper(
                 DelegateFactory.INSTANCE,
-                DefaultSelectionManager.MODE_MULTIPLE);
+                DefaultSelectionHelper.MODE_MULTIPLE);
     }
 
-    public static DocsSelectionManager createSingleSelect() {
-        return new DocsSelectionManager(
+    public static DocsSelectionHelper createSingleSelect() {
+        return new DocsSelectionHelper(
                 DelegateFactory.INSTANCE,
-                DefaultSelectionManager.MODE_SINGLE);
+                DefaultSelectionHelper.MODE_SINGLE);
     }
 
     /**
@@ -174,13 +179,13 @@ public final class DocsSelectionManager implements SelectionManager {
     static class DelegateFactory {
         static final DelegateFactory INSTANCE = new DelegateFactory();
 
-        SelectionManager create(
+        SelectionHelper create(
                 @SelectionMode int mode,
                 RecyclerView.Adapter<?> adapter,
                 StableIdProvider stableIds,
                 SelectionPredicate canSetState) {
 
-            return new DefaultSelectionManager(mode, adapter, stableIds, canSetState);
+            return new DefaultSelectionHelper(mode, adapter, stableIds, canSetState);
         }
     }
 }

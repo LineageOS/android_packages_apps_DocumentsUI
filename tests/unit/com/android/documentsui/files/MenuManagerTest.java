@@ -32,8 +32,8 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.TestContext;
 import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.selection.SelectionManager;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
@@ -112,7 +112,7 @@ public final class MenuManagerTest {
     private State state = new State();
     private MenuManager mgr;
     private TestActivity activity = TestActivity.create(TestEnv.create());
-    private SelectionManager selectionManager;
+    private SelectionHelper selectionManager;
 
     @Before
     public void setUp() {
@@ -176,8 +176,8 @@ public final class MenuManagerTest {
         dirDetails = new TestDirectoryDetails();
         testSearchManager = new TestSearchViewManager();
         preferences = new TestScopedPreferences();
-        selectionManager = SelectionManagers.createTestInstance(TestData.create(1));
-        selectionManager.toggleSelection("0");
+        selectionManager = SelectionHelpers.createTestInstance(TestData.create(1));
+        selectionManager.select("0");
 
         mgr = new MenuManager(
                 features,

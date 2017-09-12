@@ -30,9 +30,9 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.SelectionProbe;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestDocumentDetails;
 import com.android.documentsui.testing.TestEventDetailsLookup;
@@ -58,7 +58,7 @@ public final class UserInputHandler_MouseTest {
     private TestEventDetailsLookup mDetailsLookup;
     private TestFocusHandler mFocusHandler;
     private SelectionProbe mSelection;
-    private SelectionManager mSelectionMgr;
+    private SelectionHelper mSelectionMgr;
     private TestPredicate<DocumentDetails> mCanSelect;
     private TestEventHandler<MotionEvent> mContextMenuClickHandler;
     private TestEventHandler<MotionEvent> mDragAndDropHandler;
@@ -70,7 +70,7 @@ public final class UserInputHandler_MouseTest {
     @Before
     public void setUp() {
 
-        mSelectionMgr = SelectionManagers.createTestInstance(ITEMS);
+        mSelectionMgr = SelectionHelpers.createTestInstance(ITEMS);
         mActionHandler = new TestActionHandler();
         mDetailsLookup = new TestEventDetailsLookup();
         mSelection = new SelectionProbe(mSelectionMgr);
@@ -189,7 +189,7 @@ public final class UserInputHandler_MouseTest {
         mFocusHandler.focusModelId = "7";
 
         // This is a hack-y test, since the real FocusManager would've set range begin itself.
-        mSelectionMgr.setSelectionRangeBegin(7);
+        mSelectionMgr.anchorRange(7);
         mSelection.assertNoSelection();
 
         mDetailsLookup.initAt(11);

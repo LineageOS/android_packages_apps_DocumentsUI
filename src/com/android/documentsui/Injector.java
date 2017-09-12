@@ -31,7 +31,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
@@ -70,7 +70,7 @@ public class Injector<T extends ActionHandler> {
     public FocusManager focusManager;
 
     @ContentScoped
-    public DocsSelectionManager selectionMgr;
+    public DocsSelectionHelper selectionMgr;
 
     private final Model mModel;
 
@@ -119,8 +119,8 @@ public class Injector<T extends ActionHandler> {
         return focusManager.reset(view, model);
     }
 
-    public SelectionManager getSelectionManager(
-            DocumentsAdapter adapter, SelectionManager.SelectionPredicate canSetState) {
+    public SelectionHelper getSelectionManager(
+            DocumentsAdapter adapter, SelectionHelper.SelectionPredicate canSetState) {
         return selectionMgr.reset(adapter, adapter, canSetState);
     }
 
@@ -133,10 +133,10 @@ public class Injector<T extends ActionHandler> {
      * Obtains action handler and resets it if necessary.
      *
      * @param contentLock the lock held by
-     *            {@link com.android.documentsui.selection.addons.BandSelector} and
-     *            {@link com.android.documentsui.selection.addons.GestureSelector} to prevent loader
-     *            from updating result during band/gesture selection. May be {@code null} if called
-     *            from {@link com.android.documentsui.sidebar.RootsFragment}.
+     *            {@link com.android.documentsui.selection.addons.BandSelectionHelper} and
+     *            {@link com.android.documentsui.selection.addons.GestureSelectionHelper} to prevent
+     *            loader from updating result during band/gesture selection. May be {@code null} if
+     *            called from {@link com.android.documentsui.sidebar.RootsFragment}.
      * @return the action handler
      */
     public T getActionHandler(@Nullable ContentLock contentLock) {

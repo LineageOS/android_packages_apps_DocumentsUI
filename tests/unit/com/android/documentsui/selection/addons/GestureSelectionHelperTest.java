@@ -24,14 +24,14 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.selection.addons.GestureSelector.RecyclerViewDelegate;
+import com.android.documentsui.selection.addons.GestureSelectionHelper.RecyclerViewDelegate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class GestureSelectorTest {
+public class GestureSelectionHelperTest {
 
     // Simulate a (20, 20) box locating at (20, 20)
     static final int LEFT_BORDER = 20;

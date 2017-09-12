@@ -20,7 +20,7 @@ import android.provider.DocumentsContract.Document;
 import android.support.test.InstrumentationRegistry;
 import android.test.mock.MockContentResolver;
 
-import com.android.documentsui.DocsSelectionManager;
+import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.archives.ArchivesProvider;
@@ -64,7 +64,7 @@ public class TestEnv {
     public final TestDialogController dialogs = new TestDialogController();
     public final TestModel model;
     public final TestModel archiveModel;
-    public final DocsSelectionManager selectionMgr;
+    public final DocsSelectionHelper selectionMgr;
     public final TestSearchViewManager searchViewManager;
     public final Injector<?> injector;
     public final Features features;
@@ -78,7 +78,7 @@ public class TestEnv {
         mExecutor = new TestScheduledExecutorService();
         model = new TestModel(authority, features);
         archiveModel = new TestModel(ArchivesProvider.AUTHORITY, features);
-        selectionMgr = SelectionManagers.createTestInstance();
+        selectionMgr = SelectionHelpers.createTestInstance();
         searchViewManager = new TestSearchViewManager();
         injector = new Injector(
                 features,

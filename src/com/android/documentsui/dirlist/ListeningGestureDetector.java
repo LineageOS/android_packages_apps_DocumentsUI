@@ -33,8 +33,8 @@ import com.android.documentsui.base.EventDetailsLookup;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Features;
-import com.android.documentsui.selection.addons.BandSelector;
-import com.android.documentsui.selection.addons.GestureSelector;
+import com.android.documentsui.selection.addons.BandSelectionHelper;
+import com.android.documentsui.selection.addons.GestureSelectionHelper;
 
 import java.util.function.Consumer;
 
@@ -46,10 +46,10 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
     private static final String TAG = "ListeningGestureDetector";
 
     private final Features mFeatures;
-    private final GestureSelector mGestureSelector;
+    private final GestureSelectionHelper mGestureSelector;
     private final EventHandler<MotionEvent> mMouseDragListener;
     private final BooleanConsumer mRefreshLayoutEnabler;
-    private final BandSelector mBandController;
+    private final BandSelectionHelper mBandController;
     private final EventDetailsLookup mDocEventBinder;
 
     private final MouseDelegate mMouseDelegate = new MouseDelegate();
@@ -65,9 +65,9 @@ final class ListeningGestureDetector extends GestureDetector implements OnItemTo
             RecyclerView recView,
             EventHandler<MotionEvent> mouseDragListener,
             BooleanConsumer refreshLayoutEnabler,
-            GestureSelector gestureSelector,
+            GestureSelectionHelper gestureSelector,
             UserInputHandler handler,
-            @Nullable BandSelector bandController,
+            @Nullable BandSelectionHelper bandController,
             Consumer<Float> scaleHandler) {
 
         super(context, handler);

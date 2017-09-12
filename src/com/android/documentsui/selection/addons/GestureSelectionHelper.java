@@ -23,7 +23,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
 import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
 
@@ -33,12 +33,12 @@ import javax.annotation.Nullable;
  * Helper class used to intercept events that could cause a gesture multi-select, and keeps
  * the interception going if necessary.
  */
-public final class GestureSelector {
+public final class GestureSelectionHelper {
 
     private static final boolean DEBUG = false;
     private final String TAG = "GestureSelector";
 
-    private final SelectionManager mSelectionMgr;
+    private final SelectionHelper mSelectionMgr;
     private final Runnable mDragScroller;
     private final ViewDelegate mView;
     private final ContentLock mLock;
@@ -47,8 +47,8 @@ public final class GestureSelector {
     private boolean mStarted = false;
     private Point mLastInterceptedPoint;
 
-    GestureSelector(
-            SelectionManager selectionMgr,
+    GestureSelectionHelper(
+            SelectionHelper selectionMgr,
             ViewDelegate view,
             Callbacks scrollCallbacks,
             ContentLock lock) {
@@ -77,8 +77,8 @@ public final class GestureSelector {
         mDragScroller = new ViewAutoScroller(host, scrollCallbacks);
     }
 
-    public static GestureSelector create(
-            SelectionManager selectionMgr, RecyclerView scrollView, ContentLock lock) {
+    public static GestureSelectionHelper create(
+            SelectionHelper selectionMgr, RecyclerView scrollView, ContentLock lock) {
 
         Callbacks callbacks = new Callbacks() {
             @Override
@@ -97,7 +97,7 @@ public final class GestureSelector {
             }
         };
 
-        GestureSelector helper = new GestureSelector(
+        GestureSelectionHelper helper = new GestureSelectionHelper(
                 selectionMgr,
                 new RecyclerViewDelegate(scrollView),
                 callbacks,
@@ -250,7 +250,7 @@ public final class GestureSelector {
     private boolean handleInterceptedMoveEvent(MotionEvent e) {
         mLastInterceptedPoint = MotionEvents.getOrigin(e);
         if (mStarted) {
-            mSelectionMgr.startRangeSelection(mLastStartedItemPos);
+            mSelectionMgr.startRange(mLastStartedItemPos);
             // Gesture Selection about to start
             mLock.block();
             return true;
@@ -309,7 +309,7 @@ public final class GestureSelector {
      * @param endPos  The adapter position of the end item.
      */
     private void doGestureMultiSelect(int endPos) {
-        mSelectionMgr.snapProvisionalRangeSelection(endPos);
+        mSelectionMgr.extendProvisionalRange(endPos);
     }
 
     private void scrollIfNecessary() {

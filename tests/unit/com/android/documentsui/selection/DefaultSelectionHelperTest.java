@@ -15,6 +15,7 @@
  */
 
 package com.android.documentsui.selection;
+import static org.junit.Assert.assertFalse;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -22,7 +23,7 @@ import android.util.SparseBooleanArray;
 
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.selection.SelectionManager.SelectionPredicate;
+import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,19 +36,19 @@ import java.util.Set;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class DefaultSelectionManagerTest {
+public class DefaultSelectionHelperTest {
 
     private static final List<String> ITEMS = TestData.create(100);
 
     private final Set<String> mIgnored = new HashSet<>();
     private TestDocumentsAdapter mAdapter;
-    private DefaultSelectionManager mManager;
-    private TestSelectionEventListener mListener;
+    private DefaultSelectionHelper mManager;
+    private TestSelectionObserver mListener;
     private SelectionProbe mSelection;
 
     @Before
     public void setUp() throws Exception {
-        mListener = new TestSelectionEventListener();
+        mListener = new TestSelectionObserver();
         mAdapter = new TestDocumentsAdapter(ITEMS);
         SelectionPredicate canSelect = new SelectionPredicate() {
 
@@ -61,9 +62,9 @@ public class DefaultSelectionManagerTest {
                 throw new UnsupportedOperationException("Not implemented.");
             }
         };
-        mManager = new DefaultSelectionManager(
-                DefaultSelectionManager.MODE_MULTIPLE, mAdapter, mAdapter, canSelect);
-        mManager.addEventListener(mListener);
+        mManager = new DefaultSelectionHelper(
+                DefaultSelectionHelper.MODE_MULTIPLE, mAdapter, mAdapter, canSelect);
+        mManager.addObserver(mListener);
 
         mSelection = new SelectionProbe(mManager, mListener);
 
@@ -71,37 +72,63 @@ public class DefaultSelectionManagerTest {
     }
 
     @Test
-    public void testSelection() {
-        // Check selection.
-        mManager.toggleSelection(ITEMS.get(7));
+    public void testSelect() {
+        mManager.select(ITEMS.get(7));
+
         mSelection.assertSelection(7);
-        // Check deselection.
-        mManager.toggleSelection(ITEMS.get(7));
+    }
+
+    @Test
+    public void testDeselect() {
+        mManager.select(ITEMS.get(7));
+        mManager.deselect(ITEMS.get(7));
+
         mSelection.assertNoSelection();
     }
 
     @Test
     public void testSelection_DoNothingOnUnselectableItem() {
         mIgnored.add(ITEMS.get(7));
+        boolean selected = mManager.select(ITEMS.get(7));
 
-        mManager.toggleSelection(ITEMS.get(7));
+        assertFalse(selected);
         mSelection.assertNoSelection();
     }
 
     @Test
-    public void testSelection_NotifiesSelectionChanged() {
-        // Selection should notify.
-        mManager.toggleSelection(ITEMS.get(7));
+    public void testSelect_NotifiesListenersOfChange() {
+        mManager.select(ITEMS.get(7));
+
         mListener.assertSelectionChanged();
-        // Deselection should notify.
-        mManager.toggleSelection(ITEMS.get(7));
+    }
+
+
+    @Test
+    public void testSelect_NotifiesAdapterOfSelect() {
+        mManager.select(ITEMS.get(7));
+
+        mAdapter.assertSelectionChanged(7);
+    }
+
+    @Test
+    public void testSelect_NotifiesAdapterOfDeselect() {
+        mManager.select(ITEMS.get(7));
+        mAdapter.resetSelectionChanged();
+        mManager.deselect(ITEMS.get(7));
+        mAdapter.assertSelectionChanged(7);
+    }
+
+    @Test
+    public void testDeselect_NotifiesSelectionChanged() {
+        mManager.select(ITEMS.get(7));
+        mManager.deselect(ITEMS.get(7));
+
         mListener.assertSelectionChanged();
     }
 
     @Test
     public void testSelection_PersistsOnUpdate() {
-        mManager.toggleSelection(ITEMS.get(7));
-
+        mManager.select(ITEMS.get(7));
         mAdapter.updateTestModelIds(ITEMS);
 
         mSelection.assertSelection(7);
@@ -109,8 +136,8 @@ public class DefaultSelectionManagerTest {
 
     @Test
     public void testSelection_IntersectsWithNewDataSet() {
-        mManager.toggleSelection(ITEMS.get(99));
-        mManager.toggleSelection(ITEMS.get(7));
+        mManager.select(ITEMS.get(99));
+        mManager.select(ITEMS.get(7));
 
         mAdapter.updateTestModelIds(TestData.create(50));
 
@@ -137,8 +164,8 @@ public class DefaultSelectionManagerTest {
 
     @Test
     public void testRangeSelection() {
-        mManager.startRangeSelection(15);
-        mManager.snapRangeSelection(19);
+        mManager.startRange(15);
+        mManager.extendRange(19);
         mSelection.assertRangeSelection(15, 19);
     }
 
@@ -146,8 +173,8 @@ public class DefaultSelectionManagerTest {
     public void testRangeSelection_SkipUnselectableItem() {
         mIgnored.add(ITEMS.get(17));
 
-        mManager.startRangeSelection(15);
-        mManager.snapRangeSelection(19);
+        mManager.startRange(15);
+        mManager.extendRange(19);
 
         mSelection.assertRangeSelected(15, 16);
         mSelection.assertNotSelected(17);
@@ -156,35 +183,35 @@ public class DefaultSelectionManagerTest {
 
     @Test
     public void testRangeSelection_snapExpand() {
-        mManager.startRangeSelection(15);
-        mManager.snapRangeSelection(19);
-        mManager.snapRangeSelection(27);
+        mManager.startRange(15);
+        mManager.extendRange(19);
+        mManager.extendRange(27);
         mSelection.assertRangeSelection(15, 27);
     }
 
     @Test
     public void testRangeSelection_snapContract() {
-        mManager.startRangeSelection(15);
-        mManager.snapRangeSelection(27);
-        mManager.snapRangeSelection(19);
+        mManager.startRange(15);
+        mManager.extendRange(27);
+        mManager.extendRange(19);
         mSelection.assertRangeSelection(15, 19);
     }
 
     @Test
     public void testRangeSelection_snapInvert() {
-        mManager.startRangeSelection(15);
-        mManager.snapRangeSelection(27);
-        mManager.snapRangeSelection(3);
+        mManager.startRange(15);
+        mManager.extendRange(27);
+        mManager.extendRange(3);
         mSelection.assertRangeSelection(3, 15);
     }
 
     @Test
     public void testRangeSelection_multiple() {
-        mManager.startRangeSelection(15);
-        mManager.snapRangeSelection(27);
-        mManager.endRangeSelection();
-        mManager.startRangeSelection(42);
-        mManager.snapRangeSelection(57);
+        mManager.startRange(15);
+        mManager.extendRange(27);
+        mManager.endRange();
+        mManager.startRange(42);
+        mManager.extendRange(57);
         mSelection.assertSelectionSize(29);
         mSelection.assertRangeSelected(15, 27);
         mSelection.assertRangeSelected(42, 57);
@@ -192,21 +219,21 @@ public class DefaultSelectionManagerTest {
 
     @Test
     public void testProvisionalRangeSelection() {
-        mManager.startRangeSelection(13);
-        mManager.snapProvisionalRangeSelection(15);
+        mManager.startRange(13);
+        mManager.extendProvisionalRange(15);
         mSelection.assertRangeSelection(13, 15);
         mManager.getSelection().mergeProvisionalSelection();
-        mManager.endRangeSelection();
+        mManager.endRange();
         mSelection.assertSelectionSize(3);
     }
 
     @Test
     public void testProvisionalRangeSelection_endEarly() {
-        mManager.startRangeSelection(13);
-        mManager.snapProvisionalRangeSelection(15);
+        mManager.startRange(13);
+        mManager.extendProvisionalRange(15);
         mSelection.assertRangeSelection(13, 15);
 
-        mManager.endRangeSelection();
+        mManager.endRange();
         // If we end range selection prematurely for provision selection, nothing should be selected
         // except the first item
         mSelection.assertSelectionSize(1);
@@ -214,24 +241,24 @@ public class DefaultSelectionManagerTest {
 
     @Test
     public void testProvisionalRangeSelection_snapExpand() {
-        mManager.startRangeSelection(13);
-        mManager.snapProvisionalRangeSelection(15);
+        mManager.startRange(13);
+        mManager.extendProvisionalRange(15);
         mSelection.assertRangeSelection(13, 15);
         mManager.getSelection().mergeProvisionalSelection();
-        mManager.snapRangeSelection(18);
+        mManager.extendRange(18);
         mSelection.assertRangeSelection(13, 18);
     }
 
     @Test
     public void testCombinationRangeSelection_IntersectsOldSelection() {
-        mManager.startRangeSelection(13);
-        mManager.snapRangeSelection(15);
+        mManager.startRange(13);
+        mManager.extendRange(15);
         mSelection.assertRangeSelection(13, 15);
 
-        mManager.startRangeSelection(11);
-        mManager.snapProvisionalRangeSelection(18);
+        mManager.startRange(11);
+        mManager.extendProvisionalRange(18);
         mSelection.assertRangeSelected(11, 18);
-        mManager.endRangeSelection();
+        mManager.endRange();
         mSelection.assertRangeSelected(13, 15);
         mSelection.assertRangeSelected(11, 11);
         mSelection.assertSelectionSize(4);
@@ -317,8 +344,8 @@ public class DefaultSelectionManagerTest {
 
     @Test
     public void testProvisionalSelection_Cancel() {
-        mManager.toggleSelection(ITEMS.get(1));
-        mManager.toggleSelection(ITEMS.get(2));
+        mManager.select(ITEMS.get(1));
+        mManager.select(ITEMS.get(2));
         Selection s = mManager.getSelection();
 
         SparseBooleanArray provisional = new SparseBooleanArray();
@@ -333,8 +360,8 @@ public class DefaultSelectionManagerTest {
 
     @Test
     public void testProvisionalSelection_IntersectsAppliedSelection() {
-        mManager.toggleSelection(ITEMS.get(1));
-        mManager.toggleSelection(ITEMS.get(2));
+        mManager.select(ITEMS.get(1));
+        mManager.select(ITEMS.get(2));
         Selection s = mManager.getSelection();
 
         // Mimicking band selection case -- BandController notifies item callback by itself.

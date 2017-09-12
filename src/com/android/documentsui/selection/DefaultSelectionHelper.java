@@ -16,6 +16,8 @@
 
 package com.android.documentsui.selection;
 
+import static android.support.v4.util.Preconditions.checkArgument;
+import static android.support.v4.util.Preconditions.checkState;
 import static com.android.documentsui.selection.Shared.DEBUG;
 import static com.android.documentsui.selection.Shared.TAG;
 
@@ -34,11 +36,13 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * SelectManager providing support traditional multi-item selection support to RecyclerView.
- * Additionally it can be configured to restrict selection to a single element, @see
- * #setSelectMode.
+ * {@link SelectionHelper} providing support traditional multi-item selection on top
+ * of {@link RecyclerView}.
+ *
+ * <p>The class supports running in a single-select mode, which can be enabled
+ * by passing {@colde #MODE_SINGLE} to the constructor.
  */
-public final class DefaultSelectionManager implements SelectionManager {
+public final class DefaultSelectionHelper implements SelectionHelper {
 
     public static final int MODE_MULTIPLE = 0;
     public static final int MODE_SINGLE = 1;
@@ -59,7 +63,7 @@ public final class DefaultSelectionManager implements SelectionManager {
      * items with the band. Provisionally selected items are considered to be selected in
      * {@link Selection#contains(String)} and related methods. A provisional may be abandoned or
      * applied by selection components (like
-     * {@link com.android.documentsui.selection.addons.BandSelector}).
+     * {@link com.android.documentsui.selection.addons.BandSelectionHelper}).
      *
      * <p>A provisional selection may intersect the primary selection, however clearing the
      * provisional selection will not affect the primary selection where the two may intersect.
@@ -73,7 +77,7 @@ public final class DefaultSelectionManager implements SelectionManager {
     @interface RangeType {}
 
     private final Selection mSelection = new Selection();
-    private final List<EventListener> mEventListeners = new ArrayList<>(1);
+    private final List<SelectionObserver> mObservers = new ArrayList<>(1);
     private final RecyclerView.Adapter<?> mAdapter;
     private final StableIdProvider mStableIds;
     private final SelectionPredicate mSelectionPredicate;
@@ -81,7 +85,7 @@ public final class DefaultSelectionManager implements SelectionManager {
 
     private final boolean mSingleSelect;
 
-    private @Nullable Range mRanger;
+    private @Nullable Range mRange;
 
     /**
      * Creates a new instance.
@@ -93,15 +97,15 @@ public final class DefaultSelectionManager implements SelectionManager {
      * @param selectionPredicate A predicate allowing the client to disallow selection
      *     of individual elements.
      */
-    public DefaultSelectionManager(
+    public DefaultSelectionHelper(
             @SelectionMode int mode,
             RecyclerView.Adapter<?> adapter,
             StableIdProvider stableIds,
             SelectionPredicate selectionPredicate) {
 
-        assert adapter != null;
-        assert stableIds != null;
-        assert selectionPredicate != null;
+        checkArgument(adapter != null);
+        checkArgument(stableIds != null);
+        checkArgument(selectionPredicate != null);
 
         mAdapter = adapter;
         mStableIds = stableIds;
@@ -119,7 +123,7 @@ public final class DefaultSelectionManager implements SelectionManager {
                 mSelection.clearProvisionalSelection();
                 mSelection.intersect(mStableIds.getStableIds());
 
-                notifyDataChanged();
+                onDataSetChanged();
             }
 
             @Override
@@ -135,8 +139,8 @@ public final class DefaultSelectionManager implements SelectionManager {
 
             @Override
             public void onItemRangeRemoved(int startPosition, int itemCount) {
-                assert startPosition >= 0;
-                assert itemCount > 0;
+                checkArgument(startPosition >= 0);
+                checkArgument(itemCount > 0);
 
                 mSelection.clearProvisionalSelection();
                 // Remove any disappeared IDs from the selection.
@@ -153,9 +157,10 @@ public final class DefaultSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void addEventListener(EventListener callback) {
-        assert callback != null;
-        mEventListeners.add(callback);
+    public void addObserver(SelectionObserver callback) {
+        checkArgument(callback != null);
+
+        mObservers.add(callback);
     }
 
     @Override
@@ -174,6 +179,11 @@ public final class DefaultSelectionManager implements SelectionManager {
     }
 
     @Override
+    public boolean isSelected(String id) {
+        return mSelection.contains(id);
+    }
+
+    @Override
     public void restoreSelection(Selection other) {
         setItemsSelectedQuietly(other.mSelection, true);
         // NOTE: We intentionally don't restore provisional selection. It's provisional.
@@ -182,7 +192,7 @@ public final class DefaultSelectionManager implements SelectionManager {
 
     @Override
     public boolean setItemsSelected(Iterable<String> ids, boolean selected) {
-        final boolean changed = setItemsSelectedQuietly(ids, selected);
+        boolean changed = setItemsSelectedQuietly(ids, selected);
         notifySelectionChanged();
         return changed;
     }
@@ -190,7 +200,7 @@ public final class DefaultSelectionManager implements SelectionManager {
     private boolean setItemsSelectedQuietly(Iterable<String> ids, boolean selected) {
         boolean changed = false;
         for (String id: ids) {
-            final boolean itemChanged =
+            boolean itemChanged =
                     selected
                     ? canSetState(id, true) && mSelection.add(id)
                     : canSetState(id, false) && mSelection.remove(id);
@@ -208,95 +218,145 @@ public final class DefaultSelectionManager implements SelectionManager {
             return;
         }
 
-        clearSelectionQuietly();
+        Selection prev = clearSelectionQuietly();
+        notifySelectionCleared(prev);
         notifySelectionChanged();
     }
 
     /**
-     * Clears the selection, without notifying selection listeners. UI elements still need to be
-     * notified about state changes so that they can update their appearance.
+     * Clears the selection, without notifying selection listeners.
+     * Returns items in previous selection. Callers are responsible for notifying
+     * listeners about changes.
      */
-    private void clearSelectionQuietly() {
-        mRanger = null;
+    private Selection clearSelectionQuietly() {
+        mRange = null;
 
-        if (!hasSelection()) {
-            return;
+        Selection prevSelection = new Selection();
+        if (hasSelection()) {
+            copySelection(prevSelection);
+            mSelection.clear();
         }
 
-        Selection oldSelection = new Selection();
-        copySelection(oldSelection);
-        mSelection.clear();
-
-        for (String id: oldSelection.mSelection) {
-            notifyItemStateChanged(id, false);
-        }
-        for (String id: oldSelection.mProvisionalSelection) {
-            notifyItemStateChanged(id, false);
-        }
+        return prevSelection;
     }
 
     @Override
-    public void toggleSelection(String modelId) {
-        assert modelId != null;
+    public boolean select(String id) {
+        checkArgument(id != null);
 
-        final boolean changed = mSelection.contains(modelId)
-                ? attemptDeselect(modelId)
-                : attemptSelect(modelId);
+        if (!mSelection.contains(id)) {
+            if (!canSetState(id, true)) {
+                if (DEBUG) Log.d(TAG, "Select cancelled by selection predicate test.");
+                return false;
+            }
 
-        if (changed) {
+            // Enforce single selection policy.
+            if (mSingleSelect && hasSelection()) {
+                Selection prev = clearSelectionQuietly();
+                notifySelectionCleared(prev);
+            }
+
+            mSelection.add(id);
+            notifyItemStateChanged(id, true);
             notifySelectionChanged();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean deselect(String id) {
+        checkArgument(id != null);
+
+        if (mSelection.contains(id)) {
+            if (!canSetState(id, false)) {
+                if (DEBUG) Log.d(TAG, "Deselect cancelled by selection predicate test.");
+                return false;
+            }
+            mSelection.remove(id);
+            notifyItemStateChanged(id, false);
+            notifySelectionChanged();
+            if (mSelection.isEmpty() && isRangeActive()) {
+                // if there's nothing in the selection and there is an active ranger it results
+                // in unexpected behavior when the user tries to start range selection: the item
+                // which the ranger 'thinks' is the already selected anchor becomes unselectable
+                endRange();
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void startRange(int pos) {
+        select(mStableIds.getStableId(pos));
+        anchorRange(pos);
+    }
+
+    @Override
+    public void extendRange(int pos) {
+        extendRange(pos, RANGE_REGULAR);
+    }
+
+    @Override
+    public void endRange() {
+        mRange = null;
+        // Clean up in case there was any leftover provisional selection
+        clearProvisionalSelection();
+    }
+
+    @Override
+    public void anchorRange(int position) {
+        checkArgument(position != RecyclerView.NO_POSITION);
+
+        if (mSelection.contains(mStableIds.getStableId(position))) {
+            mRange = new Range(this::updateForRange, position);
         }
     }
 
     @Override
-    public void startRangeSelection(int pos) {
-        attemptSelect(mStableIds.getStableId(pos));
-        setSelectionRangeBegin(pos);
-    }
-
-    @Override
-    public void snapRangeSelection(int pos) {
-        snapRangeSelection(pos, RANGE_REGULAR);
-    }
-
-    @Override
-    public void snapProvisionalRangeSelection(int pos) {
-        snapRangeSelection(pos, RANGE_PROVISIONAL);
-    }
-
-    /*
-     * Starts and extends range selection in one go. This assumes item at startPos is not selected
-     * beforehand.
-     */
-    @Override
-    public void formNewSelectionRange(int startPos, int endPos) {
-        assert !mSelection.contains(mStableIds.getStableId(startPos));
-        startRangeSelection(startPos);
-        snapRangeSelection(endPos);
+    public void extendProvisionalRange(int pos) {
+        extendRange(pos, RANGE_PROVISIONAL);
     }
 
     /**
      * Sets the end point for the current range selection, started by a call to
-     * {@link #startRangeSelection(int)}. This function should only be called when a range selection
-     * is active (see {@link #isRangeSelectionActive()}. Items in the range [anchor, end] will be
+     * {@link #startRange(int)}. This function should only be called when a range selection
+     * is active (see {@link #isRangeActive()}. Items in the range [anchor, end] will be
      * selected or in provisional select, depending on the type supplied. Note that if the type is
      * provisional selection, one should do {@link #mergeProvisionalSelection()} at some
-     * point before calling on {@link #endRangeSelection()}.
+     * point before calling on {@link #endRange()}.
      *
      * @param pos The new end position for the selection range.
      * @param type The type of selection the range should utilize.
      */
-    private void snapRangeSelection(int pos, @RangeType int type) {
-        if (!isRangeSelectionActive()) {
-            throw new IllegalStateException("Range start point not set.");
-        }
+    private void extendRange(int pos, @RangeType int type) {
+        checkState(isRangeActive(), "Range start point not set.");
 
-        mRanger.snapSelection(pos, type);
+        mRange.extendSelection(pos, type);
 
         // We're being lazy here notifying even when something might not have changed.
         // To make this more correct, we'd need to update the Ranger class to return
         // information about what has changed.
         notifySelectionChanged();
+    }
+
+    @Override
+    public void setProvisionalSelection(Set<String> newSelection) {
+        Map<String, Boolean> delta = mSelection.setProvisionalSelection(newSelection);
+        for (Map.Entry<String, Boolean> entry: delta.entrySet()) {
+            notifyItemStateChanged(entry.getKey(), entry.getValue());
+        }
+
+        notifySelectionChanged();
+    }
+
+    @Override
+    public void mergeProvisionalSelection() {
+        mSelection.mergeProvisionalSelection();
     }
 
     @Override
@@ -308,113 +368,28 @@ public final class DefaultSelectionManager implements SelectionManager {
     }
 
     @Override
-    public void setProvisionalSelection(Set<String> newSelection) {
-        Map<String, Boolean> delta = mSelection.setProvisionalSelection(newSelection);
-        for (Map.Entry<String, Boolean> entry: delta.entrySet()) {
-            notifyItemStateChanged(entry.getKey(), entry.getValue());
-        }
-        notifySelectionChanged();
-    }
-
-    @Override
-    public void mergeProvisionalSelection() {
-        mSelection.mergeProvisionalSelection();
-    }
-
-    @Override
-    public void endRangeSelection() {
-        mRanger = null;
-        // Clean up in case there was any leftover provisional selection
-        clearProvisionalSelection();
-    }
-
-    @Override
-    public boolean isRangeSelectionActive() {
-        return mRanger != null;
-    }
-
-    @Override
-    public void setSelectionRangeBegin(int position) {
-        if (position == RecyclerView.NO_POSITION) {
-            return;
-        }
-
-        if (mSelection.contains(mStableIds.getStableId(position))) {
-            mRanger = new Range(this::updateForRange, position);
-        }
-    }
-
-    /**
-     * @param modelId
-     * @return True if the update was applied.
-     */
-    private boolean selectAndNotify(String modelId) {
-        boolean changed = mSelection.add(modelId);
-        if (changed) {
-            notifyItemStateChanged(modelId, true);
-        }
-        return changed;
-    }
-
-    /**
-     * @param id
-     * @return True if the update was applied.
-     */
-    private boolean attemptDeselect(String id) {
-        assert id != null;
-
-        if (!canSetState(id, false)) {
-            if (DEBUG) Log.d(TAG, "Select cancelled by listener.");
-            return false;
-        }
-
-        mSelection.remove(id);
-        notifyItemStateChanged(id, false);
-
-        // if there's nothing in the selection and there is an active ranger it results
-        // in unexpected behavior when the user tries to start range selection: the item
-        // which the ranger 'thinks' is the already selected anchor becomes unselectable
-        if (mSelection.isEmpty() && isRangeSelectionActive()) {
-            endRangeSelection();
-        }
-        if (DEBUG) Log.d(TAG, "Selection after deselect: " + mSelection);
-        return true;
-    }
-
-    /**
-     * @param id
-     * @return True if the update was applied.
-     */
-    private boolean attemptSelect(String id) {
-        assert id != null;
-
-        if (!canSetState(id, true)) {
-            return false;
-        }
-
-        if (mSingleSelect && hasSelection()) {
-            clearSelectionQuietly();
-        }
-
-        selectAndNotify(id);
-        return true;
+    public boolean isRangeActive() {
+        return mRange != null;
     }
 
     private boolean canSetState(String id, boolean nextState) {
         return mSelectionPredicate.canSetStateForId(id, nextState);
     }
 
-    private void notifyDataChanged() {
+    private void onDataSetChanged() {
         notifySelectionReset();
 
-        final int lastListener = mEventListeners.size() - 1;
         for (String id : mSelection) {
-            // TODO: Why do we deselect in notify changed.
+            // If the underlying data set has changed, before restoring
+            // selection we must re-verify that it can be selected.
+            // Why? Because if the dataset has changed, then maybe the
+            // selectability of an item has changed.
             if (!canSetState(id, true)) {
-                attemptDeselect(id);
+                deselect(id);
             } else {
+                int lastListener = mObservers.size() - 1;
                 for (int i = lastListener; i >= 0; i--) {
-                    mEventListeners.get(i).onItemStateChanged(id, true);
+                    mObservers.get(i).onItemStateChanged(id, true);
                 }
             }
         }
@@ -425,12 +400,30 @@ public final class DefaultSelectionManager implements SelectionManager {
      * (identified by {@code position}) changes.
      */
     private void notifyItemStateChanged(String id, boolean selected) {
-        assert id != null;
-        int lastListenerIndex = mEventListeners.size() - 1;
+        checkArgument(id != null);
+
+        int lastListenerIndex = mObservers.size() - 1;
         for (int i = lastListenerIndex; i >= 0; i--) {
-            mEventListeners.get(i).onItemStateChanged(id, selected);
+            mObservers.get(i).onItemStateChanged(id, selected);
         }
-        mStableIds.onSelectionStateChanged(id);
+
+        int position = mStableIds.getPosition(id);
+        if (DEBUG) Log.d(TAG, "ITEM " + id + " CHANGED at pos: " + position);
+
+        if (position >= 0) {
+            mAdapter.notifyItemChanged(position, SelectionHelper.SELECTION_CHANGED_MARKER);
+        } else {
+            Log.w(TAG, "Item change notification received for unknown item: " + id);
+        }
+    }
+
+    private void notifySelectionCleared(Selection selection) {
+        for (String id: selection.mSelection) {
+            notifyItemStateChanged(id, false);
+        }
+        for (String id: selection.mProvisionalSelection) {
+            notifyItemStateChanged(id, false);
+        }
     }
 
     /**
@@ -440,23 +433,23 @@ public final class DefaultSelectionManager implements SelectionManager {
      * selection from one item to another.
      */
     private void notifySelectionChanged() {
-        int lastListenerIndex = mEventListeners.size() - 1;
+        int lastListenerIndex = mObservers.size() - 1;
         for (int i = lastListenerIndex; i >= 0; i--) {
-            mEventListeners.get(i).onSelectionChanged();
+            mObservers.get(i).onSelectionChanged();
         }
     }
 
     private void notifySelectionRestored() {
-        int lastListenerIndex = mEventListeners.size() - 1;
+        int lastListenerIndex = mObservers.size() - 1;
         for (int i = lastListenerIndex; i >= 0; i--) {
-            mEventListeners.get(i).onSelectionRestored();
+            mObservers.get(i).onSelectionRestored();
         }
     }
 
     private void notifySelectionReset() {
-        int lastListenerIndex = mEventListeners.size() - 1;
+        int lastListenerIndex = mObservers.size() - 1;
         for (int i = lastListenerIndex; i >= 0; i--) {
-            mEventListeners.get(i).onSelectionReset();
+            mObservers.get(i).onSelectionReset();
         }
     }
 
@@ -474,7 +467,8 @@ public final class DefaultSelectionManager implements SelectionManager {
     }
 
     private void updateForRegularRange(int begin, int end, boolean selected) {
-        assert end >= begin;
+        checkArgument(end >= begin);
+
         for (int i = begin; i <= end; i++) {
             String id = mStableIds.getStableId(i);
             if (id == null) {
@@ -482,21 +476,16 @@ public final class DefaultSelectionManager implements SelectionManager {
             }
 
             if (selected) {
-                boolean canSelect = canSetState(id, true);
-                if (canSelect) {
-                    if (mSingleSelect && hasSelection()) {
-                        clearSelectionQuietly();
-                    }
-                    selectAndNotify(id);
-                }
+                select(id);
             } else {
-                attemptDeselect(id);
+                deselect(id);
             }
         }
     }
 
     private void updateForProvisionalRange(int begin, int end, boolean selected) {
-        assert end >= begin;
+        checkArgument(end >= begin);
+
         for (int i = begin; i <= end; i++) {
             String id = mStableIds.getStableId(i);
             if (id == null) {
@@ -521,6 +510,7 @@ public final class DefaultSelectionManager implements SelectionManager {
                 notifyItemStateChanged(id, selected);
             }
         }
+
         notifySelectionChanged();
     }
 }

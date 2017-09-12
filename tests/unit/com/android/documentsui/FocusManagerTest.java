@@ -21,9 +21,9 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.android.documentsui.base.Features;
 import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.testing.TestModel;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestRecyclerView;
 
@@ -39,13 +39,13 @@ public class FocusManagerTest extends AndroidTestCase {
 
     private FocusManager mManager;
     private TestRecyclerView mView;
-    private SelectionManager mSelectionMgr;
+    private SelectionHelper mSelectionMgr;
     private TestFeatures mFeatures;
 
     @Override
     public void setUp() throws Exception {
         mView = TestRecyclerView.create(ITEMS);
-        mSelectionMgr = SelectionManagers.createTestInstance(ITEMS);
+        mSelectionMgr = SelectionHelpers.createTestInstance(ITEMS);
         mFeatures = new TestFeatures();
         mManager = new FocusManager(mFeatures, mSelectionMgr, null, null, 0)
                 .reset(mView, new TestModel(TEST_AUTHORITY, mFeatures));
@@ -68,13 +68,13 @@ public class FocusManagerTest extends AndroidTestCase {
     public void testFocusDirectoryList_noItemsToFocus() {
         mView = TestRecyclerView.create(new ArrayList<>());
         mManager = new FocusManager(
-                mFeatures, SelectionManagers.createTestInstance(), null, null, 0)
+                mFeatures, SelectionHelpers.createTestInstance(), null, null, 0)
                 .reset(mView, new TestModel(TEST_AUTHORITY, mFeatures));
         assertFalse(mManager.focusDirectoryList());
     }
 
     public void testFocusDirectoryList_hasSelection() {
-        mSelectionMgr.toggleSelection("0");
+        mSelectionMgr.select("0");
         assertFalse(mManager.focusDirectoryList());
     }
 }

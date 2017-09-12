@@ -21,10 +21,10 @@ import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.view.ViewGroup;
 
 import com.android.documentsui.Model;
+import com.android.documentsui.Model.Update;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.dirlist.Message.HeaderMessage;
 import com.android.documentsui.dirlist.Message.InflateMessage;
-import com.android.documentsui.Model.Update;
 
 import java.util.List;
 
@@ -265,8 +265,8 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
     }
 
     @Override
-    public void onSelectionStateChanged(String id) {
-        mDelegate.onSelectionStateChanged(id);
+    public int getPosition(String id) {
+        return toViewPosition(mDelegate.getPosition(id));
     }
 
     // Listener we add to our delegate. This allows us to relay events published

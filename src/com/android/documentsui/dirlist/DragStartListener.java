@@ -34,7 +34,7 @@ import com.android.documentsui.base.Events;
 import com.android.documentsui.base.State;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ interface DragStartListener {
         private final IconHelper mIconHelper;
         private final State mState;
         private final EventDetailsLookup mDetailsLookup;
-        private final SelectionManager mSelectionMgr;
+        private final SelectionHelper mSelectionMgr;
         private final SelectionDetails mSelectionDetails;
         private final ViewFinder mViewFinder;
         private final Function<View, String> mIdFinder;
@@ -85,7 +85,7 @@ interface DragStartListener {
                 IconHelper iconHelper,
                 State state,
                 EventDetailsLookup detailsLookup,
-                SelectionManager selectionMgr,
+                SelectionHelper selectionMgr,
                 SelectionDetails selectionDetails,
                 ViewFinder viewFinder,
                 Function<View, String> idFinder,
@@ -162,12 +162,13 @@ interface DragStartListener {
             MutableSelection selection = new MutableSelection();
             // If CTRL-key is held down and there's other existing selection, add item to
             // selection (if not already selected)
-            if (Events.isCtrlKeyPressed(event) && !mSelectionMgr.getSelection().contains(modelId)
-                    && mSelectionMgr.hasSelection()) {
-                mSelectionMgr.toggleSelection(modelId);
+            if (Events.isCtrlKeyPressed(event)
+                    && mSelectionMgr.hasSelection()
+                    && !mSelectionMgr.isSelected(modelId)) {
+                mSelectionMgr.select(modelId);
             }
 
-            if (mSelectionMgr.getSelection().contains(modelId)) {
+            if (mSelectionMgr.isSelected(modelId)) {
                 mSelectionMgr.copySelection(selection);
             } else {
                 selection.add(modelId);
@@ -180,7 +181,7 @@ interface DragStartListener {
     static DragStartListener create(
             IconHelper iconHelper,
             Model model,
-            SelectionManager selectionMgr,
+            SelectionHelper selectionMgr,
             SelectionDetails selectionDetails,
             State state,
             EventDetailsLookup detailsLookup,

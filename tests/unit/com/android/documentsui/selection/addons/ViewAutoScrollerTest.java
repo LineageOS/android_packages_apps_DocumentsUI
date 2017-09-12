@@ -23,6 +23,7 @@ import android.graphics.Point;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.selection.addons.ViewAutoScroller;
 import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
 import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
 

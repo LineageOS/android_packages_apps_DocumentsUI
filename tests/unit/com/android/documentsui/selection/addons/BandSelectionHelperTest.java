@@ -28,7 +28,9 @@ import android.view.MotionEvent;
 
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
-import com.android.documentsui.testing.SelectionManagers;
+import com.android.documentsui.selection.addons.BandSelectionHelper;
+import com.android.documentsui.selection.addons.ContentLock;
+import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestEvents.Builder;
 
 import org.junit.Before;
@@ -40,10 +42,10 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public class BandSelectorTest {
+public class BandSelectionHelperTest {
 
     private static final List<String> ITEMS = TestData.create(10);
-    private BandSelector mBandController;
+    private BandSelectionHelper mBandController;
     private boolean mIsActive;
     private Builder mStartBuilder;
     private Builder mStopBuilder;
@@ -56,12 +58,12 @@ public class BandSelectorTest {
         mIsActive = false;
         TestDocumentsAdapter adapter = new TestDocumentsAdapter(ITEMS);
         mSelectionHost = new TestSelectionHost();
-        mBandController = new BandSelector(
+        mBandController = new BandSelectionHelper(
                 mSelectionHost,
                 adapter,  // adapter
                 adapter,  // stableIds
-                SelectionManagers.createTestInstance(ITEMS),
-                SelectionManagers.CAN_SET_ANYTHING,
+                SelectionHelpers.createTestInstance(ITEMS),
+                SelectionHelpers.CAN_SET_ANYTHING,
                 new ContentLock()) {
           @Override
           public boolean isActive() {
@@ -137,12 +139,12 @@ public class BandSelectorTest {
     @Test
     public void testBadStart_NoItems() {
         TestDocumentsAdapter emptyAdapter = new TestDocumentsAdapter(Collections.EMPTY_LIST);
-        mBandController = new BandSelector(
+        mBandController = new BandSelectionHelper(
                 new TestSelectionHost(),
                 emptyAdapter,
                 emptyAdapter,
-                SelectionManagers.createTestInstance(ITEMS),
-                SelectionManagers.CAN_SET_ANYTHING,
+                SelectionHelpers.createTestInstance(ITEMS),
+                SelectionHelpers.CAN_SET_ANYTHING,
                 new ContentLock());
 
         assertFalse(mBandController.shouldStart(mStartEvent));
@@ -199,7 +201,7 @@ public class BandSelectorTest {
                 mStopBuilder.action(MotionEvent.ACTION_DOWN).touch().build()));
     }
 
-    private final class TestSelectionHost implements BandSelector.SelectionHost {
+    private final class TestSelectionHost implements BandSelectionHelper.SelectionHost {
 
         private boolean mCanInitiateBand = true;
 

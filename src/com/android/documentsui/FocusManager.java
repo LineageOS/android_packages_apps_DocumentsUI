@@ -47,7 +47,7 @@ import com.android.documentsui.base.Procedure;
 import com.android.documentsui.dirlist.DocumentHolder;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.dirlist.FocusHandler;
-import com.android.documentsui.selection.SelectionManager;
+import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.Model.Update;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public final class FocusManager implements FocusHandler {
     private final ContentScope mScope = new ContentScope();
 
     private final Features mFeatures;
-    private final SelectionManager mSelectionMgr;
+    private final SelectionHelper mSelectionMgr;
     private final DrawerController mDrawer;
     private final Procedure mRootsFocuser;
     private final TitleSearchHelper mSearchHelper;
@@ -70,7 +70,7 @@ public final class FocusManager implements FocusHandler {
 
     public FocusManager(
             Features features,
-            SelectionManager selectionMgr,
+            SelectionHelper selectionMgr,
             DrawerController drawer,
             Procedure rootsFocuser,
             @ColorRes int color) {
