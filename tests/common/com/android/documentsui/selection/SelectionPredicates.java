@@ -15,13 +15,24 @@
  */
 package com.android.documentsui.selection;
 
+import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
+
 /**
- * Shared constants used in this and descendant packages.
+ * Test friendly {@link SelectionPredicate} instances.
  */
-public final class Shared {
+public final class SelectionPredicates {
 
-    public static final String TAG = "SelectionHelper";
-    public static final boolean DEBUG = false;
+    private SelectionPredicates() {}
 
-    private Shared() {}
+    public static final SelectionPredicate CAN_SET_ANYTHING = new SelectionPredicate() {
+        @Override
+        public boolean canSetStateForId(String id, boolean nextState) {
+            return true;
+        }
+
+        @Override
+        public boolean canSetStateAtPosition(int position, boolean nextState) {
+            return true;
+        }
+    };
 }

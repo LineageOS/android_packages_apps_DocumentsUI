@@ -29,13 +29,13 @@ import com.android.documentsui.selection.DefaultSelectionHelper.RangeType;
  */
 final class Range {
 
-    private final Range.RangeUpdater mUpdater;
+    private final Callbacks mCallbacks;
     private final int mBegin;
     private int mEnd = NO_POSITION;
 
-    public Range(Range.RangeUpdater updater, int begin) {
+    public Range(Callbacks callbacks, int begin) {
         if (DEBUG) Log.d(TAG, "New Ranger created beginning @ " + begin);
-        mUpdater = updater;
+        mCallbacks = callbacks;
         mBegin = begin;
     }
 
@@ -133,7 +133,7 @@ final class Range {
      * @param selected New selection state.
      */
     private void updateRange(int begin, int end, boolean selected, @RangeType int type) {
-        mUpdater.updateForRange(begin, end, selected, type);
+        mCallbacks.updateForRange(begin, end, selected, type);
     }
 
     @Override
@@ -142,10 +142,10 @@ final class Range {
     }
 
     /*
-     * @see {@link DefaultSelectionManager#updateForRange(int, int , boolean, int)}.
+     * @see {@link DefaultSelectionHelper#updateForRange(int, int , boolean, int)}.
      */
-    @FunctionalInterface
-    interface RangeUpdater {
-        void updateForRange(int begin, int end, boolean selected, @RangeType int type);
+    static abstract class Callbacks {
+        abstract void updateForRange(
+                int begin, int end, boolean selected, @RangeType int type);
     }
 }

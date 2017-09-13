@@ -24,16 +24,13 @@ import android.view.DragEvent;
 import android.view.View;
 
 import com.android.documentsui.ItemDragListener;
-import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
+import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollerCallbacks;
 import com.android.documentsui.testing.DragEvents;
-import com.android.documentsui.testing.TestTimer;
 import com.android.documentsui.testing.Views;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.Timer;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -204,7 +201,7 @@ public class DragScrollListenerTest {
         public void onDragEnded() {}
     }
 
-    private class TestScrollActionDelegate implements Callbacks {
+    private class TestScrollActionDelegate extends ScrollerCallbacks {
 
         private int mDy;
 

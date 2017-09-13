@@ -20,10 +20,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import com.android.documentsui.selection.SelectionHelper.SelectionObserver;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class TestSelectionObserver implements SelectionHelper.SelectionObserver {
+public class TestSelectionObserver extends SelectionObserver {
 
     private final Set<String> mSelected = new HashSet<>();
     private boolean mSelectionChanged = false;

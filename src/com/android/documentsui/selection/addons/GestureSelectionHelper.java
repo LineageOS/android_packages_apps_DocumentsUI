@@ -16,6 +16,10 @@
 
 package com.android.documentsui.selection.addons;
 
+import static android.support.v4.util.Preconditions.checkArgument;
+import static android.support.v4.util.Preconditions.checkState;
+import static com.android.documentsui.selection.Shared.DEBUG;
+
 import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
@@ -24,22 +28,20 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
 import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
+import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollerCallbacks;
 
 import javax.annotation.Nullable;
 
 /*
- * Helper class used to intercept events that could cause a gesture multi-select, and keeps
- * the interception going if necessary.
+ * Helper class providing support for touch-gesture based multi-select support.
  */
-public final class GestureSelectionHelper {
+public final class GestureSelectionHelper extends ScrollHost {
 
-    private static final boolean DEBUG = false;
     private final String TAG = "GestureSelector";
 
     private final SelectionHelper mSelectionMgr;
-    private final Runnable mDragScroller;
+    private final Runnable mScroller;
     private final ViewDelegate mView;
     private final ContentLock mLock;
 
@@ -48,136 +50,19 @@ public final class GestureSelectionHelper {
     private Point mLastInterceptedPoint;
 
     GestureSelectionHelper(
-            SelectionHelper selectionMgr,
+            SelectionHelper selectionHelper,
             ViewDelegate view,
-            Callbacks scrollCallbacks,
             ContentLock lock) {
 
-        mSelectionMgr = selectionMgr;
+        checkArgument(selectionHelper != null);
+        checkArgument(view != null);
+        checkArgument(lock != null);
+
+        mSelectionMgr = selectionHelper;
         mView = view;
         mLock = lock;
 
-        ScrollHost host = new ScrollHost() {
-            @Override
-            public Point getCurrentPosition() {
-                return mLastInterceptedPoint;
-            }
-
-            @Override
-            public int getViewHeight() {
-                return mView.getHeight();
-            }
-
-            @Override
-            public boolean isActive() {
-                return mStarted && mSelectionMgr.hasSelection();
-            }
-        };
-
-        mDragScroller = new ViewAutoScroller(host, scrollCallbacks);
-    }
-
-    public static GestureSelectionHelper create(
-            SelectionHelper selectionMgr, RecyclerView scrollView, ContentLock lock) {
-
-        Callbacks callbacks = new Callbacks() {
-            @Override
-            public void scrollBy(int dy) {
-                scrollView.scrollBy(0, dy);
-            }
-
-            @Override
-            public void runAtNextFrame(Runnable r) {
-                scrollView.postOnAnimation(r);
-            }
-
-            @Override
-            public void removeCallback(Runnable r) {
-                scrollView.removeCallbacks(r);
-            }
-        };
-
-        GestureSelectionHelper helper = new GestureSelectionHelper(
-                selectionMgr,
-                new RecyclerViewDelegate(scrollView),
-                callbacks,
-                lock);
-
-        return helper;
-    }
-
-    private interface ViewDelegate {
-        int getHeight();
-        @Nullable View findChildViewUnder(float x, float y);
-        int getItemUnder(MotionEvent e);
-        int getLastGlidedItemPosition(MotionEvent e);
-    }
-
-    @VisibleForTesting
-    static final class RecyclerViewDelegate implements ViewDelegate {
-
-        private final RecyclerView mView;
-
-        RecyclerViewDelegate(RecyclerView view) {
-            assert view != null;
-            mView = view;
-        }
-
-        @Override
-        public int getHeight() {
-            return mView.getHeight();
-        }
-
-        @Override
-        public View findChildViewUnder(float x, float y) {
-            return mView.findChildViewUnder(x, y);
-        }
-
-        @Override
-        public int getItemUnder(MotionEvent e) {
-            View child = mView.findChildViewUnder(e.getX(), e.getY());
-            return child != null
-                    ? mView.getChildAdapterPosition(child)
-                    : RecyclerView.NO_POSITION;
-        }
-
-        @Override
-        public int getLastGlidedItemPosition(MotionEvent e) {
-            // If user has moved his pointer to the bottom-right empty pane (ie. to the right of the
-            // last item of the recycler view), we would want to set that as the currentItemPos
-            View lastItem = mView.getLayoutManager()
-                    .getChildAt(mView.getLayoutManager().getChildCount() - 1);
-            int direction =
-                    mView.getContext().getResources().getConfiguration().getLayoutDirection();
-            final boolean pastLastItem = isPastLastItem(lastItem.getTop(),
-                    lastItem.getLeft(),
-                    lastItem.getRight(),
-                    e,
-                    direction);
-
-            // Since views get attached & detached from RecyclerView,
-            // {@link LayoutManager#getChildCount} can return a different number from the actual
-            // number
-            // of items in the adapter. Using the adapter is the for sure way to get the actual last
-            // item position.
-            final float inboundY = getInboundY(mView.getHeight(), e.getY());
-            return (pastLastItem) ? mView.getAdapter().getItemCount() - 1
-                    : mView.getChildAdapterPosition(mView.findChildViewUnder(e.getX(), inboundY));
-        }
-
-        /*
-         * Check to see if MotionEvent if past a particular item, i.e. to the right or to the bottom
-         * of the item.
-         * For RTL, it would to be to the left or to the bottom of the item.
-         */
-        @VisibleForTesting
-        static boolean isPastLastItem(int top, int left, int right, MotionEvent e, int direction) {
-            if (direction == View.LAYOUT_DIRECTION_LTR) {
-                return e.getX() > right && e.getY() > top;
-            } else {
-                return e.getX() < left && e.getY() > top;
-            }
-        }
+        mScroller = new ViewAutoScroller(this, mView);
     }
 
     /**
@@ -186,7 +71,7 @@ public final class GestureSelectionHelper {
      * @return true if started.
      */
     public boolean start() {
-        //the anchor must already be set before a multi-select event can be started
+        // the anchor must already be set before a multi-select event can be started
         if (mLastStartedItemPos < 0) {
             if (DEBUG) Log.d(TAG, "Tried to start multi-select without setting an anchor.");
             return false;
@@ -275,7 +160,8 @@ public final class GestureSelectionHelper {
     }
 
     private void endSelection() {
-        assert(mStarted);
+        checkState(mStarted);
+
         mLastStartedItemPos = -1;
         mStarted = false;
         mLock.unblock();
@@ -313,11 +199,119 @@ public final class GestureSelectionHelper {
     }
 
     private void scrollIfNecessary() {
-        mDragScroller.run();
+        mScroller.run();
     }
 
-    @FunctionalInterface
-    interface ViewFinder {
-        @Nullable View findView(float x, float y);
+    @Override
+    public Point getCurrentPosition() {
+        return mLastInterceptedPoint;
+    }
+
+    @Override
+    public int getViewHeight() {
+        return mView.getHeight();
+    }
+
+    @Override
+    public boolean isActive() {
+        return mStarted && mSelectionMgr.hasSelection();
+    }
+
+    public static GestureSelectionHelper create(
+            SelectionHelper selectionMgr, RecyclerView recycler, ContentLock lock) {
+
+        GestureSelectionHelper helper = new GestureSelectionHelper(
+                selectionMgr, new RecyclerViewDelegate(recycler), lock);
+
+        return helper;
+    }
+
+    private static abstract class ViewDelegate extends ScrollerCallbacks {
+        abstract int getHeight();
+        abstract @Nullable View findChildViewUnder(float x, float y);
+        abstract int getItemUnder(MotionEvent e);
+        abstract int getLastGlidedItemPosition(MotionEvent e);
+    }
+
+    @VisibleForTesting
+    static final class RecyclerViewDelegate extends ViewDelegate {
+
+        private final RecyclerView mView;
+
+        RecyclerViewDelegate(RecyclerView view) {
+            checkArgument(view != null);
+            mView = view;
+        }
+
+        @Override
+        public int getHeight() {
+            return mView.getHeight();
+        }
+
+        @Override
+        public View findChildViewUnder(float x, float y) {
+            return mView.findChildViewUnder(x, y);
+        }
+
+        @Override
+        public int getItemUnder(MotionEvent e) {
+            View child = mView.findChildViewUnder(e.getX(), e.getY());
+            return child != null
+                    ? mView.getChildAdapterPosition(child)
+                    : RecyclerView.NO_POSITION;
+        }
+
+        @Override
+        public int getLastGlidedItemPosition(MotionEvent e) {
+            // If user has moved his pointer to the bottom-right empty pane (ie. to the right of the
+            // last item of the recycler view), we would want to set that as the currentItemPos
+            View lastItem = mView.getLayoutManager()
+                    .getChildAt(mView.getLayoutManager().getChildCount() - 1);
+            int direction =
+                    mView.getContext().getResources().getConfiguration().getLayoutDirection();
+            final boolean pastLastItem = isPastLastItem(lastItem.getTop(),
+                    lastItem.getLeft(),
+                    lastItem.getRight(),
+                    e,
+                    direction);
+
+            // Since views get attached & detached from RecyclerView,
+            // {@link LayoutManager#getChildCount} can return a different number from the actual
+            // number
+            // of items in the adapter. Using the adapter is the for sure way to get the actual last
+            // item position.
+            final float inboundY = getInboundY(mView.getHeight(), e.getY());
+            return (pastLastItem) ? mView.getAdapter().getItemCount() - 1
+                    : mView.getChildAdapterPosition(mView.findChildViewUnder(e.getX(), inboundY));
+        }
+
+        /*
+         * Check to see if MotionEvent if past a particular item, i.e. to the right or to the bottom
+         * of the item.
+         * For RTL, it would to be to the left or to the bottom of the item.
+         */
+        @VisibleForTesting
+        static boolean isPastLastItem(int top, int left, int right, MotionEvent e, int direction) {
+            if (direction == View.LAYOUT_DIRECTION_LTR) {
+                return e.getX() > right && e.getY() > top;
+            } else {
+                return e.getX() < left && e.getY() > top;
+            }
+        }
+
+        @Override
+        public void scrollBy(int dy) {
+            mView.scrollBy(0, dy);
+        }
+
+        @Override
+        public void runAtNextFrame(Runnable r) {
+            mView.postOnAnimation(r);
+        }
+
+        @Override
+        public void removeCallback(Runnable r) {
+            mView.removeCallbacks(r);
+        }
     }
 }

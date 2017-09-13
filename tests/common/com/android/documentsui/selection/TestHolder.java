@@ -15,13 +15,11 @@
  */
 package com.android.documentsui.selection;
 
-/**
- * Shared constants used in this and descendant packages.
- */
-public final class Shared {
+import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.view.View;
 
-    public static final String TAG = "SelectionHelper";
-    public static final boolean DEBUG = false;
-
-    private Shared() {}
+public class TestHolder extends ViewHolder {
+    public TestHolder(View itemView) {
+        super(itemView);
+    }
 }

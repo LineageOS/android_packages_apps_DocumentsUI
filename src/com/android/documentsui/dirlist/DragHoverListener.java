@@ -25,7 +25,7 @@ import android.view.View.OnDragListener;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.ItemDragListener.DragHost;
 import com.android.documentsui.selection.addons.ViewAutoScroller;
-import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
+import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollerCallbacks;
 import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
 
 import java.util.function.BooleanSupplier;
@@ -66,7 +66,7 @@ class DragHoverListener implements OnDragListener {
             Predicate<View> isScrollView,
             BooleanSupplier scrollUpSupplier,
             BooleanSupplier scrollDownSupplier,
-            ViewAutoScroller.Callbacks scrollCallbacks) {
+            ViewAutoScroller.ScrollerCallbacks scrollCallbacks) {
 
         mDragHandler = dragHandler;
         mHeight = heightSupplier;
@@ -98,7 +98,7 @@ class DragHoverListener implements OnDragListener {
             ItemDragListener<? extends DragHost> dragHandler,
             View scrollView) {
 
-        Callbacks scrollCallbacks = new Callbacks() {
+        ScrollerCallbacks scrollCallbacks = new ScrollerCallbacks() {
             @Override
             public void scrollBy(int dy) {
                 scrollView.scrollBy(0, dy);

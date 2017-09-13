@@ -24,7 +24,7 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.selection.addons.ViewAutoScroller;
-import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
+import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollerCallbacks;
 import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
 
 import org.junit.Before;
@@ -49,7 +49,7 @@ public final class ViewAutoScrollerTest {
     private Point mPoint;
     private boolean mActive;
     private ScrollHost mHost;
-    private Callbacks mCallbacks;
+    private ScrollerCallbacks mCallbacks;
     private IntConsumer mScrollAssert;
 
     @Before
@@ -74,7 +74,7 @@ public final class ViewAutoScrollerTest {
             }
         };
 
-        mCallbacks = new Callbacks() {
+        mCallbacks = new ScrollerCallbacks() {
             @Override
             public void scrollBy(int dy) {
                 mScrollAssert.accept(dy);

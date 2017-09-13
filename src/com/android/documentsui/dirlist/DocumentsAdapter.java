@@ -29,7 +29,8 @@ import com.android.documentsui.Model;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
-import com.android.documentsui.selection.SelectionHelper;
+
+import java.util.List;
 
 /**
  * DocumentsAdapter provides glue between a directory Model, and RecyclerView. We've
@@ -40,8 +41,7 @@ import com.android.documentsui.selection.SelectionHelper;
  * @see ModelBackedDocumentsAdapter
  * @see DirectoryAddonsAdapter
  */
-public abstract class DocumentsAdapter
-        extends RecyclerView.Adapter<DocumentHolder> implements SelectionHelper.StableIdProvider {
+public abstract class DocumentsAdapter extends RecyclerView.Adapter<DocumentHolder> {
     // Item types used by ModelBackedDocumentsAdapter
     public static final int ITEM_TYPE_DOCUMENT = 1;
     public static final int ITEM_TYPE_DIRECTORY = 2;
@@ -51,6 +51,9 @@ public abstract class DocumentsAdapter
     public static final int ITEM_TYPE_INFLATED_MESSAGE = Integer.MAX_VALUE - 2;
 
     public abstract int getAdapterPosition(String modelId);
+    public abstract String getStableId(int adapterPosition);
+    public abstract List<String> getStableIds();
+    public abstract int getPosition(String id);
 
     abstract EventListener<Model.Update> getModelUpdateListener();
 

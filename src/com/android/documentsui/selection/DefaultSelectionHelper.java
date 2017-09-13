@@ -42,10 +42,11 @@ import javax.annotation.Nullable;
  * <p>The class supports running in a single-select mode, which can be enabled
  * by passing {@colde #MODE_SINGLE} to the constructor.
  */
-public final class DefaultSelectionHelper implements SelectionHelper {
+public final class DefaultSelectionHelper extends SelectionHelper {
 
     public static final int MODE_MULTIPLE = 0;
     public static final int MODE_SINGLE = 1;
+
     @IntDef(flag = true, value = {
             MODE_MULTIPLE,
             MODE_SINGLE
@@ -82,7 +83,7 @@ public final class DefaultSelectionHelper implements SelectionHelper {
     private final StableIdProvider mStableIds;
     private final SelectionPredicate mSelectionPredicate;
     private final RecyclerView.AdapterDataObserver mAdapterObserver;
-
+    private final RangeCallbacks mRangeCallbacks;
     private final boolean mSingleSelect;
 
     private @Nullable Range mRange;
@@ -103,6 +104,7 @@ public final class DefaultSelectionHelper implements SelectionHelper {
             StableIdProvider stableIds,
             SelectionPredicate selectionPredicate) {
 
+        checkArgument(mode == MODE_SINGLE || mode == MODE_MULTIPLE);
         checkArgument(adapter != null);
         checkArgument(stableIds != null);
         checkArgument(selectionPredicate != null);
@@ -110,48 +112,10 @@ public final class DefaultSelectionHelper implements SelectionHelper {
         mAdapter = adapter;
         mStableIds = stableIds;
         mSelectionPredicate = selectionPredicate;
+        mAdapterObserver = new AdapterObserver();
+        mRangeCallbacks = new RangeCallbacks();
 
         mSingleSelect = mode == MODE_SINGLE;
-
-        mAdapterObserver = new RecyclerView.AdapterDataObserver() {
-
-            private List<String> mModelIds;
-
-            @Override
-            public void onChanged() {
-                // Update the selection to remove any disappeared IDs.
-                mSelection.clearProvisionalSelection();
-                mSelection.intersect(mStableIds.getStableIds());
-
-                onDataSetChanged();
-            }
-
-            @Override
-            public void onItemRangeChanged(
-                    int startPosition, int itemCount, Object payload) {
-                // No change in position. Ignoring.
-            }
-
-            @Override
-            public void onItemRangeInserted(int startPosition, int itemCount) {
-                mSelection.clearProvisionalSelection();
-            }
-
-            @Override
-            public void onItemRangeRemoved(int startPosition, int itemCount) {
-                checkArgument(startPosition >= 0);
-                checkArgument(itemCount > 0);
-
-                mSelection.clearProvisionalSelection();
-                // Remove any disappeared IDs from the selection.
-                mSelection.intersect(mModelIds);
-            }
-
-            @Override
-            public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-                throw new UnsupportedOperationException();
-            }
-        };
 
         mAdapter.registerAdapterDataObserver(mAdapterObserver);
     }
@@ -159,7 +123,6 @@ public final class DefaultSelectionHelper implements SelectionHelper {
     @Override
     public void addObserver(SelectionObserver callback) {
         checkArgument(callback != null);
-
         mObservers.add(callback);
     }
 
@@ -200,8 +163,7 @@ public final class DefaultSelectionHelper implements SelectionHelper {
     private boolean setItemsSelectedQuietly(Iterable<String> ids, boolean selected) {
         boolean changed = false;
         for (String id: ids) {
-            boolean itemChanged =
-                    selected
+            boolean itemChanged = selected
                     ? canSetState(id, true) && mSelection.add(id)
                     : canSetState(id, false) && mSelection.remove(id);
             if (itemChanged) {
@@ -313,7 +275,7 @@ public final class DefaultSelectionHelper implements SelectionHelper {
         checkArgument(position != RecyclerView.NO_POSITION);
 
         if (mSelection.contains(mStableIds.getStableId(position))) {
-            mRange = new Range(this::updateForRange, position);
+            mRange = new Range(mRangeCallbacks, position);
         }
     }
 
@@ -512,5 +474,61 @@ public final class DefaultSelectionHelper implements SelectionHelper {
         }
 
         notifySelectionChanged();
+    }
+
+    private final class AdapterObserver extends RecyclerView.AdapterDataObserver {
+        private List<String> mModelIds;
+
+        @Override
+        public void onChanged() {
+            // Update the selection to remove any disappeared IDs.
+            mSelection.clearProvisionalSelection();
+            mSelection.intersect(mStableIds.getStableIds());
+
+            onDataSetChanged();
+        }
+
+        @Override
+        public void onItemRangeChanged(
+                int startPosition, int itemCount, Object payload) {
+            // No change in position. Ignoring.
+        }
+
+        @Override
+        public void onItemRangeInserted(int startPosition, int itemCount) {
+            mSelection.clearProvisionalSelection();
+        }
+
+        @Override
+        public void onItemRangeRemoved(int startPosition, int itemCount) {
+            checkArgument(startPosition >= 0);
+            checkArgument(itemCount > 0);
+
+            mSelection.clearProvisionalSelection();
+            // Remove any disappeared IDs from the selection.
+            mSelection.intersect(mModelIds);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    private final class RangeCallbacks extends Range.Callbacks {
+        @Override
+        void updateForRange(int begin, int end, boolean selected, int type) {
+            switch (type) {
+                case RANGE_REGULAR:
+                    updateForRegularRange(begin, end, selected);
+                    break;
+                case RANGE_PROVISIONAL:
+                    updateForProvisionalRange(begin, end, selected);
+                    break;
+                default:
+                    throw new IllegalArgumentException(
+                            "Invalid range type: " + type);
+            }
+        }
     }
 }
