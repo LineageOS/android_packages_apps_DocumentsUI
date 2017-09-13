@@ -27,7 +27,7 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"ਨਵਾਂ ਫੋਲਡਰ"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ਗਰਿੱਡ ਦ੍ਰਿਸ਼"</string>
     <string name="menu_list" msgid="6714267452146410402">"ਸੂਚੀ ਦ੍ਰਿਸ਼"</string>
-    <string name="menu_search" msgid="1876699106790719849">"ਖੋਜ"</string>
+    <string name="menu_search" msgid="1876699106790719849">"ਖੋਜੋ"</string>
     <string name="menu_settings" msgid="6520844520117939047">"ਸਟੋਰੇਜ ਸੈਟਿੰਗਾਂ"</string>
     <string name="menu_open" msgid="9092138100049759315">"ਖੋਲ੍ਹੋ"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"ਇਸ ਨਾਲ ਖੋਲ੍ਹੋ"</string>
@@ -42,13 +42,13 @@
     <string name="menu_extract" msgid="8171946945982532262">"ਇਸ ਵਿੱਚ ਐਕਸਟ੍ਰੈਕਟ ਕਰੋ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ਮੁੜ-ਨਾਮਕਰਨ ਕਰੋ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰੋ"</string>
-    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> ਵਿੱਚ ਵੇਖੋ"</string>
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> ਵਿੱਚ ਦੇਖੋ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ਨਵੀਂ ਵਿੰਡੋ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ਕੱਟੋ"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"ਕਾਪੀ ਕਰੋ"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ਪੇਸਟ ਕਰੋ"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ਫੋਲਡਰ ਵਿੱਚ ਪੇਸਟ ਕਰੋ"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"ਅੰਦਰੂਨੀ ਸਟੋਰੇਜ  ਦਿਖਾਓ"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"ਅੰਦਰੂਨੀ ਸਟੋਰੇਜ ਦਿਖਾਓ"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ਅੰਦਰੂਨੀ ਸਟੋਰੇਜ ਲੁਕਾਓ"</string>
     <string name="button_select" msgid="240863497069321364">"ਚੁਣੋ"</string>
     <string name="button_copy" msgid="8219059853840996027">"ਕਾਪੀ ਕਰੋ"</string>
@@ -116,7 +116,7 @@
     <string name="compress_preparing" msgid="6650018601382062672">"ਆਕਾਰ ਛੋਟਾ ਕਰਨ ਦੀ ਤਿਆਰੀ ਅਧੀਨ…"</string>
     <string name="extract_preparing" msgid="58266275455027829">"ਐਕਸਟ੍ਰੈਕਟ ਕਰਨ ਦੀ ਤਿਆਰੀ…"</string>
     <string name="move_preparing" msgid="8742573245485449429">"ਤਬਦੀਲ ਕਰਨ ਦੀ ਤਿਆਰੀ ਹੋ ਰਹੀ ਹੈ…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"ਮਿਟਾਉਣ ਦੀ ਤਿਆਰੀ ਹੋ ਰਹੀ ਹੈ…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"ਮਿਟਾਉਣ ਦੀ ਤਿਆਰੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ਆਈਟਮਾਂ ਨੂੰ ਕਾਪੀ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ</item>
@@ -134,7 +134,7 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ਆਈਟਮਾਂ ਨੂੰ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ਆਈਟਮਾਂ ਨੂੰ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਿਆ</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="2385563502445129570">"ਵੇਰਵਿਆਂ ਨੂੰ ਵੇਖਣ ਲਈ ਟੈਪ ਕਰੋ"</string>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"ਵੇਰਵਿਆਂ ਨੂੰ ਦੇਖਣ ਲਈ ਟੈਪ ਕਰੋ"</string>
     <string name="close" msgid="905969391788869975">"ਬੰਦ ਕਰੋ"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="one">ਇਹਨਾਂ ਫ਼ਾਈਲਾਂ ਨੂੰ ਕਾਪੀ ਨਹੀਂ ਕੀਤਾ ਗਿਆ: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -201,7 +201,7 @@
     <string name="archive_loading_failed" msgid="7243436722828766996">"ਬ੍ਰਾਊਜ਼ਿੰਗ ਲਈ ਪੁਰਾਲੇਖ ਨੂੰ ਖੋਲ੍ਹਣ ਦੇ ਅਯੋਗ ਹੈ। ਫ਼ਾਈਲ ਜਾਂ ਤਾਂ ਖਰਾਬ ਹੈ, ਜਾਂ ਅਸਮਰਥਿਤ ਫਾਰਮੈਟ ਵਿੱਚ ਹੈ।"</string>
     <string name="name_conflict" msgid="28407269328862986">"ਇਸ ਨਾਮ ਵਾਲੀ ਫ਼ਾਈਲ ਪਹਿਲਾਂ ਤੋਂ ਮੌਜੂਦ ਹੈ।"</string>
     <string name="authentication_required" msgid="8030880723643436099">"ਇਸ ਡਾਇਰੈਕਟਰੀ ਨੂੰ ਦੇਖਣ ਲਈ, <xliff:g id="NAME">%1$s</xliff:g> \'ਤੇ ਸਾਈਨ-ਇਨ ਕਰੋ"</string>
-    <string name="cant_display_content" msgid="8633226333229417237">"ਸਮੱਗਰੀਆਂ ਦਿਖਾਈਆਂ ਨਹੀਂ ਜਾ ਸਕਦੀਆਂ"</string>
+    <string name="cant_display_content" msgid="8633226333229417237">"ਸਮੱਗਰੀਆਂ ਪ੍ਰਦਰਸ਼ਿਤ ਨਹੀਂ ਕੀਤੀਆਂ ਜਾ ਸਕਦੀਆਂ"</string>
     <string name="sign_in" msgid="6253762676723505592">"ਸਾਈਨ-ਇਨ ਕਰੋ"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"ਪੁਰਾਲੇਖ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> ਉੱਤੇ ਲਿਖੀਏ?"</string>
