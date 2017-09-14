@@ -27,7 +27,7 @@
     <string name="video_extension_file_type" msgid="6352763029831291433">"<xliff:g id="FILETYPE">%1$s</xliff:g> ਵੀਡੀਓ"</string>
     <string name="archive_file_type" msgid="1463432996680398798">"<xliff:g id="FILETYPE">%1$s</xliff:g> ਪੁਰਾਲੇਖ"</string>
     <string name="apk_file_type" msgid="6004275470389462277">"Android ਐਪਲੀਕੇਸ਼ਨ"</string>
-    <string name="txt_file_type" msgid="4677767777860724696">"ਸਧਾਰਨ ਲਿਖਤ"</string>
+    <string name="txt_file_type" msgid="4677767777860724696">"ਸਰਲ ਲਿਖਤ"</string>
     <string name="html_file_type" msgid="2034229603117527970">"HTML ਦਸਤਾਵੇਜ਼"</string>
     <string name="pdf_file_type" msgid="3382260303795039988">"PDF ਦਸਤਾਵੇਜ਼"</string>
     <string name="word_file_type" msgid="2366349268129894972">"Word ਦਸਤਾਵੇਜ਼"</string>

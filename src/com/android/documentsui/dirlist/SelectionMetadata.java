@@ -27,14 +27,18 @@ import com.android.documentsui.MenuManager;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.selection.SelectionHelper.StubSelectionObserver;
+import com.android.documentsui.selection.SelectionHelper.SelectionObserver;
 
 import java.util.function.Function;
 
 /**
- * A class that holds metadata
+ * A class that aggregates document metadata describing the selection. It can answer questions
+ * like: Can the selection be deleted? and Does the selection contain a folder?
+ *
+ * <p>By collecting information in real-time as the selection changes the need to
+ * traverse the entire selection in order to answer questions is eliminated.
  */
-public class SelectionMetadata extends StubSelectionObserver
+public class SelectionMetadata extends SelectionObserver
         implements MenuManager.SelectionDetails {
 
     private static final String TAG = "SelectionMetadata";

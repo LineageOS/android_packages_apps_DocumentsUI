@@ -21,8 +21,6 @@ import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseBooleanArray;
 
-import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.dirlist.TestDocumentsAdapter;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 
 import org.junit.Before;
@@ -38,18 +36,21 @@ import java.util.Set;
 @SmallTest
 public class DefaultSelectionHelperTest {
 
-    private static final List<String> ITEMS = TestData.create(100);
-
-    private final Set<String> mIgnored = new HashSet<>();
-    private TestDocumentsAdapter mAdapter;
-    private DefaultSelectionHelper mManager;
+    private List<String> mItems;
+    private Set<String> mIgnored;
+    private TestAdapter mAdapter;
+    private DefaultSelectionHelper mHelper;
     private TestSelectionObserver mListener;
     private SelectionProbe mSelection;
 
     @Before
     public void setUp() throws Exception {
+        mIgnored = new HashSet<>();
+        mItems = TestAdapter.createItemList(100);
         mListener = new TestSelectionObserver();
-        mAdapter = new TestDocumentsAdapter(ITEMS);
+        mAdapter = new TestAdapter();
+        mAdapter.updateTestModelIds(mItems);
+
         SelectionPredicate canSelect = new SelectionPredicate() {
 
             @Override
@@ -62,34 +63,38 @@ public class DefaultSelectionHelperTest {
                 throw new UnsupportedOperationException("Not implemented.");
             }
         };
-        mManager = new DefaultSelectionHelper(
-                DefaultSelectionHelper.MODE_MULTIPLE, mAdapter, mAdapter, canSelect);
-        mManager.addObserver(mListener);
+        mHelper = new DefaultSelectionHelper(
+                DefaultSelectionHelper.MODE_MULTIPLE,
+                mAdapter,
+                new TestStableIdProvider(mAdapter),
+                canSelect);
 
-        mSelection = new SelectionProbe(mManager, mListener);
+        mHelper.addObserver(mListener);
+
+        mSelection = new SelectionProbe(mHelper, mListener);
 
         mIgnored.clear();
     }
 
     @Test
     public void testSelect() {
-        mManager.select(ITEMS.get(7));
+        mHelper.select(mItems.get(7));
 
         mSelection.assertSelection(7);
     }
 
     @Test
     public void testDeselect() {
-        mManager.select(ITEMS.get(7));
-        mManager.deselect(ITEMS.get(7));
+        mHelper.select(mItems.get(7));
+        mHelper.deselect(mItems.get(7));
 
         mSelection.assertNoSelection();
     }
 
     @Test
     public void testSelection_DoNothingOnUnselectableItem() {
-        mIgnored.add(ITEMS.get(7));
-        boolean selected = mManager.select(ITEMS.get(7));
+        mIgnored.add(mItems.get(7));
+        boolean selected = mHelper.select(mItems.get(7));
 
         assertFalse(selected);
         mSelection.assertNoSelection();
@@ -97,7 +102,7 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testSelect_NotifiesListenersOfChange() {
-        mManager.select(ITEMS.get(7));
+        mHelper.select(mItems.get(7));
 
         mListener.assertSelectionChanged();
     }
@@ -105,57 +110,57 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testSelect_NotifiesAdapterOfSelect() {
-        mManager.select(ITEMS.get(7));
+        mHelper.select(mItems.get(7));
 
-        mAdapter.assertSelectionChanged(7);
+        mAdapter.assertNotifiedOfSelectionChange(7);
     }
 
     @Test
     public void testSelect_NotifiesAdapterOfDeselect() {
-        mManager.select(ITEMS.get(7));
-        mAdapter.resetSelectionChanged();
-        mManager.deselect(ITEMS.get(7));
-        mAdapter.assertSelectionChanged(7);
+        mHelper.select(mItems.get(7));
+        mAdapter.resetSelectionNotifications();
+        mHelper.deselect(mItems.get(7));
+        mAdapter.assertNotifiedOfSelectionChange(7);
     }
 
     @Test
     public void testDeselect_NotifiesSelectionChanged() {
-        mManager.select(ITEMS.get(7));
-        mManager.deselect(ITEMS.get(7));
+        mHelper.select(mItems.get(7));
+        mHelper.deselect(mItems.get(7));
 
         mListener.assertSelectionChanged();
     }
 
     @Test
     public void testSelection_PersistsOnUpdate() {
-        mManager.select(ITEMS.get(7));
-        mAdapter.updateTestModelIds(ITEMS);
+        mHelper.select(mItems.get(7));
+        mAdapter.updateTestModelIds(mItems);
 
         mSelection.assertSelection(7);
     }
 
     @Test
     public void testSelection_IntersectsWithNewDataSet() {
-        mManager.select(ITEMS.get(99));
-        mManager.select(ITEMS.get(7));
+        mHelper.select(mItems.get(99));
+        mHelper.select(mItems.get(7));
 
-        mAdapter.updateTestModelIds(TestData.create(50));
+        mAdapter.updateTestModelIds(TestAdapter.createItemList(50));
 
         mSelection.assertSelection(7);
     }
 
     @Test
     public void testSetItemsSelected() {
-        mManager.setItemsSelected(getStringIds(6, 7, 8), true);
+        mHelper.setItemsSelected(getStringIds(6, 7, 8), true);
 
         mSelection.assertRangeSelected(6, 8);
     }
 
     @Test
     public void testSetItemsSelected_SkipUnselectableItem() {
-        mIgnored.add(ITEMS.get(7));
+        mIgnored.add(mItems.get(7));
 
-        mManager.setItemsSelected(getStringIds(6, 7, 8), true);
+        mHelper.setItemsSelected(getStringIds(6, 7, 8), true);
 
         mSelection.assertSelected(6);
         mSelection.assertNotSelected(7);
@@ -164,17 +169,17 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testRangeSelection() {
-        mManager.startRange(15);
-        mManager.extendRange(19);
+        mHelper.startRange(15);
+        mHelper.extendRange(19);
         mSelection.assertRangeSelection(15, 19);
     }
 
     @Test
     public void testRangeSelection_SkipUnselectableItem() {
-        mIgnored.add(ITEMS.get(17));
+        mIgnored.add(mItems.get(17));
 
-        mManager.startRange(15);
-        mManager.extendRange(19);
+        mHelper.startRange(15);
+        mHelper.extendRange(19);
 
         mSelection.assertRangeSelected(15, 16);
         mSelection.assertNotSelected(17);
@@ -183,35 +188,35 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testRangeSelection_snapExpand() {
-        mManager.startRange(15);
-        mManager.extendRange(19);
-        mManager.extendRange(27);
+        mHelper.startRange(15);
+        mHelper.extendRange(19);
+        mHelper.extendRange(27);
         mSelection.assertRangeSelection(15, 27);
     }
 
     @Test
     public void testRangeSelection_snapContract() {
-        mManager.startRange(15);
-        mManager.extendRange(27);
-        mManager.extendRange(19);
+        mHelper.startRange(15);
+        mHelper.extendRange(27);
+        mHelper.extendRange(19);
         mSelection.assertRangeSelection(15, 19);
     }
 
     @Test
     public void testRangeSelection_snapInvert() {
-        mManager.startRange(15);
-        mManager.extendRange(27);
-        mManager.extendRange(3);
+        mHelper.startRange(15);
+        mHelper.extendRange(27);
+        mHelper.extendRange(3);
         mSelection.assertRangeSelection(3, 15);
     }
 
     @Test
     public void testRangeSelection_multiple() {
-        mManager.startRange(15);
-        mManager.extendRange(27);
-        mManager.endRange();
-        mManager.startRange(42);
-        mManager.extendRange(57);
+        mHelper.startRange(15);
+        mHelper.extendRange(27);
+        mHelper.endRange();
+        mHelper.startRange(42);
+        mHelper.extendRange(57);
         mSelection.assertSelectionSize(29);
         mSelection.assertRangeSelected(15, 27);
         mSelection.assertRangeSelected(42, 57);
@@ -219,21 +224,21 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testProvisionalRangeSelection() {
-        mManager.startRange(13);
-        mManager.extendProvisionalRange(15);
+        mHelper.startRange(13);
+        mHelper.extendProvisionalRange(15);
         mSelection.assertRangeSelection(13, 15);
-        mManager.getSelection().mergeProvisionalSelection();
-        mManager.endRange();
+        mHelper.getSelection().mergeProvisionalSelection();
+        mHelper.endRange();
         mSelection.assertSelectionSize(3);
     }
 
     @Test
     public void testProvisionalRangeSelection_endEarly() {
-        mManager.startRange(13);
-        mManager.extendProvisionalRange(15);
+        mHelper.startRange(13);
+        mHelper.extendProvisionalRange(15);
         mSelection.assertRangeSelection(13, 15);
 
-        mManager.endRange();
+        mHelper.endRange();
         // If we end range selection prematurely for provision selection, nothing should be selected
         // except the first item
         mSelection.assertSelectionSize(1);
@@ -241,24 +246,24 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testProvisionalRangeSelection_snapExpand() {
-        mManager.startRange(13);
-        mManager.extendProvisionalRange(15);
+        mHelper.startRange(13);
+        mHelper.extendProvisionalRange(15);
         mSelection.assertRangeSelection(13, 15);
-        mManager.getSelection().mergeProvisionalSelection();
-        mManager.extendRange(18);
+        mHelper.getSelection().mergeProvisionalSelection();
+        mHelper.extendRange(18);
         mSelection.assertRangeSelection(13, 18);
     }
 
     @Test
     public void testCombinationRangeSelection_IntersectsOldSelection() {
-        mManager.startRange(13);
-        mManager.extendRange(15);
+        mHelper.startRange(13);
+        mHelper.extendRange(15);
         mSelection.assertRangeSelection(13, 15);
 
-        mManager.startRange(11);
-        mManager.extendProvisionalRange(18);
+        mHelper.startRange(11);
+        mHelper.extendProvisionalRange(18);
         mSelection.assertRangeSelected(11, 18);
-        mManager.endRange();
+        mHelper.endRange();
         mSelection.assertRangeSelected(13, 15);
         mSelection.assertRangeSelected(11, 11);
         mSelection.assertSelectionSize(4);
@@ -266,12 +271,12 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testProvisionalSelection() {
-        Selection s = mManager.getSelection();
+        Selection s = mHelper.getSelection();
         mSelection.assertNoSelection();
 
         // Mimicking band selection case -- BandController notifies item callback by itself.
-        mListener.onItemStateChanged(ITEMS.get(1), true);
-        mListener.onItemStateChanged(ITEMS.get(2), true);
+        mListener.onItemStateChanged(mItems.get(1), true);
+        mListener.onItemStateChanged(mItems.get(2), true);
 
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(1, true);
@@ -282,22 +287,22 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testProvisionalSelection_Replace() {
-        Selection s = mManager.getSelection();
+        Selection s = mHelper.getSelection();
 
         // Mimicking band selection case -- BandController notifies item callback by itself.
-        mListener.onItemStateChanged(ITEMS.get(1), true);
-        mListener.onItemStateChanged(ITEMS.get(2), true);
+        mListener.onItemStateChanged(mItems.get(1), true);
+        mListener.onItemStateChanged(mItems.get(2), true);
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(1, true);
         provisional.append(2, true);
         s.setProvisionalSelection(getItemIds(provisional));
 
-        mListener.onItemStateChanged(ITEMS.get(1), false);
-        mListener.onItemStateChanged(ITEMS.get(2), false);
+        mListener.onItemStateChanged(mItems.get(1), false);
+        mListener.onItemStateChanged(mItems.get(2), false);
         provisional.clear();
 
-        mListener.onItemStateChanged(ITEMS.get(3), true);
-        mListener.onItemStateChanged(ITEMS.get(4), true);
+        mListener.onItemStateChanged(mItems.get(3), true);
+        mListener.onItemStateChanged(mItems.get(4), true);
         provisional.append(3, true);
         provisional.append(4, true);
         s.setProvisionalSelection(getItemIds(provisional));
@@ -306,21 +311,21 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testProvisionalSelection_IntersectsExistingProvisionalSelection() {
-        Selection s = mManager.getSelection();
+        Selection s = mHelper.getSelection();
 
         // Mimicking band selection case -- BandController notifies item callback by itself.
-        mListener.onItemStateChanged(ITEMS.get(1), true);
-        mListener.onItemStateChanged(ITEMS.get(2), true);
+        mListener.onItemStateChanged(mItems.get(1), true);
+        mListener.onItemStateChanged(mItems.get(2), true);
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(1, true);
         provisional.append(2, true);
         s.setProvisionalSelection(getItemIds(provisional));
 
-        mListener.onItemStateChanged(ITEMS.get(1), false);
-        mListener.onItemStateChanged(ITEMS.get(2), false);
+        mListener.onItemStateChanged(mItems.get(1), false);
+        mListener.onItemStateChanged(mItems.get(2), false);
         provisional.clear();
 
-        mListener.onItemStateChanged(ITEMS.get(1), true);
+        mListener.onItemStateChanged(mItems.get(1), true);
         provisional.append(1, true);
         s.setProvisionalSelection(getItemIds(provisional));
         mSelection.assertSelection(1);
@@ -328,11 +333,11 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testProvisionalSelection_Apply() {
-        Selection s = mManager.getSelection();
+        Selection s = mHelper.getSelection();
 
         // Mimicking band selection case -- BandController notifies item callback by itself.
-        mListener.onItemStateChanged(ITEMS.get(1), true);
-        mListener.onItemStateChanged(ITEMS.get(2), true);
+        mListener.onItemStateChanged(mItems.get(1), true);
+        mListener.onItemStateChanged(mItems.get(2), true);
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(1, true);
         provisional.append(2, true);
@@ -344,9 +349,9 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testProvisionalSelection_Cancel() {
-        mManager.select(ITEMS.get(1));
-        mManager.select(ITEMS.get(2));
-        Selection s = mManager.getSelection();
+        mHelper.select(mItems.get(1));
+        mHelper.select(mItems.get(2));
+        Selection s = mHelper.getSelection();
 
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(3, true);
@@ -360,12 +365,12 @@ public class DefaultSelectionHelperTest {
 
     @Test
     public void testProvisionalSelection_IntersectsAppliedSelection() {
-        mManager.select(ITEMS.get(1));
-        mManager.select(ITEMS.get(2));
-        Selection s = mManager.getSelection();
+        mHelper.select(mItems.get(1));
+        mHelper.select(mItems.get(2));
+        Selection s = mHelper.getSelection();
 
         // Mimicking band selection case -- BandController notifies item callback by itself.
-        mListener.onItemStateChanged(ITEMS.get(3), true);
+        mListener.onItemStateChanged(mItems.get(3), true);
         SparseBooleanArray provisional = new SparseBooleanArray();
         provisional.append(2, true);
         provisional.append(3, true);
@@ -373,21 +378,21 @@ public class DefaultSelectionHelperTest {
         mSelection.assertSelection(1, 2, 3);
     }
 
-    private static Set<String> getItemIds(SparseBooleanArray selection) {
+    private Set<String> getItemIds(SparseBooleanArray selection) {
         Set<String> ids = new HashSet<>();
 
         int count = selection.size();
         for (int i = 0; i < count; ++i) {
-            ids.add(ITEMS.get(selection.keyAt(i)));
+            ids.add(mItems.get(selection.keyAt(i)));
         }
 
         return ids;
     }
 
-    private static Iterable<String> getStringIds(int... ids) {
+    private Iterable<String> getStringIds(int... ids) {
         List<String> stringIds = new ArrayList<>(ids.length);
         for (int id : ids) {
-            stringIds.add(ITEMS.get(id));
+            stringIds.add(mItems.get(id));
         }
         return stringIds;
     }

@@ -24,7 +24,7 @@ import java.util.Set;
  *
  * @see DefaultSelectionHelper for details on instantiation.
  */
-public interface SelectionHelper {
+public abstract class SelectionHelper {
 
     /**
      * This value is included in the payload when SelectionHelper implementations
@@ -39,9 +39,9 @@ public interface SelectionHelper {
      *
      * @param observer
      */
-    void addObserver(SelectionObserver observer);
+    public abstract void addObserver(SelectionObserver observer);
 
-    boolean hasSelection();
+    public abstract boolean hasSelection();
 
     /**
      * Returns a Selection object that provides a live view on the current selection.
@@ -52,25 +52,25 @@ public interface SelectionHelper {
      *
      * @return The current selection.
      */
-    Selection getSelection();
+    public abstract Selection getSelection();
 
     /**
      * Updates {@code dest} to reflect the current selection.
      * @param dest
      */
-    void copySelection(Selection dest);
+    public abstract void copySelection(Selection dest);
 
     /**
      * @return true if the item specified by its id is selected. Shorthand for
      * {@code getSelection().contains(String)}.
      */
-    boolean isSelected(String id);
+    public abstract boolean isSelected(String id);
 
     /**
      * Restores the selected state of specified items. Used in cases such as restore the selection
      * after rotation etc. Provisional selection, being provisional 'n all, isn't restored.
      */
-    void restoreSelection(Selection other);
+    public abstract void restoreSelection(Selection other);
 
     /**
      * Sets the selected state of the specified items. Note that the callback will NOT
@@ -80,12 +80,12 @@ public interface SelectionHelper {
      * @param selected
      * @return
      */
-    boolean setItemsSelected(Iterable<String> ids, boolean selected);
+    public abstract boolean setItemsSelected(Iterable<String> ids, boolean selected);
 
     /**
      * Clears the selection and notifies (if something changes).
      */
-    void clearSelection();
+    public abstract void clearSelection();
 
     /**
      * Attempts to select an item.
@@ -93,7 +93,7 @@ public interface SelectionHelper {
      * @return true if the item was selected. False if the item was not selected, or was
      *         was already selected prior to the method being called.
      */
-    boolean select(String itemId);
+    public abstract boolean select(String itemId);
 
     /**
      * Attempts to deselect an item.
@@ -101,7 +101,7 @@ public interface SelectionHelper {
      * @return true if the item was deselected. False if the item was not deselected, or was
      *         was already deselected prior to the method being called.
      */
-    boolean deselect(String itemId);
+    public abstract boolean deselect(String itemId);
 
     /**
      * Starts a range selection. If a range selection is already active, this will start a new range
@@ -109,7 +109,7 @@ public interface SelectionHelper {
      *
      * @param pos The anchor position for the selection range.
      */
-    void startRange(int pos);
+    public abstract void startRange(int pos);
 
     /**
      * Sets the end point for the active range selection.
@@ -124,26 +124,26 @@ public interface SelectionHelper {
      * @throws IllegalStateException if a range selection is not active. Range selection
      *         must have been started by a call to {@link #startRange(int)}.
      */
-    void extendRange(int pos);
+    public abstract void extendRange(int pos);
 
     /**
      * Stops an in-progress range selection. All selection done with
      * {@link #extendProvisionalRange(int)} will be lost if
      * {@link Selection#mergeProvisionalSelection()} is not called beforehand.
      */
-    void endRange();
+    public abstract void endRange();
 
     /**
      * @return Whether or not there is a current range selection active.
      */
-    boolean isRangeActive();
+    public abstract boolean isRangeActive();
 
     /**
      * Sets the magic location at which a selection range begins (the selection anchor). This value
      * is consulted when determining how to extend, and modify selection ranges. Calling this when a
      * range selection is active will reset the range selection.
      */
-    void anchorRange(int position);
+    public abstract void anchorRange(int position);
 
     /**
      * @param pos
@@ -151,29 +151,29 @@ public interface SelectionHelper {
     // TODO: This is smelly. Maybe this type of logic needs to move into range selection,
     // then selection manager can have a startProvisionalRange and startRange. Or
     // maybe ranges always start life as provisional.
-    void extendProvisionalRange(int pos);
+    public abstract void extendProvisionalRange(int pos);
 
     /**
      * @param newSelection
      */
-    void setProvisionalSelection(Set<String> newSelection);
+    public abstract void setProvisionalSelection(Set<String> newSelection);
 
     /**
      *
      */
-    void clearProvisionalSelection();
+    public abstract void clearProvisionalSelection();
 
-    void mergeProvisionalSelection();
+    public abstract void mergeProvisionalSelection();
 
     /**
      * Observer interface providing access to information about Selection state changes.
      */
-    interface SelectionObserver {
+    public static abstract class SelectionObserver {
 
         /**
          * Called when state of an item has been changed.
          */
-        void onItemStateChanged(String id, boolean selected);
+        public void onItemStateChanged(String id, boolean selected) {}
 
         /**
          * Called when the underlying data set has change. After this method is called
@@ -181,75 +181,52 @@ public interface SelectionHelper {
          * calling {@link #onItemStateChanged(String, boolean)} for each selected item,
          * and deselecting any items that cannot be selected given the updated dataset.
          */
-        void onSelectionReset();
+        public void onSelectionReset() {}
 
         /**
          * Called immediately after completion of any set of changes, excluding
          * those resulting in calls to {@link #onSelectionReset()} and
          * {@link #onSelectionRestored()}.
          */
-        void onSelectionChanged();
+        public void onSelectionChanged() {}
 
         /**
          * Called immediately after selection is restored.
          * {@link #onItemStateChanged(String, boolean)} will not be called
          * for individual items in the selection.
          */
-        void onSelectionRestored();
-    }
-
-    /**
-     * Stub observer class that can be used either as a base class for observers
-     * that are interested only in a subset of events, or as a test stub.
-     */
-    static class StubSelectionObserver implements SelectionObserver {
-
-        @Override
-        public void onItemStateChanged(String id, boolean selected) {
-        }
-
-        @Override
-        public void onSelectionReset() {
-        }
-
-        @Override
-        public void onSelectionChanged() {
-        }
-
-        @Override
-        public void onSelectionRestored() {
-        }
+        public void onSelectionRestored() {}
     }
 
     /**
      * Facilitates the use of stable ids.
      */
-    interface StableIdProvider {
+    public static abstract class StableIdProvider {
         /**
          * @return The model ID of the item at the given adapter position.
          */
-        String getStableId(int position);
+        public abstract String getStableId(int position);
 
         /**
          * @return the position of a stable ID, or RecyclerView.NO_POSITION.
          */
-        int getPosition(String id);
+        public abstract int getPosition(String id);
 
         /**
          * @return A list of all known stable IDs.
          */
-        List<String> getStableIds();
+        public abstract List<String> getStableIds();
     }
 
     /**
      * Implement SelectionPredicate to control when items can be selected or unselected.
      */
-    interface SelectionPredicate {
+    public static abstract class SelectionPredicate {
 
         /** @return true if the item at {@code id} can be set to {@code nextState}. */
-        boolean canSetStateForId(String id, boolean nextState);
+        public abstract boolean canSetStateForId(String id, boolean nextState);
 
         /** @return true if the item at {@code id} can be set to {@code nextState}. */
-        boolean canSetStateAtPosition(int position, boolean nextState);
+        public abstract boolean canSetStateAtPosition(int position, boolean nextState);
     }
 }

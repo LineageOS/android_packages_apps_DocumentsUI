@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * DocumentsUI SelectManager implementation that creates delegate instances
  * each time reset is called.
  */
-public final class DocsSelectionHelper implements SelectionHelper {
+public final class DocsSelectionHelper extends SelectionHelper {
 
     private final DelegateFactory mFactory;
     private final @SelectionMode int mSelectionMode;

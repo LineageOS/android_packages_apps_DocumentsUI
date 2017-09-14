@@ -16,27 +16,23 @@
 
 package com.android.documentsui.selection.addons;
 
-import static com.android.internal.util.Preconditions.checkArgument;
+import static android.support.v4.util.Preconditions.checkArgument;
 
-import android.annotation.DrawableRes;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
-import com.android.documentsui.selection.addons.ViewAutoScroller.Callbacks;
 import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollHost;
+import com.android.documentsui.selection.addons.ViewAutoScroller.ScrollerCallbacks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +41,7 @@ import java.util.Set;
 /**
  * Provides mouse driven band-selection support when used in conjunction with
  * a {@link RecyclerView} instance and a {@link SelectionHelper}. This class is responsible
- * for rendering the band select overlay and selecting overlaid items via SelectionManager.
+ * for rendering a band overlay and manipulating selection status of the items it intersects with.
  *
  * <p>Usage:
  *
@@ -56,15 +52,15 @@ public class BandSelectionHelper {
     static final boolean DEBUG = false;
     static final String TAG = "BandController";
 
-    private final SelectionHost mHost;
+    private final BandHost mHost;
     private final StableIdProvider mStableIds;
     private final RecyclerView.Adapter<?> mAdapter;
-    private final SelectionHelper mSelectionMgr;
+    private final SelectionHelper mSelectionHelper;
     private final Selection mSelection;
     private final SelectionPredicate mSelectionPredicate;
     private final ContentLock mLock;
     private final Runnable mViewScroller;
-    private final GridModel.OnSelectionChangedListener mGridListener;
+    private final GridModel.SelectionObserver mGridObserver;
     private final List<Runnable> mBandStartedListeners = new ArrayList<>();
 
     @Nullable private Rect mBounds;
@@ -73,22 +69,28 @@ public class BandSelectionHelper {
     @Nullable private GridModel mModel;
 
     public BandSelectionHelper(
-            SelectionHost host,
+            BandHost host,
             RecyclerView.Adapter<?> adapter,
             StableIdProvider stableIds,
-            SelectionHelper selectionManager,
+            SelectionHelper selectionHelper,
             SelectionPredicate selectionPredicate,
             ContentLock lock) {
+
+        checkArgument(host != null);
+        checkArgument(adapter != null);
+        checkArgument(stableIds != null);
+        checkArgument(selectionHelper != null);
+        checkArgument(selectionPredicate != null);
+        checkArgument(lock != null);
 
         mHost = host;
         mStableIds = stableIds;
         mAdapter = adapter;
-        mSelectionMgr = selectionManager;
+        mSelectionHelper = selectionHelper;
         mSelectionPredicate = selectionPredicate;
-
         mLock = lock;
 
-        mSelection = selectionManager.getSelection();
+        mSelection = selectionHelper.getSelection();
 
         mHost.addOnScrollListener(
                 new OnScrollListener() {
@@ -153,10 +155,10 @@ public class BandSelectionHelper {
                     }
                 });
 
-        mGridListener = new GridModel.OnSelectionChangedListener() {
+        mGridObserver = new GridModel.SelectionObserver() {
                 @Override
                 public void onSelectionChanged(Set<String> updatedSelection) {
-                    mSelectionMgr.setProvisionalSelection(updatedSelection);
+                    mSelectionHelper.setProvisionalSelection(updatedSelection);
                 }
             };
     }
@@ -167,7 +169,7 @@ public class BandSelectionHelper {
         }
 
         mModel = new GridModel(mHost, mStableIds, mSelectionPredicate);
-        mModel.addOnSelectionChangedListener(mGridListener);
+        mModel.addOnSelectionChangedListener(mGridObserver);
     }
 
     @VisibleForTesting
@@ -178,7 +180,7 @@ public class BandSelectionHelper {
     public boolean onInterceptTouchEvent(MotionEvent e) {
         if (shouldStart(e)) {
             if (!MotionEvents.isCtrlPressed(e)) {
-                mSelectionMgr.clearSelection();
+                mSelectionHelper.clearSelection();
             }
 
             startBandSelect(MotionEvents.getOrigin(e));
@@ -323,14 +325,14 @@ public class BandSelectionHelper {
         if (DEBUG) Log.d(TAG, "Ending band select.");
 
         mHost.hideBand();
-        mSelectionMgr.mergeProvisionalSelection();
+        mSelectionHelper.mergeProvisionalSelection();
         mModel.endSelection();
         int firstSelected = mModel.getPositionNearestOrigin();
         if (firstSelected != GridModel.NOT_SET) {
             if (mSelection.contains(mStableIds.getStableId(firstSelected))) {
                 // TODO: firstSelected should really be lastSelected, we want to anchor the item
                 // where the mouse-up occurred.
-                mSelectionMgr.anchorRange(firstSelected);
+                mSelectionHelper.anchorRange(firstSelected);
             } else {
                 // TODO: Check if this is really happening.
                 Log.w(TAG, "First selected by band is NOT in selection!");
@@ -357,180 +359,23 @@ public class BandSelectionHelper {
      * Provides functionality for BandController. Exists primarily to tests that are
      * fully isolated from RecyclerView.
      */
-    public interface SelectionHost extends Callbacks {
-        boolean canInitiateBand(MotionEvent e);
-        void showBand(Rect rect);
-        void hideBand();
-        void addOnScrollListener(RecyclerView.OnScrollListener listener);
-        void removeOnScrollListener(RecyclerView.OnScrollListener listener);
-        int getHeight();
-        void invalidateView();
-        Point createAbsolutePoint(Point relativePoint);
-        Rect getAbsoluteRectForChildViewAt(int index);
-        int getAdapterPositionAt(int index);
-        int getColumnCount();
-        int getChildCount();
-        int getVisibleChildCount();
+    public static abstract class BandHost extends ScrollerCallbacks {
+        public abstract boolean canInitiateBand(MotionEvent e);
+        public abstract void showBand(Rect rect);
+        public abstract void hideBand();
+        public abstract void addOnScrollListener(RecyclerView.OnScrollListener listener);
+        public abstract void removeOnScrollListener(RecyclerView.OnScrollListener listener);
+        public abstract int getHeight();
+        public abstract void invalidateView();
+        public abstract Point createAbsolutePoint(Point relativePoint);
+        public abstract Rect getAbsoluteRectForChildViewAt(int index);
+        public abstract int getAdapterPositionAt(int index);
+        public abstract int getColumnCount();
+        public abstract int getChildCount();
+        public abstract int getVisibleChildCount();
         /**
-         * Items may be in the adapter, but without an attached view.
+         * @return true if the item at adapter position is attached to a view.
          */
-        boolean hasView(int adapterPosition);
-    }
-
-    public interface BandPredicate {
-        boolean canInitiate(MotionEvent e);
-    }
-
-    public static SelectionHost createHost(
-            final RecyclerView view,
-            @DrawableRes int bandOverlayId) {
-
-        BandPredicate bandPredicate = new BandPredicate() {
-            @Override
-            public boolean canInitiate(MotionEvent e) {
-                View itemView = view.findChildViewUnder(e.getX(), e.getY());
-                int position = itemView != null
-                        ? view.getChildAdapterPosition(itemView)
-                        : RecyclerView.NO_POSITION;
-
-                return position == RecyclerView.NO_POSITION;
-            }
-        };
-
-        return createHost(view, bandOverlayId, bandPredicate);
-    }
-
-    public static SelectionHost createHost(
-            RecyclerView view,
-            @DrawableRes int bandOverlayId,
-            BandPredicate bandPredicate) {
-
-        return new RecyclerViewSelectionHost(view, bandOverlayId, bandPredicate);
-    }
-
-    /** RecyclerView facade implementation backed by good ol' RecyclerView. */
-    private static final class RecyclerViewSelectionHost implements SelectionHost {
-
-        private final RecyclerView mView;
-        private final Drawable mBand;
-
-        private boolean mIsOverlayShown = false;
-        private BandPredicate mBandPredicate;
-
-        private RecyclerViewSelectionHost(
-                RecyclerView view,
-                @DrawableRes int bandOverlayId,
-                BandPredicate bandPredicate) {
-
-            checkArgument(view != null);
-            checkArgument(bandPredicate != null);
-
-            mView = view;
-            mBand = mView.getContext().getTheme().getDrawable(bandOverlayId);
-            mBandPredicate = bandPredicate;
-        }
-
-        @Override
-        public boolean canInitiateBand(MotionEvent e) {
-            return mBandPredicate.canInitiate(e);
-        }
-
-        @Override
-        public int getAdapterPositionAt(int index) {
-            return mView.getChildAdapterPosition(mView.getChildAt(index));
-        }
-
-        @Override
-        public void addOnScrollListener(RecyclerView.OnScrollListener listener) {
-            mView.addOnScrollListener(listener);
-        }
-
-        @Override
-        public void removeOnScrollListener(RecyclerView.OnScrollListener listener) {
-            mView.removeOnScrollListener(listener);
-        }
-
-        @Override
-        public Point createAbsolutePoint(Point relativePoint) {
-            return new Point(relativePoint.x + mView.computeHorizontalScrollOffset(),
-                    relativePoint.y + mView.computeVerticalScrollOffset());
-        }
-
-        @Override
-        public Rect getAbsoluteRectForChildViewAt(int index) {
-            final View child = mView.getChildAt(index);
-            final Rect childRect = new Rect();
-            child.getHitRect(childRect);
-            childRect.left += mView.computeHorizontalScrollOffset();
-            childRect.right += mView.computeHorizontalScrollOffset();
-            childRect.top += mView.computeVerticalScrollOffset();
-            childRect.bottom += mView.computeVerticalScrollOffset();
-            return childRect;
-        }
-
-        @Override
-        public int getChildCount() {
-            return mView.getAdapter().getItemCount();
-        }
-
-        @Override
-        public int getVisibleChildCount() {
-            return mView.getChildCount();
-        }
-
-        @Override
-        public int getColumnCount() {
-            RecyclerView.LayoutManager layoutManager = mView.getLayoutManager();
-            if (layoutManager instanceof GridLayoutManager) {
-                return ((GridLayoutManager) layoutManager).getSpanCount();
-            }
-
-            // Otherwise, it is a list with 1 column.
-            return 1;
-        }
-
-        @Override
-        public int getHeight() {
-            return mView.getHeight();
-        }
-
-        @Override
-        public void invalidateView() {
-            mView.invalidate();
-        }
-
-        @Override
-        public void runAtNextFrame(Runnable r) {
-            mView.postOnAnimation(r);
-        }
-
-        @Override
-        public void removeCallback(Runnable r) {
-            mView.removeCallbacks(r);
-        }
-
-        @Override
-        public void scrollBy(int dy) {
-            mView.scrollBy(0, dy);
-        }
-
-        @Override
-        public void showBand(Rect rect) {
-            mBand.setBounds(rect);
-
-            if (!mIsOverlayShown) {
-                mView.getOverlay().add(mBand);
-            }
-        }
-
-        @Override
-        public void hideBand() {
-            mView.getOverlay().remove(mBand);
-        }
-
-        @Override
-        public boolean hasView(int pos) {
-            return mView.findViewHolderForAdapterPosition(pos) != null;
-        }
+        public abstract boolean hasView(int adapterPosition);
     }
 }

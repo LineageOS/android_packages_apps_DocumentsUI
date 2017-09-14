@@ -104,7 +104,7 @@ public class DocsSelectionHelperTest {
         assertEquals(count, mCreated.size());
     }
 
-    private static final class TestSelectionManager implements SelectionHelper {
+    private static final class TestSelectionManager extends SelectionHelper {
 
         private boolean mCleared;
         private Map<String, Boolean> mSelected = new HashMap<>();
