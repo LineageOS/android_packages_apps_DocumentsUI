@@ -32,9 +32,9 @@
     <string name="menu_open" msgid="9092138100049759315">"פתח"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"פתיחה באמצעות"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"פתיחה בחלון חדש"</string>
-    <string name="menu_save" msgid="5195367497138965168">"שמור"</string>
+    <string name="menu_save" msgid="5195367497138965168">"שמירה"</string>
     <string name="menu_share" msgid="4307140947108068356">"שתף"</string>
-    <string name="menu_delete" msgid="1022254131543256626">"מחק"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"מחיקה"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"בחר הכל"</string>
     <string name="menu_copy" msgid="7404820171352314754">"העתק אל…"</string>
     <string name="menu_move" msgid="2310760789561129882">"העבר אל…"</string>
