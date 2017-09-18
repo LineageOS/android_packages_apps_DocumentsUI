@@ -19,7 +19,7 @@
     <string name="inspector_title" msgid="1924760928091740238">"ਜਾਣਕਾਰੀ"</string>
     <string name="inspector_load_error" msgid="7522190243413249291">"ਫ਼ਾਈਲ ਜਾਣਕਾਰੀ ਲੋਡ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕੀ"</string>
     <string name="inspector_debug_section" msgid="2576052661505700421">"ਡੀਬੱਗ ਜਾਣਕਾਰੀ (ਸਿਰਫ਼ ਵਿਕਾਸਕਾਰ)"</string>
-    <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"Raw ਮੈਟਾਡੈਟਾ: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
+    <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"ਰਾਅ ਮੈਟਾਡਾਟਾ: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
     <string name="inspector_metadata_section" msgid="6077622515328240575">"ਮੀਡੀਆ ਦੇ ਵੇਰਵੇ"</string>
     <string name="handler_app_file_opens_with" msgid="5272329600389613550">"ਇਸ ਕਿਸਮ ਦੀ ਫ਼ਾਈਲ ਇਸ ਨਾਲ ਖੁੱਲ੍ਹਦੀ ਹੈ:"</string>
     <string name="handler_app_belongs_to" msgid="5444507329303253553">"ਇਹ ਫ਼ਾਈਲ ਇਹਨਾਂ ਵੱਲੋਂ ਦਿੱਤੀ ਗਈ ਹੈ:"</string>
