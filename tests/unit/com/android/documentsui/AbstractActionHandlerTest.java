@@ -31,8 +31,8 @@ import android.support.test.runner.AndroidJUnit4;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.LauncherActivity;
+import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.testing.DocumentStackAsserts;
@@ -77,8 +77,7 @@ public class AbstractActionHandlerTest {
             }
 
             @Override
-            public boolean openDocument(DocumentDetails doc, @ViewType int type,
-                    @ViewType int fallback) {
+            public boolean openItem(ItemDetails doc, @ViewType int type, @ViewType int fallback) {
                 throw new UnsupportedOperationException();
             }
 

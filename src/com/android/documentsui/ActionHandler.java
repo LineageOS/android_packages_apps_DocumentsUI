@@ -28,8 +28,8 @@ import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.selection.addons.ContentLock;
+import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -110,7 +110,7 @@ public interface ActionHandler {
      * If container, then opens the container, otherwise views using the specified type of view.
      * If the primary view type is unavailable, then fallback to the alternative type of view.
      */
-    boolean openDocument(DocumentDetails doc, @ViewType int type, @ViewType int fallback);
+    boolean openItem(ItemDetails doc, @ViewType int type, @ViewType int fallback);
 
     /**
      * This is called when user hovers over a doc for enough time during a drag n' drop, to open a

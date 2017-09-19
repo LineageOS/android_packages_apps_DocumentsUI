@@ -179,7 +179,7 @@ public class BandSelectionHelper {
 
     public boolean onInterceptTouchEvent(MotionEvent e) {
         if (shouldStart(e)) {
-            if (!MotionEvents.isCtrlPressed(e)) {
+            if (!MotionEvents.isCtrlKeyPressed(e)) {
                 mSelectionHelper.clearSelection();
             }
 
@@ -246,7 +246,7 @@ public class BandSelectionHelper {
         return isActive()
                 && MotionEvents.isMouseEvent(e)
                 && (MotionEvents.isActionUp(e)
-                        || MotionEvents.isMultiPointerActionUp(e)
+                        || MotionEvents.isActionPointerUp(e)
                         || MotionEvents.isActionCancel(e));
     }
 

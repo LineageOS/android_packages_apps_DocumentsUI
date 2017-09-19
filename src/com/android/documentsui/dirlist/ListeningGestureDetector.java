@@ -23,12 +23,15 @@ import android.support.v7.widget.RecyclerView.OnItemTouchListener;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-import com.android.documentsui.base.EventDetailsLookup;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.selection.addons.BandSelectionHelper;
 import com.android.documentsui.selection.addons.GestureSelectionHelper;
+import com.android.documentsui.selection.addons.InputEventDispatcher;
+import com.android.documentsui.selection.addons.ItemDetailsLookup;
 
+// TODO: Merge the mouse/touch logic from this class with the respective input handlers.
+//
 //Receives event meant for both directory and empty view, and either pass them to
 //{@link UserInputHandler} for simple gestures (Single Tap, Long-Press), or intercept them for
 //other types of gestures (drag n' drop)
@@ -37,17 +40,17 @@ final class ListeningGestureDetector extends GestureDetector {
     private final GestureSelectionHelper mGestureSelector;
     private final EventHandler<MotionEvent> mMouseDragListener;
     private final BandSelectionHelper mBandController;
-    private final EventDetailsLookup mEventDetailsLookup;
+    private final ItemDetailsLookup mEventDetailsLookup;
 
     private final MouseDelegate mMouseDelegate = new MouseDelegate();
     private final TouchDelegate mTouchDelegate = new TouchDelegate();
 
     public ListeningGestureDetector(
             Context context,
-            EventDetailsLookup eventDetailsLookup,
+            ItemDetailsLookup eventDetailsLookup,
             EventHandler<MotionEvent> mouseDragListener,
             GestureSelectionHelper gestureSelector,
-            UserInputHandler handler,
+            InputEventDispatcher handler,
             @Nullable BandSelectionHelper bandController) {
 
         super(context, handler);
@@ -120,7 +123,7 @@ final class ListeningGestureDetector extends GestureDetector {
         }
     }
 
-    public void listenTo(RecyclerView view) {
+    public void attach(RecyclerView view) {
         view.addOnItemTouchListener(
                 new OnItemTouchListener() {
                     @Override

@@ -29,12 +29,12 @@ import com.android.documentsui.DragAndDropManager;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.Model;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.EventDetailsLookup;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.State;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.addons.ItemDetailsLookup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
 /**
  * Listens for potential "drag-like" events and kick-start dragging as needed. Also allows external
  * direct call to {@code #startDrag(RecyclerView, View)} if explicit start is needed, such as long-
- * pressing on an item via touch. (e.g. {@link UserInputHandler#onLongPress(MotionEvent)} via touch.)
+ * pressing on an item via touch. (e.g. InputEventDispatcher#onLongPress(MotionEvent)} via touch.
  */
 interface DragStartListener {
 
@@ -70,7 +70,7 @@ interface DragStartListener {
 
         private final IconHelper mIconHelper;
         private final State mState;
-        private final EventDetailsLookup mDetailsLookup;
+        private final ItemDetailsLookup mDetailsLookup;
         private final SelectionHelper mSelectionMgr;
         private final SelectionDetails mSelectionDetails;
         private final ViewFinder mViewFinder;
@@ -84,7 +84,7 @@ interface DragStartListener {
         public RuntimeDragStartListener(
                 IconHelper iconHelper,
                 State state,
-                EventDetailsLookup detailsLookup,
+                ItemDetailsLookup detailsLookup,
                 SelectionHelper selectionMgr,
                 SelectionDetails selectionDetails,
                 ViewFinder viewFinder,
@@ -184,7 +184,7 @@ interface DragStartListener {
             SelectionHelper selectionMgr,
             SelectionDetails selectionDetails,
             State state,
-            EventDetailsLookup detailsLookup,
+            ItemDetailsLookup detailsLookup,
             Function<View, String> idFinder,
             ViewFinder viewFinder,
             DragAndDropManager dragAndDropManager) {

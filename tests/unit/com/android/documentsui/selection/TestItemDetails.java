@@ -13,35 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.testing;
+package com.android.documentsui.selection;
 
-import android.text.TextUtils;
 import android.view.MotionEvent;
 
-import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
 import com.android.internal.widget.RecyclerView;
 
-public final class TestDocumentDetails implements DocumentDetails {
+public final class TestItemDetails extends ItemDetails {
 
+    // DocumentsAdapter.ITEM_TYPE_DOCUMENT
+    private int mViewType = -1;
     private int mPosition;
-    private String mModelId;
+    private String mStableId;
     private boolean mInDragRegion;
-    private boolean mInSelectRegion;
+    private boolean mInSelectionHotspot;
 
-    public TestDocumentDetails() {
+    public TestItemDetails() {
        mPosition = RecyclerView.NO_POSITION;
     }
 
-    public TestDocumentDetails(TestDocumentDetails source) {
+    public TestItemDetails(TestItemDetails source) {
         mPosition = source.mPosition;
-        mModelId = source.mModelId;
+        mStableId = source.mStableId;
+        mViewType = source.mViewType;
         mInDragRegion = source.mInDragRegion;
-        mInSelectRegion = source.mInSelectRegion;
+        mInSelectionHotspot = source.mInSelectionHotspot;
+    }
+
+    public void setViewType(int viewType) {
+        mViewType = viewType;
     }
 
     public void at(int position) {
         mPosition = position;  // this is both "adapter position" and "item position".
-        mModelId = (position == RecyclerView.NO_POSITION)
+        mStableId = (position == RecyclerView.NO_POSITION)
                 ? null
                 : String.valueOf(position);
     }
@@ -51,32 +57,17 @@ public final class TestDocumentDetails implements DocumentDetails {
     }
 
     public void setInItemSelectRegion(boolean over) {
-        mInSelectRegion = over;
+        mInSelectionHotspot = over;
     }
 
     @Override
-    public boolean hasModelId() {
-        return !TextUtils.isEmpty(mModelId);
-    }
-
-    @Override
-    public String getModelId() {
-        return mModelId;
-    }
-
-    @Override
-    public int getAdapterPosition() {
-        return mPosition;
+    public int getItemViewType() {
+        return mViewType;
     }
 
     @Override
     public boolean inDragRegion(MotionEvent event) {
         return mInDragRegion;
-    }
-
-    @Override
-    public boolean inSelectRegion(MotionEvent event) {
-        return mInSelectRegion;
     }
 
     @Override
@@ -90,12 +81,28 @@ public final class TestDocumentDetails implements DocumentDetails {
           return true;
       }
 
-      if (!(o instanceof TestDocumentDetails)) {
+      if (!(o instanceof TestItemDetails)) {
           return false;
       }
 
-      TestDocumentDetails other = (TestDocumentDetails) o;
+      TestItemDetails other = (TestItemDetails) o;
       return mPosition == other.mPosition
-              && mModelId == other.mModelId;
+              && mStableId == other.mStableId
+              && mViewType == other.mViewType;
+    }
+
+    @Override
+    public int getPosition() {
+        return mPosition;
+    }
+
+    @Override
+    public String getStableId() {
+        return mStableId;
+    }
+
+    @Override
+    public boolean inSelectionHotspot(MotionEvent e) {
+        return mInSelectionHotspot;
     }
 }

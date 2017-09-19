@@ -60,7 +60,7 @@ final class ScaleHelper {
         return false;
     }
 
-    void install(RecyclerView view) {
+    void attach(RecyclerView view) {
         checkState(Build.IS_DEBUGGABLE);
         checkState(mScaleDetector == null);
 
