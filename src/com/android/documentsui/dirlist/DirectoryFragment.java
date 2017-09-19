@@ -417,16 +417,23 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 gestureHandler,
                 () -> mRecView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS));
 
-        new ListeningGestureDetector(
+        if (Build.IS_DEBUGGABLE) {
+            new ScaleHelper(this.getContext(), mInjector.features, this::scaleLayout)
+                    .install(mRecView);
+        }
+
+        new RefreshHelper(mRefreshLayout::setEnabled)
+                .install(mRecView);
+
+        ListeningGestureDetector recListener = new ListeningGestureDetector(
                 this.getContext(),
-                mInjector.features,
-                mRecView,
+                mDetailsLookup,
                 mDragStartListener::onMouseDragEvent,
-                mRefreshLayout::setEnabled,
                 gestureSel,
                 mInputHandler,
-                mBandSelector,
-                this::scaleLayout);
+                mBandSelector);
+
+        recListener.listenTo(mRecView);
 
         mActionModeController = mInjector.getActionModeController(
                 mSelectionMetadata,
