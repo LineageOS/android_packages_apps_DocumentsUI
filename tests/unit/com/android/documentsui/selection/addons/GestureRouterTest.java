@@ -23,9 +23,10 @@ import static org.mockito.Mockito.verify;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
-import com.android.documentsui.selection.addons.InputEventDispatcher.Delegate;
 import com.android.documentsui.selection.addons.TestEvents.Mouse;
 import com.android.documentsui.selection.addons.TestEvents.Touch;
 
@@ -36,247 +37,249 @@ import org.mockito.Mockito;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
-public final class InputEventDispatcherTest {
+public final class GestureRouterTest {
 
-    private TestDelegate mAlt;
-    private TestDelegate mDelegate;
-    private InputEventDispatcher mDispatcher;
+    private TestHandler mHandler;
+    private TestHandler mAlt;
+    private GestureRouter<TestHandler> mRouter;
 
     @Before
     public void setUp() {
-        mAlt = new TestDelegate();
-        mDelegate = new TestDelegate();
+        mAlt = new TestHandler();
+        mHandler = new TestHandler();
     }
 
     @Test
     public void testDelegates() {
-        mDispatcher = new InputEventDispatcher();
-        mDispatcher.register(MotionEvent.TOOL_TYPE_MOUSE, mDelegate);
-        mDispatcher.register(MotionEvent.TOOL_TYPE_FINGER, mAlt);
+        mRouter = new GestureRouter<>();
+        mRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mHandler);
+        mRouter.register(MotionEvent.TOOL_TYPE_FINGER, mAlt);
 
-        mDispatcher.onDown(Mouse.CLICK);
-        mDelegate.assertCalled_onDown(Mouse.CLICK);
+        mRouter.onDown(Mouse.CLICK);
+        mHandler.assertCalled_onDown(Mouse.CLICK);
         mAlt.assertNotCalled_onDown();
 
-        mDispatcher.onShowPress(Mouse.CLICK);
-        mDelegate.assertCalled_onShowPress(Mouse.CLICK);
+        mRouter.onShowPress(Mouse.CLICK);
+        mHandler.assertCalled_onShowPress(Mouse.CLICK);
         mAlt.assertNotCalled_onShowPress();
 
-        mDispatcher.onSingleTapUp(Mouse.CLICK);
-        mDelegate.assertCalled_onSingleTapUp(Mouse.CLICK);
+        mRouter.onSingleTapUp(Mouse.CLICK);
+        mHandler.assertCalled_onSingleTapUp(Mouse.CLICK);
         mAlt.assertNotCalled_onSingleTapUp();
 
-        mDispatcher.onScroll(null, Mouse.CLICK, -1, -1);
-        mDelegate.assertCalled_onScroll(null, Mouse.CLICK, -1, -1);
+        mRouter.onScroll(null, Mouse.CLICK, -1, -1);
+        mHandler.assertCalled_onScroll(null, Mouse.CLICK, -1, -1);
         mAlt.assertNotCalled_onScroll();
 
-        mDispatcher.onLongPress(Mouse.CLICK);
-        mDelegate.assertCalled_onLongPress(Mouse.CLICK);
+        mRouter.onLongPress(Mouse.CLICK);
+        mHandler.assertCalled_onLongPress(Mouse.CLICK);
         mAlt.assertNotCalled_onLongPress();
 
-        mDispatcher.onFling(null, Mouse.CLICK, -1, -1);
-        mDelegate.assertCalled_onFling(null, Mouse.CLICK, -1, -1);
+        mRouter.onFling(null, Mouse.CLICK, -1, -1);
+        mHandler.assertCalled_onFling(null, Mouse.CLICK, -1, -1);
         mAlt.assertNotCalled_onFling();
 
-        mDispatcher.onSingleTapConfirmed(Mouse.CLICK);
-        mDelegate.assertCalled_onSingleTapConfirmed(Mouse.CLICK);
+        mRouter.onSingleTapConfirmed(Mouse.CLICK);
+        mHandler.assertCalled_onSingleTapConfirmed(Mouse.CLICK);
         mAlt.assertNotCalled_onSingleTapConfirmed();
 
-        mDispatcher.onDoubleTap(Mouse.CLICK);
-        mDelegate.assertCalled_onDoubleTap(Mouse.CLICK);
+        mRouter.onDoubleTap(Mouse.CLICK);
+        mHandler.assertCalled_onDoubleTap(Mouse.CLICK);
         mAlt.assertNotCalled_onDoubleTap();
 
-        mDispatcher.onDoubleTapEvent(Mouse.CLICK);
-        mDelegate.assertCalled_onDoubleTapEvent(Mouse.CLICK);
+        mRouter.onDoubleTapEvent(Mouse.CLICK);
+        mHandler.assertCalled_onDoubleTapEvent(Mouse.CLICK);
         mAlt.assertNotCalled_onDoubleTapEvent();
     }
 
     @Test
     public void testFallsback() {
-        mDispatcher = new InputEventDispatcher(mAlt);
-        mDispatcher.register(MotionEvent.TOOL_TYPE_MOUSE, mDelegate);
+        mRouter = new GestureRouter<>(mAlt);
+        mRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mHandler);
 
-        mDispatcher.onDown(Touch.TAP);
+        mRouter.onDown(Touch.TAP);
         mAlt.assertCalled_onDown(Touch.TAP);
 
-        mDispatcher.onShowPress(Touch.TAP);
+        mRouter.onShowPress(Touch.TAP);
         mAlt.assertCalled_onShowPress(Touch.TAP);
 
-        mDispatcher.onSingleTapUp(Touch.TAP);
+        mRouter.onSingleTapUp(Touch.TAP);
         mAlt.assertCalled_onSingleTapUp(Touch.TAP);
 
-        mDispatcher.onScroll(null, Touch.TAP, -1, -1);
+        mRouter.onScroll(null, Touch.TAP, -1, -1);
         mAlt.assertCalled_onScroll(null, Touch.TAP, -1, -1);
 
-        mDispatcher.onLongPress(Touch.TAP);
+        mRouter.onLongPress(Touch.TAP);
         mAlt.assertCalled_onLongPress(Touch.TAP);
 
-        mDispatcher.onFling(null, Touch.TAP, -1, -1);
+        mRouter.onFling(null, Touch.TAP, -1, -1);
         mAlt.assertCalled_onFling(null, Touch.TAP, -1, -1);
 
-        mDispatcher.onSingleTapConfirmed(Touch.TAP);
+        mRouter.onSingleTapConfirmed(Touch.TAP);
         mAlt.assertCalled_onSingleTapConfirmed(Touch.TAP);
 
-        mDispatcher.onDoubleTap(Touch.TAP);
+        mRouter.onDoubleTap(Touch.TAP);
         mAlt.assertCalled_onDoubleTap(Touch.TAP);
 
-        mDispatcher.onDoubleTapEvent(Touch.TAP);
+        mRouter.onDoubleTapEvent(Touch.TAP);
         mAlt.assertCalled_onDoubleTapEvent(Touch.TAP);
     }
 
     @Test
     public void testEatsEventsWhenNoFallback() {
-        mDispatcher = new InputEventDispatcher();
+        mRouter = new GestureRouter<>();
         // Register the the delegate on mouse so touch events don't get handled.
-        mDispatcher.register(MotionEvent.TOOL_TYPE_MOUSE, mDelegate);
+        mRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mHandler);
 
-        mDispatcher.onDown(Touch.TAP);
+        mRouter.onDown(Touch.TAP);
         mAlt.assertNotCalled_onDown();
 
-        mDispatcher.onShowPress(Touch.TAP);
+        mRouter.onShowPress(Touch.TAP);
         mAlt.assertNotCalled_onShowPress();
 
-        mDispatcher.onSingleTapUp(Touch.TAP);
+        mRouter.onSingleTapUp(Touch.TAP);
         mAlt.assertNotCalled_onSingleTapUp();
 
-        mDispatcher.onScroll(null, Touch.TAP, -1, -1);
+        mRouter.onScroll(null, Touch.TAP, -1, -1);
         mAlt.assertNotCalled_onScroll();
 
-        mDispatcher.onLongPress(Touch.TAP);
+        mRouter.onLongPress(Touch.TAP);
         mAlt.assertNotCalled_onLongPress();
 
-        mDispatcher.onFling(null, Touch.TAP, -1, -1);
+        mRouter.onFling(null, Touch.TAP, -1, -1);
         mAlt.assertNotCalled_onFling();
 
-        mDispatcher.onSingleTapConfirmed(Touch.TAP);
+        mRouter.onSingleTapConfirmed(Touch.TAP);
         mAlt.assertNotCalled_onSingleTapConfirmed();
 
-        mDispatcher.onDoubleTap(Touch.TAP);
+        mRouter.onDoubleTap(Touch.TAP);
         mAlt.assertNotCalled_onDoubleTap();
 
-        mDispatcher.onDoubleTapEvent(Touch.TAP);
+        mRouter.onDoubleTapEvent(Touch.TAP);
         mAlt.assertNotCalled_onDoubleTapEvent();
     }
 
-    private static final class TestDelegate implements Delegate {
+    private static final class TestHandler implements OnGestureListener, OnDoubleTapListener {
 
-        private final Delegate mDelegate = Mockito.mock(Delegate.class);
+        private final Spy mSpy = Mockito.mock(Spy.class);
 
         @Override
         public boolean onDown(MotionEvent e) {
-            return mDelegate.onDown(e);
+            return mSpy.onDown(e);
         }
 
         @Override
         public void onShowPress(MotionEvent e) {
-            mDelegate.onShowPress(e);
+            mSpy.onShowPress(e);
         }
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-            return mDelegate.onSingleTapUp(e);
+            return mSpy.onSingleTapUp(e);
         }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            return mDelegate.onScroll(e1, e2, distanceX, distanceY);
+            return mSpy.onScroll(e1, e2, distanceX, distanceY);
         }
 
         @Override
         public void onLongPress(MotionEvent e) {
-            mDelegate.onLongPress(e);
+            mSpy.onLongPress(e);
         }
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            return mDelegate.onFling(e1, e2, velocityX, velocityY);
+            return mSpy.onFling(e1, e2, velocityX, velocityY);
         }
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            return mDelegate.onSingleTapConfirmed(e);
+            return mSpy.onSingleTapConfirmed(e);
         }
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            return mDelegate.onDoubleTap(e);
+            return mSpy.onDoubleTap(e);
         }
 
         @Override
         public boolean onDoubleTapEvent(MotionEvent e) {
-            return mDelegate.onDoubleTapEvent(e);
+            return mSpy.onDoubleTapEvent(e);
         }
 
         void assertCalled_onDown(MotionEvent e) {
-            verify(mDelegate).onDown(e);
+            verify(mSpy).onDown(e);
         }
 
         void assertCalled_onShowPress(MotionEvent e) {
-            verify(mDelegate).onShowPress(e);
+            verify(mSpy).onShowPress(e);
         }
 
         void assertCalled_onSingleTapUp(MotionEvent e) {
-            verify(mDelegate).onSingleTapUp(e);
+            verify(mSpy).onSingleTapUp(e);
         }
 
         void assertCalled_onScroll(MotionEvent e1, MotionEvent e2, float x, float y) {
-            verify(mDelegate).onScroll(e1, e2, x, y);
+            verify(mSpy).onScroll(e1, e2, x, y);
         }
 
         void assertCalled_onLongPress(MotionEvent e) {
-            verify(mDelegate).onLongPress(e);
+            verify(mSpy).onLongPress(e);
         }
 
         void assertCalled_onFling(MotionEvent e1, MotionEvent e2, float x, float y) {
-            Mockito.verify(mDelegate).onFling(e1, e2, x, y);
+            Mockito.verify(mSpy).onFling(e1, e2, x, y);
         }
 
         void assertCalled_onSingleTapConfirmed(MotionEvent e) {
-            Mockito.verify(mDelegate).onSingleTapConfirmed(e);
+            Mockito.verify(mSpy).onSingleTapConfirmed(e);
         }
 
         void assertCalled_onDoubleTap(MotionEvent e) {
-            Mockito.verify(mDelegate).onDoubleTap(e);
+            Mockito.verify(mSpy).onDoubleTap(e);
         }
 
         void assertCalled_onDoubleTapEvent(MotionEvent e) {
-            Mockito.verify(mDelegate).onDoubleTapEvent(e);
+            Mockito.verify(mSpy).onDoubleTapEvent(e);
         }
 
         void assertNotCalled_onDown() {
-            verify(mDelegate, never()).onDown(any());
+            verify(mSpy, never()).onDown(any());
         }
 
         void assertNotCalled_onShowPress() {
-            verify(mDelegate, never()).onShowPress(any());
+            verify(mSpy, never()).onShowPress(any());
         }
 
         void assertNotCalled_onSingleTapUp() {
-            verify(mDelegate, never()).onSingleTapUp(any());
+            verify(mSpy, never()).onSingleTapUp(any());
         }
 
         void assertNotCalled_onScroll() {
-            verify(mDelegate, never()).onScroll(any(), any(), anyFloat(), anyFloat());
+            verify(mSpy, never()).onScroll(any(), any(), anyFloat(), anyFloat());
         }
 
         void assertNotCalled_onLongPress() {
-            verify(mDelegate, never()).onLongPress(any());
+            verify(mSpy, never()).onLongPress(any());
         }
 
         void assertNotCalled_onFling() {
-            Mockito.verify(mDelegate, never()).onFling(any(), any(), anyFloat(), anyFloat());
+            Mockito.verify(mSpy, never()).onFling(any(), any(), anyFloat(), anyFloat());
         }
 
         void assertNotCalled_onSingleTapConfirmed() {
-            Mockito.verify(mDelegate, never()).onSingleTapConfirmed(any());
+            Mockito.verify(mSpy, never()).onSingleTapConfirmed(any());
         }
 
         void assertNotCalled_onDoubleTap() {
-            Mockito.verify(mDelegate, never()).onDoubleTap(any());
+            Mockito.verify(mSpy, never()).onDoubleTap(any());
         }
 
         void assertNotCalled_onDoubleTapEvent() {
-            Mockito.verify(mDelegate, never()).onDoubleTapEvent(any());
+            Mockito.verify(mSpy, never()).onDoubleTapEvent(any());
         }
     }
+
+    private static interface Spy extends OnGestureListener, OnDoubleTapListener {}
 }

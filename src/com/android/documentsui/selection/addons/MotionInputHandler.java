@@ -24,10 +24,9 @@ import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
 
 /**
- * Base class for handlers that can be registered w/ {@link InputEventDispatcher}.
+ * Base class for handlers that can be registered w/ {@link GestureRouter}.
  */
-public abstract class MotionInputHandler extends SimpleOnGestureListener
-        implements InputEventDispatcher.Delegate {
+public abstract class MotionInputHandler extends SimpleOnGestureListener {
 
     protected final SelectionHelper mSelectionHelper;
     protected final ItemDetailsLookup mDetailsLookup;

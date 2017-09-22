@@ -23,6 +23,7 @@ import static com.android.documentsui.selection.Shared.DEBUG;
 import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnItemTouchListener;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -85,7 +86,7 @@ public final class GestureSelectionHelper extends ScrollHost {
         return true;
     }
 
-    public boolean onInterceptTouchEvent(MotionEvent e) {
+    private boolean onInterceptTouchEvent(MotionEvent e) {
         if (MotionEvents.isMouseEvent(e)) {
             return false;
         }
@@ -103,7 +104,7 @@ public final class GestureSelectionHelper extends ScrollHost {
         return handled;
     }
 
-    public void onTouchEvent(MotionEvent e) {
+    private void onTouchEvent(MotionEvent e) {
         if (!mStarted) {
             return;
         }
@@ -313,5 +314,34 @@ public final class GestureSelectionHelper extends ScrollHost {
         public void removeCallback(Runnable r) {
             mView.removeCallbacks(r);
         }
+    }
+
+    public OnItemTouchListener getTouchListener() {
+        return new EventPreprocessor(this);
+    }
+
+    private static final class EventPreprocessor implements OnItemTouchListener {
+
+        private final GestureSelectionHelper mGestureSelector;
+
+        private EventPreprocessor(GestureSelectionHelper gestureSelector) {
+            mGestureSelector = gestureSelector;
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            // Gesture Selector needs to be constantly fed events, so that when a long press does
+            // happen, we would have the last DOWN event that occurred to keep track of our anchor
+            // point
+            return mGestureSelector.onInterceptTouchEvent(e);
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            mGestureSelector.onTouchEvent(e);
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
     }
 }
