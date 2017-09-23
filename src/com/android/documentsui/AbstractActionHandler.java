@@ -51,7 +51,6 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
-import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.queries.SearchViewManager;
@@ -61,6 +60,7 @@ import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.addons.ContentLock;
+import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.sidebar.EjectRootTask;
 import com.android.documentsui.ui.Snackbars;
 
@@ -227,7 +227,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
-    public boolean openDocument(DocumentDetails doc, @ViewType int type, @ViewType int fallback) {
+    public boolean openItem(ItemDetails doc, @ViewType int type, @ViewType int fallback) {
         throw new UnsupportedOperationException("Can't open document.");
     }
 

@@ -35,9 +35,9 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DragStartListener.RuntimeDragStartListener;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.TestItemDetailsLookup;
 import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestDragAndDropManager;
-import com.android.documentsui.testing.TestEventDetailsLookup;
 import com.android.documentsui.testing.TestEvents;
 import com.android.documentsui.testing.TestSelectionDetails;
 import com.android.documentsui.testing.Views;
@@ -56,7 +56,7 @@ public class DragStartListenerTest {
     private RuntimeDragStartListener mListener;
     private TestEvents.Builder mEvent;
     private DocsSelectionHelper mSelectionMgr;
-    private TestEventDetailsLookup mDocLookup;
+    private TestItemDetailsLookup mDocLookup;
     private SelectionDetails mSelectionDetails;
     private String mViewModelId;
     private TestDragAndDropManager mManager;
@@ -66,7 +66,7 @@ public class DragStartListenerTest {
         mSelectionMgr = SelectionHelpers.createTestInstance();
         mManager = new TestDragAndDropManager();
         mSelectionDetails = new TestSelectionDetails();
-        mDocLookup = new TestEventDetailsLookup();
+        mDocLookup = new TestItemDetailsLookup();
 
         DocumentInfo doc = new DocumentInfo();
         doc.authority = Providers.AUTHORITY_STORAGE;

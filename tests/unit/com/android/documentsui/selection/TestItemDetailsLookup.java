@@ -13,22 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.testing;
+package com.android.documentsui.selection;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 
-import com.android.documentsui.base.EventDetailsLookup;
-import com.android.documentsui.dirlist.DocumentDetails;
+import com.android.documentsui.selection.addons.ItemDetailsLookup;
 
 import javax.annotation.Nullable;
 
 /**
- * Test impl of EventDocLookup.
+ * Test impl of ItemDetailsLookup.
  */
-public class TestEventDetailsLookup implements EventDetailsLookup {
+public class TestItemDetailsLookup extends ItemDetailsLookup {
 
-    private @Nullable DocumentDetails mDoc;
+    private @Nullable TestItemDetails mDoc;
 
     @Override
     public boolean overItem(MotionEvent e) {
@@ -36,8 +35,8 @@ public class TestEventDetailsLookup implements EventDetailsLookup {
     }
 
     @Override
-    public boolean overModelItem(MotionEvent e) {
-        return mDoc.getModelId() != null;
+    public boolean overStableItem(MotionEvent e) {
+        return mDoc.getStableId() != null;
     }
 
     @Override
@@ -47,16 +46,16 @@ public class TestEventDetailsLookup implements EventDetailsLookup {
 
     @Override
     public int getItemPosition(MotionEvent e) {
-        return mDoc.getAdapterPosition();
+        return mDoc.getPosition();
     }
 
     @Override
     public boolean inItemSelectRegion(MotionEvent e) {
-        return mDoc.inSelectRegion(e);
+        return mDoc.inSelectionHotspot(e);
     }
 
     @Override
-    public DocumentDetails getDocumentDetails(MotionEvent e) {
+    public @Nullable ItemDetails getItemDetails(MotionEvent e) {
         return mDoc;
     }
 
@@ -64,8 +63,8 @@ public class TestEventDetailsLookup implements EventDetailsLookup {
      * Creates/installs/returns a new test document. Subsequent calls to
      * any EventDocLookup methods will consult the newly created doc.
      */
-    public TestDocumentDetails initAt(int position) {
-        TestDocumentDetails doc = new TestDocumentDetails();
+    public TestItemDetails initAt(int position) {
+        TestItemDetails doc = new TestItemDetails();
         doc.at(position);
         mDoc = doc;
         return doc;

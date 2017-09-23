@@ -13,16 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.selection;
+package com.android.documentsui.selection.addons;
 
-/**
- * Shared constants used in this and descendant packages.
- */
-public final class Shared {
+import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 
-    public static final String TAG = "SelectionHelper";
-    public static final boolean DEBUG = false;
-    public static final boolean VERBOSE = false;
+final class TestSelectionPredicate extends SelectionPredicate {
+    private boolean mValue;
 
-    private Shared() {}
+    void setReturnValue(boolean value) {
+        mValue = value;
+    }
+
+    @Override
+    public boolean canSetStateForId(String id, boolean nextState) {
+        return mValue;
+    }
+
+    @Override
+    public boolean canSetStateAtPosition(int position, boolean nextState) {
+        return mValue;
+    }
 }

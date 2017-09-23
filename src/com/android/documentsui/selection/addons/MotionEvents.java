@@ -42,12 +42,12 @@ final class MotionEvents {
         return e.getActionMasked() == MotionEvent.ACTION_UP;
     }
 
-    static boolean isMultiPointerActionDown(MotionEvent e) {
-        return e.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN;
+    static boolean isActionPointerUp(MotionEvent e) {
+        return e.getActionMasked() == MotionEvent.ACTION_POINTER_UP;
     }
 
-    static boolean isMultiPointerActionUp(MotionEvent e) {
-        return e.getActionMasked() == MotionEvent.ACTION_POINTER_UP;
+    static boolean isActionPointerDown(MotionEvent e) {
+        return e.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN;
     }
 
     static boolean isActionCancel(MotionEvent e) {
@@ -62,12 +62,30 @@ final class MotionEvents {
         return e.isButtonPressed(MotionEvent.BUTTON_PRIMARY);
     }
 
-    static boolean isShiftPressed(MotionEvent e) {
+    public static boolean isSecondaryButtonPressed(MotionEvent e) {
+        return e.isButtonPressed(MotionEvent.BUTTON_SECONDARY);
+    }
+
+    public static boolean isTertiaryButtonPressed(MotionEvent e) {
+        return e.isButtonPressed(MotionEvent.BUTTON_TERTIARY);
+    }
+
+    static boolean isShiftKeyPressed(MotionEvent e) {
         return hasBit(e.getMetaState(), KeyEvent.META_SHIFT_ON);
     }
 
-    static boolean isCtrlPressed(MotionEvent e) {
+    static boolean isCtrlKeyPressed(MotionEvent e) {
         return hasBit(e.getMetaState(), KeyEvent.META_CTRL_ON);
+    }
+
+    static boolean isAltKeyPressed(MotionEvent e) {
+        return hasBit(e.getMetaState(), KeyEvent.META_ALT_ON);
+    }
+
+    public static boolean isTouchpadScroll(MotionEvent e) {
+        // Touchpad inputs are treated as mouse inputs, and when scrolling, there are no buttons
+        // returned.
+        return isMouseEvent(e) && isActionMove(e) && e.getButtonState() == 0;
     }
 
     private static boolean hasBit(int metaState, int bit) {

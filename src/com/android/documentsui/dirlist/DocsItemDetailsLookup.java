@@ -15,20 +15,22 @@
  */
 package com.android.documentsui.dirlist;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.base.EventDetailsLookup;
+import com.android.documentsui.selection.addons.ItemDetailsLookup;
 
 /**
- * Access to document details relating to {@link MotionEvent} instances.
+ * Access to details of an item associated with a {@link MotionEvent} instance.
  */
-final class RuntimeEventDetailsLookup implements EventDetailsLookup {
+final class DocsItemDetailsLookup extends ItemDetailsLookup {
 
     private final RecyclerView mRecView;
 
-    public RuntimeEventDetailsLookup(RecyclerView view) {
+    public DocsItemDetailsLookup(RecyclerView view) {
         mRecView = view;
     }
 
@@ -38,18 +40,18 @@ final class RuntimeEventDetailsLookup implements EventDetailsLookup {
     }
 
     @Override
-    public boolean overModelItem(MotionEvent e) {
-        return overItem(e) && getDocumentDetails(e).hasModelId();
+    public boolean overStableItem(MotionEvent e) {
+        return overItem(e) && getItemDetails(e).hasStableId();
     }
 
     @Override
     public boolean inItemDragRegion(MotionEvent e) {
-        return overItem(e) && getDocumentDetails(e).inDragRegion(e);
+        return overItem(e) && getItemDetails(e).inDragRegion(e);
     }
 
     @Override
     public boolean inItemSelectRegion(MotionEvent e) {
-        return overItem(e) && getDocumentDetails(e).inSelectRegion(e);
+        return overItem(e) && getItemDetails(e).inSelectionHotspot(e);
     }
 
     @Override
@@ -61,10 +63,19 @@ final class RuntimeEventDetailsLookup implements EventDetailsLookup {
     }
 
     @Override
-    public DocumentDetails getDocumentDetails(MotionEvent e) {
+    public ItemDetails getItemDetails(MotionEvent e) {
+        @Nullable DocumentHolder holder = getDocumentHolder(e);
+        return holder == null ? null : holder.getItemDetails();
+    }
+
+    private @Nullable DocumentHolder getDocumentHolder(MotionEvent e) {
         View childView = mRecView.findChildViewUnder(e.getX(), e.getY());
-        return (childView != null)
-            ? (DocumentHolder) mRecView.getChildViewHolder(childView)
-            : null;
+        if (childView != null) {
+            ViewHolder holder = mRecView.getChildViewHolder(childView);
+            if (holder instanceof DocumentHolder) {
+                return (DocumentHolder) holder;
+            }
+        }
+        return null;
     }
 }

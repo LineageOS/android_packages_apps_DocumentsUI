@@ -58,13 +58,13 @@ import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView;
-import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.inspector.InspectorActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
+import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
@@ -190,12 +190,12 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     @Override
-    public boolean openDocument(DocumentDetails details, @ViewType int type,
+    public boolean openItem(ItemDetails details, @ViewType int type,
             @ViewType int fallback) {
-        DocumentInfo doc = mModel.getDocument(details.getModelId());
+        DocumentInfo doc = mModel.getDocument(details.getStableId());
         if (doc == null) {
             Log.w(TAG,
-                    "Can't view item. No Document available for modeId: " + details.getModelId());
+                    "Can't view item. No Document available for modeId: " + details.getStableId());
             return false;
         }
 

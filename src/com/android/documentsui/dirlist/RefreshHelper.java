@@ -31,7 +31,7 @@ final class RefreshHelper {
 
     private final BooleanConsumer mRefreshLayoutEnabler;
 
-    private boolean mInstalled;
+    private boolean mAttached;
 
     public RefreshHelper(BooleanConsumer refreshLayoutEnabler) {
         mRefreshLayoutEnabler = refreshLayoutEnabler;
@@ -63,9 +63,8 @@ final class RefreshHelper {
         }
     }
 
-
-    void install(RecyclerView view) {
-        checkState(!mInstalled);
+    void attach(RecyclerView view) {
+        checkState(!mAttached);
 
         view.addOnItemTouchListener(
                 new OnItemTouchListener() {
@@ -82,5 +81,7 @@ final class RefreshHelper {
                     @Override
                     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
         });
+
+        mAttached = true;
     }
 }
