@@ -152,5 +152,15 @@
             android:exported="false"
             android:process=":com.android.documentsui.services">
         </service>
+
+        <activity
+            android:name=".selection.demo.SelectionDemoActivity"
+            android:label="Selection Demo"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
     </application>
 </manifest>

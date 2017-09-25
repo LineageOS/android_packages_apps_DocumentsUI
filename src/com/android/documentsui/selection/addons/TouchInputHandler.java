@@ -116,7 +116,10 @@ public final class TouchInputHandler extends MotionInputHandler {
 
     public static abstract class Callbacks extends MotionInputHandler.Callbacks {
         public abstract boolean onItemActivated(ItemDetails item, MotionEvent e);
-        public abstract boolean onDragInitiated(MotionEvent e);
+        public boolean onDragInitiated(MotionEvent e) {
+            return false;
+        }
+        @Deprecated  // TODO: Should be delivered direclty to GestuerSelectionHelper.
         public abstract boolean onGestureInitiated(MotionEvent e);
     }
 }
