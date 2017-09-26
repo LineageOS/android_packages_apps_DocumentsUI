@@ -50,6 +50,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextMenu;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -93,11 +94,13 @@ import com.android.documentsui.selection.addons.BandSelectionHelper;
 import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.selection.addons.DefaultBandHost;
 import com.android.documentsui.selection.addons.DefaultBandPredicate;
+import com.android.documentsui.selection.addons.GestureRouter;
 import com.android.documentsui.selection.addons.GestureSelectionHelper;
-import com.android.documentsui.selection.addons.InputEventDispatcher;
 import com.android.documentsui.selection.addons.ItemDetailsLookup;
 import com.android.documentsui.selection.addons.KeyInputHandler;
+import com.android.documentsui.selection.addons.MotionInputHandler;
 import com.android.documentsui.selection.addons.MouseInputHandler;
+import com.android.documentsui.selection.addons.TouchEventRouter;
 import com.android.documentsui.selection.addons.TouchInputHandler;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
@@ -161,7 +164,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private ItemDetailsLookup mDetailsLookup;
     private SelectionMetadata mSelectionMetadata;
-    private InputEventDispatcher mInputHandler;
+    private GestureRouter<MotionInputHandler> mGestureRouter;
     private KeyInputHandler mKeyListener;
     private @Nullable BandSelectionHelper mBandSelector;
     private @Nullable DragHoverListener mDragHoverListener;
@@ -378,14 +381,13 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mRecView,
                 mState);
 
-        TouchInputHandler touchDelegate =
-                handlers.createTouchHandler(gestureSel, dragStartListener);
+        MouseInputHandler mouseHandler = handlers.createMouseHandler(this::onContextMenuClick);
+        TouchInputHandler touchHandler = handlers.createTouchHandler(gestureSel, dragStartListener);
+        mGestureRouter = new GestureRouter<>(touchHandler);
+        mGestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
 
-        MouseInputHandler mouseDelegate = handlers.createMouseHandler(this::onContextMenuClick);
-
-        mInputHandler = new InputEventDispatcher(touchDelegate);  // default handler.
-        mInputHandler.register(MotionEvent.TOOL_TYPE_MOUSE, mouseDelegate);
-
+        // This little guy gets added to each Holder, so that we can be notified of key events
+        // on RecyclerView items.
         mKeyListener = handlers.createKeyHandler();
 
         if (Build.IS_DEBUGGABLE) {
@@ -396,15 +398,19 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         new RefreshHelper(mRefreshLayout::setEnabled)
                 .attach(mRecView);
 
-        ListeningGestureDetector recListener = new ListeningGestureDetector(
-                this.getContext(),
-                mDetailsLookup,
-                dragStartListener::onMouseDragEvent,
-                gestureSel,
-                mInputHandler,
-                mBandSelector);
+        GestureDetector gestureDetector = new GestureDetector(getContext(), mGestureRouter);
 
-        recListener.attach(mRecView);
+        TouchEventRouter eventRouter =
+                new TouchEventRouter(gestureDetector, gestureSel.getTouchListener());
+
+        eventRouter.register(
+                MotionEvent.TOOL_TYPE_MOUSE,
+                new MouseDragEventInterceptor(
+                        mDetailsLookup,
+                        dragStartListener::onMouseDragEvent,
+                        mBandSelector != null ? mBandSelector.getTouchListener() : null));
+
+        mRecView.addOnItemTouchListener(eventRouter);
 
         mActionModeController = mInjector.getActionModeController(
                 mSelectionMetadata,
@@ -430,7 +436,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         // Kick off loader at least once
         mActions.loadDocumentsForCurrentStack();
     }
-
 
     @Override
     public void onStart() {
