@@ -91,4 +91,9 @@ final class DocsSelectionPredicate extends SelectionPredicate {
         RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(position);
         return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
     }
+
+    @Override
+    public boolean canSelectMultiple() {
+        return mState.allowMultiple;
+    }
 }

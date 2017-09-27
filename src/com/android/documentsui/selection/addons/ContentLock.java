@@ -15,12 +15,12 @@
  */
 package com.android.documentsui.selection.addons;
 
+import static android.support.v4.util.Preconditions.checkState;
 import static com.android.documentsui.selection.Shared.DEBUG;
 import static com.android.documentsui.selection.Shared.TAG;
 
 import android.annotation.MainThread;
 import android.annotation.Nullable;
-import android.os.Looper;
 import android.util.Log;
 
 /**
@@ -37,8 +37,6 @@ public class ContentLock {
      */
     @MainThread
     public synchronized void block() {
-        assert Looper.getMainLooper().equals(Looper.myLooper());
-
         mLocks++;
         if (DEBUG) Log.v(TAG, "Incremented content lock count to " + mLocks + ".");
     }
@@ -49,8 +47,7 @@ public class ContentLock {
      */
     @MainThread
     public synchronized void unblock() {
-        assert Looper.getMainLooper().equals(Looper.myLooper());
-        assert mLocks > 0;
+        checkState(mLocks > 0);
 
         mLocks--;
         if (DEBUG) Log.v(TAG, "Decremented content lock count to " + mLocks + ".");
@@ -71,5 +68,9 @@ public class ContentLock {
         } else {
             mCallback = runnable;
         }
+    }
+
+    final boolean isLocked() {
+        return mLocks > 0;
     }
 }

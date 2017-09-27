@@ -49,6 +49,7 @@ public final class TouchInputHandlerTest {
     private TouchInputHandler mInputDelegate;
     private SelectionHelper mSelectionMgr;
     private TestSelectionPredicate mSelectionPredicate;
+    private TestRunnable mGestureStarted;
     private TestCallbacks mCallbacks;
     private TestItemDetailsLookup mDetailsLookup;
     private SelectionProbe mSelection;
@@ -59,12 +60,14 @@ public final class TouchInputHandlerTest {
         mDetailsLookup = new TestItemDetailsLookup();
         mSelectionPredicate = new TestSelectionPredicate();
         mSelection = new SelectionProbe(mSelectionMgr);
+        mGestureStarted = new TestRunnable();
         mCallbacks = new TestCallbacks();
 
         mInputDelegate = new TouchInputHandler(
                 mSelectionMgr,
                 mDetailsLookup,
                 mSelectionPredicate,
+                mGestureStarted,
                 mCallbacks);
     }
 
@@ -82,7 +85,7 @@ public final class TouchInputHandlerTest {
     }
 
     @Test
-    public void testLongPress_StartsSelectionMode() {
+    public void testLongPress_SelectsItem() {
         mSelectionPredicate.setReturnValue(true);
 
         mDetailsLookup.initAt(7);
@@ -91,6 +94,14 @@ public final class TouchInputHandlerTest {
         mSelection.assertSelection(7);
     }
 
+    @Test
+    public void testLongPress_StartsGestureSelection() {
+        mSelectionPredicate.setReturnValue(true);
+
+        mDetailsLookup.initAt(7);
+        mInputDelegate.onLongPress(TAP);
+        mGestureStarted.assertRan();
+    }
 
     @Test
     public void testSelectHotspot_StartsSelectionMode() {
@@ -182,11 +193,6 @@ public final class TouchInputHandlerTest {
         }
 
         @Override
-        public boolean onGestureInitiated(MotionEvent e) {
-            return false;
-        }
-
-        @Override
         public void onPerformHapticFeedback() {
             mVibrated = true;
         }
@@ -197,6 +203,20 @@ public final class TouchInputHandlerTest {
 
         private void assertVibrated() {
             assertTrue(mVibrated);
+        }
+    }
+
+    private static final class TestRunnable implements Runnable {
+
+        private boolean mWasRun;
+
+        @Override
+        public void run() {
+            mWasRun = true;
+        }
+
+        void assertRan() {
+            assertTrue(mWasRun);
         }
     }
 }

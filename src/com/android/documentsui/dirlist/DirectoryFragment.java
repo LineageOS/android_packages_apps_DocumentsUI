@@ -337,7 +337,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mSelectionMgr.addObserver(mSelectionMetadata);
         mDetailsLookup = new DocsItemDetailsLookup(mRecView);
 
-        GestureSelectionHelper gestureSel =
+        GestureSelectionHelper gestureHelper =
                 GestureSelectionHelper.create(mSelectionMgr, mRecView, mContentLock);
 
         if (mState.allowMultiple) {
@@ -380,8 +380,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mRecView,
                 mState);
 
-        MouseInputHandler mouseHandler = handlers.createMouseHandler(this::onContextMenuClick);
-        TouchInputHandler touchHandler = handlers.createTouchHandler(gestureSel, dragStartListener);
+        MouseInputHandler mouseHandler =
+                handlers.createMouseHandler(this::onContextMenuClick);
+
+        TouchInputHandler touchHandler =
+                handlers.createTouchHandler(gestureHelper, dragStartListener);
+
         GestureRouter<MotionInputHandler> gestureRouter = new GestureRouter<>(touchHandler);
         gestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
 
@@ -399,15 +403,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         GestureDetector gestureDetector = new GestureDetector(getContext(), gestureRouter);
 
-        TouchEventRouter eventRouter =
-                new TouchEventRouter(gestureDetector, gestureSel.getTouchListener());
+        TouchEventRouter eventRouter = new TouchEventRouter(gestureDetector, gestureHelper);
 
         eventRouter.register(
                 MotionEvent.TOOL_TYPE_MOUSE,
                 new MouseDragEventInterceptor(
-                        mDetailsLookup,
-                        dragStartListener::onMouseDragEvent,
-                        mBandSelector != null ? mBandSelector.getTouchListener() : null));
+                        mDetailsLookup, dragStartListener::onMouseDragEvent, mBandSelector));
 
         mRecView.addOnItemTouchListener(eventRouter);
 
