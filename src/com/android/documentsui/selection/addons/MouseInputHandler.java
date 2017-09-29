@@ -201,7 +201,9 @@ public final class MouseInputHandler extends MotionInputHandler {
 
         public static abstract class Callbacks extends MotionInputHandler.Callbacks {
             public abstract boolean onItemActivated(ItemDetails item, MotionEvent e);
-            public abstract boolean onContextClick(MotionEvent e);
+            public boolean onContextClick(MotionEvent e) {
+                return false;
+            }
             public boolean hasFocusedItem() {
                 return false;
             }

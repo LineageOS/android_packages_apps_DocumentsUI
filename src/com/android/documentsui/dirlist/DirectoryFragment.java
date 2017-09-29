@@ -164,7 +164,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private ItemDetailsLookup mDetailsLookup;
     private SelectionMetadata mSelectionMetadata;
-    private GestureRouter<MotionInputHandler> mGestureRouter;
     private KeyInputHandler mKeyListener;
     private @Nullable BandSelectionHelper mBandSelector;
     private @Nullable DragHoverListener mDragHoverListener;
@@ -383,8 +382,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         MouseInputHandler mouseHandler = handlers.createMouseHandler(this::onContextMenuClick);
         TouchInputHandler touchHandler = handlers.createTouchHandler(gestureSel, dragStartListener);
-        mGestureRouter = new GestureRouter<>(touchHandler);
-        mGestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
+        GestureRouter<MotionInputHandler> gestureRouter = new GestureRouter<>(touchHandler);
+        gestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
 
         // This little guy gets added to each Holder, so that we can be notified of key events
         // on RecyclerView items.
@@ -398,7 +397,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         new RefreshHelper(mRefreshLayout::setEnabled)
                 .attach(mRecView);
 
-        GestureDetector gestureDetector = new GestureDetector(getContext(), mGestureRouter);
+        GestureDetector gestureDetector = new GestureDetector(getContext(), gestureRouter);
 
         TouchEventRouter eventRouter =
                 new TouchEventRouter(gestureDetector, gestureSel.getTouchListener());
