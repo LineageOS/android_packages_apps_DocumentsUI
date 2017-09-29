@@ -20,23 +20,26 @@ import static android.support.v4.util.Preconditions.checkArgument;
 import static android.support.v4.util.Preconditions.checkState;
 
 import android.graphics.Point;
+import android.os.Build;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnItemTouchListener;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.documentsui.selection.ViewAutoScroller.ScrollHost;
 import com.android.documentsui.selection.ViewAutoScroller.ScrollerCallbacks;
 
-import javax.annotation.Nullable;
-
-/*
- * Helper class providing support for touch-gesture based multi-select support.
+/**
+ * GestureSelectionHelper provides logic that interprets a combination
+ * of motions and gestures in order to provide gesture driven selection support
+ * when used in conjunction with RecyclerView and other classes in the ReyclerView
+ * selection support package.
  */
 public final class GestureSelectionHelper extends ScrollHost implements OnItemTouchListener {
 
-    private final String TAG = "GestureSelector";
+    private static final String TAG = "GestureSelectionHelper";
 
     private final SelectionHelper mSelectionMgr;
     private final Runnable mScroller;
@@ -47,6 +50,11 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     private boolean mStarted = false;
     private Point mLastInterceptedPoint;
 
+    /**
+     * See {@link #create(SelectionHelper, RecyclerView, ContentLock)} for convenience
+     * method.
+     */
+    @VisibleForTesting
     GestureSelectionHelper(
             SelectionHelper selectionHelper,
             ViewDelegate view,
@@ -68,23 +76,27 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
      *
      * @return true if started.
      */
-    public boolean start() {
-        if (mStarted) {
-            return false;
-        }
-
+    public void start() {
+        checkState(!mStarted);
         checkState(mLastStartedItemPos > -1);
-        checkState(!mLock.isLocked());
+
+        // Partner code in MotionInputHandler ensures items
+        // are selected and range established prior to
+        // start being called.
+        // Verify the truth of that statement here
+        // to make the implicit coupling less of a time bomb.
+        checkState(mSelectionMgr.isRangeActive());
+
+        mLock.checkUnlocked();
 
         mStarted = true;
         mLock.block();
-        return true;
     }
 
     @Override
     public boolean onInterceptTouchEvent(RecyclerView unused, MotionEvent e) {
         if (MotionEvents.isMouseEvent(e)) {
-            return false;
+            if (Shared.DEBUG) Log.w(TAG, "Unexpected Mouse event. Check configuration.");
         }
 
         switch (e.getActionMasked()) {
@@ -102,17 +114,21 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
 
     @Override
     public void onTouchEvent(RecyclerView unused, MotionEvent e) {
-        checkState(mStarted);
+        // Note: There were a couple times I as this check firing
+        // after combinations of mouse + touch + rotation.
+        // But after further investigation I couldn't repro.
+        // For that reason we guard this check (for now) w/ IS_DEBUGGABLE.
+        if (Build.IS_DEBUGGABLE) checkState(mStarted);
 
         switch (e.getActionMasked()) {
+            case MotionEvent.ACTION_MOVE:
+                handleMoveEvent(e);
+                break;
             case MotionEvent.ACTION_UP:
                 handleUpEvent(e);
                 break;
             case MotionEvent.ACTION_CANCEL:
                 handleCancelEvent(e);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                handleOnTouchMoveEvent(e);
                 break;
         }
     }
@@ -121,20 +137,10 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
 
     // Called when an ACTION_DOWN event is intercepted.
-    // If down event happens on a file/doc, we mark that item's position as last started.
-    public void setContactPoint(MotionEvent e) {
-        handleInterceptedDownEvent(e);
-    }
-
-    // Called when an ACTION_DOWN event is intercepted.
-    // If down event happens on a file/doc, we mark that item's position as last started.
+    // If down event happens on an item, we mark that item's position as last started.
     private boolean handleInterceptedDownEvent(MotionEvent e) {
-        View itemView = mView.findChildViewUnder(e.getX(), e.getY());
-        if (itemView != null) {
-            mLastStartedItemPos = mView.getItemUnder(e);
-            return true;
-        }
-        return false;
+        mLastStartedItemPos = mView.getItemUnder(e);
+        return mLastStartedItemPos != RecyclerView.NO_POSITION;
     }
 
     // Called when ACTION_UP event is to be handled.
@@ -166,7 +172,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
 
     // Call when an intercepted ACTION_MOVE event is passed down.
     // At this point, we are sure user wants to gesture multi-select.
-    private void handleOnTouchMoveEvent(MotionEvent e) {
+    private void handleMoveEvent(MotionEvent e) {
         mLastInterceptedPoint = MotionEvents.getOrigin(e);
 
         int lastGlidedItemPos = mView.getLastGlidedItemPosition(e);
@@ -214,18 +220,19 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
         return mStarted && mSelectionMgr.hasSelection();
     }
 
+    /**
+     * Returns a new instance of GestureSelectionHelper.
+     */
     public static GestureSelectionHelper create(
             SelectionHelper selectionMgr, RecyclerView recycler, ContentLock lock) {
 
-        GestureSelectionHelper helper = new GestureSelectionHelper(
+        return new GestureSelectionHelper(
                 selectionMgr, new RecyclerViewDelegate(recycler), lock);
-
-        return helper;
     }
 
-    private static abstract class ViewDelegate extends ScrollerCallbacks {
+    @VisibleForTesting
+    static abstract class ViewDelegate extends ScrollerCallbacks {
         abstract int getHeight();
-        abstract @Nullable View findChildViewUnder(float x, float y);
         abstract int getItemUnder(MotionEvent e);
         abstract int getLastGlidedItemPosition(MotionEvent e);
     }
@@ -241,17 +248,12 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
         }
 
         @Override
-        public int getHeight() {
+        int getHeight() {
             return mView.getHeight();
         }
 
         @Override
-        public View findChildViewUnder(float x, float y) {
-            return mView.findChildViewUnder(x, y);
-        }
-
-        @Override
-        public int getItemUnder(MotionEvent e) {
+        int getItemUnder(MotionEvent e) {
             View child = mView.findChildViewUnder(e.getX(), e.getY());
             return child != null
                     ? mView.getChildAdapterPosition(child)
@@ -259,7 +261,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
         }
 
         @Override
-        public int getLastGlidedItemPosition(MotionEvent e) {
+        int getLastGlidedItemPosition(MotionEvent e) {
             // If user has moved his pointer to the bottom-right empty pane (ie. to the right of the
             // last item of the recycler view), we would want to set that as the currentItemPos
             View lastItem = mView.getLayoutManager()

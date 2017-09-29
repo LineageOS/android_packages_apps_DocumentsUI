@@ -23,7 +23,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.android.documentsui.selection.BandSelectionHelper.BandHost;
@@ -33,78 +32,67 @@ import com.android.documentsui.selection.BandSelectionHelper.BandHost;
  */
 public final class DefaultBandHost extends BandHost {
 
-    private final RecyclerView mView;
+    private final RecyclerView mRecView;
     private final Drawable mBand;
-    private final BandPredicate mBandPredicate;
 
     private boolean mIsOverlayShown;
 
-    public DefaultBandHost(
-            RecyclerView view,
-            @DrawableRes int bandOverlayId,
-            BandPredicate bandPredicate) {
+    public DefaultBandHost(RecyclerView recView, @DrawableRes int bandOverlayId) {
 
-        checkArgument(view != null);
-        checkArgument(bandPredicate != null);
+        checkArgument(recView != null);
 
-        mView = view;
-        mBandPredicate = bandPredicate;
-        mBand = mView.getContext().getTheme().getDrawable(bandOverlayId);
+        mRecView = recView;
+        mBand = mRecView.getContext().getTheme().getDrawable(bandOverlayId);
 
         checkArgument(mBand != null);
     }
 
     @Override
-    public boolean canInitiateBand(MotionEvent e) {
-        return mBandPredicate.canInitiate(e);
-    }
-
-    @Override
     public int getAdapterPositionAt(int index) {
-        return mView.getChildAdapterPosition(mView.getChildAt(index));
+        return mRecView.getChildAdapterPosition(mRecView.getChildAt(index));
     }
 
     @Override
     public void addOnScrollListener(RecyclerView.OnScrollListener listener) {
-        mView.addOnScrollListener(listener);
+        mRecView.addOnScrollListener(listener);
     }
 
     @Override
     public void removeOnScrollListener(RecyclerView.OnScrollListener listener) {
-        mView.removeOnScrollListener(listener);
+        mRecView.removeOnScrollListener(listener);
     }
 
     @Override
     public Point createAbsolutePoint(Point relativePoint) {
-        return new Point(relativePoint.x + mView.computeHorizontalScrollOffset(),
-                relativePoint.y + mView.computeVerticalScrollOffset());
+        return new Point(relativePoint.x + mRecView.computeHorizontalScrollOffset(),
+                relativePoint.y + mRecView.computeVerticalScrollOffset());
     }
 
     @Override
     public Rect getAbsoluteRectForChildViewAt(int index) {
-        final View child = mView.getChildAt(index);
+        final View child = mRecView.getChildAt(index);
         final Rect childRect = new Rect();
         child.getHitRect(childRect);
-        childRect.left += mView.computeHorizontalScrollOffset();
-        childRect.right += mView.computeHorizontalScrollOffset();
-        childRect.top += mView.computeVerticalScrollOffset();
-        childRect.bottom += mView.computeVerticalScrollOffset();
+        childRect.left += mRecView.computeHorizontalScrollOffset();
+        childRect.right += mRecView.computeHorizontalScrollOffset();
+        childRect.top += mRecView.computeVerticalScrollOffset();
+        childRect.bottom += mRecView.computeVerticalScrollOffset();
         return childRect;
     }
 
     @Override
     public int getChildCount() {
-        return mView.getAdapter().getItemCount();
+        return mRecView.getAdapter().getItemCount();
     }
 
     @Override
     public int getVisibleChildCount() {
-        return mView.getChildCount();
+        return mRecView.getChildCount();
     }
 
     @Override
     public int getColumnCount() {
-        RecyclerView.LayoutManager layoutManager = mView.getLayoutManager();
+        RecyclerView.LayoutManager layoutManager = mRecView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             return ((GridLayoutManager) layoutManager).getSpanCount();
         }
@@ -115,27 +103,27 @@ public final class DefaultBandHost extends BandHost {
 
     @Override
     public int getHeight() {
-        return mView.getHeight();
+        return mRecView.getHeight();
     }
 
     @Override
     public void invalidateView() {
-        mView.invalidate();
+        mRecView.invalidate();
     }
 
     @Override
     public void runAtNextFrame(Runnable r) {
-        mView.postOnAnimation(r);
+        mRecView.postOnAnimation(r);
     }
 
     @Override
     public void removeCallback(Runnable r) {
-        mView.removeCallbacks(r);
+        mRecView.removeCallbacks(r);
     }
 
     @Override
     public void scrollBy(int dy) {
-        mView.scrollBy(0, dy);
+        mRecView.scrollBy(0, dy);
     }
 
     @Override
@@ -143,17 +131,17 @@ public final class DefaultBandHost extends BandHost {
         mBand.setBounds(rect);
 
         if (!mIsOverlayShown) {
-            mView.getOverlay().add(mBand);
+            mRecView.getOverlay().add(mBand);
         }
     }
 
     @Override
     public void hideBand() {
-        mView.getOverlay().remove(mBand);
+        mRecView.getOverlay().remove(mBand);
     }
 
     @Override
     public boolean hasView(int pos) {
-        return mView.findViewHolderForAdapterPosition(pos) != null;
+        return mRecView.findViewHolderForAdapterPosition(pos) != null;
     }
 }

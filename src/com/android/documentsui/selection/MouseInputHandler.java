@@ -27,7 +27,9 @@ import com.android.internal.widget.RecyclerView;
 import javax.annotation.Nullable;
 
 /**
- * MotionInputHandler that defines selection logic for mouse input.
+ * A MotionInputHandler that provides the high-level glue for mouse/stylus driven selection. This
+ * class works with {@link RecyclerView}, {@link GestureRouter}, and {@link GestureSelectionHelper}
+ * to provide robust user drive selection support.
  */
 public final class MouseInputHandler extends MotionInputHandler {
 

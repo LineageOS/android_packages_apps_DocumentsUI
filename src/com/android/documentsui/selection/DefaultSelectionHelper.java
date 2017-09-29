@@ -274,6 +274,10 @@ public final class DefaultSelectionHelper extends SelectionHelper {
     public void anchorRange(int position) {
         checkArgument(position != RecyclerView.NO_POSITION);
 
+        // TODO: I'm not a fan of silently ignoring calls.
+        // Determine if there are any cases where method can be called
+        // w/o item already being selected. Else, tighten up the ship
+        // and make this conditional guard into a proper precondition check.
         if (mSelection.contains(mStableIds.getStableId(position))) {
             mRange = new Range(mRangeCallbacks, position);
         }
@@ -477,8 +481,6 @@ public final class DefaultSelectionHelper extends SelectionHelper {
     }
 
     private final class AdapterObserver extends RecyclerView.AdapterDataObserver {
-        private List<String> mModelIds;
-
         @Override
         public void onChanged() {
             // Update the selection to remove any disappeared IDs.
@@ -491,7 +493,10 @@ public final class DefaultSelectionHelper extends SelectionHelper {
         @Override
         public void onItemRangeChanged(
                 int startPosition, int itemCount, Object payload) {
-            // No change in position. Ignoring.
+            // No change in position. Ignore, since we assume
+            // selection is a user driven activity. So changes
+            // in properties of items shouldn't result in a
+            // change of selection.
         }
 
         @Override
@@ -505,8 +510,15 @@ public final class DefaultSelectionHelper extends SelectionHelper {
             checkArgument(itemCount > 0);
 
             mSelection.clearProvisionalSelection();
+
             // Remove any disappeared IDs from the selection.
-            mSelection.intersect(mModelIds);
+            //
+            // Ideally there could be a cheaper approach, checking
+            // each position individually, but since the source of
+            // truth for stable ids (StableIdProvider) probably
+            // it-self no-longer knows about the positions in question
+            // we fall back to the sledge hammer approach.
+            mSelection.intersect(mStableIds.getStableIds());
         }
 
         @Override

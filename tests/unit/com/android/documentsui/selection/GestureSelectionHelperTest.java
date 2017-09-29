@@ -18,58 +18,131 @@ package com.android.documentsui.selection;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
-import android.view.View;
 
-import com.android.documentsui.selection.GestureSelectionHelper.RecyclerViewDelegate;
+import com.android.documentsui.selection.testing.SelectionProbe;
+import com.android.documentsui.selection.testing.TestData;
+import com.android.documentsui.testing.SelectionHelpers;
+import com.android.documentsui.testing.TestEvents;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class GestureSelectionHelperTest {
 
-    // Simulate a (20, 20) box locating at (20, 20)
-    static final int LEFT_BORDER = 20;
-    static final int RIGHT_BORDER = 40;
-    static final int TOP_BORDER = 20;
-    static final int BOTTOM_BORDER = 40;
+    private static final List<String> ITEMS = TestData.create(100);
+    private static final MotionEvent DOWN = TestEvents.builder()
+            .action(MotionEvent.ACTION_DOWN)
+            .location(1, 1)
+            .build();
 
-    @Test
-    public void testLtrPastLastItem() {
-        MotionEvent event = createEvent(100, 100);
-        assertTrue(RecyclerViewDelegate.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, event, View.LAYOUT_DIRECTION_LTR));
+    private static final MotionEvent MOVE = TestEvents.builder()
+            .action(MotionEvent.ACTION_MOVE)
+            .location(1, 1)
+            .build();
+
+    private static final MotionEvent UP = TestEvents.builder()
+            .action(MotionEvent.ACTION_UP)
+            .location(1, 1)
+            .build();
+
+    private GestureSelectionHelper mHelper;
+    private SelectionHelper mSelectionHelper;
+    private SelectionProbe mSelection;
+    private ContentLock mLock;
+    private TestViewDelegate mView;
+
+    @Before
+    public void setUp() {
+        mSelectionHelper = SelectionHelpers.createTestInstance(ITEMS);
+        mSelection = new SelectionProbe(mSelectionHelper);
+        mLock = new ContentLock();
+        mView = new TestViewDelegate();
+        mHelper = new GestureSelectionHelper(mSelectionHelper, mView, mLock);
     }
 
     @Test
-    public void testLtrPastLastItem_Inverse() {
-        MotionEvent event = createEvent(10, 10);
-        assertFalse(RecyclerViewDelegate.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, event, View.LAYOUT_DIRECTION_LTR));
+    public void testIgnoresDownOnNoPosition() {
+        mView.mNextPosition = RecyclerView.NO_POSITION;
+        assertFalse(mHelper.onInterceptTouchEvent(null, DOWN));
+    }
+
+
+    @Test
+    public void testNoStartOnIllegalPosition() {
+        mHelper.onInterceptTouchEvent(null, DOWN);
+        try {
+            mHelper.start();
+            fail("Should have thrown.");
+        } catch (Exception expected) {}
     }
 
     @Test
-    public void testRtlPastLastItem() {
-        MotionEvent event = createEvent(10, 30);
-        assertTrue(RecyclerViewDelegate.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, event, View.LAYOUT_DIRECTION_RTL));
+    public void testClaimsDownOnItem() {
+        mView.mNextPosition = 0;
+        assertTrue(mHelper.onInterceptTouchEvent(null, DOWN));
     }
 
     @Test
-    public void testRtlPastLastItem_Inverse() {
-        MotionEvent event = createEvent(100, 100);
-        assertFalse(RecyclerViewDelegate.isPastLastItem(
-                TOP_BORDER, LEFT_BORDER, RIGHT_BORDER, event, View.LAYOUT_DIRECTION_RTL));
+    public void testClaimsMoveIfStarted() {
+        mView.mNextPosition = 0;
+        assertTrue(mHelper.onInterceptTouchEvent(null, DOWN));
+
+        // Normally, this is controller by the TouchSelectionHelper via a a long press gesture.
+        mSelectionHelper.select("1");
+        mSelectionHelper.anchorRange(1);
+        mHelper.start();
+        assertTrue(mHelper.onInterceptTouchEvent(null, MOVE));
     }
 
-    private static MotionEvent createEvent(int x, int y) {
-        int metaState = 0;
-        return MotionEvent.obtain(
-                0, 0, MotionEvent.ACTION_MOVE, x, y, 0, 0, metaState, 0, 0, 0, 0);
+    @Test
+    public void testCreatesRangeSelection() {
+        mView.mNextPosition = 1;
+        mHelper.onInterceptTouchEvent(null, DOWN);
+        // Another way we are implicitly coupled to TouchInputHandler, is that we depend on
+        // long press to establish the initial anchor point. Without that we'll get an
+        // error when we try to extend the range.
+
+        mSelectionHelper.select("1");
+        mSelectionHelper.anchorRange(1);
+        mHelper.start();
+
+        mHelper.onTouchEvent(null, MOVE);
+
+        mView.mNextPosition = 9;
+        mHelper.onTouchEvent(null, MOVE);
+        mHelper.onTouchEvent(null, UP);
+
+        mSelection.assertRangeSelected(1,  9);
+    }
+
+    private static final class TestViewDelegate extends GestureSelectionHelper.ViewDelegate {
+
+        private int mNextPosition = RecyclerView.NO_POSITION;
+
+        @Override
+        int getHeight() {
+            return 1000;
+        }
+
+        @Override
+        int getItemUnder(MotionEvent e) {
+            return mNextPosition;
+        }
+
+        @Override
+        int getLastGlidedItemPosition(MotionEvent e) {
+            return mNextPosition;
+        }
     }
 }

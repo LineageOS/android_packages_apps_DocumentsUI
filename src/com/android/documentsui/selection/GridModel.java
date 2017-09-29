@@ -135,7 +135,7 @@ final class GridModel {
      *     would have a relative origin of (0, 0), even though its absolute point has a higher
      *     y-value.
      */
-    void startSelection(Point relativeOrigin) {
+    void startCapturing(Point relativeOrigin) {
         recordVisibleChildren();
         if (isEmpty()) {
             // The selection band logic works only if there is at least one visible child.
@@ -151,6 +151,13 @@ final class GridModel {
     }
 
     /**
+     * Ends the band selection.
+     */
+    void stopCapturing() {
+        mIsActive = false;
+    }
+
+    /**
      * Resizes the selection by adjusting the pointer (i.e., the corner of the selection
      * opposite the origin.
      * @param relativePointer The pointer (opposite of the origin) of the band select operation,
@@ -162,13 +169,6 @@ final class GridModel {
     void resizeSelection(Point relativePointer) {
         mPointer = mHost.createAbsolutePoint(relativePointer);
         updateModel();
-    }
-
-    /**
-     * Ends the band selection.
-     */
-    void endSelection() {
-        mIsActive = false;
     }
 
     /**

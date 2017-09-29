@@ -15,6 +15,8 @@
  */
 package com.android.documentsui.selection;
 
+import static android.support.v4.util.Preconditions.checkArgument;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.VisibleForTesting;
@@ -209,6 +211,8 @@ public class Selection implements Iterable<String>, Parcelable {
      * Trims this selection to be the intersection of itself and {@code ids}.
      */
     void intersect(Collection<String> ids) {
+        checkArgument(ids != null);
+
         mSelection.retainAll(ids);
         mProvisionalSelection.retainAll(ids);
     }

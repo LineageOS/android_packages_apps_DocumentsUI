@@ -21,6 +21,7 @@ import static android.support.v4.util.Preconditions.checkState;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
@@ -39,13 +40,15 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Provides mouse driven band-selection support when used in conjunction with
- * a {@link RecyclerView} instance and a {@link SelectionHelper}. This class is responsible
- * for rendering a band overlay and manipulating selection status of the items it intersects with.
+ * Provides mouse driven band-selection support when used in conjunction with a {@link RecyclerView}
+ * instance. This class is responsible for rendering a band overlay and manipulating selection
+ * status of the items it intersects with.
  *
- * <p>Usage:
- *
- * <p><pre>TODO</pre>
+ * <p> Given the recycling nature of RecyclerView items that have scrolled off-screen would not
+ * be selectable with a band that itself was partially rendered off-screen. To address this,
+ * BandSelectionController builds a model of the list/grid information presented by RecyclerView as
+ * the user interacts with items using their pointer (and the band). Selectable items that intersect
+ * with the band, both on and off screen, are selected on pointer up.
  */
 public class BandSelectionHelper implements OnItemTouchListener {
 
@@ -56,8 +59,8 @@ public class BandSelectionHelper implements OnItemTouchListener {
     private final StableIdProvider mStableIds;
     private final RecyclerView.Adapter<?> mAdapter;
     private final SelectionHelper mSelectionHelper;
-    private final Selection mSelection;
     private final SelectionPredicate mSelectionPredicate;
+    private final BandPredicate mBandPredicate;
     private final ContentLock mLock;
     private final Runnable mViewScroller;
     private final GridModel.SelectionObserver mGridObserver;
@@ -74,6 +77,7 @@ public class BandSelectionHelper implements OnItemTouchListener {
             StableIdProvider stableIds,
             SelectionHelper selectionHelper,
             SelectionPredicate selectionPredicate,
+            BandPredicate bandPredicate,
             ContentLock lock) {
 
         checkArgument(host != null);
@@ -81,6 +85,7 @@ public class BandSelectionHelper implements OnItemTouchListener {
         checkArgument(stableIds != null);
         checkArgument(selectionHelper != null);
         checkArgument(selectionPredicate != null);
+        checkArgument(bandPredicate != null);
         checkArgument(lock != null);
 
         mHost = host;
@@ -88,9 +93,8 @@ public class BandSelectionHelper implements OnItemTouchListener {
         mAdapter = adapter;
         mSelectionHelper = selectionHelper;
         mSelectionPredicate = selectionPredicate;
+        mBandPredicate = bandPredicate;
         mLock = lock;
-
-        mSelection = selectionHelper.getSelection();
 
         mHost.addOnScrollListener(
                 new OnScrollListener() {
@@ -163,24 +167,21 @@ public class BandSelectionHelper implements OnItemTouchListener {
             };
     }
 
-    public void createModel() {
-        if (mModel != null) {
-            mModel.onDestroy();
-        }
-
-        mModel = new GridModel(mHost, mStableIds, mSelectionPredicate);
-        mModel.addOnSelectionChangedListener(mGridObserver);
-    }
-
     @VisibleForTesting
     boolean isActive() {
-        return mModel != null;
+        boolean active = mModel != null;
+        if (Build.IS_DEBUGGABLE && active) {
+            mLock.checkLocked();
+        }
+        return active;
     }
 
     /**
      * Adds a new listener to be notified when band is created.
      */
     public void addOnBandStartedListener(Runnable listener) {
+        checkArgument(listener != null);
+
         mBandStartedListeners.add(listener);
     }
 
@@ -192,16 +193,23 @@ public class BandSelectionHelper implements OnItemTouchListener {
     }
 
     /**
-     * Clients must call this when there are any material changes to the layout of items
+     * Clients must call reset when there are any material changes to the layout of items
      * in RecyclerView.
      */
-    public void onLayoutChanged() {
-        if (mModel != null) {
-            createModel();
+    public void reset() {
+        if (!isActive()) {
+            return;
         }
+
+        mHost.hideBand();
+        mModel.stopCapturing();
+        mModel.onDestroy();
+        mModel = null;
+        mOrigin = null;
+        mLock.unblock();
     }
 
-    public boolean shouldStart(MotionEvent e) {
+    boolean shouldStart(MotionEvent e) {
         // Don't start, or extend bands on non-left clicks.
         if (!MotionEvents.isPrimaryButtonPressed(e)) {
             return false;
@@ -226,7 +234,7 @@ public class BandSelectionHelper implements OnItemTouchListener {
                 // associated with files. Checking against actual modelIds count
                 // effectively ignores those UI layout items.
                 && !mStableIds.getStableIds().isEmpty()
-                && mHost.canInitiateBand(e);
+                && mBandPredicate.canInitiate(e);
     }
 
     public boolean shouldStop(MotionEvent e) {
@@ -281,7 +289,7 @@ public class BandSelectionHelper implements OnItemTouchListener {
         mModel.resizeSelection(mCurrentPosition);
 
         scrollViewIfNecessary();
-        resizeBandSelectRectangle();
+        resizeBand();
     }
 
     @Override
@@ -293,22 +301,22 @@ public class BandSelectionHelper implements OnItemTouchListener {
     private void startBandSelect(Point origin) {
         if (DEBUG) Log.d(TAG, "Starting band select @ " + origin);
 
+        reset();
+        mModel = new GridModel(mHost, mStableIds, mSelectionPredicate);
+        mModel.addOnSelectionChangedListener(mGridObserver);
+
         mLock.block();
-        onBandStarted();
+        notifyBandStarted();
         mOrigin = origin;
-        createModel();
-        mModel.startSelection(mOrigin);
+        mModel.startCapturing(mOrigin);
     }
 
-    private void onBandStarted() {
+    private void notifyBandStarted() {
         for (Runnable listener : mBandStartedListeners) {
             listener.run();
         }
     }
 
-    /**
-     * Scrolls the view if necessary.
-     */
     private void scrollViewIfNecessary() {
         mHost.removeCallback(mViewScroller);
         mViewScroller.run();
@@ -319,11 +327,12 @@ public class BandSelectionHelper implements OnItemTouchListener {
      * Resizes the band select rectangle by using the origin and the current pointer position as
      * two opposite corners of the selection.
      */
-    private void resizeBandSelectRectangle() {
+    private void resizeBand() {
         mBounds = new Rect(Math.min(mOrigin.x, mCurrentPosition.x),
                 Math.min(mOrigin.y, mCurrentPosition.y),
                 Math.max(mOrigin.x, mCurrentPosition.x),
                 Math.max(mOrigin.y, mCurrentPosition.y));
+
         mHost.showBand(mBounds);
     }
 
@@ -333,26 +342,29 @@ public class BandSelectionHelper implements OnItemTouchListener {
     private void endBandSelect() {
         if (DEBUG) Log.d(TAG, "Ending band select.");
 
-        mHost.hideBand();
-        mSelectionHelper.mergeProvisionalSelection();
-        mModel.endSelection();
+        // TODO: Currently when a band select operation ends outside
+        // of an item (e.g. in the empty area between items),
+        // getPositionNearestOrigin may return an unselected item.
+        // Since the point of this code is to establish the
+        // anchor point for subsequent range operations (SHIFT+CLICK)
+        // we really want to do a better job figuring out the last
+        // item selected (and nearest to the cursor).
         int firstSelected = mModel.getPositionNearestOrigin();
-        if (firstSelected != GridModel.NOT_SET) {
-            if (mSelection.contains(mStableIds.getStableId(firstSelected))) {
-                // TODO: firstSelected should really be lastSelected, we want to anchor the item
-                // where the mouse-up occurred.
-                mSelectionHelper.anchorRange(firstSelected);
-            } else {
-                // TODO: Check if this is really happening.
-                Log.w(TAG, "First selected by band is NOT in selection!");
-            }
+        if (firstSelected != GridModel.NOT_SET
+                && mSelectionHelper.isSelected(mStableIds.getStableId(firstSelected))) {
+            // Establish the band selection point as range anchor. This
+            // allows touch and keyboard based selection activities
+            // to be based on the band selection anchor point.
+            mSelectionHelper.anchorRange(firstSelected);
         }
 
-        mModel = null;
-        mOrigin = null;
-        mLock.unblock();
+        mSelectionHelper.mergeProvisionalSelection();
+        reset();
     }
 
+    /**
+     * @see RecyclerView.OnScrollListener
+     */
     private void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (!isActive()) {
             return;
@@ -361,7 +373,7 @@ public class BandSelectionHelper implements OnItemTouchListener {
         // Adjust the y-coordinate of the origin the opposite number of pixels so that the
         // origin remains in the same place relative to the view's items.
         mOrigin.y -= dy;
-        resizeBandSelectRectangle();
+        resizeBand();
     }
 
     /**
@@ -369,7 +381,6 @@ public class BandSelectionHelper implements OnItemTouchListener {
      * fully isolated from RecyclerView.
      */
     public static abstract class BandHost extends ScrollerCallbacks {
-        public abstract boolean canInitiateBand(MotionEvent e);
         public abstract void showBand(Rect rect);
         public abstract void hideBand();
         public abstract void addOnScrollListener(RecyclerView.OnScrollListener listener);
