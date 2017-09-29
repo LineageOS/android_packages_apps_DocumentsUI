@@ -28,8 +28,8 @@ import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.selection.addons.ContentLock;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
+import com.android.documentsui.selection.ContentLock;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

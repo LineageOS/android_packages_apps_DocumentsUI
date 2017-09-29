@@ -31,24 +31,24 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.android.documentsui.R;
+import com.android.documentsui.selection.BandSelectionHelper;
+import com.android.documentsui.selection.ContentLock;
+import com.android.documentsui.selection.DefaultBandHost;
+import com.android.documentsui.selection.DefaultBandPredicate;
 import com.android.documentsui.selection.DefaultSelectionHelper;
+import com.android.documentsui.selection.GestureRouter;
+import com.android.documentsui.selection.GestureSelectionHelper;
+import com.android.documentsui.selection.ItemDetailsLookup;
+import com.android.documentsui.selection.MotionInputHandler;
+import com.android.documentsui.selection.MouseInputHandler;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.TouchEventRouter;
+import com.android.documentsui.selection.TouchInputHandler;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
-import com.android.documentsui.selection.addons.BandSelectionHelper;
-import com.android.documentsui.selection.addons.ContentLock;
-import com.android.documentsui.selection.addons.DefaultBandHost;
-import com.android.documentsui.selection.addons.DefaultBandPredicate;
-import com.android.documentsui.selection.addons.GestureRouter;
-import com.android.documentsui.selection.addons.GestureSelectionHelper;
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
-import com.android.documentsui.selection.addons.MotionInputHandler;
-import com.android.documentsui.selection.addons.MouseInputHandler;
-import com.android.documentsui.selection.addons.TouchEventRouter;
-import com.android.documentsui.selection.addons.TouchInputHandler;
 import com.android.documentsui.selection.demo.SelectionDemoAdapter.OnBindCallback;
 
 /**

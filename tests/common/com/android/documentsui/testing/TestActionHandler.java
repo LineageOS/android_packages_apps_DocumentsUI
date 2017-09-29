@@ -22,7 +22,7 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.TestActivity;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 
 import java.util.function.Consumer;
 

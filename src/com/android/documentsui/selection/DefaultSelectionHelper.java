@@ -64,7 +64,7 @@ public final class DefaultSelectionHelper extends SelectionHelper {
      * items with the band. Provisionally selected items are considered to be selected in
      * {@link Selection#contains(String)} and related methods. A provisional may be abandoned or
      * applied by selection components (like
-     * {@link com.android.documentsui.selection.addons.BandSelectionHelper}).
+     * {@link com.android.documentsui.selection.BandSelectionHelper}).
      *
      * <p>A provisional selection may intersect the primary selection, however clearing the
      * provisional selection will not affect the primary selection where the two may intersect.

@@ -24,9 +24,9 @@ import android.view.MotionEvent;
 
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Events;
-import com.android.documentsui.selection.addons.BandSelectionHelper;
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
-import com.android.documentsui.selection.addons.TouchEventRouter;
+import com.android.documentsui.selection.BandSelectionHelper;
+import com.android.documentsui.selection.ItemDetailsLookup;
+import com.android.documentsui.selection.TouchEventRouter;
 
 /**
  * OnItemTouchListener that helps enable support for drag/drop functionality

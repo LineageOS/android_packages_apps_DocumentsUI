@@ -31,10 +31,10 @@ import com.android.documentsui.Model;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.State;
+import com.android.documentsui.selection.ItemDetailsLookup;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
 
 import java.util.ArrayList;
 import java.util.List;
