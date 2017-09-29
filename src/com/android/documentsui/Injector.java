@@ -32,8 +32,8 @@ import com.android.documentsui.dirlist.DocsStableIdProvider;
 import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
+import com.android.documentsui.selection.ContentLock;
 import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.addons.ContentLock;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import com.android.internal.annotations.VisibleForTesting;
@@ -134,8 +134,8 @@ public class Injector<T extends ActionHandler> {
      * Obtains action handler and resets it if necessary.
      *
      * @param contentLock the lock held by
-     *            {@link com.android.documentsui.selection.addons.BandSelectionHelper} and
-     *            {@link com.android.documentsui.selection.addons.GestureSelectionHelper} to prevent
+     *            {@link com.android.documentsui.selection.BandSelectionHelper} and
+     *            {@link com.android.documentsui.selection.GestureSelectionHelper} to prevent
      *            loader from updating result during band/gesture selection. May be {@code null} if
      *            called from {@link com.android.documentsui.sidebar.RootsFragment}.
      * @return the action handler

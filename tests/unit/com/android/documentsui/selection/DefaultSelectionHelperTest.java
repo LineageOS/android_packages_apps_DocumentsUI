@@ -22,6 +22,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.SparseBooleanArray;
 
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
+import com.android.documentsui.selection.testing.SelectionProbe;
+import com.android.documentsui.selection.testing.TestAdapter;
+import com.android.documentsui.selection.testing.TestSelectionObserver;
+import com.android.documentsui.selection.testing.TestStableIdProvider;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -26,14 +26,13 @@ import android.view.MotionEvent;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.State;
+import com.android.documentsui.selection.GestureSelectionHelper;
+import com.android.documentsui.selection.ItemDetailsLookup;
+import com.android.documentsui.selection.MouseInputHandler;
 import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.TouchInputHandler;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
-import com.android.documentsui.selection.addons.GestureSelectionHelper;
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
-import com.android.documentsui.selection.addons.KeyInputHandler;
-import com.android.documentsui.selection.addons.MouseInputHandler;
-import com.android.documentsui.selection.addons.TouchInputHandler;
 
 /**
  * Helper class dedicated to building gesture input handlers. The construction

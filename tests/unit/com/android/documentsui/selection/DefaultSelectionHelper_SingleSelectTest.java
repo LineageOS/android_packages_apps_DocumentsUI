@@ -21,6 +21,12 @@ import static org.junit.Assert.fail;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.selection.testing.SelectionPredicates;
+import com.android.documentsui.selection.testing.SelectionProbe;
+import com.android.documentsui.selection.testing.TestAdapter;
+import com.android.documentsui.selection.testing.TestSelectionObserver;
+import com.android.documentsui.selection.testing.TestStableIdProvider;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
