@@ -17,6 +17,7 @@
 package com.android.documentsui.selection.addons;
 
 import static android.support.v4.util.Preconditions.checkArgument;
+import static android.support.v4.util.Preconditions.checkState;
 
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -48,7 +49,7 @@ import java.util.Set;
  *
  * <p><pre>TODO</pre>
  */
-public class BandSelectionHelper {
+public class BandSelectionHelper implements OnItemTouchListener {
 
     static final boolean DEBUG = false;
     static final String TAG = "BandController";
@@ -178,20 +179,6 @@ public class BandSelectionHelper {
         return mModel != null;
     }
 
-    private boolean onInterceptTouchEvent(MotionEvent e) {
-        if (shouldStart(e)) {
-            if (!MotionEvents.isCtrlKeyPressed(e)) {
-                mSelectionHelper.clearSelection();
-            }
-
-            startBandSelect(MotionEvents.getOrigin(e));
-        } else if (shouldStop(e)) {
-            endBandSelect();
-        }
-
-        return isActive();
-    }
-
     /**
      * Adds a new listener to be notified when band is created.
      */
@@ -235,7 +222,8 @@ public class BandSelectionHelper {
         // mouse moves, or else starting band selection on mouse down can cause problems as events
         // don't get routed correctly to onTouchEvent.
         return !isActive()
-                && MotionEvents.isActionMove(e) // the initial button move via mouse-touch (ie. down press)
+                && MotionEvents.isActionMove(e)
+                // the initial button move via mouse-touch (ie. down press)
                 // The adapter inserts items for UI layout purposes that aren't
                 // associated with files. Checking against actual modelIds count
                 // effectively ignores those UI layout items.
@@ -251,13 +239,32 @@ public class BandSelectionHelper {
                         || MotionEvents.isActionCancel(e));
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(RecyclerView unused, MotionEvent e) {
+        if (shouldStart(e)) {
+            if (!MotionEvents.isCtrlKeyPressed(e)) {
+                mSelectionHelper.clearSelection();
+            }
+
+            startBandSelect(MotionEvents.getOrigin(e));
+            return isActive();
+        }
+
+        if (shouldStop(e)) {
+            endBandSelect();
+            checkState(mModel == null);
+            // fall through to return false, because the band eeess done!
+        }
+
+        return false;
+    }
+
     /**
      * Processes a MotionEvent by starting, ending, or resizing the band select overlay.
      * @param input
      */
-    private void onTouchEvent(MotionEvent e) {
-        assert MotionEvents.isMouseEvent(e);
-
+    @Override
+    public void onTouchEvent(RecyclerView unused, MotionEvent e) {
         if (shouldStop(e)) {
             endBandSelect();
             return;
@@ -278,6 +285,9 @@ public class BandSelectionHelper {
         scrollViewIfNecessary();
         resizeBandSelectRectangle();
     }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
 
     /**
      * Starts band select by adding the drawable to the RecyclerView's overlay.
@@ -354,37 +364,6 @@ public class BandSelectionHelper {
         // origin remains in the same place relative to the view's items.
         mOrigin.y -= dy;
         resizeBandSelectRectangle();
-    }
-
-    public OnItemTouchListener getTouchListener() {
-        return new EventPreprocessor(this);
-    }
-
-    private static class EventPreprocessor implements OnItemTouchListener {
-
-        private final BandSelectionHelper mBandController;
-
-        public EventPreprocessor(BandSelectionHelper bandController) {
-            checkArgument(bandController != null);
-
-            mBandController = bandController;
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            if (mBandController.shouldStart(e) || mBandController.shouldStop(e)) {
-                return mBandController.onInterceptTouchEvent(e);
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-            mBandController.onTouchEvent(e);
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
     }
 
     /**

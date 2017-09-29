@@ -16,7 +16,6 @@
 package com.android.documentsui.selection.addons;
 
 import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.base.Shared.VERBOSE;
 
 import android.util.Log;
 import android.view.MotionEvent;
@@ -33,23 +32,44 @@ public final class TouchInputHandler extends MotionInputHandler {
 
     private final SelectionPredicate mSelectionPredicate;
     private final Callbacks mCallbacks;
+    private final Runnable mGestureKicker;
 
     public TouchInputHandler(
             SelectionHelper selectionHelper,
             ItemDetailsLookup detailsLookup,
             SelectionPredicate selectionPredicate,
+            Runnable gestureKicker,
             Callbacks callbacks) {
 
         super(selectionHelper, detailsLookup, callbacks);
 
         mSelectionPredicate = selectionPredicate;
+        mGestureKicker = gestureKicker;
         mCallbacks = callbacks;
+    }
+
+    public TouchInputHandler(
+            SelectionHelper selectionHelper,
+            ItemDetailsLookup detailsLookup,
+            SelectionPredicate selectionPredicate,
+            GestureSelectionHelper gestureHelper,
+            Callbacks callbacks) {
+
+        this(
+                selectionHelper,
+                detailsLookup,
+                selectionPredicate,
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        gestureHelper.start();
+                    }
+                },
+                callbacks);
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        if (VERBOSE) Log.v(TAG, "Delegated onSingleTapUp event.");
-
         if (!mDetailsLookup.overStableItem(e)) {
             if (DEBUG) Log.d(TAG, "Tap not associated w/ model item. Clearing selection.");
             mSelectionHelper.clearSelection();
@@ -78,8 +98,6 @@ public final class TouchInputHandler extends MotionInputHandler {
 
     @Override
     public final void onLongPress(MotionEvent e) {
-        if (VERBOSE) Log.v(TAG, "Delegated onLongPress event.");
-
         if (!mDetailsLookup.overStableItem(e)) {
             if (DEBUG) Log.d(TAG, "Ignoring LongPress on non-model-backed item.");
             return;
@@ -97,7 +115,11 @@ public final class TouchInputHandler extends MotionInputHandler {
                 // If we cannot select it, we didn't apply anchoring - therefore should not
                 // start gesture selection
                 if (selectItem(item)) {
-                    mCallbacks.onGestureInitiated(e);
+                    // And finally if the item was selected && we can select multiple
+                    // we kick off gesture selection.
+                    if (mSelectionPredicate.canSelectMultiple()) {
+                        mGestureKicker.run();
+                    }
                     handled = true;
                 }
             } else {
@@ -119,7 +141,5 @@ public final class TouchInputHandler extends MotionInputHandler {
         public boolean onDragInitiated(MotionEvent e) {
             return false;
         }
-        @Deprecated  // TODO: Should be delivered direclty to GestuerSelectionHelper.
-        public abstract boolean onGestureInitiated(MotionEvent e);
     }
 }
