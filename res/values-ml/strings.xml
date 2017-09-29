@@ -135,7 +135,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ഇനം ‌ഇല്ലാതാക്കാനായില്ല</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"വിശദാംശങ്ങൾ കാണുന്നതിന് ടാപ്പുചെയ്യുക"</string>
-    <string name="close" msgid="905969391788869975">"അടയ്‌ക്കുക"</string>
+    <string name="close" msgid="905969391788869975">"അവസാനിപ്പിക്കുക"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="other">ഈ ഫയലുകൾ പകർത്തപ്പെട്ടില്ല: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="one">ഈ ഫയൽ പകർത്തപ്പെട്ടില്ല: <xliff:g id="LIST_0">%1$s</xliff:g></item>
