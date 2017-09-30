@@ -31,24 +31,24 @@ import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.android.documentsui.R;
+import com.android.documentsui.selection.BandSelectionHelper;
+import com.android.documentsui.selection.ContentLock;
+import com.android.documentsui.selection.DefaultBandHost;
+import com.android.documentsui.selection.DefaultBandPredicate;
 import com.android.documentsui.selection.DefaultSelectionHelper;
+import com.android.documentsui.selection.GestureRouter;
+import com.android.documentsui.selection.GestureSelectionHelper;
+import com.android.documentsui.selection.ItemDetailsLookup;
+import com.android.documentsui.selection.MotionInputHandler;
+import com.android.documentsui.selection.MouseInputHandler;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.TouchEventRouter;
+import com.android.documentsui.selection.TouchInputHandler;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
-import com.android.documentsui.selection.addons.BandSelectionHelper;
-import com.android.documentsui.selection.addons.ContentLock;
-import com.android.documentsui.selection.addons.DefaultBandHost;
-import com.android.documentsui.selection.addons.DefaultBandPredicate;
-import com.android.documentsui.selection.addons.GestureRouter;
-import com.android.documentsui.selection.addons.GestureSelectionHelper;
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
-import com.android.documentsui.selection.addons.MotionInputHandler;
-import com.android.documentsui.selection.addons.MouseInputHandler;
-import com.android.documentsui.selection.addons.TouchEventRouter;
-import com.android.documentsui.selection.addons.TouchInputHandler;
 import com.android.documentsui.selection.demo.SelectionDemoAdapter.OnBindCallback;
 
 /**
@@ -128,12 +128,13 @@ public class SelectionDemoActivity extends AppCompatActivity {
         ItemDetailsLookup detailsLookup = new DemoDetailsLookup(mRecView);
 
         // Add touch input handling...
-        GestureSelectionHelper gestureSel =
+        GestureSelectionHelper gestureHelper =
                 GestureSelectionHelper.create(mSelectionHelper, mRecView, contentLock);
 
-        TouchCallbacks touchCallbacks = new TouchCallbacks(this, mRecView, gestureSel, true);
+        // TODO: Gest gestureHelper out of touch callbacks.
+        TouchCallbacks touchCallbacks = new TouchCallbacks(this, mRecView);
         TouchInputHandler touchHandler = new TouchInputHandler(
-                mSelectionHelper, detailsLookup, canSelectAnything, touchCallbacks);
+                mSelectionHelper, detailsLookup, canSelectAnything, gestureHelper, touchCallbacks);
 
         // Setup basic input handling, with the touch handler as the default consumer
         // of events. If mouse handling is configured as well, the mouse input
@@ -141,14 +142,14 @@ public class SelectionDemoActivity extends AppCompatActivity {
         GestureRouter<MotionInputHandler> gestureRouter = new GestureRouter<>(touchHandler);
 
         GestureDetector gestureDetector = new GestureDetector(this, gestureRouter);
-        TouchEventRouter eventRouter =
-                new TouchEventRouter(gestureDetector, gestureSel.getTouchListener());
+        TouchEventRouter eventRouter = new TouchEventRouter(gestureDetector, gestureHelper);
 
         // Begin mouse/band selection setup...
-        // Add mouse driven band selection support. A mouse can be attached to the system
-        // at any time, so avoid excluding mouse support based on a static check.
+        // TIP: Avoid skipping mouse support based on a static check. Even if a mouse
+        // isn't currently attached, the user can attach or pair a mouse at any time.
+
         // MouseInputHandler interprets mouse events as selection events,
-        // and/or delegates event handilng the an instance of MouseInputHandler.Callbacks.
+        // and/or delegates event handling the an instance of MouseInputHandler.Callbacks.
         MouseInputHandler mouseHandler = new MouseInputHandler(
                 mSelectionHelper, detailsLookup, new MouseCallbacks(this, mRecView));
         gestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
@@ -158,16 +159,13 @@ public class SelectionDemoActivity extends AppCompatActivity {
                 R.drawable.selection_demo_band_overlay,
                 new DefaultBandPredicate(detailsLookup));
 
-        BandSelectionHelper bandSel = new BandSelectionHelper(
+        BandSelectionHelper bandHelper = new BandSelectionHelper(
                 host, mAdapter, stableIds, mSelectionHelper, canSelectAnything, contentLock);
-        eventRouter.register(MotionEvent.TOOL_TYPE_MOUSE, bandSel.getTouchListener());
+        eventRouter.register(MotionEvent.TOOL_TYPE_MOUSE, bandHelper);
 
         mRecView.addOnItemTouchListener(eventRouter);
         // Done with mouse/band selection setup.
 
-        // In order to preserve selection across various lifecycle events
-        // selection is saved in instance state. Give it a chance to restore
-        // restore selection now.
         updateFromSavedState(savedInstanceState);
     }
 
@@ -293,32 +291,17 @@ public class SelectionDemoActivity extends AppCompatActivity {
 
         private final Context mContext;
         private final RecyclerView mRecView;
-        private final GestureSelectionHelper mGestureSel;
-        private final boolean mAllowMultiple;
 
-        private TouchCallbacks(
-                Context context,
-                RecyclerView recView,
-                GestureSelectionHelper gestureSel,
-                boolean allowMultiple) {
+        private TouchCallbacks(Context context, RecyclerView recView) {
 
             mContext = context;
             mRecView = recView;
-            mGestureSel = gestureSel;
-            mAllowMultiple = allowMultiple;
         }
 
         @Override
         public boolean onItemActivated(ItemDetails item, MotionEvent e) {
             toast(mContext, "Activate item: " + item.getStableId());
             return true;
-        }
-
-        @Override
-        public boolean onGestureInitiated(MotionEvent e) {
-            toast(mContext, "Gesture initiated.");
-            // TODO: This can't be here. Needs to move into TouchInputHandler.
-            return mAllowMultiple ? mGestureSel.start() : false;
         }
 
         @Override

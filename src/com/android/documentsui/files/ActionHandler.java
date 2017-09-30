@@ -64,7 +64,7 @@ import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;

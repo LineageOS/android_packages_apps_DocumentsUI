@@ -21,7 +21,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
+import com.android.documentsui.selection.ItemDetailsLookup;
 
 /**
  * Access to details of an item associated with a {@link MotionEvent} instance.

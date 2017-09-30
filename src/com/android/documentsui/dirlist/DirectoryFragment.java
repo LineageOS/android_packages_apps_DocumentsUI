@@ -86,22 +86,21 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.picker.PickActivity;
+import com.android.documentsui.selection.BandPredicate;
+import com.android.documentsui.selection.BandSelectionHelper;
+import com.android.documentsui.selection.ContentLock;
+import com.android.documentsui.selection.DefaultBandHost;
+import com.android.documentsui.selection.DefaultBandPredicate;
+import com.android.documentsui.selection.GestureRouter;
+import com.android.documentsui.selection.GestureSelectionHelper;
+import com.android.documentsui.selection.ItemDetailsLookup;
+import com.android.documentsui.selection.MotionInputHandler;
+import com.android.documentsui.selection.MouseInputHandler;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.TouchEventRouter;
+import com.android.documentsui.selection.TouchInputHandler;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
-import com.android.documentsui.selection.addons.BandPredicate;
-import com.android.documentsui.selection.addons.BandSelectionHelper;
-import com.android.documentsui.selection.addons.ContentLock;
-import com.android.documentsui.selection.addons.DefaultBandHost;
-import com.android.documentsui.selection.addons.DefaultBandPredicate;
-import com.android.documentsui.selection.addons.GestureRouter;
-import com.android.documentsui.selection.addons.GestureSelectionHelper;
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
-import com.android.documentsui.selection.addons.KeyInputHandler;
-import com.android.documentsui.selection.addons.MotionInputHandler;
-import com.android.documentsui.selection.addons.MouseInputHandler;
-import com.android.documentsui.selection.addons.TouchEventRouter;
-import com.android.documentsui.selection.addons.TouchInputHandler;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -337,7 +336,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mSelectionMgr.addObserver(mSelectionMetadata);
         mDetailsLookup = new DocsItemDetailsLookup(mRecView);
 
-        GestureSelectionHelper gestureSel =
+        GestureSelectionHelper gestureHelper =
                 GestureSelectionHelper.create(mSelectionMgr, mRecView, mContentLock);
 
         if (mState.allowMultiple) {
@@ -380,8 +379,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mRecView,
                 mState);
 
-        MouseInputHandler mouseHandler = handlers.createMouseHandler(this::onContextMenuClick);
-        TouchInputHandler touchHandler = handlers.createTouchHandler(gestureSel, dragStartListener);
+        MouseInputHandler mouseHandler =
+                handlers.createMouseHandler(this::onContextMenuClick);
+
+        TouchInputHandler touchHandler =
+                handlers.createTouchHandler(gestureHelper, dragStartListener);
+
         GestureRouter<MotionInputHandler> gestureRouter = new GestureRouter<>(touchHandler);
         gestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
 
@@ -399,15 +402,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         GestureDetector gestureDetector = new GestureDetector(getContext(), gestureRouter);
 
-        TouchEventRouter eventRouter =
-                new TouchEventRouter(gestureDetector, gestureSel.getTouchListener());
+        TouchEventRouter eventRouter = new TouchEventRouter(gestureDetector, gestureHelper);
 
         eventRouter.register(
                 MotionEvent.TOOL_TYPE_MOUSE,
                 new MouseDragEventInterceptor(
-                        mDetailsLookup,
-                        dragStartListener::onMouseDragEvent,
-                        mBandSelector != null ? mBandSelector.getTouchListener() : null));
+                        mDetailsLookup, dragStartListener::onMouseDragEvent, mBandSelector));
 
         mRecView.addOnItemTouchListener(eventRouter);
 

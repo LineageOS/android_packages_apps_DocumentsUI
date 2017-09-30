@@ -228,5 +228,10 @@ public abstract class SelectionHelper {
 
         /** @return true if the item at {@code id} can be set to {@code nextState}. */
         public abstract boolean canSetStateAtPosition(int position, boolean nextState);
+
+        /** @return true if more than a single item can be selected. */
+        public boolean canSelectMultiple() {
+            return true;
+        }
     }
 }

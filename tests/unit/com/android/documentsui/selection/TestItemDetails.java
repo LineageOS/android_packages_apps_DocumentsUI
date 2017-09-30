@@ -17,7 +17,7 @@ package com.android.documentsui.selection;
 
 import android.view.MotionEvent;
 
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.internal.widget.RecyclerView;
 
 public final class TestItemDetails extends ItemDetails {

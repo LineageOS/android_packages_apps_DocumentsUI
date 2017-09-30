@@ -80,10 +80,4 @@
     <color name="inspector_section_title">#ff939393</color>
     <color name="inspector_section_divider">#E0E0E0</color>
     <color name="inspector_title_background">#40000000</color>
-
-    <color name="selection_demo_selector_text">#22000000</color>
-    <color name="selection_demo_selector_text_selected">@*android:color/black</color>
-
-    <color name="selection_demo_item_background">@*android:color/white</color>
-    <color name="selection_demo_item_background_selected">#4d3367d6</color>
 </resources>

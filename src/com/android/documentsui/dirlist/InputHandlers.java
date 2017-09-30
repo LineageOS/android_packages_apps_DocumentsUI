@@ -26,14 +26,13 @@ import android.view.MotionEvent;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.State;
+import com.android.documentsui.selection.GestureSelectionHelper;
+import com.android.documentsui.selection.ItemDetailsLookup;
+import com.android.documentsui.selection.MouseInputHandler;
 import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.TouchInputHandler;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
-import com.android.documentsui.selection.addons.GestureSelectionHelper;
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
-import com.android.documentsui.selection.addons.KeyInputHandler;
-import com.android.documentsui.selection.addons.MouseInputHandler;
-import com.android.documentsui.selection.addons.TouchInputHandler;
 
 /**
  * Helper class dedicated to building gesture input handlers. The construction
@@ -180,21 +179,16 @@ final class InputHandlers {
             }
         };
 
-        return new MouseInputHandler(
-                mSelectionHelper,
-                mDetailsLookup,
-                callbacks);
+        return new MouseInputHandler(mSelectionHelper, mDetailsLookup, callbacks);
     }
 
     /**
      * Factory method for input touch delegate. Exists to reduce complexity in the
      * calling scope.
+     * @param gestureHelper
      */
     TouchInputHandler createTouchHandler(
-            GestureSelectionHelper gestureSel,
-            DragStartListener dragStartListener) {
-
-        checkArgument(gestureSel != null);
+            GestureSelectionHelper gestureHelper, DragStartListener dragStartListener) {
         checkArgument(dragStartListener != null);
 
         TouchInputHandler.Callbacks callbacks = new TouchInputHandler.Callbacks() {
@@ -204,13 +198,6 @@ final class InputHandlers {
                         item,
                         ActionHandler.VIEW_TYPE_PREVIEW,
                         ActionHandler.VIEW_TYPE_REGULAR);
-            }
-
-            @Override
-            public boolean onGestureInitiated(MotionEvent e) {
-                return mState.allowMultiple
-                        ? gestureSel.start()
-                                : false;
             }
 
             @Override
@@ -235,9 +222,6 @@ final class InputHandlers {
         };
 
         return new TouchInputHandler(
-                mSelectionHelper,
-                mDetailsLookup,
-                mSelectionPredicate,
-                callbacks);
+                mSelectionHelper, mDetailsLookup, mSelectionPredicate, gestureHelper, callbacks);
     }
 }

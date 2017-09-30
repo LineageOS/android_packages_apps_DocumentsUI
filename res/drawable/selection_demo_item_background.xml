@@ -14,12 +14,8 @@
      limitations under the License.
 -->
 
-
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:state_activated="true"
-        android:drawable="@color/selection_demo_item_background_selected"/>
-    <item
-        android:state_activated="false"
-        android:drawable="@color/selection_demo_item_background"/>
+    <item android:state_activated="true">
+        <color android:color="?android:attr/colorControlHighlight"></color>
+    </item>
 </selector>

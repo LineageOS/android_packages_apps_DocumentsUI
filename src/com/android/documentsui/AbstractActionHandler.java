@@ -57,10 +57,10 @@ import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.ProvidersAccess;
+import com.android.documentsui.selection.ContentLock;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.addons.ContentLock;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.sidebar.EjectRootTask;
 import com.android.documentsui.ui.Snackbars;
 

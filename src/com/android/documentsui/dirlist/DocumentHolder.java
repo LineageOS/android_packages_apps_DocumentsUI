@@ -28,8 +28,7 @@ import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.selection.addons.KeyboardEventListener;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 
 import javax.annotation.Nullable;
 

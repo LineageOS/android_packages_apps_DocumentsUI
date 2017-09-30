@@ -18,8 +18,6 @@ package com.android.documentsui.selection;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 
-import com.android.documentsui.selection.addons.ItemDetailsLookup;
-
 import javax.annotation.Nullable;
 
 /**

@@ -30,8 +30,7 @@ import android.view.MotionEvent.PointerCoords;
 import android.view.MotionEvent.PointerProperties;
 
 import com.android.documentsui.R;
-import com.android.documentsui.selection.addons.KeyboardEventListener;
-import com.android.documentsui.selection.addons.ItemDetailsLookup.ItemDetails;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 
 @SmallTest
 public class DocumentHolderTest extends AndroidTestCase {
