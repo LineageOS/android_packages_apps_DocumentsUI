@@ -26,11 +26,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.view.MotionEvent;
 
-import com.android.documentsui.selection.DefaultSelectionHelper;
-import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.selection.BandSelectionHelper.BandHost;
 import com.android.documentsui.selection.testing.SelectionPredicates;
 import com.android.documentsui.selection.testing.TestAdapter;
+import com.android.documentsui.selection.testing.TestBandPredicate;
 import com.android.documentsui.selection.testing.TestEvents.Builder;
 import com.android.documentsui.selection.testing.TestStableIdProvider;
 
@@ -53,6 +52,7 @@ public class BandSelectionHelperTest {
     private MotionEvent mStartEvent;
     private MotionEvent mStopEvent;
     private TestBandHost mBandHost;
+    private TestBandPredicate mBandPredicate;
 
     @Before
     public void setup() throws Exception {
@@ -61,6 +61,7 @@ public class BandSelectionHelperTest {
         TestAdapter adapter = new TestAdapter();
         adapter.updateTestModelIds(mItems);
         mBandHost = new TestBandHost();
+        mBandPredicate = new TestBandPredicate();
 
         SelectionHelper helper = new DefaultSelectionHelper(
                 DefaultSelectionHelper.MODE_SINGLE,
@@ -74,6 +75,7 @@ public class BandSelectionHelperTest {
                 new TestStableIdProvider(adapter),
                 helper,
                 SelectionPredicates.CAN_SET_ANYTHING,
+                mBandPredicate,
                 new ContentLock()) {
                     @Override
                     public boolean isActive() {
@@ -118,7 +120,7 @@ public class BandSelectionHelperTest {
 
     @Test
     public void testBadStart_RespectsCanInitiateBand() {
-        mBandHost.mCanInitiateBand = false;
+        mBandPredicate.setCanInitiate(false);
         assertFalse(mBandController.shouldStart(mStartEvent));
     }
 
@@ -163,6 +165,7 @@ public class BandSelectionHelperTest {
                 new TestStableIdProvider(emptyAdapter),
                 helper,
                 SelectionPredicates.CAN_SET_ANYTHING,
+                mBandPredicate,
                 new ContentLock());
 
         assertFalse(mBandController.shouldStart(mStartEvent));
@@ -220,9 +223,6 @@ public class BandSelectionHelperTest {
     }
 
     private final class TestBandHost extends BandHost {
-
-        private boolean mCanInitiateBand = true;
-
         @Override
         public void scrollBy(int dy) {
         }
@@ -293,11 +293,6 @@ public class BandSelectionHelperTest {
         @Override
         public boolean hasView(int adapterPosition) {
             return false;
-        }
-
-        @Override
-        public boolean canInitiateBand(MotionEvent e) {
-            return mCanInitiateBand;
         }
     }
 }

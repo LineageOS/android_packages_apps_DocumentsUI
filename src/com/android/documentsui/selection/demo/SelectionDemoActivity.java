@@ -39,16 +39,16 @@ import com.android.documentsui.selection.DefaultSelectionHelper;
 import com.android.documentsui.selection.GestureRouter;
 import com.android.documentsui.selection.GestureSelectionHelper;
 import com.android.documentsui.selection.ItemDetailsLookup;
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.selection.MotionInputHandler;
 import com.android.documentsui.selection.MouseInputHandler;
 import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.TouchEventRouter;
-import com.android.documentsui.selection.TouchInputHandler;
-import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
+import com.android.documentsui.selection.TouchEventRouter;
+import com.android.documentsui.selection.TouchInputHandler;
 import com.android.documentsui.selection.demo.SelectionDemoAdapter.OnBindCallback;
 
 /**
@@ -119,52 +119,100 @@ public class SelectionDemoActivity extends AppCompatActivity {
                     }
                 });
 
+        ItemDetailsLookup detailsLookup = new DemoDetailsLookup(mRecView);
+
+        // Setup basic input handling, with the touch handler as the default consumer
+        // of events. If mouse handling is configured as well, the mouse input
+        // related handlers will intercept mouse input events.
+
+        // GestureRouter is responsible for routing GestureDetector events
+        // to tool-type specific handlers.
+        GestureRouter<MotionInputHandler> gestureRouter = new GestureRouter<>();
+        GestureDetector gestureDetector = new GestureDetector(this, gestureRouter);
+
+        // TouchEventRouter takes its name from RecyclerView#OnItemTouchListener.
+        // Despite "Touch" being in the name, it receives events for all types of tools.
+        // This class is responsible for routing events to tool-type specific handlers,
+        // and if not handled by a handler, on to a GestureDetector for analysis.
+        TouchEventRouter eventRouter = new TouchEventRouter(gestureDetector);
+
         // Content lock provides a mechanism to block content reload while selection
         // activities are active. If using a loader to load content, route
         // the call through the content lock using ContentLock#runWhenUnlocked.
         // This is especially useful when listening on content change notification.
         ContentLock contentLock = new ContentLock();
 
-        ItemDetailsLookup detailsLookup = new DemoDetailsLookup(mRecView);
-
-        // Add touch input handling...
+        // GestureSelectionHelper provides logic that interprets a combination
+        // of motions and gestures in order to provide gesture driven selection support
+        // when used in conjunction with RecyclerView.
         GestureSelectionHelper gestureHelper =
                 GestureSelectionHelper.create(mSelectionHelper, mRecView, contentLock);
 
-        // TODO: Gest gestureHelper out of touch callbacks.
+        // Finally hook the framework up to listening to recycle view events.
+        mRecView.addOnItemTouchListener(eventRouter);
+
+        // But before you move on, there's more work to do. Event plumbing has been
+        // installed, but we haven't registered any of our helpers or callbacks.
+        // Helpers contain predefined logic converting events into selection related events.
+        // Callbacks provide authors the ability to reponspond to other types of
+        // events (like "active" a tapped item). This is broken up into two main
+        // suites, one for "touch" and one for "mouse", though both can and should (usually)
+        // be configued to handle other types of input (to satisfy user expectation).
+
+        // TOUCH (+ UNKNOWN) handeling provides gesture based selection allowing
+        // the user to long press on an item, then drag her finger over other
+        // items in order to extend the selection.
         TouchCallbacks touchCallbacks = new TouchCallbacks(this, mRecView);
+
+        // Provides high level glue for binding touch events and gestures to selection framework.
         TouchInputHandler touchHandler = new TouchInputHandler(
                 mSelectionHelper, detailsLookup, canSelectAnything, gestureHelper, touchCallbacks);
 
-        // Setup basic input handling, with the touch handler as the default consumer
-        // of events. If mouse handling is configured as well, the mouse input
-        // related handlers will intercept mouse input events.
-        GestureRouter<MotionInputHandler> gestureRouter = new GestureRouter<>(touchHandler);
+        eventRouter.register(MotionEvent.TOOL_TYPE_FINGER, gestureHelper);
+        eventRouter.register(MotionEvent.TOOL_TYPE_UNKNOWN, gestureHelper);
 
-        GestureDetector gestureDetector = new GestureDetector(this, gestureRouter);
-        TouchEventRouter eventRouter = new TouchEventRouter(gestureDetector, gestureHelper);
+        gestureRouter.register(MotionEvent.TOOL_TYPE_FINGER, touchHandler);
+        gestureRouter.register(MotionEvent.TOOL_TYPE_UNKNOWN, touchHandler);
 
-        // Begin mouse/band selection setup...
-        // TIP: Avoid skipping mouse support based on a static check. Even if a mouse
-        // isn't currently attached, the user can attach or pair a mouse at any time.
+        // MOUSE (+ STYLUS) handeling provides band based selection allowing
+        // the user to click down in an empty area, then drag her mouse
+        // to create a band that covers the items she wants selected.
+        //
+        // PRO TIP: Don't skip installing mouse/stylus support. It provides
+        // improved productivity and demonstrates feature maturity that users
+        // will appreciate. See InputManager for details on more sophisticated
+        // strategies on detecting the presence of input tools.
 
-        // MouseInputHandler interprets mouse events as selection events,
-        // and/or delegates event handling the an instance of MouseInputHandler.Callbacks.
+        // Provides high level glue for binding mouse/stylus events and gestures
+        // to selection framework.
         MouseInputHandler mouseHandler = new MouseInputHandler(
                 mSelectionHelper, detailsLookup, new MouseCallbacks(this, mRecView));
-        gestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
 
         DefaultBandHost host = new DefaultBandHost(
-                mRecView,
-                R.drawable.selection_demo_band_overlay,
-                new DefaultBandPredicate(detailsLookup));
+                mRecView, R.drawable.selection_demo_band_overlay);
 
+        // BandSelectionHelper provides support for band selection on-top of a RecyclerView
+        // instance. Given the recycling nature of RecyclerView BandSelectionController
+        // necessarily models and caches list/grid information as the user's pointer
+        // interacts with the item in the RecyclerView. Selectable items that intersect
+        // with the band, both on and off screen, are selected.
         BandSelectionHelper bandHelper = new BandSelectionHelper(
-                host, mAdapter, stableIds, mSelectionHelper, canSelectAnything, contentLock);
-        eventRouter.register(MotionEvent.TOOL_TYPE_MOUSE, bandHelper);
+                host,
+                mAdapter,
+                stableIds,
+                mSelectionHelper,
+                canSelectAnything,
+                new DefaultBandPredicate(detailsLookup),
+                contentLock);
 
-        mRecView.addOnItemTouchListener(eventRouter);
-        // Done with mouse/band selection setup.
+
+        eventRouter.register(MotionEvent.TOOL_TYPE_MOUSE, bandHelper);
+        eventRouter.register(MotionEvent.TOOL_TYPE_STYLUS, bandHelper);
+
+        gestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
+        gestureRouter.register(MotionEvent.TOOL_TYPE_STYLUS, mouseHandler);
+
+        // Aaaaan, all done with mouse/stylus selection setup!
 
         updateFromSavedState(savedInstanceState);
     }

@@ -30,6 +30,10 @@ final class MotionEvents {
         return e.getToolType(0) == MotionEvent.TOOL_TYPE_MOUSE;
     }
 
+    static boolean isTouchEvent(MotionEvent e) {
+        return e.getToolType(0) == MotionEvent.TOOL_TYPE_FINGER;
+    }
+
     static boolean isActionMove(MotionEvent e) {
         return e.getActionMasked() == MotionEvent.ACTION_MOVE;
     }

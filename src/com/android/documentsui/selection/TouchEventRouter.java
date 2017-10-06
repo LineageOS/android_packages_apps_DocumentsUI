@@ -16,15 +16,21 @@
 
 package com.android.documentsui.selection;
 
-import android.support.annotation.Nullable;
+import static android.support.v4.util.Preconditions.checkArgument;
+
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnItemTouchListener;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 /**
- * Preprocessor that receives MotionEvents from a RecyclerView, then passes
- * off to delegates, then finally a GestureDetectory.
+ * A class responsible for routing MotionEvents to tool-type specific handlers,
+ * and if not handled by a handler, on to a {@link GestureDetector} for further
+ * processing.
+ *
+ * <p>TouchEventRouter takes its name from
+ * {@link RecyclerView#addOnItemTouchListener(OnItemTouchListener)}. Despite "Touch"
+ * being in the name, it receives MotionEvents for all types of tools.
  */
 public final class TouchEventRouter implements OnItemTouchListener {
 
@@ -32,6 +38,9 @@ public final class TouchEventRouter implements OnItemTouchListener {
     private final ToolHandlerRegistry<OnItemTouchListener> mDelegates;
 
     public TouchEventRouter(GestureDetector detector, OnItemTouchListener defaultDelegate) {
+        checkArgument(detector != null);
+        checkArgument(defaultDelegate != null);
+
         mDetector = detector;
         mDelegates = new ToolHandlerRegistry<>(defaultDelegate);
     }
@@ -57,10 +66,12 @@ public final class TouchEventRouter implements OnItemTouchListener {
     }
 
     /**
-     * @param toolType
-     * @param delegate the delegate, or null to unregister.
+     * @param toolType See MotionEvent for details on available types.
+     * @param delegate An {@link OnItemTouchListener} to receive events
+     *     of {@code toolType}.
      */
-    public void register(int toolType, @Nullable OnItemTouchListener delegate) {
+    public void register(int toolType, OnItemTouchListener delegate) {
+        checkArgument(delegate != null);
         mDelegates.set(toolType, delegate);
     }
 

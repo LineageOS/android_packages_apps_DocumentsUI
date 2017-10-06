@@ -16,6 +16,8 @@
 
 package com.android.documentsui.selection;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import android.support.annotation.Nullable;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
@@ -23,8 +25,9 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 
 /**
- * Gesture event dispatcher. Dispatches gesture events to respective
- * input type specific handlers.
+ * GestureRouter is responsible for routing gestures detected by a GestureDetector
+ * to registered handlers. The primary function is to divide events by tool-type
+ * allowing handlers to cleanly implement tool-type specific policies.
  */
 public final class GestureRouter<T extends OnGestureListener & OnDoubleTapListener>
         implements OnGestureListener, OnDoubleTapListener {
@@ -32,6 +35,7 @@ public final class GestureRouter<T extends OnGestureListener & OnDoubleTapListen
     private final ToolHandlerRegistry<T> mDelegates;
 
     public GestureRouter(T defaultDelegate) {
+        checkNotNull(defaultDelegate);
         mDelegates = new ToolHandlerRegistry<>(defaultDelegate);
     }
 

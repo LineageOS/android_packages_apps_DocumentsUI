@@ -86,7 +86,6 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.picker.PickActivity;
-import com.android.documentsui.selection.BandPredicate;
 import com.android.documentsui.selection.BandSelectionHelper;
 import com.android.documentsui.selection.ContentLock;
 import com.android.documentsui.selection.DefaultBandHost;
@@ -98,9 +97,9 @@ import com.android.documentsui.selection.MotionInputHandler;
 import com.android.documentsui.selection.MouseInputHandler;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
+import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 import com.android.documentsui.selection.TouchEventRouter;
 import com.android.documentsui.selection.TouchInputHandler;
-import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -340,14 +339,13 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 GestureSelectionHelper.create(mSelectionMgr, mRecView, mContentLock);
 
         if (mState.allowMultiple) {
-            BandPredicate bandPredicate = new DefaultBandPredicate(mDetailsLookup);
-
             mBandSelector = new BandSelectionHelper(
-                    new DefaultBandHost(mRecView, R.drawable.band_select_overlay, bandPredicate),
+                    new DefaultBandHost(mRecView, R.drawable.band_select_overlay),
                     mAdapter,
                     new DocsStableIdProvider(mAdapter),
                     mSelectionMgr,
                     selectionPredicate,
+                    new DefaultBandPredicate(mDetailsLookup),
                     mContentLock);
 
             mBandSelectStartedCallback = mFocusManager::clearFocus;
@@ -556,7 +554,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mRecView.setPadding(pad, pad, pad, pad);
         mRecView.requestLayout();
         if (mBandSelector != null) {
-            mBandSelector.onLayoutChanged();
+            mBandSelector.reset();
         }
         mIconHelper.setViewMode(mode);
     }

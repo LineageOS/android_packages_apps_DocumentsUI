@@ -17,6 +17,7 @@ package com.android.documentsui.selection;
 
 import static com.android.documentsui.base.Shared.DEBUG;
 
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -24,7 +25,9 @@ import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 
 /**
- * MotionInputHandler that defines selection logic for touch input.
+ * A MotionInputHandler that provides the high-level glue for touch driven selection. This class
+ * works with {@link RecyclerView}, {@link GestureRouter}, and {@link GestureSelectionHelper} to
+ * provide robust user drive selection support.
  */
 public final class TouchInputHandler extends MotionInputHandler {
     private static final String TAG = "TouchInputDelegate";

@@ -21,13 +21,16 @@ import static com.android.documentsui.selection.Shared.TAG;
 
 import android.annotation.MainThread;
 import android.annotation.Nullable;
+import android.content.Loader;
 import android.util.Log;
 
 /**
- * A lock used by {@link BandSelectionHelper} and {@link GestureSelectionHelper} to signal to
- * clients when selection is in-progress. While locked, clients should block changes to content.
+ * ContentLock provides a mechanism to block content from reloading while selection
+ * activities like gesture and band selection are active. Clients using live data
+ * (data loaded, for example by a {@link Loader}), should route calls to load
+ * content through this lock using {@link ContentLock#runWhenUnlocked(Runnable)}.
  */
-public class ContentLock {
+public final class ContentLock {
 
     private int mLocks = 0;
     private @Nullable Runnable mCallback;
@@ -70,7 +73,17 @@ public class ContentLock {
         }
     }
 
-    final boolean isLocked() {
-        return mLocks > 0;
+    /**
+     * Allows other selection code to perform a precondition check asserting the state is locked.
+     */
+    final void checkLocked() {
+        checkState(mLocks > 0);
+    }
+
+    /**
+     * Allows other selection code to perform a precondition check asserting the state is unlocked.
+     */
+    final void checkUnlocked() {
+        checkState(mLocks == 0);
     }
 }

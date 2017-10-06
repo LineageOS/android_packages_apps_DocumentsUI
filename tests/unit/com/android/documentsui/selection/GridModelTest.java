@@ -26,10 +26,8 @@ import android.graphics.Rect;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.view.MotionEvent;
 
 import com.android.documentsui.selection.BandSelectionHelper.BandHost;
-import com.android.documentsui.selection.GridModel.SelectionObserver;
 import com.android.documentsui.selection.testing.SelectionPredicates;
 import com.android.documentsui.selection.testing.TestAdapter;
 import com.android.documentsui.selection.testing.TestStableIdProvider;
@@ -286,7 +284,7 @@ public class GridModelTest {
     }
 
     private void startSelection(Point p) {
-        mModel.startSelection(p);
+        mModel.startCapturing(p);
         mSelectionOrigin = mHost.createAbsolutePoint(p);
     }
 
@@ -490,11 +488,6 @@ public class GridModelTest {
             public String toString() {
                 return name + ": " + rect;
             }
-        }
-
-        @Override
-        public boolean canInitiateBand(MotionEvent e) {
-            throw new UnsupportedOperationException("Unimplemented.");
         }
     }
 }
