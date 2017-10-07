@@ -68,6 +68,7 @@
         <activity-alias
             android:name=".LauncherActivity"
             android:targetActivity=".files.LauncherActivity"
+            android:enabled="@bool/is_launcher_enabled"
             android:label="@string/launcher_label"
             android:icon="@drawable/launcher_icon" >
             <intent-filter>
