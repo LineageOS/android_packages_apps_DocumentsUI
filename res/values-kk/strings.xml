@@ -111,7 +111,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> файл жойылуда.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл жойылуда.</item>
     </plurals>
-    <string name="undo" msgid="2902438994196400565">"Кері қайтару"</string>
+    <string name="undo" msgid="2902438994196400565">"Қайтару"</string>
     <string name="copy_preparing" msgid="5326063807006898223">"Көшіруге дайындау…"</string>
     <string name="compress_preparing" msgid="6650018601382062672">"Сығуға дайындалуда…"</string>
     <string name="extract_preparing" msgid="58266275455027829">"Шығарып алуға дайындалуда…"</string>
