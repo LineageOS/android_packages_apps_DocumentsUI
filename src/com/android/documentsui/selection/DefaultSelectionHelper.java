@@ -343,6 +343,9 @@ public final class DefaultSelectionHelper extends SelectionHelper {
     }
 
     private void onDataSetChanged() {
+        // Update the selection to remove any disappeared IDs.
+        mSelection.clearProvisionalSelection();
+        mSelection.intersect(mStableIds.getStableIds());
         notifySelectionReset();
 
         for (String id : mSelection) {
@@ -359,6 +362,27 @@ public final class DefaultSelectionHelper extends SelectionHelper {
                 }
             }
         }
+        notifySelectionChanged();
+    }
+
+    private void onDataSetItemRangeInserted(int startPosition, int itemCount) {
+        mSelection.clearProvisionalSelection();
+    }
+
+    private void onDataSetItemRangeRemoved(int startPosition, int itemCount) {
+        checkArgument(startPosition >= 0);
+        checkArgument(itemCount > 0);
+
+        mSelection.clearProvisionalSelection();
+
+        // Remove any disappeared IDs from the selection.
+        //
+        // Ideally there could be a cheaper approach, checking
+        // each position individually, but since the source of
+        // truth for stable ids (StableIdProvider) probably
+        // it-self no-longer knows about the positions in question
+        // we fall back to the sledge hammer approach.
+        mSelection.intersect(mStableIds.getStableIds());
     }
 
     /**
@@ -483,10 +507,6 @@ public final class DefaultSelectionHelper extends SelectionHelper {
     private final class AdapterObserver extends RecyclerView.AdapterDataObserver {
         @Override
         public void onChanged() {
-            // Update the selection to remove any disappeared IDs.
-            mSelection.clearProvisionalSelection();
-            mSelection.intersect(mStableIds.getStableIds());
-
             onDataSetChanged();
         }
 
@@ -501,24 +521,12 @@ public final class DefaultSelectionHelper extends SelectionHelper {
 
         @Override
         public void onItemRangeInserted(int startPosition, int itemCount) {
-            mSelection.clearProvisionalSelection();
+            onDataSetItemRangeInserted(startPosition, itemCount);
         }
 
         @Override
         public void onItemRangeRemoved(int startPosition, int itemCount) {
-            checkArgument(startPosition >= 0);
-            checkArgument(itemCount > 0);
-
-            mSelection.clearProvisionalSelection();
-
-            // Remove any disappeared IDs from the selection.
-            //
-            // Ideally there could be a cheaper approach, checking
-            // each position individually, but since the source of
-            // truth for stable ids (StableIdProvider) probably
-            // it-self no-longer knows about the positions in question
-            // we fall back to the sledge hammer approach.
-            mSelection.intersect(mStableIds.getStableIds());
+            onDataSetItemRangeRemoved(startPosition, itemCount);
         }
 
         @Override
