@@ -26,7 +26,7 @@
     <string name="title_save" msgid="4384490653102710025">"Saqlash"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"Yangi jild"</string>
     <string name="menu_grid" msgid="1453636521731880680">"To‘r ko‘rinishida"</string>
-    <string name="menu_list" msgid="6714267452146410402">"Ro‘yxat ko‘rinishida"</string>
+    <string name="menu_list" msgid="6714267452146410402">"Qator"</string>
     <string name="menu_search" msgid="1876699106790719849">"Qidiruv"</string>
     <string name="menu_settings" msgid="6520844520117939047">"Xotira sozlamalari"</string>
     <string name="menu_open" msgid="9092138100049759315">"Ochish"</string>
@@ -41,6 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Arxivlash"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Arxivdan chiqarish"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Qayta nomlash"</string>
+    <string name="menu_inspector" msgid="8633147986551632467">"Xususiyatlar"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> orqali ochish"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Yangi oyna"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kesish"</string>
@@ -80,7 +81,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Faylni ochib bo‘lmadi"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Arxivdagi fayllarni ochib bo‘lmadi"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Ba’zi hujjatlarni o‘chirib bo‘lmadi"</string>
-    <string name="share_via" msgid="8725082736005677161">"Baham ko‘rish"</string>
+    <string name="share_via" msgid="8725082736005677161">"Ulashish"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Fayllar nusxalanmoqda"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Fayllar arxivlanmoqda"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"Arxivdan chiqarilmoqda"</string>
