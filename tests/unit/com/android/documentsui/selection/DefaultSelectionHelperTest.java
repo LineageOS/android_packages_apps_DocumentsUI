@@ -111,7 +111,6 @@ public class DefaultSelectionHelperTest {
         mListener.assertSelectionChanged();
     }
 
-
     @Test
     public void testSelect_NotifiesAdapterOfSelect() {
         mHelper.select(mItems.get(7));
@@ -380,6 +379,13 @@ public class DefaultSelectionHelperTest {
         provisional.append(3, true);
         s.setProvisionalSelection(getItemIds(provisional));
         mSelection.assertSelection(1, 2, 3);
+    }
+
+    @Test
+    public void testObserverOnChanged_NotifiesListenersOfChange() {
+        mAdapter.notifyDataSetChanged();
+
+        mListener.assertSelectionChanged();
     }
 
     private Set<String> getItemIds(SparseBooleanArray selection) {
