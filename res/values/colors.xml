@@ -70,4 +70,6 @@
     <color name="scroll_thumb_pressed">#ff8c8c8c</color>
     <color name="scroll_thumb">#ffbebebe</color>
     <color name="scroll_track">#fff0f0f0</color>
+
+    <color name="icon_background">#ff03a9f4</color>  <!--Light Blue 500-->
 </resources>
