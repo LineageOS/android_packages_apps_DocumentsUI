@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "386990e3_94c8f284",
+        "filename": "res/values/drawables.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7880
+      },
+      "writtenOn": "2017-10-23T21:19:44Z",
+      "side": 1,
+      "message": "Oh my bad, I was actually referring to this when mentioning that launcher icons should be mipmaps.\n\nWhy\u0027s this change here?",
+      "revId": "b86501d2311eff7b597d3fb30bcee391d9307944",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
