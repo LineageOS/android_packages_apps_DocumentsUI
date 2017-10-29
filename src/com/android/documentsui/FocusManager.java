@@ -153,6 +153,10 @@ public final class FocusManager implements FocusHandler {
         final int focusPos = (mScope.lastFocusPosition != RecyclerView.NO_POSITION)
                 ? mScope.lastFocusPosition
                 : mScope.layout.findFirstVisibleItemPosition();
+        if (focusPos == RecyclerView.NO_POSITION) {
+            return false;
+        }
+
         focusItem(focusPos);
         return true;
     }

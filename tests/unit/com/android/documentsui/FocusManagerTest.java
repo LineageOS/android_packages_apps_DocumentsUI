@@ -16,6 +16,7 @@
 
 package com.android.documentsui;
 
+import android.support.v7.widget.RecyclerView;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -25,6 +26,7 @@ import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.testing.TestModel;
 import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestFeatures;
+import com.android.documentsui.testing.TestGridLayoutManager;
 import com.android.documentsui.testing.TestRecyclerView;
 
 import java.util.ArrayList;
@@ -39,12 +41,16 @@ public class FocusManagerTest extends AndroidTestCase {
 
     private FocusManager mManager;
     private TestRecyclerView mView;
+    private TestGridLayoutManager mTestGridLayoutManager;
     private SelectionHelper mSelectionMgr;
     private TestFeatures mFeatures;
 
     @Override
     public void setUp() throws Exception {
         mView = TestRecyclerView.create(ITEMS);
+        mTestGridLayoutManager = TestGridLayoutManager.create();
+        mView.setLayoutManager(mTestGridLayoutManager);
+
         mSelectionMgr = SelectionHelpers.createTestInstance(ITEMS);
         mFeatures = new TestFeatures();
         mManager = new FocusManager(mFeatures, mSelectionMgr, null, null, 0)
@@ -70,6 +76,11 @@ public class FocusManagerTest extends AndroidTestCase {
         mManager = new FocusManager(
                 mFeatures, SelectionHelpers.createTestInstance(), null, null, 0)
                 .reset(mView, new TestModel(TEST_AUTHORITY, mFeatures));
+        assertFalse(mManager.focusDirectoryList());
+    }
+
+    public void testFocusDirectoryList_noVisibleItems() {
+        mTestGridLayoutManager.setFirstVisibleItemPosition(RecyclerView.NO_POSITION);
         assertFalse(mManager.focusDirectoryList());
     }
 
