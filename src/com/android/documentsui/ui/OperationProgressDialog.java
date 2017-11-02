@@ -107,6 +107,7 @@ public class OperationProgressDialog {
             case FileOperationService.OPERATION_MOVE:
                 titleResId = R.string.move_notification_title;
                 prepareResId = R.string.move_preparing;
+                break;
             case FileOperationService.OPERATION_DELETE:
                 // Not supported yet. Pass through to default.
             default:

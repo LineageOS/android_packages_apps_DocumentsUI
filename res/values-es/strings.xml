@@ -63,6 +63,7 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Tipo"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Tamaño"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Modificado"</string>
+    <string name="directory_children" msgid="8115290268549503262">"Número de hijos"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendente"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Descendente"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Mostrar raíces"</string>
@@ -81,6 +82,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"No se puede abrir el archivo"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"No se pueden abrir los elementos archivados"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Error al eliminar algunos documentos"</string>
+    <string name="file_inspector_load_error" msgid="1226344446677541109">"No se han podido cargar las propiedades"</string>
     <string name="share_via" msgid="8725082736005677161">"Compartir a través de"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Copiando archivos"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Comprimiendo archivos"</string>

@@ -63,6 +63,7 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Tipas"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Dydis"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Pakeista"</string>
+    <string name="directory_children" msgid="8115290268549503262">"Antrinių elementų skaičius"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Didėjimo tvarka"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Mažėjimo tvarka"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Rodyti šaknis"</string>
@@ -81,6 +82,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"Nepavyksta atidaryti failo"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Negalima atidaryti failų archyvuose"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Nepavyko ištrinti kai kurių dokumentų"</string>
+    <string name="file_inspector_load_error" msgid="1226344446677541109">"Nepavyko įkelti nuosavybių"</string>
     <string name="share_via" msgid="8725082736005677161">"Bendrinti naudojant"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopijuojami failai"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Glaudinami failai"</string>

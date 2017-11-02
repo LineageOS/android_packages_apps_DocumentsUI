@@ -48,6 +48,7 @@ import com.android.documentsui.OperationDialogFragment.DialogType;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
+import com.android.documentsui.ShortcutsUpdater;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
@@ -80,6 +81,10 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     public FilesActivity() {
         super(R.layout.files_activity, TAG);
     }
+
+    // make these methods visible in this package to work around compiler bug http://b/62218600
+    @Override protected boolean focusSidebar() { return super.focusSidebar(); }
+    @Override protected boolean popDir() { return super.popDir(); }
 
     @Override
     public void onCreate(Bundle icicle) {

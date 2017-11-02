@@ -350,7 +350,8 @@ public final class Metrics {
             USER_ACTION_CUT_CLIPBOARD,
             USER_ACTION_COMPRESS,
             USER_ACTION_EXTRACT_TO,
-            USER_ACTION_VIEW_IN_APPLICATION
+            USER_ACTION_VIEW_IN_APPLICATION,
+            USER_ACTION_INSPECTOR
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface UserAction {}

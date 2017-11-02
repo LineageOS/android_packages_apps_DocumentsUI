@@ -84,6 +84,9 @@ public class FileTypeMap implements Lookup<String, String> {
         mFileTypeMap.put("application/vnd.google-apps.map", R.string.gmap_file_type);
         mFileTypeMap.put("application/vnd.google-apps.sites", R.string.gsite_file_type);
 
+        // Directory type
+        mFileTypeMap.put("vnd.android.document/directory", R.string.directory_type);
+
         // Archive types
         mArchiveTypeMap.put("application/rar", "RAR");
         mArchiveTypeMap.put("application/zip", "Zip");

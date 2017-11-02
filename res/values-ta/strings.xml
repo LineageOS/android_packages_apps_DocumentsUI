@@ -63,6 +63,7 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"வகை"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"அளவு"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"மாற்றியது"</string>
+    <string name="directory_children" msgid="8115290268549503262">"குழந்தைகளின் எண்ணிக்கை"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ஏறுவரிசையில்"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"இறங்குவரிசையில்"</string>
     <string name="drawer_open" msgid="8071673398187261741">"சேமித்த இடத்தைக் காட்டு"</string>
@@ -81,6 +82,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"கோப்பைத் திறக்க முடியாது"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"காப்பகங்களில் உள்ள கோப்புகளைத் திறக்க முடியாது"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"சில ஆவணங்களை நீக்க முடியவில்லை"</string>
+    <string name="file_inspector_load_error" msgid="1226344446677541109">"பண்புகளை ஏற்ற முடியவில்லை"</string>
     <string name="share_via" msgid="8725082736005677161">"இதன் வழியாகப் பகிர்"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"கோப்புகளை நகலெடுத்தல்"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"அளவைக் குறைக்கிறது"</string>

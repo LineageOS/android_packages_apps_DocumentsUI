@@ -13,20 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.inspector;
+package com.android.documentsui;
 
-import android.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import com.android.documentsui.R;
+import android.app.Activity;
 
-public class DocumentInspectorFragment extends Fragment {
+/**
+ * This class (empty) is needed to demo/functional test the show in provider button in the
+ * document inspector.
+ */
+public class TestProviderActivity extends Activity {
 
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-      return inflater.inflate(R.layout.document_inspector_fragment, container, false);
-  }
 }

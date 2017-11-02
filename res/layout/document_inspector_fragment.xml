@@ -14,15 +14,50 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <TextView
-      android:id="@+id/hello_world"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Hello World!"
-      android:textSize="20dp" />
-</FrameLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="5dp">
+
+        <com.android.documentsui.inspector.HeaderView
+            android:id="@+id/inspector_header_view"
+            android:layout_width="match_parent"
+            android:paddingBottom="5dp"
+            android:layout_height="@dimen/inspector_header_height" />
+
+        <com.android.documentsui.inspector.DetailsView
+            android:id="@+id/inspector_details_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.android.documentsui.inspector.actions.ActionView
+            android:paddingTop="10dp"
+            android:id="@+id/inspector_show_in_provider_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <com.android.documentsui.inspector.actions.ActionView
+            android:paddingTop="10dp"
+            android:id="@+id/inspector_app_defaults_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <com.android.documentsui.inspector.DebugView
+            android:id="@+id/inspector_debug_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>

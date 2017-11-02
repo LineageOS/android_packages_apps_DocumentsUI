@@ -230,7 +230,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         throw new UnsupportedOperationException("Can't open document.");
     }
 
-    public void showInspector(Selection selection, Context context) {
+    public void showInspector(DocumentInfo doc) {
         throw new UnsupportedOperationException("Can't open properties.");
     }
 
@@ -404,6 +404,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
 
         mState.debugMode = enabled;
         mInjector.features.forceFeature(R.bool.feature_command_interceptor, enabled);
+        mInjector.features.forceFeature(R.bool.feature_inspector, enabled);
         mActivity.invalidateOptionsMenu();
 
         if (enabled) {
