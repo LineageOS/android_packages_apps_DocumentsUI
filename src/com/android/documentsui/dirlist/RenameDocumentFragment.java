@@ -107,6 +107,7 @@ public class RenameDocumentFragment extends DialogFragment {
                         return false;
                     }
                 });
+        mEditText.requestFocus();
         return dialog;
     }
 
