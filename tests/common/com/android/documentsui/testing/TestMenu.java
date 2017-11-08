@@ -18,6 +18,7 @@ package com.android.documentsui.testing;
 
 import android.util.SparseArray;
 import android.view.Menu;
+import android.widget.SearchView;
 
 import com.android.documentsui.R;
 
@@ -88,6 +89,11 @@ public abstract class TestMenu implements Menu {
         for (int id : ids) {
             TestMenuItem item = TestMenuItem.create(id);
             menu.addMenuItem(id, item);
+
+            // Used by SearchViewManager
+            if (id == R.id.option_menu_search) {
+                item.setActionView(Mockito.mock(SearchView.class));
+            }
         }
         return menu;
     }
