@@ -229,8 +229,8 @@
       <item quantity="one">تم نسخ ملف واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>) إلى الحافظة.</item>
     </plurals>
     <string name="file_operation_rejected" msgid="4301554203329008794">"معالجة الملف غير متوافقة."</string>
-    <string name="file_operation_error" msgid="2234357335716533795">"أخفقت معالجة الملف."</string>
-    <string name="rename_error" msgid="6700093173508118635">"أخفقت إعادة تسمية المستند."</string>
+    <string name="file_operation_error" msgid="2234357335716533795">"تعذّرت معالجة الملف."</string>
+    <string name="rename_error" msgid="6700093173508118635">"تعذّرت إعادة تسمية المستند."</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"إخراج"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"تم تحويل بعض الملفات"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"هل تريد منح التطبيق <xliff:g id="APPNAME"><b>^1</b></xliff:g> حق الوصول إلى الدليل <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> على <xliff:g id="STORAGE"><i>^3</i></xliff:g>؟"</string>
