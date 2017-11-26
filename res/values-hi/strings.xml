@@ -33,7 +33,7 @@
     <string name="menu_open_with" msgid="5507647065467520229">"इसमें खोलें"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"नई विंडो में खोलें"</string>
     <string name="menu_save" msgid="5195367497138965168">"सेव करें"</string>
-    <string name="menu_share" msgid="4307140947108068356">"साझा करें"</string>
+    <string name="menu_share" msgid="4307140947108068356">"शेयर करें"</string>
     <string name="menu_delete" msgid="1022254131543256626">"मिटाएं"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"सभी चुनें"</string>
     <string name="menu_copy" msgid="7404820171352314754">"इनकी कॉपी करें..."</string>
@@ -84,7 +84,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"फ़ाइल नहीं खोली जा सकती"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"संग्रह में मौजूद फ़ाइलें नहीं खोली जा सकतीं"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"कुछ दस्तावेज़ों को हटाने में असमर्थ"</string>
-    <string name="share_via" msgid="8725082736005677161">"इसके द्वारा साझा करें"</string>
+    <string name="share_via" msgid="8725082736005677161">"इसके ज़रिए शेयर करें"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फ़ाइलें कॉपी हो रही हैं"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"फ़ाइलें कंप्रेस करना"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"फ़ाइलें निकाली जा रही हैं"</string>
