@@ -110,6 +110,8 @@
     <string name="debug_supports_delete" translatable="false">Supports delete</string>
     <!-- String label for developer/debug file details, specifying that a file has associated metadata. -->
     <string name="debug_supports_metadata" translatable="false">Supports metadata</string>
+    <!-- String label for developer/debug file details, specifying that a file can be removed. -->
+    <string name="debug_supports_remove" translatable="false">Supports remove</string>
     <!-- String label for developer/debug file details, specifying that a file can be renamed. -->
     <string name="debug_supports_rename" translatable="false">Supports rename</string>
     <!-- String label for developer/debug file details, specifying that a file supports the "settings" feature. -->
