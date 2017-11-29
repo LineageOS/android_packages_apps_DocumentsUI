@@ -84,6 +84,7 @@ public class DebugView extends TableView implements DebugDisplay {
         put(R.string.debug_supports_create, info.isCreateSupported());
         put(R.string.debug_supports_delete, info.isDeleteSupported());
         put(R.string.debug_supports_metadata, info.isMetadataSupported());
+        put(R.string.debug_supports_remove, info.isRemoveSupported());
         put(R.string.debug_supports_rename, info.isRenameSupported());
         put(R.string.debug_supports_settings, info.isSettingsSupported());
         put(R.string.debug_supports_thumbnail, info.isThumbnailSupported());
