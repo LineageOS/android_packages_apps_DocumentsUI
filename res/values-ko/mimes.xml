@@ -41,4 +41,5 @@
     <string name="gform_file_type" msgid="4803176103746107611">"Google 설문지"</string>
     <string name="gmap_file_type" msgid="6684180781808007016">"Google 지도"</string>
     <string name="gsite_file_type" msgid="3742812051249149526">"Google 사이트"</string>
+    <string name="directory_type" msgid="2702987727566226354">"폴더"</string>
 </resources>

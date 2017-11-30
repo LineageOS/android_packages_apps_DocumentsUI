@@ -41,4 +41,5 @@
     <string name="gform_file_type" msgid="4803176103746107611">"Google формасы"</string>
     <string name="gmap_file_type" msgid="6684180781808007016">"Google картасы"</string>
     <string name="gsite_file_type" msgid="3742812051249149526">"Google сайты"</string>
+    <string name="directory_type" msgid="2702987727566226354">"Папка"</string>
 </resources>
