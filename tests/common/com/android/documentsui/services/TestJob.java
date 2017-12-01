@@ -107,4 +107,10 @@ public class TestJob extends Job {
                 service.getString(android.R.string.cancel),
                 R.drawable.ic_cab_cancel);
     }
+
+    // Add an empty finish method. R8 will remove the one in the base class as that
+    // is never called in the app.
+    @Override
+    void finish() {
+    }
 }
