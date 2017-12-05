@@ -172,8 +172,7 @@ abstract public class Job implements Runnable {
         return true;
     }
 
-    void finish() {
-    }
+    abstract void finish();
 
     abstract void start();
     abstract Notification getSetupNotification();
