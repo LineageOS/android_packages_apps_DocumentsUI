@@ -140,7 +140,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         super.tearDown();
     }
 
-    private void launchActivity() {
+    protected void launchActivity() {
         final Intent intent = context.getPackageManager().getLaunchIntentForPackage(
                 UiBot.TARGET_PKG);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

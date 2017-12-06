@@ -89,10 +89,5 @@ final class GridDirectoryHolder extends DocumentHolder {
         mTitle.setText(
                 getCursorString(cursor, Document.COLUMN_DISPLAY_NAME),
                 TextView.BufferType.SPANNABLE);
-
-        if (DebugFlags.getDocumentDetailsEnabled()) {
-            String authority = getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY);
-            includeDebugInfo(DocumentInfo.fromCursor(cursor, authority));
-        }
     }
 }

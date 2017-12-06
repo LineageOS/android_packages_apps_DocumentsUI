@@ -41,7 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"压缩"</string>
     <string name="menu_extract" msgid="8171946945982532262">"解压到…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重命名"</string>
-    <string name="menu_inspector" msgid="8633147986551632467">"属性"</string>
+    <string name="menu_inspector" msgid="8217713416277319588">"获取信息"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"在“<xliff:g id="SOURCE">%1$s</xliff:g>”中查看"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"新建窗口"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"剪切"</string>
@@ -63,6 +63,15 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"类型"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"大小"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"上次修改时间"</string>
+    <string name="directory_items" msgid="6645621978998614003">"项数"</string>
+    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"这类文件可使用以下应用打开："</string>
+    <string name="handler_app_belongs_to" msgid="5956928604521893459">"此文件属于"</string>
+    <string name="handler_app_button_info_1" msgid="4271199640671067569">"其他应用可以打开这种文件类型。清除"</string>
+    <string name="handler_app_button_info_2" msgid="4299969771512815898">"设为默认值。"</string>
+    <string name="handler_app_clear" msgid="206579047716445033">"清除"</string>
+    <string name="handler_app_show_in" msgid="7923573101129079048">"在提供程序中显示"</string>
+    <string name="handler_app_not_selected" msgid="8178393676227130360">"未选择"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"未知"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"升序"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"降序"</string>
     <string name="drawer_open" msgid="8071673398187261741">"显示根目录"</string>
@@ -81,6 +90,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"无法打开文件"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"无法打开归档文件"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"无法删除部分文档"</string>
+    <string name="file_inspector_load_error" msgid="1226344446677541109">"无法加载属性"</string>
     <string name="share_via" msgid="8725082736005677161">"分享方式"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"正在复制文件"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"正在压缩文件"</string>
@@ -203,4 +213,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"归档<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"要覆盖 <xliff:g id="NAME">%1$s</xliff:g> 吗？"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"继续在后台执行"</string>
+    <string name="inspector_debug_section" msgid="3447621501565766900">"调试信息（仅限开发者）"</string>
 </resources>

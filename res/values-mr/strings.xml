@@ -41,7 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"संकुचित करा"</string>
     <string name="menu_extract" msgid="8171946945982532262">"मध्ये काढा..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"पुनर्नामित करा"</string>
-    <string name="menu_inspector" msgid="8633147986551632467">"गुणधर्म"</string>
+    <string name="menu_inspector" msgid="8217713416277319588">"माहिती मिळवा"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> मध्ये पहा"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"नवीन विंडो"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"कट करा"</string>
@@ -63,6 +63,15 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"प्रकार"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"आकार"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"सुधारित"</string>
+    <string name="directory_items" msgid="6645621978998614003">"आयटमची संख्या"</string>
+    <string name="handler_app_file_opens_with" msgid="2667097605117000751">"या प्रकारची फाइल याच्यासोबत उघडेल"</string>
+    <string name="handler_app_belongs_to" msgid="5956928604521893459">"ही फाइल यांच्या मालकीची आहे"</string>
+    <string name="handler_app_button_info_1" msgid="4271199640671067569">"इतर अॅप्स हा फाइल प्रकार उघडू शकतात. साफ करा"</string>
+    <string name="handler_app_button_info_2" msgid="4299969771512815898">"डीफॉल्ट म्हणून."</string>
+    <string name="handler_app_clear" msgid="206579047716445033">"साफ करा"</string>
+    <string name="handler_app_show_in" msgid="7923573101129079048">"पुरवठादारामध्ये दाखवा"</string>
+    <string name="handler_app_not_selected" msgid="8178393676227130360">"निवडलेले नाही"</string>
+    <string name="handler_app_unknown" msgid="56574249066388341">"अज्ञात"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"चढत्या क्रमाने"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"उतरत्या क्रमाने"</string>
     <string name="drawer_open" msgid="8071673398187261741">"रूट दर्शवा"</string>
@@ -81,6 +90,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"फाईल उघडू शकत नाही"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"संग्रहणांमध्‍ये फायली उघडू शकत नाही"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"काही दस्‍तऐवज हटविण्‍यात अक्षम"</string>
+    <string name="file_inspector_load_error" msgid="1226344446677541109">"गुणधर्म लोड करू शकत नाही"</string>
     <string name="share_via" msgid="8725082736005677161">"द्वारे सामायिक करा"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फायली कॉपी करणे"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"फायली संकुचित करत आहे"</string>
@@ -109,11 +119,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम हटवत आहे.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"पूर्ववत करा"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"कॉपी करण्‍यासाठी तयार करीत आहे…"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"कॉपी करण्‍यासाठी तयार करत आहे…"</string>
     <string name="compress_preparing" msgid="6650018601382062672">"संकुचित करण्‍यासाठी तयार होत आहे…"</string>
     <string name="extract_preparing" msgid="58266275455027829">"काढण्यासाठी तयार करत आहे..."</string>
     <string name="move_preparing" msgid="8742573245485449429">"हलविण्‍यास तयार होत आहे…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"हटविण्‍यासाठी तयार करीत आहे..."</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"हटविण्‍यासाठी तयार करत आहे..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम कॉपी करु शकलो नाही</item>
@@ -203,4 +213,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"संग्रहण<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> अधिलिखित करायचे?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"पार्श्वभूमीमध्ये सुरू ठेवा"</string>
+    <string name="inspector_debug_section" msgid="3447621501565766900">"डीबग माहिती (फक्त डेव्हलपरची)"</string>
 </resources>

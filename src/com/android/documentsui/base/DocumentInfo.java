@@ -255,6 +255,14 @@ public class DocumentInfo implements Durable, Parcelable {
         return (flags & Document.FLAG_SUPPORTS_RENAME) != 0;
     }
 
+    public boolean isThumbnailSupported() {
+        return (flags & Document.FLAG_SUPPORTS_THUMBNAIL) != 0;
+    }
+
+    public boolean isWeblinkSupported() {
+        return (flags & Document.FLAG_WEB_LINKABLE) != 0;
+    }
+
     public boolean isArchive() {
         return ArchivesProvider.isSupportedArchiveType(mimeType);
     }
@@ -274,6 +282,10 @@ public class DocumentInfo implements Durable, Parcelable {
 
     public boolean isVirtual() {
         return (flags & Document.FLAG_VIRTUAL_DOCUMENT) != 0;
+    }
+
+    public boolean isSettingsSupported() {
+        return (flags & Document.FLAG_SUPPORTS_SETTINGS) != 0;
     }
 
     public boolean prefersSortByLastModified() {

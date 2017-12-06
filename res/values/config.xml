@@ -51,4 +51,10 @@
     <bool name="feature_inspector">false</bool>
     <bool name="feature_debug_mode">false</bool>
 
+    <!-- Indicates if internal storage is shown as default or not. -->
+    <bool name="config_default_show_device_root">false</bool>
+
+    <!-- This option allows us to hide the Files app icon from launcher on Android Go device.
+    Android Go device will have Files Go app for file management. -->
+    <bool name="is_launcher_enabled">true</bool>
 </resources>

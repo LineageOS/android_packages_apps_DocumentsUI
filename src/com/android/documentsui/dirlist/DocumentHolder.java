@@ -51,7 +51,6 @@ public abstract class DocumentHolder
     protected @Nullable String mModelId;
 
     private final View mSelectionHotspot;
-    private final @Nullable FrameLayout mDebugContainer;
     private @Nullable DocumentDebugInfo mDebugInfo;
 
     // See #addKeyEventListener for details on the need for this field.
@@ -69,8 +68,6 @@ public abstract class DocumentHolder
         mContext = context;
 
         mSelectionHotspot = itemView.findViewById(R.id.icon_check);
-
-        mDebugContainer = (FrameLayout) itemView.findViewById(R.id.debug_info);
     }
 
     /**
@@ -150,24 +147,6 @@ public abstract class DocumentHolder
     @Override
     public boolean isOverDocIcon(InputEvent event) {
         return false;
-    }
-
-    protected void includeDebugInfo(DocumentInfo doc) {
-        if (mDebugContainer == null) {
-            return;
-        }
-        if (DebugFlags.getDocumentDetailsEnabled()) {
-            assert(Build.IS_DEBUGGABLE);
-            if (mDebugInfo == null) {
-                assert(mDebugContainer.getChildAt(0) == null);
-                mDebugInfo = inflateLayout(mContext, mDebugContainer, R.layout.document_debug_info);
-                mDebugContainer.addView(mDebugInfo);
-            }
-            mDebugInfo.update(doc);
-            mDebugContainer.setVisibility(View.VISIBLE);
-        } else {
-            mDebugContainer.setVisibility(View.GONE);
-        }
     }
 
     static void setEnabledRecursive(View itemView, boolean enabled) {

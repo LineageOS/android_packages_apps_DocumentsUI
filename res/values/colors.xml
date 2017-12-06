@@ -74,4 +74,7 @@
     <color name="scroll_thumb_pressed">#ff8c8c8c</color>
     <color name="scroll_thumb">#ffbebebe</color>
     <color name="scroll_track">#fff0f0f0</color>
+
+    <color name="inspector_value">#ff939393</color>
+    <color name="inspector_section_title">#ff939393</color>
 </resources>

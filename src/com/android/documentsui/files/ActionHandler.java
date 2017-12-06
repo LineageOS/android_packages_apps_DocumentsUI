@@ -23,7 +23,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
@@ -43,6 +42,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.TimeoutTask;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.ConfirmationCallback.Result;
+import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -58,6 +58,7 @@ import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.DocumentDetails;
 import com.android.documentsui.files.ActionHandler.Addons;
+import com.android.documentsui.inspector.InspectorActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.selection.Selection;
@@ -674,12 +675,14 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     }
 
     @Override
-    public void showInspector(Selection selected, Context context) {
-        assert(selected.size() == 1);
-        Intent intent = new Intent(mActivity, FilesActivity.class);
-        DocumentInfo selectedDoc = mModel.getDocuments(selected).get(0);
-        intent.putExtra(Intent.ACTION_VIEW, selectedDoc.derivedUri);
-        Metrics.logUserAction(context, Metrics.USER_ACTION_INSPECTOR);
+    public void showInspector(DocumentInfo doc) {
+        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_INSPECTOR);
+        Intent intent = new Intent(mActivity, InspectorActivity.class);
+        intent.putExtra(
+                Shared.EXTRA_SHOW_DEBUG,
+                mFeatures.isDebugSupportEnabled()
+                        || DebugFlags.getDocumentDetailsEnabled());
+        intent.setData(doc.derivedUri);
         mActivity.startActivity(intent);
     }
 

@@ -49,6 +49,7 @@ public final class CommandInterceptor implements EventHandler<String> {
         mCommands.add(this::gestureScale);
         mCommands.add(this::jobProgressDialog);
         mCommands.add(this::archiveCreation);
+        mCommands.add(this::docInspector);
         mCommands.add(this::docDetails);
         mCommands.add(this::forcePaging);
     }
@@ -136,12 +137,25 @@ public final class CommandInterceptor implements EventHandler<String> {
         return false;
     }
 
+    private boolean docInspector(String[] tokens) {
+        if ("inspect".equals(tokens[0])) {
+            if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
+                boolean enabled = asBool(tokens[1]);
+                mFeatures.forceFeature(R.bool.feature_inspector, enabled);
+                Log.i(TAG, "Set doc inspector enabled to: " + enabled);
+                return true;
+            }
+            Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));
+        }
+        return false;
+    }
+
     private boolean docDetails(String[] tokens) {
         if ("docinfo".equals(tokens[0])) {
             if (tokens.length == 2 && !TextUtils.isEmpty(tokens[1])) {
                 boolean enabled = asBool(tokens[1]);
                 DebugFlags.setDocumentDetailsEnabled(enabled);
-                Log.i(TAG, "Set gesture scale enabled to: " + enabled);
+                Log.i(TAG, "Set doc details enabled to: " + enabled);
                 return true;
             }
             Log.w(TAG, "Invalid command structure: " + TextUtils.join(" ", tokens));

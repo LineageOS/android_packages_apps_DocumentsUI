@@ -172,9 +172,5 @@ final class GridDocumentHolder extends DocumentHolder {
                 mDetails.setText(Formatter.formatFileSize(mContext, docSize));
             }
         }
-
-        if (DebugFlags.getDocumentDetailsEnabled()) {
-            includeDebugInfo(mDoc);
-        }
     }
 }
