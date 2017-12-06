@@ -141,7 +141,8 @@ public class CreateDirectoryFragment extends DialogFragment {
                         resolver, mCwd.derivedUri.getAuthority());
                 final Uri childUri = DocumentsContract.createDocument(
                         client, mCwd.derivedUri, Document.MIME_TYPE_DIR, mDisplayName);
-                return DocumentInfo.fromUri(resolver, childUri);
+                DocumentInfo doc = DocumentInfo.fromUri(resolver, childUri);
+                return doc.isDirectory() ? doc : null;
             } catch (Exception e) {
                 Log.w(TAG, "Failed to create directory", e);
                 return null;
