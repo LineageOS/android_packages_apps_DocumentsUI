@@ -336,4 +336,24 @@ public class DocumentsProviderHelper {
     public void configure(String args, Bundle configuration) throws RemoteException {
         mClient.call("configure", args, configuration);
     }
+
+    public List<RootInfo> getRootList() throws RemoteException {
+        List<RootInfo> list = new ArrayList<>();
+        final Uri rootsUri = DocumentsContract.buildRootsUri(mAuthority);
+        Cursor cursor = null;
+        try {
+            cursor = mClient.query(rootsUri, null, null, null, null);
+            while (cursor.moveToNext()) {
+                RootInfo rootInfo = RootInfo.fromRootsCursor(mAuthority, cursor);
+                if (rootInfo != null) {
+                    list.add(rootInfo);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Can't load rootInfo list", e);
+        } finally {
+            IoUtils.closeQuietly(cursor);
+        }
+        return list;
+    }
 }

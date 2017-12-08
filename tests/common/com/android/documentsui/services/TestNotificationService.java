@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.view.View;
@@ -28,7 +29,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
-
+import android.util.Log;
 
 /**
 * This class receives a callback when Notification is posted or removed
@@ -36,6 +37,8 @@ import android.widget.RemoteViews;
 * And, this sends the operation's result by Broadcast.
 */
 public class TestNotificationService extends NotificationListenerService {
+    private static final String TAG = "TestNotificationService";
+
     public static final String ACTION_CHANGE_CANCEL_MODE =
             "com.android.documentsui.services.TestNotificationService.ACTION_CHANGE_CANCEL_MODE";
 
@@ -45,26 +48,44 @@ public class TestNotificationService extends NotificationListenerService {
     public static final String ACTION_OPERATION_RESULT =
             "com.android.documentsui.services.TestNotificationService.ACTION_OPERATION_RESULT";
 
+    public static final String ACTION_DISPLAY_SD_CARD_NOTIFICATION =
+            "com.android.documentsui.services.TestNotificationService.ACTION_DISPLAY_SD_CARD_NOTIFICATION";
+
+    public static final String ACTION_SD_CARD_SETTING_COMPLETED =
+            "com.android.documentsui.services.TestNotificationService.ACTION_SD_CARD_SETTING_COMPLETED";
+
+    public static final String ANDROID_PACKAGENAME = "android";
+
+    public static final String CANCEL_RES_NAME = "cancel";
+
     public static final String EXTRA_RESULT =
             "com.android.documentsui.services.TestNotificationService.EXTRA_RESULT";
 
     public static final String EXTRA_ERROR_REASON =
             "com.android.documentsui.services.TestNotificationService.EXTRA_ERROR_REASON";
 
+    public static final String UNSUPPORTED_NOTIFICATION_TEXT = "Issue with Virtual SD card";
+
+    public static final String CORRUPTED_NOTIFICATION_TEXT = "Corrupted Virtual SD card";
+
+    public static final String VIRTUAL_SD_CARD_TEXT = "Virtual SD card";
+
+    private final static String DOCUMENTSUI_PACKAGE= "com.android.documentsui";
+
+    private final static String SD_CARD_NOTIFICATION_PACKAGE = "com.android.systemui";
+
     public enum MODE {
         CANCEL_MODE,
         EXECUTION_MODE;
     }
 
-    private String DOCUMENTSUI= "com.android.documentsui";
+    private MODE mCurrentMode = MODE.CANCEL_MODE;
+
+    private boolean mCancelled = false;
 
     private FrameLayout mFrameLayout = null;
 
     private ProgressBar mProgressBar = null;
-
-    private MODE mCurrentMode = MODE.CANCEL_MODE;
-
-    private boolean mCancelled = false;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -103,19 +124,23 @@ public class TestNotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         String pkgName = sbn.getPackageName();
-        if (!pkgName.equals(DOCUMENTSUI)) {
-            return;
-        }
-
-        if (MODE.CANCEL_MODE.equals(mCurrentMode)) {
-            mCancelled = doCancel(sbn.getNotification());
+        if (SD_CARD_NOTIFICATION_PACKAGE.equals(pkgName)) {
+            sendBroadcastForVirtualSdCard(sbn.getNotification());
+        } else if (DOCUMENTSUI_PACKAGE.equals(pkgName)) {
+            if (MODE.CANCEL_MODE.equals(mCurrentMode)) {
+                try {
+                    mCancelled = doCancel(sbn.getNotification());
+                } catch (Exception e) {
+                    Log.d(TAG, "Error occurs when cancel notification.", e);
+                }
+            }
         }
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         String pkgName = sbn.getPackageName();
-        if (!pkgName.equals(DOCUMENTSUI)) {
+        if (!DOCUMENTSUI_PACKAGE.equals(pkgName)) {
             return;
         }
 
@@ -135,7 +160,18 @@ public class TestNotificationService extends NotificationListenerService {
         sendBroadcast(intent);
     }
 
-    private boolean doCancel(Notification noti) {
+    private void sendBroadcastForVirtualSdCard(Notification notification) {
+        String title = notification.extras.getString(Notification.EXTRA_TITLE);
+        if (UNSUPPORTED_NOTIFICATION_TEXT.equals(title) ||
+                CORRUPTED_NOTIFICATION_TEXT.equals(title)) {
+            sendBroadcast(new Intent(ACTION_DISPLAY_SD_CARD_NOTIFICATION));
+        } else if (VIRTUAL_SD_CARD_TEXT.equals(title)) {
+            sendBroadcast(new Intent(ACTION_SD_CARD_SETTING_COMPLETED));
+        }
+    }
+
+    private boolean doCancel(Notification noti)
+            throws NameNotFoundException, PendingIntent.CanceledException {
         if (!isStartProgress(noti)) {
             return false;
         }
@@ -147,12 +183,15 @@ public class TestNotificationService extends NotificationListenerService {
 
         boolean result = false;
         for (Notification.Action item : aList) {
-            if (item.title.equals("Cancel")) {
-                try {
-                    item.actionIntent.send();
-                    result = true;
-                } catch (PendingIntent.CanceledException e) {
-                }
+            Context android_context = getBaseContext().createPackageContext(ANDROID_PACKAGENAME,
+                    Context.CONTEXT_RESTRICTED);
+            int res_id = android_context.getResources().getIdentifier(CANCEL_RES_NAME,
+                    "string", ANDROID_PACKAGENAME);
+            final String cancel_label = android_context.getResources().getString(res_id);
+
+            if (cancel_label.equals(item.title)) {
+                item.actionIntent.send();
+                result = true;
             }
         }
         return result;
@@ -208,4 +247,3 @@ public class TestNotificationService extends NotificationListenerService {
         return result;
     }
 }
-
