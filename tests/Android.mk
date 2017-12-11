@@ -12,13 +12,12 @@ LOCAL_SRC_FILES := $(call all-java-files-under, common) \
 LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
 LOCAL_AAPT_FLAGS += -0 .zip
 
-LOCAL_JAVA_LIBRARIES := android.test.runner
+LOCAL_JAVA_LIBRARIES := android.test.runner android.test.base android.test.mock
 LOCAL_STATIC_JAVA_LIBRARIES := \
     mockito-target \
     ub-uiautomator \
     espresso-core \
-    guava \
-    legacy-android-test
+    guava
 LOCAL_JARJAR_RULES := $(LOCAL_PATH)/jarjar-rules.txt
 LOCAL_PACKAGE_NAME := DocumentsUITests
 LOCAL_COMPATIBILITY_SUITE := device-tests
