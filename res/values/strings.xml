@@ -18,7 +18,7 @@
     <!-- Title of the Files application [CHAR LIMIT=32] -->
     <string name="files_label">Files</string>
 
-    <!-- Title of the Downloads application, which sometimes Files is known as [CHAR LIMIT=32] -->
+    <!-- Title of the Downloads application, which sometimes Files is known as [CHAR LIMIT=16] -->
     <string name="downloads_label">Downloads</string>
 
     <!-- Title of the documents application [CHAR LIMIT=32] -->
