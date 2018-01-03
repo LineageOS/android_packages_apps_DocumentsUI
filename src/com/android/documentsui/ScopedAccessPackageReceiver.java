@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The Android Open Source Project
+ * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.android.documentsui.picker.LastAccessedProvider;
 import com.android.documentsui.prefs.ScopedAccessLocalPreferences;
 
 /**
- * Clean up {@link LastAccessedProvider} and {@link ScopedAccessLocalPreferences} when packages
- * are removed.
+ * Clean up {@link ScopedAccessLocalPreferences} when packages are removed.
  */
-public class PackageReceiver extends BroadcastReceiver {
+public class ScopedAccessPackageReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final ContentResolver resolver = context.getContentResolver();
@@ -39,20 +37,11 @@ public class PackageReceiver extends BroadcastReceiver {
         final String packageName = data == null ? null : data.getSchemeSpecificPart();
 
         if (Intent.ACTION_PACKAGE_FULLY_REMOVED.equals(action)) {
-            resolver.call(
-                    LastAccessedProvider.buildLastAccessed(packageName),
-                    LastAccessedProvider.METHOD_PURGE,
-                    null,
-                    null);
             if (packageName != null) {
                 ScopedAccessLocalPreferences.clearPackagePreferences(context, packageName);
             }
         } else if (Intent.ACTION_PACKAGE_DATA_CLEARED.equals(action)) {
             if (packageName != null) {
-                resolver.call(
-                        LastAccessedProvider.buildLastAccessed(packageName),
-                        LastAccessedProvider.METHOD_PURGE_PACKAGE,
-                        packageName, null);
                 ScopedAccessLocalPreferences.clearPackagePreferences(context, packageName);
             }
         }
