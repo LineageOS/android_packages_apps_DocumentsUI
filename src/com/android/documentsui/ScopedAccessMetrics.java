@@ -88,7 +88,7 @@ public final class ScopedAccessMetrics {
     public static void logValidScopedAccessRequest(Activity activity, String directory,
             @ScopedAccessGrant int type) {
         int index = -1;
-        if (OpenExternalDirectoryActivity.DIRECTORY_ROOT.equals(directory)) {
+        if (ScopedAccessActivity.DIRECTORY_ROOT.equals(directory)) {
             index = -2;
         } else {
             for (int i = 0; i < STANDARD_DIRECTORIES.length; i++) {

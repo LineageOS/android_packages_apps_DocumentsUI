@@ -75,10 +75,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Activity responsible for handling {@link Intent#ACTION_OPEN_EXTERNAL_DOCUMENT}.
+ * Activity responsible for handling {@link StorageVolume#createAccessIntent(String)}.
  */
-public class OpenExternalDirectoryActivity extends Activity {
-    private static final String TAG = "OpenExternalDirectory";
+public class ScopedAccessActivity extends Activity {
+    private static final String TAG = "ScopedAccessActivity";
     private static final String FM_TAG = "open_external_directory";
     private static final String EXTRA_FILE = "com.android.documentsui.FILE";
     private static final String EXTRA_APP_LABEL = "com.android.documentsui.APP_LABEL";
@@ -151,7 +151,7 @@ public class OpenExternalDirectoryActivity extends Activity {
      * Validates the given path (volume + directory) and display the appropriate dialog asking the
      * user to grant access to it.
      */
-    private static boolean showFragment(OpenExternalDirectoryActivity activity, int userId,
+    private static boolean showFragment(ScopedAccessActivity activity, int userId,
             StorageVolume storageVolume, String directoryName) {
         if (DEBUG)
             Log.d(TAG, "showFragment() for volume " + storageVolume.dump() + ", directory "
@@ -228,7 +228,7 @@ public class OpenExternalDirectoryActivity extends Activity {
         }
 
         // Checks if the user has granted the permission already.
-        final Intent intent = getIntentForExistingPermission(activity, isRoot, internalRoot, file);
+        final Intent intent = getIntentForExistingPermission(activity, internalRoot, file);
         if (intent != null) {
             logValidScopedAccessRequest(activity, directory,
                     SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED);
@@ -261,8 +261,7 @@ public class OpenExternalDirectoryActivity extends Activity {
 
         final FragmentManager fm = activity.getFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
-        final OpenExternalDirectoryDialogFragment fragment =
-                new OpenExternalDirectoryDialogFragment();
+        final ScopedAccessDialogFragment fragment = new ScopedAccessDialogFragment();
         fragment.setArguments(args);
         ft.add(fragment, FM_TAG);
         ft.commitAllowingStateLoss();
@@ -341,8 +340,8 @@ public class OpenExternalDirectoryActivity extends Activity {
         return intent;
     }
 
-    private static Intent getIntentForExistingPermission(OpenExternalDirectoryActivity activity,
-            boolean isRoot, File root, File file) {
+    private static Intent getIntentForExistingPermission(ScopedAccessActivity activity, File root,
+            File file) {
         final String packageName = activity.getCallingPackage();
         final ContentProviderClient storageClient = activity.getExternalStorageClient();
         final Uri grantedUri = getGrantedUriPermission(activity, storageClient, file);
@@ -369,7 +368,7 @@ public class OpenExternalDirectoryActivity extends Activity {
         return null;
     }
 
-    public static class OpenExternalDirectoryDialogFragment extends DialogFragment {
+    public static class ScopedAccessDialogFragment extends DialogFragment {
 
         private File mFile;
         private String mVolumeUuid;
@@ -378,7 +377,7 @@ public class OpenExternalDirectoryActivity extends Activity {
         private boolean mIsRoot;
         private boolean mIsPrimary;
         private CheckBox mDontAskAgain;
-        private OpenExternalDirectoryActivity mActivity;
+        private ScopedAccessActivity mActivity;
         private AlertDialog mDialog;
 
         @Override
@@ -394,7 +393,7 @@ public class OpenExternalDirectoryActivity extends Activity {
                 mIsRoot = args.getBoolean(EXTRA_IS_ROOT);
                 mIsPrimary= args.getBoolean(EXTRA_IS_PRIMARY);
             }
-            mActivity = (OpenExternalDirectoryActivity) getActivity();
+            mActivity = (ScopedAccessActivity) getActivity();
         }
 
         @Override
@@ -416,7 +415,7 @@ public class OpenExternalDirectoryActivity extends Activity {
                 // Sanity check.
                 Log.wtf(TAG, "activity references don't match on onCreateDialog(): mActivity = "
                         + mActivity + " , getActivity() = " + getActivity());
-                mActivity = (OpenExternalDirectoryActivity) getActivity();
+                mActivity = (ScopedAccessActivity) getActivity();
             }
             final String directory = mFile.getName();
             final String directoryName = mIsRoot ? DIRECTORY_ROOT : directory;

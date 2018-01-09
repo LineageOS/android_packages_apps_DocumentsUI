@@ -31,7 +31,7 @@
         android:fullBackupOnly="false">
 
         <activity
-            android:name=".OpenExternalDirectoryActivity"
+            android:name=".ScopedAccessActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.os.storage.action.OPEN_EXTERNAL_DIRECTORY" />

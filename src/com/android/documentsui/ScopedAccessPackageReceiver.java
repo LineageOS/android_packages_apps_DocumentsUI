@@ -17,7 +17,6 @@
 package com.android.documentsui;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,8 +29,6 @@ import com.android.documentsui.prefs.ScopedAccessLocalPreferences;
 public class ScopedAccessPackageReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        final ContentResolver resolver = context.getContentResolver();
-
         final String action = intent.getAction();
         final Uri data = intent.getData();
         final String packageName = data == null ? null : data.getSchemeSpecificPart();
