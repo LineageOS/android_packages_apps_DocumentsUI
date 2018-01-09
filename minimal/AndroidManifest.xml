@@ -47,5 +47,12 @@
             </intent-filter>
         </receiver>
 
+        <provider
+            android:name=".ScopedAccessProvider"
+            android:authorities="com.android.documentsui.scopedAccess"
+            android:permission="android.permission.MANAGE_SCOPED_ACCESS_DIRECTORY_PERMISSIONS"
+            android:exported="true">
+        </provider>
+
     </application>
 </manifest>
