@@ -511,6 +511,14 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             return;
         }
 
+        // For APKs, even if the type is preview, we send an ACTION_VIEW intent to allow
+        // PackageManager to install it.  This allows users to install APKs from any root.
+        // The Downloads special case is handled above in #manageDocument.
+        if (MimeTypes.isApkType(doc.mimeType)) {
+            viewDocument(doc);
+            return;
+        }
+
         switch (type) {
           case VIEW_TYPE_REGULAR:
             if (viewDocument(doc)) {
