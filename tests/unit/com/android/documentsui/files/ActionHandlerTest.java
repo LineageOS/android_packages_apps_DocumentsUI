@@ -334,6 +334,15 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testDocumentPicked_Home_SendsActionViewForApks() throws Exception {
+        mActivity.currentRoot = TestProvidersAccess.HOME;
+
+        mHandler.openDocument(TestEnv.FILE_APK, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
+        mActivity.assertActivityStarted(Intent.ACTION_VIEW);
+    }
+
+    @Test
     public void testDocumentPicked_Downloads_ManagesPartialFiles() throws Exception {
         mActivity.currentRoot = TestProvidersAccess.DOWNLOADS;
 
