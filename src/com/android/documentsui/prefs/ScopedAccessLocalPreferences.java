@@ -22,14 +22,23 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.UserHandle;
 import android.preference.PreferenceManager;
+import android.util.ArraySet;
+import android.util.Log;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Methods for accessing the local preferences with regards to scoped directory access.
  */
+//TODO(b/63720392): add unit tests
 public class ScopedAccessLocalPreferences {
+
+    private static final String TAG = "ScopedAccessLocalPreferences";
 
     private static SharedPreferences getPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
@@ -46,6 +55,9 @@ public class ScopedAccessLocalPreferences {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface PermissionStatus {}
+
+    private static final String KEY_REGEX = "^.+\\|(.+)\\|.*\\|(.+)$";
+    private static final Pattern KEY_PATTERN = Pattern.compile(KEY_REGEX);
 
     /**
      * Methods below are used to keep track of denied user requests on scoped directory access so
@@ -103,5 +115,93 @@ public class ScopedAccessLocalPreferences {
      */
     public static void clearPackagePreferences(Context context, String packageName) {
         ScopedAccessLocalPreferences.clearScopedAccessPreferences(context, packageName);
+    }
+
+    /**
+     * Gets all packages that have entries in the preferences
+     */
+    public static ArraySet<String> getAllPackages(Context context) {
+        final SharedPreferences prefs = getPrefs(context);
+        final ArraySet<String> pkgs = new ArraySet<>();
+
+        for (Entry<String, ?> pref : prefs.getAll().entrySet()) {
+            final String key = pref.getKey();
+            final String pkg = getPackage(key);
+            if (pkg == null) {
+                Log.w(TAG, "getAllPackages(): error parsing pref '" + key + "'");
+                continue;
+            }
+            pkgs.add(pkg);
+        }
+        return pkgs;
+    }
+
+    /**
+     * Gets all permissions.
+     */
+    public static ArrayList<Permission> getAllPermissions(Context context) {
+        final SharedPreferences prefs = getPrefs(context);
+        final ArrayList<Permission> permissions = new ArrayList<>();
+
+        for (Entry<String, ?> pref : prefs.getAll().entrySet()) {
+            final String key = pref.getKey();
+            final Object value = pref.getValue();
+            final Integer status;
+            try {
+                status = (Integer) value;
+            } catch (Exception e) {
+                Log.w(TAG, "error gettting value for key '" + key + "': " + value);
+                continue;
+            }
+            permissions.add(getPermission(key, status));
+        }
+
+        return permissions;
+    }
+
+    public static String statusAsString(@PermissionStatus int status) {
+        switch (status) {
+            case PERMISSION_ASK:
+                return "PERMISSION_ASK";
+            case PERMISSION_ASK_AGAIN:
+                return "PERMISSION_ASK_AGAIN";
+            case PERMISSION_NEVER_ASK:
+                return "PERMISSION_NEVER_ASK";
+            default:
+                return "UNKNOWN";
+        }
+    }
+
+    private static String getPackage(String key) {
+        final Matcher matcher = KEY_PATTERN.matcher(key);
+        return matcher.matches() ? matcher.group(1) : null;
+    }
+
+    private static Permission getPermission(String key, Integer status) {
+        final Matcher matcher = KEY_PATTERN.matcher(key);
+        if (!matcher.matches()) return null;
+
+        final String pkg = matcher.group(1);
+        final String directory = matcher.group(2);
+
+        return new Permission(pkg, directory, status);
+    }
+
+    public static final class Permission {
+        public final String pkg;
+        public final String directory;
+        public final int status;
+
+        private Permission(String pkg, String directory, Integer status) {
+            this.pkg = pkg;
+            this.directory = directory;
+            this.status = status.intValue();
+        }
+
+        @Override
+        public String toString() {
+            return "Permission: [pkg=" + pkg + ", dir=" + directory + ", status="
+                    + statusAsString(status) + " (" + status + ")]";
+        }
     }
 }
