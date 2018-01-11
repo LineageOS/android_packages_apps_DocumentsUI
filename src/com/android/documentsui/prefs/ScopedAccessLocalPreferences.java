@@ -22,6 +22,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.UserHandle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.ArraySet;
 import android.util.Log;
 
@@ -56,7 +57,7 @@ public class ScopedAccessLocalPreferences {
     @Retention(RetentionPolicy.SOURCE)
     public @interface PermissionStatus {}
 
-    private static final String KEY_REGEX = "^.+\\|(.+)\\|.*\\|(.+)$";
+    private static final String KEY_REGEX = "^.+\\|(.+)\\|(.*)\\|(.+)$";
     private static final Pattern KEY_PATTERN = Pattern.compile(KEY_REGEX);
 
     /**
@@ -182,25 +183,28 @@ public class ScopedAccessLocalPreferences {
         if (!matcher.matches()) return null;
 
         final String pkg = matcher.group(1);
-        final String directory = matcher.group(2);
+        final String uuid = matcher.group(2);
+        final String directory = matcher.group(3);
 
-        return new Permission(pkg, directory, status);
+        return new Permission(pkg, uuid, directory, status);
     }
 
     public static final class Permission {
         public final String pkg;
+        public final String uuid;
         public final String directory;
         public final int status;
 
-        private Permission(String pkg, String directory, Integer status) {
+        private Permission(String pkg, String uuid, String directory, Integer status) {
             this.pkg = pkg;
+            this.uuid = TextUtils.isEmpty(uuid) ? null : uuid;
             this.directory = directory;
             this.status = status.intValue();
         }
 
         @Override
         public String toString() {
-            return "Permission: [pkg=" + pkg + ", dir=" + directory + ", status="
+            return "Permission: [pkg=" + pkg + ", uuid=" + uuid + ", dir=" + directory + ", status="
                     + statusAsString(status) + " (" + status + ")]";
         }
     }
