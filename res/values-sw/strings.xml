@@ -87,7 +87,7 @@
     <string name="share_via" msgid="8725082736005677161">"Shiriki kupitia"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Inanakili faili"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Inabana faili"</string>
-    <string name="extract_notification_title" msgid="5067393961754430469">"Inatoa faili"</string>
+    <string name="extract_notification_title" msgid="5067393961754430469">"Faili zinatolewa"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Inahamisha faili"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Inafuta faili"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Zimesalia <xliff:g id="DURATION">%s</xliff:g>"</string>
@@ -100,8 +100,8 @@
       <item quantity="one">Inabana faili <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
-      <item quantity="other">Inatoa faili <xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
-      <item quantity="one">Inatoa faili <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
+      <item quantity="other">Faili <xliff:g id="COUNT_1">%1$d</xliff:g> zinatolewa.</item>
+      <item quantity="one">Faili <xliff:g id="COUNT_0">%1$d</xliff:g> inatolewa.</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
       <item quantity="other">Inahamisha vipengee <xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
