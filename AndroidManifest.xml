@@ -125,13 +125,20 @@
         </activity-alias>
 
         <activity
-            android:name=".OpenExternalDirectoryActivity"
+            android:name=".ScopedAccessActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.os.storage.action.OPEN_EXTERNAL_DIRECTORY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".ScopedAccessProvider"
+            android:authorities="com.android.documentsui.scopedAccess"
+            android:permission="android.permission.MANAGE_SCOPED_ACCESS_DIRECTORY_PERMISSIONS"
+            android:exported="true">
+        </provider>
 
         <provider
             android:name=".picker.LastAccessedProvider"
