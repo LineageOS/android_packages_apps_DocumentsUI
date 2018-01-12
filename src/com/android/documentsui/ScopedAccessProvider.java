@@ -32,6 +32,7 @@ import android.util.ArraySet;
 import android.util.Log;
 
 import com.android.documentsui.prefs.ScopedAccessLocalPreferences.Permission;
+import com.android.internal.util.ArrayUtils;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -121,6 +122,11 @@ public class ScopedAccessProvider extends ContentProvider {
         // First get the packages that were denied
         final ArraySet<String> pkgs = getAllPackages(getContext());
 
+        if (ArrayUtils.isEmpty(pkgs)) {
+            if (VERBOSE) Log.v(TAG, "getPackagesCursor(): ignoring " + pkgs);
+            return null;
+        }
+
         // TODO(b/63720392): also need to query AM for granted permissions
 
         // Then create the cursor
@@ -139,6 +145,11 @@ public class ScopedAccessProvider extends ContentProvider {
     private Cursor getPermissionsCursor() {
         // First get the packages that were denied
         final ArrayList<Permission> rawPermissions = getAllPermissions(getContext());
+
+        if (ArrayUtils.isEmpty(rawPermissions)) {
+            if (VERBOSE) Log.v(TAG, "getPermissionsCursor(): ignoring " + rawPermissions);
+            return null;
+        }
 
         final List<Object[]> permissions = rawPermissions.stream()
                 .filter(permission -> permission.status == PERMISSION_ASK_AGAIN
