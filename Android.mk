@@ -19,6 +19,7 @@ include $(CLEAR_VARS)
 LOCAL_SRC_FILES := \
         src/com/android/documentsui/ScopedAccessActivity.java \
         src/com/android/documentsui/ScopedAccessPackageReceiver.java \
+        src/com/android/documentsui/ScopedAccessProvider.java \
         src/com/android/documentsui/ScopedAccessMetrics.java \
         src/com/android/documentsui/archives/Archive.java \
         src/com/android/documentsui/archives/ArchiveId.java \

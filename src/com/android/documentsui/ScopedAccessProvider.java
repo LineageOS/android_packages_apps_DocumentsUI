@@ -24,7 +24,7 @@ import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABL
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_PACKAGE;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_VOLUME_UUID;
 
-import static com.android.documentsui.base.Shared.VERBOSE;
+import static com.android.documentsui.ScopedAccessMetrics.DEBUG;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPackages;
@@ -103,7 +103,7 @@ public class ScopedAccessProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
             String sortOrder) {
-        if (VERBOSE) {
+        if (DEBUG) {
             Log.v(TAG, "query(" + uri + "): proj=" + Arrays.toString(projection)
                 + ", sel=" + selection);
         }
@@ -122,7 +122,7 @@ public class ScopedAccessProvider extends ContentProvider {
         final ArraySet<String> pkgs = getAllPackages(getContext());
 
         if (ArrayUtils.isEmpty(pkgs)) {
-            if (VERBOSE) Log.v(TAG, "getPackagesCursor(): ignoring " + pkgs);
+            if (DEBUG) Log.v(TAG, "getPackagesCursor(): ignoring " + pkgs);
             return null;
         }
 
@@ -146,7 +146,7 @@ public class ScopedAccessProvider extends ContentProvider {
         final ArrayList<Permission> rawPermissions = getAllPermissions(getContext());
 
         if (ArrayUtils.isEmpty(rawPermissions)) {
-            if (VERBOSE) Log.v(TAG, "getPermissionsCursor(): ignoring " + rawPermissions);
+            if (DEBUG) Log.v(TAG, "getPermissionsCursor(): ignoring " + rawPermissions);
             return null;
         }
 
@@ -179,7 +179,7 @@ public class ScopedAccessProvider extends ContentProvider {
             throw new UnsupportedOperationException("insert(): unsupported " + uri);
         }
 
-        if (VERBOSE) Log.v(TAG, "insert(" + uri + "): " + values);
+        if (DEBUG) Log.v(TAG, "insert(" + uri + "): " + values);
 
         // TODO(b/63720392): implement
         return null;
@@ -191,7 +191,7 @@ public class ScopedAccessProvider extends ContentProvider {
             throw new UnsupportedOperationException("delete(): unsupported " + uri);
         }
 
-        if (VERBOSE) Log.v(TAG, "delete(" + uri + "): " + selection);
+        if (DEBUG) Log.v(TAG, "delete(" + uri + "): " + selection);
 
         // TODO(b/63720392): implement
         return 0;
@@ -203,7 +203,7 @@ public class ScopedAccessProvider extends ContentProvider {
             throw new UnsupportedOperationException("update(): unsupported " + uri);
         }
 
-        if (VERBOSE) Log.v(TAG, "update(" + uri + "): " + selection + " = " + values);
+        if (DEBUG) Log.v(TAG, "update(" + uri + "): " + selection + " = " + values);
 
         // TODO(b/63720392): implement
         return 0;
