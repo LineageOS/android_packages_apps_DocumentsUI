@@ -15,6 +15,15 @@
  */
 package com.android.documentsui;
 
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PACKAGES;
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PACKAGES_COLUMNS;
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS;
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COLUMNS;
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_DIRECTORY;
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_GRANTED;
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_PACKAGE;
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_VOLUME_UUID;
+
 import static com.android.documentsui.base.Shared.VERBOSE;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
@@ -55,12 +64,16 @@ import java.util.stream.Collectors;
  *
  * <ul>
  * <li>{@link #TABLE_PACKAGES}: read-only table with the name of all packages
- * (column ({@link #COL_PACKAGE}) that had a scoped access directory permission granted or denied.
+ * (column ({@link android.os.storage.StorageVolume.ScopedAccessProviderContract#COL_PACKAGE}) that
+ * had a scoped access directory permission granted or denied.
  * <li>{@link #TABLE_PERMISSIONS}: writable table with the name of all packages
- * (column ({@link #COL_PACKAGE}) that had a scoped access directory
- * (column ({@link #COL_DIRECTORY}) permission for a volume (column {@link #COL_VOLUME_UUID}, which
+ * (column ({@link android.os.storage.StorageVolume.ScopedAccessProviderContract#COL_PACKAGE}) that
+ * had a scoped access directory
+ * (column ({@link android.os.storage.StorageVolume.ScopedAccessProviderContract#COL_DIRECTORY})
+ * permission for a volume (column
+ * {@link android.os.storage.StorageVolume.ScopedAccessProviderContract#COL_VOLUME_UUID}, which
  * contains the volume UUID or {@code null} if it's the primary partition) granted or denied
- * (column ({@link #COL_GRANTED}).
+ * (column ({@link android.os.storage.StorageVolume.ScopedAccessProviderContract#COL_GRANTED}).
  * </ul>
  *
  * <p><b>Note:</b> the {@code query()} methods return all entries; it does not support selection or
@@ -72,22 +85,8 @@ public class ScopedAccessProvider extends ContentProvider {
     private static final String TAG = "ScopedAccessProvider";
     private static final UriMatcher sMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
-    // TODO(b/63720392): move constants below to @hide values on DocumentsContract so Settings can
-    // use them
-
-    // Packages that have scoped access permissions
     private static final int URI_PACKAGES = 1;
-    private static final String TABLE_PACKAGES = "packages";
-
-    // Permissions per packages
     private static final int URI_PERMISSIONS = 2;
-    private static final String TABLE_PERMISSIONS = "permissions";
-
-    // Columns
-    private static final String COL_PACKAGE = "package_name";
-    private static final String COL_VOLUME_UUID = "volume_uuid";
-    private static final String COL_DIRECTORY = "directory";
-    private static final String COL_GRANTED = "granted";
 
     public static final String AUTHORITY = "com.android.documentsui.scopedAccess";
 
@@ -130,7 +129,7 @@ public class ScopedAccessProvider extends ContentProvider {
         // TODO(b/63720392): also need to query AM for granted permissions
 
         // Then create the cursor
-        final MatrixCursor cursor = new MatrixCursor(new String[] {COL_PACKAGE}, pkgs.size());
+        final MatrixCursor cursor = new MatrixCursor(TABLE_PACKAGES_COLUMNS, pkgs.size());
         final Object[] column = new Object[1];
         for (int i = 0; i < pkgs.size(); i++) {
             final String pkg = pkgs.valueAt(i);
@@ -162,9 +161,7 @@ public class ScopedAccessProvider extends ContentProvider {
         // TODO(b/63720392): also need to query AM for granted permissions
 
         // Then create the cursor
-        final MatrixCursor cursor = new MatrixCursor(
-                new String[] {COL_PACKAGE, COL_VOLUME_UUID, COL_DIRECTORY, COL_GRANTED},
-                permissions.size());
+        final MatrixCursor cursor = new MatrixCursor(TABLE_PERMISSIONS_COLUMNS, permissions.size());
         for (int i = 0; i < permissions.size(); i++) {
             cursor.addRow(permissions.get(i));
         }
@@ -235,13 +232,14 @@ public class ScopedAccessProvider extends ContentProvider {
             } else {
                 pw.println(cursor.getCount());
                 while (cursor.moveToNext()) {
-                    pw.print(prefix); pw.print(cursor.getString(0)); pw.print('/');
-                    final String uuid = cursor.getString(1);
+                    pw.print(prefix); pw.print(cursor.getString(TABLE_PERMISSIONS_COL_PACKAGE));
+                    pw.print('/');
+                    final String uuid = cursor.getString(TABLE_PERMISSIONS_COL_VOLUME_UUID);
                     if (uuid != null) {
                         pw.print(uuid); pw.print('>');
                     }
-                    pw.print(cursor.getString(2));
-                    pw.print(": "); pw.println(cursor.getInt(3) == 1);
+                    pw.print(cursor.getString(TABLE_PERMISSIONS_COL_DIRECTORY));
+                    pw.print(": "); pw.println(cursor.getInt(TABLE_PERMISSIONS_COL_GRANTED) == 1);
                 }
             }
         }
