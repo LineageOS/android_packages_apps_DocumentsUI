@@ -57,7 +57,9 @@ import java.util.stream.Collectors;
  * (column ({@link #COL_PACKAGE}) that had a scoped access directory permission granted or denied.
  * <li>{@link #TABLE_PERMISSIONS}: writable table with the name of all packages
  * (column ({@link #COL_PACKAGE}) that had a scoped access directory
- * (column ({@link #COL_DIRECTORY}) permission granted or denied (column ({@link #COL_GRANTED}).
+ * (column ({@link #COL_DIRECTORY}) permission for a volume (column {@link #COL_VOLUME_UUID}, which
+ * contains the volume UUID or {@code null} if it's the primary partition) granted or denied
+ * (column ({@link #COL_GRANTED}).
  * </ul>
  *
  * <p><b>Note:</b> the {@code query()} methods return all entries; it does not support selection or
@@ -82,6 +84,7 @@ public class ScopedAccessProvider extends ContentProvider {
 
     // Columns
     private static final String COL_PACKAGE = "package_name";
+    private static final String COL_VOLUME_UUID = "volume_uuid";
     private static final String COL_DIRECTORY = "directory";
     private static final String COL_GRANTED = "granted";
 
@@ -141,14 +144,16 @@ public class ScopedAccessProvider extends ContentProvider {
                 .filter(permission -> permission.status == PERMISSION_ASK_AGAIN
                         || permission.status == PERMISSION_NEVER_ASK)
                 .map(permission ->
-                        new Object[] { permission.pkg, permission.directory, Integer.valueOf(1) })
+                        new Object[] { permission.pkg, permission.uuid, permission.directory,
+                                Integer.valueOf(1) })
                 .collect(Collectors.toList());
 
         // TODO(b/63720392): also need to query AM for granted permissions
 
         // Then create the cursor
         final MatrixCursor cursor = new MatrixCursor(
-                new String[] {COL_PACKAGE, COL_DIRECTORY, COL_GRANTED}, permissions.size());
+                new String[] {COL_PACKAGE, COL_VOLUME_UUID, COL_DIRECTORY, COL_GRANTED},
+                permissions.size());
         for (int i = 0; i < permissions.size(); i++) {
             cursor.addRow(permissions.get(i));
         }
@@ -219,9 +224,13 @@ public class ScopedAccessProvider extends ContentProvider {
             } else {
                 pw.println(cursor.getCount());
                 while (cursor.moveToNext()) {
-                    pw.print(prefix); pw.print(cursor.getString(0));
-                    pw.print(" / "); pw.print(cursor.getString(1));
-                    pw.print(": "); pw.println(cursor.getInt(2) == 1);
+                    pw.print(prefix); pw.print(cursor.getString(0)); pw.print('/');
+                    final String uuid = cursor.getString(1);
+                    if (uuid != null) {
+                        pw.print(uuid); pw.print('>');
+                    }
+                    pw.print(cursor.getString(2));
+                    pw.print(": "); pw.println(cursor.getInt(3) == 1);
                 }
             }
         }
