@@ -83,7 +83,7 @@
     <string name="no_results" msgid="2371026325236359209">"Ez da aurkitu ezer %1$s atalean"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Ezin da ireki fitxategia"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Ezin dira ireki artxiboetako fitxategiak"</string>
-    <string name="toast_failed_delete" msgid="3453846588205817591">"Ezin izan dira ezabatu dokumentu batzuk"</string>
+    <string name="toast_failed_delete" msgid="3453846588205817591">"Ezin dira ezabatu dokumentu batzuk"</string>
     <string name="share_via" msgid="8725082736005677161">"Partekatu honekin:"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopiatu fitxategiak"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Fitxategiak konprimatzen"</string>
