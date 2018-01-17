@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.dirlist;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static android.support.v4.util.Preconditions.checkArgument;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
