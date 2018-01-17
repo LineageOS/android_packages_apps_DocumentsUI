@@ -16,7 +16,7 @@
 
 package com.android.documentsui.selection;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static android.support.v4.util.Preconditions.checkNotNull;
 
 import android.support.annotation.Nullable;
 import android.view.GestureDetector.OnDoubleTapListener;

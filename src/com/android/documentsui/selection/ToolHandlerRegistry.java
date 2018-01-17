@@ -16,8 +16,8 @@
 
 package com.android.documentsui.selection;
 
+import static android.support.v4.util.Preconditions.checkArgument;
 import static android.support.v4.util.Preconditions.checkState;
-import static com.google.common.base.Preconditions.checkArgument;
 
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
