@@ -16,6 +16,7 @@
 
 package com.android.documentsui.base;
 
+import android.annotation.Nullable;
 import android.os.Build;
 import android.util.Log;
 
@@ -35,6 +36,24 @@ public final class SharedMinimal {
 
     // Special directory name representing the full volume of a scoped directory request.
     public static final String DIRECTORY_ROOT = "ROOT_DIRECTORY";
+
+    /**
+     * Gets the name of a directory name in the format that's used internally by the app
+     * (i.e., mapping {@code null} to {@link #DIRECTORY_ROOT});
+     * if necessary.
+     */
+    public static String getInternalDirectoryName(@Nullable String name) {
+        return name == null ? DIRECTORY_ROOT : name;
+    }
+
+    /**
+     * Gets the name of a directory name in the format that is used externally
+     * (i.e., mapping {@link #DIRECTORY_ROOT} to {@code null} if necessary);
+     */
+    @Nullable
+    public static String getExternalDirectoryName(String name) {
+        return name.equals(DIRECTORY_ROOT) ? null : name;
+    }
 
     private SharedMinimal() {
         throw new UnsupportedOperationException("provides static fields only");

@@ -15,6 +15,10 @@
  */
 package com.android.documentsui.prefs;
 
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
+import static com.android.internal.util.Preconditions.checkArgument;
+
 import android.annotation.IntDef;
 import android.annotation.Nullable;
 import android.content.Context;
@@ -29,14 +33,16 @@ import android.util.Log;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Methods for accessing the local preferences with regards to scoped directory access.
  */
-//TODO(b/63720392): add unit tests
+//TODO(b/72055774): add unit tests
 public class ScopedAccessLocalPreferences {
 
     private static final String TAG = "ScopedAccessLocalPreferences";
@@ -80,8 +86,15 @@ public class ScopedAccessLocalPreferences {
 
     public static void setScopedAccessPermissionStatus(Context context, String packageName,
             @Nullable String uuid, String directory, @PermissionStatus int status) {
-      final String key = getScopedAccessDenialsKey(packageName, uuid, directory);
-      getPrefs(context).edit().putInt(key, status).apply();
+        checkArgument(!TextUtils.isEmpty(directory),
+                "Cannot pass empty directory - did you mean %s?", DIRECTORY_ROOT);
+        final String key = getScopedAccessDenialsKey(packageName, uuid, directory);
+        if (DEBUG) {
+            Log.d(TAG, "Setting permission of " + packageName + ":" + uuid + ":" + directory
+                    + " to " + statusAsString(status));
+        }
+
+        getPrefs(context).edit().putInt(key, status).apply();
     }
 
     public static void clearScopedAccessPreferences(Context context, String packageName) {
@@ -101,7 +114,7 @@ public class ScopedAccessLocalPreferences {
         }
     }
 
-    private static String getScopedAccessDenialsKey(String packageName, String uuid,
+    private static String getScopedAccessDenialsKey(String packageName, @Nullable String uuid,
             String directory) {
         final int userId = UserHandle.myUserId();
         return uuid == null
@@ -121,10 +134,10 @@ public class ScopedAccessLocalPreferences {
     /**
      * Gets all packages that have entries in the preferences
      */
-    public static ArraySet<String> getAllPackages(Context context) {
+    public static Set<String> getAllPackages(Context context) {
         final SharedPreferences prefs = getPrefs(context);
-        final ArraySet<String> pkgs = new ArraySet<>();
 
+        final ArraySet<String> pkgs = new ArraySet<>();
         for (Entry<String, ?> pref : prefs.getAll().entrySet()) {
             final String key = pref.getKey();
             final String pkg = getPackage(key);
@@ -140,7 +153,7 @@ public class ScopedAccessLocalPreferences {
     /**
      * Gets all permissions.
      */
-    public static ArrayList<Permission> getAllPermissions(Context context) {
+    public static List<Permission> getAllPermissions(Context context) {
         final SharedPreferences prefs = getPrefs(context);
         final ArrayList<Permission> permissions = new ArrayList<>();
 
@@ -173,6 +186,7 @@ public class ScopedAccessLocalPreferences {
         }
     }
 
+    @Nullable
     private static String getPackage(String key) {
         final Matcher matcher = KEY_PATTERN.matcher(key);
         return matcher.matches() ? matcher.group(1) : null;
@@ -191,6 +205,8 @@ public class ScopedAccessLocalPreferences {
 
     public static final class Permission {
         public final String pkg;
+
+        @Nullable
         public final String uuid;
         public final String directory;
         public final int status;

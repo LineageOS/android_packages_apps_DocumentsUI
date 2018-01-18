@@ -19,6 +19,7 @@ package com.android.documentsui;
 import static android.os.Environment.isStandardDirectory;
 import static android.os.storage.StorageVolume.EXTRA_DIRECTORY_NAME;
 import static android.os.storage.StorageVolume.EXTRA_STORAGE_VOLUME;
+
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_DENIED;
@@ -31,11 +32,13 @@ import static com.android.documentsui.ScopedAccessMetrics.logInvalidScopedAccess
 import static com.android.documentsui.ScopedAccessMetrics.logValidScopedAccessRequest;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
+import static com.android.documentsui.base.SharedMinimal.getInternalDirectoryName;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getScopedAccessPermissionStatus;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
 
+import android.annotation.Nullable;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -116,10 +119,8 @@ public class ScopedAccessActivity extends Activity {
             finish();
             return;
         }
-        String directoryName = intent.getStringExtra(EXTRA_DIRECTORY_NAME );
-        if (directoryName == null) {
-            directoryName = DIRECTORY_ROOT;
-        }
+        String directoryName =
+                getInternalDirectoryName(intent.getStringExtra(EXTRA_DIRECTORY_NAME));
         final StorageVolume volume = (StorageVolume) storageVolume;
         if (getScopedAccessPermissionStatus(getApplicationContext(), getCallingPackage(),
                 volume.getUuid(), directoryName) == PERMISSION_NEVER_ASK) {
