@@ -23,6 +23,8 @@
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.CACHE_CONTENT" />
 
+    <!-- This is a minimal version of the DocumentsUI app supporting ScopedDirectoryAccess
+         only. It is part of the Android TV build. -->
     <application
         android:label="@string/app_label"
         android:icon="@drawable/app_icon"
