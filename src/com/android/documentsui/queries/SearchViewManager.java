@@ -16,7 +16,7 @@
 
 package com.android.documentsui.queries;
 
-import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.annotation.Nullable;
 import android.os.Bundle;

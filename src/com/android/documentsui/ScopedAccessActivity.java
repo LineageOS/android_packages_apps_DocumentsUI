@@ -19,7 +19,6 @@ package com.android.documentsui;
 import static android.os.Environment.isStandardDirectory;
 import static android.os.storage.StorageVolume.EXTRA_DIRECTORY_NAME;
 import static android.os.storage.StorageVolume.EXTRA_STORAGE_VOLUME;
-import static com.android.documentsui.ScopedAccessMetrics.DEBUG;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_DENIED;
@@ -30,6 +29,8 @@ import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCES
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_INVALID_DIRECTORY;
 import static com.android.documentsui.ScopedAccessMetrics.logInvalidScopedAccessRequest;
 import static com.android.documentsui.ScopedAccessMetrics.logValidScopedAccessRequest;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getScopedAccessPermissionStatus;
@@ -86,8 +87,6 @@ public class ScopedAccessActivity extends Activity {
     private static final String EXTRA_VOLUME_UUID = "com.android.documentsui.VOLUME_UUID";
     private static final String EXTRA_IS_ROOT = "com.android.documentsui.IS_ROOT";
     private static final String EXTRA_IS_PRIMARY = "com.android.documentsui.IS_PRIMARY";
-    // Special directory name representing the full volume
-    static final String DIRECTORY_ROOT = "ROOT_DIRECTORY";
 
     private ContentProviderClient mExternalStorageClient;
 

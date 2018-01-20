@@ -29,6 +29,7 @@ LOCAL_SRC_FILES := \
         src/com/android/documentsui/archives/ReadableArchive.java \
         src/com/android/documentsui/archives/WriteableArchive.java \
         src/com/android/documentsui/base/Providers.java \
+        src/com/android/documentsui/base/SharedMinimal.java \
         src/com/android/documentsui/prefs/ScopedAccessLocalPreferences.java
 
 LOCAL_PACKAGE_NAME := DocumentsUIMinimal

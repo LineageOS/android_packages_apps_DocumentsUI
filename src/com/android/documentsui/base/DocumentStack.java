@@ -16,7 +16,7 @@
 
 package com.android.documentsui.base;
 
-import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.content.ContentResolver;
