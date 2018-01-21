@@ -204,6 +204,6 @@
     <string name="cant_display_content" msgid="8633226333229417237">"Imeshindwa kuonyesha maudhui"</string>
     <string name="sign_in" msgid="6253762676723505592">"Ingia katika akaunti"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"weka <xliff:g id="EXTENSION">%s</xliff:g> kwenye kumbukumbu"</string>
-    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Ungependa kufuta <xliff:g id="NAME">%1$s</xliff:g>?"</string>
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Ungependa kubadili <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Endelea shughuli chini chini"</string>
 </resources>
