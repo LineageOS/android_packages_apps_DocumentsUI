@@ -16,6 +16,7 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.StubProvider.EXTRA_SIZE;
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
@@ -30,6 +31,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.test.filters.LargeTest;
@@ -97,6 +99,13 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        // super.setUp() method will change the storage size to 100MB.
+        // So, reset the storage size again to 500MB.
+        Bundle bundle = new Bundle();
+        bundle.putLong(EXTRA_SIZE, 500L);
+        mDocsHelper.configure(null, bundle);
+
         initTestFiles();
 
         IntentFilter filter = new IntentFilter();
