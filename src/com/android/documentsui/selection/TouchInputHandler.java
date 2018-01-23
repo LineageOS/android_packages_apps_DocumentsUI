@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.selection;
 
-import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

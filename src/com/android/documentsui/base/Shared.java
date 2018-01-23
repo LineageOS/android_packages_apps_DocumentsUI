@@ -16,6 +16,8 @@
 
 package com.android.documentsui.base;
 
+import static com.android.documentsui.base.SharedMinimal.TAG;
+
 import android.annotation.PluralsRes;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -48,11 +50,6 @@ import javax.annotation.Nullable;
 
 /** @hide */
 public final class Shared {
-
-    public static final String TAG = "Documents";
-
-    public static final boolean DEBUG = Build.IS_DEBUGGABLE;
-    public static final boolean VERBOSE = DEBUG && Log.isLoggable(TAG, Log.VERBOSE);
 
     /** Intent action name to pick a copy destination. */
     public static final String ACTION_PICK_COPY_DESTINATION =
@@ -300,5 +297,9 @@ public final class Shared {
             }
         }
         return null;
+    }
+
+    private Shared() {
+        throw new UnsupportedOperationException("provides static fields only");
     }
 }

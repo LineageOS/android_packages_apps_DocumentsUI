@@ -15,8 +15,10 @@
  */
 package com.android.documentsui;
 
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.COL_GRANTED;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PACKAGES;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PACKAGES_COLUMNS;
+import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PACKAGES_COL_PACKAGE;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COLUMNS;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_DIRECTORY;
@@ -24,11 +26,17 @@ import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABL
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_PACKAGE;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_VOLUME_UUID;
 
-import static com.android.documentsui.ScopedAccessMetrics.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.getInternalDirectoryName;
+import static com.android.documentsui.base.SharedMinimal.getExternalDirectoryName;
+import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPackages;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPermissions;
+import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
+
+import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.app.ActivityManager;
 import android.content.ContentProvider;
@@ -37,7 +45,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
-import android.util.ArraySet;
 import android.util.Log;
 
 import com.android.documentsui.prefs.ScopedAccessLocalPreferences.Permission;
@@ -48,8 +55,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+//TODO(b/72055774): update javadoc once implementation is finished
 /**
  * Provider used to manage scoped access directory permissions.
  *
@@ -79,7 +88,7 @@ import java.util.stream.Collectors;
  * <p><b>Note:</b> the {@code query()} methods return all entries; it does not support selection or
  * projections.
  */
-// TODO(b/63720392): add unit tests
+// TODO(b/72055774): add unit tests
 public class ScopedAccessProvider extends ContentProvider {
 
     private static final String TAG = "ScopedAccessProvider";
@@ -111,7 +120,7 @@ public class ScopedAccessProvider extends ContentProvider {
             case URI_PACKAGES:
                 return getPackagesCursor();
             case URI_PERMISSIONS:
-                return getPermissionsCursor();
+                return getPermissionsCursor(selectionArgs);
             default:
                 throw new UnsupportedOperationException("Unsupported Uri " + uri);
         }
@@ -119,7 +128,7 @@ public class ScopedAccessProvider extends ContentProvider {
 
     private Cursor getPackagesCursor() {
         // First get the packages that were denied
-        final ArraySet<String> pkgs = getAllPackages(getContext());
+        final Set<String> pkgs = getAllPackages(getContext());
 
         if (ArrayUtils.isEmpty(pkgs)) {
             if (DEBUG) Log.v(TAG, "getPackagesCursor(): ignoring " + pkgs);
@@ -130,41 +139,40 @@ public class ScopedAccessProvider extends ContentProvider {
 
         // Then create the cursor
         final MatrixCursor cursor = new MatrixCursor(TABLE_PACKAGES_COLUMNS, pkgs.size());
-        final Object[] column = new Object[1];
-        for (int i = 0; i < pkgs.size(); i++) {
-            final String pkg = pkgs.valueAt(i);
-            column[0] = pkg;
-            cursor.addRow(column);
-        }
-
+        pkgs.forEach((pkg) -> cursor.addRow( new Object[] { pkg }));
         return cursor;
     }
 
-    // TODO(b/63720392): decide how to handle ROOT_DIRECTORY - convert to null?
-    private Cursor getPermissionsCursor() {
+    private Cursor getPermissionsCursor(String[] packageNames) {
         // First get the packages that were denied
-        final ArrayList<Permission> rawPermissions = getAllPermissions(getContext());
+        final List<Permission> rawPermissions = getAllPermissions(getContext());
 
         if (ArrayUtils.isEmpty(rawPermissions)) {
             if (DEBUG) Log.v(TAG, "getPermissionsCursor(): ignoring " + rawPermissions);
             return null;
         }
 
+        // TODO(b/72055774): unit tests for filters (permissions and/or package name);
         final List<Object[]> permissions = rawPermissions.stream()
-                .filter(permission -> permission.status == PERMISSION_ASK_AGAIN
-                        || permission.status == PERMISSION_NEVER_ASK)
-                .map(permission ->
-                        new Object[] { permission.pkg, permission.uuid, permission.directory,
-                                Integer.valueOf(1) })
+                .filter(permission -> ArrayUtils.contains(packageNames, permission.pkg)
+                        && permission.status == PERMISSION_NEVER_ASK)
+                .map(permission -> new Object[] {
+                        permission.pkg,
+                        permission.uuid,
+                        getExternalDirectoryName(permission.directory),
+                        Integer.valueOf(0)
+                })
                 .collect(Collectors.toList());
+
+        // TODO(b/63720392): need to add logic to handle scenarios where the root permission of
+        // a secondary volume mismatches a child permission (for example, child is allowed by root
+        // is denied).
 
         // TODO(b/63720392): also need to query AM for granted permissions
 
         // Then create the cursor
         final MatrixCursor cursor = new MatrixCursor(TABLE_PERMISSIONS_COLUMNS, permissions.size());
-        for (int i = 0; i < permissions.size(); i++) {
-            cursor.addRow(permissions.get(i));
-        }
+        permissions.forEach((row) -> cursor.addRow(row));
         return cursor;
     }
 
@@ -175,26 +183,12 @@ public class ScopedAccessProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        if (sMatcher.match(uri) != URI_PERMISSIONS) {
-            throw new UnsupportedOperationException("insert(): unsupported " + uri);
-        }
-
-        if (DEBUG) Log.v(TAG, "insert(" + uri + "): " + values);
-
-        // TODO(b/63720392): implement
-        return null;
+        throw new UnsupportedOperationException("insert(): unsupported " + uri);
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        if (sMatcher.match(uri) != URI_PERMISSIONS) {
-            throw new UnsupportedOperationException("delete(): unsupported " + uri);
-        }
-
-        if (DEBUG) Log.v(TAG, "delete(" + uri + "): " + selection);
-
-        // TODO(b/63720392): implement
-        return 0;
+        throw new UnsupportedOperationException("delete(): unsupported " + uri);
     }
 
     @Override
@@ -203,30 +197,58 @@ public class ScopedAccessProvider extends ContentProvider {
             throw new UnsupportedOperationException("update(): unsupported " + uri);
         }
 
-        if (DEBUG) Log.v(TAG, "update(" + uri + "): " + selection + " = " + values);
+        if (DEBUG) {
+            Log.v(TAG, "update(" + uri + "): " + Arrays.toString(selectionArgs) + " = " + values);
+        }
 
-        // TODO(b/63720392): implement
-        return 0;
+        final boolean newValue = values.getAsBoolean(COL_GRANTED);
+
+        if (!newValue) {
+            // TODO(b/63720392): need to call AM to disable it
+            Log.w(TAG, "Disabling permission is not supported yet");
+            return 0;
+        }
+
+        // TODO(b/72055774): add unit tests for invalid input
+        checkArgument(selectionArgs != null && selectionArgs.length == 3,
+                "Must have exactly 3 args: package_name, (nullable) uuid, (nullable) directory: "
+                        + Arrays.toString(selectionArgs));
+        final String packageName = selectionArgs[0];
+        final String uuid = selectionArgs[1];
+        final String dir = getInternalDirectoryName(selectionArgs[2]);
+
+        // TODO(b/63720392): for now just set it as ASK so it's still listed on queries.
+        // But the right approach is to call AM to grant the permission and then remove the entry
+        // from our preferences
+        setScopedAccessPermissionStatus(getContext(), packageName, uuid, dir, PERMISSION_ASK);
+
+        return 1;
     }
 
     @Override
     public void dump(FileDescriptor fd, PrintWriter pw, String[] args) {
         final String prefix = "  ";
 
+        final List<String> packages = new ArrayList<>();
         pw.print("Packages: ");
         try (Cursor cursor = getPackagesCursor()) {
-            if (cursor == null) {
+            if (cursor == null || cursor.getCount() == 0) {
                 pw.println("N/A");
             } else {
                 pw.println(cursor.getCount());
                 while (cursor.moveToNext()) {
-                    pw.print(prefix); pw.println(cursor.getString(0));
+                    final String pkg = cursor.getString(TABLE_PACKAGES_COL_PACKAGE);
+                    packages.add(pkg);
+                    pw.print(prefix);
+                    pw.println(pkg);
                 }
             }
         }
 
         pw.print("Permissions: ");
-        try (Cursor cursor = getPermissionsCursor()) {
+        final String[] selection = new String[packages.size()];
+        packages.toArray(selection);
+        try (Cursor cursor = getPermissionsCursor(selection)) {
             if (cursor == null) {
                 pw.println("N/A");
             } else {
@@ -245,7 +267,7 @@ public class ScopedAccessProvider extends ContentProvider {
         }
 
         pw.print("Raw permissions: ");
-        final ArrayList<Permission> rawPermissions = getAllPermissions(getContext());
+        final List<Permission> rawPermissions = getAllPermissions(getContext());
         if (rawPermissions.isEmpty()) {
             pw.println("N/A");
         } else {

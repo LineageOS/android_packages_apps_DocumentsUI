@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.BroadcastReceiver;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.test.filters.LargeTest;
@@ -99,6 +100,12 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        // Set a flag to prevent many refreshes.
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(StubProvider.EXTRA_ENABLE_ROOT_NOTIFICATION, false);
+        mDocsHelper.configure(null, bundle);
+
         initTestFiles();
 
         IntentFilter filter = new IntentFilter();
@@ -143,10 +150,10 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     private void createDummyFiles() throws Exception {
         final ThreadPoolExecutor exec = new ThreadPoolExecutor(
                 5, 5, 1000L, TimeUnit.MILLISECONDS,
-                        new ArrayBlockingQueue<Runnable>(20, true));
+                        new ArrayBlockingQueue<Runnable>(100, true));
         for (int i = 0; i < DUMMY_FILE_COUNT; i++) {
             final String fileName = "file" + String.format("%04d", i) + ".log";
-            if (exec.getQueue().size() <= 80) {
+            if (exec.getQueue().size() >= 80) {
                 Thread.sleep(50);
             }
             exec.submit(new Runnable() {

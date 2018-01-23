@@ -15,7 +15,7 @@
  */
 package com.android.documentsui;
 
-import static com.android.documentsui.base.Shared.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.util.Log;
 import android.view.KeyEvent;

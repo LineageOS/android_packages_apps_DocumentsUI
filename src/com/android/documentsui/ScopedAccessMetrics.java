@@ -18,11 +18,13 @@ package com.android.documentsui;
 
 import static android.os.Environment.STANDARD_DIRECTORIES;
 
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
+
 import android.annotation.IntDef;
 import android.annotation.StringDef;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import com.android.internal.logging.MetricsLogger;
@@ -35,9 +37,7 @@ import java.lang.annotation.RetentionPolicy;
  * Methods for logging scoped directory access metrics.
  */
 public final class ScopedAccessMetrics {
-    private static final String TAG = "Metrics";
-
-    public static final boolean DEBUG = Build.IS_DEBUGGABLE;
+    private static final String TAG = "ScopedAccessMetrics";
 
     // Types for logInvalidScopedAccessRequest
     public static final String SCOPED_DIRECTORY_ACCESS_INVALID_ARGUMENTS =
@@ -88,7 +88,7 @@ public final class ScopedAccessMetrics {
     public static void logValidScopedAccessRequest(Activity activity, String directory,
             @ScopedAccessGrant int type) {
         int index = -1;
-        if (ScopedAccessActivity.DIRECTORY_ROOT.equals(directory)) {
+        if (DIRECTORY_ROOT.equals(directory)) {
             index = -2;
         } else {
             for (int i = 0; i < STANDARD_DIRECTORIES.length; i++) {

@@ -16,7 +16,7 @@
 package com.android.documentsui.dirlist;
 
 import static android.support.v4.util.Preconditions.checkState;
-import static com.android.documentsui.base.Shared.VERBOSE;
+import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import android.content.Context;
 import android.os.Build;
