@@ -47,6 +47,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.GrantedUriPermission;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -353,8 +354,9 @@ public class ScopedAccessActivity extends Activity {
                     + " or its root (" + rootUri + ")");
         final ActivityManager am =
                 (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
-        for (UriPermission uriPermission : am.getGrantedUriPermissions(packageName).getList()) {
-            final Uri uri = uriPermission.getUri();
+        for (GrantedUriPermission uriPermission : am.getGrantedUriPermissions(packageName)
+                .getList()) {
+            final Uri uri = uriPermission.uri;
             if (uri == null) {
                 Log.w(TAG, "null URI for " + uriPermission);
                 continue;

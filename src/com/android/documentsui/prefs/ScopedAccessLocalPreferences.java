@@ -54,11 +54,14 @@ public class ScopedAccessLocalPreferences {
     public static final int PERMISSION_ASK = 0;
     public static final int PERMISSION_ASK_AGAIN = 1;
     public static final int PERMISSION_NEVER_ASK = -1;
+    // NOTE: this status is not used on preferences, but on permissions granted by AM
+    public static final int PERMISSION_GRANTED = 2;
 
     @IntDef(flag = true, value = {
             PERMISSION_ASK,
             PERMISSION_ASK_AGAIN,
             PERMISSION_NEVER_ASK,
+            PERMISSION_GRANTED
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface PermissionStatus {}
@@ -181,6 +184,8 @@ public class ScopedAccessLocalPreferences {
                 return "PERMISSION_ASK_AGAIN";
             case PERMISSION_NEVER_ASK:
                 return "PERMISSION_NEVER_ASK";
+            case PERMISSION_GRANTED:
+                return "PERMISSION_GRANTED";
             default:
                 return "UNKNOWN";
         }
@@ -211,7 +216,7 @@ public class ScopedAccessLocalPreferences {
         public final String directory;
         public final int status;
 
-        private Permission(String pkg, String uuid, String directory, Integer status) {
+        public Permission(String pkg, String uuid, String directory, Integer status) {
             this.pkg = pkg;
             this.uuid = TextUtils.isEmpty(uuid) ? null : uuid;
             this.directory = directory;
