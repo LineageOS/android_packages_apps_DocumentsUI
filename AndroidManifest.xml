@@ -58,6 +58,7 @@
         android:supportsRtl="true"
         android:allowBackup="true"
         android:backupAgent=".prefs.BackupAgent"
+        android:appCategory="productivity"
         android:fullBackupOnly="false"
         android:crossProfile="true">
 
