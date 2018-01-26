@@ -25,23 +25,25 @@ import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABL
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_GRANTED;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_PACKAGE;
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_VOLUME_UUID;
+import static android.os.Environment.isStandardDirectory;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.getExternalDirectoryName;
 import static com.android.documentsui.base.SharedMinimal.getInternalDirectoryName;
-import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK;
+import static com.android.documentsui.base.SharedMinimal.getUriPermission;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_GRANTED;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPackages;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPermissions;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
-import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.statusAsString;
 import static com.android.internal.util.Preconditions.checkArgument;
 
+import android.annotation.Nullable;
 import android.app.ActivityManager;
 import android.app.GrantedUriPermission;
 import android.content.ContentProvider;
+import android.content.ContentProviderClient;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
@@ -49,6 +51,9 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.UserHandle;
+import android.os.storage.StorageManager;
+import android.os.storage.StorageVolume;
 import android.provider.DocumentsContract;
 import android.util.ArraySet;
 import android.util.Log;
@@ -172,7 +177,7 @@ public class ScopedAccessProvider extends ContentProvider {
         return cursor;
     }
 
-    // TODO(b/63720392): need to unit tests to handle scenarios where the root permission of
+    // TODO(b/72055774): need to unit tests to handle scenarios where the root permission of
     // a secondary volume mismatches a child permission (for example, child is allowed by root
     // is denied).
     private Cursor getPermissionsCursor(String packageName) {
@@ -379,28 +384,77 @@ public class ScopedAccessProvider extends ContentProvider {
             Log.v(TAG, "update(" + uri + "): " + Arrays.toString(selectionArgs) + " = " + values);
         }
 
-        final boolean newValue = values.getAsBoolean(COL_GRANTED);
-
-        if (!newValue) {
-            // TODO(b/63720392): need to call AM to disable it
-            Log.w(TAG, "Disabling permission is not supported yet");
-            return 0;
-        }
-
         // TODO(b/72055774): add unit tests for invalid input
         checkArgument(selectionArgs != null && selectionArgs.length == 3,
                 "Must have exactly 3 args: package_name, (nullable) uuid, (nullable) directory: "
                         + Arrays.toString(selectionArgs));
         final String packageName = selectionArgs[0];
         final String uuid = selectionArgs[1];
-        final String dir = getInternalDirectoryName(selectionArgs[2]);
+        final String dir = selectionArgs[2];
+        final boolean granted = values.getAsBoolean(COL_GRANTED);
 
-        // TODO(b/63720392): for now just set it as ASK so it's still listed on queries.
-        // But the right approach is to call AM to grant the permission and then remove the entry
-        // from our preferences
-        setScopedAccessPermissionStatus(getContext(), packageName, uuid, dir, PERMISSION_ASK);
+        // First update the effective URI permission ...
+        if (!persistUriPermission(packageName, uuid, dir, granted)) {
+            // Failed - nothing left to do...
+            return 0;
+        }
 
+        // ...then our preferences.
+        setScopedAccessPermissionStatus(getContext(), packageName, uuid,
+                getInternalDirectoryName(dir), granted ? PERMISSION_GRANTED : PERMISSION_NEVER_ASK);
         return 1;
+    }
+
+    /**
+     * Calls AM to persist a URI.
+     *
+     * @return whether the call succeeded.
+     */
+    private boolean persistUriPermission(String packageName, @Nullable String uuid,
+            @Nullable String directory, boolean granted) {
+        final Context context = getContext();
+
+        final ContentProviderClient storageClient = context.getContentResolver()
+                .acquireContentProviderClient(Providers.AUTHORITY_STORAGE);
+
+        final StorageManager sm = context.getSystemService(StorageManager.class);
+
+        StorageVolume volume = null;
+        if (uuid == null) {
+            if (directory == null) {
+                Log.w(TAG, "cannot grant full access to the primary volume");
+                return false;
+            }
+            volume = sm.getPrimaryStorageVolume();
+        } else {
+            for (StorageVolume candidate : sm.getVolumeList()) {
+                if (uuid.equals(candidate.getUuid())) {
+                    volume = candidate;
+                    break;
+                }
+            }
+            if (volume == null) {
+                Log.w(TAG, "didn't find volume for UUID=" + uuid);
+                return false;
+            }
+            if (directory != null && !isStandardDirectory(directory)) {
+                Log.w(TAG, "not a scoped directory: " + directory);
+                return false;
+            }
+        }
+
+        return getUriPermission(context, storageClient, volume, getInternalDirectoryName(directory),
+                UserHandle.getCallingUserId(), /* logMetrics= */ false,
+                (file, volumeLabel, isRoot, isPrimary, grantedUri, rootUri) -> {
+                    final ActivityManager am = context.getSystemService(ActivityManager.class);
+                    final boolean updated = am.updatePersistableUriPermission(grantedUri, true,
+                            packageName, granted);
+                    if (!updated) {
+                        Log.w(TAG, "failed to update URI " + grantedUri + " for " + packageName
+                                + " to " + granted);
+                    }
+                    return updated;
+                });
     }
 
     @Override
