@@ -94,7 +94,7 @@
     <string name="share_via" msgid="8725082736005677161">"Shiriki kupitia"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Inanakili faili"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Inabana faili"</string>
-    <string name="extract_notification_title" msgid="5067393961754430469">"Inatoa faili"</string>
+    <string name="extract_notification_title" msgid="5067393961754430469">"Faili zinatolewa"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Inahamisha faili"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Inafuta faili"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Zimesalia <xliff:g id="DURATION">%s</xliff:g>"</string>
@@ -107,8 +107,8 @@
       <item quantity="one">Inabana faili <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
-      <item quantity="other">Inatoa faili <xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
-      <item quantity="one">Inatoa faili <xliff:g id="COUNT_0">%1$d</xliff:g>.</item>
+      <item quantity="other">Faili <xliff:g id="COUNT_1">%1$d</xliff:g> zinatolewa.</item>
+      <item quantity="one">Faili <xliff:g id="COUNT_0">%1$d</xliff:g> inatolewa.</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
       <item quantity="other">Inahamisha vipengee <xliff:g id="COUNT_1">%1$d</xliff:g>.</item>
@@ -141,7 +141,7 @@
       <item quantity="other">Imeshindwa kufuta vipengee <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">Imeshindwa kufuta kipengee <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="2385563502445129570">"Gonga ili uangalie maelezo"</string>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Gusa ili uangalie maelezo"</string>
     <string name="close" msgid="905969391788869975">"Funga"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="other">Haikunakili faili hizi: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -211,7 +211,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"Imeshindwa kuonyesha maudhui"</string>
     <string name="sign_in" msgid="6253762676723505592">"Ingia katika akaunti"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"weka <xliff:g id="EXTENSION">%s</xliff:g> kwenye kumbukumbu"</string>
-    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Ungependa kufuta <xliff:g id="NAME">%1$s</xliff:g>?"</string>
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Ungependa kubadili <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Endelea shughuli chini chini"</string>
     <string name="inspector_debug_section" msgid="3447621501565766900">"Maelezo ya utatuzi (usanidi pekee)"</string>
 </resources>
