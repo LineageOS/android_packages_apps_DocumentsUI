@@ -27,26 +27,33 @@ import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABL
 import static android.os.storage.StorageVolume.ScopedAccessProviderContract.TABLE_PERMISSIONS_COL_VOLUME_UUID;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
-import static com.android.documentsui.base.SharedMinimal.getInternalDirectoryName;
 import static com.android.documentsui.base.SharedMinimal.getExternalDirectoryName;
+import static com.android.documentsui.base.SharedMinimal.getInternalDirectoryName;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
+import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_GRANTED;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPackages;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPermissions;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
-
+import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.statusAsString;
 import static com.android.internal.util.Preconditions.checkArgument;
 
 import android.app.ActivityManager;
+import android.app.GrantedUriPermission;
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.util.ArraySet;
 import android.util.Log;
 
+import com.android.documentsui.base.Providers;
 import com.android.documentsui.prefs.ScopedAccessLocalPreferences.Permission;
 import com.android.internal.util.ArrayUtils;
 
@@ -54,9 +61,11 @@ import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 //TODO(b/72055774): update javadoc once implementation is finished
 /**
@@ -120,60 +129,229 @@ public class ScopedAccessProvider extends ContentProvider {
             case URI_PACKAGES:
                 return getPackagesCursor();
             case URI_PERMISSIONS:
-                return getPermissionsCursor(selectionArgs);
+                if (ArrayUtils.isEmpty(selectionArgs)) {
+                    throw new UnsupportedOperationException("selections cannot be empty");
+                }
+                // For simplicity, we only support one package (which is what Settings is passing).
+                if (selectionArgs.length > 1) {
+                    Log.w(TAG, "Using just first entry of " + Arrays.toString(selectionArgs));
+                }
+                return getPermissionsCursor(selectionArgs[0]);
             default:
                 throw new UnsupportedOperationException("Unsupported Uri " + uri);
         }
     }
 
     private Cursor getPackagesCursor() {
-        // First get the packages that were denied
-        final Set<String> pkgs = getAllPackages(getContext());
+        final Context context = getContext();
+
+        // First, get the packages that were denied
+        final Set<String> pkgs = getAllPackages(context);
+
+        // Second, query AM to get all packages that have a permission.
+        final ActivityManager am =
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        final List<GrantedUriPermission> amPkgs = am.getGrantedUriPermissions(null).getList();
+        if (!amPkgs.isEmpty()) {
+            amPkgs.forEach((perm) -> pkgs.add(perm.packageName));
+        }
 
         if (ArrayUtils.isEmpty(pkgs)) {
-            if (DEBUG) Log.v(TAG, "getPackagesCursor(): ignoring " + pkgs);
+            if (DEBUG) Log.v(TAG, "getPackagesCursor(): nothing to do" );
             return null;
         }
 
-        // TODO(b/63720392): also need to query AM for granted permissions
+        if (DEBUG) {
+            Log.v(TAG, "getPackagesCursor(): denied=" + pkgs + ", granted=" + amPkgs);
+        }
 
-        // Then create the cursor
+        // Finally, create the cursor
         final MatrixCursor cursor = new MatrixCursor(TABLE_PACKAGES_COLUMNS, pkgs.size());
         pkgs.forEach((pkg) -> cursor.addRow( new Object[] { pkg }));
         return cursor;
     }
 
-    private Cursor getPermissionsCursor(String[] packageNames) {
-        // First get the packages that were denied
-        final List<Permission> rawPermissions = getAllPermissions(getContext());
+    // TODO(b/63720392): need to unit tests to handle scenarios where the root permission of
+    // a secondary volume mismatches a child permission (for example, child is allowed by root
+    // is denied).
+    private Cursor getPermissionsCursor(String packageName) {
+        final Context context = getContext();
 
-        if (ArrayUtils.isEmpty(rawPermissions)) {
-            if (DEBUG) Log.v(TAG, "getPermissionsCursor(): ignoring " + rawPermissions);
-            return null;
+        // List of volumes that were granted by AM at the root level - in that case,
+        // we can ignored individual grants from AM or denials from our preferences
+        final Set<String> grantedVolumes = new ArraySet<>();
+
+        // List of directories (mapped by volume uuid) that were granted by AM so they can be
+        // ignored if also found on our preferences
+        final Map<String, Set<String>> grantedDirsByUuid = new HashMap<>();
+
+        // Cursor rows
+        final List<Object[]> permissions = new ArrayList<>();
+
+        // First, query AM to get all packages that have a permission.
+        final ActivityManager am =
+                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        final List<GrantedUriPermission> uriPermissions =
+                am.getGrantedUriPermissions(packageName).getList();
+        if (DEBUG) {
+            Log.v(TAG, "am returned =" + uriPermissions);
+        }
+        setGrantedPermissions(packageName, uriPermissions, permissions, grantedVolumes,
+                grantedDirsByUuid);
+
+        // Now  gets the packages that were denied
+        final List<Permission> rawPermissions = getAllPermissions(context);
+
+        if (DEBUG) {
+            Log.v(TAG, "rawPermissions: " + rawPermissions);
         }
 
-        // TODO(b/72055774): unit tests for filters (permissions and/or package name);
-        final List<Object[]> permissions = rawPermissions.stream()
-                .filter(permission -> ArrayUtils.contains(packageNames, permission.pkg)
-                        && permission.status == PERMISSION_NEVER_ASK)
-                .map(permission -> new Object[] {
-                        permission.pkg,
-                        permission.uuid,
-                        getExternalDirectoryName(permission.directory),
-                        Integer.valueOf(0)
-                })
-                .collect(Collectors.toList());
+        // Merge the permissions granted by AM with the denied permissions saved on our preferences.
+        for (Permission rawPermission : rawPermissions) {
+            if (!packageName.equals(rawPermission.pkg)) {
+                if (DEBUG) {
+                    Log.v(TAG,
+                            "ignoring " + rawPermission + " because package is not " + packageName);
+                }
+                continue;
+            }
+            if (rawPermission.status != PERMISSION_NEVER_ASK
+                    && rawPermission.status != PERMISSION_ASK_AGAIN) {
+                // We only care for status where the user denied a request.
+                if (DEBUG) {
+                    Log.v(TAG, "ignoring " + rawPermission + " because of its status");
+                }
+                continue;
+            }
+            if (grantedVolumes.contains(rawPermission.uuid)) {
+                if (DEBUG) {
+                    Log.v(TAG, "ignoring " + rawPermission + " because whole volume is granted");
+                }
+                continue;
+            }
+            final Set<String> grantedDirs = grantedDirsByUuid.get(rawPermission.uuid);
+            if (grantedDirs != null
+                    && grantedDirs.contains(rawPermission.directory)) {
+                Log.w(TAG, "ignoring " + rawPermission + " because it was granted already");
+                continue;
+            }
+            permissions.add(new Object[] {
+                    packageName, rawPermission.uuid,
+                    getExternalDirectoryName(rawPermission.directory), 0
+            });
+        }
 
-        // TODO(b/63720392): need to add logic to handle scenarios where the root permission of
-        // a secondary volume mismatches a child permission (for example, child is allowed by root
-        // is denied).
-
-        // TODO(b/63720392): also need to query AM for granted permissions
+        if (DEBUG) {
+            Log.v(TAG, "total permissions: " + permissions.size());
+        }
 
         // Then create the cursor
         final MatrixCursor cursor = new MatrixCursor(TABLE_PERMISSIONS_COLUMNS, permissions.size());
         permissions.forEach((row) -> cursor.addRow(row));
         return cursor;
+    }
+
+    /**
+     * Converts the permissions returned by AM and add it to 3 buckets ({@code permissions},
+     * {@code grantedVolumes}, and {@code grantedDirsByUuid}).
+     *
+     * @param packageName name of package that the permissions were granted to.
+     * @param uriPermissions permissions returend by AM
+     * @param permissions list of permissions that can be converted to a {@link #TABLE_PERMISSIONS}
+     * row.
+     * @param grantedVolumes volume uuids that were granted full access.
+     * @param grantedDirsByUuid directories that were granted individual acces (key is volume uuid,
+     * value is list of directories).
+     */
+    private void setGrantedPermissions(String packageName, List<GrantedUriPermission> uriPermissions,
+            List<Object[]> permissions, Set<String> grantedVolumes,
+            Map<String, Set<String>> grantedDirsByUuid) {
+        final List<Permission> grantedPermissions = parseGrantedPermissions(uriPermissions);
+
+        for (Permission p : grantedPermissions) {
+            // First check if it's for the full volume
+            if (p.directory == null) {
+                if (p.uuid == null) {
+                    // Should never happen - the Scoped Directory Access API does not allow it.
+                    Log.w(TAG, "ignoring entry whose uuid and directory is null");
+                    continue;
+                }
+                grantedVolumes.add(p.uuid);
+            } else {
+                if (!ArrayUtils.contains(Environment.STANDARD_DIRECTORIES, p.directory)) {
+                    if (DEBUG) Log.v(TAG, "Ignoring non-standard directory on " + p);
+                    continue;
+                }
+
+                Set<String> dirs = grantedDirsByUuid.get(p.uuid);
+                if (dirs == null) {
+                    // Life would be so much easier if Android had MultiMaps...
+                    dirs = new HashSet<>(1);
+                    grantedDirsByUuid.put(p.uuid, dirs);
+                }
+                dirs.add(p.directory);
+            }
+        }
+
+        if (DEBUG) {
+            Log.v(TAG, "grantedVolumes=" + grantedVolumes
+                    + ", grantedDirectories=" + grantedDirsByUuid);
+        }
+        // Add granted permissions to full volumes.
+        grantedVolumes.forEach((uuid) -> permissions.add(new Object[] {
+                packageName, uuid, /* dir= */ null, 1
+        }));
+
+        // Add granted permissions to individual directories
+        grantedDirsByUuid.forEach((uuid, dirs) -> {
+            if (grantedVolumes.contains(uuid)) {
+                Log.w(TAG, "Ignoring individual grants to " + uuid + ": " + dirs);
+            } else {
+                dirs.forEach((dir) -> permissions.add(new Object[] {packageName, uuid, dir, 1}));
+            }
+        });
+    }
+
+    /**
+     * Converts the permissions returned by AM to our own format.
+     */
+    private List<Permission> parseGrantedPermissions(List<GrantedUriPermission> uriPermissions) {
+        final List<Permission> permissions = new ArrayList<>(uriPermissions.size());
+        // TODO(b/72055774): we should query AUTHORITY_STORAGE or call DocumentsContract instead of
+        // hardcoding the logic here.
+        for (GrantedUriPermission uriPermission : uriPermissions) {
+            final Uri uri = uriPermission.uri;
+            final String authority = uri.getAuthority();
+            if (!Providers.AUTHORITY_STORAGE.equals(authority)) {
+                Log.w(TAG, "Wrong authority on " + uri);
+                continue;
+            }
+            final List<String> pathSegments = uri.getPathSegments();
+            if (pathSegments.size() < 2) {
+                Log.w(TAG, "wrong path segments on " + uri);
+                continue;
+            }
+            // TODO(b/72055774): make PATH_TREE private again if not used anymore
+            if (!DocumentsContract.PATH_TREE.equals(pathSegments.get(0))) {
+                Log.w(TAG, "wrong path tree on " + uri);
+                continue;
+            }
+
+            final String[] uuidAndDir = pathSegments.get(1).split(":");
+            // uuid and dir are either UUID:DIR (for scoped directory) or UUID: (for full volume)
+            if (uuidAndDir.length != 1 && uuidAndDir.length != 2) {
+                Log.w(TAG, "could not parse uuid and directory on " + uri);
+                continue;
+            }
+            final String uuid = Providers.ROOT_ID_DEVICE.equals(uuidAndDir[0])
+                    ? null // primary
+                    : uuidAndDir[0]; // external volume
+            final String dir = uuidAndDir.length == 1 ? null : uuidAndDir[1];
+            permissions
+                    .add(new Permission(uriPermission.packageName, uuid, dir, PERMISSION_GRANTED));
+        }
+        return permissions;
     }
 
     @Override
@@ -246,22 +424,23 @@ public class ScopedAccessProvider extends ContentProvider {
         }
 
         pw.print("Permissions: ");
-        final String[] selection = new String[packages.size()];
-        packages.toArray(selection);
-        try (Cursor cursor = getPermissionsCursor(selection)) {
-            if (cursor == null) {
-                pw.println("N/A");
-            } else {
-                pw.println(cursor.getCount());
-                while (cursor.moveToNext()) {
-                    pw.print(prefix); pw.print(cursor.getString(TABLE_PERMISSIONS_COL_PACKAGE));
-                    pw.print('/');
-                    final String uuid = cursor.getString(TABLE_PERMISSIONS_COL_VOLUME_UUID);
-                    if (uuid != null) {
-                        pw.print(uuid); pw.print('>');
+        for (int i = 0; i < packages.size(); i++) {
+            final String pkg = packages.get(i);
+            try (Cursor cursor = getPermissionsCursor(pkg)) {
+                if (cursor == null) {
+                    pw.println("N/A");
+                } else {
+                    pw.println(cursor.getCount());
+                    while (cursor.moveToNext()) {
+                        pw.print(prefix); pw.print(cursor.getString(TABLE_PERMISSIONS_COL_PACKAGE));
+                        pw.print('/');
+                        final String uuid = cursor.getString(TABLE_PERMISSIONS_COL_VOLUME_UUID);
+                        if (uuid != null) {
+                            pw.print(uuid); pw.print('>');
+                        }
+                        pw.print(cursor.getString(TABLE_PERMISSIONS_COL_DIRECTORY));
+                        pw.print(": "); pw.println(cursor.getInt(TABLE_PERMISSIONS_COL_GRANTED) == 1);
                     }
-                    pw.print(cursor.getString(TABLE_PERMISSIONS_COL_DIRECTORY));
-                    pw.print(": "); pw.println(cursor.getInt(TABLE_PERMISSIONS_COL_GRANTED) == 1);
                 }
             }
         }
