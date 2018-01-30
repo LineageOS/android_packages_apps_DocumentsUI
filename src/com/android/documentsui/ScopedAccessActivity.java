@@ -32,6 +32,7 @@ import static com.android.documentsui.ScopedAccessMetrics.logInvalidScopedAccess
 import static com.android.documentsui.ScopedAccessMetrics.logValidScopedAccessRequest;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
+import static com.android.documentsui.base.SharedMinimal.getUriPermission;
 import static com.android.documentsui.base.SharedMinimal.getInternalDirectoryName;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
@@ -154,120 +155,46 @@ public class ScopedAccessActivity extends Activity {
      */
     private static boolean showFragment(ScopedAccessActivity activity, int userId,
             StorageVolume storageVolume, String directoryName) {
-        if (DEBUG)
-            Log.d(TAG, "showFragment() for volume " + storageVolume.dump() + ", directory "
-                    + directoryName + ", and user " + userId);
-        final boolean isRoot = directoryName.equals(DIRECTORY_ROOT);
-        final boolean isPrimary = storageVolume.isPrimary();
+        return getUriPermission(activity,
+                activity.getExternalStorageClient(), storageVolume, directoryName, userId, true,
+                (file, volumeLabel, isRoot, isPrimary, grantedUri, rootUri) -> {
+                    // Checks if the user has granted the permission already.
+                    final Intent intent = getIntentForExistingPermission(activity,
+                            activity.getCallingPackage(), grantedUri, rootUri);
+                    if (intent != null) {
+                        logValidScopedAccessRequest(activity, isRoot ? "." : directoryName,
+                                SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED);
+                        activity.setResult(RESULT_OK, intent);
+                        activity.finish();
+                        return true;
+                    }
 
-        if (isRoot && isPrimary) {
-            if (DEBUG) Log.d(TAG, "root access requested on primary volume");
-            return false;
-        }
+                    // Gets the package label.
+                    final String appLabel = getAppLabel(activity);
+                    if (appLabel == null) {
+                        // Error already logged.
+                        return false;
+                    }
 
-        final File volumeRoot = storageVolume.getPathFile();
-        File file;
-        try {
-            file = isRoot ? volumeRoot : new File(volumeRoot, directoryName).getCanonicalFile();
-        } catch (IOException e) {
-            Log.e(TAG, "Could not get canonical file for volume " + storageVolume.dump()
-                    + " and directory " + directoryName);
-            logInvalidScopedAccessRequest(activity, SCOPED_DIRECTORY_ACCESS_ERROR);
-            return false;
-        }
-        final StorageManager sm =
-                (StorageManager) activity.getSystemService(Context.STORAGE_SERVICE);
+                    // Sets args that will be retrieve on onCreate()
+                    final Bundle args = new Bundle();
+                    args.putString(EXTRA_FILE, file.getAbsolutePath());
+                    args.putString(EXTRA_VOLUME_LABEL, volumeLabel);
+                    args.putString(EXTRA_VOLUME_UUID, storageVolume.getUuid());
+                    args.putString(EXTRA_APP_LABEL, appLabel);
+                    args.putBoolean(EXTRA_IS_ROOT, isRoot);
+                    args.putBoolean(EXTRA_IS_PRIMARY, isPrimary);
 
-        final String root, directory;
-        if (isRoot) {
-            root = volumeRoot.getAbsolutePath();
-            directory = ".";
-        } else {
-            root = file.getParent();
-            directory = file.getName();
-            // Verify directory is valid.
-            if (TextUtils.isEmpty(directory) || !isStandardDirectory(directory)) {
-                if (DEBUG)
-                    Log.d(TAG, "Directory '" + directory + "' is not standard (full path: '"
-                            + file.getAbsolutePath() + "')");
-                logInvalidScopedAccessRequest(activity, SCOPED_DIRECTORY_ACCESS_INVALID_DIRECTORY);
-                return false;
-            }
-        }
+                    final FragmentManager fm = activity.getFragmentManager();
+                    final FragmentTransaction ft = fm.beginTransaction();
+                    final ScopedAccessDialogFragment fragment = new ScopedAccessDialogFragment();
+                    fragment.setArguments(args);
+                    ft.add(fragment, FM_TAG);
+                    ft.commitAllowingStateLoss();
 
-        // Gets volume label and converted path.
-        String volumeLabel = null;
-        String volumeUuid = null;
-        final List<VolumeInfo> volumes = sm.getVolumes();
-        if (DEBUG) Log.d(TAG, "Number of volumes: " + volumes.size());
-        File internalRoot = null;
-        boolean found = true;
-        for (VolumeInfo volume : volumes) {
-            if (isRightVolume(volume, root, userId)) {
-                found = true;
-                internalRoot = volume.getInternalPathForUser(userId);
-                // Must convert path before calling getDocIdForFileCreateNewDir()
-                if (DEBUG) Log.d(TAG, "Converting " + root + " to " + internalRoot);
-                file = isRoot ? internalRoot : new File(internalRoot, directory);
-                volumeUuid = storageVolume.getUuid();
-                volumeLabel = sm.getBestVolumeDescription(volume);
-                if (TextUtils.isEmpty(volumeLabel)) {
-                    volumeLabel = storageVolume.getDescription(activity);
-                }
-                if (TextUtils.isEmpty(volumeLabel)) {
-                    volumeLabel = activity.getString(android.R.string.unknownName);
-                    Log.w(TAG, "No volume description  for " + volume + "; using " + volumeLabel);
-                }
-                break;
-            }
-        }
-        if (internalRoot == null) {
-            // Should not happen on normal circumstances, unless app crafted an invalid volume
-            // using reflection or the list of mounted volumes changed.
-            Log.e(TAG, "Didn't find right volume for '" + storageVolume.dump() + "' on " + volumes);
-            return false;
-        }
+                    return true;
 
-        // Checks if the user has granted the permission already.
-        final Intent intent = getIntentForExistingPermission(activity, internalRoot, file);
-        if (intent != null) {
-            logValidScopedAccessRequest(activity, directory,
-                    SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED);
-            activity.setResult(RESULT_OK, intent);
-            activity.finish();
-            return true;
-        }
-
-        if (!found) {
-            Log.e(TAG, "Could not get volume for " + file);
-            logInvalidScopedAccessRequest(activity, SCOPED_DIRECTORY_ACCESS_ERROR);
-            return false;
-        }
-
-        // Gets the package label.
-        final String appLabel = getAppLabel(activity);
-        if (appLabel == null) {
-            // Error already logged.
-            return false;
-        }
-
-        // Sets args that will be retrieve on onCreate()
-        final Bundle args = new Bundle();
-        args.putString(EXTRA_FILE, file.getAbsolutePath());
-        args.putString(EXTRA_VOLUME_LABEL, volumeLabel);
-        args.putString(EXTRA_VOLUME_UUID, volumeUuid);
-        args.putString(EXTRA_APP_LABEL, appLabel);
-        args.putBoolean(EXTRA_IS_ROOT, isRoot);
-        args.putBoolean(EXTRA_IS_PRIMARY, isPrimary);
-
-        final FragmentManager fm = activity.getFragmentManager();
-        final FragmentTransaction ft = fm.beginTransaction();
-        final ScopedAccessDialogFragment fragment = new ScopedAccessDialogFragment();
-        fragment.setArguments(args);
-        ft.add(fragment, FM_TAG);
-        ft.commitAllowingStateLoss();
-
-        return true;
+                });
     }
 
     private static String getAppLabel(Activity activity) {
@@ -282,52 +209,9 @@ public class ScopedAccessActivity extends Activity {
         }
     }
 
-    private static boolean isRightVolume(VolumeInfo volume, String root, int userId) {
-        final File userPath = volume.getPathForUser(userId);
-        final String path = userPath == null ? null : volume.getPathForUser(userId).getPath();
-        final boolean isMounted = volume.isMountedReadable();
-        if (DEBUG)
-            Log.d(TAG, "Volume: " + volume
-                    + "\n\tuserId: " + userId
-                    + "\n\tuserPath: " + userPath
-                    + "\n\troot: " + root
-                    + "\n\tpath: " + path
-                    + "\n\tisMounted: " + isMounted);
-
-        return isMounted && root.equals(path);
-    }
-
-    private static Uri getGrantedUriPermission(Context context, ContentProviderClient provider,
-            File file) {
-        // Calls ExternalStorageProvider to get the doc id for the file
-        final Bundle bundle;
-        try {
-            bundle = provider.call("getDocIdForFileCreateNewDir", file.getPath(), null);
-        } catch (RemoteException e) {
-            Log.e(TAG, "Did not get doc id from External Storage provider for " + file, e);
-            logInvalidScopedAccessRequest(context, SCOPED_DIRECTORY_ACCESS_ERROR);
-            return null;
-        }
-        final String docId = bundle == null ? null : bundle.getString("DOC_ID");
-        if (docId == null) {
-            Log.e(TAG, "Did not get doc id from External Storage provider for " + file);
-            logInvalidScopedAccessRequest(context, SCOPED_DIRECTORY_ACCESS_ERROR);
-            return null;
-        }
-        if (DEBUG) Log.d(TAG, "doc id for " + file + ": " + docId);
-
-        final Uri uri = DocumentsContract.buildTreeDocumentUri(Providers.AUTHORITY_STORAGE, docId);
-        if (uri == null) {
-            Log.e(TAG, "Could not get URI for doc id " + docId);
-            return null;
-        }
-        if (DEBUG) Log.d(TAG, "URI for " + file + ": " + uri);
-        return uri;
-    }
-
     private static Intent createGrantedUriPermissionsIntent(Context context,
             ContentProviderClient provider, File file) {
-        final Uri uri = getGrantedUriPermission(context, provider, file);
+        final Uri uri = getUriPermission(context, provider, file);
         return createGrantedUriPermissionsIntent(uri);
     }
 
@@ -341,19 +225,13 @@ public class ScopedAccessActivity extends Activity {
         return intent;
     }
 
-    private static Intent getIntentForExistingPermission(ScopedAccessActivity activity, File root,
-            File file) {
-        final String packageName = activity.getCallingPackage();
-        final ContentProviderClient storageClient = activity.getExternalStorageClient();
-        final Uri grantedUri = getGrantedUriPermission(activity, storageClient, file);
-        final Uri rootUri = root.equals(file) ? grantedUri
-                : getGrantedUriPermission(activity, storageClient, root);
-
-        if (DEBUG)
+    private static Intent getIntentForExistingPermission(Context context, String packageName,
+            Uri grantedUri, Uri rootUri) {
+        if (DEBUG) {
             Log.d(TAG, "checking if " + packageName + " already has permission for " + grantedUri
                     + " or its root (" + rootUri + ")");
-        final ActivityManager am =
-                (ActivityManager) activity.getSystemService(Context.ACTIVITY_SERVICE);
+        }
+        final ActivityManager am = context.getSystemService(ActivityManager.class);
         for (GrantedUriPermission uriPermission : am.getGrantedUriPermissions(packageName)
                 .getList()) {
             final Uri uri = uriPermission.uri;
