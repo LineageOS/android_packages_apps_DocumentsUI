@@ -54,7 +54,7 @@
     <application
         android:name=".DocumentsApplication"
         android:label="@string/app_label"
-        android:icon="@drawable/app_icon"
+        android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:allowBackup="true"
         android:backupAgent=".prefs.BackupAgent"
