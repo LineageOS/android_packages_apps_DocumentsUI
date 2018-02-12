@@ -15,8 +15,8 @@
 -->
 
 <resources>
-    <item name="app_icon" type="drawable">@mipmap/ic_app_icon</item>
-    <item name="launcher_icon" type="drawable">@mipmap/ic_app_icon</item>
+    <item name="app_icon" type="drawable">@mipmap/ic_launcher</item>
+    <item name="launcher_icon" type="drawable">@mipmap/ic_launcher</item>
     <item name="image_root_icon" type="drawable">@*android:drawable/ic_doc_image</item>
     <item name="video_root_icon" type="drawable">@*android:drawable/ic_doc_video</item>
     <item name="audio_root_icon" type="drawable">@*android:drawable/ic_doc_audio</item>
