@@ -44,8 +44,10 @@ import android.app.ActivityManager;
 import android.app.GrantedUriPermission;
 import android.content.ContentProvider;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -446,15 +448,27 @@ public class ScopedAccessProvider extends ContentProvider {
         return getUriPermission(context, storageClient, volume, getInternalDirectoryName(directory),
                 UserHandle.getCallingUserId(), /* logMetrics= */ false,
                 (file, volumeLabel, isRoot, isPrimary, grantedUri, rootUri) -> {
-                    final ActivityManager am = context.getSystemService(ActivityManager.class);
-                    final boolean updated = am.updatePersistableUriPermission(grantedUri, true,
-                            packageName, granted);
-                    if (!updated) {
-                        Log.w(TAG, "failed to update URI " + grantedUri + " for " + packageName
-                                + " to " + granted);
-                    }
-                    return updated;
+                    updatePermission(context, grantedUri, packageName, granted);
+                    return true;
                 });
+    }
+
+    private void updatePermission(Context context, Uri grantedUri, String toPackage,
+            boolean granted) {
+        final int persistFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+        final int grantFlags = persistFlags
+                | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION;
+
+        final ContentResolver cr = context.getContentResolver();
+        if (granted) {
+            context.grantUriPermission(toPackage, grantedUri, grantFlags);
+            cr.takePersistableUriPermission(toPackage, grantedUri, persistFlags);
+        } else {
+            context.revokeUriPermission(grantedUri, grantFlags);
+            cr.releasePersistableUriPermission(toPackage, grantedUri, persistFlags);
+        }
     }
 
     @Override
