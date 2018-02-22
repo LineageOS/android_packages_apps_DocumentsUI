@@ -21,7 +21,7 @@
     <string name="inspector_debug_section" msgid="2576052661505700421">"Informacije o otklanjanju grešaka (samo dev)"</string>
     <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"Raw metapodaci: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
     <string name="inspector_metadata_section" msgid="6077622515328240575">"Detalji o medijima"</string>
-    <string name="handler_app_file_opens_with" msgid="5272329600389613550">"Ovu vrstu datoteka otvara aplikacija"</string>
+    <string name="handler_app_file_opens_with" msgid="5272329600389613550">"Ovu vrstu fajlova otvara aplikacija"</string>
     <string name="handler_app_belongs_to" msgid="5444507329303253553">"Fajl pruža"</string>
     <string name="handler_app_not_selected" msgid="1294439257183908786">"Nije odabrano"</string>
     <string name="handler_app_unknown" msgid="5911661530593229287">"Nepoznato"</string>
