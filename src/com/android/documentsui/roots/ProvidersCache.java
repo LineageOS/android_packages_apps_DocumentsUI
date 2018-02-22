@@ -210,7 +210,7 @@ public class ProvidersCache implements ProvidersAccess {
         final ContentResolver resolver = mContext.getContentResolver();
         synchronized (mLock) {
             for (String authority : mStoppedAuthorities) {
-                mRoots.putAll(authority, loadRootsForAuthority(resolver, authority, true));
+                mRoots.replaceValues(authority, loadRootsForAuthority(resolver, authority, true));
             }
             mStoppedAuthorities.clear();
         }
@@ -227,7 +227,7 @@ public class ProvidersCache implements ProvidersAccess {
                 return;
             }
             if (DEBUG) Log.d(TAG, "Loading stopped authority " + authority);
-            mRoots.putAll(authority, loadRootsForAuthority(resolver, authority, true));
+            mRoots.replaceValues(authority, loadRootsForAuthority(resolver, authority, true));
             mStoppedAuthorities.remove(authority);
         }
     }
@@ -334,7 +334,7 @@ public class ProvidersCache implements ProvidersAccess {
         synchronized (mLock) {
             RootInfo root = forceRefresh ? null : getRootLocked(authority, rootId);
             if (root == null) {
-                mRoots.putAll(authority, loadRootsForAuthority(
+                mRoots.replaceValues(authority, loadRootsForAuthority(
                                 mContext.getContentResolver(), authority, forceRefresh));
                 root = getRootLocked(authority, rootId);
             }
