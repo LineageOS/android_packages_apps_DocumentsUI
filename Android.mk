@@ -29,6 +29,7 @@ LOCAL_JACK_FLAGS += -D jack.assert.policy=always
 endif
 
 LOCAL_PACKAGE_NAME := DocumentsUI
+LOCAL_PRIVATE_PLATFORM_APIS := true
 LOCAL_CERTIFICATE := platform
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
 
