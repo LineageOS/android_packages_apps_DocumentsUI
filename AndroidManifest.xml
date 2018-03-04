@@ -20,6 +20,7 @@
         package="com.android.documentsui">
 
     <uses-permission android:name="android.permission.GET_APP_GRANTED_URI_PERMISSIONS" />
+    <uses-permission android:name="android.permission.FORCE_PERSISTABLE_URI_PERMISSIONS" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.REMOVE_TASKS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
