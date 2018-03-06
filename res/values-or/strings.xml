@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  Copyright (C) 2013 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- no translation found for files_label (771781190045103748) -->
+    <skip />
+    <string name="downloads_label" msgid="5462789470049501103">"ଡାଉନଲୋଡ୍‌"</string>
+    <!-- no translation found for app_label (8089292432455111409) -->
+    <skip />
+    <!-- no translation found for launcher_label (799410258349837668) -->
+    <skip />
+    <string name="title_open" msgid="3165686459158020921">"ଏଥିରୁ ଖୋଲନ୍ତୁ"</string>
+    <string name="title_save" msgid="4384490653102710025">"ଏଥିରେ ସେଭ୍‍ କରନ୍ତୁ"</string>
+    <string name="menu_create_dir" msgid="2413624798689091042">"ନୂଆ ଫୋଲ୍ଡର୍‌"</string>
+    <string name="menu_grid" msgid="1453636521731880680">"ଗ୍ରୀଡ୍‍ ଭ୍ୟୁ"</string>
+    <string name="menu_list" msgid="6714267452146410402">"ତାଲିକା ଭ୍ୟୁ"</string>
+    <string name="menu_search" msgid="1876699106790719849">"ସର୍ଚ୍ଚ କରନ୍ତୁ"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"ଷ୍ଟୋରେଜ୍‌ ସେଟିଙ୍ଗ"</string>
+    <string name="menu_open" msgid="9092138100049759315">"ଖୋଲନ୍ତୁ"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"ଏଥିରେ ଖୋଲନ୍ତୁ"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲନ୍ତୁ"</string>
+    <string name="menu_save" msgid="5195367497138965168">"ସେଭ୍‌ କରନ୍ତୁ"</string>
+    <string name="menu_share" msgid="4307140947108068356">"ଶେୟାର୍‍ କରନ୍ତୁ"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"ସବୁ ଚୟନ କରନ୍ତୁ"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"ଏଥିକୁ କପୀ କରନ୍ତୁ…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"ଏଥିକୁ ନିଅନ୍ତୁ…"</string>
+    <!-- no translation found for menu_compress (37539111904724188) -->
+    <skip />
+    <!-- no translation found for menu_extract (8171946945982532262) -->
+    <skip />
+    <string name="menu_rename" msgid="1883113442688817554">"ନାମ ବଦଳାନ୍ତୁ"</string>
+    <!-- no translation found for menu_inspect (7279855349299446224) -->
+    <skip />
+    <!-- no translation found for menu_view_in_owner (7228948660557554770) -->
+    <skip />
+    <string name="menu_new_window" msgid="2947837751796109126">"ନୂଆ ୱିଣ୍ଡୋ"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"କଟ୍‌ କରନ୍ତୁ"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"କପୀ କରନ୍ତୁ"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ପେଷ୍ଟ କରନ୍ତୁ"</string>
+    <string name="menu_paste_into_folder" msgid="8000644546983240101">"ଫୋଲ୍ଡର୍‌ରେ ପେଷ୍ଟ କରନ୍ତୁ"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"ଇଣ୍ଟର୍ନଲ୍‌ ଷ୍ଟୋରେଜ୍‌କୁ ଦେଖାନ୍ତୁ"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"ଇଣ୍ଟର୍ନଲ୍‌ ଷ୍ଟୋରେଜ୍‌କୁ ଲୁଚାନ୍ତୁ"</string>
+    <string name="button_select" msgid="240863497069321364">"ଚୟନ କରନ୍ତୁ"</string>
+    <string name="button_copy" msgid="8219059853840996027">"କପୀ କରନ୍ତୁ"</string>
+    <!-- no translation found for button_compress (8951561310857223966) -->
+    <skip />
+    <!-- no translation found for button_extract (1038674453689912247) -->
+    <skip />
+    <string name="button_move" msgid="8596460499325291272">"ନେଇଯାଆନ୍ତୁ"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"ଖାରଜ କରନ୍ତୁ"</string>
+    <string name="button_retry" msgid="4011461781916631389">"ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ"</string>
+    <!-- no translation found for button_clear (5412304437764369441) -->
+    <skip />
+    <!-- no translation found for button_show_provider (6905880493806292753) -->
+    <skip />
+    <string name="not_sorted" msgid="7813496644889115530">"କ୍ରମବଦ୍ଧ କରାଯାଇନାହିଁ"</string>
+    <string name="sort_dimension_name" msgid="6325591541414177579">"ନାମ"</string>
+    <string name="sort_dimension_summary" msgid="7724534446881397860">"ସାରାଂଶ"</string>
+    <!-- no translation found for sort_dimension_file_type (5779709622922085381) -->
+    <skip />
+    <string name="sort_dimension_size" msgid="2190547351159472884">"ଆକାର"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"ଗତଥର ସଂଶୋଧିତ"</string>
+    <!-- no translation found for directory_items (6645621978998614003) -->
+    <skip />
+    <string name="sort_direction_ascending" msgid="5882787683763248102">"ସାନରୁ ବଡ଼ କ୍ରମରେ"</string>
+    <string name="sort_direction_descending" msgid="1729187589765894076">"ବଡ଼ରୁ ସାନ କ୍ରମରେ"</string>
+    <string name="drawer_open" msgid="8071673398187261741">"ରୁଟ୍‍ ଦେଖାନ୍ତୁ"</string>
+    <string name="drawer_close" msgid="4263880768630848848">"ରୁଟ୍‍ ଲୁଚାନ୍ତୁ"</string>
+    <string name="save_error" msgid="8631128801982095782">"ଡକୁମେଣ୍ଟକୁ ସେଭ୍‍ କରିପାରିଲା ନାହିଁ"</string>
+    <string name="create_error" msgid="3092144450044861994">"ଫୋଲ୍ଡର୍‍ ତିଆରି କରିହେଲା ନାହିଁ"</string>
+    <string name="query_error" msgid="6625421453613879336">"ଏହି ସମୟରେ କଣ୍ଟେଣ୍ଟ ଲୋଡ୍‍ କରିପାରିବ ନାହିଁ"</string>
+    <string name="root_recent" msgid="1080156975424341623">"କିଛି ସମୟ ପୂର୍ବରୁ"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ଖାଲି ଅଛି"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"ଷ୍ଟୋରେଜ୍‍ ସେବା"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"ଶର୍ଟକଟ୍‍"</string>
+    <string name="root_type_device" msgid="1713604128005476585">"ଡିଭାଇସ୍‌"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"ଅଧିକ ଆପ୍‍"</string>
+    <string name="empty" msgid="5300254272613103004">"କୌଣସି ଆଇଟମ୍ ନାହିଁ"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$sରେ କିଛି ମେଳ ହେଉନାହିଁ"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"ଫାଇଲ୍‍ ଖୋଲିହେବ ନାହିଁ"</string>
+    <!-- no translation found for toast_view_in_archives_unsupported (1923221390170964845) -->
+    <skip />
+    <string name="toast_failed_delete" msgid="3453846588205817591">"କିଛି ଡକୁମେଣ୍ଟ ଡିଲିଟ୍‍ କରିହେବ ନାହିଁ"</string>
+    <string name="share_via" msgid="8725082736005677161">"ଏହା ମାଧ୍ୟମରେ ଶେୟାର୍‌ କରନ୍ତୁ"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"ଫାଇଲ୍‌ଗୁଡ଼ିକ କପୀ କରାଯାଉଛି"</string>
+    <!-- no translation found for compress_notification_title (6830195148113751021) -->
+    <skip />
+    <!-- no translation found for extract_notification_title (5067393961754430469) -->
+    <skip />
+    <string name="move_notification_title" msgid="3173424987049347605">"ଫାଇଲ୍‌ଗୁଡ଼ିକ ନିଆଯାଉଛି"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"ଫାଇଲ୍‍ ଡିଲିଟ୍‌ କରାଯାଉଛି"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> ଅବଶିଷ୍ଟ"</string>
+    <!-- no translation found for copy_begin (151184708996738192) -->
+    <!-- no translation found for compress_begin (3534158317098678895) -->
+    <!-- no translation found for extract_begin (1006380679562903749) -->
+    <!-- no translation found for move_begin (1464229874265756956) -->
+    <!-- no translation found for deleting (1729138001178158901) -->
+    <string name="undo" msgid="2902438994196400565">"ପୂର୍ବପରି କରନ୍ତୁ"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"କପୀ କରିବା ପାଇଁ ପ୍ରସ୍ତୁତ କରାଯାଉଛି…"</string>
+    <!-- no translation found for compress_preparing (6650018601382062672) -->
+    <skip />
+    <!-- no translation found for extract_preparing (58266275455027829) -->
+    <skip />
+    <string name="move_preparing" msgid="8742573245485449429">"ନେବାପାଇଁ ପ୍ରସ୍ତୁତ କରାଯାଉଛି…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"ଡିଲିଟ୍‍ କରିବାକୁ ପ୍ରସ୍ତୁତ କରାଯାଉଛି…"</string>
+    <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
+    <!-- no translation found for copy_error_notification_title (3188432450429390963) -->
+    <!-- no translation found for compress_error_notification_title (3043630066678213644) -->
+    <!-- no translation found for move_error_notification_title (2185736082411854754) -->
+    <!-- no translation found for delete_error_notification_title (7568122018481625267) -->
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"ବିବରଣୀ ଦେଖିବା ପାଇଁ ଟାପ୍‍ କରନ୍ତୁ"</string>
+    <string name="close" msgid="905969391788869975">"ବନ୍ଦ କରନ୍ତୁ"</string>
+    <!-- no translation found for copy_failure_alert_content (5570549471912990536) -->
+    <!-- no translation found for compress_failure_alert_content (5760632881868842400) -->
+    <!-- no translation found for extract_failure_alert_content (7572748127571720803) -->
+    <!-- no translation found for move_failure_alert_content (2747390342670799196) -->
+    <!-- no translation found for delete_failure_alert_content (6122372614839711711) -->
+    <!-- no translation found for copy_converted_warning_content (7433742181712126588) -->
+    <!-- no translation found for clipboard_files_clipped (4847061634862926902) -->
+    <!-- no translation found for file_operation_rejected (4301554203329008794) -->
+    <skip />
+    <!-- no translation found for file_operation_error (2234357335716533795) -->
+    <skip />
+    <string name="rename_error" msgid="6700093173508118635">"ଡକୁମେଣ୍ଟର ନାମ ବଦଳାଇବାରେ ବିଫଳ ହେଲା"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"ବାହାର କରନ୍ତୁ"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"କିଛି ଫାଇଲ୍‍ ବଦଳାଯାଇଥିଲା"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="STORAGE"><i>^3</i></xliff:g>ରେ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ଡିରେକ୍ଟୋରୀକୁ <xliff:g id="APPNAME"><b>^1</b></xliff:g>ର ଆକ୍ସେସ୍‍ ମଞ୍ଜୁରୀ ଦେବେ?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ଡିରେକ୍ଟୋରୀକୁ <xliff:g id="APPNAME"><b>^1</b></xliff:g>ର ଆକ୍ସେସ୍‍ ମଞ୍ଜୁରୀ ଦେବେ?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"ଫଟୋ ଓ ଭିଡିଓ ସମେତ <xliff:g id="STORAGE"><i>^2</i></xliff:g>ରେ, ଆପଣଙ୍କ ଡାଟାକୁ <xliff:g id="APPNAME"><b>^1</b></xliff:g>ର ଆକ୍ସେସ୍‍ ମଞ୍ଜୁରୀ ଦେବେ?"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"ପୁଣି ପଚାରନ୍ତୁ ନାହିଁ"</string>
+    <string name="allow" msgid="1275746941353040309">"ଅନୁମତି ଦିଅନ୍ତୁ"</string>
+    <string name="deny" msgid="5127201668078153379">"ପ୍ରତ୍ୟାଖ୍ୟାନ କରନ୍ତୁ"</string>
+    <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଚୟନିତ</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଚୟନିତ</item>
+    </plurals>
+    <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଆଇଟମ୍‍</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଆଇଟମ୍‍</item>
+    </plurals>
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" ଡିଲିଟ୍‍ କରିବେ?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" ଫୋଲ୍ଡର୍‍ ଓ ତାହାର କଣ୍ଟେଣ୍ଟ ଡିଲିଟ୍‍ କରିବେ?"</string>
+    <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଫାଇଲ୍‍ ଡିଲିଟ୍‍ କରିବେ?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଫାଇଲ୍‍ ଡିଲିଟ୍‍ କରିବେ?</item>
+    </plurals>
+    <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଫୋଲ୍ଡର୍‍ ଓ ସେଗୁଡ଼ିକର କଣ୍ଟେଣ୍ଟ ଡିଲିଟ୍‍ କରିବେ?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଫୋଲ୍ଡର୍‍ ଓ ତାହାର କଣ୍ଟେଣ୍ଟ ଡିଲିଟ୍‍ କରିବେ?</item>
+    </plurals>
+    <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଆଇଟମ୍‍ ଡିଲିଟ୍‍ କରିବେ?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଆଇଟମ୍‍ ଡିଲିଟ୍‍ କରିବେ?</item>
+    </plurals>
+    <!-- no translation found for images_shortcut_label (2545168016070493574) -->
+    <skip />
+    <!-- no translation found for archive_loading_failed (7243436722828766996) -->
+    <skip />
+    <!-- no translation found for name_conflict (28407269328862986) -->
+    <skip />
+    <!-- no translation found for authentication_required (8030880723643436099) -->
+    <skip />
+    <!-- no translation found for cant_display_content (8633226333229417237) -->
+    <skip />
+    <!-- no translation found for sign_in (6253762676723505592) -->
+    <skip />
+    <!-- no translation found for new_archive_file_name (1604650338077249838) -->
+    <skip />
+    <!-- no translation found for overwrite_file_confirmation_message (2496109652768222716) -->
+    <skip />
+    <!-- no translation found for continue_in_background (1974214559047793331) -->
+    <skip />
+</resources>
