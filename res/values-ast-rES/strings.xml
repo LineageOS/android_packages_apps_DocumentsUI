@@ -16,12 +16,19 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Title of the Files application [CHAR LIMIT=32] -->
+  <string name="files_label">Ficheros</string>
   <!-- Title of the Downloads application, which sometimes Files is known as [CHAR LIMIT=32] -->
+  <string name="downloads_label">Descargues</string>
   <!-- Title of the documents application [CHAR LIMIT=32] -->
+  <string name="app_label">@string/files_label</string>
   <!-- Title of the documents application [CHAR LIMIT=32] -->
+  <string name="launcher_label">@string/files_label</string>
   <!-- Action bar title prompting user to choose a location to open a document from [CHAR LIMIT=32] -->
+  <string name="title_open">Abrir dende</string>
   <!-- Action bar title prompting user to choose a location to save a document to [CHAR LIMIT=32] -->
+  <string name="title_save">Guardar en</string>
   <!-- Menu item that creates a new directory/folder at the current location [CHAR LIMIT=28] -->
+  <string name="menu_create_dir">Carpeta nueva</string>
   <!-- Menu item that switches view to show documents as a large-format grid of thumbnails [CHAR LIMIT=28] -->
   <!-- Menu item that switches view to show documents as a list [CHAR LIMIT=28] -->
   <!-- Menu item that enters a mode to search for documents [CHAR LIMIT=28] -->
