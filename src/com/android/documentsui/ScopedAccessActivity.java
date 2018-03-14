@@ -193,7 +193,6 @@ public class ScopedAccessActivity extends Activity {
                     ft.commitAllowingStateLoss();
 
                     return true;
-
                 });
     }
 
