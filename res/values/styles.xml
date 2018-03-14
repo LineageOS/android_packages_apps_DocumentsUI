@@ -25,9 +25,9 @@
         <item name="android:textColorHighlight">@color/text_highlight</item>
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
-    <style name="ActionBarPopupTheme" parent="@*android:style/ThemeOverlay.Material.Light" />
+    <style name="ActionBarPopupTheme" parent="@style/Theme.AppCompat.DayNight" />
 
-    <style name="DocumentsTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="DocumentsTheme" parent="@style/Theme.AppCompat.DayNight.DarkActionBar">
         <item name="actionBarWidgetTheme">@null</item>
         <item name="actionBarTheme">@style/ActionBarTheme</item>
         <item name="actionBarPopupTheme">@style/ActionBarPopupTheme</item>
