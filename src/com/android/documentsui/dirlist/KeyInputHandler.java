@@ -107,8 +107,6 @@ public final class KeyInputHandler extends KeyboardEventListener {
     public static abstract class Callbacks extends MotionInputHandler.Callbacks {
         public abstract boolean isInteractiveItem(ItemDetails item, KeyEvent e);
         public abstract boolean onItemActivated(ItemDetails item, KeyEvent e);
-        public boolean onFocusItem(ItemDetails details, int keyCode, KeyEvent event) {
-            return true;
-        }
+        public abstract boolean onFocusItem(ItemDetails details, int keyCode, KeyEvent event);
     }
 }
