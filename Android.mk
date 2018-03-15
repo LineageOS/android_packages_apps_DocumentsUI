@@ -4,6 +4,9 @@ LOCAL_PATH:= $(call my-dir)
 # Complete DocumentsUI app:
 include $(CLEAR_VARS)
 
+# See b/74746744.
+LOCAL_USE_R8=false
+
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
 
 LOCAL_PACKAGE_NAME := DocumentsUI
