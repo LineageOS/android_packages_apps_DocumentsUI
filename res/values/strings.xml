@@ -211,15 +211,15 @@
     <!-- Text shown for the undo button -->
     <string name="undo">Undo</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for copying files [CHAR LIMIT=32] -->
-    <string name="copy_preparing">Preparing for copy\u2026</string>
+    <string name="copy_preparing">Preparing...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for compressing files [CHAR LIMIT=32] -->
-    <string name="compress_preparing">Preparing for compress\u2026</string>
+    <string name="compress_preparing">Preparing...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for extracting files [CHAR LIMIT=32] -->
-    <string name="extract_preparing">Preparing for extract\u2026</string>
+    <string name="extract_preparing">Preparing...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for moving files [CHAR LIMIT=32] -->
-    <string name="move_preparing">Preparing for move\u2026</string>
+    <string name="move_preparing">Preparing...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for deleting files [CHAR LIMIT=32] -->
-    <string name="delete_preparing">Preparing for delete\u2026</string>
+    <string name="delete_preparing">Preparing...</string>
     <!-- Text progress shown on the notification while DocumentsUI is deleting files. -->
     <string name="delete_progress"><xliff:g id="count" example="3">%1$d</xliff:g> / <xliff:g id="totalCount" example="5">%2$d</xliff:g></string>
     <!-- Title of the copy error notification [CHAR LIMIT=48] -->
