@@ -112,11 +112,16 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ਆਈਟਮਾਂ ਨੂੰ ਮਿਟਾਇਆ ਜਾ ਰਿਹਾ ਹੈ।</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"ਅਣਕੀਤਾ ਕਰੋ"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"ਕਾਪੀ ਕਰਨ ਦੀ ਤਿਆਰੀ ਹੋ ਰਹੀ ਹੈ…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"ਆਕਾਰ ਛੋਟਾ ਕਰਨ ਦੀ ਤਿਆਰੀ ਅਧੀਨ…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"ਐਕਸਟ੍ਰੈਕਟ ਕਰਨ ਦੀ ਤਿਆਰੀ…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"ਤਬਦੀਲ ਕਰਨ ਦੀ ਤਿਆਰੀ ਹੋ ਰਹੀ ਹੈ…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"ਮਿਟਾਉਣ ਦੀ ਤਿਆਰੀ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…"</string>
+    <!-- no translation found for copy_preparing (4759516490222449324) -->
+    <skip />
+    <!-- no translation found for compress_preparing (7401605598969019696) -->
+    <skip />
+    <!-- no translation found for extract_preparing (4796626960061745796) -->
+    <skip />
+    <!-- no translation found for move_preparing (6504239656430530761) -->
+    <skip />
+    <!-- no translation found for delete_preparing (7339349837842802508) -->
+    <skip />
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ਆਈਟਮਾਂ ਨੂੰ ਕਾਪੀ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ</item>

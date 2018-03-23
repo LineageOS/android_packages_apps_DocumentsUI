@@ -48,7 +48,7 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Копирај"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Залепи"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"Залепи во папка"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"Прикажи внатр. меморија"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"Прикажи внатрешен капацитет"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Сокриј внатр. меморија"</string>
     <string name="button_select" msgid="240863497069321364">"Избери"</string>
     <string name="button_copy" msgid="8219059853840996027">"Копирај"</string>
@@ -112,11 +112,11 @@
       <item quantity="other">Се бришат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Врати"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"Се подготвува за копирање…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"Се подготвува за компримирање…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"Се подготвува за извлекување…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"Се подготвува за преместување…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"Се подготвува за бришење…"</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"Се подготвува…"</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"Се подготвува…"</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"Се подготвува…"</string>
+    <string name="move_preparing" msgid="6504239656430530761">"Се подготвува…"</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"Се подготвува…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="one">Не можеше да се копира <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
