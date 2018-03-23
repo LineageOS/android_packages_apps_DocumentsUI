@@ -112,11 +112,11 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>개의 항목을 삭제 중입니다.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"실행취소"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"사본 준비 중…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"압축 준비 중…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"추출 준비 중…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"이동 준비 중…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"삭제 준비 중..."</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"준비 중..."</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"준비 중..."</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"준비 중..."</string>
+    <string name="move_preparing" msgid="6504239656430530761">"준비 중..."</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"준비 중..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>개의 항목을 복사할 수 없음</item>
