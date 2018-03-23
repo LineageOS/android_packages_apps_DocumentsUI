@@ -94,5 +94,10 @@ public final class KeyInputHandlerTest {
         @Override
         public void onPerformHapticFeedback() {
         }
+
+        @Override
+        public boolean onFocusItem(ItemDetails details, int keyCode, KeyEvent event) {
+            return true;
+        }
     }
 }
