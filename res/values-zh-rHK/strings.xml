@@ -112,11 +112,11 @@
       <item quantity="one">正在刪除 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目。</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"復原"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"正在準備複製…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"正在準備壓縮檔案…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"正在準備解壓縮檔案…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"正在準備移動…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"正在準備刪除…"</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"正在準備…"</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"正在準備…"</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"正在準備…"</string>
+    <string name="move_preparing" msgid="6504239656430530761">"正在準備…"</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"正在準備…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other">無法複製 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目。</item>
