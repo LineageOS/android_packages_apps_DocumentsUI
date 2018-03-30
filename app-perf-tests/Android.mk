@@ -17,6 +17,8 @@ LOCAL_USE_AAPT2 := true
 LOCAL_PACKAGE_NAME := DocumentsUIAppPerfTests
 LOCAL_INSTRUMENTATION_FOR := DocumentsUI
 
+LOCAL_COMPATIBILITY_SUITE += device-tests
+
 LOCAL_CERTIFICATE := platform
 
 include $(BUILD_PACKAGE)
