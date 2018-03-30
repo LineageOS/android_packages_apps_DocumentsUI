@@ -763,9 +763,7 @@ class CopyJob extends ResolvedResourcesJob {
      */
     private Cursor queryChildren(DocumentInfo srcDir, String[] queryColumns)
             throws RemoteException {
-        try (final ContentProviderClient client = getClient(srcDir)) {
-            return queryChildren(client, srcDir.derivedUri, queryColumns);
-        }
+        return queryChildren(getClient(srcDir), srcDir.derivedUri, queryColumns);
     }
 
     /**
