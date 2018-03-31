@@ -48,7 +48,7 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"复制"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"粘贴"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"粘贴到文件夹中"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"显示内部存储设备"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"显示内部存储空间"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"隐藏内部存储设备"</string>
     <string name="button_select" msgid="240863497069321364">"选择"</string>
     <string name="button_copy" msgid="8219059853840996027">"复制"</string>
@@ -112,11 +112,11 @@
       <item quantity="one">正在删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"撤消"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"正在准备复制…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"正准备压缩…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"正在准备解压缩…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"正在准备移动…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"正在准备删除…"</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"正在准备…"</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"正在准备…"</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"正在准备…"</string>
+    <string name="move_preparing" msgid="6504239656430530761">"正在准备…"</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"正在准备…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other">无法复制 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件</item>
