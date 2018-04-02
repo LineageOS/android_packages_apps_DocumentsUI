@@ -112,11 +112,11 @@
       <item quantity="other">درحال حذف <xliff:g id="COUNT_1">%1$d</xliff:g> مورد.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"واگرد"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"در حال آماده‌سازی برای کپی..."</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"آماده شدن برای فشرده‌سازی…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"درحال آماده‌سازی برای استخراج…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"درحال آماده‌سازی برای انتقال…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"درحال آماده‌سازی برای حذف…‏"</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"در حال آماده‌سازی..."</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"در حال آماده‌سازی..."</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"در حال آماده‌سازی..."</string>
+    <string name="move_preparing" msgid="6504239656430530761">"در حال آماده‌سازی..."</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"در حال آماده‌سازی..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="one"> <xliff:g id="COUNT_1">%1$d</xliff:g> مورد کپی نشد</item>
