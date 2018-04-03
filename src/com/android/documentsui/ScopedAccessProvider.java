@@ -34,6 +34,7 @@ import static com.android.documentsui.base.SharedMinimal.getUriPermission;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_GRANTED;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
+import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.clearScopedAccessPreferences;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPackages;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPermissions;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
@@ -351,10 +352,20 @@ public class ScopedAccessProvider extends ContentProvider {
                 Log.w(TAG, "could not parse uuid and directory on " + uri);
                 continue;
             }
-            final String uuid = Providers.ROOT_ID_DEVICE.equals(uuidAndDir[0])
-                    ? null // primary
-                    : uuidAndDir[0]; // external volume
-            final String dir = uuidAndDir.length == 1 ? null : uuidAndDir[1];
+            // TODO(b/72055774): to make things uglier, the Documents directory in the primary
+            // storage is a special case as its URI is "$ROOT_ID_HOME", instead of
+            // "${ROOT_ID_DEVICE}/Documents. This is another reason to move this logic to the
+            // provider...
+            final String uuid, dir;
+            if (Providers.ROOT_ID_HOME.equals(uuidAndDir[0])) {
+                uuid = null;
+                dir = Environment.DIRECTORY_DOCUMENTS;
+            } else {
+                uuid = Providers.ROOT_ID_DEVICE.equals(uuidAndDir[0])
+                        ? null // primary
+                        : uuidAndDir[0]; // external volume
+                dir = uuidAndDir.length == 1 ? null : uuidAndDir[1];
+            }
             permissions
                     .add(new Permission(uriPermission.packageName, uuid, dir, PERMISSION_GRANTED));
         }
@@ -373,7 +384,24 @@ public class ScopedAccessProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        throw new UnsupportedOperationException("delete(): unsupported " + uri);
+        if (sMatcher.match(uri) != URI_PERMISSIONS) {
+            throw new UnsupportedOperationException("delete(): unsupported " + uri);
+        }
+
+        if (DEBUG) {
+            Log.v(TAG, "delete(" + uri + "): " + Arrays.toString(selectionArgs));
+        }
+
+        // TODO(b/72055774): add unit tests for invalid input
+        checkArgument(selectionArgs != null && selectionArgs.length == 1,
+                "Must have exactly 1 args: package_name" + Arrays.toString(selectionArgs));
+        final String packageName = selectionArgs[0];
+
+        // Delete just our preferences - the URI permissions is handled externally
+        // TODO(b/72055774): move logic to revoke permissions here, so AppStorageSettings does
+        // not need to call am.clearGrantedUriPermissions(packageName) (then we could remove that
+        // method from ActivityManager)
+        return clearScopedAccessPreferences(getContext(), packageName);
     }
 
     @Override
