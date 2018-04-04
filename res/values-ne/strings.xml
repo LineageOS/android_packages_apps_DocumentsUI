@@ -112,16 +112,11 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वस्तु मेटाउँदै।</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"अनडू गर्नुहोस्"</string>
-    <!-- no translation found for copy_preparing (4759516490222449324) -->
-    <skip />
-    <!-- no translation found for compress_preparing (7401605598969019696) -->
-    <skip />
-    <!-- no translation found for extract_preparing (4796626960061745796) -->
-    <skip />
-    <!-- no translation found for move_preparing (6504239656430530761) -->
-    <skip />
-    <!-- no translation found for delete_preparing (7339349837842802508) -->
-    <skip />
+    <string name="copy_preparing" msgid="4759516490222449324">"तयार पार्दै..."</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"तयार पार्दै..."</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"तयार पार्दै..."</string>
+    <string name="move_preparing" msgid="6504239656430530761">"तयार पार्दै..."</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"तयार पार्दै..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरूलाई प्रतिलिपि गर्न सकिएन</item>

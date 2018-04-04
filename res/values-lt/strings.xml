@@ -122,11 +122,11 @@
       <item quantity="other">Ištrinama <xliff:g id="COUNT_1">%1$d</xliff:g> elementų.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Anuliuoti"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"Ruošiamasi kopijuoti…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"Ruošiamasi glaudinti…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"Ruošiamasi išskleisti…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"Ruošiamasi perkelti…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"Ruošiama ištrinti…"</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"Ruošiama..."</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"Ruošiama..."</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"Ruošiama..."</string>
+    <string name="move_preparing" msgid="6504239656430530761">"Ruošiama..."</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"Ruošiama..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="one">Nepavyko nukopijuoti <xliff:g id="COUNT_1">%1$d</xliff:g> elemento</item>
