@@ -173,7 +173,10 @@ public class ScopedAccessLocalPreferences {
                 Log.w(TAG, "error gettting value for key '" + key + "': " + value);
                 continue;
             }
-            permissions.add(getPermission(key, status));
+            final Permission permission = getPermission(key, status);
+            if (permission != null) {
+                permissions.add(permission);
+            }
         }
 
         return permissions;
