@@ -9,7 +9,7 @@ LOCAL_SRC_FILES := $(call all-java-files-under, src) \
     ../tests/functional/com/android/documentsui/ActivityTest.java
 
 LOCAL_JAVA_LIBRARIES := android.test.runner android.test.base android.test.mock
-LOCAL_STATIC_ANDROID_LIBRARIES := android-support-v4
+LOCAL_STATIC_ANDROID_LIBRARIES := androidx.legacy_legacy-support-v4
 LOCAL_STATIC_JAVA_LIBRARIES := \
     mockito-target \
     ub-uiautomator \
