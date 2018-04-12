@@ -70,7 +70,7 @@
     <string name="sort_direction_descending" msgid="1729187589765894076">"उतरत्या क्रमाने"</string>
     <string name="drawer_open" msgid="8071673398187261741">"रूट दर्शवा"</string>
     <string name="drawer_close" msgid="4263880768630848848">"रूट लपवा"</string>
-    <string name="save_error" msgid="8631128801982095782">"दस्तऐवज जतन करणे अयशस्वी झाले"</string>
+    <string name="save_error" msgid="8631128801982095782">"दस्तऐवज सेव्ह करणे अयशस्वी झाले"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर तयार करण्यात अयशस्वी झाले"</string>
     <string name="query_error" msgid="6625421453613879336">"याक्षणी सामग्री लोड करू शकत नाही"</string>
     <string name="root_recent" msgid="1080156975424341623">"अलीकडील"</string>
