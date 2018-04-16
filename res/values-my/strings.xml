@@ -79,7 +79,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"အမြန်နည်းများ"</string>
     <string name="root_type_device" msgid="1713604128005476585">"စက်ပစ္စည်းများ"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"နောက်ထပ်အက်ပ်များ"</string>
-    <string name="empty" msgid="5300254272613103004">"ဘာမှ မရှိပါ"</string>
+    <string name="empty" msgid="5300254272613103004">"ဘာမျှ မရှိပါ"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s တွင် ကိုက်ညီသည့်အရာ မရှိပါ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ဖိုင်ကို ဖွင့်၍မရပါ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"မှတ်တမ်းဟောင်းထဲမှ ဖိုင်များကို ဖွင့်၍မရပါ"</string>
