@@ -161,7 +161,7 @@
       <item quantity="other">Այս ֆայլը փոխարկվել են այլ ձևաչափի՝ <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
-      <item quantity="one">Copied <xliff:g id="COUNT_1">%1$d</xliff:g> items to clipboard.</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> տարր պատճենվեց սեղմատախտակին։</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> տարր պատճենվեց սեղմատախտակին:</item>
     </plurals>
     <string name="file_operation_rejected" msgid="4301554203329008794">"Ֆայլի աշխատանքը չի աջակցվում:"</string>
