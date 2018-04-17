@@ -64,7 +64,7 @@
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Resumo"</string>
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Tipo"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Tamanho"</string>
-    <string name="sort_dimension_date" msgid="4231005651895254033">"Modificação"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Modificado"</string>
     <string name="directory_items" msgid="6645621978998614003">"Número de itens"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Crescente"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Decrescente"</string>
