@@ -16,14 +16,14 @@
 
 package com.android.documentsui.selection;
 
-import static android.support.v4.util.Preconditions.checkArgument;
-import static android.support.v4.util.Preconditions.checkState;
+import static androidx.core.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkState;
 
 import android.graphics.Point;
 import android.os.Build;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnItemTouchListener;
+import androidx.annotation.VisibleForTesting;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;

@@ -32,7 +32,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Features;

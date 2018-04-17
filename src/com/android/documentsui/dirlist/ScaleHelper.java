@@ -15,14 +15,14 @@
  */
 package com.android.documentsui.dirlist;
 
-import static android.support.v4.util.Preconditions.checkState;
+import static androidx.core.util.Preconditions.checkState;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnItemTouchListener;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;

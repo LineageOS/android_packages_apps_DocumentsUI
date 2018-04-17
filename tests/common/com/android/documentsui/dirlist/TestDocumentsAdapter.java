@@ -18,8 +18,8 @@ package com.android.documentsui.dirlist;
 
 import static org.junit.Assert.assertTrue;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.AdapterDataObserver;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 import android.view.ViewGroup;
 
 import com.android.documentsui.Model.Update;

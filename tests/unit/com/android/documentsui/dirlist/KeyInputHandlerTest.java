@@ -18,7 +18,7 @@ package com.android.documentsui.dirlist;
 
 import static org.junit.Assert.assertEquals;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;

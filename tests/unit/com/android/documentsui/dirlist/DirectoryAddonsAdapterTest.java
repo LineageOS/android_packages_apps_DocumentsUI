@@ -21,7 +21,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.support.test.filters.MediumTest;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.test.AndroidTestCase;
 import android.view.ViewGroup;
 

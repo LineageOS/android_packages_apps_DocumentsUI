@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.selection;
 
-import static android.support.v4.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkArgument;
 
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;

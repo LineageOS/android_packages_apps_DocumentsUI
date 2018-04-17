@@ -15,8 +15,8 @@
  */
 package com.android.documentsui.selection;
 
-import static android.support.v4.util.Preconditions.checkArgument;
-import static android.support.v7.widget.RecyclerView.NO_POSITION;
+import static androidx.core.util.Preconditions.checkArgument;
+import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 import static com.android.documentsui.selection.Shared.DEBUG;
 import static com.android.documentsui.selection.Shared.TAG;
 

@@ -16,8 +16,8 @@
 
 package com.android.documentsui;
 
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.VisibleForTesting;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.selection.DefaultSelectionHelper;
 import com.android.documentsui.selection.DefaultSelectionHelper.SelectionMode;

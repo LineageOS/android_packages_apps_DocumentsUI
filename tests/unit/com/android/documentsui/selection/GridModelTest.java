@@ -25,7 +25,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
 import com.android.documentsui.selection.BandSelectionHelper.BandHost;
 import com.android.documentsui.selection.testing.SelectionPredicates;

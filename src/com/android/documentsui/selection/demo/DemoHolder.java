@@ -16,7 +16,7 @@
 package com.android.documentsui.selection.demo;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 import android.widget.TextView;

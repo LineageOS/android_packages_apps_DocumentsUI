@@ -20,10 +20,10 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.annotation.IntDef;
 import android.app.Activity;
-import android.support.annotation.ColorRes;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.DrawerLayout.DrawerListener;
+import androidx.annotation.ColorRes;
+import androidx.legacy.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.drawerlayout.widget.DrawerLayout.DrawerListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toolbar;

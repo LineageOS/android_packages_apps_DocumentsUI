@@ -21,7 +21,7 @@ import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
 import android.support.test.filters.LargeTest;
 import android.support.test.filters.Suppress;
-import android.support.v7.recyclerview.R;
+import androidx.recyclerview.R;
 
 import com.android.documentsui.files.FilesActivity;
 

@@ -4,13 +4,13 @@ LOCAL_PRIVILEGED_MODULE := true
 LOCAL_STATIC_JAVA_LIBRARIES += guava
 
 LOCAL_STATIC_ANDROID_LIBRARIES := \
-        android-support-core-ui \
-        android-support-v4 \
-        android-support-v7-appcompat \
-        android-support-v13 \
-        $(ANDROID_SUPPORT_DESIGN_TARGETS) \
-        android-support-transition \
-        android-support-v7-recyclerview
+        androidx.legacy_legacy-support-core-ui \
+        androidx.legacy_legacy-support-v4 \
+        androidx.appcompat_appcompat \
+        androidx.legacy_legacy-support-v13 \
+        androidx.design_design \
+        androidx.transition_transition \
+        androidx.recyclerview_recyclerview
 
 LOCAL_USE_AAPT2 := true
 

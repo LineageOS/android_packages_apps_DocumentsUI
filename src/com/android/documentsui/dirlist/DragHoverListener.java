@@ -17,7 +17,7 @@
 package com.android.documentsui.dirlist;
 
 import android.graphics.Point;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;

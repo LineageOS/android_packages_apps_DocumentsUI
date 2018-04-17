@@ -30,7 +30,7 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.util.Log;
 
 public class OperationProgressDialog {
