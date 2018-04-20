@@ -18,7 +18,7 @@ package com.android.documentsui.selection.testing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.MotionEvent;
 
 import com.android.documentsui.selection.MouseInputHandler;

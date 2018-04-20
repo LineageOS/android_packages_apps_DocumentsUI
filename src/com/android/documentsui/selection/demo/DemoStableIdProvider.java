@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.selection.demo;
 
-import static android.support.v4.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkArgument;
 
 import com.android.documentsui.selection.SelectionHelper.StableIdProvider;
 

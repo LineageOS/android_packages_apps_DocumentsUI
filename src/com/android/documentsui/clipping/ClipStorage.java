@@ -19,7 +19,7 @@ package com.android.documentsui.clipping;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.util.Log;

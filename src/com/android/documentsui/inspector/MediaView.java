@@ -24,7 +24,7 @@ import android.media.MediaMetadata;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 

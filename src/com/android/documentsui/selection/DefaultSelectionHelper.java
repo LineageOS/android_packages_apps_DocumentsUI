@@ -16,14 +16,14 @@
 
 package com.android.documentsui.selection;
 
-import static android.support.v4.util.Preconditions.checkArgument;
-import static android.support.v4.util.Preconditions.checkState;
+import static androidx.core.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkState;
 import static com.android.documentsui.selection.Shared.DEBUG;
 import static com.android.documentsui.selection.Shared.TAG;
 
-import android.support.annotation.IntDef;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
+import androidx.annotation.IntDef;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 import android.util.Log;
 
 import java.lang.annotation.Retention;

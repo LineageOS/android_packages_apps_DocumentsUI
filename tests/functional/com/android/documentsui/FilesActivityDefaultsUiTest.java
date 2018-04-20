@@ -21,7 +21,7 @@ import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
 import android.os.RemoteException;
 import android.support.test.filters.LargeTest;
-import android.support.v7.recyclerview.R;
+import androidx.recyclerview.R;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;

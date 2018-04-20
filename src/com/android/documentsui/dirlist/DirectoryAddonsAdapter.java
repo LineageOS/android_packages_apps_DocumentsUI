@@ -16,8 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView.AdapterDataObserver;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 import android.view.ViewGroup;
 
 import com.android.documentsui.Model;

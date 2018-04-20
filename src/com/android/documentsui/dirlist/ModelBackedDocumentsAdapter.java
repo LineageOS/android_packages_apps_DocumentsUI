@@ -23,7 +23,7 @@ import static com.android.documentsui.base.State.MODE_LIST;
 
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
 

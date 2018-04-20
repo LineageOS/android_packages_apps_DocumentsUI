@@ -20,7 +20,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Looper;
 import android.provider.DocumentsContract;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import com.android.documentsui.InspectorProvider;
 import android.test.suitebuilder.annotation.MediumTest;

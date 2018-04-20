@@ -18,7 +18,7 @@ package com.android.documentsui.testing;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.android.documentsui.dirlist.TestDocumentsAdapter;

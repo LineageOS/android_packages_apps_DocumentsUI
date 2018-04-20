@@ -18,7 +18,7 @@ package com.android.documentsui.queries;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.Log;
 

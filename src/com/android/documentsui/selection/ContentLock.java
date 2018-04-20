@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.selection;
 
-import static android.support.v4.util.Preconditions.checkState;
+import static androidx.core.util.Preconditions.checkState;
 import static com.android.documentsui.selection.Shared.DEBUG;
 import static com.android.documentsui.selection.Shared.TAG;
 

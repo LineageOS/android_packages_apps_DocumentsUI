@@ -32,7 +32,7 @@ import android.content.Context;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.v7.recyclerview.R;
+import androidx.recyclerview.R;
 import android.view.View;
 
 import org.hamcrest.Matcher;

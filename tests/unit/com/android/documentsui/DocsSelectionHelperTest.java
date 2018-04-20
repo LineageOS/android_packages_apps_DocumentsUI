@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.RecyclerView.Adapter;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.android.documentsui.DocsSelectionHelper.DelegateFactory;
 import com.android.documentsui.selection.DefaultSelectionHelper;
