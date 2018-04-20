@@ -250,7 +250,7 @@ public class UiBot extends Bots.BaseBot {
         while (it.hasNext()) {
             menuItem = it.next();
             UiObject2 text = menuItem.findObject(By.text(label));
-            if (text != null) {
+            if (text != null && menuItem.isClickable()) {
                 break;
             }
         }
