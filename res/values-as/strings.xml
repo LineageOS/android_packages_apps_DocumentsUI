@@ -79,7 +79,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"শ্বৰ্টকাটসমূহ"</string>
     <string name="root_type_device" msgid="1713604128005476585">"ডিভাইচসমূহ"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"অধিক এপ্"</string>
-    <string name="empty" msgid="5300254272613103004">"কোনো সমল নাই"</string>
+    <string name="empty" msgid="5300254272613103004">"কোনো বস্তু নাই"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s ত কোনো মিল পোৱা নগ\'ল"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ফাইল খুলিব পৰা নাই"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"আৰ্কাইভত থকা ফাইলবোৰ খুলিব নোৱাৰি"</string>

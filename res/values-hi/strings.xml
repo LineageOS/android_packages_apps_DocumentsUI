@@ -172,7 +172,7 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> को <xliff:g id="STORAGE"><i>^3</i></xliff:g> पर <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> डिक्शनरी तक पहुंचने देना चाहते हैं?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> को <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> डिक्शनरी तक पहुंचने देना चाहते हैं?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> को <xliff:g id="STORAGE"><i>^2</i></xliff:g> पर मौजूद फ़ोटो और वीडियो के साथ, अपने डेटा तक पहुंचने देना चाहते हैं?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"फिर से ना पूछें"</string>
+    <string name="never_ask_again" msgid="525908236522201138">"फिर से न पूछें"</string>
     <string name="allow" msgid="1275746941353040309">"अनुमति दें"</string>
     <string name="deny" msgid="5127201668078153379">"अस्वीकार करें"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">

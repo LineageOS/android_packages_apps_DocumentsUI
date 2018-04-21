@@ -79,7 +79,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"Товчлол"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Төхөөрөмж"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Бусад апп"</string>
-    <string name="empty" msgid="5300254272613103004">"Зүйл алга"</string>
+    <string name="empty" msgid="5300254272613103004">"Хоосон"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s-д тохирох зүйл алга"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Файлыг нээх боломжгүй байна"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Архивын файлыг нээх боломжгүй"</string>
