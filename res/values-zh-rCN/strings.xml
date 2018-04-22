@@ -49,7 +49,7 @@
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"粘贴"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"粘贴到文件夹中"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"显示内部存储空间"</string>
-    <string name="menu_advanced_hide" msgid="6488381508009246334">"隐藏内部存储设备"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"隐藏内部存储空间"</string>
     <string name="button_select" msgid="240863497069321364">"选择"</string>
     <string name="button_copy" msgid="8219059853840996027">"复制"</string>
     <string name="button_compress" msgid="8951561310857223966">"压缩"</string>
@@ -92,8 +92,8 @@
     <string name="delete_notification_title" msgid="2512757431856830792">"正在删除文件"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"剩余时间：<xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
-      <item quantity="other">正在复制 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
-      <item quantity="one">正在复制 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
+      <item quantity="other">正在复制 <xliff:g id="COUNT_1">%1$d</xliff:g> 项。</item>
+      <item quantity="one">正在复制 <xliff:g id="COUNT_0">%1$d</xliff:g> 项。</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
       <item quantity="other">正在压缩 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
@@ -104,12 +104,12 @@
       <item quantity="one">正在解压 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
-      <item quantity="other">正在移动 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
-      <item quantity="one">正在移动 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
+      <item quantity="other">正在移动 <xliff:g id="COUNT_1">%1$d</xliff:g> 项。</item>
+      <item quantity="one">正在移动 <xliff:g id="COUNT_0">%1$d</xliff:g> 项。</item>
     </plurals>
     <plurals name="deleting" formatted="false" msgid="1729138001178158901">
-      <item quantity="other">正在删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件。</item>
-      <item quantity="one">正在删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件。</item>
+      <item quantity="other">正在删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 项。</item>
+      <item quantity="one">正在删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 项。</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"撤消"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"正在准备…"</string>

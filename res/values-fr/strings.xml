@@ -48,7 +48,7 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Copier"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Coller"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"Coller dans le dossier"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"Aff. mém. stock. interne"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"Aff. mémoire stockage interne"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Masquer mém. stock. int."</string>
     <string name="button_select" msgid="240863497069321364">"Sélectionner"</string>
     <string name="button_copy" msgid="8219059853840996027">"Copier"</string>
