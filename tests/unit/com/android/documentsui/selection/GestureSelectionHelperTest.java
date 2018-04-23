@@ -80,11 +80,10 @@ public class GestureSelectionHelperTest {
 
     @Test
     public void testNoStartOnIllegalPosition() {
+        mView.mNextPosition = -1;
         mHelper.onInterceptTouchEvent(null, DOWN);
-        try {
-            mHelper.start();
-            fail("Should have thrown.");
-        } catch (Exception expected) {}
+        mHelper.start();
+        assertFalse(mLock.isLocked());
     }
 
     @Test
