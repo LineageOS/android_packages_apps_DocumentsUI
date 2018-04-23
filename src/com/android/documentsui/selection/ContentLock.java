@@ -74,16 +74,23 @@ public final class ContentLock {
     }
 
     /**
+     * Returns true if locked.
+     */
+    synchronized boolean isLocked() {
+        return mLocks > 0;
+    }
+
+    /**
      * Allows other selection code to perform a precondition check asserting the state is locked.
      */
     final void checkLocked() {
-        checkState(mLocks > 0);
+        checkState(isLocked());
     }
 
     /**
      * Allows other selection code to perform a precondition check asserting the state is unlocked.
      */
     final void checkUnlocked() {
-        checkState(mLocks == 0);
+        checkState(!isLocked());
     }
 }
