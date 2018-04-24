@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 @SmallTest
-public class ProvidersCacheTest extends AndroidTestCase {
+public class ProvidersAccessTest extends AndroidTestCase {
 
     private static RootInfo mNull = new RootInfo();
     private static RootInfo mEmpty = buildForMimeTypes();
