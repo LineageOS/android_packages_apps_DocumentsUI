@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.android.documentsui.selection.DefaultSelectionHelper;
 import com.android.documentsui.selection.DefaultSelectionHelper.SelectionMode;
+import com.android.documentsui.selection.MutableSelection;
 import com.android.documentsui.selection.Selection;
 import com.android.documentsui.selection.SelectionHelper;
 
@@ -37,7 +38,10 @@ public final class DocsSelectionHelper extends SelectionHelper {
     private final DelegateFactory mFactory;
     private final @SelectionMode int mSelectionMode;
 
-    private @Nullable SelectionHelper mDelegate;
+    // initialize to a dummy object incase we get some input
+    // event drive calls before we're properly initialized.
+    // See: b/69306667.
+    private SelectionHelper mDelegate = new DummySelectionHelper();
 
     @VisibleForTesting
     DocsSelectionHelper(DelegateFactory factory, @SelectionMode int mode) {
@@ -186,6 +190,100 @@ public final class DocsSelectionHelper extends SelectionHelper {
                 SelectionPredicate canSetState) {
 
             return new DefaultSelectionHelper(mode, adapter, stableIds, canSetState);
+        }
+    }
+
+    /**
+     * A dummy SelectHelper used by DocsSelectionHelper before a real
+     * SelectionHelper has been initialized by DirectoryFragment.
+     */
+    private static final class DummySelectionHelper extends SelectionHelper {
+
+        @Override
+        public void addObserver(SelectionObserver listener) {
+        }
+
+        @Override
+        public boolean hasSelection() {
+            return false;
+        }
+
+        @Override
+        public Selection getSelection() {
+            return new MutableSelection();
+        }
+
+        @Override
+        public void copySelection(Selection dest) {
+        }
+
+        @Override
+        public boolean isSelected(String id) {
+            return false;
+        }
+
+        @VisibleForTesting
+        public void replaceSelection(Iterable<String> ids) {
+        }
+
+        @Override
+        public void restoreSelection(Selection other) {
+        }
+
+        @Override
+        public boolean setItemsSelected(Iterable<String> ids, boolean selected) {
+            return false;
+        }
+
+        @Override
+        public void clearSelection() {
+        }
+
+        @Override
+        public boolean select(String modelId) {
+            return false;
+        }
+
+        @Override
+        public boolean deselect(String modelId) {
+            return false;
+        }
+
+        @Override
+        public void startRange(int pos) {
+        }
+
+        @Override
+        public void extendRange(int pos) {
+        }
+
+        @Override
+        public void extendProvisionalRange(int pos) {
+        }
+
+        @Override
+        public void clearProvisionalSelection() {
+        }
+
+        @Override
+        public void setProvisionalSelection(Set<String> newSelection) {
+        }
+
+        @Override
+        public void mergeProvisionalSelection() {
+        }
+
+        @Override
+        public void endRange() {
+        }
+
+        @Override
+        public boolean isRangeActive() {
+            return false;
+        }
+
+        @Override
+        public void anchorRange(int position) {
         }
     }
 }
