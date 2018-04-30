@@ -17,6 +17,8 @@
 package com.android.documentsui;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import android.support.test.filters.SmallTest;
@@ -69,6 +71,13 @@ public class DocsSelectionHelperTest {
         };
 
         mSelectionMgr = new DocsSelectionHelper(mFactory, DefaultSelectionHelper.MODE_MULTIPLE);
+    }
+
+    @Test
+    public void testCallableBeforeReset() {
+        mSelectionMgr.hasSelection();
+        assertNotNull(mSelectionMgr.getSelection());
+        assertFalse(mSelectionMgr.isSelected("poodle"));
     }
 
     @Test
