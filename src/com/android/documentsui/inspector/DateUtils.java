@@ -15,7 +15,12 @@
  */
 package com.android.documentsui.inspector;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.text.format.DateFormat;
+
+import com.android.documentsui.R;
+
 import java.util.Locale;
 
 /**
@@ -28,9 +33,14 @@ final class DateUtils {
      * @param date Unix timestamp
      * @return formatted String of date
      */
-    static String formatDate(long date) {
-        String format = DateFormat.getBestDateTimePattern(Locale.getDefault(),
-                "MMM dd, yyyy, hh:mm");
+    static String formatDate(Context context, long date) {
+        Resources res = context.getResources();
+        int formatRes = DateFormat.is24HourFormat(context)
+                ? R.string.datetime_format_24
+                : R.string.datetime_format_12;
+        String format = DateFormat.getBestDateTimePattern(
+                Locale.getDefault(),
+                res.getString(formatRes));
         return DateFormat.format(format, date).toString();
     }
 }

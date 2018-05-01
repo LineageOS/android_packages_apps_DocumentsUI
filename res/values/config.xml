@@ -30,6 +30,9 @@
 
     <string name="default_root_uri" translatable="false">content://com.android.providers.downloads.documents/root/downloads</string>
 
+    <string name="datetime_format_12" translatable="false">MMM dd, yyyy, h:mm a</string>
+    <string name="datetime_format_24" translatable="false">MMM dd, yyyy, H:mm</string>
+
     <!--
         New features must be added behind a boolean flag prefixed w/ "feature_".
         Please add them in alphabetical order. Same goes for accessor
