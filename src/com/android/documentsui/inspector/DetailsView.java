@@ -59,7 +59,8 @@ public class DetailsView extends TableView implements DetailsDisplay {
         }
 
         if (doc.lastModified > 0) {
-            put(R.string.sort_dimension_date, DateUtils.formatDate(doc.lastModified));
+            put(R.string.sort_dimension_date,
+                    DateUtils.formatDate(this.getContext(), doc.lastModified));
         }
 
         // We only show summary field when doc is partial (meaning an active download).
