@@ -139,7 +139,7 @@ public class RuntimeDataSupplier implements DataSupplier {
         }
 
         if (mDirCallbacks != null && mDirCallbacks.getObserver() != null) {
-            mContext.getContentResolver().unregisterContentObserver(mDocCallbacks.getObserver());
+            mContext.getContentResolver().unregisterContentObserver(mDirCallbacks.getObserver());
         }
     }
 
