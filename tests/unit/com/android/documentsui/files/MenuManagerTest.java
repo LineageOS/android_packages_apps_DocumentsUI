@@ -191,6 +191,7 @@ public final class MenuManagerTest {
 
         testRootInfo = new RootInfo();
         testDocInfo = new DocumentInfo();
+        state.stack.push(testDocInfo);
     }
 
     private Uri getUriFromModelId(String id) {
@@ -360,7 +361,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_InspectorEnabledForSingleSelection() {
+    public void testActionMenu_Inspector_EnabledForSingleSelection() {
         features.inspector = true;
         selectionDetails.size = 1;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -370,7 +371,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_InspectorDisabledForMultiSelection() {
+    public void testActionMenu_Inspector_DisabledForMultiSelection() {
         features.inspector = true;
         selectionDetails.size = 2;
         mgr.updateActionMenu(testMenu, selectionDetails);
@@ -417,7 +418,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testOptionMenu_InspectorAvailable() {
+    public void testOptionMenu_Inspector_VisibleAndEnabled() {
         features.inspector = true;
         mgr.updateOptionMenu(testMenu);
         optionInspector.assertVisible();
@@ -425,7 +426,7 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testOptionMenu_InspectorDisabledInRecentsFolder() {
+    public void testOptionMenu_Inspector_DisabledInRecentsFolder() {
         features.inspector = true;
 
         // synthesize a fake recents root. Not setting an authority or id == recents.
@@ -433,6 +434,27 @@ public final class MenuManagerTest {
         assert recents.isRecents();
         state.stack.changeRoot(recents);
         mgr.updateOptionMenu(testMenu);
+        optionInspector.assertVisible();
+        optionInspector.assertDisabled();
+    }
+
+    @Test
+    public void testOptionMenu_Inspector_DisabledForEmptyStack() {
+        features.inspector = true;
+        state.stack.reset();  // unset cwd
+        mgr.updateOptionMenu(testMenu);
+
+        optionInspector.assertVisible();
+        optionInspector.assertDisabled();
+    }
+
+    @Test
+    public void testOptionMenu_Inspector_DisabledForNullDirectory() {
+        features.inspector = true;
+        state.stack.reset();
+        state.stack.push(null);
+        mgr.updateOptionMenu(testMenu);
+
         optionInspector.assertVisible();
         optionInspector.assertDisabled();
     }
