@@ -79,7 +79,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"Mga Shortcut"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Mga Device"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Higit pang mga app"</string>
-    <string name="empty" msgid="5300254272613103004">"Walang mga item"</string>
+    <string name="empty" msgid="5300254272613103004">"Walang item"</string>
     <string name="no_results" msgid="2371026325236359209">"Walang mga katugma sa %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Hindi mabuksan ang file"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Hindi mabuksan ang mga file sa mga archive"</string>
