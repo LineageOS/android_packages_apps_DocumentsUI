@@ -335,8 +335,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mSelectionMgr.addObserver(mSelectionMetadata);
         mDetailsLookup = new DocsItemDetailsLookup(mRecView);
 
-        GestureSelectionHelper gestureHelper =
-                GestureSelectionHelper.create(mSelectionMgr, mRecView, mContentLock);
+        GestureSelectionHelper gestureHelper = GestureSelectionHelper.create(
+                mSelectionMgr, mRecView, mContentLock, mDetailsLookup);
 
         if (mState.allowMultiple) {
             mBandSelector = new BandSelectionHelper(

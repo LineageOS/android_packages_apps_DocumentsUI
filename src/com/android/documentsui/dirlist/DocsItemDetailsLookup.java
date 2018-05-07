@@ -41,17 +41,29 @@ final class DocsItemDetailsLookup extends ItemDetailsLookup {
 
     @Override
     public boolean overStableItem(MotionEvent e) {
-        return overItem(e) && getItemDetails(e).hasStableId();
+    if (!overItem(e)) {
+        return false;
+    }
+    ItemDetails details = getItemDetails(e);
+    return details != null && details.hasStableId();
     }
 
     @Override
     public boolean inItemDragRegion(MotionEvent e) {
-        return overItem(e) && getItemDetails(e).inDragRegion(e);
+    if (!overItem(e)) {
+        return false;
+    }
+    ItemDetails details = getItemDetails(e);
+    return details != null && details.inDragRegion(e);
     }
 
     @Override
     public boolean inItemSelectRegion(MotionEvent e) {
-        return overItem(e) && getItemDetails(e).inSelectionHotspot(e);
+    if (!overItem(e)) {
+        return false;
+    }
+    ItemDetails details = getItemDetails(e);
+    return details != null && details.inSelectionHotspot(e);
     }
 
     @Override

@@ -60,6 +60,7 @@ public class GestureSelectionHelperTest {
     private SelectionHelper mSelectionHelper;
     private SelectionProbe mSelection;
     private ContentLock mLock;
+    private TestItemDetailsLookup mItemLookup;
     private TestViewDelegate mView;
 
     @Before
@@ -67,16 +68,23 @@ public class GestureSelectionHelperTest {
         mSelectionHelper = SelectionHelpers.createTestInstance(ITEMS);
         mSelection = new SelectionProbe(mSelectionHelper);
         mLock = new ContentLock();
+        mItemLookup = new TestItemDetailsLookup();
+        mItemLookup.initAt(3);
         mView = new TestViewDelegate();
-        mHelper = new GestureSelectionHelper(mSelectionHelper, mView, mLock);
+        mHelper = new GestureSelectionHelper(mSelectionHelper, mView, mLock, mItemLookup);
     }
 
     @Test
-    public void testIgnoresDownOnNoPosition() {
+    public void testIgnoresDown_NoPosition() {
         mView.mNextPosition = RecyclerView.NO_POSITION;
         assertFalse(mHelper.onInterceptTouchEvent(null, DOWN));
     }
 
+    @Test
+    public void testIgnoresDown_NoItemDetails() {
+        mItemLookup.reset();
+        assertFalse(mHelper.onInterceptTouchEvent(null, DOWN));
+    }
 
     @Test
     public void testNoStartOnIllegalPosition() {

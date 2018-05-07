@@ -94,7 +94,10 @@ public abstract class DocumentHolder
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         assert(mKeyEventListener != null);
-        return mKeyEventListener.onKey(getItemDetails(),  keyCode,  event);
+        ItemDetails details = getItemDetails();
+        return (details == null)
+            ? false
+            : mKeyEventListener.onKey(getItemDetails(),  keyCode,  event);
     }
 
     /**
