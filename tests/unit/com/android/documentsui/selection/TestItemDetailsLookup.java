@@ -67,4 +67,8 @@ public class TestItemDetailsLookup extends ItemDetailsLookup {
         mDoc = doc;
         return doc;
     }
+
+    public void reset() {
+        mDoc = null;
+    }
 }
