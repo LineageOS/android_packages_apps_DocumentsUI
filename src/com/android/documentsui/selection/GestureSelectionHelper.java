@@ -45,8 +45,9 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     private final Runnable mScroller;
     private final ViewDelegate mView;
     private final ContentLock mLock;
+    private final ItemDetailsLookup mItemLookup;
 
-    private int mLastStartedItemPos = -1;
+    private int mLastTouchedItemPosition = -1;
     private boolean mStarted = false;
     private Point mLastInterceptedPoint;
 
@@ -58,15 +59,18 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     GestureSelectionHelper(
             SelectionHelper selectionHelper,
             ViewDelegate view,
-            ContentLock lock) {
+            ContentLock lock,
+            ItemDetailsLookup itemLookup) {
 
         checkArgument(selectionHelper != null);
         checkArgument(view != null);
         checkArgument(lock != null);
+        checkArgument(itemLookup != null);
 
         mSelectionMgr = selectionHelper;
         mView = view;
         mLock = lock;
+        mItemLookup = itemLookup;
 
         mScroller = new ViewAutoScroller(this, mView);
     }
@@ -81,7 +85,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
         // See: b/70518185. It appears start() is being called via onLongPress
         // even though we never received an intial handleInterceptedDownEvent
         // where we would usually initialize mLastStartedItemPos.
-        if (mLastStartedItemPos < 0){
+        if (mLastTouchedItemPosition < 0){
           Log.w(TAG, "Illegal state. Can't start without valid mLastStartedItemPos.");
           return;
         }
@@ -142,11 +146,17 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
 
-    // Called when an ACTION_DOWN event is intercepted.
+    // Called when an ACTION_DOWN event is intercepted. See onInterceptTouchEvent
+    // for additional notes.
     // If down event happens on an item, we mark that item's position as last started.
     private boolean handleInterceptedDownEvent(MotionEvent e) {
-        mLastStartedItemPos = mView.getItemUnder(e);
-        return mLastStartedItemPos != RecyclerView.NO_POSITION;
+        // Ignore events where details provider doesn't return details.
+        // These objects don't participate in selection.
+        if (mItemLookup.getItemDetails(e) == null) {
+            return false;
+        }
+        mLastTouchedItemPosition = mView.getItemUnder(e);
+        return mLastTouchedItemPosition != RecyclerView.NO_POSITION;
     }
 
     // Called when ACTION_UP event is to be handled.
@@ -155,8 +165,8 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     private void handleUpEvent(MotionEvent e) {
         mSelectionMgr.mergeProvisionalSelection();
         endSelection();
-        if (mLastStartedItemPos > -1) {
-            mSelectionMgr.startRange(mLastStartedItemPos);
+        if (mLastTouchedItemPosition > -1) {
+            mSelectionMgr.startRange(mLastTouchedItemPosition);
         }
     }
 
@@ -171,7 +181,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     private void endSelection() {
         checkState(mStarted);
 
-        mLastStartedItemPos = -1;
+        mLastTouchedItemPosition = -1;
         mStarted = false;
         mLock.unblock();
     }
@@ -227,13 +237,17 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     }
 
     /**
-     * Returns a new instance of GestureSelectionHelper.
+     * Returns a new instance of GestureSelectionHelper, wrapping the
+     * RecyclerView in a test friendly wrapper.
      */
     public static GestureSelectionHelper create(
-            SelectionHelper selectionMgr, RecyclerView recycler, ContentLock lock) {
+            SelectionHelper selectionMgr,
+            RecyclerView recycler,
+            ContentLock lock,
+            ItemDetailsLookup itemLookup) {
 
         return new GestureSelectionHelper(
-                selectionMgr, new RecyclerViewDelegate(recycler), lock);
+                selectionMgr, new RecyclerViewDelegate(recycler), lock, itemLookup);
     }
 
     @VisibleForTesting

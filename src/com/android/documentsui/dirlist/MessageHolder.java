@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
+
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -34,7 +36,7 @@ abstract class MessageHolder extends DocumentHolder {
     }
 
     @Override
-    public boolean inDragRegion(MotionEvent event) {
-        return false;
+    public ItemDetails getItemDetails() {
+        return null;
     }
 }
