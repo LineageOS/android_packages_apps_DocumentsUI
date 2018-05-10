@@ -44,6 +44,7 @@
         <item name="android:windowNoTitle">true</item>
 
         <item name="android:windowSoftInputMode">stateUnspecified|adjustUnspecified</item>
+        <item name="android:actionModeBackground">?android:attr/colorBackground</item>
     </style>
 
     <style name="TrimmedHorizontalProgressBar" parent="android:Widget.Material.ProgressBar.Horizontal">
