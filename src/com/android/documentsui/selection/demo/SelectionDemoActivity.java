@@ -145,8 +145,8 @@ public class SelectionDemoActivity extends AppCompatActivity {
         // GestureSelectionHelper provides logic that interprets a combination
         // of motions and gestures in order to provide gesture driven selection support
         // when used in conjunction with RecyclerView.
-        GestureSelectionHelper gestureHelper =
-                GestureSelectionHelper.create(mSelectionHelper, mRecView, contentLock);
+        GestureSelectionHelper gestureHelper = GestureSelectionHelper.create(
+                mSelectionHelper, mRecView, contentLock, detailsLookup);
 
         // Finally hook the framework up to listening to recycle view events.
         mRecView.addOnItemTouchListener(eventRouter);
