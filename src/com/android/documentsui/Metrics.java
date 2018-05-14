@@ -756,7 +756,11 @@ public final class Metrics {
 
         switch (uri.getAuthority()) {
             case Providers.AUTHORITY_MEDIA:
-                switch (DocumentsContract.getRootId(uri)) {
+                String rootId = getRootIdSafely(uri);
+                if (rootId == null) {
+                    return ROOT_NONE;
+                }
+                switch (rootId) {
                     case Providers.ROOT_ID_AUDIO:
                         return ROOT_AUDIO;
                     case Providers.ROOT_ID_IMAGES:
@@ -767,7 +771,11 @@ public final class Metrics {
                         return ROOT_OTHER;
                 }
             case Providers.AUTHORITY_STORAGE:
-                if (Providers.ROOT_ID_HOME.equals(DocumentsContract.getRootId(uri))) {
+                rootId = getRootIdSafely(uri);
+                if (rootId == null) {
+                    return ROOT_NONE;
+                }
+                if (Providers.ROOT_ID_HOME.equals(rootId)) {
                     return ROOT_HOME;
                 } else {
                     return ROOT_DEVICE_STORAGE;
@@ -970,5 +978,14 @@ public final class Metrics {
         int intraProvider;
         int systemProvider;
         int externalProvider;
+    }
+
+    private static String getRootIdSafely(Uri uri) {
+        try {
+            return DocumentsContract.getRootId(uri);
+        } catch (IllegalArgumentException iae) {
+            Log.w(TAG, "Invalid root Uri " + uri.toSafeString());
+        }
+        return null;
     }
 }
