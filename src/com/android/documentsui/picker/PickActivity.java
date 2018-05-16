@@ -134,7 +134,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                         mInjector.selectionMgr,
                         mInjector.searchManager::cancelSearch,
                         this::popDir,
-                        mInjector.features);
+                        mInjector.features, mDrawer);
         setupLayout(intent);
         mInjector.actions.initLocation(intent);
     }

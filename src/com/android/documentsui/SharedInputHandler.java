@@ -35,18 +35,21 @@ public class SharedInputHandler {
     private final Procedure mDirPopper;
     private final Features mFeatures;
     private final SelectionHelper mSelectionMgr;
+    private final DrawerController mDrawer;
 
     public SharedInputHandler(
             FocusHandler focusHandler,
             SelectionHelper selectionMgr,
             Procedure searchCanceler,
             Procedure dirPopper,
-            Features features) {
+            Features features,
+            DrawerController drawer) {
         mFocusManager = focusHandler;
         mSearchCanceler = searchCanceler;
         mSelectionMgr = selectionMgr;
         mDirPopper = dirPopper;
         mFeatures = features;
+        mDrawer = drawer;
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -99,6 +102,11 @@ public class SharedInputHandler {
     }
 
     private boolean onBack() {
+        if (mDrawer.isPresent() && mDrawer.isOpen()) {
+            mDrawer.setOpen(false);
+            return true;
+        }
+
         if (mSearchCanceler.run()) {
             return true;
         }
