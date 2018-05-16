@@ -71,7 +71,7 @@ public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
 
     public void testContextMenu_onFile() throws Exception {
         menuItems.put("Share", true);
-        menuItems.put("Open", true);
+        menuItems.put("Open", false);
         menuItems.put("Open with", true);
         menuItems.put("Cut", true);
         menuItems.put("Copy", true);

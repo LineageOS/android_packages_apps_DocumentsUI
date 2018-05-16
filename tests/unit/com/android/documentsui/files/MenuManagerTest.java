@@ -567,8 +567,7 @@ public final class MenuManagerTest {
     public void testContextMenu_OnFile() {
         selectionDetails.size = 1;
         mgr.updateContextMenuForFiles(testMenu, selectionDetails);
-        dirOpen.assertVisible();
-        dirOpen.assertEnabled();
+        dirOpen.assertInvisible();
         dirCutToClipboard.assertVisible();
         dirCopyToClipboard.assertVisible();
         dirRename.assertVisible();
@@ -596,8 +595,7 @@ public final class MenuManagerTest {
     public void testContextMenu_OnMultipleFiles() {
         selectionDetails.size = 3;
         mgr.updateContextMenuForFiles(testMenu, selectionDetails);
-        dirOpen.assertVisible();
-        dirOpen.assertDisabled();
+        dirOpen.assertInvisible();
     }
 
     @Test
