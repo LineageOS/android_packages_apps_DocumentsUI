@@ -64,6 +64,7 @@ import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.BaseActivity.RetainedState;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DragHoverListener;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.ContentScoped;
