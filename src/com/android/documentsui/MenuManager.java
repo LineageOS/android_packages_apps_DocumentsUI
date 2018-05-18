@@ -321,8 +321,10 @@ public abstract class MenuManager {
         pasteInto.setVisible(false);
     }
 
-    protected abstract void updateOpenInContextMenu(
-            MenuItem open, SelectionDetails selectionDetails);
+    protected void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
+        open.setVisible(false);
+    }
+
     protected abstract void updateSelectAll(MenuItem selectAll);
     protected abstract void updateCreateDir(MenuItem createDir);
 

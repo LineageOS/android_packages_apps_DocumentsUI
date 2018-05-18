@@ -157,7 +157,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                         mInjector.selectionMgr,
                         mInjector.searchManager::cancelSearch,
                         this::popDir,
-                        mInjector.features);
+                        mInjector.features, mDrawer);
 
         RootsFragment.show(getFragmentManager(), null);
 
