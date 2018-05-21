@@ -65,10 +65,9 @@
 
     <dimen name="bottom_bar_height">56dp</dimen>
     <dimen name="bottom_bar_padding_end">10dp</dimen>
-    <dimen name="bottom_bar_negative_button_width">88.5dp</dimen>
-    <dimen name="bottom_bar_positive_button_margin_start">8dp</dimen>
-    <dimen name="bottom_bar_positive_button_width">73dp</dimen>
-    <dimen name="bottom_bar_positive_button_elevation">2dp</dimen>
+    <dimen name="bottom_bar_button_height">36dip</dimen>
+    <dimen name="bottom_bar_button_horizontal_padding">24dp</dimen>
+    <dimen name="bottom_bar_button_corner_radius">4dp</dimen>
 
     <dimen name="inspector_header_height">250dp</dimen>
 </resources>

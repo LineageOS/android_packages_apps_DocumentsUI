@@ -98,10 +98,10 @@ public class PickFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContainer = inflater.inflate(R.layout.fragment_pick, container, false);
 
-        mPick = (TextView) mContainer.findViewById(android.R.id.button1);
+        mPick = (Button) mContainer.findViewById(android.R.id.button1);
         mPick.setOnClickListener(mPickListener);
 
-        mCancel = (TextView) mContainer.findViewById(android.R.id.button2);
+        mCancel = (Button) mContainer.findViewById(android.R.id.button2);
         mCancel.setOnClickListener(mCancelListener);
 
         updateView();
