@@ -19,9 +19,6 @@ package com.android.documentsui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -32,13 +29,12 @@ import com.android.documentsui.base.Procedure;
 import com.android.documentsui.dirlist.TestFocusHandler;
 import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.testing.SelectionHelpers;
+import com.android.documentsui.testing.TestDrawerController;
 import com.android.documentsui.testing.TestFeatures;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -48,7 +44,7 @@ public class SharedInputHandlerTest {
     private SelectionHelper mSelectionMgr = SelectionHelpers.createTestInstance();
     private TestFeatures mFeatures = new TestFeatures();
     private TestFocusHandler mFocusHandler = new TestFocusHandler();
-    @Mock private DrawerController mDrawer;
+    private TestDrawerController mDrawer = TestDrawerController.create();
     private boolean mDirPopHappened;
     private boolean mCanceledSearch;
     private Procedure mDirPopper = new Procedure() {
@@ -61,8 +57,6 @@ public class SharedInputHandlerTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
         mDirPopHappened = false;
         mSharedInputHandler = new SharedInputHandler(
                 mFocusHandler,
@@ -102,7 +96,7 @@ public class SharedInputHandlerTest {
         assertTrue(mCanceledSearch);
         assertEquals(mSelectionMgr.getSelection().size(), 1);
         assertFalse(mDirPopHappened);
-        verify(mDrawer, never()).setOpen(false);
+        mDrawer.assertWasClosed();
     }
 
     @Test
@@ -116,7 +110,7 @@ public class SharedInputHandlerTest {
         assertFalse(mCanceledSearch);
         assertEquals(mSelectionMgr.getSelection().size(), 0);
         assertFalse(mDirPopHappened);
-        verify(mDrawer, never()).setOpen(false);
+        mDrawer.assertWasClosed();
     }
 
     @Test
@@ -128,17 +122,16 @@ public class SharedInputHandlerTest {
         assertFalse(mCanceledSearch);
         assertEquals(mSelectionMgr.getSelection().size(), 0);
         assertTrue(mDirPopHappened);
-        verify(mDrawer, never()).setOpen(false);
+        mDrawer.assertWasClosed();
     }
 
     @Test
     public void testBackButton_CloseDrawer() {
         KeyEvent backEvent =
                 new KeyEvent(0, 0, MotionEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK, 0, 0);
-        when(mDrawer.isPresent()).thenReturn(true);
-        when(mDrawer.isOpen()).thenReturn(true);
+        mDrawer.openDrawer(true);
         assertTrue(mSharedInputHandler.onKeyDown(backEvent.getKeyCode(), backEvent));
-        verify(mDrawer).setOpen(false);
+        mDrawer.assertWasOpened();
     }
 
     @Test
