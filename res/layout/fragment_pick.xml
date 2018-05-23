@@ -21,19 +21,15 @@
     android:baselineAligned="false"
     android:gravity="end"
     android:paddingEnd="@dimen/bottom_bar_padding_end">
-    <TextView
-        style="@style/BottomBarButton"
+    <Button
+        style="@style/BottomBarButton.Secondary"
         android:id="@android:id/button2"
-        android:layout_width="@dimen/bottom_bar_negative_button_width"
-        android:background="@android:color/transparent"
-        android:text="@android:string/cancel"
-        android:textColor="@color/primary"/>
-    <TextView
-        style="@style/BottomBarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel" />
+    <Button
+        style="@style/BottomBarButton.Primary"
         android:id="@android:id/button1"
-        android:layout_width="@dimen/bottom_bar_positive_button_width"
-        android:layout_marginStart="@dimen/bottom_bar_positive_button_margin_start"
-        android:background="@drawable/bottom_bar_positive_button_background"
-        android:elevation="@dimen/bottom_bar_positive_button_elevation"
-        android:textColor="@android:color/white"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
