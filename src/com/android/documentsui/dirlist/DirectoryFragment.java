@@ -640,6 +640,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         switch (item.getItemId()) {
             case R.id.action_menu_open:
+            case R.id.action_menu_select:
             case R.id.dir_menu_open:
                 openDocuments(selection);
                 mActionModeController.finishActionMode();

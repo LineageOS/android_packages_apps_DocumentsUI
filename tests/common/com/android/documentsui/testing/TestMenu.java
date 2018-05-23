@@ -60,6 +60,7 @@ public abstract class TestMenu implements Menu {
                 R.id.action_menu_open_with,
                 R.id.action_menu_share,
                 R.id.action_menu_delete,
+                R.id.action_menu_select,
                 R.id.action_menu_select_all,
                 R.id.action_menu_copy_to,
                 R.id.action_menu_extract_to,

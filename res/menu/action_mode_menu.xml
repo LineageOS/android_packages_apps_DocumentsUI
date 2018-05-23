@@ -34,6 +34,10 @@
         android:title="@string/menu_delete"
         android:showAsAction="always" />
     <item
+        android:id="@+id/action_menu_select"
+        android:title="@string/menu_select"
+        android:showAsAction="always" />
+    <item
         android:id="@+id/action_menu_select_all"
         android:title="@string/menu_select_all"
         android:showAsAction="never" />
