@@ -117,7 +117,7 @@ public class SaveFragment extends Fragment {
                     }
                 });
 
-        mSave = (TextView) view.findViewById(android.R.id.button1);
+        mSave = (Button) view.findViewById(android.R.id.button1);
         mSave.setOnClickListener(mSaveListener);
         mSave.setEnabled(false);
 
