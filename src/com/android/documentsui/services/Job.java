@@ -367,4 +367,14 @@ abstract public class Job implements Runnable {
         void onStart(Job job);
         void onFinished(Job job);
     }
+
+    /**
+     * Interface for tracking job progress.
+     */
+    interface ProgressTracker {
+        default double getProgress() {  return -1; }
+        default long getRemainingTimeEstimate() {
+            return -1;
+        }
+    }
 }
