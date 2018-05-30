@@ -15,12 +15,16 @@
  */
 package com.android.documentsui;
 
+import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_METADATA;
 import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
+import android.media.ExifInterface;
+import android.os.Bundle;
 import android.provider.DocumentsContract.Document;
+
 import java.io.FileNotFoundException;
 
 /**
@@ -32,12 +36,23 @@ import java.io.FileNotFoundException;
  *         openInProvider    Dummy1 50B      Dummy11 50B     Dummy22 150B
  *         test.txt          Dummy2 150B     Dummy12 150B    Dummy23 100B
  *         update.txt        Dummy3 100B     Dummy13 100B
+ *         test.jpg
+ *         invalid.jpg
  */
 public class InspectorProvider extends TestRootProvider {
 
     public static final String AUTHORITY = "com.android.documentsui.inspectorprovider";
     public static final String OPEN_IN_PROVIDER_TEST = "OpenInProviderTest";
     public static final String ROOT_ID = "inspector-root";
+
+    // Virtual jpeg files for test metadata loading from provider.
+    // TEST_JPEG is a normal jpeg file with legal exif data.
+    // INVALID_JPEG is a invalid jpeg file with broken exif data.
+    // TEST_JPEG_WIDTH, TEST_JPEG_HEIGHT are exif information for TEST_JPEG.
+    public static final String TEST_JPEG = "test.jpg";
+    public static final String INVALID_JPEG = "invalid.jpg";
+    public static final int TEST_JPEG_WIDTH = 3840;
+    public static final int TEST_JPEG_HEIGHT = 2160;
 
     private static final String ROOT_DOC_ID = "root0";
     private static final int ROOT_FLAGS = 0;
@@ -94,6 +109,8 @@ public class InspectorProvider extends TestRootProvider {
             addFile(c, OPEN_IN_PROVIDER_TEST, FLAG_SUPPORTS_SETTINGS);
             addFile(c, "test.txt");
             addFile(c, "update.txt");
+            addFile(c, TEST_JPEG, FLAG_SUPPORTS_METADATA);
+            addFile(c, INVALID_JPEG, FLAG_SUPPORTS_METADATA);
             return c;
         }
     }
@@ -108,6 +125,20 @@ public class InspectorProvider extends TestRootProvider {
         row.add(Document.COLUMN_LAST_MODIFIED, System.currentTimeMillis());
     }
 
+    @Override
+    public Bundle getDocumentMetadata(String documentId) throws FileNotFoundException {
+        if (TEST_JPEG.contentEquals(documentId)) {
+            Bundle metaData = new Bundle();
+            metaData.putInt(ExifInterface.TAG_IMAGE_WIDTH, TEST_JPEG_WIDTH);
+            metaData.putInt(ExifInterface.TAG_IMAGE_LENGTH, TEST_JPEG_HEIGHT);
+            return metaData;
+        } else if (INVALID_JPEG.contentEquals(documentId)) {
+            // Suppose there are some errors occurs.
+            // Return null makes DocumentsContract throw a RemoteExcpetion,
+            // and rethrow a RemoteException when using ContentResolver.
+            return null;
+        }
 
-
+        return super.getDocumentMetadata(documentId);
+    }
 }
