@@ -129,14 +129,14 @@ public final class FocusManager implements FocusHandler {
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         // Remember focus events on items.
-        if (hasFocus && v.getParent() == mScope.view) {
+        if (hasFocus && mScope.isValid() && v.getParent() == mScope.view) {
             mScope.lastFocusPosition = mScope.view.getChildAdapterPosition(v);
         }
     }
 
     @Override
     public boolean focusDirectoryList() {
-        if (mScope.adapter.getItemCount() == 0) {
+        if (!mScope.isValid() || mScope.adapter.getItemCount() == 0) {
             if (DEBUG) Log.v(TAG, "Nothing to focus.");
             return false;
         }
@@ -180,7 +180,9 @@ public final class FocusManager implements FocusHandler {
 
     @Override
     public void clearFocus() {
-        mScope.view.clearFocus();
+        if (mScope.isValid()) {
+            mScope.view.clearFocus();
+        }
     }
 
     /*
@@ -190,6 +192,10 @@ public final class FocusManager implements FocusHandler {
      */
     @Override
     public void focusDocument(String modelId) {
+        if (!mScope.isValid()) {
+            if (DEBUG) Log.v(TAG, "Invalid mScope. No focus will be done.");
+            return;
+        }
         int pos = mScope.adapter.getAdapterPosition(modelId);
         if (pos != -1 && mScope.view.findViewHolderForAdapterPosition(pos) != null) {
             focusItem(pos);
@@ -663,5 +669,9 @@ public final class FocusManager implements FocusHandler {
 
         private @Nullable String pendingFocusId;
         private int lastFocusPosition = RecyclerView.NO_POSITION;
+
+        boolean isValid() {
+            return (view != null && model != null);
+        }
     }
 }

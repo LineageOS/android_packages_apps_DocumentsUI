@@ -28,6 +28,7 @@ import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestGridLayoutManager;
 import com.android.documentsui.testing.TestRecyclerView;
+import com.android.documentsui.testing.Views;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,5 +88,33 @@ public class FocusManagerTest extends AndroidTestCase {
     public void testFocusDirectoryList_hasSelection() {
         mSelectionMgr.select("0");
         assertFalse(mManager.focusDirectoryList());
+    }
+
+    public void testFocusDirectoryList_invalidContentScope() {
+        mManager = new FocusManager(
+                mFeatures, SelectionHelpers.createTestInstance(), null, null, 0);
+        // pass if no exception is thrown.
+        mManager.focusDirectoryList();
+    }
+
+    public void testOnFocusChange_invalidContentScope() {
+        mManager = new FocusManager(
+                mFeatures, SelectionHelpers.createTestInstance(), null, null, 0);
+        // pass if no exception is thrown.
+        mManager.onFocusChange(Views.createTestView(), true);
+    }
+
+    public void testClearFocus_invalidContentScope() {
+        mManager = new FocusManager(
+                mFeatures, SelectionHelpers.createTestInstance(), null, null, 0);
+        // pass if no exception is thrown.
+        mManager.clearFocus();
+    }
+
+    public void testFocusDocument_invalidContentScope() {
+        mManager = new FocusManager(
+                mFeatures, SelectionHelpers.createTestInstance(), null, null, 0);
+        // pass if no exception is thrown.
+        mManager.focusDocument(Integer.toString(0));
     }
 }
