@@ -20,7 +20,6 @@ import static com.android.documentsui.StubProvider.ROOT_0_ID;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -47,12 +46,6 @@ import java.util.ArrayList;
 @LargeTest
 public class FileDeleteUiTest extends ActivityTest<FilesActivity> {
     private static final String TAG = "FileDeleteUiTest";
-
-    private static final String PACKAGE_NAME = "com.android.documentsui.tests";
-
-    private static final String ACCESS_APP_NAME = "DocumentsUI Tests";
-
-    private static final String SELECT_ALL = "Select all";
 
     private static final int DUMMY_FILE_COUNT = 1000;
 
@@ -96,10 +89,7 @@ public class FileDeleteUiTest extends ActivityTest<FilesActivity> {
         mDocsHelper.configure(null, bundle);
 
         try {
-            if (!bots.notifications.isNotificationAccessEnabled(
-                    context.getContentResolver(), PACKAGE_NAME)) {
-                bots.notifications.setNotificationAccess(getActivity(), ACCESS_APP_NAME, true);
-            }
+            bots.notifications.setNotificationAccess(getActivity(), true);
         } catch (Exception e) {
             Log.d(TAG, "Cannot set notification access. ", e);
         }
@@ -124,10 +114,7 @@ public class FileDeleteUiTest extends ActivityTest<FilesActivity> {
 
         context.unregisterReceiver(mReceiver);
         try {
-            if (bots.notifications.isNotificationAccessEnabled(
-                    context.getContentResolver(), PACKAGE_NAME)) {
-                bots.notifications.setNotificationAccess(getActivity(), ACCESS_APP_NAME, false);
-            }
+            bots.notifications.setNotificationAccess(getActivity(), false);
         } catch (Exception e) {
             Log.d(TAG, "Cannot set notification access. ", e);
         }
@@ -170,7 +157,8 @@ public class FileDeleteUiTest extends ActivityTest<FilesActivity> {
 
     public void testDeleteAllDocument() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
-        bots.main.clickToolbarOverflowItem(SELECT_ALL);
+        bots.main.clickToolbarOverflowItem(
+                context.getResources().getString(R.string.menu_select_all));
         device.waitForIdle();
 
         bots.main.clickToolbarItem(R.id.action_menu_delete);

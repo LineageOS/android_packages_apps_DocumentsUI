@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.provider.Settings;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
@@ -40,12 +41,21 @@ public class NotificationsBot extends Bots.BaseBot {
         super(device, context, timeout);
     }
 
-    public void setNotificationAccess(Activity activity, String appName, boolean enabled)
+    public void setNotificationAccess(Activity activity, boolean enabled)
             throws UiObjectNotFoundException, NameNotFoundException {
+        Context testContext = InstrumentationRegistry.getContext();
+
+        if(isNotificationAccessEnabled(
+                mContext.getContentResolver(), testContext.getPackageName()) == enabled) {
+            return;
+        }
+
         Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
         activity.startActivity(intent);
         mDevice.waitForIdle();
 
+        String appName = testContext.getPackageManager().getApplicationLabel(
+                testContext.getApplicationInfo()).toString();
         clickLabel(appName);
 
         Context settings_context = mContext.createPackageContext(SETTINGS_PACKAGE_NAME,
@@ -59,7 +69,7 @@ public class NotificationsBot extends Bots.BaseBot {
         mDevice.waitForIdle();
     }
 
-    public boolean isNotificationAccessEnabled(ContentResolver resolver, String pkgName) {
+    private boolean isNotificationAccessEnabled(ContentResolver resolver, String pkgName) {
         String listeners = Settings.Secure.getString(resolver, "enabled_notification_listeners");
         if (!TextUtils.isEmpty(listeners)) {
             String[] list = listeners.split(":");
