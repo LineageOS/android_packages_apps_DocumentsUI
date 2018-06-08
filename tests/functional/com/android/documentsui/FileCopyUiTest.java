@@ -22,7 +22,6 @@ import static com.android.documentsui.base.Providers.ROOT_ID_DEVICE;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
@@ -30,13 +29,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.os.storage.DiskInfo;
-import android.os.storage.StorageManager;
+import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.filters.LargeTest;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.util.Log;
 
 import com.android.documentsui.base.DocumentInfo;
@@ -47,7 +43,6 @@ import com.android.documentsui.services.TestNotificationService;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,21 +57,7 @@ import java.util.zip.ZipInputStream;
 public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     private static final String TAG = "FileCopyUiTest";
 
-    private static final String PACKAGE_NAME = "com.android.documentsui.tests";
-
     private static final String TARGET_FOLDER = "test_folder";
-
-    private static final String ACCESS_APP_NAME = "DocumentsUI Tests";
-
-    private static final String COPY = "Copy to…";
-
-    private static final String MOVE = "Move to…";
-
-    private static final String SELECT_ALL = "Select all";
-
-    private static final String SHOW_INTERNAL_STORAGE = "Show internal storage";
-
-    private static final String VIRTUAL_LABEL = "Virtual";
 
     private static final int TARGET_COUNT = 1000;
 
@@ -96,22 +77,9 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
                             TestNotificationService.EXTRA_ERROR_REASON);
                 }
                 mCountDownLatch.countDown();
-            } else if (TestNotificationService.ACTION_DISPLAY_SD_CARD_NOTIFICATION.
-                    equals(action)) {
-                // The notification that is displayed by executing
-                // "set-virtual-disk" command may be notified a couple of times.
-                // So, it doesn't call CountDownLatch#countDown()
-                // if "set-vritual-disk" command already finished.
-                if (mSetVirtualDiskFinished.get() == false) {
-                    mCountDownLatch.countDown();
-                }
-            } else if (TestNotificationService.ACTION_SD_CARD_SETTING_COMPLETED.equals(action)) {
-                mCountDownLatch.countDown();
             }
         }
     };
-
-    private final AtomicBoolean mSetVirtualDiskFinished = new AtomicBoolean(false);
 
     private CountDownLatch mCountDownLatch;
 
@@ -120,8 +88,6 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     private String mErrorReason;
 
     private DocumentsProviderHelper mStorageDocsHelper;
-
-    private ContentProviderClient mStorageClient;
 
     private RootInfo mPrimaryRoot;
 
@@ -142,9 +108,9 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         super.setUp();
 
         // Create ContentProviderClient and DocumentsProviderHelper for using SD Card.
-        mStorageClient = mResolver.acquireUnstableContentProviderClient(
-                AUTHORITY_STORAGE);
-        mStorageDocsHelper = new DocumentsProviderHelper(AUTHORITY_STORAGE, mStorageClient);
+        ContentProviderClient storageClient =
+                mResolver.acquireUnstableContentProviderClient(AUTHORITY_STORAGE);
+        mStorageDocsHelper = new DocumentsProviderHelper(AUTHORITY_STORAGE, storageClient);
 
         // Set a flag to prevent many refreshes.
         Bundle bundle = new Bundle();
@@ -154,27 +120,23 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         // Set "Stay awake" until test is finished.
         mPreTestStayAwakeValue = Settings.Global.getInt(context.getContentResolver(),
                 Settings.Global.STAY_ON_WHILE_PLUGGED_IN);
-        automation.executeShellCommand("settings put global stay_on_while_plugged_in 3");
+        device.executeShellCommand("settings put global stay_on_while_plugged_in 3");
 
         // If Internal Storage is not shown, turn on.
         State state = ((FilesActivity) getActivity()).getDisplayState();
         if (!state.showAdvanced) {
-            bots.main.clickToolbarOverflowItem(SHOW_INTERNAL_STORAGE);
+            bots.main.clickToolbarOverflowItem(
+                    context.getResources().getString(R.string.menu_advanced_show));
         }
 
         try {
-            if (!bots.notifications.isNotificationAccessEnabled(
-                    context.getContentResolver(), PACKAGE_NAME)) {
-                bots.notifications.setNotificationAccess(getActivity(), ACCESS_APP_NAME, true);
-            }
+            bots.notifications.setNotificationAccess(getActivity(), true);
         } catch (Exception e) {
             Log.d(TAG, "Cannot set notification access. ", e);
         }
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(TestNotificationService.ACTION_OPERATION_RESULT);
-        filter.addAction(TestNotificationService.ACTION_DISPLAY_SD_CARD_NOTIFICATION);
-        filter.addAction(TestNotificationService.ACTION_SD_CARD_SETTING_COMPLETED);
         context.registerReceiver(mReceiver, filter);
         context.sendBroadcast(new Intent(
                 TestNotificationService.ACTION_CHANGE_EXECUTION_MODE));
@@ -201,18 +163,15 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         deleteDocuments(mSdCardLabel);
 
         if (mIsVirtualSdCard) {
-            automation.executeShellCommand("sm set-virtual-disk false");
+            device.executeShellCommand("sm set-virtual-disk false");
         }
 
-        automation.executeShellCommand("settings put global stay_on_while_plugged_in "
+        device.executeShellCommand("settings put global stay_on_while_plugged_in "
                 + mPreTestStayAwakeValue);
 
         context.unregisterReceiver(mReceiver);
         try {
-            if (bots.notifications.isNotificationAccessEnabled(
-                    context.getContentResolver(), PACKAGE_NAME)) {
-                bots.notifications.setNotificationAccess(getActivity(), ACCESS_APP_NAME, false);
-            }
+            bots.notifications.setNotificationAccess(getActivity(), false);
         } catch (Exception e) {
             Log.d(TAG, "Cannot set notification access. ", e);
         }
@@ -263,12 +222,6 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
             return true;
         }
 
-        if (mCountDownLatch != null) {
-            assertTrue("Cannot wait because any operation is waiting now.",
-                    mCountDownLatch.getCount() == 0);
-        }
-
-        mCountDownLatch = new CountDownLatch(1);
         bots.directory.selectDocument(TARGET_FOLDER, 1);
         device.waitForIdle();
 
@@ -276,13 +229,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         bots.main.clickDialogOkButton();
         device.waitForIdle();
 
-        // Wait until copy operation finished
-        try {
-            mCountDownLatch.await(WAIT_TIME_SECONDS, TimeUnit.SECONDS);
-        } catch (Exception e) {
-            fail("Error occurs when delete documents. " + e.toString());
-        }
-
+        bots.directory.findDocument(TARGET_FOLDER).waitUntilGone(WAIT_TIME_SECONDS);
         return !bots.directory.hasDocuments(TARGET_FOLDER);
     }
 
@@ -302,10 +249,11 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
             Resources res) throws Exception {
         ZipInputStream in = null;
         int read = 0;
+        int count = 0;
         try {
             in = new ZipInputStream(res.openRawResource(resId));
             ZipEntry zipEntry = null;
-            while ((zipEntry = in.getNextEntry()) != null) {
+            while ((zipEntry = in.getNextEntry()) != null && (count++ < TARGET_COUNT)) {
                 String fileName = zipEntry.getName();
                 Uri uri = helper.createDocument(root, "image/png", fileName);
                 byte[] buff = new byte[1024];
@@ -329,42 +277,46 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
     /** @return true if virtual SD Card setting is completed. Othrewise false */
     private boolean enableVirtualSdCard() throws Exception {
+        boolean result = false;
         try {
-            mSetVirtualDiskFinished.set(false);
-
-            mCountDownLatch = new CountDownLatch(1);
-            automation.executeShellCommand("sm set-virtual-disk true");
-            boolean result = mCountDownLatch.await(WAIT_TIME_SECONDS, TimeUnit.SECONDS);
-            assertTrue("Can't find notification : "
-                    + TestNotificationService.UNSUPPORTED_NOTIFICATION_TEXT + " or "
-                    + TestNotificationService.CORRUPTED_NOTIFICATION_TEXT,
-                    result) ;
-
-            mSetVirtualDiskFinished.set(true);
-
-            String diskId = getDiskId();
-            assertNotNull("Can't find Virtual Disk Id", diskId);
-
-            mCountDownLatch = new CountDownLatch(1);
-            automation.executeShellCommand(String.format("sm partition %s public", diskId));
-            result = mCountDownLatch.await(WAIT_TIME_SECONDS, TimeUnit.SECONDS);
-            assertTrue("Can't find notification : " + TestNotificationService.VIRTUAL_SD_CARD_TEXT,
-                    result) ;
+            device.executeShellCommand("sm set-virtual-disk true");
+            String diskId = getAdoptionDisk();
+            assertNotNull("Failed to setup virtual disk.", diskId);
+            device.executeShellCommand(String.format("sm partition %s public", diskId));
+            result = waitForPublicVolume();
         } catch (Exception e) {
+            result = false;
+        }
+        return result;
+    }
+
+    private String getAdoptionDisk() throws Exception {
+        int attempt = 0;
+        String disks = device.executeShellCommand("sm list-disks adoptable");
+        while ((disks == null || disks.isEmpty()) && attempt++ < 15) {
+            SystemClock.sleep(1000);
+            disks = device.executeShellCommand("sm list-disks adoptable");
+        }
+
+        if (disks == null || disks.isEmpty()) {
+            return null;
+        }
+        return disks.split("\n")[0].trim();
+    }
+
+    private boolean waitForPublicVolume() throws Exception {
+        int attempt = 0;
+        String volumes = device.executeShellCommand("sm list-volumes public");
+        while ((volumes == null || volumes.isEmpty() || !volumes.contains("mounted"))
+                && attempt++ < 15) {
+            SystemClock.sleep(1000);
+            volumes = device.executeShellCommand("sm list-volumes public");
+        }
+
+        if (volumes == null || volumes.isEmpty()) {
             return false;
         }
         return true;
-    }
-
-    private String getDiskId() throws Exception {
-        StorageManager storageManager = context.getSystemService(StorageManager.class);
-        final List<DiskInfo> disks = storageManager.getDisks();
-        for (DiskInfo disk : disks) {
-            if (VIRTUAL_LABEL.equals(disk.label) && disk.isSd()) {
-                return disk.getId();
-            }
-        }
-        return null;
     }
 
     private void initStorageRootInfo() throws RemoteException {
@@ -385,7 +337,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         bots.roots.openRoot(sourceRoot);
         bots.directory.selectDocument(TARGET_FOLDER, 1);
         device.waitForIdle();
-        bots.main.clickToolbarOverflowItem(COPY);
+        bots.main.clickToolbarOverflowItem(context.getResources().getString(R.string.menu_copy));
         device.waitForIdle();
         bots.roots.openRoot(targetRoot);
         bots.main.clickDialogOkButton();

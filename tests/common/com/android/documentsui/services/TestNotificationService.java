@@ -48,12 +48,6 @@ public class TestNotificationService extends NotificationListenerService {
     public static final String ACTION_OPERATION_RESULT =
             "com.android.documentsui.services.TestNotificationService.ACTION_OPERATION_RESULT";
 
-    public static final String ACTION_DISPLAY_SD_CARD_NOTIFICATION =
-            "com.android.documentsui.services.TestNotificationService.ACTION_DISPLAY_SD_CARD_NOTIFICATION";
-
-    public static final String ACTION_SD_CARD_SETTING_COMPLETED =
-            "com.android.documentsui.services.TestNotificationService.ACTION_SD_CARD_SETTING_COMPLETED";
-
     public static final String ANDROID_PACKAGENAME = "android";
 
     public static final String CANCEL_RES_NAME = "cancel";
@@ -64,15 +58,7 @@ public class TestNotificationService extends NotificationListenerService {
     public static final String EXTRA_ERROR_REASON =
             "com.android.documentsui.services.TestNotificationService.EXTRA_ERROR_REASON";
 
-    public static final String UNSUPPORTED_NOTIFICATION_TEXT = "Issue with Virtual SD card";
-
-    public static final String CORRUPTED_NOTIFICATION_TEXT = "Corrupted Virtual SD card";
-
-    public static final String VIRTUAL_SD_CARD_TEXT = "Virtual SD card";
-
     private final static String DOCUMENTSUI_PACKAGE= "com.android.documentsui";
-
-    private final static String SD_CARD_NOTIFICATION_PACKAGE = "com.android.systemui";
 
     public enum MODE {
         CANCEL_MODE,
@@ -124,9 +110,7 @@ public class TestNotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         String pkgName = sbn.getPackageName();
-        if (SD_CARD_NOTIFICATION_PACKAGE.equals(pkgName)) {
-            sendBroadcastForVirtualSdCard(sbn.getNotification());
-        } else if (DOCUMENTSUI_PACKAGE.equals(pkgName)) {
+        if (DOCUMENTSUI_PACKAGE.equals(pkgName)) {
             if (MODE.CANCEL_MODE.equals(mCurrentMode)) {
                 try {
                     mCancelled = doCancel(sbn.getNotification());
@@ -158,16 +142,6 @@ public class TestNotificationService extends NotificationListenerService {
             }
         }
         sendBroadcast(intent);
-    }
-
-    private void sendBroadcastForVirtualSdCard(Notification notification) {
-        String title = notification.extras.getString(Notification.EXTRA_TITLE);
-        if (UNSUPPORTED_NOTIFICATION_TEXT.equals(title) ||
-                CORRUPTED_NOTIFICATION_TEXT.equals(title)) {
-            sendBroadcast(new Intent(ACTION_DISPLAY_SD_CARD_NOTIFICATION));
-        } else if (VIRTUAL_SD_CARD_TEXT.equals(title)) {
-            sendBroadcast(new Intent(ACTION_SD_CARD_SETTING_COMPLETED));
-        }
     }
 
     private boolean doCancel(Notification noti)
