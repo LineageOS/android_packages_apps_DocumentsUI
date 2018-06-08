@@ -16,8 +16,8 @@
 
 package com.android.documentsui.roots;
 
-import static com.android.documentsui.base.Shared.DEBUG;
-import static com.android.documentsui.base.Shared.VERBOSE;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import android.content.BroadcastReceiver.PendingResult;
 import android.content.ContentProviderClient;
@@ -241,8 +241,13 @@ public class ProvidersCache implements ProvidersAccess {
         if (VERBOSE) Log.v(TAG, "Loading roots for " + authority);
 
         final ArrayList<RootInfo> roots = new ArrayList<>();
-        ProviderInfo provider = mContext.getPackageManager().resolveContentProvider(
+        final PackageManager pm = mContext.getPackageManager();
+        ProviderInfo provider = pm.resolveContentProvider(
                 authority, PackageManager.GET_META_DATA);
+        if (provider == null) {
+            Log.w(TAG, "Failed to get provider info for " + authority);
+            return roots;
+        }
         if (!provider.exported) {
             Log.w(TAG, "Provider is not exported. Failed to load roots for " + authority);
             return roots;
@@ -261,7 +266,6 @@ public class ProvidersCache implements ProvidersAccess {
 
         synchronized (mObservedAuthoritiesDetails) {
             if (!mObservedAuthoritiesDetails.containsKey(authority)) {
-                PackageManager pm = mContext.getPackageManager();
                 CharSequence appName = pm.getApplicationLabel(provider.applicationInfo);
                 String packageName = provider.applicationInfo.packageName;
 
@@ -396,6 +400,7 @@ public class ProvidersCache implements ProvidersAccess {
         }
     }
 
+    @Override
     public RootInfo getDefaultRootBlocking(State state) {
         for (RootInfo root : ProvidersAccess.getMatchingRoots(getRootsBlocking(), state)) {
             if (root.isDownloads()) {
@@ -459,7 +464,10 @@ public class ProvidersCache implements ProvidersAccess {
             final Intent intent = new Intent(DocumentsContract.PROVIDER_INTERFACE);
             final List<ResolveInfo> providers = pm.queryIntentContentProviders(intent, 0);
             for (ResolveInfo info : providers) {
-                handleDocumentsProvider(info.providerInfo);
+                ProviderInfo providerInfo = info.providerInfo;
+                if (providerInfo.authority != null) {
+                    handleDocumentsProvider(providerInfo);
+                }
             }
 
             final long delta = SystemClock.elapsedRealtime() - start;
