@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui;
 
 import android.graphics.Point;
 import androidx.annotation.VisibleForTesting;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.View.OnDragListener;
+import android.widget.AbsListView;
 
-import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.ItemDragListener.DragHost;
 import com.android.documentsui.selection.ViewAutoScroller;
 import com.android.documentsui.selection.ViewAutoScroller.ScrollHost;
 import com.android.documentsui.selection.ViewAutoScroller.ScrollerCallbacks;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
 import java.util.function.Predicate;
 
@@ -36,9 +37,9 @@ import javax.annotation.Nullable;
 
 /**
  * This class acts as a middle-man handler for potential auto-scrolling before passing the dragEvent
- * onto {@link DirectoryDragListener}.
+ * onto {@link ItemDragListener}.
  */
-class DragHoverListener implements OnDragListener {
+public class DragHoverListener implements OnDragListener {
 
     private final ItemDragListener<? extends DragHost> mDragHandler;
     private final IntSupplier mHeight;
@@ -47,12 +48,12 @@ class DragHoverListener implements OnDragListener {
     private final Runnable mDragScroller;
 
     /**
-     * Predicate to tests whether it's the scroll view ({@link DirectoryFragment#mRecView}) itself.
+     * Predicate to tests whether it's the scroll view itself.
      *
-     * {@link DragHoverListener} is used for both {@link DirectoryFragment#mRecView} and its
-     * children. When we decide whether it's in the scroll zone we need to obtain the coordinate
-     * relative to {@link DirectoryFragment#mRecView} so we need to transform the coordinate if the
-     * view that gets drag and drop events is a child of {@link DirectoryFragment#mRecView}.
+     * {@link DragHoverListener} is used for both the scroll view and its children.
+     * When we decide whether it's in the scroll zone we need to obtain the coordinate
+     * relative to container view so we need to transform the coordinate if the view
+     * that gets drag and drop events is a child of scroll view.
      */
     private final Predicate<View> mIsScrollView;
 
@@ -94,20 +95,37 @@ class DragHoverListener implements OnDragListener {
         mDragScroller = new ViewAutoScroller(scrollHost, scrollCallbacks);
     }
 
-    static DragHoverListener create(
+    public static DragHoverListener create(
+            ItemDragListener<? extends DragHost> dragHandler,
+            AbsListView scrollView) {
+        return create(dragHandler, scrollView, scrollView::scrollListBy);
+    }
+
+    public static DragHoverListener create(
             ItemDragListener<? extends DragHost> dragHandler,
             View scrollView) {
+        return create(
+                dragHandler,
+                scrollView,
+                (int dy) -> {
+                    scrollView.scrollBy(0, dy);
+                });
+    }
+
+    static DragHoverListener create(
+            ItemDragListener<? extends DragHost> dragHandler,
+            View scrollView,
+            IntConsumer scroller) {
 
         ScrollerCallbacks scrollCallbacks = new ScrollerCallbacks() {
             @Override
             public void scrollBy(int dy) {
-                scrollView.scrollBy(0, dy);
+                scroller.accept(dy);
             }
 
             @Override
             public void runAtNextFrame(Runnable r) {
                 scrollView.postOnAnimation(r);
-
             }
 
             @Override
@@ -116,15 +134,13 @@ class DragHoverListener implements OnDragListener {
             }
         };
 
-        DragHoverListener listener = new DragHoverListener(
+        return new DragHoverListener(
                 dragHandler,
                 scrollView::getHeight,
                 (view) -> (scrollView == view),
                 () -> scrollView.canScrollVertically(-1),
                 () -> scrollView.canScrollVertically(1),
                 scrollCallbacks);
-
-        return listener;
     }
 
     @Override
@@ -157,9 +173,9 @@ class DragHoverListener implements OnDragListener {
     }
 
     private Point transformToScrollViewCoordinate(View v, float x, float y) {
-        // Check if v is the RecyclerView itself. If not we need to transform the coordinate to
-        // relative to the RecyclerView because we need to test the scroll zone in the coordinate
-        // relative to the RecyclerView; if yes we don't need to transform coordinates.
+        // Check if v is the scroll view itself. If not we need to transform the coordinate to
+        // relative to the scroll view because we need to test the scroll zone in the coordinate
+        // relative to the scroll view; if yes we don't need to transform coordinates.
         final boolean isScrollView = mIsScrollView.test(v);
         final float offsetX = isScrollView ? 0 : v.getX();
         final float offsetY = isScrollView ? 0 : v.getY();
