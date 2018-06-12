@@ -161,6 +161,18 @@ public class ItemDragListenerTest {
     }
 
     @Test
+    public void testDoNotHandleDragEvent() {
+        mTestDragHost.mLastEnteredView = null;
+
+        mTestDragHost.mCanHandleDragEvent = false;
+        final boolean handled = triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
+        mTestDragHost.mCanHandleDragEvent = true;
+
+        assertFalse(handled);
+        assertNull(mTestDragHost.mLastEnteredView);
+    }
+
+    @Test
     public void testNoDropWithoutClipData() {
         triggerDragEvent(DragEvent.ACTION_DRAG_ENTERED);
 
@@ -217,6 +229,13 @@ public class ItemDragListenerTest {
         private View mLastHoveredView;
         private View mLastEnteredView;
         private View mLastExitedView;
+
+        private boolean mCanHandleDragEvent = true;
+
+        @Override
+        public boolean canHandleDragEvent(View v) {
+            return mCanHandleDragEvent;
+        }
 
         @Override
         public void setDropTargetHighlight(View v, boolean highlight) {

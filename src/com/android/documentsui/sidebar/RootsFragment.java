@@ -52,6 +52,7 @@ import android.widget.ListView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DragHoverListener;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
@@ -197,7 +198,7 @@ public class RootsFragment extends Fragment {
                     DocumentsApplication.getDragAndDropManager(activity),
                     this::getItem,
                     mActionHandler);
-            mDragListener = new ItemDragListener<DragHost>(host) {
+            final ItemDragListener<DragHost> listener = new ItemDragListener<DragHost>(host) {
                 @Override
                 public boolean handleDropEventChecked(View v, DragEvent event) {
                     final Item item = getItem(v);
@@ -207,6 +208,8 @@ public class RootsFragment extends Fragment {
                     return item.dropOn(event);
                 }
             };
+            mDragListener = DragHoverListener.create(listener, mList);
+            mList.setOnDragListener(mDragListener);
         }
 
         mCallbacks = new LoaderCallbacks<Collection<RootInfo>>() {

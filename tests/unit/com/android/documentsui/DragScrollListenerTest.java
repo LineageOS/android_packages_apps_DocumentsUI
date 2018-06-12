@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.dirlist;
+package com.android.documentsui;
 
 import static org.junit.Assert.assertTrue;
 
@@ -23,7 +23,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.DragEvent;
 import android.view.View;
 
-import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.selection.ViewAutoScroller.ScrollerCallbacks;
 import com.android.documentsui.testing.DragEvents;
 import com.android.documentsui.testing.Views;

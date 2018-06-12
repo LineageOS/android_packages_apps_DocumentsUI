@@ -63,6 +63,10 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
 
     @Override
     public boolean onDrag(final View v, DragEvent event) {
+        if (!mDragHost.canHandleDragEvent(v)) {
+            return false;
+        }
+
         switch (event.getAction()) {
             case DragEvent.ACTION_DRAG_STARTED:
                 return true;
@@ -193,5 +197,13 @@ public class ItemDragListener<H extends DragHost> implements OnDragListener {
          * Notifies when the drag and drop has ended.
          */
         void onDragEnded();
+
+        /**
+         * Whether drag events can dispatch to the view.
+         * @param v the view being to receive drag events
+         */
+        default boolean canHandleDragEvent(View v) {
+            return true;
+        }
     }
 }
