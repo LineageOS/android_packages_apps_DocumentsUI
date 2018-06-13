@@ -122,7 +122,6 @@ public final class MenuManagerTest {
         rootPasteIntoFolder = testMenu.findItem(R.id.root_menu_paste_into_folder);
         rootSettings = testMenu.findItem(R.id.root_menu_settings);
 
-        actionModeOpen = testMenu.findItem(R.id.action_menu_open);
         actionModeOpenWith = testMenu.findItem(R.id.action_menu_open_with);
         actionModeSelect = testMenu.findItem(R.id.action_menu_select);
         actionModeShare = testMenu.findItem(R.id.action_menu_share);
@@ -160,7 +159,6 @@ public final class MenuManagerTest {
     public void testActionMenu() {
         mgr.updateActionMenu(testMenu, selectionDetails);
         actionModeSelect.assertInvisible();
-        actionModeOpen.assertInvisible();
         actionModeDelete.assertInvisible();
         actionModeShare.assertInvisible();
         actionModeRename.assertInvisible();

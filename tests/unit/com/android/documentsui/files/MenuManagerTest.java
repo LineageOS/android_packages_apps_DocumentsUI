@@ -140,7 +140,6 @@ public final class MenuManagerTest {
         rootSettings = testMenu.findItem(R.id.root_menu_settings);
 
         // Menu actions (including overflow) when action mode *is* active.
-        actionModeOpen = testMenu.findItem(R.id.action_menu_open);
         actionModeOpenWith = testMenu.findItem(R.id.action_menu_open_with);
         actionModeShare = testMenu.findItem(R.id.action_menu_share);
         actionModeDelete = testMenu.findItem(R.id.action_menu_delete);

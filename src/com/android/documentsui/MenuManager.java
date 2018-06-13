@@ -52,7 +52,6 @@ public abstract class MenuManager {
 
     /** @see ActionModeController */
     public void updateActionMenu(Menu menu, SelectionDetails selection) {
-        updateOpenInActionMode(menu.findItem(R.id.action_menu_open), selection);
         updateOpenWith(menu.findItem(R.id.action_menu_open_with), selection);
         updateDelete(menu.findItem(R.id.action_menu_delete), selection);
         updateShare(menu.findItem(R.id.action_menu_share), selection);
@@ -247,10 +246,6 @@ public abstract class MenuManager {
 
     protected void updateNewWindow(MenuItem newWindow) {
         newWindow.setVisible(false);
-    }
-
-    protected void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
-        open.setVisible(false);
     }
 
     protected void updateSelect(MenuItem select, SelectionDetails selectionDetails) {
