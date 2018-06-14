@@ -37,13 +37,12 @@ import com.android.documentsui.base.Features;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.concurrent.GuardedBy;
 
@@ -99,9 +98,9 @@ public class FileOperationService extends Service implements Job.Listener {
 
     private static final int POOL_SIZE = 2;  // "pool size", not *max* "pool size".
 
-    private static final int NOTIFICATION_ID_PROGRESS = 0;
-    private static final int NOTIFICATION_ID_FAILURE = 1;
-    private static final int NOTIFICATION_ID_WARNING = 2;
+    @VisibleForTesting static final int NOTIFICATION_ID_PROGRESS = 1;
+    private static final int NOTIFICATION_ID_FAILURE = 2;
+    private static final int NOTIFICATION_ID_WARNING = 3;
 
     // The executor and job factory are visible for testing and non-final
     // so we'll have a way to inject test doubles from the test. It's
@@ -124,10 +123,11 @@ public class FileOperationService extends Service implements Job.Listener {
     @VisibleForTesting Features features;
 
     @GuardedBy("mJobs")
-    private final Map<String, JobRecord> mJobs = new HashMap<>();
+    private final Map<String, JobRecord> mJobs = new LinkedHashMap<>();
 
     // The job whose notification is used to keep the service in foreground mode.
-    private final AtomicReference<Job> mForegroundJob = new AtomicReference<>();
+    @GuardedBy("mJobs")
+    private Job mForegroundJob;
 
     private PowerManager mPowerManager;
     private PowerManager.WakeLock mWakeLock;  // the wake lock, if held.
@@ -270,6 +270,7 @@ public class FileOperationService extends Service implements Job.Listener {
             JobRecord record = mJobs.get(jobId);
             if (record != null) {
                 record.job.cancel();
+                updateForegroundState(record.job);
             }
         }
 
@@ -343,18 +344,23 @@ public class FileOperationService extends Service implements Job.Listener {
 
         Notification notification = job.getSetupNotification();
         // If there is no foreground job yet, set this job to foreground job.
-        if (mForegroundJob.compareAndSet(null, job)) {
-            if (DEBUG) Log.d(TAG, "Set foreground job to " + job.id);
-            foregroundManager.startForeground(NOTIFICATION_ID_PROGRESS, notification);
+        synchronized (mJobs) {
+            if (mForegroundJob == null) {
+                if (DEBUG) Log.d(TAG, "Set foreground job to " + job.id);
+                mForegroundJob = job;
+                foregroundManager.startForeground(NOTIFICATION_ID_PROGRESS, notification);
+            } else {
+                // Show start up notification
+                if (DEBUG) Log.d(TAG, "Posting notification for " + job.id);
+                notificationManager.notify(
+                        mForegroundJob == job ? null : job.id,
+                        NOTIFICATION_ID_PROGRESS,
+                        notification);
+            }
         }
 
-        // Show start up notification
-        if (DEBUG) Log.d(TAG, "Posting notification for " + job.id);
-        notificationManager.notify(
-                job.id, NOTIFICATION_ID_PROGRESS, notification);
-
         // Set up related monitor
-        JobMonitor monitor = new JobMonitor(job, notificationManager, handler, mJobs);
+        JobMonitor monitor = new JobMonitor(job);
         monitor.start();
     }
 
@@ -388,11 +394,12 @@ public class FileOperationService extends Service implements Job.Listener {
 
     @GuardedBy("mJobs")
     private void updateForegroundState(Job job) {
-        Job candidate = mJobs.isEmpty() ? null : mJobs.values().iterator().next().job;
+        Job candidate = getCandidateForegroundJob();
 
         // If foreground job is retiring and there is still work to do, we need to set it to a new
         // job.
-        if (mForegroundJob.compareAndSet(job, candidate)) {
+        if (mForegroundJob == job) {
+            mForegroundJob = candidate;
             if (candidate == null) {
                 if (DEBUG) Log.d(TAG, "Stop foreground");
                 // Remove the notification here just in case we're torn down before we have the
@@ -401,12 +408,11 @@ public class FileOperationService extends Service implements Job.Listener {
             } else {
                 if (DEBUG) Log.d(TAG, "Switch foreground job to " + candidate.id);
 
+                notificationManager.cancel(candidate.id, NOTIFICATION_ID_PROGRESS);
                 Notification notification = (candidate.getState() == Job.STATE_STARTED)
                         ? candidate.getSetupNotification()
                         : candidate.getProgressNotification();
-                foregroundManager.startForeground(NOTIFICATION_ID_PROGRESS, notification);
-                notificationManager.notify(candidate.id, NOTIFICATION_ID_PROGRESS,
-                        notification);
+                notificationManager.notify(NOTIFICATION_ID_PROGRESS, notification);
             }
         }
     }
@@ -435,6 +441,19 @@ public class FileOperationService extends Service implements Job.Listener {
         }
     }
 
+    @GuardedBy("mJobs")
+    private Job getCandidateForegroundJob() {
+        if (mJobs.isEmpty()) {
+            return null;
+        }
+        for (JobRecord rec : mJobs.values()) {
+            if (!rec.job.isFinished()) {
+                return rec.job;
+            }
+        }
+        return null;
+    }
+
     private static final class JobRecord {
         private final Job job;
         private final Future<?> future;
@@ -452,29 +471,22 @@ public class FileOperationService extends Service implements Job.Listener {
      * still need to update notifications if jobs hang, so instead of jobs pushing their states,
      * we poll states of jobs.
      */
-    private static final class JobMonitor implements Runnable {
+    private final class JobMonitor implements Runnable {
         private static final long PROGRESS_INTERVAL_MILLIS = 500L;
 
         private final Job mJob;
-        private final NotificationManager mNotificationManager;
-        private final Handler mHandler;
-        private final Object mJobsLock;
 
-        private JobMonitor(Job job, NotificationManager notificationManager, Handler handler,
-                Object jobsLock) {
+        private JobMonitor(Job job) {
             mJob = job;
-            mNotificationManager = notificationManager;
-            mHandler = handler;
-            mJobsLock = jobsLock;
         }
 
         private void start() {
-            mHandler.post(this);
+            handler.post(this);
         }
 
         @Override
         public void run() {
-            synchronized (mJobsLock) {
+            synchronized (mJobs) {
                 if (mJob.isFinished()) {
                     // Finish notification is already shown. Progress notification is removed.
                     // Just finish itself.
@@ -483,11 +495,13 @@ public class FileOperationService extends Service implements Job.Listener {
 
                 // Only job in set up state has progress bar
                 if (mJob.getState() == Job.STATE_SET_UP) {
-                    mNotificationManager.notify(
-                            mJob.id, NOTIFICATION_ID_PROGRESS, mJob.getProgressNotification());
+                    notificationManager.notify(
+                            mForegroundJob == mJob ? null : mJob.id,
+                            NOTIFICATION_ID_PROGRESS,
+                            mJob.getProgressNotification());
                 }
 
-                mHandler.postDelayed(this, PROGRESS_INTERVAL_MILLIS);
+                handler.postDelayed(this, PROGRESS_INTERVAL_MILLIS);
             }
         }
     }
