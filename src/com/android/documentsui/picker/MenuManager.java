@@ -31,6 +31,7 @@ import com.android.documentsui.queries.SearchViewManager;
 
 import java.util.List;
 import java.util.function.IntFunction;
+import com.android.documentsui.R;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
@@ -86,18 +87,10 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    protected void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
-        updateOpen(open, selectionDetails);
-    }
-
-    @Override
-    protected void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
-        updateOpen(open, selectionDetails);
-    }
-
-    private void updateOpen(MenuItem open, SelectionDetails selectionDetails) {
-        open.setVisible(mState.action == ACTION_GET_CONTENT
+    protected void updateSelect(MenuItem select, SelectionDetails selectionDetails) {
+        select.setVisible(mState.action == ACTION_GET_CONTENT
                 || mState.action == ACTION_OPEN);
-        open.setEnabled(selectionDetails.size() > 0);
+        select.setEnabled(selectionDetails.size() > 0);
+        select.setTitle(R.string.menu_select);
     }
 }

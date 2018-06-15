@@ -18,6 +18,7 @@ package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.State.ACTION_CREATE;
 import static com.android.documentsui.base.State.ACTION_OPEN;
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -69,6 +70,7 @@ public final class MenuManagerTest {
     /* Action Mode menu items */
     private TestMenuItem actionModeOpen;
     private TestMenuItem actionModeOpenWith;
+    private TestMenuItem actionModeSelect;
     private TestMenuItem actionModeShare;
     private TestMenuItem actionModeDelete;
     private TestMenuItem actionModeSelectAll;
@@ -120,8 +122,8 @@ public final class MenuManagerTest {
         rootPasteIntoFolder = testMenu.findItem(R.id.root_menu_paste_into_folder);
         rootSettings = testMenu.findItem(R.id.root_menu_settings);
 
-        actionModeOpen = testMenu.findItem(R.id.action_menu_open);
         actionModeOpenWith = testMenu.findItem(R.id.action_menu_open_with);
+        actionModeSelect = testMenu.findItem(R.id.action_menu_select);
         actionModeShare = testMenu.findItem(R.id.action_menu_share);
         actionModeDelete = testMenu.findItem(R.id.action_menu_delete);
         actionModeSelectAll = testMenu.findItem(R.id.action_menu_select_all);
@@ -156,8 +158,7 @@ public final class MenuManagerTest {
     @Test
     public void testActionMenu() {
         mgr.updateActionMenu(testMenu, selectionDetails);
-
-        actionModeOpen.assertInvisible();
+        actionModeSelect.assertInvisible();
         actionModeDelete.assertInvisible();
         actionModeShare.assertInvisible();
         actionModeRename.assertInvisible();
@@ -166,13 +167,36 @@ public final class MenuManagerTest {
     }
 
     @Test
-    public void testActionMenu_openAction() {
+    public void testActionMenu_selectAction() {
         state.action = ACTION_OPEN;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
-        actionModeOpen.assertVisible();
+        actionModeSelect.assertVisible();
     }
 
+    @Test
+    public void testActionMenu_selectActionTitle() {
+        state.action = ACTION_OPEN;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeSelect.assertTitle(R.string.menu_select);
+    }
+
+    @Test
+    public void testActionMenu_getContentAction() {
+        state.action = ACTION_GET_CONTENT;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeSelect.assertVisible();
+    }
+
+    @Test
+    public void testActionMenu_getContentActionTitle() {
+        state.action = ACTION_GET_CONTENT;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeSelect.assertTitle(R.string.menu_select);
+    }
 
     @Test
     public void testActionMenu_notAllowMultiple() {
@@ -180,6 +204,14 @@ public final class MenuManagerTest {
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         actionModeSelectAll.assertInvisible();
+    }
+
+    @Test
+    public void testActionMenu_AllowMultiple() {
+        state.allowMultiple = true;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeSelectAll.assertVisible();
     }
 
     @Test

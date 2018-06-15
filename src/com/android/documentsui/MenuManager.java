@@ -52,11 +52,11 @@ public abstract class MenuManager {
 
     /** @see ActionModeController */
     public void updateActionMenu(Menu menu, SelectionDetails selection) {
-        updateOpenInActionMode(menu.findItem(R.id.action_menu_open), selection);
         updateOpenWith(menu.findItem(R.id.action_menu_open_with), selection);
         updateDelete(menu.findItem(R.id.action_menu_delete), selection);
         updateShare(menu.findItem(R.id.action_menu_share), selection);
         updateRename(menu.findItem(R.id.action_menu_rename), selection);
+        updateSelect(menu.findItem(R.id.action_menu_select), selection);
         updateSelectAll(menu.findItem(R.id.action_menu_select_all));
         updateMoveTo(menu.findItem(R.id.action_menu_move_to), selection);
         updateCopyTo(menu.findItem(R.id.action_menu_copy_to), selection);
@@ -248,8 +248,8 @@ public abstract class MenuManager {
         newWindow.setVisible(false);
     }
 
-    protected void updateOpenInActionMode(MenuItem open, SelectionDetails selectionDetails) {
-        open.setVisible(false);
+    protected void updateSelect(MenuItem select, SelectionDetails selectionDetails) {
+        select.setVisible(false);
     }
 
     protected void updateOpenWith(MenuItem openWith, SelectionDetails selectionDetails) {
