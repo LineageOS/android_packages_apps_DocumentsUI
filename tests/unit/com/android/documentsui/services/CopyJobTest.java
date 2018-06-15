@@ -82,4 +82,12 @@ public class CopyJobTest extends AbstractCopyJobTest<CopyJob> {
     public void testCopyFileWithReadErrors() throws Exception {
         runCopyFileWithReadErrorsTest();
     }
+
+    public void testCopyProgressWithFileCount() throws Exception {
+        runCopyProgressForFileCountTest();
+    }
+
+    public void testCopyProgressWithByteCount() throws Exception {
+        runCopyProgressForByteCountTest();
+    }
 }

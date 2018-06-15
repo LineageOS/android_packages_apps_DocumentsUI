@@ -16,7 +16,6 @@
 
 package com.android.documentsui.services;
 
-import static android.os.SystemClock.elapsedRealtime;
 import static android.provider.DocumentsContract.buildChildDocumentsUri;
 import static android.provider.DocumentsContract.buildDocumentUri;
 import static android.provider.DocumentsContract.getDocumentId;
@@ -52,6 +51,7 @@ import android.os.Messenger;
 import android.os.OperationCanceledException;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
+import android.os.SystemClock;
 import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
@@ -73,6 +73,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.services.FileOperationService.OpType;
+import com.android.internal.annotations.VisibleForTesting;
 
 import libcore.io.IoUtils;
 
@@ -83,6 +84,9 @@ import java.io.InputStream;
 import java.io.SyncFailedException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Function;
+import java.util.function.LongSupplier;
 
 class CopyJob extends ResolvedResourcesJob {
 
@@ -96,15 +100,7 @@ class CopyJob extends ResolvedResourcesJob {
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Messenger mMessenger;
 
-    private long mStartTime = -1;
-    private long mBytesRequired;
-    private volatile long mBytesCopied;
-
-    // Speed estimation.
-    private long mBytesCopiedSample;
-    private long mSampleTime;
-    private long mSpeed;
-    private long mRemainingTime;
+    private CopyJobProgressTracker mProgressTracker;
 
     /**
      * @see @link {@link Job} constructor for most param descriptions.
@@ -138,38 +134,14 @@ class CopyJob extends ResolvedResourcesJob {
     }
 
     Notification getProgressNotification(@StringRes int msgId) {
-        updateRemainingTimeEstimate();
-
-        if (mBytesRequired >= 0) {
-            double completed = (double) this.mBytesCopied / mBytesRequired;
-            mProgressBuilder.setProgress(100, (int) (completed * 100), false);
-            mProgressBuilder.setSubText(
-                    NumberFormat.getPercentInstance().format(completed));
-        } else {
-            // If the total file size failed to compute on some files, then show
-            // an indeterminate spinner. CopyJob would most likely fail on those
-            // files while copying, but would continue with another files.
-            // Also, if the total size is 0 bytes, show an indeterminate spinner.
-            mProgressBuilder.setProgress(0, 0, true);
-        }
-
-        if (mRemainingTime > 0) {
-            mProgressBuilder.setContentText(service.getString(msgId,
-                    DateUtils.formatDuration(mRemainingTime)));
-        } else {
-            mProgressBuilder.setContentText(null);
-        }
-
+        mProgressTracker.update(mProgressBuilder, (remainingTime) -> service.getString(msgId,
+                DateUtils.formatDuration(remainingTime)));
         return mProgressBuilder.build();
     }
 
     @Override
     public Notification getProgressNotification() {
         return getProgressNotification(R.string.copy_remaining);
-    }
-
-    void onBytesCopied(long numBytes) {
-        this.mBytesCopied += numBytes;
     }
 
     @Override
@@ -180,33 +152,6 @@ class CopyJob extends ResolvedResourcesJob {
             // Ignore. Most likely the frontend was killed.
         }
         super.finish();
-    }
-
-    /**
-     * Generates an estimate of the remaining time in the copy.
-     */
-    private void updateRemainingTimeEstimate() {
-        long elapsedTime = elapsedRealtime() - mStartTime;
-
-        // mBytesCopied is modified in worker thread, but this method is called in monitor thread,
-        // so take a snapshot of mBytesCopied to make sure the updated estimate is consistent.
-        final long bytesCopied = mBytesCopied;
-        final long sampleDuration = Math.max(elapsedTime - mSampleTime, 1L); // avoid dividing 0
-        final long sampleSpeed = ((bytesCopied - mBytesCopiedSample) * 1000) / sampleDuration;
-        if (mSpeed == 0) {
-            mSpeed = sampleSpeed;
-        } else {
-            mSpeed = ((3 * mSpeed) + sampleSpeed) / 4;
-        }
-
-        if (mSampleTime > 0 && mSpeed > 0) {
-            mRemainingTime = ((mBytesRequired - bytesCopied) * 1000) / mSpeed;
-        } else {
-            mRemainingTime = 0;
-        }
-
-        mSampleTime = elapsedTime;
-        mBytesCopiedSample = bytesCopied;
     }
 
     @Override
@@ -248,13 +193,7 @@ class CopyJob extends ResolvedResourcesJob {
         if (isCanceled()) {
             return false;
         }
-
-        try {
-            mBytesRequired = calculateBytesRequired();
-        } catch (ResourceException e) {
-            Log.w(TAG, "Failed to calculate total size. Copying without progress.", e);
-            mBytesRequired = -1;
-        }
+        mProgressTracker = createProgressTracker();
 
         // Check if user has canceled this task. We should check it again here as user cancels
         // tasks in main thread, but this is running in a worker thread. calculateSize() may
@@ -269,14 +208,15 @@ class CopyJob extends ResolvedResourcesJob {
 
     @Override
     void start() {
-        mStartTime = elapsedRealtime();
+        mProgressTracker.start();
+
         DocumentInfo srcInfo;
         for (int i = 0; i < mResolvedDocs.size() && !isCanceled(); ++i) {
             srcInfo = mResolvedDocs.get(i);
 
             if (DEBUG) Log.d(TAG,
                     "Copying " + srcInfo.displayName + " (" + srcInfo.derivedUri + ")"
-                    + " to " + mDstInfo.displayName + " (" + mDstInfo.derivedUri + ")");
+                            + " to " + mDstInfo.displayName + " (" + mDstInfo.derivedUri + ")");
 
             try {
                 // Copying recursively to itself or one of descendants is not allowed.
@@ -284,7 +224,7 @@ class CopyJob extends ResolvedResourcesJob {
                     Log.e(TAG, "Skipping recursive copy of " + srcInfo.derivedUri);
                     onFileFailed(srcInfo);
                 } else {
-                    processDocument(srcInfo, null, mDstInfo);
+                    processDocumentThenUpdateProgress(srcInfo, null, mDstInfo);
                 }
             } catch (ResourceException e) {
                 Log.e(TAG, "Failed to copy " + srcInfo.derivedUri, e);
@@ -300,7 +240,13 @@ class CopyJob extends ResolvedResourcesJob {
      * @return true if the root has enough space or doesn't provide free space info; otherwise false
      */
     boolean checkSpace() {
-        return verifySpaceAvailable(mBytesRequired);
+        if (!mProgressTracker.hasRequiredBytes()) {
+            if (DEBUG) Log.w(TAG,
+                    "Proceeding copy without knowing required space, files or directories may "
+                            + "empty or failed to compute required bytes.");
+            return true;
+        }
+        return verifySpaceAvailable(mProgressTracker.getRequiredBytes());
     }
 
     /**
@@ -345,15 +291,14 @@ class CopyJob extends ResolvedResourcesJob {
      * @param bytesCopied
      */
     private void makeCopyProgress(long bytesCopied) {
-        final int completed =
-            mBytesRequired >= 0 ? (int) (100.0 * this.mBytesCopied / mBytesRequired) : -1;
         try {
             mMessenger.send(Message.obtain(mHandler, MESSAGE_PROGRESS,
-                    completed, (int) mRemainingTime));
+                    (int) (100 * mProgressTracker.getProgress()), // Progress in percentage
+                    (int) mProgressTracker.getRemainingTimeEstimate()));
         } catch (RemoteException e) {
             // Ignore. The frontend may be gone.
         }
-        onBytesCopied(bytesCopied);
+        mProgressTracker.onBytesCopied(bytesCopied);
     }
 
     /**
@@ -397,6 +342,12 @@ class CopyJob extends ResolvedResourcesJob {
 
         // If we couldn't do an optimized copy...we fall back to vanilla byte copy.
         byteCopyDocument(src, dstDirInfo);
+    }
+
+    private void processDocumentThenUpdateProgress(DocumentInfo src, DocumentInfo srcParent,
+            DocumentInfo dstDirInfo) throws ResourceException {
+        processDocument(src, srcParent, dstDirInfo);
+        mProgressTracker.onDocumentCompleted();
     }
 
     void byteCopyDocument(DocumentInfo src, DocumentInfo dest) throws ResourceException {
@@ -679,33 +630,43 @@ class CopyJob extends ResolvedResourcesJob {
     }
 
     /**
-     * Calculates the cumulative size of all the documents in the list. Directories are recursed
-     * into and totaled up.
+     * Create CopyJobProgressTracker instance for notification to update copy progress.
      *
-     * @return Size in bytes.
-     * @throws ResourceException
+     * @return Instance of CopyJobProgressTracker according required bytes or documents.
      */
-    private long calculateBytesRequired() throws ResourceException {
-        long result = 0;
+    private CopyJobProgressTracker createProgressTracker() {
+        long docsRequired = mResolvedDocs.size();
+        long bytesRequired = 0;
 
-        for (DocumentInfo src : mResolvedDocs) {
-            if (src.isDirectory()) {
-                // Directories need to be recursed into.
-                try {
-                    result += calculateFileSizesRecursively(getClient(src), src.derivedUri);
-                } catch (RemoteException e) {
-                    throw new ResourceException("Failed to obtain the client for %s.",
-                            src.derivedUri, e);
+        try {
+            for (DocumentInfo src : mResolvedDocs) {
+                if (src.isDirectory()) {
+                    // Directories need to be recursed into.
+                    try {
+                        bytesRequired +=
+                                calculateFileSizesRecursively(getClient(src), src.derivedUri);
+                    } catch (RemoteException e) {
+                        Log.w(TAG, "Failed to obtain the client for " + src.derivedUri, e);
+                        return new IndeterminateProgressTracker(bytesRequired);
+                    }
+                } else {
+                    bytesRequired += src.size;
                 }
-            } else {
-                result += src.size;
-            }
 
-            if (isCanceled()) {
-                return result;
+                if (isCanceled()) {
+                    break;
+                }
             }
+        } catch (ResourceException e) {
+            Log.w(TAG, "Failed to calculate total size. Copying without progress.", e);
+            return new IndeterminateProgressTracker(bytesRequired);
         }
-        return result;
+
+        if (bytesRequired > 0) {
+            return new ByteCountProgressTracker(bytesRequired, SystemClock::elapsedRealtime);
+        } else {
+            return new FileCountProgressTracker(docsRequired, SystemClock::elapsedRealtime);
+        }
     }
 
     /**
@@ -856,6 +817,159 @@ class CopyJob extends ResolvedResourcesJob {
             synchronized (mNotifier) {
                 mNotifier.notify();
             }
+        }
+    }
+
+    @VisibleForTesting
+    static abstract class CopyJobProgressTracker implements ProgressTracker {
+        private LongSupplier mElapsedRealTimeSupplier;
+        // Speed estimation.
+        private long mStartTime = -1;
+        private long mDataProcessedSample;
+        private long mSampleTime;
+        private long mSpeed;
+        private long mRemainingTime = -1;
+
+        public CopyJobProgressTracker(LongSupplier timeSupplier) {
+            mElapsedRealTimeSupplier = timeSupplier;
+        }
+
+        protected void onBytesCopied(long numBytes) {
+        }
+
+        protected void onDocumentCompleted() {
+        }
+
+        protected boolean hasRequiredBytes() {
+            return false;
+        }
+
+        protected long getRequiredBytes() {
+            return -1;
+        }
+
+        protected void start() {
+            mStartTime = mElapsedRealTimeSupplier.getAsLong();
+        }
+
+        protected void update(Builder builder, Function<Long, String> messageFormatter) {
+            updateEstimateRemainingTime();
+            final double completed = getProgress();
+
+            builder.setProgress(100, (int) (completed * 100), false);
+            builder.setSubText(
+                    NumberFormat.getPercentInstance().format(completed));
+            if (getRemainingTimeEstimate() > 0) {
+                builder.setContentText(messageFormatter.apply(getRemainingTimeEstimate()));
+            } else {
+                builder.setContentText(null);
+            }
+        }
+
+        abstract void updateEstimateRemainingTime();
+
+        /**
+         * Generates an estimate of the remaining time in the copy.
+         * @param dataProcessed the number of data processed
+         * @param dataRequired the number of data required.
+         */
+        protected void estimateRemainingTime(final long dataProcessed, final long dataRequired) {
+            final long currentTime = mElapsedRealTimeSupplier.getAsLong();
+            final long elapsedTime = currentTime - mStartTime;
+            final long sampleDuration = Math.max(elapsedTime - mSampleTime, 1L); // avoid dividing 0
+            final long sampleSpeed =
+                    ((dataProcessed - mDataProcessedSample) * 1000) / sampleDuration;
+            if (mSpeed == 0) {
+                mSpeed = sampleSpeed;
+            } else {
+                mSpeed = ((3 * mSpeed) + sampleSpeed) / 4;
+            }
+
+            if (mSampleTime > 0 && mSpeed > 0) {
+                mRemainingTime = ((dataRequired - dataProcessed) * 1000) / mSpeed;
+            }
+
+            mSampleTime = elapsedTime;
+            mDataProcessedSample = dataProcessed;
+        }
+
+        @Override
+        public long getRemainingTimeEstimate() {
+            return mRemainingTime;
+        }
+    }
+
+    @VisibleForTesting
+    static class ByteCountProgressTracker extends CopyJobProgressTracker {
+        final long mBytesRequired;
+        final AtomicLong mBytesCopied = new AtomicLong(0);
+
+        public ByteCountProgressTracker(long bytesRequired, LongSupplier elapsedRealtimeSupplier) {
+            super(elapsedRealtimeSupplier);
+            mBytesRequired = bytesRequired;
+        }
+
+        @Override
+        public double getProgress() {
+            return (double) mBytesCopied.get() / mBytesRequired;
+        }
+
+        @Override
+        protected boolean hasRequiredBytes() {
+            return mBytesRequired > 0;
+        }
+
+        @Override
+        public void onBytesCopied(long numBytes) {
+            mBytesCopied.getAndAdd(numBytes);
+        }
+
+        @Override
+        public void updateEstimateRemainingTime() {
+            estimateRemainingTime(mBytesCopied.get(), mBytesRequired);
+        }
+    }
+
+    @VisibleForTesting
+    static class FileCountProgressTracker extends CopyJobProgressTracker {
+        final long mDocsRequired;
+        final AtomicLong mDocsProcessed = new AtomicLong(0);
+
+        public FileCountProgressTracker(long docsRequired, LongSupplier elapsedRealtimeSupplier) {
+            super(elapsedRealtimeSupplier);
+            mDocsRequired = docsRequired;
+        }
+
+        @Override
+        public double getProgress() {
+            // Use the number of copied docs to calculate progress when mBytesRequired is zero.
+            return (double) mDocsProcessed.get() / mDocsRequired;
+        }
+
+        @Override
+        public void onDocumentCompleted() {
+            mDocsProcessed.getAndIncrement();
+        }
+
+        @Override
+        public void updateEstimateRemainingTime() {
+            estimateRemainingTime(mDocsProcessed.get(), mDocsRequired);
+        }
+    }
+
+    private static class IndeterminateProgressTracker extends ByteCountProgressTracker {
+        public IndeterminateProgressTracker(long bytesRequired) {
+            super(bytesRequired, null);
+        }
+
+        @Override
+        protected void update(Builder builder, Function<Long, String> messageFormatter) {
+            // If the total file size failed to compute on some files, then show
+            // an indeterminate spinner. CopyJob would most likely fail on those
+            // files while copying, but would continue with another files.
+            // Also, if the total size is 0 bytes, show an indeterminate spinner.
+            builder.setProgress(0, 0, true);
+            builder.setContentText(null);
         }
     }
 }
