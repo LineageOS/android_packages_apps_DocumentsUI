@@ -44,4 +44,6 @@
     <!-- Error message shown when an archive fails to load -->
     <string name="archive_loading_failed">Unable to open archive for browsing. File is either corrupt, or an unsupported format.</string>
 
+    <!-- Error messaged displayed to user if she is trying to pick a document, which is not supported on some platforms. -->
+    <string name="toast_not_supported">This feature is not supported on this device.</string>
 </resources>

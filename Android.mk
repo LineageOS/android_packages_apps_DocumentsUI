@@ -31,7 +31,8 @@ LOCAL_SRC_FILES := \
         src/com/android/documentsui/archives/WriteableArchive.java \
         src/com/android/documentsui/base/Providers.java \
         src/com/android/documentsui/base/SharedMinimal.java \
-        src/com/android/documentsui/prefs/ScopedAccessLocalPreferences.java
+        src/com/android/documentsui/prefs/ScopedAccessLocalPreferences.java \
+        minimal/src/com/android/documentsui/picker/DummyPickActivity.java
 
 LOCAL_PACKAGE_NAME := DocumentsUIMinimal
 LOCAL_PRIVATE_PLATFORM_APIS := true
