@@ -24,9 +24,8 @@ import android.view.View.OnDragListener;
 import android.widget.AbsListView;
 
 import com.android.documentsui.ItemDragListener.DragHost;
-import com.android.documentsui.selection.ViewAutoScroller;
-import com.android.documentsui.selection.ViewAutoScroller.ScrollHost;
-import com.android.documentsui.selection.ViewAutoScroller.ScrollerCallbacks;
+import com.android.documentsui.ViewAutoScroller.ScrollHost;
+import com.android.documentsui.ViewAutoScroller.ScrollerCallbacks;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.IntConsumer;

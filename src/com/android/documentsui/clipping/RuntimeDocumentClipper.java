@@ -24,15 +24,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.PersistableBundle;
 import android.provider.DocumentsContract;
-import androidx.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.selection.Selection;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Features;
-import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.selection.Selection;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -90,7 +90,7 @@ final class RuntimeDocumentClipper implements DocumentClipper {
 
     @Override
     public ClipData getClipDataForDocuments(
-        Function<String, Uri> uriBuilder, Selection selection, @OpType int opType) {
+        Function<String, Uri> uriBuilder, Selection<String> selection, @OpType int opType) {
 
         assert(selection != null);
 
@@ -190,7 +190,8 @@ final class RuntimeDocumentClipper implements DocumentClipper {
     }
 
     @Override
-    public void clipDocumentsForCopy(Function<String, Uri> uriBuilder, Selection selection) {
+    public void clipDocumentsForCopy(
+            Function<String, Uri> uriBuilder, Selection<String> selection) {
         ClipData data =
                 getClipDataForDocuments(uriBuilder, selection, FileOperationService.OPERATION_COPY);
         assert(data != null);
@@ -200,7 +201,7 @@ final class RuntimeDocumentClipper implements DocumentClipper {
 
     @Override
     public void clipDocumentsForCut(
-            Function<String, Uri> uriBuilder, Selection selection, DocumentInfo parent) {
+            Function<String, Uri> uriBuilder, Selection<String> selection, DocumentInfo parent) {
         assert(!selection.isEmpty());
         assert(parent.derivedUri != null);
 

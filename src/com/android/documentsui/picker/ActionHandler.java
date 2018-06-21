@@ -36,6 +36,8 @@ import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
+
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
@@ -54,7 +56,6 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
-import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.services.FileOperationService;
 import androidx.annotation.VisibleForTesting;
 
@@ -246,12 +247,12 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     }
 
     @Override
-    public boolean openItem(ItemDetails details, @ViewType int type,
+    public boolean openItem(ItemDetails<String> details, @ViewType int type,
             @ViewType int fallback) {
-        DocumentInfo doc = mModel.getDocument(details.getStableId());
+        DocumentInfo doc = mModel.getDocument(details.getSelectionKey());
         if (doc == null) {
-            Log.w(TAG,
-                    "Can't view item. No Document available for modeId: " + details.getStableId());
+            Log.w(TAG, "Can't view item. No Document available for modeId: "
+                    + details.getSelectionKey());
             return false;
         }
 

@@ -13,47 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.selection;
+package com.android.documentsui.dirlist;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.MotionEvent;
+
+import com.android.documentsui.DocsSelectionHelper.DocDetailsLookup;
 
 import javax.annotation.Nullable;
 
 /**
- * Test impl of ItemDetailsLookup.
+ * Test implementation of ItemDetailsLookup.
  */
-public class TestItemDetailsLookup extends ItemDetailsLookup {
+public class TestItemDetailsLookup extends DocDetailsLookup {
 
     private @Nullable TestItemDetails mDoc;
 
     @Override
-    public boolean overItem(MotionEvent e) {
-        return getItemPosition(e) != RecyclerView.NO_POSITION;
-    }
-
-    @Override
-    public boolean overStableItem(MotionEvent e) {
-        return mDoc.getStableId() != null;
-    }
-
-    @Override
-    public boolean inItemDragRegion(MotionEvent e) {
-        return mDoc.inDragRegion(e);
-    }
-
-    @Override
-    public int getItemPosition(MotionEvent e) {
-        return mDoc.getPosition();
-    }
-
-    @Override
-    public boolean inItemSelectRegion(MotionEvent e) {
-        return mDoc.inSelectionHotspot(e);
-    }
-
-    @Override
-    public @Nullable ItemDetails getItemDetails(MotionEvent e) {
+    public @Nullable ItemDetails<String> getItemDetails(MotionEvent e) {
         return mDoc;
     }
 

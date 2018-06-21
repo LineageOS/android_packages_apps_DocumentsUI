@@ -28,15 +28,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.recyclerview.selection.SelectionTracker;
+
 import com.android.documentsui.R;
-import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.queries.SearchViewManager;
-import com.android.documentsui.selection.SelectionHelper;
 
 import java.util.List;
 import java.util.function.IntFunction;
@@ -45,7 +45,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     private final Features mFeatures;
     private final Context mContext;
-    private final SelectionHelper mSelectionManager;
+    private final SelectionTracker<String> mSelectionManager;
     private final Lookup<String, Uri> mUriLookup;
     private final Lookup<String, String> mAppNameLookup;
 
@@ -55,7 +55,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
             State displayState,
             DirectoryDetails dirDetails,
             Context context,
-            SelectionHelper selectionManager,
+            SelectionTracker<String> selectionManager,
             Lookup<String, String> appNameLookup,
             Lookup<String, Uri> uriLookup) {
 

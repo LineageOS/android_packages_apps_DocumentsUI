@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.selection;
+package com.android.documentsui;
 
 import android.graphics.Point;
 
 /**
  * Provides auto-scrolling upon request when user's interaction with the application
- * introduces a natural intent to scroll. Used by BandController, GestureSelector,
- * and DragHoverListener to allow auto scrolling when user either does band selection,
- * attempting to drag and drop files to somewhere off the current screen, or trying to motion select
- * past top/bottom of the screen.
+ * introduces a natural intent to scroll. Used by DragHoverListener to allow auto scrolling
+ * when user either does band selection, attempting to drag and drop files to somewhere off
+ * the current screen, or trying to motion select past top/bottom of the screen.
  */
 public final class ViewAutoScroller implements Runnable {
 

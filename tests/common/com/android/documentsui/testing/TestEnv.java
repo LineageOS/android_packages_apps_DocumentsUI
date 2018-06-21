@@ -23,6 +23,7 @@ import android.test.mock.MockContentResolver;
 import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
+import com.android.documentsui.SelectionHelpers;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;

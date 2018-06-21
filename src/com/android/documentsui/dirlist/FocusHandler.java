@@ -62,7 +62,7 @@ public interface FocusHandler extends View.OnFocusChangeListener {
     /**
      * @return The adapter position of the last focused item.
      */
-    int getFocusPosition();
+    int getFocusedPosition();
 
     /**
      * @return True if there is currently an item in focus, false otherwise.

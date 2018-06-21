@@ -34,23 +34,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.RecyclerListener;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextMenu;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -59,10 +50,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
+import androidx.recyclerview.selection.MutableSelection;
+import androidx.recyclerview.selection.Selection;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StorageStrategy;
+import androidx.recyclerview.selection.SelectionTracker.SelectionPredicate;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.RecyclerListener;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
-import com.android.documentsui.BaseActivity.RetainedState;
+import com.android.documentsui.ContentLock;
+import com.android.documentsui.DocsSelectionHelper.DocDetailsLookup;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragHoverListener;
 import com.android.documentsui.FocusManager;
@@ -87,20 +93,6 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.picker.PickActivity;
-import com.android.documentsui.selection.BandSelectionHelper;
-import com.android.documentsui.selection.ContentLock;
-import com.android.documentsui.selection.DefaultBandHost;
-import com.android.documentsui.selection.DefaultBandPredicate;
-import com.android.documentsui.selection.GestureRouter;
-import com.android.documentsui.selection.GestureSelectionHelper;
-import com.android.documentsui.selection.ItemDetailsLookup;
-import com.android.documentsui.selection.MotionInputHandler;
-import com.android.documentsui.selection.MouseInputHandler;
-import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
-import com.android.documentsui.selection.TouchEventRouter;
-import com.android.documentsui.selection.TouchInputHandler;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -129,7 +121,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     public static final int REQUEST_COPY_DESTINATION = 1;
 
     static final String TAG = "DirectoryFragment";
-    private static final int LOADER_ID = 42;
 
     private static final int CACHE_EVICT_LIMIT = 100;
     private static final int REFRESH_SPINNER_TIMEOUT = 500;
@@ -147,7 +138,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Injected
     @ContentScoped
-    private SelectionHelper mSelectionMgr;
+    private SelectionTracker<String> mSelectionMgr;
 
     @Injected
     @ContentScoped
@@ -161,10 +152,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     @ContentScoped
     private ActionModeController mActionModeController;
 
-    private ItemDetailsLookup mDetailsLookup;
+    private DocDetailsLookup mDetailsLookup;
     private SelectionMetadata mSelectionMetadata;
     private KeyInputHandler mKeyListener;
-    private @Nullable BandSelectionHelper mBandSelector;
     private @Nullable DragHoverListener mDragHoverListener;
     private IconHelper mIconHelper;
     private SwipeRefreshLayout mRefreshLayout;
@@ -181,14 +171,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private DirectoryState mLocalState;
 
-    // Blocks loading/reloading of content while user is actively making selection.
-    private ContentLock mContentLock = new ContentLock();
-
-    private Runnable mBandSelectStartedCallback;
-
     // Note, we use !null to indicate that selection was restored (from rotation).
     // So don't fiddle with this field unless you've got the bigger picture in mind.
-    private @Nullable Selection mRestoredSelection = null;
+    private @Nullable Bundle mRestoredState;
+
+    // Blocks loading/reloading of content while user is actively making selection.
+    private ContentLock mContentLock = new ContentLock();
 
     private SortModel.UpdateListener mSortListener = (model, updateType) -> {
         // Only when sort order has changed do we need to trigger another loading.
@@ -223,6 +211,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mRecView.setItemAnimator(new DirectoryItemAnimator(mActivity));
 
         mInjector = mActivity.getInjector();
+        // Initially, this selection tracker (delegator) uses a dummy implementation, so it must be
+        // updated (reset) when necessary things are ready.
+        mSelectionMgr = mInjector.selectionMgr;
         mModel = mInjector.getModel();
         mModel.reset();
 
@@ -234,7 +225,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     new DragHost<>(
                             mActivity,
                             DocumentsApplication.getDragAndDropManager(mActivity),
-                            mInjector.selectionMgr,
+                            mSelectionMgr,
                             mInjector.actions,
                             mActivity.getDisplayState(),
                             mInjector.dialogs,
@@ -267,10 +258,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mModel.removeUpdateListener(mModelUpdateListener);
         mModel.removeUpdateListener(mAdapter.getModelUpdateListener());
 
-        if (mBandSelector != null) {
-            mBandSelector.removeOnBandStartedListener(mBandSelectStartedCallback);
-        }
-
         super.onDestroyView();
     }
 
@@ -283,17 +270,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         // Read arguments when object created for the first time.
         // Restore state if fragment recreated.
         Bundle args = savedInstanceState == null ? getArguments() : savedInstanceState;
+        mRestoredState = args;
 
         mLocalState = new DirectoryState();
         mLocalState.restore(args);
-
-        // Restore any selection we may have squirreled away in retained state.
-        @Nullable RetainedState retained = mActivity.getRetainedState();
-        if (retained != null && retained.hasSelection()) {
-            // We claim the selection for ourselves and null it out once used
-            // so we don't have a rando selection hanging around in RetainedState.
-            mRestoredSelection = retained.selection;
-            retained.selection = null;
+        if (mLocalState.mSelectionId == null) {
+            mLocalState.mSelectionId = Integer.toHexString(System.identityHashCode(mRecView));
         }
 
         mIconHelper = new IconHelper(mActivity, MODE_GRID);
@@ -322,10 +304,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mModel.addUpdateListener(mAdapter.getModelUpdateListener());
         mModel.addUpdateListener(mModelUpdateListener);
 
-        SelectionPredicate selectionPredicate =
+        SelectionPredicate<String> selectionPredicate =
                 new DocsSelectionPredicate(mInjector.config, mState, mModel, mRecView);
 
-        mSelectionMgr = mInjector.getSelectionManager(mAdapter, selectionPredicate);
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
         mActions = mInjector.getActionHandler(mContentLock);
 
@@ -333,25 +314,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 new AccessibilityEventRouter(mRecView,
                         (View child) -> onAccessibilityClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
-        mSelectionMgr.addObserver(mSelectionMetadata);
         mDetailsLookup = new DocsItemDetailsLookup(mRecView);
-
-        GestureSelectionHelper gestureHelper = GestureSelectionHelper.create(
-                mSelectionMgr, mRecView, mContentLock, mDetailsLookup);
-
-        if (mState.allowMultiple) {
-            mBandSelector = new BandSelectionHelper(
-                    new DefaultBandHost(mRecView, R.drawable.band_select_overlay),
-                    mAdapter,
-                    new DocsStableIdProvider(mAdapter),
-                    mSelectionMgr,
-                    selectionPredicate,
-                    new DefaultBandPredicate(mDetailsLookup),
-                    mContentLock);
-
-            mBandSelectStartedCallback = mFocusManager::clearFocus;
-            mBandSelector.addOnBandStartedListener(mBandSelectStartedCallback);
-        }
 
         DragStartListener dragStartListener = mInjector.config.dragAndDropEnabled()
                 ? DragStartListener.create(
@@ -360,11 +323,32 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                         mSelectionMgr,
                         mSelectionMetadata,
                         mState,
-                        mDetailsLookup,
                         this::getModelId,
                         mRecView::findChildViewUnder,
                         DocumentsApplication.getDragAndDropManager(mActivity))
                 : DragStartListener.DUMMY;
+
+        {
+            // Limiting the scope of the localTracker so nobody uses it.
+            // This block initializes/updates the global SelectionTracker held in mSelectionMgr.
+            SelectionTracker<String> localTracker = new SelectionTracker.Builder<>(
+                    mLocalState.mSelectionId,
+                    mRecView,
+                    new DocsStableIdProvider(mAdapter),
+                    mDetailsLookup,
+                    StorageStrategy.createStringStorage())
+                            .withBandOverlay(R.drawable.band_select_overlay)
+                            .withFocusDelegate(mFocusManager)
+                            .withOnDragInitiatedListener(dragStartListener::onDragEvent)
+                            .withOnContextClickListener(this::onContextMenuClick)
+                            .withOnItemActivatedListener(this::onItemActivated)
+                            .withOperationMonitor(mContentLock.getMonitor())
+                            .withSelectionPredicate(selectionPredicate)
+                            .build();
+            mInjector.updateSharedSelectionTracker(localTracker);
+        }
+
+        mSelectionMgr.addObserver(mSelectionMetadata);
 
         // Construction of the input handlers is non trivial, so to keep logic clear,
         // and code flexible, and DirectoryFragment small, the construction has been
@@ -373,19 +357,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mActions,
                 mSelectionMgr,
                 selectionPredicate,
-                mDetailsLookup,
                 mFocusManager,
-                mRecView,
-                mState);
-
-        MouseInputHandler mouseHandler =
-                handlers.createMouseHandler(this::onContextMenuClick);
-
-        TouchInputHandler touchHandler =
-                handlers.createTouchHandler(gestureHelper, dragStartListener);
-
-        GestureRouter<MotionInputHandler> gestureRouter = new GestureRouter<>(touchHandler);
-        gestureRouter.register(MotionEvent.TOOL_TYPE_MOUSE, mouseHandler);
+                mRecView);
 
         // This little guy gets added to each Holder, so that we can be notified of key events
         // on RecyclerView items.
@@ -398,17 +371,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         new RefreshHelper(mRefreshLayout::setEnabled)
                 .attach(mRecView);
-
-        GestureDetector gestureDetector = new GestureDetector(getContext(), gestureRouter);
-
-        TouchEventRouter eventRouter = new TouchEventRouter(gestureDetector, gestureHelper);
-
-        eventRouter.register(
-                MotionEvent.TOOL_TYPE_MOUSE,
-                new MouseDragEventInterceptor(
-                        mDetailsLookup, dragStartListener::onMouseDragEvent, mBandSelector));
-
-        mRecView.addOnItemTouchListener(eventRouter);
 
         mActionModeController = mInjector.getActionModeController(
                 mSelectionMetadata,
@@ -455,16 +417,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mState.dirConfigs.put(mLocalState.getConfigKey(), container);
     }
 
-    public void retainState(RetainedState state) {
-        state.selection = new Selection();
-        mSelectionMgr.copySelection(state.selection);
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         mLocalState.save(outState);
+        mSelectionMgr.onSaveInstanceState(outState);
     }
 
     @Override
@@ -515,7 +473,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     // TODO: Move to UserInputHander.
     protected boolean onContextMenuClick(MotionEvent e) {
 
-        if (mDetailsLookup.overStableItem(e)) {
+        if (mDetailsLookup.overItemWithSelectionKey(e)) {
             View childView = mRecView.findChildViewUnder(e.getX(), e.getY());
             ViewHolder holder = mRecView.getChildViewHolder(childView);
 
@@ -528,6 +486,13 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mInjector.menuManager.showContextMenu(this, mRecView, e.getX(), e.getY());
         return true;
+    }
+
+    private boolean onItemActivated(ItemDetails<String> item, MotionEvent e) {
+        return mActions.openItem(
+                item,
+                ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
     }
 
     public void onViewModeChanged() {
@@ -554,9 +519,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         int pad = getDirectoryPadding(mode);
         mRecView.setPadding(pad, pad, pad, pad);
         mRecView.requestLayout();
-        if (mBandSelector != null) {
-            mBandSelector.reset();
-        }
         mIconHelper.setViewMode(mode);
     }
 
@@ -635,7 +597,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private boolean handleMenuItemClick(MenuItem item) {
-        Selection selection = new Selection();
+        MutableSelection<String> selection = new MutableSelection<>();
         mSelectionMgr.copySelection(selection);
 
         switch (item.getItemId()) {
@@ -780,7 +742,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         }
     }
 
-    private void showChooserForDoc(final Selection selected) {
+    private void showChooserForDoc(final Selection<String> selected) {
         Metrics.logUserAction(getContext(), Metrics.USER_ACTION_OPEN);
 
         assert selected.size() == 1;
@@ -789,7 +751,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mActions.showChooserForDoc(doc);
     }
 
-    private void transferDocuments(final Selection selected, @Nullable DocumentStack destination,
+    private void transferDocuments(
+            final Selection<String> selected, @Nullable DocumentStack destination,
             final @OpType int mode) {
         switch (mode) {
             case FileOperationService.OPERATION_COPY:
@@ -1025,7 +988,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         final Bundle args = new Bundle();
         args.putParcelable(Shared.EXTRA_ROOT, root);
         args.putParcelable(Shared.EXTRA_DOC, doc);
-        args.putParcelable(Shared.EXTRA_SELECTION, new Selection());
 
         final FragmentTransaction ft = fm.beginTransaction();
         AnimationView.setupAnimations(ft, anim, args);
@@ -1084,9 +1046,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
             mAdapter.notifyDataSetChanged();
 
-            if (mRestoredSelection != null) {
-                mSelectionMgr.restoreSelection(mRestoredSelection);
-                mRestoredSelection = null;
+            if (mRestoredState != null) {
+                mSelectionMgr.onRestoreInstanceState(mRestoredState);
+                mRestoredState = null;
             }
 
             // Restore any previous instance state

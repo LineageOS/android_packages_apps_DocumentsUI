@@ -21,19 +21,20 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
+
+import androidx.recyclerview.selection.SelectionTracker.SelectionPredicate;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.Model;
 import com.android.documentsui.base.State;
-import com.android.documentsui.selection.SelectionHelper.SelectionPredicate;
 
 /**
  * Class embodying the logic as to whether an item (specified by id or position)
  * can be selected (or not).
  */
-final class DocsSelectionPredicate extends SelectionPredicate {
+final class DocsSelectionPredicate extends SelectionPredicate<String> {
 
     private ActivityConfig mConfig;
     private Model mModel;
@@ -56,7 +57,7 @@ final class DocsSelectionPredicate extends SelectionPredicate {
     }
 
     @Override
-    public boolean canSetStateForId(String id, boolean nextState) {
+    public boolean canSetStateForKey(String id, boolean nextState) {
         if (nextState) {
             // Check if an item can be selected
             final Cursor cursor = mModel.getItem(id);

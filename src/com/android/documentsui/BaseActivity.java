@@ -16,8 +16,8 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.State.MODE_GRID;
 
 import android.app.Activity;
@@ -31,15 +31,16 @@ import android.os.Bundle;
 import android.os.MessageQueue.IdleHandler;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
-import androidx.annotation.CallSuper;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toolbar;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.Injector.Injected;
@@ -60,7 +61,6 @@ import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.ProvidersCache;
-import com.android.documentsui.selection.Selection;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
@@ -82,7 +82,6 @@ public abstract class BaseActivity
     @Injected
     protected Injector<?> mInjector;
 
-    protected @Nullable RetainedState mRetainedState;
     protected ProvidersCache mProviders;
     protected DocumentsAccess mDocs;
     protected DrawerController mDrawer;
@@ -133,10 +132,6 @@ public abstract class BaseActivity
         mDrawer = DrawerController.create(this, mInjector.config);
         Metrics.logActivityLaunch(this, mState, intent);
 
-        // we're really interested in retainining state in our very complex
-        // DirectoryFragment. So we do a little code yoga to extend
-        // support to that fragment.
-        mRetainedState = (RetainedState) getLastNonConfigurationInstance();
         mProviders = DocumentsApplication.getProvidersCache(this);
         mDocs = DocumentsAccess.create(this);
 
@@ -524,29 +519,6 @@ public abstract class BaseActivity
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-    }
-
-    /**
-     * Delegate ths call to the current fragment so it can save selection.
-     * Feel free to expand on this with other useful state.
-     */
-    @Override
-    public RetainedState onRetainNonConfigurationInstance() {
-        RetainedState retained = new RetainedState();
-        DirectoryFragment fragment = DirectoryFragment.get(getFragmentManager());
-        if (fragment != null) {
-            fragment.retainState(retained);
-        }
-        return retained;
-    }
-
-    public @Nullable RetainedState getRetainedState() {
-        return mRetainedState;
-    }
-
-    @Override
     public boolean isSearchExpanded() {
         return mSearchManager.isExpanded();
     }
@@ -660,14 +632,6 @@ public abstract class BaseActivity
                 });
             }
         });
-    }
-
-    public static final class RetainedState {
-        public @Nullable Selection selection;
-
-        public boolean hasSelection() {
-            return selection != null;
-        }
     }
 
     @VisibleForTesting

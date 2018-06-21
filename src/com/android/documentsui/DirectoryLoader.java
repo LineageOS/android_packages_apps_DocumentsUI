@@ -43,7 +43,6 @@ import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.selection.ContentLock;
 import com.android.documentsui.sorting.SortModel;
 
 import android.os.FileUtils;

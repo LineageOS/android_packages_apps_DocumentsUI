@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.selection;
+package com.android.documentsui;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -23,8 +23,9 @@ import android.graphics.Point;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.selection.ViewAutoScroller.ScrollHost;
-import com.android.documentsui.selection.ViewAutoScroller.ScrollerCallbacks;
+import com.android.documentsui.ViewAutoScroller;
+import com.android.documentsui.ViewAutoScroller.ScrollHost;
+import com.android.documentsui.ViewAutoScroller.ScrollerCallbacks;
 
 import org.junit.Before;
 import org.junit.Test;

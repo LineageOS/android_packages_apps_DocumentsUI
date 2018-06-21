@@ -30,7 +30,6 @@ import android.view.MotionEvent.PointerCoords;
 import android.view.MotionEvent.PointerProperties;
 
 import com.android.documentsui.R;
-import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 
 @SmallTest
 public class DocumentHolderTest extends AndroidTestCase {
@@ -99,9 +98,9 @@ public class DocumentHolderTest extends AndroidTestCase {
                 );
     }
 
-    private class TestListener extends KeyboardEventListener {
+    private class TestListener extends KeyboardEventListener<DocumentItemDetails> {
         @Override
-        public boolean onKey(ItemDetails item, int keyCode, KeyEvent event) {
+        public boolean onKey(DocumentItemDetails item, int keyCode, KeyEvent event) {
             return false;
         }
 

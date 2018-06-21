@@ -31,33 +31,34 @@ import android.view.View;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Menus;
-import com.android.documentsui.selection.Selection;
-import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.SelectionHelper.SelectionObserver;
 import com.android.documentsui.ui.MessageBuilder;
+
+import androidx.recyclerview.selection.MutableSelection;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.SelectionTracker.SelectionObserver;
 
 /**
  * A controller that listens to selection changes and manages life cycles of action modes.
  */
-public class ActionModeController extends SelectionObserver
+public class ActionModeController extends SelectionObserver<String>
         implements ActionMode.Callback, ActionModeAddons {
 
     private static final String TAG = "ActionModeController";
 
     private final Activity mActivity;
-    private final SelectionHelper mSelectionMgr;
+    private final SelectionTracker<String> mSelectionMgr;
     private final MenuManager mMenuManager;
     private final MessageBuilder mMessages;
 
     private final ContentScope mScope = new ContentScope();
-    private final Selection mSelected = new Selection();
+    private final MutableSelection<String> mSelected = new MutableSelection<>();
 
     private @Nullable ActionMode mActionMode;
     private @Nullable Menu mMenu;
 
     public ActionModeController(
             Activity activity,
-            SelectionHelper selectionMgr,
+            SelectionTracker<String> selectionMgr,
             MenuManager menuManager,
             MessageBuilder messages) {
 

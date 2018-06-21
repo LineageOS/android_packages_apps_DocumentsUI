@@ -23,7 +23,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.DragEvent;
 import android.view.View;
 
-import com.android.documentsui.selection.ViewAutoScroller.ScrollerCallbacks;
+import com.android.documentsui.ViewAutoScroller.ScrollerCallbacks;
 import com.android.documentsui.testing.DragEvents;
 import com.android.documentsui.testing.Views;
 

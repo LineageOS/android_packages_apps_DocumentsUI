@@ -24,16 +24,15 @@ import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.AndroidTestCase;
+
+import androidx.recyclerview.selection.SelectionTracker;
 
 import com.android.documentsui.R;
+import com.android.documentsui.SelectionHelpers;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
-import com.android.documentsui.dirlist.TestContext;
 import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
@@ -112,7 +111,7 @@ public final class MenuManagerTest {
     private State state = new State();
     private MenuManager mgr;
     private TestActivity activity = TestActivity.create(TestEnv.create());
-    private SelectionHelper selectionManager;
+    private SelectionTracker<String> selectionManager;
 
     @Before
     public void setUp() {

@@ -10,7 +10,8 @@ LOCAL_STATIC_ANDROID_LIBRARIES := \
         androidx.legacy_legacy-support-v13 \
         androidx.design_design \
         androidx.transition_transition \
-        androidx.recyclerview_recyclerview
+        androidx.recyclerview_recyclerview \
+        androidx.recyclerview_recyclerview-selection
 
 LOCAL_USE_AAPT2 := true
 
