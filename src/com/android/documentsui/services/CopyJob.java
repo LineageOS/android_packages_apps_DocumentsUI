@@ -959,7 +959,7 @@ class CopyJob extends ResolvedResourcesJob {
 
     private static class IndeterminateProgressTracker extends ByteCountProgressTracker {
         public IndeterminateProgressTracker(long bytesRequired) {
-            super(bytesRequired, null);
+            super(bytesRequired, () -> -1L /* No need to update elapsedTime */);
         }
 
         @Override
