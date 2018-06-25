@@ -41,22 +41,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingBottom="9dp"
-            android:paddingLeft="9dp"
-            android:paddingRight="12dp"
-            android:paddingTop="9dp"
             android:gravity="center_vertical">
 
             <FrameLayout
+                android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:pointerIcon="hand"
-                android:layout_marginEnd="8dp" >
+                android:paddingBottom="9dp"
+                android:paddingStart="9dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="9dp" >
 
                 <ImageView
                     android:id="@+id/icon_mime_sm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/grid_item_icon_size"
+                    android:layout_height="@dimen/grid_item_icon_size"
                     android:layout_gravity="center"
                     android:contentDescription="@null"
                     android:scaleType="centerInside"
@@ -81,7 +81,10 @@
                 android:singleLine="true"
                 android:textAlignment="viewStart"
                 android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-                android:textColor="@color/item_title" />
+                android:textColor="@color/item_title"
+                android:layout_marginBottom="9dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="9dp" />
 
         </LinearLayout>
 

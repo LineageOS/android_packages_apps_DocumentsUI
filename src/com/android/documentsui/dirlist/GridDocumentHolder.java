@@ -46,6 +46,7 @@ final class GridDocumentHolder extends DocumentHolder {
     final ImageView mIconThumb;
     final ImageView mIconCheck;
     final IconHelper mIconHelper;
+    final View mIconLayout;
 
     private final @ColorInt int mDisabledBgColor;
     private final @ColorInt int mDefaultBgColor;
@@ -58,6 +59,7 @@ final class GridDocumentHolder extends DocumentHolder {
         mDisabledBgColor = context.getColor(R.color.item_doc_background_disabled);
         mDefaultBgColor = context.getColor(R.color.item_doc_background);
 
+        mIconLayout = itemView.findViewById(R.id.icon);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
         mDate = (TextView) itemView.findViewById(R.id.date);
         mDetails = (TextView) itemView.findViewById(R.id.details);
@@ -119,7 +121,7 @@ final class GridDocumentHolder extends DocumentHolder {
     @Override
     public boolean inSelectRegion(MotionEvent event) {
         Rect iconRect = new Rect();
-        mIconMimeSm.getGlobalVisibleRect(iconRect);
+        mIconLayout.getGlobalVisibleRect(iconRect);
 
         return iconRect.contains((int) event.getRawX(), (int) event.getRawY());
     }

@@ -66,79 +66,90 @@
         <!-- Item nameplate.  Has a mime-type icon and some text fields (title,
              size, mod-time, etc). -->
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/nameplate"
             android:background="@drawable/grid_item_background"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/thumbnail"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp">
+            android:layout_below="@id/thumbnail" >
 
-            <ImageView
-                android:id="@+id/icon_mime_sm"
-                android:layout_width="@dimen/grid_item_icon_size"
-                android:layout_height="@dimen/grid_item_icon_size"
-                android:layout_marginEnd="8dp"
-                android:layout_alignParentStart="true"
+            <FrameLayout
+                android:id="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:scaleType="center"
                 android:pointerIcon="hand"
-                android:contentDescription="@null"/>
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="8dp" >
 
-            <ImageView
-                android:id="@+id/icon_check"
-                android:src="@drawable/ic_check_circle"
-                android:alpha="0"
-                android:layout_width="@dimen/check_icon_size"
-                android:layout_height="@dimen/check_icon_size"
-                android:layout_marginEnd="8dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:scaleType="fitCenter"
-                android:pointerIcon="hand"
-                android:contentDescription="@null"/>
+                <ImageView
+                    android:id="@+id/icon_mime_sm"
+                    android:layout_width="@dimen/grid_item_icon_size"
+                    android:layout_height="@dimen/grid_item_icon_size"
+                    android:layout_gravity="center"
+                    android:scaleType="center"
+                    android:contentDescription="@null"/>
 
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/icon_check"
+                    android:src="@drawable/ic_check_circle"
+                    android:alpha="0"
+                    android:layout_width="@dimen/check_icon_size"
+                    android:layout_height="@dimen/check_icon_size"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="@null"/>
+
+            </FrameLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@id/icon_mime_sm"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textAlignment="viewStart"
-                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-                android:textColor="@color/item_title" />
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="12dp" >
 
-            <TextView
-                android:id="@+id/details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/icon_mime_sm"
-                android:layout_below="@android:id/title"
-                android:layout_marginEnd="4dp"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textAlignment="viewStart"
-                android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                android:textColor="@color/item_details" />
+                <TextView
+                    android:id="@android:id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textAlignment="viewStart"
+                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textColor="@color/item_title" />
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@android:id/title"
-                android:layout_toEndOf="@id/details"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:textAlignment="viewStart"
-                android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                android:textColor="@color/item_details" />
+                <TextView
+                    android:id="@+id/details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_marginEnd="4dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textAlignment="viewStart"
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption"
+                    android:textColor="@color/item_details" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@android:id/title"
+                    android:layout_toEndOf="@id/details"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textAlignment="viewStart"
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption"
+                    android:textColor="@color/item_details" />
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <!-- An overlay that draws the item border when it is focused. -->
         <View
