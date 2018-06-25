@@ -196,9 +196,10 @@ public class DirectoryListBot extends Bots.BaseBot {
 
         BySelector selector = By.hasChild(By.text(label));
         UiObject2 parent = mDevice.findObject(list).findObject(selector);
-        if (parent.getClassName().equals("android.widget.LinearLayout")) {
-            // For list mode, the parent of the textView does not contain the selector icon, but the
-            // grandparent of the textView does
+        if (parent.getClassName().equals("android.widget.LinearLayout")
+                || parent.getClassName().equals("android.widget.RelativeLayout")) {
+            // For list mode and doc grid, the parent of the textView does not contain the selector
+            // icon, but the grandparent of the textView does
             // Gotta go one more level up
             selector = By.hasDescendant(By.text(label).depth(2));
             parent = mDevice.findObject(list).findObject(selector);

@@ -23,6 +23,7 @@ import android.database.Cursor;
 import android.graphics.Rect;
 import android.provider.DocumentsContract.Document;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,10 +36,12 @@ final class GridDirectoryHolder extends DocumentHolder {
 
     private final ImageView mIconCheck;
     private final ImageView mIconMime;
+    private final View mIconLayout;
 
     public GridDirectoryHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_dir_grid);
 
+        mIconLayout = itemView.findViewById(R.id.icon);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
         mIconMime = (ImageView) itemView.findViewById(R.id.icon_mime_sm);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
@@ -67,7 +70,7 @@ final class GridDirectoryHolder extends DocumentHolder {
     @Override
     public boolean inSelectRegion(MotionEvent event) {
         Rect iconRect = new Rect();
-        mIconMime.getGlobalVisibleRect(iconRect);
+        mIconLayout.getGlobalVisibleRect(iconRect);
 
         return iconRect.contains((int) event.getRawX(), (int) event.getRawY());
     }
