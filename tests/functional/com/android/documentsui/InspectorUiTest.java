@@ -68,7 +68,7 @@ public class InspectorUiTest extends ActivityTest<InspectorActivity> {
                 getActivity());
         bots.inspector.assertRowEquals(
                 getActivity().getString(R.string.directory_items),
-                "4",
+                InspectorProvider.NUMBER_OF_ITEMS,
                 getActivity());
     }
 }

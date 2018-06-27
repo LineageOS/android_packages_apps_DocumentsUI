@@ -44,7 +44,8 @@ public class InspectorProvider extends TestRootProvider {
     public static final String AUTHORITY = "com.android.documentsui.inspectorprovider";
     public static final String OPEN_IN_PROVIDER_TEST = "OpenInProviderTest";
     public static final String ROOT_ID = "inspector-root";
-
+    // Number of items under the root path of InspectorProvider.
+    public static final String NUMBER_OF_ITEMS = "6";
     // Virtual jpeg files for test metadata loading from provider.
     // TEST_JPEG is a normal jpeg file with legal exif data.
     // INVALID_JPEG is a invalid jpeg file with broken exif data.
@@ -105,6 +106,8 @@ public class InspectorProvider extends TestRootProvider {
         }
         else {
             MatrixCursor c = createDocCursor(projection);
+            // If you add folder or file here, please modify NUMBER_OF_ITEMS above for
+            // #testFolderDetails in InspectorUiTest accordingly.
             addFolder(c, "Top");
             addFile(c, OPEN_IN_PROVIDER_TEST, FLAG_SUPPORTS_SETTINGS);
             addFile(c, "test.txt");
