@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"Споделяне"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Изтриване"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Избиране на всичко"</string>
+    <string name="menu_select" msgid="1366061076507142387">"Избиране"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Копиране във…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Преместване във…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Компресиране"</string>

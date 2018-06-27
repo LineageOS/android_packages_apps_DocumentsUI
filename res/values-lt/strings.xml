@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"Bendrinti"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Ištrinti"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Pasirinkti viską"</string>
+    <string name="menu_select" msgid="1366061076507142387">"Pasirinkti"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopijuoti į..."</string>
     <string name="menu_move" msgid="2310760789561129882">"Perkelti į…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Suglaudinti"</string>
