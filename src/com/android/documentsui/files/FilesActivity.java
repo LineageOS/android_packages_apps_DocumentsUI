@@ -398,6 +398,11 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         mInjector.focusManager.focusDocument(doc.documentId);
     }
 
+    @Override
+    protected boolean canInspectDirectory() {
+        return getCurrentDirectory() != null && mInjector.getModel().doc != null;
+    }
+
     @CallSuper
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
