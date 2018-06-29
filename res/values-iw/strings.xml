@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"שתף"</string>
     <string name="menu_delete" msgid="1022254131543256626">"מחיקה"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"בחר הכל"</string>
+    <string name="menu_select" msgid="1366061076507142387">"בחירה"</string>
     <string name="menu_copy" msgid="7404820171352314754">"העתק אל…"</string>
     <string name="menu_move" msgid="2310760789561129882">"העבר אל…"</string>
     <string name="menu_compress" msgid="37539111904724188">"דחוס"</string>
@@ -206,7 +207,7 @@
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"האם להעניק לאפליקציה <xliff:g id="APPNAME"><b>^1</b></xliff:g> גישה לנתונים שלך, כולל תמונות וסרטונים, השמורים ב<xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
     <string name="never_ask_again" msgid="525908236522201138">"ראיתי פעם אחת, זה מספיק"</string>
     <string name="allow" msgid="1275746941353040309">"כן, זה בסדר"</string>
-    <string name="deny" msgid="5127201668078153379">"לא, אין מצב"</string>
+    <string name="deny" msgid="5127201668078153379">"לא, תודה"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="two"><xliff:g id="COUNT_1">%1$d</xliff:g> נבחרו</item>
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> נבחרו</item>

@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"शेयर करें"</string>
     <string name="menu_delete" msgid="1022254131543256626">"मिटाएं"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"सभी चुनें"</string>
+    <string name="menu_select" msgid="1366061076507142387">"चुनें"</string>
     <string name="menu_copy" msgid="7404820171352314754">"इनकी कॉपी करें..."</string>
     <string name="menu_move" msgid="2310760789561129882">"यहां ले जाएं…"</string>
     <string name="menu_compress" msgid="37539111904724188">"कंप्रेस करें"</string>

@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"Sdílet"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Smazat"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Vybrat vše"</string>
+    <string name="menu_select" msgid="1366061076507142387">"Vybrat"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopírovat do…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Přesunout do…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Zkomprimovat"</string>

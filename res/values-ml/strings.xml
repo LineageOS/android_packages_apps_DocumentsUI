@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"പങ്കിടുക"</string>
     <string name="menu_delete" msgid="1022254131543256626">"ഇല്ലാതാക്കുക"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"എല്ലാം തിരഞ്ഞെടുക്കുക"</string>
+    <string name="menu_select" msgid="1366061076507142387">"തിരഞ്ഞെടുക്കുക"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ഇതിൽ പകർത്തുക…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ഇതിലേക്ക് നീക്കുക..."</string>
     <string name="menu_compress" msgid="37539111904724188">"കംപ്രസ്സുചെയ്യുക"</string>
