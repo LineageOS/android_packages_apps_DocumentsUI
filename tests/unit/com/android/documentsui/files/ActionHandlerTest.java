@@ -63,7 +63,7 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.ui.TestDialogController;
-import com.android.internal.util.Preconditions;
+import androidx.core.util.Preconditions;
 
 import org.junit.Before;
 import org.junit.Test;

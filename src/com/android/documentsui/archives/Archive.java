@@ -36,7 +36,7 @@ import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.GuardedBy;
-import com.android.internal.util.Preconditions;
+import androidx.core.util.Preconditions;
 
 import java.io.Closeable;
 import java.io.File;

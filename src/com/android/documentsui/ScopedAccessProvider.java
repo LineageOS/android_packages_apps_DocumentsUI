@@ -38,7 +38,7 @@ import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.clearSc
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPackages;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllPermissions;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
-import static com.android.internal.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkArgument;
 
 import androidx.annotation.Nullable;
 import android.app.ActivityManager;

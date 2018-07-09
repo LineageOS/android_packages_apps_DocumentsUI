@@ -18,7 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
-import static com.android.internal.util.Preconditions.checkNotNull;
+import static androidx.core.util.Preconditions.checkNotNull;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;

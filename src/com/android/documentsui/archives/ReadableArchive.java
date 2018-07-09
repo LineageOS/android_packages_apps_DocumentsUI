@@ -32,7 +32,7 @@ import android.util.Log;
 import android.util.jar.StrictJarFile;
 
 import androidx.annotation.GuardedBy;
-import com.android.internal.util.Preconditions;
+import androidx.core.util.Preconditions;
 
 import libcore.io.IoUtils;
 
