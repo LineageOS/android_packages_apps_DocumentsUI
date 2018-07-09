@@ -16,7 +16,7 @@
 
 package com.android.documentsui.ui;
 
-import android.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.app.Activity;
 import android.support.design.widget.Snackbar;
 import android.view.Gravity;

@@ -32,7 +32,7 @@ import static com.android.documentsui.services.FileOperationService.MESSAGE_FINI
 import static com.android.documentsui.services.FileOperationService.MESSAGE_PROGRESS;
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 
-import android.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.PendingIntent;
@@ -73,7 +73,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.services.FileOperationService.OpType;
-import com.android.internal.annotations.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import libcore.io.IoUtils;
 

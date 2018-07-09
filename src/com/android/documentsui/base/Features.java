@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.base;
 
-import android.annotation.BoolRes;
+import androidx.annotation.BoolRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.UserManager;

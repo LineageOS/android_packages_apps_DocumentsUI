@@ -24,7 +24,7 @@ import android.view.View;
 import android.view.View.OnDragListener;
 
 import com.android.documentsui.ItemDragListener.DragHost;
-import com.android.internal.annotations.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import java.util.Timer;
 import java.util.TimerTask;

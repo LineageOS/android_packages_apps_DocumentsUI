@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import android.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.TextUtils;

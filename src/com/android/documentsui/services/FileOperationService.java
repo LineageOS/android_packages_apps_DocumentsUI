@@ -18,7 +18,7 @@ package com.android.documentsui.services;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import android.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;

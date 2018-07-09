@@ -15,7 +15,7 @@
  */
 package com.android.documentsui;
 
-import android.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;

@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.testing;
 
-import android.annotation.BoolRes;
+import androidx.annotation.BoolRes;
 
 import com.android.documentsui.base.Features;
 

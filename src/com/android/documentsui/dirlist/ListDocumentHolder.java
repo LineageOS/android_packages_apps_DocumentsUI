@@ -18,7 +18,7 @@ package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
-import android.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;

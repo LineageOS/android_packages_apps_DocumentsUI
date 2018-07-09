@@ -40,7 +40,7 @@ import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getAllP
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
 import static com.android.internal.util.Preconditions.checkArgument;
 
-import android.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.app.ActivityManager;
 import android.app.GrantedUriPermission;
 import android.content.ContentProvider;

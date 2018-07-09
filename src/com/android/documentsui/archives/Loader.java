@@ -16,7 +16,7 @@
 
 package com.android.documentsui.archives;
 
-import com.android.internal.annotations.GuardedBy;
+import androidx.annotation.GuardedBy;
 
 import android.content.Context;
 import android.net.Uri;

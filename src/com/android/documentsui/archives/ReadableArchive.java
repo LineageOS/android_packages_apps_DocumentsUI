@@ -31,7 +31,7 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.util.jar.StrictJarFile;
 
-import com.android.internal.annotations.GuardedBy;
+import androidx.annotation.GuardedBy;
 import com.android.internal.util.Preconditions;
 
 import libcore.io.IoUtils;

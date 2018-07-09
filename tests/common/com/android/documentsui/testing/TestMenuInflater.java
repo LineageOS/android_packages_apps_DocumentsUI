@@ -16,7 +16,7 @@
 
 package com.android.documentsui.testing;
 
-import android.annotation.MenuRes;
+import androidx.annotation.MenuRes;
 import android.support.test.InstrumentationRegistry;
 import android.view.Menu;
 import android.view.MenuInflater;

@@ -41,7 +41,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.internal.annotations.GuardedBy;
+import androidx.annotation.GuardedBy;
 
 import com.google.common.util.concurrent.AbstractFuture;
 

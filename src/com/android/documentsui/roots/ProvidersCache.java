@@ -46,7 +46,7 @@ import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
-import com.android.internal.annotations.GuardedBy;
+import androidx.annotation.GuardedBy;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;

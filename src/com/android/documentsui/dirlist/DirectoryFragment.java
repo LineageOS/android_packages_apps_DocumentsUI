@@ -22,9 +22,9 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 
-import android.annotation.DimenRes;
-import android.annotation.FractionRes;
-import android.annotation.IntDef;
+import androidx.annotation.DimenRes;
+import androidx.annotation.FractionRes;
+import androidx.annotation.IntDef;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Fragment;

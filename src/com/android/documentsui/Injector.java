@@ -36,7 +36,7 @@ import com.android.documentsui.selection.ContentLock;
 import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
-import com.android.internal.annotations.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

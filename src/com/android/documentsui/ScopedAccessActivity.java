@@ -39,8 +39,7 @@ import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISS
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getScopedAccessPermissionStatus;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
 
-import android.annotation.Nullable;
-import android.annotation.SuppressLint;
+import androidx.annotation.Nullable;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -331,7 +330,6 @@ public class ScopedAccessActivity extends Activity {
                 }
             };
 
-            @SuppressLint("InflateParams")
             // It's ok pass null ViewRoot on AlertDialogs.
             final View view = View.inflate(mActivity, R.layout.dialog_open_scoped_directory, null);
             final CharSequence message;

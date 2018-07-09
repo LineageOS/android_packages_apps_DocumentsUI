@@ -25,9 +25,9 @@ import static com.android.documentsui.services.FileOperationService.EXTRA_JOB_ID
 import static com.android.documentsui.services.FileOperationService.EXTRA_OPERATION_TYPE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
 
-import android.annotation.DrawableRes;
-import android.annotation.IntDef;
-import android.annotation.PluralsRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.PluralsRes;
 import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.PendingIntent;

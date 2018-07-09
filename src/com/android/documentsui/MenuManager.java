@@ -30,7 +30,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.sidebar.RootsFragment;
-import com.android.internal.annotations.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import java.util.List;
 import java.util.function.IntFunction;

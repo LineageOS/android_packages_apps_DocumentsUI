@@ -35,7 +35,7 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.android.documentsui.R;
-import com.android.internal.annotations.GuardedBy;
+import androidx.annotation.GuardedBy;
 
 import libcore.io.IoUtils;
 

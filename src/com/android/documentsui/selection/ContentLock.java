@@ -19,8 +19,8 @@ import static androidx.core.util.Preconditions.checkState;
 import static com.android.documentsui.selection.Shared.DEBUG;
 import static com.android.documentsui.selection.Shared.TAG;
 
-import android.annotation.MainThread;
-import android.annotation.Nullable;
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
 import android.content.Loader;
 import android.util.Log;
 

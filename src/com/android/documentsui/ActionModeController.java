@@ -18,8 +18,8 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import android.annotation.IdRes;
-import android.annotation.Nullable;
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
 import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;

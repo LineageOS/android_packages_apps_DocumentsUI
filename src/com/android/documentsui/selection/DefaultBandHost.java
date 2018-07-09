@@ -17,7 +17,7 @@ package com.android.documentsui.selection;
 
 import static com.android.internal.util.Preconditions.checkArgument;
 
-import android.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;

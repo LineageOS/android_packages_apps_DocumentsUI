@@ -16,7 +16,7 @@
 
 package com.android.documentsui.sorting;
 
-import android.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;

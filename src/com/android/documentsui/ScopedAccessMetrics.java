@@ -21,8 +21,8 @@ import static android.os.Environment.STANDARD_DIRECTORIES;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
 
-import android.annotation.IntDef;
-import android.annotation.StringDef;
+import androidx.annotation.IntDef;
+import androidx.annotation.StringDef;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;

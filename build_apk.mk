@@ -25,4 +25,8 @@ endif
 LOCAL_CERTIFICATE := platform
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
 
+# TODO: build against public API as part of b/110959821
+LOCAL_PRIVATE_PLATFORM_APIS := true
+#LOCAL_SDK_VERSION := current
+
 include $(BUILD_PACKAGE)

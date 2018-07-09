@@ -18,7 +18,7 @@ package com.android.documentsui.base;
 
 import static com.android.documentsui.base.SharedMinimal.TAG;
 
-import android.annotation.PluralsRes;
+import androidx.annotation.PluralsRes;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
