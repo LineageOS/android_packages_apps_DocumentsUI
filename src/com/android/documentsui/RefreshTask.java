@@ -97,7 +97,7 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
         } catch (Exception e) {
             Log.w(TAG, "Failed to refresh", e);
         } finally {
-            ContentProviderClient.releaseQuietly(client);
+            ContentProviderClient.closeQuietly(client);
         }
         return refreshSupported;
     }

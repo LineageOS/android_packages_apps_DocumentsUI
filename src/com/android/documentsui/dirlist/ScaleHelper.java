@@ -16,6 +16,7 @@
 package com.android.documentsui.dirlist;
 
 import static androidx.core.util.Preconditions.checkState;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import android.content.Context;
@@ -61,7 +62,7 @@ final class ScaleHelper {
     }
 
     void attach(RecyclerView view) {
-        checkState(Build.IS_DEBUGGABLE);
+        checkState(DEBUG);
         checkState(mScaleDetector == null);
 
         mScaleDetector = new ScaleGestureDetector(

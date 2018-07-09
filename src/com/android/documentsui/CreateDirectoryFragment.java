@@ -147,7 +147,7 @@ public class CreateDirectoryFragment extends DialogFragment {
                 Log.w(TAG, "Failed to create directory", e);
                 return null;
             } finally {
-                ContentProviderClient.releaseQuietly(client);
+                ContentProviderClient.closeQuietly(client);
             }
         }
 

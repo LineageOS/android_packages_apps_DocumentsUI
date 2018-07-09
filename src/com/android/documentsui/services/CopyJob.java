@@ -32,7 +32,6 @@ import static com.android.documentsui.services.FileOperationService.MESSAGE_FINI
 import static com.android.documentsui.services.FileOperationService.MESSAGE_PROGRESS;
 import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 
-import androidx.annotation.StringRes;
 import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.PendingIntent;
@@ -73,9 +72,6 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.services.FileOperationService.OpType;
-import androidx.annotation.VisibleForTesting;
-
-import libcore.io.IoUtils;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -87,6 +83,9 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.function.LongSupplier;
+
+import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
 
 class CopyJob extends ResolvedResourcesJob {
 
@@ -474,7 +473,7 @@ class CopyJob extends ResolvedResourcesJob {
                     srcDir.derivedUri.toString(), destDir.derivedUri.toString()), e);
             success = false;
         } finally {
-            IoUtils.closeQuietly(cursor);
+            FileUtils.closeQuietly(cursor);
         }
 
         if (!success) {
@@ -565,11 +564,11 @@ class CopyJob extends ResolvedResourcesJob {
 
                 try {
                     final Int64Ref last = new Int64Ref(0);
-                    FileUtils.copy(in, out, (long progress) -> {
+                    FileUtils.copy(in, out, mSignal, Runnable::run, (long progress) -> {
                         final long delta = progress - last.value;
                         last.value = progress;
                         makeCopyProgress(delta);
-                    }, mSignal);
+                    });
                 } catch (OperationCanceledException e) {
                     if (DEBUG) Log.d(TAG, "Canceled copy mid-copy of: " + src.derivedUri);
                     return;
@@ -587,7 +586,11 @@ class CopyJob extends ResolvedResourcesJob {
                 }
 
                 // Need to invoke IoUtils.close explicitly to avoid from ignoring errors at flush.
-                IoUtils.close(dstFile.getFileDescriptor());
+                try {
+                    Os.close(dstFile.getFileDescriptor());
+                } catch (ErrnoException e) {
+                    throw new IOException(e);
+                }
                 srcFile.checkError();
             } catch (IOException e) {
                 Metrics.logFileOperationFailure(
@@ -624,8 +627,8 @@ class CopyJob extends ResolvedResourcesJob {
             }
 
             // This also ensures the file descriptors are closed.
-            IoUtils.closeQuietly(in);
-            IoUtils.closeQuietly(out);
+            FileUtils.closeQuietly(in);
+            FileUtils.closeQuietly(out);
         }
     }
 
@@ -704,7 +707,7 @@ class CopyJob extends ResolvedResourcesJob {
             throw new ResourceException(
                     "Failed to calculate size for %s due to an exception.", uri, e);
         } finally {
-            IoUtils.closeQuietly(cursor);
+            FileUtils.closeQuietly(cursor);
         }
 
         return result;

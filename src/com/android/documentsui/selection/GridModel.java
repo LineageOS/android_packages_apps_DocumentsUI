@@ -17,6 +17,7 @@
 package com.android.documentsui.selection;
 
 import static androidx.core.util.Preconditions.checkArgument;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -324,7 +325,7 @@ final class GridModel {
     private void updateSelection(
             int columnStartIndex, int columnEndIndex, int rowStartIndex, int rowEndIndex) {
 
-        if (BandSelectionHelper.DEBUG) {
+        if (DEBUG) {
             Log.d(BandSelectionHelper.TAG, String.format(
                     "updateSelection: %d, %d, %d, %d",
                     columnStartIndex, columnEndIndex, rowStartIndex, rowEndIndex));

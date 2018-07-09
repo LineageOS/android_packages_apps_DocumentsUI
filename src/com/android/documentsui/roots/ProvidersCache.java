@@ -51,7 +51,7 @@ import androidx.annotation.GuardedBy;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -311,8 +311,8 @@ public class ProvidersCache implements ProvidersAccess {
             // if forceRefresh is false.
             return roots;
         } finally {
-            IoUtils.closeQuietly(cursor);
-            ContentProviderClient.releaseQuietly(client);
+            FileUtils.closeQuietly(cursor);
+            ContentProviderClient.closeQuietly(client);
         }
 
         // Cache these freshly parsed roots over in the long-lived system

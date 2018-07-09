@@ -209,7 +209,7 @@ abstract public class Job implements Runnable {
 
     final void cleanup() {
         for (ContentProviderClient client : mClients.values()) {
-            ContentProviderClient.releaseQuietly(client);
+            ContentProviderClient.closeQuietly(client);
         }
     }
 

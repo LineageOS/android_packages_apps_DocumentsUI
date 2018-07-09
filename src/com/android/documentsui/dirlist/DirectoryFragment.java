@@ -391,7 +391,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         // on RecyclerView items.
         mKeyListener = handlers.createKeyHandler();
 
-        if (Build.IS_DEBUGGABLE) {
+        if (DEBUG) {
             new ScaleHelper(this.getContext(), mInjector.features, this::scaleLayout)
                     .attach(mRecView);
         }
@@ -565,7 +565,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
      * @param mode The new view mode.
      */
     private void scaleLayout(float scale) {
-        assert Build.IS_DEBUGGABLE;
+        assert DEBUG;
 
         if (VERBOSE) Log.v(
                 TAG, "Handling scale event: " + scale + ", existing scale: " + mLiveScale);

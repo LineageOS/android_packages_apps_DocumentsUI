@@ -31,7 +31,7 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.roots.RootCursorWrapper;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -198,8 +198,8 @@ public class DocumentInfo implements Durable, Parcelable {
         } catch (Throwable t) {
             throw asFileNotFoundException(t);
         } finally {
-            IoUtils.closeQuietly(cursor);
-            ContentProviderClient.releaseQuietly(client);
+            FileUtils.closeQuietly(cursor);
+            ContentProviderClient.closeQuietly(client);
         }
     }
 

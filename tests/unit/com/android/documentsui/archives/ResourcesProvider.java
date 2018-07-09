@@ -32,7 +32,7 @@ import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
 import android.webkit.MimeTypeMap;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -152,7 +152,7 @@ public class ResourcesProvider extends DocumentsProvider {
             row.add(Document.COLUMN_SIZE, fd.getLength());
         }
         finally {
-            IoUtils.closeQuietly(fd);
+            FileUtils.closeQuietly(fd);
         }
     }
 }

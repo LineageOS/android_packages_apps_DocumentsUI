@@ -29,7 +29,7 @@ import android.util.Log;
 import androidx.annotation.GuardedBy;
 import androidx.annotation.VisibleForTesting;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -128,7 +128,7 @@ public class WriteableArchive extends Archive {
         } catch (Exception e) {
             // Since the method takes ownership of the passed descriptor, close it
             // on exception.
-            IoUtils.closeQuietly(descriptor);
+            FileUtils.closeQuietly(descriptor);
             throw e;
         }
     }
@@ -270,8 +270,8 @@ public class WriteableArchive extends Archive {
                         }
                     });
         } catch (RejectedExecutionException e) {
-            IoUtils.closeQuietly(pipe[0]);
-            IoUtils.closeQuietly(pipe[1]);
+            FileUtils.closeQuietly(pipe[0]);
+            FileUtils.closeQuietly(pipe[1]);
             throw new IllegalStateException("Failed to initialize pipe.");
         }
 
@@ -311,6 +311,6 @@ public class WriteableArchive extends Archive {
             }
         }
 
-        IoUtils.closeQuietly(mOutputStream);
+        FileUtils.closeQuietly(mOutputStream);
     }
 };

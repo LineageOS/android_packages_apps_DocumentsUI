@@ -64,7 +64,7 @@ public final class EjectRootTask extends AsyncTask<Void, Void, Boolean> {
         } catch (Exception e) {
             Log.w(TAG, "Binder call failed.", e);
         } finally {
-            ContentProviderClient.releaseQuietly(client);
+            ContentProviderClient.closeQuietly(client);
         }
 
         return false;
