@@ -46,7 +46,7 @@ import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.selection.ContentLock;
 import com.android.documentsui.sorting.SortModel;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
@@ -158,7 +158,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
                 mSignal = null;
             }
             // TODO: Remove this call.
-            ContentProviderClient.releaseQuietly(client);
+            ContentProviderClient.closeQuietly(client);
         }
 
         return result;
@@ -178,7 +178,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     @Override
     public void deliverResult(DirectoryResult result) {
         if (isReset()) {
-            IoUtils.closeQuietly(result);
+            FileUtils.closeQuietly(result);
             return;
         }
         DirectoryResult oldResult = mResult;
@@ -189,7 +189,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         if (oldResult != null && oldResult != result) {
-            IoUtils.closeQuietly(oldResult);
+            FileUtils.closeQuietly(oldResult);
         }
     }
 
@@ -210,7 +210,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
     @Override
     public void onCanceled(DirectoryResult result) {
-        IoUtils.closeQuietly(result);
+        FileUtils.closeQuietly(result);
     }
 
     @Override
@@ -220,7 +220,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         // Ensure the loader is stopped
         onStopLoading();
 
-        IoUtils.closeQuietly(mResult);
+        FileUtils.closeQuietly(mResult);
         mResult = null;
 
         getContext().getContentResolver().unregisterContentObserver(mObserver);

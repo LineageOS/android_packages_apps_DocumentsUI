@@ -19,8 +19,8 @@ package com.android.documentsui;
 import static com.android.documentsui.DocumentsApplication.acquireUnstableProviderOrThrow;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import android.annotation.IntDef;
-import android.annotation.Nullable;
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;

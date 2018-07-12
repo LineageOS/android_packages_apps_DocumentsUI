@@ -16,7 +16,7 @@
 
 package com.android.documentsui.sorting;
 
-import android.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.StringRes;

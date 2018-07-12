@@ -22,7 +22,6 @@ import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCES
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_INVALID_DIRECTORY;
 import static com.android.documentsui.ScopedAccessMetrics.logInvalidScopedAccessRequest;
 
-import android.annotation.Nullable;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.net.Uri;
@@ -40,6 +39,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+
 /**
  * Contains the minimum number of utilities (contants, helpers, etc...) that can be used by both the
  * main package and the minimal APK that's used by Android TV (and other devices).
@@ -51,7 +52,7 @@ public final class SharedMinimal {
 
     public static final String TAG = "Documents";
 
-    public static final boolean DEBUG = Build.IS_DEBUGGABLE;
+    public static final boolean DEBUG = !"user".equals(Build.TYPE);
     public static final boolean VERBOSE = DEBUG && Log.isLoggable(TAG, Log.VERBOSE);
 
     /**

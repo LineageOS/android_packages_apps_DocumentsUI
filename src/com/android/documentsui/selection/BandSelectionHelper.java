@@ -18,6 +18,7 @@ package com.android.documentsui.selection;
 
 import static androidx.core.util.Preconditions.checkArgument;
 import static androidx.core.util.Preconditions.checkState;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -52,7 +53,6 @@ import java.util.Set;
  */
 public class BandSelectionHelper implements OnItemTouchListener {
 
-    static final boolean DEBUG = false;
     static final String TAG = "BandController";
 
     private final BandHost mHost;
@@ -170,7 +170,7 @@ public class BandSelectionHelper implements OnItemTouchListener {
     @VisibleForTesting
     boolean isActive() {
         boolean active = mModel != null;
-        if (Build.IS_DEBUGGABLE && active) {
+        if (DEBUG && active) {
             mLock.checkLocked();
         }
         return active;

@@ -17,10 +17,10 @@ package com.android.documentsui.prefs;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
-import static com.android.internal.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkArgument;
 
-import android.annotation.IntDef;
-import android.annotation.Nullable;
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -90,7 +90,7 @@ public class ScopedAccessLocalPreferences {
     public static void setScopedAccessPermissionStatus(Context context, String packageName,
             @Nullable String uuid, String directory, @PermissionStatus int status) {
         checkArgument(!TextUtils.isEmpty(directory),
-                "Cannot pass empty directory - did you mean %s?", DIRECTORY_ROOT);
+                "Cannot pass empty directory - did you mean " + DIRECTORY_ROOT + "?");
         final String key = getScopedAccessDenialsKey(packageName, uuid, directory);
         if (DEBUG) {
             Log.d(TAG, "Setting permission of " + packageName + ":" + uuid + ":" + directory

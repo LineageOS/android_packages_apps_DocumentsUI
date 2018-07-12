@@ -69,7 +69,7 @@ import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.ui.DialogController;
-import com.android.internal.annotations.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -179,7 +179,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
             Log.w(TAG, "Failed to rename file", e);
             return null;
         } finally {
-            ContentProviderClient.releaseQuietly(client);
+            ContentProviderClient.closeQuietly(client);
         }
     }
 
@@ -695,7 +695,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         intent.putExtra(
                 Shared.EXTRA_SHOW_DEBUG,
                 mFeatures.isDebugSupportEnabled() &&
-                        (Build.IS_DEBUGGABLE || DebugFlags.getDocumentDetailsEnabled()));
+                        (DEBUG || DebugFlags.getDocumentDetailsEnabled()));
 
         // The "root document" (top level folder in a root) don't usually have a
         // human friendly display name. That's because we've never shown the root

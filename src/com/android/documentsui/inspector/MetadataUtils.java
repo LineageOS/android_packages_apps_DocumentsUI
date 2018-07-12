@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.inspector;
 
-import static com.android.internal.util.Preconditions.checkNotNull;
+import static androidx.core.util.Preconditions.checkNotNull;
 
 import android.media.ExifInterface;
 import android.os.Bundle;

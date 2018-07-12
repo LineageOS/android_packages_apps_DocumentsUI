@@ -16,7 +16,7 @@
 
 package com.android.documentsui.sidebar;
 
-import android.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;

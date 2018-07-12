@@ -15,13 +15,14 @@
  */
 package com.android.documentsui.base;
 
-import android.annotation.BoolRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.UserManager;
 import android.util.SparseBooleanArray;
 
 import com.android.documentsui.R;
+
+import androidx.annotation.BoolRes;
 
 /**
  * Provides access to feature flags configured in config.xml.
@@ -61,7 +62,8 @@ public interface Features {
     void forceFeature(@BoolRes int feature, boolean enabled);
 
     public static Features create(Context context) {
-        return new RuntimeFeatures(context.getResources(), UserManager.get(context));
+        return new RuntimeFeatures(context.getResources(),
+                context.getSystemService(UserManager.class));
     }
 
     final class RuntimeFeatures implements Features {

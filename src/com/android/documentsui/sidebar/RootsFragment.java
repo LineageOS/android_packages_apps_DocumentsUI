@@ -19,7 +19,7 @@ package com.android.documentsui.sidebar;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
-import android.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;

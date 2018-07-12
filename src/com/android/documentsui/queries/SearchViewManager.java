@@ -18,7 +18,7 @@ package com.android.documentsui.queries;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import android.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -40,8 +40,8 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
-import com.android.internal.annotations.GuardedBy;
-import com.android.internal.annotations.VisibleForTesting;
+import androidx.annotation.GuardedBy;
+import androidx.annotation.VisibleForTesting;
 
 import java.util.Timer;
 import java.util.TimerTask;

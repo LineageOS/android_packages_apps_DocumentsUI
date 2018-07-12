@@ -41,11 +41,11 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.internal.annotations.GuardedBy;
+import androidx.annotation.GuardedBy;
 
 import com.google.common.util.concurrent.AbstractFuture;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -247,7 +247,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
     @Override
     public void deliverResult(DirectoryResult result) {
         if (isReset()) {
-            IoUtils.closeQuietly(result);
+            FileUtils.closeQuietly(result);
             return;
         }
         DirectoryResult oldResult = mResult;
@@ -258,7 +258,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         if (oldResult != null && oldResult != result) {
-            IoUtils.closeQuietly(oldResult);
+            FileUtils.closeQuietly(oldResult);
         }
     }
 
@@ -279,7 +279,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
     @Override
     public void onCanceled(DirectoryResult result) {
-        IoUtils.closeQuietly(result);
+        FileUtils.closeQuietly(result);
     }
 
     @Override
@@ -291,11 +291,11 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
 
         synchronized (mTasks) {
             for (RecentsTask task : mTasks.values()) {
-                IoUtils.closeQuietly(task);
+                FileUtils.closeQuietly(task);
             }
         }
 
-        IoUtils.closeQuietly(mResult);
+        FileUtils.closeQuietly(mResult);
         mResult = null;
     }
 
@@ -365,7 +365,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
             } catch (Exception e) {
                 Log.w(TAG, "Failed to acquire content resolver for authority: " + authority);
             } finally {
-                ContentProviderClient.releaseQuietly(client);
+                ContentProviderClient.closeQuietly(client);
             }
 
             set(mCursors);
@@ -383,7 +383,7 @@ public class RecentsLoader extends AsyncTaskLoader<DirectoryResult> {
             }
 
             for (Cursor cursor : mCursors) {
-                IoUtils.closeQuietly(cursor);
+                FileUtils.closeQuietly(cursor);
             }
 
             mIsClosed = true;

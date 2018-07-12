@@ -35,9 +35,9 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.android.documentsui.R;
-import com.android.internal.annotations.GuardedBy;
+import androidx.annotation.GuardedBy;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -170,7 +170,7 @@ public class ArchivesProvider extends DocumentsProvider {
             Log.e(TAG, "An error occurred retrieving the metadata.", e);
             return null;
         } finally {
-            IoUtils.closeQuietly(stream);
+            FileUtils.closeQuietly(stream);
         }
     }
 

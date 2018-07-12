@@ -114,7 +114,7 @@ public final class ThumbnailLoader extends AsyncTask<Uri, Void, Bitmap> implemen
                 Log.w(TAG, "Failed to load thumbnail for " + mUri + ": " + e);
             }
         } finally {
-            ContentProviderClient.releaseQuietly(client);
+            ContentProviderClient.closeQuietly(client);
         }
         return result;
     }

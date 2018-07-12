@@ -20,7 +20,7 @@ import static android.provider.DocumentsContract.buildChildDocumentsUri;
 import static android.provider.DocumentsContract.buildDocumentUri;
 import static android.provider.DocumentsContract.buildRootsUri;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
-import static com.android.internal.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkArgument;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
@@ -44,13 +44,14 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.roots.RootCursorWrapper;
 
-import com.google.android.collect.Lists;
-
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 import libcore.io.Streams;
+
+import com.google.common.collect.Lists;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -81,7 +82,7 @@ public class DocumentsProviderHelper {
         } catch (Exception e) {
             throw new RuntimeException("Can't load root for id=" + documentId , e);
         } finally {
-            IoUtils.closeQuietly(cursor);
+            FileUtils.closeQuietly(cursor);
         }
     }
 
@@ -352,7 +353,7 @@ public class DocumentsProviderHelper {
         } catch (Exception e) {
             throw new RuntimeException("Can't load rootInfo list", e);
         } finally {
-            IoUtils.closeQuietly(cursor);
+            FileUtils.closeQuietly(cursor);
         }
         return list;
     }

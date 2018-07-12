@@ -31,10 +31,10 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.util.jar.StrictJarFile;
 
-import com.android.internal.annotations.GuardedBy;
-import com.android.internal.util.Preconditions;
+import androidx.annotation.GuardedBy;
+import androidx.core.util.Preconditions;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -214,8 +214,8 @@ public class ReadableArchive extends Archive {
         } catch (Exception e) {
             // Since the method takes ownership of the passed descriptor, close it
             // on exception.
-            IoUtils.closeQuietly(descriptor);
-            IoUtils.closeQuietly(fd);
+            FileUtils.closeQuietly(descriptor);
+            FileUtils.closeQuietly(fd);
             throw e;
         }
     }
@@ -286,7 +286,7 @@ public class ReadableArchive extends Archive {
             // Ignore the exception, as reading the EXIF may legally fail.
             Log.e(TAG, "Failed to obtain thumbnail from EXIF.", e);
         } finally {
-            IoUtils.closeQuietly(inputStream);
+            FileUtils.closeQuietly(inputStream);
         }
 
         return new AssetFileDescriptor(

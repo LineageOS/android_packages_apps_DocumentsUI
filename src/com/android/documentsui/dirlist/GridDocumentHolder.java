@@ -19,7 +19,7 @@ package com.android.documentsui.dirlist;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
-import android.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;

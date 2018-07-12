@@ -15,9 +15,9 @@
  */
 package com.android.documentsui.inspector;
 
-import static com.android.internal.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkArgument;
 
-import android.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

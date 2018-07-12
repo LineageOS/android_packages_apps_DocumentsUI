@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 
-import libcore.io.IoUtils;
+import android.os.FileUtils;
 
 /**
  * Provides a backend for a seekable file descriptors for files in archives.
@@ -85,11 +85,11 @@ public class Proxy extends ProxyFileDescriptorCallback {
    }
 
     @Override public void onRelease() {
-        IoUtils.closeQuietly(mInputStream);
+        FileUtils.closeQuietly(mInputStream);
     }
 
     private void recreateInputStream() throws IOException {
-        IoUtils.closeQuietly(mInputStream);
+        FileUtils.closeQuietly(mInputStream);
         mInputStream = mFile.getInputStream(mEntry);
         mOffset = 0;
     }

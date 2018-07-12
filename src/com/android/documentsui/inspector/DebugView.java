@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.inspector;
 
-import android.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;

@@ -18,7 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import android.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -97,7 +97,7 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
         } catch (Exception e) {
             Log.w(TAG, "Failed to refresh", e);
         } finally {
-            ContentProviderClient.releaseQuietly(client);
+            ContentProviderClient.closeQuietly(client);
         }
         return refreshSupported;
     }

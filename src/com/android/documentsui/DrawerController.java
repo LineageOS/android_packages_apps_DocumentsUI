@@ -18,7 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import android.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.app.Activity;
 import androidx.annotation.ColorRes;
 import androidx.legacy.app.ActionBarDrawerToggle;

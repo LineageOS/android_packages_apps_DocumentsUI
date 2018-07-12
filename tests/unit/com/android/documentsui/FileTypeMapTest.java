@@ -18,7 +18,7 @@ package com.android.documentsui;
 
 import static junit.framework.Assert.assertEquals;
 
-import android.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.test.InstrumentationRegistry;

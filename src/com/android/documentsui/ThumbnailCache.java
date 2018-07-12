@@ -16,8 +16,8 @@
 
 package com.android.documentsui;
 
-import android.annotation.IntDef;
-import android.annotation.Nullable;
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
 import android.content.ComponentCallbacks2;
 import android.graphics.Bitmap;
 import android.graphics.Point;

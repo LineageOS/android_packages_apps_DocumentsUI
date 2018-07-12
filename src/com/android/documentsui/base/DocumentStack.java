@@ -17,7 +17,7 @@
 package com.android.documentsui.base;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
-import static com.android.internal.util.Preconditions.checkArgument;
+import static androidx.core.util.Preconditions.checkArgument;
 
 import android.content.ContentResolver;
 import android.database.Cursor;

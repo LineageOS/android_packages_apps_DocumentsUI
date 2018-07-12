@@ -23,7 +23,7 @@ import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-import android.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.os.Bundle;
 import android.os.Handler;
 
