@@ -162,7 +162,11 @@ public class ScopedAccessProvider extends ContentProvider {
 
         final List<GrantedUriPermission> amPkgs = am.getGrantedUriPermissions(null).getList();
         if (!amPkgs.isEmpty()) {
-            amPkgs.forEach((perm) -> pkgs.add(perm.packageName));
+            amPkgs.forEach((perm) -> {
+                if (isScopedAccessPermission(perm)) {
+                    pkgs.add(perm.packageName);
+                }
+            });
         }
 
         if (ArrayUtils.isEmpty(pkgs)) {
@@ -370,6 +374,45 @@ public class ScopedAccessProvider extends ContentProvider {
                     .add(new Permission(uriPermission.packageName, uuid, dir, PERMISSION_GRANTED));
         }
         return permissions;
+    }
+
+    private boolean isScopedAccessPermission(GrantedUriPermission uriPermission) {
+        // TODO(b/72055774): we should query AUTHORITY_STORAGE or call DocumentsContract instead of
+        // hardcoding the logic here.
+        final Uri uri = uriPermission.uri;
+        final String authority = uri.getAuthority();
+        if (!Providers.AUTHORITY_STORAGE.equals(authority)) {
+            return false;
+        }
+        final List<String> pathSegments = uri.getPathSegments();
+        if (pathSegments.size() < 2) {
+            return false;
+        }
+        // TODO(b/72055774): make PATH_TREE private again if not used anymore
+        if (!DocumentsContract.PATH_TREE.equals(pathSegments.get(0))) {
+            return false;
+        }
+
+        final String[] uuidAndDir = pathSegments.get(1).split(":");
+        // uuid and dir are either UUID:DIR (for scoped directory) or UUID: (for full volume)
+        if (uuidAndDir.length != 1 && uuidAndDir.length != 2) {
+            return false;
+        }
+        final String uuid, dir;
+        if (Providers.ROOT_ID_HOME.equals(uuidAndDir[0])) {
+            uuid = null;
+            dir = Environment.DIRECTORY_DOCUMENTS;
+        } else {
+            uuid = Providers.ROOT_ID_DEVICE.equals(uuidAndDir[0])
+                    ? null // primary
+                    : uuidAndDir[0]; // external volume
+            dir = uuidAndDir.length == 1 ? null : uuidAndDir[1];
+        }
+        if ((dir == null && uuid != null) || !Environment.isStandardDirectory(dir)) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
