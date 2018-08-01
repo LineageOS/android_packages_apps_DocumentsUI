@@ -20,9 +20,8 @@
     android:id="@+id/dropdown_sort_widget"
     android:layout_width="match_parent"
     android:layout_height="@dimen/doc_header_height"
+    android:paddingStart="@dimen/dropdown_sort_widget_margin"
     android:paddingEnd="@dimen/dropdown_sort_widget_margin"
-    android:paddingTop="@dimen/dropdown_sort_widget_margin"
-    android:paddingBottom="@dimen/dropdown_sort_widget_margin"
     android:background="@drawable/sort_widget_background"
     android:gravity="center_vertical|end"
     android:orientation="horizontal">
