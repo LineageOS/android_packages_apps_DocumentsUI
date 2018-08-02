@@ -21,9 +21,11 @@ import static android.support.v4.util.Preconditions.checkState;
 
 import android.graphics.Point;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnItemTouchListener;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,7 +49,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     private final ContentLock mLock;
     private final ItemDetailsLookup mItemLookup;
 
-    private int mLastTouchedItemPosition = -1;
+    private int mLastTouchedItemPosition = RecyclerView.NO_POSITION;
     private boolean mStarted = false;
     private Point mLastInterceptedPoint;
 
@@ -85,9 +87,9 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
         // See: b/70518185. It appears start() is being called via onLongPress
         // even though we never received an intial handleInterceptedDownEvent
         // where we would usually initialize mLastStartedItemPos.
-        if (mLastTouchedItemPosition < 0){
-          Log.w(TAG, "Illegal state. Can't start without valid mLastStartedItemPos.");
-          return;
+        if (mLastTouchedItemPosition == RecyclerView.NO_POSITION) {
+            Log.w(TAG, "Illegal state. Can't start without valid mLastStartedItemPos.");
+            return;
         }
 
         // Partner code in MotionInputHandler ensures items
@@ -109,63 +111,72 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
             if (Shared.DEBUG) Log.w(TAG, "Unexpected Mouse event. Check configuration.");
         }
 
+        // TODO(b/109808552): It seems that mLastStartedItemPos should likely be set as a method
+        // parameter in start().
+        if (e.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            if (mItemLookup.getItemDetails(e) != null) {
+                mLastTouchedItemPosition = mView.getItemUnder(e);
+            }
+        }
+
+        // See handleTouch(MotionEvent) javadoc for explanation as to why this is correct.
+        return handleTouch(e);
+    }
+
+    @Override
+    /** @hide */
+    public void onTouchEvent(@NonNull RecyclerView unused, @NonNull MotionEvent e) {
+        // See handleTouch(MotionEvent) javadoc for explanation as to why this is correct.
+        handleTouch(e);
+    }
+
+    /**
+     * If selection has started, will handle all appropriate types of MotionEvents and will return
+     * true if this OnItemTouchListener should start intercepting the rest of the MotionEvents.
+     *
+     * <p>This code, and the fact that this method is used by both OnInterceptTouchEvent and
+     * OnTouchEvent, is correct and valid because:
+     * <ol>
+     * <li>MotionEvents that aren't ACTION_DOWN are only ever passed to either onInterceptTouchEvent
+     * or onTouchEvent; never to both.  The MotionEvents we are handling in this method are not
+     * ACTION_DOWN, and therefore, its appropriate that both the onInterceptTouchEvent and
+     * onTouchEvent code paths cross this method.
+     * <li>This method returns true when we want to intercept MotionEvents.  OnInterceptTouchEvent
+     * uses that information to determine its own return, and OnMotionEvent doesn't have a return
+     * so this methods return value is irrelevant to it.
+     * </ol>
+     */
+    private boolean handleTouch(MotionEvent e) {
+        if (!mStarted) {
+            return false;
+        }
+
         switch (e.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                // NOTE: Unlike events with other actions, RecyclerView eats
-                // "DOWN" events. So even if we return true here we'll
-                // never see an event w/ ACTION_DOWN passed to onTouchEvent.
-                return handleInterceptedDownEvent(e);
             case MotionEvent.ACTION_MOVE:
-                return mStarted;
+                handleMoveEvent(e);
+                return true;
+            case MotionEvent.ACTION_UP:
+                handleUpEvent();
+                return true;
+            case MotionEvent.ACTION_CANCEL:
+                handleCancelEvent();
+                return true;
         }
 
         return false;
     }
 
     @Override
-    public void onTouchEvent(RecyclerView unused, MotionEvent e) {
-        // Note: There were a couple times I as this check firing
-        // after combinations of mouse + touch + rotation.
-        // But after further investigation I couldn't repro.
-        // For that reason we guard this check (for now) w/ IS_DEBUGGABLE.
-        if (Build.IS_DEBUGGABLE) checkState(mStarted);
-
-        switch (e.getActionMasked()) {
-            case MotionEvent.ACTION_MOVE:
-                handleMoveEvent(e);
-                break;
-            case MotionEvent.ACTION_UP:
-                handleUpEvent(e);
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                handleCancelEvent(e);
-                break;
-        }
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
-
-    // Called when an ACTION_DOWN event is intercepted. See onInterceptTouchEvent
-    // for additional notes.
-    // If down event happens on an item, we mark that item's position as last started.
-    private boolean handleInterceptedDownEvent(MotionEvent e) {
-        // Ignore events where details provider doesn't return details.
-        // These objects don't participate in selection.
-        if (mItemLookup.getItemDetails(e) == null) {
-            return false;
-        }
-        mLastTouchedItemPosition = mView.getItemUnder(e);
-        return mLastTouchedItemPosition != RecyclerView.NO_POSITION;
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
     }
 
     // Called when ACTION_UP event is to be handled.
     // Essentially, since this means all gesture movement is over, reset everything and apply
     // provisional selection.
-    private void handleUpEvent(MotionEvent e) {
+    private void handleUpEvent() {
         mSelectionMgr.mergeProvisionalSelection();
         endSelection();
-        if (mLastTouchedItemPosition > -1) {
+        if (mLastTouchedItemPosition != RecyclerView.NO_POSITION) {
             mSelectionMgr.startRange(mLastTouchedItemPosition);
         }
     }
@@ -173,7 +184,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     // Called when ACTION_CANCEL event is to be handled.
     // This means this gesture selection is aborted, so reset everything and abandon provisional
     // selection.
-    private void handleCancelEvent(MotionEvent unused) {
+    private void handleCancelEvent() {
         mSelectionMgr.clearProvisionalSelection();
         endSelection();
     }
@@ -181,7 +192,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     private void endSelection() {
         checkState(mStarted);
 
-        mLastTouchedItemPosition = -1;
+        mLastTouchedItemPosition = RecyclerView.NO_POSITION;
         mStarted = false;
         mLock.unblock();
     }
@@ -253,7 +264,9 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
     @VisibleForTesting
     static abstract class ViewDelegate extends ScrollerCallbacks {
         abstract int getHeight();
+
         abstract int getItemUnder(MotionEvent e);
+
         abstract int getLastGlidedItemPosition(MotionEvent e);
     }
 
