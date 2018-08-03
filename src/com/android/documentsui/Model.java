@@ -32,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
-import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
@@ -45,6 +44,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -73,6 +73,7 @@ public class Model {
     private @Nullable Cursor mCursor;
     private int mCursorCount;
     private String mIds[] = new String[0];
+    private Set<Selection> mDocumentsToBeDeleted = new HashSet<>();
 
     public Model(Features features) {
         mFeatures = features;
@@ -109,13 +110,13 @@ public class Model {
         doc = null;
         mIsLoading = false;
         mFileNames.clear();
+        mDocumentsToBeDeleted.clear();
         notifyUpdateListeners();
     }
 
     @VisibleForTesting
     protected void update(DirectoryResult result) {
         assert(result != null);
-
         if (DEBUG) Log.i(TAG, "Updating model with new result set.");
 
         if (result.exception != null) {
@@ -141,9 +142,56 @@ public class Model {
         notifyUpdateListeners();
     }
 
+    public void markDocumentsToBeDeleted(Selection selection) {
+        if (mDocumentsToBeDeleted.contains(selection)) {
+            return;
+        }
+        mDocumentsToBeDeleted.add(selection);
+        updateModelData();
+        notifyUpdateListeners();
+    }
+
+    public void restoreDocumentsToBeDeleted(Selection selection) {
+        if (!mDocumentsToBeDeleted.contains(selection)) {
+            return;
+        }
+        mDocumentsToBeDeleted.remove(selection);
+        updateModelData();
+        notifyUpdateListeners();
+    }
+
+    private boolean isDocumentToBeDeleted(String id) {
+        for (Selection s : mDocumentsToBeDeleted) {
+            if (s.contains(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void updateDocumentsToBeDeleted() {
+        for (Iterator<Selection> i = mDocumentsToBeDeleted.iterator(); i.hasNext();) {
+            Selection selection = i.next();
+            for (String id : selection) {
+                if (!mPositions.containsKey(id)) {
+                    i.remove();
+                    break;
+                }
+            }
+        }
+    }
+
+    private int getDocumentsToBeDeletedCount() {
+        int count = 0;
+        for (Selection s : mDocumentsToBeDeleted) {
+            count += s.size();
+        }
+        return count;
+    }
+
     @VisibleForTesting
     public int getItemCount() {
-        return mCursorCount;
+        return mCursorCount - getDocumentsToBeDeletedCount();
     }
 
     /**
@@ -151,9 +199,10 @@ public class Model {
      * according to the current sort order.
      */
     private void updateModelData() {
-        mIds = new String[mCursorCount];
         mFileNames.clear();
         mCursor.moveToPosition(-1);
+        mPositions.clear();
+        String[] tmpIds = new String[mCursorCount];
         for (int pos = 0; pos < mCursorCount; ++pos) {
             if (!mCursor.moveToNext()) {
                 Log.e(TAG, "Fail to move cursor to next pos: " + pos);
@@ -164,18 +213,24 @@ public class Model {
             // If the cursor is a merged cursor over multiple authorities, then prefix the ids
             // with the authority to avoid collisions.
             if (mCursor instanceof MergeCursor) {
-                mIds[pos] = getCursorString(mCursor, RootCursorWrapper.COLUMN_AUTHORITY)
+                tmpIds[pos] = getCursorString(mCursor, RootCursorWrapper.COLUMN_AUTHORITY)
                         + "|" + getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
             } else {
-                mIds[pos] = getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
+                tmpIds[pos] = getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
             }
+            mPositions.put(tmpIds[pos], pos);
             mFileNames.add(getCursorString(mCursor, Document.COLUMN_DISPLAY_NAME));
         }
 
-        // Populate the positions.
-        mPositions.clear();
+        updateDocumentsToBeDeleted();
+
+        mIds = new String[mCursorCount - getDocumentsToBeDeletedCount()];
+        int index = 0;
         for (int i = 0; i < mCursorCount; ++i) {
-            mPositions.put(mIds[i], i);
+            if (!isDocumentToBeDeleted(tmpIds[i])) {
+                mIds[index] = tmpIds[i];
+                index++;
+            }
         }
     }
 

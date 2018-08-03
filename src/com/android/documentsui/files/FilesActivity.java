@@ -262,6 +262,12 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mInjector.actions.dismissDeletionSnackBar();
+    }
+
+    @Override
     public String getDrawerTitle() {
         Intent intent = getIntent();
         return (intent != null && intent.hasExtra(Intent.EXTRA_TITLE))

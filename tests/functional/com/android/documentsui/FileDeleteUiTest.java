@@ -155,16 +155,16 @@ public class FileDeleteUiTest extends ActivityTest<FilesActivity> {
         exec.shutdown();
     }
 
-    public void testDeleteAllDocument() throws Exception {
+    public void testDeleteAllDocument_AfterSnackbarDismissed() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
         bots.main.clickToolbarOverflowItem(
                 context.getResources().getString(R.string.menu_select_all));
         device.waitForIdle();
 
         bots.main.clickToolbarItem(R.id.action_menu_delete);
-        bots.main.clickDialogOkButton();
         device.waitForIdle();
 
+        bots.directory.waitForDeleteSnackbarGone();
         try {
             mCountDownLatch.await(WAIT_TIME_SECONDS, TimeUnit.SECONDS);
         } catch (Exception e) {
@@ -178,5 +178,19 @@ public class FileDeleteUiTest extends ActivityTest<FilesActivity> {
 
         List<DocumentInfo> root1 = mDocsHelper.listChildren(rootDir0.documentId, 1000);
         assertTrue("Delete operation was not completed", root1.size() == 0);
+    }
+
+    public void testDeleteAllDocument_BeforeSnackbarDismissed() throws Exception {
+        bots.roots.openRoot(ROOT_0_ID);
+        bots.main.clickToolbarOverflowItem(
+                context.getResources().getString(R.string.menu_select_all));
+        device.waitForIdle();
+
+        bots.main.clickToolbarItem(R.id.action_menu_delete);
+        device.waitForIdle();
+
+        bots.directory.waitForDeleteSnackbar();
+        List<DocumentInfo> root1 = mDocsHelper.listChildren(rootDir0.documentId, 1000);
+        assertTrue("Documents are deleted", root1.size() == 1000);
     }
 }

@@ -56,7 +56,7 @@ public class DirectoryListBot extends Bots.BaseBot {
     private static final String DIR_LIST_ID = "com.android.documentsui:id/dir_list";
 
     private static final BySelector SNACK_DELETE =
-            By.desc(Pattern.compile("^Deleting [0-9]+ file.+"));
+            By.text(Pattern.compile("^Deleting [0-9]+ item.+"));
     private UiAutomation mAutomation;
 
     public DirectoryListBot(
@@ -220,6 +220,12 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     public UiObject2 getSnackbar(String message) {
         return mDevice.wait(Until.findObject(By.text(message)), mTimeout);
+    }
+
+    public void clickSnackbarAction() throws UiObjectNotFoundException {
+        UiObject snackbarAction =
+                findObject("com.android.documentsui:id/snackbar_action");
+        snackbarAction.click();
     }
 
     public void waitForDeleteSnackbar() {
