@@ -112,11 +112,11 @@
       <item quantity="one">Memadamkan <xliff:g id="COUNT_0">%1$d</xliff:g> item.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Buat asal"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"Bersedia untuk menyalin…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"Bersedia untuk memampat…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"Bersedia untuk mengestrak…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"Bersedia untuk mengalih…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"Bersedia untuk memadam…"</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"Menyediakan…"</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"Menyediakan…"</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"Menyediakan…"</string>
+    <string name="move_preparing" msgid="6504239656430530761">"Menyediakan…"</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"Menyediakan…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other">Tidak dapat menyalin <xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
