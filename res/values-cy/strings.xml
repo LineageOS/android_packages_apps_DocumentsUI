@@ -56,6 +56,7 @@
   <!-- Button label that moves files to the current directory [CHAR LIMIT=24] -->
   <!-- Button label that hides the error bar [CHAR LIMIT=24] -->
   <!-- A string used to show user that currently documents are not sorted in any given order. [CHAR_LIMIT=30] -->
+  <string name="not_sorted">Heb unrhyw drefn</string>
   <!-- Table header for file name [CHAR_LIMIT=24] -->
   <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
   <!-- Table header for file type. [CHAR_LIMIT=12] -->
@@ -69,6 +70,7 @@
   <!--File properties dialog button label to clear the default app-->
   <!--File properties dialog button label to show a document in a provider-->
   <!--File properties dialog user message if a default app has not been selected-->
+  <string name="handler_app_not_selected">Heb ei ddewis</string>
   <!--File properties dialog user message if the default app is unknown-->
   <!-- content description to describe ascending sorting used with upward arrow in table header. -->
   <!-- content description to describe descending sorting used with downward arrow in table header. -->
@@ -132,7 +134,9 @@
   <!-- Text in an alert dialog asking user to grant app access to all data in an external storage volume -->
   <!-- Checkbox that allows user to not be questioned about the directory access request again -->
   <!-- Text in the button asking user to allow access to a given directory. -->
+  <string name="allow">Caniatáu</string>
   <!-- Text in the button asking user to deny access to a given directory. -->
+  <string name="deny">Gwrthod</string>
   <!-- Dialog text shown to users when asking if they want to delete files (a confirmation). -->
   <!-- Label text showing user how many items are selected. Can be one or more elements. -->
   <!-- Label text showing user how many items are being dragged. Can be one or more elements. -->
