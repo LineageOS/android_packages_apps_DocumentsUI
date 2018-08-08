@@ -15,40 +15,29 @@
 -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <style name="ActionBarTheme" parent="@*android:style/ThemeOverlay.Material.Dark.ActionBar">
-        <item name="android:colorControlNormal">@android:color/white</item>
-        <item name="android:textSelectHandle">@drawable/text_select_handle_middle</item>
-        <item name="android:textSelectHandleLeft">@drawable/text_select_handle_left</item>
-        <item name="android:textSelectHandleRight">@drawable/text_select_handle_right</item>
-        <item name="android:textCursorDrawable">@drawable/text_cursor</item>
+    <style name="ActionBarTheme" parent="@android:style/ThemeOverlay.Material.ActionBar">
+        <item name="android:colorPrimaryDark">@color/g_light_grey</item>
+        <item name="android:colorPrimary">@android:color/white</item>
+        <item name="android:colorControlNormal">@color/g_grey</item>
         <item name="android:textColorHighlight">@color/text_highlight</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorPrimary">@color/g_grey</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+        <item name="android:textCursorDrawable">@drawable/text_cursor</item>
+        <item name="android:titleTextStyle">@android:style/TextAppearance.Material.Widget.ActionBar.Title</item>
+        <item name="android:subtitleTextStyle">@android:style/TextAppearance.Material.Widget.ActionBar.Subtitle</item>
     </style>
-    <style name="ActionBarPopupTheme" parent="@*android:style/ThemeOverlay.Material.Light" />
 
-    <style name="DocumentsTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarWidgetTheme">@null</item>
-        <item name="actionBarTheme">@style/ActionBarTheme</item>
-        <item name="actionBarPopupTheme">@style/ActionBarPopupTheme</item>
-
-        <item name="android:windowBackground">@color/window_background</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorAccent">@color/accent</item>
-        <item name="android:colorControlActivated">?android:attr/colorAccent</item>
-        <item name="android:queryBackground">@color/menu_search_background</item>
-
-        <item name="android:listDivider">@*android:drawable/list_divider_material</item>
-
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowActionModeOverlay">true</item>
-        <item name="android:windowNoTitle">true</item>
-
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustUnspecified</item>
-        <item name="android:actionModeBackground">?android:attr/colorBackground</item>
-        <item name="android:actionModeCloseDrawable">@drawable/ic_action_clear</item>
+    <style name="ActionModeStyle" parent="@android:style/Widget.Material.Light.ActionMode">
+        <item name="android:background">?android:attr/actionModeBackground</item>
+        <item name="android:backgroundSplit">?android:attr/actionModeBackground</item>
+        <item name="android:titleTextStyle">@android:style/TextAppearance.Material.Widget.ActionMode.Title</item>
+        <item name="android:subtitleTextStyle">@android:style/TextAppearance.Material.Widget.ActionMode.Subtitle</item>
     </style>
+
+    <style name="ActionBarPopupTheme" parent="@android:style/ThemeOverlay.Material.Light" />
+
+    <style name="ListViewStyle" parent="@android:style/Widget.Material.Light.ListView"></style>
 
     <style name="TrimmedHorizontalProgressBar" parent="android:Widget.Material.ProgressBar.Horizontal">
         <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_horizontal_material_trimmed</item>
@@ -80,5 +69,19 @@
         <item name="android:fontFamily">google-sans-medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:buttonCornerRadius">@dimen/bottom_bar_button_corner_radius</item>
+    </style>
+
+    <style name="SortTitle" parent="android:style/TextAppearance.Material.Widget.ActionBar.Subtitle" >
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="DrawerMenuPrimary" parent="android:style/TextAppearance.Material.Body2">
+        <item name="android:textColor">@color/item_root_primary_text</item>
+    </style>
+
+    <style name="DrawerMenuSecondary" parent="android:style/TextAppearance.Material.Body2">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 </resources>

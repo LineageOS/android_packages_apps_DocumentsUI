@@ -121,8 +121,7 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-                    android:textColor="@color/item_title" />
+                    android:textAppearance="?android:attr/textAppearanceListItem"/>
 
                 <TextView
                     android:id="@+id/details"
