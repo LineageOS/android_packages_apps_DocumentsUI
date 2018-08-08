@@ -53,8 +53,8 @@ public class RootsFragmentTest {
             TestProvidersAccess.DOWNLOADS.title,
             "" /* SpacerItem */,
             TestProvidersAccess.EXTERNALSTORAGE.title,
-            "" /* SpacerItem */,
             TestProvidersAccess.HAMMY.title,
+            "" /* SpacerItem */,
             TestProvidersAccess.INSPECTOR.title,
             TestProvidersAccess.PICKLES.title};
 
