@@ -270,9 +270,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     protected void updateInspect(MenuItem inspect) {
         boolean visible = mFeatures.isInspectorEnabled();
         inspect.setVisible(visible);
-        // use a null check w/ peek instead of isEmpty since
-        // DocumentStack accepts null values (not sure why).
-        inspect.setEnabled(visible && mState.stack.peek() != null);
+        inspect.setEnabled(visible && mDirDetails.canInspectDirectory());
     }
 
     @Override
