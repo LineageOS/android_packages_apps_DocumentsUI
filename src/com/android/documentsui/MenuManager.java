@@ -383,5 +383,9 @@ public abstract class MenuManager {
         public boolean canCreateDirectory() {
             return mActivity.canCreateDirectory();
         }
+
+        public boolean canInspectDirectory() {
+            return mActivity.canInspectDirectory();
+        }
     }
 }
