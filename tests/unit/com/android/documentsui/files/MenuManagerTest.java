@@ -420,41 +420,17 @@ public final class MenuManagerTest {
     @Test
     public void testOptionMenu_Inspector_VisibleAndEnabled() {
         features.inspector = true;
+        dirDetails.canInspectDirectory = true;
         mgr.updateOptionMenu(testMenu);
         optionInspector.assertVisible();
         optionInspector.assertEnabled();
     }
 
     @Test
-    public void testOptionMenu_Inspector_DisabledInRecentsFolder() {
+    public void testOptionMenu_Inspector_VisibleButDisabled() {
         features.inspector = true;
-
-        // synthesize a fake recents root. Not setting an authority or id == recents.
-        RootInfo recents = new RootInfo();
-        assert recents.isRecents();
-        state.stack.changeRoot(recents);
+        dirDetails.canInspectDirectory = false;
         mgr.updateOptionMenu(testMenu);
-        optionInspector.assertVisible();
-        optionInspector.assertDisabled();
-    }
-
-    @Test
-    public void testOptionMenu_Inspector_DisabledForEmptyStack() {
-        features.inspector = true;
-        state.stack.reset();  // unset cwd
-        mgr.updateOptionMenu(testMenu);
-
-        optionInspector.assertVisible();
-        optionInspector.assertDisabled();
-    }
-
-    @Test
-    public void testOptionMenu_Inspector_DisabledForNullDirectory() {
-        features.inspector = true;
-        state.stack.reset();
-        state.stack.push(null);
-        mgr.updateOptionMenu(testMenu);
-
         optionInspector.assertVisible();
         optionInspector.assertDisabled();
     }
@@ -633,6 +609,8 @@ public final class MenuManagerTest {
 
     @Test
     public void testContextMenu_CanInspectContainer() {
+        features.inspector = true;
+        dirDetails.canInspectDirectory = true;
         mgr.updateContextMenuForContainer(testMenu);
         dirInspect.assertVisible();
         dirInspect.assertEnabled();
