@@ -1118,6 +1118,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             if (!mModel.isLoading()) {
                 mActivity.notifyDirectoryLoaded(
                         mModel.doc != null ? mModel.doc.derivedUri : null);
+                if (mModel.doc == null) {
+                    // Invalid model, then update options menu to disable some items.
+                    mActivity.invalidateOptionsMenu();
+                }
             }
         }
     }

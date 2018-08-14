@@ -383,6 +383,13 @@ public abstract class BaseActivity
                 && !root.isRecents();
     }
 
+    /**
+     * Returns true if a directory can be inspected.
+     */
+    protected boolean canInspectDirectory() {
+        return false;
+    }
+
     // TODO: make navigator listen to state
     @Override
     public final void updateNavigator() {
