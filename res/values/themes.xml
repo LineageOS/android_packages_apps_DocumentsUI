@@ -15,7 +15,7 @@
 -->
 
 <resources>
-    <style name="DocumentsTheme" parent="@android:style/Theme.Material.Light">
+    <style name="DocumentsTheme" parent="@style/Theme.AppCompat.Light">
         <item name="actionBarWidgetTheme">@null</item>
         <item name="actionBarTheme">@style/ActionBarTheme</item>
         <item name="actionBarPopupTheme">@style/ActionBarPopupTheme</item>

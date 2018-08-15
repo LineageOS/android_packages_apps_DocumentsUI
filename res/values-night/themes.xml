@@ -15,7 +15,7 @@
 -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="DocumentsTheme" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
+    <style name="DocumentsTheme" parent="@style/Theme.AppCompat">
         <item name="actionBarWidgetTheme">@null</item>
         <item name="actionBarTheme">@style/ActionBarTheme</item>
         <item name="actionBarPopupTheme">@style/ActionBarPopupTheme</item>
