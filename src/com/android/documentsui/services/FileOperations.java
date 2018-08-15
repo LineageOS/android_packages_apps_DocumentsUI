@@ -62,9 +62,10 @@ public final class FileOperations {
 
         String newJobId = jobId != null ? jobId : createJobId();
         Intent intent = createBaseIntent(context, newJobId, operation);
-
-        callback.onOperationResult(Callback.STATUS_ACCEPTED, operation.getOpType(),
-                operation.getSrc().getItemCount());
+        if (callback != null) {
+            callback.onOperationResult(Callback.STATUS_ACCEPTED, operation.getOpType(),
+                    operation.getSrc().getItemCount());
+        }
 
         context.startService(intent);
 
