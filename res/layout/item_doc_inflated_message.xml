@@ -19,7 +19,7 @@
     android:id="@android:id/empty"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/directory_background"
+    android:background="?android:attr/colorPrimary"
     android:focusable="true"
     android:clickable="true">
 
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            style="@android:style/TextAppearance.Material.Subhead"/>
+            style="?android:attr/textAppearanceListItem"/>
 
     </RelativeLayout>
 
