@@ -29,6 +29,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyObject;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.spy;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -38,11 +42,13 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
+import android.support.design.widget.Snackbar;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Pair;
 import android.view.DragEvent;
+import android.view.View;
 
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.R;
@@ -68,8 +74,11 @@ import androidx.core.util.Preconditions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -99,9 +108,8 @@ public class ActionHandlerTest {
         ((TestActivityConfig) mEnv.injector.config).nextDocumentEnabled = true;
         mEnv.injector.dialogs = mDialogs;
 
-        mHandler = createHandler();
-
-        mDialogs.confirmNext();
+        ActionHandler<TestActivity> handler = createHandler();
+        mHandler = spy(handler);
 
         mEnv.selectDocument(TestEnv.FILE_GIF);
     }
@@ -161,31 +169,38 @@ public class ActionHandlerTest {
 
         mEnv.selectionMgr.clearSelection();
         mHandler.deleteSelectedDocuments();
-        mDialogs.assertNoFileFailures();
         mActivity.startService.assertNotCalled();
-        mActionModeAddons.finishOnConfirmed.assertNeverCalled();
     }
 
     @Test
-    public void testDeleteSelectedDocuments_Cancelable() {
+    public void testDeleteSelectedDocuments_Undo() {
         mEnv.populateStack();
-
-        mDialogs.rejectNext();
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                Consumer<View> callback = invocation.getArgument(2);
+                callback.accept(null);
+                return null;
+            }
+        }).when(mHandler).showDeletionSnackbar(anyObject(), anyInt(), anyObject(), anyObject());
         mHandler.deleteSelectedDocuments();
-        mDialogs.assertNoFileFailures();
         mActivity.startService.assertNotCalled();
-        mActionModeAddons.finishOnConfirmed.assertRejected();
     }
 
     // Recents root means when deleting the srcParent will be null.
     @Test
     public void testDeleteSelectedDocuments_RecentsRoot() {
         mEnv.state.stack.changeRoot(TestProvidersAccess.RECENTS);
-
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                Snackbar.Callback callback = invocation.getArgument(3);
+                callback.onDismissed(null, Snackbar.Callback.DISMISS_EVENT_MANUAL);
+                return null;
+            }
+        }).when(mHandler).showDeletionSnackbar(anyObject(), anyInt(), anyObject(), anyObject());
         mHandler.deleteSelectedDocuments();
-        mDialogs.assertNoFileFailures();
         mActivity.startService.assertCalled();
-        mActionModeAddons.finishOnConfirmed.assertCalled();
     }
 
     @Test

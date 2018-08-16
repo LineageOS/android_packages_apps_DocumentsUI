@@ -29,8 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.MenuManager.SelectionDetails;
-import com.android.documentsui.base.ConfirmationCallback;
-import com.android.documentsui.base.ConfirmationCallback.Result;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Menus;
 import com.android.documentsui.selection.Selection;
@@ -182,13 +180,6 @@ public class ActionModeController extends SelectionObserver
             mActionMode = null;
         } else {
             Log.w(TAG, "Tried to finish a null action mode.");
-        }
-    }
-
-    @Override
-    public void finishOnConfirmed(@Result int code) {
-        if (code == ConfirmationCallback.CONFIRM) {
-            finishActionMode();
         }
     }
 

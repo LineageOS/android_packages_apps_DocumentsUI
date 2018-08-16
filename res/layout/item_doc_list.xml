@@ -18,7 +18,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_item_background"
+    android:background="?android:attr/selectableItemBackground"
     android:focusable="true"
     android:orientation="horizontal" >
 
@@ -83,8 +83,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textAlignment="viewStart"
-                android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-                android:textColor="@color/item_title" />
+                style="?android:attr/textAppearanceListItem" />
 
             <LinearLayout
                 android:id="@+id/line2"
@@ -101,8 +100,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                    android:textColor="@color/item_details" />
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
 
                 <TextView
                     android:id="@+id/size"
@@ -112,8 +110,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                    android:textColor="@color/item_details" />
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
 
                 <TextView
                     android:id="@+id/file_type"
@@ -123,8 +120,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                    android:textColor="@color/item_details" />
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
 
                 <TextView
                     android:id="@android:id/summary"
@@ -135,8 +131,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                    android:textColor="@color/item_details" />
+                    android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

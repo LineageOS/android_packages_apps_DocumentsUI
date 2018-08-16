@@ -17,7 +17,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_activated="false"
-        android:color="@color/root_icon_color" />
+        android:color="?android:textColorPrimary" />
     <item
         android:state_activated="true"
         android:color="@color/root_activated_color" />

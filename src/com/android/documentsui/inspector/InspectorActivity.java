@@ -32,7 +32,6 @@ public class InspectorActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.inspector_activity);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

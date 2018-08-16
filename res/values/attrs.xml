@@ -17,8 +17,14 @@
     <declare-styleable name="HighlightedItemView">
         <attr name="state_highlighted" format="boolean"/>
     </declare-styleable>
+
     <declare-styleable name="DropBadgeView">
         <attr name="state_reject_drop" format="boolean"/>
         <attr name="state_copy" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="TextHandleView">
+        <attr name="textHandleColor" format="reference" />
+        <attr name="textCursorColor" format="reference" />
     </declare-styleable>
 </resources>

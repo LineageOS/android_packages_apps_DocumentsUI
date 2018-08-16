@@ -17,18 +17,15 @@ package com.android.documentsui.ui;
 
 import android.app.FragmentManager;
 
-import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperations;
 
 import junit.framework.Assert;
 
-import java.util.List;
 
 public class TestDialogController implements DialogController {
 
-    public int mNextConfirmationCode;
     private int mFileOpStatus;
     private boolean mNoApplicationFound;
     private boolean mDocumentsClipped;
@@ -37,13 +34,6 @@ public class TestDialogController implements DialogController {
     private DocumentInfo mOverwriteTarget;
 
     public TestDialogController() {
-        // by default, always confirm
-        mNextConfirmationCode = ConfirmationCallback.CONFIRM;
-    }
-
-    @Override
-    public void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback) {
-        callback.accept(mNextConfirmationCode);
     }
 
     @Override
@@ -106,13 +96,5 @@ public class TestDialogController implements DialogController {
 
     public void assertOverwriteConfirmed(DocumentInfo expected) {
         Assert.assertEquals(expected, mOverwriteTarget);
-    }
-
-    public void confirmNext() {
-        mNextConfirmationCode = ConfirmationCallback.CONFIRM;
-    }
-
-    public void rejectNext() {
-        mNextConfirmationCode = ConfirmationCallback.REJECT;
     }
 }
