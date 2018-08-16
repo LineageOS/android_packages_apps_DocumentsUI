@@ -16,9 +16,9 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:state_enabled="true"
-        android:color="@color/item_doc_title" />
+        android:state_activated="true"
+        android:color="@color/item_grid_tint_dark"
+        android:alpha=".15" />
     <item
-        android:state_enabled="false"
-        android:color="@color/item_doc_title_disabled"/>
+        android:color="@android:color/transparent" />
 </selector>

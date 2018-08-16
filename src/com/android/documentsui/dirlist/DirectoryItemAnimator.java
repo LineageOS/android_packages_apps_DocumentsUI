@@ -23,6 +23,8 @@ import android.content.Context;
 import androidx.collection.ArrayMap;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.res.TypedArray;
 import android.util.TypedValue;
 
 import com.android.documentsui.R;
@@ -45,8 +47,12 @@ class DirectoryItemAnimator extends DefaultItemAnimator {
     private final Integer mSelectedColor;
 
     public DirectoryItemAnimator(Context context) {
-        mDefaultColor = context.getResources().getColor(R.color.item_doc_background);
-        mSelectedColor = context.getResources().getColor(R.color.item_doc_background_selected);
+        TypedArray ta = context.obtainStyledAttributes(R.styleable.GridItem);
+        mSelectedColor = ta.getColor(R.styleable.GridItem_gridItemSelectedColor
+                , R.color.item_doc_background_selected);
+        mDefaultColor = ta.getColor(R.styleable.GridItem_gridItemColor
+                , R.color.item_doc_background);
+        ta.recycle();
     }
 
     @Override

@@ -83,7 +83,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textAlignment="viewStart"
-                style="?android:attr/textAppearanceListItem" />
+                android:textAppearance="?android:attr/textAppearanceListItem" />
 
             <LinearLayout
                 android:id="@+id/line2"

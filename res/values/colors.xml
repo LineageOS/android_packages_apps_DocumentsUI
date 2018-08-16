@@ -48,22 +48,28 @@
     <color name="root_focus_color">#ffe0e0e0</color>
 
     <color name="item_hover_color">#ffe0e0e0</color>
+    <color name="item_hover_color_dark">#ff5f6368</color>
 
-    <item name="root_icon_disabled_alpha" format="float" type="dimen">?android:attr/disabledAlpha</item>
+    <item name="root_icon_disabled_alpha" format="float" type="dimen">?android:attr/disabledAlpha
+    </item>
     <color name="doc_icon_color">#ff5a5a5a</color>
     <color name="tool_bar_color">#ff0e70e8</color>  <!--M2 Google Blue 800-->
 
     <!-- TODO: Would be nice to move this to a color-set, but not sure how to support animation -->
-    <color name="item_doc_title">#ff333333</color>
+    <color name="item_doc_title">?android:attr/textColorSecondary</color>
     <color name="item_doc_title_disabled">?android:attr/textColorSecondaryInverse</color>
-    <color name="item_doc_details">#ff333333</color>
+    <color name="item_doc_details">?android:attr/textColorSecondary</color>
     <color name="item_doc_background">@android:color/white</color>
+    <color name="item_doc_background_dark">@color/g_grey</color>
     <color name="item_doc_background_disabled">#fff4f4f4</color>
+    <color name="item_doc_background_disabled_dark">@color/g_light_grey</color>
     <color name="item_doc_background_selected">#4d3367d6</color>
+    <color name="item_doc_background_selected_dark">#4d2297f0</color>
     <color name="item_breadcrumb_background_hovered">#1affffff</color>
     <color name="item_doc_droppable_background">#ffe8f0fb</color>
     <color name="item_doc_not_droppable_background">#ffe0e0e0</color>
-    <color name="item_grid_tint">#ff127beb</color>   <!--M2 Google Blue 700-->
+    <color name="item_grid_tint">#ff127beb</color>                  <!--M2 Google Blue 700-->
+    <color name="item_grid_tint_dark">@color/primary_dark</color>   <!--M2 Google Blue 800-->
 
     <color name="item_drag_shadow_background">@android:color/white</color>
     <color name="item_drag_shadow_container_background">@android:color/transparent</color>
@@ -80,8 +86,9 @@
     <color name="scroll_track">#fff0f0f0</color>
 
     <color name="inspector_value">#ff939393</color>
-    <color name="inspector_link">#6633b5e5</color>
+    <color name="inspector_link">?android:attr/colorAccent</color>
     <color name="inspector_section_title">#ff939393</color>
     <color name="inspector_section_divider">#E0E0E0</color>
     <color name="inspector_title_background">#40000000</color>
+    <color name="inspector_debug_mode_color">#607d8b</color>
 </resources>

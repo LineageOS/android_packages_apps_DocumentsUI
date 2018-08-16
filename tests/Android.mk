@@ -17,7 +17,10 @@ LOCAL_STATIC_JAVA_LIBRARIES := \
     mockito-target \
     ub-uiautomator \
     espresso-core \
-    guava
+    guava \
+    truth-prebuilt \
+    android-support-test
+
 LOCAL_JARJAR_RULES := $(LOCAL_PATH)/jarjar-rules.txt
 LOCAL_PACKAGE_NAME := DocumentsUITests
 LOCAL_PRIVATE_PLATFORM_APIS := true
