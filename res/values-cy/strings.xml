@@ -55,6 +55,7 @@
   <!-- Button label that extracts files to the current directory [CHAR LIMIT=24] -->
   <!-- Button label that moves files to the current directory [CHAR LIMIT=24] -->
   <!-- Button label that hides the error bar [CHAR LIMIT=24] -->
+  <string name="button_dismiss">Wfftio</string>
   <!-- A string used to show user that currently documents are not sorted in any given order. [CHAR_LIMIT=30] -->
   <string name="not_sorted">Heb unrhyw drefn</string>
   <!-- Table header for file name [CHAR_LIMIT=24] -->
