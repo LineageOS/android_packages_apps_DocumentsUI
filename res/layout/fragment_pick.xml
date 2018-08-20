@@ -21,15 +21,17 @@
     android:baselineAligned="false"
     android:gravity="end"
     android:paddingEnd="@dimen/bottom_bar_padding_end">
-    <Button
-        style="@style/BottomBarButton.Secondary"
+
+    <android.support.design.button.MaterialButton
         android:id="@android:id/button2"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@android:string/cancel" />
-    <Button
-        style="@style/BottomBarButton.Primary"
+        android:text="@android:string/cancel"/>
+
+    <android.support.design.button.MaterialButton
         android:id="@android:id/button1"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 </LinearLayout>
