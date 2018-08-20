@@ -23,7 +23,6 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import androidx.annotation.IntDef;
 import android.app.AuthenticationRequiredException;
 import android.database.Cursor;
-import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
@@ -38,7 +37,6 @@ import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Features;
-import com.android.documentsui.roots.RootCursorWrapper;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -75,6 +73,7 @@ public class Model {
     private int mCursorCount;
     private String mIds[] = new String[0];
     private Set<Selection<String>> mDocumentsToBeDeleted = new HashSet<>();
+    private HashMap<Integer, ArrayList<String>> mDeletionFailedDocIds = new HashMap<>();
 
     public Model(Features features) {
         mFeatures = features;
@@ -112,6 +111,7 @@ public class Model {
         mIsLoading = false;
         mFileNames.clear();
         mDocumentsToBeDeleted.clear();
+        mDeletionFailedDocIds.clear();
         notifyUpdateListeners();
     }
 
@@ -152,13 +152,58 @@ public class Model {
         notifyUpdateListeners();
     }
 
-    public void restoreDocumentsToBeDeleted(Selection<String> selection) {
+    public void clearDocumentsToBeDeleted(Selection<String> selection) {
         if (!mDocumentsToBeDeleted.contains(selection)) {
             return;
         }
         mDocumentsToBeDeleted.remove(selection);
         updateModelData();
         notifyUpdateListeners();
+    }
+
+    public void setDeletionFailedUris(Selection<String> selection,
+            ArrayList<Uri> deletionFailedUris) {
+        if (!mDocumentsToBeDeleted.contains(selection)) {
+            return;
+        }
+
+        mDeletionFailedDocIds.put(selection.hashCode(), ModelId.build(deletionFailedUris));
+        updateModelData();
+        notifyUpdateListeners();
+    }
+
+    private void updateDocumentsToBeDeleted() {
+        for (Iterator<Selection<String>> i = mDocumentsToBeDeleted.iterator(); i.hasNext();) {
+            Selection<String> selection = i.next();
+            int size = selection.size();
+            ArrayList<String> failedDocIds = mDeletionFailedDocIds.get(selection.hashCode());
+            for (String id : selection) {
+                // Check whether the id is in the current cursor or in the deletion failed list.
+                // If all ids are either not in the current cursor or in the deletion failed list,
+                // it means the deletion of this selection is done, and we can clear this selection.
+                if (!mPositions.containsKey(id) ||
+                        (failedDocIds != null && failedDocIds.contains(id))) {
+                    size--;
+                }
+                if (size == 0) {
+                    i.remove();
+                    mDeletionFailedDocIds.remove(selection.hashCode());
+                    break;
+                }
+            }
+        }
+    }
+
+    private int getVisibleCount() {
+        int count = mPositions.size();
+        for (Selection<String> selection : mDocumentsToBeDeleted) {
+            for (String id : selection) {
+                if (mPositions.containsKey(id)) {
+                    count--;
+                }
+            }
+        }
+        return count;
     }
 
     private boolean isDocumentToBeDeleted(String id) {
@@ -168,18 +213,6 @@ public class Model {
             }
         }
         return false;
-    }
-
-    private void updateDocumentsToBeDeleted() {
-        for (Iterator<Selection<String>> i = mDocumentsToBeDeleted.iterator(); i.hasNext();) {
-            Selection<String> selection = i.next();
-            for (String id : selection) {
-                if (!mPositions.containsKey(id)) {
-                    i.remove();
-                    break;
-                }
-            }
-        }
     }
 
     private int getDocumentsToBeDeletedCount() {
@@ -211,21 +244,15 @@ public class Model {
             }
             // Generates a Model ID for a cursor entry that refers to a document. The Model ID is a
             // unique string that can be used to identify the document referred to by the cursor.
-            // If the cursor is a merged cursor over multiple authorities, then prefix the ids
-            // with the authority to avoid collisions.
-            if (mCursor instanceof MergeCursor) {
-                tmpIds[pos] = getCursorString(mCursor, RootCursorWrapper.COLUMN_AUTHORITY)
-                        + "|" + getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
-            } else {
-                tmpIds[pos] = getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
-            }
+            // Prefix the ids with the authority to avoid collisions.
+            tmpIds[pos] = ModelId.build(mCursor);
             mPositions.put(tmpIds[pos], pos);
             mFileNames.add(getCursorString(mCursor, Document.COLUMN_DISPLAY_NAME));
         }
 
         updateDocumentsToBeDeleted();
 
-        mIds = new String[mCursorCount - getDocumentsToBeDeletedCount()];
+        mIds = new String[getVisibleCount()];
         int index = 0;
         for (int i = 0; i < mCursorCount; ++i) {
             if (!isDocumentToBeDeleted(tmpIds[i])) {

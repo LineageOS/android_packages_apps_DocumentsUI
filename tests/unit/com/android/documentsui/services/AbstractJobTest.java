@@ -94,6 +94,26 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
         mDestRoot = mDocs.getRoot(ROOT_1_ID);
     }
 
+    FileOperation createOperation(@OpType int opType, List<Uri> srcs, Uri srcParent,
+            Uri destination) throws Exception {
+        DocumentStack stack =
+                new DocumentStack(mSrcRoot, DocumentInfo.fromUri(mResolver, destination));
+
+        UrisSupplier urisSupplier = DocsProviders.createDocsProvider(srcs);
+        FileOperation operation = new FileOperation.Builder()
+                .withOpType(opType)
+                .withSrcs(urisSupplier)
+                .withDestination(stack)
+                .withSrcParent(srcParent)
+                .build();
+        return operation;
+    }
+
+    final T createJob(FileOperation operation) {
+        return (T) operation.createJob(
+                mContext, mJobListener, FileOperations.createJobId(), mFeatures);
+    }
+
     final T createJob(@OpType int opType, List<Uri> srcs, Uri srcParent, Uri destination)
             throws Exception {
         DocumentStack stack =

@@ -25,6 +25,8 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.util.Log;
@@ -64,6 +66,7 @@ import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.inspector.InspectorActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
+import com.android.documentsui.services.DeleteJob;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
@@ -298,7 +301,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     @Override
     public void deleteSelectedDocuments() {
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_DELETE);
-        Selection<String> selection = getSelectedOrFocused();
+        final Selection<String> selection = getSelectedOrFocused();
 
         if (selection.isEmpty()) {
             return;
@@ -323,7 +326,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
         mModel.markDocumentsToBeDeleted(selection);
         Consumer<View> action = v -> {
             Metrics.logUserAction(mActivity, Metrics.USER_ACTION_UNDO_DELETE);
-            mModel.restoreDocumentsToBeDeleted(selection);
+            mModel.clearDocumentsToBeDeleted(selection);
         };
         Snackbar.Callback callback = new Snackbar.Callback() {
             @Override
@@ -336,9 +339,31 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                             .withSrcs(srcs)
                             .withSrcParent(srcParent == null ? null : srcParent.derivedUri)
                             .build();
+                    operation.addMessageListener(new Handler.Callback() {
+                        @Override
+                        public boolean handleMessage(Message message) {
+                            if (message.what == FileOperationService.MESSAGE_FINISH) {
+                                operation.removeMessageListener(this);
 
-                    FileOperations.start(mActivity, operation, null,
-                            FileOperations.createJobId());
+                                // If failure count equals selection size,
+                                // it means all deletions failed. Just clear the selection.
+                                final int failureCount = message.arg1;
+                                if (failureCount == selection.size()) {
+                                    mModel.clearDocumentsToBeDeleted(selection);
+                                    return true;
+                                }
+
+                                ArrayList<Uri> failureUris = message.getData()
+                                        .getParcelableArrayList(DeleteJob.KEY_FAILED_URIS);
+                                if (failureUris != null) {
+                                    mModel.setDeletionFailedUris(selection, failureUris);
+                                }
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+                    FileOperations.start(mActivity, operation, null, FileOperations.createJobId());
                 }
                 if (mDeletionSnackbar == snackbar) {
                     mDeletionSnackbar = null;
