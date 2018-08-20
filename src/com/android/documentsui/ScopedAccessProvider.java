@@ -494,7 +494,7 @@ public class ScopedAccessProvider extends ContentProvider {
             context.grantUriPermission(toPackage, grantedUri, grantFlags);
             cr.takePersistableUriPermission(toPackage, grantedUri, persistFlags);
         } else {
-            context.revokeUriPermission(grantedUri, grantFlags);
+            context.revokeUriPermission(toPackage, grantedUri, grantFlags);
             // There's no need to release after revoking
         }
     }
