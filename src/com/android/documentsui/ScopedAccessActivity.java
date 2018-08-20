@@ -124,8 +124,9 @@ public class ScopedAccessActivity extends Activity {
         String directoryName =
                 getInternalDirectoryName(intent.getStringExtra(EXTRA_DIRECTORY_NAME));
         final StorageVolume volume = (StorageVolume) storageVolume;
+        final String uuid = volume.isPrimary() ? null : volume.getUuid();
         if (getScopedAccessPermissionStatus(getApplicationContext(), getCallingPackage(),
-                volume.getUuid(), directoryName) == PERMISSION_NEVER_ASK) {
+                uuid, directoryName) == PERMISSION_NEVER_ASK) {
             logValidScopedAccessRequest(this, directoryName,
                     SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED);
             setResult(RESULT_CANCELED);
@@ -180,7 +181,7 @@ public class ScopedAccessActivity extends Activity {
                     final Bundle args = new Bundle();
                     args.putString(EXTRA_FILE, file.getAbsolutePath());
                     args.putString(EXTRA_VOLUME_LABEL, volumeLabel);
-                    args.putString(EXTRA_VOLUME_UUID, storageVolume.getUuid());
+                    args.putString(EXTRA_VOLUME_UUID, isPrimary ? null : storageVolume.getUuid());
                     args.putString(EXTRA_APP_LABEL, appLabel);
                     args.putBoolean(EXTRA_IS_ROOT, isRoot);
                     args.putBoolean(EXTRA_IS_PRIMARY, isPrimary);
