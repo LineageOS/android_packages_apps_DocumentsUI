@@ -18,9 +18,11 @@ package com.android.documentsui;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.MenuItem;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DebugHelper;
@@ -28,12 +30,8 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.dirlist.DocsStableIdProvider;
-import com.android.documentsui.dirlist.DocumentsAdapter;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
-import com.android.documentsui.selection.ContentLock;
-import com.android.documentsui.selection.SelectionHelper;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import androidx.annotation.VisibleForTesting;
@@ -120,9 +118,8 @@ public class Injector<T extends ActionHandler> {
         return focusManager.reset(view, model);
     }
 
-    public SelectionHelper getSelectionManager(
-            DocumentsAdapter adapter, SelectionHelper.SelectionPredicate canSetState) {
-        return selectionMgr.reset(adapter, new DocsStableIdProvider(adapter), canSetState);
+    public void updateSharedSelectionTracker(SelectionTracker<String> selectionTracker) {
+        selectionMgr.reset(selectionTracker);
     }
 
     public final ActionModeController getActionModeController(

@@ -28,16 +28,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
-import android.util.Log;
+import androidx.recyclerview.selection.Selection;
 
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.roots.RootCursorWrapper;
-import com.android.documentsui.selection.Selection;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -73,7 +74,7 @@ public class Model {
     private @Nullable Cursor mCursor;
     private int mCursorCount;
     private String mIds[] = new String[0];
-    private Set<Selection> mDocumentsToBeDeleted = new HashSet<>();
+    private Set<Selection<String>> mDocumentsToBeDeleted = new HashSet<>();
 
     public Model(Features features) {
         mFeatures = features;
@@ -142,7 +143,7 @@ public class Model {
         notifyUpdateListeners();
     }
 
-    public void markDocumentsToBeDeleted(Selection selection) {
+    public void markDocumentsToBeDeleted(Selection<String> selection) {
         if (mDocumentsToBeDeleted.contains(selection)) {
             return;
         }
@@ -151,7 +152,7 @@ public class Model {
         notifyUpdateListeners();
     }
 
-    public void restoreDocumentsToBeDeleted(Selection selection) {
+    public void restoreDocumentsToBeDeleted(Selection<String> selection) {
         if (!mDocumentsToBeDeleted.contains(selection)) {
             return;
         }
@@ -161,7 +162,7 @@ public class Model {
     }
 
     private boolean isDocumentToBeDeleted(String id) {
-        for (Selection s : mDocumentsToBeDeleted) {
+        for (Selection<String> s : mDocumentsToBeDeleted) {
             if (s.contains(id)) {
                 return true;
             }
@@ -170,8 +171,8 @@ public class Model {
     }
 
     private void updateDocumentsToBeDeleted() {
-        for (Iterator<Selection> i = mDocumentsToBeDeleted.iterator(); i.hasNext();) {
-            Selection selection = i.next();
+        for (Iterator<Selection<String>> i = mDocumentsToBeDeleted.iterator(); i.hasNext();) {
+            Selection<String> selection = i.next();
             for (String id : selection) {
                 if (!mPositions.containsKey(id)) {
                     i.remove();
@@ -183,7 +184,7 @@ public class Model {
 
     private int getDocumentsToBeDeletedCount() {
         int count = 0;
-        for (Selection s : mDocumentsToBeDeleted) {
+        for (Selection<String> s : mDocumentsToBeDeleted) {
             count += s.size();
         }
         return count;
@@ -258,7 +259,7 @@ public class Model {
         return mIsLoading;
     }
 
-    public List<DocumentInfo> getDocuments(Selection selection) {
+    public List<DocumentInfo> getDocuments(Selection<String> selection) {
         return loadDocuments(selection, DocumentFilters.ANY);
     }
 
@@ -269,7 +270,7 @@ public class Model {
                 : DocumentInfo.fromDirectoryCursor(cursor);
     }
 
-    public List<DocumentInfo> loadDocuments(Selection selection, Predicate<Cursor> filter) {
+    public List<DocumentInfo> loadDocuments(Selection<String> selection, Predicate<Cursor> filter) {
         final int size = (selection != null) ? selection.size() : 0;
 
         final List<DocumentInfo> docs =  new ArrayList<>(size);
@@ -283,7 +284,7 @@ public class Model {
         return docs;
     }
 
-    public boolean hasDocuments(Selection selection, Predicate<Cursor> filter) {
+    public boolean hasDocuments(Selection<String> selection, Predicate<Cursor> filter) {
         for (String modelId: selection) {
             if (loadDocument(modelId, filter) != null) {
                 return true;

@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.selection;
+package com.android.documentsui.dirlist;
 
 import android.view.MotionEvent;
 
-import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
+import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
+
 import com.android.internal.widget.RecyclerView;
 
-public final class TestItemDetails extends ItemDetails {
+/**
+ * Test implementation of ItemDetails.
+ */
+public final class TestItemDetails extends ItemDetails<String> {
 
     // DocumentsAdapter.ITEM_TYPE_DOCUMENT
     private int mViewType = -1;
@@ -60,7 +64,6 @@ public final class TestItemDetails extends ItemDetails {
         mInSelectionHotspot = over;
     }
 
-    @Override
     public int getItemViewType() {
         return mViewType;
     }
@@ -97,7 +100,7 @@ public final class TestItemDetails extends ItemDetails {
     }
 
     @Override
-    public String getStableId() {
+    public String getSelectionKey() {
         return mStableId;
     }
 

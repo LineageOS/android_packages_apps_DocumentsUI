@@ -94,9 +94,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
         super.onCreate(icicle);
 
-        mInjector.selectionMgr = mState.allowMultiple
-                ? DocsSelectionHelper.createMultiSelect()
-                : DocsSelectionHelper.createSingleSelect();
+        mInjector.selectionMgr = DocsSelectionHelper.create();
 
         mInjector.focusManager = new FocusManager(
                 mInjector.features,

@@ -34,10 +34,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 import android.util.Pair;
 import android.view.DragEvent;
+
+import androidx.annotation.VisibleForTesting;
+import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
+import androidx.recyclerview.selection.MutableSelection;
+import androidx.recyclerview.selection.SelectionTracker;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.LoadDocStackTask.LoadDocStackCallback;
@@ -57,10 +61,6 @@ import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.ProvidersAccess;
-import com.android.documentsui.selection.ContentLock;
-import com.android.documentsui.selection.MutableSelection;
-import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.sidebar.EjectRootTask;
 import com.android.documentsui.ui.Snackbars;
 
@@ -93,7 +93,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     protected final ProvidersAccess mProviders;
     protected final DocumentsAccess mDocs;
     protected final FocusHandler mFocusHandler;
-    protected final SelectionHelper mSelectionMgr;
+    protected final SelectionTracker<String> mSelectionMgr;
     protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
     protected final Injector<?> mInjector;
@@ -227,7 +227,7 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     }
 
     @Override
-    public boolean openItem(ItemDetails doc, @ViewType int type, @ViewType int fallback) {
+    public boolean openItem(ItemDetails<String> doc, @ViewType int type, @ViewType int fallback) {
         throw new UnsupportedOperationException("Can't open document.");
     }
 
@@ -533,8 +533,8 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         loadRoot(Shared.getDefaultRootUri(mActivity));
     }
 
-    protected MutableSelection getStableSelection() {
-        MutableSelection selection = new MutableSelection();
+    protected MutableSelection<String> getStableSelection() {
+        MutableSelection<String> selection = new MutableSelection<>();
         mSelectionMgr.copySelection(selection);
         return selection;
     }

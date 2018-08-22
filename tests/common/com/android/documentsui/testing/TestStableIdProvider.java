@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.documentsui.selection.testing;
 
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import android.view.View;
+package com.android.documentsui.testing;
 
-public class TestHolder extends ViewHolder {
-    public TestHolder(View itemView) {
-        super(itemView);
+import com.android.documentsui.DocsSelectionHelper.StableIdProvider;
+
+import java.util.List;
+
+public class TestStableIdProvider extends StableIdProvider {
+
+    private final List<String> mDocs;
+
+    public TestStableIdProvider(List<String> docs) {
+        mDocs = docs;
+    }
+
+    @Override
+    public String getKey(int position) {
+        return mDocs.get(position);
+    }
+
+    @Override
+    public int getPosition(String id) {
+        return mDocs.indexOf(id);
     }
 }

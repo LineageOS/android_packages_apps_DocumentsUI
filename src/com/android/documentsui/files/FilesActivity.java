@@ -98,7 +98,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         super.onCreate(icicle);
 
         DocumentClipper clipper = DocumentsApplication.getDocumentClipper(this);
-        mInjector.selectionMgr = DocsSelectionHelper.createMultiSelect();
+        mInjector.selectionMgr = DocsSelectionHelper.create();
 
         mInjector.focusManager = new FocusManager(
                 mInjector.features,

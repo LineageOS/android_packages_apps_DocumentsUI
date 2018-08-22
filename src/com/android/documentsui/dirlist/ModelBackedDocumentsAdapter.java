@@ -23,16 +23,17 @@ import static com.android.documentsui.base.State.MODE_LIST;
 
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.Model;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.State;
-import com.android.documentsui.selection.SelectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +112,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
 
     @Override
     public void onBindViewHolder(DocumentHolder holder, int position, List<Object> payload) {
-        if (payload.contains(SelectionHelper.SELECTION_CHANGED_MARKER)) {
+        if (payload.contains(SelectionTracker.SELECTION_CHANGED_MARKER)) {
             final boolean selected = mEnv.isSelected(mModelIds.get(position));
             holder.setSelected(selected, true);
         } else {

@@ -18,7 +18,6 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -27,11 +26,15 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.selection.ItemDetailsLookup.ItemDetails;
 
 import javax.annotation.Nullable;
 
+/**
+ * ViewHolder of a document item within a RecyclerView.
+ */
 public abstract class DocumentHolder
         extends RecyclerView.ViewHolder implements View.OnKeyListener {
 
@@ -42,7 +45,7 @@ public abstract class DocumentHolder
     protected @Nullable String mModelId;
 
     // See #addKeyEventListener for details on the need for this field.
-    private KeyboardEventListener mKeyEventListener;
+    private KeyboardEventListener<DocumentItemDetails> mKeyEventListener;
 
     private final DocumentItemDetails mDetails;
 
@@ -56,7 +59,7 @@ public abstract class DocumentHolder
         itemView.setOnKeyListener(this);
 
         mContext = context;
-        mDetails = new DocumentItemDetails();
+        mDetails = new DocumentItemDetails(this);
     }
 
     /**
@@ -94,10 +97,10 @@ public abstract class DocumentHolder
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         assert(mKeyEventListener != null);
-        ItemDetails details = getItemDetails();
+        DocumentItemDetails details = getItemDetails();
         return (details == null)
-            ? false
-            : mKeyEventListener.onKey(getItemDetails(),  keyCode,  event);
+                ? false
+                : mKeyEventListener.onKey(details, keyCode, event);
     }
 
     /**
@@ -108,7 +111,7 @@ public abstract class DocumentHolder
      *
      * <p>Ideally we'd not involve DocumentHolder in propagation of events like this.
      */
-    public void addKeyEventListener(KeyboardEventListener listener) {
+    public void addKeyEventListener(KeyboardEventListener<DocumentItemDetails> listener) {
         assert(mKeyEventListener == null);
         mKeyEventListener = listener;
     }
@@ -121,7 +124,7 @@ public abstract class DocumentHolder
         return false;
     }
 
-    public ItemDetails getItemDetails() {
+    public DocumentItemDetails getItemDetails() {
         return mDetails;
     }
 
@@ -147,33 +150,5 @@ public abstract class DocumentHolder
 
     static ViewPropertyAnimator fade(ImageView view, float alpha) {
         return view.animate().setDuration(Shared.CHECK_ANIMATION_DURATION).alpha(alpha);
-    }
-
-    private final class DocumentItemDetails extends ItemDetails {
-
-        @Override
-        public int getPosition() {
-            return DocumentHolder.this.getAdapterPosition();
-        }
-
-        @Override
-        public String getStableId() {
-            return DocumentHolder.this.getModelId();
-        }
-
-        @Override
-        public int getItemViewType() {
-            return DocumentHolder.this.getItemViewType();
-        }
-
-        @Override
-        public boolean inDragRegion(MotionEvent e) {
-            return DocumentHolder.this.inDragRegion(e);
-        }
-
-        @Override
-        public boolean inSelectionHotspot(MotionEvent e) {
-            return DocumentHolder.this.inSelectRegion(e);
-        }
     }
 }

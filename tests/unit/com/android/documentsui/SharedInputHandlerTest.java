@@ -25,10 +25,10 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import androidx.recyclerview.selection.SelectionTracker;
+
 import com.android.documentsui.base.Procedure;
 import com.android.documentsui.dirlist.TestFocusHandler;
-import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestDrawerController;
 import com.android.documentsui.testing.TestFeatures;
 
@@ -41,7 +41,7 @@ import org.junit.runner.RunWith;
 public class SharedInputHandlerTest {
 
     private SharedInputHandler mSharedInputHandler;
-    private SelectionHelper mSelectionMgr = SelectionHelpers.createTestInstance();
+    private SelectionTracker<String> mSelectionMgr = SelectionHelpers.createTestInstance();
     private TestFeatures mFeatures = new TestFeatures();
     private TestFocusHandler mFocusHandler = new TestFocusHandler();
     private TestDrawerController mDrawer = TestDrawerController.create();

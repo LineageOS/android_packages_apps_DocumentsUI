@@ -16,17 +16,16 @@
 
 package com.android.documentsui;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.android.documentsui.base.Features;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.documentsui.dirlist.TestData;
-import com.android.documentsui.selection.SelectionHelper;
-import com.android.documentsui.testing.TestModel;
-import com.android.documentsui.testing.SelectionHelpers;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestGridLayoutManager;
+import com.android.documentsui.testing.TestModel;
 import com.android.documentsui.testing.TestRecyclerView;
 import com.android.documentsui.testing.Views;
 
@@ -43,7 +42,7 @@ public class FocusManagerTest extends AndroidTestCase {
     private FocusManager mManager;
     private TestRecyclerView mView;
     private TestGridLayoutManager mTestGridLayoutManager;
-    private SelectionHelper mSelectionMgr;
+    private SelectionTracker<String> mSelectionMgr;
     private TestFeatures mFeatures;
 
     @Override

@@ -20,12 +20,16 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import android.util.Log;
 import android.view.KeyEvent;
 
+import androidx.recyclerview.selection.SelectionTracker;
+
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Procedure;
 import com.android.documentsui.dirlist.FocusHandler;
-import com.android.documentsui.selection.SelectionHelper;
 
+/**
+ * Handle common input events.
+ */
 public class SharedInputHandler {
 
     private static final String TAG = "SharedInputHandler";
@@ -34,12 +38,12 @@ public class SharedInputHandler {
     private final Procedure mSearchCanceler;
     private final Procedure mDirPopper;
     private final Features mFeatures;
-    private final SelectionHelper mSelectionMgr;
+    private final SelectionTracker<String> mSelectionMgr;
     private final DrawerController mDrawer;
 
     public SharedInputHandler(
             FocusHandler focusHandler,
-            SelectionHelper selectionMgr,
+            SelectionTracker<String> selectionMgr,
             Procedure searchCanceler,
             Procedure dirPopper,
             Features features,
