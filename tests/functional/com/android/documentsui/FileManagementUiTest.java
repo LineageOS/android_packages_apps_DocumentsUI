@@ -81,7 +81,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
         bots.main.clickToolbarItem(R.id.action_menu_delete);
 
-        bots.main.clickDialogOkButton();
+        bots.directory.waitForDeleteSnackbarGone();
         device.waitForIdle();
 
         bots.directory.assertDocumentsAbsent("file1.png");
@@ -120,12 +120,16 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
         bots.directory.waitForDocument("file1.png");
     }
 
-    public void testDeleteDocument_Cancel() throws Exception {
+    public void testDeleteDocument_Undo() throws Exception {
         bots.directory.selectDocument("file1.png");
         device.waitForIdle();
         bots.main.clickToolbarItem(R.id.action_menu_delete);
 
-        bots.main.clickDialogCancelButton();
+        bots.directory.waitForDeleteSnackbar();
+        device.waitForIdle();
+
+        bots.directory.clickSnackbarAction();
+        device.waitForIdle();
 
         bots.directory.waitForDocument("file1.png");
     }
