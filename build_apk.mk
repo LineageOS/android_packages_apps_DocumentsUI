@@ -11,7 +11,8 @@ LOCAL_STATIC_ANDROID_LIBRARIES := \
         androidx.design_design \
         androidx.transition_transition \
         androidx.recyclerview_recyclerview \
-        androidx.recyclerview_recyclerview-selection
+        androidx.recyclerview_recyclerview-selection \
+        com.google.android.material_material
 
 LOCAL_USE_AAPT2 := true
 
