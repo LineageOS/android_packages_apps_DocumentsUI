@@ -18,6 +18,8 @@ package com.android.documentsui.ui;
 
 import androidx.annotation.StringRes;
 import android.app.Activity;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.View;
@@ -101,8 +103,13 @@ public final class Snackbars {
     public static final Snackbar makeSnackbarWithAction(Activity activity, int docCount,
             CharSequence message, int duration, CharSequence actionText,
             Consumer<View> action, final Snackbar.Callback callback) {
+        TypedArray ta = activity.obtainStyledAttributes(R.style.SnackbarButtonStyle,
+                R.styleable.SnackbarView);
+        int textColor = ta.getColor(R.styleable.SnackbarView_android_textColor, Color.WHITE);
+        ta.recycle();
         return makeSnackbar(activity, message, duration)
                 .setAction(actionText, action::accept)
+                .setActionTextColor(textColor)
                 .addCallback(callback);
     }
 
