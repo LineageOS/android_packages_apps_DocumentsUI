@@ -22,14 +22,14 @@
     android:gravity="end"
     android:paddingEnd="@dimen/bottom_bar_padding_end">
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@android:id/button2"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@android:string/cancel"/>
 
-    <android.support.design.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
         android:id="@android:id/button1"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"

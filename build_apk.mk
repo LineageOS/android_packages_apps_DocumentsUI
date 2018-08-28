@@ -8,7 +8,6 @@ LOCAL_STATIC_ANDROID_LIBRARIES := \
         androidx.legacy_legacy-support-v4 \
         androidx.appcompat_appcompat \
         androidx.legacy_legacy-support-v13 \
-        androidx.design_design \
         androidx.transition_transition \
         androidx.recyclerview_recyclerview \
         androidx.recyclerview_recyclerview-selection \
