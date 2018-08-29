@@ -343,6 +343,9 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                 if (mDeletionSnackbar == snackbar) {
                     mDeletionSnackbar = null;
                 }
+                if (snackbar != null) {
+                    snackbar.removeCallback(this);
+                }
             }
         };
         mDeletionSnackbar = showDeletionSnackbar(mActivity, selection.size(), action, callback);
