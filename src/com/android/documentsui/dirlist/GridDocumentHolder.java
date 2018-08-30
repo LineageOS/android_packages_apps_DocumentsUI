@@ -120,10 +120,7 @@ final class GridDocumentHolder extends DocumentHolder {
 
     @Override
     public boolean inSelectRegion(MotionEvent event) {
-        Rect iconRect = new Rect();
-        mIconLayout.getGlobalVisibleRect(iconRect);
-
-        return iconRect.contains((int) event.getRawX(), (int) event.getRawY());
+        return DocumentHolder.isTouchInViewRegion(mIconLayout, event);
     }
 
     /**
