@@ -1,7 +1,8 @@
 LOCAL_MODULE_TAGS := optional
 LOCAL_PRIVILEGED_MODULE := true
 
-LOCAL_STATIC_JAVA_LIBRARIES += guava
+LOCAL_STATIC_JAVA_LIBRARIES += guava \
+        apache-commons-compress
 
 LOCAL_STATIC_ANDROID_LIBRARIES := \
         androidx.legacy_legacy-support-core-ui \

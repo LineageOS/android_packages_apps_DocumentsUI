@@ -9,6 +9,7 @@ java_defaults {
         "androidx.recyclerview_recyclerview",
         "androidx.recyclerview_recyclerview-selection",
         "androidx.transition_transition",
+        "apache-commons-compress",
         "com.google.android.material_material",
         "guava",
     ],

@@ -24,11 +24,8 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
-import android.os.storage.StorageManager;
-import android.provider.DocumentsContract;
-import android.provider.MetadataReader;
 import android.provider.DocumentsContract.Document;
-import androidx.annotation.Nullable;
+import android.provider.MetadataReader;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.OsConstants;
@@ -36,6 +33,7 @@ import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.Nullable;
 import androidx.core.util.Preconditions;
 
 import java.io.Closeable;
@@ -45,8 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.zip.ZipEntry;
+
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 
 /**
  * Provides basic implementation for creating, extracting and accessing
@@ -72,11 +70,11 @@ public abstract class Archive implements Closeable {
 
     // The container as well as values are guarded by mEntries.
     @GuardedBy("mEntries")
-    final Map<String, ZipEntry> mEntries;
+    final Map<String, ZipArchiveEntry> mEntries;
 
     // The container as well as values and elements of values are guarded by mEntries.
     @GuardedBy("mEntries")
-    final Map<String, List<ZipEntry>> mTree;
+    final Map<String, List<ZipArchiveEntry>> mTree;
 
     Archive(
             Context context,
@@ -95,7 +93,7 @@ public abstract class Archive implements Closeable {
     /**
      * Returns a valid, normalized path for an entry.
      */
-    public static String getEntryPath(ZipEntry entry) {
+    public static String getEntryPath(ZipArchiveEntry entry) {
         Preconditions.checkArgument(entry.isDirectory() == entry.getName().endsWith("/"),
                 "Ill-formated ZIP-file.");
         if (entry.getName().startsWith("/")) {
@@ -138,11 +136,11 @@ public abstract class Archive implements Closeable {
         }
 
         synchronized (mEntries) {
-            final List<ZipEntry> parentList = mTree.get(parsedParentId.mPath);
+            final List<ZipArchiveEntry> parentList = mTree.get(parsedParentId.mPath);
             if (parentList == null) {
                 throw new FileNotFoundException();
             }
-            for (final ZipEntry entry : parentList) {
+            for (final ZipArchiveEntry entry : parentList) {
                 addCursorRow(result, entry);
             }
         }
@@ -160,7 +158,7 @@ public abstract class Archive implements Closeable {
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
         synchronized (mEntries) {
-            final ZipEntry entry = mEntries.get(parsedId.mPath);
+            final ZipArchiveEntry entry = mEntries.get(parsedId.mPath);
             if (entry == null) {
                 throw new FileNotFoundException();
             }
@@ -181,12 +179,12 @@ public abstract class Archive implements Closeable {
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
         synchronized (mEntries) {
-            final ZipEntry entry = mEntries.get(parsedId.mPath);
+            final ZipArchiveEntry entry = mEntries.get(parsedId.mPath);
             if (entry == null) {
                 return false;
             }
 
-            final ZipEntry parentEntry = mEntries.get(parsedParentId.mPath);
+            final ZipArchiveEntry parentEntry = mEntries.get(parsedParentId.mPath);
             if (parentEntry == null || !parentEntry.isDirectory()) {
                 return false;
             }
@@ -213,7 +211,7 @@ public abstract class Archive implements Closeable {
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
         synchronized (mEntries) {
-            final ZipEntry entry = mEntries.get(parsedId.mPath);
+            final ZipArchiveEntry entry = mEntries.get(parsedId.mPath);
             if (entry == null) {
                 throw new FileNotFoundException();
             }
@@ -270,7 +268,7 @@ public abstract class Archive implements Closeable {
     /**
      * Not thread safe.
      */
-    void addCursorRow(MatrixCursor cursor, ZipEntry entry) {
+    void addCursorRow(MatrixCursor cursor, ZipArchiveEntry entry) {
         final MatrixCursor.RowBuilder row = cursor.newRow();
         final ArchiveId parsedId = createArchiveId(getEntryPath(entry));
         row.add(Document.COLUMN_DOCUMENT_ID, parsedId.toDocumentId());
@@ -289,7 +287,7 @@ public abstract class Archive implements Closeable {
         row.add(Document.COLUMN_FLAGS, flags);
     }
 
-    static String getMimeTypeForEntry(ZipEntry entry) {
+    static String getMimeTypeForEntry(ZipArchiveEntry entry) {
         if (entry.isDirectory()) {
             return Document.MIME_TYPE_DIR;
         }
