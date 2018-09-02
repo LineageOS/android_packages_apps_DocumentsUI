@@ -27,4 +27,8 @@
         <attr name="textHandleColor" format="reference" />
         <attr name="textCursorColor" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="SnackbarView">
+        <attr name="android:textColor" format="reference" />
+    </declare-styleable>
 </resources>

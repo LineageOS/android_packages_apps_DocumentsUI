@@ -191,6 +191,13 @@ public class DirectoryListBot extends Bots.BaseBot {
         assertSelection(number);
     }
 
+    public boolean isDocumentSelected(String label) throws UiObjectNotFoundException {
+        waitForDocument(label);
+        UiObject2 selectionHotspot = findSelectionHotspot(label);
+        return selectionHotspot.getResourceName()
+                .equals("com.android.documentsui:id/icon_check");
+    }
+
     public UiObject2 findSelectionHotspot(String label) {
         final BySelector list = By.res(DIR_LIST_ID);
 

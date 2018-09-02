@@ -96,4 +96,21 @@ public class FileUndoDeletionUiTest extends ActivityTest<FilesActivity> {
 
         assertTrue("deleted files are not restored", bots.directory.hasDocuments(filenames));
     }
+
+    public void testSelectionStateAfterDeleteUndo() throws Exception {
+        bots.roots.openRoot(ROOT_0_ID);
+        bots.directory.selectDocument("file1.log");
+        device.waitForIdle();
+
+        bots.main.clickToolbarItem(R.id.action_menu_delete);
+        device.waitForIdle();
+
+        bots.directory.waitForDeleteSnackbar();
+
+        bots.directory.clickSnackbarAction();
+        device.waitForIdle();
+
+        assertFalse("the file after deleting/undo is still selected",
+                bots.directory.isDocumentSelected("file1.log"));
+    }
 }

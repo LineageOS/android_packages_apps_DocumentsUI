@@ -58,4 +58,8 @@
         <item name="android:textSize">13sp</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
+
+    <style name="SnackbarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/g_light_grey</item>
+    </style>
 </resources>
