@@ -23,6 +23,7 @@ import android.test.mock.MockContentResolver;
 import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
+import com.android.documentsui.ModelId;
 import com.android.documentsui.SelectionHelpers;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
@@ -172,7 +173,8 @@ public class TestEnv {
     }
 
     public void populateStack() {
-        DocumentInfo rootDoc = model.getDocument("1");
+        DocumentInfo rootDoc = model.getDocument(
+                ModelId.build(TestProvidersAccess.HOME.authority, "1"));
 
         // These are test setup sanity checks, not test assertions.
         assert rootDoc != null;
@@ -193,7 +195,7 @@ public class TestEnv {
 
     public void selectDocument(DocumentInfo info) {
         List<String> ids = new ArrayList<>(1);
-        ids.add(info.documentId);
+        ids.add(ModelId.build(info.authority, info.documentId));
         selectionMgr.setItemsSelected(ids, true);
     }
 

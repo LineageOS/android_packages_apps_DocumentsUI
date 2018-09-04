@@ -21,10 +21,15 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_DE
 import static com.google.common.collect.Lists.newArrayList;
 
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.DocumentsContract;
 import android.support.test.filters.MediumTest;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @MediumTest
 public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
@@ -54,6 +59,43 @@ public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
         mJobListener.waitForFinished();
 
         mDocs.assertChildCount(mSrcRoot, 0);
+    }
+
+    public void testDeleteFile_SendDeletionFailedUris() throws Exception {
+        Uri invalidUri1 = Uri.parse("content://poodles/chuckleberry/ham");
+        Uri validUri = mDocs.createDocument(mSrcRoot, "text/plain", "test2.txt");
+        Uri invalidUri2 = Uri.parse("content://poodles/chuckleberry/ham2");
+        mDocs.writeDocument(validUri, FRUITY_BYTES);
+
+        Uri stack = DocumentsContract.buildDocumentUri(AUTHORITY, mSrcRoot.documentId);
+        FileOperation operation = createOperation(OPERATION_DELETE,
+                newArrayList(invalidUri1, validUri, invalidUri2),
+                DocumentsContract.buildDocumentUri(AUTHORITY, mSrcRoot.documentId), stack);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        final ArrayList<Uri> deletionFailedUris = new ArrayList<>();
+        operation.addMessageListener(
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message message) {
+                        if (message.what == FileOperationService.MESSAGE_FINISH) {
+                            operation.removeMessageListener(this);
+                            deletionFailedUris.addAll(message.getData()
+                                    .getParcelableArrayList(DeleteJob.KEY_FAILED_URIS));
+                            latch.countDown();
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+        );
+
+        createJob(operation).run();
+        latch.await(10, TimeUnit.SECONDS);
+
+        for (Uri uri : deletionFailedUris) {
+            assertTrue("Not receiving failed uri:" + uri, deletionFailedUris.contains(uri));
+        }
     }
 
     /**

@@ -261,7 +261,7 @@ public abstract class FileOperation implements Parcelable {
                             getMessenger(), features);
                 case OPERATION_DELETE:
                     return new DeleteJob(service, listener, id, getDestination(), getSrc(),
-                            mSrcParent, features);
+                            getMessenger(), mSrcParent, features);
                 default:
                     throw new UnsupportedOperationException("Unsupported op type: " + getOpType());
             }

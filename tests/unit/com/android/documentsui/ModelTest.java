@@ -22,9 +22,12 @@ import static junit.framework.Assert.fail;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.net.Uri;
 import android.provider.DocumentsContract.Document;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
+
+import androidx.recyclerview.selection.MutableSelection;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.roots.RootCursorWrapper;
@@ -35,7 +38,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.List;
 import java.util.Random;
 
 @RunWith(AndroidJUnit4.class)
@@ -179,5 +185,45 @@ public class ModelTest {
         model.update(result);
 
         assertEquals(0, model.getItemCount());
+    }
+
+    @Test
+    public void testDeletion_showFailedItem() {
+        // set all items to be deleted.
+        List<String> idsTobeDeleted = Arrays.asList(model.getModelIds());
+        MutableSelection<String> selection = new MutableSelection<>();
+        for (String id : idsTobeDeleted) {
+            selection.add(id);
+        }
+
+        // set the first item as the deletion failed one.
+        String failedId = idsTobeDeleted.get(0);
+        ArrayList<Uri> failedUris = new ArrayList<>();
+        failedUris.add(model.getItemUri(failedId));
+
+        // mark items to be deleted
+        model.markDocumentsToBeDeleted(selection);
+        String[] ids = model.getModelIds();
+        assertEquals(0, ids.length);
+
+        // simulate deletion but keep the failed item.
+        cursor.moveToFirst();
+        MatrixCursor c = new MatrixCursor(COLUMNS);
+        MatrixCursor.RowBuilder row = c.newRow();
+        row.add(RootCursorWrapper.COLUMN_AUTHORITY, AUTHORITY);
+        row.add(Document.COLUMN_DOCUMENT_ID, 0);
+        row.add(Document.COLUMN_FLAGS, Document.FLAG_SUPPORTS_DELETE);
+        row.add(Document.COLUMN_DISPLAY_NAME, NAMES[0]);
+        row.add(Document.COLUMN_SIZE, cursor.getColumnIndex(Document.COLUMN_SIZE));
+        DirectoryResult r = new DirectoryResult();
+        r.cursor = c;
+        model.update(r);
+
+        // simulate receiving failed uris
+        model.setDeletionFailedUris(selection, failedUris);
+        ids = model.getModelIds();
+
+        assertEquals(1, ids.length);
+        assertEquals(failedId, ids[0]);
     }
 }
