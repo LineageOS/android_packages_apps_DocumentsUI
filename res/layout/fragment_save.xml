@@ -53,9 +53,11 @@
 
         <android.support.design.button.MaterialButton
             android:id="@android:id/button1"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:text="@string/menu_save"/>
 
         <ProgressBar
