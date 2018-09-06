@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @MediumTest
 public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
@@ -93,9 +94,56 @@ public class DeleteJobTest extends AbstractJobTest<DeleteJob> {
         createJob(operation).run();
         latch.await(10, TimeUnit.SECONDS);
 
-        for (Uri uri : deletionFailedUris) {
-            assertTrue("Not receiving failed uri:" + uri, deletionFailedUris.contains(uri));
-        }
+        assertTrue("Not received failed uri:" + invalidUri1,
+                deletionFailedUris.contains(invalidUri1));
+        assertTrue("Not received failed uri:" + invalidUri2,
+                deletionFailedUris.contains(invalidUri2));
+        assertFalse("Received valid uri:" + validUri,
+                deletionFailedUris.contains(validUri));
+    }
+
+    public void testDeleteFile_SendDeletionCanceledUris() throws Exception {
+        Uri testUri1 = mDocs.createDocument(mSrcRoot, "text/plain", "test1.txt");
+        Uri testUri2 = mDocs.createDocument(mSrcRoot, "text/plain", "test2.txt");
+        Uri testUri3 = mDocs.createDocument(mSrcRoot, "text/plain", "test3.txt");
+        mDocs.writeDocument(testUri1, FRUITY_BYTES);
+        mDocs.writeDocument(testUri2, FRUITY_BYTES);
+        mDocs.writeDocument(testUri3, FRUITY_BYTES);
+
+        Uri stack = DocumentsContract.buildDocumentUri(AUTHORITY, mSrcRoot.documentId);
+        FileOperation operation = createOperation(OPERATION_DELETE,
+                newArrayList(testUri1, testUri2, testUri3),
+                DocumentsContract.buildDocumentUri(AUTHORITY, mSrcRoot.documentId), stack);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        final AtomicInteger cancelCount = new AtomicInteger();
+        operation.addMessageListener(
+                new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message message) {
+                        if (message.what == FileOperationService.MESSAGE_FINISH) {
+                            operation.removeMessageListener(this);
+                            cancelCount.set(message.arg1);
+                            latch.countDown();
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+        );
+
+        // Cancel the deletion job at onStart to ensure that none of the files will be deleted
+        TestJobListener listener = new TestJobListener() {
+            @Override
+            public void onStart(Job job) {
+                super.onStart(job);
+                job.cancel();
+            }
+        };
+        createJob(operation, listener).run();
+        latch.await(10, TimeUnit.SECONDS);
+
+        assertEquals(3, cancelCount.get());
     }
 
     /**
