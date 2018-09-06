@@ -20,6 +20,7 @@
         <item name="actionBarTheme">@style/ActionBarTheme</item>
         <item name="actionBarPopupTheme">@style/ActionBarPopupTheme</item>
         <item name="actionModeStyle">@style/ActionModeStyle</item>
+        <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
 
         <item name="android:windowBackground">@color/g_dark_grey</item>
         <item name="android:colorPrimaryDark">@color/g_grey</item>

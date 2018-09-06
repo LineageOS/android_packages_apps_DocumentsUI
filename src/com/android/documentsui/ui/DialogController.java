@@ -19,9 +19,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
-import android.support.design.widget.Snackbar;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;

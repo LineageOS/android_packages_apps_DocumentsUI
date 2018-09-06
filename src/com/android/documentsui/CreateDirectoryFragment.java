@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import androidx.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -42,6 +41,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;

@@ -59,7 +59,7 @@
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
-    <style name="SnackbarButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/g_light_grey</item>
+    <style name="SnackbarButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/accent_dark</item>
     </style>
 </resources>
