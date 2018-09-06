@@ -18,6 +18,7 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -39,6 +40,8 @@ public abstract class DocumentHolder
         extends RecyclerView.ViewHolder implements View.OnKeyListener {
 
     static final float DISABLED_ALPHA = 0.3f;
+    private static final int[] sCoord = new int[2];
+    private static final Rect sViewRect = new Rect();
 
     protected final Context mContext;
 
@@ -150,5 +153,18 @@ public abstract class DocumentHolder
 
     static ViewPropertyAnimator fade(ImageView view, float alpha) {
         return view.animate().setDuration(Shared.CHECK_ANIMATION_DURATION).alpha(alpha);
+    }
+
+    static boolean isTouchInViewRegion(View view, MotionEvent event) {
+        if (view == null || event == null || !view.isAttachedToWindow()) {
+            return false;
+        }
+
+        view.getLocationOnScreen(sCoord);
+
+        sViewRect.set(sCoord[0], sCoord[1], sCoord[0] + view.getMeasuredWidth(),
+                sCoord[1] + view.getMeasuredHeight());
+
+        return sViewRect.contains((int) event.getRawX(), (int) event.getRawY());
     }
 }
