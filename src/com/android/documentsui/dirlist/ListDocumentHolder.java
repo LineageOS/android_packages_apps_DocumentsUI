@@ -35,6 +35,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.documentsui.ui.Views;
 
 final class ListDocumentHolder extends DocumentHolder {
 
@@ -140,7 +141,7 @@ final class ListDocumentHolder extends DocumentHolder {
 
     @Override
     public boolean inSelectRegion(MotionEvent event) {
-        return DocumentHolder.isTouchInViewRegion(mIconLayout, event);
+        return Views.isEventOver(event, mIconLayout);
     }
 
     /**
