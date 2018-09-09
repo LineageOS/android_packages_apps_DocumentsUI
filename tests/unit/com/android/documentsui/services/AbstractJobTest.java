@@ -110,8 +110,12 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
     }
 
     final T createJob(FileOperation operation) {
+        return createJob(operation, mJobListener);
+    }
+
+    final T createJob(FileOperation operation, Job.Listener listener) {
         return (T) operation.createJob(
-                mContext, mJobListener, FileOperations.createJobId(), mFeatures);
+                mContext, listener, FileOperations.createJobId(), mFeatures);
     }
 
     final T createJob(@OpType int opType, List<Uri> srcs, Uri srcParent, Uri destination)

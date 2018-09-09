@@ -20,10 +20,11 @@ import androidx.annotation.StringRes;
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
@@ -93,7 +94,7 @@ public final class Snackbars {
         Snackbar snackbar = makeSnackbar(activity, text, Snackbar.LENGTH_SHORT);
         View snackbarLayout = snackbar.getView();
         TextView textView = (TextView)snackbarLayout.findViewById(
-                android.support.design.R.id.snackbar_text);
+                com.google.android.material.R.id.snackbar_text);
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         textView.setCompoundDrawablesWithIntrinsicBounds(imageRes, 0, 0, 0);
@@ -103,13 +104,8 @@ public final class Snackbars {
     public static final Snackbar makeSnackbarWithAction(Activity activity, int docCount,
             CharSequence message, int duration, CharSequence actionText,
             Consumer<View> action, final Snackbar.Callback callback) {
-        TypedArray ta = activity.obtainStyledAttributes(R.style.SnackbarButtonStyle,
-                R.styleable.SnackbarView);
-        int textColor = ta.getColor(R.styleable.SnackbarView_android_textColor, Color.WHITE);
-        ta.recycle();
         return makeSnackbar(activity, message, duration)
                 .setAction(actionText, action::accept)
-                .setActionTextColor(textColor)
                 .addCallback(callback);
     }
 
