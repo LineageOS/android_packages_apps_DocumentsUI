@@ -16,9 +16,9 @@
 <resources>
 
     <declare-styleable name="ActionBarView">
-        <attr name="android:colorPrimary" format="color" />
-        <attr name="android:colorControlNormal" format="color" />
-        <attr name="android:textColorPrimary" format="color" />
+        <attr name="android:colorPrimary" />
+        <attr name="android:colorControlNormal" />
+        <attr name="android:textColorPrimary" />
     </declare-styleable>
 
     <declare-styleable name="CardView">
@@ -42,15 +42,15 @@
     </declare-styleable>
 
     <declare-styleable name="SnackbarView">
-        <attr name="android:textColor" format="reference" />
+        <attr name="android:textColor" />
     </declare-styleable>
 
     <declare-styleable name="SystemWindow">
-        <attr name="android:statusBarColor" format="color" />
-        <attr name="android:navigationBarColor" format="color" />
-        <attr name="android:windowBackground" format="color" />
-        <attr name="android:windowLightStatusBar" format="boolean" />
-        <attr name="android:windowLightNavigationBar" format="boolean" />
+        <attr name="android:statusBarColor" />
+        <attr name="android:navigationBarColor" />
+        <attr name="android:windowBackground" />
+        <attr name="android:windowLightStatusBar" />
+        <attr name="android:windowLightNavigationBar" />
     </declare-styleable>
 
     <declare-styleable name="TextHandleView">
