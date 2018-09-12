@@ -197,6 +197,22 @@ public class UiBot extends Bots.BaseBot {
         return (bar != null);
     }
 
+    public void clickRename() throws UiObjectNotFoundException {
+        if (!waitForActionModeBarToAppear()) {
+            throw new UiObjectNotFoundException("ActionMode bar not found");
+        }
+        clickActionbarOverflowItem(mContext.getString(R.string.menu_rename));
+        mDevice.waitForIdle();
+    }
+
+    public void clickDelete() throws UiObjectNotFoundException {
+        if (!waitForActionModeBarToAppear()) {
+            throw new UiObjectNotFoundException("ActionMode bar not found");
+        }
+        clickToolbarItem(R.id.action_menu_delete);
+        mDevice.waitForIdle();
+    }
+
     public UiObject findDownloadRetryDialog() {
         UiSelector selector = new UiSelector().text("Couldn't download");
         UiObject title = mDevice.findObject(selector);
