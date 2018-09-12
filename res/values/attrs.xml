@@ -14,8 +14,15 @@
      limitations under the License.
 -->
 <resources>
-    <declare-styleable name="HighlightedItemView">
-        <attr name="state_highlighted" format="boolean"/>
+
+    <declare-styleable name="ActionBarView">
+        <attr name="android:colorPrimary" format="color" />
+        <attr name="android:colorControlNormal" format="color" />
+        <attr name="android:textColorPrimary" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="CardView">
+        <attr name="colorBackgroundFloating" format="color" />
     </declare-styleable>
 
     <declare-styleable name="DropBadgeView">
@@ -23,12 +30,32 @@
         <attr name="state_copy" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="TextHandleView">
-        <attr name="textHandleColor" format="reference" />
-        <attr name="textCursorColor" format="reference" />
+    <declare-styleable name="GridItem">
+        <attr name="gridItemTint" format="reference" />
+        <attr name="gridItemColor" format="reference" />
+        <attr name="gridItemSelectedColor" format="reference" />
+        <attr name="gridItemDisableColor" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="HighlightedItemView">
+        <attr name="state_highlighted" format="boolean"/>
     </declare-styleable>
 
     <declare-styleable name="SnackbarView">
         <attr name="android:textColor" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="SystemWindow">
+        <attr name="android:statusBarColor" format="color" />
+        <attr name="android:navigationBarColor" format="color" />
+        <attr name="android:windowBackground" format="color" />
+        <attr name="android:windowLightStatusBar" format="boolean" />
+        <attr name="android:windowLightNavigationBar" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="TextHandleView">
+        <attr name="textHandleColor" format="reference" />
+        <attr name="textCursorColor" format="reference" />
+    </declare-styleable>
+
 </resources>

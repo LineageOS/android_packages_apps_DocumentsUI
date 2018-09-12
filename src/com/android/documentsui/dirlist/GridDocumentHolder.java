@@ -21,6 +21,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import androidx.annotation.ColorInt;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.provider.DocumentsContract.Document;
@@ -48,16 +49,11 @@ final class GridDocumentHolder extends DocumentHolder {
     final IconHelper mIconHelper;
     final View mIconLayout;
 
-    private final @ColorInt int mDisabledBgColor;
-    private final @ColorInt int mDefaultBgColor;
     // This is used in as a convenience in our bind method.
     private final DocumentInfo mDoc = new DocumentInfo();
 
     public GridDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper) {
         super(context, parent, R.layout.item_doc_grid);
-
-        mDisabledBgColor = context.getColor(R.color.item_doc_background_disabled);
-        mDefaultBgColor = context.getColor(R.color.item_doc_background);
 
         mIconLayout = itemView.findViewById(R.id.icon);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
@@ -103,8 +99,6 @@ final class GridDocumentHolder extends DocumentHolder {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
-        // Text colors enabled/disabled is handle via a color set.
-        itemView.setBackgroundColor(enabled ? mDefaultBgColor : mDisabledBgColor);
         float imgAlpha = enabled ? 1f : DISABLED_ALPHA;
 
         mIconMimeLg.setAlpha(imgAlpha);

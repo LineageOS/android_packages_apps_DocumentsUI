@@ -38,4 +38,11 @@
     <style name="ActionBarPopupTheme" parent="@android:style/ThemeOverlay.Material.Dark" />
 
     <style name="ListViewStyle" parent="@android:style/Widget.Material.ListView"></style>
+
+    <style name="CardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
+        <item name="colorBackgroundFloating">@drawable/grid_item_background_dark</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardCornerRadius">@dimen/grid_item_radius</item>
+        <item name="cardElevation">@dimen/grid_item_elevation</item>
+    </style>
 </resources>

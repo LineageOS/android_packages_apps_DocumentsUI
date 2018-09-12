@@ -22,12 +22,14 @@
         <item name="actionModeStyle">@style/ActionModeStyle</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
 
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">?android:attr/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/g_grey</item>
         <item name="android:colorPrimary">@android:color/white</item>
         <item name="android:colorSecondary">@android:color/white</item>
-        <item name="android:colorBackground">@android:color/white</item>
+        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorBackground">?android:attr/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
         <item name="android:queryBackground">@color/menu_search_background</item>
         <item name="android:listDivider">@drawable/list_divider</item>
         <item name="android:windowActionBar">false</item>
@@ -37,8 +39,17 @@
         <item name="android:actionModeBackground">?android:attr/colorBackground</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_action_clear</item>
         <item name="android:statusBarColor">?android:attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?android:attr/colorPrimary</item>
+
+        <item name="colorControlHighlight">@android:color/white</item>
+        <item name="materialCardViewStyle">@style/CardViewStyle</item>
 
         <item name="textHandleColor">@color/text_handle</item>
         <item name="textCursorColor">@color/text_cursor</item>
+
+        <item name="gridItemTint">@color/item_doc_grid_tint</item>
+        <item name="gridItemColor">@color/item_doc_background</item>
+        <item name="gridItemSelectedColor">@color/item_doc_background_selected</item>
+        <item name="gridItemDisableColor">@color/item_doc_background_disabled</item>
     </style>
 </resources>

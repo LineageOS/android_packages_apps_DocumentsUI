@@ -64,7 +64,8 @@ public class DebugView extends TableView implements DebugDisplay {
 
     void init(Lookup<String, Executor> executors) {
         assert executors != null;
-        setBackgroundColor(0xFFFFFFFF);  // it's just debug. We do what we want!
+        // it's just debug. We do what we want!
+        setBackgroundColor(getResources().getColor(R.color.inspector_debug_mode_color));
         mExecutors = executors;
     }
 

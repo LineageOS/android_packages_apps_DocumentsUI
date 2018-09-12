@@ -22,20 +22,17 @@
      decide to rip these out, please be sure to check out focus and keyboards. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_margin="4dp"
     android:focusable="true">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/grid_item_background"
-        android:focusable="true"
-        app:cardUseCompatPadding="true"
-        app:cardCornerRadius="@dimen/grid_item_radius"
-        app:cardElevation="@dimen/grid_item_elevation">
+        android:layout_margin="2dp"
+        android:focusable="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -48,7 +45,6 @@
 
             <FrameLayout
                 android:id="@+id/thumbnail"
-                android:background="@drawable/grid_item_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -58,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
                     android:contentDescription="@null"
-                    android:tint="@color/item_doc_grid_tint"
+                    android:tint="?attr/gridItemTint"
                     android:tintMode="src_over"/>
 
                 <com.android.documentsui.GridItemThumbnail
@@ -76,7 +72,7 @@
 
             <LinearLayout
                 android:id="@+id/nameplate"
-                android:background="@drawable/grid_item_background"
+                android:background="?attr/colorBackgroundFloating"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,8 +136,7 @@
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:textAlignment="viewStart"
-                        android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                        android:textColor="@color/item_details"/>
+                        android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
 
                     <TextView
                         android:id="@+id/date"
@@ -152,8 +147,8 @@
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:textAlignment="viewStart"
-                        android:textAppearance="@android:style/TextAppearance.Material.Caption"
-                        android:textColor="@color/item_details"/>
+                        android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
+
                 </RelativeLayout>
 
             </LinearLayout>

@@ -49,11 +49,12 @@ public class BandSelectionUiTest extends ActivityTest<FilesActivity> {
     public void testBandSelection_someFiles() throws Exception {
         bots.main.switchToGridMode();
         Rect dirListBounds = bots.directory.findDocumentsList().getBounds();
-        Rect startDoc = bots.directory.findDocument(fileName2).getBounds();
-        // 100 pixels below bottom of file2
-        Point start = new Point(startDoc.centerX(), startDoc.bottom + 100);
-        // Top left corner
-        Point end = new Point(dirListBounds.left + 1, dirListBounds.top + 1);
+        Rect startDir = bots.directory.findDocument(dirName1).getBounds();
+        Rect endDoc = bots.directory.findDocument(fileName2).getBounds();
+        // Start from dir1 center of X and top of Y
+        Point start = new Point(startDir.centerX(), dirListBounds.top);
+        // End is center of file2
+        Point end = new Point(endDoc.centerX(), endDoc.centerY());
         bots.gesture.bandSelection(start, end);
 
         bots.directory.assertSelection(3);
