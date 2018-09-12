@@ -20,5 +20,8 @@
         android:state_selected="false"
         android:color="?android:attr/colorAccent"/>
     <item
-        android:color="@android:color/transparent" />
+        android:state_selected="true"
+        android:color="?android:attr/colorAccent"/>
+    <item
+        android:color="@android:color/transparent"/>
 </selector>
