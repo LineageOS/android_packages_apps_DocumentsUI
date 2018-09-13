@@ -29,7 +29,7 @@ import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.inspector.InspectorController.DataSupplier;
 import com.android.documentsui.testing.LatchedConsumer;
-import com.android.documentsui.testing.TestLoaderManager;
+import com.android.documentsui.testing.TestSupportLoaderManager;
 
 import junit.framework.TestCase;
 
@@ -49,7 +49,7 @@ public class DocumentLoaderTest extends TestCase {
     private static final String NOT_DIRECTORY = "OpenInProviderTest";
 
     private Context mContext;
-    private TestLoaderManager mLoaderManager;
+    private TestSupportLoaderManager mLoaderManager;
     private DataSupplier mLoader;
     private ContentResolver mResolver;
 
@@ -58,7 +58,7 @@ public class DocumentLoaderTest extends TestCase {
         super.setUp();
         mContext = InstrumentationRegistry.getTargetContext();
         mResolver = mContext.getContentResolver();
-        mLoaderManager = new TestLoaderManager();
+        mLoaderManager = new TestSupportLoaderManager();
         mLoader = new RuntimeDataSupplier(mContext, mLoaderManager);
 
         if (Looper.myLooper() == null) {

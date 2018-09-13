@@ -1,8 +1,6 @@
 package com.android.documentsui.sorting;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import androidx.annotation.StringRes;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
@@ -154,7 +154,7 @@ public class SortListFragment extends DialogFragment {
             boolean selected = item.id == mModel.getSortedDimensionId()
                     && item.direction == mModel.getCurrentSortDirection();
             text.setChecked(selected);
-            text.setCheckMarkDrawable(selected ? R.drawable.ic_done : 0);
+            text.setCheckMarkDrawable(R.drawable.list_checker);
             return view;
         }
     }

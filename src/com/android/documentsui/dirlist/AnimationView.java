@@ -17,7 +17,8 @@
 package com.android.documentsui.dirlist;
 
 import androidx.annotation.IntDef;
-import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;

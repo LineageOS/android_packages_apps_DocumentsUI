@@ -18,7 +18,8 @@ package com.android.documentsui.testing;
 
 import android.util.SparseArray;
 import android.view.Menu;
-import android.widget.SearchView;
+
+import androidx.appcompat.widget.SearchView;
 
 import com.android.documentsui.R;
 

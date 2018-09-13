@@ -15,12 +15,13 @@
  */
 package com.android.documentsui.inspector;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import androidx.annotation.Nullable;
+import androidx.loader.content.AsyncTaskLoader;
+
 import android.util.Log;
 
 import java.io.FileNotFoundException;

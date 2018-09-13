@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@
 
 package com.android.documentsui.testing;
 
-import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
-import android.content.Loader;
-import android.content.Loader.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.util.SparseArray;
+
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
+import androidx.loader.content.Loader.OnLoadCompleteListener;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -30,8 +31,10 @@ import java.io.PrintWriter;
  * A test double of {@link LoaderManager} that doesn't kick off loading when {@link Loader} is
  * created. If caller needs to kick off loading caller can obtain the loader initialized and
  * explicitly call {@link Loader#startLoading()}.
+ *
+ * This is androidx version of TestLoaderManager.
  */
-public class TestLoaderManager extends LoaderManager {
+public class TestSupportLoaderManager extends LoaderManager {
 
     private final SparseArray<Loader> mLoaders = new SparseArray<>();
     private final SparseArray<OnLoadCompleteListener> mListeners = new SparseArray<>();
@@ -77,6 +80,11 @@ public class TestLoaderManager extends LoaderManager {
     @Override
     public <D> Loader<D> getLoader(int id) {
         return mLoaders.get(id);
+    }
+
+    @Override
+    public void markForRedelivery() {
+
     }
 
     public <D> OnLoadCompleteListener<D> getListener(int id) {

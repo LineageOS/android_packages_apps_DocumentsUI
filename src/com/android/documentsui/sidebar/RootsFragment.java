@@ -20,13 +20,8 @@ import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Color;
@@ -50,6 +45,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.app.LoaderManager.LoaderCallbacks;
+import androidx.loader.content.Loader;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
@@ -416,7 +417,7 @@ public class RootsFragment extends Fragment {
             mList.setLongClickable(false);
         }
 
-        getLoaderManager().restartLoader(2, null, mCallbacks);
+        LoaderManager.getInstance(this).restartLoader(2, null, mCallbacks);
     }
 
     public void onCurrentRootChanged() {

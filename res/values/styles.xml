@@ -26,7 +26,7 @@
         <item name="android:subtitleTextStyle">@android:style/TextAppearance.Material.Widget.ActionBar.Subtitle</item>
     </style>
 
-    <style name="ActionModeStyle" parent="@android:style/Widget.Material.Light.ActionMode">
+    <style name="ActionModeStyle" parent="Widget.AppCompat.ActionMode">
         <item name="android:background">?android:attr/actionModeBackground</item>
         <item name="android:backgroundSplit">?android:attr/actionModeBackground</item>
         <item name="android:titleTextStyle">@android:style/TextAppearance.Material.Widget.ActionMode.Title</item>

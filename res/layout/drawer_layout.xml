@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
@@ -50,7 +50,7 @@
                     android:background="@android:color/transparent"
                     android:overlapAnchor="true" />
 
-            </Toolbar>
+            </androidx.appcompat.widget.Toolbar>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
             android:elevation="0dp"
             android:background="?android:attr/colorPrimary">
 
-            <Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/roots_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"

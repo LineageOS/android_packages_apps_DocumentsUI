@@ -28,6 +28,7 @@ import android.view.View;
 import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.loader.app.LoaderManager;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
@@ -55,7 +56,7 @@ public class InspectorActivity extends AppCompatActivity {
         AppBarLayout appBarLayout = findViewById(R.id.appBar);
         appBarLayout.addOnOffsetChangedListener(this::onOffsetChanged);
 
-        final DataSupplier loader = new RuntimeDataSupplier(this, getLoaderManager());
+        final DataSupplier loader = new RuntimeDataSupplier(this, LoaderManager.getInstance(this));
 
         mView = findViewById(R.id.inspector_root);
         mController = new InspectorController(this, loader, mView,

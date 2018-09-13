@@ -16,8 +16,6 @@
 
 package com.android.documentsui;
 
-import android.app.Fragment;
-import android.util.Log;
 import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +31,7 @@ import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.sidebar.RootsFragment;
 import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.Fragment;
 
 import java.util.List;
 import java.util.function.IntFunction;

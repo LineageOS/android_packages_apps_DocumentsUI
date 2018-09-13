@@ -21,12 +21,12 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import androidx.annotation.IntDef;
 import android.app.Activity;
 import androidx.annotation.ColorRes;
+import androidx.appcompat.widget.Toolbar;
 import androidx.legacy.app.ActionBarDrawerToggle;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toolbar;
 
 import com.android.documentsui.base.Display;
 

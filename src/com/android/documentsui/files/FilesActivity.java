@@ -19,7 +19,6 @@ package com.android.documentsui.files;
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOWN;
 
 import android.app.ActivityManager.TaskDescription;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.CallSuper;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
@@ -154,7 +154,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                         mInjector.features,
                         mDrawer);
 
-        RootsFragment.show(getFragmentManager(), null);
+        RootsFragment.show(getSupportFragmentManager(), null);
 
         final Intent intent = getIntent();
 
@@ -206,7 +206,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
             final ArrayList<Uri> uriList =
                     intent.getParcelableArrayListExtra(FileOperationService.EXTRA_FAILED_URIS);
             OperationDialogFragment.show(
-                    getFragmentManager(),
+                    getSupportFragmentManager(),
                     dialogType,
                     docList,
                     uriList,
@@ -310,7 +310,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
 
     @Override
     public void refreshDirectory(@AnimationType int anim) {
-        final FragmentManager fm = getFragmentManager();
+        final FragmentManager fm = getSupportFragmentManager();
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
 

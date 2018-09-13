@@ -22,13 +22,14 @@ import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import androidx.annotation.CallSuper;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import android.view.KeyEvent;
 import android.view.Menu;
 
@@ -142,22 +143,22 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         if (mState.action == ACTION_CREATE) {
             final String mimeType = intent.getType();
             final String title = intent.getStringExtra(Intent.EXTRA_TITLE);
-            SaveFragment.show(getFragmentManager(), mimeType, title);
+            SaveFragment.show(getSupportFragmentManager(), mimeType, title);
         } else if (mState.action == ACTION_OPEN_TREE ||
                    mState.action == ACTION_PICK_COPY_DESTINATION) {
-            PickFragment.show(getFragmentManager());
+            PickFragment.show(getSupportFragmentManager());
         }
 
         if (mState.action == ACTION_GET_CONTENT) {
             final Intent moreApps = new Intent(intent);
             moreApps.setComponent(null);
             moreApps.setPackage(null);
-            RootsFragment.show(getFragmentManager(), moreApps);
+            RootsFragment.show(getSupportFragmentManager(), moreApps);
         } else if (mState.action == ACTION_OPEN ||
                    mState.action == ACTION_CREATE ||
                    mState.action == ACTION_OPEN_TREE ||
                    mState.action == ACTION_PICK_COPY_DESTINATION) {
-            RootsFragment.show(getFragmentManager(), (Intent) null);
+            RootsFragment.show(getSupportFragmentManager(), (Intent) null);
         }
     }
 
@@ -238,7 +239,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         final DocumentInfo cwd = getCurrentDirectory();
 
         if (mState.action == ACTION_CREATE) {
-            final FragmentManager fm = getFragmentManager();
+            final FragmentManager fm = getSupportFragmentManager();
             SaveFragment.get(fm).prepareForDirectory(cwd);
         }
 
@@ -247,7 +248,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     @Override
     protected void refreshDirectory(int anim) {
-        final FragmentManager fm = getFragmentManager();
+        final FragmentManager fm = getSupportFragmentManager();
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
 
@@ -291,7 +292,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     @Override
     public void onDocumentPicked(DocumentInfo doc) {
-        final FragmentManager fm = getFragmentManager();
+        final FragmentManager fm = getSupportFragmentManager();
         // Do not inline-open archives, as otherwise it would be impossible to pick
         // archive files. Note, that picking files inside archives is not supported.
         if (doc.isDirectory()) {
