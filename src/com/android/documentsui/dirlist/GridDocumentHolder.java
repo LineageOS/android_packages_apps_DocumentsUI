@@ -23,7 +23,6 @@ import androidx.annotation.ColorInt;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Rect;
 import android.provider.DocumentsContract.Document;
 import android.text.format.Formatter;
 import android.view.MotionEvent;
@@ -36,6 +35,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.documentsui.ui.Views;
 
 final class GridDocumentHolder extends DocumentHolder {
 
@@ -114,7 +114,7 @@ final class GridDocumentHolder extends DocumentHolder {
 
     @Override
     public boolean inSelectRegion(MotionEvent event) {
-        return DocumentHolder.isTouchInViewRegion(mIconLayout, event);
+        return Views.isEventOver(event, mIconLayout);
     }
 
     /**
