@@ -59,6 +59,7 @@ import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
+import com.android.documentsui.roots.LoadFirstRootTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.sidebar.EjectRootTask;
@@ -471,6 +472,12 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
     @Override
     public final void loadRoot(Uri uri) {
         new LoadRootTask<>(mActivity, mProviders, mState, uri)
+                .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
+    }
+
+    @Override
+    public final void loadFirstRoot(Uri uri) {
+        new LoadFirstRootTask<>(mActivity, mProviders, mState, uri)
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
     }
 

@@ -95,6 +95,8 @@ public interface ActionHandler {
 
     void loadRoot(Uri uri);
 
+    void loadFirstRoot(Uri uri);
+
     void openSelectedInNewWindow();
 
     void openInNewWindow(DocumentStack path);
