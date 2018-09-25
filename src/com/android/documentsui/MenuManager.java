@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import android.app.Fragment;
+import android.util.Log;
 import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Menus;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -36,10 +38,13 @@ import java.util.List;
 import java.util.function.IntFunction;
 
 public abstract class MenuManager {
+    private final static String TAG = "MenuManager";
 
     final protected SearchViewManager mSearchManager;
     final protected State mState;
     final protected DirectoryDetails mDirDetails;
+
+    protected Menu mOptionMenu;
 
     public MenuManager(
             SearchViewManager searchManager,
@@ -70,16 +75,24 @@ public abstract class MenuManager {
 
     /** @see BaseActivity#onPrepareOptionsMenu */
     public void updateOptionMenu(Menu menu) {
-        updateCreateDir(menu.findItem(R.id.option_menu_create_dir));
-        updateSettings(menu.findItem(R.id.option_menu_settings));
-        updateSelectAll(menu.findItem(R.id.option_menu_select_all));
-        updateNewWindow(menu.findItem(R.id.option_menu_new_window));
-        updateModePicker(menu.findItem(R.id.option_menu_grid),
-                menu.findItem(R.id.option_menu_list));
-        updateAdvanced(menu.findItem(R.id.option_menu_advanced));
-        updateDebug(menu.findItem(R.id.option_menu_debug));
-        updateInspect(menu.findItem(R.id.option_menu_inspect));
-        Menus.disableHiddenItems(menu);
+        mOptionMenu = menu;
+        updateOptionMenu();
+    }
+
+    public void updateOptionMenu() {
+        if (mOptionMenu == null) {
+            return;
+        }
+        updateCreateDir(mOptionMenu.findItem(R.id.option_menu_create_dir));
+        updateSettings(mOptionMenu.findItem(R.id.option_menu_settings));
+        updateSelectAll(mOptionMenu.findItem(R.id.option_menu_select_all));
+        updateNewWindow(mOptionMenu.findItem(R.id.option_menu_new_window));
+        updateModePicker(mOptionMenu.findItem(R.id.option_menu_grid),
+                mOptionMenu.findItem(R.id.option_menu_list));
+        updateAdvanced(mOptionMenu.findItem(R.id.option_menu_advanced));
+        updateDebug(mOptionMenu.findItem(R.id.option_menu_debug));
+        updateInspect(mOptionMenu.findItem(R.id.option_menu_inspect));
+        Menus.disableHiddenItems(mOptionMenu);
     }
 
     /**
