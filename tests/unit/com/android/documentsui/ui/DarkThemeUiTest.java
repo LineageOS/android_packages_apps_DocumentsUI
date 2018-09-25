@@ -18,6 +18,7 @@ package com.android.documentsui.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -36,7 +37,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class DarkThemeUiTest extends ThemeUiTestBase {
     Context mTestContext;
-    int mExpectedDarkGreyColor, mExpectedGreyColor;
+    int mExpectedDarkGreyColor, mExpectedGreyColor, mExpectedDarkColor;
 
     @Before
     public void setUp() throws Exception {
@@ -47,6 +48,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
                 com.android.documentsui.tests.R.color.expected_g_dark_grey);
         mExpectedGreyColor = mTestContext.getResources().getColor(
                 com.android.documentsui.tests.R.color.expected_g_grey);
+        mExpectedDarkColor = Color.BLACK;
     }
 
     @Test
@@ -76,7 +78,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     @Test
     public void themeNightModeEnable_navigationBarColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_navigationBarColor,
-                mExpectedDarkGreyColor);
+                mExpectedDarkColor);
     }
 
     @Test
