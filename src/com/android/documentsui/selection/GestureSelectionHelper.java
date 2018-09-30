@@ -81,7 +81,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
      * @return true if started.
      */
     public void start() {
-        checkState(!mStarted);
+        if (Build.IS_ENG) checkState(!mStarted);
         // See: b/70518185. It appears start() is being called via onLongPress
         // even though we never received an intial handleInterceptedDownEvent
         // where we would usually initialize mLastStartedItemPos.
@@ -128,7 +128,7 @@ public final class GestureSelectionHelper extends ScrollHost implements OnItemTo
         // after combinations of mouse + touch + rotation.
         // But after further investigation I couldn't repro.
         // For that reason we guard this check (for now) w/ IS_DEBUGGABLE.
-        if (Build.IS_DEBUGGABLE) checkState(mStarted);
+        if (Build.IS_ENG) checkState(mStarted);
 
         switch (e.getActionMasked()) {
             case MotionEvent.ACTION_MOVE:
