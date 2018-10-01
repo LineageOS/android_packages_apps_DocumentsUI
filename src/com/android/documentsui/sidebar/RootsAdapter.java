@@ -34,6 +34,9 @@ import java.util.Map;
  * {@link Item}s and provides sub-views to {@link android.widget.ListView}.
  */
 class RootsAdapter extends ArrayAdapter<Item> {
+    private static final int TYPE_ROOT = 0;
+    private static final int TYPE_APP = 1;
+    private static final int TYPE_SPACER = 2;
     private static final Map<String, Long> sIdMap = new HashMap<>();
     // the next available id to associate with a new string id
     private static long sNextAvailableId;
@@ -95,21 +98,23 @@ class RootsAdapter extends ArrayAdapter<Item> {
 
     @Override
     public boolean isEnabled(int position) {
-        return getItemViewType(position) != 1;
+        return getItemViewType(position) != TYPE_SPACER;
     }
 
     @Override
     public int getItemViewType(int position) {
         final Item item = getItem(position);
-        if (item instanceof RootItem || item instanceof AppItem) {
-            return 0;
+        if (item instanceof RootItem) {
+            return TYPE_ROOT;
+        } else if (item instanceof AppItem) {
+            return TYPE_APP;
         } else {
-            return 1;
+            return TYPE_SPACER;
         }
     }
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 3;
     }
 }

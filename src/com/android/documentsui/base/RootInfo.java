@@ -23,7 +23,7 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 
 import androidx.annotation.IntDef;
-import androidx.annotation.Nullable;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -35,13 +35,11 @@ import android.provider.DocumentsContract.Root;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -59,10 +57,10 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     // The values of these constants determine the sort order of various roots in the RootsFragment.
     @IntDef(flag = false, value = {
+            TYPE_RECENTS,
             TYPE_IMAGES,
             TYPE_VIDEO,
             TYPE_AUDIO,
-            TYPE_RECENTS,
             TYPE_DOWNLOADS,
             TYPE_LOCAL,
             TYPE_MTP,
@@ -72,10 +70,10 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface RootType {}
-    public static final int TYPE_IMAGES = 1;
-    public static final int TYPE_VIDEO = 2;
-    public static final int TYPE_AUDIO = 3;
-    public static final int TYPE_RECENTS = 4;
+    public static final int TYPE_RECENTS = 1;
+    public static final int TYPE_IMAGES = 2;
+    public static final int TYPE_VIDEO = 3;
+    public static final int TYPE_AUDIO = 4;
     public static final int TYPE_DOWNLOADS = 5;
     public static final int TYPE_LOCAL = 6;
     public static final int TYPE_MTP = 7;
@@ -200,7 +198,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     private void deriveFields() {
         derivedMimeTypes = (mimeTypes != null) ? mimeTypes.split("\n") : null;
 
-        if (isHome()) {
+        if (isExternalStorageHome()) {
             derivedType = TYPE_LOCAL;
             derivedIcon = R.drawable.ic_root_documents;
         } else if (isMtp()) {
@@ -244,7 +242,10 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         return authority == null && rootId == null;
     }
 
-    public boolean isHome() {
+    /*
+     * Return true, if the root is from ExternalStorage and the id is home. Otherwise, return false.
+     */
+    public boolean isExternalStorageHome() {
         // Note that "home" is the expected root id for the auto-created
         // user home directory on external storage. The "home" value should
         // match ExternalStorageProvider.ROOT_ID_HOME.
@@ -278,11 +279,24 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         return Providers.AUTHORITY_MTP.equals(authority);
     }
 
+    /*
+     * Return true, if the derivedType of this root is library type. Otherwise, return false.
+     */
     public boolean isLibrary() {
         return derivedType == TYPE_IMAGES
                 || derivedType == TYPE_VIDEO
                 || derivedType == TYPE_AUDIO
                 || derivedType == TYPE_RECENTS;
+    }
+
+    /*
+     * Return true, if the derivedType of this root is storage type. Otherwise, return false.
+     */
+    public boolean isStorage() {
+        return derivedType == TYPE_LOCAL
+                || derivedType == TYPE_MTP
+                || derivedType == TYPE_USB
+                || derivedType == TYPE_SD;
     }
 
     public boolean hasSettings() {

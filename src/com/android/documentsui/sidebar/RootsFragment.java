@@ -30,6 +30,8 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
@@ -67,6 +69,8 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.roots.RootsLoader;
 
+import com.android.internal.annotations.VisibleForTesting;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -81,6 +85,8 @@ public class RootsFragment extends Fragment {
 
     private static final String TAG = "RootsFragment";
     private static final String EXTRA_INCLUDE_APPS = "includeApps";
+    private static final String PROFILE_TARGET_ACTIVITY =
+            "com.android.internal.app.IntentForwarderActivity";
     private static final int CONTEXT_MENU_ITEM_TIMEOUT = 500;
 
     private final OnItemClickListener mItemListener = new OnItemClickListener() {
@@ -162,6 +168,7 @@ public class RootsFragment extends Fragment {
             }
         });
         mList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        mList.setSelector(new ColorDrawable(Color.TRANSPARENT));
         return view;
     }
 
@@ -253,7 +260,8 @@ public class RootsFragment extends Fragment {
      * @param handlerAppIntent When not null, apps capable of handling the original intent will
      *            be included in list of roots (in special section at bottom).
      */
-    private List<Item> sortLoadResult(
+    @VisibleForTesting
+    List<Item> sortLoadResult(
             Collection<RootInfo> roots,
             @Nullable String excludePackage,
             @Nullable Intent handlerAppIntent) {
@@ -261,15 +269,17 @@ public class RootsFragment extends Fragment {
 
         final List<RootItem> libraries = new ArrayList<>();
         final List<RootItem> others = new ArrayList<>();
+        final List<RootItem> storages = new ArrayList<>();
 
         for (final RootInfo root : roots) {
             final RootItem item = new RootItem(root, mActionHandler);
 
-            Activity activity = getActivity();
-            if (root.isHome() && !Shared.shouldShowDocumentsRoot(activity)) {
+            if (root.isExternalStorageHome() && !Shared.shouldShowDocumentsRoot(getContext())) {
                 continue;
-            } else if (root.isLibrary()) {
+            } else if (root.isLibrary() || root.isDownloads()) {
                 libraries.add(item);
+            } else if (root.isStorage()) {
+                storages.add(item);
             } else {
                 others.add(item);
             }
@@ -277,16 +287,23 @@ public class RootsFragment extends Fragment {
 
         final RootComparator comp = new RootComparator();
         Collections.sort(libraries, comp);
+        Collections.sort(storages, comp);
         Collections.sort(others, comp);
 
         if (VERBOSE) Log.v(TAG, "Adding library roots: " + libraries);
         result.addAll(libraries);
+
         // Only add the spacer if it is actually separating something.
-        if (!libraries.isEmpty() && !others.isEmpty()) {
+        if (!result.isEmpty() && !storages.isEmpty()) {
             result.add(new SpacerItem());
         }
+        if (VERBOSE) Log.v(TAG, "Adding storage roots: " + storages);
+        result.addAll(storages);
 
-        if (VERBOSE) Log.v(TAG, "Adding plain roots: " + libraries);
+        if (!result.isEmpty() && !others.isEmpty()) {
+            result.add(new SpacerItem());
+        }
+        if (VERBOSE) Log.v(TAG, "Adding plain roots: " + others);
         result.addAll(others);
 
         // Include apps that can handle this intent too.
@@ -310,6 +327,7 @@ public class RootsFragment extends Fragment {
                 handlerAppIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
         final List<AppItem> apps = new ArrayList<>();
+        AppItem profileItem = null;
 
         // Omit ourselves and maybe calling package from the list
         for (ResolveInfo info : infos) {
@@ -317,13 +335,24 @@ public class RootsFragment extends Fragment {
                     !TextUtils.equals(excludePackage, info.activityInfo.packageName)) {
                 final AppItem app = new AppItem(info, mActionHandler);
                 if (VERBOSE) Log.v(TAG, "Adding handler app: " + app);
-                apps.add(app);
+
+                // for change personal profile root.
+                if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
+                    profileItem = app;
+                } else {
+                    apps.add(app);
+                }
             }
         }
 
         if (apps.size() > 0) {
             result.add(new SpacerItem());
             result.addAll(apps);
+        }
+
+        if (profileItem != null) {
+            result.add(new SpacerItem());
+            result.add(profileItem);
         }
     }
 
