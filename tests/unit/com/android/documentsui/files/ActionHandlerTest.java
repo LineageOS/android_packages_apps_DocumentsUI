@@ -423,9 +423,32 @@ public class ActionHandlerTest {
     @Test
     public void testInitLocation_DocumentsRootEnabled() throws Exception {
         mActivity.resources.bools.put(R.bool.show_documents_root, true);
-        mActivity.resources.strings.put(R.string.default_root_uri, TestProvidersAccess.HOME.getUri().toString());
+        mActivity.resources.strings.put(R.string.default_root_uri,
+                TestProvidersAccess.HOME.getUri().toString());
 
         mHandler.initLocation(mActivity.getIntent());
+        assertRootPicked(TestProvidersAccess.HOME.getUri());
+    }
+
+    @Test
+    public void testInitLocation_BrowseRootWithoutRootId() throws Exception {
+        Intent intent = mActivity.getIntent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(DocumentsContract.buildRootsUri(TestProvidersAccess.HAMMY.authority));
+
+        mHandler.initLocation(intent);
+        assertRootPicked(TestProvidersAccess.HAMMY.getUri());
+    }
+
+    @Test
+    public void testInitLocation_BrowseRootWrongAuthority_ShowDefault() throws Exception {
+        Intent intent = mActivity.getIntent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(DocumentsContract.buildRootsUri("com.test.wrongauthority"));
+        mActivity.resources.strings.put(R.string.default_root_uri,
+                TestProvidersAccess.HOME.getUri().toString());
+
+        mHandler.initLocation(intent);
         assertRootPicked(TestProvidersAccess.HOME.getUri());
     }
 

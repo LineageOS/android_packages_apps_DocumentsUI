@@ -518,6 +518,12 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
                 // authority. That way a misbehaving provider won't result in an ANR.
                 loadRoot(uri);
                 return true;
+            } else if (DocumentsContract.isRootsUri(mActivity, uri)) {
+                if (DEBUG) Log.d(TAG, "Launching first root with roots URI.");
+                // TODO: b/116760996 Let the user can disambiguate between roots if there are
+                // multiple from DocumentsProvider instead of launching the first root in default
+                loadFirstRoot(uri);
+                return true;
             }
         }
         return false;
