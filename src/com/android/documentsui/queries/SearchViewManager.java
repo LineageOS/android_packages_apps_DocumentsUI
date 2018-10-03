@@ -129,7 +129,7 @@ public class SearchViewManager implements
      * is done before onPrepareOptionsMenu(Menu menu) that is overriding the icons visibility.
      */
     public void updateMenu() {
-        if (isSearching() && mFullBar) {
+        if (isExpanded() && mFullBar) {
             mMenu.setGroupVisible(R.id.group_hide_when_searching, false);
         }
     }
