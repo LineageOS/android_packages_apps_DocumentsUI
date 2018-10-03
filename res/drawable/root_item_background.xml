@@ -32,4 +32,12 @@
                 android:drawable="@android:color/transparent"/>
         </selector>
     </item>
+
+    <item>
+        <selector>
+            <item
+                android:state_activated="true"
+                android:drawable="@drawable/root_list_selector"/>
+        </selector>
+    </item>
 </ripple>
