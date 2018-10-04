@@ -24,8 +24,8 @@
     <color name="drawer_border">#ffd4d4d4</color>
     <color name="menu_search_background">@android:color/transparent</color>
 
-    <color name="primary_dark">#ff0e70e8</color>    <!--M2 Google Blue 800-->
-    <color name="primary">#ff212121</color>
+    <color name="primary_dark">@color/g_dark_grey</color>
+    <color name="primary">@android:color/white</color>
     <color name="accent">#004ac2</color>            <!--M2 Google Blue 900-->
     <color name="accent_dark">#2297f0</color>       <!--M2 Google Blue 600-->
 
@@ -45,7 +45,7 @@
     <color name="root_title_color">#de000000</color>
     <color name="root_activated_color">#ff127beb</color>    <!--M2 Google Blue 700-->
     <color name="root_details_color">#8a000000</color>
-    <color name="root_focus_color">#ffe0e0e0</color>
+    <color name="root_focus_color">?android:attr/colorControlHighlight</color>
 
     <color name="item_hover_color">#ffe0e0e0</color>
     <color name="item_hover_color_dark">#ff5f6368</color>
@@ -53,7 +53,7 @@
     <item name="root_icon_disabled_alpha" format="float" type="dimen">?android:attr/disabledAlpha
     </item>
     <color name="doc_icon_color">#ff5a5a5a</color>
-    <color name="tool_bar_color">#ff0e70e8</color>  <!--M2 Google Blue 800-->
+    <color name="tool_bar_color">@android:color/white</color>
 
     <!-- TODO: Would be nice to move this to a color-set, but not sure how to support animation -->
     <color name="item_doc_title">?android:attr/textColorSecondary</color>
@@ -69,7 +69,7 @@
     <color name="item_doc_droppable_background">#ffe8f0fb</color>
     <color name="item_doc_not_droppable_background">#ffe0e0e0</color>
     <color name="item_grid_tint">#ff127beb</color>                  <!--M2 Google Blue 700-->
-    <color name="item_grid_tint_dark">@color/primary_dark</color>   <!--M2 Google Blue 800-->
+    <color name="item_grid_tint_dark">#ff0e70e8</color>             <!--M2 Google Blue 800-->
 
     <color name="item_drag_shadow_background">@android:color/white</color>
     <color name="item_drag_shadow_container_background">@android:color/transparent</color>

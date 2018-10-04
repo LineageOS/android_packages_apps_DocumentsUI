@@ -16,8 +16,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="ActionBarTheme" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
-        <item name="android:colorPrimaryDark">@color/g_light_grey</item>
-        <item name="android:colorPrimary">@color/g_dark_grey</item>
         <item name="android:colorControlNormal">@color/g_light_grey</item>
         <item name="android:textColorHighlight">@color/text_highlight_dark</item>
         <item name="android:textColorPrimary">@color/g_light_grey</item>
