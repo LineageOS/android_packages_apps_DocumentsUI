@@ -21,8 +21,8 @@
     android:layout_height="match_parent"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+    android:paddingStart="30dp"
+    android:paddingEnd="30dp">
 
     <TextView
         android:id="@+id/table_row_key"

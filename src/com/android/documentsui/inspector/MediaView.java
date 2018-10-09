@@ -65,7 +65,7 @@ public class MediaView extends TableView implements MediaDisplay {
 
     @Override
     public void accept(DocumentInfo doc, Bundle metadata, @Nullable Runnable geoClickListener) {
-        setTitle(R.string.inspector_metadata_section, true);
+        putTitle("", true);
 
         Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
         if (exif != null) {

@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import android.support.test.filters.LargeTest;
+
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -26,10 +28,11 @@ import com.android.documentsui.files.FilesActivity;
  * is failed and its result will different from the test on the StubProvider. b/115304092 is a
  * example which only happen on root from ExternalStorageProvidrer.
  */
+@LargeTest
 public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
 
-    private static final String fileName = "Test3345678Test.txt";
-    private static final String newFileName = "9527TestTestTest.txt";
+    private static final String fileName = "!Test3345678";
+    private static final String newFileName = "!9527Test";
     private RootInfo rootPrimary;
 
     public InternalStorageUiTest() {
@@ -57,8 +60,8 @@ public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
 
     @Override
     public void tearDown() throws Exception {
-        super.tearDown();
         deleteTestFiles();
+        super.tearDown();
     }
 
     public void testRenameFile() throws Exception {
@@ -81,7 +84,7 @@ public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
     }
 
     private void createTestFiles() {
-        mDocsHelper.createDocument(rootPrimary, "text/plain", fileName);
+        mDocsHelper.createFolder(rootPrimary, fileName);
     }
 
     private void deleteTestFiles() throws Exception {
@@ -100,7 +103,7 @@ public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
         if (selected) {
             bots.main.clickDelete();
             device.waitForIdle();
-            bots.directory.waitForDeleteSnackbarGone();
+            bots.main.clickDialogOkButton();
         }
     }
 }
