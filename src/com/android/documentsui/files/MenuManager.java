@@ -69,14 +69,6 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    public void updateOptionMenu(Menu menu) {
-        super.updateOptionMenu(menu);
-
-        // It hides icon if searching in progress
-        mSearchManager.updateMenu();
-    }
-
-    @Override
     public void updateKeyboardShortcutsMenu(
             List<KeyboardShortcutGroup> data, IntFunction<String> stringSupplier) {
         KeyboardShortcutGroup group = new KeyboardShortcutGroup(
