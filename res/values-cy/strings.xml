@@ -30,6 +30,7 @@
   <!-- Menu item title that shows a chooser to user to pick the app to open the selected documents. [CHAR LIMIT=28] -->
   <!-- Menu item title that opens a doc in new window. [CHAR LIMIT=28] -->
   <!-- Menu item title that saves the current document [CHAR LIMIT=28] -->
+  <string name="menu_save">Cadw</string>
   <!-- Menu item title that shares the selected documents [CHAR LIMIT=28] -->
   <!-- Menu item title that deletes the selected documents [CHAR LIMIT=28] -->
   <!-- Menu item title that selects all documents in the current directory [CHAR LIMIT=28] -->
@@ -38,6 +39,7 @@
   <!-- Menu item title that compresses the selected documents to the current directory [CHAR LIMIT=28] -->
   <!-- Menu item title that extracts the selected documents [CHAR LIMIT=28] -->
   <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
+  <string name="menu_rename">Ailenwi</string>
   <!--Menu item that displays properties about the selected document [CHAR LIMIT=28] -->
   <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
   <!-- Menu item title that creates a new window in the activity [CHAR LIMIT=28] -->
@@ -59,6 +61,7 @@
   <!-- A string used to show user that currently documents are not sorted in any given order. [CHAR_LIMIT=30] -->
   <string name="not_sorted">Heb unrhyw drefn</string>
   <!-- Table header for file name [CHAR_LIMIT=24] -->
+  <string name="sort_dimension_name">Enw</string>
   <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
   <!-- Table header for file type. [CHAR_LIMIT=12] -->
   <!-- Table header for file size. [CHAR_LIMIT=12] -->
