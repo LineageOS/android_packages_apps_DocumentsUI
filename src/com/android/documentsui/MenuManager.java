@@ -93,6 +93,7 @@ public abstract class MenuManager {
         updateDebug(mOptionMenu.findItem(R.id.option_menu_debug));
         updateInspect(mOptionMenu.findItem(R.id.option_menu_inspect));
         Menus.disableHiddenItems(mOptionMenu);
+        mSearchManager.updateMenu();
     }
 
     /**

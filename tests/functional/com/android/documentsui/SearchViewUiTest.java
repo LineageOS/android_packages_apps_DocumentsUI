@@ -67,6 +67,19 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
         // bots.search.assertIconVisible(false);
     }
 
+    public void testSearchView_ShouldHideOptionMenuOnExpanding() throws Exception {
+        bots.search.clickIcon();
+        device.waitForIdle();
+
+        bots.search.assertInputExists(true);
+        bots.search.assertInputFocused(true);
+        device.waitForIdle();
+
+        assertFalse(bots.menu.hasMenuItem("Grid view"));
+        assertFalse(bots.menu.hasMenuItem("List view"));
+        assertFalse(bots.menu.hasMenuItemByDesc("More options"));
+    }
+
     public void testSearchView_CollapsesOnBack() throws Exception {
         bots.search.clickIcon();
         device.pressBack();
