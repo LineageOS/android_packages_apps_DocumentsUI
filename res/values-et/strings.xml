@@ -112,11 +112,11 @@
       <item quantity="one">Kustutatakse <xliff:g id="COUNT_0">%1$d</xliff:g> üksus.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Võta tagasi"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"Kopeerimise ettevalmistamine …"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"Tihendamiseks ettevalmistamine …"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"Ekstraktimise ettevalmistamine …"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"Teisaldamise ettevalmistamine …"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"Kustutamise ettevalmistamine …"</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"Ettevalmistamine …"</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"Ettevalmistamine …"</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"Ettevalmistamine …"</string>
+    <string name="move_preparing" msgid="6504239656430530761">"Ettevalmistamine …"</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"Ettevalmistamine …"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> üksust ei saanud kopeerida</item>

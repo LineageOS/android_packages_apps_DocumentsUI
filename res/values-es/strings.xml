@@ -112,11 +112,11 @@
       <item quantity="one">Eliminando <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Deshacer"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"Preparando para copiar..."</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"Preparando para comprimir…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"Preparando para extracción…"</string>
-    <string name="move_preparing" msgid="8742573245485449429">"Preparando para mover…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"Preparando para eliminar…"</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"Preparando..."</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"Preparando..."</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"Preparando..."</string>
+    <string name="move_preparing" msgid="6504239656430530761">"Preparando..."</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"Preparando..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> de <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other">No se han podido copiar <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
