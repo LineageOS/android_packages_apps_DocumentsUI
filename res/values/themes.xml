@@ -21,6 +21,7 @@
         <item name="actionBarPopupTheme">@style/ActionBarPopupTheme</item>
         <item name="actionModeStyle">@style/ActionModeStyle</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
 
         <item name="android:windowBackground">?android:attr/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/g_grey</item>
@@ -40,6 +41,7 @@
         <item name="android:actionModeCloseDrawable">@drawable/ic_action_clear</item>
         <item name="android:statusBarColor">?android:attr/colorPrimary</item>
         <item name="android:navigationBarColor">?android:attr/colorPrimary</item>
+        <item name="android:navigationBarDividerColor">@color/drawer_border</item>
 
         <item name="materialCardViewStyle">@style/CardViewStyle</item>
 

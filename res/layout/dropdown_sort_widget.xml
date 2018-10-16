@@ -32,16 +32,8 @@
         android:layout_height="@dimen/dropdown_sort_widget_size"
         android:paddingStart="12dp"
         android:gravity="center"
+        android:textAllCaps="true"
         android:textAppearance="@style/SortTitle"
-        style="?android:attr/borderlessButtonStyle"/>
-
-    <ImageView
-        android:id="@+id/sort_arrow"
-        android:layout_width="@dimen/dropdown_sort_widget_size"
-        android:layout_height="@dimen/dropdown_sort_widget_size"
-        android:padding="16dp"
-        android:src="@drawable/ic_sort_arrow"
-        android:accessibilityTraversalAfter="@id/sort_dimen_dropdown"
         style="?android:attr/borderlessButtonStyle"/>
 
 </LinearLayout>

@@ -94,7 +94,8 @@ public final class SortController {
         SortController controller = new SortController(
                 new DropdownSortWidgetController(
                         sortModel,
-                        activity.findViewById(R.id.dropdown_sort_widget)),
+                        activity.findViewById(R.id.dropdown_sort_widget),
+                        activity.getFragmentManager()),
                 TableHeaderController.create(
                         sortModel,
                         activity.findViewById(R.id.table_header)));

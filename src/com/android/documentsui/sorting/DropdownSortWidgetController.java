@@ -16,18 +16,12 @@
 
 package com.android.documentsui.sorting;
 
-import androidx.annotation.StringRes;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.app.FragmentManager;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortController.WidgetController;
-import com.android.documentsui.sorting.SortDimension.SortDirection;
 import com.android.documentsui.sorting.SortModel.SortDimensionId;
 import com.android.documentsui.sorting.SortModel.UpdateType;
 
@@ -36,30 +30,20 @@ import com.android.documentsui.sorting.SortModel.UpdateType;
  */
 public final class DropdownSortWidgetController implements WidgetController {
 
-    private static final int LEVEL_UPWARD = 0;
-    private static final int LEVEL_DOWNWARD = 10000;
-
     private final SortModel mModel;
     private final View mWidget;
+    private final FragmentManager mFragmentManager;
     private final TextView mDimensionButton;
-    private final PopupMenu mMenu;
-    private final ImageView mArrow;
     private final SortModel.UpdateListener mListener;
 
-    public DropdownSortWidgetController(SortModel model, View widget) {
+    public DropdownSortWidgetController(SortModel model, View widget, FragmentManager fm) {
         mModel = model;
         mWidget = widget;
+        mFragmentManager = fm;
 
         mDimensionButton = (TextView) mWidget.findViewById(R.id.sort_dimen_dropdown);
         mDimensionButton.setOnClickListener(this::showMenu);
 
-        mMenu = new PopupMenu(widget.getContext(), mDimensionButton, Gravity.END | Gravity.TOP);
-        mMenu.setOnMenuItemClickListener(this::onSelectDimension);
-
-        mArrow = (ImageView) mWidget.findViewById(R.id.sort_arrow);
-        mArrow.setOnClickListener(this::onChangeDirection);
-
-        populateMenuItems();
         onModelUpdate(mModel, SortModel.UPDATE_TYPE_UNSPECIFIED);
 
         mListener = this::onModelUpdate;
@@ -76,104 +60,26 @@ public final class DropdownSortWidgetController implements WidgetController {
         mModel.removeListener(mListener);
     }
 
-    private void populateMenuItems() {
-        Menu menu = mMenu.getMenu();
-        menu.clear();
-        for (int i = 0; i < mModel.getSize(); ++i) {
-            SortDimension dimension = mModel.getDimensionAt(i);
-            if (dimension.getSortCapability() != SortDimension.SORT_CAPABILITY_NONE) {
-                menu.add(0, dimension.getId(), Menu.NONE, dimension.getLabelId());
-            }
-        }
-    }
-
     private void showMenu(View v) {
-        mMenu.show();
+        SortListFragment.show(mFragmentManager, mModel);
     }
 
     private void onModelUpdate(SortModel model, @UpdateType int updateType) {
-        final @SortDimensionId int sortedId = model.getSortedDimensionId();
-
-        if ((updateType & SortModel.UPDATE_TYPE_VISIBILITY) != 0) {
-            updateVisibility();
-        }
-
         if ((updateType & SortModel.UPDATE_TYPE_SORTING) != 0) {
-            bindSortedDimension(sortedId);
-            bindSortDirection(sortedId);
+            bindSortedDimension(model);
         }
     }
 
-    private void updateVisibility() {
-        Menu menu = mMenu.getMenu();
-
-        for (int i = 0; i < menu.size(); ++i) {
-            MenuItem item = menu.getItem(i);
-            SortDimension dimension = mModel.getDimensionById(item.getItemId());
-            item.setVisible(dimension.getVisibility() == View.VISIBLE);
-        }
-    }
-
-    private void bindSortedDimension(@SortDimensionId int sortedId) {
+    private void bindSortedDimension(SortModel model) {
+        final @SortDimensionId int sortedId = model.getSortedDimensionId();
         if (sortedId == SortModel.SORT_DIMENSION_ID_UNKNOWN) {
             mDimensionButton.setText(R.string.not_sorted);
         } else {
-            SortDimension dimension = mModel.getDimensionById(sortedId);
-            mDimensionButton.setText(dimension.getLabelId());
+            SortDimension dimension = model.getDimensionById(sortedId);
+            String label = mWidget.getContext().getString(
+                    SortListFragment.getSheetLabelId(dimension, model.getCurrentSortDirection()));
+            mDimensionButton.setText(
+                    mWidget.getContext().getString(R.string.sort_dimension_button_title, label));
         }
-    }
-
-    private void bindSortDirection(@SortDimensionId int sortedId) {
-        if (sortedId == SortModel.SORT_DIMENSION_ID_UNKNOWN) {
-            mArrow.setVisibility(View.INVISIBLE);
-        } else {
-            final SortDimension dimension = mModel.getDimensionById(sortedId);
-            switch (dimension.getSortDirection()) {
-                case SortDimension.SORT_DIRECTION_NONE:
-                    mArrow.setVisibility(View.INVISIBLE);
-                    break;
-                case SortDimension.SORT_DIRECTION_ASCENDING:
-                    showArrow(LEVEL_UPWARD, R.string.sort_direction_ascending);
-                    break;
-                case SortDimension.SORT_DIRECTION_DESCENDING:
-                    showArrow(LEVEL_DOWNWARD, R.string.sort_direction_descending);
-                    break;
-                default:
-                    throw new IllegalStateException(
-                            "Unknown sort direction: " + dimension.getSortDirection() + ".");
-            }
-        }
-    }
-
-    private void showArrow(int level, @StringRes int descriptionId) {
-        mArrow.setVisibility(View.VISIBLE);
-
-        mArrow.getDrawable().mutate();
-        mArrow.setImageLevel(level);
-        mArrow.setContentDescription(mArrow.getContext().getString(descriptionId));
-    }
-
-    private boolean onSelectDimension(MenuItem item) {
-        final @SortDirection int preferredDirection = mModel.getCurrentSortDirection();
-
-        final SortDimension dimension = mModel.getDimensionById(item.getItemId());
-        final @SortDirection int direction;
-        if ((dimension.getSortCapability() & preferredDirection) > 0) {
-            direction = preferredDirection;
-        } else {
-            direction = dimension.getDefaultSortDirection();
-        }
-
-        mModel.sortByUser(dimension.getId(), direction);
-
-        return true;
-    }
-
-    private void onChangeDirection(View v) {
-        final @SortDimensionId int id = mModel.getSortedDimensionId();
-        assert(id != SortModel.SORT_DIMENSION_ID_UNKNOWN);
-
-        final SortDimension dimension = mModel.getDimensionById(id);
-        mModel.sortByUser(dimension.getId(), dimension.getNextDirection());
     }
 }

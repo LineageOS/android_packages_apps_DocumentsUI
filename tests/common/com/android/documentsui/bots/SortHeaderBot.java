@@ -24,20 +24,26 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
 import static com.android.documentsui.sorting.SortDimension.SORT_DIRECTION_ASCENDING;
+
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
 import static org.hamcrest.Matchers.allOf;
 
-import android.app.UiAutomation;
 import android.content.Context;
-import androidx.annotation.StringRes;
+import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObject2;
 import android.view.View;
+
+import androidx.annotation.StringRes;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
+import com.android.documentsui.sorting.SortListFragment;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
@@ -67,14 +73,19 @@ public class SortHeaderBot extends Bots.BaseBot {
         final @StringRes int labelId = mSortModel.getDimensionById(id).getLabelId();
         final String label = mContext.getString(labelId);
         final boolean result;
-        if (Matchers.present(mDropBot.MATCHER)) {
-            result = mDropBot.sortBy(label, direction);
+        if (isDropDownMode()) {
+            SortDimension dimension = mSortModel.getDimensionById(id);
+            result = mDropBot.sortBy(dimension, direction, mContext, mDevice);
         } else {
             result = mColumnBot.sortBy(label, direction);
         }
 
         assertTrue("Sorting by id: " + id + " in direction: " + direction + " failed.",
                 result);
+    }
+
+    public boolean isDropDownMode() {
+        return Matchers.present(mDropBot.MATCHER);
     }
 
     public void assertDropdownMode() {
@@ -98,42 +109,21 @@ public class SortHeaderBot extends Bots.BaseBot {
         private static final Matcher<View> DROPDOWN_MATCHER = allOf(
                 withId(R.id.sort_dimen_dropdown),
                 withParent(MATCHER));
-        private static final Matcher<View> SORT_ARROW_MATCHER = allOf(
-                withId(R.id.sort_arrow),
-                withParent(MATCHER));
 
-        private boolean sortBy(String label, @SortDirection int direction) {
+        private boolean sortBy(SortDimension dimension, @SortDirection int direction,
+                Context context, UiDevice device) {
             onView(DROPDOWN_MATCHER).perform(click());
-            onView(withText(label)).perform(click());
 
-            if (direction != getDirection()) {
-                onView(SORT_ARROW_MATCHER).perform(click());
-            }
+            @StringRes int labelRes = SortListFragment.getSheetLabelId(dimension, direction);
 
-            return Matchers.present(allOf(
-                    DROPDOWN_MATCHER,
-                    withText(label)))
-                    && getDirection() == direction;
-        }
+            onView(withText(context.getString(labelRes))).perform(click());
 
-        private @SortDirection int getDirection() {
-            final boolean ascending = Matchers.present(
-                    allOf(
-                            SORT_ARROW_MATCHER,
-                            withContentDescription(R.string.sort_direction_ascending)));
+            onView(DROPDOWN_MATCHER).perform(click());
+            UiObject2 verifyLabel = device.findObject(By.text(context.getString(labelRes)));
+            boolean isChecked = verifyLabel.isChecked();
+            onView(withText(context.getString(labelRes))).perform(click());
 
-            if (ascending) {
-                return SORT_DIRECTION_ASCENDING;
-            }
-
-            final boolean descending = Matchers.present(
-                    allOf(
-                            SORT_ARROW_MATCHER,
-                            withContentDescription(R.string.sort_direction_descending)));
-
-            return descending
-                    ? SortDimension.SORT_DIRECTION_DESCENDING
-                    : SortDimension.SORT_DIRECTION_NONE;
+            return isChecked;
         }
     }
 
