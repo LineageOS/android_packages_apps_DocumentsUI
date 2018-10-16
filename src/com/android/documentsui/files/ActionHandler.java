@@ -25,13 +25,10 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.DragEvent;
-import android.view.View;
 
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.selection.MutableSelection;
@@ -48,6 +45,7 @@ import com.android.documentsui.Metrics;
 import com.android.documentsui.Model;
 import com.android.documentsui.R;
 import com.android.documentsui.TimeoutTask;
+import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
@@ -66,21 +64,16 @@ import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.inspector.InspectorActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
-import com.android.documentsui.services.DeleteJob;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.ui.DialogController;
-import com.android.documentsui.ui.Snackbars;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -99,8 +92,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     private final ClipStore mClipStore;
     private final DragAndDropManager mDragAndDropManager;
     private final Model mModel;
-
-    private Snackbar mDeletionSnackbar;
 
     ActionHandler(
             T activity,
@@ -302,7 +293,7 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
     @Override
     public void deleteSelectedDocuments() {
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_DELETE);
-        final Selection<String> selection = getSelectedOrFocused();
+        Selection selection = getSelectedOrFocused();
 
         if (selection.isEmpty()) {
             return;
@@ -310,82 +301,44 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
         final @Nullable DocumentInfo srcParent = mState.stack.peek();
 
-        UrisSupplier srcs;
-        try {
-            srcs = UrisSupplier.create(
-                    selection,
-                    mModel::getItemUri,
-                    mClipStore);
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to delete a file because we were unable to get item URIs.", e);
-            mDialogs.showFileOperationStatus(
-                    FileOperations.Callback.STATUS_FAILED,
-                    FileOperationService.OPERATION_DELETE,
-                    selection.size());
-            return;
-        }
-        mModel.markDocumentsToBeDeleted(selection);
-        Consumer<View> action = v -> {
-            Metrics.logUserAction(mActivity, Metrics.USER_ACTION_UNDO_DELETE);
-            mModel.clearDocumentsToBeDeleted(selection);
-        };
-        Snackbar.Callback callback = new Snackbar.Callback() {
-            @Override
-            public void onDismissed(Snackbar snackbar, int event) {
-                super.onDismissed(snackbar, event);
-                if (event != Snackbar.Callback.DISMISS_EVENT_ACTION) {
-                    FileOperation operation = new FileOperation.Builder()
-                            .withOpType(FileOperationService.OPERATION_DELETE)
-                            .withDestination(mState.stack)
-                            .withSrcs(srcs)
-                            .withSrcParent(srcParent == null ? null : srcParent.derivedUri)
-                            .build();
-                    operation.addMessageListener(new Handler.Callback() {
-                        @Override
-                        public boolean handleMessage(Message message) {
-                            if (message.what == FileOperationService.MESSAGE_FINISH) {
-                                operation.removeMessageListener(this);
+        // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
+        List<DocumentInfo> docs = mModel.getDocuments(selection);
 
-                                // If failure count equals selection size,
-                                // it means all deletions failed. Just clear the selection.
-                                final int failureCount = message.arg1;
-                                if (failureCount == selection.size()) {
-                                    mModel.clearDocumentsToBeDeleted(selection);
-                                    return true;
-                                }
+        ConfirmationCallback result = (@ConfirmationCallback.Result int code) -> {
+            // share the news with our caller, be it good or bad.
+            mActionModeAddons.finishOnConfirmed(code);
 
-                                ArrayList<Uri> failureUris = message.getData()
-                                        .getParcelableArrayList(DeleteJob.KEY_FAILED_URIS);
-                                if (failureUris != null) {
-                                    mModel.setDeletionFailedUris(selection, failureUris);
-                                }
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
-                    FileOperations.start(mActivity, operation, null, FileOperations.createJobId());
-                }
-                if (mDeletionSnackbar == snackbar) {
-                    mDeletionSnackbar = null;
-                }
-                if (snackbar != null) {
-                    snackbar.removeCallback(this);
-                }
+            if (code != ConfirmationCallback.CONFIRM) {
+                return;
             }
+
+            UrisSupplier srcs;
+            try {
+                srcs = UrisSupplier.create(
+                        selection,
+                        mModel::getItemUri,
+                        mClipStore);
+            } catch (Exception e) {
+                Log.e(TAG,"Failed to delete a file because we were unable to get item URIs.", e);
+                mDialogs.showFileOperationStatus(
+                        FileOperations.Callback.STATUS_FAILED,
+                        FileOperationService.OPERATION_DELETE,
+                        selection.size());
+                return;
+            }
+
+            FileOperation operation = new FileOperation.Builder()
+                    .withOpType(FileOperationService.OPERATION_DELETE)
+                    .withDestination(mState.stack)
+                    .withSrcs(srcs)
+                    .withSrcParent(srcParent == null ? null : srcParent.derivedUri)
+                    .build();
+
+            FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus,
+                    FileOperations.createJobId());
         };
-        mDeletionSnackbar = showDeletionSnackbar(mActivity, selection.size(), action, callback);
-    }
 
-    public Snackbar showDeletionSnackbar(Activity activity, int docCount, Consumer<View> action,
-                               Snackbar.Callback callback) {
-        return Snackbars.showDelete(mActivity, docCount, action, callback);
-    }
-
-    public void dismissDeletionSnackBar() {
-        if (mDeletionSnackbar != null) {
-            mDeletionSnackbar.dismiss();
-        }
+        mDialogs.confirmDelete(docs, result);
     }
 
     @Override
@@ -442,7 +395,6 @@ public class ActionHandler<T extends Activity & Addons> extends AbstractActionHa
 
     @Override
     public void loadDocumentsForCurrentStack() {
-        dismissDeletionSnackBar();
         super.loadDocumentsForCurrentStack();
     }
 

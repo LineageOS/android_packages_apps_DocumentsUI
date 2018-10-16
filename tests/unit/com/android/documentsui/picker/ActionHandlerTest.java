@@ -78,6 +78,8 @@ public class ActionHandlerTest {
                 mLastAccessed
         );
 
+        mEnv.dialogs.confirmNext();
+
         mEnv.selectionMgr.select("1");
 
         AsyncTask.setDefaultExecutor(mEnv.mExecutor);
