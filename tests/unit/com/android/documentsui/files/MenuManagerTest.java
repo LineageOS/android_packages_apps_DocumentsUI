@@ -88,6 +88,7 @@ public final class MenuManagerTest {
     private TestMenuItem actionModeRename;
     private TestMenuItem actionModeViewInOwner;
     private TestMenuItem actionModeInspector;
+    private TestMenuItem actionModeSort;
 
     /* Option Menu items */
     private TestMenuItem optionSearch;
@@ -100,6 +101,7 @@ public final class MenuManagerTest {
     private TestMenuItem optionAdvanced;
     private TestMenuItem optionSettings;
     private TestMenuItem optionInspector;
+    private TestMenuItem optionSort;
 
     private TestFeatures features;
     private TestSelectionDetails selectionDetails;
@@ -150,6 +152,7 @@ public final class MenuManagerTest {
         actionModeRename = testMenu.findItem(R.id.action_menu_rename);
         actionModeInspector = testMenu.findItem(R.id.action_menu_inspect);
         actionModeViewInOwner = testMenu.findItem(R.id.action_menu_view_in_owner);
+        actionModeSort = testMenu.findItem(R.id.action_menu_sort);
 
         // Menu actions (including overflow) when action mode is not active.
         optionSearch = testMenu.findItem(R.id.option_menu_search);
@@ -162,6 +165,7 @@ public final class MenuManagerTest {
         optionAdvanced = testMenu.findItem(R.id.option_menu_advanced);
         optionSettings = testMenu.findItem(R.id.option_menu_settings);
         optionInspector = testMenu.findItem(R.id.option_menu_inspect);
+        optionSort = testMenu.findItem(R.id.option_menu_sort);
 
         features = new TestFeatures();
 
@@ -215,6 +219,8 @@ public final class MenuManagerTest {
         actionModeExtractTo.assertInvisible();
         actionModeMoveTo.assertEnabled();
         actionModeViewInOwner.assertInvisible();
+        actionModeSort.assertVisible();
+        actionModeSort.assertEnabled();
     }
 
     @Test
@@ -386,6 +392,8 @@ public final class MenuManagerTest {
         optionAdvanced.assertTitle(R.string.menu_advanced_show);
         optionCreateDir.assertDisabled();
         optionDebug.assertInvisible();
+        optionSort.assertEnabled();
+        optionSort.assertVisible();
         assertTrue(testSearchManager.updateMenuCalled());
     }
 

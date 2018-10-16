@@ -710,6 +710,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mActions.viewInOwner();
                 return true;
 
+            case R.id.action_menu_sort:
+                mActions.showSortDialog();
+                return true;
+
             default:
                 if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
                 return false;

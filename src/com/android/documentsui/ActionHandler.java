@@ -158,6 +158,8 @@ public interface ActionHandler {
     void setDebugMode(boolean enabled);
     void showDebugMessage();
 
+    void showSortDialog();
+
     /**
      * Allow action handler to be initialized in a new scope.
      * @return this
