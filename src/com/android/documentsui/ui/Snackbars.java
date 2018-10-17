@@ -18,8 +18,6 @@ package com.android.documentsui.ui;
 
 import androidx.annotation.StringRes;
 import android.app.Activity;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -32,7 +30,6 @@ import com.android.documentsui.base.Shared;
 import java.util.function.Consumer;
 
 public final class Snackbars {
-    public static final int DELETION_TIMEOUT = 10000;
 
     private Snackbars() {}
 
@@ -62,14 +59,9 @@ public final class Snackbars {
         makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    public static final Snackbar showDelete(Activity activity, int docCount, Consumer<View> action,
-            Snackbar.Callback callback) {
+    public static final void showDelete(Activity activity, int docCount) {
         CharSequence message = Shared.getQuantityString(activity, R.plurals.deleting, docCount);
-        CharSequence actionText = activity.getResources().getText(R.string.undo);
-        Snackbar snackbar = makeSnackbarWithAction(activity, docCount, message, DELETION_TIMEOUT,
-                actionText, action, callback);
-        snackbar.show();
-        return snackbar;
+        makeSnackbar(activity, message, Snackbar.LENGTH_SHORT).show();
     }
 
     public static final void showOperationRejected(Activity activity) {

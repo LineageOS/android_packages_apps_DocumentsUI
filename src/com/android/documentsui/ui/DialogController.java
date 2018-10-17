@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.picker.OverwriteConfirmFragment;
@@ -38,6 +39,8 @@ import java.util.List;
 
 public interface DialogController {
 
+    // Dialogs used in FilesActivity
+    void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback);
     void showFileOperationStatus(int status, int opType, int docCount);
 
     /**
@@ -66,6 +69,42 @@ public interface DialogController {
             mFeatures = features;
             mActivity = activity;
             mMessages = messages;
+        }
+
+        @Override
+        public void confirmDelete(List<DocumentInfo> docs, ConfirmationCallback callback) {
+            assert(!docs.isEmpty());
+
+            TextView message =
+                    (TextView) mActivity.getLayoutInflater().inflate(
+                            R.layout.dialog_delete_confirmation, null);
+            message.setText(mMessages.generateDeleteMessage(docs));
+
+            // For now, we implement this dialog NOT
+            // as a fragment (which can survive rotation and have its own state),
+            // but as a simple runtime dialog. So rotating a device with an
+            // active delete dialog...results in that dialog disappearing.
+            // We can do better, but don't have cycles for it now.
+            final AlertDialog alertDialog = new AlertDialog.Builder(mActivity)
+                    .setView(message)
+                    .setPositiveButton(
+                            android.R.string.ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    callback.accept(ConfirmationCallback.CONFIRM);
+                                }
+                            })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .create();
+
+            alertDialog.setOnShowListener(
+                    (DialogInterface) -> {
+                        Button positive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        positive.setFocusable(true);
+                        positive.requestFocus();
+                    });
+            alertDialog.show();
         }
 
         @Override
@@ -102,6 +141,9 @@ public interface DialogController {
                     break;
                 case FileOperationService.OPERATION_EXTRACT:
                     Snackbars.showExtract(mActivity, docCount);
+                    break;
+                case FileOperationService.OPERATION_DELETE:
+                    Snackbars.showDelete(mActivity, docCount);
                     break;
                 default:
                     throw new UnsupportedOperationException("Unsupported Operation: " + opType);

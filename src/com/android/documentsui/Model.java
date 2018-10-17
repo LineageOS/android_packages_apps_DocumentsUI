@@ -43,7 +43,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,8 +71,6 @@ public class Model {
     private @Nullable Cursor mCursor;
     private int mCursorCount;
     private String mIds[] = new String[0];
-    private Set<Selection<String>> mDocumentsToBeDeleted = new HashSet<>();
-    private HashMap<Integer, ArrayList<String>> mDeletionFailedDocIds = new HashMap<>();
 
     public Model(Features features) {
         mFeatures = features;
@@ -110,8 +107,6 @@ public class Model {
         doc = null;
         mIsLoading = false;
         mFileNames.clear();
-        mDocumentsToBeDeleted.clear();
-        mDeletionFailedDocIds.clear();
         notifyUpdateListeners();
     }
 
@@ -143,89 +138,9 @@ public class Model {
         notifyUpdateListeners();
     }
 
-    public void markDocumentsToBeDeleted(Selection<String> selection) {
-        if (mDocumentsToBeDeleted.contains(selection)) {
-            return;
-        }
-        mDocumentsToBeDeleted.add(selection);
-        updateModelData();
-        notifyUpdateListeners();
-    }
-
-    public void clearDocumentsToBeDeleted(Selection<String> selection) {
-        if (!mDocumentsToBeDeleted.contains(selection)) {
-            return;
-        }
-        mDocumentsToBeDeleted.remove(selection);
-        updateModelData();
-        notifyUpdateListeners();
-    }
-
-    public void setDeletionFailedUris(Selection<String> selection,
-            ArrayList<Uri> deletionFailedUris) {
-        if (!mDocumentsToBeDeleted.contains(selection)) {
-            return;
-        }
-
-        mDeletionFailedDocIds.put(selection.hashCode(), ModelId.build(deletionFailedUris));
-        updateModelData();
-        notifyUpdateListeners();
-    }
-
-    private void updateDocumentsToBeDeleted() {
-        for (Iterator<Selection<String>> i = mDocumentsToBeDeleted.iterator(); i.hasNext();) {
-            Selection<String> selection = i.next();
-            int size = selection.size();
-            ArrayList<String> failedDocIds = mDeletionFailedDocIds.get(selection.hashCode());
-            for (String id : selection) {
-                // Check whether the id is in the current cursor or in the deletion failed list.
-                // If all ids are either not in the current cursor or in the deletion failed list,
-                // it means the deletion of this selection is done, and we can clear this selection.
-                if (!mPositions.containsKey(id) ||
-                        (failedDocIds != null && failedDocIds.contains(id))) {
-                    size--;
-                }
-                if (size == 0) {
-                    i.remove();
-                    mDeletionFailedDocIds.remove(selection.hashCode());
-                    break;
-                }
-            }
-        }
-    }
-
-    private int getVisibleCount() {
-        int count = mPositions.size();
-        for (Selection<String> selection : mDocumentsToBeDeleted) {
-            for (String id : selection) {
-                if (mPositions.containsKey(id)) {
-                    count--;
-                }
-            }
-        }
-        return count;
-    }
-
-    private boolean isDocumentToBeDeleted(String id) {
-        for (Selection<String> s : mDocumentsToBeDeleted) {
-            if (s.contains(id)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private int getDocumentsToBeDeletedCount() {
-        int count = 0;
-        for (Selection<String> s : mDocumentsToBeDeleted) {
-            count += s.size();
-        }
-        return count;
-    }
-
     @VisibleForTesting
     public int getItemCount() {
-        return mCursorCount - getDocumentsToBeDeletedCount();
+        return mCursorCount;
     }
 
     /**
@@ -233,10 +148,9 @@ public class Model {
      * according to the current sort order.
      */
     private void updateModelData() {
+        mIds = new String[mCursorCount];
         mFileNames.clear();
         mCursor.moveToPosition(-1);
-        mPositions.clear();
-        String[] tmpIds = new String[mCursorCount];
         for (int pos = 0; pos < mCursorCount; ++pos) {
             if (!mCursor.moveToNext()) {
                 Log.e(TAG, "Fail to move cursor to next pos: " + pos);
@@ -245,20 +159,14 @@ public class Model {
             // Generates a Model ID for a cursor entry that refers to a document. The Model ID is a
             // unique string that can be used to identify the document referred to by the cursor.
             // Prefix the ids with the authority to avoid collisions.
-            tmpIds[pos] = ModelId.build(mCursor);
-            mPositions.put(tmpIds[pos], pos);
+            mIds[pos] = ModelId.build(mCursor);
             mFileNames.add(getCursorString(mCursor, Document.COLUMN_DISPLAY_NAME));
         }
 
-        updateDocumentsToBeDeleted();
-
-        mIds = new String[getVisibleCount()];
-        int index = 0;
+        // Populate the positions.
+        mPositions.clear();
         for (int i = 0; i < mCursorCount; ++i) {
-            if (!isDocumentToBeDeleted(tmpIds[i])) {
-                mIds[index] = tmpIds[i];
-                index++;
-            }
+            mPositions.put(mIds[i], i);
         }
     }
 
