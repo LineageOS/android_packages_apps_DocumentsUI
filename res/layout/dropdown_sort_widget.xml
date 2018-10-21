@@ -29,7 +29,8 @@
     <TextView
         android:id="@+id/sort_dimen_dropdown"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dropdown_sort_widget_size"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/dropdown_sort_widget_size"
         android:paddingStart="12dp"
         android:gravity="center"
         android:textAllCaps="true"

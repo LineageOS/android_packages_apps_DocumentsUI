@@ -123,25 +123,25 @@
     <string name="sort_dimension_size">Size</string>
     <!-- Table header for last modified time. [CHAR_LIMIT=18] -->
     <string name="sort_dimension_date">Modified</string>
-    <!-- Bottom sheet list title for file name ascending [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet list title for file name ascending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_name_ascending">File name (A to Z)</string>
-    <!-- Bottom sheet list title for file type name ascending [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet list title for file type name ascending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_file_type_ascending">Type (A to Z)</string>
-    <!-- Bottom sheet list title for size ascending [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet list title for size ascending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_size_ascending">Size (smallest first)</string>
-    <!-- Bottom sheet list title for date ascending [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet list title for date ascending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_date_ascending">Modified (oldest first)</string>
-    <!-- Bottom sheet list title for file name descending [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet list title for file name descending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_name_descending">File name (Z to A)</string>
-    <!-- Bottom sheet list title for file type name descending [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet list title for file type name descending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_file_type_descending">Type (Z to A)</string>
-    <!-- Bottom sheet list title for size descending [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet list title for size descending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_size_descending">Size (largest first)</string>
-    <!-- Bottom sheet list title for date descending [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet list title for date descending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_date_descending">Modified (newest first)</string>
-    <!-- Bottom sheet dialog title [CHAR_LIMIT=24] -->
+    <!-- Bottom sheet dialog title [CHAR_LIMIT=42] -->
     <string name="sort_dimension_dialog_title">Sort by</string>
-    <!-- Dropdown sort wiget button title. [CHAR_LIMIT=18] -->
+    <!-- Dropdown sort wiget button title. [CHAR_LIMIT=60] -->
     <string name="sort_dimension_button_title">Sorted by <xliff:g id="label" example="File name (A to Z)">%s</xliff:g></string>
 
     <!--Table header for number of items in a folder.-->
