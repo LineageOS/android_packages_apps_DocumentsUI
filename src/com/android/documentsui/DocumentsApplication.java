@@ -32,6 +32,7 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.clipping.ClipStorage;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
+import com.android.documentsui.prefs.ScopedAccessLocalPreferences;
 import com.android.documentsui.roots.ProvidersCache;
 
 public class DocumentsApplication extends Application {
@@ -112,6 +113,7 @@ public class DocumentsApplication extends Application {
         final IntentFilter localeFilter = new IntentFilter();
         localeFilter.addAction(Intent.ACTION_LOCALE_CHANGED);
         registerReceiver(mCacheReceiver, localeFilter);
+        ScopedAccessLocalPreferences.clearScopedAccessPreferences(this);
     }
 
     @Override
