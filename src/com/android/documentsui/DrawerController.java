@@ -60,6 +60,7 @@ public abstract class DrawerController implements DrawerListener {
 
         View drawer = activity.findViewById(R.id.drawer_roots);
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.roots_toolbar);
+        toolbar.setTitleTextColor(activity.getResources().getColor(R.color.drawer_title_color));
 
         drawer.getLayoutParams().width = calculateDrawerWidth(activity);
 

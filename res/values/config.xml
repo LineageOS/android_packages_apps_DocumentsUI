@@ -29,6 +29,9 @@
     <bool name="full_bar_search_view">true</bool>
 
     <string name="default_root_uri" translatable="false">content://com.android.providers.downloads.documents/root/downloads</string>
+    <!-- The value is used in sorting process on Drawer menu. If the root's package name
+     start with it, the item will have higher order than others.-->
+    <string name="preferred_root_package" translatable="false">com.android.shell</string>
 
     <string name="datetime_format_12" translatable="false">MMM dd, yyyy, h:mm a</string>
     <string name="datetime_format_24" translatable="false">MMM dd, yyyy, H:mm</string>

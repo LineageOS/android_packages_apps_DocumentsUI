@@ -16,6 +16,7 @@
 
 package com.android.documentsui.sidebar;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.ActionHandler;
+import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
 
 /**
@@ -38,10 +40,9 @@ class AppItem extends Item {
 
     private final ActionHandler mActionHandler;
 
-    public AppItem(ResolveInfo info, ActionHandler actionHandler) {
-        super(R.layout.item_root, getStringId(info));
+    public AppItem(ResolveInfo info, String title, ActionHandler actionHandler) {
+        super(R.layout.item_root, title, getStringId(info));
         this.info = info;
-
         mActionHandler = actionHandler;
     }
 
@@ -62,12 +63,20 @@ class AppItem extends Item {
     @Override
     void bindView(View convertView) {
         final ImageView icon = (ImageView) convertView.findViewById(android.R.id.icon);
-        final TextView title = (TextView) convertView.findViewById(android.R.id.title);
+        final TextView titleView = (TextView) convertView.findViewById(android.R.id.title);
         final TextView summary = (TextView) convertView.findViewById(android.R.id.summary);
+        final View actionIconArea = convertView.findViewById(R.id.action_icon_area);
+        final ImageView actionIcon = (ImageView) convertView.findViewById(R.id.action_icon);
 
-        final PackageManager pm = convertView.getContext().getPackageManager();
+        final Context context = convertView.getContext();
+        final PackageManager pm = context.getPackageManager();
         icon.setImageDrawable(info.loadIcon(pm));
-        title.setText(info.loadLabel(pm));
+        titleView.setText(title);
+
+        actionIconArea.setVisibility(View.VISIBLE);
+        actionIconArea.setFocusable(false);
+        actionIcon.setImageDrawable(IconUtils.applyTintColor(context, R.drawable.ic_exit_to_app,
+                R.color.item_action_icon));
 
         // TODO: match existing summary behavior from disambig dialog
         summary.setVisibility(View.GONE);
@@ -82,6 +91,11 @@ class AppItem extends Item {
     @Override
     void open() {
         mActionHandler.openRoot(info);
+    }
+
+    @Override
+    String getPackageName() {
+        return info.activityInfo.packageName;
     }
 
     @Override

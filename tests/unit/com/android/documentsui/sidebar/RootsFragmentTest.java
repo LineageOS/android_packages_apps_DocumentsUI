@@ -20,27 +20,31 @@ import static junit.framework.Assert.assertTrue;
 
 import static org.junit.Assert.assertEquals;
 
+import android.content.pm.ResolveInfo;
 import android.support.test.filters.MediumTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.testing.TestResolveInfo;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * An unit test for RootsFragmentTest.
+ * An unit test for RootsFragment.
  */
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class RootsFragmentTest {
 
     private RootsFragment mRootsFragment;
+
     private static final String[] EXPECTED_SORTED_RESULT = {
             TestProvidersAccess.RECENTS.title,
             TestProvidersAccess.IMAGE.title,
@@ -62,8 +66,50 @@ public class RootsFragmentTest {
     @Test
     public void testSortLoadResult_WithCorrectOrder() {
         List<Item> items = mRootsFragment.sortLoadResult(createFakeRootInfoList(),
-                null /* excludePackage */, null /* handlerAppIntent */);
+                null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess());
         assertTrue(assertSortedResult(items));
+    }
+
+    @Test
+    public void testItemComparator_WithCorrectOrder() {
+        final String testPackageName = "com.test1";
+        final String errorTestPackageName = "com.test2";
+        final RootsFragment.ItemComparator comp = new RootsFragment.ItemComparator(testPackageName);
+        final List<Item> rootList = new ArrayList<>();
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, null /* actionHandler */,
+                errorTestPackageName));
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, null /* actionHandler */,
+                errorTestPackageName));
+        rootList.add(new RootItem(TestProvidersAccess.PICKLES, null /* actionHandler */,
+                testPackageName));
+        Collections.sort(rootList, comp);
+
+        assertEquals(rootList.get(0).title, TestProvidersAccess.PICKLES.title);
+        assertEquals(rootList.get(1).title, TestProvidersAccess.HAMMY.title);
+        assertEquals(rootList.get(2).title, TestProvidersAccess.INSPECTOR.title);
+    }
+
+    @Test
+    public void testItemComparator_differentItemTypes_WithCorrectOrder() {
+        final String testPackageName = "com.test1";
+        final RootsFragment.ItemComparator comp = new RootsFragment.ItemComparator(testPackageName);
+        final List<Item> rootList = new ArrayList<>();
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, null /* actionHandler */,
+                testPackageName));
+
+        final ResolveInfo info = TestResolveInfo.create();
+        info.activityInfo.packageName = testPackageName;
+
+        rootList.add(new AppItem(info, TestProvidersAccess.PICKLES.title,
+                null /* actionHandler */));
+        rootList.add(new RootAndAppItem(TestProvidersAccess.INSPECTOR, info,
+                null /* actionHandler */));
+
+        Collections.sort(rootList, comp);
+
+        assertEquals(rootList.get(0).title, TestProvidersAccess.HAMMY.title);
+        assertEquals(rootList.get(1).title, TestProvidersAccess.INSPECTOR.title);
+        assertEquals(rootList.get(2).title, TestProvidersAccess.PICKLES.title);
     }
 
     private boolean assertSortedResult(List<Item> items) {
