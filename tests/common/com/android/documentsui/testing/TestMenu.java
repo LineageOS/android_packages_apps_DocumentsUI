@@ -68,6 +68,7 @@ public abstract class TestMenu implements Menu {
                 R.id.action_menu_rename,
                 R.id.action_menu_inspect,
                 R.id.action_menu_view_in_owner,
+                R.id.action_menu_sort,
                 R.id.option_menu_search,
                 R.id.option_menu_debug,
                 R.id.option_menu_grid,
@@ -77,7 +78,8 @@ public abstract class TestMenu implements Menu {
                 R.id.option_menu_select_all,
                 R.id.option_menu_advanced,
                 R.id.option_menu_settings,
-                R.id.option_menu_inspect);
+                R.id.option_menu_inspect,
+                R.id.option_menu_sort);
     }
 
 

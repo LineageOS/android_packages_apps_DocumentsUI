@@ -80,6 +80,7 @@ public final class MenuManagerTest {
     private TestMenuItem actionModeCompress;
     private TestMenuItem actionModeRename;
     private TestMenuItem actionModeViewInOwner;
+    private TestMenuItem actionModeSort;
 
     /* Option Menu items */
     private TestMenuItem optionSearch;
@@ -91,6 +92,7 @@ public final class MenuManagerTest {
     private TestMenuItem optionSelectAll;
     private TestMenuItem optionAdvanced;
     private TestMenuItem optionSettings;
+    private TestMenuItem optionSort;
 
     private TestSelectionDetails selectionDetails;
     private TestDirectoryDetails dirDetails;
@@ -133,6 +135,7 @@ public final class MenuManagerTest {
         actionModeCompress = testMenu.findItem(R.id.action_menu_compress);
         actionModeRename = testMenu.findItem(R.id.action_menu_rename);
         actionModeViewInOwner = testMenu.findItem(R.id.action_menu_view_in_owner);
+        actionModeSort = testMenu.findItem(R.id.action_menu_sort);
 
         optionSearch = testMenu.findItem(R.id.option_menu_search);
         optionDebug = testMenu.findItem(R.id.option_menu_debug);
@@ -143,6 +146,7 @@ public final class MenuManagerTest {
         optionSelectAll = testMenu.findItem(R.id.option_menu_select_all);
         optionAdvanced = testMenu.findItem(R.id.option_menu_advanced);
         optionSettings = testMenu.findItem(R.id.option_menu_settings);
+        optionSort = testMenu.findItem(R.id.option_menu_sort);
 
         selectionDetails = new TestSelectionDetails();
         dirDetails = new TestDirectoryDetails();
@@ -164,6 +168,8 @@ public final class MenuManagerTest {
         actionModeRename.assertInvisible();
         actionModeSelectAll.assertVisible();
         actionModeViewInOwner.assertInvisible();
+        actionModeSort.assertVisible();
+        actionModeSort.assertEnabled();
     }
 
     @Test
@@ -221,6 +227,8 @@ public final class MenuManagerTest {
         optionAdvanced.assertInvisible();
         optionAdvanced.assertTitle(R.string.menu_advanced_show);
         optionCreateDir.assertDisabled();
+        optionSort.assertEnabled();
+        optionSort.assertVisible();
         assertTrue(testSearchManager.showMenuCalled());
     }
 

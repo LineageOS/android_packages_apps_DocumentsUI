@@ -63,6 +63,7 @@ import com.android.documentsui.roots.LoadFirstRootTask;
 import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.sidebar.EjectRootTask;
+import com.android.documentsui.sorting.SortListFragment;
 import com.android.documentsui.ui.Snackbars;
 
 import java.util.ArrayList;
@@ -305,6 +306,11 @@ public abstract class AbstractActionHandler<T extends Activity & CommonAddons>
         Metrics.logUserAction(mActivity, Metrics.USER_ACTION_CREATE_DIR);
 
         CreateDirectoryFragment.show(mActivity.getFragmentManager());
+    }
+
+    @Override
+    public void showSortDialog() {
+        SortListFragment.show(mActivity.getFragmentManager(), mState.sortModel);
     }
 
     @Override

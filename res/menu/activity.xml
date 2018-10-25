@@ -63,6 +63,11 @@
             android:showAsAction="never"
             android:visible="false" />
         <item
+            android:id="@+id/option_menu_sort"
+            android:title="@string/menu_sort"
+            android:showAsAction="never"
+            android:visible="false" />
+        <item
             android:id="@+id/option_menu_select_all"
             android:title="@string/menu_select_all"
             android:alphabeticShortcut="a"

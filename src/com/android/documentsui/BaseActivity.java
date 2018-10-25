@@ -356,6 +356,10 @@ public abstract class BaseActivity
                 getInjector().actions.showDebugMessage();
                 return true;
 
+            case R.id.option_menu_sort:
+                getInjector().actions.showSortDialog();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -30,6 +30,10 @@
         android:title="@string/menu_delete"
         android:showAsAction="always" />
     <item
+        android:id="@+id/action_menu_sort"
+        android:title="@string/menu_sort"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/action_menu_select"
         android:title="@string/menu_select"
         android:showAsAction="always" />

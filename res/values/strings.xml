@@ -59,6 +59,8 @@
     <string name="menu_select_all">Select all</string>
     <!-- Menu item title that selects documents in the current directory [CHAR LIMIT=28] -->
     <string name="menu_select">Select</string>
+    <!-- Menu item title that sort documents in the current directory [CHAR LIMIT=28] -->
+    <string name="menu_sort">Sort by...</string>
     <!-- Menu item title that copies the selected documents [CHAR LIMIT=28] -->
     <string name="menu_copy">Copy to\u2026</string>
     <!-- Menu item title that moves the selected documents [CHAR LIMIT=28] -->
