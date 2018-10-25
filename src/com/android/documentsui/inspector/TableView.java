@@ -18,6 +18,8 @@ package com.android.documentsui.inspector;
 import androidx.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.Selection;
+import android.text.Spannable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +79,13 @@ public class TableView extends LinearLayout implements TableDisplay {
             mTitles.put(title, view);
         }
         view.setText(title);
+        view.setCustomSelectionActionModeCallback(
+                new HeaderTextSelector(view, this::selectText));
+        view.setVisibility(title.toString().isEmpty() ? GONE : VISIBLE);
+    }
+
+    private void selectText(Spannable text, int start, int stop) {
+        Selection.setSelection(text, start, stop);
     }
 
     protected KeyValueRow createKeyValueRow(ViewGroup parent) {

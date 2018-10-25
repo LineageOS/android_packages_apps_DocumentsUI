@@ -75,5 +75,5 @@
     <dimen name="bottom_bar_button_horizontal_padding">24dp</dimen>
     <dimen name="bottom_bar_button_corner_radius">4dp</dimen>
 
-    <dimen name="inspector_header_height">250dp</dimen>
+    <dimen name="inspector_header_height">350dp</dimen>
 </resources>

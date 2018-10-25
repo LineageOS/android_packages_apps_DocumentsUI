@@ -64,14 +64,12 @@ public class DebugView extends TableView implements DebugDisplay {
 
     void init(Lookup<String, Executor> executors) {
         assert executors != null;
-        // it's just debug. We do what we want!
-        setBackgroundColor(getResources().getColor(R.color.inspector_debug_mode_color));
         mExecutors = executors;
     }
 
     @Override
     public void accept(DocumentInfo info) {
-        setTitle(R.string.inspector_debug_section, false);
+        setTitle(R.string.inspector_debug_section, true);
 
         put(R.string.debug_content_uri, info.derivedUri.toString());
         put(R.string.debug_document_id, info.documentId);

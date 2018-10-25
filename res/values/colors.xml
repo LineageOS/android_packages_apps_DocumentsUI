@@ -54,6 +54,7 @@
     </item>
     <color name="doc_icon_color">#ff5a5a5a</color>
     <color name="tool_bar_color">@android:color/white</color>
+    <color name="tool_bar_gradient_max">#7f000000</color>
 
     <!-- TODO: Would be nice to move this to a color-set, but not sure how to support animation -->
     <color name="item_doc_title">?android:attr/textColorSecondary</color>

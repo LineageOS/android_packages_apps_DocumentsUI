@@ -80,7 +80,8 @@ public class InspectorControllerTest  {
     private TestAction mDefaultsTestDouble;
     private TestDebug mDebugTestDouble;
     private TestRunnable mErrCallback;
-    private Bundle mTestArgs;
+    private String mTitle;
+    private boolean mShowDebug;
 
     @Before
     public void setUp() throws Exception {
@@ -96,7 +97,8 @@ public class InspectorControllerTest  {
         mDefaultsTestDouble = new TestAction();
         mDebugTestDouble = new TestDebug();
         mErrCallback = new TestRunnable();
-        mTestArgs = new Bundle();
+        mTitle = "";
+        mShowDebug = false;
 
         // Add some fake data.
         mDataSupplier.mDoc = TestEnv.FILE_JPG;
@@ -123,7 +125,8 @@ public class InspectorControllerTest  {
                 mShowInProvider,
                 mDefaultsTestDouble,
                 mDebugTestDouble,
-                mTestArgs,
+                mTitle,
+                mShowDebug,
                 mErrCallback);
     }
 
@@ -142,7 +145,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testShowDebugUpdatesView() throws Exception {
-        mTestArgs.putBoolean(Shared.EXTRA_SHOW_DEBUG, true);
+        mShowDebug = true;
         recreateController();
         mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
         mDebugTestDouble.assertVisible(true);
@@ -154,10 +157,10 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testExtraTitleOverridesDisplayName() throws Exception {
-        mTestArgs.putString(Intent.EXTRA_TITLE, "hammy!");
+        mTitle = "hammy!";
         recreateController();
         mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
-        mHeaderTestDouble.assertTitle("hammy!");
+        mDetailsTestDouble.assertTitle("hammy!");
     }
 
     /**
@@ -371,16 +374,10 @@ public class InspectorControllerTest  {
     private static class TestHeader implements HeaderDisplay {
 
         private boolean mCalled = false;
-        private @Nullable String mTitle;
 
         @Override
-        public void accept(DocumentInfo info, String displayName) {
+        public void accept(DocumentInfo info) {
             mCalled = true;
-            mTitle = displayName;
-        }
-
-        public void assertTitle(String expected) {
-            Assert.assertEquals(expected, mTitle);
         }
 
         public void assertCalled() {
@@ -395,10 +392,16 @@ public class InspectorControllerTest  {
     private static class TestDetails implements DetailsDisplay {
 
         private boolean mCalled = false;
+        private @Nullable String mTitle;
 
         @Override
-        public void accept(DocumentInfo info) {
+        public void accept(DocumentInfo info, String displayName) {
             mCalled = true;
+            mTitle = displayName;
+        }
+
+        public void assertTitle(String expected) {
+            Assert.assertEquals(expected, mTitle);
         }
 
         @Override
