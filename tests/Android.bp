@@ -1,0 +1,54 @@
+filegroup {
+    name: "DocumentsUIPerfTests-files",
+    srcs: [
+        "common/com/android/documentsui/**/*.java",
+        "functional/com/android/documentsui/ActivityTest.java",
+    ],
+}
+
+android_test {
+    name: "DocumentsUITests",
+
+    manifest: "AndroidManifest.xml",
+
+    srcs: [
+        "common/**/*.java",
+        "functional/**/*.java",
+        "unit/**/*.java",
+    ],
+
+    resource_dirs: [
+        "res",
+    ],
+
+    aaptflags: [
+        "-0 .zip",
+    ],
+
+    libs: [
+        "android.test.base",
+        "android.test.mock",
+        "android.test.runner",
+    ],
+
+    static_libs: [
+        "android-support-test",
+        "espresso-core",
+        "guava",
+        "mockito-target",
+        "truth-prebuilt",
+        "ub-uiautomator",
+    ],
+
+    jarjar_rules: "jarjar-rules.txt",
+
+    test_suites: [
+        "device-tests",
+    ],
+
+    platform_apis: true,
+
+    certificate: "platform",
+
+    instrumentation_for: "DocumentsUI",
+}
