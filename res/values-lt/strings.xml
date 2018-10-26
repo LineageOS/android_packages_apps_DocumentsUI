@@ -37,6 +37,7 @@
     <string name="menu_delete" msgid="1022254131543256626">"Ištrinti"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Pasirinkti viską"</string>
     <string name="menu_select" msgid="1366061076507142387">"Pasirinkti"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"Rūšiuoti pagal..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopijuoti į..."</string>
     <string name="menu_move" msgid="2310760789561129882">"Perkelti į…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Suglaudinti"</string>
@@ -66,6 +67,16 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Tipas"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Dydis"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Pakeista"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Failo pav. (nuo A iki Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipas (nuo A iki Z)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Dydis (pirmiau mažiausi)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Pakeista (pirm. sen.)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Failo pav. (nuo Z iki A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tipas (nuo Z iki A)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Dydis (pirm. didžiausi)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Pakeista (pirm. nauj.)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Rūšiuoti pagal"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"Rūšiuojama pagal <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Elementų skaičius"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Didėjimo tvarka"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Mažėjimo tvarka"</string>

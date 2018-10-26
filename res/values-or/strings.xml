@@ -37,6 +37,8 @@
     <string name="menu_delete" msgid="1022254131543256626">"ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"ସବୁ ଚୟନ କରନ୍ତୁ"</string>
     <string name="menu_select" msgid="1366061076507142387">"ଚୟନ କରନ୍ତୁ"</string>
+    <!-- no translation found for menu_sort (3362419226163725275) -->
+    <skip />
     <string name="menu_copy" msgid="7404820171352314754">"ଏଥିକୁ କପୀ କରନ୍ତୁ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ଏଥିକୁ ନିଅନ୍ତୁ…"</string>
     <string name="menu_compress" msgid="37539111904724188">"ଛୋଟ କରନ୍ତୁ"</string>
@@ -66,6 +68,16 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"ପ୍ରକାର"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"ଆକାର"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"ଗତଥର ସଂଶୋଧିତ"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ଫାଇଲ୍‍ ନାମ (A ରୁ Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"ଟାଇପ୍‌ (A ରୁ Z)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"ଆକର (ପ୍ରଥମେ ଛୋଟ)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"ସଂଶୋଧିତ (ପ୍ରଥମେ ପୁରୁଣା)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"ଫାଇଲ୍‍ ନାମ (Z ରୁ A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"ଟାଇପ୍‍ (Z ରୁ A)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"ଆକାର (ପ୍ରଥମେ ବୃହତ)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"ସଂଶୋଧିତ (ପ୍ରଥମେ ନୂଆ)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"ଏହି ଅନୁସାରେ ସଜାନ୍ତୁ"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> ଦ୍ବାରା ସର୍ଟ ହୋଇଛି"</string>
     <string name="directory_items" msgid="6645621978998614003">"ଆଇଟମ୍‌ଗୁଡ଼ିକର ସଂଖ୍ୟା"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ସାନରୁ ବଡ଼ କ୍ରମରେ"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"ବଡ଼ରୁ ସାନ କ୍ରମରେ"</string>

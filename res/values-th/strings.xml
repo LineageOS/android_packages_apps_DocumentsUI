@@ -37,6 +37,8 @@
     <string name="menu_delete" msgid="1022254131543256626">"ลบ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"เลือกทั้งหมด"</string>
     <string name="menu_select" msgid="1366061076507142387">"เลือก"</string>
+    <!-- no translation found for menu_sort (3362419226163725275) -->
+    <skip />
     <string name="menu_copy" msgid="7404820171352314754">"คัดลอกไปยัง…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ย้ายไปที่…"</string>
     <string name="menu_compress" msgid="37539111904724188">"บีบอัด"</string>
@@ -66,6 +68,16 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"ประเภท"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"ขนาด"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"แก้ไข"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ชื่อไฟล์ (A ไป Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"ประเภท (A ไป Z)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"ขนาด (เล็กที่สุดก่อน)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"การแก้ไข (เก่าสุดก่อน)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"ชื่อไฟล์ (Z ไป A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"ประเภท (Z ไป A)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"ขนาด (ใหญ่ที่สุดก่อน)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"การแก้ไข (ล่าสุดก่อน)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"จัดเรียงตาม"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"จัดเรียงตาม <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"จำนวนรายการ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"จากน้อยไปมาก"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"จากมากไปน้อย"</string>

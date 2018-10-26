@@ -37,6 +37,8 @@
     <string name="menu_delete" msgid="1022254131543256626">"លុប"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"ជ្រើស​ទាំងអស់"</string>
     <string name="menu_select" msgid="1366061076507142387">"ជ្រើសរើស"</string>
+    <!-- no translation found for menu_sort (3362419226163725275) -->
+    <skip />
     <string name="menu_copy" msgid="7404820171352314754">"ចម្លងទៅ…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ផ្លាស់ទីទៅ…"</string>
     <string name="menu_compress" msgid="37539111904724188">"បង្ហាប់"</string>
@@ -66,6 +68,16 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"ប្រភេទ"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"ទំហំ"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"បានកែសម្រួល"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ឈ្មោះឯកសារ (A ដល់ Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"ប្រភេទ (A ដល់ Z)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"ទំហំ (តូចបំផុតមុនគេ)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"បានកែប្រែ (ចាស់បំផុតមុនគេ)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"ឈ្មោះឯកសារ (Z ដល់ A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"ប្រភេទ (Z ដល់ A)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"ទំហំ (ធំបំផុតមុនគេ)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"បានកែប្រែ (ថ្មីបំផុតមុនគេ)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"តម្រៀបតាម"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"តម្រៀបតាម <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"ចំនួន​ធាតុ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ឡើង"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"ចុះ"</string>

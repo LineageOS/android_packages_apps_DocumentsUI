@@ -37,6 +37,8 @@
     <string name="menu_delete" msgid="1022254131543256626">"刪除"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"全選"</string>
     <string name="menu_select" msgid="1366061076507142387">"選取"</string>
+    <!-- no translation found for menu_sort (3362419226163725275) -->
+    <skip />
     <string name="menu_copy" msgid="7404820171352314754">"複製到…"</string>
     <string name="menu_move" msgid="2310760789561129882">"移至…"</string>
     <string name="menu_compress" msgid="37539111904724188">"壓縮"</string>
@@ -66,6 +68,16 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"類型"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"大小"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"上次修改時間"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"檔案名稱 (A 至 Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"類型 (A 至 Z)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"大小 (由小至大)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"修改日期 (由舊至新)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"檔案名稱 (Z 至 A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"類型 (Z 至 A)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"大小 (由大至小)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"修改日期 (由新至舊)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"排序方式"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"已按<xliff:g id="LABEL">%s</xliff:g> 排序"</string>
     <string name="directory_items" msgid="6645621978998614003">"項目數量"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"遞增"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"遞減"</string>
