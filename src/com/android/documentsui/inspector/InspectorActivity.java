@@ -15,40 +15,93 @@
  */
 package com.android.documentsui.inspector;
 
-import android.app.Activity;
-import android.app.FragmentManager;
+import static androidx.core.util.Preconditions.checkArgument;
+
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.Window;
-import android.widget.Toolbar;
+import android.view.View;
+
+import androidx.annotation.ColorInt;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.Shared;
+import com.android.documentsui.inspector.InspectorController.DataSupplier;
 
-public class InspectorActivity extends Activity {
+import com.google.android.material.appbar.AppBarLayout;
 
-    private InspectorFragment mFragment;
+public class InspectorActivity extends AppCompatActivity {
+
+    private InspectorController mController;
+    private View mView;
+    private Toolbar mToolbar;
+    private @ColorInt int mTitleColor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inspector_activity);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setActionBar(toolbar);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initRes();
 
-        FragmentManager fragmentManager = getFragmentManager();
-        mFragment = (InspectorFragment) fragmentManager.findFragmentById(
-                R.id.fragment_container);
+        AppBarLayout appBarLayout = findViewById(R.id.appBar);
+        appBarLayout.addOnOffsetChangedListener(this::onOffsetChanged);
 
-        if (mFragment == null) {
-            Intent intent = getIntent();
-            mFragment = InspectorFragment.newInstance(intent);
-            fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, mFragment)
-                    .commit();
+        final DataSupplier loader = new RuntimeDataSupplier(this, getLoaderManager());
+
+        mView = findViewById(R.id.inspector_root);
+        mController = new InspectorController(this, loader, mView,
+                getIntent().getStringExtra(Intent.EXTRA_TITLE),
+                getIntent().getBooleanExtra(Shared.EXTRA_SHOW_DEBUG, false));
+    }
+
+    private void onOffsetChanged(AppBarLayout layout, int offset) {
+        int diff = layout.getTotalScrollRange() - Math.abs(offset);
+        if (diff <= 0) {
+            //Collapsing tool bar is collapsed, recover to original bar present.
+            mToolbar.getBackground().setAlpha(0);
+            setActionBarItemColor(mTitleColor);
+        } else {
+            float ratio = (float) diff / (float) layout.getTotalScrollRange();
+            int alpha = (int) (ratio * 255);
+            mToolbar.getBackground().setAlpha(alpha);
+            setActionBarItemColor(Color.WHITE);
         }
+    }
+
+    private void setActionBarItemColor(int color) {
+        mToolbar.setTitleTextColor(color);
+        mToolbar.getNavigationIcon().setTint(color);
+        mToolbar.getOverflowIcon().setTint(color);
+    }
+
+    private void initRes() {
+        TypedArray ta =
+                this.obtainStyledAttributes(R.style.ActionBarTheme, R.styleable.ActionBarView);
+        mTitleColor = ta.getColor(R.styleable.ActionBarView_android_textColorPrimary, Color.BLACK);
+        ta.recycle();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Uri uri = getIntent().getData();
+        checkArgument(uri.getScheme().equals("content"));
+        mController.loadInfo(uri);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mController.reset();
     }
 
     @Override

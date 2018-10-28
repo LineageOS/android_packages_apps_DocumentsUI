@@ -37,6 +37,7 @@
     <string name="menu_delete" msgid="1022254131543256626">"Sil"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Hamısını seçin"</string>
     <string name="menu_select" msgid="1366061076507142387">"Seçin"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"Çeşidləyin..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"Buraya kopyalayın:"</string>
     <string name="menu_move" msgid="2310760789561129882">"Daşıyın..."</string>
     <string name="menu_compress" msgid="37539111904724188">"Sıxışdırın"</string>
@@ -66,6 +67,16 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Növ"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Ölçü"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Dəyişmiş"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Fayl adı (A-dan Z-yə)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Növ (A-dan Z-yə)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Ölçü (əvvəlcə ən kiçik olan)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Dəyişiklik (əvvəlcə ən köhnə olan)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Fayl adı (Z-dən A-ya)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Növ (Z-dən A-ya)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Ölçü (əvvəlcə ən böyük olan)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Dəyişiklik (əvvəlcə ən yeni olan)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sıralama"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> üzrə sıralayın"</string>
     <string name="directory_items" msgid="6645621978998614003">"Elementlərin sayı"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Artan sıra ilə"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Azalan sıra ilə"</string>

@@ -1,0 +1,73 @@
+java_defaults {
+    name: "documentsui_defaults",
+
+    static_libs: [
+        "androidx.appcompat_appcompat",
+        "androidx.legacy_legacy-support-core-ui",
+        "androidx.legacy_legacy-support-v13",
+        "androidx.legacy_legacy-support-v4",
+        "androidx.recyclerview_recyclerview",
+        "androidx.recyclerview_recyclerview-selection",
+        "androidx.transition_transition",
+        "com.google.android.material_material",
+        "guava",
+    ],
+
+    privileged: true,
+
+    certificate: "platform",
+
+    optimize: {
+        proguard_flags_files: ["proguard.flags"],
+    },
+
+    // TODO: build against public API as part of b/110959821
+    platform_apis: true,
+    // sdk_version: "current",
+}
+
+android_app {
+    name: "DocumentsUIMinimal",
+
+    defaults: ["documentsui_defaults"],
+
+    manifest: "minimal/AndroidManifest.xml",
+
+    srcs: [
+        "minimal/src/com/android/documentsui/picker/DummyPickActivity.java",
+        "src/com/android/documentsui/ScopedAccessActivity.java",
+        "src/com/android/documentsui/ScopedAccessMetrics.java",
+        "src/com/android/documentsui/ScopedAccessPackageReceiver.java",
+        "src/com/android/documentsui/ScopedAccessProvider.java",
+        "src/com/android/documentsui/archives/Archive.java",
+        "src/com/android/documentsui/archives/ArchiveId.java",
+        "src/com/android/documentsui/archives/ArchivesProvider.java",
+        "src/com/android/documentsui/archives/Loader.java",
+        "src/com/android/documentsui/archives/Proxy.java",
+        "src/com/android/documentsui/archives/ReadableArchive.java",
+        "src/com/android/documentsui/archives/WriteableArchive.java",
+        "src/com/android/documentsui/base/Providers.java",
+        "src/com/android/documentsui/base/SharedMinimal.java",
+        "src/com/android/documentsui/prefs/ScopedAccessLocalPreferences.java",
+    ],
+
+    resource_dirs: [
+        "minimal/res",
+    ],
+}
+
+android_app {
+    name: "DocumentsUI",
+
+    defaults: ["documentsui_defaults"],
+
+    manifest: "AndroidManifest.xml",
+
+    srcs: [
+        "src/**/*.java",
+    ],
+
+    resource_dirs: [
+        "res",
+    ],
+}
