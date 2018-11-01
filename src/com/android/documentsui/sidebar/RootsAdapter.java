@@ -36,7 +36,9 @@ import java.util.Map;
 class RootsAdapter extends ArrayAdapter<Item> {
     private static final int TYPE_ROOT = 0;
     private static final int TYPE_APP = 1;
-    private static final int TYPE_SPACER = 2;
+    private static final int TYPE_ROOT_AND_APP = 2;
+    private static final int TYPE_SPACER = 3;
+
     private static final Map<String, Long> sIdMap = new HashMap<>();
     // the next available id to associate with a new string id
     private static long sNextAvailableId;
@@ -104,7 +106,9 @@ class RootsAdapter extends ArrayAdapter<Item> {
     @Override
     public int getItemViewType(int position) {
         final Item item = getItem(position);
-        if (item instanceof RootItem) {
+        if (item instanceof RootAndAppItem) {
+            return TYPE_ROOT_AND_APP;
+        } else if (item instanceof RootItem) {
             return TYPE_ROOT;
         } else if (item instanceof AppItem) {
             return TYPE_APP;
@@ -115,6 +119,6 @@ class RootsAdapter extends ArrayAdapter<Item> {
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 }

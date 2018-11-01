@@ -34,10 +34,12 @@ import com.android.documentsui.R;
 abstract class Item {
     private final @LayoutRes int mLayoutId;
 
+    public final String title;
     final String stringId;
 
-    public Item(@LayoutRes int layoutId, String stringId) {
+    public Item(@LayoutRes int layoutId, String title, String stringId) {
         mLayoutId = layoutId;
+        this.title = title;
         this.stringId = stringId;
     }
 
@@ -57,6 +59,10 @@ abstract class Item {
     abstract boolean isRoot();
 
     abstract void open();
+
+    String getPackageName() {
+        return "";
+    }
 
     boolean isDropTarget() {
         return isRoot();
