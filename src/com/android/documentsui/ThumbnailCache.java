@@ -18,13 +18,14 @@ package com.android.documentsui;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pools;
+
 import android.content.ComponentCallbacks2;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
 import android.util.LruCache;
 import android.util.Pair;
-import android.util.Pools;
 
 import com.android.documentsui.base.Shared;
 
