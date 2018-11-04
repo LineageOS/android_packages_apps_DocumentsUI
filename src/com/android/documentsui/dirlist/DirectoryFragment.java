@@ -25,11 +25,7 @@ import static com.android.documentsui.base.State.MODE_LIST;
 import androidx.annotation.DimenRes;
 import androidx.annotation.FractionRes;
 import androidx.annotation.IntDef;
-import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -51,6 +47,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.selection.MutableSelection;
 import androidx.recyclerview.selection.Selection;
@@ -246,7 +246,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onDestroyView() {
-        mSelectionMgr.clearSelection();
         mInjector.actions.unregisterDisplayStateChangedListener(mOnDisplayStateChanged);
 
         // Cancel any outstanding thumbnail requests
@@ -454,7 +453,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         FileOperation operation = mLocalState.claimPendingOperation();
 
-        if (resultCode == Activity.RESULT_CANCELED || data == null) {
+        if (resultCode == FragmentActivity.RESULT_CANCELED || data == null) {
             // User pressed the back button or otherwise cancelled the destination pick. Don't
             // proceed with the copy.
             operation.dispose();

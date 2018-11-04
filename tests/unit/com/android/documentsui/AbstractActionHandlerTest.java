@@ -47,6 +47,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A unit test *for* AbstractActionHandler, not an abstract test baseclass.
@@ -257,8 +259,11 @@ public class AbstractActionHandlerTest {
                 .setNextChildDocumentsReturns(TestEnv.FILE_APK, TestEnv.FILE_GIF);
 
         mHandler.loadDocumentsForCurrentStack();
+        CountDownLatch latch = new CountDownLatch(1);
+        mEnv.model.addUpdateListener(event -> latch.countDown());
         mActivity.loaderManager.runAsyncTaskLoader(AbstractActionHandler.LOADER_ID);
 
+        latch.await(1, TimeUnit.SECONDS);
         assertEquals(2, mEnv.model.getItemCount());
         String[] modelIds = mEnv.model.getModelIds();
         assertEquals(TestEnv.FILE_APK, mEnv.model.getDocument(modelIds[0]));

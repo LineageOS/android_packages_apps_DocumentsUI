@@ -16,55 +16,47 @@
 
 package com.android.documentsui;
 
-import static android.os.Environment.isStandardDirectory;
 import static android.os.storage.StorageVolume.EXTRA_DIRECTORY_NAME;
 import static android.os.storage.StorageVolume.EXTRA_STORAGE_VOLUME;
 
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_DENIED;
-import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST;
+import static com.android.documentsui.ScopedAccessMetrics
+        .SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_ERROR;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_GRANTED;
 import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_INVALID_ARGUMENTS;
-import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_INVALID_DIRECTORY;
 import static com.android.documentsui.ScopedAccessMetrics.logInvalidScopedAccessRequest;
 import static com.android.documentsui.ScopedAccessMetrics.logValidScopedAccessRequest;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
-import static com.android.documentsui.base.SharedMinimal.getUriPermission;
 import static com.android.documentsui.base.SharedMinimal.getInternalDirectoryName;
+import static com.android.documentsui.base.SharedMinimal.getUriPermission;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_ASK_AGAIN;
 import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.PERMISSION_NEVER_ASK;
-import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.getScopedAccessPermissionStatus;
-import static com.android.documentsui.prefs.ScopedAccessLocalPreferences.setScopedAccessPermissionStatus;
+import static com.android.documentsui.prefs.ScopedAccessLocalPreferences
+        .getScopedAccessPermissionStatus;
+import static com.android.documentsui.prefs.ScopedAccessLocalPreferences
+        .setScopedAccessPermissionStatus;
 
-import androidx.annotation.Nullable;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.GrantedUriPermission;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.UriPermission;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.RemoteException;
 import android.os.UserHandle;
-import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
-import android.os.storage.VolumeInfo;
-import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -73,16 +65,19 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.android.documentsui.base.Providers;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Activity responsible for handling {@link StorageVolume#createAccessIntent(String)}.
  */
-public class ScopedAccessActivity extends Activity {
+public class ScopedAccessActivity extends AppCompatActivity {
     private static final String TAG = "ScopedAccessActivity";
     private static final String FM_TAG = "open_external_directory";
     private static final String EXTRA_FILE = "com.android.documentsui.FILE";
@@ -185,7 +180,7 @@ public class ScopedAccessActivity extends Activity {
                     args.putBoolean(EXTRA_IS_ROOT, isRoot);
                     args.putBoolean(EXTRA_IS_PRIMARY, isPrimary);
 
-                    final FragmentManager fm = activity.getFragmentManager();
+                    final FragmentManager fm = activity.getSupportFragmentManager();
                     final FragmentTransaction ft = fm.beginTransaction();
                     final ScopedAccessDialogFragment fragment = new ScopedAccessDialogFragment();
                     fragment.setArguments(args);

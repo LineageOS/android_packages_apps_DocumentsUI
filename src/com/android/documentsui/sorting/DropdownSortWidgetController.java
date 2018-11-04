@@ -16,9 +16,10 @@
 
 package com.android.documentsui.sorting;
 
-import android.app.FragmentManager;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortController.WidgetController;

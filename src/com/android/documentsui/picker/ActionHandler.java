@@ -23,8 +23,6 @@ import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -36,6 +34,8 @@ import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 
 import com.android.documentsui.AbstractActionHandler;
@@ -67,7 +67,7 @@ import javax.annotation.Nullable;
 /**
  * Provides {@link PickActivity} action specializations to fragments.
  */
-class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T> {
+class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionHandler<T> {
 
     private static final String TAG = "PickerActionHandler";
 
@@ -208,7 +208,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
     }
 
     private void onExternalAppResult(int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_CANCELED) {
+        if (resultCode != FragmentActivity.RESULT_CANCELED) {
             // Remember that we last picked via external app
             mLastAccessed.setLastAccessedToExternalApp(mActivity);
 
@@ -361,7 +361,7 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
                     | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         }
 
-        mActivity.setResult(Activity.RESULT_OK, intent, 0);
+        mActivity.setResult(FragmentActivity.RESULT_OK, intent, 0);
         mActivity.finish();
     }
 
@@ -379,8 +379,8 @@ class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T
         void onDocumentPicked(DocumentInfo doc);
 
         /**
-         * Overload final method {@link Activity#setResult(int, Intent)} so that we can intercept
-         * this method call in test environment.
+         * Overload final method {@link FragmentActivity#setResult(int, Intent)} so that we can
+         * intercept this method call in test environment.
          */
         @VisibleForTesting
         void setResult(int resultCode, Intent result, int notUsed);

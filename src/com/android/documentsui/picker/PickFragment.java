@@ -23,16 +23,17 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_EX
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.Injector;
@@ -62,7 +63,7 @@ public class PickFragment extends Fragment {
         @Override
         public void onClick(View v) {
             final BaseActivity activity = BaseActivity.get(PickFragment.this);
-            activity.setResult(Activity.RESULT_CANCELED);
+            activity.setResult(FragmentActivity.RESULT_CANCELED);
             activity.finish();
         }
     };

@@ -44,7 +44,8 @@ import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.Toolbar;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.documentsui.R;
 
@@ -193,7 +194,8 @@ public class UiBot extends Bots.BaseBot {
 
     public boolean waitForActionModeBarToAppear() {
         UiObject2 bar =
-                mDevice.wait(Until.findObject(By.res("android:id/action_mode_bar")), mTimeout);
+                mDevice.wait(Until.findObject(
+                        By.res("com.android.documentsui:id/action_mode_bar")), mTimeout);
         return (bar != null);
     }
 
@@ -278,7 +280,7 @@ public class UiBot extends Bots.BaseBot {
     }
 
     UiObject findMenuMoreOptions() {
-        UiSelector selector = new UiSelector().className("android.widget.ImageButton")
+        UiSelector selector = new UiSelector().className("android.widget.ImageView")
                 .descriptionContains("More options");
         // TODO: use the system string ? android.R.string.action_menu_overflow_description
         return mDevice.findObject(selector);

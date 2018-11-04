@@ -17,7 +17,8 @@
 package com.android.documentsui.sorting;
 
 import androidx.annotation.Nullable;
-import android.app.Activity;
+import androidx.fragment.app.FragmentActivity;
+
 import android.view.View;
 
 import com.android.documentsui.Metrics;
@@ -73,7 +74,7 @@ public final class SortController {
     }
 
     public static SortController create(
-            Activity activity,
+            FragmentActivity activity,
             @ViewMode int initialMode,
             SortModel sortModel) {
 
@@ -95,7 +96,7 @@ public final class SortController {
                 new DropdownSortWidgetController(
                         sortModel,
                         activity.findViewById(R.id.dropdown_sort_widget),
-                        activity.getFragmentManager()),
+                        activity.getSupportFragmentManager()),
                 TableHeaderController.create(
                         sortModel,
                         activity.findViewById(R.id.table_header)));

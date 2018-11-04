@@ -154,6 +154,9 @@
     <!-- content description to describe descending sorting used with downward arrow in table header. -->
     <string name="sort_direction_descending">Descending</string>
 
+    <!-- content description to describe the action icon to open the app on the root item. -->
+    <string name="open_external_app">Open <xliff:g id="appName" example="Drive">%1$s</xliff:g></string>
+
     <!-- Accessibility title to open the drawer showing all roots where documents can be stored [CHAR LIMIT=32] -->
     <string name="drawer_open">Show roots</string>
     <!-- Accessibility title to close the drawer showing all roots where documents can be stored [CHAR LIMIT=32] -->

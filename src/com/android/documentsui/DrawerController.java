@@ -21,12 +21,12 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import androidx.annotation.IntDef;
 import android.app.Activity;
 import androidx.annotation.ColorRes;
+import androidx.appcompat.widget.Toolbar;
 import androidx.legacy.app.ActionBarDrawerToggle;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toolbar;
 
 import com.android.documentsui.base.Display;
 
@@ -60,6 +60,7 @@ public abstract class DrawerController implements DrawerListener {
 
         View drawer = activity.findViewById(R.id.drawer_roots);
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.roots_toolbar);
+        toolbar.setTitleTextColor(activity.getResources().getColor(R.color.drawer_title_color));
 
         drawer.getLayoutParams().width = calculateDrawerWidth(activity);
 

@@ -15,7 +15,7 @@
  */
 package com.android.documentsui.ui;
 
-import android.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
@@ -25,7 +25,6 @@ import com.android.documentsui.services.FileOperations;
 import junit.framework.Assert;
 
 import java.util.List;
-
 
 public class TestDialogController implements DialogController {
 

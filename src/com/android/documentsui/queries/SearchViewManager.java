@@ -31,8 +31,6 @@ import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -42,6 +40,8 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import androidx.annotation.GuardedBy;
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SearchView.OnQueryTextListener;
 
 import java.util.Timer;
 import java.util.TimerTask;

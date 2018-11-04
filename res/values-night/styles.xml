@@ -26,7 +26,7 @@
         <item name="android:subtitleTextStyle">@android:style/TextAppearance.Material.Widget.ActionBar.Subtitle.Inverse</item>
     </style>
 
-    <style name="actionModeStyle" parent="@android:style/Widget.Material.ActionMode">
+    <style name="actionModeStyle" parent="Widget.AppCompat.ActionMode">
         <item name="android:background">?android:attr/actionModeBackground</item>
         <item name="android:backgroundSplit">?android:attr/actionModeBackground</item>
         <item name="android:titleTextStyle">@android:style/TextAppearance.Material.Widget.ActionMode.Title.Inverse</item>

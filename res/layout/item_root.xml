@@ -69,18 +69,23 @@
 
     </LinearLayout>
 
+    <include layout="@layout/root_vertical_divider" />
+
     <FrameLayout
+        android:id="@+id/action_icon_area"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
-        android:duplicateParentState="true">
+        android:paddingEnd="@dimen/grid_padding_horiz"
+        android:duplicateParentState="true"
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/eject_icon"
+            android:id="@+id/action_icon"
+            android:focusable="false"
             android:layout_width="@dimen/root_icon_size"
             android:layout_height="match_parent"
-            android:scaleType="centerInside"
-            android:contentDescription="@string/menu_eject_root"
-            android:visibility="gone" />
+            android:layout_gravity="center"
+            android:scaleType="centerInside"/>
 
     </FrameLayout>
 

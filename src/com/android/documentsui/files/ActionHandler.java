@@ -18,7 +18,6 @@ package com.android.documentsui.files;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ContentProviderClient;
@@ -30,6 +29,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.DragEvent;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.selection.MutableSelection;
 import androidx.recyclerview.selection.Selection;
@@ -80,7 +80,7 @@ import javax.annotation.Nullable;
 /**
  * Provides {@link FilesActivity} action specializations to fragments.
  */
-public class ActionHandler<T extends Activity & Addons> extends AbstractActionHandler<T> {
+public class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionHandler<T> {
 
     private static final String TAG = "ManagerActionHandler";
 

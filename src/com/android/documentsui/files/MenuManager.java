@@ -16,7 +16,6 @@
 
 package com.android.documentsui.files;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -28,6 +27,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.selection.SelectionTracker;
 
 import com.android.documentsui.R;

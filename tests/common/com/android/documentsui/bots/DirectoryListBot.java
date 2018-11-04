@@ -161,6 +161,10 @@ public class DirectoryListBot extends Bots.BaseBot {
                 "com.android.documentsui:id/message");
     }
 
+    public void waitForHolderMessage() {
+        findPlaceholderMessageTextView().waitForExists(mTimeout);
+    }
+
     public void assertSnackbar(int id) {
         assertNotNull(getSnackbar(mContext.getString(id)));
     }

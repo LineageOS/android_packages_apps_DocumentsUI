@@ -58,7 +58,7 @@ public class SearchBot extends Bots.BaseBot {
     // require this input be not clickable.
     @SuppressWarnings("unchecked")
     private static final Matcher<View> SEARCH_INPUT = allOf(
-            withId(R.id.option_menu_search),
+            withId(R.id.search_src_text),
             isDisplayed());
 
     public SearchBot(UiDevice device, Context context, int timeout) {
@@ -113,12 +113,14 @@ public class SearchBot extends Bots.BaseBot {
     }
 
     private UiObject findSearchViewTextField() {
-        return findObject("com.android.documentsui:id/option_menu_search", "android:id/search_src_text");
+        return findObject("com.android.documentsui:id/option_menu_search",
+                "com.android.documentsui:id/search_src_text");
     }
 
     private UiObject findSearchViewIcon() {
         return mContext.getResources().getBoolean(R.bool.full_bar_search_view)
                 ? findObject("com.android.documentsui:id/option_menu_search")
-                : findObject("com.android.documentsui:id/option_menu_search", "android:id/search_button");
+                : findObject("com.android.documentsui:id/option_menu_search",
+                        "android:id/search_button");
     }
 }

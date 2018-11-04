@@ -20,8 +20,6 @@ import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.State.MODE_GRID;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -36,11 +34,13 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toolbar;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.Injector.Injected;
@@ -72,7 +72,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 public abstract class BaseActivity
-        extends Activity implements CommonAddons, NavigationViewManager.Environment {
+        extends AppCompatActivity implements CommonAddons, NavigationViewManager.Environment {
 
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
 
@@ -136,7 +136,7 @@ public abstract class BaseActivity
         mDocs = DocumentsAccess.create(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         Breadcrumb breadcrumb =
                 Shared.findView(this, R.id.dropdown_breadcrumb, R.id.horizontal_breadcrumb);
@@ -194,7 +194,7 @@ public abstract class BaseActivity
         mPreferencesMonitor.start();
 
         // Base classes must update result in their onCreate.
-        setResult(Activity.RESULT_CANCELED);
+        setResult(AppCompatActivity.RESULT_CANCELED);
     }
 
     public void onPreferenceChanged(String pref) {
@@ -366,7 +366,7 @@ public abstract class BaseActivity
     }
 
     protected final @Nullable DirectoryFragment getDirectoryFragment() {
-        return DirectoryFragment.get(getFragmentManager());
+        return DirectoryFragment.get(getSupportFragmentManager());
     }
 
     /**
@@ -401,7 +401,7 @@ public abstract class BaseActivity
         // chance to spawn a fragment before we need to do it now. However if we spawned a fragment
         // already, system will automatically restore the fragment for us so we don't need to do
         // that manually this time.
-        if (DirectoryFragment.get(getFragmentManager()) == null) {
+        if (DirectoryFragment.get(getSupportFragmentManager()) == null) {
             refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         }
     }
@@ -425,7 +425,7 @@ public abstract class BaseActivity
 
         refreshDirectory(anim);
 
-        final RootsFragment roots = RootsFragment.get(getFragmentManager());
+        final RootsFragment roots = RootsFragment.get(getSupportFragmentManager());
         if (roots != null) {
             roots.onCurrentRootChanged();
         }
@@ -478,7 +478,7 @@ public abstract class BaseActivity
 
     private void updateDisplayAdvancedDevices(boolean display) {
         mState.showAdvanced = display;
-        @Nullable RootsFragment fragment = RootsFragment.get(getFragmentManager());
+        @Nullable RootsFragment fragment = RootsFragment.get(getSupportFragmentManager());
         if (fragment != null) {
             // This also takes care of updating launcher shortcuts (which are roots :)
             fragment.onDisplayStateChanged();
@@ -580,6 +580,7 @@ public abstract class BaseActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         mInjector.actions.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -599,7 +600,7 @@ public abstract class BaseActivity
     }
 
     protected boolean focusSidebar() {
-        RootsFragment rf = RootsFragment.get(getFragmentManager());
+        RootsFragment rf = RootsFragment.get(getSupportFragmentManager());
         assert (rf != null);
         return rf.requestFocus();
     }

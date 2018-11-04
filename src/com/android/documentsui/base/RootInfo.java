@@ -360,7 +360,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     }
 
     public Drawable loadEjectIcon(Context context) {
-        return IconUtils.applyTintColor(context, R.drawable.ic_eject, R.color.item_eject_icon);
+        return IconUtils.applyTintColor(context, R.drawable.ic_eject, R.color.item_action_icon);
     }
 
     @Override
