@@ -128,6 +128,7 @@ public class ActionModeController extends SelectionObserver<String>
         int size = mSelectionMgr.getSelection().size();
         mode.getMenuInflater().inflate(R.menu.action_mode_menu, menu);
         mode.setTitle(TextUtils.formatSelectedCount(size));
+        mode.setTitle(mActivity.getResources().getQuantityString(R.plurals.selected_count, size));
 
         if (size > 0) {
 

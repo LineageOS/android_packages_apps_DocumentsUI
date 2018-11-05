@@ -101,7 +101,6 @@ public final class HeaderView extends RelativeLayout implements HeaderDisplay {
      */
     private void showImage(DocumentInfo info, @Nullable Bitmap thumbnail) {
         if (thumbnail != null) {
-            mThumbnail.resetPaddingToInitialValues();
             mThumbnail.setScaleType(ScaleType.CENTER_CROP);
             mThumbnail.setImageBitmap(thumbnail);
         } else {

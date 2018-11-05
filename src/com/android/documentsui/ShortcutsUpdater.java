@@ -117,7 +117,7 @@ public final class ShortcutsUpdater {
     }
 
     private int getNumDynSlots(ShortcutManager mgr, int numDevices) {
-        int slots = mgr.getMaxShortcutCountForActivity() - mgr.getManifestShortcuts().size();
+        int slots = mgr.getMaxShortcutCountPerActivity() - mgr.getManifestShortcuts().size();
         return numDevices >= slots ? slots : numDevices;
     }
 
