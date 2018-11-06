@@ -569,7 +569,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         // RecyclerView sometimes gets a width of 0 (see b/27150284).
         // Clamp so that we always lay out the grid with at least 2 columns by default.
-        int columnCount = Math.max(2,
+        // If on photo picking state, the UI should show 3 images a row or 2 folders a row,
+        // so use 6 columns by default and set folder size to 3 and document size is to 2.
+        int minColumnCount = mState.isPhotoPicking() ? 6 : 2;
+        int columnCount = Math.max(minColumnCount,
                 (mRecView.getWidth() - viewPadding) / (cellWidth + cellMargin));
 
         // Finally with our grid count logic firmly in place, we apply any live scaling

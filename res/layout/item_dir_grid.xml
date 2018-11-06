@@ -93,7 +93,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/item_doc_grid_border"
+            android:background="@drawable/item_doc_grid_border_rounded"
             android:contentDescription="@null"
             android:duplicateParentState="true"/>
 

@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.os.MessageQueue.IdleHandler;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -563,11 +564,7 @@ public abstract class BaseActivity
 
         switch (root.derivedType) {
             case RootInfo.TYPE_RECENTS:
-                if (mSearchManager.isSearching()) {
-                    result = getString(R.string.root_info_header_global_search);
-                } else {
-                    result = getString(R.string.root_info_header_recent);
-                }
+                result = getHeaderRecentTitle();
                 break;
             case RootInfo.TYPE_IMAGES:
             case RootInfo.TYPE_VIDEO:
@@ -579,21 +576,52 @@ public abstract class BaseActivity
             case RootInfo.TYPE_MTP:
             case RootInfo.TYPE_SD:
             case RootInfo.TYPE_USB:
-                result = getString(R.string.root_info_header_storage, rootTitle);
+                result = getHeaderStorageTitle(rootTitle);
                 break;
             default:
                 final String summary = root.summary;
-                if (summary != null && !summary.isEmpty()) {
-                    result = getString(R.string.root_info_header_app_with_summary,
-                            rootTitle, summary);
-                } else {
-                    result = getString(R.string.root_info_header_app, rootTitle);
-                }
+                result = getHeaderDefaultTitle(rootTitle, summary);
                 break;
         }
 
         TextView headerTitle = findViewById(R.id.header_title);
         headerTitle.setText(result);
+    }
+
+    private String getHeaderRecentTitle() {
+        // If stack size larger than 1, it means user global search than enter a folder, but search
+        // is not expanded on that time.
+        boolean isGlobalSearch = mSearchManager.isSearching() || mState.stack.size() > 1;
+        if (mState.isPhotoPicking()) {
+            final int resId = isGlobalSearch
+                    ? R.string.root_info_header_image_global_search
+                    : R.string.root_info_header_image_recent;
+            return getString(resId);
+        } else {
+            final int resId = isGlobalSearch
+                    ? R.string.root_info_header_global_search
+                    : R.string.root_info_header_recent;
+            return getString(resId);
+        }
+    }
+
+    private String getHeaderStorageTitle(String rootTitle) {
+        final int resId = mState.isPhotoPicking()
+                ? R.string.root_info_header_image_storage : R.string.root_info_header_storage;
+        return getString(resId, rootTitle);
+    }
+
+    private String getHeaderDefaultTitle(String rootTitle, String summary) {
+        if (TextUtils.isEmpty(summary)) {
+            final int resId = mState.isPhotoPicking()
+                    ? R.string.root_info_header_image_app : R.string.root_info_header_app;
+            return getString(resId, rootTitle);
+        } else {
+            final int resId = mState.isPhotoPicking()
+                    ? R.string.root_info_header_image_app_with_summary
+                    : R.string.root_info_header_app_with_summary;
+            return getString(resId, rootTitle, summary);
+        }
     }
 
     @Override
