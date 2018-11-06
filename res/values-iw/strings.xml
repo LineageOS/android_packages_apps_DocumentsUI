@@ -206,7 +206,7 @@
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"האם להעניק לאפליקציה <xliff:g id="APPNAME"><b>^1</b></xliff:g> גישה לנתונים שלך, כולל תמונות וסרטונים, השמורים ב<xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
     <string name="never_ask_again" msgid="525908236522201138">"ראיתי פעם אחת, זה מספיק"</string>
     <string name="allow" msgid="1275746941353040309">"כן, זה בסדר"</string>
-    <string name="deny" msgid="5127201668078153379">"לא, אין מצב"</string>
+    <string name="deny" msgid="5127201668078153379">"לא, תודה"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="two"><xliff:g id="COUNT_1">%1$d</xliff:g> נבחרו</item>
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> נבחרו</item>
