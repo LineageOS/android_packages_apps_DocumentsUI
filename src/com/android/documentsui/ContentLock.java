@@ -15,9 +15,8 @@
  */
 package com.android.documentsui;
 
-import android.annotation.Nullable;
-
 import androidx.annotation.GuardedBy;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.OperationMonitor;
 
 /**
