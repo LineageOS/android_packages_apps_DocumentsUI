@@ -42,7 +42,8 @@ public class QuickViewIntentBuilderTest {
     @Test
     public void testSetsNoFeatures_InArchiveDocument() {
         QuickViewIntentBuilder builder =
-                new QuickViewIntentBuilder(mPm, mRes, TestEnv.FILE_IN_ARCHIVE, mEnv.archiveModel);
+                new QuickViewIntentBuilder(
+                        mPm, mRes, TestEnv.FILE_IN_ARCHIVE, mEnv.archiveModel, false);
 
         Intent intent = builder.build();
 
@@ -53,7 +54,7 @@ public class QuickViewIntentBuilderTest {
     @Test
     public void testSetsFullFeatures_RegularDocument() {
         QuickViewIntentBuilder builder =
-                new QuickViewIntentBuilder(mPm, mRes, TestEnv.FILE_JPG, mEnv.model);
+                new QuickViewIntentBuilder(mPm, mRes, TestEnv.FILE_JPG, mEnv.model, false);
 
         Intent intent = builder.build();
 
@@ -67,5 +68,20 @@ public class QuickViewIntentBuilderTest {
         assertTrue(features.contains(QuickViewConstants.FEATURE_SEND));
         assertTrue(features.contains(QuickViewConstants.FEATURE_DOWNLOAD));
         assertTrue(features.contains(QuickViewConstants.FEATURE_PRINT));
+    }
+
+    @Test
+    public void testPickerFeatures_RegularDocument() {
+
+        QuickViewIntentBuilder builder =
+                new QuickViewIntentBuilder(mPm, mRes, TestEnv.FILE_JPG, mEnv.model, true);
+
+        Intent intent = builder.build();
+
+        Set<String> features = new HashSet<>(
+                Arrays.asList(intent.getStringArrayExtra(Intent.EXTRA_QUICK_VIEW_FEATURES)));
+
+        assertEquals("Unexpected features set: " + features, 1, features.size());
+        assertTrue(features.contains(QuickViewConstants.FEATURE_VIEW));
     }
 }

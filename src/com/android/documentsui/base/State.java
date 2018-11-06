@@ -115,6 +115,16 @@ public class State implements android.os.Parcelable {
         }
     }
 
+    /**
+     * Check current action should have preview function or not.
+     * @return True, if the action should have preview.
+     */
+    public boolean shouldShowPreview() {
+        return action == ACTION_GET_CONTENT
+                || action == ACTION_OPEN_TREE
+                || action == ACTION_OPEN;
+    }
+
     @Override
     public int describeContents() {
         return 0;

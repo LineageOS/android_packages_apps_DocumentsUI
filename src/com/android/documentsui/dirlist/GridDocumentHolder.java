@@ -37,6 +37,8 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
 
+import java.util.function.Function;
+
 final class GridDocumentHolder extends DocumentHolder {
 
     final TextView mTitle;
@@ -48,6 +50,7 @@ final class GridDocumentHolder extends DocumentHolder {
     final ImageView mIconCheck;
     final IconHelper mIconHelper;
     final View mIconLayout;
+    final View mPreviewIcon;
 
     // This is used in as a convenience in our bind method.
     private final DocumentInfo mDoc = new DocumentInfo();
@@ -63,6 +66,7 @@ final class GridDocumentHolder extends DocumentHolder {
         mIconMimeSm = (ImageView) itemView.findViewById(R.id.icon_mime_sm);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
+        mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
     }
@@ -107,6 +111,16 @@ final class GridDocumentHolder extends DocumentHolder {
     }
 
     @Override
+    public void bindPreviewIcon(boolean show, Function<View, Boolean> clickCallback) {
+        mPreviewIcon.setVisibility(show ? View.VISIBLE : View.GONE);
+        if (show) {
+            mPreviewIcon.setContentDescription(
+                    itemView.getResources().getString(R.string.preview_file, mDoc.displayName));
+            mPreviewIcon.setAccessibilityDelegate(new PreviewAccessibilityDelegate(clickCallback));
+        }
+    }
+
+    @Override
     public boolean inDragRegion(MotionEvent event) {
      // Entire grid box should be draggable
         return true;
@@ -115,6 +129,11 @@ final class GridDocumentHolder extends DocumentHolder {
     @Override
     public boolean inSelectRegion(MotionEvent event) {
         return Views.isEventOver(event, mIconLayout);
+    }
+
+    @Override
+    public boolean inPreviewIconRegion(MotionEvent event) {
+        return Views.isEventOver(event, mPreviewIcon);
     }
 
     /**

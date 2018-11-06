@@ -130,6 +130,8 @@ public interface ActionHandler {
 
     void openContainerDocument(DocumentInfo doc);
 
+    boolean previewItem(ItemDetails<String> doc);
+
     void cutToClipboard();
 
     void copyToClipboard();

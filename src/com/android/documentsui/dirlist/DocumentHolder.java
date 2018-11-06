@@ -18,6 +18,7 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,9 +27,13 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.base.Shared;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
@@ -94,6 +99,8 @@ public abstract class DocumentHolder
         setEnabledRecursive(itemView, enabled);
     }
 
+    public void bindPreviewIcon(boolean show, Function<View, Boolean> clickCallback) {}
+
     @Override
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         assert(mKeyEventListener != null);
@@ -124,6 +131,10 @@ public abstract class DocumentHolder
         return false;
     }
 
+    public boolean inPreviewIconRegion(MotionEvent event) {
+        return false;
+    }
+
     public DocumentItemDetails getItemDetails() {
         return mDetails;
     }
@@ -150,5 +161,22 @@ public abstract class DocumentHolder
 
     static ViewPropertyAnimator fade(ImageView view, float alpha) {
         return view.animate().setDuration(Shared.CHECK_ANIMATION_DURATION).alpha(alpha);
+    }
+
+    protected static class PreviewAccessibilityDelegate extends View.AccessibilityDelegate {
+        private Function<View, Boolean> mCallback;
+
+        public PreviewAccessibilityDelegate(Function<View, Boolean> clickCallback) {
+            super();
+            mCallback = clickCallback;
+        }
+
+        @Override
+        public boolean performAccessibilityAction(View host, int action, Bundle args) {
+            if (action == AccessibilityNodeInfoCompat.ACTION_CLICK) {
+                return mCallback.apply(host);
+            }
+            return super.performAccessibilityAction(host, action, args);
+        }
     }
 }
