@@ -20,7 +20,6 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.TAG;
 
 import android.app.ActivityManager;
-import android.content.AsyncTaskLoader;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.database.Cursor;
@@ -42,6 +41,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.RootCursorWrapper;
 import androidx.annotation.GuardedBy;
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.google.common.util.concurrent.AbstractFuture;
 
