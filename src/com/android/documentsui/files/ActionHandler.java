@@ -502,9 +502,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         }
 
         Intent intent = Intent.createChooser(buildViewIntent(doc), null);
-        if (Features.OMC_RUNTIME) {
-            intent.putExtra(Intent.EXTRA_AUTO_LAUNCH_SINGLE_CHOICE, false);
-        }
+        intent.putExtra(Intent.EXTRA_AUTO_LAUNCH_SINGLE_CHOICE, false);
         try {
             mActivity.startActivity(intent);
         } catch (ActivityNotFoundException e) {

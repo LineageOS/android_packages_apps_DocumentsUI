@@ -323,12 +323,6 @@ final class RuntimeDocumentClipper implements DocumentClipper {
 
     private static ClipData createClipData(
             ClipDescription description, ArrayList<ClipData.Item> clipItems) {
-
-        // technically we want to check >= O, but we'd need to patch back the O version code :|
-        if (Features.OMC_RUNTIME) {
-            return new ClipData(description, clipItems);
-        }
-
         ClipData clip = new ClipData(description, clipItems.get(0));
         for (int i = 1; i < clipItems.size(); i++) {
             clip.addItem(clipItems.get(i));
