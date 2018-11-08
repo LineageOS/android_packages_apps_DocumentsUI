@@ -138,13 +138,6 @@
         </activity>
 
         <provider
-            android:name=".ScopedAccessProvider"
-            android:authorities="com.android.documentsui.scopedAccess"
-            android:permission="android.permission.MANAGE_SCOPED_ACCESS_DIRECTORY_PERMISSIONS"
-            android:exported="true">
-        </provider>
-
-        <provider
             android:name=".picker.LastAccessedProvider"
             android:authorities="com.android.documentsui.lastAccessed"
             android:exported="false"/>

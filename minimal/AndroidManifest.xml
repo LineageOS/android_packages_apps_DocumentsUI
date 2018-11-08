@@ -54,20 +54,5 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".ScopedAccessPackageReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
-                <action android:name="android.intent.action.PACKAGE_DATA_CLEARED" />
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <provider
-            android:name=".ScopedAccessProvider"
-            android:authorities="com.android.documentsui.scopedAccess"
-            android:permission="android.permission.MANAGE_SCOPED_ACCESS_DIRECTORY_PERMISSIONS"
-            android:exported="true">
-        </provider>
-
     </application>
 </manifest>

@@ -46,11 +46,14 @@ public final class ScopedAccessMetrics {
             "docsui_scoped_directory_access_invalid_dir";
     public static final String SCOPED_DIRECTORY_ACCESS_ERROR =
             "docsui_scoped_directory_access_error";
+    public static final String SCOPED_DIRECTORY_ACCESS_DEPRECATED =
+            "docsui_scoped_directory_access_deprecated";
 
     @StringDef(value = {
             SCOPED_DIRECTORY_ACCESS_INVALID_ARGUMENTS,
             SCOPED_DIRECTORY_ACCESS_INVALID_DIRECTORY,
-            SCOPED_DIRECTORY_ACCESS_ERROR
+            SCOPED_DIRECTORY_ACCESS_ERROR,
+            SCOPED_DIRECTORY_ACCESS_DEPRECATED
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface InvalidScopedAccess{}
@@ -61,6 +64,7 @@ public final class ScopedAccessMetrics {
             case SCOPED_DIRECTORY_ACCESS_INVALID_ARGUMENTS:
             case SCOPED_DIRECTORY_ACCESS_INVALID_DIRECTORY:
             case SCOPED_DIRECTORY_ACCESS_ERROR:
+            case SCOPED_DIRECTORY_ACCESS_DEPRECATED:
                 logCount(context, type);
                 break;
             default:
@@ -69,11 +73,11 @@ public final class ScopedAccessMetrics {
     }
 
     // Types for logValidScopedAccessRequest
-    public static final int SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED = 0;
-    public static final int SCOPED_DIRECTORY_ACCESS_GRANTED = 1;
-    public static final int SCOPED_DIRECTORY_ACCESS_DENIED = 2;
-    public static final int SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST = 3;
-    public static final int SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED = 4;
+    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED = 0;
+    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_GRANTED = 1;
+    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_DENIED = 2;
+    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST = 3;
+    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED = 4;
 
     @IntDef(flag = true, value = {
             SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED,
@@ -85,7 +89,7 @@ public final class ScopedAccessMetrics {
     @Retention(RetentionPolicy.SOURCE)
     public @interface ScopedAccessGrant {}
 
-    public static void logValidScopedAccessRequest(Activity activity, String directory,
+    @Deprecated public static void logValidScopedAccessRequest(Activity activity, String directory,
             @ScopedAccessGrant int type) {
         int index = -1;
         if (DIRECTORY_ROOT.equals(directory)) {
