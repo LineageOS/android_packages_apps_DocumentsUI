@@ -62,7 +62,7 @@ public class TableView extends LinearLayout implements TableDisplay {
     }
 
     void setTitle(@StringRes int title, boolean showDivider) {
-        putTitle(mContext.getResources().getString(title), showDivider);
+        putTitle(mRes.getString(title), showDivider);
     }
 
     // A naughty title method (that takes strings, not message ids), mostly for DebugView.
