@@ -408,4 +408,17 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         // Check that copied files exist
         assertFilesCopied(mSdCardLabel, mSdCardRoot, mStorageDocsHelper);
     }
+
+    public void testCopyDocuments_documentsDisabled() throws Exception {
+        mDocsHelper.createDocument(rootDir0, "text/plain", fileName1);
+        bots.roots.openRoot(StubProvider.ROOT_0_ID);
+        bots.directory.selectDocument(fileName1, 1);
+        device.waitForIdle();
+        bots.main.clickToolbarOverflowItem(context.getResources().getString(R.string.menu_copy));
+        device.waitForIdle();
+        bots.roots.openRoot(StubProvider.ROOT_0_ID);
+        device.waitForIdle();
+
+        assertFalse(bots.directory.findDocument(fileName1).isEnabled());
+    }
 }
