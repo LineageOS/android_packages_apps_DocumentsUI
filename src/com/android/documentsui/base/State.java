@@ -162,7 +162,7 @@ public class State implements android.os.Parcelable {
         public State createFromParcel(Parcel in, ClassLoader loader) {
             final State state = new State();
             state.action = in.readInt();
-            state.acceptMimes = in.readStringArray();
+            state.acceptMimes = in.createStringArray();
             state.allowMultiple = in.readInt() != 0;
             state.localOnly = in.readInt() != 0;
             state.showDeviceStorageOption = in.readInt() != 0;

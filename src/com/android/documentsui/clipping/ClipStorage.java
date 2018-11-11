@@ -164,7 +164,9 @@ public final class ClipStorage implements ClipStore {
         try {
             Os.symlink(primary.getAbsolutePath(), link.getAbsolutePath());
         } catch (ErrnoException e) {
-            e.rethrowAsIOException();
+            IOException newException = new IOException(e.getMessage());
+            newException.initCause(e);
+            throw newException;
         }
         return link;
     }

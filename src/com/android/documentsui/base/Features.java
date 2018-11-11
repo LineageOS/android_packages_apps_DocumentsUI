@@ -29,10 +29,6 @@ import androidx.annotation.BoolRes;
  */
 public interface Features {
 
-    // technically we want to check >= O, but we'd need to patch back the O version code :|
-    public static final boolean OMC_RUNTIME =
-            android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.N_MR1;
-
     boolean isArchiveCreationEnabled();
     boolean isCommandInterceptorEnabled();
     boolean isContentPagingEnabled();
