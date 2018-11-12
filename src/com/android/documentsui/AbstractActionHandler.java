@@ -20,12 +20,10 @@ import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import android.app.LoaderManager.LoaderCallbacks;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.Loader;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -39,6 +37,8 @@ import android.view.DragEvent;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.FragmentActivity;
+import androidx.loader.app.LoaderManager.LoaderCallbacks;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.selection.MutableSelection;
 import androidx.recyclerview.selection.SelectionTracker;
@@ -500,7 +500,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             return;
         }
 
-        mActivity.getLoaderManager().restartLoader(LOADER_ID, null, mBindings);
+        mActivity.getSupportLoaderManager().restartLoader(LOADER_ID, null, mBindings);
     }
 
     protected final boolean launchToDocument(Uri uri) {
