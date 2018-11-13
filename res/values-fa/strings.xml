@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"تعداد موارد"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"صعودی"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"نزولی"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"باز کردن <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"نمایش ریشه‌ها"</string>
     <string name="drawer_close" msgid="4263880768630848848">"پنهان کردن ریشه‌ها"</string>
     <string name="save_error" msgid="8631128801982095782">"سند ذخیره نشد"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه داده شود به فهرست راهنمای <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> در <xliff:g id="STORAGE"><i>^3</i></xliff:g> دسترسی داشته باشد؟"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه داده شود به فهرست راهنمای <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> دسترسی داشته باشد؟"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه می‌دهید به داده‌هایتان دسترسی پیدا کند، از جمله عکس‌ها و ویدئوهایتان در <xliff:g id="STORAGE"><i>^2</i></xliff:g>؟"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"دوباره سؤال نشود"</string>
     <string name="allow" msgid="1275746941353040309">"اجازه دادن"</string>
     <string name="deny" msgid="5127201668078153379">"اجازه ندارد"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,8 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"بایگانی <xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> رونویسی شود؟"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"ادامه در پس‌زمینه"</string>
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="one">‏<xliff:g id="COUNT_1">%1$d</xliff:g> مورد انتخاب شد</item>
+      <item quantity="other">‏<xliff:g id="COUNT_1">%1$d</xliff:g> مورد انتخاب شد</item>
+    </plurals>
 </resources>

@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Fjöldi atriða"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Hækkandi"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Lækkandi"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"Opna <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Sýna rótarsöfn"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Fela rótarsöfn"</string>
     <string name="save_error" msgid="8631128801982095782">"Ekki tókst að vista skjalið"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Viltu veita <xliff:g id="APPNAME"><b>^1</b></xliff:g> aðgang að skráasafninu <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> á <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Viltu veita <xliff:g id="APPNAME"><b>^1</b></xliff:g> aðgang að skráasafninu <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Viltu veita <xliff:g id="APPNAME"><b>^1</b></xliff:g> aðgang að gögnunum þínum, þar á meðal myndum og myndskeiðum, á <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"Ekki spyrja aftur"</string>
     <string name="allow" msgid="1275746941353040309">"Leyfa"</string>
     <string name="deny" msgid="5127201668078153379">"Hafna"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,8 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"geymsla<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Skrifa yfir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Halda áfram í bakgrunni"</string>
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> valið</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> valin</item>
+    </plurals>
 </resources>

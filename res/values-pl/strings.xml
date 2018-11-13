@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Liczba elementów"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Rosnąco"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Malejąco"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"Otwórz aplikację <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Pokaż elementy główne"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Ukryj elementy główne"</string>
     <string name="save_error" msgid="8631128801982095782">"Nie udało się zapisać dokumentu"</string>
@@ -216,7 +217,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Zezwolić aplikacji <xliff:g id="APPNAME"><b>^1</b></xliff:g> na dostęp do katalogu <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> w pamięci masowej <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Przyznać aplikacji <xliff:g id="APPNAME"><b>^1</b></xliff:g> dostęp do katalogu <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Zezwolić aplikacji <xliff:g id="APPNAME"><b>^1</b></xliff:g> na dostęp do Twoich danych, w tym zdjęć i filmów, zapisanych w pamięci <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"Nie pytaj ponownie"</string>
     <string name="allow" msgid="1275746941353040309">"Zezwól"</string>
     <string name="deny" msgid="5127201668078153379">"Odmów"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -260,4 +260,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"archiwum<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Zastąpić plik <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Kontynuuj w tle"</string>
+    <!-- no translation found for selected_count (7555250236512981129) -->
 </resources>

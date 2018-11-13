@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"عدد العناصر"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"تصاعدي"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"تنازلي"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"فتح <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"عرض الجذور"</string>
     <string name="drawer_close" msgid="4263880768630848848">"إخفاء الجذور"</string>
     <string name="save_error" msgid="8631128801982095782">"تعذّر حفظ المستند"</string>
@@ -248,7 +249,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"هل تريد منح التطبيق <xliff:g id="APPNAME"><b>^1</b></xliff:g> حق الوصول إلى الدليل <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> على <xliff:g id="STORAGE"><i>^3</i></xliff:g>؟"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"هل تريد منح <xliff:g id="APPNAME"><b>^1</b></xliff:g> حق الوصول إلى دليل <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>؟"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"هل تريد منح <xliff:g id="APPNAME"><b>^1</b></xliff:g> حق الوصول إلى بياناتك، بما في ذلك الصور والفيديوهات على <xliff:g id="STORAGE"><i>^2</i></xliff:g>؟"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"عدم السؤال مرة أخرى"</string>
     <string name="allow" msgid="1275746941353040309">"السماح"</string>
     <string name="deny" msgid="5127201668078153379">"رفض"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -302,4 +302,12 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"أرشيف<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"هل تريد استبدال <xliff:g id="NAME">%1$s</xliff:g>؟"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"المتابعة في الخلفية"</string>
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="zero">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="two">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="few">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="many">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="other">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="one">تم اختيار <xliff:g id="COUNT_0">%1$d</xliff:g></item>
+    </plurals>
 </resources>

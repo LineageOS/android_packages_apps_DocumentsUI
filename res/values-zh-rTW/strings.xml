@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"項目數量"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"遞增"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"遞減"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"開啟「<xliff:g id="APPNAME">%1$s</xliff:g>」"</string>
     <string name="drawer_open" msgid="8071673398187261741">"顯示根目錄"</string>
     <string name="drawer_close" msgid="4263880768630848848">"隱藏根目錄"</string>
     <string name="save_error" msgid="8631128801982095782">"無法儲存文件"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"要允許<xliff:g id="APPNAME"><b>^1</b></xliff:g>存取 <xliff:g id="STORAGE"><i>^3</i></xliff:g>上的「<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>」目錄嗎？"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"要允許<xliff:g id="APPNAME"><b>^1</b></xliff:g>存取「<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>」目錄嗎？"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"要允許<xliff:g id="APPNAME"><b>^1</b></xliff:g>存取 <xliff:g id="STORAGE"><i>^2</i></xliff:g>上的資料 (包括相片和影片) 嗎？"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"不要再詢問"</string>
     <string name="allow" msgid="1275746941353040309">"允許"</string>
     <string name="deny" msgid="5127201668078153379">"拒絕"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"要覆寫「<xliff:g id="NAME">%1$s</xliff:g>」嗎？"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"繼續在背景執行"</string>
+    <!-- no translation found for selected_count (7555250236512981129) -->
 </resources>

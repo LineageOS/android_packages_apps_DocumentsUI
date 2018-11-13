@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"वस्तुहरूको संख्या"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"बढ्दो क्रम"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"घट्दो क्रम"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"<xliff:g id="APPNAME">%1$s</xliff:g> खोल्नुहोस्"</string>
     <string name="drawer_open" msgid="8071673398187261741">"मूल ठाउँहरू देखाउनुहोस्"</string>
     <string name="drawer_close" msgid="4263880768630848848">"मूल ठाउँहरू लुकाउनुहोस्"</string>
     <string name="save_error" msgid="8631128801982095782">"कागजातलाई सुरक्षित गर्न सकिएन"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="STORAGE"><i>^3</i></xliff:g> मा रहेको <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकामाथि पहुँच राख्न दिने हो?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकामाथि पहुँच राख्न दिने हो?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="STORAGE"><i>^2</i></xliff:g> मा भएका तस्बिर र भिडियोहरू लगायत तपाईँको डेटामाथि पहुँच राख्न दिने हो?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"फेरि नसोध्नुहोस्"</string>
     <string name="allow" msgid="1275746941353040309">"अनुमति दिनुहोस्"</string>
     <string name="deny" msgid="5127201668078153379">"अस्वीकार गर्नुहोस्"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"अभिलेख राख्नुहोस्<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> को अधिलेखन गर्ने हो?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"पृष्ठभूमिमा जारी राख्नुहोस्"</string>
+    <!-- no translation found for selected_count (7555250236512981129) -->
 </resources>

@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"ပစ္စည်းအရေအတွက်"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ငယ်စဉ်ကြီးလိုက်"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"ကြီးစဉ်ငယ်လိုက်"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"<xliff:g id="APPNAME">%1$s</xliff:g> ဖွင့်ရန်"</string>
     <string name="drawer_open" msgid="8071673398187261741">"ပင်မဖိုင်တွဲများကို ပြပါ"</string>
     <string name="drawer_close" msgid="4263880768630848848">"ပင်မဖိုင်တွဲများကို ဖျောက်ပါ"</string>
     <string name="save_error" msgid="8631128801982095782">"စာဖိုင်ကို သိမ်း၍မရခဲ့ပါ"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> အား <xliff:g id="STORAGE"><i>^3</i></xliff:g> ရှိ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ဖိုင်လမ်းညွှန်ကို အသုံးပြုခွင့်ပေးမှာလား။"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> အား <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ဖိုင်လမ်းညွှန်ကို အသုံးပြုခွင့်ပေးမှာလား။"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> အား <xliff:g id="STORAGE"><i>^2</i></xliff:g> ရှိ ဓာတ်ပုံများနှင့် ဗီဒီယိုများအပါအဝင် သင့်ဒေတာများကို အသုံးပြုခွင့်ပေးမှာလား။"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"နောက်ထပ်မမေးပါနှင့်"</string>
     <string name="allow" msgid="1275746941353040309">"ခွင့်ပြုရန်"</string>
     <string name="deny" msgid="5127201668078153379">"ငြင်းပယ်ရန်"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,8 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"မှတ်တမ်းဟောင်း<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> ကို အစားထိုးလိုပါသလား။"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"နောက်ခံတွင် ဆက်လုပ်ရန်"</string>
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ခု ရွေးချယ်ထားသည်</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ခု ရွေးချယ်ထားသည်</item>
+    </plurals>
 </resources>

@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"අයිතම ගණන:"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ආරෝහණ"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"අවරෝහණ"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"<xliff:g id="APPNAME">%1$s</xliff:g> විවෘත කරන්න"</string>
     <string name="drawer_open" msgid="8071673398187261741">"මුල් පෙන්වන්න"</string>
     <string name="drawer_close" msgid="4263880768630848848">"මුල් සඟවන්න"</string>
     <string name="save_error" msgid="8631128801982095782">"ලේඛනය සුරැකීම අසාර්ථක විය"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> හට <xliff:g id="STORAGE"><i>^3</i></xliff:g> මත <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> නාමාවලිය වෙත ප්‍රවේශය දෙන්නද?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> ප්‍රවේශය <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> නාමාවලිය වෙත ලබා දෙන්නද?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="STORAGE"><i>^2</i></xliff:g> හි, ඡායාරූප සහ වීඩියෝ ඇතුළුව, ඔබේ දත්තවලට <xliff:g id="APPNAME"><b>^1</b></xliff:g> හට ප්‍රවේශය ලබා දෙන්නද?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"නැවත නොඅසන්න"</string>
     <string name="allow" msgid="1275746941353040309">"ඉඩ දෙන්න"</string>
     <string name="deny" msgid="5127201668078153379">"ප්‍රතික්ෂේප කරන්න"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"සංරක්ෂිත<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> උඩින් ලියන්නද?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"පසුබිමෙහි කරන්න"</string>
+    <!-- no translation found for selected_count (7555250236512981129) -->
 </resources>
