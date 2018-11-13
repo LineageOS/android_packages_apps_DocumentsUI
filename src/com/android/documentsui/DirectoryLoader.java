@@ -18,7 +18,6 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
-import android.content.AsyncTaskLoader;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -46,6 +45,10 @@ import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
 
 import android.os.FileUtils;
+
+import androidx.loader.content.AsyncTaskLoader;
+
+import java.util.concurrent.Executor;
 
 public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
@@ -77,7 +80,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             ContentLock lock,
             boolean inSearchMode) {
 
-        super(context, ProviderExecutor.forAuthority(root.authority));
+        super(context);
         mFeatures = features;
         mRoot = root;
         mUri = uri;
@@ -86,6 +89,11 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         mFileTypeLookup = fileTypeLookup;
         mSearchMode = inSearchMode;
         mObserver = new LockingContentObserver(lock, this::onContentChanged);
+    }
+
+    @Override
+    protected Executor getExecutor() {
+        return ProviderExecutor.forAuthority(mRoot.authority);
     }
 
     @Override

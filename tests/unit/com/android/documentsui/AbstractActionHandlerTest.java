@@ -261,7 +261,7 @@ public class AbstractActionHandlerTest {
         mHandler.loadDocumentsForCurrentStack();
         CountDownLatch latch = new CountDownLatch(1);
         mEnv.model.addUpdateListener(event -> latch.countDown());
-        mActivity.loaderManager.runAsyncTaskLoader(AbstractActionHandler.LOADER_ID);
+        mActivity.supportLoaderManager.runAsyncTaskLoader(AbstractActionHandler.LOADER_ID);
 
         latch.await(1, TimeUnit.SECONDS);
         assertEquals(2, mEnv.model.getItemCount());
