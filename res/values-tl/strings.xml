@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Bilang ng mga item"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Pataas"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Pababa"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"Buksan ang <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Ipakita ang mga root"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Itago ang mga root"</string>
     <string name="save_error" msgid="8631128801982095782">"Hindi na-save ang dokumento"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Gusto mo bang bigyan ang <xliff:g id="APPNAME"><b>^1</b></xliff:g> ng access sa directory ng <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> sa <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Gusto mo bang bigyan ang <xliff:g id="APPNAME"><b>^1</b></xliff:g> ng access sa directory ng <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Gusto mo bang bigyan ang <xliff:g id="APPNAME"><b>^1</b></xliff:g> ng access sa iyong data, kabilang ang mga larawan at video, sa <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"Huwag nang tatanunging muli"</string>
     <string name="allow" msgid="1275746941353040309">"Payagan"</string>
     <string name="deny" msgid="5127201668078153379">"Tanggihan"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,8 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"I-overwrite ang <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Magpatuloy sa background"</string>
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ang napili</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ang napili</item>
+    </plurals>
 </resources>

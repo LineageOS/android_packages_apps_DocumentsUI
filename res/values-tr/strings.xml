@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Ürün sayısı"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Artan"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Azalan"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"<xliff:g id="APPNAME">%1$s</xliff:g> uygulamasını aç"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Kök dizinleri göster"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Kök dizinleri sakla"</string>
     <string name="save_error" msgid="8631128801982095782">"Doküman kaydedilemedi"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> uygulamasına <xliff:g id="STORAGE"><i>^3</i></xliff:g> depolama alanındaki <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> dizinine erişim izni verilsin mi?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> dizinine erişmek için <xliff:g id="APPNAME"><b>^1</b></xliff:g> uygulamasına izin verilsin mi?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> uygulamasının, fotoğraflar ve videolar dahil olmak üzere <xliff:g id="STORAGE"><i>^2</i></xliff:g> üzerindeki verilerinize erişmesine izin verilsin mi?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"Tekrar sorma"</string>
     <string name="allow" msgid="1275746941353040309">"İzin ver"</string>
     <string name="deny" msgid="5127201668078153379">"Reddet"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"arşiv<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> dosyasının üzerine yazılsın mı?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Arka planda devam et"</string>
+    <!-- no translation found for selected_count (7555250236512981129) -->
 </resources>

@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Број ставки"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Растуће"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Опадајуће"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"Отворите апликацију <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Прикажи основне директоријуме"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Сакриј основне директоријуме"</string>
     <string name="save_error" msgid="8631128801982095782">"Чување документа није успело"</string>
@@ -200,7 +201,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Желите ли да дозволите апликацији <xliff:g id="APPNAME"><b>^1</b></xliff:g> да приступа директоријуму <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> на меморијском простору <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Желите ли да дозволите апликацији <xliff:g id="APPNAME"><b>^1</b></xliff:g> да приступа директоријуму <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Желите ли да дозволите апликацији <xliff:g id="APPNAME"><b>^1</b></xliff:g> да приступа подацима, укључујући слике и видео, на меморијском простору <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"Не питај поново"</string>
     <string name="allow" msgid="1275746941353040309">"Дозволи"</string>
     <string name="deny" msgid="5127201668078153379">"Одбиј"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -239,4 +239,9 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"архива<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Желите да замените <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Настави у позадини"</string>
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="one">Изабрана је <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
+      <item quantity="few">Изабране су <xliff:g id="COUNT_1">%1$d</xliff:g> ставке</item>
+      <item quantity="other">Изабрано је <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>
+    </plurals>
 </resources>
