@@ -16,6 +16,8 @@
 
 package com.android.documentsui.archives;
 
+import static android.os.ParcelFileDescriptor.MODE_READ_ONLY;
+
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Point;
@@ -23,33 +25,31 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
-import android.os.OperationCanceledException;
+import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
-import androidx.annotation.Nullable;
 import android.util.Log;
-import android.util.jar.StrictJarFile;
 
-import androidx.annotation.GuardedBy;
+import androidx.annotation.Nullable;
 import androidx.core.util.Preconditions;
 
-import android.os.FileUtils;
-
 import java.io.File;
-import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
+import java.nio.channels.SeekableByteChannel;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Enumeration;
 import java.util.List;
-import java.util.Set;
 import java.util.Stack;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.ZipEntry;
+
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.compress.utils.IOUtils;
 
 /**
  * Provides basic implementation for extracting and accessing
@@ -61,12 +61,12 @@ public class ReadableArchive extends Archive {
     private static final String TAG = "ReadableArchive";
 
     private final StorageManager mStorageManager;
-    private final StrictJarFile mZipFile;
+    private final ZipFile mZipFile;
+    private final ParcelFileDescriptor mParcelFileDescriptor;
 
     private ReadableArchive(
             Context context,
-            @Nullable File file,
-            @Nullable FileDescriptor fd,
+            @Nullable ParcelFileDescriptor parcelFileDescriptor,
             Uri archiveUri,
             int accessMode,
             @Nullable Uri notificationUri)
@@ -78,17 +78,18 @@ public class ReadableArchive extends Archive {
 
         mStorageManager = mContext.getSystemService(StorageManager.class);
 
-        mZipFile = file != null ?
-                new StrictJarFile(file.getPath(), false /* verify */,
-                        false /* signatures */) :
-                new StrictJarFile(fd, false /* verify */, false /* signatures */);
+        if (parcelFileDescriptor == null || parcelFileDescriptor.getFileDescriptor() == null) {
+            throw new IllegalArgumentException("File descriptor is invalid");
+        }
+        mParcelFileDescriptor = parcelFileDescriptor;
+        mZipFile = openArchive(parcelFileDescriptor);
 
-        ZipEntry entry;
+        ZipArchiveEntry entry;
         String entryPath;
-        final Iterator<ZipEntry> it = mZipFile.iterator();
-        final Stack<ZipEntry> stack = new Stack<>();
-        while (it.hasNext()) {
-            entry = it.next();
+        final Enumeration<ZipArchiveEntry> it = mZipFile.getEntries();
+        final Stack<ZipArchiveEntry> stack = new Stack<>();
+        while (it.hasMoreElements()) {
+            entry = it.nextElement();
             if (entry.isDirectory() != entry.getName().endsWith("/")) {
                 throw new IOException(
                         "Directories must have a trailing slash, and files must not.");
@@ -99,7 +100,7 @@ public class ReadableArchive extends Archive {
             }
             mEntries.put(entryPath, entry);
             if (entry.isDirectory()) {
-                mTree.put(entryPath, new ArrayList<ZipEntry>());
+                mTree.put(entryPath, new ArrayList<ZipArchiveEntry>());
             }
             if (!"/".equals(entryPath)) { // Skip root, as it doesn't have a parent.
                 stack.push(entry);
@@ -108,8 +109,8 @@ public class ReadableArchive extends Archive {
 
         int delimiterIndex;
         String parentPath;
-        ZipEntry parentEntry;
-        List<ZipEntry> parentList;
+        ZipArchiveEntry parentEntry;
+        List<ZipArchiveEntry> parentList;
 
         // Go through all directories recursively and build a tree structure.
         while (stack.size() > 0) {
@@ -126,7 +127,7 @@ public class ReadableArchive extends Archive {
                 // The ZIP file doesn't contain all directories leading to the entry.
                 // It's rare, but can happen in a valid ZIP archive. In such case create a
                 // fake ZipEntry and add it on top of the stack to process it next.
-                parentEntry = new ZipEntry(parentPath);
+                parentEntry = new ZipArchiveEntry(parentPath);
                 parentEntry.setSize(0);
                 parentEntry.setTime(entry.getTime());
                 mEntries.put(parentPath, parentEntry);
@@ -144,40 +145,39 @@ public class ReadableArchive extends Archive {
     }
 
     /**
+     * To check the access mode is readable.
+     *
      * @see ParcelFileDescriptor
      */
     public static boolean supportsAccessMode(int accessMode) {
-        return accessMode == ParcelFileDescriptor.MODE_READ_ONLY;
+        return accessMode == MODE_READ_ONLY;
     }
 
     /**
      * Creates a DocumentsArchive instance for opening, browsing and accessing
      * documents within the archive passed as a file descriptor.
-     *
+     * <p>
      * If the file descriptor is not seekable, then a snapshot will be created.
-     *
+     * </p><p>
      * This method takes ownership for the passed descriptor. The caller must
      * not use it after passing.
-     *
+     * </p>
      * @param context Context of the provider.
      * @param descriptor File descriptor for the archive's contents.
      * @param archiveUri Uri of the archive document.
      * @param accessMode Access mode for the archive {@see ParcelFileDescriptor}.
-     * @param Uri notificationUri Uri for notifying that the archive file has changed.
+     * @param notificationUri notificationUri Uri for notifying that the archive file has changed.
      */
     public static ReadableArchive createForParcelFileDescriptor(
             Context context, ParcelFileDescriptor descriptor, Uri archiveUri, int accessMode,
             @Nullable Uri notificationUri)
             throws IOException {
-        FileDescriptor fd = null;
-        try {
-            if (canSeek(descriptor)) {
-                fd = new FileDescriptor();
-                fd.setInt$(descriptor.detachFd());
-                return new ReadableArchive(context, null, fd, archiveUri, accessMode,
-                        notificationUri);
-            }
+        if (canSeek(descriptor)) {
+            return new ReadableArchive(context, descriptor, archiveUri, accessMode,
+                    notificationUri);
+        }
 
+        try {
             // Fallback for non-seekable file descriptors.
             File snapshotFile = null;
             try {
@@ -202,7 +202,11 @@ public class ReadableArchive extends Archive {
                     }
                     outputStream.flush();
                 }
-                return new ReadableArchive(context, snapshotFile, null, archiveUri, accessMode,
+
+                ParcelFileDescriptor snapshotPfd = ParcelFileDescriptor.open(
+                        snapshotFile, MODE_READ_ONLY);
+
+                return new ReadableArchive(context, snapshotPfd, archiveUri, accessMode,
                         notificationUri);
             } finally {
                 // On UNIX the file will be still available for processes which opened it, even
@@ -215,7 +219,6 @@ public class ReadableArchive extends Archive {
             // Since the method takes ownership of the passed descriptor, close it
             // on exception.
             FileUtils.closeQuietly(descriptor);
-            FileUtils.closeQuietly(fd);
             throw e;
         }
     }
@@ -230,14 +233,14 @@ public class ReadableArchive extends Archive {
         MorePreconditions.checkArgumentEquals(mArchiveUri, parsedId.mArchiveUri,
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
-        final ZipEntry entry = mEntries.get(parsedId.mPath);
+        final ZipArchiveEntry entry = mEntries.get(parsedId.mPath);
         if (entry == null) {
             throw new FileNotFoundException();
         }
 
         try {
             return mStorageManager.openProxyFileDescriptor(
-                    ParcelFileDescriptor.MODE_READ_ONLY, new Proxy(mZipFile, entry));
+                    MODE_READ_ONLY, new Proxy(mZipFile, entry));
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -253,7 +256,7 @@ public class ReadableArchive extends Archive {
         Preconditions.checkArgument(getDocumentType(documentId).startsWith("image/"),
                 "Thumbnails only supported for image/* MIME type.");
 
-        final ZipEntry entry = mEntries.get(parsedId.mPath);
+        final ZipArchiveEntry entry = mEntries.get(parsedId.mPath);
         if (entry == null) {
             throw new FileNotFoundException();
         }
@@ -305,6 +308,35 @@ public class ReadableArchive extends Archive {
             mZipFile.close();
         } catch (IOException e) {
             // Silent close.
+        } finally {
+            /**
+             * For creating FileInputStream by using FileDescriptor, the file descriptor will not
+             * be closed after FileInputStream closed.
+             */
+            IOUtils.closeQuietly(mParcelFileDescriptor);
         }
     }
-};
+
+    private static ZipFile openArchive(ParcelFileDescriptor parcelFileDescriptor)
+            throws IOException {
+        // TODO: To support multiple archive type
+
+        /**
+         * ZipFile keep the FileChannel instance as member field archive. FileChannel doesn't be
+         * closed until ZipFile.close(). FileChannel.close() invoke
+         * AbstractInterruptibleChannel.close() and then FileChannelImpl.implCloseChannel() is
+         * called. FileChannelImpl.implCloseChannel() will close the member field parent that is
+         * FileInputStream and is assigned in FileInputStream.getChannel().
+         * So, to close ZipFile is to close FileInputStream but not file descriptor.
+         */
+        FileChannel fileChannel = new FileInputStream(parcelFileDescriptor.getFileDescriptor())
+                .getChannel();
+        try {
+            return new ZipFile((SeekableByteChannel)fileChannel);
+        } catch (IOException e) {
+            IOUtils.closeQuietly(fileChannel);
+            IOUtils.closeQuietly(parcelFileDescriptor);
+            throw e;
+        }
+    }
+}

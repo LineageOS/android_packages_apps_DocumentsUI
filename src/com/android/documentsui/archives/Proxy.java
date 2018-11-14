@@ -16,28 +16,27 @@
 
 package com.android.documentsui.archives;
 
+import android.os.FileUtils;
 import android.os.ProxyFileDescriptorCallback;
 import android.system.ErrnoException;
 import android.system.OsConstants;
-import android.util.Log;
-import android.util.jar.StrictJarFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.ZipEntry;
 
-import android.os.FileUtils;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 
 /**
  * Provides a backend for a seekable file descriptors for files in archives.
  */
 public class Proxy extends ProxyFileDescriptorCallback {
-    private final StrictJarFile mFile;
-    private final ZipEntry mEntry;
+    private final ZipFile mFile;
+    private final ZipArchiveEntry mEntry;
     private InputStream mInputStream = null;
     private long mOffset = 0;
 
-    Proxy(StrictJarFile file, ZipEntry entry) throws IOException {
+    Proxy(ZipFile file, ZipArchiveEntry entry) throws IOException {
         mFile = file;
         mEntry = entry;
         recreateInputStream();
@@ -82,7 +81,7 @@ public class Proxy extends ProxyFileDescriptorCallback {
         }
 
         return size - remainingSize;
-   }
+    }
 
     @Override public void onRelease() {
         FileUtils.closeQuietly(mInputStream);

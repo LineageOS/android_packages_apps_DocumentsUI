@@ -19,33 +19,30 @@ package com.android.documentsui.archives;
 import android.content.Context;
 import android.net.Uri;
 import android.os.CancellationSignal;
+import android.os.FileUtils;
 import android.os.OperationCanceledException;
-import android.os.ParcelFileDescriptor.AutoCloseOutputStream;
 import android.os.ParcelFileDescriptor;
+import android.os.ParcelFileDescriptor.AutoCloseOutputStream;
 import android.provider.DocumentsContract.Document;
-import androidx.annotation.Nullable;
 import android.util.Log;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-import android.os.FileUtils;
-
-import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 
 /**
  * Provides basic implementation for creating archives.
@@ -77,17 +74,17 @@ public class WriteableArchive extends Archive {
             throw new IllegalStateException("Unsupported access mode.");
         }
 
-        addEntry(null /* no parent */, new ZipEntry("/"));  // Root entry.
+        addEntry(null /* no parent */, new ZipArchiveEntry("/"));  // Root entry.
         mOutputStream = new AutoCloseOutputStream(fd);
         mZipOutputStream = new ZipOutputStream(mOutputStream);
     }
 
-    private void addEntry(@Nullable ZipEntry parentEntry, ZipEntry entry) {
+    private void addEntry(@Nullable ZipArchiveEntry parentEntry, ZipArchiveEntry entry) {
         final String entryPath = getEntryPath(entry);
         synchronized (mEntries) {
             if (entry.isDirectory()) {
                 if (!mTree.containsKey(entryPath)) {
-                    mTree.put(entryPath, new ArrayList<ZipEntry>());
+                    mTree.put(entryPath, new ArrayList<ZipArchiveEntry>());
                 }
             }
             mEntries.put(entryPath, entry);
@@ -115,7 +112,7 @@ public class WriteableArchive extends Archive {
      * @param descriptor File descriptor for the archive's contents.
      * @param archiveUri Uri of the archive document.
      * @param accessMode Access mode for the archive {@see ParcelFileDescriptor}.
-     * @param Uri notificationUri Uri for notifying that the archive file has changed.
+     * @param notificationUri notificationUri Uri for notifying that the archive file has changed.
      */
     @VisibleForTesting
     public static WriteableArchive createForParcelFileDescriptor(
@@ -142,17 +139,18 @@ public class WriteableArchive extends Archive {
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
         final boolean isDirectory = Document.MIME_TYPE_DIR.equals(mimeType);
-        ZipEntry entry;
+        ZipArchiveEntry entry;
         String entryPath;
 
         synchronized (mEntries) {
-            final ZipEntry parentEntry = mEntries.get(parsedParentId.mPath);
+            final ZipArchiveEntry parentEntry = mEntries.get(parsedParentId.mPath);
 
             if (parentEntry == null) {
                 throw new FileNotFoundException();
             }
 
-            if (displayName.indexOf("/") != -1 || ".".equals(displayName) || "..".equals(displayName)) {
+            if (displayName.indexOf("/") != -1 || ".".equals(displayName)
+                    || "..".equals(displayName)) {
                 throw new IllegalStateException("Display name contains invalid characters.");
             }
 
@@ -162,9 +160,10 @@ public class WriteableArchive extends Archive {
 
 
             assert(parentEntry.getName().endsWith("/"));
-            final String parentName = "/".equals(parentEntry.getName()) ? "" : parentEntry.getName();
+            final String parentName = "/".equals(parentEntry.getName())
+                    ? "" : parentEntry.getName();
             final String entryName = parentName + displayName + (isDirectory ? "/" : "");
-            entry = new ZipEntry(entryName);
+            entry = new ZipArchiveEntry(entryName);
             entryPath = getEntryPath(entry);
             entry.setSize(0);
 
@@ -206,7 +205,7 @@ public class WriteableArchive extends Archive {
         MorePreconditions.checkArgumentEquals(mArchiveUri, parsedId.mArchiveUri,
                 "Mismatching archive Uri. Expected: %s, actual: %s.");
 
-        final ZipEntry entry;
+        final ZipArchiveEntry entry;
         synchronized (mEntries) {
             entry = mEntries.get(parsedId.mPath);
             if (entry == null) {
@@ -313,4 +312,4 @@ public class WriteableArchive extends Archive {
 
         FileUtils.closeQuietly(mOutputStream);
     }
-};
+}
