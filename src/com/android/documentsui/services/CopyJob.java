@@ -58,7 +58,6 @@ import android.system.ErrnoException;
 import android.system.Int64Ref;
 import android.system.Os;
 import android.system.OsConstants;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
@@ -72,6 +71,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.services.FileOperationService.OpType;
+import com.android.documentsui.util.FormatUtils;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -134,7 +134,7 @@ class CopyJob extends ResolvedResourcesJob {
 
     Notification getProgressNotification(@StringRes int msgId) {
         mProgressTracker.update(mProgressBuilder, (remainingTime) -> service.getString(msgId,
-                DateUtils.formatDuration(remainingTime)));
+                FormatUtils.formatDuration(remainingTime)));
         return mProgressBuilder.build();
     }
 
