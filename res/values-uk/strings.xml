@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Кількість елементів"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"За зростанням"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"За спаданням"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"Відкрити додаток <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Показати кореневі каталоги"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Сховати кореневі каталоги"</string>
     <string name="save_error" msgid="8631128801982095782">"Не вдалося зберегти документ"</string>
@@ -216,7 +217,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Надати додатку <xliff:g id="APPNAME"><b>^1</b></xliff:g> доступ до каталогу \"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>\" на пристрої пам’яті <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Надати додатку <xliff:g id="APPNAME"><b>^1</b></xliff:g> доступ до каталогу \"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g>\"?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Надати додатку <xliff:g id="APPNAME"><b>^1</b></xliff:g> доступ до ваших даних, зокрема до фотографій і відео на пристрої пам’яті <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"Не запитувати знову"</string>
     <string name="allow" msgid="1275746941353040309">"Дозволити"</string>
     <string name="deny" msgid="5127201668078153379">"Відхилити"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -260,4 +260,10 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Замінити назву \"<xliff:g id="NAME">%1$s</xliff:g>\"?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Продовжити у фоновому режимі"</string>
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="one">Вибрано <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="few">Вибрано <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="many">Вибрано <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+      <item quantity="other">Вибрано <xliff:g id="COUNT_1">%1$d</xliff:g></item>
+    </plurals>
 </resources>

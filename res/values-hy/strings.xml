@@ -80,6 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Տարրերի քանակ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Աճման կարգով"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Նվազման կարգով"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"Բացել <xliff:g id="APPNAME">%1$s</xliff:g> հավելվածը"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Ցույց տալ արմատները"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Թաքցնել արմատները"</string>
     <string name="save_error" msgid="8631128801982095782">"Չհաջողվեց պահել փաստաթուղթը"</string>
@@ -184,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> հավելվածին տրամադրե՞լ <xliff:g id="STORAGE"><i>^3</i></xliff:g>-ի <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> գրացուցակն օգտագործելու թույլտվություն:"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> հավելվածին տրամադրե՞լ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> գրացուցակն օգտագործելու թույլտվություն:"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> հավելվածին տրամադրե՞լ <xliff:g id="STORAGE"><i>^2</i></xliff:g>-ում պահվող ձեր տվյալները, այդ թվում նաև լուսանկարները և տեսանյութերը, օգտագործելու թույլտվություն:"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"Այլևս չհարցնել"</string>
     <string name="allow" msgid="1275746941353040309">"Թույլատրել"</string>
     <string name="deny" msgid="5127201668078153379">"Մերժել"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -218,4 +218,5 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Փոխարինե՞լ <xliff:g id="NAME">%1$s</xliff:g> ֆայլը։"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Շարունակել ֆոնում"</string>
+    <!-- no translation found for selected_count (7555250236512981129) -->
 </resources>
