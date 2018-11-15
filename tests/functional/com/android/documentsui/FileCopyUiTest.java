@@ -41,13 +41,15 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.services.TestNotificationService;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
 * This class test the below points
@@ -247,20 +249,19 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
     private void loadImageFromResources(Uri root, DocumentsProviderHelper helper, int resId,
             Resources res) throws Exception {
-        ZipInputStream in = null;
+        ZipArchiveInputStream in = null;
         int read = 0;
         int count = 0;
         try {
-            in = new ZipInputStream(res.openRawResource(resId));
-            ZipEntry zipEntry = null;
-            while ((zipEntry = in.getNextEntry()) != null && (count++ < TARGET_COUNT)) {
-                String fileName = zipEntry.getName();
+            in = new ZipArchiveInputStream(res.openRawResource(resId));
+            ArchiveEntry archiveEntry = null;
+            while ((archiveEntry = in.getNextEntry()) != null && (count++ < TARGET_COUNT)) {
+                String fileName = archiveEntry.getName();
                 Uri uri = helper.createDocument(root, "image/png", fileName);
                 byte[] buff = new byte[1024];
                 while ((read = in.read(buff)) > 0) {
                     helper.writeAppendDocument(uri, buff);
                 }
-                in.closeEntry();
                 buff = null;
             }
         } finally {
@@ -407,5 +408,18 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
         // Check that copied files exist
         assertFilesCopied(mSdCardLabel, mSdCardRoot, mStorageDocsHelper);
+    }
+
+    public void testCopyDocuments_documentsDisabled() throws Exception {
+        mDocsHelper.createDocument(rootDir0, "text/plain", fileName1);
+        bots.roots.openRoot(StubProvider.ROOT_0_ID);
+        bots.directory.selectDocument(fileName1, 1);
+        device.waitForIdle();
+        bots.main.clickToolbarOverflowItem(context.getResources().getString(R.string.menu_copy));
+        device.waitForIdle();
+        bots.roots.openRoot(StubProvider.ROOT_0_ID);
+        device.waitForIdle();
+
+        assertFalse(bots.directory.findDocument(fileName1).isEnabled());
     }
 }
