@@ -25,6 +25,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.legacy.app.ActionBarDrawerToggle;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.drawerlayout.widget.DrawerLayout.DrawerListener;
+
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.util.Log;
 import android.view.View;
 
@@ -60,8 +63,14 @@ public abstract class DrawerController implements DrawerListener {
 
         View drawer = activity.findViewById(R.id.drawer_roots);
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.roots_toolbar);
-        toolbar.setTitleTextColor(activity.getResources().getColor(R.color.drawer_title_color));
-
+        if (toolbar != null) {
+            final TypedArray ta = activity.obtainStyledAttributes(R.style.DrawerMenuTitle,
+                    R.styleable.DrawerMenuTitle);
+            final int titleColor = ta.getColor(R.styleable.DrawerMenuTitle_android_textColor,
+                    activity.getTitleColor());
+            ta.recycle();
+            toolbar.setTitleTextColor(titleColor);
+        }
         drawer.getLayoutParams().width = calculateDrawerWidth(activity);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

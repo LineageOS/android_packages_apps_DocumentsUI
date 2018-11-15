@@ -63,6 +63,8 @@
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
+    <style name="DrawerMenuTitle" parent="@android:style/TextAppearance.Material.Title"/>
+
     <style name="DrawerMenuPrimary" parent="android:style/TextAppearance.Material.Body2">
         <item name="android:textColor">@color/item_root_primary_text</item>
     </style>
