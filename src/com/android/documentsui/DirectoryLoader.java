@@ -31,6 +31,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.OperationCanceledException;
 import android.os.RemoteException;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
@@ -121,19 +122,23 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             result.client = client;
 
             Resources resources = getContext().getResources();
-            if (mFeatures.isContentPagingEnabled()) {
-                Bundle queryArgs = new Bundle();
-                mModel.addQuerySortArgs(queryArgs);
 
+            final Bundle queryArgs = new Bundle();
+            mModel.addQuerySortArgs(queryArgs);
+
+            if (mSearchMode) {
+                // add the search string into the query bundle.
+                queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME,
+                        DocumentsContract.getSearchDocumentsQuery(mUri));
+            }
+
+            if (mFeatures.isContentPagingEnabled()) {
                 // TODO: At some point we don't want forced flags to override real paging...
                 // and that point is when we have real paging.
                 DebugFlags.addForcedPagingArgs(queryArgs);
-
-                cursor = client.query(mUri, null, queryArgs, mSignal);
-            } else {
-                cursor = client.query(
-                        mUri, null, null, null, mModel.getDocumentSortQuery(), mSignal);
             }
+
+            cursor = client.query(mUri, null, queryArgs, mSignal);
 
             if (cursor == null) {
                 throw new RemoteException("Provider returned null");
@@ -151,7 +156,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             // TODO: When API tweaks have landed, use ContentResolver.EXTRA_HONORED_ARGS
             // instead of checking directly for ContentResolver.QUERY_ARG_SORT_COLUMNS (won't work)
             if (mFeatures.isContentPagingEnabled()
-                        && cursor.getExtras().containsKey(ContentResolver.QUERY_ARG_SORT_COLUMNS)) {
+                    && cursor.getExtras().containsKey(ContentResolver.QUERY_ARG_SORT_COLUMNS)) {
                 if (VERBOSE) Log.d(TAG, "Skipping sort of pre-sorted cursor. Booya!");
             } else {
                 cursor = mModel.sortCursor(cursor, mFileTypeLookup);
