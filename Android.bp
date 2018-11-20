@@ -28,34 +28,6 @@ java_defaults {
 }
 
 android_app {
-    name: "DocumentsUIMinimal",
-
-    defaults: ["documentsui_defaults"],
-
-    manifest: "minimal/AndroidManifest.xml",
-
-    srcs: [
-        "minimal/src/com/android/documentsui/picker/DummyPickActivity.java",
-        "src/com/android/documentsui/ScopedAccessActivity.java",
-        "src/com/android/documentsui/ScopedAccessMetrics.java",
-        "src/com/android/documentsui/archives/Archive.java",
-        "src/com/android/documentsui/archives/ArchiveId.java",
-        "src/com/android/documentsui/archives/ArchivesProvider.java",
-        "src/com/android/documentsui/archives/Loader.java",
-        "src/com/android/documentsui/archives/Proxy.java",
-        "src/com/android/documentsui/archives/ReadableArchive.java",
-        "src/com/android/documentsui/archives/WriteableArchive.java",
-        "src/com/android/documentsui/base/Providers.java",
-        "src/com/android/documentsui/base/SharedMinimal.java",
-        "src/com/android/documentsui/prefs/ScopedAccessLocalPreferences.java",
-    ],
-
-    resource_dirs: [
-        "minimal/res",
-    ],
-}
-
-android_app {
     name: "DocumentsUI",
 
     defaults: ["documentsui_defaults"],
