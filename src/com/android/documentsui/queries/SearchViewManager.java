@@ -186,12 +186,8 @@ public class SearchViewManager implements
         mSearchView.setOnQueryTextFocusChangeListener(this);
 
         mFullBar = isFullBarSearch;
-        if (mFullBar) {
-            mMenuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
-                    | MenuItem.SHOW_AS_ACTION_ALWAYS);
-            mMenuItem.setOnActionExpandListener(this);
-            mSearchView.setMaxWidth(Integer.MAX_VALUE);
-        }
+        mSearchView.setMaxWidth(Integer.MAX_VALUE);
+        mMenuItem.setOnActionExpandListener(this);
 
         restoreSearch();
     }
@@ -261,7 +257,8 @@ public class SearchViewManager implements
             mCurrentSearch = null;
         }
 
-        mMenuItem.setVisible(supportsSearch);
+        // Recent root show open search bar, do not show duplicate search icon.
+        mMenuItem.setVisible(supportsSearch && !stack.isRecents());
 
         // Only Storage roots, Downloads root, media roots and recent root
         // support mime type query now.
@@ -313,15 +310,15 @@ public class SearchViewManager implements
      */
     private void restoreSearch() {
         if (isSearching()) {
-            if (mFullBar) {
-                mMenuItem.expandActionView();
-            } else {
-                mSearchView.setIconified(false);
-            }
-            onSearchExpanded();
+            onSearchBarClicked();
             mSearchView.setQuery(mCurrentSearch, false);
             mSearchView.clearFocus();
         }
+    }
+
+    public void onSearchBarClicked() {
+        mMenuItem.expandActionView();
+        onSearchExpanded();
     }
 
     private void onSearchExpanded() {

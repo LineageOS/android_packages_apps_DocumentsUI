@@ -17,6 +17,7 @@
 <resources>
     <style name="DocumentsTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
 
+        <item name="actionModeStyle">@style/ActionModeStyle</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
 
@@ -50,6 +51,6 @@
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:listDivider">@drawable/list_divider</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustUnspecified</item>
-
+        <item name="android:actionBarSize">@dimen/actionBarSize</item>
     </style>
 </resources>

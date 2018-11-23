@@ -521,9 +521,24 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         }
 
         int pad = getDirectoryPadding(mode);
-        mRecView.setPadding(pad, pad, pad, pad);
+        int appBarHeight = getAppBarLayoutHeight();
+        mRecView.setPadding(pad, pad + appBarHeight, pad, pad + getSaveLayoutHeight());
         mRecView.requestLayout();
         mIconHelper.setViewMode(mode);
+
+        int range = getResources().getDimensionPixelOffset(R.dimen.refresh_icon_range);
+        mRefreshLayout.setProgressViewOffset(true, appBarHeight, appBarHeight + range);
+    }
+
+    private int getAppBarLayoutHeight() {
+        View appBarLayout = getActivity().findViewById(R.id.app_bar);
+        View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
+        return collapsingBar == null ? 0 : appBarLayout.getHeight();
+    }
+
+    private int getSaveLayoutHeight() {
+        View containerSave = getActivity().findViewById(R.id.container_save);
+        return containerSave == null ? 0 : containerSave.getHeight();
     }
 
     /**
@@ -1077,8 +1092,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
             final SortDimension curSortedDimension =
                     mState.sortModel.getDimensionById(curSortedDimensionId);
+            // Default not restore to avoid app bar layout expand to confuse users.
             if (container != null
-                    && !getArguments().getBoolean(Shared.EXTRA_IGNORE_STATE, false)) {
+                    && !getArguments().getBoolean(Shared.EXTRA_IGNORE_STATE, true)) {
                 getView().restoreHierarchyState(container);
             } else if (mLocalState.mLastSortDimensionId != curSortedDimension.getId()
                     || mLocalState.mLastSortDimensionId == SortModel.SORT_DIMENSION_ID_UNKNOWN

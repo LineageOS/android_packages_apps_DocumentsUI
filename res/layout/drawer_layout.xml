@@ -33,12 +33,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/directory_app_bar"/>
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                app:layout_behavior="@string/scrolling_behavior">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,6 +68,8 @@
                 android:layout_gravity="bottom|center_horizontal"
                 android:background="?android:attr/colorBackground"
                 android:elevation="8dp" />
+
+            <include layout="@layout/directory_app_bar"/>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

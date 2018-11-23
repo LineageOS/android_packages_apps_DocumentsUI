@@ -153,7 +153,7 @@ public abstract class BaseActivity
                 Shared.findView(this, R.id.dropdown_breadcrumb, R.id.horizontal_breadcrumb);
         assert(breadcrumb != null);
 
-        mNavigator = new NavigationViewManager(mDrawer, toolbar, mState, this, breadcrumb);
+        mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb);
         SearchManagerListener searchListener = new SearchManagerListener() {
             /**
              * Called when search results changed. Refreshes the content of the directory. It
@@ -206,6 +206,12 @@ public abstract class BaseActivity
             mHasQueryContentFromIntent = mSearchManager.parseQueryContentFromIntent(getIntent(),
                     mState.action);
         }
+
+        mNavigator.setSearchBarClickListener(v -> {
+            mSearchManager.onSearchBarClicked();
+            mNavigator.update();
+        });
+
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
         mPreferencesMonitor = new PreferencesMonitor(

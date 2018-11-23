@@ -49,11 +49,8 @@
             android:clipToPadding="false"
             android:scrollbars="none"
             android:drawSelectorOnTop="true"
-            app:fastScrollEnabled="true"
-            app:fastScrollVerticalThumbDrawable="@drawable/fast_scroll_thumb_drawable"
-            app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_track_drawable"
-            app:fastScrollHorizontalThumbDrawable="@drawable/fast_scroll_thumb_drawable"
-            app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_track_drawable"/>
+            android:overScrollMode="never"
+            app:fastScrollEnabled="false"/>
 
     </com.android.documentsui.dirlist.DocumentsSwipeRefreshLayout>
 

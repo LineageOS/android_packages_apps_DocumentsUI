@@ -63,4 +63,6 @@
     <!-- This option allows us to hide the Files app icon from launcher on Android Go device.
     Android Go device will have Files Go app for file management. -->
     <bool name="is_launcher_enabled">true</bool>
+
+    <string name="scrolling_behavior">com.android.documentsui.ui.SearchBarScrollingViewBehavior</string>
 </resources>

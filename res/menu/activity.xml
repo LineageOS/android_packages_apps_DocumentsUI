@@ -31,7 +31,7 @@
         android:icon="@drawable/ic_menu_search"
         android:imeOptions="actionSearch"
         android:visible="false"
-        app:showAsAction="always"
+        app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 <!-- This group is being hidden when searching is in full bar mode-->
     <group android:id="@+id/group_hide_when_searching">
