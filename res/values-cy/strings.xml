@@ -71,6 +71,8 @@
     <!--File properties dialog section title. In this section we show information about a files provider. (e.g. system, drive, dropbox, etc)-->
     <!--File properties dialog button description for clearing the default app. the name of the app
      will be inserted programmatically inbetween these two strings-->
+    <string name="handler_app_button_info_1">Gall apiau eraill agor ffeiliau o\'r math hwn. Clirio</string>
+    <string name="handler_app_button_info_2">fel yr ap rhagosodedig.</string>
     <!--File properties dialog button label to clear the default app-->
     <!--File properties dialog button label to show a document in a provider-->
     <!--File properties dialog user message if a default app has not been selected-->
