@@ -16,19 +16,14 @@
 
 package com.android.documentsui;
 
-import static android.os.Environment.STANDARD_DIRECTORIES;
-
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
-import static com.android.documentsui.base.SharedMinimal.DIRECTORY_ROOT;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.StringDef;
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 import com.android.internal.logging.MetricsLogger;
-import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -69,73 +64,6 @@ public final class ScopedAccessMetrics {
                 break;
             default:
                 Log.wtf(TAG, "invalid InvalidScopedAccess: " + type);
-        }
-    }
-
-    // Types for logValidScopedAccessRequest
-    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED = 0;
-    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_GRANTED = 1;
-    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_DENIED = 2;
-    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST = 3;
-    @Deprecated public static final int SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED = 4;
-
-    @IntDef(flag = true, value = {
-            SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED,
-            SCOPED_DIRECTORY_ACCESS_GRANTED,
-            SCOPED_DIRECTORY_ACCESS_DENIED,
-            SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST,
-            SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface ScopedAccessGrant {}
-
-    @Deprecated public static void logValidScopedAccessRequest(Activity activity, String directory,
-            @ScopedAccessGrant int type) {
-        int index = -1;
-        if (DIRECTORY_ROOT.equals(directory)) {
-            index = -2;
-        } else {
-            for (int i = 0; i < STANDARD_DIRECTORIES.length; i++) {
-                if (STANDARD_DIRECTORIES[i].equals(directory)) {
-                    index = i;
-                    break;
-                }
-            }
-        }
-        final String packageName = activity.getCallingPackage();
-        switch (type) {
-            case SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED:
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED_BY_PACKAGE, packageName);
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_ALREADY_GRANTED_BY_FOLDER, index);
-                break;
-            case SCOPED_DIRECTORY_ACCESS_GRANTED:
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_GRANTED_BY_PACKAGE, packageName);
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_GRANTED_BY_FOLDER, index);
-                break;
-            case SCOPED_DIRECTORY_ACCESS_DENIED:
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_DENIED_BY_PACKAGE, packageName);
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_DENIED_BY_FOLDER, index);
-                break;
-            case SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST:
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST_BY_PACKAGE, packageName);
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_DENIED_AND_PERSIST_BY_FOLDER, index);
-                break;
-            case SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED:
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED_BY_PACKAGE, packageName);
-                MetricsLogger.action(activity, MetricsEvent
-                        .ACTION_SCOPED_DIRECTORY_ACCESS_ALREADY_DENIED_BY_FOLDER, index);
-                break;
-            default:
-                Log.wtf(TAG, "invalid ScopedAccessGrant: " + type);
         }
     }
 
