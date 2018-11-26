@@ -21,6 +21,11 @@
         <attr name="android:textColorPrimary" />
     </declare-styleable>
 
+    <declare-styleable name="DrawerMenuTitle">
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+    </declare-styleable>
+
     <declare-styleable name="CardView">
         <attr name="colorBackgroundFloating" format="color" />
     </declare-styleable>
