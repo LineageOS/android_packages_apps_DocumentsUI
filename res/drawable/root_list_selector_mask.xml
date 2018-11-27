@@ -24,6 +24,6 @@
             android:bottomLeftRadius="2dp"
             android:bottomRightRadius="2dp"/>
         <solid
-            android:color="?android:attr/colorControlHighlight"/>
+            android:color="@android:color/white"/>
     </shape>
 </inset>
