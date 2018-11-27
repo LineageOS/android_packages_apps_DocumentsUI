@@ -20,16 +20,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.text.Selection;
-import android.text.Spannable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.android.documentsui.IconUtils;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.ThumbnailLoader;
@@ -104,8 +102,7 @@ public final class HeaderView extends RelativeLayout implements HeaderDisplay {
             mThumbnail.setScaleType(ScaleType.CENTER_CROP);
             mThumbnail.setImageBitmap(thumbnail);
         } else {
-            Drawable mimeIcon =
-                    mContext.getContentResolver().getTypeDrawable(info.mimeType);
+            Drawable mimeIcon = IconUtils.loadMimeIcon(mContext, info.mimeType);
             mThumbnail.setScaleType(ScaleType.FIT_CENTER);
             mThumbnail.setImageDrawable(mimeIcon);
         }

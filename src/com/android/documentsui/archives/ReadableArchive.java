@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.FileUtils;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
@@ -239,8 +241,8 @@ public class ReadableArchive extends Archive {
         }
 
         try {
-            return mStorageManager.openProxyFileDescriptor(
-                    MODE_READ_ONLY, new Proxy(mZipFile, entry));
+            return mStorageManager.openProxyFileDescriptor(MODE_READ_ONLY,
+                    new Proxy(mZipFile, entry), new Handler(Looper.getMainLooper()));
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
