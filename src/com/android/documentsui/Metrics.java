@@ -41,7 +41,6 @@ import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
-import com.android.internal.logging.MetricsLogger;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -729,7 +728,7 @@ public final class Metrics {
      */
     private static void logCount(Context context, String name) {
         if (DEBUG) Log.d(TAG, name + ": " + 1);
-        MetricsLogger.count(context, name, 1);
+        // TODO b/111552654 migrate westworld
     }
 
     /**
@@ -741,7 +740,7 @@ public final class Metrics {
      */
     private static void logHistogram(Context context, String name, @ActionType int bucket) {
         if (DEBUG) Log.d(TAG, name + ": " + bucket);
-        MetricsLogger.histogram(context, name, bucket);
+        // TODO b/111552654 migrate westworld
     }
 
     /**
