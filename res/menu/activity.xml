@@ -60,7 +60,6 @@
         <item
             android:id="@+id/option_menu_create_dir"
             android:title="@string/menu_create_dir"
-            android:icon="@drawable/ic_menu_new_folder"
             android:alphabeticShortcut="e"
             android:visible="false"
             app:showAsAction="never"/>

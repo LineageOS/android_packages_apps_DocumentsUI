@@ -25,6 +25,7 @@ public final class MimeTypes {
     private MimeTypes() {}
 
     public static final String APK_TYPE = "application/vnd.android.package-archive";
+    public static final String GENERIC_TYPE = "application/*";
 
     public static final String IMAGE_PREFIX = "image";
     public static final String AUDIO_PREFIX = "audio";

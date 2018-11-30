@@ -31,6 +31,7 @@ import android.view.View;
 import com.android.documentsui.MenuManager.SelectionDetails;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
+import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.IconHelper;
@@ -186,7 +187,7 @@ public interface DragAndDropManager {
                     context.getApplicationContext(),
                     clipper,
                     new DragShadowBuilder(context),
-                    context.getDrawable(R.drawable.ic_doc_generic));
+                    IconUtils.loadMimeIcon(context, MimeTypes.GENERIC_TYPE));
         }
 
         @VisibleForTesting

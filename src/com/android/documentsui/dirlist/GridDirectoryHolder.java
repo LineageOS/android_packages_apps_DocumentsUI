@@ -20,6 +20,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
 import com.android.documentsui.ui.Views;
 
@@ -45,6 +47,8 @@ final class GridDirectoryHolder extends DocumentHolder {
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
         mIconMime = (ImageView) itemView.findViewById(R.id.icon_mime_sm);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
+        mIconMime.setImageDrawable(
+                IconUtils.loadMimeIcon(context, DocumentsContract.Document.MIME_TYPE_DIR));
     }
 
     @Override
