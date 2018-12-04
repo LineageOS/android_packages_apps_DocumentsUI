@@ -17,11 +17,14 @@ package com.android.documentsui.inspector;
 
 import static androidx.core.util.Preconditions.checkArgument;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -85,10 +88,19 @@ public class InspectorActivity extends AppCompatActivity {
     }
 
     private void initRes() {
-        TypedArray ta =
-                this.obtainStyledAttributes(R.style.ActionBarTheme, R.styleable.ActionBarView);
-        mTitleColor = ta.getColor(R.styleable.ActionBarView_android_textColorPrimary, Color.BLACK);
-        ta.recycle();
+        final Resources.Theme theme = this.getTheme();
+        final TypedValue outValue = new TypedValue();
+        // Resolve actionBarTheme from AppCompat theme, keep obtain textColorPrimary if found
+        final boolean found = theme.resolveAttribute(R.attr.actionBarTheme, outValue, true);
+        if (found) {
+            TypedArray ta =
+                    this.obtainStyledAttributes(outValue.data, R.styleable.ActionBarView);
+            mTitleColor = ta.getColor(R.styleable.ActionBarView_android_textColorPrimary,
+                    Color.BLACK);
+            ta.recycle();
+        } else {
+            mTitleColor = Color.BLACK;
+        }
     }
 
     @Override
