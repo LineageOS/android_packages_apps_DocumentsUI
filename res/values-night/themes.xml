@@ -16,12 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="DocumentsTheme" parent="@style/Theme.MaterialComponents.NoActionBar">
-        <item name="actionBarWidgetTheme">@null</item>
-        <item name="actionBarTheme">@style/ActionBarTheme</item>
-        <item name="actionBarPopupTheme">@style/ActionBarPopupTheme</item>
-        <item name="actionModeStyle">@style/ActionModeStyle</item>
-        <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
+        <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
 
         <item name="colorPrimaryDark">@color/g_grey</item>
         <item name="colorPrimary">@color/g_dark_grey</item>
