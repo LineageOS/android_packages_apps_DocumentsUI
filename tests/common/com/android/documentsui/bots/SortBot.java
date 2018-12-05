@@ -55,16 +55,16 @@ import org.hamcrest.Matcher;
  * <p>
  * Support for working directly with Roots and Directory view can be found in the respective bots.
  */
-public class SortHeaderBot extends Bots.BaseBot {
+public class SortBot extends Bots.BaseBot {
 
     private final SortModel mSortModel = SortModel.createModel();
-    private final DropdownSortBot mDropBot;
     private final ColumnSortBot mColumnBot;
+    private final UiBot mUiBot;
 
-    public SortHeaderBot(UiDevice device, Context context, int timeout) {
+    public SortBot(UiDevice device, Context context, int timeout, UiBot uiBot) {
         super(device, context, timeout);
-        mDropBot = new DropdownSortBot();
         mColumnBot = new ColumnSortBot();
+        mUiBot = uiBot;
     }
 
     public void sortBy(@SortDimensionId int id, @SortDirection int direction) {
@@ -73,26 +73,25 @@ public class SortHeaderBot extends Bots.BaseBot {
         final @StringRes int labelId = mSortModel.getDimensionById(id).getLabelId();
         final String label = mContext.getString(labelId);
         final boolean result;
-        if (isDropDownMode()) {
-            SortDimension dimension = mSortModel.getDimensionById(id);
-            result = mDropBot.sortBy(dimension, direction, mContext, mDevice);
-        } else {
+        if (isHeaderShow()) {
             result = mColumnBot.sortBy(label, direction);
+        } else {
+            result = sortByMenu(id, direction);
         }
 
         assertTrue("Sorting by id: " + id + " in direction: " + direction + " failed.",
                 result);
     }
 
-    public boolean isDropDownMode() {
-        return Matchers.present(mDropBot.MATCHER);
+    public boolean isHeaderShow() {
+        return Matchers.present(mColumnBot.MATCHER);
     }
 
-    public void assertDropdownMode() {
-        assertTrue(Matchers.present(mDropBot.MATCHER));
+    public void assertHeaderHide() {
+        assertFalse(Matchers.present(mColumnBot.MATCHER));
     }
 
-    public void assertColumnMode() {
+    public void assertHeaderShow() {
         // BEWARE THOSE WHO TREAD IN THIS DARK CORNER.
         // Note that for some reason this doesn't work:
         // assertTrue(Matchers.present(mColumnBot.MATCHER));
@@ -100,31 +99,32 @@ public class SortHeaderBot extends Bots.BaseBot {
         // or with espresso. It's sad that I'm leaving you
         // with this little gremlin, but we all have to
         // move on and get stuff done :)
-        assertFalse(Matchers.present(mDropBot.MATCHER));
+        assertTrue(Matchers.present(mColumnBot.MATCHER));
     }
 
-    private static class DropdownSortBot {
+    private boolean sortByMenu(@SortDimensionId int id, @SortDirection int direction) {
+        assert(direction != SortDimension.SORT_DIRECTION_NONE);
 
-        private static final Matcher<View> MATCHER = withId(R.id.dropdown_sort_widget);
-        private static final Matcher<View> DROPDOWN_MATCHER = allOf(
-                withId(R.id.sort_dimen_dropdown),
-                withParent(MATCHER));
+        clickMenuSort();
+        mDevice.waitForIdle();
 
-        private boolean sortBy(SortDimension dimension, @SortDirection int direction,
-                Context context, UiDevice device) {
-            onView(DROPDOWN_MATCHER).perform(click());
+        SortDimension dimension = mSortModel.getDimensionById(id);
+        @StringRes int labelRes = SortListFragment.getSheetLabelId(dimension, direction);
+        onView(withText(mContext.getString(labelRes))).perform(click());
+        mDevice.waitForIdle();
 
-            @StringRes int labelRes = SortListFragment.getSheetLabelId(dimension, direction);
+        clickMenuSort();
+        mDevice.waitForIdle();
 
-            onView(withText(context.getString(labelRes))).perform(click());
+        UiObject2 verifyLabel = mDevice.findObject(By.text(mContext.getString(labelRes)));
+        boolean isSelected = verifyLabel.isChecked();
+        onView(withText(mContext.getString(labelRes))).perform(click());
 
-            onView(DROPDOWN_MATCHER).perform(click());
-            UiObject2 verifyLabel = device.findObject(By.text(context.getString(labelRes)));
-            boolean isChecked = verifyLabel.isChecked();
-            onView(withText(context.getString(labelRes))).perform(click());
+        return isSelected;
+    }
 
-            return isChecked;
-        }
+    private void clickMenuSort() {
+        mUiBot.clickToolbarOverflowItem(mContext.getString(R.string.menu_sort));
     }
 
     private static class ColumnSortBot {

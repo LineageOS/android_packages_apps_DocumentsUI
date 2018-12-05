@@ -150,7 +150,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
 
         bots.roots.openRoot(ROOT_0_ID);
         bots.directory.openDocument("test");
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
         bots.directory.waitForDocument("0.txt");
         bots.keyboard.pressKey(

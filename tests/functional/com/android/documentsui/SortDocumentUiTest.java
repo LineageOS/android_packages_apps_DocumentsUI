@@ -99,7 +99,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToListMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_DESCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_DESC, FILES_IN_NAME_DESC);
     }
@@ -109,7 +109,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToListMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_SIZE, SortDimension.SORT_DIRECTION_ASCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_ASC, FILES_IN_SIZE_ASC);
     }
@@ -119,7 +119,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToListMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_SIZE, SortDimension.SORT_DIRECTION_DESCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_ASC, FILES_IN_SIZE_DESC);
     }
@@ -129,7 +129,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToListMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_DATE, SortDimension.SORT_DIRECTION_ASCENDING);
         bots.directory.assertOrder(DIRS, FILES);
     }
@@ -139,7 +139,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToListMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_DATE, SortDimension.SORT_DIRECTION_DESCENDING);
         bots.directory.assertOrder(DIRS_IN_MODIFIED_DESC, FILES_IN_MODIFIED_DESC);
     }
@@ -149,7 +149,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToListMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_FILE_TYPE, SortDimension.SORT_DIRECTION_ASCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_ASC, FILES_IN_TYPE_ASC);
     }
@@ -159,7 +159,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToListMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_FILE_TYPE, SortDimension.SORT_DIRECTION_DESCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_ASC, FILES_IN_TYPE_DESC);
     }
@@ -169,7 +169,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToGridMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_DESCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_DESC, FILES_IN_NAME_DESC);
     }
@@ -179,7 +179,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToGridMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_SIZE, SortDimension.SORT_DIRECTION_ASCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_ASC, FILES_IN_SIZE_ASC);
     }
@@ -189,7 +189,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToGridMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_SIZE, SortDimension.SORT_DIRECTION_DESCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_ASC, FILES_IN_SIZE_DESC);
     }
@@ -199,7 +199,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToGridMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_DATE, SortDimension.SORT_DIRECTION_ASCENDING);
         bots.directory.assertOrder(DIRS, FILES);
     }
@@ -209,7 +209,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToGridMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_DATE, SortDimension.SORT_DIRECTION_DESCENDING);
         bots.directory.assertOrder(DIRS_IN_MODIFIED_DESC, FILES_IN_MODIFIED_DESC);
     }
@@ -219,7 +219,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToGridMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_FILE_TYPE, SortDimension.SORT_DIRECTION_ASCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_ASC, FILES_IN_TYPE_ASC);
     }
@@ -229,7 +229,7 @@ public class SortDocumentUiTest extends ActivityTest<FilesActivity> {
 
         bots.main.switchToGridMode();
 
-        bots.sortHeader.sortBy(
+        bots.sort.sortBy(
                 SortModel.SORT_DIMENSION_ID_FILE_TYPE, SortDimension.SORT_DIRECTION_DESCENDING);
         bots.directory.assertOrder(DIRS_IN_NAME_ASC, FILES_IN_TYPE_DESC);
     }
