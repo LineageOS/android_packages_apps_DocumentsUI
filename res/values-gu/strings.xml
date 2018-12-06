@@ -218,5 +218,8 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"આર્કાઇવ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> અધિલેખિત કરીએ?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"પૃષ્ઠભૂમિમાં ચાલુ રાખો"</string>
-    <!-- no translation found for selected_count (7555250236512981129) -->
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> પસંદ કરી</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> પસંદ કરી</item>
+    </plurals>
 </resources>
