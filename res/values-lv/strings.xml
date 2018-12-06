@@ -239,5 +239,9 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"arhivs<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Vai pārrakstīt failu <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Turpināt izpildi fonā"</string>
-    <!-- no translation found for selected_count (7555250236512981129) -->
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="zero"><xliff:g id="COUNT_1">%1$d</xliff:g> atlasīti</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> atlasīts</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> atlasīti</item>
+    </plurals>
 </resources>
