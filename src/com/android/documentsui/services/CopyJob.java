@@ -327,7 +327,7 @@ class CopyJob extends ResolvedResourcesJob {
                                 appContext, operationType, Metrics.OPMODE_PROVIDER);
                         return;
                     }
-                } catch (RemoteException | RuntimeException e) {
+                } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                     Log.e(TAG, "Provider side copy failed for: " + src.derivedUri
                             + " due to an exception.", e);
                     Metrics.logFileOperationFailure(
@@ -390,7 +390,7 @@ class CopyJob extends ResolvedResourcesJob {
         try {
             dstUri = DocumentsContract.createDocument(
                     getClient(dest), dest.derivedUri, dstMimeType, dstDisplayName);
-        } catch (RemoteException | RuntimeException e) {
+        } catch (FileNotFoundException | RemoteException | RuntimeException e) {
             Metrics.logFileOperationFailure(
                     appContext, Metrics.SUBFILEOP_CREATE_DOCUMENT, dest.derivedUri);
             throw new ResourceException(
@@ -783,7 +783,7 @@ class CopyJob extends ResolvedResourcesJob {
         if (parent.isDirectory() && doc.authority.equals(parent.authority)) {
             try {
                 return isChildDocument(getClient(doc), doc.derivedUri, parent.derivedUri);
-            } catch (RemoteException | RuntimeException e) {
+            } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                 throw new ResourceException(
                         "Failed to check if %s is a child of %s due to an exception.",
                         doc.derivedUri, parent.derivedUri, e);

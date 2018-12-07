@@ -153,7 +153,7 @@ final class MoveJob extends CopyJob {
                                 appContext, operationType, Metrics.OPMODE_PROVIDER);
                         return;
                     }
-                } catch (RemoteException | RuntimeException e) {
+                } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                     Metrics.logFileOperationFailure(
                             appContext, Metrics.SUBFILEOP_QUICK_MOVE, src.derivedUri);
                     Log.e(TAG, "Provider side move failed for: " + src.derivedUri

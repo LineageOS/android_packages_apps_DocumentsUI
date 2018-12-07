@@ -43,6 +43,7 @@ import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.internal.logging.MetricsLogger;
 
+import java.io.FileNotFoundException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
@@ -709,7 +710,7 @@ public final class Metrics {
             final RootInfo root = providers.getRootOneshot(
                     Providers.AUTHORITY_STORAGE, path.getRootId());
             isInternal = !root.supportsEject();
-        } catch (RemoteException | RuntimeException e) {
+        } catch (FileNotFoundException | RemoteException | RuntimeException e) {
             Log.e(TAG, "Failed to obtain its root info. Log the metrics as internal.", e);
             // It's not very likely to have an external storage so log it as internal.
             isInternal = true;

@@ -53,6 +53,7 @@ import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.services.FileOperationService.OpType;
 
+import java.io.FileNotFoundException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -264,7 +265,7 @@ abstract public class Job implements Runnable {
                 throw new ResourceException("Unable to delete source document. "
                         + "File is not deletable or removable: %s.", doc.derivedUri);
             }
-        } catch (RemoteException | RuntimeException e) {
+        } catch (FileNotFoundException | RemoteException | RuntimeException e) {
             throw new ResourceException("Failed to delete file %s due to an exception.",
                     doc.derivedUri, e);
         }

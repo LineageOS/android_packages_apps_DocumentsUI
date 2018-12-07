@@ -44,6 +44,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.FileNotFoundException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -266,7 +267,7 @@ public class ArchivesProviderTest {
     }
 
     @Test
-    public void testGetDocumentMetadata() throws InterruptedException, RemoteException {
+    public void testGetDocumentMetadata() throws Exception {
         final Uri sourceUri = DocumentsContract.buildDocumentUri(
                 ResourcesProvider.AUTHORITY, "images.zip");
         final Uri archiveUri = ArchivesProvider.buildUriForArchive(sourceUri,

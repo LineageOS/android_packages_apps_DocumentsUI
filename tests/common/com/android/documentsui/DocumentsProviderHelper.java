@@ -49,6 +49,7 @@ import libcore.io.Streams;
 
 import com.google.common.collect.Lists;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,7 +94,7 @@ public class DocumentsProviderHelper {
         try {
             Uri uri = DocumentsContract.createDocument(mClient, parentUri, mimeType, name);
             return uri;
-        } catch (RemoteException e) {
+        } catch (FileNotFoundException e) {
             throw new RuntimeException("Couldn't create document: " + name + " with mimetype "
                     + mimeType, e);
         }
