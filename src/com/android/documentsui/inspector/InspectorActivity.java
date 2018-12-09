@@ -56,7 +56,7 @@ public class InspectorActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initRes();
 
-        AppBarLayout appBarLayout = findViewById(R.id.appBar);
+        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         appBarLayout.addOnOffsetChangedListener(this::onOffsetChanged);
 
         final DataSupplier loader = new RuntimeDataSupplier(this, LoaderManager.getInstance(this));

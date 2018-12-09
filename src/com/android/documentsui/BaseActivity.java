@@ -65,6 +65,8 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
+import com.google.android.material.appbar.AppBarLayout;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -317,6 +319,11 @@ public abstract class BaseActivity
                     root,
                     TimeoutTask.DEFAULT_TIMEOUT,
                     doc -> mInjector.actions.openRootDocument(doc));
+        }
+
+        final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        if (appBarLayout != null) {
+            appBarLayout.setExpanded(true);
         }
     }
 
