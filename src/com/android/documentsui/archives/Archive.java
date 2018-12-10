@@ -25,7 +25,6 @@ import android.net.Uri;
 import android.os.CancellationSignal;
 import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract.Document;
-import android.provider.MetadataReader;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.OsConstants;
