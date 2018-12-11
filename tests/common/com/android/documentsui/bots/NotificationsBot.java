@@ -19,6 +19,7 @@ package com.android.documentsui.bots;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
 
 import com.android.documentsui.services.TestNotificationService;
@@ -33,7 +34,8 @@ public class NotificationsBot extends Bots.BaseBot {
 
     public NotificationsBot(UiDevice device, Context context, int timeout) {
         super(device, context, timeout);
-        mComponent = new ComponentName(context, TestNotificationService.class);
+        mComponent = new ComponentName(InstrumentationRegistry.getContext(),
+                TestNotificationService.class);
     }
 
     public void setNotificationAccess(Activity activity, boolean enabled) throws IOException {
