@@ -566,19 +566,17 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             Context context = mActivity;
 
             if (mState.stack.isRecents()) {
-
                 if (mSearchMgr.isSearching()) {
                     if (DEBUG) {
-                        Log.d(TAG, "Creating new GlobalSearchloader.");
+                        Log.d(TAG, "Creating new GlobalSearchLoader.");
                     }
-
                     return new GlobalSearchLoader(
                             context,
                             mProviders,
                             mState,
                             mExecutors,
                             mInjector.fileTypeLookup,
-                            mSearchMgr.getCurrentSearch());
+                            mSearchMgr.buildQueryArgs());
                 } else {
                     if (DEBUG) {
                         Log.d(TAG, "Creating new loader recents.");
@@ -591,7 +589,6 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                             mInjector.fileTypeLookup);
                 }
             } else {
-
                 Uri contentsUri = mSearchMgr.isSearching()
                         ? DocumentsContract.buildSearchDocumentsUri(
                             mState.stack.getRoot().authority,
@@ -600,6 +597,10 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                         : DocumentsContract.buildChildDocumentsUri(
                                 mState.stack.peek().authority,
                                 mState.stack.peek().documentId);
+
+                final Bundle queryArgs = mSearchMgr.isSearching()
+                        ? mSearchMgr.buildQueryArgs()
+                        : null;
 
                 if (mInjector.config.managedModeEnabled(mState.stack)) {
                     contentsUri = DocumentsContract.setManageMode(contentsUri);
@@ -618,7 +619,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                         mState.sortModel,
                         mInjector.fileTypeLookup,
                         mContentLock,
-                        mSearchMgr.isSearching());
+                        queryArgs);
             }
         }
 

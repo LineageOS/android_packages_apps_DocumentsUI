@@ -16,9 +16,13 @@
 
 package com.android.documentsui.testing;
 
+import static org.mockito.Mockito.mock;
+
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchViewManager;
+
+import com.google.android.material.chip.ChipGroup;
 
 /**
  * Test copy of {@link com.android.documentsui.queries.SearchViewManager}
@@ -37,14 +41,20 @@ public class TestSearchViewManager extends SearchViewManager {
         super(
                 new SearchManagerListener() {
                     @Override
-                    public void onSearchChanged(String query) { }
+                    public void onSearchChanged(String query) {
+                    }
+
                     @Override
-                    public void onSearchFinished() { }
+                    public void onSearchFinished() {
+                    }
+
                     @Override
-                    public void onSearchViewChanged(boolean opened) { }
+                    public void onSearchViewChanged(boolean opened) {
+                    }
                 },
                 new CommandInterceptor(new TestFeatures()),
-                null);
+                mock(ChipGroup.class),
+                null /* savedState */);
     }
 
     @Override

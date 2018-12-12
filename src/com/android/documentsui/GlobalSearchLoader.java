@@ -39,7 +39,7 @@ import java.util.concurrent.Executor;
  * {@link android.provider.DocumentsProvider}.
  */
 public class GlobalSearchLoader extends MultiRootDocumentsLoader {
-    private final String mSearchString;
+    private final Bundle mQueryArgs;
 
     /*
      * Create the loader to query multiple roots support
@@ -52,14 +52,14 @@ public class GlobalSearchLoader extends MultiRootDocumentsLoader {
      * @param state current state
      * @param features the feature flags
      * @param executors the executors of authorities
-     * @param fileTypeMap the map of mime types and file types.
-     * @param searchString the string for searching
+     * @param fileTypeMap the map of mime types and file types
+     * @param queryArgs the bundle of query arguments
      */
-    public GlobalSearchLoader(Context context, ProvidersAccess providers, State state,
+    GlobalSearchLoader(Context context, ProvidersAccess providers, State state,
             Lookup<String, Executor> executors, Lookup<String, String> fileTypeMap,
-            String searchString) {
+            @NonNull Bundle queryArgs) {
         super(context, providers, state, executors, fileTypeMap);
-        mSearchString = searchString;
+        mQueryArgs = queryArgs;
     }
 
     @Override
@@ -91,14 +91,16 @@ public class GlobalSearchLoader extends MultiRootDocumentsLoader {
 
         @Override
         protected void addQueryArgs(@NonNull Bundle queryArgs) {
-            queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, mSearchString);
             queryArgs.putBoolean(DocumentsContract.QUERY_ARG_EXCLUDE_MEDIA, true);
+            queryArgs.putAll(mQueryArgs);
         }
 
         @Override
         protected Uri getQueryUri(RootInfo rootInfo) {
+            // For the new querySearchDocuments, we put the query string into queryArgs.
+            // Use the empty string to build the query uri.
             return DocumentsContract.buildSearchDocumentsUri(authority,
-                    rootInfo.rootId, mSearchString);
+                    rootInfo.rootId, "" /* query */);
         }
 
         @Override

@@ -46,6 +46,7 @@ import androidx.fragment.app.Fragment;
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
+import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
@@ -61,13 +62,13 @@ import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
-import com.android.documentsui.R;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -188,7 +189,12 @@ public abstract class BaseActivity
                         mInjector.features,
                         mInjector.debugHelper::toggleDebugMode,
                         cmdInterceptor);
-        mSearchManager = new SearchViewManager(searchListener, queryInterceptor, icicle);
+
+        ChipGroup chipGroup = findViewById(R.id.search_chip_group);
+        mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
+                chipGroup, icicle);
+        mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);
+
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
         mPreferencesMonitor = new PreferencesMonitor(
@@ -327,7 +333,10 @@ public abstract class BaseActivity
         if (appBarLayout != null) {
             appBarLayout.setExpanded(true);
         }
+
         updateHeaderTitle();
+
+        mSearchManager.updateChips(root.derivedMimeTypes);
     }
 
     @Override

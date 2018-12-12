@@ -78,6 +78,11 @@ public final class Shared {
     public static final String EXTRA_QUERY = "query";
 
     /**
+     * Extra flag used to store chip's title of type String array in the bundle.
+     */
+    public static final String EXTRA_QUERY_CHIPS = "query_chips";
+
+    /**
      * Extra flag used to store state of type State in the bundle.
      */
     public static final String EXTRA_STATE = "state";

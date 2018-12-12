@@ -20,6 +20,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 import android.database.Cursor;
+import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 
@@ -62,8 +63,10 @@ public class GlobalSearchLoaderTest {
         mEnv.state.action = State.ACTION_BROWSE;
         mEnv.state.acceptMimes = new String[]{"*/*"};
 
+        final Bundle queryArgs = new Bundle();
+        queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, SEARCH_STRING);
         mLoader = new GlobalSearchLoader(mActivity, mEnv.providers, mEnv.state,
-                TestImmediateExecutor.createLookup(), new TestFileTypeLookup(), SEARCH_STRING);
+                TestImmediateExecutor.createLookup(), new TestFileTypeLookup(), queryArgs);
 
         final DocumentInfo doc = mEnv.model.createFile(SEARCH_STRING + ".jpg", FILE_FLAG);
         doc.lastModified = System.currentTimeMillis();

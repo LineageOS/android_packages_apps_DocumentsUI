@@ -92,4 +92,8 @@
     <color name="inspector_section_divider">#E0E0E0</color>
     <color name="inspector_title_background">#40000000</color>
     <color name="inspector_debug_mode_color">#607d8b</color>
+
+    <color name="chip_stroke_color">#FFDADCE0</color>
+    <color name="chip_selected_background_color">#FFE8F0FE</color>
+    <color name="chip_ripple_color">#FF4285f4</color>
 </resources>
