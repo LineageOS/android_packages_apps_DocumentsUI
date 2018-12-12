@@ -18,12 +18,9 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import androidx.annotation.IntDef;
 import androidx.annotation.StringDef;
 import android.content.Context;
 import android.util.Log;
-
-import com.android.internal.logging.MetricsLogger;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -75,6 +72,6 @@ public final class ScopedAccessMetrics {
      */
     private static void logCount(Context context, String name) {
         if (DEBUG) Log.d(TAG, name + ": " + 1);
-        MetricsLogger.count(context, name, 1);
+        // TODO b/111552654 migrate westworld
     }
 }
