@@ -180,13 +180,6 @@ public final class InspectorController {
                     new ClearDefaultAppAction(mContext, mPackageManager, docInfo);
 
                 mAppDefaults.setVisible(defaultAction.canPerformAction());
-                if (defaultAction.canPerformAction()) {
-                    mAppDefaults.init(
-                        defaultAction,
-                        (View) -> {
-                            clearDefaultApp(defaultAction.getPackageName());
-                        });
-                }
             }
 
             if (docInfo.isMetadataSupported()) {
@@ -274,20 +267,6 @@ public final class InspectorController {
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setData(uri);
         mContext.startActivity(intent);
-    }
-
-    /**
-     * Clears the default app that's opens that file type.
-     *
-     * @param packageName of the preferred app.
-     */
-    public void clearDefaultApp(String packageName) {
-        assert packageName != null;
-        mPackageManager.clearPackagePreferredActivities(packageName);
-
-        mAppDefaults.setAppIcon(null);
-        mAppDefaults.setAppName(mContext.getString(R.string.handler_app_not_selected));
-        mAppDefaults.showAction(false);
     }
 
     /**
