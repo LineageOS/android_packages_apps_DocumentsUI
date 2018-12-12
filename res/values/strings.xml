@@ -399,4 +399,17 @@
         <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> selected</item>
         <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> selected</item>
     </plurals>
+
+    <!-- Header title for list of documents in recent root. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_recent">Recent files on phone</string>
+    <!-- Header title for list of documents in global searching. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_global_search">Files on phone</string>
+    <!-- Header title for list of documents in media type root. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_media"><xliff:g id="label" example="images">%1$s</xliff:g> on phone</string>
+    <!-- Header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_storage">Files on <xliff:g id="device" example="Pixel">%1$s</xliff:g></string>
+    <!-- Header title for list of documents 3 party provider root eg. Drive, Box. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_app">Files from <xliff:g id="label" example="Drive">%1$s</xliff:g></string>
+    <!-- Header title for list of documents 3 party provider root eg. Drive, Box. with root summary.[CHAR_LIMIT=60] -->
+    <string name="root_info_header_app_with_summary">Files from <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
 </resources>

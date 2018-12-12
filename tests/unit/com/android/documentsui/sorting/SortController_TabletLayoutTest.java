@@ -34,28 +34,24 @@ import org.junit.runner.RunWith;
 @SmallTest
 public class SortController_TabletLayoutTest {
 
-    private TestWidget mDropHeader;
     private TestWidget mTableHeader;
     private SortController mController;
 
     @Before
     public void setUp() {
-        mDropHeader = new TestWidget();
         mTableHeader = new TestWidget();
-        mController = new SortController(mDropHeader, mTableHeader);
+        mController = new SortController(mTableHeader);
     }
 
     @Test
-    public void testGridMode_ShowsDrop() {
+    public void testGridMode_hidesTable() {
         mController.onViewModeChanged(State.MODE_GRID);
-        mDropHeader.assertVisible();
         mTableHeader.assertGone();
     }
 
     @Test
     public void testListMode_ShowsTable() {
         mController.onViewModeChanged(State.MODE_LIST);
-        mDropHeader.assertGone();
         mTableHeader.assertVisible();
     }
 }
