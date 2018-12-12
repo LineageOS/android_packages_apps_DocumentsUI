@@ -62,6 +62,7 @@ public class TestProvidersAccess implements ProvidersAccess {
         HOME.authority = Providers.AUTHORITY_STORAGE;
         HOME.rootId = Providers.ROOT_ID_HOME;
         HOME.title = "Home";
+        HOME.derivedType = RootInfo.TYPE_LOCAL;
         HOME.flags = Root.FLAG_LOCAL_ONLY
                 | Root.FLAG_SUPPORTS_CREATE
                 | Root.FLAG_SUPPORTS_IS_CHILD
@@ -71,6 +72,8 @@ public class TestProvidersAccess implements ProvidersAccess {
         HAMMY.authority = "yummies";
         HAMMY.rootId = "hamsandwich";
         HAMMY.title = "Ham Sandwich";
+        HAMMY.derivedType = RootInfo.TYPE_LOCAL;
+        HAMMY.flags = Root.FLAG_LOCAL_ONLY;
 
         PICKLES = new RootInfo();
         PICKLES.authority = "yummies";

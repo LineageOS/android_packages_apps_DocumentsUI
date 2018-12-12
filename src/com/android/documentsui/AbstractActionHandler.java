@@ -567,14 +567,29 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
             if (mState.stack.isRecents()) {
 
-                if (DEBUG) Log.d(TAG, "Creating new loader recents.");
-                return new RecentsLoader(
-                        context,
-                        mProviders,
-                        mState,
-                        mInjector.features,
-                        mExecutors,
-                        mInjector.fileTypeLookup);
+                if (mSearchMgr.isSearching()) {
+                    if (DEBUG) {
+                        Log.d(TAG, "Creating new GlobalSearchloader.");
+                    }
+
+                    return new GlobalSearchLoader(
+                            context,
+                            mProviders,
+                            mState,
+                            mExecutors,
+                            mInjector.fileTypeLookup,
+                            mSearchMgr.getCurrentSearch());
+                } else {
+                    if (DEBUG) {
+                        Log.d(TAG, "Creating new loader recents.");
+                    }
+                    return new RecentsLoader(
+                            context,
+                            mProviders,
+                            mState,
+                            mExecutors,
+                            mInjector.fileTypeLookup);
+                }
             } else {
 
                 Uri contentsUri = mSearchMgr.isSearching()

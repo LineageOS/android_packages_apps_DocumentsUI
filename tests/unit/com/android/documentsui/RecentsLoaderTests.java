@@ -17,6 +17,7 @@
 package com.android.documentsui;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.database.Cursor;
@@ -28,7 +29,6 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.ActivityManagers;
 import com.android.documentsui.testing.TestEnv;
-import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestFileTypeLookup;
 import com.android.documentsui.testing.TestImmediateExecutor;
 import com.android.documentsui.testing.TestProvidersAccess;
@@ -54,8 +54,32 @@ public class RecentsLoaderTests {
         mEnv.state.action = State.ACTION_BROWSE;
         mEnv.state.acceptMimes = new String[] { "*/*" };
 
-        mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state, mEnv.features,
+        mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state,
                 TestImmediateExecutor.createLookup(), new TestFileTypeLookup());
+    }
+
+    @Test
+    public void testNotLocalOnlyRoot_beIgnored() {
+        assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.PICKLES));
+    }
+
+    @Test
+    public void testLocalOnlyRoot_supportRecent_notIgnored() {
+        assertFalse(mLoader.shouldIgnoreRoot(TestProvidersAccess.DOWNLOADS));
+    }
+
+    @Test
+    public void testDocumentsNotIncludeDirectory() {
+        final DocumentInfo doc = mEnv.model.createFolder("test");
+        doc.lastModified = System.currentTimeMillis();
+
+        mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
+                .setNextChildDocumentsReturns(doc);
+
+        final DirectoryResult result = mLoader.loadInBackground();
+
+        final Cursor c = result.cursor;
+        assertEquals(0, c.getCount());
     }
 
     @Test

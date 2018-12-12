@@ -30,7 +30,6 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
-import android.provider.MetadataReader;
 import androidx.annotation.Nullable;
 import android.util.Log;
 
