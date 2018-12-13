@@ -226,41 +226,6 @@ public class InspectorControllerTest  {
     }
 
     /**
-     * Test that the action clear app defaults is visible when conditions are met.
-     * @throws Exception
-     */
-    @Test
-    public void testAppDefaults_visible() throws Exception {
-        mPm.queryIntentProvidersResults = new ArrayList<>();
-        mPm.queryIntentProvidersResults.add(new TestResolveInfo());
-        mPm.queryIntentProvidersResults.add(new TestResolveInfo());
-        DocumentInfo doc = new DocumentInfo();
-        doc.derivedUri =
-            DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, OPEN_IN_PROVIDER_DOC);
-
-        mDataSupplier.mDoc = doc;
-        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
-        assertTrue(mDefaultsTestDouble.becameVisible);
-    }
-
-    /**
-     * Test that action clear app defaults is invisible when conditions have not been met.
-     * @throws Exception
-     */
-    @Test
-    public void testAppDefaults_invisible() throws Exception {
-        mPm.queryIntentProvidersResults = new ArrayList<>();
-        mPm.queryIntentProvidersResults.add(new TestResolveInfo());
-        DocumentInfo doc = new DocumentInfo();
-        doc.derivedUri =
-            DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, OPEN_IN_PROVIDER_DOC);
-
-        mDataSupplier.mDoc = doc;
-        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
-        assertFalse(mDefaultsTestDouble.becameVisible);
-    }
-
-    /**
      * Test that update view will handle a null value properly. It uses a runnable to verify that
      * the static method Snackbars.showInspectorError(Activity activity) is called.
      *

@@ -19,15 +19,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.android.documentsui">
 
-    <uses-permission android:name="android.permission.GET_APP_GRANTED_URI_PERMISSIONS" />
-    <uses-permission android:name="android.permission.FORCE_PERSISTABLE_URI_PERMISSIONS" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.REMOVE_TASKS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CACHE_CONTENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.SET_PREFERRED_APPLICATIONS" />
 
     <uses-sdk android:minSdkVersion="21"/>
 

@@ -22,9 +22,7 @@ java_defaults {
         proguard_flags_files: ["proguard.flags"],
     },
 
-    // TODO: build against public API as part of b/110959821
-    platform_apis: true,
-    // sdk_version: "current",
+    sdk_version: "system_current",
 }
 
 android_app {

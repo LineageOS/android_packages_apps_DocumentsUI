@@ -34,6 +34,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
@@ -60,6 +61,7 @@ import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
+import com.android.documentsui.R;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
@@ -325,6 +327,7 @@ public abstract class BaseActivity
         if (appBarLayout != null) {
             appBarLayout.setExpanded(true);
         }
+        updateHeaderTitle();
     }
 
     @Override
@@ -411,6 +414,7 @@ public abstract class BaseActivity
         if (DirectoryFragment.get(getSupportFragmentManager()) == null) {
             refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         }
+        updateHeaderTitle();
     }
 
     /**
@@ -520,6 +524,46 @@ public abstract class BaseActivity
 
     public void setPending(boolean pending) {
         // TODO: Isolate this behavior to PickActivity.
+    }
+
+    public void updateHeaderTitle() {
+        final RootInfo root = mState.stack.getRoot();
+        final String rootTitle = root.title;
+        String result;
+
+        switch (root.derivedType) {
+            case RootInfo.TYPE_RECENTS:
+                if (mSearchManager.isSearching()) {
+                    result = getString(R.string.root_info_header_global_search);
+                } else {
+                    result = getString(R.string.root_info_header_recent);
+                }
+                break;
+            case RootInfo.TYPE_IMAGES:
+            case RootInfo.TYPE_VIDEO:
+            case RootInfo.TYPE_AUDIO:
+                result = getString(R.string.root_info_header_media, rootTitle);
+                break;
+            case RootInfo.TYPE_DOWNLOADS:
+            case RootInfo.TYPE_LOCAL:
+            case RootInfo.TYPE_MTP:
+            case RootInfo.TYPE_SD:
+            case RootInfo.TYPE_USB:
+                result = getString(R.string.root_info_header_storage, rootTitle);
+                break;
+            default:
+                final String summary = root.summary;
+                if (summary != null && !summary.isEmpty()) {
+                    result = getString(R.string.root_info_header_app_with_summary,
+                            rootTitle, summary);
+                } else {
+                    result = getString(R.string.root_info_header_app, rootTitle);
+                }
+                break;
+        }
+
+        TextView headerTitle = findViewById(R.id.header_title);
+        headerTitle.setText(result);
     }
 
     @Override

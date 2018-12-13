@@ -123,13 +123,13 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         // Now switch back and assert the correct mode sort header mode
         // is restored when we load the root with that display mode.
         bots.roots.openRoot("Images");
-        bots.sortHeader.assertDropdownMode();
+        bots.sort.assertHeaderHide();
         if (bots.main.inFixedLayout()) {
             bots.roots.openRoot("Videos");
-            bots.sortHeader.assertColumnMode();
+            bots.sort.assertHeaderShow();
         } else {
             bots.roots.openRoot("Videos");
-            bots.sortHeader.assertDropdownMode();
+            bots.sort.assertHeaderHide();
         }
     }
 }

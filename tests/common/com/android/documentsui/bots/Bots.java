@@ -37,7 +37,7 @@ public final class Bots {
 
     public final BreadBot breadcrumb;
     public final DirectoryListBot directory;
-    public final SortHeaderBot sortHeader;
+    public final SortBot sort;
     public final KeyboardBot keyboard;
     public final SidebarBot roots;
     public final SearchBot search;
@@ -52,7 +52,7 @@ public final class Bots {
         breadcrumb = new BreadBot(device, context, TIMEOUT, main);
         roots = new SidebarBot(device, context, TIMEOUT);
         directory = new DirectoryListBot(device, automation, context, TIMEOUT);
-        sortHeader = new SortHeaderBot(device, context, TIMEOUT);
+        sort = new SortBot(device, context, TIMEOUT, main);
         keyboard = new KeyboardBot(device, context, TIMEOUT);
         search = new SearchBot(device, context, TIMEOUT);
         gesture = new GestureBot(device, automation, context, TIMEOUT);
