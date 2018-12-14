@@ -414,7 +414,6 @@ public abstract class BaseActivity
         if (DirectoryFragment.get(getSupportFragmentManager()) == null) {
             refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
         }
-        updateHeaderTitle();
     }
 
     /**
@@ -527,6 +526,11 @@ public abstract class BaseActivity
     }
 
     public void updateHeaderTitle() {
+        if (!mState.stack.isInitialized()) {
+            //stack has not initialized, the header will update after the stack finishes loading
+            return;
+        }
+
         final RootInfo root = mState.stack.getRoot();
         final String rootTitle = root.title;
         String result;
