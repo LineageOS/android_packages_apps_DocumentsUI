@@ -17,17 +17,19 @@ package com.android.documentsui.inspector;
 
 import static junit.framework.Assert.assertEquals;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.LocaleList;
-import android.support.test.InstrumentationRegistry;
-
-import android.content.Context;
-import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.textclassifier.TextClassification;
 import android.view.textclassifier.TextClassificationManager;
 import android.view.textclassifier.TextClassifier;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
+
 import com.android.documentsui.testing.TestPackageManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

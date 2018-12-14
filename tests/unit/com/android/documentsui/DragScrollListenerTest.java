@@ -18,10 +18,11 @@ package com.android.documentsui;
 
 import static org.junit.Assert.assertTrue;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.DragEvent;
 import android.view.View;
+
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.ViewAutoScroller.ScrollerCallbacks;
 import com.android.documentsui.testing.DragEvents;

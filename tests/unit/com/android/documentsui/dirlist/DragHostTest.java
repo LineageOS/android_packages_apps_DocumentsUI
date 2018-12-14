@@ -20,12 +20,12 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.content.ClipData;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.DragEvent;
 import android.view.View;
 
 import androidx.recyclerview.selection.SelectionTracker;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.SelectionHelpers;
 import com.android.documentsui.base.DocumentInfo;

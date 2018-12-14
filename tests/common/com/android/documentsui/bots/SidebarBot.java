@@ -16,10 +16,10 @@
 
 package com.android.documentsui.bots;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
-import static android.support.test.espresso.action.ViewActions.swipeRight;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.action.ViewActions.swipeRight;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import android.content.Context;
 import android.support.test.uiautomator.UiDevice;

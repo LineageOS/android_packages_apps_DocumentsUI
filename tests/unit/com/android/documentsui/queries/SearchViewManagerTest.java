@@ -16,30 +16,24 @@
 
 package com.android.documentsui.queries;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
-import androidx.annotation.Nullable;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.annotation.Nullable;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.R;
 import com.android.documentsui.base.EventHandler;
-import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.queries.SearchViewManager;
+import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestHandler;
 import com.android.documentsui.testing.TestMenu;
 import com.android.documentsui.testing.TestTimer;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

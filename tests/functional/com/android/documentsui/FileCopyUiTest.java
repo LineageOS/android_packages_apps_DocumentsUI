@@ -20,8 +20,8 @@ import static com.android.documentsui.base.Providers.AUTHORITY_STORAGE;
 import static com.android.documentsui.base.Providers.ROOT_ID_DEVICE;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.ContentProviderClient;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
@@ -31,9 +31,10 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.test.filters.LargeTest;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
@@ -41,11 +42,11 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.services.TestNotificationService;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 

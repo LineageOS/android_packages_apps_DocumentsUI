@@ -6,8 +6,9 @@ import static junit.framework.Assert.assertTrue;
 import android.content.Intent;
 import android.content.QuickViewConstants;
 import android.content.pm.PackageManager;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestPackageManager;

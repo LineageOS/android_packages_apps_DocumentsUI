@@ -25,19 +25,20 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.test.filters.LargeTest;
 import android.util.Log;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.services.TestNotificationService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
 * This class test the below points

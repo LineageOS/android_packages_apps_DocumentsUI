@@ -16,8 +16,8 @@
 
 package com.android.documentsui.sorting;
 
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.State;
 import com.android.documentsui.sorting.SortControllerTest.TestWidget;

@@ -20,6 +20,7 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_CO
 import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
 import static com.android.documentsui.services.FileOperations.createBaseIntent;
 import static com.android.documentsui.services.FileOperations.createJobId;
+
 import static org.junit.Assert.fail;
 
 import android.content.Context;
@@ -27,9 +28,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.MediumTest;
 import android.test.ServiceTestCase;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;

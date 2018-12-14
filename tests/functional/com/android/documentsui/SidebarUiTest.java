@@ -19,8 +19,8 @@ package com.android.documentsui;
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
-import android.support.test.filters.LargeTest;
-import android.support.test.filters.Suppress;
+import androidx.test.filters.LargeTest;
+import androidx.test.filters.Suppress;
 
 import com.android.documentsui.files.FilesActivity;
 

@@ -27,8 +27,9 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
-import android.support.test.filters.LargeTest;
 import android.util.Log;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.services.TestNotificationService;

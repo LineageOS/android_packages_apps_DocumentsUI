@@ -24,9 +24,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.RemoteException;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.MediumTest;
 import android.test.AndroidTestCase;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.DocumentsProviderHelper;
 import com.android.documentsui.R;
