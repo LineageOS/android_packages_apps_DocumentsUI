@@ -45,14 +45,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.app.LoaderManager.LoaderCallbacks;
 import androidx.loader.content.Loader;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
@@ -342,7 +342,7 @@ public class RootsFragment extends Fragment {
         final List<Item> rootList = new ArrayList<>();
         final Map<String, ResolveInfo> appsMapping = new HashMap<>();
         final Map<String, Item> appItems = new HashMap<>();
-        Item profileItem = null;
+        ProfileItem profileItem = null;
 
         // Omit ourselves and maybe calling package from the list
         for (ResolveInfo info : infos) {
@@ -351,15 +351,15 @@ public class RootsFragment extends Fragment {
                     !TextUtils.equals(excludePackage, packageName)) {
                 appsMapping.put(packageName, info);
 
-                final Item item = new AppItem(info, info.loadLabel(pm).toString(), mActionHandler);
-
-                if (VERBOSE) Log.v(TAG, "Adding handler app: " + item);
-
                 // for change personal profile root.
                 if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
-                    profileItem = item;
+                    profileItem = new ProfileItem(info, info.loadLabel(pm).toString(),
+                            mActionHandler);
                 } else {
+                    final Item item = new AppItem(info, info.loadLabel(pm).toString(),
+                            mActionHandler);
                     appItems.put(packageName, item);
+                    if (VERBOSE) Log.v(TAG, "Adding handler app: " + item);
                 }
             }
         }
