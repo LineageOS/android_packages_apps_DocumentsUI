@@ -22,8 +22,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.DocumentsContract;
-import android.support.test.InstrumentationRegistry;
 import android.test.suitebuilder.annotation.MediumTest;
+
+import androidx.test.InstrumentationRegistry;
 
 import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.base.DocumentInfo;

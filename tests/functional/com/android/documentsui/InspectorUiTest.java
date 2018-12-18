@@ -18,7 +18,8 @@ package com.android.documentsui;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
-import android.support.test.filters.LargeTest;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.bots.UiBot;
 import com.android.documentsui.inspector.InspectorActivity;

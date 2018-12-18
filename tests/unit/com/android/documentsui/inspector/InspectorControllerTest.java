@@ -15,7 +15,6 @@
  */
 package com.android.documentsui.inspector;
 
-import static junit.framework.Assert.fail;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -29,16 +28,16 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
-import androidx.annotation.Nullable;
-import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View.OnClickListener;
+
+import androidx.annotation.Nullable;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.R;
 import com.android.documentsui.TestProviderActivity;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.inspector.InspectorController.ActionDisplay;
 import com.android.documentsui.inspector.InspectorController.DataSupplier;
 import com.android.documentsui.inspector.InspectorController.DebugDisplay;
@@ -46,11 +45,9 @@ import com.android.documentsui.inspector.InspectorController.DetailsDisplay;
 import com.android.documentsui.inspector.InspectorController.HeaderDisplay;
 import com.android.documentsui.inspector.InspectorController.MediaDisplay;
 import com.android.documentsui.inspector.actions.Action;
-import com.android.documentsui.testing.TestConsumer;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestLoaderManager;
 import com.android.documentsui.testing.TestPackageManager;
-import com.android.documentsui.testing.TestPackageManager.TestResolveInfo;
 import com.android.documentsui.testing.TestProvidersAccess;
 
 import org.junit.Assert;
@@ -58,7 +55,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 @RunWith(AndroidJUnit4.class)

@@ -19,7 +19,8 @@ package com.android.documentsui;
 import android.app.Instrumentation;
 import android.net.Uri;
 import android.os.RemoteException;
-import android.support.test.filters.LargeTest;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.inspector.InspectorActivity;

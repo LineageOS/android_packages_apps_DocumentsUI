@@ -22,13 +22,12 @@ import static junit.framework.Assert.assertTrue;
 import android.database.Cursor;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
-import android.support.test.filters.MediumTest;
-import android.support.test.runner.AndroidJUnit4;
-import android.text.TextUtils;
+
+import androidx.test.filters.MediumTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
-import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.testing.ActivityManagers;

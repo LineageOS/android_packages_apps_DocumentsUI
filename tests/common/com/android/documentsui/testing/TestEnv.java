@@ -17,8 +17,9 @@ package com.android.documentsui.testing;
 
 import android.content.Context;
 import android.provider.DocumentsContract.Document;
-import android.support.test.InstrumentationRegistry;
 import android.test.mock.MockContentResolver;
+
+import androidx.test.InstrumentationRegistry;
 
 import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.FocusManager;

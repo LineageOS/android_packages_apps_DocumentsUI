@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import android.support.test.filters.LargeTest;
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;

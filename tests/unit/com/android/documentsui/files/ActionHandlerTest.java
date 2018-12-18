@@ -23,6 +23,7 @@ import static com.android.documentsui.testing.IntentAsserts.assertHasExtraIntent
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraList;
 import static com.android.documentsui.testing.IntentAsserts.assertHasExtraUri;
 import static com.android.documentsui.testing.IntentAsserts.assertTargetsComponent;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -38,11 +39,13 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.MediumTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.util.Pair;
 import android.view.DragEvent;
+
+import androidx.core.util.Preconditions;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.MediumTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ModelId;
@@ -64,7 +67,6 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.ui.TestDialogController;
-import androidx.core.util.Preconditions;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -17,7 +17,8 @@
 package com.android.documentsui;
 
 import android.net.Uri;
-import android.support.test.filters.LargeTest;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.sorting.SortDimension;

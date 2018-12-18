@@ -18,12 +18,13 @@ package com.android.documentsui;
 
 import static junit.framework.Assert.assertEquals;
 
-import androidx.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+
+import androidx.annotation.StringRes;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import libcore.net.MimeUtils;
 

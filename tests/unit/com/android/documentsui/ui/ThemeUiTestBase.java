@@ -23,15 +23,13 @@ import android.content.res.CompatibilityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.util.DisplayMetrics;
 
-import com.android.documentsui.R;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
-import com.google.common.truth.BooleanSubject;
-import com.google.common.truth.IntegerSubject;
+import com.android.documentsui.R;
 
 import org.junit.After;
 import org.junit.Before;

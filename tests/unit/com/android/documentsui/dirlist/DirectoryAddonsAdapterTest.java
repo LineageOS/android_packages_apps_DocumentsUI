@@ -20,10 +20,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import android.support.test.filters.MediumTest;
-import androidx.recyclerview.widget.RecyclerView;
 import android.test.AndroidTestCase;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.Model;

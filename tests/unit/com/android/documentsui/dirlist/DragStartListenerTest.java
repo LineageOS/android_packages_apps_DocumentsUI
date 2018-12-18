@@ -20,13 +20,13 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import android.provider.DocumentsContract;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.recyclerview.selection.MutableSelection;
 import androidx.recyclerview.selection.Selection;
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.MenuManager.SelectionDetails;

@@ -22,8 +22,9 @@ import static junit.framework.Assert.assertTrue;
 
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
-import android.support.test.filters.MediumTest;
-import android.support.test.runner.AndroidJUnit4;
+
+import androidx.test.filters.MediumTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;

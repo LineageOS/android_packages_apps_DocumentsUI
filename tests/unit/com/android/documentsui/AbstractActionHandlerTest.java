@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+
 import static org.junit.Assert.assertEquals;
 
 import android.content.Intent;
@@ -25,10 +26,10 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
-import android.support.test.filters.MediumTest;
-import android.support.test.runner.AndroidJUnit4;
 
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
+import androidx.test.filters.MediumTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;

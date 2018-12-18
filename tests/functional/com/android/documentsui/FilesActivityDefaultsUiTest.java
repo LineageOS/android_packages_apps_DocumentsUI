@@ -20,8 +20,9 @@ import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
 import android.os.RemoteException;
-import android.support.test.filters.LargeTest;
+
 import androidx.recyclerview.R;
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;

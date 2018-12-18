@@ -16,8 +16,6 @@
 
 package com.android.documentsui.picker;
 
-import static junit.framework.Assert.assertTrue;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -28,8 +26,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
-import android.support.test.filters.MediumTest;
-import android.support.test.runner.AndroidJUnit4;
+
+import androidx.test.filters.MediumTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.R;
@@ -40,8 +39,8 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ActionType;
 import com.android.documentsui.testing.DocumentStackAsserts;
 import com.android.documentsui.testing.TestEnv;
-import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestLastAccessedStorage;
+import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
 
 import org.junit.AfterClass;

@@ -17,14 +17,16 @@
 package com.android.documentsui.picker;
 
 import static com.android.documentsui.base.State.ACTION_CREATE;
-import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_OPEN;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.provider.DocumentsContract.Root;
-import android.support.test.filters.SmallTest;
-import android.support.test.runner.AndroidJUnit4;
+
+import androidx.test.filters.SmallTest;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;

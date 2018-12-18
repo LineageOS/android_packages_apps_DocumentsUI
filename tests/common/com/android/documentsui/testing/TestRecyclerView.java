@@ -17,9 +17,10 @@
 package com.android.documentsui.testing;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.InstrumentationRegistry;
 
 import com.android.documentsui.dirlist.TestDocumentsAdapter;
 
@@ -27,7 +28,6 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class TestRecyclerView extends RecyclerView {
 
