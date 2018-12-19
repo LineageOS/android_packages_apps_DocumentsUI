@@ -32,7 +32,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="?android:attr/colorPrimary"
+            android:background="?android:attr/colorBackground"
             android:elevation="8dp"
             android:theme="?actionBarTheme"
             android:popupTheme="?actionBarPopupTheme">
@@ -76,7 +76,7 @@
                     android:id="@+id/container_save"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/colorPrimary"
+                    android:background="?android:attr/colorBackground"
                     android:elevation="8dp" />
 
             </LinearLayout>

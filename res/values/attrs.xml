@@ -16,6 +16,7 @@
 <resources>
 
     <declare-styleable name="ActionBarView">
+        <attr name="android:colorBackground" />
         <attr name="android:colorPrimary" />
         <attr name="android:colorControlNormal" />
         <attr name="android:textColorPrimary" />

@@ -421,4 +421,10 @@
     <string name="chip_title_videos">Videos</string>
     <!-- Title for image chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_documents">Documents</string>
+
+    <!-- Hint on text input field for create new folder. [CHAR_LIMIT=48] -->
+    <string name="input_hint_new_folder">Folder name</string>
+    <!-- Hint on text input field for rename the file or the folder. [CHAR_LIMIT=48] -->
+    <string name="input_hint_rename">New name</string>
+
 </resources>

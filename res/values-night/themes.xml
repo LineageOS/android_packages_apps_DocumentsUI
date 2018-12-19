@@ -16,11 +16,12 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="DocumentsTheme" parent="@style/Theme.MaterialComponents.NoActionBar">
+
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
 
         <item name="colorPrimaryDark">@color/g_grey</item>
-        <item name="colorPrimary">@color/g_dark_grey</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
         <item name="colorSecondary">@color/g_dark_grey</item>
         <item name="colorAccent">@color/accent_dark</item>
 
@@ -39,9 +40,9 @@
         <item name="gridItemSelectedColor">@color/item_doc_background_selected_dark</item>
         <item name="gridItemDisableColor">@color/item_doc_background_disabled_dark</item>
 
-        <item name="android:windowBackground">?android:attr/colorPrimary</item>
-        <item name="android:colorBackground">?android:attr/colorPrimary</item>
-        <item name="android:statusBarColor">?android:attr/colorPrimary</item>
+        <item name="android:colorBackground">@color/g_dark_grey</item>
+        <item name="android:windowBackground">?android:attr/colorBackground</item>
+        <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:listDivider">@drawable/list_divider</item>

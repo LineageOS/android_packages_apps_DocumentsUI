@@ -57,11 +57,11 @@
     </style>
 
     <style name="BottomSheetDialogStyle" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:colorPrimary">@android:color/white</item>
+        <item name="android:colorBackground">@android:color/white</item>
         <item name="android:textColorPrimary">@color/g_grey</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">?android:attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
         <item name="colorControlHighlight">@color/root_focus_color</item>

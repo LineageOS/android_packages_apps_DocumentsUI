@@ -19,9 +19,8 @@
     android:id="@android:id/empty"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorPrimary"
-    android:focusable="true"
-    android:clickable="true">
+    android:background="?android:attr/colorBackground"
+    android:focusable="true">
 
     <RelativeLayout
         android:id="@+id/content"
