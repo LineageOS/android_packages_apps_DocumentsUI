@@ -18,6 +18,8 @@ package com.android.documentsui;
 import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_METADATA;
 import static android.provider.DocumentsContract.Document.FLAG_SUPPORTS_SETTINGS;
 
+import android.content.Context;
+import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
@@ -75,6 +77,17 @@ public class InspectorProvider extends TestRootProvider {
         MatrixCursor c = createDocCursor(projection);
         addFolder(c, documentId);
         return c;
+    }
+
+    @Override
+    public void attachInfo(Context context, ProviderInfo info) {
+        // prevent the testing from Security Exception comes from DocumentsProvider
+        info.exported = true;
+        info.grantUriPermissions = true;
+        info.writePermission = android.Manifest.permission.MANAGE_DOCUMENTS;
+        info.readPermission = android.Manifest.permission.MANAGE_DOCUMENTS;
+
+        super.attachInfo(context, info);
     }
 
     @Override

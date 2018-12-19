@@ -15,6 +15,9 @@
  */
 package com.android.documentsui.inspector;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.media.ExifInterface;
@@ -24,7 +27,7 @@ import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.test.suitebuilder.annotation.MediumTest;
 
-import androidx.test.InstrumentationRegistry;
+import androidx.test.rule.provider.ProviderTestRule;
 
 import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.base.DocumentInfo;
@@ -35,6 +38,7 @@ import com.android.documentsui.testing.TestSupportLoaderManager;
 import junit.framework.TestCase;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -54,10 +58,15 @@ public class DocumentLoaderTest extends TestCase {
     private DataSupplier mLoader;
     private ContentResolver mResolver;
 
+    @Rule
+    private ProviderTestRule mProviderTestRule = new ProviderTestRule.Builder(
+            InspectorProvider.class, InspectorProvider.AUTHORITY).build();
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        mContext = InstrumentationRegistry.getTargetContext();
+
+        mContext = prepareContentResolverSource();
         mResolver = mContext.getContentResolver();
         mLoaderManager = new TestSupportLoaderManager();
         mLoader = new RuntimeDataSupplier(mContext, mLoaderManager);
@@ -65,6 +74,18 @@ public class DocumentLoaderTest extends TestCase {
         if (Looper.myLooper() == null) {
             Looper.prepare();
         }
+    }
+
+    protected Context prepareContentResolverSource() {
+        ContentResolver contentResolver = mProviderTestRule.getResolver();
+        Context context = mock(Context.class);
+        // inject ContentResolver
+        when(context.getContentResolver()).thenReturn(contentResolver);
+        // inject ContentResolver and prevent CursorLoader.loadInBackground from
+        // NullPointerException
+        when(context.getApplicationContext()).thenReturn(context);
+        return context;
+
     }
 
     /**
