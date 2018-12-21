@@ -77,7 +77,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
     }
 
     public void testDeleteDocument() throws Exception {
-        bots.directory.selectDocument("file1.png");
+        bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
         bots.main.clickToolbarItem(R.id.action_menu_delete);
 
@@ -88,7 +88,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
     }
 
     public void testKeyboard_CutDocument() throws Exception {
-        bots.directory.selectDocument("file1.png");
+        bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
         bots.keyboard.pressKey(KeyEvent.KEYCODE_X, KeyEvent.META_CTRL_ON);
 
@@ -105,7 +105,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
     }
 
     public void testKeyboard_CopyDocument() throws Exception {
-        bots.directory.selectDocument("file1.png");
+        bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
         bots.keyboard.pressKey(KeyEvent.KEYCODE_C, KeyEvent.META_CTRL_ON);
 
@@ -121,7 +121,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
     }
 
     public void testDeleteDocument_Cancel() throws Exception {
-        bots.directory.selectDocument("file1.png");
+        bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
         bots.main.clickToolbarItem(R.id.action_menu_delete);
 
