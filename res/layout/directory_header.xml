@@ -21,6 +21,9 @@
     <!-- used for top padding. -->
     <include layout="@layout/action_bar_space"/>
 
+    <!-- used for search chip. -->
+    <include layout="@layout/search_chip_row"/>
+
     <TextView
         android:id="@+id/header_title"
         android:layout_width="wrap_content"

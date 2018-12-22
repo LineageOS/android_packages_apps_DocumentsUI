@@ -21,19 +21,20 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
+import android.os.FileUtils;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.OperationCanceledException;
 import android.os.RemoteException;
-import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
+
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DebugFlags;
@@ -44,10 +45,6 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
-
-import android.os.FileUtils;
-
-import androidx.loader.content.AsyncTaskLoader;
 
 import java.util.concurrent.Executor;
 
@@ -63,6 +60,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     private final SortModel mModel;
     private final Lookup<String, String> mFileTypeLookup;
     private final boolean mSearchMode;
+    private final Bundle mQueryArgs;
 
     private DocumentInfo mDoc;
     private CancellationSignal mSignal;
@@ -79,7 +77,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             SortModel model,
             Lookup<String, String> fileTypeLookup,
             ContentLock lock,
-            boolean inSearchMode) {
+            Bundle queryArgs) {
 
         super(context);
         mFeatures = features;
@@ -88,7 +86,8 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         mModel = model;
         mDoc = doc;
         mFileTypeLookup = fileTypeLookup;
-        mSearchMode = inSearchMode;
+        mSearchMode = queryArgs != null;
+        mQueryArgs = queryArgs;
         mObserver = new LockingContentObserver(lock, this::onContentChanged);
     }
 
@@ -121,15 +120,11 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             }
             result.client = client;
 
-            Resources resources = getContext().getResources();
-
             final Bundle queryArgs = new Bundle();
             mModel.addQuerySortArgs(queryArgs);
 
             if (mSearchMode) {
-                // add the search string into the query bundle.
-                queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME,
-                        DocumentsContract.getSearchDocumentsQuery(mUri));
+                queryArgs.putAll(mQueryArgs);
             }
 
             if (mFeatures.isContentPagingEnabled()) {

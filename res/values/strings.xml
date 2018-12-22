@@ -412,4 +412,13 @@
     <string name="root_info_header_app">Files from <xliff:g id="label" example="Drive">%1$s</xliff:g></string>
     <!-- Header title for list of documents 3 party provider root eg. Drive, Box. with root summary.[CHAR_LIMIT=60] -->
     <string name="root_info_header_app_with_summary">Files from <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
+
+    <!-- Title for images chip. [CHAR_LIMIT=25] -->
+    <string name="chip_title_images">Images</string>
+    <!-- Title for audio chip. [CHAR_LIMIT=25] -->
+    <string name="chip_title_audio">Audio</string>
+    <!-- Title for videos chip. [CHAR_LIMIT=25] -->
+    <string name="chip_title_videos">Videos</string>
+    <!-- Title for image chip. [CHAR_LIMIT=25] -->
+    <string name="chip_title_documents">Documents</string>
 </resources>
