@@ -54,6 +54,15 @@ class AppItem extends Item {
         return component;
     }
 
+    protected void bindActionIcon(View actionIconArea, ImageView actionIcon) {
+        actionIconArea.setVisibility(View.VISIBLE);
+        actionIconArea.setFocusable(false);
+        actionIcon.setImageDrawable(
+                IconUtils.applyTintColor(actionIcon.getContext(), R.drawable.ic_exit_to_app,
+                        R.color.item_action_icon));
+
+    }
+
     @Override
     boolean showAppDetails() {
         mActionHandler.showAppDetails(info);
@@ -73,10 +82,7 @@ class AppItem extends Item {
         icon.setImageDrawable(info.loadIcon(pm));
         titleView.setText(title);
 
-        actionIconArea.setVisibility(View.VISIBLE);
-        actionIconArea.setFocusable(false);
-        actionIcon.setImageDrawable(IconUtils.applyTintColor(context, R.drawable.ic_exit_to_app,
-                R.color.item_action_icon));
+        bindActionIcon(actionIconArea, actionIcon);
 
         // TODO: match existing summary behavior from disambig dialog
         summary.setVisibility(View.GONE);

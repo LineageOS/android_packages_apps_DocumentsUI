@@ -115,8 +115,8 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
             return;
         }
 
-        if (mFeatures.isLaunchToDocumentEnabled() && launchToDocument(intent)) {
-            if (DEBUG) Log.d(TAG, "Launched to a document.");
+        if (mFeatures.isLaunchToDocumentEnabled() && launchToInitialUri(intent)) {
+            if (DEBUG) Log.d(TAG, "Launched to initial uri.");
             return;
         }
 
@@ -143,10 +143,15 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         return false;
     }
 
-    private boolean launchToDocument(Intent intent) {
+    private boolean launchToInitialUri(Intent intent) {
         Uri uri = intent.getParcelableExtra(DocumentsContract.EXTRA_INITIAL_URI);
         if (uri != null) {
-            return launchToDocument(uri);
+            if (DocumentsContract.isRootUri(mActivity, uri)) {
+                loadRoot(uri);
+                return true;
+            } else if (DocumentsContract.isDocumentUri(mActivity, uri)) {
+                return launchToDocument(uri);
+            }
         }
 
         return false;

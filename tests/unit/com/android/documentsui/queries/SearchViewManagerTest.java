@@ -16,28 +16,35 @@
 
 package com.android.documentsui.queries;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import static org.mockito.Mockito.mock;
+
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.DocumentsContract;
 
 import androidx.annotation.Nullable;
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.EventHandler;
-import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestHandler;
 import com.android.documentsui.testing.TestMenu;
 import com.android.documentsui.testing.TestTimer;
 
+import com.google.android.material.chip.ChipGroup;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -49,6 +56,7 @@ public final class SearchViewManagerTest {
     private TestTimer mTestTimer;
     private TestHandler mTestHandler;
     private SearchViewManager mSearchViewManager;
+    private SearchChipViewManager mSearchChipViewManager;
 
     private boolean mListenerOnSearchChangedCalled;
 
@@ -63,14 +71,20 @@ public final class SearchViewManagerTest {
             public void onSearchChanged(@Nullable String query) {
                 mListenerOnSearchChangedCalled = true;
             }
+
             @Override
-            public void onSearchFinished() {}
+            public void onSearchFinished() {
+            }
+
             @Override
-            public void onSearchViewChanged(boolean opened) {}
+            public void onSearchViewChanged(boolean opened) {
+            }
         };
 
-        mSearchViewManager = new TestableSearchViewManager(
-                searchListener, mTestEventHandler, null, mTestTimer, mTestHandler);
+        ChipGroup chipGroup = mock(ChipGroup.class);
+        mSearchChipViewManager = new SearchChipViewManager(chipGroup);
+        mSearchViewManager = new TestableSearchViewManager(searchListener, mTestEventHandler,
+                mSearchChipViewManager, null /* savedState */, mTestTimer, mTestHandler);
 
         final TestMenu testMenu = TestMenu.create();
         mSearchViewManager.install(testMenu, true);
@@ -80,10 +94,11 @@ public final class SearchViewManagerTest {
         public TestableSearchViewManager(
                 SearchManagerListener listener,
                 EventHandler<String> commandProcessor,
+                SearchChipViewManager chipViewManager,
                 @Nullable Bundle savedState,
                 Timer timer,
                 Handler handler) {
-            super(listener, commandProcessor, savedState, timer, handler);
+            super(listener, commandProcessor, chipViewManager, savedState, timer, handler);
         }
 
         @Override
@@ -110,6 +125,12 @@ public final class SearchViewManagerTest {
         mSearchViewManager.onClick(null);
         mSearchViewManager.onMenuItemActionCollapse(null);
         assertFalse(mSearchViewManager.isExpanded());
+    }
+
+    @Test
+    public void testIsSearching_TrueHasCheckedChip() throws Exception {
+        mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
+        assertTrue(mSearchViewManager.isSearching());
     }
 
     @Test
@@ -213,5 +234,47 @@ public final class SearchViewManagerTest {
         mListenerOnSearchChangedCalled = false;
         mSearchViewManager.onQueryTextSubmit("q");
         assertFalse(mListenerOnSearchChangedCalled);
+    }
+
+    @Test
+    public void testCheckedChipItems_IsEmptyIfSearchCanceled() throws Exception {
+        mSearchViewManager.onClick(null);
+        mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
+        mSearchViewManager.cancelSearch();
+        fastForwardTo(SearchViewManager.SEARCH_DELAY_MS);
+        assertTrue(!mSearchChipViewManager.hasCheckedItems());
+    }
+
+    @Test
+    public void testBuildQueryArgs_hasSearchString() throws Exception {
+        final String query = "q";
+        mSearchViewManager.onClick(null);
+        mSearchViewManager.onQueryTextChange("q");
+        fastForwardTo(SearchViewManager.SEARCH_DELAY_MS);
+
+        final Bundle queryArgs = mSearchViewManager.buildQueryArgs();
+        assertFalse(queryArgs.isEmpty());
+
+        final String queryString = queryArgs.getString(DocumentsContract.QUERY_ARG_DISPLAY_NAME);
+        assertEquals(query, queryString);
+    }
+
+    @Test
+    public void testBuildQueryArgs_hasMimeType() throws Exception {
+        mSearchViewManager.onClick(null);
+        mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
+
+        final Bundle queryArgs = mSearchViewManager.buildQueryArgs();
+        assertFalse(queryArgs.isEmpty());
+
+        final String[] mimeTypes = queryArgs.getStringArray(DocumentsContract.QUERY_ARG_MIME_TYPES);
+        assertTrue(mimeTypes.length > 0);
+        assertEquals("image/*", mimeTypes[0]);
+    }
+
+    private static Set<SearchChipData> getFakeSearchChipDataList() {
+        final Set<SearchChipData> chipDataList = new HashSet<>();
+        chipDataList.add(new SearchChipData(0 /* chipType */, 0, new String[]{"image/*"}));
+        return chipDataList;
     }
 }
