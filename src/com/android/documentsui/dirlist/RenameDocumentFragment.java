@@ -18,13 +18,13 @@ package com.android.documentsui.dirlist;
 
 import static com.android.documentsui.base.SharedMinimal.TAG;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -42,7 +42,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 import com.android.documentsui.BaseActivity;
-import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -105,6 +104,7 @@ public class RenameDocumentFragment extends DialogFragment {
                     }
                 });
         mEditText.requestFocus();
+        mEditText.setHint(R.string.input_hint_rename);
         return dialog;
     }
 

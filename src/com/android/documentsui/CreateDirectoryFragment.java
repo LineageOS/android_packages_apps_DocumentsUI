@@ -18,7 +18,6 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.TAG;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -31,6 +30,7 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -47,6 +47,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.R;
 import com.android.documentsui.ui.Snackbars;
 
 /**
@@ -104,7 +105,7 @@ public class CreateDirectoryFragment extends DialogFragment {
                         return false;
                     }
                 });
-
+        editText.setHint(R.string.input_hint_new_folder);
 
         return dialog;
     }

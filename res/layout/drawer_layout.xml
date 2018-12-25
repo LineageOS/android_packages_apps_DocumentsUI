@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
-                android:background="?android:attr/colorPrimary"
+                android:background="?android:attr/colorBackground"
                 android:elevation="8dp" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -80,13 +80,13 @@
             android:layout_gravity="start"
             android:orientation="vertical"
             android:elevation="0dp"
-            android:background="?android:attr/colorPrimary">
+            android:background="?android:attr/colorBackground">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/roots_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                android:background="?android:attr/colorPrimary"
+                android:background="?android:attr/colorBackground"
                 android:elevation="0dp"
                 android:theme="?actionBarTheme"
                 android:popupTheme="?actionBarPopupTheme" />

@@ -54,7 +54,9 @@ public class AccessibilityEventRouter extends RecyclerViewAccessibilityDelegate 
             public void onInitializeAccessibilityNodeInfo(View host,
                     AccessibilityNodeInfoCompat info) {
                 super.onInitializeAccessibilityNodeInfo(host, info);
-                info.addAction(AccessibilityActionCompat.ACTION_CLICK);
+                if (host.isClickable()) {
+                    info.addAction(AccessibilityActionCompat.ACTION_CLICK);
+                }
                 info.setSelected(host.isActivated());
             }
 

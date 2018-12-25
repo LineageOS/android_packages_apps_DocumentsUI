@@ -55,7 +55,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     @Test
     public void themeNightModeEnable_actionBarColorShouldBeDark() {
 
-        assertTheme(R.styleable.ActionBarView, R.styleable.ActionBarView_android_colorPrimary,
+        assertTheme(R.styleable.ActionBarView, R.styleable.ActionBarView_android_colorBackground,
                 mExpectedDarkGreyColor);
     }
 
