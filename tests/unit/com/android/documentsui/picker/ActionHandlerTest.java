@@ -466,6 +466,16 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testOpenAppRootWithQueryContent_matchedContent() throws Exception {
+        final String queryContent = "query";
+        mActivity.intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryContent);
+        mHandler.openRoot(TestResolveInfo.create());
+        assertEquals(queryContent,
+                mActivity.startActivityForResult.getLastValue().first.getStringExtra(
+                        Intent.EXTRA_CONTENT_QUERY));
+    }
+
+    @Test
     public void testPreviewItem() throws Exception {
         mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
         mActivity.currentRoot = TestProvidersAccess.HOME;

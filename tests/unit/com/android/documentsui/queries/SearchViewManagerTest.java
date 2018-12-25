@@ -16,12 +16,14 @@
 
 package com.android.documentsui.queries;
 
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.mockito.Mockito.mock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.DocumentsContract;
@@ -112,6 +114,27 @@ public final class SearchViewManagerTest {
     private void fastForwardTo(long timeMs) {
         mTestTimer.fastForwardTo(timeMs);
         mTestHandler.dispatchAllMessages();
+    }
+
+
+    @Test
+    public void testParseQueryContent_ActionIsNotMatched_NotParseQueryContent() {
+        final String queryString = "query";
+        Intent intent = new Intent();
+        intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryString);
+
+        mSearchViewManager.parseQueryContentFromIntent(intent, -1);
+        assertTrue(mSearchViewManager.getQueryContentFromIntent() == null);
+    }
+
+    @Test
+    public void testParseQueryContent_queryContentIsMatched() {
+        final String queryString = "query";
+        Intent intent = new Intent();
+        intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryString);
+
+        mSearchViewManager.parseQueryContentFromIntent(intent, ACTION_GET_CONTENT);
+        assertEquals(queryString, mSearchViewManager.getQueryContentFromIntent());
     }
 
     @Test
