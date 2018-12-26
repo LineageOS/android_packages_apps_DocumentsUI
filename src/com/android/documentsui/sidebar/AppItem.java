@@ -33,7 +33,7 @@ import com.android.documentsui.R;
  * An {@link Item} for apps that supports some picking actions like
  * {@link Intent#ACTION_GET_CONTENT} such as Photos. This is only used in pickers.
  */
-class AppItem extends Item {
+public class AppItem extends Item {
     private static final String STRING_ID_FORMAT = "AppItem{%s/%s}";
 
     public final ResolveInfo info;

@@ -30,6 +30,7 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.ui.DialogController;
@@ -56,6 +57,7 @@ public class Injector<T extends ActionHandler> {
     public MenuManager menuManager;
     public DialogController dialogs;
     public SearchViewManager searchManager;
+    public AppsRowManager appsRowManager;
 
     public final DebugHelper debugHelper;
 

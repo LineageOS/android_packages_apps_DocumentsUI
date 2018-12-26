@@ -122,6 +122,8 @@ public class RootsFragment extends Fragment {
     @Injected
     private ActionHandler mActionHandler;
 
+    private List<Item> mApplicationItemList;
+
     public static RootsFragment show(FragmentManager fm, Intent includeApps) {
         final Bundle args = new Bundle();
         args.putParcelable(EXTRA_INCLUDE_APPS, includeApps);
@@ -248,6 +250,8 @@ public class RootsFragment extends Fragment {
                 mList.setAdapter(mAdapter);
 
                 mInjector.shortcutsUpdater.accept(roots);
+                mInjector.appsRowManager.updateList(mApplicationItemList);
+                mInjector.appsRowManager.updateView(activity);
                 onCurrentRootChanged();
             }
 
@@ -321,6 +325,11 @@ public class RootsFragment extends Fragment {
             }
             if (VERBOSE) Log.v(TAG, "Adding plain roots: " + otherProviders);
             result.addAll(otherProviders);
+
+            mApplicationItemList = new ArrayList<>();
+            for (Item item : otherProviders) {
+                mApplicationItemList.add(item);
+            }
         }
 
         return result;
@@ -393,6 +402,8 @@ public class RootsFragment extends Fragment {
         final ItemComparator comp = new ItemComparator(preferredRootPackage);
         Collections.sort(rootList, comp);
         result.addAll(rootList);
+
+        mApplicationItemList = rootList;
 
         if (profileItem != null) {
             result.add(new SpacerItem());

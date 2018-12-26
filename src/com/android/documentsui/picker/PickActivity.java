@@ -49,6 +49,7 @@ import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.services.FileOperationService;
@@ -126,6 +127,9 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         mInjector.searchManager = mSearchManager;
 
         Intent intent = getIntent();
+
+        mAppsRowManager = new AppsRowManager(mInjector.actions);
+        mInjector.appsRowManager = mAppsRowManager;
 
         mSharedInputHandler =
                 new SharedInputHandler(

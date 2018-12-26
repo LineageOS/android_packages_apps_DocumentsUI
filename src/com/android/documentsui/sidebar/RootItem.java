@@ -39,7 +39,7 @@ import com.android.documentsui.base.RootInfo;
 /**
  * An {@link Item} for each root provided by {@link DocumentsProvider}s.
  */
-class RootItem extends Item {
+public class RootItem extends Item {
     private static final String STRING_ID_FORMAT = "RootItem{%s/%s}";
 
     public final RootInfo root;
