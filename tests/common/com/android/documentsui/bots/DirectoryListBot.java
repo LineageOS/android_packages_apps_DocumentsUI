@@ -54,6 +54,10 @@ import java.util.regex.Pattern;
 public class DirectoryListBot extends Bots.BaseBot {
     private static final String DIR_CONTAINER_ID = "com.android.documentsui:id/container_directory";
     private static final String DIR_LIST_ID = "com.android.documentsui:id/dir_list";
+    private static final String ITEM_ROOT_ID = "com.android.documentsui:id/item_root";
+    private static final String PREVIEW_ID = "com.android.documentsui:id/preview_icon";
+
+    private static final int MAX_LAYOUT_LEVEL = 10;
 
     private static final BySelector SNACK_DELETE =
             By.text(Pattern.compile("^Deleting [0-9]+ item.+"));
@@ -271,6 +275,21 @@ public class DirectoryListBot extends Bots.BaseBot {
             }
         }
         return true;
+    }
+
+    public boolean hasDocumentPreview(String label) {
+        final BySelector list = By.res(DIR_LIST_ID);
+        final UiObject2 text = mDevice.findObject(list).findObject(By.text(label));
+
+        UiObject2 parent = text;
+        for (int i = 1; i <= MAX_LAYOUT_LEVEL; i++) {
+            parent = parent.getParent();
+            if (ITEM_ROOT_ID.equals(parent.getResourceName())) {
+                break;
+            }
+        }
+
+        return parent.hasObject(By.res(PREVIEW_ID));
     }
 
     public void assertFirstDocumentHasFocus() throws UiObjectNotFoundException {

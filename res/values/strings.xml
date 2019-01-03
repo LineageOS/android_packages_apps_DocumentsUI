@@ -427,4 +427,6 @@
     <!-- Hint on text input field for rename the file or the folder. [CHAR_LIMIT=48] -->
     <string name="input_hint_rename">New name</string>
 
+    <!-- Content description for preivew function. -->
+    <string name="preview_file">Preview the file <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
 </resources>

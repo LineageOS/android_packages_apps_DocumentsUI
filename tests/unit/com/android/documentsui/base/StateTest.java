@@ -18,6 +18,8 @@ package com.android.documentsui.base;
 
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
 
@@ -57,5 +59,33 @@ public class StateTest {
         mState.initAcceptMimes(mIntent, MIME_TYPES[0]);
 
         assertArrayEquals(new String[] { MIME_TYPES[0] }, mState.acceptMimes);
+    }
+
+    @Test
+    public void testShouldShowPreview_actionBrowse() {
+        mState.action = State.ACTION_BROWSE;
+
+        assertFalse(mState.shouldShowPreview());
+    }
+
+    @Test
+    public void testShouldShowPreview_actionOpen() {
+        mState.action = State.ACTION_OPEN;
+
+        assertTrue(mState.shouldShowPreview());
+    }
+
+    @Test
+    public void testShouldShowPreview_actionGetContent() {
+        mState.action = State.ACTION_GET_CONTENT;
+
+        assertTrue(mState.shouldShowPreview());
+    }
+
+    @Test
+    public void testShouldShowPreview_actionOpenTree() {
+        mState.action = State.ACTION_OPEN_TREE;
+
+        assertTrue(mState.shouldShowPreview());
     }
 }

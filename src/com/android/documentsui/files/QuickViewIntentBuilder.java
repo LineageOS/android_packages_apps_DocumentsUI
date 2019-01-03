@@ -67,6 +67,9 @@ public final class QuickViewIntentBuilder {
             QuickViewConstants.FEATURE_DOWNLOAD,
             QuickViewConstants.FEATURE_PRINT
     };
+    private static final String[] PICKER_FEATURES = {
+            QuickViewConstants.FEATURE_VIEW
+    };
 
     private final DocumentInfo mDocument;
     private final Model mModel;
@@ -74,11 +77,14 @@ public final class QuickViewIntentBuilder {
     private final PackageManager mPackageMgr;
     private final Resources mResources;
 
+    private final boolean mFromPicker;
+
     public QuickViewIntentBuilder(
             PackageManager packageMgr,
             Resources resources,
             DocumentInfo doc,
-            Model model) {
+            Model model,
+            boolean fromPicker) {
 
         assert(packageMgr != null);
         assert(resources != null);
@@ -89,13 +95,14 @@ public final class QuickViewIntentBuilder {
         mResources = resources;
         mDocument = doc;
         mModel = model;
+        mFromPicker = fromPicker;
     }
 
     /**
      * Builds the intent for quick viewing. Short circuits building if a handler cannot
      * be resolved; in this case {@code null} is returned.
      */
-    @Nullable Intent build() {
+    @Nullable public Intent build() {
         if (DEBUG) Log.d(TAG, "Preparing intent for doc:" + mDocument.documentId);
 
         String trustedPkg = getQuickViewPackage();
@@ -107,7 +114,7 @@ public final class QuickViewIntentBuilder {
                     | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setPackage(trustedPkg);
             if (hasRegisteredHandler(intent)) {
-                includeQuickViewFeaturesFlag(intent, mDocument);
+                includeQuickViewFeaturesFlag(intent, mDocument, mFromPicker);
 
                 final ArrayList<Uri> uris = new ArrayList<>();
                 final int documentLocation = collectViewableUris(uris);
@@ -213,10 +220,12 @@ public final class QuickViewIntentBuilder {
         return intent.resolveActivity(mPackageMgr) != null;
     }
 
-    private static void includeQuickViewFeaturesFlag(Intent intent, DocumentInfo doc) {
+    private static void includeQuickViewFeaturesFlag(Intent intent, DocumentInfo doc,
+            boolean fromPicker) {
         intent.putExtra(
                 Intent.EXTRA_QUICK_VIEW_FEATURES,
-                doc.isInArchive() ? IN_ARCHIVE_FEATURES : FULL_FEATURES);
+                doc.isInArchive() ? IN_ARCHIVE_FEATURES
+                        : fromPicker ? PICKER_FEATURES : FULL_FEATURES);
     }
 
     private static Range<Integer> computeSiblingsRange(List<Uri> uris, int documentLocation) {

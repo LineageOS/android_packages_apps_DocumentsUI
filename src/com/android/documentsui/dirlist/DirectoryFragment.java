@@ -489,6 +489,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private boolean onItemActivated(ItemDetails<String> item, MotionEvent e) {
+        if (((DocumentItemDetails) item).inPreviewIconHotspot(e)) {
+            return mActions.previewItem(item);
+        }
+
         return mActions.openItem(
                 item,
                 ActionHandler.VIEW_TYPE_PREVIEW,

@@ -56,4 +56,8 @@ public final class DocumentItemDetails extends ItemDetails<String> {
     public boolean inSelectionHotspot(MotionEvent e) {
         return mDocumentHolder.inSelectRegion(e);
     }
+
+    public boolean inPreviewIconHotspot(MotionEvent e) {
+        return mDocumentHolder.inPreviewIconRegion(e);
+    }
 }

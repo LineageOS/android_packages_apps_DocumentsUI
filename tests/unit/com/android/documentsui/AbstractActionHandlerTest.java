@@ -285,4 +285,13 @@ public class AbstractActionHandlerTest {
 
         assertTrue(listener.getLastValue().hasException());
     }
+
+    @Test
+    public void testPreviewItem_throwException() throws Exception {
+        try {
+            mHandler.previewItem(null);
+            fail("Should have thrown UnsupportedOperationException.");
+        } catch (UnsupportedOperationException expected) {
+        }
+    }
 }

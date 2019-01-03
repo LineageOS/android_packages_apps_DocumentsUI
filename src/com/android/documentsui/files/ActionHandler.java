@@ -611,7 +611,8 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
                 mActivity.getPackageManager(),
                 mActivity.getResources(),
                 doc,
-                mModel).build();
+                mModel,
+                false /* fromPicker */).build();
 
         if (intent != null) {
             // TODO: un-work around issue b/24963914. Should be fixed soon.

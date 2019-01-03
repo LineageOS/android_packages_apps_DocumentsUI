@@ -22,6 +22,7 @@
      decide to rip these out, please be sure to check out focus and keyboards. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -65,6 +66,28 @@
                     android:layout_gravity="center"
                     android:scaleType="fitCenter"
                     android:contentDescription="@null"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/preview_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/circle_button_background"
+                android:pointerIcon="hand"
+                android:focusable="true"
+                android:clickable="true">
+
+                <ImageView
+                    android:layout_width="@dimen/zoom_icon_size"
+                    android:layout_height="@dimen/zoom_icon_size"
+                    android:layout_margin="2dp"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_zoom_out"/>
 
             </FrameLayout>
 

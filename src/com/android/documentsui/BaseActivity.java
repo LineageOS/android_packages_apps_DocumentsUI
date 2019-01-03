@@ -455,6 +455,7 @@ public abstract class BaseActivity
         setTitle(mState.stack.getTitle());
 
         invalidateOptionsMenu();
+        mSortController.onViewModeChanged(mState.derivedMode);
     }
 
     private final List<String> getExcludedAuthorities() {

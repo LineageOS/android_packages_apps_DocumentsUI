@@ -37,6 +37,8 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
 
+import java.util.function.Function;
+
 final class ListDocumentHolder extends DocumentHolder {
 
     private final TextView mTitle;
@@ -49,6 +51,7 @@ final class ListDocumentHolder extends DocumentHolder {
     private final ImageView mIconThumb;
     private final ImageView mIconCheck;
     private final View mIconLayout;
+    final View mPreviewIcon;
 
     private final IconHelper mIconHelper;
     private final Lookup<String, String> mFileTypeLookup;
@@ -70,6 +73,7 @@ final class ListDocumentHolder extends DocumentHolder {
         mType = (TextView) itemView.findViewById(R.id.file_type);
         // Warning: mDetails view doesn't exists in layout-sw720dp-land layout
         mDetails = (LinearLayout) itemView.findViewById(R.id.line2);
+        mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
         mFileTypeLookup = fileTypeLookup;
@@ -115,6 +119,21 @@ final class ListDocumentHolder extends DocumentHolder {
     }
 
     @Override
+    public void bindPreviewIcon(boolean show, Function<View, Boolean> clickCallback) {
+        if (mDoc.isDirectory()) {
+            mPreviewIcon.setVisibility(View.GONE);
+        } else {
+            mPreviewIcon.setVisibility(show ? View.VISIBLE : View.GONE);
+            if (show) {
+                mPreviewIcon.setContentDescription(
+                        itemView.getResources().getString(R.string.preview_file, mDoc.displayName));
+                mPreviewIcon.setAccessibilityDelegate(
+                        new PreviewAccessibilityDelegate(clickCallback));
+            }
+        }
+    }
+
+    @Override
     public boolean inDragRegion(MotionEvent event) {
         // If itemView is activated = selected, then whole region is interactive
         if (itemView.isActivated()) {
@@ -142,6 +161,11 @@ final class ListDocumentHolder extends DocumentHolder {
     @Override
     public boolean inSelectRegion(MotionEvent event) {
         return Views.isEventOver(event, mIconLayout);
+    }
+
+    @Override
+    public boolean inPreviewIconRegion(MotionEvent event) {
+        return Views.isEventOver(event, mPreviewIcon);
     }
 
     /**

@@ -349,6 +349,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         }
     }
 
+    @Override
+    public boolean previewItem(ItemDetails<String> doc) {
+        throw new UnsupportedOperationException("Can't handle preview.");
+    }
+
     private void openFolderInSearchResult(@Nullable DocumentStack stack, DocumentInfo doc) {
         if (stack == null) {
             mState.stack.popToRootDocument();
