@@ -46,7 +46,6 @@ final class ListDocumentHolder extends DocumentHolder {
     private final TextView mDate;
     private final TextView mSize;
     private final TextView mType;
-    private final TextView mSummary;
     private final ImageView mIconMime;
     private final ImageView mIconThumb;
     private final ImageView mIconCheck;
@@ -67,7 +66,6 @@ final class ListDocumentHolder extends DocumentHolder {
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
-        mSummary = (TextView) itemView.findViewById(android.R.id.summary);
         mSize = (TextView) itemView.findViewById(R.id.size);
         mDate = (TextView) itemView.findViewById(R.id.date);
         mType = (TextView) itemView.findViewById(R.id.file_type);
@@ -199,20 +197,6 @@ final class ListDocumentHolder extends DocumentHolder {
             // Note, we don't show any details for any directory...ever.
             hasDetails = false;
         } else {
-            // Show summary if the file is partial. Otherwise, there tends
-            // to be a bunch of confusing junk in the summary field
-            // as populated by Downlaods (and others). So to make things
-            // simpler and clearer for the user in list view, we only
-            // show the summary if the file is partial >
-            // which we believe to mean actively downloading.
-            if (mDoc.isPartial() && mDoc.summary != null) {
-                hasDetails = true;
-                mSummary.setText(mDoc.summary);
-                mSummary.setVisibility(View.VISIBLE);
-            } else {
-                mSummary.setVisibility(View.INVISIBLE);
-            }
-
             if (mDoc.lastModified > 0) {
                 hasDetails = true;
                 mDate.setText(Shared.formatTime(mContext, mDoc.lastModified));
