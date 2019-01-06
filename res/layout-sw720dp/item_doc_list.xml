@@ -18,7 +18,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_item_background"
+    android:background="?android:attr/selectableItemBackground"
     android:focusable="true"
     android:orientation="horizontal" >
 
@@ -74,15 +74,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:paddingEnd="@dimen/list_item_padding" >
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@android:id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:layout_weight="0.375"
+                android:layout_weight="0.4"
                 android:ellipsize="middle"
                 android:singleLine="true"
                 android:textAlignment="viewStart"
@@ -93,8 +92,8 @@
                 android:id="@android:id/summary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_weight="0.25"
+                android:layout_marginEnd="0dp"
+                android:layout_weight="0"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textAlignment="viewStart"
@@ -106,7 +105,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:layout_weight="0.125"
+                android:layout_weight="0.2"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textAlignment="viewStart"
@@ -118,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:layout_weight="0.125"
+                android:layout_weight="0.2"
                 android:ellipsize="end"
                 android:minWidth="70dp"
                 android:singleLine="true"
@@ -131,7 +130,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:layout_weight="0.125"
+                android:layout_weight="0.2"
                 android:ellipsize="end"
                 android:minWidth="70dp"
                 android:singleLine="true"
@@ -139,6 +138,34 @@
                 android:textAppearance="@android:style/TextAppearance.Material.Body1"
                 android:textColor="?android:attr/textColorSecondary" />
         </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/preview_icon"
+                android:layout_width="@dimen/list_item_width"
+                android:layout_height="@dimen/list_item_height"
+                android:padding="@dimen/list_item_icon_padding"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="@dimen/check_icon_size"
+                    android:layout_height="@dimen/check_icon_size"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:tint="?android:attr/textColorPrimary"
+                    android:src="@drawable/ic_zoom_out"/>
+
+            </FrameLayout>
+
+            <android.widget.Space
+                android:layout_width="@dimen/list_item_width"
+                android:layout_height="@dimen/list_item_height"/>
+
+        </FrameLayout>
+
     </LinearLayout>
 
 </LinearLayout>

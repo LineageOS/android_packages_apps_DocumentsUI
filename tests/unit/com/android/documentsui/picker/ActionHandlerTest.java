@@ -465,6 +465,15 @@ public class ActionHandlerTest {
         assertNotNull(mActivity.startActivityForResult.getLastValue().first);
     }
 
+    @Test
+    public void testPreviewItem() throws Exception {
+        mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
+        mActivity.currentRoot = TestProvidersAccess.HOME;
+
+        mHandler.priviewDocument(TestEnv.FILE_GIF);
+        mActivity.assertActivityStarted(Intent.ACTION_QUICK_VIEW);
+    }
+
     private void testInitLocationDefaultToRecentsOnAction(@ActionType int action)
             throws Exception {
         mEnv.state.action = action;
