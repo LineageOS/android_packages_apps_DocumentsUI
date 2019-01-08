@@ -34,6 +34,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
@@ -68,7 +69,6 @@ import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -191,7 +191,7 @@ public abstract class BaseActivity
                         mInjector.debugHelper::toggleDebugMode,
                         cmdInterceptor);
 
-        ChipGroup chipGroup = findViewById(R.id.search_chip_group);
+        ViewGroup chipGroup = findViewById(R.id.search_chip_group);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
                 chipGroup, icicle);
         mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);

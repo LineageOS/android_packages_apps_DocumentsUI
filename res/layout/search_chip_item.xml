@@ -20,6 +20,7 @@
     android:checkable="true"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/search_chip_spacing"
     android:textColor="@color/search_chip_text_color"
     app:checkedIcon="@drawable/ic_check"
     app:chipBackgroundColor="@color/search_chip_background_color"
