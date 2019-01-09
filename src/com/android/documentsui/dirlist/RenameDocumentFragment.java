@@ -77,7 +77,8 @@ public class RenameDocumentFragment extends DialogFragment {
         View view = dialogInflater.inflate(R.layout.dialog_file_name, null, false);
 
         mEditText = (EditText) view.findViewById(android.R.id.text1);
-        mRenameInputWrapper = (TextInputLayout) view.findViewById(R.id.rename_input_wrapper);
+        mRenameInputWrapper = (TextInputLayout) view.findViewById(R.id.input_wrapper);
+        mRenameInputWrapper.setHint(getString(R.string.input_hint_rename));
         builder.setTitle(R.string.menu_rename);
         builder.setView(view);
         builder.setPositiveButton(android.R.string.ok, null);
@@ -104,7 +105,6 @@ public class RenameDocumentFragment extends DialogFragment {
                     }
                 });
         mEditText.requestFocus();
-        mEditText.setHint(R.string.input_hint_rename);
         return dialog;
     }
 
