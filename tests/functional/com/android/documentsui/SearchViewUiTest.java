@@ -47,6 +47,7 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
     public void testSearchIconVisible() throws Exception {
         // The default root (root 0) supports search
         bots.search.assertInputExists(false);
+        bots.search.assertFragmentInputExists(false);
         bots.search.assertIconVisible(true);
     }
 
@@ -56,14 +57,15 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
 
         bots.search.assertIconVisible(false);
         bots.search.assertInputExists(false);
+        bots.search.assertFragmentInputExists(false);
     }
 
     public void testSearchView_ExpandsOnClick() throws Exception {
         bots.search.clickIcon();
         device.waitForIdle();
 
-        bots.search.assertInputExists(true);
-        bots.search.assertInputFocused(true);
+        bots.search.assertFragmentInputExists(true);
+        bots.search.assertFragmentInputFocused(true);
 
         // FIXME: Matchers fail the not-present check if we've ever clicked this.
         // bots.search.assertIconVisible(false);
@@ -73,8 +75,8 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
         bots.search.clickIcon();
         device.waitForIdle();
 
-        bots.search.assertInputExists(true);
-        bots.search.assertInputFocused(true);
+        bots.search.assertFragmentInputExists(true);
+        bots.search.assertFragmentInputFocused(true);
         device.waitForIdle();
 
         assertFalse(bots.menu.hasMenuItem("Grid view"));
@@ -85,9 +87,11 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
     public void testSearchView_CollapsesOnBack() throws Exception {
         bots.search.clickIcon();
         device.pressBack();
+        device.pressBack();
 
         bots.search.assertIconVisible(true);
         bots.search.assertInputExists(false);
+        bots.search.assertFragmentInputExists(false);
     }
 
     public void testSearchView_ClearsTextOnBack() throws Exception {
@@ -95,12 +99,14 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
         bots.search.setInputText("file2");
 
         device.pressBack();
+        device.pressBack();
 
         // Wait for a file in the default directory to be listed.
         bots.directory.waitForDocument(dirName1);
 
         bots.search.assertIconVisible(true);
         bots.search.assertInputExists(false);
+        bots.search.assertFragmentInputExists(false);
     }
 
     public void testSearchView_ClearsSearchOnBack() throws Exception {
@@ -113,6 +119,7 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
 
         bots.search.assertIconVisible(true);
         bots.search.assertInputExists(false);
+        bots.search.assertFragmentInputExists(false);
     }
 
     public void testSearchView_ClearsAutoSearchOnBack() throws Exception {
@@ -126,6 +133,7 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
 
         bots.search.assertIconVisible(true);
         bots.search.assertInputExists(false);
+        bots.search.assertFragmentInputExists(false);
     }
 
     public void testSearchView_StateAfterSearch() throws Exception {

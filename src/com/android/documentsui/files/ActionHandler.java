@@ -204,6 +204,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
                     + details.getSelectionKey());
             return false;
         }
+        mInjector.searchManager.recordHistory();
 
         return openDocument(doc, type, fallback);
     }

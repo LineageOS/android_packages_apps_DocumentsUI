@@ -184,6 +184,25 @@ public class SearchViewManager implements
         mChipViewManager.updateChips(acceptMimeTypes);
     }
 
+    /**
+     * Bind chip data in ChipViewManager on other view groups
+     *
+     * @param chipGroup target view group for bind ChipViewManager data
+     */
+    public void bindChips(ViewGroup chipGroup) {
+        mChipViewManager.bindMirrorGroup(chipGroup);
+    }
+
+    /**
+     * Click behavior when chip in synced chip group click.
+     *
+     * @param data SearchChipData synced in mirror group
+     */
+    public void onMirrorChipClick(SearchChipData data) {
+        mChipViewManager.onMirrorChipClick(data);
+        mSearchView.clearFocus();
+    }
+
     public void install(Menu menu, boolean isFullBarSearch) {
         mMenu = menu;
         mMenuItem = mMenu.findItem(R.id.option_menu_search);
@@ -198,7 +217,7 @@ public class SearchViewManager implements
         mSearchView.setMaxWidth(Integer.MAX_VALUE);
         mMenuItem.setOnActionExpandListener(this);
 
-        restoreTextSearch();
+        restoreSearch(false);
     }
 
     /**
@@ -310,11 +329,16 @@ public class SearchViewManager implements
      * Sets search view into the searching state. Used to restore state after device orientation
      * change.
      */
-    private void restoreTextSearch() {
+    public void restoreSearch(boolean keepFocus) {
         if (isTextSearching()) {
             onSearchBarClicked();
             mSearchView.setQuery(mCurrentSearch, false);
-            mSearchView.clearFocus();
+
+            if (keepFocus) {
+                mSearchView.requestFocus();
+            } else {
+                mSearchView.clearFocus();
+            }
         }
     }
 
@@ -395,6 +419,7 @@ public class SearchViewManager implements
                 mCurrentSearch = query;
                 mListener.onSearchChanged(mCurrentSearch);
             }
+            recordHistory();
             mSearchView.clearFocus();
         }
 
@@ -413,6 +438,7 @@ public class SearchViewManager implements
                 cancelSearch();
             }
         }
+        mListener.onSearchViewFocusChanged(hasFocus);
     }
 
     @VisibleForTesting
@@ -437,7 +463,10 @@ public class SearchViewManager implements
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        performSearch(newText);
+        //Skip first search when search expanded
+        if (!(mCurrentSearch == null && newText.isEmpty())) {
+            performSearch(newText);
+        }
         return true;
     }
 
@@ -469,6 +498,33 @@ public class SearchViewManager implements
 
     public String getCurrentSearch() {
         return mCurrentSearch;
+    }
+
+    /**
+     * Get current text on search view.
+     *
+     * @return  Cuttent string on search view
+     */
+    public String getSearchViewText() {
+        return mSearchView.getQuery().toString();
+    }
+
+    /**
+     * Record current search for history.
+     */
+    public void recordHistory() {
+        SearchHistoryManager.getInstance(
+                mSearchView.getContext().getApplicationContext()).addHistory(mCurrentSearch);
+    }
+
+    /**
+     * Remove specific text item in history list.
+     *
+     * @param history target string for removed.
+     */
+    public void removeHistory(String history) {
+        SearchHistoryManager.getInstance(
+                mSearchView.getContext().getApplicationContext()).deleteHistory(history);
     }
 
     /**
@@ -508,5 +564,7 @@ public class SearchViewManager implements
         void onSearchViewChanged(boolean opened);
 
         void onSearchChipStateChanged(View v);
+
+        void onSearchViewFocusChanged(boolean hasFocus);
     }
 }

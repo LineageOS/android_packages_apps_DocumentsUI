@@ -1089,23 +1089,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mRestoredState = null;
             }
 
-            // Restore any previous instance state
-            final SparseArray<Parcelable> container =
-                    mState.dirConfigs.remove(mLocalState.getConfigKey());
             final int curSortedDimensionId = mState.sortModel.getSortedDimensionId();
 
             final SortDimension curSortedDimension =
                     mState.sortModel.getDimensionById(curSortedDimensionId);
-            // Default not restore to avoid app bar layout expand to confuse users.
-            if (container != null
-                    && !getArguments().getBoolean(Shared.EXTRA_IGNORE_STATE, true)) {
-                getView().restoreHierarchyState(container);
-            } else if (mLocalState.mLastSortDimensionId != curSortedDimension.getId()
-                    || mLocalState.mLastSortDimensionId == SortModel.SORT_DIMENSION_ID_UNKNOWN
-                    || mLocalState.mLastSortDirection != curSortedDimension.getSortDirection()) {
-                // Scroll to the top if the sort order actually changed.
-                mRecView.smoothScrollToPosition(0);
-            }
 
             mLocalState.mLastSortDimensionId = curSortedDimension.getId();
             mLocalState.mLastSortDirection = curSortedDimension.getSortDirection();
@@ -1125,6 +1112,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mInjector.menuManager.updateOptionMenu();
 
                 mActivity.updateHeaderTitle();
+                mActivity.expandAppBar();
+                // Always back to top avoid app bar layout overlay on container.
+                mRecView.scrollToPosition(0);
             }
         }
     }

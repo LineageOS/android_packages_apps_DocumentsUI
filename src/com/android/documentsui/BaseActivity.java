@@ -66,6 +66,7 @@ import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchChipData;
+import com.android.documentsui.queries.SearchFragment;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.ProvidersCache;
@@ -74,7 +75,6 @@ import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -202,6 +202,18 @@ public abstract class BaseActivity
                     final SearchChipData item = (SearchChipData) v.getTag();
                     Metrics.logUserAction(MetricConsts.USER_ACTION_SEARCH_CHIP);
                     Metrics.logSearchType(item.getChipType());
+                }
+            }
+
+            @Override
+            public void onSearchViewFocusChanged(boolean hasFocus) {
+                final boolean isInitailSearch
+                        = !TextUtils.isEmpty(mSearchManager.getCurrentSearch())
+                        && TextUtils.isEmpty(mSearchManager.getSearchViewText());
+                if (hasFocus && (SearchFragment.get(getSupportFragmentManager()) == null)
+                        && !isInitailSearch) {
+                    SearchFragment.showFragment(getSupportFragmentManager(),
+                            mSearchManager.getSearchViewText());
                 }
             }
         };
@@ -383,11 +395,7 @@ public abstract class BaseActivity
                     doc -> mInjector.actions.openRootDocument(doc));
         }
 
-        final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
-        if (appBarLayout != null) {
-            appBarLayout.setExpanded(true);
-        }
-
+        expandAppBar();
         updateHeaderTitle();
     }
 
@@ -593,6 +601,13 @@ public abstract class BaseActivity
 
     public void setPending(boolean pending) {
         // TODO: Isolate this behavior to PickActivity.
+    }
+
+    public void expandAppBar() {
+        final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+        if (appBarLayout != null) {
+            appBarLayout.setExpanded(true);
+        }
     }
 
     public void updateHeaderTitle() {
