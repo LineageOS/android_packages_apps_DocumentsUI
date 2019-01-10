@@ -17,7 +17,11 @@
 package com.android.documentsui.queries;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+import static com.android.documentsui.base.State.ACTION_OPEN;
+import static com.android.documentsui.base.State.ActionType;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,6 +48,7 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
 
 import com.google.android.material.chip.ChipGroup;
 
@@ -74,6 +79,7 @@ public class SearchViewManager implements
     @GuardedBy("mSearchLock")
     private @Nullable TimerTask mQueuedSearchTask;
     private @Nullable String mCurrentSearch;
+    private String mQueryContentFromIntent;
     private boolean mSearchExpanded;
     private boolean mIgnoreNextClose;
     private boolean mFullBar;
@@ -120,6 +126,24 @@ public class SearchViewManager implements
 
     private void onChipCheckedStateChanged() {
         performSearch(mCurrentSearch);
+    }
+
+    /**
+     * Parse the query content from Intent. If the action is not {@link State#ACTION_GET_CONTENT}
+     * or {@link State#ACTION_OPEN}, don't perform search.
+     * @param intent the intent to parse.
+     * @param action the action to check.
+     * @return True, if get the query content from the intent. Otherwise, false.
+     */
+    public boolean parseQueryContentFromIntent(Intent intent, @ActionType int action) {
+        if (action == ACTION_OPEN || action == ACTION_GET_CONTENT) {
+            final String queryString = intent.getStringExtra(Intent.EXTRA_CONTENT_QUERY);
+            if (!TextUtils.isEmpty(queryString)) {
+                mQueryContentFromIntent = queryString;
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -256,7 +280,7 @@ public class SearchViewManager implements
      * @return True if it cancels search. False if it does not operate search currently.
      */
     public boolean cancelSearch() {
-        if (isExpanded() || isSearching()) {
+        if (mSearchView != null && (isExpanded() || isSearching())) {
             cancelQueuedSearch();
             // If the query string is not empty search view won't get iconified
             mSearchView.setQuery("", false);
@@ -447,6 +471,19 @@ public class SearchViewManager implements
 
     public String getCurrentSearch() {
         return mCurrentSearch;
+    }
+
+    /**
+     * Get the query content from intent.
+     * @return If has query content, return the query content. Otherwise, return null
+     * @see #parseQueryContentFromIntent(Intent, int)
+     */
+    public String getQueryContentFromIntent() {
+        return mQueryContentFromIntent;
+    }
+
+    public void setCurrentSearch(String queryString) {
+        mCurrentSearch = queryString;
     }
 
     public boolean isSearching() {

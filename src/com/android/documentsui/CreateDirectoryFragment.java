@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
@@ -71,6 +72,9 @@ public class CreateDirectoryFragment extends DialogFragment {
 
         final View view = dialogInflater.inflate(R.layout.dialog_file_name, null, false);
         final EditText editText = (EditText) view.findViewById(android.R.id.text1);
+
+        final TextInputLayout inputWrapper = view.findViewById(R.id.input_wrapper);
+        inputWrapper.setHint(getString(R.string.input_hint_new_folder));
 
         builder.setTitle(R.string.menu_create_dir);
         builder.setView(view);
@@ -105,7 +109,7 @@ public class CreateDirectoryFragment extends DialogFragment {
                         return false;
                     }
                 });
-        editText.setHint(R.string.input_hint_new_folder);
+        editText.requestFocus();
 
         return dialog;
     }

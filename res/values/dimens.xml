@@ -85,4 +85,6 @@
     <dimen name="search_chip_spacing">8dp</dimen>
     <dimen name="search_chip_icon_padding">4dp</dimen>
 
+    <dimen name="dialog_content_padding_top">18dp</dimen>
+    <dimen name="dialog_content_padding_bottom">24dp</dimen>
 </resources>

@@ -103,6 +103,7 @@ public abstract class BaseActivity
     private RootsMonitor<BaseActivity> mRootsMonitor;
 
     private long mStartTime;
+    private boolean mHasQueryContentFromIntent;
 
     private PreferencesMonitor mPreferencesMonitor;
 
@@ -194,7 +195,12 @@ public abstract class BaseActivity
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
                 chipGroup, icicle);
         mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);
-
+        // parse the query content from intent when launch the
+        // activity at the first time
+        if (icicle == null) {
+            mHasQueryContentFromIntent = mSearchManager.parseQueryContentFromIntent(getIntent(),
+                    mState.action);
+        }
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
         mPreferencesMonitor = new PreferencesMonitor(
@@ -439,6 +445,12 @@ public abstract class BaseActivity
         // refreshCurrentRootAndDirectory() from being called while we're restoring the state of UI
         // from the saved state passed in onCreate().
         mSearchManager.cancelSearch();
+
+        // only set the query content in the first launch
+        if (mHasQueryContentFromIntent) {
+            mHasQueryContentFromIntent = false;
+            mSearchManager.setCurrentSearch(mSearchManager.getQueryContentFromIntent());
+        }
 
         mState.derivedMode = LocalPreferences.getViewMode(this, mState.stack.getRoot(), MODE_GRID);
 

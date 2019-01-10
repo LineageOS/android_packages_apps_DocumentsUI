@@ -20,19 +20,22 @@
     android:fitsSystemWindows="true">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/rename_input_wrapper"
+        android:id="@+id/input_wrapper"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="?android:attr/listPreferredItemPaddingStart"
         android:layout_marginEnd="?android:attr/listPreferredItemPaddingEnd"
-        android:layout_centerInParent="true" >
+        android:layout_marginTop="@dimen/dialog_content_padding_top"
+        android:layout_marginBottom="@dimen/dialog_content_padding_bottom"
+        android:layout_centerInParent="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@android:id/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"/>
+            android:inputType="textCapSentences"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 </FrameLayout>
