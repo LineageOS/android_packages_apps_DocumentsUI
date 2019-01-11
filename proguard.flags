@@ -16,3 +16,7 @@
 -keep public class androidx.core.view.accessibility.AccessibilityNodeInfoCompat {
    public static androidx.core.view.accessibility.AccessibilityNodeInfoCompat obtain();
 }
+
+# To prevent class not found exception in org.brotli.dec.Dictionary
+-keep final class org.brotli.dec.DictionaryData
+
