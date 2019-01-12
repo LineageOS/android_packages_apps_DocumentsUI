@@ -222,4 +222,17 @@
       <item quantity="other">Valitud on <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">Valitud on <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Hiljutised failid telefonis"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Telefonis olevad failid"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> telefonis"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"Seadmes <xliff:g id="DEVICE">%1$s</xliff:g> olevad failid"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Failid teenusest <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Failid teenusest <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"Pildid"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"Heli"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"Videod"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"Dokumendid"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"Kausta nimi"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"Uus nimi"</string>
+    <string name="preview_file" msgid="4056622696305432343">"Faili <xliff:g id="FILENAME">%1$s</xliff:g> eelvaade"</string>
 </resources>

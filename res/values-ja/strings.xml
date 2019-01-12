@@ -222,4 +222,17 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> 個を選択中</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> 個を選択中</item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"スマートフォンで最近使用したファイル"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"スマートフォンにあるファイル"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"スマートフォンにある<xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> にあるファイル"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>のファイル"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> のファイル"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"画像"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"音声"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"動画"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"ドキュメント"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"フォルダ名"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"新しい名前"</string>
+    <string name="preview_file" msgid="4056622696305432343">"ファイル <xliff:g id="FILENAME">%1$s</xliff:g> をプレビューする"</string>
 </resources>

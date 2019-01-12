@@ -222,4 +222,17 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> okukhethiwe</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> okukhethiwe</item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Amafayela wakamuva efonini"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Amafayela efonini"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> efonini"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"Amafayela ku-<xliff:g id="DEVICE">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Amafayela kusuka ku-<xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Amafayela kusuka ku-<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"Izithombe"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"Umsindo"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"Amavidiyo"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"Amadokhumenti"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"Igama lefolda"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"Igama elisha"</string>
+    <string name="preview_file" msgid="4056622696305432343">"Buka kuqala ifayela le-<xliff:g id="FILENAME">%1$s</xliff:g>"</string>
 </resources>

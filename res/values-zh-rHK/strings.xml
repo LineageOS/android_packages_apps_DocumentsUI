@@ -222,4 +222,17 @@
       <item quantity="other">已選取 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目</item>
       <item quantity="one">已選取 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目</item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"手機上的最近檔案"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"手機上的檔案"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"手機上的<xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g>上的檔案"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"來自<xliff:g id="LABEL">%1$s</xliff:g>的檔案"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"來自<xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g> 的檔案"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"圖片"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"音訊"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"影片"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"文件"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"資料夾名稱"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"新名稱"</string>
+    <string name="preview_file" msgid="4056622696305432343">"預覽 <xliff:g id="FILENAME">%1$s</xliff:g> 檔案"</string>
 </resources>

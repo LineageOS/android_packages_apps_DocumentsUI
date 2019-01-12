@@ -222,4 +222,17 @@
       <item quantity="other">Seleccionáronse <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">Seleccionouse <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Ficheiros recentes do teléfono"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Ficheiros do teléfono"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> no teléfono"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"Ficheiros do dispositivo <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Ficheiros de <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Ficheiros de <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"Imaxes"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"Audio"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"Vídeos"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"Documentos"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"Nome do cartafol"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"Nome novo"</string>
+    <string name="preview_file" msgid="4056622696305432343">"Vista previa do ficheiro <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
 </resources>
