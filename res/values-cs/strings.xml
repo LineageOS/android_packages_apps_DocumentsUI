@@ -266,4 +266,17 @@
       <item quantity="other">Vybráno <xliff:g id="COUNT_1">%1$d</xliff:g> položek</item>
       <item quantity="one">Vybrána <xliff:g id="COUNT_0">%1$d</xliff:g> položka</item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Nejnovější soubory v telefonu"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Soubory v telefonu"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> v telefonu"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"Soubory v zařízení <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Soubory ze služby <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Soubory ze služby <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"Obrázky"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"Zvuk"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"Videa"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"Dokumenty"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"Název složky"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"Nový název"</string>
+    <string name="preview_file" msgid="4056622696305432343">"Zobrazit náhled souboru <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
 </resources>

@@ -17,9 +17,4 @@
 <resources>
     <item name="app_icon" type="drawable">@mipmap/ic_app_icon</item>
     <item name="launcher_icon" type="drawable">@mipmap/ic_app_icon</item>
-    <item name="image_root_icon" type="drawable">@drawable/ic_doc_image</item>
-    <item name="video_root_icon" type="drawable">@drawable/ic_doc_video</item>
-    <item name="audio_root_icon" type="drawable">@drawable/ic_doc_audio</item>
-    <item name="generic_doc_icon" type="drawable">@drawable/ic_doc_generic</item>
-    <item name="ic_menu_new_folder" type="drawable">@drawable/ic_doc_folder</item>
 </resources>

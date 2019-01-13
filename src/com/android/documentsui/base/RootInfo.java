@@ -52,6 +52,7 @@ import java.util.Objects;
 public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     private static final String TAG = "RootInfo";
+    private static final int LOAD_FROM_CONTENT_RESOLVER = -1;
     // private static final int VERSION_INIT = 1; // Not used anymore
     private static final int VERSION_DROP_TYPE = 2;
 
@@ -200,7 +201,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
         if (isExternalStorageHome()) {
             derivedType = TYPE_LOCAL;
-            derivedIcon = R.drawable.ic_root_documents;
+            derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
         } else if (isMtp()) {
             derivedType = TYPE_MTP;
             derivedIcon = R.drawable.ic_usb_storage;
@@ -218,13 +219,13 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
             derivedIcon = R.drawable.ic_root_download;
         } else if (isImages()) {
             derivedType = TYPE_IMAGES;
-            derivedIcon = R.drawable.image_root_icon;
+            derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
         } else if (isVideos()) {
             derivedType = TYPE_VIDEO;
-            derivedIcon = R.drawable.video_root_icon;
+            derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
         } else if (isAudio()) {
             derivedType = TYPE_AUDIO;
-            derivedIcon = R.drawable.audio_root_icon;
+            derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
         } else if (isRecents()) {
             derivedType = TYPE_RECENTS;
         } else {
@@ -343,8 +344,28 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         return (flags & Root.FLAG_REMOVABLE_USB) != 0;
     }
 
+    private Drawable loadMimeTypeIcon(Context context) {
+
+        if (isExternalStorageHome()) {
+            return IconUtils.loadMimeIcon(context, DocumentsContract.Document.MIME_TYPE_DIR);
+        }
+
+        switch (derivedType) {
+            case TYPE_IMAGES:
+                return IconUtils.loadMimeIcon(context, MimeTypes.IMAGE_PREFIX);
+            case TYPE_AUDIO:
+                return IconUtils.loadMimeIcon(context, MimeTypes.AUDIO_PREFIX);
+            case TYPE_VIDEO:
+                return IconUtils.loadMimeIcon(context, MimeTypes.VIDEO_PREFIX);
+            default:
+                return IconUtils.loadMimeIcon(context, MimeTypes.GENERIC_TYPE);
+        }
+    }
+
     public Drawable loadIcon(Context context) {
-        if (derivedIcon != 0) {
+        if (derivedIcon == LOAD_FROM_CONTENT_RESOLVER) {
+            return loadMimeTypeIcon(context);
+        } else if (derivedIcon != 0) {
             return context.getDrawable(derivedIcon);
         } else {
             return IconUtils.loadPackageIcon(context, authority, icon);
@@ -352,7 +373,10 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     }
 
     public Drawable loadDrawerIcon(Context context) {
-        if (derivedIcon != 0) {
+        if (derivedIcon == LOAD_FROM_CONTENT_RESOLVER) {
+            return IconUtils.applyTintColor(context, loadMimeTypeIcon(context),
+                    R.color.item_root_icon);
+        } else if (derivedIcon != 0) {
             return IconUtils.applyTintColor(context, derivedIcon, R.color.item_root_icon);
         } else {
             return IconUtils.loadPackageIcon(context, authority, icon);

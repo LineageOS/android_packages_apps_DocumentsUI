@@ -13,8 +13,8 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
 <resources>
+    <color name="root_icon_color">#9AA0A6</color>
     <color name="chip_stroke_color">@android:color/transparent</color>
     <color name="chip_selected_background_color">#FF3D4657</color>
     <color name="chip_ripple_color">#FF5195EA</color>

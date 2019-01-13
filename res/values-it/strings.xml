@@ -222,4 +222,17 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementi selezionati</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elemento selezionato</item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"File recenti sul telefono"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"File sul telefono"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> sul telefono"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"File su <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"File di <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"File di <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"Immagini"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"Audio"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"Video"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"Documenti"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"Nome cartella"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"Nuovo nome"</string>
+    <string name="preview_file" msgid="4056622696305432343">"Visualizza il file <xliff:g id="FILENAME">%1$s</xliff:g> in anteprima"</string>
 </resources>

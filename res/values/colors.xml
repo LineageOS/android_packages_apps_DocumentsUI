@@ -43,6 +43,7 @@
     <color name="band_select_border">#44000000</color>
 
     <color name="root_title_color">#de000000</color>
+    <color name="root_icon_color">#5F6368</color>
     <color name="root_activated_color">#ff127beb</color>
     <color name="root_details_color">#8a000000</color>
     <color name="root_focus_color">?android:attr/colorControlHighlight</color>

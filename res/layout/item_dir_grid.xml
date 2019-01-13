@@ -62,8 +62,7 @@
                     android:layout_height="@dimen/grid_item_icon_size"
                     android:layout_gravity="center"
                     android:contentDescription="@null"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_doc_folder"/>
+                    android:scaleType="centerInside"/>
 
                 <ImageView
                     android:id="@+id/icon_check"

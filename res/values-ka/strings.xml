@@ -222,4 +222,17 @@
       <item quantity="other">არჩეულია <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">არჩეულია <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"ბოლოდროინდელი ფაილები ტელეფონზე"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"ფაილები ტელეფონზე"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> ტელეფონზე"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"ფაილები <xliff:g id="DEVICE">%1$s</xliff:g>-ზე"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"ფაილები <xliff:g id="LABEL">%1$s</xliff:g>-იდან"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ფაილები <xliff:g id="LABEL">%1$s</xliff:g>-იდან / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"სურათები"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"აუდიო"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"ვიდეოები"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"დოკუმენტები"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"საქაღალდის სახელი"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"ახალი სახელი"</string>
+    <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> ფაილის გადახედვა"</string>
 </resources>

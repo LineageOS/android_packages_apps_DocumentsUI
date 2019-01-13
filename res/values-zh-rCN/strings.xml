@@ -222,4 +222,17 @@
       <item quantity="other">已选择 <xliff:g id="COUNT_1">%1$d</xliff:g> 项</item>
       <item quantity="one">已选择 <xliff:g id="COUNT_0">%1$d</xliff:g> 项</item>
     </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"最近在手机上使用过的文件"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"手机上的文件"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"手机上的<xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g>上的文件"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>中的文件"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g>中的文件/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"图片"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"音频"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"视频"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"文档"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"文件夹名称"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"新名称"</string>
+    <string name="preview_file" msgid="4056622696305432343">"预览“<xliff:g id="FILENAME">%1$s</xliff:g>”文件"</string>
 </resources>
