@@ -35,6 +35,7 @@ import android.view.MenuItem.OnActionExpandListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.ViewGroup;
 
 import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
@@ -49,8 +50,6 @@ import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-
-import com.google.android.material.chip.ChipGroup;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -91,7 +90,7 @@ public class SearchViewManager implements
     public SearchViewManager(
             SearchManagerListener listener,
             EventHandler<String> commandProcessor,
-            ChipGroup chipGroup,
+            ViewGroup chipGroup,
             @Nullable Bundle savedState) {
         this(listener, commandProcessor, new SearchChipViewManager(chipGroup), savedState,
                 new Timer(), new Handler(Looper.getMainLooper()));

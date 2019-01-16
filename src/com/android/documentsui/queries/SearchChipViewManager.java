@@ -21,9 +21,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.IconUtils;
@@ -32,7 +34,6 @@ import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.Shared;
 
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.common.primitives.Ints;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class SearchChipViewManager {
 
     private static final Map<Integer, SearchChipData> sChipItems = new HashMap<>();
 
-    private final ChipGroup mChipGroup;
+    private final ViewGroup mChipGroup;
     private SearchChipViewManagerListener mListener;
 
     @VisibleForTesting
@@ -85,9 +86,7 @@ public class SearchChipViewManager {
                 new SearchChipData(TYPE_VIDEOS, R.string.chip_title_videos, VIDEOS_MIMETYPES));
     }
 
-
-
-    public SearchChipViewManager(@NonNull ChipGroup chipGroup) {
+    public SearchChipViewManager(@NonNull ViewGroup chipGroup) {
         mChipGroup = chipGroup;
     }
 
@@ -191,7 +190,7 @@ public class SearchChipViewManager {
                 mChipGroup.addView(chip);
             }
         }
-        reorderCheckedChips(false /* hasAnim */);
+        reorderCheckedChips(null /* clickedChip */, false /* hasAnim */);
     }
 
 
@@ -206,7 +205,6 @@ public class SearchChipViewManager {
 
     private static void setChipChecked(Chip chip, boolean isChecked) {
         chip.setChecked(isChecked);
-        chip.setCheckedIconVisible(isChecked);
         chip.setChipIconVisible(!isChecked);
     }
 
@@ -224,6 +222,13 @@ public class SearchChipViewManager {
 
     private void onChipClick(View v) {
         final Chip chip = (Chip) v;
+
+        // We need to show/hide the chip icon in our design.
+        // When we show/hide the chip icon or do reorder animation,
+        // the ripple effect will be interrupted. So, skip ripple
+        // effect when the chip is clicked.
+        chip.getBackground().setVisible(false /* visible */, false /* restart */);
+
         final SearchChipData item = (SearchChipData) chip.getTag();
         if (chip.isChecked()) {
             mCheckedChipItems.add(item);
@@ -232,7 +237,8 @@ public class SearchChipViewManager {
         }
 
         setChipChecked(chip, chip.isChecked());
-        reorderCheckedChips(true /* hasAnim */);
+        reorderCheckedChips(chip, true /* hasAnim */);
+
         if (mListener != null) {
             mListener.onChipCheckStateChanged();
         }
@@ -254,45 +260,96 @@ public class SearchChipViewManager {
     /**
      * Reorder the chips in chip group. The checked chip has higher order.
      *
+     * @param clickedChip the clicked chip, may be null.
      * @param hasAnim if true, play move animation. Otherwise, not.
      */
-    private void reorderCheckedChips(boolean hasAnim) {
+    private void reorderCheckedChips(@Nullable Chip clickedChip, boolean hasAnim) {
         final ArrayList<Chip> chipList = new ArrayList<>();
         final int count = mChipGroup.getChildCount();
-        final boolean playAnimation = hasAnim && mChipGroup.isAttachedToWindow();
-        final Map<String, Float> originalXList = new HashMap<>();
+
+        // if the size of chips is less than 2, no need to reorder chips
+        if (count < 2) {
+            return;
+        }
+
         Chip item;
+        // get the default order
         for (int i = 0; i < count; i++) {
             item = (Chip) mChipGroup.getChildAt(i);
             chipList.add(item);
-            if (playAnimation) {
-                originalXList.put(item.getText().toString(), item.getX());
+        }
+
+        // sort chips
+        Collections.sort(chipList, CHIP_COMPARATOR);
+
+        if (isChipOrderMatched(mChipGroup, chipList)) {
+            // the order of chips is not changed
+            return;
+        }
+
+        final int chipSpacing = mChipGroup.getPaddingEnd();
+        final boolean isRtl = mChipGroup.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
+        float lastX = isRtl ? mChipGroup.getWidth() - chipSpacing : chipSpacing;
+
+        // remove all chips except current clicked chip to avoid losing
+        // accessibility focus.
+        for (int i = count - 1; i >= 0; i--) {
+            item = (Chip) mChipGroup.getChildAt(i);
+            if (!item.equals(clickedChip)) {
+                mChipGroup.removeView(item);
             }
         }
 
-        final int chipSpacing = mChipGroup.getChipSpacingHorizontal();
-        float lastX = chipList.get(0).getX();
-        Collections.sort(chipList, CHIP_COMPARATOR);
+        // add sorted chips
+        for (int i = 0; i < count; i++) {
+            item = chipList.get(i);
+            if (!item.equals(clickedChip)) {
+                mChipGroup.addView(item, i);
+            }
+        }
 
-        mChipGroup.removeAllViews();
-        for (Chip chip : chipList) {
-            mChipGroup.addView(chip);
-            if (playAnimation) {
-                ObjectAnimator animator = ObjectAnimator.ofFloat(chip, "x",
-                        originalXList.get(chip.getText().toString()), lastX);
+        if (hasAnim && mChipGroup.isAttachedToWindow()) {
+            // start animation
+            for (Chip chip : chipList) {
+                if (isRtl) {
+                    lastX -= chip.getMeasuredWidth();
+                }
+
+                ObjectAnimator animator = ObjectAnimator.ofFloat(chip, "x", chip.getX(), lastX);
+
+                if (isRtl) {
+                    lastX -= chipSpacing;
+                } else {
+                    lastX += chip.getMeasuredWidth() + chipSpacing;
+                }
                 animator.setDuration(CHIP_MOVE_ANIMATION_DURATION);
                 animator.start();
             }
-            lastX += chipSpacing + chip.getMeasuredWidth();
-        }
 
-        if (playAnimation) {
-            // Let the first checked chip can be seen.
+            // Let the first checked chip can be shown.
             View parent = (View) mChipGroup.getParent();
-            if (parent != null && parent instanceof HorizontalScrollView) {
-                ((HorizontalScrollView) mChipGroup.getParent()).smoothScrollTo(0, 0);
+            if (parent instanceof HorizontalScrollView) {
+                final int scrollToX = isRtl ? parent.getWidth() : 0;
+                ((HorizontalScrollView) parent).smoothScrollTo(scrollToX, 0);
             }
         }
+    }
+
+    private static boolean isChipOrderMatched(ViewGroup chipGroup, ArrayList<Chip> chipList) {
+        if (chipGroup == null || chipList == null) {
+            return false;
+        }
+
+        final int chipCount = chipList.size();
+        if (chipGroup.getChildCount() != chipCount) {
+            return false;
+        }
+        for (int i = 0; i < chipCount; i++) {
+            if (!chipList.get(i).equals(chipGroup.getChildAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

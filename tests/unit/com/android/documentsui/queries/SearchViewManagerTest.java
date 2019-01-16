@@ -17,6 +17,7 @@
 package com.android.documentsui.queries;
 
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -27,6 +28,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.DocumentsContract;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.test.filters.SmallTest;
@@ -38,8 +40,6 @@ import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestHandler;
 import com.android.documentsui.testing.TestMenu;
 import com.android.documentsui.testing.TestTimer;
-
-import com.google.android.material.chip.ChipGroup;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -83,7 +83,7 @@ public final class SearchViewManagerTest {
             }
         };
 
-        ChipGroup chipGroup = mock(ChipGroup.class);
+        ViewGroup chipGroup = mock(ViewGroup.class);
         mSearchChipViewManager = new SearchChipViewManager(chipGroup);
         mSearchViewManager = new TestableSearchViewManager(searchListener, mTestEventHandler,
                 mSearchChipViewManager, null /* savedState */, mTestTimer, mTestHandler);
