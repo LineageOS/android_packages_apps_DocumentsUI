@@ -18,10 +18,15 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+
 import androidx.annotation.ColorRes;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
+
+import com.android.documentsui.R;
 
 /**
  * A {@link SwipeRefreshLayout} that does not intercept any touch events. This relies on its nested
@@ -29,9 +34,7 @@ import android.view.MotionEvent;
  * {@link ListeningGestureDetector} .
  */
 public class DocumentsSwipeRefreshLayout extends SwipeRefreshLayout {
-
-    private static final int[] COLOR_RES = new int[] { android.R.attr.colorAccent };
-    private static int COLOR_ACCENT_INDEX = 0;
+    private static final String TAG = DocumentsSwipeRefreshLayout.class.getSimpleName();
 
     public DocumentsSwipeRefreshLayout(Context context) {
         this(context, null);
@@ -40,8 +43,13 @@ public class DocumentsSwipeRefreshLayout extends SwipeRefreshLayout {
     public DocumentsSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(COLOR_RES);
-        @ColorRes int colorId = a.getResourceId(COLOR_ACCENT_INDEX, -1);
+        TypedArray a = context.obtainStyledAttributes(R.styleable.SwipeRefresh);
+        @ColorRes int colorId = a.getResourceId(R.styleable.SwipeRefresh_android_colorAccent,
+                -1);
+        if (colorId == -1) {
+            Log.w(TAG, "Retrive colorAccent colorId from theme fail, assign R.color.accent");
+            colorId = R.color.accent;
+        }
         a.recycle();
         setColorSchemeResources(colorId);
     }

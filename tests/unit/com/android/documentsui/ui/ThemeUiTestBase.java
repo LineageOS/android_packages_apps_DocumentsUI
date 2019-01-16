@@ -80,6 +80,7 @@ abstract class ThemeUiTestBase {
         // hence, we need to create new Resources.theme to force apply again
         final Resources.Theme theme = context.getResources().newTheme();
         theme.applyStyle(R.style.DocumentsTheme, true);
+        theme.applyStyle(R.style.DocumentsDefaultTheme, false);
         return theme;
     }
 
