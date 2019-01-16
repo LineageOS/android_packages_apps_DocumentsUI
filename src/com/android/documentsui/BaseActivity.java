@@ -54,6 +54,7 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.dirlist.AnimationView;
+import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.prefs.Preferences;
@@ -63,6 +64,8 @@ import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.ProvidersCache;
+import com.android.documentsui.sidebar.Item;
+import com.android.documentsui.sidebar.RootItem;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
@@ -82,6 +85,7 @@ public abstract class BaseActivity
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
 
     protected SearchViewManager mSearchManager;
+    protected AppsRowManager mAppsRowManager;
     protected State mState;
 
     @Injected
@@ -341,8 +345,8 @@ public abstract class BaseActivity
         }
 
         updateHeaderTitle();
-
         mSearchManager.updateChips(root.derivedMimeTypes);
+        mAppsRowManager.updateView(this);
     }
 
     @Override

@@ -49,6 +49,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
+import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.services.FileOperationService;
@@ -142,6 +143,9 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 mInjector);
 
         mInjector.searchManager = mSearchManager;
+
+        mAppsRowManager = new AppsRowManager(mInjector.actions);
+        mInjector.appsRowManager = mAppsRowManager;
 
         mActivityInputHandler =
                 new ActivityInputHandler(mInjector.actions::deleteSelectedDocuments);

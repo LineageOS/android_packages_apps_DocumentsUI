@@ -429,4 +429,7 @@
 
     <!-- Content description for preivew function. -->
     <string name="preview_file">Preview the file <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
+
+    <!-- Apps row title. [CHAR_LIMIT=60] -->
+    <string name="apps_row_title">Browse files in other apps</string>
 </resources>

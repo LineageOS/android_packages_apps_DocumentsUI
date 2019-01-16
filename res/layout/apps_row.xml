@@ -13,33 +13,33 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/apps_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!-- used for top padding. -->
-    <include layout="@layout/action_bar_space"/>
-
-    <!-- used for search chip. -->
-    <include layout="@layout/search_chip_row"/>
-
-    <!-- used for apps row. -->
-    <include layout="@layout/apps_row"/>
-
     <TextView
-        android:id="@+id/header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/root_info_header_height"
-        android:paddingStart="@dimen/root_info_header_horizontal_padding"
+        android:minHeight="@dimen/apps_row_title_height"
+        android:paddingStart="@dimen/apps_row_title_padding_start"
         android:textAppearance="@style/SortTitle"
+        android:text="@string/apps_row_title"
         android:textAllCaps="true"
-        android:maxLines="1"
-        android:ellipsize="end"
         android:gravity="center"/>
 
-    <!-- column headers are empty on small screens, in portrait or in grid mode. -->
-    <include layout="@layout/column_headers"/>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:id="@+id/apps_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+    </HorizontalScrollView>
 
 </LinearLayout>

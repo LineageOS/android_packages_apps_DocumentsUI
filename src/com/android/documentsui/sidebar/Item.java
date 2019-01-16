@@ -31,7 +31,7 @@ import com.android.documentsui.R;
  * Describes a root navigation point of documents. Each one of them is presented as an item in the
  * sidebar
  */
-abstract class Item {
+public abstract class Item {
     private final @LayoutRes int mLayoutId;
 
     public final String title;
