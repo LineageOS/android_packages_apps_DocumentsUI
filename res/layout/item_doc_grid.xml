@@ -27,8 +27,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="4dp"
-    android:focusable="true"
-    android:clickable="true">
+    android:focusable="true">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

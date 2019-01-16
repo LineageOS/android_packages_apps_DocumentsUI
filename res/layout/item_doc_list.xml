@@ -22,7 +22,6 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:focusable="true"
-    android:clickable="true"
     android:orientation="horizontal" >
 
 
