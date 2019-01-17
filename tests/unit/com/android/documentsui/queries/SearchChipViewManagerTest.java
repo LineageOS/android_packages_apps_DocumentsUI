@@ -22,14 +22,13 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import android.os.Bundle;
+import android.view.ViewGroup;
 
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.Shared;
-
-import com.google.android.material.chip.ChipGroup;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +49,7 @@ public final class SearchChipViewManagerTest {
 
     @Before
     public void setUp() {
-        ChipGroup chipGroup = mock(ChipGroup.class);
+        ViewGroup chipGroup = mock(ViewGroup.class);
         mSearchChipViewManager = new SearchChipViewManager(chipGroup);
     }
 
@@ -65,7 +64,7 @@ public final class SearchChipViewManagerTest {
     @Test
     public void testRestoreCheckedChipItems_HasCorrectValue() throws Exception {
         Bundle bundle = new Bundle();
-        bundle.putIntArray(Shared.EXTRA_QUERY_CHIPS, new int[] {2});
+        bundle.putIntArray(Shared.EXTRA_QUERY_CHIPS, new int[]{2});
         mSearchChipViewManager.restoreCheckedChipItems(bundle);
 
         assertEquals(1, mSearchChipViewManager.mCheckedChipItems.size());

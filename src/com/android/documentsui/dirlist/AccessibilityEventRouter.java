@@ -17,12 +17,13 @@
 package com.android.documentsui.dirlist;
 
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.core.view.AccessibilityDelegateCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
-import android.view.View;
 
 import java.util.function.Function;
 
@@ -54,7 +55,14 @@ public class AccessibilityEventRouter extends RecyclerViewAccessibilityDelegate 
             public void onInitializeAccessibilityNodeInfo(View host,
                     AccessibilityNodeInfoCompat info) {
                 super.onInitializeAccessibilityNodeInfo(host, info);
-                if (host.isClickable()) {
+                final RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(host);
+                // if the viewHolder is a DocumentsHolder instance and the ItemDetails
+                // is null, it can't be clicked
+                if (holder instanceof DocumentHolder) {
+                    if (((DocumentHolder)holder).getItemDetails() != null) {
+                        info.addAction(AccessibilityActionCompat.ACTION_CLICK);
+                    }
+                } else {
                     info.addAction(AccessibilityActionCompat.ACTION_CLICK);
                 }
                 info.setSelected(host.isActivated());

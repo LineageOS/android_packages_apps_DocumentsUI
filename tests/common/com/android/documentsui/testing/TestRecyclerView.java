@@ -31,7 +31,7 @@ import java.util.List;
 
 public class TestRecyclerView extends RecyclerView {
 
-    private List<RecyclerView.ViewHolder> holders = new ArrayList<>();
+    private List<RecyclerView.ViewHolder> mHolders = new ArrayList<>();
     private TestDocumentsAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -40,8 +40,17 @@ public class TestRecyclerView extends RecyclerView {
     }
 
     @Override
+    public ViewHolder getChildViewHolder(View child) {
+        return mHolders.get(0);
+    }
+
+    public void setHolders(List<ViewHolder> holders) {
+        mHolders = holders;
+    }
+
+    @Override
     public ViewHolder findViewHolderForAdapterPosition(int position) {
-        return holders.get(position);
+        return mHolders.get(position);
     }
 
     @Override
@@ -68,9 +77,9 @@ public class TestRecyclerView extends RecyclerView {
     }
 
     public void setItems(List<String> modelIds) {
-        holders = new ArrayList<>();
+        mHolders = new ArrayList<>();
         for (String modelId: modelIds) {
-            holders.add(new TestViewHolder(Views.createTestView()));
+            mHolders.add(new TestViewHolder(Views.createTestView()));
         }
         adapter.updateTestModelIds(modelIds);
     }
@@ -78,16 +87,16 @@ public class TestRecyclerView extends RecyclerView {
     public static TestRecyclerView create(List<String> modelIds) {
         final TestRecyclerView view =
                 new TestRecyclerView(InstrumentationRegistry.getTargetContext());
-        view.holders = new ArrayList<>();
+        view.mHolders = new ArrayList<>();
         for (String modelId: modelIds) {
-            view.holders.add(new TestViewHolder(Views.createTestView()));
+            view.mHolders.add(new TestViewHolder(Views.createTestView()));
         }
         view.adapter = new TestDocumentsAdapter(modelIds);
         return view;
     }
 
     public void assertItemViewFocused(int pos) {
-        Mockito.verify(holders.get(pos).itemView).requestFocus();
+        Mockito.verify(mHolders.get(pos).itemView).requestFocus();
     }
 
     private static class TestViewHolder extends RecyclerView.ViewHolder {

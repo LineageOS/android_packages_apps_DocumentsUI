@@ -16,19 +16,15 @@
 
 <HorizontalScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:overScrollMode="never"
     android:scrollbars="none">
-    <com.google.android.material.chip.ChipGroup
+    <LinearLayout
         android:id="@+id/search_chip_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/search_chip_group_margin"
         android:layout_marginBottom="@dimen/search_chip_group_margin"
-        android:paddingStart="@dimen/search_chip_spacing"
-        android:paddingEnd="@dimen/search_chip_spacing"
-        android:gravity="center"
-        app:chipSpacing="@dimen/search_chip_spacing"
-        app:singleLine="true"/>
+        android:paddingEnd="@dimen/search_chip_spacing"/>
 </HorizontalScrollView>

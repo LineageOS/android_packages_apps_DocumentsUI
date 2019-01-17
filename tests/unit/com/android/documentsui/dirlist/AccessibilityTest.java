@@ -17,14 +17,18 @@
 package com.android.documentsui.dirlist;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.database.Cursor;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
-import android.view.accessibility.AccessibilityNodeInfo;
+import android.widget.Space;
 
 import com.android.documentsui.testing.TestRecyclerView;
 import com.android.documentsui.testing.Views;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SmallTest
@@ -51,6 +55,24 @@ public class AccessibilityTest extends AndroidTestCase {
         AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
         mAccessibilityDelegate.getItemDelegate().onInitializeAccessibilityNodeInfo(item, info);
         assertTrue(info.isSelected());
+    }
+
+    public void testNullItemDetails_NoActionClick() throws Exception {
+        View item = Views.createTestView(true);
+        AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
+
+        List<RecyclerView.ViewHolder> holders = new ArrayList<>();
+        holders.add(new MessageHolder(mView.getContext(), new Space(mView.getContext())) {
+            @Override
+            public void bind(Cursor cursor, String modelId) {
+
+            }
+        });
+
+        mView.setHolders(holders);
+
+        mAccessibilityDelegate.getItemDelegate().onInitializeAccessibilityNodeInfo(item, info);
+        assertFalse(info.isClickable());
     }
 
     public void test_routesAccessibilityClicks() throws Exception {
