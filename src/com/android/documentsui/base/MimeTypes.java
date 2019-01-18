@@ -36,6 +36,7 @@ public final class MimeTypes {
      * shown as thumbnails in list mode.
      */
     public static final String[] VISUAL_MIMES = new String[] { "image/*", "video/*" };
+    public static final String IMAGE_MIME = "image/*";
 
     public static @Nullable String[] splitMimeType(String mimeType) {
         final String[] groups = mimeType.split("/");

@@ -92,7 +92,9 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
                         holder = new GridDirectoryHolder(mEnv.getContext(), parent);
                         break;
                     case ITEM_TYPE_DOCUMENT:
-                        holder = new GridDocumentHolder(mEnv.getContext(), parent, mIconHelper);
+                        holder = state.isPhotoPicking()
+                                ? new GridPhotoHolder(mEnv.getContext(), parent, mIconHelper)
+                                : new GridDocumentHolder(mEnv.getContext(), parent, mIconHelper);
                         break;
                     default:
                         throw new IllegalStateException("Unsupported layout type.");

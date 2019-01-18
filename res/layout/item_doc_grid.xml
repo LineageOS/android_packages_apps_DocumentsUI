@@ -185,7 +185,7 @@
                 android:layout_alignLeft="@id/thumbnail"
                 android:layout_alignRight="@id/thumbnail"
                 android:contentDescription="@null"
-                android:background="@drawable/item_doc_grid_border"
+                android:background="@drawable/item_doc_grid_border_rounded"
                 android:duplicateParentState="true"/>
 
         </RelativeLayout>

@@ -408,10 +408,20 @@
     <string name="root_info_header_media"><xliff:g id="label" example="images">%1$s</xliff:g> on phone</string>
     <!-- Header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_storage">Files on <xliff:g id="device" example="Pixel">%1$s</xliff:g></string>
-    <!-- Header title for list of documents 3 party provider root eg. Drive, Box. [CHAR_LIMIT=60] -->
+    <!-- Header title for list of documents 3rd party provider root eg. Drive, Box. [CHAR_LIMIT=60] -->
     <string name="root_info_header_app">Files from <xliff:g id="label" example="Drive">%1$s</xliff:g></string>
-    <!-- Header title for list of documents 3 party provider root eg. Drive, Box. with root summary.[CHAR_LIMIT=60] -->
+    <!-- Header title for list of documents 3rd party provider root eg. Drive, Box. with root summary. The summary is usually present by email account[CHAR_LIMIT=60] -->
     <string name="root_info_header_app_with_summary">Files from <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
+    <!-- On photo picking state, the header title for list of documents in recent root. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_image_recent">Recent images on phone</string>
+    <!-- On photo picking state, the header title for list of documents in global searching. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_image_global_search">Images on phone</string>
+    <!-- On photo picking state, the header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_image_storage">Images on <xliff:g id="device" example="Pixel">%1$s</xliff:g></string>
+    <!-- On photo picking state, the header title for list of documents 3rd party provider root eg. Drive, Box. [CHAR_LIMIT=60] -->
+    <string name="root_info_header_image_app">Images from <xliff:g id="label" example="Drive">%1$s</xliff:g></string>
+    <!-- On photo picking state, the header title for list of documents 3rd party provider root eg. Drive, Box. with root summary. The summary is usually present by email account[CHAR_LIMIT=60] -->
+    <string name="root_info_header_image_app_with_summary">Images from <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
 
     <!-- Title for images chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_images">Images</string>

@@ -88,4 +88,49 @@ public class StateTest {
 
         assertTrue(mState.shouldShowPreview());
     }
+
+    public void testPhotoPicking_onlyOneImageType() {
+        mIntent.putExtra(Intent.EXTRA_MIME_TYPES, MIME_TYPES[0]);
+        mState.initAcceptMimes(mIntent, "*/*");
+        mState.action = State.ACTION_GET_CONTENT;
+
+        assertTrue(mState.isPhotoPicking());
+    }
+
+    @Test
+    public void testPhotoPicking_allImageTypes() {
+        mIntent.putExtra(Intent.EXTRA_MIME_TYPES, MIME_TYPES);
+        mState.initAcceptMimes(mIntent, "*/*");
+        mState.action = State.ACTION_GET_CONTENT;
+
+        assertTrue(mState.isPhotoPicking());
+    }
+
+    @Test
+    public void testPhotoPicking_noImageType() {
+        final String[] mimeTypes = { "audio/mp3", "video/mp4" };
+        mIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        mState.initAcceptMimes(mIntent, "*/*");
+        mState.action = State.ACTION_GET_CONTENT;
+
+        assertFalse(mState.isPhotoPicking());
+    }
+
+    @Test
+    public void testPhotoPicking_oneIsNotImageType() {
+        final String[] mimeTypes = { "image/gif", "image/jpg", "audio/mp3" };
+        mIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        mState.initAcceptMimes(mIntent, "*/*");
+        mState.action = State.ACTION_GET_CONTENT;
+
+        assertFalse(mState.isPhotoPicking());
+    }
+
+    @Test
+    public void testPhotoPicking_browseMode() {
+        mState.initAcceptMimes(mIntent, "*/*");
+        mState.action = State.ACTION_BROWSE;
+
+        assertFalse(mState.isPhotoPicking());
+    }
 }

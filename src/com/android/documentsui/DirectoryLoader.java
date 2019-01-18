@@ -42,7 +42,9 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
 
@@ -53,6 +55,8 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     private static final String TAG = "DirectoryLoader";
 
     private static final String[] SEARCH_REJECT_MIMES = new String[] { Document.MIME_TYPE_DIR };
+    private static final String[] PHOTO_PICKING_ACCEPT_MIMES = new String[]
+            {Document.MIME_TYPE_DIR, MimeTypes.IMAGE_MIME};
 
     private final LockingContentObserver mObserver;
     private final RootInfo mRoot;
@@ -61,6 +65,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     private final Lookup<String, String> mFileTypeLookup;
     private final boolean mSearchMode;
     private final Bundle mQueryArgs;
+    private final boolean mPhotoPicking;
 
     private DocumentInfo mDoc;
     private CancellationSignal mSignal;
@@ -71,24 +76,23 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     public DirectoryLoader(
             Features features,
             Context context,
-            RootInfo root,
-            DocumentInfo doc,
+            State state,
             Uri uri,
-            SortModel model,
             Lookup<String, String> fileTypeLookup,
             ContentLock lock,
             Bundle queryArgs) {
 
         super(context);
         mFeatures = features;
-        mRoot = root;
+        mRoot = state.stack.getRoot();
         mUri = uri;
-        mModel = model;
-        mDoc = doc;
+        mModel = state.sortModel;
+        mDoc = state.stack.peek();
         mFileTypeLookup = fileTypeLookup;
         mSearchMode = queryArgs != null;
         mQueryArgs = queryArgs;
         mObserver = new LockingContentObserver(lock, this::onContentChanged);
+        mPhotoPicking = state.isPhotoPicking();
     }
 
     @Override
@@ -146,6 +150,10 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             if (mSearchMode && !mFeatures.isFoldersInSearchResultsEnabled()) {
                 // There is no findDocumentPath API. Enable filtering on folders in search mode.
                 cursor = new FilteringCursorWrapper(cursor, null, SEARCH_REJECT_MIMES);
+            }
+
+            if (mPhotoPicking) {
+                cursor = new FilteringCursorWrapper(cursor, PHOTO_PICKING_ACCEPT_MIMES, null);
             }
 
             // TODO: When API tweaks have landed, use ContentResolver.EXTRA_HONORED_ARGS
