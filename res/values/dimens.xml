@@ -71,7 +71,7 @@
     <dimen name="fastscroll_margin">0dp</dimen>
 
     <dimen name="bottom_bar_height">56dp</dimen>
-    <dimen name="bottom_bar_padding_end">10dp</dimen>
+    <dimen name="bottom_bar_padding">10dp</dimen>
     <dimen name="bottom_bar_button_height">36dip</dimen>
     <dimen name="bottom_bar_button_horizontal_padding">24dp</dimen>
     <dimen name="bottom_bar_button_corner_radius">4dp</dimen>
