@@ -165,6 +165,15 @@ public class SearchViewManager implements
     }
 
     /**
+     * Initialize the search chips base on the acceptMimeTypes.
+     *
+     * @param acceptMimeTypes use to filter chips
+     */
+    public void initChipSets(String[] acceptMimeTypes) {
+        mChipViewManager.initChipSets(acceptMimeTypes);
+    }
+
+    /**
      * Update the search chips base on the acceptMimeTypes.
      * If the count of matched chips is less than two, we will
      * hide the chip row.
