@@ -618,10 +618,8 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                 return new DirectoryLoader(
                         mInjector.features,
                         context,
-                        mState.stack.getRoot(),
-                        mState.stack.peek(),
+                        mState,
                         contentsUri,
-                        mState.sortModel,
                         mInjector.fileTypeLookup,
                         mContentLock,
                         queryArgs);

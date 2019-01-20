@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import com.android.documentsui.Model;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.base.EventListener;
+import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.Message.HeaderMessage;
 import com.android.documentsui.dirlist.Message.InflateMessage;
 
@@ -77,6 +78,11 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
                         || getItemViewType(position) == ITEM_TYPE_HEADER_MESSAGE
                         || getItemViewType(position) == ITEM_TYPE_INFLATED_MESSAGE) {
                     return mEnv.getColumnCount();
+                } else if (mEnv.getDisplayState().isPhotoPicking()
+                        && mEnv.getDisplayState().derivedMode == State.MODE_GRID) {
+                    // If on photo picking state and grid mode,
+                    // the UI should show 3 images a row or 2 folders a row.
+                    return getItemViewType(position) == ITEM_TYPE_DIRECTORY ? 3 : 2;
                 } else {
                     return 1;
                 }
