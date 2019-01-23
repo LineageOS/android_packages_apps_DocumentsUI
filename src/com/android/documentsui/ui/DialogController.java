@@ -29,7 +29,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
-import com.android.documentsui.picker.OverwriteConfirmFragment;
+import com.android.documentsui.picker.ConfirmFragment;
 import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperationService;
@@ -56,7 +56,7 @@ public interface DialogController {
     void showDocumentsClipped(int size);
 
     // Dialogs used in PickActivity
-    void confirmOverwrite(FragmentManager fm, DocumentInfo overwriteTarget);
+    void confirmAction(FragmentManager fm, DocumentInfo pickTarget, int type);
 
     // Should be private, but Java doesn't like me treating an interface like a mini-package.
     public static final class RuntimeDialogController implements DialogController {
@@ -199,8 +199,8 @@ public interface DialogController {
         }
 
         @Override
-        public void confirmOverwrite(FragmentManager fm, DocumentInfo overwriteTarget) {
-            OverwriteConfirmFragment.show(fm, overwriteTarget);
+        public void confirmAction(FragmentManager fm, DocumentInfo pickTarget, int type) {
+            ConfirmFragment.show(fm, pickTarget, type);
         }
     }
 

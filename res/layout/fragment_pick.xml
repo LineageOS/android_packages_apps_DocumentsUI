@@ -20,7 +20,8 @@
     android:orientation="horizontal"
     android:baselineAligned="false"
     android:gravity="center_vertical|end"
-    android:paddingEnd="@dimen/bottom_bar_padding_end">
+    android:paddingStart="@dimen/bottom_bar_padding"
+    android:paddingEnd="@dimen/bottom_bar_padding">
 
     <com.google.android.material.button.MaterialButton
         android:id="@android:id/button2"

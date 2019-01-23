@@ -459,14 +459,14 @@ public abstract class BaseActivity
 
         mState.derivedMode = LocalPreferences.getViewMode(this, mState.stack.getRoot(), MODE_GRID);
 
+        mNavigator.update();
+
         refreshDirectory(anim);
 
         final RootsFragment roots = RootsFragment.get(getSupportFragmentManager());
         if (roots != null) {
             roots.onCurrentRootChanged();
         }
-
-        mNavigator.update();
 
         // Causes talkback to announce the activity's new title
         setTitle(mState.stack.getTitle());
@@ -621,6 +621,22 @@ public abstract class BaseActivity
                     ? R.string.root_info_header_image_app_with_summary
                     : R.string.root_info_header_app_with_summary;
             return getString(resId, rootTitle, summary);
+        }
+    }
+
+    /**
+     * Get title string equal to the string action bar displayed.
+     * @return current directory title name
+     */
+    public String getCurrentTitle() {
+        if (!mState.stack.isInitialized()) {
+            return null;
+        }
+
+        if (mState.stack.size() > 1) {
+            return getCurrentDirectory().displayName;
+        } else {
+            return getCurrentRoot().title;
         }
     }
 

@@ -24,6 +24,7 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_MO
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class PickFragment extends Fragment {
     private final View.OnClickListener mPickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mInjector.actions.pickDocument(mPickTarget);
+            mInjector.actions.pickDocument(getChildFragmentManager(), mPickTarget);
         }
     };
 
@@ -151,9 +152,24 @@ public class PickFragment extends Fragment {
      * Applies the state of fragment to the view components.
      */
     private void updateView() {
+        if (mPickTarget != null && (
+                mAction == State.ACTION_OPEN_TREE ||
+                        mPickTarget.isCreateSupported())) {
+            mContainer.setVisibility(View.VISIBLE);
+        } else {
+            mContainer.setVisibility(View.GONE);
+            return;
+        }
+
         switch (mAction) {
             case State.ACTION_OPEN_TREE:
-                mPick.setText(R.string.button_select);
+                final BaseActivity activity = (BaseActivity) getActivity();
+                final String target = activity.getCurrentTitle();
+                final String text = TextUtils.isEmpty(target)
+                        ? getString(R.string.button_select)
+                        : getString(R.string.open_tree_button, target);
+                mPick.setText(text);
+                mPick.setWidth(Integer.MAX_VALUE);
                 mCancel.setVisibility(View.GONE);
                 break;
             case State.ACTION_PICK_COPY_DESTINATION:
@@ -180,14 +196,6 @@ public class PickFragment extends Fragment {
             default:
                 mContainer.setVisibility(View.GONE);
                 return;
-        }
-
-        if (mPickTarget != null && (
-                mAction == State.ACTION_OPEN_TREE ||
-                mPickTarget.isCreateSupported())) {
-            mContainer.setVisibility(View.VISIBLE);
-        } else {
-            mContainer.setVisibility(View.GONE);
         }
     }
 }
