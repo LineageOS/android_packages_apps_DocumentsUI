@@ -308,22 +308,21 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         return false;
     }
 
-    void pickDocument(DocumentInfo pickTarget) {
+    void pickDocument(FragmentManager fm, DocumentInfo pickTarget) {
         assert(pickTarget != null);
         Uri result;
         switch (mState.action) {
             case ACTION_OPEN_TREE:
-                result = DocumentsContract.buildTreeDocumentUri(
-                        pickTarget.authority, pickTarget.documentId);
+                mInjector.dialogs.confirmAction(fm, pickTarget, ConfirmFragment.TYPE_OEPN_TREE);
                 break;
             case ACTION_PICK_COPY_DESTINATION:
                 result = pickTarget.derivedUri;
+                finishPicking(result);
                 break;
             default:
                 // Should not be reached
                 throw new IllegalStateException("Invalid mState.action");
         }
-        finishPicking(result);
     }
 
     void saveDocument(
@@ -350,7 +349,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         // Adding a confirmation dialog breaks an inherited CTS test (testCreateExisting), so we
         // need to add a feature flag to bypass this feature in ARC++ environment.
         if (mFeatures.isOverwriteConfirmationEnabled()) {
-            mInjector.dialogs.confirmOverwrite(fm, replaceTarget);
+            mInjector.dialogs.confirmAction(fm, replaceTarget, ConfirmFragment.TYPE_OVERWRITE);
         } else {
             finishPicking(replaceTarget.derivedUri);
         }

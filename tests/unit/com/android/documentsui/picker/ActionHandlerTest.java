@@ -216,7 +216,7 @@ public class ActionHandlerTest {
 
         mActivity.finishedHandler.assertNotCalled();
 
-        mHandler.pickDocument(TestEnv.FOLDER_2);
+        mHandler.pickDocument(null, TestEnv.FOLDER_2);
 
         mEnv.beforeAsserts();
 
@@ -242,7 +242,9 @@ public class ActionHandlerTest {
 
         mActivity.finishedHandler.assertNotCalled();
 
-        mHandler.pickDocument(TestEnv.FOLDER_2);
+        Uri uri = DocumentsContract.buildTreeDocumentUri(
+                TestEnv.FOLDER_2.authority, TestEnv.FOLDER_2.documentId);
+        mHandler.finishPicking(uri);
 
         mEnv.beforeAsserts();
 
@@ -302,6 +304,16 @@ public class ActionHandlerTest {
         mHandler.saveDocument(null, TestEnv.FILE_JPG);
 
         mEnv.dialogs.assertOverwriteConfirmed(TestEnv.FILE_JPG);
+    }
+
+    @Test
+    public void testPickDocument_ConfirmsOpenTree() {
+        mEnv.state.action = State.ACTION_OPEN_TREE;
+        mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
+
+        mHandler.pickDocument(null, TestEnv.FOLDER_1);
+
+        mEnv.dialogs.assertDocumentTreeConfirmed(TestEnv.FOLDER_1);
     }
 
     @Test

@@ -32,10 +32,24 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
+            android:layout_margin="@dimen/search_bar_margin"
             android:background="?android:attr/colorBackground"
-            android:elevation="8dp"
+            android:elevation="3dp"
             android:theme="?actionBarTheme"
             android:popupTheme="?actionBarPopupTheme">
+
+            <TextView
+                android:id="@+id/searchbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_marginStart="@dimen/search_bar_text_margin_start"
+                android:layout_marginEnd="@dimen/search_bar_text_margin_end"
+                android:paddingStart="@dimen/search_bar_icon_padding"
+                android:gravity="center_vertical"
+                android:text="@string/search_bar_hint"
+                android:textAppearance="@style/SearchBarTitle"
+                android:drawableStart="@drawable/ic_menu_search"
+                android:drawablePadding="@dimen/search_bar_icon_padding"/>
 
             <com.android.documentsui.HorizontalBreadcrumb
                 android:id="@+id/horizontal_breadcrumb"

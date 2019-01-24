@@ -442,4 +442,16 @@
 
     <!-- Apps row title. [CHAR_LIMIT=60] -->
     <string name="apps_row_title">Browse files in other apps</string>
+
+    <!-- The default name to present the anonymous application-->
+    <string name="anonymous_application">Anonymous</string>
+    <!-- Button text show on open document tree flow. [CHAR_LIMIT=48] -->
+    <string name="open_tree_button">Allow access to \"<xliff:g id="directory" example="DCIM">%1$s</xliff:g>\"</string>
+    <!-- Confrim dialog title show on open document tree flow. [CHAR_LIMIT=60] -->
+    <string name="open_tree_dialog_title">Allow access to \"<xliff:g id="directory" example="DCIM">%1$s</xliff:g>\" on \"<xliff:g id="root" example="SD card">%2$s</xliff:g>\"?</string>
+    <!-- Confrim dialog message show on open document tree flow.-->
+    <string name="open_tree_dialog_message">It will allow \"<xliff:g id="appName" example="Drive">%1$s</xliff:g>\" to have full access to all files currently stored under this location, and any future content stored here.</string>
+
+    <!-- Search hint on search view. [CHAR LIMIT=48] -->
+    <string name="search_bar_hint">Search this phone</string>
 </resources>

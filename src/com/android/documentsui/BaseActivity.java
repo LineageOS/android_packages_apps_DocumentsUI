@@ -153,7 +153,7 @@ public abstract class BaseActivity
                 Shared.findView(this, R.id.dropdown_breadcrumb, R.id.horizontal_breadcrumb);
         assert(breadcrumb != null);
 
-        mNavigator = new NavigationViewManager(mDrawer, toolbar, mState, this, breadcrumb);
+        mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb);
         SearchManagerListener searchListener = new SearchManagerListener() {
             /**
              * Called when search results changed. Refreshes the content of the directory. It
@@ -206,6 +206,12 @@ public abstract class BaseActivity
             mHasQueryContentFromIntent = mSearchManager.parseQueryContentFromIntent(getIntent(),
                     mState.action);
         }
+
+        mNavigator.setSearchBarClickListener(v -> {
+            mSearchManager.onSearchBarClicked();
+            mNavigator.update();
+        });
+
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
         mPreferencesMonitor = new PreferencesMonitor(
@@ -459,14 +465,14 @@ public abstract class BaseActivity
 
         mState.derivedMode = LocalPreferences.getViewMode(this, mState.stack.getRoot(), MODE_GRID);
 
+        mNavigator.update();
+
         refreshDirectory(anim);
 
         final RootsFragment roots = RootsFragment.get(getSupportFragmentManager());
         if (roots != null) {
             roots.onCurrentRootChanged();
         }
-
-        mNavigator.update();
 
         // Causes talkback to announce the activity's new title
         setTitle(mState.stack.getTitle());
@@ -621,6 +627,22 @@ public abstract class BaseActivity
                     ? R.string.root_info_header_image_app_with_summary
                     : R.string.root_info_header_app_with_summary;
             return getString(resId, rootTitle, summary);
+        }
+    }
+
+    /**
+     * Get title string equal to the string action bar displayed.
+     * @return current directory title name
+     */
+    public String getCurrentTitle() {
+        if (!mState.stack.isInitialized()) {
+            return null;
+        }
+
+        if (mState.stack.size() > 1) {
+            return getCurrentDirectory().displayName;
+        } else {
+            return getCurrentRoot().title;
         }
     }
 

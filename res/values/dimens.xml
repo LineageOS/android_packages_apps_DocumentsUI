@@ -71,14 +71,14 @@
     <dimen name="fastscroll_margin">0dp</dimen>
 
     <dimen name="bottom_bar_height">56dp</dimen>
-    <dimen name="bottom_bar_padding_end">10dp</dimen>
+    <dimen name="bottom_bar_padding">10dp</dimen>
     <dimen name="bottom_bar_button_height">36dip</dimen>
     <dimen name="bottom_bar_button_horizontal_padding">24dp</dimen>
     <dimen name="bottom_bar_button_corner_radius">4dp</dimen>
 
     <dimen name="inspector_header_height">350dp</dimen>
 
-    <dimen name="root_info_header_height">48dp</dimen>
+    <dimen name="root_info_header_height">60dp</dimen>
     <dimen name="root_info_header_horizontal_padding">24dp</dimen>
 
     <dimen name="search_chip_group_margin">8dp</dimen>
@@ -100,4 +100,15 @@
     <dimen name="apps_row_exit_icon_margin_top">2dp</dimen>
     <dimen name="apps_row_exit_icon_margin_bottom">6dp</dimen>
     <dimen name="apps_row_item_text_margin_horizontal">8dp</dimen>
+
+    <dimen name="search_bar_radius">8dp</dimen>
+    <dimen name="search_bar_background_margin_start">0dp</dimen>
+    <dimen name="search_bar_background_margin_end">0dp</dimen>
+    <dimen name="search_bar_margin">8dp</dimen>
+    <dimen name="search_bar_text_size">16dp</dimen>
+    <dimen name="actionBarSize">48dp</dimen>
+    <!--This value should equal actionBarSize + (2 x search_bar_margin)-->
+    <dimen name="action_bar_space_height">64dp</dimen>
+
+    <dimen name="refresh_icon_range">64dp</dimen>
 </resources>
