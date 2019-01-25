@@ -551,6 +551,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         loadRoot(Shared.getDefaultRootUri(mActivity));
     }
 
+    protected final void loadRecent() {
+        mState.stack.changeRoot(mProviders.getRecentsRoot());
+        mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+    }
+
     protected MutableSelection<String> getStableSelection() {
         MutableSelection<String> selection = new MutableSelection<>();
         mSelectionMgr.copySelection(selection);

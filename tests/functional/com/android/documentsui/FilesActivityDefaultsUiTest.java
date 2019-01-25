@@ -48,11 +48,18 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
     public void testDefaultDirectory() throws Exception {
         device.waitForIdle();
 
-        // Separate logic for "Documents" root, which presence depends on the config setting
-        if (docsRootEnabled()) {
-            bots.main.assertWindowTitle("Documents");
+        boolean defaultRootBrowse
+                = context.getResources().getBoolean(R.bool.feature_default_root_in_browse);
+
+        if (defaultRootBrowse) {
+            // Separate logic for "Documents" root, which presence depends on the config setting
+            if (docsRootEnabled()) {
+                bots.main.assertWindowTitle("Documents");
+            } else {
+                bots.main.assertWindowTitle("Downloads");
+            }
         } else {
-            bots.main.assertWindowTitle("Downloads");
+            bots.main.assertSearchBarShow();
         }
     }
 

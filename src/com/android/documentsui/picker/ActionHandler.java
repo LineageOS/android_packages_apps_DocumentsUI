@@ -187,8 +187,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
             case ACTION_GET_CONTENT:
             case ACTION_OPEN:
             case ACTION_OPEN_TREE:
-                mState.stack.changeRoot(mProviders.getRecentsRoot());
-                mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+                loadRecent();
                 break;
             default:
                 throw new UnsupportedOperationException("Unexpected action type: " + mState.action);

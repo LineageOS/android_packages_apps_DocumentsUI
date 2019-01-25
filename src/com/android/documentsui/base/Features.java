@@ -44,6 +44,7 @@ public interface Features {
     boolean isRemoteActionsEnabled();
     boolean isSystemKeyboardNavigationEnabled();
     boolean isVirtualFilesSharingEnabled();
+    boolean isDefaultRootInBrowseEnabled();
 
 
     /**
@@ -165,6 +166,11 @@ public interface Features {
         @Override
         public boolean isVirtualFilesSharingEnabled() {
             return isEnabled(R.bool.feature_virtual_files_sharing);
+        }
+
+        @Override
+        public boolean isDefaultRootInBrowseEnabled() {
+            return isEnabled(R.bool.feature_default_root_in_browse);
         }
     }
 }

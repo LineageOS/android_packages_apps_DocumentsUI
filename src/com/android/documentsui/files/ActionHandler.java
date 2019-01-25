@@ -427,12 +427,16 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         }
 
         if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
-        loadHomeDir();
+        launchToDefaultLocation();
     }
 
     @Override
     protected void launchToDefaultLocation() {
-        loadHomeDir();
+        if (mFeatures.isDefaultRootInBrowseEnabled()) {
+            loadHomeDir();
+        } else {
+            loadRecent();
+        }
     }
 
     // If EXTRA_STACK is not null in intent, we'll skip other means of loading
