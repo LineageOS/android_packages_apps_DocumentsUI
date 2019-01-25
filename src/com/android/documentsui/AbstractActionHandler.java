@@ -213,7 +213,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
     @Override
     public void openInNewWindow(DocumentStack path) {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_NEW_WINDOW);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_NEW_WINDOW);
 
         Intent intent = LauncherActivity.createLaunchIntent(mActivity);
         intent.putExtra(Shared.EXTRA_STACK, (Parcelable) path);
@@ -275,7 +275,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
     @Override
     public void selectAllFiles() {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_SELECT_ALL);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_SELECT_ALL);
         Model model = mInjector.getModel();
 
         // Exclude disabled files
@@ -303,7 +303,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
     @Override
     public void showCreateDirectoryDialog() {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_CREATE_DIR);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_CREATE_DIR);
 
         CreateDirectoryFragment.show(mActivity.getSupportFragmentManager());
     }
@@ -528,12 +528,12 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             mState.stack.reset(stack);
             mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
 
-            Metrics.logLaunchAtLocation(mActivity, mState, stack.getRoot().getUri());
+            Metrics.logLaunchAtLocation(mState, stack.getRoot().getUri());
         } else {
             Log.w(TAG, "Failed to launch into the given uri. Launch to default location.");
             launchToDefaultLocation();
 
-            Metrics.logLaunchAtLocation(mActivity, mState, null);
+            Metrics.logLaunchAtLocation(mState, null);
         }
     }
 

@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.view.View;
 
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.State;
@@ -64,13 +65,13 @@ public final class SortController {
         sortModel.setMetricRecorder((SortDimension dimension) -> {
             switch (dimension.getId()) {
                 case SortModel.SORT_DIMENSION_ID_TITLE:
-                    Metrics.logUserAction(activity, Metrics.USER_ACTION_SORT_NAME);
+                    Metrics.logUserAction(MetricConsts.USER_ACTION_SORT_NAME);
                     break;
                 case SortModel.SORT_DIMENSION_ID_SIZE:
-                    Metrics.logUserAction(activity, Metrics.USER_ACTION_SORT_SIZE);
+                    Metrics.logUserAction(MetricConsts.USER_ACTION_SORT_SIZE);
                     break;
                 case SortModel.SORT_DIMENSION_ID_DATE:
-                    Metrics.logUserAction(activity, Metrics.USER_ACTION_SORT_DATE);
+                    Metrics.logUserAction(MetricConsts.USER_ACTION_SORT_DATE);
                     break;
             }
         });

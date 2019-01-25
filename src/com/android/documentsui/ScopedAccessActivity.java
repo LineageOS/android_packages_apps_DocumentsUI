@@ -16,7 +16,7 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.ScopedAccessMetrics.SCOPED_DIRECTORY_ACCESS_DEPRECATED;
+import static com.android.documentsui.MetricConsts.SCOPED_DIRECTORY_ACCESS_DEPRECATED;
 import static com.android.documentsui.ScopedAccessMetrics.logInvalidScopedAccessRequest;
 
 import android.app.Activity;
@@ -33,7 +33,7 @@ public class ScopedAccessActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        logInvalidScopedAccessRequest(this, SCOPED_DIRECTORY_ACCESS_DEPRECATED);
+        logInvalidScopedAccessRequest(SCOPED_DIRECTORY_ACCESS_DEPRECATED);
         setResult(RESULT_CANCELED);
         finish();
     }

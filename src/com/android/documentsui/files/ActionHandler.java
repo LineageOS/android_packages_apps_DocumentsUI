@@ -41,6 +41,7 @@ import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.DragAndDropManager;
 import com.android.documentsui.Injector;
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.Model;
 import com.android.documentsui.R;
@@ -145,7 +146,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
     @Override
     public void openSettings(RootInfo root) {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_SETTINGS);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_SETTINGS);
         final Intent intent = new Intent(DocumentsContract.ACTION_DOCUMENT_ROOT_SETTINGS);
         intent.setDataAndType(root.getUri(), DocumentsContract.Root.MIME_TYPE_ITEM);
         mActivity.startActivity(intent);
@@ -185,7 +186,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
     @Override
     public void openRoot(RootInfo root) {
-        Metrics.logRootVisited(mActivity, Metrics.FILES_SCOPE, root);
+        Metrics.logRootVisited(MetricConsts.FILES_SCOPE, root);
         mActivity.onRootPicked(root);
     }
 
@@ -234,7 +235,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
     @Override
     public void cutToClipboard() {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_CUT_CLIPBOARD);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_CUT_CLIPBOARD);
         Selection<String> selection = getSelectedOrFocused();
 
         if (selection.isEmpty()) {
@@ -255,7 +256,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
     @Override
     public void copyToClipboard() {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_COPY_CLIPBOARD);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_COPY_CLIPBOARD);
         Selection<String> selection = getSelectedOrFocused();
 
         if (selection.isEmpty()) {
@@ -270,7 +271,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
     @Override
     public void viewInOwner() {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_VIEW_IN_APPLICATION);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_VIEW_IN_APPLICATION);
         Selection<String> selection = getSelectedOrFocused();
 
         if (selection.isEmpty() || selection.size() > 1) {
@@ -292,7 +293,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
     @Override
     public void deleteSelectedDocuments() {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_DELETE);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_DELETE);
         Selection selection = getSelectedOrFocused();
 
         if (selection.isEmpty()) {
@@ -343,7 +344,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
     @Override
     public void shareSelectedDocuments() {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_SHARE);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_SHARE);
 
         Selection<String> selection = getStableSelection();
 
@@ -697,7 +698,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
     @Override
     public void showInspector(DocumentInfo doc) {
-        Metrics.logUserAction(mActivity, Metrics.USER_ACTION_INSPECTOR);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_INSPECTOR);
         Intent intent = new Intent(mActivity, InspectorActivity.class);
         intent.setData(doc.derivedUri);
 

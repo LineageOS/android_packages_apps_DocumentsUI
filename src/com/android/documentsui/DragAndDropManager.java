@@ -440,9 +440,9 @@ public interface DragAndDropManager {
             // is changed. The info about window should be passed in the localState then.
             // The localState could also be null for copying from Recents in single window
             // mode, but Recents doesn't offer this functionality (no directories).
-            Metrics.logUserAction(mContext,
-                    localState == null ? Metrics.USER_ACTION_DRAG_N_DROP_MULTI_WINDOW
-                            : Metrics.USER_ACTION_DRAG_N_DROP);
+            Metrics.logUserAction(
+                    localState == null ? MetricConsts.USER_ACTION_DRAG_N_DROP_MULTI_WINDOW
+                            : MetricConsts.USER_ACTION_DRAG_N_DROP);
 
             mClipper.copyFromClipData(dstStack, clipData, opType, callback);
         }

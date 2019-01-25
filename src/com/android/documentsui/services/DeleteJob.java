@@ -26,6 +26,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -116,7 +117,7 @@ final class DeleteJob extends ResolvedResourcesJob {
                 deleteDocument(doc, parentDoc);
             } catch (ResourceException e) {
                 Metrics.logFileOperationFailure(
-                        appContext, Metrics.SUBFILEOP_DELETE_DOCUMENT, doc.derivedUri);
+                        appContext, MetricConsts.SUBFILEOP_DELETE_DOCUMENT, doc.derivedUri);
                 Log.e(TAG, "Failed to delete document @ " + doc.derivedUri, e);
                 onFileFailed(doc);
             }
@@ -127,7 +128,7 @@ final class DeleteJob extends ResolvedResourcesJob {
             }
         }
 
-        Metrics.logFileOperation(service, operationType, mResolvedDocs, null);
+        Metrics.logFileOperation(operationType, mResolvedDocs, null);
     }
 
     @Override

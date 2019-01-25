@@ -25,8 +25,7 @@ public class MetricsTest {
                 "content://" + Providers.AUTHORITY_STORAGE + "/document/primary:"));
         final State state = new State();
         state.action = State.ACTION_BROWSE;
-        Metrics.logActivityLaunch(InstrumentationRegistry.getTargetContext(),
-                state, intent);
+        Metrics.logActivityLaunch(state, intent);
     }
 
     @Test
@@ -35,7 +34,6 @@ public class MetricsTest {
                 "content://" + Providers.AUTHORITY_MEDIA + "/document/primary:"));
         final State state = new State();
         state.action = State.ACTION_BROWSE;
-        Metrics.logActivityLaunch(InstrumentationRegistry.getTargetContext(),
-                state, intent);
+        Metrics.logActivityLaunch(state, intent);
     }
 }

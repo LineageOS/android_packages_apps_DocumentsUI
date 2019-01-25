@@ -30,6 +30,7 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -149,13 +150,12 @@ final class MoveJob extends CopyJob {
                     if (DocumentsContract.moveDocument(getClient(src), src.derivedUri,
                             srcParent != null ? srcParent.derivedUri : mSrcParent.derivedUri,
                             dest.derivedUri) != null) {
-                        Metrics.logFileOperated(
-                                appContext, operationType, Metrics.OPMODE_PROVIDER);
+                        Metrics.logFileOperated(operationType, MetricConsts.OPMODE_PROVIDER);
                         return;
                     }
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                     Metrics.logFileOperationFailure(
-                            appContext, Metrics.SUBFILEOP_QUICK_MOVE, src.derivedUri);
+                            appContext, MetricConsts.SUBFILEOP_QUICK_MOVE, src.derivedUri);
                     Log.e(TAG, "Provider side move failed for: " + src.derivedUri
                             + " due to an exception: ", e);
                 }

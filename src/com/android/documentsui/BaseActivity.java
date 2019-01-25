@@ -141,7 +141,7 @@ public abstract class BaseActivity
         mInjector = getInjector();
         mState = getState(icicle);
         mDrawer = DrawerController.create(this, mInjector.config);
-        Metrics.logActivityLaunch(this, mState, intent);
+        Metrics.logActivityLaunch(mState, intent);
 
         mProviders = DocumentsApplication.getProvidersCache(this);
         mDocs = DocumentsAccess.create(this);
@@ -163,7 +163,7 @@ public abstract class BaseActivity
             @Override
             public void onSearchChanged(@Nullable String query) {
                 if (query != null) {
-                    Metrics.logUserAction(BaseActivity.this, Metrics.USER_ACTION_SEARCH);
+                    Metrics.logUserAction(MetricConsts.USER_ACTION_SEARCH);
                 }
 
                 mInjector.actions.loadDocumentsForCurrentStack();
@@ -512,8 +512,8 @@ public abstract class BaseActivity
      */
     private void onDisplayAdvancedDevices() {
         boolean display = !mState.showAdvanced;
-        Metrics.logUserAction(this,
-                display ? Metrics.USER_ACTION_SHOW_ADVANCED : Metrics.USER_ACTION_HIDE_ADVANCED);
+        Metrics.logUserAction(display
+                ? MetricConsts.USER_ACTION_SHOW_ADVANCED : MetricConsts.USER_ACTION_HIDE_ADVANCED);
 
         mInjector.prefs.setShowDeviceRoot(display);
         updateDisplayAdvancedDevices(display);
@@ -534,9 +534,9 @@ public abstract class BaseActivity
      */
     void setViewMode(@ViewMode int mode) {
         if (mode == State.MODE_GRID) {
-            Metrics.logUserAction(this, Metrics.USER_ACTION_GRID);
+            Metrics.logUserAction(MetricConsts.USER_ACTION_GRID);
         } else if (mode == State.MODE_LIST) {
-            Metrics.logUserAction(this, Metrics.USER_ACTION_LIST);
+            Metrics.logUserAction(MetricConsts.USER_ACTION_LIST);
         }
 
         LocalPreferences.setViewMode(this, getCurrentRoot(), mode);
@@ -759,8 +759,7 @@ public abstract class BaseActivity
                             finish();
                         }
 
-                        Metrics.logStartupMs(
-                                BaseActivity.this, (int) (new Date().getTime() - mStartTime));
+                        Metrics.logStartupMs((int) (new Date().getTime() - mStartTime));
 
                         // Remove the idle handler.
                         return false;
