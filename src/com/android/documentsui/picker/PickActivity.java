@@ -25,6 +25,7 @@ import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import androidx.annotation.CallSuper;
 import androidx.fragment.app.Fragment;
@@ -32,6 +33,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
@@ -40,6 +42,7 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
+import com.android.documentsui.Metrics;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
@@ -68,8 +71,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     private Injector<ActionHandler<PickActivity>> mInjector;
     private SharedInputHandler mSharedInputHandler;
-
-    private LastAccessedStorage mLastAccessed;
 
     public PickActivity() {
         super(R.layout.documents_activity, TAG);
@@ -113,7 +114,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mInjector.menuManager,
                 mInjector.messages);
 
-        mLastAccessed = LastAccessedStorage.create();
+        mInjector.pickResult = getPickResult(icicle);
         mInjector.actions = new ActionHandler<>(
                 this,
                 mState,
@@ -122,7 +123,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mSearchManager,
                 ProviderExecutor::forAuthority,
                 mInjector,
-                mLastAccessed);
+                LastAccessedStorage.create());
 
         mInjector.searchManager = mSearchManager;
 
@@ -141,6 +142,41 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                         mDrawer);
         setupLayout(intent);
         mInjector.actions.initLocation(intent);
+        Metrics.logPickerLaunchedFrom(Shared.getCallingPackageName(this));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // log the case of user picking nothing.
+        mInjector.actions.getUpdatePickResultTask().execute();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putParcelable(Shared.EXTRA_PICK_RESULT, mInjector.pickResult);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mInjector.pickResult.setPickStartTime(SystemClock.uptimeMillis());
+    }
+
+    @Override
+    protected void onPause() {
+        mInjector.pickResult.increaseDuration(SystemClock.uptimeMillis());
+        super.onPause();
+    }
+
+    private static PickResult getPickResult(Bundle icicle) {
+        if (icicle != null) {
+            PickResult result = icicle.getParcelable(Shared.EXTRA_PICK_RESULT);
+            return result;
+        }
+
+        return new PickResult();
     }
 
     private void setupLayout(Intent intent) {
@@ -248,6 +284,12 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        mInjector.pickResult.increaseActionCount();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

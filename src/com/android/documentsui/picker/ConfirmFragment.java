@@ -64,6 +64,7 @@ public class ConfirmFragment extends DialogFragment {
 
         mTarget = arg.getParcelable(Shared.EXTRA_DOC);
         mType = arg.getInt(CONFIRM_TYPE);
+        final PickResult pickResult = ((PickActivity) getActivity()).getInjector().pickResult;
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         switch (mType) {
@@ -74,8 +75,10 @@ public class ConfirmFragment extends DialogFragment {
                 builder.setMessage(message);
                 builder.setPositiveButton(
                         android.R.string.ok,
-                        (DialogInterface dialog, int id) ->
-                                mActions.finishPicking(mTarget.derivedUri));
+                        (DialogInterface dialog, int id) -> {
+                            pickResult.increaseActionCount();
+                            mActions.finishPicking(mTarget.derivedUri);
+                        });
                 break;
             case TYPE_OEPN_TREE:
                 final Uri uri = DocumentsContract.buildTreeDocumentUri(
@@ -91,12 +94,15 @@ public class ConfirmFragment extends DialogFragment {
                 builder.setMessage(message);
                 builder.setPositiveButton(
                         R.string.allow,
-                        (DialogInterface dialog, int id) ->
-                                mActions.finishPicking(uri));
+                        (DialogInterface dialog, int id) -> {
+                            pickResult.increaseActionCount();
+                            mActions.finishPicking(uri);
+                        });
                 break;
 
         }
-        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setNegativeButton(android.R.string.cancel,
+                (DialogInterface dialog, int id) -> pickResult.increaseActionCount());
 
         return builder.create();
     }

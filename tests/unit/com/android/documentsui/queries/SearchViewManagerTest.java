@@ -39,6 +39,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -98,6 +99,10 @@ public final class SearchViewManagerTest {
 
             @Override
             public void onSearchViewChanged(boolean opened) {
+            }
+
+            @Override
+            public void onSearchChipStateChanged(View v) {
             }
         };
 

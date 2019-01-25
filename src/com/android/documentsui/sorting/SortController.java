@@ -21,6 +21,8 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.view.View;
 
+import com.android.documentsui.BaseActivity;
+import com.android.documentsui.Injector;
 import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
@@ -62,17 +64,27 @@ public final class SortController {
             @ViewMode int initialMode,
             SortModel sortModel) {
 
+        final Injector<?> injector = ((BaseActivity)activity).getInjector();
         sortModel.setMetricRecorder((SortDimension dimension) -> {
+            int sortType = MetricConsts.USER_ACTION_UNKNOWN;
             switch (dimension.getId()) {
                 case SortModel.SORT_DIMENSION_ID_TITLE:
-                    Metrics.logUserAction(MetricConsts.USER_ACTION_SORT_NAME);
+                    sortType = MetricConsts.USER_ACTION_SORT_NAME;
                     break;
                 case SortModel.SORT_DIMENSION_ID_SIZE:
-                    Metrics.logUserAction(MetricConsts.USER_ACTION_SORT_SIZE);
+                    sortType = MetricConsts.USER_ACTION_SORT_SIZE;
                     break;
                 case SortModel.SORT_DIMENSION_ID_DATE:
-                    Metrics.logUserAction(MetricConsts.USER_ACTION_SORT_DATE);
+                    sortType = MetricConsts.USER_ACTION_SORT_DATE;
                     break;
+                case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                    sortType = MetricConsts.USER_ACTION_SORT_TYPE;
+                    break;
+            }
+
+            Metrics.logUserAction(sortType);
+            if (injector.pickResult != null) {
+                injector.pickResult.increaseActionCount();
             }
         });
 

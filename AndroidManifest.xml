@@ -140,6 +140,11 @@
             android:exported="false"/>
 
         <provider
+            android:name=".picker.PickCountRecordProvider"
+            android:authorities="com.android.documentsui.pickCountRecord"
+            android:exported="false"/>
+
+        <provider
             android:name=".archives.ArchivesProvider"
             android:authorities="com.android.documentsui.archives"
             android:grantUriPermissions="true"

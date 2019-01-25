@@ -354,4 +354,40 @@ public class MetricConsts {
     @Retention(RetentionPolicy.SOURCE)
     public @interface InvalidScopedAccess {
     }
+
+    // Codes representing different search types
+    public static final int TYPE_UNKNOWN = 0;
+    public static final int TYPE_CHIP_IMAGES = 1;
+    public static final int TYPE_CHIP_AUDIOS = 2;
+    public static final int TYPE_CHIP_VIDEOS = 3;
+    public static final int TYPE_CHIP_DOCS = 4;
+    public static final int TYPE_SEARCH_HISTORY = 5;
+    public static final int TYPE_SEARCH_STRING = 6;
+
+    @IntDef(flag = true, value = {
+            TYPE_UNKNOWN,
+            TYPE_CHIP_IMAGES,
+            TYPE_CHIP_AUDIOS,
+            TYPE_CHIP_VIDEOS,
+            TYPE_CHIP_DOCS,
+            TYPE_SEARCH_HISTORY,
+            TYPE_SEARCH_STRING
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SearchType {}
+
+    // Codes representing different search types
+    public static final int SEARCH_UNKNOWN = 0;
+    public static final int SEARCH_KEYWORD = 1;
+    public static final int SEARCH_CHIPS = 2;
+    public static final int SEARCH_KEYWORD_N_CHIPS = 3;
+
+    @IntDef(flag = true, value = {
+            SEARCH_UNKNOWN,
+            SEARCH_KEYWORD,
+            SEARCH_CHIPS,
+            SEARCH_KEYWORD_N_CHIPS
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SearchMode {}
 }
