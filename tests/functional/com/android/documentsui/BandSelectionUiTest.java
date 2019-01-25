@@ -50,11 +50,10 @@ public class BandSelectionUiTest extends ActivityTest<FilesActivity> {
     public void testBandSelection_someFiles() throws Exception {
         bots.main.switchToGridMode();
         Rect dirListBounds = bots.directory.findDocumentsList().getBounds();
-        Rect startDir = bots.directory.findDocument(dirName1).getBounds();
-        Rect endDoc = bots.directory.findDocument(fileName2).getBounds();
-        // Start from dir1 center of X and top of Y
-        Point start = new Point(startDir.centerX(), dirListBounds.top);
-        // End is center of file2
+        Rect endDoc = bots.directory.findDocument(fileName1).getBounds();
+        // Start from list right bottom.
+        Point start = new Point(dirListBounds.right - 1, dirListBounds.bottom - 1);
+        // End is center of file1
         Point end = new Point(endDoc.centerX(), endDoc.centerY());
         bots.gesture.bandSelection(start, end);
 
