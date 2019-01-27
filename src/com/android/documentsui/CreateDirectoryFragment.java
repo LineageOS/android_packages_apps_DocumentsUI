@@ -163,11 +163,11 @@ public class CreateDirectoryFragment extends DialogFragment {
             if (result != null) {
                 // Navigate into newly created child
                 mActivity.onDirectoryCreated(result);
-                Metrics.logCreateDirOperation(getContext());
+                Metrics.logCreateDirOperation();
             } else {
                 Snackbars.makeSnackbar(mActivity, R.string.create_error, Snackbar.LENGTH_SHORT)
                         .show();
-                Metrics.logCreateDirError(getContext());
+                Metrics.logCreateDirError();
             }
             mActivity.setPending(false);
         }

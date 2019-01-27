@@ -75,6 +75,7 @@ import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.ContentScoped;
 import com.android.documentsui.Injector.Injected;
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.Model;
 import com.android.documentsui.R;
@@ -757,7 +758,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     // Support for opening multiple documents is currently exclusive to DocumentsActivity.
     private void openDocuments(final Selection selected) {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_OPEN);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_OPEN);
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.getDocuments(selected);
@@ -769,7 +770,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void showChooserForDoc(final Selection<String> selected) {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_OPEN);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_OPEN);
 
         assert selected.size() == 1;
         DocumentInfo doc =
@@ -782,16 +783,16 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             final @OpType int mode) {
         switch (mode) {
             case FileOperationService.OPERATION_COPY:
-                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COPY_TO);
+                Metrics.logUserAction(MetricConsts.USER_ACTION_COPY_TO);
                 break;
             case FileOperationService.OPERATION_COMPRESS:
-                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_COMPRESS);
+                Metrics.logUserAction(MetricConsts.USER_ACTION_COMPRESS);
                 break;
             case FileOperationService.OPERATION_EXTRACT:
-                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_EXTRACT_TO);
+                Metrics.logUserAction(MetricConsts.USER_ACTION_EXTRACT_TO);
                 break;
             case FileOperationService.OPERATION_MOVE:
-                Metrics.logUserAction(getContext(), Metrics.USER_ACTION_MOVE_TO);
+                Metrics.logUserAction(MetricConsts.USER_ACTION_MOVE_TO);
                 break;
         }
 
@@ -890,7 +891,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void renameDocuments(Selection selected) {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_RENAME);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_RENAME);
 
         // Batch renaming not supported
         // Rename option is only available in menu when 1 document selected
@@ -909,7 +910,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
      * Paste selection files from the primary clip into the current window.
      */
     public void pasteFromClipboard() {
-        Metrics.logUserAction(getContext(), Metrics.USER_ACTION_PASTE_CLIPBOARD);
+        Metrics.logUserAction(MetricConsts.USER_ACTION_PASTE_CLIPBOARD);
         // Since we are pasting into the current window, we already have the destination in the
         // stack. No need for a destination DocumentInfo.
         mClipper.copyFromClipboard(

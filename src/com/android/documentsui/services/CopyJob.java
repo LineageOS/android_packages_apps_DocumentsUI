@@ -62,6 +62,7 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -231,7 +232,7 @@ class CopyJob extends ResolvedResourcesJob {
             }
         }
 
-        Metrics.logFileOperation(service, operationType, mResolvedDocs, mDstInfo);
+        Metrics.logFileOperation(operationType, mResolvedDocs, mDstInfo);
     }
 
     /**
@@ -323,15 +324,14 @@ class CopyJob extends ResolvedResourcesJob {
                 try {
                     if (DocumentsContract.copyDocument(getClient(src), src.derivedUri,
                             dstDirInfo.derivedUri) != null) {
-                        Metrics.logFileOperated(
-                                appContext, operationType, Metrics.OPMODE_PROVIDER);
+                        Metrics.logFileOperated(operationType, MetricConsts.OPMODE_PROVIDER);
                         return;
                     }
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                     Log.e(TAG, "Provider side copy failed for: " + src.derivedUri
                             + " due to an exception.", e);
                     Metrics.logFileOperationFailure(
-                            appContext, Metrics.SUBFILEOP_QUICK_COPY, src.derivedUri);
+                            appContext, MetricConsts.SUBFILEOP_QUICK_COPY, src.derivedUri);
                 }
 
                 // If optimized copy fails, then fallback to byte-by-byte copy.
@@ -362,7 +362,7 @@ class CopyJob extends ResolvedResourcesJob {
                 streamTypes = getContentResolver().getStreamTypes(src.derivedUri, "*/*");
             } catch (RuntimeException e) {
                 Metrics.logFileOperationFailure(
-                        appContext, Metrics.SUBFILEOP_OBTAIN_STREAM_TYPE, src.derivedUri);
+                        appContext, MetricConsts.SUBFILEOP_OBTAIN_STREAM_TYPE, src.derivedUri);
                 throw new ResourceException(
                         "Failed to obtain streamable types for %s due to an exception.",
                         src.derivedUri, e);
@@ -375,7 +375,7 @@ class CopyJob extends ResolvedResourcesJob {
                         (extension != null ? "." + extension : src.displayName);
             } else {
                 Metrics.logFileOperationFailure(
-                        appContext, Metrics.SUBFILEOP_OBTAIN_STREAM_TYPE, src.derivedUri);
+                        appContext, MetricConsts.SUBFILEOP_OBTAIN_STREAM_TYPE, src.derivedUri);
                 throw new ResourceException("Cannot copy virtual file %s. No streamable formats "
                         + "available.", src.derivedUri);
             }
@@ -392,7 +392,7 @@ class CopyJob extends ResolvedResourcesJob {
                     getClient(dest), dest.derivedUri, dstMimeType, dstDisplayName);
         } catch (FileNotFoundException | RemoteException | RuntimeException e) {
             Metrics.logFileOperationFailure(
-                    appContext, Metrics.SUBFILEOP_CREATE_DOCUMENT, dest.derivedUri);
+                    appContext, MetricConsts.SUBFILEOP_CREATE_DOCUMENT, dest.derivedUri);
             throw new ResourceException(
                     "Couldn't create destination document " + dstDisplayName + " in directory %s "
                     + "due to an exception.", dest.derivedUri, e);
@@ -400,7 +400,7 @@ class CopyJob extends ResolvedResourcesJob {
         if (dstUri == null) {
             // If this is a directory, the entire subdir will not be copied over.
             Metrics.logFileOperationFailure(
-                    appContext, Metrics.SUBFILEOP_CREATE_DOCUMENT, dest.derivedUri);
+                    appContext, MetricConsts.SUBFILEOP_CREATE_DOCUMENT, dest.derivedUri);
             throw new ResourceException(
                     "Couldn't create destination document " + dstDisplayName + " in directory %s.",
                     dest.derivedUri);
@@ -411,7 +411,7 @@ class CopyJob extends ResolvedResourcesJob {
             dstInfo = DocumentInfo.fromUri(getContentResolver(), dstUri);
         } catch (FileNotFoundException | RuntimeException e) {
             Metrics.logFileOperationFailure(
-                    appContext, Metrics.SUBFILEOP_QUERY_DOCUMENT, dstUri);
+                    appContext, MetricConsts.SUBFILEOP_QUERY_DOCUMENT, dstUri);
             throw new ResourceException("Could not load DocumentInfo for newly created file %s.",
                     dstUri);
         }
@@ -450,7 +450,7 @@ class CopyJob extends ResolvedResourcesJob {
                 cursor = queryChildren(srcDir, queryColumns);
             } catch (RemoteException | RuntimeException e) {
                 Metrics.logFileOperationFailure(
-                        appContext, Metrics.SUBFILEOP_QUERY_CHILDREN, srcDir.derivedUri);
+                        appContext, MetricConsts.SUBFILEOP_QUERY_CHILDREN, srcDir.derivedUri);
                 throw new ResourceException("Failed to query children of %s due to an exception.",
                         srcDir.derivedUri, e);
             }
@@ -509,7 +509,7 @@ class CopyJob extends ResolvedResourcesJob {
                                 src.derivedUri, mimeType, null, mSignal);
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                     Metrics.logFileOperationFailure(
-                            appContext, Metrics.SUBFILEOP_OPEN_FILE, src.derivedUri);
+                            appContext, MetricConsts.SUBFILEOP_OPEN_FILE, src.derivedUri);
                     throw new ResourceException("Failed to open a file as asset for %s due to an "
                             + "exception.", src.derivedUri, e);
                 }
@@ -518,33 +518,31 @@ class CopyJob extends ResolvedResourcesJob {
                     in = new AssetFileDescriptor.AutoCloseInputStream(srcFileAsAsset);
                 } catch (IOException e) {
                     Metrics.logFileOperationFailure(
-                            appContext, Metrics.SUBFILEOP_OPEN_FILE, src.derivedUri);
+                            appContext, MetricConsts.SUBFILEOP_OPEN_FILE, src.derivedUri);
                     throw new ResourceException("Failed to open a file input stream for %s due "
                             + "an exception.", src.derivedUri, e);
                 }
 
-                Metrics.logFileOperated(
-                        appContext, operationType, Metrics.OPMODE_CONVERTED);
+                Metrics.logFileOperated(operationType, MetricConsts.OPMODE_CONVERTED);
             } else {
                 try {
                     srcFile = getClient(src).openFile(src.derivedUri, "r", mSignal);
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                     Metrics.logFileOperationFailure(
-                            appContext, Metrics.SUBFILEOP_OPEN_FILE, src.derivedUri);
+                            appContext, MetricConsts.SUBFILEOP_OPEN_FILE, src.derivedUri);
                     throw new ResourceException(
                             "Failed to open a file for %s due to an exception.", src.derivedUri, e);
                 }
                 in = new ParcelFileDescriptor.AutoCloseInputStream(srcFile);
 
-                Metrics.logFileOperated(
-                        appContext, operationType, Metrics.OPMODE_CONVENTIONAL);
+                Metrics.logFileOperated(operationType, MetricConsts.OPMODE_CONVENTIONAL);
             }
 
             try {
                 dstFile = getClient(dest).openFile(dest.derivedUri, "w", mSignal);
             } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                 Metrics.logFileOperationFailure(
-                        appContext, Metrics.SUBFILEOP_OPEN_FILE, dest.derivedUri);
+                        appContext, MetricConsts.SUBFILEOP_OPEN_FILE, dest.derivedUri);
                 throw new ResourceException("Failed to open the destination file %s for writing "
                         + "due to an exception.", dest.derivedUri, e);
             }
@@ -595,7 +593,7 @@ class CopyJob extends ResolvedResourcesJob {
             } catch (IOException e) {
                 Metrics.logFileOperationFailure(
                         appContext,
-                        Metrics.SUBFILEOP_WRITE_FILE,
+                        MetricConsts.SUBFILEOP_WRITE_FILE,
                         dest.derivedUri);
                 throw new ResourceException(
                         "Failed to copy bytes from %s to %s due to an IO exception.",

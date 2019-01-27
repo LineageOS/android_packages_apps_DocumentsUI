@@ -195,7 +195,7 @@ public class RenameDocumentFragment extends DialogFragment {
         } else if (activity.getInjector().getModel().hasFileWithName(newDisplayName)){
             mRenameInputWrapper.setError(getContext().getString(R.string.name_conflict));
             selectFileName(mEditText);
-            Metrics.logRenameFileError(getContext());
+            Metrics.logRenameFileError();
         } else {
             new RenameDocumentsTask(activity, newDisplayName).execute(mDocument);
         }
@@ -226,10 +226,10 @@ public class RenameDocumentFragment extends DialogFragment {
         @Override
         protected void onPostExecute(DocumentInfo result) {
             if (result != null) {
-                Metrics.logRenameFileOperation(getContext());
+                Metrics.logRenameFileOperation();
             } else {
                 Snackbars.showRenameFailed(mActivity);
-                Metrics.logRenameFileError(getContext());
+                Metrics.logRenameFileError();
             }
             if (mDialog != null) {
                 mDialog.dismiss();

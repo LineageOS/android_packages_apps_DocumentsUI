@@ -160,7 +160,7 @@ abstract public class Job implements Runnable {
             // No exceptions should be thrown here, as all calls to the provider must be
             // handled within Job implementations. However, just in case catch them here.
             Log.e(TAG, "Operation failed due to an unhandled runtime exception.", e);
-            Metrics.logFileOperationErrors(service, operationType, failedDocs, failedUris);
+            Metrics.logFileOperationErrors(operationType, failedDocs, failedUris);
         } finally {
             mState = (mState == STATE_STARTED || mState == STATE_SET_UP) ? STATE_COMPLETED : mState;
             finish();
@@ -221,7 +221,7 @@ abstract public class Job implements Runnable {
     final void cancel() {
         mState = STATE_CANCELED;
         mSignal.cancel();
-        Metrics.logFileOperationCancelled(service, operationType);
+        Metrics.logFileOperationCancelled(operationType);
     }
 
     final boolean isCanceled() {

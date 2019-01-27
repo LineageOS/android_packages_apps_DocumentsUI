@@ -43,6 +43,7 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Injector;
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.Model;
 import com.android.documentsui.base.BooleanConsumer;
@@ -238,13 +239,13 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
 
     @Override
     public void openRoot(RootInfo root) {
-        Metrics.logRootVisited(mActivity, Metrics.PICKER_SCOPE, root);
+        Metrics.logRootVisited(MetricConsts.PICKER_SCOPE, root);
         mActivity.onRootPicked(root);
     }
 
     @Override
     public void openRoot(ResolveInfo info) {
-        Metrics.logAppVisited(mActivity, info);
+        Metrics.logAppVisited(info);
         final Intent intent = new Intent(mActivity.getIntent());
         intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_FORWARD_RESULT);
         intent.setComponent(new ComponentName(
