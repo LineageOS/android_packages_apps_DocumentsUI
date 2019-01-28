@@ -24,19 +24,12 @@
     <color name="drawer_border">#ffd4d4d4</color>
     <color name="menu_search_background">@android:color/transparent</color>
 
-    <color name="primary_dark">@color/g_dark_grey</color>
     <color name="primary">@android:color/white</color>
     <color name="accent">#004ac2</color>
-    <color name="accent_dark">#2297f0</color>
 
-    <color name="text_cursor">@color/text_hint</color>
-    <color name="text_cursor_dark">@color/text_hint_dark</color>
     <color name="text_handle">#ffcdf5fa</color>
-    <color name="text_handle_dark">#ff3ce4fa</color>
     <color name="text_highlight">#ffcdf5fa</color>
-    <color name="text_highlight_dark">#ff3ce4fa</color>
     <color name="text_hint">#ff80868b</color>
-    <color name="text_hint_dark">#fff8f9fa</color>
     <color name="text_secondary">#ff5f6368</color>
 
     <color name="band_select_background">#88ffffff</color>
@@ -49,10 +42,7 @@
     <color name="root_focus_color">?android:attr/colorControlHighlight</color>
 
     <color name="item_hover_color">#ffe0e0e0</color>
-    <color name="item_hover_color_dark">#ff5f6368</color>
 
-    <item name="root_icon_disabled_alpha" format="float" type="dimen">?android:attr/disabledAlpha
-    </item>
     <color name="doc_icon_color">#ff5a5a5a</color>
     <color name="tool_bar_color">@android:color/white</color>
     <color name="tool_bar_gradient_max">#7f000000</color>
@@ -62,16 +52,12 @@
     <color name="item_doc_title_disabled">?android:attr/textColorSecondaryInverse</color>
     <color name="item_doc_details">?android:attr/textColorSecondary</color>
     <color name="item_doc_background">@android:color/white</color>
-    <color name="item_doc_background_dark">@color/g_grey</color>
     <color name="item_doc_background_disabled">#fff4f4f4</color>
-    <color name="item_doc_background_disabled_dark">@color/g_light_grey</color>
     <color name="item_doc_background_selected">#4d3367d6</color>
-    <color name="item_doc_background_selected_dark">#4d2297f0</color>
     <color name="item_breadcrumb_background_hovered">#1affffff</color>
     <color name="item_doc_droppable_background">#ffe8f0fb</color>
     <color name="item_doc_not_droppable_background">#ffe0e0e0</color>
     <color name="item_grid_tint">#ff127beb</color>
-    <color name="item_grid_tint_dark">#ff0e70e8</color>
 
     <color name="item_drag_shadow_background">@android:color/white</color>
     <color name="item_drag_shadow_container_background">@android:color/transparent</color>

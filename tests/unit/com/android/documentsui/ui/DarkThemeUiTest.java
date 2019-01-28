@@ -65,6 +65,12 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     }
 
     @Test
+    public void themeNightModeEnable_gridItemTintColorShouldBeThemeable() {
+        assertTheme(R.styleable.GridItem, R.styleable.GridItem_gridItemTint,
+                mTheme.getResources().getColor(R.color.item_doc_grid_tint, mTheme));
+    }
+
+    @Test
     public void themeNightModeEnable_windowLightNavigationBarShouldBeFalse() {
         assertTheme(R.styleable.SystemWindow,
                 R.styleable.SystemWindow_android_windowLightNavigationBar, false);
@@ -92,5 +98,17 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     public void themeNightModeEnable_statusBarColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_statusBarColor,
                 mExpectedDarkGreyColor);
+    }
+
+    @Test
+    public void appCompatThemeNightModeEnable_colorAccentShouldBeThemeable() {
+        assertTheme(R.styleable.AppCompatTheme, R.styleable.AppCompatTheme_colorAccent,
+                mTheme.getResources().getColor(R.color.accent, mTheme));
+    }
+
+    @Test
+    public void appCompatThemeNightModeEnable_colorPrimaryShouldBeThemeable() {
+        assertTheme(R.styleable.AppCompatTheme, R.styleable.AppCompatTheme_colorPrimary,
+                mTheme.getResources().getColor(R.color.accent, mTheme));
     }
 }

@@ -103,7 +103,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mInjector.selectionMgr,
                 mDrawer,
                 this::focusSidebar,
-                getColor(R.color.accent_dark));
+                getColor(R.color.accent));
 
         mInjector.menuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
 

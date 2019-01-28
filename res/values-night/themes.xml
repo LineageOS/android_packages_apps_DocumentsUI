@@ -24,7 +24,7 @@
         <item name="colorPrimaryDark">@color/g_grey</item>
         <item name="colorPrimary">?attr/colorAccent</item>
         <item name="colorSecondary">@color/g_dark_grey</item>
-        <item name="colorAccent">@color/accent_dark</item>
+        <item name="colorAccent">@color/accent</item>
 
         <item name="queryBackground">@color/menu_search_background</item>
         <item name="windowActionBar">false</item>
@@ -33,13 +33,13 @@
         <item name="actionModeBackground">?android:attr/colorBackground</item>
         <item name="materialCardViewStyle">@style/CardViewStyle</item>
 
-        <item name="textHandleColor">@color/text_handle_dark</item>
-        <item name="textCursorColor">@color/text_cursor_dark</item>
+        <item name="textHandleColor">@color/text_handle</item>
+        <item name="textCursorColor">@color/text_hint</item>
 
-        <item name="gridItemTint">@color/item_doc_grid_tint_dark</item>
-        <item name="gridItemColor">@color/item_doc_background_dark</item>
-        <item name="gridItemSelectedColor">@color/item_doc_background_selected_dark</item>
-        <item name="gridItemDisableColor">@color/item_doc_background_disabled_dark</item>
+        <item name="gridItemTint">@color/item_doc_grid_tint</item>
+        <item name="gridItemColor">@color/item_doc_background</item>
+        <item name="gridItemSelectedColor">@color/item_doc_background_selected</item>
+        <item name="gridItemDisableColor">@color/item_doc_background_disabled</item>
 
         <item name="android:colorBackground">@color/g_dark_grey</item>
         <item name="android:windowBackground">?android:attr/colorBackground</item>
@@ -48,6 +48,6 @@
         <item name="android:windowLightNavigationBar">false</item>
         <item name="android:listDivider">@drawable/list_divider</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustUnspecified</item>
-        <item name="android:actionBarSize">@dimen/actionBarSize</item>
+        <item name="android:actionBarSize">@dimen/action_bar_size</item>
     </style>
 </resources>

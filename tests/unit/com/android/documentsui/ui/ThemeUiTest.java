@@ -54,6 +54,12 @@ public class ThemeUiTest extends ThemeUiTestBase {
     }
 
     @Test
+    public void themeNightModeDisable_gridItemTintColorShouldBeThemeable() {
+        assertTheme(R.styleable.GridItem, R.styleable.GridItem_gridItemTint,
+                mTheme.getResources().getColor(R.color.item_doc_grid_tint, mTheme));
+    }
+
+    @Test
     public void themeNightModeDisable_windowLightNavigationBarShouldBeTrue() {
         assertTheme(R.styleable.SystemWindow,
                 R.styleable.SystemWindow_android_windowLightNavigationBar, true);
@@ -81,5 +87,17 @@ public class ThemeUiTest extends ThemeUiTestBase {
     public void themeNightModeDisable_statusBarColorShouldBeLight() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_statusBarColor,
                 Color.WHITE);
+    }
+
+    @Test
+    public void appCompatThemeNightModeDisable_colorAccentShouldBeThemeable() {
+        assertTheme(R.styleable.AppCompatTheme, R.styleable.AppCompatTheme_colorAccent,
+                mTheme.getResources().getColor(R.color.accent, mTheme));
+    }
+
+    @Test
+    public void appCompatThemeNightModeDisable_colorPrimaryShouldBeThemeable() {
+        assertTheme(R.styleable.AppCompatTheme, R.styleable.AppCompatTheme_colorPrimary,
+                mTheme.getResources().getColor(R.color.accent, mTheme));
     }
 }
