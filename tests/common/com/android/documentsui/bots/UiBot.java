@@ -27,6 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -97,6 +98,12 @@ public class UiBot extends Bots.BaseBot {
     public void assertWindowTitle(String expected) {
         onView(TOOLBAR)
                 .check(matches(withToolbarTitle(is(expected))));
+    }
+
+    public void assertSearchBarShow() {
+        UiSelector selector = new UiSelector().text(mContext.getString(R.string.search_bar_hint));
+        UiObject searchHint = mDevice.findObject(selector);
+        assertTrue(searchHint.exists());
     }
 
     public void assertMenuEnabled(int id, boolean enabled) {
