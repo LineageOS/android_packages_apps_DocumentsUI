@@ -22,12 +22,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.annotation.MainThread;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.SmallTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.testing.TestScheduledExecutorService;
@@ -46,6 +47,7 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
+@MainThread
 public class ClipStorageTest {
     private static final String PREF_NAME = "pref";
     private static final List<Uri> TEST_URIS = createList(
@@ -63,7 +65,8 @@ public class ClipStorageTest {
 
     @Before
     public void setUp() {
-        mPref = InstrumentationRegistry.getContext().getSharedPreferences(PREF_NAME, 0);
+        mPref = InstrumentationRegistry.getInstrumentation().getTargetContext()
+                .getSharedPreferences(PREF_NAME, 0);
         File clipDir = ClipStorage.prepareStorage(folder.getRoot());
         mStorage = new ClipStorage(clipDir, mPref);
 
