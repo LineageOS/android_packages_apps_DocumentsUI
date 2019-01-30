@@ -228,6 +228,16 @@
     <string name="root_info_header_storage" msgid="2989014130584927442">"Lêers op <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Lêers vanaf <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Lêers vanaf <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <!-- no translation found for root_info_header_image_recent (6252335619444758201) -->
+    <skip />
+    <!-- no translation found for root_info_header_image_global_search (7945533325610533016) -->
+    <skip />
+    <!-- no translation found for root_info_header_image_storage (5086740886360075930) -->
+    <skip />
+    <!-- no translation found for root_info_header_image_app (4858114210851525359) -->
+    <skip />
+    <!-- no translation found for root_info_header_image_app_with_summary (6404842960923224778) -->
+    <skip />
     <string name="chip_title_images" msgid="7838299046109841015">"Prente"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"Oudio"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"Video\'s"</string>
@@ -235,4 +245,15 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Vouernaam"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nuwe naam"</string>
     <string name="preview_file" msgid="4056622696305432343">"Voorbeskou die lêer <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Blaai deur lêers in ander programme"</string>
+    <!-- no translation found for anonymous_application (7633027057951625862) -->
+    <skip />
+    <!-- no translation found for open_tree_button (19992834788135845) -->
+    <skip />
+    <!-- no translation found for open_tree_dialog_title (6978383241897450134) -->
+    <skip />
+    <!-- no translation found for open_tree_dialog_message (8545093618524340168) -->
+    <skip />
+    <!-- no translation found for search_bar_hint (4517366509897977321) -->
+    <skip />
 </resources>
