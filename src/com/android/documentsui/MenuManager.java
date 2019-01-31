@@ -87,8 +87,6 @@ public abstract class MenuManager {
         updateSettings(mOptionMenu.findItem(R.id.option_menu_settings));
         updateSelectAll(mOptionMenu.findItem(R.id.option_menu_select_all));
         updateNewWindow(mOptionMenu.findItem(R.id.option_menu_new_window));
-        updateModePicker(mOptionMenu.findItem(R.id.option_menu_grid),
-                mOptionMenu.findItem(R.id.option_menu_list));
         updateAdvanced(mOptionMenu.findItem(R.id.option_menu_advanced));
         updateDebug(mOptionMenu.findItem(R.id.option_menu_debug));
         updateInspect(mOptionMenu.findItem(R.id.option_menu_inspect));
@@ -96,6 +94,10 @@ public abstract class MenuManager {
 
         Menus.disableHiddenItems(mOptionMenu);
         mSearchManager.updateMenu();
+    }
+
+    public void updateSubMenu(Menu menu) {
+        updateModePicker(menu.findItem(R.id.sub_menu_grid), menu.findItem(R.id.sub_menu_list));
     }
 
     /**

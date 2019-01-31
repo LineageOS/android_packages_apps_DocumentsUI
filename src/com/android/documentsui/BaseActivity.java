@@ -42,6 +42,7 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ActionMenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -66,8 +67,6 @@ import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.ProvidersCache;
-import com.android.documentsui.sidebar.Item;
-import com.android.documentsui.sidebar.RootItem;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
@@ -263,6 +262,13 @@ public abstract class BaseActivity
         boolean fullBarSearch = getResources().getBoolean(R.bool.full_bar_search_view);
         mSearchManager.install(menu, fullBarSearch);
 
+        final ActionMenuView subMenuView = findViewById(R.id.sub_menu);
+        // If size is 0, it means the menu has not inflated and it should only do once.
+        if (subMenuView.getMenu().size() == 0) {
+            subMenuView.setOnMenuItemClickListener(this::onOptionsItemSelected);
+            getMenuInflater().inflate(R.menu.sub_menu, subMenuView.getMenu());
+        }
+
         return showMenu;
     }
 
@@ -271,6 +277,8 @@ public abstract class BaseActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         mSearchManager.showMenu(mState.stack);
+        final ActionMenuView subMenuView = findViewById(R.id.sub_menu);
+        mInjector.menuManager.updateSubMenu(subMenuView.getMenu());
         return true;
     }
 
@@ -373,14 +381,6 @@ public abstract class BaseActivity
                 // SearchViewManager listens for this directly.
                 return false;
 
-            case R.id.option_menu_grid:
-                setViewMode(State.MODE_GRID);
-                return true;
-
-            case R.id.option_menu_list:
-                setViewMode(State.MODE_LIST);
-                return true;
-
             case R.id.option_menu_advanced:
                 onDisplayAdvancedDevices();
                 return true;
@@ -395,6 +395,14 @@ public abstract class BaseActivity
 
             case R.id.option_menu_sort:
                 getInjector().actions.showSortDialog();
+                return true;
+
+            case R.id.sub_menu_grid:
+                setViewMode(State.MODE_GRID);
+                return true;
+
+            case R.id.sub_menu_list:
+                setViewMode(State.MODE_LIST);
                 return true;
 
             default:

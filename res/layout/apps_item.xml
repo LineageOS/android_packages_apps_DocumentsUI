@@ -20,7 +20,7 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:minWidth="@dimen/apps_row_item_width"
-    android:minHeight="@dimen/apps_row_item_height"
+    android:paddingBottom="@dimen/apps_row_exit_icon_margin_bottom"
     android:orientation="vertical"
     android:background="@drawable/generic_ripple_background"
     android:gravity="center_horizontal">
@@ -53,7 +53,6 @@
         android:layout_width="@dimen/apps_row_exit_icon_size"
         android:layout_height="@dimen/apps_row_exit_icon_size"
         android:layout_marginTop="@dimen/apps_row_exit_icon_margin_top"
-        android:layout_marginBottom="@dimen/apps_row_exit_icon_margin_bottom"
         android:scaleType="centerInside"
         android:src="@drawable/ic_exit_to_app"
         android:tint="@color/item_action_icon"/>
