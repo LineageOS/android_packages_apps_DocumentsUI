@@ -40,9 +40,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 
 /**
  * Provides basic implementation for creating archives.
@@ -56,7 +56,7 @@ public class WriteableArchive extends Archive {
     private final Set<String> mPendingEntries = new HashSet<>();
     private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
     @GuardedBy("mEntries")
-    private final ZipOutputStream mZipOutputStream;
+    private final ZipArchiveOutputStream mZipOutputStream;
     private final AutoCloseOutputStream mOutputStream;
 
     /**
@@ -76,7 +76,7 @@ public class WriteableArchive extends Archive {
 
         addEntry(null /* no parent */, new ZipArchiveEntry("/"));  // Root entry.
         mOutputStream = new AutoCloseOutputStream(fd);
-        mZipOutputStream = new ZipOutputStream(mOutputStream);
+        mZipOutputStream = new ZipArchiveOutputStream(mOutputStream);
     }
 
     private void addEntry(@Nullable ZipArchiveEntry parentEntry, ZipArchiveEntry entry) {
@@ -84,7 +84,7 @@ public class WriteableArchive extends Archive {
         synchronized (mEntries) {
             if (entry.isDirectory()) {
                 if (!mTree.containsKey(entryPath)) {
-                    mTree.put(entryPath, new ArrayList<ZipArchiveEntry>());
+                    mTree.put(entryPath, new ArrayList<>());
                 }
             }
             mEntries.put(entryPath, entry);
@@ -143,7 +143,8 @@ public class WriteableArchive extends Archive {
         String entryPath;
 
         synchronized (mEntries) {
-            final ZipArchiveEntry parentEntry = mEntries.get(parsedParentId.mPath);
+            final ZipArchiveEntry parentEntry =
+                    (ZipArchiveEntry) mEntries.get(parsedParentId.mPath);
 
             if (parentEntry == null) {
                 throw new FileNotFoundException();
@@ -184,7 +185,8 @@ public class WriteableArchive extends Archive {
         } else {
             try {
                 synchronized (mEntries) {
-                    mZipOutputStream.putNextEntry(entry);
+                    mZipOutputStream.putArchiveEntry(entry);
+                    mZipOutputStream.closeArchiveEntry();
                 }
             } catch (IOException e) {
                 throw new IllegalStateException(
@@ -207,7 +209,7 @@ public class WriteableArchive extends Archive {
 
         final ZipArchiveEntry entry;
         synchronized (mEntries) {
-            entry = mEntries.get(parsedId.mPath);
+            entry = (ZipArchiveEntry) mEntries.get(parsedId.mPath);
             if (entry == null) {
                 throw new FileNotFoundException();
             }
@@ -237,7 +239,7 @@ public class WriteableArchive extends Archive {
                                     new ParcelFileDescriptor.AutoCloseInputStream(inputPipe)) {
                                 try {
                                     synchronized (mEntries) {
-                                        mZipOutputStream.putNextEntry(entry);
+                                        mZipOutputStream.putArchiveEntry(entry);
                                         final byte buffer[] = new byte[32 * 1024];
                                         int bytes;
                                         long size = 0;
@@ -249,7 +251,7 @@ public class WriteableArchive extends Archive {
                                             size += bytes;
                                         }
                                         entry.setSize(size);
-                                        mZipOutputStream.closeEntry();
+                                        mZipOutputStream.closeArchiveEntry();
                                     }
                                 } catch (IOException e) {
                                     // Catch the exception before the outer try-with-resource closes
@@ -296,8 +298,8 @@ public class WriteableArchive extends Archive {
         synchronized (mEntries) {
             for (final String path : mPendingEntries) {
                 try {
-                    mZipOutputStream.putNextEntry(mEntries.get(path));
-                    mZipOutputStream.closeEntry();
+                    mZipOutputStream.putArchiveEntry(mEntries.get(path));
+                    mZipOutputStream.closeArchiveEntry();
                 } catch (IOException e) {
                     Log.e(TAG, "Failed to flush empty entries.", e);
                 }

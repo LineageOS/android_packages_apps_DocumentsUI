@@ -16,6 +16,12 @@
 
 package com.android.documentsui.queries;
 
+import static android.provider.DocumentsContract.QUERY_ARG_DISPLAY_NAME;
+import static android.provider.DocumentsContract.QUERY_ARG_FILE_SIZE_OVER;
+import static android.provider.DocumentsContract.QUERY_ARG_LAST_MODIFIED_AFTER;
+import static android.provider.DocumentsContract.QUERY_ARG_MIME_TYPES;
+import static android.provider.DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
+
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 
 import static junit.framework.Assert.assertEquals;
@@ -23,22 +29,32 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.DocumentsContract;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.R;
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestHandler;
 import com.android.documentsui.testing.TestMenu;
+import com.android.documentsui.testing.TestMenuItem;
 import com.android.documentsui.testing.TestTimer;
 
 import org.junit.Before;
@@ -57,6 +73,8 @@ public final class SearchViewManagerTest {
     private TestEventHandler<String> mTestEventHandler;
     private TestTimer mTestTimer;
     private TestHandler mTestHandler;
+    private TestMenu mTestMenu;
+    private TestMenuItem mSearchMenuItem;
     private SearchViewManager mSearchViewManager;
     private SearchChipViewManager mSearchChipViewManager;
 
@@ -84,12 +102,13 @@ public final class SearchViewManagerTest {
         };
 
         ViewGroup chipGroup = mock(ViewGroup.class);
-        mSearchChipViewManager = new SearchChipViewManager(chipGroup);
+        mSearchChipViewManager = spy(new SearchChipViewManager(chipGroup));
         mSearchViewManager = new TestableSearchViewManager(searchListener, mTestEventHandler,
                 mSearchChipViewManager, null /* savedState */, mTestTimer, mTestHandler);
 
-        final TestMenu testMenu = TestMenu.create();
-        mSearchViewManager.install(testMenu, true);
+        mTestMenu = TestMenu.create();
+        mSearchMenuItem = mTestMenu.findItem(R.id.option_menu_search);
+        mSearchViewManager.install(mTestMenu, true);
     }
 
     private static class TestableSearchViewManager extends SearchViewManager {
@@ -290,9 +309,63 @@ public final class SearchViewManagerTest {
         final Bundle queryArgs = mSearchViewManager.buildQueryArgs();
         assertFalse(queryArgs.isEmpty());
 
-        final String[] mimeTypes = queryArgs.getStringArray(DocumentsContract.QUERY_ARG_MIME_TYPES);
+        final String[] mimeTypes = queryArgs.getStringArray(QUERY_ARG_MIME_TYPES);
         assertTrue(mimeTypes.length > 0);
         assertEquals("image/*", mimeTypes[0]);
+    }
+
+    @Test
+    public void testSupportsMimeTypesSearch_showChips() throws Exception {
+        RootInfo root = spy(new RootInfo());
+        when(root.isRecents()).thenReturn(false);
+        root.flags = FLAG_SUPPORTS_SEARCH;
+        root.queryArgs = QUERY_ARG_MIME_TYPES;
+        DocumentStack stack = new DocumentStack(root, new DocumentInfo());
+
+        mSearchViewManager.showMenu(stack);
+
+        verify(mSearchChipViewManager, times(1)).setChipsRowVisible(true);
+    }
+
+    @Test
+    public void testNotSupportsMimeTypesSearch_notShowChips() throws Exception {
+        RootInfo root = spy(new RootInfo());
+        when(root.isRecents()).thenReturn(false);
+        root.flags = FLAG_SUPPORTS_SEARCH;
+        root.queryArgs = TextUtils.join("\n",
+                new String[]{QUERY_ARG_DISPLAY_NAME, QUERY_ARG_FILE_SIZE_OVER,
+                        QUERY_ARG_LAST_MODIFIED_AFTER});
+        DocumentStack stack = new DocumentStack(root, new DocumentInfo());
+
+        mSearchViewManager.showMenu(stack);
+
+        verify(mSearchChipViewManager, times(1)).setChipsRowVisible(false);
+    }
+
+    @Test
+    public void testSupportsSearch_showMenu() throws Exception {
+        RootInfo root = spy(new RootInfo());
+        when(root.isRecents()).thenReturn(false);
+        root.flags = FLAG_SUPPORTS_SEARCH;
+        DocumentStack stack = new DocumentStack(root, new DocumentInfo());
+
+        mSearchViewManager.showMenu(stack);
+
+        assertTrue(mSearchMenuItem.isVisible());
+    }
+
+    @Test
+    public void testNotSupportsSearch_notShowMenuAndChips() throws Exception {
+        RootInfo root = spy(new RootInfo());
+        when(root.isRecents()).thenReturn(false);
+        root.queryArgs = QUERY_ARG_MIME_TYPES;
+        DocumentStack stack = new DocumentStack(root, new DocumentInfo());
+
+        mSearchViewManager.install(mTestMenu, true);
+        mSearchViewManager.showMenu(stack);
+
+        assertFalse(mSearchMenuItem.isVisible());
+        verify(mSearchChipViewManager, times(1)).setChipsRowVisible(false);
     }
 
     private static Set<SearchChipData> getFakeSearchChipDataList() {

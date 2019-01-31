@@ -199,6 +199,9 @@ public abstract class BaseActivity
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
                 chipGroup, icicle);
+        // initialize the chip sets by accept mime types
+        mSearchManager.initChipSets(mState.acceptMimes);
+        // update the chip items by the mime types of the root
         mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);
         // parse the query content from intent when launch the
         // activity at the first time

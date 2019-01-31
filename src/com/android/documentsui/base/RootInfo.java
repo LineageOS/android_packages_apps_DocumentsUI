@@ -16,6 +16,8 @@
 
 package com.android.documentsui.base;
 
+import static android.provider.DocumentsContract.QUERY_ARG_MIME_TYPES;
+
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
@@ -55,6 +57,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     private static final int LOAD_FROM_CONTENT_RESOLVER = -1;
     // private static final int VERSION_INIT = 1; // Not used anymore
     private static final int VERSION_DROP_TYPE = 2;
+    private static final int VERSION_SEARCH_TYPE = 3;
 
     // The values of these constants determine the sort order of various roots in the RootsFragment.
     @IntDef(flag = false, value = {
@@ -91,6 +94,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     public String documentId;
     public long availableBytes;
     public String mimeTypes;
+    public String queryArgs;
 
     /** Derived fields that aren't persisted */
     public String[] derivedMimeTypes;
@@ -116,6 +120,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         availableBytes = -1;
         mimeTypes = null;
         ejecting = false;
+        queryArgs = null;
 
         derivedMimeTypes = null;
         derivedIcon = 0;
@@ -126,6 +131,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     public void read(DataInputStream in) throws IOException {
         final int version = in.readInt();
         switch (version) {
+            case VERSION_SEARCH_TYPE:
+                queryArgs = DurableUtils.readNullableString(in);
             case VERSION_DROP_TYPE:
                 authority = DurableUtils.readNullableString(in);
                 rootId = DurableUtils.readNullableString(in);
@@ -145,7 +152,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     @Override
     public void write(DataOutputStream out) throws IOException {
-        out.writeInt(VERSION_DROP_TYPE);
+        out.writeInt(VERSION_SEARCH_TYPE);
+        DurableUtils.writeNullableString(out, queryArgs);
         DurableUtils.writeNullableString(out, authority);
         DurableUtils.writeNullableString(out, rootId);
         out.writeInt(flags);
@@ -192,6 +200,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         root.documentId = getCursorString(cursor, Root.COLUMN_DOCUMENT_ID);
         root.availableBytes = getCursorLong(cursor, Root.COLUMN_AVAILABLE_BYTES);
         root.mimeTypes = getCursorString(cursor, Root.COLUMN_MIME_TYPES);
+        root.queryArgs = getCursorString(cursor, Root.COLUMN_QUERY_ARGS);
         root.deriveFields();
         return root;
     }
@@ -318,6 +327,10 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     public boolean supportsSearch() {
         return (flags & Root.FLAG_SUPPORTS_SEARCH) != 0;
+    }
+
+    public boolean supportsMimeTypesSearch() {
+        return queryArgs != null && queryArgs.contains(QUERY_ARG_MIME_TYPES);
     }
 
     public boolean supportsEject() {

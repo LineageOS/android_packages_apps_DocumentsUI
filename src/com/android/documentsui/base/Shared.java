@@ -256,6 +256,14 @@ public final class Shared {
         return context.getResources().getBoolean(R.bool.show_documents_root);
     }
 
+    /**
+     * Check config has quick viewer package value or not.
+     * @return True, if "trusted_quick_viewer_package" has value.
+     */
+    public static boolean hasQuickViewer(Context context) {
+        return !TextUtils.isEmpty(context.getString(R.string.trusted_quick_viewer_package));
+    }
+
     /*
      * Returns true if the local/device storage root must be visible (this also hides
      * the option to toggle visibility in the menu.)

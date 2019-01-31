@@ -16,6 +16,8 @@
 
 package com.android.documentsui.archives;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -31,24 +33,26 @@ import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.MediumTest;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -266,10 +270,10 @@ public class ArchivesProviderTest {
         client.release();
     }
 
-    @Test
-    public void testGetDocumentMetadata() throws Exception {
+    private void getDocumentMetadata_byDocumentId_shouldMatchSize(String documentId)
+            throws Exception {
         final Uri sourceUri = DocumentsContract.buildDocumentUri(
-                ResourcesProvider.AUTHORITY, "images.zip");
+                ResourcesProvider.AUTHORITY, documentId);
         final Uri archiveUri = ArchivesProvider.buildUriForArchive(sourceUri,
                 ParcelFileDescriptor.MODE_READ_ONLY);
 
@@ -281,19 +285,39 @@ public class ArchivesProviderTest {
 
         Uri archivedImageUri = Uri.parse(
                 "content://com.android.documentsui.archives/document/content%3A%2F%2F"
-                + "com.android.documentsui.archives.resourcesprovider%2F"
-                + "document%2Fimages.zip%23268435456%23%2Ffreddy.jpg");
+                        + "com.android.documentsui.archives.resourcesprovider%2F"
+                        + "document%2F" + documentId + "%23268435456%23%2Ffreddy.jpg");
 
         Bundle metadata = DocumentsContract.getDocumentMetadata(client, archivedImageUri);
         assertNotNull(metadata);
         Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
         assertNotNull(exif);
 
-        assertEquals(3036, exif.getInt(ExifInterface.TAG_IMAGE_WIDTH));
-        assertEquals(4048, exif.getInt(ExifInterface.TAG_IMAGE_LENGTH));
-        assertEquals("Pixel", exif.getString(ExifInterface.TAG_MODEL));
+        assertThat(exif.getInt(ExifInterface.TAG_IMAGE_WIDTH)).isEqualTo(3036);
+        assertThat(exif.getInt(ExifInterface.TAG_IMAGE_LENGTH)).isEqualTo(4048);
+        assertThat(exif.getString(ExifInterface.TAG_MODEL)).isEqualTo("Pixel");
 
         ArchivesProvider.releaseArchive(client, archiveUri);
-        client.release();
+        client.close();
+    }
+
+    @Test
+    public void testGetDocumentMetadata() throws Exception {
+        getDocumentMetadata_byDocumentId_shouldMatchSize("images.zip");
+    }
+
+    @Test
+    public void getDocumentMetadata_sevenZFile_shouldMatchSize() throws Exception {
+        getDocumentMetadata_byDocumentId_shouldMatchSize("images.7z");
+    }
+
+    @Test
+    public void getDocumentMetadata_tgz_shouldMatchSize() throws Exception {
+        getDocumentMetadata_byDocumentId_shouldMatchSize("images.tgz");
+    }
+
+    @Test
+    public void getDocumentMetadata_tar_shouldMatchSize() throws Exception {
+        getDocumentMetadata_byDocumentId_shouldMatchSize("images.tar");
     }
 }
