@@ -24,19 +24,21 @@ import android.system.OsConstants;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.compressors.CompressorException;
 
 /**
  * Provides a backend for a seekable file descriptors for files in archives.
  */
 public class Proxy extends ProxyFileDescriptorCallback {
-    private final ZipFile mFile;
-    private final ZipArchiveEntry mEntry;
+    private final ArchiveHandle mFile;
+    private final ArchiveEntry mEntry;
     private InputStream mInputStream = null;
     private long mOffset = 0;
 
-    Proxy(ZipFile file, ZipArchiveEntry entry) throws IOException {
+    Proxy(ArchiveHandle file, ArchiveEntry entry)
+            throws IOException, CompressorException, ArchiveException {
         mFile = file;
         mEntry = entry;
         recreateInputStream();
@@ -55,6 +57,12 @@ public class Proxy extends ProxyFileDescriptorCallback {
                 recreateInputStream();
             } catch (IOException e) {
                 throw new ErrnoException("onRead", OsConstants.EIO);
+            } catch (ArchiveException e) {
+                throw new ErrnoException("onRead archive exception. " + e.getMessage(),
+                        OsConstants.EIO);
+            } catch (CompressorException e) {
+                throw new ErrnoException("onRead uncompress exception. " + e.getMessage(),
+                        OsConstants.EIO);
             }
         }
 
@@ -87,7 +95,8 @@ public class Proxy extends ProxyFileDescriptorCallback {
         FileUtils.closeQuietly(mInputStream);
     }
 
-    private void recreateInputStream() throws IOException {
+    private void recreateInputStream()
+            throws IOException, CompressorException, ArchiveException {
         FileUtils.closeQuietly(mInputStream);
         mInputStream = mFile.getInputStream(mEntry);
         mOffset = 0;

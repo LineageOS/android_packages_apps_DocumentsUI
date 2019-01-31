@@ -44,6 +44,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Provides basic implementation for creating, extracting and accessing
@@ -61,9 +62,7 @@ public class ArchivesProvider extends DocumentsProvider {
     private static final String TAG = "ArchivesProvider";
     private static final String METHOD_ACQUIRE_ARCHIVE = "acquireArchive";
     private static final String METHOD_RELEASE_ARCHIVE = "releaseArchive";
-    private static final String[] ZIP_MIME_TYPES = {
-            "application/zip", "application/x-zip", "application/x-zip-compressed"
-    };
+    private static final Set<String> ZIP_MIME_TYPES = ArchiveRegistry.getSupportList();
 
     @GuardedBy("mArchives")
     private final Map<Key, Loader> mArchives = new HashMap<>();
