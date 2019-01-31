@@ -26,7 +26,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.DocumentsContract;
-import android.provider.DocumentsContract.Root;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -244,7 +243,7 @@ public class SearchViewManager implements
         }
 
         final RootInfo root = stack != null ? stack.getRoot() : null;
-        if (root == null || (root.flags & Root.FLAG_SUPPORTS_SEARCH) == 0) {
+        if (root == null || !root.supportsSearch()) {
             supportsSearch = false;
         }
 
@@ -260,14 +259,7 @@ public class SearchViewManager implements
         // Recent root show open search bar, do not show duplicate search icon.
         mMenuItem.setVisible(supportsSearch && !stack.isRecents());
 
-        // Only Storage roots, Downloads root, media roots and recent root
-        // support mime type query now.
-        // TODO: b/121234248 add check for whether the root supports new search method.
-        if (supportsSearch && !root.isDownloads() && !root.isStorage() && !root.isLibrary()) {
-            supportsSearch = false;
-        }
-
-        mChipViewManager.setChipsRowVisible(supportsSearch);
+        mChipViewManager.setChipsRowVisible(supportsSearch && root.supportsMimeTypesSearch());
     }
 
     /**
