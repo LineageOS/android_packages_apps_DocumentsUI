@@ -69,6 +69,7 @@ public class SearchChipViewManager {
     private static final Map<Integer, SearchChipData> sChipItems = new HashMap<>();
 
     private final ViewGroup mChipGroup;
+    private final List<Integer> mDefaultChipTypes = new ArrayList<>();
     private SearchChipViewManagerListener mListener;
 
     @VisibleForTesting
@@ -172,6 +173,22 @@ public class SearchChipViewManager {
     }
 
     /**
+     * Initialize the search chips base on the mime types.
+     *
+     * @param acceptMimeTypes use this values to filter chips
+     */
+    public void initChipSets(String[] acceptMimeTypes) {
+        mDefaultChipTypes.clear();
+        for (SearchChipData chipData : sChipItems.values()) {
+            final String[] mimeTypes = chipData.getMimeTypes();
+            final boolean isMatched = MimeTypes.mimeMatches(acceptMimeTypes, mimeTypes);
+            if (isMatched) {
+                mDefaultChipTypes.add(chipData.getChipType());
+            }
+        }
+    }
+
+    /**
      * Update the search chips base on the mime types.
      *
      * @param acceptMimeTypes use this values to filter chips
@@ -181,7 +198,8 @@ public class SearchChipViewManager {
         mChipGroup.removeAllViews();
 
         final LayoutInflater inflater = LayoutInflater.from(context);
-        for (SearchChipData chipData : sChipItems.values()) {
+        for (Integer chipType : mDefaultChipTypes) {
+            final SearchChipData chipData = sChipItems.get(chipType);
             final String[] mimeTypes = chipData.getMimeTypes();
             final boolean isMatched = MimeTypes.mimeMatches(acceptMimeTypes, mimeTypes);
             if (isMatched) {
