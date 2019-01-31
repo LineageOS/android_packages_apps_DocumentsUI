@@ -306,6 +306,8 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         } else {
             Log.e(TAG, "Quick view intetn is null");
         }
+
+        mInjector.dialogs.showNoApplicationFound();
         return false;
     }
 
