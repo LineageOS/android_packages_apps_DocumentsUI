@@ -228,16 +228,11 @@
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> पर फ़ाइलें"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> की फ़ाइलें"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> की फ़ाइलें"</string>
-    <!-- no translation found for root_info_header_image_recent (6252335619444758201) -->
-    <skip />
-    <!-- no translation found for root_info_header_image_global_search (7945533325610533016) -->
-    <skip />
-    <!-- no translation found for root_info_header_image_storage (5086740886360075930) -->
-    <skip />
-    <!-- no translation found for root_info_header_image_app (4858114210851525359) -->
-    <skip />
-    <!-- no translation found for root_info_header_image_app_with_summary (6404842960923224778) -->
-    <skip />
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"फ़ोन पर मौजूद हाल ही की इमेज"</string>
+    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"फ़ोन पर मौजूद इमेज"</string>
+    <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> पर मौजूद इमेज"</string>
+    <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g> की इमेज"</string>
+    <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> की इमेज"</string>
     <string name="chip_title_images" msgid="7838299046109841015">"इमेज"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"ऑडियो"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"वीडियो"</string>
@@ -246,14 +241,9 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"नया नाम"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> फ़ाइल की झलक देखें"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"दूसरे ऐप्लिकेशन में फ़ाइलें ब्राउज़ करें"</string>
-    <!-- no translation found for anonymous_application (7633027057951625862) -->
-    <skip />
-    <!-- no translation found for open_tree_button (19992834788135845) -->
-    <skip />
-    <!-- no translation found for open_tree_dialog_title (6978383241897450134) -->
-    <skip />
-    <!-- no translation found for open_tree_dialog_message (8545093618524340168) -->
-    <skip />
-    <!-- no translation found for search_bar_hint (4517366509897977321) -->
-    <skip />
+    <string name="anonymous_application" msgid="7633027057951625862">"अनाम"</string>
+    <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" एक्सेस करने दें"</string>
+    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" पर \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" का एक्सेस दें?"</string>
+    <string name="open_tree_dialog_message" msgid="8545093618524340168">"यह \"<xliff:g id="APPNAME">%1$s</xliff:g>\" को इस जगह में इस समय सेव की गई सभी फ़ाइलों और आने वाले समय में यहां सेव की जाने वाली किसी भी सामग्री का पूरा एक्सेस करने देगा."</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"यह फ़ोन खोजें"</string>
 </resources>
