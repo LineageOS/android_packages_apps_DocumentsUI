@@ -41,7 +41,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Arxivlash"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Arxivdan chiqarish"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Qayta nomlash"</string>
-    <string name="menu_inspect" msgid="7279855349299446224">"Ma’lumot olish"</string>
+    <string name="menu_inspect" msgid="7279855349299446224">"Axborot olish"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> orqali ochish"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Yangi oyna"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kesish"</string>
