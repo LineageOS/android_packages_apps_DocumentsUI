@@ -39,6 +39,32 @@ java_defaults {
     sdk_version: "system_current",
 }
 
+filegroup {
+    name: "DocumentsUI-srcs",
+    srcs: [
+        "src/**/*.java",
+    ],
+}
+
+android_library {
+    name: "DocumentsUI-res-lib",
+
+    manifest: "AndroidManifest.xml",
+
+    static_libs: [
+        "androidx.appcompat_appcompat",
+        "com.google.android.material_material",
+    ],
+
+    resource_dirs: [
+        "res",
+    ],
+
+    aaptflags: [
+        "--auto-add-overlay",
+    ],
+}
+
 android_app {
     name: "DocumentsUI",
 
