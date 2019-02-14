@@ -201,8 +201,6 @@ public abstract class BaseActivity
                 chipGroup, icicle);
         // initialize the chip sets by accept mime types
         mSearchManager.initChipSets(mState.acceptMimes);
-        // update the chip items by the mime types of the root
-        mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);
         // parse the query content from intent when launch the
         // activity at the first time
         if (icicle == null) {
@@ -355,7 +353,6 @@ public abstract class BaseActivity
         }
 
         updateHeaderTitle();
-        mSearchManager.updateChips(root.derivedMimeTypes);
         mAppsRowManager.updateView(this);
     }
 
@@ -482,6 +479,7 @@ public abstract class BaseActivity
 
         invalidateOptionsMenu();
         mSortController.onViewModeChanged(mState.derivedMode);
+        mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);
     }
 
     private final List<String> getExcludedAuthorities() {
