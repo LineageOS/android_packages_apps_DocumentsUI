@@ -257,8 +257,16 @@ public final class Shared {
     }
 
     /**
+     * Check config whether DocumentsUI is launcher enabled or not.
+     * @return true if "is_launcher_enabled" is true.
+     */
+    public static boolean isLauncherEnabled(Context context) {
+        return context.getResources().getBoolean(R.bool.is_launcher_enabled);
+    }
+
+    /**
      * Check config has quick viewer package value or not.
-     * @return True, if "trusted_quick_viewer_package" has value.
+     * @return true if "trusted_quick_viewer_package" has value.
      */
     public static boolean hasQuickViewer(Context context) {
         return !TextUtils.isEmpty(context.getString(R.string.trusted_quick_viewer_package));

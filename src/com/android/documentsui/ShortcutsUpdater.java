@@ -25,6 +25,7 @@ import android.graphics.drawable.Icon;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.prefs.ScopedPreferences;
 
@@ -48,6 +49,10 @@ public final class ShortcutsUpdater {
     }
 
     public void update(Collection<RootInfo> roots) {
+        if (!Shared.isLauncherEnabled(mContext)) {
+            return;
+        }
+
         ShortcutManager mgr = mContext.getSystemService(ShortcutManager.class);
 
         Map<String, ShortcutInfo> existing = getPinnedShortcuts(mgr);
