@@ -24,15 +24,14 @@
 
     <RelativeLayout
         android:id="@+id/content"
-        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/artwork"
-            android:layout_above="@+id/message"
             android:layout_height="wrap_content"
             android:layout_width="fill_parent"
+            android:layout_alignParentTop="true"
             android:layout_marginBottom="25dp"
             android:scaleType="fitCenter"
             android:maxHeight="250dp"
@@ -40,10 +39,10 @@
             android:contentDescription="@null"/>
 
         <TextView
-            android:id="@id/message"
+            android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/artwork"
             android:layout_centerHorizontal="true"
             style="?android:attr/textAppearanceListItem"/>
 
