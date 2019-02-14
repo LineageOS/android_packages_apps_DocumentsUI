@@ -382,6 +382,17 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testInitLocation_LaunchToStackLocation() {
+        DocumentStack path = new DocumentStack(Roots.create("123"), mEnv.model.getDocument("1"));
+
+        Intent intent = LauncherActivity.createLaunchIntent(mActivity);
+        intent.putExtra(Shared.EXTRA_STACK, (Parcelable) path);
+
+        mHandler.initLocation(intent);
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    @Test
     public void testInitLocation_RestoresIfStackIsLoaded() throws Exception {
         mEnv.state.stack.changeRoot(TestProvidersAccess.DOWNLOADS);
         mEnv.state.stack.push(TestEnv.FOLDER_0);
