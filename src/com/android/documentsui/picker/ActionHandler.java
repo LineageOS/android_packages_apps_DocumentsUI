@@ -182,11 +182,11 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     private void loadDefaultLocation() {
         switch (mState.action) {
             case ACTION_CREATE:
+            case ACTION_OPEN_TREE:
                 loadHomeDir();
                 break;
             case ACTION_GET_CONTENT:
             case ACTION_OPEN:
-            case ACTION_OPEN_TREE:
                 loadRecent();
                 break;
             default:
