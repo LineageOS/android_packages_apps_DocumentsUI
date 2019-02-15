@@ -116,7 +116,6 @@ public class AppsRowManagerTest {
     public void testUpdateView_matchedState_showRow() {
         mState.action = State.ACTION_BROWSE;
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
-        when(mActivity.isSearchExpanded()).thenReturn(false);
         final List<Item> rootList = new ArrayList<>();
         rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
         mAppsRowManager.updateList(rootList);
@@ -130,7 +129,6 @@ public class AppsRowManagerTest {
     @Test
     public void testUpdateView_notInRecent_hideRow() {
         mState.action = State.ACTION_BROWSE;
-        when(mActivity.isSearchExpanded()).thenReturn(false);
         final List<Item> rootList = new ArrayList<>();
         rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
         mAppsRowManager.updateList(rootList);
@@ -147,7 +145,6 @@ public class AppsRowManagerTest {
         mState.action = State.ACTION_OPEN_TREE;
 
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
-        when(mActivity.isSearchExpanded()).thenReturn(false);
         final List<Item> rootList = new ArrayList<>();
         rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
         mAppsRowManager.updateList(rootList);
@@ -161,25 +158,9 @@ public class AppsRowManagerTest {
     public void testUpdateView_noItems_hideRow() {
         mState.action = State.ACTION_BROWSE;
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
-        when(mActivity.isSearchExpanded()).thenReturn(false);
 
         final List<Item> rootList = new ArrayList<>();
         mAppsRowManager.updateList(rootList);
-
-        mAppsRowManager.updateView(mActivity);
-
-        assertEquals(View.GONE, mAppsRow.getVisibility());
-    }
-
-    @Test
-    public void testUpdateView_inSearching_hideRow() {
-        mState.action = State.ACTION_BROWSE;
-        mState.stack.changeRoot(TestProvidersAccess.RECENTS);
-        final List<Item> rootList = new ArrayList<>();
-        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
-        mAppsRowManager.updateList(rootList);
-
-        when(mActivity.isSearchExpanded()).thenReturn(true);
 
         mAppsRowManager.updateView(mActivity);
 
