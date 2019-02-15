@@ -64,7 +64,7 @@
     </style>
 
     <style name="SnackbarButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">
-        <item name="android:textColor">@color/accent_dark</item>
+        <item name="android:textColor">@color/accent</item>
     </style>
 
     <style name="BottomSheetDialogStyle" parent="@style/Theme.MaterialComponents.BottomSheetDialog">

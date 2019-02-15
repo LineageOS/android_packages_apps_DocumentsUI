@@ -14,8 +14,20 @@
      limitations under the License.
 -->
 <resources>
+    <color name="accent">#2297f0</color>
+
     <color name="root_icon_color">#9AA0A6</color>
     <color name="chip_stroke_color">@android:color/transparent</color>
     <color name="chip_selected_background_color">#FF3D4657</color>
     <color name="chip_ripple_color">#FF5195EA</color>
+
+    <color name="item_doc_background">@color/g_grey</color>
+    <color name="item_doc_background_disabled">@color/g_light_grey</color>
+    <color name="item_doc_background_selected">#4d2297f0</color>
+    <color name="item_grid_tint">#ff0e70e8</color>
+    <color name="item_hover_color">#ff5f6368</color>
+
+    <color name="text_hint">#fff8f9fa</color>
+    <color name="text_handle">#ff3ce4fa</color>
+    <color name="text_highlight">#ff3ce4fa</color>
 </resources>
