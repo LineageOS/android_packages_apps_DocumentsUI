@@ -17,6 +17,9 @@
 package com.android.documentsui;
 
 import androidx.annotation.Nullable;
+
+import static android.content.ContentResolver.wrap;
+
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -124,7 +127,7 @@ public interface DocumentsAccess {
             final ContentResolver resolver = mContext.getContentResolver();
             try (final ContentProviderClient client = DocumentsApplication
                     .acquireUnstableProviderOrThrow(resolver, docUri.getAuthority())) {
-                return DocumentsContract.findDocumentPath(client, docUri);
+                return DocumentsContract.findDocumentPath(wrap(client), docUri);
             }
         }
 
@@ -134,7 +137,7 @@ public interface DocumentsAccess {
             try (ContentProviderClient client = DocumentsApplication.acquireUnstableProviderOrThrow(
                         resolver, parentDoc.derivedUri.getAuthority())) {
                 return DocumentsContract.createDocument(
-                        client, parentDoc.derivedUri, mimeType, displayName);
+                        wrap(client), parentDoc.derivedUri, mimeType, displayName);
             } catch (Exception e) {
                 Log.w(TAG, "Failed to create document", e);
                 return null;

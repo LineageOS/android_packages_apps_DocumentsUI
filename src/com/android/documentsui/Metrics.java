@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static android.content.ContentResolver.wrap;
+
 import static com.android.documentsui.DocumentsApplication.acquireUnstableProviderOrThrow;
 
 import androidx.annotation.Nullable;
@@ -291,7 +293,7 @@ public final class Metrics {
         boolean isInternal;
         try (ContentProviderClient client = acquireUnstableProviderOrThrow(
                 context.getContentResolver(), Providers.AUTHORITY_STORAGE)) {
-            final Path path = DocumentsContract.findDocumentPath(client, docUri);
+            final Path path = DocumentsContract.findDocumentPath(wrap(client), docUri);
             final ProvidersAccess providers = DocumentsApplication.getProvidersCache(context);
             final RootInfo root = providers.getRootOneshot(
                     Providers.AUTHORITY_STORAGE, path.getRootId());

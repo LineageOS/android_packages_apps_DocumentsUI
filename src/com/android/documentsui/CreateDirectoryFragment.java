@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static android.content.ContentResolver.wrap;
+
 import static com.android.documentsui.base.SharedMinimal.TAG;
 
 import android.app.Dialog;
@@ -147,7 +149,7 @@ public class CreateDirectoryFragment extends DialogFragment {
                 client = DocumentsApplication.acquireUnstableProviderOrThrow(
                         resolver, mCwd.derivedUri.getAuthority());
                 final Uri childUri = DocumentsContract.createDocument(
-                        client, mCwd.derivedUri, Document.MIME_TYPE_DIR, mDisplayName);
+                        wrap(client), mCwd.derivedUri, Document.MIME_TYPE_DIR, mDisplayName);
                 DocumentInfo doc = DocumentInfo.fromUri(resolver, childUri);
                 return doc.isDirectory() ? doc : null;
             } catch (Exception e) {

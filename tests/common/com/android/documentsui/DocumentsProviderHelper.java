@@ -16,6 +16,7 @@
 
 package com.android.documentsui;
 
+import static android.content.ContentResolver.wrap;
 import static android.provider.DocumentsContract.buildChildDocumentsUri;
 import static android.provider.DocumentsContract.buildDocumentUri;
 import static android.provider.DocumentsContract.buildRootsUri;
@@ -92,7 +93,7 @@ public class DocumentsProviderHelper {
             throw new IllegalArgumentException("Name and mimetype probably interposed.");
         }
         try {
-            Uri uri = DocumentsContract.createDocument(mClient, parentUri, mimeType, name);
+            Uri uri = DocumentsContract.createDocument(wrap(mClient), parentUri, mimeType, name);
             return uri;
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Couldn't create document: " + name + " with mimetype "

@@ -16,6 +16,8 @@
 
 package com.android.documentsui.files;
 
+import static android.content.ContentResolver.wrap;
+
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.content.ActivityNotFoundException;
@@ -174,7 +176,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
             client = DocumentsApplication.acquireUnstableProviderOrThrow(
                     resolver, document.derivedUri.getAuthority());
             Uri newUri = DocumentsContract.renameDocument(
-                    client, document.derivedUri, name);
+                    wrap(client), document.derivedUri, name);
             return DocumentInfo.fromUri(resolver, newUri);
         } catch (Exception e) {
             Log.w(TAG, "Failed to rename file", e);
