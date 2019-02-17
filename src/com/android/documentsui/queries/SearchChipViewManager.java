@@ -37,6 +37,7 @@ import com.google.android.material.chip.Chip;
 import com.google.common.primitives.Ints;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -71,6 +72,8 @@ public class SearchChipViewManager {
     private final ViewGroup mChipGroup;
     private final List<Integer> mDefaultChipTypes = new ArrayList<>();
     private SearchChipViewManagerListener mListener;
+    private String[] mCurrentUpdateMimeTypes;
+    private boolean mIsFirstUpdateChipsReady;
 
     @VisibleForTesting
     Set<SearchChipData> mCheckedChipItems = new HashSet<>();
@@ -194,6 +197,10 @@ public class SearchChipViewManager {
      * @param acceptMimeTypes use this values to filter chips
      */
     public void updateChips(String[] acceptMimeTypes) {
+        if (mIsFirstUpdateChipsReady && Arrays.equals(mCurrentUpdateMimeTypes, acceptMimeTypes)) {
+            return;
+        }
+
         final Context context = mChipGroup.getContext();
         mChipGroup.removeAllViews();
 
@@ -209,6 +216,11 @@ public class SearchChipViewManager {
             }
         }
         reorderCheckedChips(null /* clickedChip */, false /* hasAnim */);
+        mIsFirstUpdateChipsReady = true;
+        mCurrentUpdateMimeTypes = acceptMimeTypes;
+        if (mChipGroup.getChildCount() < 2) {
+            mChipGroup.setVisibility(View.GONE);
+        }
     }
 
 

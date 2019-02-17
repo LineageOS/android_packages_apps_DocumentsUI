@@ -35,7 +35,7 @@
         <item name="materialCardViewStyle">@style/CardViewStyle</item>
 
         <item name="textHandleColor">@color/text_handle</item>
-        <item name="textCursorColor">@color/text_cursor</item>
+        <item name="textCursorColor">@color/text_hint</item>
 
         <item name="gridItemTint">@color/item_doc_grid_tint</item>
         <item name="gridItemColor">@color/item_doc_background</item>
@@ -51,6 +51,6 @@
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:listDivider">@drawable/list_divider</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustUnspecified</item>
-        <item name="android:actionBarSize">@dimen/actionBarSize</item>
+        <item name="android:actionBarSize">@dimen/action_bar_size</item>
     </style>
 </resources>

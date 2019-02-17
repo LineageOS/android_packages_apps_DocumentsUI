@@ -434,7 +434,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             mActivity.getActionBar().setBackgroundDrawable(new ColorDrawable(
                     mActivity.getResources().getColor(R.color.primary)));
             mActivity.getWindow().setStatusBarColor(
-                    mActivity.getResources().getColor(R.color.primary_dark));
+                    mActivity.getResources().getColor(R.color.g_dark_grey));
         }
     }
 
@@ -549,6 +549,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
     protected final void loadHomeDir() {
         loadRoot(Shared.getDefaultRootUri(mActivity));
+    }
+
+    protected final void loadRecent() {
+        mState.stack.changeRoot(mProviders.getRecentsRoot());
+        mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
     }
 
     protected MutableSelection<String> getStableSelection() {

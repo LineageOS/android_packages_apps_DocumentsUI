@@ -382,6 +382,17 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testInitLocation_LaunchToStackLocation() {
+        DocumentStack path = new DocumentStack(Roots.create("123"), mEnv.model.getDocument("1"));
+
+        Intent intent = LauncherActivity.createLaunchIntent(mActivity);
+        intent.putExtra(Shared.EXTRA_STACK, (Parcelable) path);
+
+        mHandler.initLocation(intent);
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    @Test
     public void testInitLocation_RestoresIfStackIsLoaded() throws Exception {
         mEnv.state.stack.changeRoot(TestProvidersAccess.DOWNLOADS);
         mEnv.state.stack.push(TestEnv.FOLDER_0);
@@ -399,8 +410,20 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testInitLocation_DefaultsToDownloads() throws Exception {
+    public void testInitLocation_DefaultsToRecent() throws Exception {
         mActivity.resources.bools.put(R.bool.show_documents_root, false);
+        mFeatures.forceDefaultRoot = false;
+
+        mHandler.initLocation(mActivity.getIntent());
+        assertRecentPicked();
+    }
+
+    @Test
+    public void testInitLocation_forceDefaultsToRoot() throws Exception {
+        mActivity.resources.bools.put(R.bool.show_documents_root, false);
+        mFeatures.forceDefaultRoot = true;
+        mActivity.resources.strings.put(R.string.default_root_uri,
+                TestProvidersAccess.DOWNLOADS.getUri().toString());
 
         mHandler.initLocation(mActivity.getIntent());
         assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
@@ -409,6 +432,7 @@ public class ActionHandlerTest {
     @Test
     public void testInitLocation_DocumentsRootEnabled() throws Exception {
         mActivity.resources.bools.put(R.bool.show_documents_root, true);
+        mFeatures.forceDefaultRoot = true;
         mActivity.resources.strings.put(R.string.default_root_uri,
                 TestProvidersAccess.HOME.getUri().toString());
 
@@ -433,9 +457,10 @@ public class ActionHandlerTest {
         intent.setData(DocumentsContract.buildRootsUri("com.test.wrongauthority"));
         mActivity.resources.strings.put(R.string.default_root_uri,
                 TestProvidersAccess.HOME.getUri().toString());
+        mFeatures.forceDefaultRoot = false;
 
         mHandler.initLocation(intent);
-        assertRootPicked(TestProvidersAccess.HOME.getUri());
+        assertRecentPicked();
     }
 
     @Test
@@ -657,6 +682,12 @@ public class ActionHandlerTest {
         RootInfo root = mActivity.rootPicked.getLastValue();
         assertNotNull(root);
         assertEquals(expectedUri, root.getUri());
+    }
+
+    private void assertRecentPicked() throws Exception{
+        mEnv.beforeAsserts();
+        assertEquals(TestProvidersAccess.RECENTS, mEnv.state.stack.getRoot());
+        mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
     private ActionHandler<TestActivity> createHandler() {

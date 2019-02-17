@@ -15,10 +15,10 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:state_activated="true"
-        android:color="@color/item_grid_tint_dark"
-        android:alpha=".15" />
-    <item
-        android:color="@android:color/transparent" />
+    <item android:drawable="@color/item_doc_background_selected"
+          android:state_selected="true" />
+    <item android:drawable="@color/item_hover_color"
+          android:state_drag_hovered="true" />
+    <item android:drawable="@color/item_doc_background"
+          android:state_selected="false" />
 </selector>

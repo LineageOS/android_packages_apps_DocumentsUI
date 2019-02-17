@@ -355,8 +355,6 @@ public abstract class BaseActivity
         }
 
         updateHeaderTitle();
-        mSearchManager.updateChips(root.derivedMimeTypes);
-        mAppsRowManager.updateView(this);
     }
 
     @Override
@@ -482,6 +480,8 @@ public abstract class BaseActivity
 
         invalidateOptionsMenu();
         mSortController.onViewModeChanged(mState.derivedMode);
+        mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);
+        mAppsRowManager.updateView(this);
     }
 
     private final List<String> getExcludedAuthorities() {
