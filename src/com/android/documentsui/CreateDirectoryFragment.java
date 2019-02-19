@@ -29,6 +29,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import androidx.annotation.Nullable;
@@ -156,7 +157,7 @@ public class CreateDirectoryFragment extends DialogFragment {
                 Log.w(TAG, "Failed to create directory", e);
                 return null;
             } finally {
-                ContentProviderClient.closeQuietly(client);
+                FileUtils.closeQuietly(client);
             }
         }
 

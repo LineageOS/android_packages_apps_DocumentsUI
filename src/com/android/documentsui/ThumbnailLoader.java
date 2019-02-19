@@ -27,6 +27,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.CancellationSignal;
+import android.os.FileUtils;
 import android.os.OperationCanceledException;
 import android.provider.DocumentsContract;
 import android.util.Log;
@@ -117,7 +118,7 @@ public final class ThumbnailLoader extends AsyncTask<Uri, Void, Bitmap> implemen
                 Log.w(TAG, "Failed to load thumbnail for " + mUri + ": " + e);
             }
         } finally {
-            ContentProviderClient.closeQuietly(client);
+            FileUtils.closeQuietly(client);
         }
         return result;
     }

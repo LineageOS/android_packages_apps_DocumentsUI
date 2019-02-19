@@ -199,7 +199,7 @@ public class DocumentInfo implements Durable, Parcelable {
             throw asFileNotFoundException(t);
         } finally {
             FileUtils.closeQuietly(cursor);
-            ContentProviderClient.closeQuietly(client);
+            FileUtils.closeQuietly(client);
         }
     }
 

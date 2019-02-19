@@ -39,6 +39,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.CancellationSignal;
+import android.os.FileUtils;
 import android.os.Parcelable;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
@@ -212,7 +213,7 @@ abstract public class Job implements Runnable {
 
     final void cleanup() {
         for (ContentProviderClient client : mClients.values()) {
-            ContentProviderClient.closeQuietly(client);
+            FileUtils.closeQuietly(client);
         }
     }
 
