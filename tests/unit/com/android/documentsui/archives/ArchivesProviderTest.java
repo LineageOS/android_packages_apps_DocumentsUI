@@ -16,6 +16,8 @@
 
 package com.android.documentsui.archives;
 
+import static android.content.ContentResolver.wrap;
+
 import static com.google.common.truth.Truth.assertThat;
 
 import static junit.framework.Assert.assertEquals;
@@ -288,7 +290,7 @@ public class ArchivesProviderTest {
                         + "com.android.documentsui.archives.resourcesprovider%2F"
                         + "document%2F" + documentId + "%23268435456%23%2Ffreddy.jpg");
 
-        Bundle metadata = DocumentsContract.getDocumentMetadata(client, archivedImageUri);
+        Bundle metadata = DocumentsContract.getDocumentMetadata(wrap(client), archivedImageUri);
         assertNotNull(metadata);
         Bundle exif = metadata.getBundle(DocumentsContract.METADATA_EXIF);
         assertNotNull(exif);

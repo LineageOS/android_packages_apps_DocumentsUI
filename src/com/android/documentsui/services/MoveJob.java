@@ -16,6 +16,8 @@
 
 package com.android.documentsui.services;
 
+import static android.content.ContentResolver.wrap;
+
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
 
@@ -147,7 +149,7 @@ final class MoveJob extends CopyJob {
         if (src.authority.equals(dest.authority) && (srcParent != null || mSrcParent != null)) {
             if ((src.flags & Document.FLAG_SUPPORTS_MOVE) != 0) {
                 try {
-                    if (DocumentsContract.moveDocument(getClient(src), src.derivedUri,
+                    if (DocumentsContract.moveDocument(wrap(getClient(src)), src.derivedUri,
                             srcParent != null ? srcParent.derivedUri : mSrcParent.derivedUri,
                             dest.derivedUri) != null) {
                         Metrics.logFileOperated(operationType, MetricConsts.OPMODE_PROVIDER);

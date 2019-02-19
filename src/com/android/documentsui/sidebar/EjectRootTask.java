@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static android.content.ContentResolver.wrap;
+
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -57,7 +59,7 @@ public final class EjectRootTask extends AsyncTask<Void, Void, Boolean> {
         try {
             client = DocumentsApplication.acquireUnstableProviderOrThrow(
                     mResolver, mAuthority);
-            DocumentsContract.ejectRoot(client, rootUri);
+            DocumentsContract.ejectRoot(wrap(client), rootUri);
             return true;
         } catch (IllegalStateException e) {
             Log.w(TAG, "Failed to eject root.", e);

@@ -16,6 +16,8 @@
 
 package com.android.documentsui.services;
 
+import static android.content.ContentResolver.wrap;
+
 import static com.android.documentsui.DocumentsApplication.acquireUnstableProviderOrThrow;
 import static com.android.documentsui.services.FileOperationService.EXTRA_CANCEL;
 import static com.android.documentsui.services.FileOperationService.EXTRA_DIALOG_TYPE;
@@ -258,9 +260,10 @@ abstract public class Job implements Runnable {
             throws ResourceException {
         try {
             if (parent != null && doc.isRemoveSupported()) {
-                DocumentsContract.removeDocument(getClient(doc), doc.derivedUri, parent.derivedUri);
+                DocumentsContract.removeDocument(wrap(getClient(doc)), doc.derivedUri,
+                        parent.derivedUri);
             } else if (doc.isDeleteSupported()) {
-                DocumentsContract.deleteDocument(getClient(doc), doc.derivedUri);
+                DocumentsContract.deleteDocument(wrap(getClient(doc)), doc.derivedUri);
             } else {
                 throw new ResourceException("Unable to delete source document. "
                         + "File is not deletable or removable: %s.", doc.derivedUri);

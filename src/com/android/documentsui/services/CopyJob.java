@@ -16,6 +16,7 @@
 
 package com.android.documentsui.services;
 
+import static android.content.ContentResolver.wrap;
 import static android.provider.DocumentsContract.buildChildDocumentsUri;
 import static android.provider.DocumentsContract.buildDocumentUri;
 import static android.provider.DocumentsContract.getDocumentId;
@@ -322,7 +323,7 @@ class CopyJob extends ResolvedResourcesJob {
         if (src.authority.equals(dstDirInfo.authority)) {
             if ((src.flags & Document.FLAG_SUPPORTS_COPY) != 0) {
                 try {
-                    if (DocumentsContract.copyDocument(getClient(src), src.derivedUri,
+                    if (DocumentsContract.copyDocument(wrap(getClient(src)), src.derivedUri,
                             dstDirInfo.derivedUri) != null) {
                         Metrics.logFileOperated(operationType, MetricConsts.OPMODE_PROVIDER);
                         return;
@@ -389,7 +390,7 @@ class CopyJob extends ResolvedResourcesJob {
         Uri dstUri = null;
         try {
             dstUri = DocumentsContract.createDocument(
-                    getClient(dest), dest.derivedUri, dstMimeType, dstDisplayName);
+                    wrap(getClient(dest)), dest.derivedUri, dstMimeType, dstDisplayName);
         } catch (FileNotFoundException | RemoteException | RuntimeException e) {
             Metrics.logFileOperationFailure(
                     appContext, MetricConsts.SUBFILEOP_CREATE_DOCUMENT, dest.derivedUri);
@@ -780,7 +781,7 @@ class CopyJob extends ResolvedResourcesJob {
             throws ResourceException {
         if (parent.isDirectory() && doc.authority.equals(parent.authority)) {
             try {
-                return isChildDocument(getClient(doc), doc.derivedUri, parent.derivedUri);
+                return isChildDocument(wrap(getClient(doc)), doc.derivedUri, parent.derivedUri);
             } catch (FileNotFoundException | RemoteException | RuntimeException e) {
                 throw new ResourceException(
                         "Failed to check if %s is a child of %s due to an exception.",
