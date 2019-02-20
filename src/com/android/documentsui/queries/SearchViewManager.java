@@ -122,7 +122,8 @@ public class SearchViewManager implements
         }
     }
 
-    private void onChipCheckedStateChanged() {
+    private void onChipCheckedStateChanged(View v) {
+        mListener.onSearchChipStateChanged(v);
         performSearch(mCurrentSearch);
     }
 
@@ -487,6 +488,10 @@ public class SearchViewManager implements
         return mCurrentSearch != null || mChipViewManager.hasCheckedItems();
     }
 
+    public boolean hasCheckedChip() {
+        return mChipViewManager.hasCheckedItems();
+    }
+
     public boolean isExpanded() {
         return mSearchExpanded;
     }
@@ -497,5 +502,7 @@ public class SearchViewManager implements
         void onSearchFinished();
 
         void onSearchViewChanged(boolean opened);
+
+        void onSearchChipStateChanged(View v);
     }
 }

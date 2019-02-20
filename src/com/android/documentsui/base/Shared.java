@@ -108,6 +108,11 @@ public final class Shared {
     public static final String EXTRA_IGNORE_STATE = "ignoreState";
 
     /**
+     * Extra flag used to store pick result state of PickResult type in the bundle.
+     */
+    public static final String EXTRA_PICK_RESULT = "pickResult";
+
+    /**
      * Extra for an Intent for enabling performance benchmark. Used only by tests.
      */
     public static final String EXTRA_BENCHMARK = "com.android.documentsui.benchmark";

@@ -29,6 +29,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.IconUtils;
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.R;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.Shared;
@@ -53,10 +54,10 @@ public class SearchChipViewManager {
 
     private static final int CHIP_MOVE_ANIMATION_DURATION = 250;
 
-    private static final int TYPE_IMAGES = 0;
-    private static final int TYPE_DOCUMENTS = 1;
-    private static final int TYPE_AUDIO = 2;
-    private static final int TYPE_VIDEOS = 3;
+    private static final int TYPE_IMAGES = MetricConsts.TYPE_CHIP_IMAGES;;
+    private static final int TYPE_DOCUMENTS = MetricConsts.TYPE_CHIP_DOCS;
+    private static final int TYPE_AUDIO = MetricConsts.TYPE_CHIP_AUDIOS;
+    private static final int TYPE_VIDEOS = MetricConsts.TYPE_CHIP_VIDEOS;
 
     private static final ChipComparator CHIP_COMPARATOR = new ChipComparator();
 
@@ -270,7 +271,7 @@ public class SearchChipViewManager {
         reorderCheckedChips(chip, true /* hasAnim */);
 
         if (mListener != null) {
-            mListener.onChipCheckStateChanged();
+            mListener.onChipCheckStateChanged(v);
         }
     }
 
@@ -389,7 +390,7 @@ public class SearchChipViewManager {
         /**
          * It will be triggered when the checked state of chips changes.
          */
-        void onChipCheckStateChanged();
+        void onChipCheckStateChanged(View v);
     }
 
     private static class ChipComparator implements Comparator<Chip> {
