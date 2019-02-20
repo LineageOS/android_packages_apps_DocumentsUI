@@ -180,20 +180,13 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testInitLocation_DefaultToRecents_ActionOpenTree() throws Exception {
-        testInitLocationDefaultToRecentsOnAction(State.ACTION_OPEN_TREE);
+    public void testInitLocation_DefaultToDownloads_ActionOpenTree() throws Exception {
+        testInitLocationDefaultToDownloadsOnAction(State.ACTION_OPEN_TREE);
     }
 
     @Test
     public void testInitLocation_DefaultsToDownloads_ActionCreate() throws Exception {
-        mEnv.state.action = State.ACTION_CREATE;
-        mActivity.resources.bools.put(R.bool.show_documents_root, false);
-
-        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
-
-        mHandler.initLocation(mActivity.getIntent());
-
-        assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
+        testInitLocationDefaultToDownloadsOnAction(State.ACTION_CREATE);
     }
 
     @Test
@@ -507,6 +500,20 @@ public class ActionHandlerTest {
         mEnv.beforeAsserts();
         assertEquals(TestProvidersAccess.RECENTS, mEnv.state.stack.getRoot());
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    private void testInitLocationDefaultToDownloadsOnAction(@ActionType int action)
+            throws Exception {
+        mEnv.state.action = action;
+        mActivity.resources.bools.put(R.bool.show_documents_root, false);
+        mActivity.resources.strings.put(R.string.default_root_uri,
+                TestProvidersAccess.DOWNLOADS.getUri().toString());
+
+        mActivity.refreshCurrentRootAndDirectory.assertNotCalled();
+
+        mHandler.initLocation(mActivity.getIntent());
+
+        assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
     }
 
     private void assertRootPicked(Uri expectedUri) throws Exception {
