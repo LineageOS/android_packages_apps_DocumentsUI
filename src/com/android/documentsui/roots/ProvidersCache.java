@@ -315,7 +315,7 @@ public class ProvidersCache implements ProvidersAccess {
             return roots;
         } finally {
             FileUtils.closeQuietly(cursor);
-            ContentProviderClient.closeQuietly(client);
+            FileUtils.closeQuietly(client);
         }
 
         // Cache these freshly parsed roots over in the long-lived system

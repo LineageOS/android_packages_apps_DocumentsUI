@@ -173,7 +173,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
                 mSignal = null;
             }
             // TODO: Remove this call.
-            ContentProviderClient.closeQuietly(client);
+            FileUtils.closeQuietly(client);
         }
 
         return result;
