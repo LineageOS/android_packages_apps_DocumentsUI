@@ -22,6 +22,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.FileUtils;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
@@ -66,7 +67,7 @@ public final class EjectRootTask extends AsyncTask<Void, Void, Boolean> {
         } catch (Exception e) {
             Log.w(TAG, "Binder call failed.", e);
         } finally {
-            ContentProviderClient.closeQuietly(client);
+            FileUtils.closeQuietly(client);
         }
 
         return false;

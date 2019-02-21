@@ -82,22 +82,25 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     private final Model mModel;
     private final LastAccessedStorage mLastAccessed;
 
-    ActionHandler(
-            T activity,
-            State state,
-            ProvidersAccess providers,
-            DocumentsAccess docs,
-            SearchViewManager searchMgr,
-            Lookup<String, Executor> executors,
-            Injector injector,
-            LastAccessedStorage lastAccessed) {
+    private UpdatePickResultTask mUpdatePickResultTask;
 
+    ActionHandler(
+        T activity,
+        State state,
+        ProvidersAccess providers,
+        DocumentsAccess docs,
+        SearchViewManager searchMgr,
+        Lookup<String, Executor> executors,
+        Injector injector,
+        LastAccessedStorage lastAccessed) {
         super(activity, state, providers, docs, searchMgr, executors, injector);
 
         mConfig = injector.config;
         mFeatures = injector.features;
         mModel = injector.getModel();
         mLastAccessed = lastAccessed;
+        mUpdatePickResultTask = new UpdatePickResultTask(
+            activity.getApplicationContext(), mInjector.pickResult);
     }
 
     @Override
@@ -179,14 +182,43 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         }
     }
 
+    public UpdatePickResultTask getUpdatePickResultTask() {
+        return mUpdatePickResultTask;
+    }
+
+    private void updatePickResult(Intent intent, boolean isSearching, int root) {
+        ClipData cdata = intent.getClipData();
+        int fileCount = 0;
+        Uri uri = null;
+
+        // There are 2 cases that would be single-select:
+        // 1. getData() isn't null and getClipData() is null.
+        // 2. getClipData() isn't null and the item count of it is 1.
+        if (intent.getData() != null && cdata == null) {
+            fileCount = 1;
+            uri = intent.getData();
+        } else if (cdata != null) {
+            fileCount = cdata.getItemCount();
+            if (fileCount == 1) {
+                uri = cdata.getItemAt(0).getUri();
+            }
+        }
+
+        mInjector.pickResult.setFileCount(fileCount);
+        mInjector.pickResult.setIsSearching(isSearching);
+        mInjector.pickResult.setRoot(root);
+        mInjector.pickResult.setFileUri(uri);
+        getUpdatePickResultTask().execute();
+    }
+
     private void loadDefaultLocation() {
         switch (mState.action) {
             case ACTION_CREATE:
+            case ACTION_OPEN_TREE:
                 loadHomeDir();
                 break;
             case ACTION_GET_CONTENT:
             case ACTION_OPEN:
-            case ACTION_OPEN_TREE:
                 loadRecent();
                 break;
             default:
@@ -196,6 +228,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
 
     @Override
     public void showAppDetails(ResolveInfo info) {
+        mInjector.pickResult.increaseActionCount();
         final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.fromParts("package", info.activityInfo.packageName, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
@@ -222,6 +255,8 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
             // Remember that we last picked via external app
             mLastAccessed.setLastAccessedToExternalApp(mActivity);
 
+            updatePickResult(data, false, MetricConsts.ROOT_THIRD_PARTY_APP);
+
             // Pass back result to original caller
             mActivity.setResult(resultCode, data, 0);
             mActivity.finish();
@@ -239,12 +274,14 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     @Override
     public void openRoot(RootInfo root) {
         Metrics.logRootVisited(MetricConsts.PICKER_SCOPE, root);
+        mInjector.pickResult.increaseActionCount();
         mActivity.onRootPicked(root);
     }
 
     @Override
     public void openRoot(ResolveInfo info) {
         Metrics.logAppVisited(info);
+        mInjector.pickResult.increaseActionCount();
         final Intent intent = new Intent(mActivity.getIntent());
         intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_FORWARD_RESULT);
         intent.setComponent(new ComponentName(
@@ -259,6 +296,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     @Override
     public boolean openItem(ItemDetails<String> details, @ViewType int type,
             @ViewType int fallback) {
+        mInjector.pickResult.increaseActionCount();
         DocumentInfo doc = mModel.getDocument(details.getSelectionKey());
         if (doc == null) {
             Log.w(TAG, "Can't view item. No Document available for modeId: "
@@ -276,6 +314,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
 
     @Override
     public boolean previewItem(ItemDetails<String> details) {
+        mInjector.pickResult.increaseActionCount();
         final DocumentInfo doc = mModel.getDocument(details.getSelectionKey());
         if (doc == null) {
             Log.w(TAG, "Can't view item. No Document available for modeId: "
@@ -312,6 +351,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
 
     void pickDocument(FragmentManager fm, DocumentInfo pickTarget) {
         assert(pickTarget != null);
+        mInjector.pickResult.increaseActionCount();
         Uri result;
         switch (mState.action) {
             case ACTION_OPEN_TREE:
@@ -330,6 +370,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     void saveDocument(
             String mimeType, String displayName, BooleanConsumer inProgressStateListener) {
         assert(mState.action == ACTION_CREATE);
+        mInjector.pickResult.increaseActionCount();
         new CreatePickedDocumentTask(
                 mActivity,
                 mDocs,
@@ -346,6 +387,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     // called.
     void saveDocument(FragmentManager fm, DocumentInfo replaceTarget) {
         assert(mState.action == ACTION_CREATE);
+        mInjector.pickResult.increaseActionCount();
         assert(replaceTarget != null);
 
         // Adding a confirmation dialog breaks an inherited CTS test (testCreateExisting), so we
@@ -382,6 +424,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
             }
             intent.setClipData(clipData);
         }
+
+        updatePickResult(
+            intent, mSearchMgr.isSearching(), Metrics.sanitizeRoot(mState.stack.getRoot()));
 
         // TODO: Separate this piece of logic per action.
         // We don't instantiate different objects for different actions at the first place, so it's

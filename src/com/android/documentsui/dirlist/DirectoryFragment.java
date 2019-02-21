@@ -620,6 +620,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private boolean handleMenuItemClick(MenuItem item) {
+        if (mInjector.pickResult != null) {
+            mInjector.pickResult.increaseActionCount();
+        }
         MutableSelection<String> selection = new MutableSelection<>();
         mSelectionMgr.copySelection(selection);
 

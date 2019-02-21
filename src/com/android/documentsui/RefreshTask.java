@@ -24,6 +24,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.CancellationSignal;
+import android.os.FileUtils;
 import android.util.Log;
 
 import com.android.documentsui.base.ApplicationScope;
@@ -97,7 +98,7 @@ public class RefreshTask extends TimeoutTask<Void, Boolean> {
         } catch (Exception e) {
             Log.w(TAG, "Failed to refresh", e);
         } finally {
-            ContentProviderClient.closeQuietly(client);
+            FileUtils.closeQuietly(client);
         }
         return refreshSupported;
     }

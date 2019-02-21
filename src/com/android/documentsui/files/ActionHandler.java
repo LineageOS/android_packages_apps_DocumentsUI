@@ -26,6 +26,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.FileUtils;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
 import android.util.Log;
@@ -182,7 +183,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
             Log.w(TAG, "Failed to rename file", e);
             return null;
         } finally {
-            ContentProviderClient.closeQuietly(client);
+            FileUtils.closeQuietly(client);
         }
     }
 

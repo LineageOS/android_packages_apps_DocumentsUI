@@ -38,6 +38,7 @@ import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.files.LauncherActivity;
+import com.android.documentsui.picker.PickResult;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -287,6 +288,30 @@ public final class Metrics {
         DocumentsStatsLog.logUserAction(userAction);
     }
 
+    public static void logPickerLaunchedFrom(String packgeName) {
+        DocumentsStatsLog.logPickerLaunchedFrom(packgeName);
+    }
+
+    public static void logSearchType(int searchType) {
+        // TODO:waiting for search history implementation, it's one of the search types.
+        DocumentsStatsLog.logSearchType(searchType);
+    }
+
+    public static void logSearchMode(boolean isKeywordSearch, boolean isChipsSearch) {
+        DocumentsStatsLog.logSearchMode(getSearchMode(isKeywordSearch, isChipsSearch));
+    }
+
+    public static void logPickResult(PickResult result) {
+        DocumentsStatsLog.logFilePick(
+                result.getActionCount(),
+                result.getDuration(),
+                result.getFileCount(),
+                result.isSearching(),
+                result.getRoot(),
+                result.getMimeType(),
+                result.getRepeatedPickTimes());
+    }
+
     private static void logStorageFileOperationFailure(
             Context context, @MetricConsts.SubFileOp int subFileOp, Uri docUri) {
         assert(Providers.AUTHORITY_STORAGE.equals(docUri.getAuthority()));
@@ -501,6 +526,18 @@ public final class Metrics {
                 return MetricConsts.ACTION_PICK_COPY_DESTINATION;
             default:
                 return MetricConsts.ACTION_OTHER;
+        }
+    }
+
+    private static int getSearchMode(boolean isKeyword, boolean isChip) {
+        if (isKeyword && isChip) {
+            return MetricConsts.SEARCH_KEYWORD_N_CHIPS;
+        } else if (isKeyword) {
+            return MetricConsts.SEARCH_KEYWORD;
+        } else if (isChip) {
+            return MetricConsts.SEARCH_CHIPS;
+        } else {
+            return MetricConsts.SEARCH_UNKNOWN;
         }
     }
 

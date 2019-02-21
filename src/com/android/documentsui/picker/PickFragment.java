@@ -63,6 +63,7 @@ public class PickFragment extends Fragment {
     private final View.OnClickListener mCancelListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            mInjector.pickResult.increaseActionCount();
             final BaseActivity activity = BaseActivity.get(PickFragment.this);
             activity.setResult(FragmentActivity.RESULT_CANCELED);
             activity.finish();

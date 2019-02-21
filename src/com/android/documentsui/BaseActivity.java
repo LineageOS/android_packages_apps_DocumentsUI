@@ -36,6 +36,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Checkable;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
@@ -63,6 +64,7 @@ import com.android.documentsui.prefs.Preferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.CommandInterceptor;
+import com.android.documentsui.queries.SearchChipData;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.ProvidersCache;
@@ -73,6 +75,7 @@ import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -166,6 +169,14 @@ public abstract class BaseActivity
                     Metrics.logUserAction(MetricConsts.USER_ACTION_SEARCH);
                 }
 
+
+                if (mSearchManager.isSearching()) {
+                    Metrics.logSearchMode(query != null, mSearchManager.hasCheckedChip());
+                    if (mInjector.pickResult != null) {
+                        mInjector.pickResult.increaseActionCount();
+                    }
+                }
+
                 mInjector.actions.loadDocumentsForCurrentStack();
             }
 
@@ -178,6 +189,16 @@ public abstract class BaseActivity
             @Override
             public void onSearchViewChanged(boolean opened) {
                 mNavigator.update();
+            }
+
+            @Override
+            public void onSearchChipStateChanged(View v) {
+                final Checkable chip = (Checkable) v;
+                if (chip.isChecked()) {
+                    final SearchChipData item = (SearchChipData) v.getTag();
+                    Metrics.logUserAction(MetricConsts.USER_ACTION_SEARCH_CHIP);
+                    Metrics.logSearchType(item.getChipType());
+                }
             }
         };
 

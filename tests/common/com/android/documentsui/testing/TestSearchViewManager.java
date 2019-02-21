@@ -18,6 +18,7 @@ package com.android.documentsui.testing;
 
 import static org.mockito.Mockito.mock;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.documentsui.base.DocumentStack;
@@ -50,6 +51,10 @@ public class TestSearchViewManager extends SearchViewManager {
 
                     @Override
                     public void onSearchViewChanged(boolean opened) {
+                    }
+
+                    @Override
+                    public void onSearchChipStateChanged(View v) {
                     }
                 },
                 new CommandInterceptor(new TestFeatures()), mock(ViewGroup.class),

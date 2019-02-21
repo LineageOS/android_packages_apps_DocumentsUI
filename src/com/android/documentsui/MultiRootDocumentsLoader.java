@@ -416,7 +416,7 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
             } catch (Exception e) {
                 Log.w(TAG, "Failed to acquire content resolver for authority: " + authority);
             } finally {
-                ContentProviderClient.closeQuietly(client);
+                FileUtils.closeQuietly(client);
             }
 
             set(mCursors);
