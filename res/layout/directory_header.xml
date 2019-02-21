@@ -27,17 +27,32 @@
     <!-- used for apps row. -->
     <include layout="@layout/apps_row"/>
 
-    <TextView
-        android:id="@+id/header_title"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/root_info_header_height"
-        android:paddingStart="@dimen/root_info_header_horizontal_padding"
-        android:textAppearance="@style/SortTitle"
-        android:textAllCaps="true"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:gravity="center"/>
+        android:layout_marginStart="@dimen/root_info_header_horizontal_padding"
+        android:layout_marginEnd="@dimen/root_info_header_horizontal_padding"
+        android:minHeight="@dimen/root_info_header_height">
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAppearance="@style/SortTitle"
+            android:textAllCaps="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"/>
+
+        <androidx.appcompat.widget.ActionMenuView
+            android:id="@+id/sub_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:theme="@style/SubMenuStyle"/>
+
+    </LinearLayout>
 
     <!-- column headers are empty on small screens, in portrait or in grid mode. -->
     <include layout="@layout/column_headers"/>

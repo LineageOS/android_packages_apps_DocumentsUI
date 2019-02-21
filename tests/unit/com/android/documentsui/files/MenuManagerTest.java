@@ -94,8 +94,6 @@ public final class MenuManagerTest {
     /* Option Menu items */
     private TestMenuItem optionSearch;
     private TestMenuItem optionDebug;
-    private TestMenuItem optionGrid;
-    private TestMenuItem optionList;
     private TestMenuItem optionNewWindow;
     private TestMenuItem optionCreateDir;
     private TestMenuItem optionSelectAll;
@@ -103,6 +101,10 @@ public final class MenuManagerTest {
     private TestMenuItem optionSettings;
     private TestMenuItem optionInspector;
     private TestMenuItem optionSort;
+
+    /* Sub Option Menu items */
+    private TestMenuItem subOptionGrid;
+    private TestMenuItem subOptionList;
 
     private TestFeatures features;
     private TestSelectionDetails selectionDetails;
@@ -158,8 +160,6 @@ public final class MenuManagerTest {
         // Menu actions (including overflow) when action mode is not active.
         optionSearch = testMenu.findItem(R.id.option_menu_search);
         optionDebug = testMenu.findItem(R.id.option_menu_debug);
-        optionGrid = testMenu.findItem(R.id.option_menu_grid);
-        optionList = testMenu.findItem(R.id.option_menu_list);
         optionNewWindow = testMenu.findItem(R.id.option_menu_new_window);
         optionCreateDir = testMenu.findItem(R.id.option_menu_create_dir);
         optionSelectAll = testMenu.findItem(R.id.option_menu_select_all);
@@ -168,12 +168,16 @@ public final class MenuManagerTest {
         optionInspector = testMenu.findItem(R.id.option_menu_inspect);
         optionSort = testMenu.findItem(R.id.option_menu_sort);
 
+        // Menu actions on root title row.
+        subOptionGrid = testMenu.findItem(R.id.sub_menu_grid);
+        subOptionList = testMenu.findItem(R.id.sub_menu_list);
+
         features = new TestFeatures();
 
         // These items by default are visible
         testMenu.findItem(R.id.dir_menu_select_all).setVisible(true);
         testMenu.findItem(R.id.option_menu_select_all).setVisible(true);
-        testMenu.findItem(R.id.option_menu_list).setVisible(true);
+        testMenu.findItem(R.id.sub_menu_list).setVisible(true);
 
         selectionDetails = new TestSelectionDetails();
         dirDetails = new TestDirectoryDetails();
