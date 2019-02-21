@@ -16,10 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
-import android.graphics.Outline;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -44,13 +42,6 @@ public class AppsRowManager {
 
     private final ActionHandler mActionHandler;
     private final List<AppsRowItemData> mDataList;
-
-    private static final ViewOutlineProvider OVAL_OUTLINE_PROVIDER = new ViewOutlineProvider() {
-        @Override
-        public void getOutline(View view, Outline outline) {
-            outline.setOval(0, 0, view.getWidth(), view.getHeight());
-        }
-    };
 
     public AppsRowManager(ActionHandler handler) {
         mDataList = new ArrayList<>();
@@ -105,7 +96,5 @@ public class AppsRowManager {
         title.setText(data.getTitle());
         exit_icon.setVisibility(data.showExitIcon() ? View.VISIBLE : View.GONE);
         view.setOnClickListener(v -> data.onClicked());
-
-        app_icon.setOutlineProvider(OVAL_OUTLINE_PROVIDER);
     }
 }
