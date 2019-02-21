@@ -24,6 +24,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.filters.Suppress;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 
 @LargeTest
 public class SearchViewUiTest extends ActivityTest<FilesActivity> {
@@ -49,6 +50,7 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
         bots.search.assertIconVisible(true);
     }
 
+    @HugeLongTest
     public void testSearchIconHidden() throws Exception {
         bots.roots.openRoot(ROOT_1_ID);  // root 1 doesn't support search
 

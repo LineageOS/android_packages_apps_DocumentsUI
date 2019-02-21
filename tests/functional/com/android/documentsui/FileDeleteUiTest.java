@@ -31,6 +31,7 @@ import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.services.TestNotificationService;
 
 import java.util.ArrayList;
@@ -156,6 +157,7 @@ public class FileDeleteUiTest extends ActivityTest<FilesActivity> {
         exec.shutdown();
     }
 
+    @HugeLongTest
     public void testDeleteAllDocument() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
         bots.main.clickToolbarOverflowItem(

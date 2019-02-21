@@ -27,6 +27,7 @@ import androidx.test.filters.LargeTest;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 
 @LargeTest
 public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
@@ -63,6 +64,7 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
         }
     }
 
+    @HugeLongTest
     public void testNavigate_FromEmptyDirectory() throws Exception {
         device.waitForIdle();
 
@@ -75,6 +77,7 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
         device.pressBack();
     }
 
+    @HugeLongTest
     public void testDefaultRoots() throws Exception {
         device.waitForIdle();
 

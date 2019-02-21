@@ -19,6 +19,7 @@ package com.android.documentsui;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 
 @LargeTest
 public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
@@ -45,12 +46,14 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertHasMessageButtonText("SIGN IN");
     }
 
+    @HugeLongTest
     public void testInfoMessage_visible() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_INFO);
         bots.directory.assertHasMessage(DemoProvider.MSG_INFO);
         bots.directory.assertHasMessageButtonText("DISMISS");
     }
 
+    @HugeLongTest
     public void testInfoMessage_dismissable() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_INFO);
         bots.directory.assertHasMessage(true);
@@ -58,12 +61,14 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertHasMessage(false);
     }
 
+    @HugeLongTest
     public void testErrorMessage_visible() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_ERROR);
         bots.directory.assertHasMessage(DemoProvider.MSG_ERROR);
         bots.directory.assertHasMessageButtonText("DISMISS");
     }
 
+    @HugeLongTest
     public void testErrorMessage_dismissable() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_ERROR);
         bots.directory.assertHasMessage(true);
@@ -71,6 +76,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertHasMessage(false);
     }
 
+    @HugeLongTest
     public void testErrorMessage_supercedesInfoMessage() throws Exception {
         // When both error and info are returned in Directory, only show the error.
         bots.directory.openDocument(DemoProvider.DIR_ERROR_AND_INFO);

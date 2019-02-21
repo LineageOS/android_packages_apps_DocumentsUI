@@ -22,6 +22,7 @@ import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 
 /**
  * A Ui test will do tests in the internal storage root. It is implemented because some operations
@@ -64,6 +65,7 @@ public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
         super.tearDown();
     }
 
+    @HugeLongTest
     public void testRenameFile() throws Exception {
         createTestFiles();
 
