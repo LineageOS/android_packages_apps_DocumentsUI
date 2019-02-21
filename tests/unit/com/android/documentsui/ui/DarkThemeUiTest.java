@@ -38,30 +38,24 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class DarkThemeUiTest extends ThemeUiTestBase {
     Context mTestContext;
-    int mExpectedDarkGreyColor, mExpectedGreyColor, mExpectedDarkColor;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
         mTestContext = InstrumentationRegistry.getContext();
         mTheme = getThemeByUiMode(mTargetContext, Configuration.UI_MODE_NIGHT_YES);
-        mExpectedDarkGreyColor = mTestContext.getResources().getColor(
-                com.android.documentsui.tests.R.color.expected_g_dark_grey);
-        mExpectedGreyColor = mTestContext.getResources().getColor(
-                com.android.documentsui.tests.R.color.expected_g_grey);
-        mExpectedDarkColor = Color.BLACK;
     }
 
     @Test
     public void themeNightModeEnable_actionBarColorShouldBeDark() {
-
         assertTheme(R.styleable.ActionBarView, R.styleable.ActionBarView_android_colorBackground,
-                mExpectedDarkGreyColor);
+                mTheme.getResources().getColor(R.color.app_background_color, mTheme));
     }
 
     @Test
     public void themeNightModeEnable_gridItemBackgroundColorShouldBeDark() {
-        assertTheme(R.styleable.GridItem, R.styleable.GridItem_gridItemColor, mExpectedGreyColor);
+        assertTheme(R.styleable.GridItem, R.styleable.GridItem_gridItemColor,
+                mTheme.getResources().getColor(R.color.item_doc_background, mTheme));
     }
 
     @Test
@@ -85,19 +79,19 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     @Test
     public void themeNightModeEnable_navigationBarColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_navigationBarColor,
-                mExpectedDarkColor);
+                mTheme.getResources().getColor(android.R.color.background_dark, mTheme));
     }
 
     @Test
     public void themeNightModeEnable_windowBackgroundColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_windowBackground,
-                mExpectedDarkGreyColor);
+                mTheme.getResources().getColor(R.color.app_background_color, mTheme));
     }
 
     @Test
     public void themeNightModeEnable_statusBarColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_statusBarColor,
-                mExpectedDarkGreyColor);
+                mTheme.getResources().getColor(R.color.app_background_color, mTheme));
     }
 
     @Test

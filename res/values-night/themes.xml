@@ -21,9 +21,8 @@
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
 
-        <item name="colorPrimaryDark">@color/g_grey</item>
         <item name="colorPrimary">?attr/colorAccent</item>
-        <item name="colorSecondary">@color/g_dark_grey</item>
+        <item name="colorSecondary">@color/text_secondary</item>
         <item name="colorAccent">@color/accent</item>
 
         <item name="queryBackground">@color/menu_search_background</item>
@@ -41,7 +40,7 @@
         <item name="gridItemSelectedColor">@color/item_doc_background_selected</item>
         <item name="gridItemDisableColor">@color/item_doc_background_disabled</item>
 
-        <item name="android:colorBackground">@color/g_dark_grey</item>
+        <item name="android:colorBackground">@color/app_background_color</item>
         <item name="android:windowBackground">?android:attr/colorBackground</item>
         <item name="android:statusBarColor">?android:attr/colorBackground</item>
         <item name="android:windowLightStatusBar">false</item>

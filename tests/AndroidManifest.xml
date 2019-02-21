@@ -3,7 +3,6 @@
     package="com.android.documentsui.tests">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MODIFY_DAY_NIGHT_MODE" />
 
     <application android:label="DocumentsUI Tests">
         <uses-library android:name="android.test.runner" />
