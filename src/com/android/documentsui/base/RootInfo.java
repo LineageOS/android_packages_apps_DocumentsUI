@@ -365,11 +365,11 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
         switch (derivedType) {
             case TYPE_IMAGES:
-                return IconUtils.loadMimeIcon(context, MimeTypes.IMAGE_PREFIX);
+                return IconUtils.loadMimeIcon(context, MimeTypes.IMAGE_MIME);
             case TYPE_AUDIO:
-                return IconUtils.loadMimeIcon(context, MimeTypes.AUDIO_PREFIX);
+                return IconUtils.loadMimeIcon(context, MimeTypes.AUDIO_MIME);
             case TYPE_VIDEO:
-                return IconUtils.loadMimeIcon(context, MimeTypes.VIDEO_PREFIX);
+                return IconUtils.loadMimeIcon(context, MimeTypes.VIDEO_MIME);
             default:
                 return IconUtils.loadMimeIcon(context, MimeTypes.GENERIC_TYPE);
         }
