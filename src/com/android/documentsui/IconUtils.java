@@ -52,7 +52,8 @@ public class IconUtils {
      * @return drawable of mime type files from system default
      */
     public static Drawable loadMimeIcon(Context context, String mimeType) {
-        return context.getContentResolver().getTypeDrawable(mimeType);
+        if (mimeType == null) return null;
+        return context.getContentResolver().getTypeInfo(mimeType).getIcon().loadDrawable(context);
     }
 
     public static Drawable applyTintColor(Context context, int drawableId, int tintColorId) {

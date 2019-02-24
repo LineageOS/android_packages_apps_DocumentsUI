@@ -43,17 +43,6 @@ class DirectoryItemAnimator extends DefaultItemAnimator {
     private final List<ColorAnimation> mPendingAnimations = new ArrayList<>();
     private final Map<RecyclerView.ViewHolder, ColorAnimation> mRunningAnimations =
             new ArrayMap<>();
-    private final Integer mDefaultColor;
-    private final Integer mSelectedColor;
-
-    public DirectoryItemAnimator(Context context) {
-        TypedArray ta = context.obtainStyledAttributes(R.styleable.GridItem);
-        mSelectedColor = ta.getColor(R.styleable.GridItem_gridItemSelectedColor
-                , R.color.item_doc_background_selected);
-        mDefaultColor = ta.getColor(R.styleable.GridItem_gridItemColor
-                , R.color.item_doc_background);
-        ta.recycle();
-    }
 
     @Override
     public void runPendingAnimations() {

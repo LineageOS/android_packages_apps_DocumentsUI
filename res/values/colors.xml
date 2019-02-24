@@ -18,9 +18,8 @@
     <!-- This is the window background, but also the background for anything
          else that needs to manually declare a background matching the "default"
          app background (e.g. the drawer overlay). -->
-    <color name="g_dark_grey">#ff202124</color>
-    <color name="g_grey">#ff3c4043</color>
-    <color name="g_light_grey">#fff1f3f4</color>
+
+    <color name="app_background_color">#fff1f3f4</color>
     <color name="drawer_border">#ffd4d4d4</color>
     <color name="menu_search_background">@android:color/transparent</color>
 
@@ -80,6 +79,7 @@
     <color name="inspector_title_background">#40000000</color>
     <color name="inspector_debug_mode_color">#607d8b</color>
 
+    <color name="chip_background_disable_color">#fff1f3f4</color>
     <color name="chip_stroke_color">#FFDADCE0</color>
     <color name="chip_selected_background_color">#FFE8F0FE</color>
     <color name="chip_ripple_color">#FF4285f4</color>

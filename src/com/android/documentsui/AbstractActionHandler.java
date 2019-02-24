@@ -434,7 +434,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             mActivity.getActionBar().setBackgroundDrawable(new ColorDrawable(
                     mActivity.getResources().getColor(R.color.primary)));
             mActivity.getWindow().setStatusBarColor(
-                    mActivity.getResources().getColor(R.color.g_dark_grey));
+                    mActivity.getResources().getColor(android.R.color.background_dark));
         }
     }
 

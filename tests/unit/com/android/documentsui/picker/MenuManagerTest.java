@@ -87,14 +87,15 @@ public final class MenuManagerTest {
     /* Option Menu items */
     private TestMenuItem optionSearch;
     private TestMenuItem optionDebug;
-    private TestMenuItem optionGrid;
-    private TestMenuItem optionList;
     private TestMenuItem optionNewWindow;
     private TestMenuItem optionCreateDir;
     private TestMenuItem optionSelectAll;
     private TestMenuItem optionAdvanced;
     private TestMenuItem optionSettings;
     private TestMenuItem optionSort;
+
+    private TestMenuItem subOptionGrid;
+    private TestMenuItem subOptionList;
 
     private TestSelectionDetails selectionDetails;
     private TestDirectoryDetails dirDetails;
@@ -141,14 +142,16 @@ public final class MenuManagerTest {
 
         optionSearch = testMenu.findItem(R.id.option_menu_search);
         optionDebug = testMenu.findItem(R.id.option_menu_debug);
-        optionGrid = testMenu.findItem(R.id.option_menu_grid);
-        optionList = testMenu.findItem(R.id.option_menu_list);
         optionNewWindow = testMenu.findItem(R.id.option_menu_new_window);
         optionCreateDir = testMenu.findItem(R.id.option_menu_create_dir);
         optionSelectAll = testMenu.findItem(R.id.option_menu_select_all);
         optionAdvanced = testMenu.findItem(R.id.option_menu_advanced);
         optionSettings = testMenu.findItem(R.id.option_menu_settings);
         optionSort = testMenu.findItem(R.id.option_menu_sort);
+
+        // Menu actions on root title row.
+        subOptionGrid = testMenu.findItem(R.id.sub_menu_grid);
+        subOptionList = testMenu.findItem(R.id.sub_menu_list);
 
         selectionDetails = new TestSelectionDetails();
         dirDetails = new TestDirectoryDetails();
@@ -239,10 +242,11 @@ public final class MenuManagerTest {
         state.action = ACTION_OPEN;
         state.derivedMode = State.MODE_LIST;
         mgr.updateOptionMenu(testMenu);
+        mgr.updateSubMenu(testMenu);
 
         optionCreateDir.assertInvisible();
-        optionGrid.assertVisible();
-        optionList.assertInvisible();
+        subOptionGrid.assertVisible();
+        subOptionList.assertInvisible();
         assertFalse(testSearchManager.showMenuCalled());
     }
 
@@ -268,9 +272,10 @@ public final class MenuManagerTest {
     public void testOptionMenu_inRecents() {
         dirDetails.isInRecents = true;
         mgr.updateOptionMenu(testMenu);
+        mgr.updateSubMenu(testMenu);
 
-        optionGrid.assertInvisible();
-        optionList.assertInvisible();
+        subOptionGrid.assertInvisible();
+        subOptionList.assertInvisible();
     }
 
     @Test

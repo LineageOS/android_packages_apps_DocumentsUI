@@ -72,15 +72,15 @@ public abstract class TestMenu implements Menu {
                 R.id.action_menu_sort,
                 R.id.option_menu_search,
                 R.id.option_menu_debug,
-                R.id.option_menu_grid,
-                R.id.option_menu_list,
                 R.id.option_menu_new_window,
                 R.id.option_menu_create_dir,
                 R.id.option_menu_select_all,
                 R.id.option_menu_advanced,
                 R.id.option_menu_settings,
                 R.id.option_menu_inspect,
-                R.id.option_menu_sort);
+                R.id.option_menu_sort,
+                R.id.sub_menu_grid,
+                R.id.sub_menu_list);
     }
 
 

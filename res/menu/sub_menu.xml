@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2018 The Android Open Source Project
+<!-- Copyright (C) 2019 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -14,7 +14,18 @@
      limitations under the License.
 -->
 
-<resources>
-    <color name="expected_g_dark_grey">#ff202124</color>     <!--M2 Grey 900-->
-    <color name="expected_g_grey">#ff3c4043</color>          <!--M2 Grey 800-->
-</resources>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sub_menu_grid"
+        android:title="@string/menu_grid"
+        android:icon="@drawable/ic_menu_view_grid"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/sub_menu_list"
+        android:title="@string/menu_list"
+        android:icon="@drawable/ic_menu_view_list"
+        app:showAsAction="always"/>
+</menu>
