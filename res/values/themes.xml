@@ -18,6 +18,7 @@
     <style name="DocumentsTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
 
         <item name="actionModeStyle">@style/ActionModeStyle</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
 
