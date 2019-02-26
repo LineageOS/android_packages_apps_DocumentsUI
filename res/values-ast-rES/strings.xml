@@ -138,10 +138,15 @@
     <!-- Text shown when files are deleted -->
     <!-- Text shown for the undo button -->
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for copying files [CHAR LIMIT=32] -->
+    <string name="copy_preparing">Tresnando...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for compressing files [CHAR LIMIT=32] -->
+    <string name="compress_preparing">Tresnando...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for extracting files [CHAR LIMIT=32] -->
+    <string name="extract_preparing">Tresnando...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for moving files [CHAR LIMIT=32] -->
+    <string name="move_preparing">Tresnando...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for deleting files [CHAR LIMIT=32] -->
+    <string name="delete_preparing">Tresnando...</string>
     <!-- Text progress shown on the notification while DocumentsUI is deleting files. -->
     <!-- Title of the copy error notification [CHAR LIMIT=48] -->
     <!-- Title of the compress error notification [CHAR LIMIT=48] -->
