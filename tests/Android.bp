@@ -20,6 +20,35 @@ filegroup {
     ],
 }
 
+filegroup {
+    name: "DocumentsUITests-srcs",
+    srcs: [
+        "common/**/*.java",
+        "functional/**/*.java",
+        "unit/**/*.java",
+    ],
+}
+
+android_library {
+    name: "DocumentsUITests-res-lib",
+
+    manifest: "AndroidManifest.xml",
+
+    asset_dirs: [
+        "assets",
+    ],
+
+    resource_dirs: [
+        "res",
+    ],
+
+    aaptflags: [
+        // pack some raw file locate in assets folder
+        "-0 .zip",
+        "--auto-add-overlay",
+    ],
+}
+
 android_test {
     name: "DocumentsUITests",
 
