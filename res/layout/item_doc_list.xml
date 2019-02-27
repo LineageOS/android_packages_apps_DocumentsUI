@@ -20,7 +20,7 @@
     android:id="@+id/item_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/list_item_background"
     android:focusable="true"
     android:orientation="horizontal" >
 
