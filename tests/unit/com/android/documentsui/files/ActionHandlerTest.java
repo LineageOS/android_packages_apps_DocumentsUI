@@ -32,6 +32,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Intent;
@@ -499,6 +500,15 @@ public class ActionHandlerTest {
         DocumentStackAsserts.assertEqualsTo(mEnv.state.stack, TestProvidersAccess.HOME,
                 Arrays.asList(TestEnv.FOLDER_0, TestEnv.FOLDER_1));
         mActivity.refreshCurrentRootAndDirectory.assertCalled();
+    }
+
+    @Test
+    public void testInitLocation_LaunchToDownloads() throws Exception {
+        Intent intent = mActivity.getIntent();
+        intent.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
+
+        mHandler.initLocation(intent);
+        assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
     }
 
     @Test
