@@ -523,7 +523,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         int pad = getDirectoryPadding(mode);
         int appBarHeight = getAppBarLayoutHeight();
-        mRecView.setPadding(pad, pad + appBarHeight, pad, pad + getSaveLayoutHeight());
+        mRecView.setPadding(pad, appBarHeight, pad, getSaveLayoutHeight());
         mRecView.requestLayout();
         mIconHelper.setViewMode(mode);
 
