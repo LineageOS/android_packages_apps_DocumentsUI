@@ -267,7 +267,8 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateViewInOwner(MenuItem view, SelectionDetails selectionDetails) {
-        if (selectionDetails.canViewInOwner()) {
+        if (selectionDetails.canViewInOwner() &&
+                mSelectionManager.getSelection().iterator().hasNext()) {
             view.setVisible(true);
             view.setEnabled(true);
             Resources res = mContext.getResources();

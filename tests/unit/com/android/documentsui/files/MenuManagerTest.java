@@ -297,6 +297,26 @@ public final class MenuManagerTest {
     }
 
     @Test
+    public void testActionsMenu_cantViewInOwner_noSelection() {
+        // Simulate empty selection
+        selectionManager = SelectionHelpers.createTestInstance();
+        mgr = new MenuManager(
+                features,
+                testSearchManager,
+                state,
+                dirDetails,
+                activity,
+                selectionManager,
+                this::getApplicationNameFromAuthority,
+                this::getUriFromModelId);
+
+        selectionDetails.canViewInOwner = true;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeViewInOwner.assertInvisible();
+    }
+
+    @Test
     public void testActionMenu_changeToCanDelete() {
         selectionDetails.canDelete = false;
         mgr.updateActionMenu(testMenu, selectionDetails);
