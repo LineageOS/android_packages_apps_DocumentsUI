@@ -60,7 +60,13 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
                 bots.main.assertWindowTitle("Downloads");
             }
         } else {
-            bots.main.assertSearchBarShow();
+            boolean showSearchBar =
+                    context.getResources().getBoolean(R.bool.show_search_bar);
+            if (showSearchBar) {
+                bots.main.assertSearchBarShow();
+            } else {
+                bots.main.assertWindowTitle("Recent");
+            }
         }
     }
 
