@@ -30,6 +30,7 @@ import androidx.test.filters.Suppress;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
 
@@ -88,6 +89,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertDocumentsAbsent("file1.png");
     }
 
+    @HugeLongTest
     public void testKeyboard_CutDocument() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
@@ -105,6 +107,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertDocumentsAbsent("file1.png");
     }
 
+    @HugeLongTest
     public void testKeyboard_CopyDocument() throws Exception {
         bots.directory.selectDocument("file1.png", 1);
         device.waitForIdle();
@@ -131,6 +134,7 @@ public class FileManagementUiTest extends ActivityTest<FilesActivity> {
         bots.directory.waitForDocument("file1.png");
     }
 
+    @HugeLongTest
     public void testCopyLargeAmountOfFiles() throws Exception {
         // Suppress root notification. We're gonna create tons of files and it will soon crash
         // DocsUI because too many root refreshes are queued in an executor.

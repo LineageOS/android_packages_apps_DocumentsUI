@@ -23,6 +23,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.filters.Suppress;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 
 @LargeTest
 public class SidebarUiTest extends ActivityTest<FilesActivity> {
@@ -39,6 +40,7 @@ public class SidebarUiTest extends ActivityTest<FilesActivity> {
         initTestFiles();
     }
 
+    @HugeLongTest
     public void testRootTapped_GoToRootFromChildDir() throws Exception {
         bots.directory.openDocument(dirName1);
         bots.breadcrumb.assertTitle(dirName1);

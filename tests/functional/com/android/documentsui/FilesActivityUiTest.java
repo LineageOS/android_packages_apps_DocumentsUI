@@ -23,6 +23,7 @@ import android.os.RemoteException;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.inspector.InspectorActivity;
 
 @LargeTest
@@ -111,6 +112,7 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
         monitor.waitForActivityWithTimeout(TIMEOUT);
     }
 
+    @HugeLongTest
     public void testRootChange_UpdatesSortHeader() throws Exception {
 
         // switch to separate display modes for two separate roots. Each
