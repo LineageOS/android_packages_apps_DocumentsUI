@@ -48,7 +48,7 @@ public class PickerPreviewTextUiTest extends ActivityTest<PickActivity>{
     @Override
     protected void launchActivity() {
         final Intent intent = context.getPackageManager().getLaunchIntentForPackage(
-                UiBot.TARGET_PKG);
+                UiBot.targetPackageName);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_GET_CONTENT);
         if (getInitialRoot() != null) {

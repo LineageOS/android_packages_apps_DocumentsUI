@@ -58,8 +58,6 @@ import java.util.function.Predicate;
  */
 public class BreadBot extends Bots.BaseBot {
 
-    public static final String TARGET_PKG = "com.android.documentsui";
-
     private static final Matcher<View> DROPDOWN_BREADCRUMB = withId(
             R.id.dropdown_breadcrumb);
 

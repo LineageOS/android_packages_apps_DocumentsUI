@@ -14,6 +14,8 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestPackageManager;
 import com.android.documentsui.testing.TestResources;
 
+import androidx.test.InstrumentationRegistry;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,17 +28,20 @@ import java.util.Set;
 @RunWith(AndroidJUnit4.class)
 public class QuickViewIntentBuilderTest {
 
+    private static String mTargetPackageName;
     private PackageManager mPm;
     private TestEnv mEnv;
     private TestResources mRes;
 
     @Before
     public void setUp() {
+        mTargetPackageName =
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageName();
         mPm = TestPackageManager.create();
         mEnv = TestEnv.create();
         mRes = TestResources.create();
 
-        mRes.setQuickViewerPackage("com.android.documentsui");
+        mRes.setQuickViewerPackage(mTargetPackageName);
     }
 
     @Test
