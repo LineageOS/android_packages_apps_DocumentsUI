@@ -32,6 +32,7 @@ import android.util.Log;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.services.TestNotificationService;
 
 import java.util.concurrent.CountDownLatch;
@@ -141,6 +142,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         }
     }
 
+    @HugeLongTest
     public void testCopyDocument_Cancel() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
 
@@ -159,6 +161,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         bots.directory.waitForDocument(TARGET_FILE);
     }
 
+    @HugeLongTest
     public void testCopyDocument_CancelFromNotification() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
         bots.directory.findDocument(TARGET_FILE);
@@ -191,6 +194,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         assertTrue(bots.directory.hasDocuments(TARGET_FILE));
     }
 
+    @HugeLongTest
     public void testMoveDocument_Cancel() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
 
@@ -209,6 +213,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         bots.directory.waitForDocument(TARGET_FILE);
     }
 
+    @HugeLongTest
     public void testMoveDocument_CancelFromNotification() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
         bots.directory.findDocument(TARGET_FILE);

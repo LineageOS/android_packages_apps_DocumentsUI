@@ -40,6 +40,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.services.TestNotificationService;
 
 import java.util.HashMap;
@@ -371,6 +372,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     }
 
     // Copy Internal Storage -> Internal Storage //
+    @HugeLongTest
     public void testCopyDocuments_InternalStorage() throws Exception {
         createDocuments(StubProvider.ROOT_0_ID, rootDir0, mDocsHelper);
         copyFiles(StubProvider.ROOT_0_ID, StubProvider.ROOT_1_ID);
@@ -384,6 +386,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     }
 
     // Copy SD Card -> Internal Storage //
+    @HugeLongTest
     public void testCopyDocuments_FromSdCard() throws Exception {
         createDocuments(mSdCardLabel, mSdCardRoot, mStorageDocsHelper);
         copyFiles(mSdCardLabel, Build.MODEL);
@@ -397,6 +400,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     }
 
     // Copy Internal Storage -> SD Card //
+    @HugeLongTest
     public void testCopyDocuments_ToSdCard() throws Exception {
         createDocuments(Build.MODEL, mPrimaryRoot, mStorageDocsHelper);
         copyFiles(Build.MODEL, mSdCardLabel);
@@ -409,6 +413,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         assertFilesCopied(mSdCardLabel, mSdCardRoot, mStorageDocsHelper);
     }
 
+    @HugeLongTest
     public void testCopyDocuments_documentsDisabled() throws Exception {
         mDocsHelper.createDocument(rootDir0, "text/plain", fileName1);
         bots.roots.openRoot(StubProvider.ROOT_0_ID);
