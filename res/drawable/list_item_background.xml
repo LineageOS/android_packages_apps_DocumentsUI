@@ -21,7 +21,7 @@
           android:state_selected="true" />
     <item android:drawable="@color/item_hover_color"
           android:state_drag_hovered="true" />
-    <item android:drawable="@color/item_doc_background"
+    <item android:drawable="@color/app_background_color"
           android:state_selected="false"
           android:state_focused="false"/>
 </selector>

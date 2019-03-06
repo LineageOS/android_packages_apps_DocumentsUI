@@ -37,7 +37,7 @@
         android:duplicateParentState="true"
         app:cardElevation="0dp"
         app:strokeWidth="1dp"
-        app:strokeColor="@color/item_grid_stroke">
+        app:strokeColor="@color/hairline">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -99,7 +99,7 @@
 
             <LinearLayout
                 android:id="@+id/nameplate"
-                android:background="?android:attr/colorBackgroundFloating"
+                android:background="?android:attr/colorBackground"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
