@@ -53,6 +53,7 @@ public class SearchBarScrollingViewBehaviorTest {
     @Test
     public void setAppBarLayoutTransparent_defaultWhiteBackground_shouldBeTransparent() {
         mContext.setTheme(R.style.DocumentsTheme);
+        mContext.getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
         final CoordinatorLayout coordinatorLayout = new CoordinatorLayout(mContext);
         final AppBarLayout appBarLayout = new AppBarLayout(mContext);
         final CoordinatorLayout.LayoutParams lp = mock(CoordinatorLayout.LayoutParams.class);

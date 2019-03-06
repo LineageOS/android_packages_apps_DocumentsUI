@@ -27,8 +27,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-sdk
-        android:targetSdkVersion="29"
-        android:minSdkVersion="21"/>
+        android:targetSdkVersion="Q"
+        android:minSdkVersion="Q"/>
 
     <application
         android:name=".DocumentsApplication"
@@ -183,7 +183,7 @@
         <activity
             android:name=".selection.demo.SelectionDemoActivity"
             android:label="Selection Demo"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/DocumentsTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

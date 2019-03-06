@@ -28,6 +28,7 @@ import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.R;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.Shared;
 
@@ -52,7 +53,8 @@ public final class SearchChipViewManagerTest {
     @Before
     public void setUp() {
         final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        context.setTheme(com.android.documentsui.R.style.DocumentsTheme);
+        context.setTheme(R.style.DocumentsTheme);
+        context.getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
         mChipGroup = spy(new LinearLayout(context));
         mSearchChipViewManager = new SearchChipViewManager(mChipGroup);
         mSearchChipViewManager.initChipSets(new String[] {"*/*"});
