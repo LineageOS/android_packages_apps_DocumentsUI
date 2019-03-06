@@ -37,12 +37,12 @@
     <style name="DrawerMenuTitle" parent="@android:style/TextAppearance.Material.Title"/>
 
     <style name="DrawerMenuPrimary" parent="android:style/TextAppearance.Material.Body2">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColor">@color/item_root_primary_text</item>
     </style>
 
     <style name="DrawerMenuSecondary" parent="android:style/TextAppearance.Material.Body2">
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:textColor">@color/item_root_secondary_text</item>
     </style>
 
     <style name="InspectorKeySubTitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">

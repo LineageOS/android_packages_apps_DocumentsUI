@@ -18,27 +18,24 @@
     <!-- DocumentsTheme is allow customize by run time overlay -->
     <style name="DocumentsTheme" parent="@android:style/Theme.DeviceDefault.DocumentsUI">
 
-        <!-- Define versionCode and revisionCode for resource -->
-        <item name="android:versionCode">0</item>
-        <item name="android:revisionCode">0</item>
-
         <item name="android:actionBarSize">@dimen/action_bar_size</item>
         <item name="android:actionModeBackground">?android:attr/colorBackground</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_action_clear</item>
+
+        <!-- Color section -->
         <item name="android:colorAccent">@color/accent</item>
         <item name="android:colorBackground">@android:color/white</item>
         <item name="android:colorBackgroundFloating">@color/item_doc_background</item>
-        <item name="android:colorControlNormal">?android:textColorSecondary</item>
         <item name="android:colorControlHighlight">@color/ripple_material_light</item>
-        <item name="android:colorControlActivated">?android:colorAccent</item>
+        <item name="android:colorControlActivated">@color/root_activated_color</item>
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorSecondary">@color/secondary</item>
 
+        <!-- System | Widget section -->
         <item name="android:listDivider">@drawable/list_divider</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
         <item name="android:navigationBarDividerColor">@color/drawer_border</item>
-
         <item name="android:windowBackground">?android:colorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
@@ -68,7 +65,7 @@
 
         <item name="actionModeStyle">@style/ActionModeStyle</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
-        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>tem>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
         <item name="materialCardViewStyle">@style/CardViewStyle</item>
         <item name="queryBackground">@color/menu_search_background</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>

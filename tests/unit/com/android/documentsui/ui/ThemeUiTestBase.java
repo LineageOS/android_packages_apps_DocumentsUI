@@ -40,7 +40,7 @@ import org.junit.runner.RunWith;
  */
 @SmallTest
 @RunWith(AndroidJUnit4.class)
-abstract class ThemeUiTestBase {
+public abstract class ThemeUiTestBase {
     protected Context mTargetContext;
     protected Configuration mConfiguration;
     protected DisplayMetrics mDisplayMetrics;
