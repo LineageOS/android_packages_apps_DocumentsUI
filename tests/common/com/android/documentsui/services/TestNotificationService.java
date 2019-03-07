@@ -31,6 +31,8 @@ import android.widget.ProgressBar;
 import android.widget.RemoteViews;
 import android.util.Log;
 
+import androidx.test.InstrumentationRegistry;
+
 /**
 * This class receives a callback when Notification is posted or removed
 * and monitors the Notification status.
@@ -58,12 +60,12 @@ public class TestNotificationService extends NotificationListenerService {
     public static final String EXTRA_ERROR_REASON =
             "com.android.documentsui.services.TestNotificationService.EXTRA_ERROR_REASON";
 
-    private final static String DOCUMENTSUI_PACKAGE= "com.android.documentsui";
-
     public enum MODE {
         CANCEL_MODE,
         EXECUTION_MODE;
     }
+
+    private static String mTargetPackageName;
 
     private MODE mCurrentMode = MODE.CANCEL_MODE;
 
@@ -87,6 +89,8 @@ public class TestNotificationService extends NotificationListenerService {
 
     @Override
     public void onCreate() {
+        mTargetPackageName =
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageName();
         mFrameLayout = new FrameLayout(getBaseContext());
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_CHANGE_CANCEL_MODE);
@@ -110,7 +114,7 @@ public class TestNotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         String pkgName = sbn.getPackageName();
-        if (DOCUMENTSUI_PACKAGE.equals(pkgName)) {
+        if (mTargetPackageName.equals(pkgName)) {
             if (MODE.CANCEL_MODE.equals(mCurrentMode)) {
                 try {
                     mCancelled = doCancel(sbn.getNotification());
@@ -124,7 +128,7 @@ public class TestNotificationService extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         String pkgName = sbn.getPackageName();
-        if (!DOCUMENTSUI_PACKAGE.equals(pkgName)) {
+        if (!mTargetPackageName.equals(pkgName)) {
             return;
         }
 

@@ -146,7 +146,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
 
     protected void launchActivity() {
         final Intent intent = context.getPackageManager().getLaunchIntentForPackage(
-                UiBot.TARGET_PKG);
+                UiBot.targetPackageName);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         if (getInitialRoot() != null) {
             intent.setAction(Intent.ACTION_VIEW);

@@ -44,7 +44,7 @@ public class InspectorUiTest extends ActivityTest<InspectorActivity> {
             return;
         }
         final Intent intent = context.getPackageManager().getLaunchIntentForPackage(
-                UiBot.TARGET_PKG);
+                UiBot.targetPackageName);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri uri = DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, TEST_DOC_NAME);
         intent.setData(uri);

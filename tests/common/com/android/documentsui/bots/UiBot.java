@@ -45,6 +45,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.BoundedMatcher;
@@ -66,7 +67,7 @@ import java.util.List;
  */
 public class UiBot extends Bots.BaseBot {
 
-    public static final String TARGET_PKG = "com.android.documentsui";
+    public static String targetPackageName;
 
     @SuppressWarnings("unchecked")
     private static final Matcher<View> TOOLBAR = allOf(
@@ -93,6 +94,8 @@ public class UiBot extends Bots.BaseBot {
 
     public UiBot(UiDevice device, Context context, int timeout) {
         super(device, context, timeout);
+        targetPackageName =
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageName();
     }
 
     public void assertWindowTitle(String expected) {
