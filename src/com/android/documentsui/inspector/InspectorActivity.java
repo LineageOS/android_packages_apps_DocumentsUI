@@ -49,6 +49,12 @@ public class InspectorActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ToDo Create tool to check resource version before applyStyle for the theme
+        // If version code is not match, we should reset overlay package to default,
+        // in case Activity continueusly encounter resource not found exception
+        getThemedContext().getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
+
         setContentView(R.layout.inspector_activity);
 
         mToolbar = findViewById(R.id.toolbar);

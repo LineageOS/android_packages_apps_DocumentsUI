@@ -28,6 +28,9 @@
          layouts we reduce this to an input-box adjacent to menu actions. -->
     <bool name="full_bar_search_view">true</bool>
 
+    <!-- Indicates if showing as search bar design -->
+    <bool name="show_search_bar">false</bool>
+
     <string name="default_root_uri" translatable="false">content://com.android.providers.downloads.documents/root/downloads</string>
     <!-- The value is used in sorting process on Drawer menu. If the root's package name
      start with it, the item will have higher order than others.-->

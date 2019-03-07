@@ -23,7 +23,7 @@
     </style>
 
     <style name="CardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
-        <item name="colorBackgroundFloating">@drawable/grid_item_background</item>
+        <item name="cardBackgroundColor">@color/item_doc_background</item>
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardCornerRadius">@dimen/grid_item_radius</item>
         <item name="cardElevation">@dimen/grid_item_elevation</item>
@@ -76,7 +76,7 @@
         <item name="android:navigationBarColor">?android:attr/colorBackground</item>
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
-        <item name="colorControlHighlight">@color/root_focus_color</item>
+        <item name="colorControlHighlight">@color/ripple_material_light</item>
     </style>
 
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
