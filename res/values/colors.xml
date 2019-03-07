@@ -56,6 +56,7 @@
     <color name="item_doc_droppable_background">#ffe8f0fb</color>
     <color name="item_doc_not_droppable_background">#ffe0e0e0</color>
     <color name="item_grid_tint">#ff127beb</color>
+    <color name="item_grid_stroke">#DADCE0</color>
 
     <color name="item_drag_shadow_background">@android:color/white</color>
     <color name="item_drag_shadow_container_background">@android:color/transparent</color>

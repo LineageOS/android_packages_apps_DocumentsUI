@@ -19,5 +19,5 @@
     <stroke
         android:width="2dp"
         android:color="@color/item_doc_grid_border"/>
-    <corners android:radius="@dimen/grid_item_border_radius"/>
+    <corners android:radius="@dimen/grid_item_radius"/>
 </shape>

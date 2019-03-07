@@ -64,6 +64,10 @@
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
+    <style name="CardPrimaryText" parent="@style/TextAppearance.AppCompat.Subhead">
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="SnackbarButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/accent</item>
     </style>
