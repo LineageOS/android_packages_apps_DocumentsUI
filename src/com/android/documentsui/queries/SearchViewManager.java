@@ -198,7 +198,7 @@ public class SearchViewManager implements
         mSearchView.setMaxWidth(Integer.MAX_VALUE);
         mMenuItem.setOnActionExpandListener(this);
 
-        restoreSearch();
+        restoreTextSearch();
     }
 
     /**
@@ -310,8 +310,8 @@ public class SearchViewManager implements
      * Sets search view into the searching state. Used to restore state after device orientation
      * change.
      */
-    private void restoreSearch() {
-        if (isSearching()) {
+    private void restoreTextSearch() {
+        if (isTextSearching()) {
             onSearchBarClicked();
             mSearchView.setQuery(mCurrentSearch, false);
             mSearchView.clearFocus();
@@ -486,6 +486,10 @@ public class SearchViewManager implements
 
     public boolean isSearching() {
         return mCurrentSearch != null || mChipViewManager.hasCheckedItems();
+    }
+
+    private boolean isTextSearching() {
+        return mCurrentSearch != null;
     }
 
     public boolean hasCheckedChip() {
