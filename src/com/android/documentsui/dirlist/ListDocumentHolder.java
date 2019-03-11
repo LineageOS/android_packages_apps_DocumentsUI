@@ -34,6 +34,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
 
@@ -158,7 +159,8 @@ final class ListDocumentHolder extends DocumentHolder {
 
     @Override
     public boolean inSelectRegion(MotionEvent event) {
-        return Views.isEventOver(event, mIconLayout);
+        return (mDoc.isDirectory() && !(mAction == State.ACTION_BROWSE)) ?
+                false : Views.isEventOver(event, mIconLayout);
     }
 
     @Override

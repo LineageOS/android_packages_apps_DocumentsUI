@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
+import com.android.documentsui.base.State;
 import com.android.documentsui.ui.Views;
 
 final class GridDirectoryHolder extends DocumentHolder {
@@ -73,7 +74,7 @@ final class GridDirectoryHolder extends DocumentHolder {
 
     @Override
     public boolean inSelectRegion(MotionEvent event) {
-        return Views.isEventOver(event, mIconLayout);
+        return mAction == State.ACTION_BROWSE ? Views.isEventOver(event, mIconLayout) : false;
     }
 
     /**
