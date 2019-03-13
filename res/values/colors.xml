@@ -19,45 +19,35 @@
          else that needs to manually declare a background matching the "default"
          app background (e.g. the drawer overlay). -->
 
-    <color name="app_background_color">#fff1f3f4</color>
+    <color name="app_background_color">@android:color/white</color>
     <color name="drawer_border">#ffd4d4d4</color>
     <color name="menu_search_background">@android:color/transparent</color>
 
-    <color name="primary">@android:color/white</color>
-    <color name="accent">#004ac2</color>
+    <color name="accent">#1E88E5</color>
+    <color name="primary">#1E88E5</color>
+    <color name="secondary">#E3F2FD</color>
+    <color name="hairline">#90A4AE</color>
 
     <color name="text_handle">#ffcdf5fa</color>
-    <color name="text_highlight">#ffcdf5fa</color>
     <color name="text_hint">#ff80868b</color>
-    <color name="text_secondary">#ff5f6368</color>
 
     <color name="band_select_background">#88ffffff</color>
     <color name="band_select_border">#44000000</color>
 
-    <color name="root_title_color">#de000000</color>
     <color name="root_icon_color">#5F6368</color>
     <color name="root_activated_color">#ff127beb</color>
-    <color name="root_details_color">#8a000000</color>
 
     <color name="item_hover_color">#ffe0e0e0</color>
 
-    <color name="doc_icon_color">#ff5a5a5a</color>
-    <color name="tool_bar_color">@android:color/white</color>
     <color name="tool_bar_gradient_max">#7f000000</color>
 
     <!-- TODO: Would be nice to move this to a color-set, but not sure how to support animation -->
-    <color name="item_doc_title">?android:attr/textColorSecondary</color>
-    <color name="item_doc_title_disabled">?android:attr/textColorSecondaryInverse</color>
     <color name="item_doc_details">?android:attr/textColorSecondary</color>
     <color name="item_doc_background">@android:color/white</color>
     <color name="item_doc_background_disabled">#fff4f4f4</color>
     <color name="item_doc_background_selected">#4d3367d6</color>
-    <color name="item_breadcrumb_background_hovered">#1affffff</color>
-    <color name="item_doc_droppable_background">#ffe8f0fb</color>
-    <color name="item_doc_not_droppable_background">#ffe0e0e0</color>
     <color name="item_grid_tint">#ff127beb</color>
-    <color name="item_grid_stroke">#DADCE0</color>
-
+    <color name="item_breadcrumb_background_hovered">#1affffff</color>
     <color name="item_drag_shadow_background">@android:color/white</color>
     <color name="item_drag_shadow_container_background">@android:color/transparent</color>
 
@@ -66,21 +56,7 @@
     <color name="shortcut_foreground">#ff3367d6</color>
     <color name="shortcut_background">#fff5f5f5</color>
 
-    <color name="dialog_title">?android:attr/textColorPrimary</color>
-
-    <color name="scroll_thumb_pressed">#ff8c8c8c</color>
-    <color name="scroll_thumb">#ffbebebe</color>
-    <color name="scroll_track">#fff0f0f0</color>
-
-    <color name="inspector_value">#ff939393</color>
-    <color name="inspector_link">?android:attr/colorAccent</color>
-    <color name="inspector_section_title">#ff939393</color>
-    <color name="inspector_section_divider">#E0E0E0</color>
-    <color name="inspector_title_background">#40000000</color>
-    <color name="inspector_debug_mode_color">#607d8b</color>
-
     <color name="chip_background_disable_color">#fff1f3f4</color>
-    <color name="chip_stroke_color">#FFDADCE0</color>
     <color name="chip_selected_background_color">#FFE8F0FE</color>
     <color name="chip_ripple_color">#FF4285f4</color>
 </resources>

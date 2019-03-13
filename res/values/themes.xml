@@ -22,23 +22,18 @@
         <item name="android:versionCode">0</item>
         <item name="android:revisionCode">0</item>
 
-        <item name="actionModeStyle">@style/ActionModeStyle</item>
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
-        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
-        <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
-
         <item name="android:actionBarSize">@dimen/action_bar_size</item>
         <item name="android:actionModeBackground">?android:attr/colorBackground</item>
         <item name="android:actionModeCloseDrawable">@drawable/ic_action_clear</item>
         <item name="android:colorAccent">@color/accent</item>
         <item name="android:colorBackground">@android:color/white</item>
+        <item name="android:colorBackgroundFloating">@color/item_doc_background</item>
         <item name="android:colorControlNormal">?android:textColorSecondary</item>
         <item name="android:colorControlHighlight">@color/ripple_material_light</item>
         <item name="android:colorControlActivated">?android:colorAccent</item>
-        <item name="android:colorPrimary">?android:colorAccent</item>
-        <item name="android:colorSecondary">@android:color/white</item>
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorSecondary">@color/secondary</item>
 
-        <item name="android:colorBackgroundFloating">@color/item_doc_background</item>
         <item name="android:listDivider">@drawable/list_divider</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
@@ -62,8 +57,8 @@
 
         <!-- For material design widget, chips, buttons, not support attr-->
         <item name="colorAccent">@color/accent</item>
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorSecondary">@color/accent</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSecondary">@color/secondary</item>
 
         <!-- TODO need to solve the error handle in GridItemThumbnail -->
         <item name="gridItemTint">@color/item_doc_grid_tint</item>
@@ -71,6 +66,8 @@
         <item name="gridItemSelectedColor">@color/item_doc_background_selected</item>
         <item name="gridItemDisableColor">@color/item_doc_background_disabled</item>
 
+        <item name="actionModeStyle">@style/ActionModeStyle</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>tem>
         <item name="materialCardViewStyle">@style/CardViewStyle</item>
         <item name="queryBackground">@color/menu_search_background</item>
