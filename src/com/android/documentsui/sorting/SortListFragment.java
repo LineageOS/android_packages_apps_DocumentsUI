@@ -141,7 +141,7 @@ public class SortListFragment extends DialogFragment {
     private class SortingListAdapter extends ArrayAdapter<SortItem> {
 
         public SortingListAdapter(Context context, List<SortItem> list) {
-            super(context, android.R.layout.simple_list_item_checked, list);
+            super(context, R.layout.sort_list_item, list);
         }
 
         @Override
@@ -154,7 +154,6 @@ public class SortListFragment extends DialogFragment {
             boolean selected = item.id == mModel.getSortedDimensionId()
                     && item.direction == mModel.getCurrentSortDirection();
             text.setChecked(selected);
-            text.setCheckMarkDrawable(R.drawable.list_checker);
             return view;
         }
     }
