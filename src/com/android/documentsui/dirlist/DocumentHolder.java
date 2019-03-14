@@ -31,8 +31,8 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.State;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import javax.annotation.Nullable;
@@ -48,6 +48,8 @@ public abstract class DocumentHolder
     protected final Context mContext;
 
     protected @Nullable String mModelId;
+
+    protected @State.ActionType int mAction;
 
     // See #addKeyEventListener for details on the need for this field.
     private KeyboardEventListener<DocumentItemDetails> mKeyEventListener;
@@ -97,6 +99,10 @@ public abstract class DocumentHolder
 
     public void setEnabled(boolean enabled) {
         setEnabledRecursive(itemView, enabled);
+    }
+
+    public void setAction(@State.ActionType int action) {
+        mAction = action;
     }
 
     public void bindPreviewIcon(boolean show, Function<View, Boolean> clickCallback) {}

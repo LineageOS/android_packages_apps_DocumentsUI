@@ -139,6 +139,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
         }
         holder.setEnabled(enabled);
         holder.setSelected(mEnv.isSelected(modelId), false);
+        holder.setAction(mEnv.getDisplayState().action);
         holder.bindPreviewIcon(Shared.hasQuickViewer(mEnv.getContext())
                         && mEnv.getDisplayState().shouldShowPreview() && enabled,
                 view -> mEnv.getActionHandler().previewItem(holder.getItemDetails()));

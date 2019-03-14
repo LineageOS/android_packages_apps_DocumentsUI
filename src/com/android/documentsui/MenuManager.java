@@ -100,6 +100,8 @@ public abstract class MenuManager {
         updateModePicker(menu.findItem(R.id.sub_menu_grid), menu.findItem(R.id.sub_menu_list));
     }
 
+    public void updateModel(Model model) {}
+
     /**
      * Called when we needs {@link MenuManager} to ask Android to show context menu for us.
      * {@link MenuManager} can choose to defeat this request.
