@@ -579,10 +579,9 @@ public abstract class BaseActivity
         LocalPreferences.setViewMode(this, getCurrentRoot(), mode);
         mState.derivedMode = mode;
 
-        // view icon needs to be updated, but we *could* do it
-        // in onOptionsItemSelected, and not do the full invalidation
-        // But! That's a larger refactoring we'll save for another day.
-        invalidateOptionsMenu();
+        final ActionMenuView subMenuView = findViewById(R.id.sub_menu);
+        mInjector.menuManager.updateSubMenu(subMenuView.getMenu());
+
         DirectoryFragment dir = getDirectoryFragment();
         if (dir != null) {
             dir.onViewModeChanged();
