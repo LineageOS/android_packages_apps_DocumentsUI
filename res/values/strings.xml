@@ -448,7 +448,7 @@
     <!-- Button text show on open document tree flow. [CHAR_LIMIT=48] -->
     <string name="open_tree_button">Allow access to \"<xliff:g id="directory" example="DCIM">%1$s</xliff:g>\"</string>
     <!-- Confrim dialog title show on open document tree flow. [CHAR_LIMIT=60] -->
-    <string name="open_tree_dialog_title">Allow access to \"<xliff:g id="directory" example="DCIM">%1$s</xliff:g>\" on \"<xliff:g id="root" example="SD card">%2$s</xliff:g>\"?</string>
+    <string name="open_tree_dialog_title">Allow access to \"<xliff:g id="directory" example="DCIM">%1$s</xliff:g>\" in \"<xliff:g id="root" example="SD card">%2$s</xliff:g>\"?</string>
     <!-- Confrim dialog message show on open document tree flow.-->
     <string name="open_tree_dialog_message">It will allow \"<xliff:g id="appName" example="Drive">%1$s</xliff:g>\" to have full access to all files currently stored under this location, and any future content stored here.</string>
 

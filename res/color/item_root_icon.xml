@@ -20,5 +20,5 @@
         android:color="@color/root_icon_color" />
     <item
         android:state_activated="true"
-        android:color="@color/root_activated_color" />
+        android:color="?android:colorControlActivated" />
 </selector>

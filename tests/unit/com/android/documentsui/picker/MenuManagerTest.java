@@ -23,16 +23,22 @@ import static com.android.documentsui.base.State.ACTION_OPEN;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.database.MatrixCursor;
+import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.DirectoryResult;
+import com.android.documentsui.Model;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.testing.TestDirectoryDetails;
+import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestMenu;
 import com.android.documentsui.testing.TestMenuItem;
 import com.android.documentsui.testing.TestSearchViewManager;
@@ -278,6 +284,27 @@ public final class MenuManagerTest {
         subOptionList.assertInvisible();
     }
 
+
+    @Test
+    public void testOptionMenu_onlyContainer() {
+        state.allowMultiple = true;
+        mgr.updateModel(getTestModel(true));
+        mgr.updateOptionMenu(testMenu);
+
+        optionSelectAll.assertVisible();
+        optionSelectAll.assertDisabled();
+    }
+
+    @Test
+    public void testOptionMenu_containerAndFile() {
+        state.allowMultiple = true;
+        mgr.updateModel(getTestModel(false));
+        mgr.updateOptionMenu(testMenu);
+
+        optionSelectAll.assertVisible();
+        optionSelectAll.assertEnabled();
+    }
+
     @Test
     public void testContextMenu_EmptyArea() {
         dirDetails.hasItemsToPaste = false;
@@ -464,5 +491,36 @@ public final class MenuManagerTest {
         mgr.updateRootContextMenu(testMenu, testRootInfo, testDocInfo);
 
         rootEjectRoot.assertInvisible();
+    }
+
+    private Model getTestModel(boolean onlyDirectory) {
+        String[] COLUMNS = new String[]{
+                RootCursorWrapper.COLUMN_AUTHORITY,
+                Document.COLUMN_DOCUMENT_ID,
+                Document.COLUMN_FLAGS,
+                Document.COLUMN_DISPLAY_NAME,
+                Document.COLUMN_SIZE,
+                Document.COLUMN_LAST_MODIFIED,
+                Document.COLUMN_MIME_TYPE
+        };
+        MatrixCursor c = new MatrixCursor(COLUMNS);
+        for (int i = 0; i < 3; ++i) {
+            MatrixCursor.RowBuilder row = c.newRow();
+            row.add(Document.COLUMN_DOCUMENT_ID, Integer.toString(i));
+            row.add(Document.COLUMN_MIME_TYPE, Document.MIME_TYPE_DIR);
+        }
+
+        if (!onlyDirectory) {
+            MatrixCursor.RowBuilder row = c.newRow();
+            row.add(Document.COLUMN_DOCUMENT_ID, "4");
+            row.add(Document.COLUMN_MIME_TYPE, "image/jpg");
+        }
+
+        DirectoryResult r = new DirectoryResult();
+        r.cursor = c;
+        Model model = new Model(new TestFeatures());
+        model.update(r);
+
+        return model;
     }
 }

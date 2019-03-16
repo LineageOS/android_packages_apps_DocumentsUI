@@ -111,7 +111,7 @@ public class Model {
     }
 
     @VisibleForTesting
-    protected void update(DirectoryResult result) {
+    public void update(DirectoryResult result) {
         assert(result != null);
         if (DEBUG) Log.i(TAG, "Updating model with new result set.");
 
