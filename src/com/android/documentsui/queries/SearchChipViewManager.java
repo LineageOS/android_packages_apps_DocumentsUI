@@ -211,9 +211,7 @@ public class SearchChipViewManager {
             final String[] mimeTypes = chipData.getMimeTypes();
             final boolean isMatched = MimeTypes.mimeMatches(acceptMimeTypes, mimeTypes);
             if (isMatched) {
-                Chip chip = (Chip) inflater.inflate(R.layout.search_chip_item, mChipGroup, false);
-                bindChip(chip, chipData);
-                mChipGroup.addView(chip);
+                addChipToGroup(mChipGroup, chipData, inflater);
             }
         }
         reorderCheckedChips(null /* clickedChip */, false /* hasAnim */);
@@ -224,6 +222,49 @@ public class SearchChipViewManager {
         }
     }
 
+    private void addChipToGroup(ViewGroup group, SearchChipData data, LayoutInflater inflater) {
+        Chip chip = (Chip) inflater.inflate(R.layout.search_chip_item, mChipGroup, false);
+        bindChip(chip, data);
+        group.addView(chip);
+    }
+
+    /**
+     * Mirror chip group here for another chip group
+     *
+     * @param chipGroup target view group for mirror
+     */
+    public void bindMirrorGroup(ViewGroup chipGroup) {
+        final int size = mChipGroup.getChildCount();
+        if (size <= 1) {
+            chipGroup.setVisibility(View.GONE);
+            return;
+        }
+
+        chipGroup.setVisibility(View.VISIBLE);
+        chipGroup.removeAllViews();
+        final LayoutInflater inflater = LayoutInflater.from(chipGroup.getContext());
+        for (int i = 0; i < size; i++) {
+            Chip child = (Chip) mChipGroup.getChildAt(i);
+            SearchChipData item = (SearchChipData) child.getTag();
+            addChipToGroup(chipGroup, item, inflater);
+        }
+    }
+
+    /**
+     * Click behavior handle here when mirror chip clicked.
+     *
+     * @param data SearchChipData synced in mirror group
+     */
+    public void onMirrorChipClick(SearchChipData data) {
+        for (int i = 0, size = mChipGroup.getChildCount(); i < size; i++) {
+            Chip chip = (Chip) mChipGroup.getChildAt(i);
+            if (chip.getTag().equals(data)) {
+                chip.setChecked(!chip.isChecked());
+                onChipClick(chip);
+                return;
+            }
+        }
+    }
 
     /**
      * Set the listener.

@@ -22,6 +22,9 @@ import static org.mockito.Mockito.spy;
 
 import android.content.Context;
 import android.os.Bundle;
+
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.test.filters.SmallTest;
@@ -47,15 +50,17 @@ public final class SearchChipViewManagerTest {
     private static final String[] TEST_MIME_TYPES = new String[]{"image/*", "video/*"};
     private static int CHIP_TYPE = 1000;
 
+    private Context mContext;
     private SearchChipViewManager mSearchChipViewManager;
     private LinearLayout mChipGroup;
 
     @Before
     public void setUp() {
-        final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        context.setTheme(R.style.DocumentsTheme);
-        context.getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
-        mChipGroup = spy(new LinearLayout(context));
+        mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        mContext.setTheme(com.android.documentsui.R.style.DocumentsTheme);
+        mContext.getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
+        mChipGroup = spy(new LinearLayout(mContext));
+
         mSearchChipViewManager = new SearchChipViewManager(mChipGroup);
         mSearchChipViewManager.initChipSets(new String[] {"*/*"});
     }
@@ -107,6 +112,28 @@ public final class SearchChipViewManagerTest {
         final int[] chipTypes = bundle.getIntArray(Shared.EXTRA_QUERY_CHIPS);
         assertThat(chipTypes.length).isEqualTo(1);
         assertThat(chipTypes[0]).isEqualTo(CHIP_TYPE);
+    }
+
+    @Test
+    public void testBindMirrorGroup_sameValue() throws Exception {
+        mSearchChipViewManager.updateChips(new String[] {"*/*"});
+
+        ViewGroup mirror = spy(new LinearLayout(mContext));
+        mSearchChipViewManager.bindMirrorGroup(mirror);
+
+        assertThat(View.VISIBLE).isEqualTo(mirror.getVisibility());
+        assertThat(mChipGroup.getChildCount()).isEqualTo(mirror.getChildCount());
+        assertThat(mChipGroup.getChildAt(0).getTag()).isEqualTo(mirror.getChildAt(0).getTag());
+    }
+
+    @Test
+    public void testBindMirrorGroup_hideRow() throws Exception {
+        mSearchChipViewManager.updateChips(new String[] {"image/*"});
+
+        ViewGroup mirror = spy(new LinearLayout(mContext));
+        mSearchChipViewManager.bindMirrorGroup(mirror);
+
+        assertThat(View.GONE).isEqualTo(mirror.getVisibility());
     }
 
     private static Set<SearchChipData> getFakeSearchChipDataList() {
