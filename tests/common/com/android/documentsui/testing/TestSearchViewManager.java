@@ -56,6 +56,10 @@ public class TestSearchViewManager extends SearchViewManager {
                     @Override
                     public void onSearchChipStateChanged(View v) {
                     }
+
+                    @Override
+                    public void onSearchViewFocusChanged(boolean hasFocus) {
+                    }
                 },
                 new CommandInterceptor(new TestFeatures()), mock(ViewGroup.class),
                 null /* savedState */);

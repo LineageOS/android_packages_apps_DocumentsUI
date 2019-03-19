@@ -343,9 +343,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         // archive files. Note, that picking files inside archives is not supported.
         if (doc.isDirectory()) {
             mInjector.actions.openContainerDocument(doc);
+            mSearchManager.recordHistory();
         } else if (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT) {
             // Explicit file picked, return
             mInjector.actions.finishPicking(doc.derivedUri);
+            mSearchManager.recordHistory();
         } else if (mState.action == ACTION_CREATE) {
             // Replace selected file
             SaveFragment.get(fm).setReplaceTarget(doc);
@@ -361,6 +363,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 uris[i] = docs.get(i).derivedUri;
             }
             mInjector.actions.finishPicking(uris);
+            mSearchManager.recordHistory();
         }
     }
 

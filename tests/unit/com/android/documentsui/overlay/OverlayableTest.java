@@ -56,17 +56,17 @@ public class OverlayableTest extends ThemeUiTestBase {
     }
 
     @Test
-    public void testConfig_preferredRootPackage_isNotEmpty() {
+    public void testConfig_preferredRootPackage_isNotNull() {
         assertThat(
                 mTargetContext.getResources().getString(
-                        R.string.preferred_root_package)).isNotEmpty();
+                        R.string.preferred_root_package)).isNotNull();
     }
 
     @Test
-    public void testConfig_trustedQuickViewerPackage_isNotEmpty() {
+    public void testConfig_trustedQuickViewerPackage_isNotNull() {
         assertThat(
                 mTargetContext.getResources().getString(
-                        R.string.trusted_quick_viewer_package)).isNotEmpty();
+                        R.string.trusted_quick_viewer_package)).isNotNull();
     }
 
     @Test

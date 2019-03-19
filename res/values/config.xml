@@ -71,4 +71,7 @@
     <bool name="is_launcher_enabled">true</bool>
 
     <string name="scrolling_behavior" translatable="false">com.android.documentsui.ui.SearchBarScrollingViewBehavior</string>
+
+    <!-- The maximum record of search history. -->
+    <integer name="config_maximum_search_history">200</integer>
 </resources>
