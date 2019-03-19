@@ -215,6 +215,13 @@ public class SearchViewManager implements
         mSearchView.setOnCloseListener(this);
         mSearchView.setOnSearchClickListener(this);
         mSearchView.setOnQueryTextFocusChangeListener(this);
+        final View clearButton = mSearchView.findViewById(R.id.search_close_btn);
+        if (clearButton != null) {
+            clearButton.setOnClickListener(v -> {
+                mSearchView.setQuery("", false);
+                mListener.onSearchViewClearClicked();
+            });
+        }
 
         mFullBar = isFullBarSearch;
         mSearchView.setMaxWidth(Integer.MAX_VALUE);
@@ -588,5 +595,10 @@ public class SearchViewManager implements
         void onSearchChipStateChanged(View v);
 
         void onSearchViewFocusChanged(boolean hasFocus);
+
+        /**
+         * Call back when search view clear button clicked
+         */
+        void onSearchViewClearClicked();
     }
 }
