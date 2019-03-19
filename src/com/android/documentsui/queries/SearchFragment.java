@@ -83,6 +83,7 @@ public class SearchFragment extends DialogFragment
 
     private void onHistoryItemClicked(AdapterView<?> parent, View view, int position, long id) {
         final String item = mHistoryList.get(position);
+        mSearchViewManager.setHistorySearch();
         mSearchView.setQuery(item, true);
     }
 
