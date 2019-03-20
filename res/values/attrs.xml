@@ -68,4 +68,7 @@
         <attr name="android:colorAccent" />
     </declare-styleable>
 
+    <declare-styleable name="HeaderMaterialButton">
+        <attr name="materialButton" format="reference" />
+    </declare-styleable>
 </resources>
