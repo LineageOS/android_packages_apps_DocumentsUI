@@ -44,6 +44,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -168,6 +169,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private float mLiveScale = 1.0f;
     private @ViewMode int mMode;
+    private int mAppBarHeight;
 
     private View mProgressBar;
 
@@ -188,6 +190,14 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     };
 
     private final Runnable mOnDisplayStateChanged = this::onDisplayStateChanged;
+
+    private final ViewTreeObserver.OnPreDrawListener mToolbarPreDrawListener = () -> {
+        removePreDrawListener();
+        if (mAppBarHeight != getAppBarLayoutHeight()) {
+            updateLayout(mState.derivedMode);
+        }
+        return true;
+    };
 
     @Override
     public View onCreateView(
@@ -522,13 +532,13 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         }
 
         int pad = getDirectoryPadding(mode);
-        int appBarHeight = getAppBarLayoutHeight();
-        mRecView.setPadding(pad, appBarHeight, pad, getSaveLayoutHeight());
+        mAppBarHeight = getAppBarLayoutHeight();
+        mRecView.setPadding(pad, mAppBarHeight, pad, getSaveLayoutHeight());
         mRecView.requestLayout();
         mIconHelper.setViewMode(mode);
 
         int range = getResources().getDimensionPixelOffset(R.dimen.refresh_icon_range);
-        mRefreshLayout.setProgressViewOffset(true, appBarHeight, appBarHeight + range);
+        mRefreshLayout.setProgressViewOffset(true, mAppBarHeight, mAppBarHeight + range);
     }
 
     private int getAppBarLayoutHeight() {
@@ -991,6 +1001,13 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         return null;
     }
 
+    private void removePreDrawListener() {
+        final View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
+        if (collapsingBar != null) {
+            collapsingBar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
+        }
+    }
+
     public static void showDirectory(
             FragmentManager fm, RootInfo root, DocumentInfo doc, int anim) {
         if (DEBUG) Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
@@ -1115,6 +1132,11 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mActivity.expandAppBar();
                 // Always back to top avoid app bar layout overlay on container.
                 mRecView.scrollToPosition(0);
+
+                final View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
+                if (collapsingBar != null) {
+                    collapsingBar.getViewTreeObserver().addOnPreDrawListener(mToolbarPreDrawListener);
+                }
             }
         }
     }
