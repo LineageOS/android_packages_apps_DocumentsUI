@@ -45,5 +45,5 @@
         android:layout_alignEnd="@+id/message_textview"
         android:layout_below="@+id/message_textview"
         android:text="@android:string/ok"
-        style="?attr/materialButton"/>
+        style="?attr/materialButtonStyle"/>
 </RelativeLayout>
