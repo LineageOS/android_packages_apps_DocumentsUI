@@ -169,11 +169,6 @@ public abstract class BaseActivity
              */
             @Override
             public void onSearchChanged(@Nullable String query) {
-                if (query != null) {
-                    Metrics.logUserAction(MetricConsts.USER_ACTION_SEARCH);
-                }
-
-
                 if (mSearchManager.isSearching()) {
                     Metrics.logSearchMode(query != null, mSearchManager.hasCheckedChip());
                     if (mInjector.pickResult != null) {
