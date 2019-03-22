@@ -58,6 +58,7 @@
         <item name="actionModeStyle">@style/ActionModeStyle</item>
         <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
         <item name="materialButtonStyle">@style/MaterialButton</item>
         <item name="materialButtonOutlinedStyle">@style/MaterialOutlinedButton</item>

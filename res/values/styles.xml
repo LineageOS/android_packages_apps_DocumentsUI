@@ -74,4 +74,12 @@
         <item name="android:textAppearance">@style/MaterialButtonTextAppearance</item>
     </style>
 
+    <style name="DialogTextButton" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textAppearance">@style/MaterialButtonTextAppearance</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/DialogTextButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogTextButton</item>
+    </style>
 </resources>
