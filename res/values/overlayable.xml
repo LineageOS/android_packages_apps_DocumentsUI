@@ -38,6 +38,7 @@
             <!-- END DRAWABLE -->
 
             <!-- START CONFIG -->
+            <item type="bool" name="config_button_all_caps"/>
             <item type="bool" name="is_launcher_enabled"/>
             <item type="string" name="default_root_uri"/>
             <item type="string" name="preferred_root_package"/>

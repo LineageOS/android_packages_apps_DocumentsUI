@@ -42,6 +42,8 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
 
+import com.android.documentsui.MetricConsts;
+import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -81,6 +83,7 @@ public class SearchViewManager implements
     private boolean mSearchExpanded;
     private boolean mIgnoreNextClose;
     private boolean mFullBar;
+    private boolean mIsHistorySearch;
 
     private Menu mMenu;
     private MenuItem mMenuItem;
@@ -322,6 +325,7 @@ public class SearchViewManager implements
             mQueuedSearchTask = null;
             mUiHandler.removeCallbacks(mQueuedSearchRunnable);
             mQueuedSearchRunnable = null;
+            mIsHistorySearch = false;
         }
     }
 
@@ -453,6 +457,7 @@ public class SearchViewManager implements
                         if (mCurrentSearch != null && mCurrentSearch.isEmpty()) {
                             mCurrentSearch = null;
                         }
+                        logTextSearchMetric();
                         mListener.onSearchChanged(mCurrentSearch);
                     };
                     mUiHandler.post(mQueuedSearchRunnable);
@@ -527,6 +532,16 @@ public class SearchViewManager implements
                 mSearchView.getContext().getApplicationContext()).deleteHistory(history);
     }
 
+    private void logTextSearchMetric() {
+        if (isTextSearching()) {
+            Metrics.logUserAction(mIsHistorySearch
+                    ? MetricConsts.USER_ACTION_SEARCH_HISTORY : MetricConsts.USER_ACTION_SEARCH);
+            Metrics.logSearchType(mIsHistorySearch
+                    ? MetricConsts.TYPE_SEARCH_HISTORY : MetricConsts.TYPE_SEARCH_STRING);
+            mIsHistorySearch = false;
+        }
+    }
+
     /**
      * Get the query content from intent.
      * @return If has query content, return the query content. Otherwise, return null
@@ -538,6 +553,13 @@ public class SearchViewManager implements
 
     public void setCurrentSearch(String queryString) {
         mCurrentSearch = queryString;
+    }
+
+    /**
+     * Set next search type is history search.
+     */
+    public void setHistorySearch() {
+        mIsHistorySearch = true;
     }
 
     public boolean isSearching() {

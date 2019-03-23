@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Arakatu beste aplikazio batzuetako fitxategiak"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimoa"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Eman \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" direktorioan sartzeko baimena"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" (\"<xliff:g id="ROOT">%2$s</xliff:g>\") direktorioan sartzeko baimena eman nahi duzu?"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Hemen biltegiratuta dauden fitxategi guztietan sartzeko baimen osoa emango dio \"<xliff:g id="APPNAME">%1$s</xliff:g>\" aplikazioari, baita etorkizunean biltegiratuko den edukirako ere."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Bilatu telefono hau"</string>
 </resources>
