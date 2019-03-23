@@ -287,7 +287,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Prehliadanie súborov v iných aplikáciách"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonymná"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Povoliť prístup k adresáru <xliff:g id="DIRECTORY">%1$s</xliff:g>"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Povoliť prístup k adresáru <xliff:g id="DIRECTORY">%1$s</xliff:g> v koreňovom adresári <xliff:g id="ROOT">%2$s</xliff:g>?"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Umožní aplikácii <xliff:g id="APPNAME">%1$s</xliff:g> úplný prístup k všetkým súborom aktuálne uloženým v tomto umiestnení a všetkému obsahu, ktorý tu bude uložený v budúcnosti."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Hľadajte v tomto telefóne"</string>
 </resources>
