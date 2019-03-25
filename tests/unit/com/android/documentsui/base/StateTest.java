@@ -133,4 +133,14 @@ public class StateTest {
 
         assertFalse(mState.isPhotoPicking());
     }
+
+    @Test
+    public void testPhotoPicking_nullExrta() {
+        final String[] mimeTypes = null;
+        mIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        mState.initAcceptMimes(mIntent, "*/*");
+        mState.action = State.ACTION_GET_CONTENT;
+
+        assertFalse(mState.isPhotoPicking());
+    }
 }
