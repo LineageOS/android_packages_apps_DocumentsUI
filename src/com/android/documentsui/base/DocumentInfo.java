@@ -222,6 +222,7 @@ public class DocumentInfo implements Durable, Parcelable {
                 + ", isVirtual=" + isVirtual()
                 + ", isDeleteSupported=" + isDeleteSupported()
                 + ", isCreateSupported=" + isCreateSupported()
+                + ", isMoveSupported=" + isMoveSupported()
                 + ", isRenameSupported=" + isRenameSupported()
                 + ", isMetadataSupported=" + isMetadataSupported()
                 + "} @ "
