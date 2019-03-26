@@ -16,6 +16,7 @@
 
 package com.android.documentsui;
 
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import android.content.ContentProviderClient;
@@ -258,6 +259,9 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
         @Override
         public void onChange(boolean selfChange) {
+            if (DEBUG) {
+                Log.d(TAG, "Directory content updated.");
+            }
             mLock.runWhenUnlocked(mContentChangedCallback);
         }
     }
