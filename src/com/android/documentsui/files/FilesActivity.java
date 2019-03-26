@@ -106,7 +106,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 mInjector.selectionMgr,
                 mDrawer,
                 this::focusSidebar,
-                getColor(R.color.accent));
+                getColor(R.color.primary));
 
         mInjector.menuManager = new MenuManager(
                 mInjector.features,

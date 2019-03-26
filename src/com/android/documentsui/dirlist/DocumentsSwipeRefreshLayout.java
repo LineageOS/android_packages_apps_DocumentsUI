@@ -18,13 +18,12 @@ package com.android.documentsui.dirlist;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-
-import androidx.annotation.ColorRes;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import androidx.annotation.ColorRes;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.documentsui.R;
 
@@ -44,11 +43,11 @@ public class DocumentsSwipeRefreshLayout extends SwipeRefreshLayout {
         super(context, attrs);
 
         TypedArray a = context.obtainStyledAttributes(R.styleable.SwipeRefresh);
-        @ColorRes int colorId = a.getResourceId(R.styleable.SwipeRefresh_android_colorAccent,
+        @ColorRes int colorId = a.getResourceId(R.styleable.SwipeRefresh_android_colorPrimary,
                 -1);
         if (colorId == -1) {
-            Log.w(TAG, "Retrive colorAccent colorId from theme fail, assign R.color.accent");
-            colorId = R.color.accent;
+            Log.w(TAG, "Retrive colorPrimary colorId from theme fail, assign R.color.primary");
+            colorId = R.color.primary;
         }
         a.recycle();
         setColorSchemeResources(colorId);

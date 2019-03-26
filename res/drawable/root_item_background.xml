@@ -20,13 +20,13 @@
     android:color="?android:attr/colorControlHighlight">
     <item
         android:id="@android:id/mask"
-        android:drawable="@drawable/root_list_selector_mask"/>
+        android:drawable="@drawable/root_list_selector"/>
 
     <item>
         <selector>
-            <item
-                app:state_highlighted="true"
-                android:drawable="@color/item_hover_color"/>
+            <item app:state_highlighted="true">
+                <color android:color="?android:attr/colorControlHighlight"/>
+            </item>
             <item
                 app:state_highlighted="false"
                 android:drawable="@android:color/transparent"/>

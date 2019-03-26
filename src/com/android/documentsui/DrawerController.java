@@ -18,23 +18,17 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import androidx.annotation.IntDef;
 import android.app.Activity;
-import androidx.annotation.ColorRes;
-import androidx.appcompat.widget.Toolbar;
-import androidx.legacy.app.ActionBarDrawerToggle;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.drawerlayout.widget.DrawerLayout.DrawerListener;
-
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.util.Log;
 import android.view.View;
 
-import com.android.documentsui.base.Display;
+import androidx.annotation.ColorRes;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.drawerlayout.widget.DrawerLayout.DrawerListener;
+import androidx.legacy.app.ActionBarDrawerToggle;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import com.android.documentsui.base.Display;
 
 /**
  * A facade over the various pieces comprising "roots fragment in a Drawer".
@@ -63,14 +57,6 @@ public abstract class DrawerController implements DrawerListener {
 
         View drawer = activity.findViewById(R.id.drawer_roots);
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.roots_toolbar);
-        if (toolbar != null) {
-            final TypedArray ta = activity.obtainStyledAttributes(R.style.DrawerMenuTitle,
-                    R.styleable.DrawerMenuTitle);
-            final int titleColor = ta.getColor(R.styleable.DrawerMenuTitle_android_textColor,
-                    activity.getTitleColor());
-            ta.recycle();
-            toolbar.setTitleTextColor(titleColor);
-        }
         drawer.getLayoutParams().width = calculateDrawerWidth(activity);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -144,7 +130,7 @@ public abstract class DrawerController implements DrawerListener {
         public void setDropTargetHighlight(View v, boolean highlight) {
             assert (v.getId() == R.id.drawer_edge);
 
-            @ColorRes int id = highlight ? R.color.item_doc_background_selected :
+            @ColorRes int id = highlight ? R.color.secondary :
                 android.R.color.transparent;
             v.setBackgroundColor(id);
         }

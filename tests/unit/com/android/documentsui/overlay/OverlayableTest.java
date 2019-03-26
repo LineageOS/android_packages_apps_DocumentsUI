@@ -98,13 +98,6 @@ public class OverlayableTest extends ThemeUiTestBase {
     }
 
     @Test
-    public void testDrawable_icRootListSelectorMask_isDrawable() {
-        assertThat(
-                mTargetContext.getResources().getDrawable(
-                        R.drawable.root_list_selector_mask)).isInstanceOf(Drawable.class);
-    }
-
-    @Test
     public void testDimen_gridItemRadius_isReasonable() {
         int MAX_RADIUS = 160;
         assertThat(

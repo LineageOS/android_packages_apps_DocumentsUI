@@ -14,25 +14,10 @@
      limitations under the License.
 -->
 <resources>
-    <color name="accent">#64B5F6</color>
-    <color name="primary">#64B5F6</color>
-    <color name="secondary">#3D64B5F6</color>
-    <color name="hairline">#455A64</color>
-
     <color name="app_background_color">#202124</color>
+    <color name="background_floating">#3C4043</color>
 
-    <color name="root_icon_color">#9AA0A6</color>
-
-    <color name="chip_selected_background_color">#FF3D4657</color>
-    <color name="chip_ripple_color">#FF5195EA</color>
-
-    <color name="item_doc_background">#ff3c4043</color>
-    <color name="item_doc_background_disabled">#fff1f3f4</color>
-    <color name="item_doc_background_selected">#4d2297f0</color>
-    <color name="item_grid_tint">#ff0e70e8</color>
-    <color name="item_hover_color">#ff5f6368</color>
-
-    <color name="text_hint">#fff8f9fa</color>
-    <color name="text_handle">#ff3ce4fa</color>
-    <color name="text_primary">#EEEEEE</color>
+    <color name="primary">#8AB4F8</color>
+    <color name="secondary">#3D8AB4F8</color>
+    <color name="hairline">#5F6368</color>
 </resources>
