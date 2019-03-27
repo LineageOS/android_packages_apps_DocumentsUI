@@ -23,19 +23,20 @@
         <item name="android:actionModeCloseDrawable">@drawable/ic_action_clear</item>
 
         <!-- Color section -->
-        <item name="android:colorAccent">@color/accent</item>
+        <item name="android:colorAccent">@color/primary</item>
         <item name="android:colorBackground">@android:color/white</item>
-        <item name="android:colorBackgroundFloating">@color/item_doc_background</item>
+        <item name="android:colorBackgroundFloating">@color/background_floating</item>
         <item name="android:colorControlHighlight">@color/ripple_material_light</item>
-        <item name="android:colorControlActivated">@color/root_activated_color</item>
+        <item name="android:colorControlActivated">@color/primary</item>
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorSecondary">@color/secondary</item>
+        <item name="android:strokeColor">@color/hairline</item>
 
         <!-- System | Widget section -->
         <item name="android:listDivider">@drawable/list_divider</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
-        <item name="android:navigationBarDividerColor">@color/drawer_border</item>
+        <item name="android:navigationBarDividerColor">@color/hairline</item>
         <item name="android:windowBackground">?android:colorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
@@ -53,25 +54,21 @@
         <item name="windowActionModeOverlay">true</item>
 
         <!-- For material design widget, chips, buttons, not support attr-->
-        <item name="colorAccent">@color/accent</item>
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorSecondary">@color/secondary</item>
 
         <!-- TODO need to solve the error handle in GridItemThumbnail -->
         <item name="gridItemTint">@color/item_doc_grid_tint</item>
-        <item name="gridItemColor">@color/item_doc_background</item>
-        <item name="gridItemSelectedColor">@color/item_doc_background_selected</item>
-        <item name="gridItemDisableColor">@color/item_doc_background_disabled</item>
 
+        <item name="actionBarTheme">@style/ActionBarTheme</item>
         <item name="actionModeStyle">@style/ActionModeStyle</item>
+        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
-        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>tem>
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
         <item name="materialButtonStyle">@style/MaterialButton</item>
         <item name="materialButtonOutlinedStyle">@style/MaterialOutlinedButton</item>
         <item name="materialCardViewStyle">@style/CardViewStyle</item>
         <item name="queryBackground">@color/menu_search_background</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
-        <item name="textHandleColor">@color/text_handle</item>
-        <item name="textCursorColor">@color/text_hint</item>
     </style>
 </resources>

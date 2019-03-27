@@ -15,7 +15,6 @@
  */
 package com.android.documentsui.inspector;
 
-import androidx.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -23,6 +22,8 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import androidx.annotation.StringRes;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -83,6 +84,7 @@ public class DebugView extends TableView implements DebugDisplay {
         put(R.string.debug_supports_create, info.isCreateSupported());
         put(R.string.debug_supports_delete, info.isDeleteSupported());
         put(R.string.debug_supports_metadata, info.isMetadataSupported());
+        put(R.string.debug_supports_move, info.isMoveSupported());
         put(R.string.debug_supports_remove, info.isRemoveSupported());
         put(R.string.debug_supports_rename, info.isRenameSupported());
         put(R.string.debug_supports_settings, info.isSettingsSupported());

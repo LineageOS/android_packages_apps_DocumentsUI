@@ -15,6 +15,9 @@
 -->
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">?android:textColorSecondary</item>
+    </style>
 
     <style name="ActionModeStyle" parent="Widget.AppCompat.ActionMode">
         <!-- attr "height" was used by support lib should not in overlay scope -->
@@ -23,7 +26,7 @@
     </style>
 
     <style name="CardViewStyle" parent="@style/Widget.MaterialComponents.CardView">
-        <item name="cardBackgroundColor">@color/item_doc_background</item>
+        <item name="cardBackgroundColor">@color/app_background_color</item>
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardCornerRadius">@dimen/grid_item_radius</item>
         <item name="cardElevation">@dimen/grid_item_elevation</item>
@@ -36,12 +39,11 @@
     </style>
 
     <style name="SnackbarButtonStyle" parent="@style/Widget.AppCompat.Button.Borderless">
-        <item name="android:textColor">@color/accent</item>
+        <item name="android:textColor">?android:colorPrimary</item>
     </style>
 
-    <style name="BottomSheetDialogStyle" parent="@style/Theme.MaterialComponents.BottomSheetDialog">
-        <item name="android:colorBackground">@android:color/white</item>
-        <item name="android:textColorPrimary">?android:textColorPrimaryInverse</item>
+    <style name="BottomSheetDialogStyle" parent="@Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:colorBackground">@color/app_background_color</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">?android:attr/colorBackground</item>
@@ -54,14 +56,14 @@
         <item name="android:background">@drawable/bottom_sheet_dialog_background</item>
     </style>
 
+    <style name="OverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">?android:colorControlNormal</item>
+    </style>
+
     <style name="OverflowMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
         <item name="android:popupBackground">@drawable/menu_dropdown_panel</item>
         <item name="android:dropDownWidth">wrap_content</item>
         <item name="android:overlapAnchor">false</item>
-    </style>
-
-    <style name="SubMenuStyle">
-        <item name="android:textColorSecondary">?android:attr/textColorPrimary</item>
     </style>
 
     <style name="MaterialButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
@@ -72,4 +74,12 @@
         <item name="android:textAppearance">@style/MaterialButtonTextAppearance</item>
     </style>
 
+    <style name="DialogTextButton" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textAppearance">@style/MaterialButtonTextAppearance</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/DialogTextButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogTextButton</item>
+    </style>
 </resources>

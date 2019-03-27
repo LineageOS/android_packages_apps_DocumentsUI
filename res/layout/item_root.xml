@@ -18,15 +18,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="48dp"
-    android:paddingStart="25dp"
+    android:minHeight="52dp"
+    android:paddingStart="24dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:baselineAligned="false"
     android:background="@drawable/root_item_background">
 
     <FrameLayout
-        android:layout_width="@dimen/icon_size"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/icon_size"
         android:duplicateParentState="true">
 
@@ -43,7 +43,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="7dp"
+        android:paddingStart="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:orientation="vertical"
@@ -82,7 +82,7 @@
         <ImageView
             android:id="@+id/action_icon"
             android:focusable="false"
-            android:layout_width="@dimen/root_icon_size"
+            android:layout_width="@dimen/root_action_icon_size"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:scaleType="centerInside"/>
