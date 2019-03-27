@@ -211,6 +211,14 @@ public abstract class BaseActivity
                             mSearchManager.getSearchViewText());
                 }
             }
+
+            @Override
+            public void onSearchViewClearClicked() {
+                if (SearchFragment.get(getSupportFragmentManager()) == null) {
+                    SearchFragment.showFragment(getSupportFragmentManager(),
+                            mSearchManager.getSearchViewText());
+                }
+            }
         };
 
         // "Commands" are meta input for controlling system behavior.

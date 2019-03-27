@@ -211,4 +211,33 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
 
         assertDefaultContentOfTestDir0();
     }
+
+    public void testSearchHistory_showAfterSearchViewClear() throws Exception {
+        bots.search.clickIcon();
+        bots.search.setInputText("chocolate");
+
+        bots.keyboard.pressEnter();
+        device.waitForIdle();
+
+        bots.search.clickSearchViewClearButton();
+        device.waitForIdle();
+
+        bots.search.assertFragmentInputExists(true);
+        bots.search.assertFragmentInputFocused(true);
+    }
+
+    public void testSearchHistory_showAfterFragmentSearchViewClear() throws Exception {
+        bots.search.clickIcon();
+        bots.search.setInputText("chocolate");
+
+        bots.keyboard.pressEnter();
+        device.waitForIdle();
+
+        bots.search.clickIcon();
+        bots.search.clickFragmentSearchViewClearButton();
+        device.waitForIdle();
+
+        bots.search.assertFragmentInputExists(true);
+        bots.search.assertFragmentInputFocused(true);
+    }
 }
