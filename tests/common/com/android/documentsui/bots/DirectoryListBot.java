@@ -132,7 +132,7 @@ public class DirectoryListBot extends Bots.BaseBot {
     public void assertHasMessageButtonText(String expected) throws UiObjectNotFoundException {
         UiObject button = findHeaderMessageButton();
         String msg = String.valueOf(expected);
-        assertEquals(msg, button.getText());
+        assertEquals(msg.toUpperCase(), button.getText().toUpperCase());
     }
 
     public void clickMessageButton() throws UiObjectNotFoundException {
