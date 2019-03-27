@@ -426,7 +426,7 @@ public class SearchViewManager implements
         } else {
             cancelQueuedSearch();
             // Don't kick off a search if we've already finished it.
-            if (mCurrentSearch != query) {
+            if (!TextUtils.equals(mCurrentSearch, query)) {
                 mCurrentSearch = query;
                 mListener.onSearchChanged(mCurrentSearch);
             }
