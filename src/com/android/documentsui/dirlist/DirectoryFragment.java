@@ -193,7 +193,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private final Runnable mOnDisplayStateChanged = this::onDisplayStateChanged;
 
     private final ViewTreeObserver.OnPreDrawListener mToolbarPreDrawListener = () -> {
-        removePreDrawListener();
+        setPreDrawListener(false);
         if (mAppBarHeight != getAppBarLayoutHeight()) {
             updateLayout(mState.derivedMode);
         }
@@ -269,6 +269,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mModel.removeUpdateListener(mModelUpdateListener);
         mModel.removeUpdateListener(mAdapter.getModelUpdateListener());
+        setPreDrawListener(false);
 
         super.onDestroyView();
     }
@@ -1002,10 +1003,18 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         return null;
     }
 
-    private void removePreDrawListener() {
-        final View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
-        if (collapsingBar != null) {
-            collapsingBar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
+    private void setPreDrawListener(boolean enable) {
+        if (mActivity == null) {
+            return;
+        }
+
+        final View bar = mActivity.findViewById(R.id.collapsing_toolbar);
+        if (bar != null) {
+            if (enable) {
+                bar.getViewTreeObserver().addOnPreDrawListener(mToolbarPreDrawListener);
+            } else {
+                bar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
+            }
         }
     }
 
@@ -1134,10 +1143,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 // Always back to top avoid app bar layout overlay on container.
                 mRecView.scrollToPosition(0);
 
-                final View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
-                if (collapsingBar != null) {
-                    collapsingBar.getViewTreeObserver().addOnPreDrawListener(mToolbarPreDrawListener);
-                }
+                setPreDrawListener(true);
             }
         }
     }
