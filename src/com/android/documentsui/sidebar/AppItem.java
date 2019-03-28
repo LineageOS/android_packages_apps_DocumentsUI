@@ -16,7 +16,6 @@
 
 package com.android.documentsui.sidebar;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -54,6 +53,12 @@ public class AppItem extends Item {
         return component;
     }
 
+    protected void bindIcon(ImageView icon) {
+        final PackageManager pm = icon.getContext().getPackageManager();
+        icon.setImageDrawable(info.loadIcon(pm));
+    }
+
+
     protected void bindActionIcon(View actionIconArea, ImageView actionIcon) {
         actionIconArea.setVisibility(View.VISIBLE);
         actionIconArea.setFocusable(false);
@@ -77,11 +82,9 @@ public class AppItem extends Item {
         final View actionIconArea = convertView.findViewById(R.id.action_icon_area);
         final ImageView actionIcon = (ImageView) convertView.findViewById(R.id.action_icon);
 
-        final Context context = convertView.getContext();
-        final PackageManager pm = context.getPackageManager();
-        icon.setImageDrawable(info.loadIcon(pm));
         titleView.setText(title);
 
+        bindIcon(icon);
         bindActionIcon(actionIconArea, actionIcon);
 
         // TODO: match existing summary behavior from disambig dialog

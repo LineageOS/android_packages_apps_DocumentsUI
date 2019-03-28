@@ -32,6 +32,11 @@ class ProfileItem extends AppItem {
     }
 
     @Override
+    protected void bindIcon(ImageView icon) {
+        icon.setImageResource(com.android.documentsui.R.drawable.ic_user_profile);
+    }
+
+    @Override
     protected void bindActionIcon(View actionIconArea, ImageView actionIcon) {
         actionIconArea.setVisibility(View.GONE);
     }
