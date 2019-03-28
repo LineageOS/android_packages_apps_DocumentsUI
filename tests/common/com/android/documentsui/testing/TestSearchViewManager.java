@@ -60,6 +60,10 @@ public class TestSearchViewManager extends SearchViewManager {
                     @Override
                     public void onSearchViewFocusChanged(boolean hasFocus) {
                     }
+
+                    @Override
+                    public void onSearchViewClearClicked() {
+                    }
                 },
                 new CommandInterceptor(new TestFeatures()), mock(ViewGroup.class),
                 null /* savedState */);

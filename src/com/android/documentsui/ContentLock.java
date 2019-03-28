@@ -15,6 +15,10 @@
  */
 package com.android.documentsui;
 
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
+
+import android.util.Log;
+
 import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.OperationMonitor;
@@ -27,6 +31,8 @@ import androidx.recyclerview.selection.OperationMonitor;
  */
 public final class ContentLock {
 
+    private static final String TAG = "ContentLock";
+
     private final OperationMonitor mMonitor = new OperationMonitor();
 
     @GuardedBy("this")
@@ -34,6 +40,9 @@ public final class ContentLock {
 
     public ContentLock() {
         mMonitor.addListener(() -> {
+            if (DEBUG) {
+                Log.d(TAG, "monitor listener, is locked : " + isLocked());
+            }
             if (!isLocked()) {
                 synchronized (this) {
                     final Runnable callback = mCallback;
@@ -62,6 +71,9 @@ public final class ContentLock {
      * (replacing any previous set Runnables).
      */
     public synchronized void runWhenUnlocked(Runnable runnable) {
+        if (DEBUG) {
+            Log.d(TAG, "run when unlock, is locked : " + isLocked());
+        }
         if (!isLocked()) {
             runnable.run();
         } else {
