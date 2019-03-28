@@ -16,6 +16,11 @@
 
 package com.android.documentsui;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.text.TextUtils;
+
+import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.files.FilesActivity;
@@ -42,7 +47,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
         }
         bots.directory.openDocument(DemoProvider.DIR_AUTH);
         bots.directory.assertHasMessage(
-                "To view this directory, sign in to DocumentsUI Tests");
+                "To view this directory, sign in to " + getTestAppName());
         bots.directory.assertHasMessageButtonText("SIGN IN");
     }
 
@@ -50,7 +55,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
     public void testInfoMessage_visible() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_INFO);
         bots.directory.assertHasMessage(DemoProvider.MSG_INFO);
-        bots.directory.assertHasMessageButtonText("DISMISS");
+        bots.directory.assertHasMessageButtonText("OK");
     }
 
     @HugeLongTest
@@ -65,7 +70,7 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
     public void testErrorMessage_visible() throws Exception {
         bots.directory.openDocument(DemoProvider.DIR_ERROR);
         bots.directory.assertHasMessage(DemoProvider.MSG_ERROR);
-        bots.directory.assertHasMessageButtonText("DISMISS");
+        bots.directory.assertHasMessageButtonText("OK");
     }
 
     @HugeLongTest
@@ -81,5 +86,13 @@ public class DirectoryMessagesUiTest extends ActivityTest<FilesActivity> {
         // When both error and info are returned in Directory, only show the error.
         bots.directory.openDocument(DemoProvider.DIR_ERROR_AND_INFO);
         bots.directory.assertHasMessage(DemoProvider.MSG_ERROR_AND_INFO);
+    }
+
+    private String getTestAppName() {
+        final ApplicationInfo ai =
+                InstrumentationRegistry.getInstrumentation().getContext().getApplicationInfo();
+        final PackageManager pm = context.getPackageManager();
+        CharSequence result = pm.getApplicationLabel(ai);
+        return TextUtils.isEmpty(result) ? "" : result.toString();
     }
 }
