@@ -116,7 +116,9 @@ public class SharedInputHandler {
         }
 
         if (mSelectionMgr.hasSelection()) {
-            if (DEBUG) Log.d(TAG, "Back pressed. Clearing existing selection.");
+            if (DEBUG) {
+                Log.d(TAG, "Back pressed. Clearing existing selection.");
+            }
             mSelectionMgr.clearSelection();
             return true;
         }
@@ -130,7 +132,9 @@ public class SharedInputHandler {
         }
 
         if (mSelectionMgr.hasSelection()) {
-            if (DEBUG) Log.d(TAG, "ESC pressed. Clearing existing selection.");
+            if (DEBUG) {
+                Log.d(TAG, "ESC pressed. Clearing existing selection.");
+            }
             mSelectionMgr.clearSelection();
             return true;
         }

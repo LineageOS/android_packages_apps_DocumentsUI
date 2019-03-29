@@ -130,7 +130,9 @@ public class ProvidersCache implements ProvidersAccess {
                 Log.w(TAG, "Received onChange event for null uri. Skipping.");
                 return;
             }
-            if (DEBUG) Log.i(TAG, "Updating roots due to change at " + uri);
+            if (DEBUG) {
+                Log.i(TAG, "Updating roots due to change at " + uri);
+            }
             updateAuthorityAsync(uri.getAuthority());
         }
     }
@@ -229,7 +231,9 @@ public class ProvidersCache implements ProvidersAccess {
             if (!mStoppedAuthorities.contains(authority)) {
                 return;
             }
-            if (DEBUG) Log.d(TAG, "Loading stopped authority " + authority);
+            if (DEBUG) {
+                Log.d(TAG, "Loading stopped authority " + authority);
+            }
             mRoots.replaceValues(authority, loadRootsForAuthority(resolver, authority, true));
             mStoppedAuthorities.remove(authority);
         }

@@ -118,7 +118,9 @@ class DragHost<T extends Activity & AbstractActionHandler.CommonAddons> extends 
 
         DocumentInfo dst = mDestinationLookup.lookup(v);
         if (dst == null) {
-            if (DEBUG) Log.d(TAG, "Invalid destination. Ignoring.");
+            if (DEBUG) {
+                Log.d(TAG, "Invalid destination. Ignoring.");
+            }
             return false;
         }
 

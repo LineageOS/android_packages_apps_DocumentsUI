@@ -163,7 +163,9 @@ public class FileOperationService extends Service implements Job.Listener {
         features = new Features.RuntimeFeatures(getResources(), userManager);
         setUpNotificationChannel();
 
-        if (DEBUG) Log.d(TAG, "Created.");
+        if (DEBUG) {
+            Log.d(TAG, "Created.");
+        }
         mPowerManager = getSystemService(PowerManager.class);
     }
 
@@ -179,7 +181,9 @@ public class FileOperationService extends Service implements Job.Listener {
 
     @Override
     public void onDestroy() {
-        if (DEBUG) Log.d(TAG, "Shutting down executor.");
+        if (DEBUG) {
+            Log.d(TAG, "Shutting down executor.");
+        }
 
         List<Runnable> unfinishedCopies = executor.shutdownNow();
         List<Runnable> unfinishedDeletions = deletionExecutor.shutdownNow();
@@ -195,7 +199,9 @@ public class FileOperationService extends Service implements Job.Listener {
         deletionExecutor = null;
         handler = null;
 
-        if (DEBUG) Log.d(TAG, "Destroyed.");
+        if (DEBUG) {
+            Log.d(TAG, "Destroyed.");
+        }
     }
 
     @Override
@@ -206,7 +212,9 @@ public class FileOperationService extends Service implements Job.Listener {
         String jobId = intent.getStringExtra(EXTRA_JOB_ID);
         assert(jobId != null);
 
-        if (DEBUG) Log.d(TAG, "onStartCommand: " + jobId + " with serviceId " + serviceId);
+        if (DEBUG) {
+            Log.d(TAG, "onStartCommand: " + jobId + " with serviceId " + serviceId);
+        }
 
         if (intent.hasExtra(EXTRA_CANCEL)) {
             handleCancel(intent);
@@ -240,7 +248,9 @@ public class FileOperationService extends Service implements Job.Listener {
             }
 
             assert (job != null);
-            if (DEBUG) Log.d(TAG, "Scheduling job " + job.id + ".");
+            if (DEBUG) {
+                Log.d(TAG, "Scheduling job " + job.id + ".");
+            }
             Future<?> future = getExecutorService(operation.getOpType()).submit(job);
             mJobs.put(jobId, new JobRecord(job, future));
 
@@ -262,7 +272,9 @@ public class FileOperationService extends Service implements Job.Listener {
 
         String jobId = intent.getStringExtra(EXTRA_JOB_ID);
 
-        if (DEBUG) Log.d(TAG, "handleCancel: " + jobId);
+        if (DEBUG) {
+            Log.d(TAG, "handleCancel: " + jobId);
+        }
 
         synchronized (mJobs) {
             // Do nothing if the cancelled ID doesn't match the current job ID. This prevents racey
@@ -301,7 +313,9 @@ public class FileOperationService extends Service implements Job.Listener {
 
     @GuardedBy("mJobs")
     private void deleteJob(Job job) {
-        if (DEBUG) Log.d(TAG, "deleteJob: " + job.id);
+        if (DEBUG) {
+            Log.d(TAG, "deleteJob: " + job.id);
+        }
 
         // Release wake lock before clearing jobs just in case we fail to clean them up.
         mWakeLock.release();
@@ -322,14 +336,18 @@ public class FileOperationService extends Service implements Job.Listener {
      * message. Thread pool is deal with in onDestroy.
      */
     private void shutdown() {
-        if (DEBUG) Log.d(TAG, "Shutting down. Last serviceId was " + mLastServiceId);
+        if (DEBUG) {
+            Log.d(TAG, "Shutting down. Last serviceId was " + mLastServiceId);
+        }
         assert(mWakeLock == null);
 
         // Turns out, for us, stopSelfResult always returns false in tests,
         // so we can't guard executor shutdown. For this reason we move
         // executor shutdown to #onDestroy.
         boolean gonnaStop = stopSelfResult(mLastServiceId);
-        if (DEBUG) Log.d(TAG, "Stopping service: " + gonnaStop);
+        if (DEBUG) {
+            Log.d(TAG, "Stopping service: " + gonnaStop);
+        }
         if (!gonnaStop) {
             Log.w(TAG, "Service should be stopping, but reports otherwise.");
         }
@@ -342,18 +360,24 @@ public class FileOperationService extends Service implements Job.Listener {
 
     @Override
     public void onStart(Job job) {
-        if (DEBUG) Log.d(TAG, "onStart: " + job.id);
+        if (DEBUG) {
+            Log.d(TAG, "onStart: " + job.id);
+        }
 
         Notification notification = job.getSetupNotification();
         // If there is no foreground job yet, set this job to foreground job.
         synchronized (mJobs) {
             if (mForegroundJob == null) {
-                if (DEBUG) Log.d(TAG, "Set foreground job to " + job.id);
+                if (DEBUG) {
+                    Log.d(TAG, "Set foreground job to " + job.id);
+                }
                 mForegroundJob = job;
                 foregroundManager.startForeground(NOTIFICATION_ID_PROGRESS, notification);
             } else {
                 // Show start up notification
-                if (DEBUG) Log.d(TAG, "Posting notification for " + job.id);
+                if (DEBUG) {
+                    Log.d(TAG, "Posting notification for " + job.id);
+                }
                 notificationManager.notify(
                         mForegroundJob == job ? null : job.id,
                         NOTIFICATION_ID_PROGRESS,
@@ -369,7 +393,9 @@ public class FileOperationService extends Service implements Job.Listener {
     @Override
     public void onFinished(Job job) {
         assert(job.isFinished());
-        if (DEBUG) Log.d(TAG, "onFinished: " + job.id);
+        if (DEBUG) {
+            Log.d(TAG, "onFinished: " + job.id);
+        }
 
         synchronized (mJobs) {
             // Delete the job from mJobs first to avoid this job being selected as the foreground
@@ -403,12 +429,16 @@ public class FileOperationService extends Service implements Job.Listener {
         if (mForegroundJob == job) {
             mForegroundJob = candidate;
             if (candidate == null) {
-                if (DEBUG) Log.d(TAG, "Stop foreground");
+                if (DEBUG) {
+                    Log.d(TAG, "Stop foreground");
+                }
                 // Remove the notification here just in case we're torn down before we have the
                 // chance to clean up notifications.
                 foregroundManager.stopForeground(true);
             } else {
-                if (DEBUG) Log.d(TAG, "Switch foreground job to " + candidate.id);
+                if (DEBUG) {
+                    Log.d(TAG, "Switch foreground job to " + candidate.id);
+                }
 
                 notificationManager.cancel(candidate.id, NOTIFICATION_ID_PROGRESS);
                 Notification notification = (candidate.getState() == Job.STATE_STARTED)
@@ -421,7 +451,9 @@ public class FileOperationService extends Service implements Job.Listener {
 
     private void cleanUpNotification(Job job) {
 
-        if (DEBUG) Log.d(TAG, "Canceling notification for " + job.id);
+        if (DEBUG) {
+            Log.d(TAG, "Canceling notification for " + job.id);
+        }
         // Dismiss the ongoing copy notification when the copy is done.
         notificationManager.cancel(job.id, NOTIFICATION_ID_PROGRESS);
 
@@ -437,7 +469,9 @@ public class FileOperationService extends Service implements Job.Listener {
         }
 
         if (job.hasWarnings()) {
-            if (DEBUG) Log.d(TAG, "Job finished with warnings.");
+            if (DEBUG) {
+                Log.d(TAG, "Job finished with warnings.");
+            }
             notificationManager.notify(
                     job.id, NOTIFICATION_ID_WARNING, job.getWarningNotification());
         }
