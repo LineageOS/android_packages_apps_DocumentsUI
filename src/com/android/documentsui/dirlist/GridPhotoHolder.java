@@ -16,10 +16,13 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.DocumentsContract.Document;
+import android.text.format.Formatter;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,7 @@ import android.widget.ImageView;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
 
@@ -133,5 +137,10 @@ final class GridPhotoHolder extends DocumentHolder {
         mIconThumb.setAlpha(0f);
 
         mIconHelper.load(mDoc, mIconThumb, mIconMimeLg, null);
+
+        final String docSize =
+                Formatter.formatFileSize(mContext, getCursorLong(cursor, Document.COLUMN_SIZE));
+        final String docDate = Shared.formatTime(mContext, mDoc.lastModified);
+        itemView.setContentDescription(mDoc.displayName + ", " + docSize + ", " + docDate);
     }
 }
