@@ -188,4 +188,13 @@ public class DocumentStackTest {
             return true;
         });
     }
+
+    @Test
+    public void testIsRecent() {
+        final RootInfo rootRecent = new RootInfo();
+        mStack.changeRoot(rootRecent);
+
+        assertEquals(1, mStack.size());
+        assertEquals(true, mStack.isRecents());
+    }
 }

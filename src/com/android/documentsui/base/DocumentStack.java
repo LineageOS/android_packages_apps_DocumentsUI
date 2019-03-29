@@ -16,8 +16,9 @@
 
 package com.android.documentsui.base;
 
-import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static androidx.core.util.Preconditions.checkArgument;
+
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -150,6 +151,11 @@ public class DocumentStack implements Durable, Parcelable {
         if (DEBUG) Log.d(TAG, "Root changed to: " + root);
         reset();
         mRoot = root;
+
+        // Add this for keep stack size is 1 on recent root.
+        if (root.isRecents()) {
+            push(new DocumentInfo());
+        }
     }
 
     /** This will return true even when the initial location is set.
@@ -170,7 +176,7 @@ public class DocumentStack implements Durable, Parcelable {
     }
 
     public boolean isRecents() {
-        return mRoot != null && mRoot.isRecents();
+        return mRoot != null && mRoot.isRecents() && size() == 1;
     }
 
     /**
