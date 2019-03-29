@@ -16,9 +16,10 @@
 
 package com.android.documentsui.dirlist;
 
+import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
-import android.view.ViewGroup;
 
 import com.android.documentsui.Model;
 import com.android.documentsui.Model.Update;
@@ -72,17 +73,19 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
         return new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
+                final int columnCount = mEnv.getColumnCount();
                 // Make layout whitespace span the grid. This has the effect of breaking
                 // grid rows whenever layout whitespace is encountered.
                 if (getItemViewType(position) == ITEM_TYPE_SECTION_BREAK
                         || getItemViewType(position) == ITEM_TYPE_HEADER_MESSAGE
                         || getItemViewType(position) == ITEM_TYPE_INFLATED_MESSAGE) {
-                    return mEnv.getColumnCount();
+                    return columnCount;
                 } else if (mEnv.getDisplayState().isPhotoPicking()
                         && mEnv.getDisplayState().derivedMode == State.MODE_GRID) {
                     // If on photo picking state and grid mode,
                     // the UI should show 3 images a row or 2 folders a row.
-                    return getItemViewType(position) == ITEM_TYPE_DIRECTORY ? 3 : 2;
+                    return getItemViewType(position) == ITEM_TYPE_DIRECTORY
+                            ? Math.min(columnCount, 3) : Math.min(columnCount, 2);
                 } else {
                     return 1;
                 }

@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ஃபைல்களை வேறு ஆப்ஸில் தேடவும்"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"பெயர் குறிப்பிடாதது"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"க்கு அணுகல் வழங்கு"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"ல் \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"க்கான அணுகலை அனுமதிக்கவா?"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"இந்த இருப்பிடத்தில் தற்போது சேமிக்கப்பட்டிருப்பவை, எதிர்காலத்தில் சேமிக்கப்படுபவை என எல்லாக் கோப்புகளுக்குமான முழு அணுகலையும் \"<xliff:g id="APPNAME">%1$s</xliff:g>\"க்கு அனுமதிக்கும்."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"இந்த மொபைலில் தேடவும்"</string>
 </resources>

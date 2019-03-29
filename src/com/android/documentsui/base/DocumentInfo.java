@@ -20,18 +20,18 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.FileUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsProvider;
+
 import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.roots.RootCursorWrapper;
-
-import android.os.FileUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -323,6 +323,9 @@ public class DocumentInfo implements Durable, Parcelable {
     }
 
     public static String getCursorString(Cursor cursor, String columnName) {
+        if (cursor == null) {
+            return null;
+        }
         final int index = cursor.getColumnIndex(columnName);
         return (index != -1) ? cursor.getString(index) : null;
     }

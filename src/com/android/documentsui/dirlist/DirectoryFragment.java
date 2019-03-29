@@ -22,9 +22,6 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 
-import androidx.annotation.DimenRes;
-import androidx.annotation.FractionRes;
-import androidx.annotation.IntDef;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +44,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
+import androidx.annotation.DimenRes;
+import androidx.annotation.FractionRes;
+import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -56,8 +56,8 @@ import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.selection.MutableSelection;
 import androidx.recyclerview.selection.Selection;
 import androidx.recyclerview.selection.SelectionTracker;
-import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.selection.SelectionTracker.SelectionPredicate;
+import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -166,6 +166,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private DocumentClipper mClipper;
     private GridLayoutManager mLayout;
     private int mColumnCount = 1;  // This will get updated when layout changes.
+    private int mColumnUnit = 1;
 
     private float mLiveScale = 1.0f;
     private @ViewMode int mMode;
@@ -597,8 +598,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         // Clamp so that we always lay out the grid with at least 2 columns by default.
         // If on photo picking state, the UI should show 3 images a row or 2 folders a row,
         // so use 6 columns by default and set folder size to 3 and document size is to 2.
-        int minColumnCount = mState.isPhotoPicking() ? 6 : 2;
-        int columnCount = Math.max(minColumnCount,
+        mColumnUnit = mState.isPhotoPicking() ? 3 : 1;
+        int columnCount = mColumnUnit * Math.max(2,
                 (mRecView.getWidth() - viewPadding) / (cellWidth + cellMargin));
 
         // Finally with our grid count logic firmly in place, we apply any live scaling

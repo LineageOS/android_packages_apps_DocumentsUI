@@ -16,11 +16,12 @@
 
 package com.android.documentsui.base;
 
-import androidx.annotation.IntDef;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.SparseArray;
+
+import androidx.annotation.IntDef;
 
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
@@ -130,7 +131,7 @@ public class State implements android.os.Parcelable {
      * @return True, if acceptMimes are all image type and action is file picking.
      */
     public boolean isPhotoPicking() {
-        if (action != ACTION_GET_CONTENT && action != ACTION_OPEN) {
+        if (action != ACTION_GET_CONTENT && action != ACTION_OPEN || acceptMimes == null) {
             return false;
         }
 

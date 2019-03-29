@@ -48,4 +48,10 @@
     <style name="InspectorKeySubTitle" parent="@style/TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
+
+    <style name="MaterialButtonTextAppearance" parent="@style/TextAppearance.MaterialComponents.Button">
+        <item name="android:textAllCaps">@bool/config_button_all_caps</item>
+        <item name="fontFamily">@string/config_headlineFontFamilyMedium</item>
+    </style>
+
 </resources>
