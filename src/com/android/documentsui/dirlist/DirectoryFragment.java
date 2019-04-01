@@ -573,13 +573,17 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     "Next scale " + nextScale + ", Min/max scale " + minScale + "/" + maxScale);
 
             if (nextScale > minScale && nextScale < maxScale) {
-                if (DEBUG) Log.d(TAG, "Updating grid scale: " + scale);
+                if (DEBUG) {
+                    Log.d(TAG, "Updating grid scale: " + scale);
+                }
                 mLiveScale = nextScale;
                 updateLayout(mMode);
             }
 
         } else {
-            if (DEBUG) Log.d(TAG, "List mode, ignoring scale: " + scale);
+            if (DEBUG) {
+                Log.d(TAG, "List mode, ignoring scale: " + scale);
+            }
             mLiveScale = 1.0f;
         }
     }
@@ -752,7 +756,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 return true;
 
             default:
-                if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
+                if (DEBUG) {
+                    Log.d(TAG, "Unhandled menu item selected: " + item);
+                }
                 return false;
         }
     }
@@ -1020,7 +1026,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     public static void showDirectory(
             FragmentManager fm, RootInfo root, DocumentInfo doc, int anim) {
-        if (DEBUG) Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
+        if (DEBUG) {
+            Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
+        }
         create(fm, root, doc, anim);
     }
 
@@ -1095,7 +1103,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         @Override
         public void accept(Model.Update update) {
-            if (DEBUG) Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
+            if (DEBUG) {
+                Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
+            }
 
             mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
 

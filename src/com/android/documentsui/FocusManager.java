@@ -143,7 +143,9 @@ public final class FocusManager extends FocusDelegate<String> implements FocusHa
     @Override
     public boolean focusDirectoryList() {
         if (!mScope.isValid() || mScope.adapter.getItemCount() == 0) {
-            if (DEBUG) Log.v(TAG, "Nothing to focus.");
+            if (DEBUG) {
+                Log.v(TAG, "Nothing to focus.");
+            }
             return false;
         }
 
@@ -152,7 +154,9 @@ public final class FocusManager extends FocusDelegate<String> implements FocusHa
         // vs. Cut focused
         // item)
         if (mSelectionMgr.hasSelection()) {
-            if (DEBUG) Log.v(TAG, "Existing selection found. No focus will be done.");
+            if (DEBUG) {
+                Log.v(TAG, "Existing selection found. No focus will be done.");
+            }
             return false;
         }
 
@@ -199,7 +203,9 @@ public final class FocusManager extends FocusDelegate<String> implements FocusHa
     @Override
     public void focusDocument(String modelId) {
         if (!mScope.isValid()) {
-            if (DEBUG) Log.v(TAG, "Invalid mScope. No focus will be done.");
+            if (DEBUG) {
+                Log.v(TAG, "Invalid mScope. No focus will be done.");
+            }
             return;
         }
         int pos = mScope.adapter.getAdapterPosition(modelId);

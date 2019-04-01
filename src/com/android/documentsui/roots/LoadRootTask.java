@@ -46,7 +46,9 @@ public class LoadRootTask<T extends Activity & CommonAddons>
 
     @Override
     protected RootInfo run(Void... params) {
-        if (DEBUG) Log.d(TAG, "Loading root: " + mRootUri);
+        if (DEBUG) {
+            Log.d(TAG, "Loading root: " + mRootUri);
+        }
 
         return mProviders.getRootOneshot(mRootUri.getAuthority(), getRootId(mRootUri));
     }
@@ -54,7 +56,9 @@ public class LoadRootTask<T extends Activity & CommonAddons>
     @Override
     protected void finish(RootInfo root) {
         if (root != null) {
-            if (DEBUG) Log.d(TAG, "Loaded root: " + root);
+            if (DEBUG) {
+                Log.d(TAG, "Loaded root: " + root);
+            }
             mOwner.onRootPicked(root);
         } else {
             Log.w(TAG, "Failed to find root: " + mRootUri);

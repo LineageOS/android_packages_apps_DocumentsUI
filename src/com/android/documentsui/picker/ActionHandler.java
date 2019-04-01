@@ -110,7 +110,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         // stack is initialized if it's restored from bundle, which means we're restoring a
         // previously stored state.
         if (mState.stack.isInitialized()) {
-            if (DEBUG) Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
+            if (DEBUG) {
+                Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
+            }
             restoreRootAndDirectory();
             return;
         }
@@ -120,16 +122,22 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         mActivity.setTitle("");
 
         if (launchHomeForCopyDestination(intent)) {
-            if (DEBUG) Log.d(TAG, "Launching directly into Home directory for copy destination.");
+            if (DEBUG) {
+                Log.d(TAG, "Launching directly into Home directory for copy destination.");
+            }
             return;
         }
 
         if (mFeatures.isLaunchToDocumentEnabled() && launchToInitialUri(intent)) {
-            if (DEBUG) Log.d(TAG, "Launched to initial uri.");
+            if (DEBUG) {
+                Log.d(TAG, "Launched to initial uri.");
+            }
             return;
         }
 
-        if (DEBUG) Log.d(TAG, "Load last accessed stack.");
+        if (DEBUG) {
+            Log.d(TAG, "Load last accessed stack.");
+        }
         loadLastAccessedStack();
     }
 
@@ -167,7 +175,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     private void loadLastAccessedStack() {
-        if (DEBUG) Log.d(TAG, "Attempting to load last used stack for calling package.");
+        if (DEBUG) {
+            Log.d(TAG, "Attempting to load last used stack for calling package.");
+        }
         new LoadLastAccessedStackTask<>(
                 mActivity, mLastAccessed, mState, mProviders, this::onLastAccessedStackLoaded)
                 .execute();
@@ -237,7 +247,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (DEBUG) Log.d(TAG, "onActivityResult() code=" + resultCode);
+        if (DEBUG) {
+            Log.d(TAG, "onActivityResult() code=" + resultCode);
+        }
 
         // Only relay back results when not canceled; otherwise stick around to
         // let the user pick another app/backend.
@@ -411,7 +423,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     private void onPickFinished(Uri... uris) {
-        if (DEBUG) Log.d(TAG, "onFinished() " + Arrays.toString(uris));
+        if (DEBUG) {
+            Log.d(TAG, "onFinished() " + Arrays.toString(uris));
+        }
 
         final Intent intent = new Intent();
         if (uris.length == 1) {

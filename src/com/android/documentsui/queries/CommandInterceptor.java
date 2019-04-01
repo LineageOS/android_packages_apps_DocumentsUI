@@ -63,7 +63,9 @@ public final class CommandInterceptor implements EventHandler<String> {
         }
 
         if (!mFeatures.isCommandInterceptorEnabled()) {
-            if (DEBUG) Log.v(TAG, "Skipping input, command interceptor disabled.");
+            if (DEBUG) {
+                Log.v(TAG, "Skipping input, command interceptor disabled.");
+            }
             return false;
         }
 
