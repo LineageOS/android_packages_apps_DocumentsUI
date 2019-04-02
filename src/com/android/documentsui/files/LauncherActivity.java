@@ -103,12 +103,16 @@ public class LauncherActivity extends Activity {
 
         // Forward any flags from the original intent.
         intent.setFlags(getIntent().getFlags());
-        if (DEBUG) Log.d(TAG, "Starting new task > " + intent.getData());
+        if (DEBUG) {
+            Log.d(TAG, "Starting new task > " + intent.getData());
+        }
         startActivity(intent);
     }
 
     private boolean restoreTask(Intent intent) {
-        if (DEBUG) Log.d(TAG, "Restoring existing task > " + intent.getData());
+        if (DEBUG) {
+            Log.d(TAG, "Restoring existing task > " + intent.getData());
+        }
         try {
             // TODO: This doesn't appear to restore a task once it has stopped running.
             startActivity(intent);

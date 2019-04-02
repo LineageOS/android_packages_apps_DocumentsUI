@@ -497,7 +497,9 @@ public class RootsFragment extends Fragment {
                 mActionHandler.openSettings(rootItem.root);
                 return true;
             default:
-                if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
+                if (DEBUG) {
+                    Log.d(TAG, "Unhandled menu item selected: " + item);
+                }
                 return false;
         }
     }

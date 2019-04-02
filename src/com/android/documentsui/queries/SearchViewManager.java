@@ -245,7 +245,9 @@ public class SearchViewManager implements
      */
     public void update(DocumentStack stack) {
         if (mMenuItem == null) {
-            if (DEBUG) Log.d(TAG, "update called before Search MenuItem installed.");
+            if (DEBUG) {
+                Log.d(TAG, "update called before Search MenuItem installed.");
+            }
             return;
         }
 
@@ -287,7 +289,9 @@ public class SearchViewManager implements
         }
 
         if (mMenuItem == null) {
-            if (DEBUG) Log.d(TAG, "showMenu called before Search MenuItem installed.");
+            if (DEBUG) {
+                Log.d(TAG, "showMenu called before Search MenuItem installed.");
+            }
             return;
         }
 

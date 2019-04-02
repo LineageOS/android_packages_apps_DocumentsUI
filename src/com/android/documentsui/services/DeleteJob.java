@@ -112,7 +112,9 @@ final class DeleteJob extends ResolvedResourcesJob {
         }
 
         for (DocumentInfo doc : mResolvedDocs) {
-            if (DEBUG) Log.d(TAG, "Deleting document @ " + doc.derivedUri);
+            if (DEBUG) {
+                Log.d(TAG, "Deleting document @ " + doc.derivedUri);
+            }
             try {
                 deleteDocument(doc, parentDoc);
             } catch (ResourceException e) {

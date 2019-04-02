@@ -75,13 +75,17 @@ public class ActionModeController extends SelectionObserver<String>
         mSelectionMgr.copySelection(mSelected);
         if (mSelected.size() > 0) {
             if (mActionMode == null) {
-                if (DEBUG) Log.d(TAG, "Starting action mode.");
+                if (DEBUG) {
+                    Log.d(TAG, "Starting action mode.");
+                }
                 mActionMode = mActivity.startActionMode(this);
             }
             updateActionMenu();
         } else {
             if (mActionMode != null) {
-                if (DEBUG) Log.d(TAG, "Finishing action mode.");
+                if (DEBUG) {
+                    Log.d(TAG, "Finishing action mode.");
+                }
                 mActionMode.finish();
             }
         }
@@ -104,12 +108,16 @@ public class ActionModeController extends SelectionObserver<String>
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         if (mActionMode == null) {
-            if (DEBUG) Log.w(TAG, "Received call to destroy action mode on alien mode object.");
+            if (DEBUG) {
+                Log.w(TAG, "Received call to destroy action mode on alien mode object.");
+            }
         }
 
         assert(mActionMode.equals(mode));
 
-        if (DEBUG) Log.d(TAG, "Handling action mode destroyed.");
+        if (DEBUG) {
+            Log.d(TAG, "Handling action mode destroyed.");
+        }
         mActionMode = null;
         mMenu = null;
 
