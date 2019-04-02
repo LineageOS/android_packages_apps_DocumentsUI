@@ -36,19 +36,21 @@ import android.view.MotionEvent.PointerProperties;
  * and making assertions against the state of it.
  */
 public class GestureBot extends Bots.BaseBot {
-    private static final String DIR_CONTAINER_ID = "com.android.documentsui:id/container_directory";
-    private static final String DIR_LIST_ID = "com.android.documentsui:id/dir_list";
     private static final int LONGPRESS_STEPS = 60;
     private static final int TRAVELING_STEPS = 20;
     private static final int BAND_SELECTION_DEFAULT_STEPS = 100;
     private static final int STEPS_INBETWEEN_POINTS = 2;
     // Inserted after each motion event injection.
     private static final int MOTION_EVENT_INJECTION_DELAY_MILLIS = 5;
+    private final String mDirContainerId;
+    private final String mDirListId;
     private final UiAutomation mAutomation;
     private long mDownTime = 0;
 
     public GestureBot(UiDevice device, UiAutomation automation, Context context, int timeout) {
         super(device, context, timeout);
+        mDirContainerId = mTargetPackage + ":id/container_directory";
+        mDirListId = mTargetPackage + ":id/dir_list";
         mAutomation = automation;
     }
 
@@ -89,8 +91,8 @@ public class GestureBot extends Bots.BaseBot {
 
     public UiObject findDocument(String label) throws UiObjectNotFoundException {
         final UiSelector docList = new UiSelector().resourceId(
-                DIR_CONTAINER_ID).childSelector(
-                        new UiSelector().resourceId(DIR_LIST_ID));
+                mDirContainerId).childSelector(
+                        new UiSelector().resourceId(mDirListId));
 
         // Wait for the first list item to appear
         new UiObject(docList.childSelector(new UiSelector())).waitForExists(mTimeout);

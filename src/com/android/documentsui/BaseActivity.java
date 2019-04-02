@@ -211,6 +211,14 @@ public abstract class BaseActivity
                             mSearchManager.getSearchViewText());
                 }
             }
+
+            @Override
+            public void onSearchViewClearClicked() {
+                if (SearchFragment.get(getSupportFragmentManager()) == null) {
+                    SearchFragment.showFragment(getSupportFragmentManager(),
+                            mSearchManager.getSearchViewText());
+                }
+            }
         };
 
         // "Commands" are meta input for controlling system behavior.
@@ -326,7 +334,9 @@ public abstract class BaseActivity
     private State getState(@Nullable Bundle icicle) {
         if (icicle != null) {
             State state = icicle.<State>getParcelable(Shared.EXTRA_STATE);
-            if (DEBUG) Log.d(mTag, "Recovered existing state object: " + state);
+            if (DEBUG) {
+                Log.d(mTag, "Recovered existing state object: " + state);
+            }
             return state;
         }
 
@@ -346,7 +356,9 @@ public abstract class BaseActivity
         // Only show the toggle if advanced isn't forced enabled.
         state.showDeviceStorageOption = !Shared.mustShowDeviceRoot(intent);
 
-        if (DEBUG) Log.d(mTag, "Created new state object: " + state);
+        if (DEBUG) {
+            Log.d(mTag, "Created new state object: " + state);
+        }
 
         return state;
     }

@@ -193,7 +193,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private final Runnable mOnDisplayStateChanged = this::onDisplayStateChanged;
 
     private final ViewTreeObserver.OnPreDrawListener mToolbarPreDrawListener = () -> {
-        removePreDrawListener();
+        setPreDrawListener(false);
         if (mAppBarHeight != getAppBarLayoutHeight()) {
             updateLayout(mState.derivedMode);
         }
@@ -269,6 +269,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mModel.removeUpdateListener(mModelUpdateListener);
         mModel.removeUpdateListener(mAdapter.getModelUpdateListener());
+        setPreDrawListener(false);
 
         super.onDestroyView();
     }
@@ -572,13 +573,17 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     "Next scale " + nextScale + ", Min/max scale " + minScale + "/" + maxScale);
 
             if (nextScale > minScale && nextScale < maxScale) {
-                if (DEBUG) Log.d(TAG, "Updating grid scale: " + scale);
+                if (DEBUG) {
+                    Log.d(TAG, "Updating grid scale: " + scale);
+                }
                 mLiveScale = nextScale;
                 updateLayout(mMode);
             }
 
         } else {
-            if (DEBUG) Log.d(TAG, "List mode, ignoring scale: " + scale);
+            if (DEBUG) {
+                Log.d(TAG, "List mode, ignoring scale: " + scale);
+            }
             mLiveScale = 1.0f;
         }
     }
@@ -751,7 +756,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 return true;
 
             default:
-                if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
+                if (DEBUG) {
+                    Log.d(TAG, "Unhandled menu item selected: " + item);
+                }
                 return false;
         }
     }
@@ -1002,16 +1009,26 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         return null;
     }
 
-    private void removePreDrawListener() {
-        final View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
-        if (collapsingBar != null) {
-            collapsingBar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
+    private void setPreDrawListener(boolean enable) {
+        if (mActivity == null) {
+            return;
+        }
+
+        final View bar = mActivity.findViewById(R.id.collapsing_toolbar);
+        if (bar != null) {
+            if (enable) {
+                bar.getViewTreeObserver().addOnPreDrawListener(mToolbarPreDrawListener);
+            } else {
+                bar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
+            }
         }
     }
 
     public static void showDirectory(
             FragmentManager fm, RootInfo root, DocumentInfo doc, int anim) {
-        if (DEBUG) Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
+        if (DEBUG) {
+            Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
+        }
         create(fm, root, doc, anim);
     }
 
@@ -1086,7 +1103,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         @Override
         public void accept(Model.Update update) {
-            if (DEBUG) Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
+            if (DEBUG) {
+                Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
+            }
 
             mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
 
@@ -1134,10 +1153,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 // Always back to top avoid app bar layout overlay on container.
                 mRecView.scrollToPosition(0);
 
-                final View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
-                if (collapsingBar != null) {
-                    collapsingBar.getViewTreeObserver().addOnPreDrawListener(mToolbarPreDrawListener);
-                }
+                setPreDrawListener(true);
             }
         }
     }

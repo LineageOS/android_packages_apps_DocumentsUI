@@ -103,7 +103,9 @@ public final class QuickViewIntentBuilder {
      * be resolved; in this case {@code null} is returned.
      */
     @Nullable public Intent build() {
-        if (DEBUG) Log.d(TAG, "Preparing intent for doc:" + mDocument.documentId);
+        if (DEBUG) {
+            Log.d(TAG, "Preparing intent for doc:" + mDocument.documentId);
+        }
 
         String trustedPkg = getQuickViewPackage();
 
@@ -126,7 +128,9 @@ public final class QuickViewIntentBuilder {
                 for (int i = range.getLower(); i <= range.getUpper(); i++) {
                     uri = uris.get(i);
                     item = new ClipData.Item(uri);
-                    if (DEBUG) Log.d(TAG, "Including file: " + uri);
+                    if (DEBUG) {
+                        Log.d(TAG, "Including file: " + uri);
+                    }
                     if (clipData == null) {
                         clipData = new ClipData(
                                 "URIs", new String[] { ClipDescription.MIMETYPE_TEXT_URILIST },
@@ -186,17 +190,21 @@ public final class QuickViewIntentBuilder {
             cursor = mModel.getItem(siblingIds[i]);
 
             if (cursor == null) {
-                if (DEBUG) Log.d(TAG,
+                if (DEBUG) {
+                    Log.d(TAG,
                         "Unable to obtain cursor for sibling document, modelId: "
-                        + siblingIds[i]);
+                            + siblingIds[i]);
+                }
                 continue;
             }
 
             mimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
             if (Document.MIME_TYPE_DIR.equals(mimeType)) {
-                if (DEBUG) Log.d(TAG,
+                if (DEBUG) {
+                    Log.d(TAG,
                         "Skipping directory, not supported by quick view. modelId: "
-                        + siblingIds[i]);
+                            + siblingIds[i]);
+                }
                 continue;
             }
 
@@ -208,7 +216,9 @@ public final class QuickViewIntentBuilder {
 
             if (id.equals(mDocument.documentId)) {
                 documentLocation = uris.size() - 1;  // Position in "uris", not in the model.
-                if (DEBUG) Log.d(TAG, "Found starting point for QV. " + documentLocation);
+                if (DEBUG) {
+                    Log.d(TAG, "Found starting point for QV. " + documentLocation);
+                }
             }
         }
 
@@ -242,8 +252,10 @@ public final class QuickViewIntentBuilder {
             firstSibling = Math.max(0, lastSibling - MAX_DOCS_IN_INTENT + 1);
         }
 
-        if (DEBUG) Log.d(TAG, "Copmuted siblings from index: " + firstSibling
+        if (DEBUG) {
+            Log.d(TAG, "Copmuted siblings from index: " + firstSibling
                 + " to: " + lastSibling);
+        }
 
         return new Range(firstSibling, lastSibling);
     }

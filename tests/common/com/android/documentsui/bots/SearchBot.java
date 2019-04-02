@@ -37,7 +37,6 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.view.View;
 
 import androidx.recyclerview.R;
-import androidx.test.InstrumentationRegistry;
 
 import org.hamcrest.Matcher;
 
@@ -48,8 +47,6 @@ import org.hamcrest.Matcher;
  * Support for working directly with Roots and Directory view can be found in the respective bots.
  */
 public class SearchBot extends Bots.BaseBot {
-
-    private final String mTargetPackage;
 
     // Dumb search layout changes substantially between Ryu and Angler.
     @SuppressWarnings("unchecked")
@@ -67,8 +64,6 @@ public class SearchBot extends Bots.BaseBot {
 
     public SearchBot(UiDevice device, Context context, int timeout) {
         super(device, context, timeout);
-        mTargetPackage =
-                InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageName();
     }
 
     public void clickIcon() throws UiObjectNotFoundException {
@@ -77,6 +72,16 @@ public class SearchBot extends Bots.BaseBot {
 
         UiObject fragmentSearchView = findFragmentSearchView();
         assertTrue(fragmentSearchView.exists());
+    }
+
+    public void clickSearchViewClearButton() throws UiObjectNotFoundException {
+        UiObject clear = findSearchViewClearButton();
+        clear.click();
+    }
+
+    public void clickFragmentSearchViewClearButton() throws UiObjectNotFoundException {
+        UiObject clear = findFragmentSearchClearButton();
+        clear.click();
     }
 
     public void setInputText(String query) throws UiObjectNotFoundException {
@@ -138,13 +143,23 @@ public class SearchBot extends Bots.BaseBot {
                 mTargetPackage + ":id/search_src_text");
     }
 
+    private UiObject findSearchViewClearButton() {
+        return findObject(mTargetPackage + ":id/option_menu_search",
+                mTargetPackage + ":id/search_close_btn");
+    }
+
     private UiObject findFragmentSearchView() {
-        return findObject("com.android.documentsui:id/search_view");
+        return findObject(mTargetPackage + ":id/search_view");
     }
 
     private UiObject findFragmentSearchViewTextField() {
-        return findObject("com.android.documentsui:id/search_view",
-                "com.android.documentsui:id/search_src_text");
+        return findObject(mTargetPackage + ":id/search_view",
+                mTargetPackage + ":id/search_src_text");
+    }
+
+    private UiObject findFragmentSearchClearButton() {
+        return findObject(mTargetPackage + ":id/search_view",
+                mTargetPackage + ":id/search_close_btn");
     }
 
     private UiObject findSearchViewIcon() {

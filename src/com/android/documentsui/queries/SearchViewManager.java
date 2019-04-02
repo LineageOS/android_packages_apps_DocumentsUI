@@ -215,6 +215,13 @@ public class SearchViewManager implements
         mSearchView.setOnCloseListener(this);
         mSearchView.setOnSearchClickListener(this);
         mSearchView.setOnQueryTextFocusChangeListener(this);
+        final View clearButton = mSearchView.findViewById(R.id.search_close_btn);
+        if (clearButton != null) {
+            clearButton.setOnClickListener(v -> {
+                mSearchView.setQuery("", false);
+                mListener.onSearchViewClearClicked();
+            });
+        }
 
         mFullBar = isFullBarSearch;
         mSearchView.setMaxWidth(Integer.MAX_VALUE);
@@ -238,7 +245,9 @@ public class SearchViewManager implements
      */
     public void update(DocumentStack stack) {
         if (mMenuItem == null) {
-            if (DEBUG) Log.d(TAG, "update called before Search MenuItem installed.");
+            if (DEBUG) {
+                Log.d(TAG, "update called before Search MenuItem installed.");
+            }
             return;
         }
 
@@ -280,7 +289,9 @@ public class SearchViewManager implements
         }
 
         if (mMenuItem == null) {
-            if (DEBUG) Log.d(TAG, "showMenu called before Search MenuItem installed.");
+            if (DEBUG) {
+                Log.d(TAG, "showMenu called before Search MenuItem installed.");
+            }
             return;
         }
 
@@ -419,7 +430,7 @@ public class SearchViewManager implements
         } else {
             cancelQueuedSearch();
             // Don't kick off a search if we've already finished it.
-            if (mCurrentSearch != query) {
+            if (!TextUtils.equals(mCurrentSearch, query)) {
                 mCurrentSearch = query;
                 mListener.onSearchChanged(mCurrentSearch);
             }
@@ -588,5 +599,10 @@ public class SearchViewManager implements
         void onSearchChipStateChanged(View v);
 
         void onSearchViewFocusChanged(boolean hasFocus);
+
+        /**
+         * Call back when search view clear button clicked
+         */
+        void onSearchViewClearClicked();
     }
 }

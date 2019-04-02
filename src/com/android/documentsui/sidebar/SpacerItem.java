@@ -48,6 +48,8 @@ class SpacerItem extends Item {
 
     @Override
     void open() {
-        if (DEBUG) Log.d(TAG, "Ignoring click/hover on spacer item.");
+        if (DEBUG) {
+            Log.d(TAG, "Ignoring click/hover on spacer item.");
+        }
     }
 }

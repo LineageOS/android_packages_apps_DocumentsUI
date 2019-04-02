@@ -18,21 +18,21 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Selected. -->
     <item android:state_pressed="true" android:state_selected="true"
-          android:alpha="0.16" android:color="@color/chip_ripple_color"/>
+          android:alpha="0.16" android:color="?android:colorPrimary"/>
     <item android:state_focused="true" android:state_hovered="true" android:state_selected="true"
-          android:alpha="0.16" android:color="@color/chip_ripple_color"/>
+          android:alpha="0.16" android:color="?android:colorPrimary"/>
     <item android:state_focused="true" android:state_selected="true"
-          android:alpha="0.12" android:color="@color/chip_ripple_color"/>
+          android:alpha="0.12" android:color="?android:colorPrimary"/>
     <item android:state_hovered="true" android:state_selected="true"
-          android:alpha="0.04" android:color="@color/chip_ripple_color"/>
+          android:alpha="0.04" android:color="?android:colorPrimary"/>
     <item android:state_selected="true"
-          android:alpha="0.00" android:color="@color/chip_ripple_color"/>
+          android:alpha="0.00" android:color="?android:colorPrimary"/>
 
     <!-- Unselected. -->
-    <item android:state_pressed="true" android:alpha="0.16" android:color="@color/text_hint"/>
+    <item android:state_pressed="true" android:alpha="0.16" android:color="?android:textColorSecondary"/>
     <item android:state_focused="true" android:state_hovered="true"
-          android:alpha="0.16" android:color="@color/text_hint"/>
-    <item android:state_focused="true" android:alpha="0.12" android:color="@color/text_hint"/>
-    <item android:state_hovered="true" android:alpha="0.04" android:color="@color/text_hint"/>
-    <item android:alpha="0.00" android:color="@color/text_hint"/>
+          android:alpha="0.16" android:color="?android:textColorSecondary"/>
+    <item android:state_focused="true" android:alpha="0.12" android:color="?android:textColorSecondary"/>
+    <item android:state_hovered="true" android:alpha="0.04" android:color="?android:textColorSecondary"/>
+    <item android:alpha="0.00" android:color="?android:textColorSecondary"/>
 </selector>

@@ -113,7 +113,9 @@ public class Model {
     @VisibleForTesting
     public void update(DirectoryResult result) {
         assert(result != null);
-        if (DEBUG) Log.i(TAG, "Updating model with new result set.");
+        if (DEBUG) {
+            Log.i(TAG, "Updating model with new result set.");
+        }
 
         if (result.exception != null) {
             Log.e(TAG, "Error while loading directory contents", result.exception);
@@ -177,13 +179,17 @@ public class Model {
     public @Nullable Cursor getItem(String modelId) {
         Integer pos = mPositions.get(modelId);
         if (pos == null) {
-            if (DEBUG) Log.d(TAG, "Unabled to find cursor position for modelId: " + modelId);
+            if (DEBUG) {
+                Log.d(TAG, "Unabled to find cursor position for modelId: " + modelId);
+            }
             return null;
         }
 
         if (!mCursor.moveToPosition(pos)) {
-            if (DEBUG) Log.d(TAG,
+            if (DEBUG) {
+                Log.d(TAG,
                     "Unabled to move cursor to position " + pos + " for modelId: " + modelId);
+            }
             return null;
         }
 

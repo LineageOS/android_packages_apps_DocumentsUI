@@ -40,8 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/apps_row_item_text_margin_horizontal"
         android:layout_marginEnd="@dimen/apps_row_item_text_margin_horizontal"
-        android:textSize="12sp"
-        android:textColor="?android:textColorPrimary"
+        android:textAppearance="@style/AppsItemText"
         android:maxLines="1"
         android:ellipsize="end"
         android:gravity="center"/>
@@ -53,6 +52,6 @@
         android:layout_marginTop="@dimen/apps_row_exit_icon_margin_top"
         android:scaleType="centerInside"
         android:src="@drawable/ic_exit_to_app"
-        android:tint="@color/item_action_icon"/>
+        android:tint="?android:textColorSecondary"/>
 
 </LinearLayout>

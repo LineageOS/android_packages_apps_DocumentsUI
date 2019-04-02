@@ -616,9 +616,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                     contentsUri = DocumentsContract.setManageMode(contentsUri);
                 }
 
-                if (DEBUG) Log.d(TAG,
+                if (DEBUG) {
+                    Log.d(TAG,
                         "Creating new directory loader for: "
-                                + DocumentInfo.debugString(mState.stack.peek()));
+                            + DocumentInfo.debugString(mState.stack.peek()));
+                }
 
                 return new DirectoryLoader(
                         mInjector.features,
@@ -633,8 +635,10 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
         @Override
         public void onLoadFinished(Loader<DirectoryResult> loader, DirectoryResult result) {
-            if (DEBUG) Log.d(TAG, "Loader has finished for: "
+            if (DEBUG) {
+                Log.d(TAG, "Loader has finished for: "
                     + DocumentInfo.debugString(mState.stack.peek()));
+            }
             assert(result != null);
 
             mInjector.getModel().update(result);

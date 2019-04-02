@@ -16,7 +16,7 @@
 <resources>
     <style name="SortTitle" parent="@style/TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="SortList" parent="@style/TextAppearance.AppCompat.Subhead">
@@ -26,7 +26,18 @@
     <style name="SearchBarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
         <item name="android:textColor">?android:attr/textColorSecondary</item>
         <item name="android:textSize">@dimen/search_bar_text_size</item>
-        <item name="fontFamily">@string/config_headlineFontFamily</item>
+        <item name="fontFamily">@string/config_fontFamily</item>
+    </style>
+
+    <style name="SearchChipText">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
+    </style>
+
+    <style name="AppsItemText">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@string/config_fontFamily</item>
     </style>
 
     <style name="CardPrimaryText" parent="@style/TextAppearance.AppCompat.Subhead">
@@ -34,14 +45,19 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="DrawerMenuTitle" parent="@android:style/TextAppearance.Material.Title"/>
+    <style name="DrawerMenuTitle" parent="@android:style/TextAppearance.Material.Title">
+        <item name="android:textSize">24sp</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
+    </style>
 
     <style name="DrawerMenuPrimary" parent="android:style/TextAppearance.Material.Body2">
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/item_root_primary_text</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
     </style>
 
     <style name="DrawerMenuSecondary" parent="android:style/TextAppearance.Material.Body2">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/item_root_secondary_text</item>
     </style>
 
@@ -51,7 +67,7 @@
 
     <style name="MaterialButtonTextAppearance" parent="@style/TextAppearance.MaterialComponents.Button">
         <item name="android:textAllCaps">@bool/config_button_all_caps</item>
-        <item name="fontFamily">@string/config_headlineFontFamilyMedium</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
     </style>
 
 </resources>

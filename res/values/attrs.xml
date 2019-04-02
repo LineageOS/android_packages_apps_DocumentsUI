@@ -59,13 +59,8 @@
         <attr name="android:windowLightNavigationBar" />
     </declare-styleable>
 
-    <declare-styleable name="TextHandleView">
-        <attr name="textHandleColor" format="reference" />
-        <attr name="textCursorColor" format="reference" />
-    </declare-styleable>
-
     <declare-styleable name="SwipeRefresh">
-        <attr name="android:colorAccent" />
+        <attr name="android:colorPrimary" />
     </declare-styleable>
 
     <declare-styleable name="MaterialButtons">

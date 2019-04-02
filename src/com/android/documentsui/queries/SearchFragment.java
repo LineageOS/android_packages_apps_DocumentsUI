@@ -54,6 +54,7 @@ public class SearchFragment extends DialogFragment
     private SearchView mSearchView;
     private ViewGroup mSearchChipGroup;
     private ListView mListView;
+    private ArrayAdapter<String> mAdapter;
 
     private List<String> mHistoryList;
 
@@ -94,7 +95,6 @@ public class SearchFragment extends DialogFragment
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         final Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(v -> {
             mSearchViewManager.cancelSearch();
             dismiss();
@@ -121,7 +121,7 @@ public class SearchFragment extends DialogFragment
         mSearchView.setQuery(currentQuery, false);
         mSearchView.setOnQueryTextListener(this);
         mHistoryList = SearchHistoryManager.getInstance(
-                mSearchView.getContext().getApplicationContext()).getHistoryList(currentQuery);
+                getContext().getApplicationContext()).getHistoryList(currentQuery);
 
         mSearchViewManager.bindChips(mSearchChipGroup);
         if (mSearchChipGroup.getVisibility() == View.VISIBLE) {
@@ -130,7 +130,8 @@ public class SearchFragment extends DialogFragment
             }
         }
 
-        mListView.setAdapter(new HistoryListAdapter(getContext(), mHistoryList));
+        mAdapter = new HistoryListAdapter(getContext(), mHistoryList);
+        mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(this::onHistoryItemClicked);
     }
 
@@ -169,9 +170,16 @@ public class SearchFragment extends DialogFragment
 
     @Override
     public boolean onQueryTextChange(String s) {
-        mSearchViewManager.setCurrentSearch(s);
-        mSearchViewManager.restoreSearch(true);
-        dismiss();
+        if (!TextUtils.isEmpty(mSearchView.getQuery())) {
+            mSearchViewManager.setCurrentSearch(s);
+            mSearchViewManager.restoreSearch(true);
+            dismiss();
+        } else {
+            mHistoryList = SearchHistoryManager.getInstance(
+                    mSearchView.getContext().getApplicationContext()).getHistoryList("");
+            mAdapter.clear();
+            mAdapter.addAll(mHistoryList);
+        }
         return true;
     }
 
@@ -196,6 +204,8 @@ public class SearchFragment extends DialogFragment
                 mHistoryList.remove(history);
                 notifyDataSetChanged();
             });
+            button.setContentDescription(
+                    getContext().getString(R.string.delete_search_history, history));
 
             return convertView;
         }

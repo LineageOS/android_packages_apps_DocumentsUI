@@ -25,8 +25,13 @@
             <item type="style" name="DocumentsTheme"/>
             <!-- END THEME / STYLE -->
 
+            <!-- START COLOR -->
+            <item type="color" name="primary"/>
+            <!-- END COLOR -->
+
             <!-- START DIMEN -->
             <item type="dimen" name="grid_item_radius"/>
+            <item type="dimen" name="search_chip_radius"/>
             <!-- END DIMEN -->
 
             <!-- START DRAWABLE -->
@@ -34,16 +39,22 @@
             <item type="drawable" name="ic_root_download"/>
             <item type="drawable" name="ic_sd_storage"/>
             <item type="drawable" name="root_list_selector"/>
-            <item type="drawable" name="root_list_selector_mask"/>
             <!-- END DRAWABLE -->
 
-            <!-- START CONFIG -->
+            <!-- START BOOLEAN CONFIG -->
             <item type="bool" name="config_button_all_caps"/>
+            <item type="bool" name="config_default_show_device_root"/>
+            <item type="bool" name="feature_default_root_in_browse"/>
             <item type="bool" name="is_launcher_enabled"/>
+            <!-- END BOOLEAN CONFIG -->
+
+            <!-- START STRING CONFIG -->
+            <item type="string" name="config_fontFamily"/>
+            <item type="string" name="config_fontFamilyMedium"/>
             <item type="string" name="default_root_uri"/>
             <item type="string" name="preferred_root_package"/>
             <item type="string" name="trusted_quick_viewer_package"/>
-            <!-- END CONFIG -->
+            <!-- END STRING CONFIG -->
 
         </policy>
         <!-- END VENDOR CUSTOMIZATION -->
