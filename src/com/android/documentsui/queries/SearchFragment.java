@@ -95,7 +95,6 @@ public class SearchFragment extends DialogFragment
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         final Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(v -> {
             mSearchViewManager.cancelSearch();
             dismiss();
