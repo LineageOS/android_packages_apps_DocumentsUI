@@ -108,6 +108,10 @@ public final class SearchViewManagerTest {
             @Override
             public void onSearchViewFocusChanged(boolean hasFocus) {
             }
+
+            @Override
+            public void onSearchViewClearClicked() {
+            }
         };
 
         ViewGroup chipGroup = mock(ViewGroup.class);

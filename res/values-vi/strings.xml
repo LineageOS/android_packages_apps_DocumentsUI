@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Duyệt qua tệp trong các ứng dụng khác"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Ẩn danh"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Cho phép truy cập vào \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Cho phép truy cập vào \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" trên \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Điều này sẽ cho phép \"<xliff:g id="APPNAME">%1$s</xliff:g>\" có quyền truy cập đầy đủ vào tất cả các tệp hiện được lưu trữ ở vị trí này và mọi nội dung sau này sẽ lưu trữ tại đây."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Tìm kiếm điện thoại này"</string>
 </resources>

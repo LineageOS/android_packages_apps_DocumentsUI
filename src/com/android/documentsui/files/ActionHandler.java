@@ -412,32 +412,44 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         // stack is initialized if it's restored from bundle, which means we're restoring a
         // previously stored state.
         if (mState.stack.isInitialized()) {
-            if (DEBUG) Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
+            if (DEBUG) {
+                Log.d(TAG, "Stack already resolved for uri: " + intent.getData());
+            }
             restoreRootAndDirectory();
             return;
         }
 
         if (launchToStackLocation(intent)) {
-            if (DEBUG) Log.d(TAG, "Launched to location from stack.");
+            if (DEBUG) {
+                Log.d(TAG, "Launched to location from stack.");
+            }
             return;
         }
 
         if (launchToRoot(intent)) {
-            if (DEBUG) Log.d(TAG, "Launched to root for browsing.");
+            if (DEBUG) {
+                Log.d(TAG, "Launched to root for browsing.");
+            }
             return;
         }
 
         if (launchToDocument(intent)) {
-            if (DEBUG) Log.d(TAG, "Launched to a document.");
+            if (DEBUG) {
+                Log.d(TAG, "Launched to a document.");
+            }
             return;
         }
 
         if (launchToDownloads(intent)) {
-            if (DEBUG) Log.d(TAG, "Launched to a downloads.");
+            if (DEBUG) {
+                Log.d(TAG, "Launched to a downloads.");
+            }
             return;
         }
 
-        if (DEBUG) Log.d(TAG, "Launching directly into Home directory.");
+        if (DEBUG) {
+            Log.d(TAG, "Launching directly into Home directory.");
+        }
         launchToDefaultLocation();
     }
 
@@ -481,13 +493,17 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (DocumentsContract.isRootUri(mActivity, uri)) {
-                if (DEBUG) Log.d(TAG, "Launching with root URI.");
+                if (DEBUG) {
+                    Log.d(TAG, "Launching with root URI.");
+                }
                 // If we've got a specific root to display, restore that root using a dedicated
                 // authority. That way a misbehaving provider won't result in an ANR.
                 loadRoot(uri);
                 return true;
             } else if (DocumentsContract.isRootsUri(mActivity, uri)) {
-                if (DEBUG) Log.d(TAG, "Launching first root with roots URI.");
+                if (DEBUG) {
+                    Log.d(TAG, "Launching first root with roots URI.");
+                }
                 // TODO: b/116760996 Let the user can disambiguate between roots if there are
                 // multiple from DocumentsProvider instead of launching the first root in default
                 loadFirstRoot(uri);

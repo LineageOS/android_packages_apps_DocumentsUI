@@ -24,6 +24,6 @@
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
         android:alpha="0.0"
-        android:background="?attr/gridItemColor" />
+        android:background="?android:colorBackgroundFloating" />
 
 </RelativeLayout>

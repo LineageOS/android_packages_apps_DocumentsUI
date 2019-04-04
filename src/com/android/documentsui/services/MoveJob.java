@@ -162,7 +162,9 @@ final class MoveJob extends CopyJob {
                             + " due to an exception: ", e);
                 }
                 // If optimized move fails, then fallback to byte-by-byte copy.
-                if (DEBUG) Log.d(TAG, "Fallback to byte-by-byte move for: " + src.derivedUri);
+                if (DEBUG) {
+                    Log.d(TAG, "Fallback to byte-by-byte move for: " + src.derivedUri);
+                }
             }
         }
 

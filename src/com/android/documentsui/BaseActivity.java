@@ -169,11 +169,6 @@ public abstract class BaseActivity
              */
             @Override
             public void onSearchChanged(@Nullable String query) {
-                if (query != null) {
-                    Metrics.logUserAction(MetricConsts.USER_ACTION_SEARCH);
-                }
-
-
                 if (mSearchManager.isSearching()) {
                     Metrics.logSearchMode(query != null, mSearchManager.hasCheckedChip());
                     if (mInjector.pickResult != null) {
@@ -212,6 +207,14 @@ public abstract class BaseActivity
                         && TextUtils.isEmpty(mSearchManager.getSearchViewText());
                 if (hasFocus && (SearchFragment.get(getSupportFragmentManager()) == null)
                         && !isInitailSearch) {
+                    SearchFragment.showFragment(getSupportFragmentManager(),
+                            mSearchManager.getSearchViewText());
+                }
+            }
+
+            @Override
+            public void onSearchViewClearClicked() {
+                if (SearchFragment.get(getSupportFragmentManager()) == null) {
                     SearchFragment.showFragment(getSupportFragmentManager(),
                             mSearchManager.getSearchViewText());
                 }
@@ -331,7 +334,9 @@ public abstract class BaseActivity
     private State getState(@Nullable Bundle icicle) {
         if (icicle != null) {
             State state = icicle.<State>getParcelable(Shared.EXTRA_STATE);
-            if (DEBUG) Log.d(mTag, "Recovered existing state object: " + state);
+            if (DEBUG) {
+                Log.d(mTag, "Recovered existing state object: " + state);
+            }
             return state;
         }
 
@@ -351,7 +356,9 @@ public abstract class BaseActivity
         // Only show the toggle if advanced isn't forced enabled.
         state.showDeviceStorageOption = !Shared.mustShowDeviceRoot(intent);
 
-        if (DEBUG) Log.d(mTag, "Created new state object: " + state);
+        if (DEBUG) {
+            Log.d(mTag, "Created new state object: " + state);
+        }
 
         return state;
     }

@@ -52,21 +52,27 @@ import java.util.regex.Pattern;
  * and making assertions against the state of it.
  */
 public class DirectoryListBot extends Bots.BaseBot {
-    private static final String DIR_CONTAINER_ID = "com.android.documentsui:id/container_directory";
-    private static final String DIR_LIST_ID = "com.android.documentsui:id/dir_list";
-    private static final String ITEM_ROOT_ID = "com.android.documentsui:id/item_root";
-    private static final String PREVIEW_ID = "com.android.documentsui:id/preview_icon";
 
     private static final int MAX_LAYOUT_LEVEL = 10;
 
     private static final BySelector SNACK_DELETE =
             By.text(Pattern.compile("^Deleting [0-9]+ item.+"));
+
+    private final String mDirContainerId;
+    private final String mDirListId;
+    private final String mItemRootId;
+    private final String mPreviewId;
+
     private UiAutomation mAutomation;
 
     public DirectoryListBot(
             UiDevice device, UiAutomation automation, Context context, int timeout) {
         super(device, context, timeout);
         mAutomation = automation;
+        mDirContainerId = mTargetPackage + ":id/container_directory";
+        mDirListId = mTargetPackage + ":id/dir_list";
+        mItemRootId = mTargetPackage + ":id/item_root";
+        mPreviewId = mTargetPackage + ":id/preview_icon";
     }
 
     public void assertDocumentsCount(int count) throws UiObjectNotFoundException {
@@ -126,7 +132,7 @@ public class DirectoryListBot extends Bots.BaseBot {
     public void assertHasMessageButtonText(String expected) throws UiObjectNotFoundException {
         UiObject button = findHeaderMessageButton();
         String msg = String.valueOf(expected);
-        assertEquals(msg, button.getText());
+        assertEquals(msg.toUpperCase(), button.getText().toUpperCase());
     }
 
     public void clickMessageButton() throws UiObjectNotFoundException {
@@ -149,20 +155,20 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     private UiObject findHeaderMessageTextView() {
         return findObject(
-                DIR_CONTAINER_ID,
-                "com.android.documentsui:id/message_textview");
+                mDirContainerId,
+                mTargetPackage + ":id/message_textview");
     }
 
     private UiObject findHeaderMessageButton() {
         return findObject(
-                DIR_CONTAINER_ID,
-                "com.android.documentsui:id/button_dismiss");
+                mDirContainerId,
+                mTargetPackage + ":id/button_dismiss");
     }
 
     private UiObject findPlaceholderMessageTextView() {
         return findObject(
-                DIR_CONTAINER_ID,
-                "com.android.documentsui:id/message");
+                mDirContainerId,
+                mTargetPackage + ":id/message");
     }
 
     public void waitForHolderMessage() {
@@ -203,11 +209,11 @@ public class DirectoryListBot extends Bots.BaseBot {
         waitForDocument(label);
         UiObject2 selectionHotspot = findSelectionHotspot(label);
         return selectionHotspot.getResourceName()
-                .equals("com.android.documentsui:id/icon_check");
+                .equals(mTargetPackage + ":id/icon_check");
     }
 
     public UiObject2 findSelectionHotspot(String label) {
-        final BySelector list = By.res(DIR_LIST_ID);
+        final BySelector list = By.res(mDirListId);
 
         BySelector selector = By.hasChild(By.text(label));
         UiObject2 parent = mDevice.findObject(list).findObject(selector);
@@ -239,7 +245,7 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     public void clickSnackbarAction() throws UiObjectNotFoundException {
         UiObject snackbarAction =
-                findObject("com.android.documentsui:id/snackbar_action");
+                findObject(mTargetPackage + ":id/snackbar_action");
         snackbarAction.click();
     }
 
@@ -258,8 +264,8 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     public UiObject findDocument(String label) throws UiObjectNotFoundException {
         final UiSelector docList = new UiSelector().resourceId(
-                DIR_CONTAINER_ID).childSelector(
-                        new UiSelector().resourceId(DIR_LIST_ID));
+                mDirContainerId).childSelector(
+                        new UiSelector().resourceId(mDirListId));
 
         // Wait for the first list item to appear
         new UiObject(docList.childSelector(new UiSelector())).waitForExists(mTimeout);
@@ -278,24 +284,24 @@ public class DirectoryListBot extends Bots.BaseBot {
     }
 
     public boolean hasDocumentPreview(String label) {
-        final BySelector list = By.res(DIR_LIST_ID);
+        final BySelector list = By.res(mDirListId);
         final UiObject2 text = mDevice.findObject(list).findObject(By.text(label));
 
         UiObject2 parent = text;
         for (int i = 1; i <= MAX_LAYOUT_LEVEL; i++) {
             parent = parent.getParent();
-            if (ITEM_ROOT_ID.equals(parent.getResourceName())) {
+            if (mItemRootId.equals(parent.getResourceName())) {
                 break;
             }
         }
 
-        return parent.hasObject(By.res(PREVIEW_ID));
+        return parent.hasObject(By.res(mPreviewId));
     }
 
     public void assertFirstDocumentHasFocus() throws UiObjectNotFoundException {
         final UiSelector docList = new UiSelector().resourceId(
-                DIR_CONTAINER_ID).childSelector(
-                        new UiSelector().resourceId(DIR_LIST_ID));
+                mDirContainerId).childSelector(
+                        new UiSelector().resourceId(mDirListId));
 
         // Wait for the first list item to appear
         UiObject doc = new UiObject(docList.childSelector(new UiSelector()));
@@ -306,12 +312,12 @@ public class DirectoryListBot extends Bots.BaseBot {
 
     public UiObject findDocumentsList() {
         return findObject(
-                DIR_CONTAINER_ID,
-                DIR_LIST_ID);
+                mDirContainerId,
+                mDirListId);
     }
 
     public void assertHasFocus() {
-        assertHasFocus(DIR_LIST_ID);
+        assertHasFocus(mDirListId);
     }
 
     public void assertSelection(int numSelected) {

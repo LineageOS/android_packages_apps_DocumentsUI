@@ -105,13 +105,17 @@ interface DragStartListener {
         private boolean startDrag(@Nullable View view, MotionEvent event) {
 
             if (view == null) {
-                if (DEBUG) Log.d(TAG, "Ignoring drag event, null view.");
+                if (DEBUG) {
+                    Log.d(TAG, "Ignoring drag event, null view.");
+                }
                 return false;
             }
 
             @Nullable String modelId = mIdFinder.apply(view);
             if (modelId == null) {
-                if (DEBUG) Log.d(TAG, "Ignoring drag on view not represented in model.");
+                if (DEBUG) {
+                    Log.d(TAG, "Ignoring drag on view not represented in model.");
+                }
                 return false;
             }
 

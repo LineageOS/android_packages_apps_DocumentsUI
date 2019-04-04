@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.FileUtils;
 import android.provider.DocumentsContract;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.documentsui.base.DocumentStack;
@@ -191,7 +192,9 @@ public class LastAccessedProvider extends ContentProvider {
             final Set<String> knownAuth = new HashSet<>();
             for (ResolveInfo info : getContext()
                     .getPackageManager().queryIntentContentProviders(intent, 0)) {
-                knownAuth.add(info.providerInfo.authority);
+                if (info != null && !TextUtils.isEmpty(info.providerInfo.authority)) {
+                    knownAuth.add(info.providerInfo.authority);
+                }
             }
 
             purgeByAuthority(new Predicate<String>() {

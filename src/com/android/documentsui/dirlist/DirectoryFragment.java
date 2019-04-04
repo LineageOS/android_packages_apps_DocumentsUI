@@ -22,9 +22,6 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 
-import androidx.annotation.DimenRes;
-import androidx.annotation.FractionRes;
-import androidx.annotation.IntDef;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +44,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
+import androidx.annotation.DimenRes;
+import androidx.annotation.FractionRes;
+import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -56,8 +56,8 @@ import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.selection.MutableSelection;
 import androidx.recyclerview.selection.Selection;
 import androidx.recyclerview.selection.SelectionTracker;
-import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.selection.SelectionTracker.SelectionPredicate;
+import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -166,6 +166,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private DocumentClipper mClipper;
     private GridLayoutManager mLayout;
     private int mColumnCount = 1;  // This will get updated when layout changes.
+    private int mColumnUnit = 1;
 
     private float mLiveScale = 1.0f;
     private @ViewMode int mMode;
@@ -192,7 +193,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private final Runnable mOnDisplayStateChanged = this::onDisplayStateChanged;
 
     private final ViewTreeObserver.OnPreDrawListener mToolbarPreDrawListener = () -> {
-        removePreDrawListener();
+        setPreDrawListener(false);
         if (mAppBarHeight != getAppBarLayoutHeight()) {
             updateLayout(mState.derivedMode);
         }
@@ -268,6 +269,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mModel.removeUpdateListener(mModelUpdateListener);
         mModel.removeUpdateListener(mAdapter.getModelUpdateListener());
+        setPreDrawListener(false);
 
         super.onDestroyView();
     }
@@ -571,13 +573,17 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     "Next scale " + nextScale + ", Min/max scale " + minScale + "/" + maxScale);
 
             if (nextScale > minScale && nextScale < maxScale) {
-                if (DEBUG) Log.d(TAG, "Updating grid scale: " + scale);
+                if (DEBUG) {
+                    Log.d(TAG, "Updating grid scale: " + scale);
+                }
                 mLiveScale = nextScale;
                 updateLayout(mMode);
             }
 
         } else {
-            if (DEBUG) Log.d(TAG, "List mode, ignoring scale: " + scale);
+            if (DEBUG) {
+                Log.d(TAG, "List mode, ignoring scale: " + scale);
+            }
             mLiveScale = 1.0f;
         }
     }
@@ -597,8 +603,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         // Clamp so that we always lay out the grid with at least 2 columns by default.
         // If on photo picking state, the UI should show 3 images a row or 2 folders a row,
         // so use 6 columns by default and set folder size to 3 and document size is to 2.
-        int minColumnCount = mState.isPhotoPicking() ? 6 : 2;
-        int columnCount = Math.max(minColumnCount,
+        mColumnUnit = mState.isPhotoPicking() ? 3 : 1;
+        int columnCount = mColumnUnit * Math.max(2,
                 (mRecView.getWidth() - viewPadding) / (cellWidth + cellMargin));
 
         // Finally with our grid count logic firmly in place, we apply any live scaling
@@ -750,7 +756,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 return true;
 
             default:
-                if (DEBUG) Log.d(TAG, "Unhandled menu item selected: " + item);
+                if (DEBUG) {
+                    Log.d(TAG, "Unhandled menu item selected: " + item);
+                }
                 return false;
         }
     }
@@ -1001,16 +1009,26 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         return null;
     }
 
-    private void removePreDrawListener() {
-        final View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
-        if (collapsingBar != null) {
-            collapsingBar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
+    private void setPreDrawListener(boolean enable) {
+        if (mActivity == null) {
+            return;
+        }
+
+        final View bar = mActivity.findViewById(R.id.collapsing_toolbar);
+        if (bar != null) {
+            if (enable) {
+                bar.getViewTreeObserver().addOnPreDrawListener(mToolbarPreDrawListener);
+            } else {
+                bar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
+            }
         }
     }
 
     public static void showDirectory(
             FragmentManager fm, RootInfo root, DocumentInfo doc, int anim) {
-        if (DEBUG) Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
+        if (DEBUG) {
+            Log.d(TAG, "Showing directory: " + DocumentInfo.debugString(doc));
+        }
         create(fm, root, doc, anim);
     }
 
@@ -1085,7 +1103,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         @Override
         public void accept(Model.Update update) {
-            if (DEBUG) Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
+            if (DEBUG) {
+                Log.d(TAG, "Received model update. Loading=" + mModel.isLoading());
+            }
 
             mProgressBar.setVisibility(mModel.isLoading() ? View.VISIBLE : View.GONE);
 
@@ -1133,10 +1153,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 // Always back to top avoid app bar layout overlay on container.
                 mRecView.scrollToPosition(0);
 
-                final View collapsingBar = getActivity().findViewById(R.id.collapsing_toolbar);
-                if (collapsingBar != null) {
-                    collapsingBar.getViewTreeObserver().addOnPreDrawListener(mToolbarPreDrawListener);
-                }
+                setPreDrawListener(true);
             }
         }
     }

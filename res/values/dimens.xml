@@ -24,6 +24,7 @@
     <dimen name="root_icon_size">24dp</dimen>
     <dimen name="root_icon_margin">0dp</dimen>
     <dimen name="root_spacer_padding">0dp</dimen>
+    <dimen name="root_action_icon_size">18dp</dimen>
     <dimen name="root_icon_disabled_alpha">?android:attr/disabledAlpha</dimen>
     <dimen name="check_icon_size">30dp</dimen>
     <dimen name="zoom_icon_size">22dp</dimen>
@@ -87,6 +88,7 @@
     <dimen name="search_chip_group_margin">8dp</dimen>
     <dimen name="search_chip_spacing">8dp</dimen>
     <dimen name="search_chip_icon_padding">4dp</dimen>
+    <dimen name="search_chip_radius">16dp</dimen>
 
     <dimen name="dialog_content_padding_top">18dp</dimen>
     <dimen name="dialog_content_padding_bottom">24dp</dimen>

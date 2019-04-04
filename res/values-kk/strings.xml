@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Басқа қолданбалардағы файлдарды шолу"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимді"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" каталогін пайдалануға рұқсат ету"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" ішіндегі \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" каталогін пайдалануға рұқсат ету керек пе?"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Осы арқылы \"<xliff:g id="APPNAME">%1$s</xliff:g>\" қолданбасы қазір осы орында сақталған барлық файлды және болашақта қосылатын кез келген мазмұнды толықтай пайдалана алатын болады."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Осы телефонды іздеу"</string>
 </resources>

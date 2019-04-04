@@ -454,4 +454,7 @@
 
     <!-- Search hint on search view. [CHAR LIMIT=48] -->
     <string name="search_bar_hint">Search this phone</string>
+
+    <!-- Content description for deleting search history. [CHAR_LIMIT=60] -->
+    <string name="delete_search_history">Delete search history <xliff:g id="text" example="image">%1$s</xliff:g></string>
 </resources>

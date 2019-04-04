@@ -28,6 +28,8 @@ import android.support.test.uiautomator.UiObject2;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 
+import androidx.test.InstrumentationRegistry;
+
 /**
  * Handy collection of bots for working with Files app.
  */
@@ -69,11 +71,15 @@ public final class Bots {
         public final UiDevice mDevice;
         final Context mContext;
         final int mTimeout;
+        public final String mTargetPackage;
 
         BaseBot(UiDevice device, Context context, int timeout) {
             mDevice = device;
             mContext = context;
             mTimeout = timeout;
+            mTargetPackage =
+                    InstrumentationRegistry.getInstrumentation()
+                            .getTargetContext().getPackageName();
         }
 
         /**

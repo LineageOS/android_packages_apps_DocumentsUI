@@ -215,9 +215,11 @@ class CopyJob extends ResolvedResourcesJob {
         for (int i = 0; i < mResolvedDocs.size() && !isCanceled(); ++i) {
             srcInfo = mResolvedDocs.get(i);
 
-            if (DEBUG) Log.d(TAG,
+            if (DEBUG) {
+                Log.d(TAG,
                     "Copying " + srcInfo.displayName + " (" + srcInfo.derivedUri + ")"
-                            + " to " + mDstInfo.displayName + " (" + mDstInfo.derivedUri + ")");
+                        + " to " + mDstInfo.displayName + " (" + mDstInfo.derivedUri + ")");
+            }
 
             try {
                 // Copying recursively to itself or one of descendants is not allowed.
@@ -242,9 +244,11 @@ class CopyJob extends ResolvedResourcesJob {
      */
     boolean checkSpace() {
         if (!mProgressTracker.hasRequiredBytes()) {
-            if (DEBUG) Log.w(TAG,
+            if (DEBUG) {
+                Log.w(TAG,
                     "Proceeding copy without knowing required space, files or directories may "
-                            + "empty or failed to compute required bytes.");
+                        + "empty or failed to compute required bytes.");
+            }
             return true;
         }
         return verifySpaceAvailable(mProgressTracker.getRequiredBytes());
@@ -336,7 +340,9 @@ class CopyJob extends ResolvedResourcesJob {
                 }
 
                 // If optimized copy fails, then fallback to byte-by-byte copy.
-                if (DEBUG) Log.d(TAG, "Fallback to byte-by-byte copy for: " + src.derivedUri);
+                if (DEBUG) {
+                    Log.d(TAG, "Fallback to byte-by-byte copy for: " + src.derivedUri);
+                }
             }
         }
 
@@ -354,7 +360,9 @@ class CopyJob extends ResolvedResourcesJob {
         final String dstMimeType;
         final String dstDisplayName;
 
-        if (DEBUG) Log.d(TAG, "Doing byte copy of document: " + src);
+        if (DEBUG) {
+            Log.d(TAG, "Doing byte copy of document: " + src);
+        }
         // If the file is virtual, but can be converted to another format, then try to copy it
         // as such format. Also, append an extension for the target mime type (if known).
         if (src.isVirtual()) {
@@ -569,7 +577,9 @@ class CopyJob extends ResolvedResourcesJob {
                         makeCopyProgress(delta);
                     });
                 } catch (OperationCanceledException e) {
-                    if (DEBUG) Log.d(TAG, "Canceled copy mid-copy of: " + src.derivedUri);
+                    if (DEBUG) {
+                        Log.d(TAG, "Canceled copy mid-copy of: " + src.derivedUri);
+                    }
                     return;
                 }
 
@@ -616,7 +626,9 @@ class CopyJob extends ResolvedResourcesJob {
                     }
                 }
 
-                if (DEBUG) Log.d(TAG, "Cleaning up failed operation leftovers.");
+                if (DEBUG) {
+                    Log.d(TAG, "Cleaning up failed operation leftovers.");
+                }
                 mSignal.cancel();
                 try {
                     deleteDocument(dest, destParent);

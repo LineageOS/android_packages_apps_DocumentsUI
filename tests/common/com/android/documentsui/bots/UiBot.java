@@ -207,7 +207,7 @@ public class UiBot extends Bots.BaseBot {
     public boolean waitForActionModeBarToAppear() {
         UiObject2 bar =
                 mDevice.wait(Until.findObject(
-                        By.res("com.android.documentsui:id/action_mode_bar")), mTimeout);
+                        By.res(mTargetPackage + ":id/action_mode_bar")), mTimeout);
         return (bar != null);
     }
 

@@ -142,7 +142,7 @@
                 android:layout_height="@dimen/check_icon_size"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"
-                android:tint="?android:attr/textColorPrimary"
+                android:tint="?android:attr/colorControlNormal"
                 android:src="@drawable/ic_zoom_out"/>
 
         </FrameLayout>

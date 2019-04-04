@@ -88,8 +88,8 @@
                 android:layout_height="?android:attr/actionBarSize"
                 android:background="?android:attr/colorBackground"
                 android:elevation="0dp"
-                android:theme="?actionBarTheme"
-                android:popupTheme="?actionBarPopupTheme" />
+                app:titleTextAppearance="@style/DrawerMenuTitle"
+                app:titleTextColor="?android:colorPrimary"/>
 
             <FrameLayout
                 android:id="@+id/container_roots"

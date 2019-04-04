@@ -139,7 +139,9 @@ public interface ProvidersAccess {
             matching.add(root);
         }
 
-        if (DEBUG) Log.d(tag, "Matched roots: " + matching);
+        if (DEBUG) {
+            Log.d(tag, "Matched roots: " + matching);
+        }
         return matching;
     }
 }

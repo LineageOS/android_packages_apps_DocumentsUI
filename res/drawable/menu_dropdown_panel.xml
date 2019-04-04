@@ -20,7 +20,7 @@
         <shape
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle"
-            android:tint="?android:attr/colorBackground">
+            android:tint="?android:attr/colorBackgroundFloating">
             <stroke android:width="2dp" android:color="#3C4043" />
             <solid android:color="#5F6368" />
             <corners
@@ -35,7 +35,7 @@
         <shape
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle"
-            android:tint="?android:attr/colorBackground">
+            android:tint="?android:attr/colorBackgroundFloating">
             <corners
                 android:topRightRadius="@dimen/material_round_radius"
                 android:topLeftRadius="@dimen/material_round_radius"

@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ಇತರ ಆ್ಯಪ್‌ಗಳಲ್ಲಿರುವ ಫೈಲ್‌ಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ಅನಾಮಧೇಯ"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ಗೆ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" ನಲ್ಲಿ \"<xliff:g id="DIRECTORY">%1$s</xliff:g> ಗೆ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸುವುದೇ?"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ಇದು ಈ ಸ್ಥಾನದಲ್ಲಿ ಪ್ರಸ್ತುತವಾಗಿ ಸಂಗ್ರಹವಾಗಿರುವ ಎಲ್ಲಾ ಫೈಲ್‌ಗಳಿಗೆ ಮತ್ತು ಭವಿಷ್ಯದಲ್ಲಿ ಸಂಗ್ರಹವಾಗುವ ಎಲ್ಲಾ ವಿಷಯಕ್ಕೆ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ಪೂರ್ಣ ಪ್ರವೇಶ ನೀಡುತ್ತದೆ."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ಈ ಫೋನ್ ಹುಡುಕಿ"</string>
 </resources>

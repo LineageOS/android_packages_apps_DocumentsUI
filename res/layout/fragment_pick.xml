@@ -25,7 +25,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@android:id/button2"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -34,7 +34,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@android:id/button1"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        style="?attr/materialButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"

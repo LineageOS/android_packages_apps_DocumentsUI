@@ -18,7 +18,6 @@ package com.android.documentsui.ui;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.SmallTest;
@@ -53,12 +52,6 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     }
 
     @Test
-    public void themeNightModeEnable_gridItemBackgroundColorShouldBeDark() {
-        assertTheme(R.styleable.GridItem, R.styleable.GridItem_gridItemColor,
-                mTheme.getResources().getColor(R.color.item_doc_background, mTheme));
-    }
-
-    @Test
     public void themeNightModeEnable_gridItemTintColorShouldBeThemeable() {
         assertTheme(R.styleable.GridItem, R.styleable.GridItem_gridItemTint,
                 mTheme.getResources().getColor(R.color.item_doc_grid_tint, mTheme));
@@ -79,7 +72,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     @Test
     public void themeNightModeEnable_navigationBarColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_navigationBarColor,
-                mTheme.getResources().getColor(R.color.app_background_color, mTheme));
+                mTheme.getResources().getColor(android.R.color.black, mTheme));
     }
 
     @Test
@@ -95,14 +88,8 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     }
 
     @Test
-    public void appCompatThemeNightModeEnable_colorAccentShouldBeThemeable() {
-        assertTheme(R.styleable.AppCompatTheme, R.styleable.AppCompatTheme_colorAccent,
-                mTheme.getResources().getColor(R.color.accent, mTheme));
-    }
-
-    @Test
     public void appCompatThemeNightModeEnable_colorPrimaryShouldBeThemeable() {
         assertTheme(R.styleable.AppCompatTheme, R.styleable.AppCompatTheme_colorPrimary,
-                mTheme.getResources().getColor(R.color.accent, mTheme));
+                mTheme.getResources().getColor(R.color.primary, mTheme));
     }
 }

@@ -356,7 +356,9 @@ public class SortModel implements Parcelable {
         if (!mIsUserSpecified) {
             SortDimension dimension = mDimensions.get(mDefaultDimensionId);
             if (dimension == null) {
-                if (DEBUG) Log.d(TAG, "No default sort dimension.");
+                if (DEBUG) {
+                    Log.d(TAG, "No default sort dimension.");
+                }
                 return;
             }
 
