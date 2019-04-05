@@ -65,12 +65,13 @@ public class AppsRowManagerTest {
         mAppsRowManager = new AppsRowManager(mActionHandler);
 
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
         mState = new State();
         mActivity = mock(BaseActivity.class);
-        mAppsRow = LayoutInflater.from(context).inflate(R.layout.apps_row, null);
+        mAppsRow = layoutInflater.inflate(R.layout.apps_row, null);
         mAppsGroup = mAppsRow.findViewById(R.id.apps_row);
 
-        when(mActivity.getThemedContext()).thenReturn(context);
+        when(mActivity.getLayoutInflater()).thenReturn(layoutInflater);
         when(mActivity.getDisplayState()).thenReturn(mState);
         when(mActivity.findViewById(R.id.apps_row)).thenReturn(mAppsRow);
         when(mActivity.findViewById(R.id.apps_group)).thenReturn(mAppsGroup);
