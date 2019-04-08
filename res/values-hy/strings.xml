@@ -243,8 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Գտնել ֆայլեր այլ հավելվածներում"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Անանուն"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Հասանելի դարձնել <xliff:g id="DIRECTORY">%1$s</xliff:g> պանակը"</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Հասանելի դարձնե՞լ «<xliff:g id="DIRECTORY">%1$s</xliff:g>» (<xliff:g id="ROOT">%2$s</xliff:g>) պանակը"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"<xliff:g id="APPNAME">%1$s</xliff:g> հավելվածին հասանելի կլինեն բոլոր ֆայլերը, որոնք այժմ պահվում են այս պանակում կամ կտեղափոխվեն այստեղ հետագայում:"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Որոնեք հեռախոսում"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Ջնջել որոնումների պատմությունը՝ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"अन्य अनुप्रयोगहरूमा फाइलहरू ब्राउज गर्नुहोस्‌"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"अज्ञात"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" माथि पहुँच राख्न दिनुहोस्"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" मा रहेको \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" माथि पहुँच राख्न दिने हो?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" मा रहेको \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" माथि पहुँच राख्न दिने हो?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"यस कार्यले \"<xliff:g id="APPNAME">%1$s</xliff:g>\" लाई यो स्थानमा हाल भण्डारण गरिएका सबै फाइल र भविष्यमा भण्डारण गरिने जुनसुकै सामग्रीमाथि पूर्ण रूपमा पहुँच राख्न दिने छ।"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"यो फोनमा खोज्नुहोस्"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"खोजसम्बन्धी इतिहास मेट्नुहोस् <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

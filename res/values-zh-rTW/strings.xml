@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"瀏覽其他應用程式中的檔案"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"匿名"</string>
     <string name="open_tree_button" msgid="19992834788135845">"允許存取「<xliff:g id="DIRECTORY">%1$s</xliff:g>」"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"要允許存取「<xliff:g id="ROOT">%2$s</xliff:g>」上的「<xliff:g id="DIRECTORY">%1$s</xliff:g>」嗎？"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"要允許存取「<xliff:g id="ROOT">%2$s</xliff:g>」中的「<xliff:g id="DIRECTORY">%1$s</xliff:g>」嗎?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"這麼做會允許「<xliff:g id="APPNAME">%1$s</xliff:g>」存取所有儲存在這個位置的檔案，以及未來儲存於此的內容。"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"搜尋這支手機"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"刪除搜尋記錄 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

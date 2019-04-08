@@ -287,7 +287,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Найти файлы в других приложениях"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимное приложение"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Открыть доступ к папке \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Открыть доступ к папке \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" (<xliff:g id="ROOT">%2$s</xliff:g>)?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Разрешить доступ к папке \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" (<xliff:g id="ROOT">%2$s</xliff:g>)?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Приложение \"<xliff:g id="APPNAME">%1$s</xliff:g>\" получит полный доступ ко всем файлам, которые хранятся в этой папке сейчас или будут помещены в нее позже."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Поиск на этом телефоне"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Очистить историю поиска: <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

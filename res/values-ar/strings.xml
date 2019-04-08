@@ -331,8 +331,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"تصفّح الملفات في تطبيقات أخرى"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"مجهول"</string>
     <string name="open_tree_button" msgid="19992834788135845">"السماح بالوصول إلى \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"هل تريد السماح بالوصول إلى \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" على \"<xliff:g id="ROOT">%2$s</xliff:g>\"؟"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"يؤدي ذلك إلى السماح لتطبيق \"<xliff:g id="APPNAME">%1$s</xliff:g>\" بالحصول على إمكانية الدخول الكاملة إلى جميع الملفات المخزَّنة حاليًا ضِمنَ هذا الموقع وإلى أيّ محتوى يُخزَّن هنا في المستقبل."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"البحث في هذا الهاتف"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"حذف سجلّ البحث <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
