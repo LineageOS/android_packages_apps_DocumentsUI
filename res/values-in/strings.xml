@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Cari file di aplikasi lain"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Izinkan akses ke \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Izinkan akses ke \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" di \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Izinkan akses ke \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" di \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Ini akan mengizinkan \"<xliff:g id="APPNAME">%1$s</xliff:g>\" untuk memiliki akses penuh ke semua file yang saat ini tersimpan di lokasi ini, dan semua konten yang nantinya disimpan di sini."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Telusuri ponsel ini"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Menghapus histori penelusuran <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

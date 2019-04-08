@@ -243,8 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Dateien in anderen Apps ansehen"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonym"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Zugriff auf \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" erlauben"</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Zugriff auf \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" in \"<xliff:g id="ROOT">%2$s</xliff:g>\" zulassen?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"<xliff:g id="APPNAME">%1$s</xliff:g> hat dann uneingeschränkten Zugriff auf alle Dateien, die aktuell an diesem Ort gespeichert sind, sowie auf sämtliche Inhalte, die zukünftig dort gespeichert werden."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Auf diesem Smartphone suchen"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"<xliff:g id="TEXT">%1$s</xliff:g>-Suchverlauf löschen"</string>
 </resources>

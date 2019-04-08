@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Bläddra efter filer i andra appar"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonym"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Vill du tillåta åtkomst till <xliff:g id="DIRECTORY">%1$s</xliff:g>"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Vill du tillåta åtkomst till <xliff:g id="DIRECTORY">%1$s</xliff:g> på <xliff:g id="ROOT">%2$s</xliff:g>?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Vill du tillåta åtkomst till <xliff:g id="DIRECTORY">%1$s</xliff:g> på <xliff:g id="ROOT">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Tillåter att <xliff:g id="APPNAME">%1$s</xliff:g> får fullständig åtkomst till alla nuvarande och framtida filer som lagras här."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Sök på mobilen"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Radera sökhistorik – <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

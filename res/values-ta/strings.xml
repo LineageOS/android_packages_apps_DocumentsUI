@@ -247,4 +247,6 @@
     <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"இந்த இருப்பிடத்தில் தற்போது சேமிக்கப்பட்டிருப்பவை, எதிர்காலத்தில் சேமிக்கப்படுபவை என எல்லாக் கோப்புகளுக்குமான முழு அணுகலையும் \"<xliff:g id="APPNAME">%1$s</xliff:g>\"க்கு அனுமதிக்கும்."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"இந்த மொபைலில் தேடவும்"</string>
+    <!-- no translation found for delete_search_history (2202015025607694515) -->
+    <skip />
 </resources>
