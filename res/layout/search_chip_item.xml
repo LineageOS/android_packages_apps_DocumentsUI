@@ -30,4 +30,5 @@
     app:chipStrokeWidth="1dp"
     app:iconStartPadding="@dimen/search_chip_icon_padding"
     app:rippleColor="@color/search_chip_ripple_color"
+    app:chipMinTouchTargetSize="@dimen/button_touch_size"
 />
