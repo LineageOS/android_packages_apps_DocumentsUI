@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"다른 앱의 파일 탐색"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"익명"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\'<xliff:g id="DIRECTORY">%1$s</xliff:g>\'에 액세스하도록 허용"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\'<xliff:g id="ROOT">%2$s</xliff:g>\'에서 \'<xliff:g id="DIRECTORY">%1$s</xliff:g>\'에 액세스하도록 허용하시겠습니까?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"<xliff:g id="ROOT">%2$s</xliff:g>의 <xliff:g id="DIRECTORY">%1$s</xliff:g>에 액세스하도록 허용하시겠습니까?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"\'<xliff:g id="APPNAME">%1$s</xliff:g>\'이(가) 현재 이 위치에 저장된 모든 파일과 향후 여기에 저장되는 모든 콘텐츠에 대해 완전한 액세스 권한을 갖게 됩니다."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"이 휴대전화 검색"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"검색 기록 삭제 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

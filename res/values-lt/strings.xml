@@ -287,7 +287,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Failų naršymas kitose programos"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anoniminė"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Leisti pasiekti „<xliff:g id="DIRECTORY">%1$s</xliff:g>“"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Leisti pasiekti „<xliff:g id="DIRECTORY">%1$s</xliff:g>“, esantį „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Leisti pasiekti „<xliff:g id="DIRECTORY">%1$s</xliff:g>“, esantį „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"„<xliff:g id="APPNAME">%1$s</xliff:g>“ galės pasiekti visus šiuo metu šioje vietoje saugomus failus ir visą turinį, kuris bus čia saugomas."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Ieškoti šiame telefone"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Ištrinkite paieškos istoriją <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

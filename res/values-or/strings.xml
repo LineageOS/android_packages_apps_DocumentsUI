@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ଅନ୍ୟ ଆପ୍ସରେ ଫାଇଲ୍‍ ବ୍ରାଉଜ୍‍ କରନ୍ତୁ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ବେନାମୀ"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"କୁ ଆକ୍ସେସ୍‌ କରିବା ପାଇଁ ଅନୁମତି ଦିଅନ୍ତୁ"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"ରେ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"କୁ ଆକ୍ସେସ୍ କରିବା ପାଇଁ ଅନୁମତି ଦେବେ କି?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"ରେ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"କୁ ଆକ୍ସେସ୍ କରିବା ପାଇଁ ଅନୁମତି ଦେବେ କି?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ଏହା \"<xliff:g id="APPNAME">%1$s</xliff:g>\"କୁ ଏହି ଲୋକେସନ୍‌ରେ ଏବେ ଷ୍ଟୋର୍ ହୋଇଥିବା ଏବଂ ଏଠାରେ ଭବିଷ୍ୟତରେ ଷ୍ଟୋର୍ ହେବାକୁ ଥିବା ସମସ୍ତ ଫାଇଲ୍‌କୁ ସମ୍ପୂର୍ଣ୍ଣ ଆକ୍ସେସ୍‍‍‍‍ କରିବାକୁ ଅନୁମତି ଦେବ।"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ଏହି ଫୋନ୍‌ ଖୋଜନ୍ତୁ"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"ସର୍ଚ୍ଚ ଇତିବୃତ୍ତି <xliff:g id="TEXT">%1$s</xliff:g>କୁ ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
 </resources>
