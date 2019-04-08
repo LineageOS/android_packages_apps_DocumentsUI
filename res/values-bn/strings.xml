@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"অন্যান্য অ্যাপে ফাইল ব্রাউজ করুন"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"বেনামী"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"-এ অ্যাক্সেসের অনুমতি দিন"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"-এর <xliff:g id="DIRECTORY">%1$s</xliff:g>-এ অ্যাক্সেস করার অনুমতি দিতে চান?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"-এর \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" অ্যাক্সেস করার অনুমতি দিতে চান?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"এই লোকেশনে বর্তমানে থাকা এবং ভবিষ্যতে রাখা যেকোনও ফাইলে <xliff:g id="APPNAME">%1$s</xliff:g> এর অ্যাক্সেস করার অনুমতি দেয়।"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"এই ফোনটি খুঁজুন"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"সার্চের ইতিহাস মুছুন <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

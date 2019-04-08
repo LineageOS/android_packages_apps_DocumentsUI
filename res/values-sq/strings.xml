@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Shfleto skedarët në aplikacionet e tjera"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Lejo qasjen në \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Të lejohet qasja në \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" në \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Të lejohet qasja te \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" në \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Do të lejojë që \"<xliff:g id="APPNAME">%1$s</xliff:g>\" të ketë qasje të plotë në të gjithë skedarët e ruajtur aktualisht në këtë vendndodhje dhe çdo përmbajtje të ardhshme të ruajtur këtu."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Kërko në këtë telefon"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Fshi historikun e kërkimeve për <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
