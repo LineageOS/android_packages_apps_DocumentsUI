@@ -243,8 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"इतर अ‍ॅप्समध्येे फायली ब्राउझ करा"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"अनामित"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ला अ‍ॅक्सेस करण्याची अनुमती द्या"</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ला \"<xliff:g id="ROOT">%2$s</xliff:g>\" मध्ये अ‍ॅक्सेस द्यायचा?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"हे या स्थानावर सध्या स्टोअर केलेल्या सर्व फायलींच्या आणि भविष्यात स्टोअर केलेल्या आशयाच्या अ‍ॅक्सेसची \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ला अनुमती देईल."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"हा फोन शोधा"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"<xliff:g id="TEXT">%1$s</xliff:g> चा शोध इतिहास हटवा"</string>
 </resources>

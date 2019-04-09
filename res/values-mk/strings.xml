@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Прелистувајте датотеки во други апликации"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимна"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Дозволи пристап до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Да се дозволи пристап до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“ на „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Да се дозволи пристап до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“ во „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Ќе ѝ се дозволи на <xliff:g id="APPNAME">%1$s</xliff:g> да има целосен пристап до сите датотеки моментално складирани на оваа локација и до сите идни содржини складирани тука."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Пребарајте го телефонов"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Избришете ја историјата на пребарување <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

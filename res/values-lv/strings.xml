@@ -265,7 +265,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Failu pārlūkošana citās lietotnēs"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonīma"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Atļaut piekļuvi mapei “<xliff:g id="DIRECTORY">%1$s</xliff:g>”"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Vai atļaut piekļuvi mapei “<xliff:g id="DIRECTORY">%1$s</xliff:g>” šeit: <xliff:g id="ROOT">%2$s</xliff:g>?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Vai atļaut piekļuvi mapei “<xliff:g id="DIRECTORY">%1$s</xliff:g>” šeit: <xliff:g id="ROOT">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Lietotnei <xliff:g id="APPNAME">%1$s</xliff:g> tiks piešķirta pilna piekļuve visiem failiem, kas pašlaik tiek glabāti šajā vietā, kā arī visam saturam, kas turpmāk šeit tiks glabāts."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Meklēt šajā tālrunī"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Meklēšanas vēstures dzēšana <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Бусад аппын файлыг үзэх"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Үл мэдэгдэх"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"-н хандалтыг зөвшөөрөх"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"-н хандалтыг \"<xliff:g id="ROOT">%2$s</xliff:g>\" дээр зөвшөөрөх үү?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"-н хандалтыг \"<xliff:g id="ROOT">%2$s</xliff:g>\"-д зөвшөөрөх үү?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Энэ нь \"<xliff:g id="APPNAME">%1$s</xliff:g>\"-д одоогоор энэ байршилд хадгалсан бүх файл болон үүнд цаашид хадгалах контентод бүрэн хандахыг зөвшөөрнө."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Энэ утсыг хайх"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Хайлтын түүхийг устгах <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

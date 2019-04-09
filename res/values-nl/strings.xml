@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Door bestanden browsen in andere apps"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anoniem"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Toegang tot \'<xliff:g id="DIRECTORY">%1$s</xliff:g>\' toestaan"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Toegang tot \'<xliff:g id="DIRECTORY">%1$s</xliff:g>\' toestaan op \'<xliff:g id="ROOT">%2$s</xliff:g>\'?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Toegang tot \'<xliff:g id="DIRECTORY">%1$s</xliff:g>\' toestaan in \'<xliff:g id="ROOT">%2$s</xliff:g>\'?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"\'<xliff:g id="APPNAME">%1$s</xliff:g>\' krijgt volledige toegang tot alle bestanden die op deze locatie zijn opgeslagen en daar in de toekomst worden opgeslagen."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Deze telefoon doorzoeken"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Zoekgeschiedenis verwijderen <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

@@ -243,7 +243,9 @@
     <string name="apps_row_title" msgid="3340490016663092925">"دیگر ایپس میں فائلز کو براؤز کریں"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"گمنام"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" تک رسائی کی اجازت دیں"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" پر \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" تک رسائی کی اجازت دیں؟"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"یہ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" کو فی الوقت اس مقام کے تحت اسٹور کردہ تمام فائلوں اور یہاں اسٹور کردہ مستقبل کے کسی بھی مواد تک مکمل رسائی کی اجازت دے گی۔"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"یہ فون تلاش کریں"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"تلاش کی سرگزشت کی <xliff:g id="TEXT">%1$s</xliff:g> حذف کریں"</string>
 </resources>

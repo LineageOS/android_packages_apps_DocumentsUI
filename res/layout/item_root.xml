@@ -73,8 +73,8 @@
 
     <FrameLayout
         android:id="@+id/action_icon_area"
-        android:layout_width="@dimen/icon_size"
-        android:layout_height="@dimen/icon_size"
+        android:layout_width="@dimen/button_touch_size"
+        android:layout_height="@dimen/button_touch_size"
         android:paddingEnd="@dimen/grid_padding_horiz"
         android:duplicateParentState="true"
         android:visibility="gone">

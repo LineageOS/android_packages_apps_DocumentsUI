@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"浏览其他应用中的文件"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"匿名"</string>
     <string name="open_tree_button" msgid="19992834788135845">"允许访问“<xliff:g id="DIRECTORY">%1$s</xliff:g>”"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"允许访问“<xliff:g id="ROOT">%2$s</xliff:g>”上的“<xliff:g id="DIRECTORY">%1$s</xliff:g>”吗？"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"要允许访问“<xliff:g id="ROOT">%2$s</xliff:g>”中的“<xliff:g id="DIRECTORY">%1$s</xliff:g>”吗？"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"它将允许“<xliff:g id="APPNAME">%1$s</xliff:g>”拥有对以下内容的完整访问权限：目前存储在此位置下的所有文件，以及日后存储在此处的任何内容。"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"搜索此手机"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"删除搜索记录“<xliff:g id="TEXT">%1$s</xliff:g>”"</string>
 </resources>

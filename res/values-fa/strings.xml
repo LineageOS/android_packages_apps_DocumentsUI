@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"مرور فایل‌ها در سایر برنامه‌ها"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ناشناس"</string>
     <string name="open_tree_button" msgid="19992834788135845">"اجازه دسترسی به «<xliff:g id="DIRECTORY">%1$s</xliff:g>»"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"اجازه دسترسی به «<xliff:g id="DIRECTORY">%1$s</xliff:g>» در «<xliff:g id="ROOT">%2$s</xliff:g>» داده شود؟"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"اجازه دسترسی به «<xliff:g id="DIRECTORY">%1$s</xliff:g>» در «<xliff:g id="ROOT">%2$s</xliff:g>» داده شود؟"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"این کار به «<xliff:g id="APPNAME">%1$s</xliff:g>» اجازه می‌دهد به‌طور کامل به تمام فایل‌هایی که درحال‌حاضر در این مکان ذخیره شده‌ است و هر محتوایی که در آینده در اینجا ذخیره می‌شود دسترسی داشته باشد."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"جستجوی این تلفن"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"حذف سابقه جستجوی <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
