@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Faylları digər tətbiqlərdə axtarın"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" girişinə icazə verin"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" ünvanında \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" girişinə icazə verilsin?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" ünvanında \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" girişinə icazə verilsin?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Bu, \"<xliff:g id="APPNAME">%1$s</xliff:g>\" tətbiqinin hazırda bu ünvanda saxlanılmış bütün fayllara və gələcəkdə saxlanılacaq kontentə girişinə icazə verəcək."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Bu telefonu axtarın"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"<xliff:g id="TEXT">%1$s</xliff:g> üçün axtarış tarixçəsini silin"</string>
 </resources>

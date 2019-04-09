@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Башка колдонмолордон файлдарды карап чыгуу"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Жашыруун"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" папкасын колдонууга уруксат берүү"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" сактагычында жайгашкан \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" папкасына уруксат берилсинби?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" сактагычында жайгашкан \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" папкасына уруксат берилсинби?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Ушуну менен \"<xliff:g id="APPNAME">%1$s</xliff:g>\" колдонмосуна ушул жерде сакталган жана келечекте сактала турган бардык файлдарга кирүү мүмкүнчүлүгү берилет."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Ушул телефондо издөө"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Издөө таржымалы тазалансын: <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

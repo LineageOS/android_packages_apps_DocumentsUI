@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Fájlok böngészése más alkalmazásokban"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Névtelen"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Hozzáférés engedélyezése a következőhöz: „<xliff:g id="DIRECTORY">%1$s</xliff:g>”"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Engedélyezi a(z) „<xliff:g id="DIRECTORY">%1$s</xliff:g>” könyvtárhoz való hozzáférést itt: „<xliff:g id="ROOT">%2$s</xliff:g>”?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Engedélyezi a(z) „<xliff:g id="DIRECTORY">%1$s</xliff:g>” könyvtárhoz való hozzáférést itt: „<xliff:g id="ROOT">%2$s</xliff:g>”?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Engedélyezi a teljes hozzáférést a(z) „<xliff:g id="APPNAME">%1$s</xliff:g>” alkalmazás számára a jelenleg és a jövőben ezen a helyen tárolt tartalmakhoz."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Keresés ezen a telefonon"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Keresési előzmények törlése – <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

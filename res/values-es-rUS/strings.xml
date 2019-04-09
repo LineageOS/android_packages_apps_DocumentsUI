@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Explorar archivos en otras apps"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Permitir el acceso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"¿Permitir el acceso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" en \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"¿Quieres permitir el acceso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" en \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Le permitirá a \"<xliff:g id="APPNAME">%1$s</xliff:g>\" tener acceso completo a todos los archivos almacenados actualmente en esta ubicación y a cualquier contenido que se almacene aquí en el futuro."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Buscar en este teléfono"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Borrar historial de búsqueda de <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

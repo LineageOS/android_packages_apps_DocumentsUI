@@ -265,7 +265,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Pregledajte datoteke u drugim aplikacijama"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimno"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Dopusti pristup direktoriju \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Želite li dopustiti pristup direktoriju \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" na uređaju \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Želite li dopustiti pristup direktoriju \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" na uređaju \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Aplikaciji \"<xliff:g id="APPNAME">%1$s</xliff:g>\" omogućit će potpuni pristup svim datotekama koje su trenutačno pohranjene na toj lokaciji i tu će se spremati sav budući sadržaj."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Pretražite ovaj telefon"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Brisanje povijesti pretraživanja <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

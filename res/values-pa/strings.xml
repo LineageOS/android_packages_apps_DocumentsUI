@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ਹੋਰ ਐਪਾਂ ਵਿੱਚ ਫ਼ਾਈਲਾਂ ਬ੍ਰਾਊਜ਼ ਕਰੋ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ਗੁਮਨਾਮ"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ਫੋਲਡਰ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਦਿਓ"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"ਕੀ \"<xliff:g id="ROOT">%2$s</xliff:g>\" ਦੇ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ਫੋਲਡਰ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਦੇਣੀ ਹੈ?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"ਕੀ \"<xliff:g id="ROOT">%2$s</xliff:g>\" ਵਿੱਚ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ਦਸਤਾਵੇਜ਼ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਦੇਣੀ ਹੈ?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ਇੰਝ ਕਰਨ ਨਾਲ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ਕੋਲ ਇਸ ਟਿਕਾਣੇ ਵਿੱਚ ਸਟੋਰ ਕੀਤੀਆਂ ਸਾਰੀਆਂ ਮੌਜੂਦਾ ਫ਼ਾਈਲਾਂ ਅਤੇ ਭਵਿੱਖ ਵਿੱਚ ਇੱਥੇ ਸਟੋਰ ਕੀਤੀ ਜਾਣ ਵਾਲੀ ਸਮੱਗਰੀ ਤੱਕ ਪੂਰੀ ਪਹੁੰਚ ਹੋਵੇਗੀ।"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ਇਹ ਫ਼ੋਨ ਖੋਜੋ"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"ਖੋਜ ਇਤਿਹਾਸ ਮਿਟਾਓ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
