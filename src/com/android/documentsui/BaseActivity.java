@@ -731,6 +731,11 @@ public abstract class BaseActivity
         return mState.stack.peek();
     }
 
+    @Override
+    public boolean isInRecents() {
+        return mState.stack.isRecents();
+    }
+
     @VisibleForTesting
     public void addEventListener(EventListener listener) {
         mEventListeners.add(listener);
