@@ -79,7 +79,7 @@ public class AppsRowManager {
         final LinearLayout appsGroup = activity.findViewById(R.id.apps_group);
         appsGroup.removeAllViews();
 
-        final LayoutInflater inflater = LayoutInflater.from(activity.getThemedContext());
+        final LayoutInflater inflater = activity.getLayoutInflater();
         for (AppsRowItemData data : mDataList) {
             View item = inflater.inflate(R.layout.apps_item, appsGroup, false);
             bindView(item, data);
