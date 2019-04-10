@@ -135,7 +135,7 @@ public abstract class BaseActivity
         // ToDo Create tool to check resource version before applyStyle for the theme
         // If version code is not match, we should reset overlay package to default,
         // in case Activity continueusly encounter resource not found exception
-        getThemedContext().getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
+        getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
 
         super.onCreate(icicle);
 
@@ -729,6 +729,11 @@ public abstract class BaseActivity
     @Override
     public DocumentInfo getCurrentDirectory() {
         return mState.stack.peek();
+    }
+
+    @Override
+    public boolean isInRecents() {
+        return mState.stack.isRecents();
     }
 
     @VisibleForTesting

@@ -660,6 +660,10 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         void onDocumentPicked(DocumentInfo doc);
         RootInfo getCurrentRoot();
         DocumentInfo getCurrentDirectory();
+        /**
+         * Check whether current directory is root of recent.
+         */
+        boolean isInRecents();
         void setRootsDrawerOpen(boolean open);
 
         // TODO: Let navigator listens to State
