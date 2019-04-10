@@ -38,6 +38,7 @@
         android:paddingTop="25dp"
         android:paddingBottom="25dp"
         android:layout_gravity="center_vertical"
+        android:clickable="false"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textAlignment="viewStart"
         android:textIsSelectable="true"/>
