@@ -35,21 +35,30 @@
             android:minHeight="?android:attr/actionBarSize"
             android:fitsSystemWindows="true"
             app:titleEnabled="false"
-            app:contentScrim="?android:colorBackground"
             app:statusBarScrim="@android:color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <com.android.documentsui.inspector.HeaderView
-                android:id="@+id/inspector_header_view"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/inspector_header_height"
-                app:layout_collapseMode="parallax"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"/>
+
+                <com.android.documentsui.inspector.HeaderView
+                    android:id="@+id/inspector_header_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/inspector_header_height"
+                    app:layout_collapseMode="parallax"/>
+            </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
-                android:background="@drawable/gradient_actionbar_background"
+                android:background="?android:attr/colorBackground"
                 android:theme="?actionBarTheme"
                 app:title="@string/inspector_title"
                 app:layout_collapseMode="pin">
@@ -61,7 +70,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:behavior_overlapTop="40dp"
+        app:behavior_overlapTop="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -69,8 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bottom_sheet_dialog_background"
-            android:layout_marginTop="4dp"
-            android:elevation="8dp"
             android:paddingBottom="5dp">
 
             <com.android.documentsui.inspector.DetailsView
