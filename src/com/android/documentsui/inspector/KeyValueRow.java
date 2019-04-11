@@ -15,13 +15,11 @@
  */
 package com.android.documentsui.inspector;
 
-import androidx.annotation.StringRes;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
-import androidx.annotation.Nullable;
 import android.text.Selection;
 import android.text.Spannable;
 import android.util.AttributeSet;
@@ -29,6 +27,9 @@ import android.view.View;
 import android.view.textclassifier.TextClassifier;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.android.documentsui.R;
 
@@ -88,6 +89,12 @@ public class KeyValueRow extends LinearLayout {
     }
 
     @Override
+    public boolean hasOnClickListeners() {
+        TextView value = findViewById(R.id.table_row_value);
+        return value.hasOnClickListeners();
+    }
+
+    @Override
     public void setOnClickListener(OnClickListener callback) {
         TextView clickable = ((TextView) findViewById(R.id.table_row_value));
         mDefaultTextColor = clickable.getTextColors();
@@ -107,5 +114,6 @@ public class KeyValueRow extends LinearLayout {
         }
         reset.setPaintFlags(reset.getPaintFlags() & ~Paint.UNDERLINE_TEXT_FLAG);
         reset.setOnClickListener(null);
+        reset.setClickable(false);
     }
 }
