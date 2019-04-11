@@ -37,7 +37,7 @@
     <string name="menu_delete" msgid="1022254131543256626">"తొలగించు"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"అన్నింటినీ ఎంచుకోండి"</string>
     <string name="menu_select" msgid="1366061076507142387">"ఎంచుకోండి"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"దీన్ని బట్టి క్రమీకరించు…"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"దీన్ని బట్టి వర్గీకరించు…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"ఇక్కడికి కాపీ చేయి…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ఇక్కడికి తరలించు..."</string>
     <string name="menu_compress" msgid="37539111904724188">"కుదించు"</string>
@@ -75,7 +75,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"రకం (Z నుండి A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"పరిమాణం (మొదట పెద్దవి)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"సవరించబడినవి (మొదట సరికొత్తవి)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"దీన్ని బట్టి క్రమీకరించు"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"దీని ఆధారంగా వర్గీకరించు"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> ద్వారా క్రమీకరించబడింది"</string>
     <string name="directory_items" msgid="6645621978998614003">"అంశాల సంఖ్య"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ఆరోహణ"</string>

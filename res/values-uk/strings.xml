@@ -289,6 +289,6 @@
     <string name="open_tree_button" msgid="19992834788135845">"Дозволити доступ до каталогу \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"<xliff:g id="ROOT">%2$s</xliff:g>: дозволити доступ до каталогу \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Додаток <xliff:g id="APPNAME">%1$s</xliff:g> матиме повний доступ до файлів, які зараз зберігаються в цьому каталозі, і до вмісту, який буде зберігатися тут у майбутньому."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Шукати цей телефон"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Пошук на цьому телефоні"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Видалити історію пошуку (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
 </resources>
