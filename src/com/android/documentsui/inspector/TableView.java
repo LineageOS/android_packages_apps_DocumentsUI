@@ -15,7 +15,6 @@
  */
 package com.android.documentsui.inspector;
 
-import androidx.annotation.StringRes;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Selection;
@@ -27,6 +26,8 @@ import android.view.ViewGroup;
 import android.view.textclassifier.TextClassifier;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.StringRes;
 
 import com.android.documentsui.R;
 import com.android.documentsui.inspector.InspectorController.TableDisplay;
@@ -103,7 +104,6 @@ public class TableView extends LinearLayout implements TableDisplay {
         put(mRes.getString(keyId), value);
     }
 
-
     /**
      * Puts or updates a value in the table view.
      */
@@ -114,7 +114,7 @@ public class TableView extends LinearLayout implements TableDisplay {
             row = createKeyValueRow(this);
             row.setKey(key);
             mRows.put(key, row);
-        } else {
+        } else if (row.hasOnClickListeners()) {
             row.removeOnClickListener();
         }
 
