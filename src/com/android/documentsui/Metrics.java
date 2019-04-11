@@ -20,7 +20,6 @@ import static android.content.ContentResolver.wrap;
 
 import static com.android.documentsui.DocumentsApplication.acquireUnstableProviderOrThrow;
 
-import androidx.annotation.Nullable;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.Intent;
@@ -30,8 +29,9 @@ import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.provider.DocumentsProvider;
-import android.util.DocumentsStatsLog;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Providers;
@@ -60,7 +60,8 @@ public final class Metrics {
      */
     public static void logActivityLaunch(State state, Intent intent) {
         Uri uri = intent.getData();
-        DocumentsStatsLog.logActivityLaunch(toMetricsAction(state.action), false,
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_LAUNCH_REPORTED,
+                toMetricsAction(state.action), false,
                 sanitizeMime(intent.getType()), sanitizeRoot(uri));
     }
 
@@ -72,7 +73,8 @@ public final class Metrics {
      *                support {@link DocumentsProvider#findDocumentPath(String, String)}
      */
     public static void logLaunchAtLocation(State state, @Nullable Uri rootUri) {
-        DocumentsStatsLog.logActivityLaunch(toMetricsAction(state.action), true,
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_LAUNCH_REPORTED,
+                toMetricsAction(state.action), true,
                 MetricConsts.MIME_UNKNOWN, sanitizeRoot(rootUri));
     }
 
@@ -83,7 +85,7 @@ public final class Metrics {
      * @param info
      */
     public static void logRootVisited(@MetricConsts.ContextScope int scope, RootInfo info) {
-        DocumentsStatsLog.logRootVisited(scope, sanitizeRoot(info));
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_ROOT_VISITED, scope, sanitizeRoot(info));
     }
 
     /**
@@ -93,7 +95,9 @@ public final class Metrics {
      * @param info
      */
     public static void logAppVisited(ResolveInfo info) {
-        DocumentsStatsLog.logRootVisited(MetricConsts.PICKER_SCOPE, sanitizeRoot(info));
+        DocumentsStatsLog.write(
+                DocumentsStatsLog.DOCS_UI_ROOT_VISITED,
+                MetricConsts.PICKER_SCOPE, sanitizeRoot(info));
     }
 
     /**
@@ -128,11 +132,11 @@ public final class Metrics {
             @OpType int operationType, @MetricConsts.FileOpMode int approach) {
         switch (operationType) {
             case FileOperationService.OPERATION_COPY:
-                DocumentsStatsLog.logFileOperationCopyMoveMode(
+                DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_FILE_OP_COPY_MOVE_MODE_REPORTED,
                         MetricConsts.FILEOP_COPY, approach);
                 break;
             case FileOperationService.OPERATION_MOVE:
-                DocumentsStatsLog.logFileOperationCopyMoveMode(
+                DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_FILE_OP_COPY_MOVE_MODE_REPORTED,
                         MetricConsts.FILEOP_MOVE, approach);
                 break;
         }
@@ -144,7 +148,7 @@ public final class Metrics {
      * logged under COUNT_FILEOP_SYSTEM. Call this when a create directory operation has completed.
      */
     public static void logCreateDirOperation() {
-        DocumentsStatsLog.logFileOperation(
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
                 MetricConsts.PROVIDER_SYSTEM, MetricConsts.FILEOP_CREATE_DIR);
     }
 
@@ -154,7 +158,7 @@ public final class Metrics {
      * COUNT_FILEOP_SYSTEM. Call this when a rename file operation has completed.
      */
     public static void logRenameFileOperation() {
-        DocumentsStatsLog.logFileOperation(
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
                 MetricConsts.PROVIDER_SYSTEM, MetricConsts.FILEOP_RENAME);
     }
 
@@ -190,10 +194,14 @@ public final class Metrics {
                 break;
         }
         if (counts.systemProvider > 0) {
-            DocumentsStatsLog.logFileOperation(MetricConsts.PROVIDER_SYSTEM, opCode);
+            DocumentsStatsLog.write(
+                    DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
+                    MetricConsts.PROVIDER_SYSTEM, opCode);
         }
         if (counts.externalProvider > 0) {
-            DocumentsStatsLog.logFileOperation(MetricConsts.PROVIDER_EXTERNAL, opCode);
+            DocumentsStatsLog.write(
+                    DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
+                    MetricConsts.PROVIDER_EXTERNAL, opCode);
         }
     }
 
@@ -202,19 +210,27 @@ public final class Metrics {
         final String authority = docUri.getAuthority();
         switch (authority) {
             case Providers.AUTHORITY_MEDIA:
-                DocumentsStatsLog.logFileOperationFailure(MetricConsts.AUTH_MEDIA, subFileOp);
+                DocumentsStatsLog.write(
+                        DocumentsStatsLog.DOCS_UI_FILE_OP_FAILURE,
+                        MetricConsts.AUTH_MEDIA, subFileOp);
                 break;
             case Providers.AUTHORITY_STORAGE:
                 logStorageFileOperationFailure(context, subFileOp, docUri);
                 break;
             case Providers.AUTHORITY_DOWNLOADS:
-                DocumentsStatsLog.logFileOperationFailure(MetricConsts.AUTH_DOWNLOADS, subFileOp);
+                DocumentsStatsLog.write(
+                        DocumentsStatsLog.DOCS_UI_FILE_OP_FAILURE,
+                        MetricConsts.AUTH_DOWNLOADS, subFileOp);
                 break;
             case Providers.AUTHORITY_MTP:
-                DocumentsStatsLog.logFileOperationFailure(MetricConsts.AUTH_MTP, subFileOp);
+                DocumentsStatsLog.write(
+                        DocumentsStatsLog.DOCS_UI_FILE_OP_FAILURE,
+                        MetricConsts.AUTH_MTP, subFileOp);
                 break;
             default:
-                DocumentsStatsLog.logFileOperationFailure(MetricConsts.AUTH_OTHER, subFileOp);
+                DocumentsStatsLog.write(
+                        DocumentsStatsLog.DOCS_UI_FILE_OP_FAILURE,
+                        MetricConsts.AUTH_OTHER, subFileOp);
                 break;
         }
     }
@@ -225,7 +241,7 @@ public final class Metrics {
      * create directory operation fails.
      */
     public static void logCreateDirError() {
-        DocumentsStatsLog.logFileOperation(
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
                 MetricConsts.PROVIDER_SYSTEM, MetricConsts.FILEOP_CREATE_DIR_ERROR);
     }
 
@@ -235,7 +251,7 @@ public final class Metrics {
      * when a rename file operation fails.
      */
     public static void logRenameFileError() {
-        DocumentsStatsLog.logFileOperation(
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
                 MetricConsts.PROVIDER_SYSTEM, MetricConsts.FILEOP_RENAME_ERROR);
     }
 
@@ -245,7 +261,8 @@ public final class Metrics {
      * @param operationType
      */
     public static void logFileOperationCancelled(@OpType int operationType) {
-        DocumentsStatsLog.logFileOperationCanceled(toMetricsOpType(operationType));
+        DocumentsStatsLog.write(
+                DocumentsStatsLog.DOCS_UI_FILE_OP_CANCELED, toMetricsOpType(operationType));
     }
 
     /**
@@ -254,7 +271,7 @@ public final class Metrics {
      * @param startupMs Startup time in milliseconds.
      */
     public static void logStartupMs(int startupMs) {
-        DocumentsStatsLog.logStartupMs(startupMs);
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_STARTUP_MS, startupMs);
     }
 
     private static void logInterProviderFileOps(
@@ -262,12 +279,13 @@ public final class Metrics {
             DocumentInfo dst,
             @OpType int operationType) {
         if (operationType == FileOperationService.OPERATION_DELETE) {
-            DocumentsStatsLog.logFileOperation(providerType, MetricConsts.FILEOP_DELETE);
+            DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
+                    providerType, MetricConsts.FILEOP_DELETE);
         } else {
             assert(dst != null);
             @MetricConsts.Provider int opProviderType = isSystemProvider(dst.authority)
                     ? MetricConsts.PROVIDER_SYSTEM : MetricConsts.PROVIDER_EXTERNAL;
-            DocumentsStatsLog.logFileOperation(
+            DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
                     providerType, getOpCode(operationType, opProviderType));
         }
     }
@@ -275,7 +293,7 @@ public final class Metrics {
     private static void logIntraProviderFileOps(String authority, @OpType int operationType) {
         @MetricConsts.Provider int providerType = isSystemProvider(authority)
                 ? MetricConsts.PROVIDER_SYSTEM : MetricConsts.PROVIDER_EXTERNAL;
-        DocumentsStatsLog.logFileOperation(
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_PROVIDER_FILE_OP,
                 providerType, getOpCode(operationType, MetricConsts.PROVIDER_INTRA));
     }
 
@@ -285,24 +303,26 @@ public final class Metrics {
      * @param userAction
      */
     public static void logUserAction(@MetricConsts.UserAction int userAction) {
-        DocumentsStatsLog.logUserAction(userAction);
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_USER_ACTION_REPORTED, userAction);
     }
 
     public static void logPickerLaunchedFrom(String packgeName) {
-        DocumentsStatsLog.logPickerLaunchedFrom(packgeName);
+        DocumentsStatsLog.write(
+                DocumentsStatsLog.DOCS_UI_PICKER_LAUNCHED_FROM_REPORTED, packgeName);
     }
 
     public static void logSearchType(int searchType) {
-        // TODO:waiting for search history implementation, it's one of the search types.
-        DocumentsStatsLog.logSearchType(searchType);
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_SEARCH_TYPE_REPORTED, searchType);
     }
 
     public static void logSearchMode(boolean isKeywordSearch, boolean isChipsSearch) {
-        DocumentsStatsLog.logSearchMode(getSearchMode(isKeywordSearch, isChipsSearch));
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_SEARCH_MODE_REPORTED,
+                getSearchMode(isKeywordSearch, isChipsSearch));
     }
 
     public static void logPickResult(PickResult result) {
-        DocumentsStatsLog.logFilePick(
+        DocumentsStatsLog.write(
+                DocumentsStatsLog.DOCS_UI_PICK_RESULT_REPORTED,
                 result.getActionCount(),
                 result.getDuration(),
                 result.getFileCount(),
@@ -330,7 +350,7 @@ public final class Metrics {
         }
         @MetricConsts.MetricsAuth final int authority = isInternal
                 ? MetricConsts.AUTH_STORAGE_INTERNAL : MetricConsts.AUTH_STORAGE_EXTERNAL;
-        DocumentsStatsLog.logFileOperationFailure(authority, subFileOp);
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_FILE_OP_FAILURE, authority, subFileOp);
     }
 
     /**
