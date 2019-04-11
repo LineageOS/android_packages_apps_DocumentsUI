@@ -284,7 +284,7 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Aplanko pavadinimas"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Naujas pavadinimas"</string>
     <string name="preview_file" msgid="4056622696305432343">"Peržiūrėti failą „<xliff:g id="FILENAME">%1$s</xliff:g>“"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Failų naršymas kitose programos"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Failų naršymas kitose programose"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anoniminė"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Leisti pasiekti „<xliff:g id="DIRECTORY">%1$s</xliff:g>“"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"Leisti pasiekti „<xliff:g id="DIRECTORY">%1$s</xliff:g>“, esantį „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>

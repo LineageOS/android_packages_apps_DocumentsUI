@@ -202,8 +202,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> файл жок кылынсынбы?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> папка мазмуну менен жок кылынсынбы?</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> папка мазмуну менен жок кылынсынбы?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> папканы ичиндегилери менен кошо өчүрөсүзбү?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> папканы ичиндегилери менен кошо өчүрөсүзбү?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жок кылынсынбы?</item>

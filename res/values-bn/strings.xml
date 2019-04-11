@@ -92,7 +92,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"শর্টকাট"</string>
     <string name="root_type_device" msgid="1713604128005476585">"ডিভাইস"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"আরও অ্যাপ্স"</string>
-    <string name="empty" msgid="5300254272613103004">"কোনো আইটেম নেই"</string>
+    <string name="empty" msgid="5300254272613103004">"কোনও আইটেম নেই"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s এ কোনো মিল নেই"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ফাইল খোলা যাবে না"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"আর্কাইভের ফাইলগুলি খোলা যাচ্ছে না"</string>
@@ -245,6 +245,6 @@
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"-এ অ্যাক্সেসের অনুমতি দিন"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"-এর \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" অ্যাক্সেস করার অনুমতি দিতে চান?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"এই লোকেশনে বর্তমানে থাকা এবং ভবিষ্যতে রাখা যেকোনও ফাইলে <xliff:g id="APPNAME">%1$s</xliff:g> এর অ্যাক্সেস করার অনুমতি দেয়।"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"এই ফোনটি খুঁজুন"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"এই ফোনে খুঁজুন"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"সার্চের ইতিহাস মুছুন <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

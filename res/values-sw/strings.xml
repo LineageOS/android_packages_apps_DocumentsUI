@@ -245,6 +245,6 @@
     <string name="open_tree_button" msgid="19992834788135845">"Ruhusu ifikie \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"Ungependa kuruhusu ifikie \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" kwenye \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Itaipa \"<xliff:g id="APPNAME">%1$s</xliff:g>\" idhini kamili za kufikia faili zote ambazo umehifadhi kwa sasa katika eneo hili na maudhui yoyote utakayohifadhi hapa."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Tafuta simu hii"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Tafuta kwenye simu hii"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Futa <xliff:g id="TEXT">%1$s</xliff:g> ya historia ya mambo uliyotafuta"</string>
 </resources>

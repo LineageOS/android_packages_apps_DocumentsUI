@@ -245,6 +245,6 @@
     <string name="open_tree_button" msgid="19992834788135845">"Cho phép truy cập vào \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"Bạn muốn cho phép truy cập vào \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" trong \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Điều này sẽ cho phép \"<xliff:g id="APPNAME">%1$s</xliff:g>\" có quyền truy cập đầy đủ vào tất cả các tệp hiện được lưu trữ ở vị trí này và mọi nội dung sau này sẽ lưu trữ tại đây."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Tìm kiếm điện thoại này"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Tìm kiếm trên điện thoại này"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Xóa lịch sử tìm kiếm <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
