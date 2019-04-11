@@ -157,7 +157,7 @@ public class GlobalSearchLoaderTest {
     }
 
     @Test
-    public void testSearchResult_isMovable() {
+    public void testSearchResult_isNotMovable() {
         final DirectoryResult result = mLoader.loadInBackground();
 
         final Cursor c = result.cursor;
@@ -165,7 +165,9 @@ public class GlobalSearchLoaderTest {
 
         c.moveToNext();
         final int flags = c.getInt(c.getColumnIndex(Document.COLUMN_FLAGS));
-        assertEquals(FILE_FLAG, flags);
+        assertEquals(0, flags & Document.FLAG_SUPPORTS_DELETE);
+        assertEquals(0, flags & Document.FLAG_SUPPORTS_REMOVE);
+        assertEquals(0, flags & Document.FLAG_SUPPORTS_MOVE);
     }
 
     @Test

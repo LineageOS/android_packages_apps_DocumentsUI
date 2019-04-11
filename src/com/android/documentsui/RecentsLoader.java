@@ -65,11 +65,6 @@ public class RecentsLoader extends MultiRootDocumentsLoader {
     }
 
     @Override
-    protected boolean isDocumentsMovable() {
-        return false;
-    }
-
-    @Override
     protected QueryTask getQueryTask(String authority, List<RootInfo> rootInfos) {
         return new RecentsTask(authority, rootInfos);
     }
