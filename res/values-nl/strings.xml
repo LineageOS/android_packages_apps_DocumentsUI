@@ -103,7 +103,7 @@
     <string name="extract_notification_title" msgid="5067393961754430469">"Bestanden uitpakken"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Bestanden verplaatsen"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Bestanden verwijderen"</string>
-    <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> resterend"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"Nog <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> items kopiëren.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> item kopiëren.</item>

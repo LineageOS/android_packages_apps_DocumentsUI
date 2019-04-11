@@ -243,8 +243,7 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ഫയലുകള്‍ മറ്റ് ആപ്പുകളില്‍ ബ്രൗസ് ചെയ്യുക"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"അജ്ഞാതം"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" എന്നതിലേക്ക് ആക്‌സസ് അനുവദിക്കുക"</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" എന്നതിൽ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" എന്നതിന് ആക്‌സസ് നൽകണോ?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ഇത് \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ആപ്പിന് ഈ ലൊക്കേഷനിൽ സംഭരിച്ചിരിക്കുന്ന എല്ലാ ഫയലുകളിലേക്കും ഭാവിയിൽ ഇവിടെ സംഭരിക്കപ്പെടുന്ന എല്ലാ ഉള്ളടക്കത്തിലേക്കും പൂർണ്ണ ആക്‌സസ് അനുവദിക്കും."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ഈ ഫോണിൽ തിരയുക"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"തിരയൽ ചരിത്രം <xliff:g id="TEXT">%1$s</xliff:g> ഇല്ലാതാക്കുക"</string>

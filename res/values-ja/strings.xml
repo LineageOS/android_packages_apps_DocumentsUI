@@ -240,7 +240,7 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"フォルダ名"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"新しい名前"</string>
     <string name="preview_file" msgid="4056622696305432343">"ファイル <xliff:g id="FILENAME">%1$s</xliff:g> をプレビューする"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"他のアプリでのファイル参照"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"他のアプリでファイルを探す"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"匿名"</string>
     <string name="open_tree_button" msgid="19992834788135845">"「<xliff:g id="DIRECTORY">%1$s</xliff:g>」へのアクセスを許可"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"「<xliff:g id="ROOT">%2$s</xliff:g>」の「<xliff:g id="DIRECTORY">%1$s</xliff:g>」へのアクセスを許可しますか？"</string>

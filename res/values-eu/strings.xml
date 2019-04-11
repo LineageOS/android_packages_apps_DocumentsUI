@@ -184,7 +184,7 @@
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Artxibo batzuk bihurtu dira"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari <xliff:g id="STORAGE"><i>^3</i></xliff:g> unitateko <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> direktoriorako sarbidea eman nahi diozu?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> direktoriorako sarbidea eman nahi diozu?"</string>
-    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari zure datuak atzitzea baimendu nahi diozu, besteak beste, <xliff:g id="STORAGE"><i>^2</i></xliff:g> biltegian dituzun argazkiak eta bideoak?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari zure datuak atzitzeko baimena eman nahi diozu (besteak beste, <xliff:g id="STORAGE"><i>^2</i></xliff:g> biltegian dituzun argazkiak eta bideoak)?"</string>
     <string name="allow" msgid="1275746941353040309">"Baimendu"</string>
     <string name="deny" msgid="5127201668078153379">"Ukatu"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -245,6 +245,6 @@
     <string name="open_tree_button" msgid="19992834788135845">"Eman \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" direktorioan sartzeko baimena"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" (\"<xliff:g id="ROOT">%2$s</xliff:g>\") direktorioan sartzeko baimena eman nahi duzu?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Hemen biltegiratuta dauden fitxategi guztietan sartzeko baimen osoa emango dio \"<xliff:g id="APPNAME">%1$s</xliff:g>\" aplikazioari, baita etorkizunean biltegiratuko den edukirako ere."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Bilatu telefono hau"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Bilatu telefono honetan"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ezabatu bilaketa-historia (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
 </resources>
