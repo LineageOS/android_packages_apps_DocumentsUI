@@ -264,7 +264,7 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
     }
 
     protected boolean isDocumentsMovable() {
-        return true;
+        return false;
     }
 
     protected abstract QueryTask getQueryTask(String authority, List<RootInfo> rootInfos);
