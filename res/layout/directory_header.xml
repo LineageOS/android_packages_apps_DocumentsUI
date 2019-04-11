@@ -16,10 +16,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/action_bar_space_margin"
     android:orientation="vertical">
-
-    <!-- used for top padding. -->
-    <include layout="@layout/action_bar_space"/>
 
     <!-- used for search chip. -->
     <include layout="@layout/search_chip_row"/>
