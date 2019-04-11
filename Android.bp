@@ -45,7 +45,22 @@ filegroup {
     name: "DocumentsUI-srcs",
     srcs: [
         "src/**/*.java",
+	":statslog-docsui-java-gen",
     ],
+}
+
+java_library {
+    name: "docsui-statsd",
+    srcs: [
+        ":statslog-docsui-java-gen",
+    ],
+}
+
+genrule {
+    name: "statslog-docsui-java-gen",
+    tools: ["stats-log-api-gen"],
+    cmd: "$(location stats-log-api-gen) --java $(out) --module docsui --javaPackage com.android.documentsui --javaClass DocumentsStatsLog",
+    out: ["com/android/documentsui/DocumentsStatsLog.java"],
 }
 
 android_library {
@@ -78,7 +93,7 @@ android_app {
     manifest: "AndroidManifest.xml",
 
     srcs: [
-        "src/**/*.java",
+        ":DocumentsUI-srcs",
     ],
 
     resource_dirs: [
