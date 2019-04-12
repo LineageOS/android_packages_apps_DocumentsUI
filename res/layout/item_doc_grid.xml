@@ -74,12 +74,10 @@
 
             <FrameLayout
                 android:id="@+id/preview_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
+                android:layout_width="@dimen/button_touch_size"
+                android:layout_height="@dimen/button_touch_size"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/circle_button_background"
                 android:pointerIcon="hand"
                 android:focusable="true"
                 android:clickable="true">
@@ -87,8 +85,9 @@
                 <ImageView
                     android:layout_width="@dimen/zoom_icon_size"
                     android:layout_height="@dimen/zoom_icon_size"
-                    android:layout_margin="2dp"
+                    android:padding="2dp"
                     android:layout_gravity="center"
+                    android:background="@drawable/circle_button_background"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_zoom_out"/>
 
