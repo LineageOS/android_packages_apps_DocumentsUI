@@ -33,7 +33,7 @@
     <string name="metadata_camera" msgid="2363009732801281319">"Камера"</string>
     <string name="metadata_camera_format" msgid="1494489751904311612">"<xliff:g id="MAKE">%1$s</xliff:g> <xliff:g id="MODEL">%2$s</xliff:g>"</string>
     <string name="metadata_aperture" msgid="6538741952698935357">"Отвор бленде"</string>
-    <string name="metadata_shutter_speed" msgid="8204739885103326131">"Брзина затварача"</string>
+    <string name="metadata_shutter_speed" msgid="8204739885103326131">"Брзина окидача"</string>
     <string name="metadata_duration" msgid="3115494422055472715">"Трајање"</string>
     <string name="metadata_date_time" msgid="1090351199248114406">"Снимљено"</string>
     <string name="metadata_focal_length" msgid="3440735161407699893">"Жижна даљина"</string>
