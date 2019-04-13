@@ -171,7 +171,7 @@
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Artxibo batzuk bihurtu dira"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari <xliff:g id="STORAGE"><i>^3</i></xliff:g> unitateko <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> direktoriorako sarbidea eman nahi diozu?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> direktoriorako sarbidea eman nahi diozu?"</string>
-    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari zure datuak atzitzea baimendu nahi diozu, besteak beste, <xliff:g id="STORAGE"><i>^2</i></xliff:g> biltegian dituzun argazkiak eta bideoak?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari zure datuak atzitzeko baimena eman nahi diozu (besteak beste, <xliff:g id="STORAGE"><i>^2</i></xliff:g> biltegian dituzun argazkiak eta bideoak)?"</string>
     <string name="never_ask_again" msgid="525908236522201138">"Ez galdetu berriro"</string>
     <string name="allow" msgid="1275746941353040309">"Baimendu"</string>
     <string name="deny" msgid="5127201668078153379">"Ukatu"</string>
@@ -190,8 +190,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi ezabatu nahi duzu?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> karpeta eta beren eduki guztia ezabatu nahi duzu?</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> karpeta eta bere eduki guztia ezabatu nahi duzu?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> karpeta eta bertako eduki guztia ezabatu nahi duzu?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> karpeta eta bertako eduki guztia ezabatu nahi duzu?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementu ezabatu nahi dituzu?</item>

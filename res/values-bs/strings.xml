@@ -209,9 +209,9 @@
       <item quantity="other">Želite li izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> fajlova.</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="one">Želite li izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> folder i njihov sadržaj?</item>
-      <item quantity="few">Želite li izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> foldera i njihov sadržaj?</item>
-      <item quantity="other">Želite li izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> foldera i njihov sadržaj?</item>
+      <item quantity="one">Izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> folder i njihov sadržaj?</item>
+      <item quantity="few">Izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> foldera i njihov sadržaj?</item>
+      <item quantity="other">Izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> foldera i njihov sadržaj?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="one">Želite li izbrisati <xliff:g id="COUNT_1">%1$d</xliff:g> stavku?</item>
