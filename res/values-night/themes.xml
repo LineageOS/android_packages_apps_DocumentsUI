@@ -20,7 +20,6 @@
         <!-- Toolbar -->
         <item name="android:actionModeBackground">?android:attr/colorBackground</item>
         <item name="android:actionBarSize">@dimen/action_bar_size</item>
-        <item name="android:actionModeCloseDrawable">@drawable/ic_action_clear</item>
 
         <!-- Color section -->
         <item name="android:colorAccent">@color/primary</item>
@@ -51,6 +50,7 @@
 
         <!-- For material design widget, chips, buttons, not support attr-->
         <item name="colorPrimary">@color/primary</item>
+        <item name="colorAccent">@color/primary</item>
 
         <item name="gridItemTint">@color/item_doc_grid_tint</item>
 
