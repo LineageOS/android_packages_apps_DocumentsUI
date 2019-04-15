@@ -19,8 +19,6 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
     android:paddingStart="30dp"
     android:paddingEnd="30dp">
 
@@ -29,6 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
         android:paddingEnd="5dp"
         android:textAlignment="viewStart"
         android:textAppearance="?attr/textAppearanceSubtitle1">
@@ -39,6 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_width="0dp"
         android:layout_weight="1"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
         android:clickable="false"
         android:textIsSelectable="true"
         android:textAlignment="viewStart"
