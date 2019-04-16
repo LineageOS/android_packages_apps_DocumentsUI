@@ -61,6 +61,7 @@ public class AccessibilityEventRouter extends RecyclerViewAccessibilityDelegate 
                 if (holder instanceof DocumentHolder) {
                     if (((DocumentHolder)holder).getItemDetails() != null) {
                         info.addAction(AccessibilityActionCompat.ACTION_CLICK);
+                        info.addAction(AccessibilityNodeInfoCompat.ACTION_LONG_CLICK);
                     }
                 } else {
                     info.addAction(AccessibilityActionCompat.ACTION_CLICK);

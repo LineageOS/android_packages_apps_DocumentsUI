@@ -764,9 +764,18 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private boolean onAccessibilityClick(View child) {
-        DocumentHolder holder = getDocumentHolder(child);
-        mActions.openItem(holder.getItemDetails(), ActionHandler.VIEW_TYPE_PREVIEW,
+        if (mSelectionMgr.hasSelection()) {
+            final String id = getModelId(child);
+            if (mSelectionMgr.isSelected(id)) {
+                mSelectionMgr.deselect(id);
+            } else {
+                mSelectionMgr.select(id);
+            }
+        } else {
+            DocumentHolder holder = getDocumentHolder(child);
+            mActions.openItem(holder.getItemDetails(), ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
+        }
         return true;
     }
 
