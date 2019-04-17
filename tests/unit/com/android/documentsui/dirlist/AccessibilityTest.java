@@ -16,14 +16,14 @@
 
 package com.android.documentsui.dirlist;
 
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.database.Cursor;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.widget.Space;
+
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.testing.TestRecyclerView;
 import com.android.documentsui.testing.Views;
@@ -38,13 +38,17 @@ public class AccessibilityTest extends AndroidTestCase {
 
     private TestRecyclerView mView;
     private AccessibilityEventRouter mAccessibilityDelegate;
-    private boolean mCallbackCalled = false;
+    private boolean mClickCallbackCalled = false;
+    private boolean mLongClickCallbackCalled = false;
 
     @Override
     public void setUp() throws Exception {
         mView = TestRecyclerView.create(ITEMS);
         mAccessibilityDelegate = new AccessibilityEventRouter(mView, (View v) -> {
-            mCallbackCalled = true;
+            mClickCallbackCalled = true;
+            return true;
+        }, (View v) -> {
+            mLongClickCallbackCalled = true;
             return true;
         });
         mView.setAccessibilityDelegateCompat(mAccessibilityDelegate);
@@ -79,7 +83,17 @@ public class AccessibilityTest extends AndroidTestCase {
         View item = Views.createTestView(true);
         AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
         mAccessibilityDelegate.getItemDelegate().onInitializeAccessibilityNodeInfo(item, info);
-        mAccessibilityDelegate.getItemDelegate().performAccessibilityAction(item, AccessibilityNodeInfoCompat.ACTION_CLICK, null);
-        assertTrue(mCallbackCalled);
+        mAccessibilityDelegate.getItemDelegate()
+            .performAccessibilityAction(item, AccessibilityNodeInfoCompat.ACTION_CLICK, null);
+        assertTrue(mClickCallbackCalled);
+    }
+
+    public void test_routesAccessibilityLongClicks() throws Exception {
+        View item = Views.createTestView(true);
+        AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
+        mAccessibilityDelegate.getItemDelegate().onInitializeAccessibilityNodeInfo(item, info);
+        mAccessibilityDelegate.getItemDelegate()
+            .performAccessibilityAction(item, AccessibilityNodeInfoCompat.ACTION_LONG_CLICK, null);
+        assertTrue(mLongClickCallbackCalled);
     }
 }
