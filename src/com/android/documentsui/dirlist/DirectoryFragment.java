@@ -325,7 +325,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mRecView.setAccessibilityDelegateCompat(
                 new AccessibilityEventRouter(mRecView,
-                        (View child) -> onAccessibilityClick(child)));
+                        (View child) -> onAccessibilityClick(child),
+                        (View child) -> onAccessibilityLongClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mDetailsLookup = new DocsItemDetailsLookup(mRecView);
 
@@ -765,18 +766,27 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private boolean onAccessibilityClick(View child) {
         if (mSelectionMgr.hasSelection()) {
-            final String id = getModelId(child);
-            if (mSelectionMgr.isSelected(id)) {
-                mSelectionMgr.deselect(id);
-            } else {
-                mSelectionMgr.select(id);
-            }
+            selectItem(child);
         } else {
             DocumentHolder holder = getDocumentHolder(child);
             mActions.openItem(holder.getItemDetails(), ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
         }
         return true;
+    }
+
+    private boolean onAccessibilityLongClick(View child) {
+        selectItem(child);
+        return true;
+    }
+
+    private void selectItem(View child) {
+        final String id = getModelId(child);
+        if (mSelectionMgr.isSelected(id)) {
+            mSelectionMgr.deselect(id);
+        } else {
+            mSelectionMgr.select(id);
+        }
     }
 
     private void cancelThumbnailTask(View view) {
