@@ -37,7 +37,7 @@
     <string name="menu_delete" msgid="1022254131543256626">"Slett"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Velg alle"</string>
     <string name="menu_select" msgid="1366061076507142387">"Velg"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"Sortér etter"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"Sortér etter..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopiér til"</string>
     <string name="menu_move" msgid="2310760789561129882">"Flytt til"</string>
     <string name="menu_compress" msgid="37539111904724188">"Komprimer"</string>
@@ -69,12 +69,12 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Endret"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Filnavn (A til Å)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Type (A til Å)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Størrelse (minst først)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Modifisert (eldst først)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Størrelse (minste først)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Modifisert (eldste først)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Filnavn (Å til A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Type (Å til A)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Størrelse (størst først)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Modifisert (nyest først)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Størrelse (største først)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Modifisert (nyeste først)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortér etter"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Sortert etter <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Antall elementer"</string>

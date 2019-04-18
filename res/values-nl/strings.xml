@@ -66,15 +66,15 @@
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Overzicht"</string>
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Type"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Grootte"</string>
-    <string name="sort_dimension_date" msgid="4231005651895254033">"Aangepast"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Bewerkt"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Bestandsnaam (A - Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Type (A - Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Grootte (kleinste eerst)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Aangepast (oudste eerst)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Bewerkt (oudste eerst)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Bestandsnaam (Z - A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Type (Z - A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Grootte (grootste eerst)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Aangepast (nieuwste eerst)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Bewerkt (nieuwste eerst)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sorteren op"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Gesorteerd op <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Aantal items"</string>
