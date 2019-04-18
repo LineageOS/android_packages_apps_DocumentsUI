@@ -68,7 +68,7 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"Dimensioni"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Ultima modifica"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nome file (da A a Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipo (dalla A alla Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipo (da A a Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Dimensione (crescente)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Modifica meno recente"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nome file (da Z a A)"</string>

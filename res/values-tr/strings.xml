@@ -42,7 +42,7 @@
     <string name="menu_move" msgid="2310760789561129882">"Klasöre taşı..."</string>
     <string name="menu_compress" msgid="37539111904724188">"Sıkıştır"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Şuraya çıkar:"</string>
-    <string name="menu_rename" msgid="1883113442688817554">"Yeniden Adlandır"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Yeniden adlandır"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Bilgi al"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> içinde görüntüle"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Yeni pencere"</string>

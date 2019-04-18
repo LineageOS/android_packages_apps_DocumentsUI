@@ -69,7 +69,7 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Pakeista"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Failo pav. (nuo A iki Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipas (nuo A iki Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Dydis (pirmiau mažiausi)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Dydis (pirm. mažiausi)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Pakeista (pirm. sen.)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Failo pav. (nuo Z iki A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tipas (nuo Z iki A)"</string>
