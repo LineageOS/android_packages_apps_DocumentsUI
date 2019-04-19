@@ -91,7 +91,7 @@
     <string name="root_type_service" msgid="6521366147466512289">"जगह सेवाएं"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"शॉर्टकट"</string>
     <string name="root_type_device" msgid="1713604128005476585">"डिवाइस"</string>
-    <string name="root_type_apps" msgid="8646073235029886342">"अधिक ऐप्लिकेशन"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"ज़्यादा ऐप्लिकेशन"</string>
     <string name="empty" msgid="5300254272613103004">"कोई आइटम नहीं"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s में कोई मिलान नहीं"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"फ़ाइल नहीं खोली जा सकती"</string>

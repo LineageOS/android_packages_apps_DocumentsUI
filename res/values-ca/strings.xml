@@ -70,12 +70,12 @@
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nom del fitxer (A-Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipus (A-Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Mida (més petit primer)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Data d\'edició (antics)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Data de modificació (antics primer)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nom del fitxer (Z-A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tipus (Z-A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Mida (més gran primer)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Data d\'edició (recents)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Ordena per:"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Data de modificació (recents primer)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Ordena per"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Ordenat per: <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Nombre d\'elements"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendent"</string>

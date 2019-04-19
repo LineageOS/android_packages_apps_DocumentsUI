@@ -37,7 +37,7 @@
     <string name="menu_delete" msgid="1022254131543256626">"حذف"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"تحديد الكل"</string>
     <string name="menu_select" msgid="1366061076507142387">"اختيار"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"ترتيب حسب..."</string>
+    <string name="menu_sort" msgid="3362419226163725275">"الترتيب حسب..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"نسخ إلى…"</string>
     <string name="menu_move" msgid="2310760789561129882">"نقل إلى..."</string>
     <string name="menu_compress" msgid="37539111904724188">"ضغط"</string>
@@ -70,12 +70,12 @@
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"اسم الملف (من الألف للياء)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"النوع (من الألف إلى الياء)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"الحجم (الأصغر أولاً)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"تواريخ معدلة (الأقدم أولاً)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"تاريخ التعديل (الأقدم أولاً)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"اسم الملف (من الياء للألف)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"النوع (من الياء إلى الألف)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"الحجم (الأكبر أولاً)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"تواريخ معدلة (الأحدث أولاً)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"ترتيب بحسب"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"تاريخ التعديل (الأحدث أولاً)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"الترتيب حسب"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"الترتيب بحسب <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"عدد العناصر"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"تصاعدي"</string>

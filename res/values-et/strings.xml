@@ -22,7 +22,7 @@
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
-    <string name="title_open" msgid="3165686459158020921">"Ava asukohas"</string>
+    <string name="title_open" msgid="3165686459158020921">"Ava asukohast"</string>
     <string name="title_save" msgid="4384490653102710025">"Salvesta asukohta"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"Uus kaust"</string>
     <string name="menu_grid" msgid="1453636521731880680">"Ruudustikvaade"</string>
@@ -67,12 +67,12 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Tüüp"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Suurus"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Muudetud"</string>
-    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Faili nimi (A–Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tüüp (A–Z)"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Faili nimi (A–Y)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tüüp (A–Y)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Suurus (väikseimad enne)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Muudetud (vanimad enne)"</string>
-    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Faili nimi (Z–A)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tüüp (Z–A)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Faili nimi (Y–A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tüüp (Y–A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Suurus (suurimad enne)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Muudetud (uusimad enne)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortimisalus:"</string>
