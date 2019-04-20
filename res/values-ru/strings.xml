@@ -75,7 +75,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"типу (от Я до А)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"размеру (с больших)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"изменениям (с новых)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Сортировка"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Сортировать по…"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Отсортировано по <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Количество объектов"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"По возрастанию"</string>
