@@ -33,7 +33,7 @@
     <string name="menu_open_with" msgid="5507647065467520229">"ଏଥିରେ ଖୋଲନ୍ତୁ"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲନ୍ତୁ"</string>
     <string name="menu_save" msgid="5195367497138965168">"ସେଭ୍‌ କରନ୍ତୁ"</string>
-    <string name="menu_share" msgid="4307140947108068356">"ଶେୟାର୍‍ କରନ୍ତୁ"</string>
+    <string name="menu_share" msgid="4307140947108068356">"ସେୟାର୍‍ କରନ୍ତୁ"</string>
     <string name="menu_delete" msgid="1022254131543256626">"ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"ସବୁ ଚୟନ କରନ୍ତୁ"</string>
     <string name="menu_select" msgid="1366061076507142387">"ଚୟନ କରନ୍ତୁ"</string>
@@ -97,7 +97,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"ଫାଇଲ୍‍ ଖୋଲିହେବ ନାହିଁ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ସଂଗ୍ରହରେ ଥିବା ଫାଇଲ୍‍ ଖୋଲିପାରିବ ନାହିଁ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"କିଛି ଡକୁମେଣ୍ଟ ଡିଲିଟ୍‍ କରିହେବ ନାହିଁ"</string>
-    <string name="share_via" msgid="8725082736005677161">"ଏହା ମାଧ୍ୟମରେ ଶେୟାର୍‌ କରନ୍ତୁ"</string>
+    <string name="share_via" msgid="8725082736005677161">"ଏହା ମାଧ୍ୟମରେ ସେୟାର୍‌ କରନ୍ତୁ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ଫାଇଲ୍‌ଗୁଡ଼ିକ କପୀ କରାଯାଉଛି"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ଫାଇଲ୍‍ ଛୋଟ କରାଯାଉଛି"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"ଫାଇଲ୍‍ ଏକ୍ସଟ୍ରାକ୍ଟ କରିବା"</string>
