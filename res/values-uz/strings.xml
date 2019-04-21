@@ -147,7 +147,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ta elementni o‘chirib bo‘lmadi</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ta elementni o‘chirib bo‘lmadi</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="2385563502445129570">"Batafsil ma’lumot olish uchun bosing"</string>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Batafsil axborot olish uchun bosing"</string>
     <string name="close" msgid="905969391788869975">"Yopish"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="other">Quyidagi fayllardan nusxa olinmadi: <xliff:g id="LIST_1">%1$s</xliff:g></item>
