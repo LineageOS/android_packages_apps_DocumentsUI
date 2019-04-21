@@ -92,7 +92,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"Atallos"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Dispositivos"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Máis aplicacións"</string>
-    <string name="empty" msgid="5300254272613103004">"Ningún elemento"</string>
+    <string name="empty" msgid="5300254272613103004">"Non hai elementos"</string>
     <string name="no_results" msgid="2371026325236359209">"Non hai coincidencias en %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Non se pode abrir o ficheiro"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Non se poden abrir ficheiros dentro de arquivos"</string>
@@ -202,7 +202,7 @@
       <item quantity="one">Queres eliminar <xliff:g id="COUNT_0">%1$d</xliff:g> ficheiro?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other">Queres eliminar <xliff:g id="COUNT_1">%1$d</xliff:g> cartafoles e os seus contidos?</item>
+      <item quantity="other">Queres eliminar <xliff:g id="COUNT_1">%1$d</xliff:g> cartafoles e o seu contido?</item>
       <item quantity="one">Queres eliminar <xliff:g id="COUNT_0">%1$d</xliff:g> cartafol e o seu contido?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">

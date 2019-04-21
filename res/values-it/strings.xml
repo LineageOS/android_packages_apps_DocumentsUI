@@ -68,7 +68,7 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"Dimensioni"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Ultima modifica"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nome file (da A a Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipo (dalla A alla Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipo (da A a Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Dimensione (crescente)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Modifica meno recente"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nome file (da Z a A)"</string>
@@ -186,7 +186,7 @@
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Concedere all\'app <xliff:g id="APPNAME"><b>^1</b></xliff:g> l\'accesso alla directory <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Concedere all\'app <xliff:g id="APPNAME"><b>^1</b></xliff:g> l\'accesso ai tuoi dati, inclusi video e foto, sull\'unità <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
     <string name="allow" msgid="1275746941353040309">"Consenti"</string>
-    <string name="deny" msgid="5127201668078153379">"Nega"</string>
+    <string name="deny" msgid="5127201668078153379">"Rifiuta"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementi selezionati</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> elemento selezionato</item>

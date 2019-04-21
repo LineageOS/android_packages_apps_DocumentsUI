@@ -91,7 +91,7 @@
     <string name="root_type_service" msgid="6521366147466512289">"जगह सेवाएं"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"शॉर्टकट"</string>
     <string name="root_type_device" msgid="1713604128005476585">"डिवाइस"</string>
-    <string name="root_type_apps" msgid="8646073235029886342">"अधिक ऐप्लिकेशन"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"ज़्यादा ऐप्लिकेशन"</string>
     <string name="empty" msgid="5300254272613103004">"कोई आइटम नहीं"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s में कोई मिलान नहीं"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"फ़ाइल नहीं खोली जा सकती"</string>
@@ -243,8 +243,7 @@
     <string name="apps_row_title" msgid="3340490016663092925">"दूसरे ऐप्लिकेशन में फ़ाइलें ब्राउज़ करें"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"अनाम"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" एक्सेस करने दें"</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" पर \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" का एक्सेस दें?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"यह \"<xliff:g id="APPNAME">%1$s</xliff:g>\" को इस जगह में इस समय सेव की गई सभी फ़ाइलों और आने वाले समय में यहां सेव की जाने वाली किसी भी सामग्री का पूरा एक्सेस करने देगा."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"यह फ़ोन खोजें"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"खोज का इतिहास मिटाएं <xliff:g id="TEXT">%1$s</xliff:g>"</string>
