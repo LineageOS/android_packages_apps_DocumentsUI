@@ -30,7 +30,7 @@
     <string name="menu_search" msgid="1876699106790719849">"Որոնել"</string>
     <string name="menu_settings" msgid="6520844520117939047">"Հիշասարքի կարգավորումներ"</string>
     <string name="menu_open" msgid="9092138100049759315">"Բացել"</string>
-    <string name="menu_open_with" msgid="5507647065467520229">"Բացել հետևյալով՝"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"Բացել հավելվածով"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"Բացել նոր պատուհանում"</string>
     <string name="menu_save" msgid="5195367497138965168">"Պահել"</string>
     <string name="menu_share" msgid="4307140947108068356">"Կիսվել"</string>
@@ -75,7 +75,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"տեսակի (Ֆ – Ա)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"չափի (սկզբում մեծերը)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"փոփոխման (նորից հին)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Տեսակավորում"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Տեսակավորել ըստ"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Տեսակավորված ըստ՝ <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Տարրերի քանակ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Աճման կարգով"</string>

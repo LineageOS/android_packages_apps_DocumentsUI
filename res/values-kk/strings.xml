@@ -38,7 +38,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Барлығын таңдау"</string>
     <string name="menu_select" msgid="1366061076507142387">"Таңдау"</string>
     <string name="menu_sort" msgid="3362419226163725275">"Сұрыптау шарты..."</string>
-    <string name="menu_copy" msgid="7404820171352314754">"Көшіру орны…"</string>
+    <string name="menu_copy" msgid="7404820171352314754">"Көшіру…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Тасымалдау…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Сығу"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Алынуда…"</string>
@@ -75,7 +75,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Түрі (Z–A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Өлшемі (ең үлкенінен бастап)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Өзгертілген (ең жаңасынан бастап)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Реттеу шарты"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Сұрыптау шарты"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> бойынша реттелген"</string>
     <string name="directory_items" msgid="6645621978998614003">"Элементтер саны"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Арту ретімен"</string>
