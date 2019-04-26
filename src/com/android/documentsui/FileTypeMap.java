@@ -26,7 +26,7 @@ import android.util.SparseArray;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
 
-import libcore.net.MimeUtils;
+import libcore.net.MimeMap;
 
 import java.util.HashMap;
 
@@ -152,7 +152,7 @@ public class FileTypeMap implements Lookup<String, String> {
 
     private String getFileTypeString(
             String mimeType, @StringRes int formatStringId, @StringRes int defaultStringId) {
-        final String extension = MimeUtils.guessExtensionFromMimeType(mimeType);
+        final String extension = MimeMap.getDefault().guessExtensionFromMimeType(mimeType);
 
         return TextUtils.isEmpty(extension)
                 ? mRes.getString(defaultStringId)
