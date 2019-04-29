@@ -18,9 +18,6 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Outline;
@@ -28,6 +25,9 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewOutlineProvider;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
@@ -55,6 +55,7 @@ public class NavigationViewManager {
     private final CollapsingToolbarLayout mCollapsingBarLayout;
     private final Drawable mDefaultActionBarBackground;
     private final ViewOutlineProvider mSearchBarOutlineProvider;
+    private final boolean mShowSearchBar;
 
     public NavigationViewManager(
             Activity activity,
@@ -80,6 +81,7 @@ public class NavigationViewManager {
         mSearchBarView = activity.findViewById(R.id.searchbar_title);
         mCollapsingBarLayout = activity.findViewById(R.id.collapsing_toolbar);
         mDefaultActionBarBackground = mToolbar.getBackground();
+        mShowSearchBar = activity.getResources().getBoolean(R.bool.show_search_bar);
 
         final Resources resources = mToolbar.getResources();
         final int radius = resources.getDimensionPixelSize(R.dimen.search_bar_radius);
@@ -133,7 +135,7 @@ public class NavigationViewManager {
         mToolbar.setNavigationIcon(getActionBarIcon());
         mToolbar.setNavigationContentDescription(R.string.drawer_open);
 
-        if (mState.stack.isRecents()) {
+        if (shouldShowSearchBar()) {
             mBreadcrumb.show(false);
             mToolbar.setTitle(null);
             mSearchBarView.setVisibility(View.VISIBLE);
@@ -186,7 +188,7 @@ public class NavigationViewManager {
     }
 
     private boolean shouldShowSearchBar() {
-        return mState.stack.isRecents() && !mEnv.isSearchExpanded();
+        return mState.stack.isRecents() && !mEnv.isSearchExpanded() && mShowSearchBar;
     }
 
     // Hamburger if drawer is present, else sad nullness.

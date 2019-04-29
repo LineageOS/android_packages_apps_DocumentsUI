@@ -301,7 +301,8 @@ public abstract class BaseActivity
         getMenuInflater().inflate(R.menu.activity, menu);
         mNavigator.update();
         boolean fullBarSearch = getResources().getBoolean(R.bool.full_bar_search_view);
-        mSearchManager.install(menu, fullBarSearch);
+        boolean showSearchBar = getResources().getBoolean(R.bool.show_search_bar);
+        mSearchManager.install(menu, fullBarSearch, showSearchBar);
 
         final ActionMenuView subMenuView = findViewById(R.id.sub_menu);
         // If size is 0, it means the menu has not inflated and it should only do once.
