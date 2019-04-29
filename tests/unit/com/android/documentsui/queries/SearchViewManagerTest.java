@@ -121,7 +121,7 @@ public final class SearchViewManagerTest {
 
         mTestMenu = TestMenu.create();
         mSearchMenuItem = mTestMenu.findItem(R.id.option_menu_search);
-        mSearchViewManager.install(mTestMenu, true);
+        mSearchViewManager.install(mTestMenu, true, false);
     }
 
     private static class TestableSearchViewManager extends SearchViewManager {
@@ -395,7 +395,7 @@ public final class SearchViewManagerTest {
         root.queryArgs = QUERY_ARG_MIME_TYPES;
         DocumentStack stack = new DocumentStack(root, new DocumentInfo());
 
-        mSearchViewManager.install(mTestMenu, true);
+        mSearchViewManager.install(mTestMenu, true, false);
         mSearchViewManager.showMenu(stack);
 
         assertFalse(mSearchMenuItem.isVisible());
