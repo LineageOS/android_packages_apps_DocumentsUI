@@ -46,6 +46,7 @@
             <item type="bool" name="config_default_show_device_root"/>
             <item type="bool" name="feature_default_root_in_browse"/>
             <item type="bool" name="is_launcher_enabled"/>
+            <item type="bool" name="show_search_bar"/>
             <!-- END BOOLEAN CONFIG -->
 
             <!-- START STRING CONFIG -->
