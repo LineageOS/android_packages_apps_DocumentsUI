@@ -177,6 +177,12 @@ public abstract class BaseActivity
                 }
 
                 mInjector.actions.loadDocumentsForCurrentStack();
+
+                expandAppBar();
+                DirectoryFragment dir = getDirectoryFragment();
+                if (dir != null) {
+                    dir.scrollToTop();
+                }
             }
 
             @Override
