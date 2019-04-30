@@ -84,6 +84,7 @@ public class SearchViewManager implements
     private boolean mIgnoreNextClose;
     private boolean mFullBar;
     private boolean mIsHistorySearch;
+    private boolean mShowSearchBar;
 
     private Menu mMenu;
     private MenuItem mMenuItem;
@@ -206,7 +207,14 @@ public class SearchViewManager implements
         mSearchView.clearFocus();
     }
 
-    public void install(Menu menu, boolean isFullBarSearch) {
+    /**
+     * Initailize search view by option menu.
+     *
+     * @param menu the menu include search view
+     * @param isFullBarSearch whether hide other menu when search view expand
+     * @param isShowSearchBar whether replace collapsed search view by search hint text
+     */
+    public void install(Menu menu, boolean isFullBarSearch, boolean isShowSearchBar) {
         mMenu = menu;
         mMenuItem = mMenu.findItem(R.id.option_menu_search);
         mSearchView = (SearchView) mMenuItem.getActionView();
@@ -224,6 +232,7 @@ public class SearchViewManager implements
         }
 
         mFullBar = isFullBarSearch;
+        mShowSearchBar = isShowSearchBar;
         mSearchView.setMaxWidth(Integer.MAX_VALUE);
         mMenuItem.setOnActionExpandListener(this);
 
@@ -300,7 +309,7 @@ public class SearchViewManager implements
         }
 
         // Recent root show open search bar, do not show duplicate search icon.
-        mMenuItem.setVisible(supportsSearch && !stack.isRecents());
+        mMenuItem.setVisible(supportsSearch && (!stack.isRecents() || !mShowSearchBar));
 
         mChipViewManager.setChipsRowVisible(supportsSearch && root.supportsMimeTypesSearch());
     }
