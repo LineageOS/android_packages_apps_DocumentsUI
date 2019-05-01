@@ -58,6 +58,7 @@
 
     <style name="OverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">?android:colorControlNormal</item>
+        <item name="android:minWidth">@dimen/button_touch_size</item>
     </style>
 
     <style name="OverflowMenuStyle" parent="@style/Widget.AppCompat.PopupMenu.Overflow">
