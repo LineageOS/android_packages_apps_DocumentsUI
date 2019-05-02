@@ -20,12 +20,14 @@ import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_UNKNOW
 
 import android.app.ActivityManager.TaskDescription;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.KeyboardShortcutGroup;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.CallSuper;
 import androidx.fragment.app.FragmentManager;
@@ -170,6 +172,10 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 && intent.hasExtra(LauncherActivity.TASK_ICON_RES)) {
             updateTaskDescription(intent);
         }
+
+        // Set save container background to transparent for edge to edge nav bar.
+        View saveContainer = findViewById(R.id.container_save);
+        saveContainer.setBackgroundColor(Color.TRANSPARENT);
 
         presentFileErrors(icicle, intent);
     }
