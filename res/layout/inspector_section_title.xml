@@ -39,7 +39,7 @@
         android:paddingBottom="25dp"
         android:layout_gravity="center_vertical"
         android:clickable="false"
-        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textAppearance="@style/ToolbarTitle"
         android:textAlignment="viewStart"
         android:textIsSelectable="true"/>
 </LinearLayout>
