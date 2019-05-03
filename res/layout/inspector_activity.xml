@@ -61,6 +61,7 @@
                 android:background="?android:attr/colorBackground"
                 android:theme="?actionBarTheme"
                 app:title="@string/inspector_title"
+                app:titleTextAppearance="@style/ToolbarTitle"
                 app:layout_collapseMode="pin">
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
