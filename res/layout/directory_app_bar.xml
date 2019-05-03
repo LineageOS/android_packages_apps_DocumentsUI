@@ -48,6 +48,7 @@
             android:theme="?actionBarTheme"
             android:popupTheme="?actionBarPopupTheme"
             android:elevation="3dp"
+            app:titleTextAppearance="@style/ToolbarTitle"
             app:layout_collapseMode="pin">
 
             <TextView
