@@ -41,29 +41,4 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustUnspecified</item>
 
     </style>
-
-    <style name="DocumentsDefaultTheme" parent="@style/Theme.MaterialComponents.NoActionBar">
-
-        <!-- This only used by support lib, not allow to overlay -->
-        <item name="windowActionBar">false</item>
-        <item name="windowActionModeOverlay">true</item>
-
-        <!-- For material design widget, chips, buttons, not support attr-->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorAccent">@color/primary</item>
-
-        <item name="gridItemTint">@color/item_doc_grid_tint</item>
-
-        <item name="actionBarTheme">@style/ActionBarTheme</item>
-        <item name="actionModeStyle">@style/ActionModeStyle</item>
-        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
-        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
-        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
-        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogStyle</item>
-        <item name="materialButtonStyle">@style/MaterialButton</item>
-        <item name="materialButtonOutlinedStyle">@style/MaterialOutlinedButton</item>
-        <item name="materialCardViewStyle">@style/CardViewStyle</item>
-        <item name="queryBackground">@color/menu_search_background</item>
-        <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
-    </style>
 </resources>
