@@ -17,7 +17,7 @@
 package com.android.documentsui.ui;
 
 import android.content.res.Configuration;
-//import android.graphics.Color;
+import android.graphics.Color;
 
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
@@ -42,7 +42,6 @@ public class ThemeUiTest extends ThemeUiTestBase {
         mTheme = getThemeByUiMode(mTargetContext, Configuration.UI_MODE_NIGHT_NO);
     }
 
-    /* ToDo Add it back after found solution
     @Test
     public void themeNightModeDisable_actionBarColorShouldBeLight() {
         assertTheme(R.styleable.ActionBarView, R.styleable.ActionBarView_android_colorBackground,
@@ -83,7 +82,7 @@ public class ThemeUiTest extends ThemeUiTestBase {
     public void themeNightModeDisable_statusBarColorShouldBeLight() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_statusBarColor,
                 Color.WHITE);
-    } */
+    }
 
     @Test
     public void appCompatThemeNightModeDisable_colorPrimaryShouldBeThemeable() {

@@ -26,7 +26,7 @@ import androidx.test.runner.AndroidJUnit4;
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortDimension.SortCapability;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
-//import com.android.documentsui.testing.Parcelables;
+import com.android.documentsui.testing.Parcelables;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -83,10 +83,8 @@ public class SortDimensionTest {
         mDimension.mSortDirection = DEFAULT_DIRECTION;
         assertEquals(ALTERNATIVE_DIRECTION, mDimension.getNextDirection());
     }
-
-    /* ToDo Add it back after found solution
     @Test
     public void testParceling() {
         Parcelables.assertParcelable(mDimension, 0);
-    } */
+    }
 }
