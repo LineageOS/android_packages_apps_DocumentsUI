@@ -45,7 +45,6 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
         mTheme = getThemeByUiMode(mTargetContext, Configuration.UI_MODE_NIGHT_YES);
     }
 
-    /* ToDo Add it back after found solution
     @Test
     public void themeNightModeEnable_actionBarColorShouldBeDark() {
         assertTheme(R.styleable.ActionBarView, R.styleable.ActionBarView_android_colorBackground,
@@ -86,7 +85,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     public void themeNightModeEnable_statusBarColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_statusBarColor,
                 mTheme.getResources().getColor(R.color.app_background_color, mTheme));
-    } */
+    }
 
     @Test
     public void appCompatThemeNightModeEnable_colorPrimaryShouldBeThemeable() {

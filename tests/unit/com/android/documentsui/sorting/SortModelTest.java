@@ -29,7 +29,7 @@ import androidx.test.runner.AndroidJUnit4;
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortModel.UpdateListener;
 import com.android.documentsui.sorting.SortModel.UpdateType;
-//import com.android.documentsui.testing.Parcelables;
+import com.android.documentsui.testing.Parcelables;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -206,7 +206,6 @@ public class SortModelTest {
         }
     }
 
-    /* ToDo Add it back after found solution
     @Test
     public void testParceling() {
         mModel.setDefaultDimension(DIMENSION_1.getId());
@@ -219,7 +218,7 @@ public class SortModelTest {
     @Test
     public void testParceling_NoSortedDimension() {
         Parcelables.assertParcelable(mModel, 0);
-    } */
+    }
 
     private @Nullable SortDimension getSortedDimension() {
         final int sortedDimensionId = mModel.getSortedDimensionId();
