@@ -793,6 +793,11 @@ public abstract class BaseActivity
      */
     protected boolean popDir() {
         if (mState.stack.size() > 1) {
+            final DirectoryFragment fragment = getDirectoryFragment();
+            if (fragment != null) {
+                fragment.stopScroll();
+            }
+
             mState.stack.pop();
             refreshCurrentRootAndDirectory(AnimationView.ANIM_LEAVE);
             return true;
