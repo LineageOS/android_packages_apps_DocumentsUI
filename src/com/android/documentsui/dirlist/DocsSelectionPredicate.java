@@ -16,15 +16,16 @@
 package com.android.documentsui.dirlist;
 
 import static androidx.core.util.Preconditions.checkArgument;
+
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
+import android.util.Log;
 
 import androidx.recyclerview.selection.SelectionTracker.SelectionPredicate;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.Model;
@@ -89,8 +90,12 @@ final class DocsSelectionPredicate extends SelectionPredicate<String> {
 
         // The band selection model only operates on documents and directories.
         // Exclude other types of adapter items like whitespace and dividers.
-        RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(position);
-        return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
+        final RecyclerView.ViewHolder vh = mRecView.findViewHolderForAdapterPosition(position);
+        if (vh == null) {
+            return false;
+        } else {
+            return ModelBackedDocumentsAdapter.isContentType(vh.getItemViewType());
+        }
     }
 
     @Override
