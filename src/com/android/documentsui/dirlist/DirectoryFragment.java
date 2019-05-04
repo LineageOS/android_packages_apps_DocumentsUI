@@ -1096,11 +1096,20 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     /**
-     *  Scroll recycler view in fregment to top
+     *  Scroll to top of recyclerView in fragment
      */
     public void scrollToTop() {
         if (mRecView != null) {
             mRecView.scrollToPosition(0);
+        }
+    }
+
+    /**
+     *  Stop the scroll of recyclerView in fragment
+     */
+    public void stopScroll() {
+        if (mRecView != null) {
+            mRecView.stopScroll();
         }
     }
 

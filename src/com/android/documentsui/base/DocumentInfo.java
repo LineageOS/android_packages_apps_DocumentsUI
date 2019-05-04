@@ -335,6 +335,10 @@ public class DocumentInfo implements Durable, Parcelable {
      * Missing or null values are returned as -1.
      */
     public static long getCursorLong(Cursor cursor, String columnName) {
+        if (cursor == null) {
+            return -1;
+        }
+
         final int index = cursor.getColumnIndex(columnName);
         if (index == -1) return -1;
         final String value = cursor.getString(index);
@@ -350,6 +354,10 @@ public class DocumentInfo implements Durable, Parcelable {
      * Missing or null values are returned as 0.
      */
     public static int getCursorInt(Cursor cursor, String columnName) {
+        if (cursor == null) {
+            return 0;
+        }
+
         final int index = cursor.getColumnIndex(columnName);
         return (index != -1) ? cursor.getInt(index) : 0;
     }

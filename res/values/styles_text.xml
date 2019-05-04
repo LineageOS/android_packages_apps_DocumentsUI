@@ -45,6 +45,10 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="ToolbarTitle" parent="@android:style/TextAppearance.Material.Title">
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
+    </style>
+
     <style name="DrawerMenuTitle" parent="@android:style/TextAppearance.Material.Title">
         <item name="android:textSize">24sp</item>
         <item name="fontFamily">@string/config_fontFamilyMedium</item>
