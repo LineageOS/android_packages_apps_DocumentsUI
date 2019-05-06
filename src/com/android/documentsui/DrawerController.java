@@ -114,7 +114,6 @@ public abstract class DrawerController implements DrawerListener {
             mToggle = toggle;
 
             mLayout.setDrawerListener(this);
-            mLayout.setFocusable(false);
 
             if (activityConfig.dragAndDropEnabled()) {
                 View edge = layout.findViewById(R.id.drawer_edge);
