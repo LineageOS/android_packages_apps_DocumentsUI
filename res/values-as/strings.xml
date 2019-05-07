@@ -64,7 +64,7 @@
     <string name="sort_dimension_summary" msgid="7724534446881397860">"সাৰাংশ"</string>
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"প্রকাৰ"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"আকাৰ"</string>
-    <string name="sort_dimension_date" msgid="4231005651895254033">"সংশোধন কৰা হ\'ল"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"সংশোধন কৰা হ’ল"</string>
     <string name="directory_items" msgid="6645621978998614003">"সমলৰ সংখ্যা"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"ঊৰ্ধ্বক্ৰমিক"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"অধঃক্ৰমিক"</string>
@@ -157,18 +157,18 @@
       <item quantity="other">এই ফাইলবোৰ মচা নহ\'ল: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
-      <item quantity="one">এই ফাইলবোৰ অন্য এটা ফৰ্মেটলৈ সলনি কৰা হ\'ল: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="other">এই ফাইলবোৰ অন্য এটা ফৰ্মেটলৈ সলনি কৰা হ\'ল: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">এই ফাইলবোৰ অন্য এটা ফৰ্মেটলৈ সলনি কৰা হ’ল: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">এই ফাইলবোৰ অন্য এটা ফৰ্মেটলৈ সলনি কৰা হ’ল: <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বস্তু ক্লিপব\'ৰ্ডত প্ৰতিলিপি কৰা হ\'ল।</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বস্তু ক্লিপব\'ৰ্ডত প্ৰতিলিপি কৰা হ\'ল।</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বস্তু ক্লিপব\'ৰ্ডত প্ৰতিলিপি কৰা হ’ল।</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বস্তু ক্লিপব\'ৰ্ডত প্ৰতিলিপি কৰা হ’ল।</item>
     </plurals>
     <string name="file_operation_rejected" msgid="4301554203329008794">"ফাইলত কাৰ্য কৰিব নোৱাৰি।"</string>
     <string name="file_operation_error" msgid="2234357335716533795">"ফাইলত কাৰ্য কৰিব পৰা নগ\'ল।"</string>
     <string name="rename_error" msgid="6700093173508118635">"নথিৰ নাম সলনি কৰিব পৰা নগ\'ল"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"বাহিৰলৈ উলিয়াওক"</string>
-    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"কিছুমান ফাইল ৰূপান্তৰ কৰা হ\'ল"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"কিছুমান ফাইল ৰূপান্তৰ কৰা হ’ল"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g>ক <xliff:g id="STORAGE"><i>^3</i></xliff:g>ৰ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> চাবলৈ অনুমতি দিবনে?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g>ক <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> চাবলৈ অনুমতি দিবনে?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g>ক <xliff:g id="STORAGE"><i>^2</i></xliff:g>ত থকা ফট\' আৰু ভিডিঅ\'সমূহকে ধৰি আপোনাৰ ডেটা চাবলৈ অনুমতি দিবনে?"</string>
@@ -176,8 +176,8 @@
     <string name="allow" msgid="1275746941353040309">"অনুমতি দিয়ক"</string>
     <string name="deny" msgid="5127201668078153379">"অস্বীকাৰ কৰক"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বাছনি কৰা হ\'ল</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বাছনি কৰা হ\'ল</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বাছনি কৰা হ’ল</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বাছনি কৰা হ’ল</item>
     </plurals>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g>টা বস্তু</item>

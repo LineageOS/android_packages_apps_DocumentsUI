@@ -134,7 +134,7 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> element kunne ikke slettes</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementer kunne ikke slettes</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="2385563502445129570">"Tryk for at se oplysninger"</string>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Tryk for at se info"</string>
     <string name="close" msgid="905969391788869975">"Luk"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="one">Følgende fil blev ikke kopieret: <xliff:g id="LIST_1">%1$s</xliff:g></item>
