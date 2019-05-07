@@ -17,6 +17,7 @@
 package com.android.documentsui.archives;
 
 import static android.os.ParcelFileDescriptor.MODE_READ_ONLY;
+
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.content.Context;
@@ -28,7 +29,7 @@ import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.FileUtils;
 import android.os.Handler;
-import android.os.Looper;
+import android.os.HandlerThread;
 import android.os.ParcelFileDescriptor;
 import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
@@ -38,6 +39,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Preconditions;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.compressors.CompressorException;
+import org.apache.commons.compress.utils.IOUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -49,11 +54,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Stack;
-
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.ArchiveException;
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.utils.IOUtils;
 
 /**
  * Provides basic implementation for extracting and accessing
@@ -67,6 +67,8 @@ public class ReadableArchive extends Archive {
     private final StorageManager mStorageManager;
     private final ArchiveHandle mArchiveHandle;
     private final ParcelFileDescriptor mParcelFileDescriptor;
+    private final Handler mHandler;
+    private HandlerThread mHandlerThread;
 
     private ReadableArchive(
             Context context,
@@ -170,6 +172,10 @@ public class ReadableArchive extends Archive {
 
             parentList.add(entry);
         }
+
+        mHandlerThread = new HandlerThread(TAG);
+        mHandlerThread.start();
+        mHandler = new Handler(mHandlerThread.getLooper());
     }
 
     /**
@@ -270,7 +276,7 @@ public class ReadableArchive extends Archive {
 
         try {
             return mStorageManager.openProxyFileDescriptor(MODE_READ_ONLY,
-                    new Proxy(mArchiveHandle, entry), new Handler(Looper.getMainLooper()));
+                    new Proxy(mArchiveHandle, entry), mHandler);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         } catch (ArchiveException e) {
@@ -352,6 +358,11 @@ public class ReadableArchive extends Archive {
              * be closed after FileInputStream closed.
              */
             IOUtils.closeQuietly(mParcelFileDescriptor);
+        }
+
+        if (mHandlerThread != null) {
+            mHandlerThread.quitSafely();
+            mHandlerThread = null;
         }
     }
 }
