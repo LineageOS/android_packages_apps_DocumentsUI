@@ -25,7 +25,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.SmallTest;
 import android.support.test.runner.AndroidJUnit4;
 
-import libcore.net.MimeUtils;
+import libcore.net.MimeMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -112,7 +112,8 @@ public class FileTypeMapTest {
     }
 
     private String getExtensionTypeFromMime(@StringRes int formatStringId, String mime) {
-        final String extension = MimeUtils.guessExtensionFromMimeType(mime).toUpperCase();
+        MimeMap mimeMap = MimeMap.getDefault();
+        final String extension = mimeMap.guessExtensionFromMimeType(mime).toUpperCase();
         return getExtensionTypeFromExtension(formatStringId, extension);
     }
 
