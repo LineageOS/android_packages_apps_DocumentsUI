@@ -76,7 +76,7 @@
     <string name="root_recent" msgid="1080156975424341623">"சமீபத்தியவை"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"பயன்படுத்தாத அளவு: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"சேமிப்பகச் சேவைகள்"</string>
-    <string name="root_type_shortcut" msgid="6059343175525442279">"ஷார்ட்கட்கள்"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"குறுக்குவழிகள்"</string>
     <string name="root_type_device" msgid="1713604128005476585">"சாதனங்கள்"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"மேலும் பயன்பாடுகள்"</string>
     <string name="empty" msgid="5300254272613103004">"எதுவும் இல்லை"</string>
@@ -112,11 +112,11 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பை நீக்குகிறது.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"செயல்தவிர்"</string>
-    <string name="copy_preparing" msgid="4759516490222449324">"தயாராகிறது..."</string>
-    <string name="compress_preparing" msgid="7401605598969019696">"தயாராகிறது..."</string>
-    <string name="extract_preparing" msgid="4796626960061745796">"தயாராகிறது..."</string>
-    <string name="move_preparing" msgid="6504239656430530761">"தயாராகிறது..."</string>
-    <string name="delete_preparing" msgid="7339349837842802508">"தயாராகிறது..."</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"நகலெடுக்க, தயார்படுத்துகிறது…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"அளவைக் குறைக்க தயாராகிறது…"</string>
+    <string name="extract_preparing" msgid="58266275455027829">"பிரிப்பதற்குத் தயாராகிறது…"</string>
+    <string name="move_preparing" msgid="8742573245485449429">"நகர்த்த, தயார்படுத்துகிறது…"</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"நீக்க, தயார்படுத்துகிறது…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> உருப்படிகளை நகலெடுக்க முடியவில்லை</item>

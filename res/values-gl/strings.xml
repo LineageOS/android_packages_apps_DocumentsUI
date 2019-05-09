@@ -79,7 +79,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"Atallos"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Dispositivos"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Máis aplicacións"</string>
-    <string name="empty" msgid="5300254272613103004">"Non hai elementos"</string>
+    <string name="empty" msgid="5300254272613103004">"Ningún elemento"</string>
     <string name="no_results" msgid="2371026325236359209">"Non hai coincidencias en %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Non se pode abrir o ficheiro"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Non se poden abrir ficheiros dentro de arquivos"</string>
@@ -112,11 +112,11 @@
       <item quantity="one">Eliminando <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Desfacer"</string>
-    <string name="copy_preparing" msgid="4759516490222449324">"Preparando…"</string>
-    <string name="compress_preparing" msgid="7401605598969019696">"Preparando…"</string>
-    <string name="extract_preparing" msgid="4796626960061745796">"Preparando…"</string>
-    <string name="move_preparing" msgid="6504239656430530761">"Preparando…"</string>
-    <string name="delete_preparing" msgid="7339349837842802508">"Preparando…"</string>
+    <string name="copy_preparing" msgid="5326063807006898223">"Preparando para copiar…"</string>
+    <string name="compress_preparing" msgid="6650018601382062672">"Preparándose para comprimir..."</string>
+    <string name="extract_preparing" msgid="58266275455027829">"Preparándose para a extracción…"</string>
+    <string name="move_preparing" msgid="8742573245485449429">"Preparándose para mover..."</string>
+    <string name="delete_preparing" msgid="6513863752916028147">"Preparando para eliminar…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="other">Non se puideron copiar <xliff:g id="COUNT_1">%1$d</xliff:g> elementos</item>
@@ -190,7 +190,7 @@
       <item quantity="one">Queres eliminar <xliff:g id="COUNT_0">%1$d</xliff:g> ficheiro?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other">Queres eliminar <xliff:g id="COUNT_1">%1$d</xliff:g> cartafoles e o seu contido?</item>
+      <item quantity="other">Queres eliminar <xliff:g id="COUNT_1">%1$d</xliff:g> cartafoles e os seus contidos?</item>
       <item quantity="one">Queres eliminar <xliff:g id="COUNT_0">%1$d</xliff:g> cartafol e o seu contido?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
