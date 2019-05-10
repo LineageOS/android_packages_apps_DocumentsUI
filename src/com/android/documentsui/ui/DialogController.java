@@ -23,18 +23,19 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import com.android.documentsui.R;
 import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.picker.ConfirmFragment;
 import com.android.documentsui.services.FileOperation;
-import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperationService;
-import com.android.documentsui.services.FileOperations.Callback.Status;
+import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
+import com.android.documentsui.services.FileOperations.Callback.Status;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -86,7 +87,7 @@ public interface DialogController {
             // but as a simple runtime dialog. So rotating a device with an
             // active delete dialog...results in that dialog disappearing.
             // We can do better, but don't have cycles for it now.
-            final AlertDialog alertDialog = new AlertDialog.Builder(mActivity)
+            final AlertDialog alertDialog = new MaterialAlertDialogBuilder(mActivity)
                     .setView(message)
                     .setPositiveButton(
                             android.R.string.ok,

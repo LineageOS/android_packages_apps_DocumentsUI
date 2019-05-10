@@ -43,11 +43,11 @@
         <item name="android:textColor">?android:colorPrimary</item>
     </style>
 
-    <style name="BottomSheetDialogStyle" parent="@Theme.MaterialComponents.Light.BottomSheetDialog">
-        <item name="android:colorBackground">@color/app_background_color</item>
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">?android:attr/colorBackground</item>
+    <style name="AutoCompleteTextViewStyle" parent="@style/Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textAppearance">@style/AutoCompleteText</item>
+    </style>
+
+    <style name="BottomSheetDialogStyle" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="bottomSheetStyle">@style/BottomSheet</item>
         <item name="colorControlHighlight">@color/ripple_material_light</item>
@@ -68,6 +68,12 @@
         <item name="android:overlapAnchor">false</item>
     </style>
 
+    <style name="MaterialAlertDialogTitleStyle" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
+    </style>
+
     <style name="MaterialButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:textAppearance">@style/MaterialButtonTextAppearance</item>
     </style>
@@ -83,5 +89,12 @@
     <style name="AlertDialogTheme" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="buttonBarPositiveButtonStyle">@style/DialogTextButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/DialogTextButton</item>
+    </style>
+
+    <style name="MaterialAlertDialogTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog.Centered">
+        <item name="android:dialogCornerRadius">@dimen/grid_item_radius</item>
+        <item name="buttonBarPositiveButtonStyle">@style/DialogTextButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogTextButton</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialogTitleStyle</item>
     </style>
 </resources>
