@@ -21,6 +21,7 @@
 
     <style name="SortList" parent="@style/TextAppearance.AppCompat.Subhead">
         <item name="android:textColor">@color/sort_list_text</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
     </style>
 
     <style name="SearchBarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
@@ -37,6 +38,10 @@
     <style name="AppsItemText">
         <item name="android:textColor">?android:attr/textColorSecondary</item>
         <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@string/config_fontFamily</item>
+    </style>
+
+    <style name="AutoCompleteText" parent="@style/TextAppearance.AppCompat.Medium">
         <item name="fontFamily">@string/config_fontFamily</item>
     </style>
 
