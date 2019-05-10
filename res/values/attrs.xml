@@ -15,22 +15,6 @@
 -->
 <resources>
 
-    <declare-styleable name="ActionBarView">
-        <attr name="android:colorBackground" />
-        <attr name="android:colorPrimary" />
-        <attr name="android:colorControlNormal" />
-        <attr name="android:textColorPrimary" />
-    </declare-styleable>
-
-    <declare-styleable name="DrawerMenuTitle">
-        <attr name="android:textColor" />
-        <attr name="android:textSize" />
-    </declare-styleable>
-
-    <declare-styleable name="CardView">
-        <attr name="android:colorBackgroundFloating" format="color" />
-    </declare-styleable>
-
     <declare-styleable name="DropBadgeView">
         <attr name="state_reject_drop" format="boolean"/>
         <attr name="state_copy" format="boolean"/>
@@ -47,24 +31,4 @@
         <attr name="state_highlighted" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="SnackbarView">
-        <attr name="android:textColor" />
-    </declare-styleable>
-
-    <declare-styleable name="SystemWindow">
-        <attr name="android:statusBarColor" />
-        <attr name="android:navigationBarColor" />
-        <attr name="android:windowBackground" />
-        <attr name="android:windowLightStatusBar" />
-        <attr name="android:windowLightNavigationBar" />
-    </declare-styleable>
-
-    <declare-styleable name="SwipeRefresh">
-        <attr name="android:colorPrimary" />
-    </declare-styleable>
-
-    <declare-styleable name="MaterialButtons">
-        <attr name="materialButtonStyle" format="reference" />
-        <attr name="materialButtonOutlinedStyle" format="reference"/>
-    </declare-styleable>
 </resources>
