@@ -23,7 +23,7 @@ import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.R;
+import com.android.documentsui.tests.R;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,14 +47,9 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
 
     @Test
     public void themeNightModeEnable_actionBarColorShouldBeDark() {
-        assertTheme(R.styleable.ActionBarView, R.styleable.ActionBarView_android_colorBackground,
-                mTheme.getResources().getColor(R.color.app_background_color, mTheme));
-    }
-
-    @Test
-    public void themeNightModeEnable_gridItemTintColorShouldBeThemeable() {
-        assertTheme(R.styleable.GridItem, R.styleable.GridItem_gridItemTint,
-                mTheme.getResources().getColor(R.color.item_doc_grid_tint, mTheme));
+        assertTheme(R.styleable.ThemeColor, R.styleable.ThemeColor_android_colorBackground,
+                mTheme.getResources().getColor(com.android.documentsui.R.color.app_background_color,
+                        mTheme));
     }
 
     @Test
@@ -78,18 +73,20 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
     @Test
     public void themeNightModeEnable_windowBackgroundColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_windowBackground,
-                mTheme.getResources().getColor(R.color.app_background_color, mTheme));
+                mTheme.getResources().getColor(com.android.documentsui.R.color.app_background_color,
+                        mTheme));
     }
 
     @Test
     public void themeNightModeEnable_statusBarColorShouldBeDark() {
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_statusBarColor,
-                mTheme.getResources().getColor(R.color.app_background_color, mTheme));
+                mTheme.getResources().getColor(com.android.documentsui.R.color.app_background_color,
+                        mTheme));
     }
 
     @Test
     public void appCompatThemeNightModeEnable_colorPrimaryShouldBeThemeable() {
-        assertTheme(R.styleable.AppCompatTheme, R.styleable.AppCompatTheme_colorPrimary,
-                mTheme.getResources().getColor(R.color.primary, mTheme));
+        assertTheme(R.styleable.ThemeColor, R.styleable.ThemeColor_android_colorPrimary,
+                mTheme.getResources().getColor(com.android.documentsui.R.color.primary, mTheme));
     }
 }

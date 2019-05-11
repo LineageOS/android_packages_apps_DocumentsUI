@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -35,6 +34,8 @@ import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 /**
  * Used to confirm with user that it's OK to overwrite an existing file.
@@ -66,7 +67,7 @@ public class ConfirmFragment extends DialogFragment {
         mType = arg.getInt(CONFIRM_TYPE);
         final PickResult pickResult = ((PickActivity) getActivity()).getInjector().pickResult;
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
         switch (mType) {
             case TYPE_OVERWRITE:
                 String message = String.format(

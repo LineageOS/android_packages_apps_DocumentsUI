@@ -42,9 +42,10 @@ public class DocumentsSwipeRefreshLayout extends SwipeRefreshLayout {
     public DocumentsSwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray a = context.obtainStyledAttributes(R.styleable.SwipeRefresh);
-        @ColorRes int colorId = a.getResourceId(R.styleable.SwipeRefresh_android_colorPrimary,
-                -1);
+        final int[] styledAttrs = {android.R.attr.colorPrimary};
+
+        TypedArray a = context.obtainStyledAttributes(styledAttrs);
+        @ColorRes int colorId = a.getResourceId(0, -1);
         if (colorId == -1) {
             Log.w(TAG, "Retrive colorPrimary colorId from theme fail, assign R.color.primary");
             colorId = R.color.primary;
