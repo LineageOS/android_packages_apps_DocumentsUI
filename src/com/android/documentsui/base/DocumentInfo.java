@@ -16,6 +16,8 @@
 
 package com.android.documentsui.base;
 
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
+
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -26,6 +28,7 @@ import android.os.Parcelable;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsProvider;
+import android.util.Log;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -48,6 +51,7 @@ import javax.annotation.Nullable;
  * Representation of a {@link Document}.
  */
 public class DocumentInfo implements Durable, Parcelable {
+    private static final String TAG = "DocumentInfo";
     private static final int VERSION_INIT = 1;
     private static final int VERSION_SPLIT_URI = 2;
 
@@ -381,7 +385,14 @@ public class DocumentInfo implements Durable, Parcelable {
     public static void addMimeTypes(ContentResolver resolver, Uri uri, Set<String> mimeTypes) {
         assert(uri != null);
         if ("content".equals(uri.getScheme())) {
-            mimeTypes.add(resolver.getType(uri));
+            final String type = resolver.getType(uri);
+            if (type != null) {
+                mimeTypes.add(type);
+            } else {
+                if (DEBUG) {
+                    Log.d(TAG, "resolver.getType(uri) return null, url:" + uri.toSafeString());
+                }
+            }
             final String[] streamTypes = resolver.getStreamTypes(uri, "*/*");
             if (streamTypes != null) {
                 mimeTypes.addAll(Arrays.asList(streamTypes));

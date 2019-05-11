@@ -22,7 +22,7 @@ import android.graphics.Color;
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.R;
+import com.android.documentsui.tests.R;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,14 +44,8 @@ public class ThemeUiTest extends ThemeUiTestBase {
 
     @Test
     public void themeNightModeDisable_actionBarColorShouldBeLight() {
-        assertTheme(R.styleable.ActionBarView, R.styleable.ActionBarView_android_colorBackground,
+        assertTheme(R.styleable.ThemeColor, R.styleable.ThemeColor_android_colorBackground,
                 Color.WHITE);
-    }
-
-    @Test
-    public void themeNightModeDisable_gridItemTintColorShouldBeThemeable() {
-        assertTheme(R.styleable.GridItem, R.styleable.GridItem_gridItemTint,
-                mTheme.getResources().getColor(R.color.item_doc_grid_tint, mTheme));
     }
 
     @Test
@@ -86,7 +80,7 @@ public class ThemeUiTest extends ThemeUiTestBase {
 
     @Test
     public void appCompatThemeNightModeDisable_colorPrimaryShouldBeThemeable() {
-        assertTheme(R.styleable.AppCompatTheme, R.styleable.AppCompatTheme_colorPrimary,
-                mTheme.getResources().getColor(R.color.primary, mTheme));
+        assertTheme(R.styleable.ThemeColor, R.styleable.ThemeColor_android_colorPrimary,
+                mTheme.getResources().getColor(com.android.documentsui.R.color.primary, mTheme));
     }
 }

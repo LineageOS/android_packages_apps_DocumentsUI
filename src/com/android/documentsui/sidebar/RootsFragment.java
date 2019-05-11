@@ -442,6 +442,8 @@ public class RootsFragment extends Fragment {
             if (item instanceof RootItem) {
                 final RootInfo testRoot = ((RootItem) item).root;
                 if (Objects.equals(testRoot, root)) {
+                    // b/37358441 should reload all root title after configuration changed
+                    root.title = testRoot.title;
                     mList.setItemChecked(i, true);
                     return;
                 }
