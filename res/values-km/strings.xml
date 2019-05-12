@@ -35,7 +35,7 @@
     <string name="menu_save" msgid="5195367497138965168">"រក្សាទុក"</string>
     <string name="menu_share" msgid="4307140947108068356">"ចែករំលែក​"</string>
     <string name="menu_delete" msgid="1022254131543256626">"លុប"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"ជ្រើស​ទាំងអស់"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"ជ្រើស​រើសទាំងអស់"</string>
     <string name="menu_select" msgid="1366061076507142387">"ជ្រើសរើស"</string>
     <string name="menu_sort" msgid="3362419226163725275">"តម្រៀប​តាម..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ចម្លងទៅ…"</string>
@@ -202,8 +202,8 @@
       <item quantity="one">លុបឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> ឬ?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other">លុបថត <xliff:g id="COUNT_1">%1$d</xliff:g> និងមាតិការបស់វាឬ?</item>
-      <item quantity="one">លុបថត <xliff:g id="COUNT_0">%1$d</xliff:g> និងមាតិការបស់វាឬ?</item>
+      <item quantity="other">លុបថត <xliff:g id="COUNT_1">%1$d</xliff:g> និងខ្លឹមសាររបស់វាឬ?</item>
+      <item quantity="one">លុបថត <xliff:g id="COUNT_0">%1$d</xliff:g> និងខ្លឹមសាររបស់វាឬ?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other">លុបធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> ឬ?</item>
