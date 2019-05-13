@@ -76,7 +76,7 @@
     <string name="root_recent" msgid="1080156975424341623">"சமீபத்தியவை"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"பயன்படுத்தாத அளவு: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"சேமிப்பகச் சேவைகள்"</string>
-    <string name="root_type_shortcut" msgid="6059343175525442279">"குறுக்குவழிகள்"</string>
+    <string name="root_type_shortcut" msgid="6059343175525442279">"ஷார்ட்கட்கள்"</string>
     <string name="root_type_device" msgid="1713604128005476585">"சாதனங்கள்"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"மேலும் பயன்பாடுகள்"</string>
     <string name="empty" msgid="5300254272613103004">"எதுவும் இல்லை"</string>
