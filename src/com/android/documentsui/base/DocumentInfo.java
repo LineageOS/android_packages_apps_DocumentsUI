@@ -406,8 +406,7 @@ public class DocumentInfo implements Durable, Parcelable {
         }
 
         if (doc.derivedUri == null) {
-            doc.deriveFields();
-            assert(doc.derivedUri != null);
+            return "<DocumentInfo null derivedUri>";
         }
         return doc.derivedUri.toString();
     }
