@@ -21,7 +21,6 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.State.MODE_GRID;
 
 import android.content.Intent;
-import android.content.om.OverlayManager;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
@@ -74,7 +73,6 @@ import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.theme.ThemeOverlayManager;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -102,8 +100,6 @@ public abstract class BaseActivity
 
     protected NavigationViewManager mNavigator;
     protected SortController mSortController;
-
-    protected ThemeOverlayManager mThemeOverlayManager;
 
     private final List<EventListener> mEventListeners = new ArrayList<>();
     private final String mTag;
@@ -136,9 +132,6 @@ public abstract class BaseActivity
         // Record the time when onCreate is invoked for metric.
         mStartTime = new Date().getTime();
 
-        mThemeOverlayManager = new ThemeOverlayManager(getSystemService(OverlayManager.class),
-                getPackageName());
-        mThemeOverlayManager.applyOverlays(true);
         // ToDo Create tool to check resource version before applyStyle for the theme
         // If version code is not match, we should reset overlay package to default,
         // in case Activity continueusly encounter resource not found exception
