@@ -18,6 +18,7 @@ package com.android.documentsui.base;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 
@@ -196,5 +197,6 @@ public class DocumentStackTest {
 
         assertEquals(1, mStack.size());
         assertEquals(true, mStack.isRecents());
+        assertNotNull(mStack.peek().derivedUri);
     }
 }

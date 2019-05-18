@@ -162,7 +162,9 @@ public class DocumentStack implements Durable, Parcelable {
 
         // Add this for keep stack size is 1 on recent root.
         if (root.isRecents()) {
-            push(new DocumentInfo());
+            DocumentInfo rootRecent = new DocumentInfo();
+            rootRecent.deriveFields();
+            push(rootRecent);
         }
     }
 
