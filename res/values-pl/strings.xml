@@ -69,12 +69,12 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Zmieniono"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nazwa pliku (A–Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Typ (A–Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Rozmiar (malejąco)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Zmodyfikowane (od najstarszych)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Rozmiar (rosnąco)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Czas modyfikacji (od najstarszych)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nazwa pliku (Z–A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Typ (Z–A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Rozmiar (malejąco)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Zmodyfikowane (od najnowszych)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Czas modyfikacji (od najnowszych)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortuj według"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Posortowano wg: <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Liczba elementów"</string>

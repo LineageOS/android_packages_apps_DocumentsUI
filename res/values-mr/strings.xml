@@ -22,7 +22,7 @@
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
-    <string name="title_open" msgid="3165686459158020921">"वरून उघडा"</string>
+    <string name="title_open" msgid="3165686459158020921">"यामधून उघडा"</string>
     <string name="title_save" msgid="4384490653102710025">"येथे सेव्ह करा"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"नवीन फोल्डर"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ग्रिड दृश्य"</string>
@@ -196,7 +196,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> आयटम</item>
     </plurals>
     <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" हटवायची?"</string>
-    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" फोल्डर आणि त्यामधील सामग्री हटवायची?"</string>
+    <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" फोल्डर आणि त्यामधील आशय हटवायचा?"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फायली हटवायच्या?</item>
       <item quantity="one"> <xliff:g id="COUNT_0">%1$d</xliff:g> फाईल हटवायची?</item>
@@ -240,11 +240,11 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"फोल्डर नाव"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"नवीन नाव"</string>
     <string name="preview_file" msgid="4056622696305432343">"फाइल <xliff:g id="FILENAME">%1$s</xliff:g> चे पूर्वावलोकन करा"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"इतर अ‍ॅप्समध्येे फायली ब्राउझ करा"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"इतर अ‍ॅप्समधील फायली ब्राउझ करा"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"अनामित"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ला अ‍ॅक्सेस करण्याची अनुमती द्या"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ला \"<xliff:g id="ROOT">%2$s</xliff:g>\" मध्ये अ‍ॅक्सेस द्यायचा?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"हे या स्थानावर सध्या स्टोअर केलेल्या सर्व फायलींच्या आणि भविष्यात स्टोअर केलेल्या आशयाच्या अ‍ॅक्सेसची \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ला अनुमती देईल."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"हा फोन शोधा"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"या फोनमध्ये शोधा"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"<xliff:g id="TEXT">%1$s</xliff:g> चा शोध इतिहास हटवा"</string>
 </resources>
