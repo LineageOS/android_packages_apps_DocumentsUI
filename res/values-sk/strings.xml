@@ -289,6 +289,6 @@
     <string name="open_tree_button" msgid="19992834788135845">"Povoliť prístup k adresáru <xliff:g id="DIRECTORY">%1$s</xliff:g>"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"Chcete povoliť prístup k adresáru <xliff:g id="DIRECTORY">%1$s</xliff:g> v koreňovom adresári <xliff:g id="ROOT">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Umožní aplikácii <xliff:g id="APPNAME">%1$s</xliff:g> úplný prístup k všetkým súborom aktuálne uloženým v tomto umiestnení a všetkému obsahu, ktorý tu bude uložený v budúcnosti."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Hľadajte v tomto telefóne"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Hľadať v telefóne"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Odstrániť históriu vyhľadávania <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
