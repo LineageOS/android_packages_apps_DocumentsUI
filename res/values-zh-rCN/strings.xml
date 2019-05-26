@@ -202,8 +202,8 @@
       <item quantity="one">要删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件吗？</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other">要删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件夹及其中的内容吗？</item>
-      <item quantity="one">要删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件夹及其中的内容吗？</item>
+      <item quantity="other">要删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件夹及其内容吗？</item>
+      <item quantity="one">要删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件夹及其内容吗？</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other">要删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 项吗？</item>
