@@ -99,4 +99,6 @@ android_app {
     resource_dirs: [
         "res",
     ],
+
+    required: ["privapp_whitelist_com.android.documentsui"],
 }
