@@ -24,9 +24,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.om.OverlayManager;
 import android.net.Uri;
 import android.os.RemoteException;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.clipping.ClipStorage;
@@ -35,8 +37,10 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.prefs.ScopedAccessLocalPreferences;
 import com.android.documentsui.queries.SearchHistoryManager;
 import com.android.documentsui.roots.ProvidersCache;
+import com.android.documentsui.theme.ThemeOverlayManager;
 
 public class DocumentsApplication extends Application {
+    private static final String TAG = "DocumentsApplication";
     private static final long PROVIDER_ANR_TIMEOUT = 20 * DateUtils.SECOND_IN_MILLIS;
 
     private ProvidersCache mProviders;
@@ -82,12 +86,24 @@ public class DocumentsApplication extends Application {
         return ((DocumentsApplication) context.getApplicationContext()).mFileTypeLookup;
     }
 
+    private void onApplyOverlayFinish(boolean result) {
+        Log.d(TAG, "OverlayManager.setEnabled() result: " + result);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        final OverlayManager om = getSystemService(OverlayManager.class);
         final int memoryClassBytes = am.getMemoryClass() * 1024 * 1024;
+
+        if (om != null) {
+            new ThemeOverlayManager(om, getPackageName()).applyOverlays(this, true,
+                    this::onApplyOverlayFinish);
+        } else {
+            Log.w(TAG, "Can't obtain OverlayManager from System Service!");
+        }
 
         mProviders = new ProvidersCache(this);
         mProviders.updateAsync(false);
