@@ -23,6 +23,7 @@ import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -30,6 +31,7 @@ import android.provider.DocumentsContract;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.CallSuper;
 import androidx.fragment.app.Fragment;
@@ -187,6 +189,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         } else if (mState.action == ACTION_OPEN_TREE ||
                    mState.action == ACTION_PICK_COPY_DESTINATION) {
             PickFragment.show(getSupportFragmentManager());
+        } else {
+            // If PickFragment or SaveFragment does not show,
+            // Set save container background to transparent for edge to edge nav bar.
+            View saveContainer = findViewById(R.id.container_save);
+            saveContainer.setBackgroundColor(Color.TRANSPARENT);
         }
 
         if (mState.action == ACTION_GET_CONTENT) {
