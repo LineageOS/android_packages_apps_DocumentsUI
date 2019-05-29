@@ -88,11 +88,11 @@
                     android:layout_height="0dp"
                     android:layout_weight="1" />
 
-                <FrameLayout
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:id="@+id/container_save"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/colorBackground"
+                    android:background="?android:attr/colorBackgroundFloating"
                     android:elevation="8dp" />
 
             </LinearLayout>
