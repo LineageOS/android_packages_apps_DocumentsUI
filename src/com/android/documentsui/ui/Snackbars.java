@@ -16,16 +16,17 @@
 
 package com.android.documentsui.ui;
 
-import androidx.annotation.StringRes;
 import android.app.Activity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
+import androidx.annotation.StringRes;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.function.Consumer;
 
@@ -109,7 +110,7 @@ public final class Snackbars {
 
     public static final Snackbar makeSnackbar(
             Activity activity, CharSequence message, int duration) {
-        final View view = activity.findViewById(R.id.coordinator_layout);
+        final View view = activity.findViewById(R.id.container_save);
         return Snackbar.make(view, message, duration);
     }
 }
