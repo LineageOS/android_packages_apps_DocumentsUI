@@ -61,12 +61,12 @@
                     android:layout_height="match_parent"/>
             </FrameLayout>
 
-            <FrameLayout
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/container_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
-                android:background="?android:attr/colorBackground"
+                android:background="?android:attr/colorBackgroundFloating"
                 android:elevation="8dp" />
 
             <include layout="@layout/directory_app_bar"/>
