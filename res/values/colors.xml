@@ -21,6 +21,7 @@
 
     <color name="app_background_color">@android:color/white</color>
     <color name="background_floating">@android:color/white</color>
+    <color name="nav_bar_translucent">#99FFFFFF</color>
 
     <color name="primary">#1E88E5</color> <!-- Blue 600 -->
     <color name="secondary">#E3F2FD</color> <!-- Blue 50 -->

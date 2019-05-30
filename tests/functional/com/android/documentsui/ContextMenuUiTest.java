@@ -109,8 +109,11 @@ public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
         menuItems.put("Paste", true);
         menuItems.put("New folder", true);
         Rect dirListBounds = bots.directory.findDocumentsList().getBounds();
-        bots.directory.rightClickDocument(
-                new Point(dirListBounds.right - 1, dirListBounds.bottom - 1)); //bottom right corner
+        Rect dirBounds = bots.directory.findDocument(dirName1).getBounds();
+
+        bots.main.switchToGridMode();
+        // right side of dir1 area
+        bots.directory.rightClickDocument(new Point(dirListBounds.right - 1, dirBounds.centerY()));
         bots.menu.assertPresentMenuItems(menuItems);
     }
 }
