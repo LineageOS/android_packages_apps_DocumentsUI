@@ -360,18 +360,20 @@ public class ActionHandlerTest {
         mActivity.currentRoot = TestProvidersAccess.HOME;
         mEnv.docs.nextDocument = TestEnv.FILE_ARCHIVE;
 
-        mHandler.openDocument(TestEnv.FILE_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
-                ActionHandler.VIEW_TYPE_REGULAR);
+        final boolean result = mHandler.openDocument(TestEnv.FILE_ARCHIVE,
+                ActionHandler.VIEW_TYPE_PREVIEW, ActionHandler.VIEW_TYPE_REGULAR);
         assertEquals(TestEnv.FILE_ARCHIVE, mEnv.state.stack.peek());
+        assertEquals(false, result);
     }
 
     @Test
     public void testDocumentPicked_OpensDirectories() throws Exception {
         mActivity.currentRoot = TestProvidersAccess.HOME;
 
-        mHandler.openDocument(TestEnv.FOLDER_1, ActionHandler.VIEW_TYPE_PREVIEW,
-                ActionHandler.VIEW_TYPE_REGULAR);
+        final boolean result = mHandler.openDocument(TestEnv.FOLDER_1,
+                ActionHandler.VIEW_TYPE_PREVIEW, ActionHandler.VIEW_TYPE_REGULAR);
         assertEquals(TestEnv.FOLDER_1, mEnv.state.stack.peek());
+        assertEquals(false, result);
     }
 
     @Test
