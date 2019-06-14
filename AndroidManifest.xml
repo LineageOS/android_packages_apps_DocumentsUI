@@ -116,7 +116,7 @@
             </intent-filter>
         </activity>
 
-        <activity-alias android:name="ViewDownloadsActivity"
+        <activity-alias android:name=".ViewDownloadsActivity"
                         android:targetActivity=".files.FilesActivity"
                         android:enabled="@bool/handle_view_downloads_intent">
             <intent-filter>
@@ -166,6 +166,12 @@
         <receiver android:name=".roots.BootReceiver" android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".PreBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PRE_BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
