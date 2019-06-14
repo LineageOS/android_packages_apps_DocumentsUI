@@ -19,13 +19,15 @@ package com.android.documentsui.theme;
 import android.content.Context;
 import android.content.om.OverlayInfo;
 import android.content.om.OverlayManager;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.os.UserHandle;
-import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Consumer;
 
@@ -73,6 +75,34 @@ public class ThemeOverlayManager {
         return mOverlayManager.getOverlayInfosForTarget(mTargetPackageId, mUserHandle);
     }
 
+    /**
+     * Return the OverlayInfo which is provided by the docsUI overlay package located product,
+     * system or vendor. We assume there should only one docsUI overlay package because priority
+     * not work for non-static overlay, so vendor should put only one docsUI overlay package.
+     *
+     * @param pm the PackageManager
+     */
+    @Nullable
+    public OverlayInfo getValidOverlay(@NonNull PackageManager pm) {
+        for (OverlayInfo info : getOverlayInfo()) {
+            try {
+                final ApplicationInfo ai = pm.getApplicationInfo(info.getPackageName(), 0);
+                // Since isProduct(), isVendor() and isSystemApp() functions in ApplicationInfo are
+                // hidden. The best way to avoid unknown sideload APKs is filter path by string
+                // comparison.
+                final String sourceDir = ai.sourceDir;
+                if (sourceDir.startsWith(Environment.getProductDirectory().getAbsolutePath())
+                        || sourceDir.startsWith(Environment.getVendorDirectory().getAbsolutePath())
+                        || sourceDir.startsWith(Environment.getRootDirectory().getAbsolutePath())) {
+                    return info;
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                Log.w(TAG, "Can't get ApplicationInfo of overlay package " + info.getPackageName());
+            }
+        }
+        return null;
+    }
+
     private void setEnabled(boolean enabled, Consumer<Boolean> callback) {
         new AsyncTask<Void, Void, Boolean>() {
             @Override
@@ -94,8 +124,7 @@ public class ThemeOverlayManager {
         boolean bSuccess = true;
         for (OverlayInfo info : infos) {
             try {
-                if (info != null && !TextUtils.isEmpty(info.getPackageName())
-                        && info.isEnabled() != enabled) {
+                if (info.isEnabled() != enabled) {
                     mOverlayManager.setEnabled(info.getPackageName(), enabled, mUserHandle);
                 } else {
                     Log.w(TAG, "Skip enabled overlay package:" + info.getPackageName()
