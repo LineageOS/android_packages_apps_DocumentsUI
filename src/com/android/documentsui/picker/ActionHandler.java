@@ -35,6 +35,7 @@ import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
@@ -60,7 +61,6 @@ import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.services.FileOperationService;
-import androidx.annotation.VisibleForTesting;
 
 import java.util.Arrays;
 import java.util.concurrent.Executor;
@@ -319,7 +319,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         if (mConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
             mActivity.onDocumentPicked(doc);
             mSelectionMgr.clearSelection();
-            return true;
+            return !doc.isDirectory();
         }
         return false;
     }
