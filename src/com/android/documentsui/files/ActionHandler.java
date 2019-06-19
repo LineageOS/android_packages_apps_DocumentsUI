@@ -33,6 +33,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.DragEvent;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.selection.MutableSelection;
@@ -74,8 +75,6 @@ import com.android.documentsui.services.FileOperation;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.ui.DialogController;
-
-import androidx.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -215,7 +214,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         if (mConfig.isDocumentEnabled(doc.mimeType, doc.flags, mState)) {
             onDocumentPicked(doc, type, fallback);
             mSelectionMgr.clearSelection();
-            return true;
+            return !doc.isContainer();
         }
         return false;
     }
