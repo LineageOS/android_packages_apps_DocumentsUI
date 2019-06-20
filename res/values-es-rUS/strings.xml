@@ -61,7 +61,7 @@
     <string name="button_retry" msgid="4011461781916631389">"Volver a intentar"</string>
     <string name="button_clear" msgid="5412304437764369441">"Borrar"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Mostrar en el proveedor"</string>
-    <string name="not_sorted" msgid="7813496644889115530">"Sin ordernar"</string>
+    <string name="not_sorted" msgid="7813496644889115530">"Sin ordenar"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nombre"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Resumen"</string>
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Tipo"</string>

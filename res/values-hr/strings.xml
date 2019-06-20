@@ -43,7 +43,7 @@
     <string name="menu_compress" msgid="37539111904724188">"Sažmi"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Izdvoji u…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Promijeni naziv"</string>
-    <string name="menu_inspect" msgid="7279855349299446224">"Pogledajte informacije"</string>
+    <string name="menu_inspect" msgid="7279855349299446224">"Informacije"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Prikaži na usluzi <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Novi prozor"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Izreži"</string>
@@ -69,12 +69,12 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Izmijenjeno"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Naziv datoteke (A – Ž)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Vrsta (A – Ž)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Veličina (od najmanjeg)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Izmjena (od najstarijeg)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Veličina (od najmanje)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Izmjena (od najstarije)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Naziv datoteke (Ž – A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Vrsta (Ž – A)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Veličina (od najvećeg)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Izmjena (od najnovijeg)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Veličina (od najveće)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Izmjena (od najnovije)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Kriterij razvrstavanja"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Poredano po: <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Broj stavki"</string>

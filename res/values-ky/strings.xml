@@ -70,11 +70,11 @@
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Файлдын аталышы (А-Я)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Түрү (А-Я)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Өлчөмү (эң кичинекейинен баштап)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Өзгөртүлдү (эң эскисинен баштап)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Өзгөрүүлөр (эң эскисинен баштап)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Файлдын аталышы (Я-А)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Түрү (Я-А)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Өлчөмү (эң чоңунан баштап)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Өзгөртүлдү (эң жаңысынан баштап)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Өзгөрүүлөр (эң жаңысынан баштап)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Төмөнкү боюнча иреттөө:"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> боюнча иреттелди"</string>
     <string name="directory_items" msgid="6645621978998614003">"Элементтердин саны"</string>

@@ -69,7 +69,7 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"ଗତଥର ସଂଶୋଧିତ"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ଫାଇଲ୍‍ ନାମ (A ରୁ Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"ଟାଇପ୍‌ (A ରୁ Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"ଆକର (ପ୍ରଥମେ ଛୋଟ)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"ଆକାର (ପ୍ରଥମେ ଛୋଟ)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"ପରିବର୍ତ୍ତିତ(ପ୍ରଥମେ ପୁରୁଣା)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"ଫାଇଲ୍‍ ନାମ (Z ରୁ A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"ଟାଇପ୍‍ (Z ରୁ A)"</string>
