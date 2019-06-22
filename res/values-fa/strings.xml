@@ -228,7 +228,7 @@
     <string name="root_info_header_storage" msgid="2989014130584927442">"فایل‌های موجود در <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"فایل‌های <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"فایل‌های <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"تصاویر اخیر موجود در تلفن"</string>
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"تصاویر اخیر در تلفن"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"تصاویر موجود در تلفن"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"تصاویر موجود در <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"تصاویری از <xliff:g id="LABEL">%1$s</xliff:g>"</string>

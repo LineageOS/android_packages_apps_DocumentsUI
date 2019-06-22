@@ -39,10 +39,10 @@
     <string name="menu_select" msgid="1366061076507142387">"ਚੁਣੋ"</string>
     <string name="menu_sort" msgid="3362419226163725275">"ਇਸ ਮੁਤਾਬਕ ਕ੍ਰਮ-ਬੱਧ ਕਰੋ..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ਇਸ ਵਿੱਚ ਕਾਪੀ ਕਰੋ…"</string>
-    <string name="menu_move" msgid="2310760789561129882">"ਇਸ ਵਿੱਚ ਤਬਦੀਲ ਕਰੋ..."</string>
+    <string name="menu_move" msgid="2310760789561129882">"ਇਸ ਵਿੱਚ ਲਿਜਾਓ…"</string>
     <string name="menu_compress" msgid="37539111904724188">"ਆਕਾਰ ਛੋਟਾ ਕਰੋ"</string>
     <string name="menu_extract" msgid="8171946945982532262">"ਇਸ ਵਿੱਚ ਐਕਸਟ੍ਰੈਕਟ ਕਰੋ…"</string>
-    <string name="menu_rename" msgid="1883113442688817554">"ਮੁੜ-ਨਾਮਕਰਨ ਕਰੋ"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"ਨਾਮ ਬਦਲੋ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰੋ"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> ਵਿੱਚ ਦੇਖੋ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ਨਵੀਂ ਵਿੰਡੋ"</string>

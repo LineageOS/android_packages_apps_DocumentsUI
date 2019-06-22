@@ -30,7 +30,7 @@
     <string name="menu_search" msgid="1876699106790719849">"Bilatu"</string>
     <string name="menu_settings" msgid="6520844520117939047">"Memoriaren ezarpenak"</string>
     <string name="menu_open" msgid="9092138100049759315">"Ireki"</string>
-    <string name="menu_open_with" msgid="5507647065467520229">"Ireki honekin:"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"Ireki honekin"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"Ireki beste leiho batean"</string>
     <string name="menu_save" msgid="5195367497138965168">"Gorde"</string>
     <string name="menu_share" msgid="4307140947108068356">"Partekatu"</string>

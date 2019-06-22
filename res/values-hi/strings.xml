@@ -60,7 +60,7 @@
     <string name="button_dismiss" msgid="7235249361023803349">"खारिज करें"</string>
     <string name="button_retry" msgid="4011461781916631389">"फिर से कोशिश करें"</string>
     <string name="button_clear" msgid="5412304437764369441">"साफ़ करें"</string>
-    <string name="button_show_provider" msgid="6905880493806292753">"प्रदाता में दिखाएं"</string>
+    <string name="button_show_provider" msgid="6905880493806292753">"कंपनी में दिखाएं"</string>
     <string name="not_sorted" msgid="7813496644889115530">"क्रमबद्ध नहीं हैं"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"नाम"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"सारांश"</string>
