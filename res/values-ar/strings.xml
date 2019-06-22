@@ -257,7 +257,7 @@
       <item quantity="few">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عناصر</item>
       <item quantity="many">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عنصرًا</item>
       <item quantity="other">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
-      <item quantity="one">تم تحديد <xliff:g id="COUNT_0">%1$d</xliff:g> عنصر</item>
+      <item quantity="one">تم تحديد عنصر واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
     </plurals>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="zero"><xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
