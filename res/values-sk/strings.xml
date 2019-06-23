@@ -57,7 +57,7 @@
     <string name="button_compress" msgid="8951561310857223966">"Komprimovať"</string>
     <string name="button_extract" msgid="1038674453689912247">"Extrahovať"</string>
     <string name="button_move" msgid="8596460499325291272">"Presunúť"</string>
-    <string name="button_dismiss" msgid="7235249361023803349">"Odmietnuť"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Zavrieť"</string>
     <string name="button_retry" msgid="4011461781916631389">"Skúsiť znova"</string>
     <string name="button_clear" msgid="5412304437764369441">"Vymazať"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Zobraziť u poskytovateľa"</string>
