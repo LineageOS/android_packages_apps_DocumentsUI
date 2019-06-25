@@ -171,6 +171,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private float mLiveScale = 1.0f;
     private @ViewMode int mMode;
     private int mAppBarHeight;
+    private int mSaveLayoutHeight;
 
     private View mProgressBar;
 
@@ -193,8 +194,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private final Runnable mOnDisplayStateChanged = this::onDisplayStateChanged;
 
     private final ViewTreeObserver.OnPreDrawListener mToolbarPreDrawListener = () -> {
-        setPreDrawListener(false);
-        if (mAppBarHeight != getAppBarLayoutHeight()) {
+        setPreDrawListenerEnabled(false);
+        if (mAppBarHeight != getAppBarLayoutHeight()
+                || mSaveLayoutHeight != getSaveLayoutHeight()) {
             updateLayout(mState.derivedMode);
         }
         return true;
@@ -269,7 +271,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mModel.removeUpdateListener(mModelUpdateListener);
         mModel.removeUpdateListener(mAdapter.getModelUpdateListener());
-        setPreDrawListener(false);
+        setPreDrawListenerEnabled(false);
 
         super.onDestroyView();
     }
@@ -536,7 +538,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         int pad = getDirectoryPadding(mode);
         mAppBarHeight = getAppBarLayoutHeight();
-        mRecView.setPadding(pad, mAppBarHeight, pad, getSaveLayoutHeight());
+        mSaveLayoutHeight = getSaveLayoutHeight();
+        mRecView.setPadding(pad, mAppBarHeight, pad, mSaveLayoutHeight);
         mRecView.requestLayout();
         mIconHelper.setViewMode(mode);
 
@@ -1028,17 +1031,19 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         return null;
     }
 
-    private void setPreDrawListener(boolean enable) {
+    /**
+    * Add or remove mToolbarPreDrawListener implement on DirectoryFragment to ViewTreeObserver.
+    */
+    public void setPreDrawListenerEnabled(boolean enable) {
         if (mActivity == null) {
             return;
         }
 
         final View bar = mActivity.findViewById(R.id.collapsing_toolbar);
         if (bar != null) {
+            bar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
             if (enable) {
                 bar.getViewTreeObserver().addOnPreDrawListener(mToolbarPreDrawListener);
-            } else {
-                bar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
             }
         }
     }
@@ -1201,7 +1206,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
                 mActivity.updateHeaderTitle();
 
-                setPreDrawListener(true);
+                setPreDrawListenerEnabled(true);
             }
         }
     }

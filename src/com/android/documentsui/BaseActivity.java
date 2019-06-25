@@ -52,7 +52,6 @@ import androidx.fragment.app.Fragment;
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
-import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
@@ -387,6 +386,11 @@ public abstract class BaseActivity
 
             View rootsContainer = findViewById(R.id.container_roots);
             rootsContainer.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
+
+            DirectoryFragment fragment = getDirectoryFragment();
+            if (fragment != null) {
+                fragment.setPreDrawListenerEnabled(true);
+            }
 
             return insets.consumeSystemWindowInsets();
         });
