@@ -332,6 +332,27 @@ public class ActionHandlerTest {
     @Test
     public void testDocumentPicked_Downloads_ManagesApks() throws Exception {
         mActivity.currentRoot = TestProvidersAccess.DOWNLOADS;
+        TestEnv.FILE_APK.authority = TestProvidersAccess.DOWNLOADS.authority;
+
+        mHandler.openDocument(TestEnv.FILE_APK, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
+        mActivity.assertActivityStarted(DocumentsContract.ACTION_MANAGE_DOCUMENT);
+    }
+
+    @Test
+    public void testDocumentPicked_Downloads_ManagesPartialFiles() throws Exception {
+        mActivity.currentRoot = TestProvidersAccess.DOWNLOADS;
+        TestEnv.FILE_PARTIAL.authority = TestProvidersAccess.DOWNLOADS.authority;
+
+        mHandler.openDocument(TestEnv.FILE_PARTIAL, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR);
+        mActivity.assertActivityStarted(DocumentsContract.ACTION_MANAGE_DOCUMENT);
+    }
+
+    @Test
+    public void testDocumentPicked_Recent_ManagesApks() throws Exception {
+        mActivity.currentRoot = TestProvidersAccess.RECENTS;
+        TestEnv.FILE_APK.authority = TestProvidersAccess.DOWNLOADS.authority;
 
         mHandler.openDocument(TestEnv.FILE_APK, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
@@ -345,15 +366,6 @@ public class ActionHandlerTest {
         mHandler.openDocument(TestEnv.FILE_APK, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR);
         mActivity.assertActivityStarted(Intent.ACTION_VIEW);
-    }
-
-    @Test
-    public void testDocumentPicked_Downloads_ManagesPartialFiles() throws Exception {
-        mActivity.currentRoot = TestProvidersAccess.DOWNLOADS;
-
-        mHandler.openDocument(TestEnv.FILE_PARTIAL, ActionHandler.VIEW_TYPE_PREVIEW,
-                ActionHandler.VIEW_TYPE_REGULAR);
-        mActivity.assertActivityStarted(DocumentsContract.ACTION_MANAGE_DOCUMENT);
     }
 
     @Test
