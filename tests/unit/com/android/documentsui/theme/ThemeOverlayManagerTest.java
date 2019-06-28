@@ -18,6 +18,7 @@ package com.android.documentsui.theme;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -28,6 +29,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.om.OverlayInfo;
 import android.content.om.OverlayManager;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.UserHandle;
 
 import androidx.core.util.Consumer;
@@ -57,6 +60,9 @@ public class ThemeOverlayManagerTest {
 
     @Mock
     OverlayManager mOverlayManager;
+
+    @Mock
+    PackageManager mPackageManager;
 
     Consumer<Boolean> mCallback;
     Context mContext;
@@ -181,6 +187,64 @@ public class ThemeOverlayManagerTest {
         if (activity != null) {
             activity.finish();
         }
+    }
+
+    @Test
+    public void testGetValidOverlay_system_valid() throws Exception {
+        mThemeOverlayManager = new ThemeOverlayManager(mOverlayManager,
+                getEnabledTargetPackageId());
+
+        ApplicationInfo ai = mock(ApplicationInfo.class);
+        String path = "/system/overlay/DocumentUIOverlay/DocumentUIOverlay.apk";
+        ai.sourceDir = path;
+        when(mPackageManager.getApplicationInfo(getOverlayPackageId(), 0)).thenReturn(ai);
+
+        assertThat(mThemeOverlayManager.getValidOverlay(mPackageManager)).isEqualTo(
+                mOverlayManager.getOverlayInfosForTarget(getEnabledTargetPackageId(),
+                        mUserHandle).iterator().next());
+    }
+
+    @Test
+    public void testGetValidOverlay_vendor_valid() throws Exception {
+        mThemeOverlayManager = new ThemeOverlayManager(mOverlayManager,
+                getEnabledTargetPackageId());
+
+        ApplicationInfo ai = mock(ApplicationInfo.class);
+        String path = "/vendor/overlay/DocumentUIOverlay/DocumentUIOverlay.apk";
+        ai.sourceDir = path;
+        when(mPackageManager.getApplicationInfo(getOverlayPackageId(), 0)).thenReturn(ai);
+
+        assertThat(mThemeOverlayManager.getValidOverlay(mPackageManager)).isEqualTo(
+                mOverlayManager.getOverlayInfosForTarget(getEnabledTargetPackageId(),
+                        mUserHandle).iterator().next());
+    }
+
+    @Test
+    public void testGetValidOverlay_product_valid() throws Exception {
+        mThemeOverlayManager = new ThemeOverlayManager(mOverlayManager,
+                getEnabledTargetPackageId());
+
+        ApplicationInfo ai = mock(ApplicationInfo.class);
+        String path = "/product/overlay/DocumentUIOverlay/DocumentUIOverlay.apk";
+        ai.sourceDir = path;
+        when(mPackageManager.getApplicationInfo(getOverlayPackageId(), 0)).thenReturn(ai);
+
+        assertThat(mThemeOverlayManager.getValidOverlay(mPackageManager)).isEqualTo(
+                mOverlayManager.getOverlayInfosForTarget(getEnabledTargetPackageId(),
+                        mUserHandle).iterator().next());
+    }
+
+    @Test
+    public void testGetValidOverlay_data_invalid() throws Exception {
+        mThemeOverlayManager = new ThemeOverlayManager(mOverlayManager,
+                getEnabledTargetPackageId());
+
+        ApplicationInfo ai = mock(ApplicationInfo.class);
+        String path = "/data/app/DocumentUIOverlay/DocumentUIOverlay.apk";
+        ai.sourceDir = path;
+        when(mPackageManager.getApplicationInfo(getOverlayPackageId(), 0)).thenReturn(ai);
+
+        assertThat(mThemeOverlayManager.getValidOverlay(mPackageManager)).isEqualTo(null);
     }
 
     private static OverlayInfo createOverlayInfo(String packageName, String targetPackageName,
