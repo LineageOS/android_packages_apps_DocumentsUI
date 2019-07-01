@@ -17,74 +17,35 @@
 package com.android.documentsui.bots;
 
 import android.app.Activity;
-import android.content.ContentResolver;
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.provider.Settings;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
-import android.text.TextUtils;
-import android.view.KeyEvent;
+
+import androidx.test.InstrumentationRegistry;
+
+import com.android.documentsui.services.TestNotificationService;
+
+import java.io.IOException;
 
 /**
  * A test helper class for controlling notification items.
  */
 public class NotificationsBot extends Bots.BaseBot {
-    private static final String SETTINGS_PACKAGE_NAME = "com.android.settings";
-    private static final String allow_res_name = "allow";
-    private static final String turn_off_res_name = "notification_listener_disable_warning_confirm";
+    private final ComponentName mComponent;
 
     public NotificationsBot(UiDevice device, Context context, int timeout) {
         super(device, context, timeout);
+        mComponent = new ComponentName(InstrumentationRegistry.getContext(),
+                TestNotificationService.class);
     }
 
-    public void setNotificationAccess(Activity activity, boolean enabled)
-            throws UiObjectNotFoundException, NameNotFoundException {
-        Context testContext = InstrumentationRegistry.getContext();
-
-        if(isNotificationAccessEnabled(
-                mContext.getContentResolver(), testContext.getPackageName()) == enabled) {
-            return;
+    public void setNotificationAccess(Activity activity, boolean enabled) throws IOException {
+        if (enabled) {
+            mDevice.executeShellCommand(
+                    "cmd notification allow_listener " + mComponent.flattenToString());
+        } else {
+            mDevice.executeShellCommand(
+                    "cmd notification disallow_listener " + mComponent.flattenToString());
         }
-
-        Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
-        activity.startActivity(intent);
-        mDevice.waitForIdle();
-
-        String appName = testContext.getPackageManager().getApplicationLabel(
-                testContext.getApplicationInfo()).toString();
-        clickLabel(appName);
-
-        Context settings_context = mContext.createPackageContext(SETTINGS_PACKAGE_NAME,
-                Context.CONTEXT_RESTRICTED);
-        String label_res_name = enabled ? allow_res_name : turn_off_res_name;
-        int res_id = settings_context.getResources().getIdentifier(label_res_name,
-                "string", SETTINGS_PACKAGE_NAME);
-
-        clickLabel(settings_context.getResources().getString(res_id));
-        mDevice.pressKeyCode(KeyEvent.KEYCODE_BACK);
-        mDevice.waitForIdle();
-    }
-
-    private boolean isNotificationAccessEnabled(ContentResolver resolver, String pkgName) {
-        String listeners = Settings.Secure.getString(resolver, "enabled_notification_listeners");
-        if (!TextUtils.isEmpty(listeners)) {
-            String[] list = listeners.split(":");
-            for(String item : list) {
-                if(item.startsWith(pkgName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private void clickLabel(String label) throws UiObjectNotFoundException {
-        UiSelector selector = new UiSelector().textMatches("(?i)" + label);
-        mDevice.findObject(selector).click();
-        mDevice.waitForIdle();
     }
 }

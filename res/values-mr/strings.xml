@@ -28,14 +28,16 @@
     <string name="menu_grid" msgid="1453636521731880680">"ग्रिड दृश्य"</string>
     <string name="menu_list" msgid="6714267452146410402">"सूची"</string>
     <string name="menu_search" msgid="1876699106790719849">"शोधा"</string>
-    <string name="menu_settings" msgid="6520844520117939047">"संचय सेटिंग्ज"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"स्टोरेज सेटिंग्ज"</string>
     <string name="menu_open" msgid="9092138100049759315">"उघडा"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"यासह उघडा"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"नवीन विंडोमध्ये उघडा"</string>
     <string name="menu_save" msgid="5195367497138965168">"सेव्ह करा"</string>
-    <string name="menu_share" msgid="4307140947108068356">"सामायिक करा"</string>
+    <string name="menu_share" msgid="4307140947108068356">"शेअर करा"</string>
     <string name="menu_delete" msgid="1022254131543256626">"हटवा"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"सर्व निवडा"</string>
+    <string name="menu_select" msgid="1366061076507142387">"निवडा"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"क्रमानुसार लावा…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"यावर कॉपी करा…"</string>
     <string name="menu_move" msgid="2310760789561129882">"यामध्ये हलवा…"</string>
     <string name="menu_compress" msgid="37539111904724188">"संकुचित करा"</string>
@@ -48,8 +50,8 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"कॉपी करा"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"पेस्ट करा"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"फोल्डरमध्ये पेस्ट करा"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"अंतर्गत संचय दर्शवा"</string>
-    <string name="menu_advanced_hide" msgid="6488381508009246334">"अंतर्गत संचय लपवा"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"अंतर्गत स्टोरेज दर्शवा"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"अंतर्गत स्टोरेज लपवा"</string>
     <string name="button_select" msgid="240863497069321364">"निवडा"</string>
     <string name="button_copy" msgid="8219059853840996027">"कॉपी करा"</string>
     <string name="button_compress" msgid="8951561310857223966">"संकुचित करा"</string>
@@ -65,17 +67,28 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"प्रकार"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"आकार"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"सुधारित"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"फाइलचे नाव (A ते Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"प्रकार (A ते Z)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"आकार (सर्वात लहान प्रथम)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"सुधारित (जुने प्रथम)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"फाइलचे नाव (Z ते A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"प्रकार (Z ते A)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"आकार (सर्वात मोठे प्रथम)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"सुधारित (नवीनतम प्रथम)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"क्रमानुसार लावा"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> क्रमवारी लावलेले"</string>
     <string name="directory_items" msgid="6645621978998614003">"आयटमची संख्या"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"चढत्या क्रमाने"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"उतरत्या क्रमाने"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"<xliff:g id="APPNAME">%1$s</xliff:g> उघडा"</string>
     <string name="drawer_open" msgid="8071673398187261741">"रूट दर्शवा"</string>
     <string name="drawer_close" msgid="4263880768630848848">"रूट लपवा"</string>
-    <string name="save_error" msgid="8631128801982095782">"दस्तऐवज जतन करणे अयशस्वी झाले"</string>
+    <string name="save_error" msgid="8631128801982095782">"दस्तऐवज सेव्ह करणे अयशस्वी झाले"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर तयार करण्यात अयशस्वी झाले"</string>
     <string name="query_error" msgid="6625421453613879336">"याक्षणी सामग्री लोड करू शकत नाही"</string>
     <string name="root_recent" msgid="1080156975424341623">"अलीकडील"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> विनामूल्‍य"</string>
-    <string name="root_type_service" msgid="6521366147466512289">"संचय सेवा"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"स्टोरेज सेवा"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"शॉर्टकट"</string>
     <string name="root_type_device" msgid="1713604128005476585">"डिव्हाइसेस"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"अधिक अ‍ॅप्‍स"</string>
@@ -84,7 +97,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"फाईल उघडू शकत नाही"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"संग्रहणांमध्‍ये फायली उघडू शकत नाही"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"काही दस्‍तऐवज हटविण्‍यात अक्षम"</string>
-    <string name="share_via" msgid="8725082736005677161">"द्वारे सामायिक करा"</string>
+    <string name="share_via" msgid="8725082736005677161">"द्वारे शेअर करा"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फायली कॉपी करणे"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"फायली संकुचित करत आहे"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"फायली काढत आहे"</string>
@@ -112,11 +125,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम हटवत आहे.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"पूर्ववत करा"</string>
-    <string name="copy_preparing" msgid="5326063807006898223">"कॉपी करण्‍यासाठी तयार करत आहे…"</string>
-    <string name="compress_preparing" msgid="6650018601382062672">"संकुचित करण्‍यासाठी तयार होत आहे…"</string>
-    <string name="extract_preparing" msgid="58266275455027829">"काढण्यासाठी तयार करत आहे..."</string>
-    <string name="move_preparing" msgid="8742573245485449429">"हलविण्‍यास तयार होत आहे…"</string>
-    <string name="delete_preparing" msgid="6513863752916028147">"हटविण्‍यासाठी तयार करत आहे..."</string>
+    <string name="copy_preparing" msgid="4759516490222449324">"तयार करत आहे…"</string>
+    <string name="compress_preparing" msgid="7401605598969019696">"तयार करत आहे…"</string>
+    <string name="extract_preparing" msgid="4796626960061745796">"तयार करत आहे…"</string>
+    <string name="move_preparing" msgid="6504239656430530761">"तयार करत आहे…"</string>
+    <string name="delete_preparing" msgid="7339349837842802508">"तयार करत आहे…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम कॉपी करु शकलो नाही</item>
@@ -172,7 +185,6 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="STORAGE"><i>^3</i></xliff:g> वर <xliff:g id="APPNAME"><b>^1</b></xliff:g> ला <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकेवर प्रवेशाची मंजूरी द्यायची?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> ला <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकेेमध्ये प्रवेश मंजूर करायचा?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> ला फोटो आणि व्हिडिओंंसह आपल्या डेटामध्ये <xliff:g id="STORAGE"><i>^2</i></xliff:g> वर प्रवेशाची मंजूरी द्यायची?"</string>
-    <string name="never_ask_again" msgid="525908236522201138">"पुन्हा विचारू नका"</string>
     <string name="allow" msgid="1275746941353040309">"अनुमती द्या"</string>
     <string name="deny" msgid="5127201668078153379">"नकार द्या"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -206,4 +218,33 @@
     <string name="new_archive_file_name" msgid="1604650338077249838">"संग्रहण<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> अधिलिखित करायचे?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"पार्श्वभूमीमध्ये सुरू ठेवा"</string>
+    <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> निवडला</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> निवडले</item>
+    </plurals>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"फोनवरील अलीकडील फायली"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"फोनवरील फायली"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"फोनवरील <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> वरील फायली"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> मधील फायली"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> मधील फायली / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"फोनवरील अलीकडील इमेज"</string>
+    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"फोनवरील इमेज"</string>
+    <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> वरील इमेज"</string>
+    <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g> कडील इमेज"</string>
+    <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> कडील इमेज"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"इमेज"</string>
+    <string name="chip_title_audio" msgid="1032801828748235436">"ऑडिओ"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"व्हिडिओ"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"दस्तऐवज"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"फोल्डर नाव"</string>
+    <string name="input_hint_rename" msgid="8390711744270994452">"नवीन नाव"</string>
+    <string name="preview_file" msgid="4056622696305432343">"फाइल <xliff:g id="FILENAME">%1$s</xliff:g> चे पूर्वावलोकन करा"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"इतर अ‍ॅप्समध्येे फायली ब्राउझ करा"</string>
+    <string name="anonymous_application" msgid="7633027057951625862">"अनामित"</string>
+    <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ला अ‍ॅक्सेस करण्याची अनुमती द्या"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
+    <string name="open_tree_dialog_message" msgid="8545093618524340168">"हे या स्थानावर सध्या स्टोअर केलेल्या सर्व फायलींच्या आणि भविष्यात स्टोअर केलेल्या आशयाच्या अ‍ॅक्सेसची \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ला अनुमती देईल."</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"हा फोन शोधा"</string>
 </resources>

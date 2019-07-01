@@ -20,8 +20,8 @@ import static com.android.documentsui.base.Providers.AUTHORITY_STORAGE;
 import static com.android.documentsui.base.Providers.ROOT_ID_DEVICE;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.ContentProviderClient;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
@@ -31,21 +31,23 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.support.test.filters.LargeTest;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.services.TestNotificationService;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -252,15 +254,14 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         int count = 0;
         try {
             in = new ZipInputStream(res.openRawResource(resId));
-            ZipEntry zipEntry = null;
-            while ((zipEntry = in.getNextEntry()) != null && (count++ < TARGET_COUNT)) {
-                String fileName = zipEntry.getName();
+            ZipEntry archiveEntry = null;
+            while ((archiveEntry = in.getNextEntry()) != null && (count++ < TARGET_COUNT)) {
+                String fileName = archiveEntry.getName();
                 Uri uri = helper.createDocument(root, "image/png", fileName);
                 byte[] buff = new byte[1024];
                 while ((read = in.read(buff)) > 0) {
                     helper.writeAppendDocument(uri, buff);
                 }
-                in.closeEntry();
                 buff = null;
             }
         } finally {
@@ -371,6 +372,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     }
 
     // Copy Internal Storage -> Internal Storage //
+    @HugeLongTest
     public void testCopyDocuments_InternalStorage() throws Exception {
         createDocuments(StubProvider.ROOT_0_ID, rootDir0, mDocsHelper);
         copyFiles(StubProvider.ROOT_0_ID, StubProvider.ROOT_1_ID);
@@ -384,6 +386,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     }
 
     // Copy SD Card -> Internal Storage //
+    @HugeLongTest
     public void testCopyDocuments_FromSdCard() throws Exception {
         createDocuments(mSdCardLabel, mSdCardRoot, mStorageDocsHelper);
         copyFiles(mSdCardLabel, Build.MODEL);
@@ -397,6 +400,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     }
 
     // Copy Internal Storage -> SD Card //
+    @HugeLongTest
     public void testCopyDocuments_ToSdCard() throws Exception {
         createDocuments(Build.MODEL, mPrimaryRoot, mStorageDocsHelper);
         copyFiles(Build.MODEL, mSdCardLabel);
@@ -407,5 +411,19 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
         // Check that copied files exist
         assertFilesCopied(mSdCardLabel, mSdCardRoot, mStorageDocsHelper);
+    }
+
+    @HugeLongTest
+    public void testCopyDocuments_documentsDisabled() throws Exception {
+        mDocsHelper.createDocument(rootDir0, "text/plain", fileName1);
+        bots.roots.openRoot(StubProvider.ROOT_0_ID);
+        bots.directory.selectDocument(fileName1, 1);
+        device.waitForIdle();
+        bots.main.clickToolbarOverflowItem(context.getResources().getString(R.string.menu_copy));
+        device.waitForIdle();
+        bots.roots.openRoot(StubProvider.ROOT_0_ID);
+        device.waitForIdle();
+
+        assertFalse(bots.directory.findDocument(fileName1).isEnabled());
     }
 }
