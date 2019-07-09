@@ -646,8 +646,14 @@ public abstract class BaseActivity
         mSortController.onViewModeChanged(mode);
     }
 
-    public void setPending(boolean pending) {
-        // TODO: Isolate this behavior to PickActivity.
+    /**
+     * Reload documnets by current stack in certain situation.
+     */
+    public void reloadDocumentsIfNeeded() {
+        if (isInRecents() || mSearchManager.isSearching()) {
+            // Both using MultiRootDocumentsLoader which have not ContentObserver.
+            mInjector.actions.loadDocumentsForCurrentStack();
+        }
     }
 
     public void expandAppBar() {

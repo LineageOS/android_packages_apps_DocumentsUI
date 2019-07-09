@@ -138,11 +138,6 @@ public class CreateDirectoryFragment extends DialogFragment {
         }
 
         @Override
-        protected void onPreExecute() {
-            mActivity.setPending(true);
-        }
-
-        @Override
         protected DocumentInfo doInBackground(Void... params) {
             final ContentResolver resolver = mActivity.getContentResolver();
             ContentProviderClient client = null;
@@ -172,7 +167,6 @@ public class CreateDirectoryFragment extends DialogFragment {
                         .show();
                 Metrics.logCreateDirError();
             }
-            mActivity.setPending(false);
         }
     }
 }

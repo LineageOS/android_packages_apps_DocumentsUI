@@ -213,11 +213,6 @@ public class RenameDocumentFragment extends DialogFragment {
         }
 
         @Override
-        protected void onPreExecute() {
-            mActivity.setPending(true);
-        }
-
-        @Override
         protected DocumentInfo doInBackground(DocumentInfo... document) {
             assert(document.length == 1);
 
@@ -235,7 +230,7 @@ public class RenameDocumentFragment extends DialogFragment {
             if (mDialog != null) {
                 mDialog.dismiss();
             }
-            mActivity.setPending(false);
+            mActivity.reloadDocumentsIfNeeded();
         }
     }
 }
