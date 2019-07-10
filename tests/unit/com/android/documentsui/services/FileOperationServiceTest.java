@@ -78,8 +78,8 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         mExecutor = new TestScheduledExecutorService();
         mDeletionExecutor = new TestScheduledExecutorService();
         mHandler = new TestHandler();
-        mForegroundManager = new TestForegroundManager();
-        mTestNotificationManager = new TestNotificationManager(mForegroundManager);
+        mTestNotificationManager = new TestNotificationManager();
+        mForegroundManager = new TestForegroundManager(mTestNotificationManager);
         TestFeatures features = new TestFeatures();
         features.notificationChannel = InstrumentationRegistry.getTargetContext()
                 .getResources().getBoolean(R.bool.feature_notification_channel);
@@ -291,6 +291,32 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         mExecutor.runAll();
 
         mHandler.dispatchAllMessages();
+        mTestNotificationManager.assertNumberOfNotifications(0);
+    }
+
+    public void testNotificationUpdateAfterForegroundJobSwitch() throws Exception {
+        startService(createCopyIntent(newArrayList(ALPHA_DOC), BETA_DOC));
+        startService(createCopyIntent(newArrayList(GAMMA_DOC), DELTA_DOC));
+        Job job1 = mCopyJobs.get(0);
+        Job job2 = mCopyJobs.get(1);
+
+        mService.onStart(job1);
+        mTestNotificationManager.assertHasNotification(
+                FileOperationService.NOTIFICATION_ID_PROGRESS, null);
+
+        mService.onStart(job2);
+        mTestNotificationManager.assertHasNotification(
+                FileOperationService.NOTIFICATION_ID_PROGRESS, job2.id);
+
+        job1.cancel();
+        mService.onFinished(job1);
+        mTestNotificationManager.assertHasNotification(
+                FileOperationService.NOTIFICATION_ID_PROGRESS, null);
+        mTestNotificationManager.assertNoNotification(
+                FileOperationService.NOTIFICATION_ID_PROGRESS, job2.id);
+
+        job2.cancel();
+        mService.onFinished(job2);
         mTestNotificationManager.assertNumberOfNotifications(0);
     }
 
