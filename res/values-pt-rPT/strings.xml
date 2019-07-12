@@ -236,7 +236,7 @@
     <string name="chip_title_images" msgid="7838299046109841015">"Imagens"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"Áudio"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"Vídeos"</string>
-    <string name="chip_title_documents" msgid="7432457563000753983">"Documentos"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"Docs"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nome da pasta"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Novo nome"</string>
     <string name="preview_file" msgid="4056622696305432343">"Pré-visualizar o ficheiro <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
