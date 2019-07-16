@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Enheder"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Flere apps"</string>
     <string name="empty" msgid="5300254272613103004">"Ingen elementer"</string>
-    <string name="no_results" msgid="2371026325236359209">"Ingen kampe i %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"Ingen match i %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Filen kan ikke åbnes"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Filer i arkiver kan ikke åbnes"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Nogle dokumenter kan ikke slettes"</string>
