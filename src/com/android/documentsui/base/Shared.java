@@ -31,7 +31,6 @@ import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -40,6 +39,9 @@ import com.android.documentsui.R;
 import com.android.documentsui.ui.MessageBuilder;
 
 import java.text.Collator;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,17 +151,16 @@ public final class Shared {
 
     public static String formatTime(Context context, long when) {
         // TODO: DateUtils should make this easier
-        Time then = new Time();
-        then.set(when);
-        Time now = new Time();
-        now.setToNow();
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime then = LocalDateTime.ofInstant(Instant.ofEpochMilli(when), zoneId);
+        LocalDateTime now = LocalDateTime.ofInstant(Instant.now(), zoneId);
 
         int flags = DateUtils.FORMAT_NO_NOON | DateUtils.FORMAT_NO_MIDNIGHT
                 | DateUtils.FORMAT_ABBREV_ALL;
 
-        if (then.year != now.year) {
+        if (then.getYear() != now.getYear()) {
             flags |= DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_DATE;
-        } else if (then.yearDay != now.yearDay) {
+        } else if (then.getDayOfYear() != now.getDayOfYear()) {
             flags |= DateUtils.FORMAT_SHOW_DATE;
         } else {
             flags |= DateUtils.FORMAT_SHOW_TIME;
