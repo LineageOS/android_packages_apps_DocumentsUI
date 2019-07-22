@@ -18,8 +18,7 @@
     <!-- Material design rounded radius -->
     <dimen name="material_round_radius">2dp</dimen>
 
-    <dimen name="grid_container_padding">20dp</dimen>
-    <dimen name="list_container_padding">0dp</dimen>
+    <dimen name="container_padding">20dp</dimen>
     <dimen name="icon_size">40dp</dimen>
     <dimen name="button_touch_size">48dp</dimen>
     <dimen name="root_icon_size">24dp</dimen>
@@ -39,6 +38,7 @@
     <dimen name="grid_item_margin">6dp</dimen>
     <dimen name="grid_padding_horiz">4dp</dimen>
     <dimen name="grid_padding_vert">4dp</dimen>
+    <dimen name="list_icon_thumb_size">40dp</dimen>
     <dimen name="list_item_width">72dp</dimen>
     <dimen name="list_item_height">72dp</dimen>
     <dimen name="list_item_padding">16dp</dimen>
