@@ -142,6 +142,10 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
     @Override
     public void openSelectedInNewWindow() {
         Selection<String> selection = getStableSelection();
+        if (selection.isEmpty()) {
+            return;
+        }
+
         assert(selection.size() == 1);
         DocumentInfo doc = mModel.getDocument(selection.iterator().next());
         assert(doc != null);
@@ -352,8 +356,9 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         Metrics.logUserAction(MetricConsts.USER_ACTION_SHARE);
 
         Selection<String> selection = getStableSelection();
-
-        assert(!selection.isEmpty());
+        if (selection.isEmpty()) {
+            return;
+        }
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.loadDocuments(
