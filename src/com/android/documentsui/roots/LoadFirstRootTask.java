@@ -21,15 +21,18 @@ import android.net.Uri;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.State;
 
 import java.util.Collection;
 
 public final class LoadFirstRootTask<T extends Activity & CommonAddons>
         extends LoadRootTask<T> {
 
-    public LoadFirstRootTask(T activity, ProvidersAccess providers, State state, Uri rootUri) {
-        super(activity, providers, state, rootUri);
+    public LoadFirstRootTask(
+            T activity,
+            ProvidersAccess providers,
+            Uri rootUri,
+            LoadRootCallback callback) {
+        super(activity, providers, rootUri, callback);
     }
 
     @Override
