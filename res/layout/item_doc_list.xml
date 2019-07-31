@@ -36,12 +36,12 @@
         <FrameLayout
             android:id="@android:id/icon"
             android:pointerIcon="hand"
-            android:layout_width="@dimen/list_item_width"
+            android:layout_width="56dp"
             android:layout_height="@dimen/list_item_height"
             android:paddingBottom="@dimen/list_item_icon_padding"
             android:paddingTop="@dimen/list_item_icon_padding"
             android:paddingEnd="16dp"
-            android:paddingStart="@dimen/list_item_padding" >
+            android:paddingStart="0dp" >
 
             <ImageView
                 android:id="@+id/icon_mime"
@@ -53,8 +53,8 @@
 
             <ImageView
                 android:id="@+id/icon_thumb"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/list_icon_thumb_size"
+                android:layout_height="@dimen/list_icon_thumb_size"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop" />
 
@@ -74,8 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/list_item_padding" >
+            android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@android:id/title"

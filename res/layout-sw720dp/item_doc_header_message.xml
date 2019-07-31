@@ -18,6 +18,8 @@
     android:id="@+id/message_container"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/list_item_padding"
+    android:layout_marginBottom="0dp"
     android:minHeight="?android:attr/listPreferredItemHeightSmall">
 
     <ImageView
@@ -25,8 +27,8 @@
         android:id="@+id/message_icon"
         android:layout_height="@dimen/icon_size"
         android:layout_width="@dimen/icon_size"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="@dimen/list_item_padding"
+        android:layout_marginStart="@dimen/list_item_padding"
+        android:layout_marginEnd="12dp"
         android:scaleType="centerInside"/>
 
     <TextView

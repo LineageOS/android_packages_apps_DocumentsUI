@@ -536,10 +536,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             mLayout.setSpanCount(mColumnCount);
         }
 
-        int pad = getDirectoryPadding(mode);
+        final int innerPadding = getResources().getDimensionPixelSize(R.dimen.container_padding);
         mAppBarHeight = getAppBarLayoutHeight();
         mSaveLayoutHeight = getSaveLayoutHeight();
-        mRecView.setPadding(pad, mAppBarHeight, pad, mSaveLayoutHeight);
+        mRecView.setPadding(innerPadding, mAppBarHeight, innerPadding, mSaveLayoutHeight);
         mRecView.requestLayout();
         mIconHelper.setViewMode(mode);
 
@@ -626,17 +626,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private int getScaledSize(@DimenRes int id) {
         return (int) (getResources().getDimensionPixelSize(id) * mLiveScale);
-    }
-
-    private int getDirectoryPadding(@ViewMode int mode) {
-        switch (mode) {
-            case MODE_GRID:
-                return getResources().getDimensionPixelSize(R.dimen.grid_container_padding);
-            case MODE_LIST:
-                return getResources().getDimensionPixelSize(R.dimen.list_container_padding);
-            default:
-                throw new IllegalArgumentException("Unsupported layout mode: " + mode);
-        }
     }
 
     private boolean handleMenuItemClick(MenuItem item) {
