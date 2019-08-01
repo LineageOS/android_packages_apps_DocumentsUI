@@ -482,13 +482,13 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
     @Override
     public final void loadRoot(Uri uri) {
-        new LoadRootTask<>(mActivity, mProviders, mState, uri)
+        new LoadRootTask<>(mActivity, mProviders, uri, this::onRootLoaded)
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
     }
 
     @Override
     public final void loadFirstRoot(Uri uri) {
-        new LoadFirstRootTask<>(mActivity, mProviders, mState, uri)
+        new LoadFirstRootTask<>(mActivity, mProviders, uri, this::onRootLoaded)
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
     }
 
@@ -534,6 +534,14 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             launchToDefaultLocation();
 
             Metrics.logLaunchAtLocation(mState, null);
+        }
+    }
+
+    private void onRootLoaded(@Nullable RootInfo root) {
+        if (root != null) {
+            mActivity.onRootPicked(root);
+        } else {
+            launchToDefaultLocation();
         }
     }
 

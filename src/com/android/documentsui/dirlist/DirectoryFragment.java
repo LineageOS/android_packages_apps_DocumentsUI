@@ -792,6 +792,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private void openDocuments(final Selection selected) {
         Metrics.logUserAction(MetricConsts.USER_ACTION_OPEN);
 
+        if (selected.isEmpty()) {
+            return;
+        }
+
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.getDocuments(selected);
         if (docs.size() > 1) {
@@ -804,6 +808,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private void showChooserForDoc(final Selection<String> selected) {
         Metrics.logUserAction(MetricConsts.USER_ACTION_OPEN);
 
+        if (selected.isEmpty()) {
+            return;
+        }
+
         assert selected.size() == 1;
         DocumentInfo doc =
                 DocumentInfo.fromDirectoryCursor(mModel.getItem(selected.iterator().next()));
@@ -813,6 +821,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private void transferDocuments(
             final Selection<String> selected, @Nullable DocumentStack destination,
             final @OpType int mode) {
+        if (selected.isEmpty()) {
+            return;
+        }
+
         switch (mode) {
             case FileOperationService.OPERATION_COPY:
                 Metrics.logUserAction(MetricConsts.USER_ACTION_COPY_TO);
@@ -925,6 +937,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private void renameDocuments(Selection selected) {
         Metrics.logUserAction(MetricConsts.USER_ACTION_RENAME);
 
+        if (selected.isEmpty()) {
+            return;
+        }
+
         // Batch renaming not supported
         // Rename option is only available in menu when 1 document selected
         assert selected.size() == 1;
@@ -952,6 +968,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     public void pasteIntoFolder() {
+        if (mSelectionMgr.getSelection().isEmpty()) {
+            return;
+        }
         assert (mSelectionMgr.getSelection().size() == 1);
 
         String modelId = mSelectionMgr.getSelection().iterator().next();

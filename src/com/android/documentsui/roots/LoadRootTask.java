@@ -23,25 +23,29 @@ import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.State;
 
 public class LoadRootTask<T extends Activity & CommonAddons>
         extends PairedTask<T, Void, RootInfo> {
     private static final String TAG = "LoadRootTask";
 
     protected final ProvidersAccess mProviders;
-
-    private final State mState;
     private final Uri mRootUri;
+    private final LoadRootCallback mCallback;
 
-    public LoadRootTask(T activity, ProvidersAccess providers, State state, Uri rootUri) {
+    public LoadRootTask(
+            T activity,
+            ProvidersAccess providers,
+            Uri rootUri,
+            LoadRootCallback callback) {
         super(activity);
-        mState = state;
         mProviders = providers;
         mRootUri = rootUri;
+        mCallback = callback;
     }
 
     @Override
@@ -59,14 +63,25 @@ public class LoadRootTask<T extends Activity & CommonAddons>
             if (DEBUG) {
                 Log.d(TAG, "Loaded root: " + root);
             }
-            mOwner.onRootPicked(root);
         } else {
             Log.w(TAG, "Failed to find root: " + mRootUri);
-            mOwner.finish();
         }
+
+        mCallback.onRootLoaded(root);
     }
 
     protected String getRootId(Uri rootUri) {
         return DocumentsContract.getRootId(rootUri);
+    }
+
+    /**
+     * Callback for task finished.
+     */
+    @FunctionalInterface
+    public interface LoadRootCallback {
+        /**
+         * Return the RootInfo of input uri, null if the uri is invalid.
+         */
+        void onRootLoaded(@Nullable RootInfo root);
     }
 }
