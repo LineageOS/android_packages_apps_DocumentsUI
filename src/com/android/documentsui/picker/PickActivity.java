@@ -146,7 +146,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                         mInjector.searchManager::cancelSearch,
                         this::popDir,
                         mInjector.features,
-                        mDrawer);
+                        mDrawer,
+                        mInjector.searchManager::onSearchBarClicked);
         setupLayout(intent);
         mInjector.actions.initLocation(intent);
         Metrics.logPickerLaunchedFrom(Shared.getCallingPackageName(this));
@@ -389,9 +390,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @CallSuper
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return mSharedInputHandler.onKeyDown(
-                keyCode,
-                event)
+        return mSharedInputHandler.onKeyDown(keyCode, event)
                 || super.onKeyDown(keyCode, event);
     }
 

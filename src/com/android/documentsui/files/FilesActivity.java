@@ -159,7 +159,8 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                         mInjector.searchManager::cancelSearch,
                         this::popDir,
                         mInjector.features,
-                        mDrawer);
+                        mDrawer,
+                        mInjector.searchManager::onSearchBarClicked);
 
         RootsFragment.show(getSupportFragmentManager(), null);
 
@@ -360,9 +361,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return mActivityInputHandler.onKeyDown(keyCode, event)
-                || mSharedInputHandler.onKeyDown(
-                        keyCode,
-                        event)
+                || mSharedInputHandler.onKeyDown(keyCode, event)
                 || super.onKeyDown(keyCode, event);
     }
 
