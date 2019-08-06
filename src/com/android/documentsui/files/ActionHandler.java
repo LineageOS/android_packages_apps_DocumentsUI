@@ -732,7 +732,7 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         // established, we set the same permission for non-managed files
         // This ensures consistent behavior between the Downloads root
         // and other roots.
-        int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION;
+        int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_SINGLE_TOP;
         if (doc.isWriteSupported()) {
             flags |= Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
         }
