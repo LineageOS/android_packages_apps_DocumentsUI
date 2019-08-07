@@ -325,10 +325,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
         mActions = mInjector.getActionHandler(mContentLock);
 
-        mRecView.setAccessibilityDelegateCompat(
-                new AccessibilityEventRouter(mRecView,
-                        (View child) -> onAccessibilityClick(child),
-                        (View child) -> onAccessibilityLongClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mDetailsLookup = new DocsItemDetailsLookup(mRecView);
 
@@ -1270,6 +1266,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
             setupDragAndDropOnDocumentView(holder.itemView, cursor);
+            holder.itemView.setAccessibilityDelegate(new AccessibilityEventRouter(
+                    DirectoryFragment.this::onAccessibilityClick,
+                    DirectoryFragment.this::onAccessibilityLongClick
+            ));
         }
 
         @Override

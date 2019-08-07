@@ -71,14 +71,8 @@ public final class HorizontalBreadcrumb extends RecyclerView
         mLayoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new BreadcrumbAdapter(
-                state, env, new ItemDragListener<>(this), this::onKey);
-        // Since we are using GestureDetector to detect click events, a11y services don't know which views
-        // are clickable because we aren't using View.OnClickListener. Thus, we need to use a custom
-        // accessibility delegate to route click events correctly. See AccessibilityClickEventRouter
-        // for more details on how we are routing these a11y events.
-        setAccessibilityDelegateCompat(
-                new AccessibilityEventRouter(this,
-                        (View child) -> onAccessibilityClick(child), null));
+                state, env, new ItemDragListener<>(this), this::onKey,
+                new AccessibilityEventRouter(this::onAccessibilityClick, null));
 
         setLayoutManager(mLayoutManager);
         addOnItemTouchListener(new ClickListener(getContext(), this::onSingleTapUp));
@@ -192,17 +186,20 @@ public final class HorizontalBreadcrumb extends RecyclerView
         private final com.android.documentsui.base.State mState;
         private final OnDragListener mDragListener;
         private final View.OnKeyListener mClickListener;
+        private final View.AccessibilityDelegate mAccessibilityDelegate;
         // We keep the old item size so the breadcrumb will only re-render views that are necessary
         private int mLastItemSize;
 
         public BreadcrumbAdapter(com.android.documentsui.base.State state,
                 Environment env,
                 OnDragListener dragListener,
-                View.OnKeyListener clickListener) {
+                View.OnKeyListener clickListener,
+                View.AccessibilityDelegate accessibilityDelegate) {
             mState = state;
             mEnv = env;
             mDragListener = dragListener;
             mClickListener = clickListener;
+            mAccessibilityDelegate = accessibilityDelegate;
             mLastItemSize = mState.stack.size();
         }
 
@@ -235,6 +232,12 @@ public final class HorizontalBreadcrumb extends RecyclerView
             }
             holder.itemView.setOnDragListener(mDragListener);
             holder.itemView.setOnKeyListener(mClickListener);
+            // Since we are using GestureDetector to detect click events, a11y services don't know
+            // which views are clickable because we aren't using View.OnClickListener. Thus, we
+            // need to use a custom accessibility delegate to route click events correctly.
+            // See AccessibilityClickEventRouter for more details on how we are routing these
+            // a11y events.
+            holder.itemView.setAccessibilityDelegate(mAccessibilityDelegate);
         }
 
         private DocumentInfo getItem(int position) {
