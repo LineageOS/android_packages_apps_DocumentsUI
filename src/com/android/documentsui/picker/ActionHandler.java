@@ -23,6 +23,7 @@ import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -298,7 +299,12 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_FORWARD_RESULT);
         intent.setComponent(new ComponentName(
                 info.activityInfo.applicationInfo.packageName, info.activityInfo.name));
-        mActivity.startActivityForResult(intent, CODE_FORWARD);
+        try {
+            mActivity.startActivityForResult(intent, CODE_FORWARD);
+        } catch (SecurityException | ActivityNotFoundException e) {
+            Log.e(TAG, "Caught error: " + e.getLocalizedMessage());
+            mInjector.dialogs.showNoApplicationFound();
+        }
     }
 
     @Override
