@@ -415,7 +415,7 @@ public abstract class BaseActivity
         mSearchManager.cancelSearch();
 
         // Skip refreshing if root nor directory didn't change
-        if (root.equals(getCurrentRoot()) && mState.stack.size() == 1) {
+        if (root.equals(getCurrentRoot()) && mState.stack.size() <= 1) {
             return;
         }
 
