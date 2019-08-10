@@ -34,11 +34,13 @@ public class SortListFragment extends DialogFragment {
     private List<SortItem> mSortingList;
 
     public static void show(FragmentManager fm, SortModel model) {
-        SortListFragment fragment = new SortListFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(TAG_MODEL, model);
-        fragment.setArguments(args);
-        fragment.show(fm, TAG_SORTING_LIST);
+        if (fm.findFragmentByTag(TAG_SORTING_LIST) == null) {
+            SortListFragment fragment = new SortListFragment();
+            Bundle args = new Bundle();
+            args.putParcelable(TAG_MODEL, model);
+            fragment.setArguments(args);
+            fragment.show(fm, TAG_SORTING_LIST);
+        }
     }
 
     public SortListFragment() {
