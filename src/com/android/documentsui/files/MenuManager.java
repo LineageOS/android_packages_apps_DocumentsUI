@@ -40,6 +40,7 @@ import com.android.documentsui.queries.SearchViewManager;
 
 import java.util.List;
 import java.util.function.IntFunction;
+import java.util.function.IntSupplier;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
@@ -57,9 +58,10 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
             Context context,
             SelectionTracker<String> selectionManager,
             Lookup<String, String> appNameLookup,
-            Lookup<String, Uri> uriLookup) {
+            Lookup<String, Uri> uriLookup,
+            IntSupplier filesCountSupplier) {
 
-        super(searchManager, displayState, dirDetails);
+        super(searchManager, displayState, dirDetails, filesCountSupplier);
 
         mFeatures = features;
         mContext = context;
@@ -103,9 +105,10 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
-    public void inflateContextMenuForContainer(Menu menu, MenuInflater inflater) {
+    public void inflateContextMenuForContainer(
+            Menu menu, MenuInflater inflater, SelectionDetails selectionDetails) {
         inflater.inflate(R.menu.container_context_menu, menu);
-        updateContextMenuForContainer(menu);
+        updateContextMenuForContainer(menu, selectionDetails);
     }
 
     @Override
@@ -221,6 +224,20 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     protected void updateSelectAll(MenuItem selectAll) {
         selectAll.setVisible(true);
         selectAll.setEnabled(true);
+    }
+
+    @Override
+    protected void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails) {
+        final boolean visible = selectionDetails.size() < mFilesCountSupplier.getAsInt();
+        selectAll.setVisible(visible);
+        selectAll.setEnabled(visible);
+    }
+
+    @Override
+    protected void updateDeselectAll(MenuItem deselectAll, SelectionDetails selectionDetails) {
+        final boolean visible = selectionDetails.size() == mFilesCountSupplier.getAsInt();
+        deselectAll.setVisible(visible);
+        deselectAll.setEnabled(visible);
     }
 
     @Override

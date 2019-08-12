@@ -35,23 +35,27 @@ import com.android.documentsui.sidebar.RootsFragment;
 
 import java.util.List;
 import java.util.function.IntFunction;
+import java.util.function.IntSupplier;
 
 public abstract class MenuManager {
     private final static String TAG = "MenuManager";
 
-    final protected SearchViewManager mSearchManager;
-    final protected State mState;
-    final protected DirectoryDetails mDirDetails;
+    protected final SearchViewManager mSearchManager;
+    protected final State mState;
+    protected final DirectoryDetails mDirDetails;
+    protected final IntSupplier mFilesCountSupplier;
 
     protected Menu mOptionMenu;
 
     public MenuManager(
             SearchViewManager searchManager,
             State displayState,
-            DirectoryDetails dirDetails) {
+            DirectoryDetails dirDetails,
+            IntSupplier filesCountSupplier) {
         mSearchManager = searchManager;
         mState = displayState;
         mDirDetails = dirDetails;
+        mFilesCountSupplier = filesCountSupplier;
     }
 
     /** @see ActionModeController */
@@ -61,7 +65,8 @@ public abstract class MenuManager {
         updateShare(menu.findItem(R.id.action_menu_share), selection);
         updateRename(menu.findItem(R.id.action_menu_rename), selection);
         updateSelect(menu.findItem(R.id.action_menu_select), selection);
-        updateSelectAll(menu.findItem(R.id.action_menu_select_all));
+        updateSelectAll(menu.findItem(R.id.action_menu_select_all), selection);
+        updateDeselectAll(menu.findItem(R.id.action_menu_deselect_all), selection);
         updateMoveTo(menu.findItem(R.id.action_menu_move_to), selection);
         updateCopyTo(menu.findItem(R.id.action_menu_copy_to), selection);
         updateCompress(menu.findItem(R.id.action_menu_compress), selection);
@@ -114,7 +119,15 @@ public abstract class MenuManager {
         // Pickers don't have any context menu at this moment.
     }
 
-    public void inflateContextMenuForContainer(Menu menu, MenuInflater inflater) {
+    /**
+     * Called when container context menu needs to be inflated.
+     *
+     * @param menu context menu from activity or fragment
+     * @param inflater the MenuInflater
+     * @param selectionDetails selection of files
+     */
+    public void inflateContextMenuForContainer(
+            Menu menu, MenuInflater inflater, SelectionDetails selectionDetails) {
         throw new UnsupportedOperationException("Pickers don't allow context menu.");
     }
 
@@ -207,14 +220,16 @@ public abstract class MenuManager {
      * Called when user tries to generate a context menu anchored to an empty pane.
      */
     @VisibleForTesting
-    public void updateContextMenuForContainer(Menu menu) {
+    public void updateContextMenuForContainer(Menu menu, SelectionDetails selectionDetails) {
         MenuItem paste = menu.findItem(R.id.dir_menu_paste_from_clipboard);
         MenuItem selectAll = menu.findItem(R.id.dir_menu_select_all);
+        MenuItem deselectAll = menu.findItem(R.id.dir_menu_deselect_all);
         MenuItem createDir = menu.findItem(R.id.dir_menu_create_dir);
         MenuItem inspect = menu.findItem(R.id.dir_menu_inspect);
 
         paste.setEnabled(mDirDetails.hasItemsToPaste() && mDirDetails.canCreateDoc());
-        updateSelectAll(selectAll);
+        updateSelectAll(selectAll, selectionDetails);
+        updateDeselectAll(deselectAll, selectionDetails);
         updateCreateDir(createDir);
         updateInspect(inspect);
     }
@@ -350,6 +365,9 @@ public abstract class MenuManager {
     }
 
     protected abstract void updateSelectAll(MenuItem selectAll);
+    protected abstract void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails);
+    protected abstract void updateDeselectAll(
+            MenuItem deselectAll, SelectionDetails selectionDetails);
     protected abstract void updateCreateDir(MenuItem createDir);
 
     /**

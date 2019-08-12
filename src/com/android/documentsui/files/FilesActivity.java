@@ -123,7 +123,8 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 getApplicationContext(),
                 mInjector.selectionMgr,
                 mProviders::getApplicationName,
-                mInjector.getModel()::getItemUri);
+                mInjector.getModel()::getItemUri,
+                mInjector.getModel()::getItemCount);
 
         mInjector.actionModeController = new ActionModeController(
                 this,

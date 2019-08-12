@@ -63,6 +63,7 @@ public final class MenuManagerTest {
     private TestMenuItem dirPasteFromClipboard;
     private TestMenuItem dirCreateDir;
     private TestMenuItem dirSelectAll;
+    private TestMenuItem mDirDeselectAll;
     private TestMenuItem dirRename;
     private TestMenuItem dirDelete;
     private TestMenuItem dirViewInOwner;
@@ -82,6 +83,7 @@ public final class MenuManagerTest {
     private TestMenuItem actionModeShare;
     private TestMenuItem actionModeDelete;
     private TestMenuItem actionModeSelectAll;
+    private TestMenuItem mActionModeDeselectAll;
     private TestMenuItem actionModeCopyTo;
     private TestMenuItem actionModeExtractTo;
     private TestMenuItem actionModeMoveTo;
@@ -111,6 +113,8 @@ public final class MenuManagerTest {
     private DocumentInfo testDocInfo;
     private MenuManager mgr;
 
+    private int mFilesCount;
+
     @Before
     public void setUp() {
         testMenu = TestMenu.create();
@@ -122,6 +126,7 @@ public final class MenuManagerTest {
         dirPasteFromClipboard = testMenu.findItem(R.id.dir_menu_paste_from_clipboard);
         dirCreateDir = testMenu.findItem(R.id.dir_menu_create_dir);
         dirSelectAll = testMenu.findItem(R.id.dir_menu_select_all);
+        mDirDeselectAll = testMenu.findItem(R.id.dir_menu_deselect_all);
         dirRename = testMenu.findItem(R.id.dir_menu_rename);
         dirDelete = testMenu.findItem(R.id.dir_menu_delete);
         dirViewInOwner = testMenu.findItem(R.id.dir_menu_view_in_owner);
@@ -138,6 +143,7 @@ public final class MenuManagerTest {
         actionModeShare = testMenu.findItem(R.id.action_menu_share);
         actionModeDelete = testMenu.findItem(R.id.action_menu_delete);
         actionModeSelectAll = testMenu.findItem(R.id.action_menu_select_all);
+        mActionModeDeselectAll = testMenu.findItem(R.id.action_menu_deselect_all);
         actionModeCopyTo = testMenu.findItem(R.id.action_menu_copy_to);
         actionModeExtractTo = testMenu.findItem(R.id.action_menu_extract_to);
         actionModeMoveTo = testMenu.findItem(R.id.action_menu_move_to);
@@ -162,12 +168,18 @@ public final class MenuManagerTest {
         selectionDetails = new TestSelectionDetails();
         dirDetails = new TestDirectoryDetails();
         testSearchManager = new TestSearchViewManager();
-        mgr = new MenuManager(testSearchManager, state, dirDetails);
+        mgr = new MenuManager(testSearchManager, state, dirDetails, this::getFilesCount);
+        selectionDetails.size = 1;
+        mFilesCount = 10;
 
         testRootInfo = new RootInfo();
         testDocInfo = new DocumentInfo();
         state.action = ACTION_CREATE;
         state.allowMultiple = true;
+    }
+
+    private int getFilesCount() {
+        return mFilesCount;
     }
 
     @Test
@@ -178,6 +190,7 @@ public final class MenuManagerTest {
         actionModeShare.assertInvisible();
         actionModeRename.assertInvisible();
         actionModeSelectAll.assertVisible();
+        mActionModeDeselectAll.assertInvisible();
         actionModeViewInOwner.assertInvisible();
         actionModeSort.assertVisible();
         actionModeSort.assertEnabled();
@@ -221,6 +234,7 @@ public final class MenuManagerTest {
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         actionModeSelectAll.assertInvisible();
+        mActionModeDeselectAll.assertInvisible();
     }
 
     @Test
@@ -229,6 +243,19 @@ public final class MenuManagerTest {
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         actionModeSelectAll.assertVisible();
+        mActionModeDeselectAll.assertInvisible();
+    }
+
+    @Test
+    public void testActionMenu_CanDeselectAll() {
+        state.allowMultiple = true;
+        selectionDetails.size = 1;
+        mFilesCount = 1;
+
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeSelectAll.assertInvisible();
+        mActionModeDeselectAll.assertVisible();
     }
 
     @Test
@@ -311,10 +338,12 @@ public final class MenuManagerTest {
         dirDetails.canCreateDoc = false;
         dirDetails.canCreateDirectory = false;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
+        mDirDeselectAll.assertInvisible();
+        mDirDeselectAll.assertDisabled();
         dirPasteFromClipboard.assertVisible();
         dirPasteFromClipboard.assertDisabled();
         dirCreateDir.assertVisible();
@@ -326,7 +355,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = false;
         dirDetails.canCreateDoc = true;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -341,7 +370,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = true;
         dirDetails.canCreateDoc = false;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -356,7 +385,7 @@ public final class MenuManagerTest {
         dirDetails.hasItemsToPaste = true;
         dirDetails.canCreateDoc = true;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -370,7 +399,7 @@ public final class MenuManagerTest {
     public void testContextMenu_EmptyArea_CanCreateDirectory() {
         dirDetails.canCreateDirectory = true;
 
-        mgr.updateContextMenuForContainer(testMenu);
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
 
         dirSelectAll.assertVisible();
         dirSelectAll.assertEnabled();
@@ -378,6 +407,19 @@ public final class MenuManagerTest {
         dirPasteFromClipboard.assertDisabled();
         dirCreateDir.assertVisible();
         dirCreateDir.assertEnabled();
+    }
+
+    @Test
+    public void testContextMenu_EmptyArea_CanDeselectAll() {
+        selectionDetails.size = 1;
+        mFilesCount = 1;
+
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
+
+        dirSelectAll.assertInvisible();
+        dirSelectAll.assertDisabled();
+        mDirDeselectAll.assertVisible();
+        mDirDeselectAll.assertEnabled();
     }
 
     @Test

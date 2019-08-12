@@ -302,6 +302,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     @Override
+    public void deselectAllFiles() {
+        mSelectionMgr.clearSelection();
+    }
+
+    @Override
     public void showCreateDirectoryDialog() {
         Metrics.logUserAction(MetricConsts.USER_ACTION_CREATE_DIR);
 
