@@ -242,9 +242,9 @@
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> फ़ाइल की झलक देखें"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"दूसरे ऐप्लिकेशन में फ़ाइलें ब्राउज़ करें"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"अनाम"</string>
-    <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" एक्सेस करने दें"</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" पर \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" का एक्सेस दें?"</string>
-    <string name="open_tree_dialog_message" msgid="8545093618524340168">"यह \"<xliff:g id="APPNAME">%1$s</xliff:g>\" को इस जगह में इस समय सेव की गई सभी फ़ाइलों और आने वाले समय में यहां सेव की जाने वाली किसी भी सामग्री का पूरा एक्सेस करने देगा."</string>
+    <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ऐक्सेस करने दें"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" पर \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" का ऐक्सेस दें?"</string>
+    <string name="open_tree_dialog_message" msgid="8545093618524340168">"यह \"<xliff:g id="APPNAME">%1$s</xliff:g>\" को इस जगह में इस समय सेव की गई सभी फ़ाइलों और आने वाले समय में यहां सेव की जाने वाली किसी भी सामग्री का पूरा ऐक्सेस करने देगा."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"यह फ़ोन खोजें"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"खोज का इतिहास मिटाएं <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
