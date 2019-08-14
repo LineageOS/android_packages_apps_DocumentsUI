@@ -355,6 +355,13 @@ public class RootsFragment extends Fragment {
 
         // Omit ourselves and maybe calling package from the list
         for (ResolveInfo info : infos) {
+            if (!info.activityInfo.exported) {
+                if (VERBOSE) {
+                    Log.v(TAG, "Non exported activity: " + info.activityInfo);
+                }
+                continue;
+            }
+
             final String packageName = info.activityInfo.packageName;
             if (!context.getPackageName().equals(packageName) &&
                     !TextUtils.equals(excludePackage, packageName)) {
