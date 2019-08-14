@@ -18,26 +18,23 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
 import android.app.Activity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.android.documentsui.MenuManager.SelectionDetails;
-import com.android.documentsui.base.ConfirmationCallback;
-import com.android.documentsui.base.ConfirmationCallback.Result;
-import com.android.documentsui.base.EventHandler;
-import com.android.documentsui.base.Menus;
-import com.android.documentsui.ui.MessageBuilder;
-
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.selection.MutableSelection;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.SelectionTracker.SelectionObserver;
+
+import com.android.documentsui.MenuManager.SelectionDetails;
+import com.android.documentsui.base.EventHandler;
+import com.android.documentsui.base.Menus;
+import com.android.documentsui.ui.MessageBuilder;
 
 /**
  * A controller that listens to selection changes and manages life cycles of action modes.
@@ -191,13 +188,6 @@ public class ActionModeController extends SelectionObserver<String>
             mActionMode = null;
         } else {
             Log.w(TAG, "Tried to finish a null action mode.");
-        }
-    }
-
-    @Override
-    public void finishOnConfirmed(@Result int code) {
-        if (code == ConfirmationCallback.CONFIRM) {
-            finishActionMode();
         }
     }
 

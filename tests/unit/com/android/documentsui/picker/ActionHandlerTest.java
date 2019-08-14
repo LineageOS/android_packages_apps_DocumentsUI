@@ -16,10 +16,10 @@
 
 package com.android.documentsui.picker;
 
-import static org.mockito.Mockito.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -52,13 +52,13 @@ import com.android.documentsui.testing.TestLastAccessedStorage;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
 
-import java.util.concurrent.Executor;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Arrays;
+import java.util.concurrent.Executor;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -90,8 +90,6 @@ public class ActionHandlerTest {
                 mLastAccessed,
                 mPickCountRecord
         );
-
-        mEnv.dialogs.confirmNext();
 
         mEnv.selectionMgr.select("1");
 

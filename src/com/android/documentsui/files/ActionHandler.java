@@ -51,7 +51,6 @@ import com.android.documentsui.Metrics;
 import com.android.documentsui.Model;
 import com.android.documentsui.R;
 import com.android.documentsui.TimeoutTask;
-import com.android.documentsui.base.ConfirmationCallback;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
@@ -299,56 +298,55 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         }
     }
 
-
     @Override
-    public void deleteSelectedDocuments() {
-        Metrics.logUserAction(MetricConsts.USER_ACTION_DELETE);
+    public void showDeleteDialog() {
         Selection selection = getSelectedOrFocused();
-
         if (selection.isEmpty()) {
             return;
         }
 
-        final @Nullable DocumentInfo srcParent = mState.stack.peek();
+        DeleteDocumentFragment.show(mActivity.getSupportFragmentManager(),
+                mModel.getDocuments(selection),
+                mState.stack.peek());
+    }
 
-        // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
-        List<DocumentInfo> docs = mModel.getDocuments(selection);
 
-        ConfirmationCallback result = (@ConfirmationCallback.Result int code) -> {
-            // share the news with our caller, be it good or bad.
-            mActionModeAddons.finishOnConfirmed(code);
+    @Override
+    public void deleteSelectedDocuments(List<DocumentInfo> docs, DocumentInfo srcParent) {
+        if (docs == null || docs.isEmpty()) {
+            return;
+        }
 
-            if (code != ConfirmationCallback.CONFIRM) {
-                return;
-            }
+        mActionModeAddons.finishActionMode();
 
-            UrisSupplier srcs;
-            try {
-                srcs = UrisSupplier.create(
-                        selection,
-                        mModel::getItemUri,
-                        mClipStore);
-            } catch (Exception e) {
-                Log.e(TAG,"Failed to delete a file because we were unable to get item URIs.", e);
-                mDialogs.showFileOperationStatus(
-                        FileOperations.Callback.STATUS_FAILED,
-                        FileOperationService.OPERATION_DELETE,
-                        selection.size());
-                return;
-            }
+        List<Uri> uris = new ArrayList<>(docs.size());
+        for (DocumentInfo doc : docs) {
+            uris.add(doc.derivedUri);
+        }
 
-            FileOperation operation = new FileOperation.Builder()
-                    .withOpType(FileOperationService.OPERATION_DELETE)
-                    .withDestination(mState.stack)
-                    .withSrcs(srcs)
-                    .withSrcParent(srcParent == null ? null : srcParent.derivedUri)
-                    .build();
+        UrisSupplier srcs;
+        try {
+            srcs = UrisSupplier.create(
+                    uris,
+                    mClipStore);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to delete a file because we were unable to get item URIs.", e);
+            mDialogs.showFileOperationStatus(
+                    FileOperations.Callback.STATUS_FAILED,
+                    FileOperationService.OPERATION_DELETE,
+                    uris.size());
+            return;
+        }
 
-            FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus,
-                    FileOperations.createJobId());
-        };
+        FileOperation operation = new FileOperation.Builder()
+                .withOpType(FileOperationService.OPERATION_DELETE)
+                .withDestination(mState.stack)
+                .withSrcs(srcs)
+                .withSrcParent(srcParent == null ? null : srcParent.derivedUri)
+                .build();
 
-        mDialogs.confirmDelete(docs, result);
+        FileOperations.start(mActivity, operation, mDialogs::showFileOperationStatus,
+                FileOperations.createJobId());
     }
 
     @Override

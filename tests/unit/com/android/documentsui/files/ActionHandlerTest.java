@@ -73,7 +73,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -104,8 +106,6 @@ public class ActionHandlerTest {
         mEnv.injector.dialogs = mDialogs;
 
         mHandler = createHandler();
-
-        mDialogs.confirmNext();
 
         mEnv.selectDocument(TestEnv.FILE_GIF);
     }
@@ -160,36 +160,28 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testDeleteSelectedDocuments_NoSelection() {
+    public void testShowDeleteDialog_NoSelection() {
         mEnv.populateStack();
 
         mEnv.selectionMgr.clearSelection();
-        mHandler.deleteSelectedDocuments();
-        mDialogs.assertNoFileFailures();
+        mHandler.showDeleteDialog();
         mActivity.startService.assertNotCalled();
-        mActionModeAddons.finishOnConfirmed.assertNeverCalled();
+        assertFalse(mActionModeAddons.finishActionModeCalled);
     }
 
     @Test
-    public void testDeleteSelectedDocuments_Cancelable() {
+    public void testDeleteSelectedDocuments() {
         mEnv.populateStack();
 
-        mDialogs.rejectNext();
-        mHandler.deleteSelectedDocuments();
-        mDialogs.assertNoFileFailures();
-        mActivity.startService.assertNotCalled();
-        mActionModeAddons.finishOnConfirmed.assertRejected();
-    }
+        mEnv.selectionMgr.clearSelection();
+        mEnv.selectDocument(TestEnv.FILE_PNG);
 
-    // Recents root means when deleting the srcParent will be null.
-    @Test
-    public void testDeleteSelectedDocuments_RecentsRoot() {
-        mEnv.state.stack.changeRoot(TestProvidersAccess.RECENTS);
+        List<DocumentInfo> docs = new ArrayList<>();
+        docs.add(TestEnv.FILE_PNG);
+        mHandler.deleteSelectedDocuments(docs, mEnv.state.stack.peek());
 
-        mHandler.deleteSelectedDocuments();
-        mDialogs.assertNoFileFailures();
         mActivity.startService.assertCalled();
-        mActionModeAddons.finishOnConfirmed.assertCalled();
+        assertTrue(mActionModeAddons.finishActionModeCalled);
     }
 
     @Test

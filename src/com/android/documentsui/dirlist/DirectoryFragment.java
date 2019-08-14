@@ -656,7 +656,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             case R.id.dir_menu_delete:
                 // deleteDocuments will end action mode if the documents are deleted.
                 // It won't end action mode if user cancels the delete.
-                mActions.deleteSelectedDocuments();
+                mActions.showDeleteDialog();
                 return true;
 
             case R.id.action_menu_copy_to:

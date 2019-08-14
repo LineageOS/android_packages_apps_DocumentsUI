@@ -93,7 +93,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 new Config(),
                 prefs,
                 new MessageBuilder(this),
-                DialogController.create(features, this, null),
+                DialogController.create(features, this),
                 DocumentsApplication.getFileTypeLookup(this),
                 (Collection<RootInfo> roots) -> {});
 
