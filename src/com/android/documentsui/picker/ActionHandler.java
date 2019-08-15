@@ -219,7 +219,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         mInjector.pickResult.setIsSearching(isSearching);
         mInjector.pickResult.setRoot(root);
         mInjector.pickResult.setFileUri(uri);
-        getUpdatePickResultTask().execute();
+        getUpdatePickResultTask().safeExecute();
     }
 
     private void loadDefaultLocation() {
