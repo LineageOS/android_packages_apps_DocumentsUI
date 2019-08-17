@@ -151,7 +151,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     public void onBackPressed() {
         super.onBackPressed();
         // log the case of user picking nothing.
-        mInjector.actions.getUpdatePickResultTask().execute();
+        mInjector.actions.getUpdatePickResultTask().safeExecute();
     }
 
     @Override
