@@ -66,7 +66,7 @@ public class TestSearchViewManager extends SearchViewManager {
                     }
                 },
                 new CommandInterceptor(new TestFeatures()), mock(ViewGroup.class),
-                null /* savedState */);
+                null /* savedState */, () -> true /* recordSearchSupplier */);
     }
 
     @Override

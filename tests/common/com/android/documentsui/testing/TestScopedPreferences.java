@@ -24,6 +24,7 @@ import com.android.documentsui.prefs.ScopedPreferences;
 public class TestScopedPreferences implements ScopedPreferences {
 
     private boolean mShowDeviceRoot;
+    private boolean mIsRecordSearch;
 
     @Override
     public boolean getShowDeviceRoot() {
@@ -34,4 +35,14 @@ public class TestScopedPreferences implements ScopedPreferences {
     public void setShowDeviceRoot(boolean display) {
         mShowDeviceRoot = display;
     }
- }
+
+    @Override
+    public boolean isRecordSearch() {
+        return mIsRecordSearch;
+    }
+
+    @Override
+    public void setRecordSearch(boolean show) {
+        mIsRecordSearch = show;
+    }
+}

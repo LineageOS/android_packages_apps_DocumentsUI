@@ -30,11 +30,21 @@ import com.android.documentsui.R;
  */
 public interface ScopedPreferences {
 
-    static final String INCLUDE_DEVICE_ROOT = "includeDeviceRoot";
-    static final String ENABLE_ARCHIVE_CREATION = "enableArchiveCreation-";
+    String INCLUDE_DEVICE_ROOT = "includeDeviceRoot";
+    String RECORD_SEARCH = "recordSearch";
 
     boolean getShowDeviceRoot();
     void setShowDeviceRoot(boolean display);
+
+    /**
+     * Get boolean preferences values of recordSearch.
+     */
+    boolean isRecordSearch();
+
+    /**
+     * Set boolean preferences values of recordSearch.
+     */
+    void setRecordSearch(boolean show);
 
     /**
      * @param scope An arbitrary string representitive of the scope
@@ -69,6 +79,16 @@ public interface ScopedPreferences {
         @Override
         public void setShowDeviceRoot(boolean display) {
             mSharedPrefs.edit().putBoolean(INCLUDE_DEVICE_ROOT, display).apply();
+        }
+
+        @Override
+        public boolean isRecordSearch() {
+            return mSharedPrefs.getBoolean(RECORD_SEARCH, true);
+        }
+
+        @Override
+        public void setRecordSearch(boolean show) {
+            mSharedPrefs.edit().putBoolean(RECORD_SEARCH, show).apply();
         }
     }
 
