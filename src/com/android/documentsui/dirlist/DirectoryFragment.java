@@ -726,9 +726,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
             case R.id.action_menu_rename:
             case R.id.dir_menu_rename:
-                // Exit selection mode first, so we avoid deselecting deleted
-                // (renamed) documents.
-                mActionModeController.finishActionMode();
                 renameDocuments(selection);
                 return true;
 
