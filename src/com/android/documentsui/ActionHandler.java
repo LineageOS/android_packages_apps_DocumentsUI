@@ -16,7 +16,6 @@
 
 package com.android.documentsui;
 
-import androidx.annotation.IntDef;
 import android.app.PendingIntent;
 import android.content.ContentProvider;
 import android.content.Intent;
@@ -24,6 +23,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.view.DragEvent;
 
+import androidx.annotation.IntDef;
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 
 import com.android.documentsui.base.BooleanConsumer;
@@ -33,6 +33,7 @@ import com.android.documentsui.base.RootInfo;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
@@ -137,9 +138,14 @@ public interface ActionHandler {
     void copyToClipboard();
 
     /**
-     * In general, selected = selection or single focused item
+     * Show delete dialog
      */
-    void deleteSelectedDocuments();
+    void showDeleteDialog();
+
+    /**
+     * Delete the selected document(s)
+     */
+    void deleteSelectedDocuments(List<DocumentInfo> docs, DocumentInfo srcParent);
 
     void shareSelectedDocuments();
 

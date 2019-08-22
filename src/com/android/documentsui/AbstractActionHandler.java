@@ -462,7 +462,12 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     @Override
-    public void deleteSelectedDocuments() {
+    public void showDeleteDialog() {
+        throw new UnsupportedOperationException("Delete not supported!");
+    }
+
+    @Override
+    public void deleteSelectedDocuments(List<DocumentInfo> docs, DocumentInfo srcParent) {
         throw new UnsupportedOperationException("Delete not supported!");
     }
 

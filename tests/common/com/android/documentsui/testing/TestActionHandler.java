@@ -59,7 +59,7 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     }
 
     @Override
-    public void deleteSelectedDocuments() {
+    public void showDeleteDialog() {
         mDeleteHappened = true;
     }
 

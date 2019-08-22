@@ -94,7 +94,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
                 new Config(),
                 ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 messages,
-                DialogController.create(features, this, messages),
+                DialogController.create(features, this),
                 DocumentsApplication.getFileTypeLookup(this),
                 new ShortcutsUpdater(this, prefs)::update);
 
@@ -150,7 +150,7 @@ public class FilesActivity extends BaseActivity implements ActionHandler.Addons 
         mInjector.appsRowManager = mAppsRowManager;
 
         mActivityInputHandler =
-                new ActivityInputHandler(mInjector.actions::deleteSelectedDocuments);
+                new ActivityInputHandler(mInjector.actions::showDeleteDialog);
         mSharedInputHandler =
                 new SharedInputHandler(
                         mInjector.focusManager,
