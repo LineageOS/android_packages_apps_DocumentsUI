@@ -78,6 +78,7 @@ public class DebugView extends TableView implements DebugDisplay {
         put(R.string.debug_stream_types, "-");
         put(R.string.debug_raw_size, NumberFormat.getInstance().format(info.size));
         put(R.string.debug_is_archive, info.isArchive());
+        put(R.string.debug_is_blocked_from_tree, info.isBlockedFromTree());
         put(R.string.debug_is_container, info.isContainer());
         put(R.string.debug_is_partial, info.isPartial());
         put(R.string.debug_is_virtual, info.isVirtual());
