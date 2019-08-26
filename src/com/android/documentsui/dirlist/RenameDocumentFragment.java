@@ -230,6 +230,7 @@ public class RenameDocumentFragment extends DialogFragment {
             if (mDialog != null) {
                 mDialog.dismiss();
             }
+            mActivity.getInjector().selectionMgr.clearSelection();
             mActivity.reloadDocumentsIfNeeded();
         }
     }

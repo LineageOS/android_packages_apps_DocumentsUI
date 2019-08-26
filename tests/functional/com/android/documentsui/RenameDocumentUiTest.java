@@ -132,6 +132,8 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         bots.directory.assertDocumentsPresent(fileName1);
         bots.directory.assertDocumentsAbsent(newName);
         bots.directory.assertDocumentsCount(4);
+
+        bots.directory.assertSelection(1);
     }
 
     public void testRenameDir() throws Exception {
