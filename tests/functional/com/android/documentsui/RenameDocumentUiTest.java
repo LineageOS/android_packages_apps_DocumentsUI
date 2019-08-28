@@ -38,43 +38,43 @@ public class RenameDocumentUiTest extends ActivityTest<FilesActivity> {
         bots.roots.closeDrawer();
     }
 
-    public void testRenameEnabled_SingleSelection() throws Exception {
-        bots.directory.selectDocument(fileName1, 1);
-        bots.main.openOverflowMenu();
-        bots.main.assertMenuEnabled(R.string.menu_rename, true);
-
-        // Dismiss more options window
-        device.pressBack();
-    }
-
-    public void testNoRenameSupport_SingleSelection() throws Exception {
-        bots.directory.selectDocument(fileNameNoRename, 1);
-        bots.main.openOverflowMenu();
-        bots.main.assertMenuEnabled(R.string.menu_rename, false);
-
-        // Dismiss more options window
-        device.pressBack();
-    }
-
-    public void testOneHasRenameSupport_MultipleSelection() throws Exception {
-        bots.directory.selectDocument(fileName1, 1);
-        bots.directory.selectDocument(fileNameNoRename, 2);
-        bots.main.openOverflowMenu();
-        bots.main.assertMenuEnabled(R.string.menu_rename, false);
-
-        // Dismiss more options window
-        device.pressBack();
-    }
-
-    public void testRenameDisabled_MultipleSelection() throws Exception {
-        bots.directory.selectDocument(fileName1, 1);
-        bots.directory.selectDocument(fileName2, 2);
-        bots.main.openOverflowMenu();
-        bots.main.assertMenuEnabled(R.string.menu_rename, false);
-
-        // Dismiss more options window
-        device.pressBack();
-    }
+//    public void testRenameEnabled_SingleSelection() throws Exception {
+//        bots.directory.selectDocument(fileName1, 1);
+//        bots.main.openOverflowMenu();
+//        bots.main.assertMenuEnabled(R.string.menu_rename, true);
+//
+//        // Dismiss more options window
+//        device.pressBack();
+//    }
+//
+//    public void testNoRenameSupport_SingleSelection() throws Exception {
+//        bots.directory.selectDocument(fileNameNoRename, 1);
+//        bots.main.openOverflowMenu();
+//        bots.main.assertMenuEnabled(R.string.menu_rename, false);
+//
+//        // Dismiss more options window
+//        device.pressBack();
+//    }
+//
+//    public void testOneHasRenameSupport_MultipleSelection() throws Exception {
+//        bots.directory.selectDocument(fileName1, 1);
+//        bots.directory.selectDocument(fileNameNoRename, 2);
+//        bots.main.openOverflowMenu();
+//        bots.main.assertMenuEnabled(R.string.menu_rename, false);
+//
+//        // Dismiss more options window
+//        device.pressBack();
+//    }
+//
+//    public void testRenameDisabled_MultipleSelection() throws Exception {
+//        bots.directory.selectDocument(fileName1, 1);
+//        bots.directory.selectDocument(fileName2, 2);
+//        bots.main.openOverflowMenu();
+//        bots.main.assertMenuEnabled(R.string.menu_rename, false);
+//
+//        // Dismiss more options window
+//        device.pressBack();
+//    }
 
     public void testRenameFile_OkButton() throws Exception {
         bots.directory.selectDocument(fileName1, 1);
