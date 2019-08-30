@@ -21,10 +21,8 @@ import static android.provider.DocumentsContract.QUERY_ARG_MIME_TYPES;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
-import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
-
-import androidx.annotation.IntDef;
+import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -36,6 +34,8 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Root;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.IntDef;
 
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
@@ -237,6 +237,9 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
             derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
         } else if (isRecents()) {
             derivedType = TYPE_RECENTS;
+        } else if (isBugReport()) {
+            derivedType = TYPE_OTHER;
+            derivedIcon = R.drawable.ic_root_bugreport;
         } else {
             derivedType = TYPE_OTHER;
         }
@@ -246,6 +249,10 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     public Uri getUri() {
         return DocumentsContract.buildRootUri(authority, rootId);
+    }
+
+    public boolean isBugReport() {
+        return Providers.AUTHORITY_BUGREPORT.equals(authority);
     }
 
     public boolean isRecents() {
