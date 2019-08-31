@@ -59,8 +59,12 @@ import android.system.ErrnoException;
 import android.system.Int64Ref;
 import android.system.Os;
 import android.system.OsConstants;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.MetricConsts;
@@ -82,12 +86,10 @@ import java.io.InputStream;
 import java.io.SyncFailedException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.function.LongSupplier;
-
-import androidx.annotation.StringRes;
-import androidx.annotation.VisibleForTesting;
 
 class CopyJob extends ResolvedResourcesJob {
 
@@ -100,6 +102,7 @@ class CopyJob extends ResolvedResourcesJob {
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Messenger mMessenger;
+    private final Map<String, Long> mDirSizeMap = new ArrayMap<>();
 
     private CopyJobProgressTracker mProgressTracker;
 
@@ -307,6 +310,22 @@ class CopyJob extends ResolvedResourcesJob {
     }
 
     /**
+     * Logs progress when optimized copy.
+     *
+     * @param doc the doc current copy.
+     */
+    protected void makeOptimizedCopyProgress(DocumentInfo doc) {
+        long bytes;
+        if (doc.isDirectory()) {
+            Long byteObject = mDirSizeMap.get(doc.documentId);
+            bytes = byteObject == null ? 0 : byteObject.longValue();
+        } else {
+            bytes = doc.size;
+        }
+        makeCopyProgress(bytes);
+    }
+
+    /**
      * Copies a the given document to the given location.
      *
      * @param src DocumentInfos for the documents to copy.
@@ -318,8 +337,6 @@ class CopyJob extends ResolvedResourcesJob {
      */
     void processDocument(DocumentInfo src, DocumentInfo srcParent,
             DocumentInfo dstDirInfo) throws ResourceException {
-
-        // TODO: When optimized copy kicks in, we'll not making any progress updates.
         // For now. Local storage isn't using optimized copy.
 
         // When copying within the same provider, try to use optimized copying.
@@ -330,6 +347,7 @@ class CopyJob extends ResolvedResourcesJob {
                     if (DocumentsContract.copyDocument(wrap(getClient(src)), src.derivedUri,
                             dstDirInfo.derivedUri) != null) {
                         Metrics.logFileOperated(operationType, MetricConsts.OPMODE_PROVIDER);
+                        makeOptimizedCopyProgress(src);
                         return;
                     }
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
@@ -657,8 +675,9 @@ class CopyJob extends ResolvedResourcesJob {
                 if (src.isDirectory()) {
                     // Directories need to be recursed into.
                     try {
-                        bytesRequired +=
-                                calculateFileSizesRecursively(getClient(src), src.derivedUri);
+                        long size = calculateFileSizesRecursively(getClient(src), src.derivedUri);
+                        bytesRequired += size;
+                        mDirSizeMap.put(src.documentId, size);
                     } catch (RemoteException e) {
                         Log.w(TAG, "Failed to obtain the client for " + src.derivedUri, e);
                         return new IndeterminateProgressTracker(bytesRequired);
