@@ -108,7 +108,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 this::focusSidebar,
                 getColor(R.color.primary));
 
-        mInjector.menuManager = new MenuManager(mSearchManager, mState, new DirectoryDetails(this));
+        mInjector.menuManager = new MenuManager(
+                mSearchManager,
+                mState,
+                new DirectoryDetails(this),
+                mInjector.getModel()::getItemCount);
 
         mInjector.actionModeController = new ActionModeController(
                 this,

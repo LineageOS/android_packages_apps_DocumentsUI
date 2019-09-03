@@ -42,6 +42,10 @@
         android:title="@string/menu_select_all"
         android:showAsAction="never" />
     <item
+        android:id="@+id/action_menu_deselect_all"
+        android:title="@string/menu_deselect_all"
+        android:showAsAction="never" />
+    <item
         android:id="@+id/action_menu_copy_to"
         android:title="@string/menu_copy"
         android:showAsAction="never"

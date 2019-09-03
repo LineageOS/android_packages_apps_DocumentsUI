@@ -30,21 +30,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.documentsui.Model;
+import com.android.documentsui.R;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.State;
 import com.android.documentsui.queries.SearchViewManager;
 
 import java.util.List;
 import java.util.function.IntFunction;
-import com.android.documentsui.R;
+import java.util.function.IntSupplier;
 
 public final class MenuManager extends com.android.documentsui.MenuManager {
 
     private boolean mOnlyDirectory;
 
-    public MenuManager(SearchViewManager searchManager, State displayState, DirectoryDetails dirDetails) {
-        super(searchManager, displayState, dirDetails);
-
+    public MenuManager(
+            SearchViewManager searchManager,
+            State displayState,
+            DirectoryDetails dirDetails,
+            IntSupplier filesCountSupplier) {
+        super(searchManager, displayState, dirDetails, filesCountSupplier);
     }
 
     @Override
@@ -99,6 +103,24 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
         boolean enabled = visible && !mOnlyDirectory;
         selectAll.setVisible(visible);
         selectAll.setEnabled(enabled);
+    }
+
+    @Override
+    protected void updateSelectAll(MenuItem selectAll, SelectionDetails selectionDetails) {
+        final boolean visible = mState.allowMultiple
+                && selectionDetails.size() < mFilesCountSupplier.getAsInt();
+        final boolean enabled = visible && !mOnlyDirectory;
+        selectAll.setVisible(visible);
+        selectAll.setEnabled(enabled);
+    }
+
+    @Override
+    protected void updateDeselectAll(MenuItem deselectAll, SelectionDetails selectionDetails) {
+        final boolean visible = mState.allowMultiple
+                && selectionDetails.size() == mFilesCountSupplier.getAsInt();
+        final boolean enabled = visible && !mOnlyDirectory;
+        deselectAll.setVisible(visible);
+        deselectAll.setEnabled(enabled);
     }
 
     @Override
