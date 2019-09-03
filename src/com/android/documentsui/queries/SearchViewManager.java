@@ -37,6 +37,7 @@ import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.widget.SearchView;
@@ -54,6 +55,7 @@ import com.android.documentsui.base.State;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.BooleanSupplier;
 
 /**
  * Manages searching UI behavior.
@@ -72,6 +74,7 @@ public class SearchViewManager implements
     private final SearchChipViewManager mChipViewManager;
     private final Timer mTimer;
     private final Handler mUiHandler;
+    private final BooleanSupplier mRecordSearchSupplier;
 
     private final Object mSearchLock;
     @GuardedBy("mSearchLock")
@@ -94,9 +97,10 @@ public class SearchViewManager implements
             SearchManagerListener listener,
             EventHandler<String> commandProcessor,
             ViewGroup chipGroup,
-            @Nullable Bundle savedState) {
+            @Nullable Bundle savedState,
+            @NonNull BooleanSupplier recordSearchSupplier) {
         this(listener, commandProcessor, new SearchChipViewManager(chipGroup), savedState,
-                new Timer(), new Handler(Looper.getMainLooper()));
+                recordSearchSupplier, new Timer(), new Handler(Looper.getMainLooper()));
     }
 
     @VisibleForTesting
@@ -105,6 +109,7 @@ public class SearchViewManager implements
             EventHandler<String> commandProcessor,
             SearchChipViewManager chipViewManager,
             @Nullable Bundle savedState,
+            @NonNull BooleanSupplier recordSearchSupplier,
             Timer timer,
             Handler handler) {
         assert (listener != null);
@@ -117,6 +122,7 @@ public class SearchViewManager implements
         mUiHandler = handler;
         mChipViewManager = chipViewManager;
         mChipViewManager.setSearchChipViewManagerListener(this::onChipCheckedStateChanged);
+        mRecordSearchSupplier = recordSearchSupplier;
 
         if (savedState != null) {
             mCurrentSearch = savedState.getString(Shared.EXTRA_QUERY);
@@ -538,6 +544,14 @@ public class SearchViewManager implements
      * Record current search for history.
      */
     public void recordHistory() {
+        if (!mRecordSearchSupplier.getAsBoolean()) {
+            return;
+        }
+
+        recordHistoryInternal();
+    }
+
+    protected void recordHistoryInternal() {
         SearchHistoryManager.getInstance(
                 mSearchView.getContext().getApplicationContext()).addHistory(mCurrentSearch);
     }

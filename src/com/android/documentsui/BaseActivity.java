@@ -247,7 +247,7 @@ public abstract class BaseActivity
 
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
-                chipGroup, icicle);
+                chipGroup, icicle, mInjector.prefs::isRecordSearch);
         // initialize the chip sets by accept mime types
         mSearchManager.initChipSets(mState.acceptMimes);
         // update the chip items by the mime types of the root
