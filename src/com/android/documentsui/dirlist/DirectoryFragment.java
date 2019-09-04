@@ -896,7 +896,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 throw new UnsupportedOperationException("Unknown mode: " + mode);
         }
 
-        intent.putExtra(DocumentsContract.EXTRA_PROMPT, getResources().getString(drawerTitleId));
+        intent.putExtra(DocumentsContract.EXTRA_PROMPT, drawerTitleId);
 
         // Model must be accessed in UI thread, since underlying cursor is not threadsafe.
         List<DocumentInfo> docs = mModel.getDocuments(selected);

@@ -23,6 +23,7 @@ import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -264,21 +265,28 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     @Override
     public String getDrawerTitle() {
-        String title = getIntent().getStringExtra(DocumentsContract.EXTRA_PROMPT);
-        if (title == null) {
-            if (mState.action == ACTION_OPEN ||
-                mState.action == ACTION_GET_CONTENT ||
-                mState.action == ACTION_OPEN_TREE) {
-                title = getResources().getString(R.string.title_open);
-            } else if (mState.action == ACTION_CREATE ||
-                       mState.action == ACTION_PICK_COPY_DESTINATION) {
-                title = getResources().getString(R.string.title_save);
-            } else {
-                // If all else fails, just call it "Documents".
-                title = getResources().getString(R.string.app_label);
+        String title;
+        try {
+            // Internal use case, we will send string id instead of string text.
+            title = getResources().getString(
+                    getIntent().getIntExtra(DocumentsContract.EXTRA_PROMPT, -1));
+        } catch (Resources.NotFoundException e) {
+            // 3rd party use case, it should send string text.
+            title = getIntent().getStringExtra(DocumentsContract.EXTRA_PROMPT);
+            if (title == null) {
+                if (mState.action == ACTION_OPEN
+                        || mState.action == ACTION_GET_CONTENT
+                        || mState.action == ACTION_OPEN_TREE) {
+                    title = getResources().getString(R.string.title_open);
+                } else if (mState.action == ACTION_CREATE
+                        || mState.action == ACTION_PICK_COPY_DESTINATION) {
+                    title = getResources().getString(R.string.title_save);
+                } else {
+                    // If all else fails, just call it "Documents".
+                    title = getResources().getString(R.string.app_label);
+                }
             }
         }
-
         return title;
     }
 
