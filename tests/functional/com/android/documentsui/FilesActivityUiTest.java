@@ -57,7 +57,14 @@ public class FilesActivityUiTest extends ActivityTest<FilesActivity> {
     // to be able to click on it.
     public void testClickRecent() throws Exception {
         bots.roots.openRoot("Recent");
-        bots.main.assertSearchBarShow();
+
+        boolean showSearchBar =
+                context.getResources().getBoolean(R.bool.show_search_bar);
+        if (showSearchBar) {
+            bots.main.assertSearchBarShow();
+        } else {
+            bots.main.assertWindowTitle("Recent");
+        }
     }
 
     public void testRootClick_SetsWindowTitle() throws Exception {
