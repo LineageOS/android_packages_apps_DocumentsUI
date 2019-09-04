@@ -17,19 +17,21 @@ package com.android.documentsui.services;
 
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.BroadcastReceiver;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.RemoteViews;
-import android.util.Log;
 
 /**
 * This class receives a callback when Notification is posted or removed
@@ -58,12 +60,12 @@ public class TestNotificationService extends NotificationListenerService {
     public static final String EXTRA_ERROR_REASON =
             "com.android.documentsui.services.TestNotificationService.EXTRA_ERROR_REASON";
 
-    private final static String DOCUMENTSUI_PACKAGE= "com.android.documentsui";
-
     public enum MODE {
         CANCEL_MODE,
         EXECUTION_MODE;
     }
+
+    private static String mTargetPackageName;
 
     private MODE mCurrentMode = MODE.CANCEL_MODE;
 
@@ -87,6 +89,7 @@ public class TestNotificationService extends NotificationListenerService {
 
     @Override
     public void onCreate() {
+        mTargetPackageName = getTargetPackageName();
         mFrameLayout = new FrameLayout(getBaseContext());
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_CHANGE_CANCEL_MODE);
@@ -110,7 +113,7 @@ public class TestNotificationService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         String pkgName = sbn.getPackageName();
-        if (DOCUMENTSUI_PACKAGE.equals(pkgName)) {
+        if (mTargetPackageName.equals(pkgName)) {
             if (MODE.CANCEL_MODE.equals(mCurrentMode)) {
                 try {
                     mCancelled = doCancel(sbn.getNotification());
@@ -124,7 +127,7 @@ public class TestNotificationService extends NotificationListenerService {
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         String pkgName = sbn.getPackageName();
-        if (!DOCUMENTSUI_PACKAGE.equals(pkgName)) {
+        if (!mTargetPackageName.equals(pkgName)) {
             return;
         }
 
@@ -219,5 +222,15 @@ public class TestNotificationService extends NotificationListenerService {
             }
         }
         return result;
+    }
+
+    private String getTargetPackageName() {
+        final PackageManager pm = getPackageManager();
+
+        final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        final ResolveInfo ri = pm.resolveActivity(intent, 0);
+        return ri.activityInfo.packageName;
     }
 }
