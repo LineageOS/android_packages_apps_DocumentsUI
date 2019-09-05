@@ -17,7 +17,6 @@
 package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
-import static com.android.documentsui.base.SharedMinimal.TAG;
 
 import android.app.ActivityManager;
 import android.content.ContentProviderClient;
@@ -65,6 +64,9 @@ import java.util.concurrent.TimeUnit;
  * and return the combined result.
  */
 public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<DirectoryResult> {
+
+    private static final String TAG = "MultiRootDocsLoader";
+
     // TODO: clean up cursor ownership so background thread doesn't traverse
     // previously returned cursors for filtering/sorting; this currently races
     // with the UI thread.
@@ -83,6 +85,7 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
     private final ProvidersAccess mProviders;
     private final Lookup<String, Executor> mExecutors;
     private final Lookup<String, String> mFileTypeMap;
+    private LockingContentObserver mObserver;
 
     @GuardedBy("mTasks")
     /** A authority -> QueryTask map */
@@ -101,6 +104,8 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
      * @param state current state
      * @param executors the executors of authorities
      * @param fileTypeMap the map of mime types and file types.
+     * @param lock the selection lock
+     * @param contentChangedCallback callback when content changed
      */
     public MultiRootDocumentsLoader(Context context, ProvidersAccess providers, State state,
             Lookup<String, Executor> executors, Lookup<String, String> fileTypeMap) {
@@ -124,6 +129,10 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
         synchronized (mTasks) {
             return loadInBackgroundLocked();
         }
+    }
+
+    public void setObserver(LockingContentObserver observer) {
+        mObserver = observer;
     }
 
     private DirectoryResult loadInBackgroundLocked() {
@@ -322,6 +331,10 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
         FileUtils.closeQuietly(mResult);
         mResult = null;
+
+        if (mObserver != null) {
+            getContext().getContentResolver().unregisterContentObserver(mObserver);
+        }
     }
 
     // TODO: create better transfer of ownership around cursor to ensure its
@@ -406,6 +419,9 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
                         mState.sortModel.addQuerySortArgs(queryArgs);
                         addQueryArgs(queryArgs);
                         res[i] = client.query(uri, null, queryArgs, null);
+                        if (mObserver != null) {
+                            res[i].registerContentObserver(mObserver);
+                        }
                         mCursors[i] = generateResultCursor(rootInfos.get(i), res[i]);
                     } catch (Exception e) {
                         Log.w(TAG, "Failed to load " + authority + ", " + rootInfos.get(i).rootId,
