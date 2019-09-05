@@ -194,10 +194,14 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private final Runnable mOnDisplayStateChanged = this::onDisplayStateChanged;
 
     private final ViewTreeObserver.OnPreDrawListener mToolbarPreDrawListener = () -> {
-        setPreDrawListenerEnabled(false);
-        if (mAppBarHeight != getAppBarLayoutHeight()
-                || mSaveLayoutHeight != getSaveLayoutHeight()) {
+        final boolean appBarHeightChanged = mAppBarHeight != getAppBarLayoutHeight();
+        if (appBarHeightChanged || mSaveLayoutHeight != getSaveLayoutHeight()) {
             updateLayout(mState.derivedMode);
+
+            if (appBarHeightChanged) {
+                scrollToTop();
+            }
+            return false;
         }
         return true;
     };
@@ -254,6 +258,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         }
         // Make the recycler and the empty views responsive to drop events when allowed.
         mRecView.setOnDragListener(mDragHoverListener);
+
+        setPreDrawListenerEnabled(true);
 
         return view;
     }
@@ -1212,8 +1218,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mInjector.menuManager.updateOptionMenu();
 
                 mActivity.updateHeaderTitle();
-
-                setPreDrawListenerEnabled(true);
             }
         }
     }
