@@ -387,11 +387,6 @@ public abstract class BaseActivity
             View rootsContainer = findViewById(R.id.container_roots);
             rootsContainer.setPadding(0, 0, 0, insets.getSystemWindowInsetBottom());
 
-            DirectoryFragment fragment = getDirectoryFragment();
-            if (fragment != null) {
-                fragment.setPreDrawListenerEnabled(true);
-            }
-
             return insets.consumeSystemWindowInsets();
         });
 
