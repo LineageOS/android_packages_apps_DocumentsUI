@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"Deli"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Izbriši"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Izaberi sve"</string>
+    <string name="menu_deselect_all" msgid="7729916068862742979">"Poništi izbor svih stavki"</string>
     <string name="menu_select" msgid="1366061076507142387">"Izaberi"</string>
     <string name="menu_sort" msgid="3362419226163725275">"Sortiraj prema..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopiraj u…"</string>
