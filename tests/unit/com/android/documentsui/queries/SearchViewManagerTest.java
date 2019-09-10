@@ -48,6 +48,7 @@ import androidx.annotation.Nullable;
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.MetricConsts;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -64,6 +65,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
@@ -368,6 +371,31 @@ public final class SearchViewManagerTest {
     }
 
     @Test
+    public void testBuildQueryArgs_hasLargeFilesSize() throws Exception {
+        mSearchViewManager.onClick(null);
+        mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
+
+        final Bundle queryArgs = mSearchViewManager.buildQueryArgs();
+        assertFalse(queryArgs.isEmpty());
+
+        final long largeFilesSize = queryArgs.getLong(QUERY_ARG_FILE_SIZE_OVER);
+        assertEquals(10000000L, largeFilesSize);
+    }
+
+    @Test
+    public void testBuildQueryArgs_hasWeekAgoTime() throws Exception {
+        mSearchViewManager.onClick(null);
+        mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
+
+        final Bundle queryArgs = mSearchViewManager.buildQueryArgs();
+        assertFalse(queryArgs.isEmpty());
+
+        final long weekAgoTime = queryArgs.getLong(QUERY_ARG_LAST_MODIFIED_AFTER);
+        assertEquals(LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault())
+                .toInstant().toEpochMilli(), weekAgoTime);
+    }
+
+    @Test
     public void testSupportsMimeTypesSearch_showChips() throws Exception {
         RootInfo root = spy(new RootInfo());
         when(root.isRecents()).thenReturn(false);
@@ -423,7 +451,12 @@ public final class SearchViewManagerTest {
 
     private static Set<SearchChipData> getFakeSearchChipDataList() {
         final Set<SearchChipData> chipDataList = new HashSet<>();
-        chipDataList.add(new SearchChipData(0 /* chipType */, 0, new String[]{"image/*"}));
+        chipDataList.add(new SearchChipData(MetricConsts.TYPE_CHIP_IMAGES,
+                0 /* titleRes */, new String[]{"image/*"}));
+        chipDataList.add(new SearchChipData(MetricConsts.TYPE_CHIP_LARGE_FILES,
+                0 /* titleRes */, new String[]{""}));
+        chipDataList.add(new SearchChipData(MetricConsts.TYPE_CHIP_FROM_THIS_WEEK,
+                0 /* titleRes */, new String[]{""}));
         return chipDataList;
     }
 }

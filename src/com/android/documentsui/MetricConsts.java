@@ -363,6 +363,8 @@ public class MetricConsts {
     public static final int TYPE_CHIP_DOCS = 4;
     public static final int TYPE_SEARCH_HISTORY = 5;
     public static final int TYPE_SEARCH_STRING = 6;
+    public static final int TYPE_CHIP_LARGE_FILES = 7;
+    public static final int TYPE_CHIP_FROM_THIS_WEEK = 8;
 
     @IntDef(flag = true, value = {
             TYPE_UNKNOWN,
@@ -371,7 +373,9 @@ public class MetricConsts {
             TYPE_CHIP_VIDEOS,
             TYPE_CHIP_DOCS,
             TYPE_SEARCH_HISTORY,
-            TYPE_SEARCH_STRING
+            TYPE_SEARCH_STRING,
+            TYPE_CHIP_LARGE_FILES,
+            TYPE_CHIP_FROM_THIS_WEEK
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface SearchType {}
