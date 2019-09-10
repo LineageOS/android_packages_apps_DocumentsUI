@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"ସେୟାର୍‍ କରନ୍ତୁ"</string>
     <string name="menu_delete" msgid="1022254131543256626">"ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"ସବୁ ଚୟନ କରନ୍ତୁ"</string>
+    <string name="menu_deselect_all" msgid="7729916068862742979">"ସବୁ ଅଚୟନ କରନ୍ତୁ"</string>
     <string name="menu_select" msgid="1366061076507142387">"ଚୟନ କରନ୍ତୁ"</string>
     <string name="menu_sort" msgid="3362419226163725275">"ଏହି ଅନୁସାରେ ସଜାନ୍ତୁ..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ଏଠାକୁ କପି କରନ୍ତୁ…"</string>
