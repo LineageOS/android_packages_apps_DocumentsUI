@@ -22,7 +22,7 @@ import static org.mockito.Mockito.spy;
 
 import android.content.Context;
 import android.os.Bundle;
-
+import android.provider.DocumentsContract;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -47,7 +47,11 @@ import java.util.Set;
 @SmallTest
 public final class SearchChipViewManagerTest {
 
-    private static final String[] TEST_MIME_TYPES = new String[]{"image/*", "video/*"};
+    private static final String LARGE_FILES_CHIP_MIME_TYPE = "";
+    private static final String FROM_THIS_WEEK_CHIP_MIME_TYPE = "";
+    private static final String[] TEST_MIME_TYPES =
+            new String[]{"image/*", "video/*",
+                    LARGE_FILES_CHIP_MIME_TYPE, FROM_THIS_WEEK_CHIP_MIME_TYPE};
     private static int CHIP_TYPE = 1000;
 
     private Context mContext;
@@ -66,7 +70,7 @@ public final class SearchChipViewManagerTest {
     }
 
     @Test
-    public void testInitChipSets_HasCorrectValue() throws Exception {
+    public void testInitChipSets_HasCorrectChipCount() throws Exception {
         mSearchChipViewManager.initChipSets(TEST_MIME_TYPES);
         mSearchChipViewManager.updateChips(new String[] {"*/*"});
 
@@ -74,7 +78,7 @@ public final class SearchChipViewManagerTest {
     }
 
     @Test
-    public void testUpdateChips_HasCorrectValue() throws Exception {
+    public void testUpdateChips_HasCorrectChipCount() throws Exception {
         mSearchChipViewManager.updateChips(TEST_MIME_TYPES);
 
         assertThat(mChipGroup.getChildCount()).isEqualTo(TEST_MIME_TYPES.length);
@@ -84,7 +88,9 @@ public final class SearchChipViewManagerTest {
     public void testGetCheckedChipMimeTypes_HasCorrectValue() throws Exception {
         mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
 
-        final String[] checkedMimeTypes = mSearchChipViewManager.getCheckedMimeTypes();
+        String[] checkedMimeTypes =
+                mSearchChipViewManager.getCheckedChipQueryArgs()
+                        .getStringArray(DocumentsContract.QUERY_ARG_MIME_TYPES);
 
         assertThat(MimeTypes.mimeMatches(TEST_MIME_TYPES, checkedMimeTypes[0])).isTrue();
         assertThat(MimeTypes.mimeMatches(TEST_MIME_TYPES, checkedMimeTypes[1])).isTrue();
@@ -127,18 +133,18 @@ public final class SearchChipViewManagerTest {
     }
 
     @Test
-    public void testBindMirrorGroup_hideRow() throws Exception {
+    public void testBindMirrorGroup_showRow() throws Exception {
         mSearchChipViewManager.updateChips(new String[] {"image/*"});
 
         ViewGroup mirror = spy(new LinearLayout(mContext));
         mSearchChipViewManager.bindMirrorGroup(mirror);
 
-        assertThat(View.GONE).isEqualTo(mirror.getVisibility());
+        assertThat(View.VISIBLE).isEqualTo(mirror.getVisibility());
     }
 
     private static Set<SearchChipData> getFakeSearchChipDataList() {
         final Set<SearchChipData> chipDataList = new HashSet<>();
-        chipDataList.add(new SearchChipData(CHIP_TYPE, 0, TEST_MIME_TYPES));
+        chipDataList.add(new SearchChipData(CHIP_TYPE, 0 /* titleRes */, TEST_MIME_TYPES));
         return chipDataList;
     }
 }

@@ -162,15 +162,11 @@ public class SearchViewManager implements
      * @return the bundle of query arguments
      */
     public Bundle buildQueryArgs() {
-        final Bundle queryArgs = new Bundle();
+        final Bundle queryArgs = mChipViewManager.getCheckedChipQueryArgs();
         if (!TextUtils.isEmpty(mCurrentSearch)) {
             queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, mCurrentSearch);
         }
 
-        final String[] checkedMimeTypes = mChipViewManager.getCheckedMimeTypes();
-        if (checkedMimeTypes != null && checkedMimeTypes.length > 0) {
-            queryArgs.putStringArray(DocumentsContract.QUERY_ARG_MIME_TYPES, checkedMimeTypes);
-        }
         return queryArgs;
     }
 

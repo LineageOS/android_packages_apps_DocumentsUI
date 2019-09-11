@@ -36,6 +36,7 @@
     <string name="menu_share" msgid="4307140947108068356">"Ndaj"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Fshi"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Zgjidhi të gjitha"</string>
+    <string name="menu_deselect_all" msgid="7729916068862742979">"Anulo zgjedhjen për të gjitha"</string>
     <string name="menu_select" msgid="1366061076507142387">"Zgjidh"</string>
     <string name="menu_sort" msgid="3362419226163725275">"Rendit sipas..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopjo te..."</string>
