@@ -1,7 +1,8 @@
 {
   "postsubmit": [
     {
-      "name": "DocumentsUIGoogleTests"
+      "name": "DocumentsUIGoogleTests",
+      "keywords": ["primary-device"]
     }
   ]
 }
