@@ -50,8 +50,9 @@ public final class SearchChipViewManagerTest {
     private static final String LARGE_FILES_CHIP_MIME_TYPE = "";
     private static final String FROM_THIS_WEEK_CHIP_MIME_TYPE = "";
     private static final String[] TEST_MIME_TYPES =
-            new String[]{"image/*", "video/*",
-                    LARGE_FILES_CHIP_MIME_TYPE, FROM_THIS_WEEK_CHIP_MIME_TYPE};
+            new String[]{"image/*", "video/*"};
+    private static final String[] TEST_OTHER_TYPES =
+            new String[]{LARGE_FILES_CHIP_MIME_TYPE, FROM_THIS_WEEK_CHIP_MIME_TYPE};
     private static int CHIP_TYPE = 1000;
 
     private Context mContext;
@@ -70,22 +71,31 @@ public final class SearchChipViewManagerTest {
     }
 
     @Test
-    public void testInitChipSets_HasCorrectChipCount() throws Exception {
+    public void testInitChipSets_hasCorrectChipCount() throws Exception {
         mSearchChipViewManager.initChipSets(TEST_MIME_TYPES);
         mSearchChipViewManager.updateChips(new String[] {"*/*"});
 
-        assertThat(mChipGroup.getChildCount()).isEqualTo(TEST_MIME_TYPES.length);
+        int totalChipLength = TEST_MIME_TYPES.length + TEST_OTHER_TYPES.length;
+        assertThat(mChipGroup.getChildCount()).isEqualTo(totalChipLength);
     }
 
     @Test
-    public void testUpdateChips_HasCorrectChipCount() throws Exception {
+    public void testUpdateChips_hasCorrectChipCount() throws Exception {
         mSearchChipViewManager.updateChips(TEST_MIME_TYPES);
 
-        assertThat(mChipGroup.getChildCount()).isEqualTo(TEST_MIME_TYPES.length);
+        int totalChipLength = TEST_MIME_TYPES.length + TEST_OTHER_TYPES.length;
+        assertThat(mChipGroup.getChildCount()).isEqualTo(totalChipLength);
     }
 
     @Test
-    public void testGetCheckedChipMimeTypes_HasCorrectValue() throws Exception {
+    public void testUpdateChips_withSingleMimeType_hasCorrectChipCount() throws Exception {
+        mSearchChipViewManager.updateChips(new String[]{"image/*"});
+
+        assertThat(mChipGroup.getChildCount()).isEqualTo(TEST_OTHER_TYPES.length);
+    }
+
+    @Test
+    public void testGetCheckedChipMimeTypes_hasCorrectValue() throws Exception {
         mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
 
         String[] checkedMimeTypes =
@@ -97,7 +107,7 @@ public final class SearchChipViewManagerTest {
     }
 
     @Test
-    public void testRestoreCheckedChipItems_HasCorrectValue() throws Exception {
+    public void testRestoreCheckedChipItems_hasCorrectValue() throws Exception {
         Bundle bundle = new Bundle();
         bundle.putIntArray(Shared.EXTRA_QUERY_CHIPS, new int[]{2});
 
@@ -109,7 +119,7 @@ public final class SearchChipViewManagerTest {
     }
 
     @Test
-    public void testSaveInstanceState_HasCorrectValue() throws Exception {
+    public void testSaveInstanceState_hasCorrectValue() throws Exception {
         mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
         Bundle bundle = new Bundle();
 

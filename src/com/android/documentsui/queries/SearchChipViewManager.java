@@ -81,7 +81,8 @@ public class SearchChipViewManager {
     private static final String[] DOCUMENTS_MIMETYPES = new String[]{"application/*", "text/*"};
     private static final String[] EMPTY_MIMETYPES = new String[]{""};
 
-    private static final Map<Integer, SearchChipData> sChipItems = new HashMap<>();
+    private static final Map<Integer, SearchChipData> sMimeTypesChipItems = new HashMap<>();
+    private static final Map<Integer, SearchChipData> sDefaultChipItems = new HashMap<>();
 
     private final ViewGroup mChipGroup;
     private final List<Integer> mDefaultChipTypes = new ArrayList<>();
@@ -93,20 +94,20 @@ public class SearchChipViewManager {
     Set<SearchChipData> mCheckedChipItems = new HashSet<>();
 
     static {
-        sChipItems.put(TYPE_IMAGES,
+        sMimeTypesChipItems.put(TYPE_IMAGES,
                 new SearchChipData(TYPE_IMAGES, R.string.chip_title_images, IMAGES_MIMETYPES));
-        sChipItems.put(TYPE_DOCUMENTS,
+        sMimeTypesChipItems.put(TYPE_DOCUMENTS,
                 new SearchChipData(TYPE_DOCUMENTS, R.string.chip_title_documents,
                         DOCUMENTS_MIMETYPES));
-        sChipItems.put(TYPE_AUDIO,
+        sMimeTypesChipItems.put(TYPE_AUDIO,
                 new SearchChipData(TYPE_AUDIO, R.string.chip_title_audio, AUDIO_MIMETYPES));
-        sChipItems.put(TYPE_VIDEOS,
+        sMimeTypesChipItems.put(TYPE_VIDEOS,
                 new SearchChipData(TYPE_VIDEOS, R.string.chip_title_videos, VIDEOS_MIMETYPES));
-        sChipItems.put(TYPE_LARGE_FILES,
+        sDefaultChipItems.put(TYPE_LARGE_FILES,
                 new SearchChipData(TYPE_LARGE_FILES,
                         R.string.chip_title_large_files,
                         EMPTY_MIMETYPES));
-        sChipItems.put(TYPE_FROM_THIS_WEEK,
+        sDefaultChipItems.put(TYPE_FROM_THIS_WEEK,
                 new SearchChipData(TYPE_FROM_THIS_WEEK,
                         R.string.chip_title_from_this_week,
                         EMPTY_MIMETYPES));
@@ -126,7 +127,13 @@ public class SearchChipViewManager {
         if (chipTypes != null) {
             clearCheckedChips();
             for (int chipType : chipTypes) {
-                final SearchChipData chipData = sChipItems.get(chipType);
+                SearchChipData chipData = null;
+                if (sMimeTypesChipItems.containsKey(chipType)) {
+                    chipData = sMimeTypesChipItems.get(chipType);
+                } else {
+                    chipData = sDefaultChipItems.get(chipType);
+                }
+
                 mCheckedChipItems.add(chipData);
                 setCheckedChip(chipData.getChipType());
             }
@@ -219,7 +226,7 @@ public class SearchChipViewManager {
      */
     public void initChipSets(String[] acceptMimeTypes) {
         mDefaultChipTypes.clear();
-        for (SearchChipData chipData : sChipItems.values()) {
+        for (SearchChipData chipData : sMimeTypesChipItems.values()) {
             final String[] mimeTypes = chipData.getMimeTypes();
             final boolean isMatched = MimeTypes.mimeMatches(acceptMimeTypes, mimeTypes);
             if (isMatched) {
@@ -241,17 +248,27 @@ public class SearchChipViewManager {
         final Context context = mChipGroup.getContext();
         mChipGroup.removeAllViews();
 
-        final LayoutInflater inflater = LayoutInflater.from(context);
-        for (Integer chipType : mDefaultChipTypes) {
-            final SearchChipData chipData = sChipItems.get(chipType);
+        final List<SearchChipData> mimeChipDataList = new ArrayList<>();
+        for (int i = 0; i < mDefaultChipTypes.size(); i++) {
+            final SearchChipData chipData = sMimeTypesChipItems.get(mDefaultChipTypes.get(i));
             final String[] mimeTypes = chipData.getMimeTypes();
-            final boolean isMatched = (chipType == MetricConsts.TYPE_CHIP_LARGE_FILES
-                    || chipType == MetricConsts.TYPE_CHIP_FROM_THIS_WEEK)
-                    || MimeTypes.mimeMatches(acceptMimeTypes, mimeTypes);
+            final boolean isMatched = MimeTypes.mimeMatches(acceptMimeTypes, mimeTypes);
             if (isMatched) {
-                addChipToGroup(mChipGroup, chipData, inflater);
+                mimeChipDataList.add(chipData);
             }
         }
+
+        final LayoutInflater inflater = LayoutInflater.from(context);
+        if (mimeChipDataList.size() > 1) {
+            for (int i = 0; i < mimeChipDataList.size(); i++) {
+                addChipToGroup(mChipGroup, mimeChipDataList.get(i), inflater);
+            }
+        }
+
+        for (SearchChipData chipData : sDefaultChipItems.values()) {
+            addChipToGroup(mChipGroup, chipData, inflater);
+        }
+
         reorderCheckedChips(null /* clickedChip */, false /* hasAnim */);
         mIsFirstUpdateChipsReady = true;
         mCurrentUpdateMimeTypes = acceptMimeTypes;
