@@ -44,6 +44,7 @@
     </style>
 
     <style name="AutoCompleteTextViewStyle" parent="@style/Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textColorHint">?android:attr/textColorSecondary</item>
         <item name="android:textAppearance">@style/AutoCompleteText</item>
     </style>
 
