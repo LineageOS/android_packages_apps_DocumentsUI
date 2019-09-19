@@ -596,6 +596,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private int calculateColumnCount(@ViewMode int mode) {
+        // For fixing a11y issue b/141223688, if there's only "no items" displayed, we should set
+        // span column to 1 to avoid talkback speaking unnecessary information.
+        if (mModel != null && mModel.getItemCount() == 0) {
+            return 1;
+        }
+
         if (mode == MODE_LIST) {
             // List mode is a "grid" with 1 column.
             return 1;
