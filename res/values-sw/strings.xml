@@ -238,6 +238,8 @@
     <string name="chip_title_audio" msgid="1032801828748235436">"Sauti"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"Video"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"Hati"</string>
+    <string name="chip_title_large_files" msgid="7740269190493883980">"Faili kubwa"</string>
+    <string name="chip_title_from_this_week" msgid="8357992108715162135">"Kuanzia wiki hii"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"Jina la folda"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Jina jipya"</string>
     <string name="preview_file" msgid="4056622696305432343">"Kagua faili ya <xliff:g id="FILENAME">%1$s</xliff:g> kwanza"</string>
