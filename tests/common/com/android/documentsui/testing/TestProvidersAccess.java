@@ -55,7 +55,6 @@ public class TestProvidersAccess implements ProvidersAccess {
         DOWNLOADS.derivedType = RootInfo.TYPE_DOWNLOADS;
         DOWNLOADS.flags = Root.FLAG_LOCAL_ONLY
                 | Root.FLAG_SUPPORTS_CREATE
-                | Root.FLAG_SUPPORTS_IS_CHILD
                 | Root.FLAG_SUPPORTS_RECENTS;
 
         HOME = new RootInfo();
@@ -80,12 +79,14 @@ public class TestProvidersAccess implements ProvidersAccess {
         PICKLES.rootId = "pickles";
         PICKLES.title = "Pickles";
 
-        RECENTS = new RootInfo() {{
-            // Special root for recents
-            derivedType = RootInfo.TYPE_RECENTS;
-            flags = Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_IS_CHILD;
-            availableBytes = -1;
-        }};
+        RECENTS = new RootInfo() {
+            {
+                // Special root for recents
+                derivedType = RootInfo.TYPE_RECENTS;
+                flags = Root.FLAG_LOCAL_ONLY;
+                availableBytes = -1;
+            }
+        };
         RECENTS.title = "Recents";
 
         INSPECTOR = new RootInfo();
@@ -118,6 +119,8 @@ public class TestProvidersAccess implements ProvidersAccess {
         EXTERNALSTORAGE.rootId = Providers.ROOT_ID_DEVICE;
         EXTERNALSTORAGE.title = "Device";
         EXTERNALSTORAGE.derivedType = RootInfo.TYPE_LOCAL;
+        EXTERNALSTORAGE.flags = Root.FLAG_LOCAL_ONLY
+                | Root.FLAG_SUPPORTS_IS_CHILD;
     }
 
     public final Map<String, Collection<RootInfo>> roots = new HashMap<>();
@@ -128,6 +131,7 @@ public class TestProvidersAccess implements ProvidersAccess {
         add(HOME);
         add(HAMMY);
         add(PICKLES);
+        add(EXTERNALSTORAGE);
     }
 
     private void add(RootInfo root) {
