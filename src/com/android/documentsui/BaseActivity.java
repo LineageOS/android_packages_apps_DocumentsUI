@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.MODE_GRID;
 
 import android.content.Intent;
@@ -360,11 +361,13 @@ public abstract class BaseActivity
 
         includeState(state);
 
-        state.showAdvanced = Shared.mustShowDeviceRoot(intent)
-                || mInjector.prefs.getShowDeviceRoot();
+        // always show device root in tree mode
+        final boolean mustShowDeviceRoot =
+                state.action == ACTION_OPEN_TREE || Shared.mustShowDeviceRoot(intent);
+        state.showAdvanced = mustShowDeviceRoot || mInjector.prefs.getShowDeviceRoot();
 
         // Only show the toggle if advanced isn't forced enabled.
-        state.showDeviceStorageOption = !Shared.mustShowDeviceRoot(intent);
+        state.showDeviceStorageOption = !mustShowDeviceRoot;
 
         if (DEBUG) {
             Log.d(mTag, "Created new state object: " + state);
