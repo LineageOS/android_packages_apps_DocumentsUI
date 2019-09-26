@@ -30,7 +30,7 @@
     <string name="menu_search" msgid="1876699106790719849">"Bilatu"</string>
     <string name="menu_settings" msgid="6520844520117939047">"Memoriaren ezarpenak"</string>
     <string name="menu_open" msgid="9092138100049759315">"Ireki"</string>
-    <string name="menu_open_with" msgid="5507647065467520229">"Ireki honekin:"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"Ireki honekin"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"Ireki beste leiho batean"</string>
     <string name="menu_save" msgid="5195367497138965168">"Gorde"</string>
     <string name="menu_share" msgid="4307140947108068356">"Partekatu"</string>
@@ -87,7 +87,7 @@
     <string name="create_error" msgid="3092144450044861994">"Ezin izan da sortu karpeta"</string>
     <string name="query_error" msgid="6625421453613879336">"Une honetan ezin da kargatu edukia"</string>
     <string name="root_recent" msgid="1080156975424341623">"Azkenak"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> doan"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> erabilgarri"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Biltegiratze-zerbitzuak"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Lasterbideak"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Gailuak"</string>
@@ -184,7 +184,7 @@
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Artxibo batzuk bihurtu dira"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari <xliff:g id="STORAGE"><i>^3</i></xliff:g> unitateko <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> direktoriorako sarbidea eman nahi diozu?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> direktoriorako sarbidea eman nahi diozu?"</string>
-    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari zure datuak atzitzea baimendu nahi diozu, besteak beste, <xliff:g id="STORAGE"><i>^2</i></xliff:g> biltegian dituzun argazkiak eta bideoak?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> aplikazioari zure datuak atzitzeko baimena eman nahi diozu (besteak beste, <xliff:g id="STORAGE"><i>^2</i></xliff:g> biltegian dituzun argazkiak eta bideoak)?"</string>
     <string name="allow" msgid="1275746941353040309">"Baimendu"</string>
     <string name="deny" msgid="5127201668078153379">"Ukatu"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -202,8 +202,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> fitxategi ezabatu nahi duzu?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> karpeta eta beren eduki guztia ezabatu nahi duzu?</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> karpeta eta bere eduki guztia ezabatu nahi duzu?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> karpeta eta bertako eduki guztia ezabatu nahi duzu?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> karpeta eta bertako eduki guztia ezabatu nahi duzu?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> elementu ezabatu nahi dituzu?</item>
@@ -243,8 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Arakatu beste aplikazio batzuetako fitxategiak"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimoa"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Eman \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" direktorioan sartzeko baimena"</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" (\"<xliff:g id="ROOT">%2$s</xliff:g>\") direktorioan sartzeko baimena eman nahi duzu?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Hemen biltegiratuta dauden fitxategi guztietan sartzeko baimen osoa emango dio \"<xliff:g id="APPNAME">%1$s</xliff:g>\" aplikazioari, baita etorkizunean biltegiratuko den edukirako ere."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Bilatu telefono hau"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Bilatu telefono honetan"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Ezabatu bilaketa-historia (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
 </resources>

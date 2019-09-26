@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Αναζήτηση αρχείων σε άλλες εφαρμογές"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Ανώνυμη"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Να επιτρέπεται η πρόσβαση σε \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Να επιτρέπεται η πρόσβαση σε \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" στο \"<xliff:g id="ROOT">%2$s</xliff:g>\";"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Να επιτρέπεται η πρόσβαση σε \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" στο \"<xliff:g id="ROOT">%2$s</xliff:g>\";"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Θα επιτρέπεται στην εφαρμογή \"<xliff:g id="APPNAME">%1$s</xliff:g>\" να έχει πλήρη πρόσβαση σε όλα τα αρχεία που είναι αποθηκευμένα αυτήν τη στιγμή σε αυτήν την τοποθεσία και τυχόν περιεχόμενο που θα αποθηκευτεί μελλοντικά εδώ."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Αναζήτηση αυτού του τηλεφώνου"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Διαγραφή ιστορικού αναζήτησης <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

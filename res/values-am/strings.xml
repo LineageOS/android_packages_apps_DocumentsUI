@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ፋይሎችን በሌሎች መተግበሪያዎች ውስጥ ያስሱ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ስም-አልባ"</string>
     <string name="open_tree_button" msgid="19992834788135845">"የ«<xliff:g id="DIRECTORY">%1$s</xliff:g>» መዳረሻን ፍቀድ"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"በ«<xliff:g id="ROOT">%2$s</xliff:g>» ላይ የ«<xliff:g id="DIRECTORY">%1$s</xliff:g>» መዳረሻ ይፈቀድ?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"በ«<xliff:g id="ROOT">%2$s</xliff:g>» ውስጥ የ«<xliff:g id="DIRECTORY">%1$s</xliff:g>» መዳረሻ ይፈቀድ?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"«<xliff:g id="APPNAME">%1$s</xliff:g>» በአሁኑ ጊዜ በዚህ ቦታ ላይ የተከማቹ እና ወደፊት በዚህ ላይ የሚከማቹ ማናቸውም ሁሉም ፋይሎች ሙሉ መዳረሻ እንዲኖረው ያስችላል።"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ይህን ስልክ ይፈልጉ"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"የፍለጋ ታሪክ ይሰርዙ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

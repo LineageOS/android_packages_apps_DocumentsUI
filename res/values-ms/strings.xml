@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Semak imbas fail dalam apl lain"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Awanama"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Benarkan akses kepada \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Benarkan akses kepada \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" pada \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Benarkan akses kepada \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" pada \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Aliran ini membenarkan \"<xliff:g id="APPNAME">%1$s</xliff:g>\" mendapat akses penuh kepada semua fail yang disimpan di bawah lokasi ini pada masa ini dan sebarang kandungan masa hadapan yang disimpan di sini."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Cari dalam telefon ini"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Padamkan sejarah carian <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

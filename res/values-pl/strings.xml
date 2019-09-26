@@ -69,12 +69,12 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Zmieniono"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nazwa pliku (A–Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Typ (A–Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Rozmiar (malejąco)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Zmodyfikowane (od najstarszych)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Rozmiar (rosnąco)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Czas modyfikacji (od najstarszych)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nazwa pliku (Z–A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Typ (Z–A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Rozmiar (malejąco)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Zmodyfikowane (od najnowszych)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Czas modyfikacji (od najnowszych)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortuj według"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Posortowano wg: <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Liczba elementów"</string>
@@ -287,7 +287,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Przeglądaj pliki w innych aplikacjach"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimowa"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Zezwalaj na dostęp do katalogu „<xliff:g id="DIRECTORY">%1$s</xliff:g>”"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Zezwolić na dostęp do katalogu „<xliff:g id="DIRECTORY">%1$s</xliff:g>” na urządzeniu „<xliff:g id="ROOT">%2$s</xliff:g>”?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Zezwolić na dostęp do katalogu „<xliff:g id="DIRECTORY">%1$s</xliff:g>” w katalogu „<xliff:g id="ROOT">%2$s</xliff:g>”?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Aplikacja „<xliff:g id="APPNAME">%1$s</xliff:g>” uzyska pełny dostęp do plików zapisanych obecnie w tej lokalizacji i do wszystkich treści, które pojawią się tu w przyszłości."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Szukaj na telefonie"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Usuń historię wyszukiwania <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
