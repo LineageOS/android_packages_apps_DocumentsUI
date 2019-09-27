@@ -31,6 +31,7 @@
         android:showAsAction="always" />
     <item
         android:id="@+id/action_menu_sort"
+        android:icon="@drawable/ic_sort"
         android:title="@string/menu_sort"
         android:showAsAction="never" />
     <item
