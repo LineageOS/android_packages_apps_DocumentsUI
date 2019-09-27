@@ -681,6 +681,8 @@ public abstract class BaseActivity
                 result = getString(R.string.root_info_header_media, rootTitle);
                 break;
             case RootInfo.TYPE_DOWNLOADS:
+                result = getHeaderDownloadsTitle();
+                break;
             case RootInfo.TYPE_LOCAL:
             case RootInfo.TYPE_MTP:
             case RootInfo.TYPE_SD:
@@ -712,6 +714,11 @@ public abstract class BaseActivity
                     : R.string.root_info_header_recent;
             return getString(resId);
         }
+    }
+
+    private String getHeaderDownloadsTitle() {
+        return getString(mState.isPhotoPicking()
+            ? R.string.root_info_header_image_downloads : R.string.root_info_header_downloads);
     }
 
     private String getHeaderStorageTitle(String rootTitle) {
