@@ -18,6 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
+import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.MODE_GRID;
 
 import android.content.Intent;
@@ -360,11 +361,13 @@ public abstract class BaseActivity
 
         includeState(state);
 
-        state.showAdvanced = Shared.mustShowDeviceRoot(intent)
-                || mInjector.prefs.getShowDeviceRoot();
+        // always show device root in tree mode
+        final boolean mustShowDeviceRoot =
+                state.action == ACTION_OPEN_TREE || Shared.mustShowDeviceRoot(intent);
+        state.showAdvanced = mustShowDeviceRoot || mInjector.prefs.getShowDeviceRoot();
 
         // Only show the toggle if advanced isn't forced enabled.
-        state.showDeviceStorageOption = !Shared.mustShowDeviceRoot(intent);
+        state.showDeviceStorageOption = !mustShowDeviceRoot;
 
         if (DEBUG) {
             Log.d(mTag, "Created new state object: " + state);
@@ -678,6 +681,8 @@ public abstract class BaseActivity
                 result = getString(R.string.root_info_header_media, rootTitle);
                 break;
             case RootInfo.TYPE_DOWNLOADS:
+                result = getHeaderDownloadsTitle();
+                break;
             case RootInfo.TYPE_LOCAL:
             case RootInfo.TYPE_MTP:
             case RootInfo.TYPE_SD:
@@ -709,6 +714,11 @@ public abstract class BaseActivity
                     : R.string.root_info_header_recent;
             return getString(resId);
         }
+    }
+
+    private String getHeaderDownloadsTitle() {
+        return getString(mState.isPhotoPicking()
+            ? R.string.root_info_header_image_downloads : R.string.root_info_header_downloads);
     }
 
     private String getHeaderStorageTitle(String rootTitle) {

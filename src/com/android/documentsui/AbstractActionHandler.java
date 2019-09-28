@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -436,10 +435,8 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         if (enabled) {
             showDebugMessage();
         } else {
-            mActivity.getActionBar().setBackgroundDrawable(new ColorDrawable(
-                    mActivity.getResources().getColor(R.color.primary)));
             mActivity.getWindow().setStatusBarColor(
-                    mActivity.getResources().getColor(android.R.color.background_dark));
+                    mActivity.getResources().getColor(R.color.app_background_color));
         }
     }
 
@@ -452,7 +449,6 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
         Snackbars.showCustomTextWithImage(mActivity, messagePair.first, messagePair.second);
 
-        mActivity.getActionBar().setBackgroundDrawable(new ColorDrawable(colors[0]));
         mActivity.getWindow().setStatusBarColor(colors[1]);
     }
 
@@ -563,6 +559,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         } else {
             mActivity.restoreRootAndDirectory();
         }
+    }
+
+    protected final void loadDeviceRoot() {
+        mActivity.onRootPicked(
+                mProviders.getRootOneshot(Providers.AUTHORITY_STORAGE, Providers.ROOT_ID_DEVICE));
     }
 
     protected final void loadHomeDir() {
