@@ -91,7 +91,7 @@
     <string name="root_type_service" msgid="6521366147466512289">"சேமிப்பகச் சேவைகள்"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"ஷார்ட்கட்கள்"</string>
     <string name="root_type_device" msgid="1713604128005476585">"சாதனங்கள்"</string>
-    <string name="root_type_apps" msgid="8646073235029886342">"மேலும் பயன்பாடுகள்"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"மேலும் ஆப்ஸ்"</string>
     <string name="empty" msgid="5300254272613103004">"எதுவும் இல்லை"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s இல் பொருந்தும் முடிவு இல்லை"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"கோப்பைத் திறக்க முடியாது"</string>
