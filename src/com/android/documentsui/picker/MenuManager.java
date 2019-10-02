@@ -70,6 +70,10 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
             // May already be hidden because the root
             // doesn't support search.
             mSearchManager.showMenu(null);
+
+            // Show on toolbar because there are only two menu items while ACTION_OPEN_TREE.
+            menu.findItem(R.id.option_menu_sort).setShowAsAction(mState.action == ACTION_OPEN_TREE
+                    ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER);
         }
     }
 
@@ -125,6 +129,8 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
 
     @Override
     protected void updateCreateDir(MenuItem createDir) {
+        createDir.setShowAsAction(picking()
+                ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER);
         createDir.setVisible(picking());
         createDir.setEnabled(picking() && mDirDetails.canCreateDirectory());
     }
