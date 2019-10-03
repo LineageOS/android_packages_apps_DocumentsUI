@@ -540,7 +540,7 @@ public class SearchViewManager implements
      * Record current search for history.
      */
     public void recordHistory() {
-        if (!mRecordSearchSupplier.getAsBoolean()) {
+        if (TextUtils.isEmpty(mCurrentSearch) || !mRecordSearchSupplier.getAsBoolean()) {
             return;
         }
 
@@ -548,6 +548,11 @@ public class SearchViewManager implements
     }
 
     protected void recordHistoryInternal() {
+        if (mSearchView == null) {
+            Log.w(TAG, "Search view is null, skip record history this time");
+            return;
+        }
+
         SearchHistoryManager.getInstance(
                 mSearchView.getContext().getApplicationContext()).addHistory(mCurrentSearch);
     }
@@ -558,6 +563,11 @@ public class SearchViewManager implements
      * @param history target string for removed.
      */
     public void removeHistory(String history) {
+        if (mSearchView == null) {
+            Log.w(TAG, "Search view is null, skip remove history this time");
+            return;
+        }
+
         SearchHistoryManager.getInstance(
                 mSearchView.getContext().getApplicationContext()).deleteHistory(history);
     }
