@@ -15,9 +15,12 @@
  */
 package com.android.documentsui.files;
 
+import static com.android.documentsui.base.SharedMinimal.TAG;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,6 +57,11 @@ public class DeleteDocumentFragment extends DialogFragment {
      * @param srcParent the parent document of the selection
      */
     public static void show(FragmentManager fm, List<DocumentInfo> docs, DocumentInfo srcParent) {
+        if (fm.isStateSaved()) {
+            Log.w(TAG, "Skip show delete dialog because state saved");
+            return;
+        }
+
         final DeleteDocumentFragment dialog = new DeleteDocumentFragment();
         dialog.mDocuments = docs;
         dialog.mSrcParent = srcParent;

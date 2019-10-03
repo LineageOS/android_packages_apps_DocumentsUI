@@ -20,6 +20,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,11 @@ public class SearchFragment extends DialogFragment
     private List<String> mHistoryList;
 
     public static void showFragment(FragmentManager fm, String initQuery) {
+        if (fm.isStateSaved()) {
+            Log.w(TAG, "Skip show because state saved");
+            return;
+        }
+
         final SearchFragment fragment = new SearchFragment();
         final Bundle args = new Bundle();
         args.putString(KEY_QUERY, initQuery);
