@@ -31,6 +31,7 @@ public class TestDialogController implements DialogController {
     private boolean mDocumentsClipped;
     private boolean mViewInArchivesUnsupported;
     private boolean mShowOperationUnsupported;
+    private boolean mShowShareOverLimit;
     private DocumentInfo mTarget;
     private int mConfrimType;
 
@@ -68,6 +69,11 @@ public class TestDialogController implements DialogController {
     }
 
     @Override
+    public void showShareOverLimit(int size) {
+        mShowShareOverLimit = true;
+    }
+
+    @Override
     public void confirmAction(FragmentManager fm, DocumentInfo pickTarget, int type) {
         mTarget = pickTarget;
         mConfrimType = type;
@@ -94,6 +100,10 @@ public class TestDialogController implements DialogController {
 
     public void assertDocumentsClippedNotShown() {
         Assert.assertFalse(mDocumentsClipped);
+    }
+
+    public void assertShareOverLimitShown() {
+        Assert.assertTrue(mShowShareOverLimit);
     }
 
     public void assertOverwriteConfirmed(DocumentInfo expected) {

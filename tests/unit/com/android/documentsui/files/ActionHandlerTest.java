@@ -233,6 +233,17 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testShareSelectedDocuments_overShareLimit() {
+        mActivity.resources.strings.put(R.string.share_via, "Sharezilla!");
+        mEnv.selectMultipleFiles(500);
+        mHandler.shareSelectedDocuments();
+
+        Intent intent = mActivity.startActivity.getLastValue();
+        assertNull(intent);
+        mDialogs.assertShareOverLimitShown();
+    }
+
+    @Test
     public void testShareSelectedDocuments_VirtualFiles() {
         if (!mEnv.features.isVirtualFilesSharingEnabled()) {
             return;

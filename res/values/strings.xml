@@ -196,6 +196,8 @@
     <string name="toast_view_in_archives_unsupported">Cannot open files in archives</string>
     <!-- Toast shown when some of the selected documents failed to be deleted [CHAR LIMIT=48] -->
     <string name="toast_failed_delete">Unable to delete some documents</string>
+    <!-- Toast shown when user want to share files amount over limit [CHAR LIMIT=48] -->
+    <string name="toast_share_over_limit">Can\u2019t share more than <xliff:g id="count" example="1">%1$d</xliff:g> files</string>
 
     <!-- Title of dialog when prompting user to select an app to share documents with [CHAR LIMIT=32] -->
     <string name="share_via">Share via</string>
