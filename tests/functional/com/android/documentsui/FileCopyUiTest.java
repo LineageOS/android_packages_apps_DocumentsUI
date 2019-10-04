@@ -21,6 +21,7 @@ import static com.android.documentsui.base.Providers.ROOT_ID_DEVICE;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -44,8 +45,10 @@ import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.services.TestNotificationService;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
@@ -66,6 +69,8 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     private static final int WAIT_TIME_SECONDS = 180;
 
     private final Map<String, Long> mTargetFileList = new HashMap<String, Long>();
+
+    private final List<RootAndFolderPair> mFoldersToCleanup = new ArrayList<>();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -108,6 +113,8 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        mFoldersToCleanup.clear();
 
         // Create ContentProviderClient and DocumentsProviderHelper for using SD Card.
         ContentProviderClient storageClient =
@@ -164,6 +171,10 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         deleteDocuments(Build.MODEL);
         deleteDocuments(mSdCardLabel);
 
+        for (RootAndFolderPair rootAndFolder : mFoldersToCleanup) {
+            deleteDocuments(rootAndFolder.root, rootAndFolder.folder);
+        }
+
         if (mIsVirtualSdCard) {
             device.executeShellCommand("sm set-virtual-disk false");
         }
@@ -214,25 +225,29 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         return true;
     }
 
-    private boolean deleteDocuments(String label) throws Exception {
+    private boolean deleteDocuments(String label, String targetFolder) throws Exception {
         if (TextUtils.isEmpty(label)) {
             return false;
         }
 
         bots.roots.openRoot(label);
-        if (!bots.directory.hasDocuments(TARGET_FOLDER)) {
+        if (!bots.directory.hasDocuments(targetFolder)) {
             return true;
         }
 
-        bots.directory.selectDocument(TARGET_FOLDER, 1);
+        bots.directory.selectDocument(targetFolder, 1);
         device.waitForIdle();
 
         bots.main.clickToolbarItem(R.id.action_menu_delete);
         bots.main.clickDialogOkButton();
         device.waitForIdle();
 
-        bots.directory.findDocument(TARGET_FOLDER).waitUntilGone(WAIT_TIME_SECONDS);
-        return !bots.directory.hasDocuments(TARGET_FOLDER);
+        bots.directory.findDocument(targetFolder).waitUntilGone(WAIT_TIME_SECONDS);
+        return !bots.directory.hasDocuments(targetFolder);
+    }
+
+    private boolean deleteDocuments(String label) throws Exception {
+        return deleteDocuments(label, TARGET_FOLDER);
     }
 
     private void loadImages(Uri root, DocumentsProviderHelper helper) throws Exception {
@@ -425,5 +440,73 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
 
         assertFalse(bots.directory.findDocument(fileName1).isEnabled());
+    }
+
+    @HugeLongTest
+    public void testRecursiveCopyDocuments_InternalStorageToDownloadsProvider() throws Exception {
+        // Create Download folder if it doesn't exist.
+        DocumentInfo info = mStorageDocsHelper.findFile(mPrimaryRoot.documentId, "Download");
+
+        if (info == null) {
+            ContentResolver cr = context.getContentResolver();
+            Uri uri = mStorageDocsHelper.createFolder(mPrimaryRoot.documentId, "Download");
+            info = DocumentInfo.fromUri(cr, uri);
+        }
+
+        assertTrue(info != null && info.isDirectory());
+
+        // Setup folder /storage/emulated/0/Download/UUID
+        String randomFolder = UUID.randomUUID().toString();
+        assertNull(mStorageDocsHelper.findFile(info.documentId, randomFolder));
+
+        Uri subFolderUri = mStorageDocsHelper.createFolder(info.documentId, randomFolder);
+        assertNotNull(subFolderUri);
+        mFoldersToCleanup.add(new RootAndFolderPair("Downloads", randomFolder));
+
+        // Load images into /storage/emulated/0/Download/UUID
+        loadImages(subFolderUri, mStorageDocsHelper);
+
+        mCountDownLatch = new CountDownLatch(1);
+
+        // Open Internal Storage Root.
+        bots.roots.openRoot(Build.MODEL);
+        device.waitForIdle();
+
+        // Select Download folder.
+        bots.directory.selectDocument("Download");
+        device.waitForIdle();
+
+        // Click copy button.
+        bots.main.clickToolbarOverflowItem(context.getResources().getString(R.string.menu_copy));
+        device.waitForIdle();
+
+        // Downloads folder is automatically opened, so just open the folder defined
+        // by the UUID.
+        bots.directory.openDocument(randomFolder);
+        device.waitForIdle();
+
+        // Initiate the copy operation.
+        bots.main.clickDialogOkButton();
+        device.waitForIdle();
+
+        try {
+            mCountDownLatch.await(WAIT_TIME_SECONDS, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            fail("Cannot wait because of error." + e.toString());
+        }
+
+        assertFalse(mOperationExecuted);
+    }
+
+    /** Holds a pair of a root and folder. */
+    private static final class RootAndFolderPair {
+
+        private final String root;
+        private final String folder;
+
+        RootAndFolderPair(String root, String folder) {
+            this.root = root;
+            this.folder = folder;
+        }
     }
 }
