@@ -61,6 +61,11 @@ public class CreateDirectoryFragment extends DialogFragment {
     private static final String TAG_CREATE_DIRECTORY = "create_directory";
 
     public static void show(FragmentManager fm) {
+        if (fm.isStateSaved()) {
+            Log.w(TAG, "Skip show create folder dialog because state saved");
+            return;
+        }
+
         final CreateDirectoryFragment dialog = new CreateDirectoryFragment();
         dialog.show(fm, TAG_CREATE_DIRECTORY);
     }

@@ -60,6 +60,11 @@ public class RenameDocumentFragment extends DialogFragment {
     private @Nullable DialogInterface mDialog;
 
     public static void show(FragmentManager fm, DocumentInfo document) {
+        if (fm.isStateSaved()) {
+            Log.w(TAG, "Skip show rename dialog because state saved");
+            return;
+        }
+
         final RenameDocumentFragment dialog = new RenameDocumentFragment();
         dialog.mDocument = document;
         dialog.show(fm, TAG_RENAME_DOCUMENT);

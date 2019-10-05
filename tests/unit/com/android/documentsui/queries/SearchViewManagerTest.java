@@ -137,6 +137,7 @@ public final class SearchViewManagerTest {
     private static class TestableSearchViewManager extends SearchViewManager {
 
         private String mHistoryRecorded;
+        private boolean mIsHistoryRecorded;
 
         public TestableSearchViewManager(
                 SearchManagerListener listener,
@@ -160,10 +161,15 @@ public final class SearchViewManagerTest {
         @Override
         protected void recordHistoryInternal() {
             mHistoryRecorded = getCurrentSearch();
+            mIsHistoryRecorded = true;
         }
 
         public String getRecordedHistory() {
             return mHistoryRecorded;
+        }
+
+        public boolean isHistoryRecorded() {
+            return mIsHistoryRecorded;
         }
     }
 
@@ -332,6 +338,13 @@ public final class SearchViewManagerTest {
         mSearchViewManager.onQueryTextSubmit("q");
 
         assertNull(mSearchViewManager.getRecordedHistory());
+    }
+
+    @Test
+    public void testHistoryRecorded_skipWhenNoSearchString() {
+        mSearchViewManager.recordHistory();
+
+        assertFalse(mSearchViewManager.isHistoryRecorded());
     }
 
     @Test

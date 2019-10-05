@@ -36,7 +36,13 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.dirlist.RenameDocumentFragment;
+import com.android.documentsui.files.DeleteDocumentFragment;
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.queries.SearchFragment;
+import com.android.documentsui.sorting.SortListFragment;
+import com.android.documentsui.sorting.SortModel;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -45,6 +51,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -200,6 +207,49 @@ public class DialogFragmentTest {
         assertTrue(inputView.getHeight() > Math.round(textSize));
 
         switchOrientation(mActivityTestRule.getActivity());
+    }
+
+    @Test
+    public void testCreateDirectoryFragmentShows_skipWhenStateSaved() {
+        mFragmentManager = Mockito.mock(FragmentManager.class);
+        Mockito.when(mFragmentManager.isStateSaved()).thenReturn(true);
+
+        // Use mock FragmentManager will cause NPE then test fail when DialogFragment.show is
+        // called, so test pass means it skip.
+        CreateDirectoryFragment.show(mFragmentManager);
+    }
+
+    @Test
+    public void testDeleteDocumentFragmentShows_skipWhenStateSaved() {
+        mFragmentManager = Mockito.mock(FragmentManager.class);
+        Mockito.when(mFragmentManager.isStateSaved()).thenReturn(true);
+
+        DeleteDocumentFragment.show(mFragmentManager, null, null);
+    }
+
+    @Test
+    public void testRenameDocumentFragmentShows_skipWhenStateSaved() {
+        mFragmentManager = Mockito.mock(FragmentManager.class);
+        Mockito.when(mFragmentManager.isStateSaved()).thenReturn(true);
+
+        RenameDocumentFragment.show(mFragmentManager, new DocumentInfo());
+    }
+
+    @Test
+    public void testSearchFragmentShows_skipWhenStateSaved() {
+        mFragmentManager = Mockito.mock(FragmentManager.class);
+        Mockito.when(mFragmentManager.isStateSaved()).thenReturn(true);
+
+        SearchFragment.showFragment(mFragmentManager, "");
+    }
+
+    @Test
+    public void testSortListFragmentShows_skipWhenStateSaved() {
+        mFragmentManager = Mockito.mock(FragmentManager.class);
+        Mockito.when(mFragmentManager.isStateSaved()).thenReturn(true);
+        SortModel sortModel = Mockito.mock(SortModel.class);
+
+        SortListFragment.show(mFragmentManager, sortModel);
     }
 
     private static int getInputTextHeight(TextInputEditText v) {
