@@ -226,11 +226,13 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"휴대전화의 최근 파일"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"휴대전화의 파일"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"휴대전화의 <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"다운로드 폴더의 파일"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g>의 파일"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>의 파일"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g>의 파일/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"휴대전화에 있는 최근 이미지"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"휴대전화에 있는 이미지"</string>
+    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"다운로드 폴더의 이미지"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g>에 있는 이미지"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g>의 이미지"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g>의 이미지/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>

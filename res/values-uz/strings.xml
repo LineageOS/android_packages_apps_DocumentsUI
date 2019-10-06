@@ -226,11 +226,13 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"Telefonda yaqinda ochilgan fayllar"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"Telefondagi fayllar"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"Telefondagi <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"Yuklanmalardagi fayllar"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> qurilmasidagi fayllar"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> fayllari"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> fayllari (<xliff:g id="SUMMARY">%2$s</xliff:g>)"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Telefondagi oxirgi rasmlar"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Telefondagi rasmlar"</string>
+    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Yuklanmalardagi rasmlar"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> qurilmasidagi rasmlar"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g> rasmlari"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"Rasmlar: <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
