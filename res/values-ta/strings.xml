@@ -92,7 +92,7 @@
     <string name="root_type_service" msgid="6521366147466512289">"சேமிப்பகச் சேவைகள்"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"ஷார்ட்கட்கள்"</string>
     <string name="root_type_device" msgid="1713604128005476585">"சாதனங்கள்"</string>
-    <string name="root_type_apps" msgid="8646073235029886342">"மேலும் பயன்பாடுகள்"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"மேலும் ஆப்ஸ்"</string>
     <string name="empty" msgid="5300254272613103004">"எதுவும் இல்லை"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s இல் பொருந்தும் முடிவு இல்லை"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"கோப்பைத் திறக்க முடியாது"</string>
@@ -226,11 +226,13 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"மொபைலில் உள்ள சமீபத்திய ஃபைல்கள்"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"மொபைலில் உள்ள ஃபைல்கள்"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"மொபைலில் உள்ள <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"பதிவிறக்கங்களில் உள்ள ஃபைல்கள்"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> இலுள்ள ஃபைல்கள்"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> இலிருந்து ஃபைல்கள்"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> இலிருந்து ஃபைல்கள்"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"மொபைலிலுள்ள சமீபத்திய படங்கள்"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"மொபைலில் உள்ள படங்கள்"</string>
+    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"பதிவிறக்கங்களில் உள்ள படங்கள்"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g>ல் உள்ள படங்கள்"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g>ல் இருந்த படங்கள்"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>ல் இருந்த படங்கள்"</string>

@@ -35,7 +35,7 @@
     <string name="menu_save" msgid="5195367497138965168">"Сактоо"</string>
     <string name="menu_share" msgid="4307140947108068356">"Бөлүшүү"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Жок кылуу"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"Бардыгын тандоо"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Баарын тандоо"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Баарын тандоодон чыгаруу"</string>
     <string name="menu_select" msgid="1366061076507142387">"Тандоо"</string>
     <string name="menu_sort" msgid="3362419226163725275">"Төмөнкү боюнча иреттөө…"</string>
@@ -187,7 +187,7 @@
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> каталогун пайдалануу мүмкүнчүлүгү берилсинби?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="STORAGE"><i>^2</i></xliff:g> түзмөгүндөгү дайындарыңыз, сүрөттөрүңүз жана видеолоруңузду пайдалануу мүмкүнчүлүгү берилсинби?"</string>
     <string name="allow" msgid="1275746941353040309">"Уруксат берүү"</string>
-    <string name="deny" msgid="5127201668078153379">"Жок"</string>
+    <string name="deny" msgid="5127201668078153379">"Тыюу салынат"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> тандалды</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> тандалды</item>
@@ -226,11 +226,13 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"Телефондогу акыркы файлдар"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"Телефондогу файлдар"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"Телефондогу <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"Жүктөлүп алынгандар папкасындагы файлдар"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> түзмөгүндөгү файлдар"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> сактагычындагы файлдар"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> сактагычындагы файлдар / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Телефондогу акыркы сүрөттөр"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Телефондогу сүрөттөр"</string>
+    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Жүктөлүп алынгандар папкасындагы сүрөттөр"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> түзмөгүндөгү сүрөттөр"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g> сактагычындагы сүрөттөр"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> аккаунтунун сүрөттөрү"</string>

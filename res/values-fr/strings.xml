@@ -226,11 +226,13 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"Fichiers récents sur le téléphone"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"Fichiers sur le téléphone"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> sur le téléphone"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"Fichiers dans le dossier \"Téléchargements\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Fichiers sur <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Fichiers provenant de <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Fichiers provenant de <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Images récentes sur le téléphone"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Images sur le téléphone"</string>
+    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Images dans le dossier \"Téléchargements\""</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Images sur <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"Images sur <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"Images sur <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>

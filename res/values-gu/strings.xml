@@ -28,7 +28,7 @@
     <string name="menu_grid" msgid="1453636521731880680">"ગ્રિડ દૃશ્ય"</string>
     <string name="menu_list" msgid="6714267452146410402">"સૂચિ દૃશ્ય"</string>
     <string name="menu_search" msgid="1876699106790719849">"શોધો"</string>
-    <string name="menu_settings" msgid="6520844520117939047">"સ્ટોરેજ સેટિંગ્સ"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"સ્ટોરેજ સેટિંગ"</string>
     <string name="menu_open" msgid="9092138100049759315">"ખોલો"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"આની સાથે ખોલો"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"નવી વિંડોમાં ખોલો"</string>
@@ -226,11 +226,13 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"ફોન પરની તાજેતરની ફાઇલો"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"ફોન પરની ફાઇલો"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"ફોન પર <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"ડાઉનલોડમાંની ફાઇલો"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> પરની ફાઇલો"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>માંથી ફાઇલો"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>માંથી ફાઇલો"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"ફોન પરની તાજેતરની છબીઓ"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"ફોન પરની છબીઓ"</string>
+    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"ડાઉનલોડમાંની છબીઓ"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> પરની છબીઓ"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g>ની છબીઓ"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>ની છબીઓ"</string>
