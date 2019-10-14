@@ -376,7 +376,7 @@ public class SearchChipViewManager {
         if (chipData.getChipType() == TYPE_LARGE_FILES) {
             chipIcon = context.getDrawable(R.drawable.ic_chip_large_files);
         } else if (chipData.getChipType() == TYPE_FROM_THIS_WEEK) {
-            chipIcon = context.getDrawable(R.drawable.ic_history);
+            chipIcon = context.getDrawable(R.drawable.ic_chip_from_this_week);
         } else {
             // get the icon drawable with the first mimeType in chipData
             chipIcon = IconUtils.loadMimeIcon(context, chipData.getMimeTypes()[0]);
