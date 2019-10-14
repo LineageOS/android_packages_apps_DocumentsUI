@@ -16,9 +16,9 @@
 
 package com.android.documentsui.picker;
 
-import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
-import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
 import static com.android.documentsui.services.FileOperationService.OPERATION_COMPRESS;
+import static com.android.documentsui.services.FileOperationService.OPERATION_COPY;
+import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_EXTRACT;
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
@@ -172,6 +172,7 @@ public class PickFragment extends Fragment {
                 mPick.setText(text);
                 mPick.setWidth(Integer.MAX_VALUE);
                 mCancel.setVisibility(View.GONE);
+                mPick.setEnabled(!mPickTarget.isBlockedFromTree());
                 break;
             case State.ACTION_PICK_COPY_DESTINATION:
                 int titleId;
