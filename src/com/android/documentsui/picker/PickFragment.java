@@ -24,7 +24,6 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_MO
 import static com.android.documentsui.services.FileOperationService.OPERATION_UNKNOWN;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,12 +163,7 @@ public class PickFragment extends Fragment {
 
         switch (mAction) {
             case State.ACTION_OPEN_TREE:
-                final BaseActivity activity = (BaseActivity) getActivity();
-                final String target = activity.getCurrentTitle();
-                final String text = TextUtils.isEmpty(target)
-                        ? getString(R.string.button_select)
-                        : getString(R.string.open_tree_button, target);
-                mPick.setText(text);
+                mPick.setText(getString(R.string.open_tree_button));
                 mPick.setWidth(Integer.MAX_VALUE);
                 mCancel.setVisibility(View.GONE);
                 mPick.setEnabled(!mPickTarget.isBlockedFromTree());
