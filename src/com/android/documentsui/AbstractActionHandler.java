@@ -544,7 +544,14 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     private void onRootLoaded(@Nullable RootInfo root) {
-        if (root != null) {
+        boolean invalidRootForAction =
+                (root != null
+                && !root.supportsChildren()
+                && mState.action == State.ACTION_OPEN_TREE);
+
+        if (invalidRootForAction) {
+            loadDeviceRoot();
+        } else if (root != null) {
             mActivity.onRootPicked(root);
         } else {
             launchToDefaultLocation();
