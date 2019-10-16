@@ -726,9 +726,15 @@ public abstract class BaseActivity
     }
 
     private String getHeaderStorageTitle(String rootTitle) {
-        final int resId = mState.isPhotoPicking()
-                ? R.string.root_info_header_image_storage : R.string.root_info_header_storage;
-        return getString(resId, rootTitle);
+        if (mState.stack.size() > 1) {
+            final int resId = mState.isPhotoPicking()
+                    ? R.string.root_info_header_image_folder : R.string.root_info_header_folder;
+            return getString(resId, getCurrentTitle());
+        } else {
+            final int resId = mState.isPhotoPicking()
+                    ? R.string.root_info_header_image_storage : R.string.root_info_header_storage;
+            return getString(resId, rootTitle);
+        }
     }
 
     private String getHeaderDefaultTitle(String rootTitle, String summary) {
