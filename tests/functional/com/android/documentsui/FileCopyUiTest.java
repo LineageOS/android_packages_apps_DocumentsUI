@@ -137,12 +137,6 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
             Log.d(TAG, "Cannot set notification access. ", e);
         }
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(TestNotificationService.ACTION_OPERATION_RESULT);
-        context.registerReceiver(mReceiver, filter);
-        context.sendBroadcast(new Intent(
-                TestNotificationService.ACTION_CHANGE_EXECUTION_MODE));
-
         mOperationExecuted = false;
         mErrorReason = "No response from Notification";
 
@@ -156,6 +150,12 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
             // Call initStorageRootInfo() again for setting SD Card root
             initStorageRootInfo();
         }
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(TestNotificationService.ACTION_OPERATION_RESULT);
+        context.registerReceiver(mReceiver, filter);
+        context.sendBroadcast(new Intent(
+                TestNotificationService.ACTION_CHANGE_EXECUTION_MODE));
     }
 
     @Override
