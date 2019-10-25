@@ -37,7 +37,7 @@
     <string name="menu_delete" msgid="1022254131543256626">"წაშლა"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"ყველას არჩევა"</string>
     <string name="menu_select" msgid="1366061076507142387">"არჩევა"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"დალაგება კრიტერიუმით..."</string>
+    <string name="menu_sort" msgid="3362419226163725275">"სორტირება კრიტერიუმით..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"კოპირება…"</string>
     <string name="menu_move" msgid="2310760789561129882">"გადაადგილება..."</string>
     <string name="menu_compress" msgid="37539111904724188">"შეკუმშვა"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ფაილების დათვალიერება სხვა აპებში"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ანონიმური"</string>
     <string name="open_tree_button" msgid="19992834788135845">"„<xliff:g id="DIRECTORY">%1$s</xliff:g>“-ზე წვდომის დაშვება"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"გსურთ, დაუშვათ წვდომა „<xliff:g id="DIRECTORY">%1$s</xliff:g>“-ზე „<xliff:g id="ROOT">%2$s</xliff:g>“-იდან?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"დაიშვას წვდომა „<xliff:g id="DIRECTORY">%1$s</xliff:g>“-ზე „<xliff:g id="ROOT">%2$s</xliff:g>“-ში?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ეს ქმედება მიანიჭებს „<xliff:g id="APPNAME">%1$s</xliff:g>“-ს სრულ წვდომას ყველა ფაილზე, რომელიც ამჟამად ინახება ამ მდებარეობაზე და რომელიც მომავალში შეინახება."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ამ ტელეფონში ძიება"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"ძიების ისტორიის წაშლა <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

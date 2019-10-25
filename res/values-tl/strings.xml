@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"I-browse ang mga file sa iba pang app"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonymous"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Payagan ang access sa \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Payagan ang access sa \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" sa \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Payagan ang access sa \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" sa \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Mabibigyang-daan nito ang \"<xliff:g id="APPNAME">%1$s</xliff:g>\" na magkaroon ng ganap na access sa lahat ng file na kasalukuyang naka-store sa ilalim ng lokasyong ito, at anumang content sa hinaharap na naka-store dito."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Maghanap sa teleponong ito"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"I-delete ang history ng paghahanap <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

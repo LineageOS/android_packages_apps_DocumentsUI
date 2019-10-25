@@ -92,7 +92,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"શૉર્ટકટ્સ"</string>
     <string name="root_type_device" msgid="1713604128005476585">"ઉપકરણો"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"વધુ ઍપ્લિકેશનો"</string>
-    <string name="empty" msgid="5300254272613103004">"કોઈ આઇટમ્સ નથી"</string>
+    <string name="empty" msgid="5300254272613103004">"કોઈ આઇટમ નથી"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s માં કોઇ મેળ નથી"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ફાઇલ ખોલી શકતાં નથી"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"આર્કાઇવમાંની ફાઇલો ખોલી શકાતી નથી"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"અન્ય ઍપમાં ફાઇલો બ્રાઉઝ કરો"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"અજ્ઞાત"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"ને ઍક્સેસની મંજૂરી આપો"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" પર \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"ના ઍક્સેસને મંજૂરી આપીએ?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"માં \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"ના ઍક્સેસને મંજૂરી આપીએ?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"આ \"<xliff:g id="APPNAME">%1$s</xliff:g>\"ને હાલ આ સ્થાન હેઠળ સ્ટોર કરેલી બધી ફાઇલો અને ભવિષ્યમાં અહીં સ્ટોર કરાતા કોઈપણ કન્ટેન્ટના સંપૂર્ણ ઍક્સેસની મંજૂરી આપશે."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"આ ફોન શોધો"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"શોધ ઇતિહાસ <xliff:g id="TEXT">%1$s</xliff:g> ડિલીટ કરો"</string>
 </resources>
