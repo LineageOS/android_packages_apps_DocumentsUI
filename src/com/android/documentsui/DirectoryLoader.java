@@ -16,20 +16,16 @@
 
 package com.android.documentsui;
 
-import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.FileUtils;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.OperationCanceledException;
 import android.os.RemoteException;
 import android.provider.DocumentsContract.Document;
@@ -240,29 +236,5 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         mResult = null;
 
         getContext().getContentResolver().unregisterContentObserver(mObserver);
-    }
-
-    private static final class LockingContentObserver extends ContentObserver {
-        private final ContentLock mLock;
-        private final Runnable mContentChangedCallback;
-
-        public LockingContentObserver(ContentLock lock, Runnable contentChangedCallback) {
-            super(new Handler(Looper.getMainLooper()));
-            mLock = lock;
-            mContentChangedCallback = contentChangedCallback;
-        }
-
-        @Override
-        public boolean deliverSelfNotifications() {
-            return true;
-        }
-
-        @Override
-        public void onChange(boolean selfChange) {
-            if (DEBUG) {
-                Log.d(TAG, "Directory content updated.");
-            }
-            mLock.runWhenUnlocked(mContentChangedCallback);
-        }
     }
 }

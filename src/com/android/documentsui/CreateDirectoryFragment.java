@@ -68,7 +68,6 @@ public class CreateDirectoryFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Context context = getActivity();
-        final ContentResolver resolver = context.getContentResolver();
 
         final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
         final LayoutInflater dialogInflater = LayoutInflater.from(builder.getContext());

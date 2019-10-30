@@ -29,6 +29,7 @@ import androidx.test.runner.AndroidJUnit4;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.ActivityManagers;
+import com.android.documentsui.testing.TestCursor;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFileTypeLookup;
 import com.android.documentsui.testing.TestImmediateExecutor;
@@ -38,6 +39,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class RecentsLoaderTests {
@@ -45,6 +49,7 @@ public class RecentsLoaderTests {
     private TestEnv mEnv;
     private TestActivity mActivity;
     private RecentsLoader mLoader;
+    private boolean mContentChanged;
 
     @Before
     public void setUp() {
@@ -104,5 +109,29 @@ public class RecentsLoaderTests {
             assertEquals(0, flags & Document.FLAG_SUPPORTS_REMOVE);
             assertEquals(0, flags & Document.FLAG_SUPPORTS_MOVE);
         }
+    }
+
+    @Test
+    public void testContentsUpdate_observable() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Runnable callback = () -> {
+            latch.countDown();
+            mContentChanged = true;
+        };
+        mLoader.setObserver(new LockingContentObserver(new ContentLock(), callback));
+
+        final DocumentInfo doc = mEnv.model.createFile("freddy.jpg");
+        doc.lastModified = System.currentTimeMillis();
+        mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
+                .setNextRecentDocumentsReturns(doc);
+
+        mLoader.loadInBackground();
+
+        TestCursor c = (TestCursor) mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
+                .queryRecentDocuments(null, null);
+        c.mockOnChange();
+
+        latch.await(1, TimeUnit.SECONDS);
+        assertTrue(mContentChanged);
     }
 }

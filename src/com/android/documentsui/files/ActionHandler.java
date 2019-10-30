@@ -701,19 +701,18 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
         // treatment, thusly the "isDownloads" check.
 
         // Launch MANAGE_DOCUMENTS only for the root level files, so it's not called for
-        // files in archives. Also, if the activity is already browsing a ZIP from downloads,
-        // then skip MANAGE_DOCUMENTS.
+        // files in archives or in child folders. Also, if the activity is already browsing
+        // a ZIP from downloads, then skip MANAGE_DOCUMENTS.
         if (Intent.ACTION_VIEW.equals(mActivity.getIntent().getAction())
                 && mState.stack.size() > 1) {
             // viewing the contents of an archive.
             return false;
         }
 
-        // management is only supported in downloads.
-        if (mActivity.getCurrentRoot().isDownloads()) {
-            // and only and only on APKs or partial files.
-            return MimeTypes.isApkType(doc.mimeType)
-                    || doc.isPartial();
+        // management is only supported in Downloads root or downloaded files show in Recent root.
+        if (Providers.AUTHORITY_DOWNLOADS.equals(doc.authority)) {
+            // only on APKs or partial files.
+            return MimeTypes.isApkType(doc.mimeType) || doc.isPartial();
         }
 
         return false;
