@@ -103,6 +103,7 @@ public final class MenuManagerTest {
     private TestMenuItem optionSettings;
     private TestMenuItem optionInspector;
     private TestMenuItem optionSort;
+    private TestMenuItem mOptionLauncher;
 
     /* Sub Option Menu items */
     private TestMenuItem subOptionGrid;
@@ -173,6 +174,7 @@ public final class MenuManagerTest {
         optionSettings = testMenu.findItem(R.id.option_menu_settings);
         optionInspector = testMenu.findItem(R.id.option_menu_inspect);
         optionSort = testMenu.findItem(R.id.option_menu_sort);
+        mOptionLauncher = testMenu.findItem(R.id.option_menu_launcher);
 
         // Menu actions on root title row.
         subOptionGrid = testMenu.findItem(R.id.sub_menu_grid);
@@ -452,6 +454,7 @@ public final class MenuManagerTest {
         optionDebug.assertInvisible();
         optionSort.assertEnabled();
         optionSort.assertVisible();
+        mOptionLauncher.assertInvisible();
         assertTrue(testSearchManager.updateMenuCalled());
     }
 

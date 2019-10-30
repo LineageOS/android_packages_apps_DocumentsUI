@@ -477,6 +477,10 @@ public abstract class BaseActivity
                 getInjector().actions.showSortDialog();
                 return true;
 
+            case R.id.option_menu_launcher:
+                getInjector().actions.switchLauncherIcon();
+                return true;
+
             case R.id.sub_menu_grid:
                 setViewMode(State.MODE_GRID);
                 return true;
