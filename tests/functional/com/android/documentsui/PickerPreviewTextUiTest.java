@@ -16,16 +16,12 @@
 
 package com.android.documentsui;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import android.content.Intent;
 import android.provider.DocumentsContract;
 
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.Shared;
-import com.android.documentsui.bots.UiBot;
 import com.android.documentsui.picker.PickActivity;
 
 @LargeTest
@@ -47,8 +43,7 @@ public class PickerPreviewTextUiTest extends ActivityTest<PickActivity>{
 
     @Override
     protected void launchActivity() {
-        final Intent intent = context.getPackageManager().getLaunchIntentForPackage(
-                UiBot.targetPackageName);
+        final Intent intent = new Intent(context, PickActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(Intent.ACTION_GET_CONTENT);
         if (getInitialRoot() != null) {
