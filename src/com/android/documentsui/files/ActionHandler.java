@@ -87,6 +87,7 @@ import javax.annotation.Nullable;
 public class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionHandler<T> {
 
     private static final String TAG = "ManagerActionHandler";
+    private static final int SHARE_FILES_COUNT_LIMIT = 100;
 
     private final ActionModeAddons mActionModeAddons;
     private final Features mFeatures;
@@ -355,6 +356,9 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
 
         Selection<String> selection = getStableSelection();
         if (selection.isEmpty()) {
+            return;
+        } else if (selection.size() > SHARE_FILES_COUNT_LIMIT) {
+            mDialogs.showShareOverLimit(SHARE_FILES_COUNT_LIMIT);
             return;
         }
 

@@ -200,6 +200,15 @@ public class TestEnv {
         selectionMgr.setItemsSelected(ids, true);
     }
 
+    public void selectMultipleFiles(int count) {
+        List<String> ids = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            DocumentInfo info = model.createFile(String.valueOf(i));
+            ids.add(ModelId.build(info.authority, info.documentId));
+        }
+        selectionMgr.setItemsSelected(ids, true);
+    }
+
     // Easily copy docs, so we don't pollute static data across tests.
     public static DocumentInfo clone(DocumentInfo a) {
         DocumentInfo b = new DocumentInfo();

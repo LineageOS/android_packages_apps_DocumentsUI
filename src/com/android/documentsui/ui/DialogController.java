@@ -47,6 +47,11 @@ public interface DialogController {
     void showViewInArchivesUnsupported();
     void showDocumentsClipped(int size);
 
+    /**
+     * Dialogs used when share file count over limit
+     */
+    void showShareOverLimit(int size);
+
     // Dialogs used in PickActivity
     void confirmAction(FragmentManager fm, DocumentInfo pickTarget, int type);
 
@@ -150,6 +155,12 @@ public interface DialogController {
         @Override
         public void showDocumentsClipped(int size) {
             Snackbars.showDocumentsClipped(mActivity, size);
+        }
+
+        @Override
+        public void showShareOverLimit(int size) {
+            String message = mActivity.getString(R.string.toast_share_over_limit, size);
+            Snackbars.makeSnackbar(mActivity, message, Snackbar.LENGTH_SHORT).show();
         }
 
         @Override

@@ -19,12 +19,15 @@ package com.android.documentsui.services;
 import static android.content.ContentResolver.wrap;
 import static android.provider.DocumentsContract.buildChildDocumentsUri;
 import static android.provider.DocumentsContract.buildDocumentUri;
+import static android.provider.DocumentsContract.findDocumentPath;
 import static android.provider.DocumentsContract.getDocumentId;
 import static android.provider.DocumentsContract.isChildDocument;
 
 import static com.android.documentsui.OperationDialogFragment.DIALOG_TYPE_CONVERTED;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
+import static com.android.documentsui.base.Providers.AUTHORITY_DOWNLOADS;
+import static com.android.documentsui.base.Providers.AUTHORITY_STORAGE;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.services.FileOperationService.EXTRA_DIALOG_TYPE;
 import static com.android.documentsui.services.FileOperationService.EXTRA_FAILED_DOCS;
@@ -37,6 +40,7 @@ import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.PendingIntent;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -55,10 +59,12 @@ import android.os.SystemClock;
 import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
+import android.provider.DocumentsContract.Path;
 import android.system.ErrnoException;
 import android.system.Int64Ref;
 import android.system.Os;
 import android.system.OsConstants;
+import android.system.StructStat;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
@@ -226,7 +232,9 @@ class CopyJob extends ResolvedResourcesJob {
 
             try {
                 // Copying recursively to itself or one of descendants is not allowed.
-                if (mDstInfo.equals(srcInfo) || isDescendentOf(srcInfo, mDstInfo)) {
+                if (mDstInfo.equals(srcInfo)
+                    || isDescendantOf(srcInfo, mDstInfo)
+                    || isRecursiveCopy(srcInfo, mDstInfo)) {
                     Log.e(TAG, "Skipping recursive copy of " + srcInfo.derivedUri);
                     onFileFailed(srcInfo);
                 } else {
@@ -808,7 +816,7 @@ class CopyJob extends ResolvedResourcesJob {
      * Returns true if {@code doc} is a descendant of {@code parentDoc}.
      * @throws ResourceException
      */
-    boolean isDescendentOf(DocumentInfo doc, DocumentInfo parent)
+    boolean isDescendantOf(DocumentInfo doc, DocumentInfo parent)
             throws ResourceException {
         if (parent.isDirectory() && doc.authority.equals(parent.authority)) {
             try {
@@ -820,6 +828,72 @@ class CopyJob extends ResolvedResourcesJob {
             }
         }
         return false;
+    }
+
+
+    private boolean isRecursiveCopy(DocumentInfo source, DocumentInfo target) {
+        if (!source.isDirectory() || !target.isDirectory()) {
+            return false;
+        }
+
+        // Recursive copy within the same authority is prevented by a check to isDescendantOf.
+        if (source.authority.equals(target.authority)) {
+            return false;
+        }
+
+        if (!isFileSystemProvider(source) || !isFileSystemProvider(target)) {
+            return false;
+        }
+
+        Uri sourceUri = source.derivedUri;
+        Uri targetUri = target.derivedUri;
+
+        try {
+            final Path targetPath = findDocumentPath(wrap(getClient(target)), targetUri);
+            if (targetPath == null) {
+                return false;
+            }
+
+            ContentResolver cr = wrap(getClient(source));
+            try (ParcelFileDescriptor sourceFd = cr.openFile(sourceUri, "r", null)) {
+                StructStat sourceStat = Os.fstat(sourceFd.getFileDescriptor());
+                final long sourceDev = sourceStat.st_dev;
+                final long sourceIno = sourceStat.st_ino;
+                // Walk down the target hierarchy. If we ever match the source, we know we are a
+                // descendant of them and should abort the copy.
+                for (String targetNodeDocId : targetPath.getPath()) {
+                    Uri targetNodeUri = buildDocumentUri(target.authority, targetNodeDocId);
+                    cr = wrap(getClient(target));
+
+                    try (ParcelFileDescriptor targetFd = cr.openFile(targetNodeUri, "r", null)) {
+                        StructStat targetNodeStat = Os.fstat(targetFd.getFileDescriptor());
+                        final long targetNodeDev = targetNodeStat.st_dev;
+                        final long targetNodeIno = targetNodeStat.st_ino;
+
+                        // Devices differ, just return early.
+                        if (sourceDev != targetNodeDev) {
+                            return false;
+                        }
+
+                        if (sourceIno == targetNodeIno) {
+                            Log.w(TAG, String.format(
+                                "Preventing copy from %s to %s", sourceUri, targetUri));
+                            return true;
+                        }
+
+                    }
+                }
+            }
+        } catch (Throwable t) {
+            Log.w(TAG, String.format("Failed to determine if isRecursiveCopy" +
+                " for source %s and target %s", sourceUri, targetUri), t);
+        }
+        return false;
+    }
+
+    private static boolean isFileSystemProvider(DocumentInfo info) {
+        return AUTHORITY_STORAGE.equals(info.authority)
+            || AUTHORITY_DOWNLOADS.equals(info.authority);
     }
 
     @Override
