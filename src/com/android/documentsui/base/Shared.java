@@ -19,10 +19,12 @@ package com.android.documentsui.base;
 import static com.android.documentsui.base.SharedMinimal.TAG;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -35,6 +37,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.annotation.PluralsRes;
+import androidx.appcompat.app.AlertDialog;
+
 import com.android.documentsui.R;
 import com.android.documentsui.ui.MessageBuilder;
 
@@ -46,9 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
-
-import androidx.annotation.PluralsRes;
-import androidx.appcompat.app.AlertDialog;
 
 /** @hide */
 public final class Shared {
@@ -133,6 +135,11 @@ public final class Shared {
      * Animation duration of checkbox in directory list/grid in millis.
      */
     public static final int CHECK_ANIMATION_DURATION = 100;
+
+    /**
+     * Class name of launcher icon avtivity.
+     */
+    public static final String LAUNCHER_TARGET_CLASS = "com.android.documentsui.LauncherActivity";
 
     private static final Collator sCollator;
 
@@ -264,10 +271,18 @@ public final class Shared {
 
     /**
      * Check config whether DocumentsUI is launcher enabled or not.
-     * @return true if "is_launcher_enabled" is true.
+     * @return true if launcher icon is shown.
      */
     public static boolean isLauncherEnabled(Context context) {
-        return context.getResources().getBoolean(R.bool.is_launcher_enabled);
+        PackageManager pm = context.getPackageManager();
+        if (pm != null) {
+            final ComponentName component = new ComponentName(
+                    context.getPackageName(), LAUNCHER_TARGET_CLASS);
+            final int value = pm.getComponentEnabledSetting(component);
+            return value == PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+        }
+
+        return false;
     }
 
     /**

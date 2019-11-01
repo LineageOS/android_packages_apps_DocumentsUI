@@ -96,6 +96,7 @@ public abstract class MenuManager {
         updateDebug(mOptionMenu.findItem(R.id.option_menu_debug));
         updateInspect(mOptionMenu.findItem(R.id.option_menu_inspect));
         updateSort(mOptionMenu.findItem(R.id.option_menu_sort));
+        updateLauncher(mOptionMenu.findItem(R.id.option_menu_launcher));
 
         Menus.disableHiddenItems(mOptionMenu);
         mSearchManager.updateMenu();
@@ -362,6 +363,10 @@ public abstract class MenuManager {
 
     protected void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
         open.setVisible(false);
+    }
+
+    protected void updateLauncher(MenuItem launcher) {
+        launcher.setVisible(false);
     }
 
     protected abstract void updateSelectAll(MenuItem selectAll);
