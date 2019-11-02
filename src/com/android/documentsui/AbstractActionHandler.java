@@ -21,9 +21,11 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
@@ -450,6 +452,20 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         Snackbars.showCustomTextWithImage(mActivity, messagePair.first, messagePair.second);
 
         mActivity.getWindow().setStatusBarColor(colors[1]);
+    }
+
+    @Override
+    public void switchLauncherIcon() {
+        PackageManager pm = mActivity.getPackageManager();
+        if (pm != null) {
+            final boolean enalbled = Shared.isLauncherEnabled(mActivity);
+            ComponentName component = new ComponentName(
+                    mActivity.getPackageName(), Shared.LAUNCHER_TARGET_CLASS);
+            pm.setComponentEnabledSetting(component, enalbled
+                    ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                    : PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);
+        }
     }
 
     @Override

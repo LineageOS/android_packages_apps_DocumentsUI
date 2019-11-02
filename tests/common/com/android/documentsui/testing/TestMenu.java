@@ -81,6 +81,7 @@ public abstract class TestMenu implements Menu {
                 R.id.option_menu_settings,
                 R.id.option_menu_inspect,
                 R.id.option_menu_sort,
+                R.id.option_menu_launcher,
                 R.id.sub_menu_grid,
                 R.id.sub_menu_list);
     }

@@ -35,6 +35,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.queries.SearchViewManager;
 
@@ -298,5 +299,12 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
         else {
             view.setVisible(false);
         }
+    }
+
+    @Override
+    protected void updateLauncher(MenuItem launcher) {
+        launcher.setVisible(mState.debugMode);
+        launcher.setTitle(Shared.isLauncherEnabled(mContext)
+                ? "Hide launcher icon" : "Show launcher icon");
     }
 }

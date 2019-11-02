@@ -174,6 +174,11 @@ public interface ActionHandler {
     void showSortDialog();
 
     /**
+     * Switch launch icon show/hide status.
+     */
+    void switchLauncherIcon();
+
+    /**
      * Allow action handler to be initialized in a new scope.
      * @return this
      */

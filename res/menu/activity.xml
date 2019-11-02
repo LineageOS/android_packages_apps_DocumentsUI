@@ -80,5 +80,9 @@
            android:title="@string/menu_inspect"
            android:visible="false"
            app:showAsAction="never"/>
+        <item
+            android:id="@+id/option_menu_launcher"
+            android:visible="false"
+            app:showAsAction="never"/>
     </group>
 </menu>
