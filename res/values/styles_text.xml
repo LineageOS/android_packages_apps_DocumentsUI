@@ -79,4 +79,10 @@
         <item name="fontFamily">@string/config_fontFamilyMedium</item>
     </style>
 
+    <style name="BreadcrumbText" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textColor">?android:attr/colorControlNormal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
+    </style>
+
 </resources>

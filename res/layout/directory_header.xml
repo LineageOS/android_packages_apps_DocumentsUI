@@ -19,6 +19,12 @@
     android:layout_marginTop="@dimen/action_bar_space_margin"
     android:orientation="vertical">
 
+    <com.android.documentsui.HorizontalBreadcrumb
+        android:id="@+id/horizontal_breadcrumb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"/>
+
     <!-- used for search chip. -->
     <include layout="@layout/search_chip_row"/>
 

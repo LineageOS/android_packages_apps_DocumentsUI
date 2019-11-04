@@ -160,8 +160,7 @@ public abstract class BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Breadcrumb breadcrumb =
-                Shared.findView(this, R.id.dropdown_breadcrumb, R.id.horizontal_breadcrumb);
+        Breadcrumb breadcrumb = findViewById(R.id.horizontal_breadcrumb);
         assert(breadcrumb != null);
 
         mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb);

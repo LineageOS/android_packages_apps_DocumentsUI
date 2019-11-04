@@ -59,15 +59,6 @@
                 android:text="@string/search_bar_hint"
                 android:textAppearance="@style/SearchBarTitle"/>
 
-            <com.android.documentsui.DropdownBreadcrumb
-                android:id="@+id/dropdown_breadcrumb"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="4dp"
-                android:popupTheme="?actionBarPopupTheme"
-                android:background="@android:color/transparent"
-                android:overlapAnchor="true"/>
-
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.CollapsingToolbarLayout>

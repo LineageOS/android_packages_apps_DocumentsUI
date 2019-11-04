@@ -47,15 +47,6 @@
             android:drawableStart="@drawable/ic_menu_search"
             android:drawablePadding="@dimen/search_bar_icon_padding"/>
 
-        <com.android.documentsui.DropdownBreadcrumb
-            android:id="@+id/dropdown_breadcrumb"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:popupTheme="?actionBarPopupTheme"
-            android:background="@android:color/transparent"
-            android:overlapAnchor="true"/>
-
     </androidx.appcompat.widget.Toolbar>
 
     <include layout="@layout/directory_header"/>

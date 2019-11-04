@@ -53,12 +53,6 @@
                 android:drawableStart="@drawable/ic_menu_search"
                 android:drawablePadding="@dimen/search_bar_icon_padding"/>
 
-            <com.android.documentsui.HorizontalBreadcrumb
-                android:id="@+id/horizontal_breadcrumb"
-                android:layout_marginRight="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
         </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
