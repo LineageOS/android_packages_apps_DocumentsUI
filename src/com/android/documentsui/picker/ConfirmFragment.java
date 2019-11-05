@@ -86,10 +86,10 @@ public class ConfirmFragment extends DialogFragment {
                         mTarget.authority, mTarget.documentId);
                 final BaseActivity activity = (BaseActivity) getActivity();
                 final String target = activity.getCurrentTitle();
-                final String location = activity.getCurrentRoot().title;
-                final String text = getString(R.string.open_tree_dialog_title, target, location);
+                final String text = getString(R.string.open_tree_dialog_title,
+                        getAppName(getActivity().getCallingPackage()), target);
                 message = getString(R.string.open_tree_dialog_message,
-                        getAppName(getActivity().getCallingPackage()));
+                        getAppName(getActivity().getCallingPackage()), target);
 
                 builder.setTitle(text);
                 builder.setMessage(message);
