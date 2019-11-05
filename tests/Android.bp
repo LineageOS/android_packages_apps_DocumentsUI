@@ -87,6 +87,7 @@ android_test {
 
     test_suites: [
         "device-tests",
+        "mts",
     ],
 
     platform_apis: true,

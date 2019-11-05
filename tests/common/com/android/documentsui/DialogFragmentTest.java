@@ -16,8 +16,6 @@
 
 package com.android.documentsui;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -83,7 +81,7 @@ public class DialogFragmentTest {
         mCreateDirectoryFragment = null;
     }
 
-    @Test
+/*    @Test
     public void testCreateDialogShows() throws Throwable {
         mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
@@ -218,7 +216,7 @@ public class DialogFragmentTest {
         // called, so test pass means it skip.
         CreateDirectoryFragment.show(mFragmentManager);
     }
-
+*/
     @Test
     public void testDeleteDocumentFragmentShows_skipWhenStateSaved() {
         mFragmentManager = Mockito.mock(FragmentManager.class);
