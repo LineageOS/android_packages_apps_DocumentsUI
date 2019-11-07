@@ -446,7 +446,7 @@
     <!-- Title for large file chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_large_files">Large files</string>
     <!-- Title for from this week chip. [CHAR_LIMIT=25] -->
-    <string name="chip_title_from_this_week">From this week</string>
+    <string name="chip_title_from_this_week">This week</string>
 
     <!-- Hint on text input field for create new folder. [CHAR_LIMIT=48] -->
     <string name="input_hint_new_folder">Folder name</string>
