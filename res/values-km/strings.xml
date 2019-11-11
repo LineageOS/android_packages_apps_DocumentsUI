@@ -98,6 +98,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"មិនអាចបើកឯកសារបានទេ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"មិនអាចបើក​ឯកសារ​នៅក្នុងបណ្ណសារបានទេ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"មិនអាចលុបឯកសារមួយចំនួន"</string>
+    <string name="toast_share_over_limit" msgid="5805442886537093015">"មិនអាច​ចែករំលែក​ឯកសារ​ច្រើន​ជាង <xliff:g id="COUNT">%1$d</xliff:g> បាន​ទេ"</string>
     <string name="share_via" msgid="8725082736005677161">"ចែករំលែក​តាម"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"កំពុងចម្លងឯកសារ"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"កំពុង​បង្ហាប់​ឯកសារ"</string>
@@ -228,12 +229,14 @@
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> នៅលើ​ទូរសព្ទ"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"ឯកសារនៅក្នុងថតទាញយក"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ឯកសារ​នៅលើ <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
+    <string name="root_info_header_folder" msgid="5851172222368049864">"ឯកសារនៅក្នុង <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"ឯកសារ​ពី <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ឯកសារ​ពី <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"រូបភាពថ្មីៗ​នៅលើ​ទូរសព្ទ"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"រូបភាព​នៅលើ​ទូរសព្ទ"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"រូបភាពនៅក្នុងថតទាញយក"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"រូបភាព​នៅលើ <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
+    <string name="root_info_header_image_folder" msgid="5980430877636279667">"រូបភាពនៅក្នុង <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"រូបភាព​ពី <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"រូបភាព​ពី <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="chip_title_images" msgid="7838299046109841015">"រូបភាព"</string>
@@ -241,15 +244,16 @@
     <string name="chip_title_videos" msgid="7011260091979776447">"វីដេអូ"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"ឯកសារ"</string>
     <string name="chip_title_large_files" msgid="7740269190493883980">"ឯកសារទំហំធំ"</string>
-    <string name="chip_title_from_this_week" msgid="8357992108715162135">"ពីសប្ដាហ៍នេះ"</string>
+    <!-- no translation found for chip_title_from_this_week (4961536405220379672) -->
+    <skip />
     <string name="input_hint_new_folder" msgid="479672411219725677">"ឈ្មោះ​ថត"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"ឈ្មោះ​ថ្មី"</string>
     <string name="preview_file" msgid="4056622696305432343">"មើលឯកសារ <xliff:g id="FILENAME">%1$s</xliff:g> សាកល្បង"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"រុករក​ឯកសារ​នៅក្នុង​កម្មវិធី​ផ្សេងទៀត"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"អនាមិក"</string>
-    <string name="open_tree_button" msgid="19992834788135845">"អនុញ្ញាត​ឱ្យ​ចូលប្រើ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"អនុញ្ញាត​ឱ្យ​ចូលប្រើ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" នៅក្នុង \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
-    <string name="open_tree_dialog_message" msgid="8545093618524340168">"ការធ្វើ​បែបនេះ​នឹង​អនុញ្ញាត​ឱ្យ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" អាច​ចូលប្រើ​ឯកសារ​ទាំងអស់​ដែល​កំពុងផ្ទុក​នៅក្រោម​ទីតាំង​នេះ​បានពេញលេញ រួមទាំងខ្លឹមសារ​នាពេលខាងមុខ​ផ្សេងទៀត​ដែល​ផ្ទុក​នៅទីនេះ។"</string>
+    <string name="open_tree_button" msgid="6402871398424497776">"ប្រើថតនេះ"</string>
+    <string name="open_tree_dialog_title" msgid="6339509533852318569">"អនុញ្ញាតឱ្យ <xliff:g id="APPNAME">%1$s</xliff:g> ចូលប្រើឯកសារ​នៅក្នុង <xliff:g id="DIRECTORY">%2$s</xliff:g> ដែរទេ?"</string>
+    <string name="open_tree_dialog_message" msgid="4120695398430659628">"ការធ្វើបែបនេះ​នឹងអនុញ្ញាតឱ្យ <xliff:g id="APPNAME">%1$s</xliff:g> ចូលប្រើខ្លឹមសារ​បច្ចុប្បន្ន និងនាពេលអនាគត ដែលបានរក្សាទុក​នៅក្នុង <xliff:g id="DIRECTORY">%2$s</xliff:g>។"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ទូរសព្ទ​នេះ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"លុប​ប្រវត្តិស្វែងរក <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
