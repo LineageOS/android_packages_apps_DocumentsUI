@@ -35,7 +35,7 @@
     <string name="menu_save" msgid="5195367497138965168">"Сактоо"</string>
     <string name="menu_share" msgid="4307140947108068356">"Бөлүшүү"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Жок кылуу"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"Бардыгын тандоо"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Баарын тандоо"</string>
     <string name="menu_select" msgid="1366061076507142387">"Тандоо"</string>
     <string name="menu_sort" msgid="3362419226163725275">"Төмөнкү боюнча иреттөө…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Төмөнкүгө көчүрүү…"</string>
@@ -186,7 +186,7 @@
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> каталогун пайдалануу мүмкүнчүлүгү берилсинби?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="STORAGE"><i>^2</i></xliff:g> түзмөгүндөгү дайындарыңыз, сүрөттөрүңүз жана видеолоруңузду пайдалануу мүмкүнчүлүгү берилсинби?"</string>
     <string name="allow" msgid="1275746941353040309">"Уруксат берүү"</string>
-    <string name="deny" msgid="5127201668078153379">"Жок"</string>
+    <string name="deny" msgid="5127201668078153379">"Тыюу салынат"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> тандалды</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> тандалды</item>
