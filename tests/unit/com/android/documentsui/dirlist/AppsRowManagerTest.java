@@ -18,6 +18,7 @@ package com.android.documentsui.dirlist;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -89,6 +90,7 @@ public class AppsRowManagerTest {
         assertEquals(TestProvidersAccess.INSPECTOR.title, chipDataList.get(0).getTitle());
         assertFalse(chipDataList.get(0).showExitIcon());
         assertEquals(TestProvidersAccess.PICKLES.title, chipDataList.get(1).getTitle());
+        assertEquals(TestProvidersAccess.PICKLES.summary, chipDataList.get(1).getSummary());
         assertFalse(chipDataList.get(1).showExitIcon());
     }
 
@@ -109,6 +111,7 @@ public class AppsRowManagerTest {
         assertTrue(chipDataList.get(0) instanceof AppsRowItemData.RootData);
         assertFalse(chipDataList.get(0).showExitIcon());
         assertEquals(TestProvidersAccess.PICKLES.title, chipDataList.get(1).getTitle());
+        assertNull(chipDataList.get(1).getSummary());
         assertTrue(chipDataList.get(1) instanceof AppsRowItemData.AppData);
         assertTrue(chipDataList.get(1).showExitIcon());
     }

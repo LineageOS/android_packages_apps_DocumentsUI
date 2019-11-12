@@ -79,6 +79,7 @@ public class TestProvidersAccess implements ProvidersAccess {
         PICKLES.authority = "yummies";
         PICKLES.rootId = "pickles";
         PICKLES.title = "Pickles";
+        PICKLES.summary = "Yummy pickles";
 
         RECENTS = new RootInfo() {
             {

@@ -16,13 +16,15 @@
 
 package com.android.documentsui.sidebar;
 
-import androidx.annotation.LayoutRes;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.R;
@@ -62,6 +64,13 @@ public abstract class Item {
 
     String getPackageName() {
         return "";
+    }
+
+    /**
+     * Get the root or app summary such as account information.
+     */
+    public @Nullable String getSummary() {
+        return null;
     }
 
     boolean isDropTarget() {

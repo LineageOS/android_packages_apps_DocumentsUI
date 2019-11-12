@@ -16,7 +16,6 @@
 
 package com.android.documentsui.sidebar;
 
-import androidx.annotation.Nullable;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.provider.DocumentsProvider;
@@ -28,6 +27,8 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.IconUtils;
@@ -142,6 +143,11 @@ public class RootItem extends Item {
     @Override
     String getPackageName() {
         return mPackageName;
+    }
+
+    @Override
+    public String getSummary() {
+        return root.summary;
     }
 
     @Override
