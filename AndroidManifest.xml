@@ -44,13 +44,13 @@
             android:name=".picker.PickActivity"
             android:theme="@style/DocumentsTheme"
             android:visibleToInstantApps="true">
-            <intent-filter>
+            <intent-filter android:priority="100">
                 <action android:name="android.intent.action.OPEN_DOCUMENT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
                 <data android:mimeType="*/*" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:priority="100">
                 <action android:name="android.intent.action.CREATE_DOCUMENT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.OPENABLE" />
@@ -62,7 +62,7 @@
                 <category android:name="android.intent.category.OPENABLE" />
                 <data android:mimeType="*/*" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:priority="100">
                 <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
