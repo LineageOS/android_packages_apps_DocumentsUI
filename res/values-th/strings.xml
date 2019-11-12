@@ -98,6 +98,7 @@
     <string name="toast_no_application" msgid="7555319548595113121">"เปิดไฟล์ไม่ได้"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"เปิดไฟล์ในที่เก็บถาวรไม่ได้"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ไม่สามารถลบเอกสารบางรายการ"</string>
+    <string name="toast_share_over_limit" msgid="5805442886537093015">"แชร์มากกว่า <xliff:g id="COUNT">%1$d</xliff:g> ไฟล์ไม่ได้"</string>
     <string name="share_via" msgid="8725082736005677161">"แชร์ผ่าน"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"กำลังคัดลอกไฟล์"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"กำลังบีบอัดไฟล์"</string>
@@ -228,12 +229,14 @@
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g>ในโทรศัพท์"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"ไฟล์ใน \"ดาวน์โหลด\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ไฟล์ใน <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
+    <string name="root_info_header_folder" msgid="5851172222368049864">"ไฟล์ใน <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"ไฟล์จาก <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ไฟล์จาก <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"รูปภาพล่าสุดในโทรศัพท์"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"รูปภาพในโทรศัพท์"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"รูปภาพใน \"ดาวน์โหลด\""</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"รูปภาพใน <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
+    <string name="root_info_header_image_folder" msgid="5980430877636279667">"รูปภาพใน <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"รูปภาพจาก <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"รูปภาพจาก <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="chip_title_images" msgid="7838299046109841015">"รูปภาพ"</string>
@@ -241,15 +244,16 @@
     <string name="chip_title_videos" msgid="7011260091979776447">"วิดีโอ"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"เอกสาร"</string>
     <string name="chip_title_large_files" msgid="7740269190493883980">"ไฟล์ขนาดใหญ่"</string>
-    <string name="chip_title_from_this_week" msgid="8357992108715162135">"จากสัปดาห์นี้"</string>
+    <!-- no translation found for chip_title_from_this_week (4961536405220379672) -->
+    <skip />
     <string name="input_hint_new_folder" msgid="479672411219725677">"ชื่อโฟลเดอร์"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"ชื่อใหม่"</string>
     <string name="preview_file" msgid="4056622696305432343">"แสดงพรีวิวไฟล์ <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"เรียกดูไฟล์ในแอปอื่นๆ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ไม่ระบุชื่อ"</string>
-    <string name="open_tree_button" msgid="19992834788135845">"อนุญาตให้เข้าถึง \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"อนุญาตให้เข้าถึง \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ใน \"<xliff:g id="ROOT">%2$s</xliff:g>\" ใช่ไหม"</string>
-    <string name="open_tree_dialog_message" msgid="8545093618524340168">"การดำเนินการดังกล่าวจะอนุญาตให้ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" เข้าถึงทุกไฟล์ที่จัดเก็บอยู่ในตำแหน่งนี้ และเนื้อหาอื่นๆ ที่จะจัดเก็บไว้ที่นี่ในอนาคตได้โดยสมบูรณ์"</string>
+    <string name="open_tree_button" msgid="6402871398424497776">"ใช้โฟลเดอร์นี้"</string>
+    <string name="open_tree_dialog_title" msgid="6339509533852318569">"อนุญาตให้ <xliff:g id="APPNAME">%1$s</xliff:g> เข้าถึงไฟล์ใน <xliff:g id="DIRECTORY">%2$s</xliff:g> ไหม"</string>
+    <string name="open_tree_dialog_message" msgid="4120695398430659628">"การดำเนินการนี้จะทำให้ <xliff:g id="APPNAME">%1$s</xliff:g> เข้าถึงเนื้อหาในปัจจุบันและอนาคตที่จัดเก็บไว้ใน <xliff:g id="DIRECTORY">%2$s</xliff:g>"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ค้นหาโทรศัพท์เครื่องนี้"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ลบประวัติการค้นหา <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
