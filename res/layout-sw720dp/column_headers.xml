@@ -22,8 +22,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/doc_header_height"
     android:background="@drawable/sort_widget_background"
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp"
     android:visibility="gone">
 
     <LinearLayout
