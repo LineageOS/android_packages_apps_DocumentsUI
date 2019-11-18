@@ -66,7 +66,6 @@ import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.dirlist.AnimationView;
-import com.android.documentsui.files.ActionHandler.Addons;
 import com.android.documentsui.inspector.InspectorActivity;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
@@ -83,8 +82,11 @@ import javax.annotation.Nullable;
 
 /**
  * Provides {@link FilesActivity} action specializations to fragments.
+ * @param <T> activity which extends {@link FragmentActivity} and implements
+ *              {@link AbstractActionHandler.CommonAddons}.
  */
-public class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionHandler<T> {
+public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.CommonAddons>
+        extends AbstractActionHandler<T> {
 
     private static final String TAG = "ManagerActionHandler";
     private static final int SHARE_FILES_COUNT_LIMIT = 100;
@@ -768,8 +770,5 @@ public class ActionHandler<T extends FragmentActivity & Addons> extends Abstract
             intent.putExtra(Intent.EXTRA_TITLE, root.title);
         }
         mActivity.startActivity(intent);
-    }
-
-    public interface Addons extends CommonAddons {
     }
 }
