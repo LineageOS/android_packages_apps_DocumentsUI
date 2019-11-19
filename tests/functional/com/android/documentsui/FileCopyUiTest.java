@@ -64,7 +64,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
     private static final String TARGET_FOLDER = "test_folder";
 
-    private static final int TARGET_COUNT = 1000;
+    private static final int TARGET_COUNT = 100;
 
     private static final int WAIT_TIME_SECONDS = 180;
 
@@ -275,7 +275,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
                 Uri uri = helper.createDocument(root, "image/png", fileName);
                 byte[] buff = new byte[1024];
                 while ((read = in.read(buff)) > 0) {
-                    helper.writeAppendDocument(uri, buff);
+                    helper.writeAppendDocument(uri, buff, read);
                 }
                 buff = null;
             }

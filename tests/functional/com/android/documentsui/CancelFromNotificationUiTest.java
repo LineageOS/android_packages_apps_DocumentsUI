@@ -138,7 +138,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         for (int i = 0; i < 49; i++) {
             dummyByte = null;
             dummyByte = new byte[BUFFER_SIZE];
-            mDocsHelper.writeAppendDocument(uri, dummyByte);
+            mDocsHelper.writeAppendDocument(uri, dummyByte, dummyByte.length);
         }
     }
 
