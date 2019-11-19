@@ -273,18 +273,19 @@ public class UiBot extends Bots.BaseBot {
     }
 
     UiObject2 findMenuWithName(String label) {
-        List<UiObject2> menuItems = mDevice.findObjects(By.clazz("android.widget.LinearLayout"));
+        UiObject2 list = mDevice.findObject(By.clazz("android.widget.ListView"));
+        List<UiObject2> menuItems = list.getChildren();
         Iterator<UiObject2> it = menuItems.iterator();
 
         UiObject2 menuItem = null;
         while (it.hasNext()) {
             menuItem = it.next();
             UiObject2 text = menuItem.findObject(By.text(label));
-            if (text != null && menuItem.isClickable()) {
-                break;
+            if (text != null) {
+                return menuItem;
             }
         }
-        return menuItem;
+        return null;
     }
 
     boolean hasMenuWithName(String label) {

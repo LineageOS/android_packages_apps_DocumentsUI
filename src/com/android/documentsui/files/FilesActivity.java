@@ -32,6 +32,7 @@ import android.view.View;
 import androidx.annotation.CallSuper;
 import androidx.fragment.app.FragmentManager;
 
+import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocsSelectionHelper;
@@ -65,7 +66,7 @@ import java.util.List;
 /**
  * Standalone file management activity.
  */
-public class FilesActivity extends BaseActivity implements ActionHandler.Addons {
+public class FilesActivity extends BaseActivity implements AbstractActionHandler.CommonAddons {
 
     private static final String TAG = "FilesActivity";
     static final String PREFERENCES_SCOPE = "files";
