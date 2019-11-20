@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.base.State.MODE_GRID;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
@@ -25,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
+import com.android.documentsui.base.State.ViewMode;
 
 /**
  * RecyclerView.ViewHolder class that displays at the top of the directory list when there
@@ -32,6 +35,7 @@ import com.android.documentsui.R;
  * Used by {@link DirectoryAddonsAdapter}.
  */
 final class HeaderMessageDocumentHolder extends MessageHolder {
+    private final View mRoot;
     private final ImageView mIcon;
     private final TextView mTextView;
     private final Button mButton;
@@ -40,6 +44,7 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
     public HeaderMessageDocumentHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_doc_header_message);
 
+        mRoot = itemView.findViewById(R.id.item_root);
         mIcon = (ImageView) itemView.findViewById(R.id.message_icon);
         mTextView = (TextView) itemView.findViewById(R.id.message_textview);
         mButton = (Button) itemView.findViewById(R.id.button_dismiss);
@@ -49,6 +54,17 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
         mMessage = message;
         mButton.setOnClickListener(this::onButtonClick);
         bind(null, null);
+    }
+
+    /**
+     * We set different padding on directory parent in different mode by
+     * {@link DirectoryFragment#onViewModeChanged()}. To avoid the layout shifting when
+     * display mode changed, we set the opposite padding on the item.
+     */
+    public void setPadding(@ViewMode int mode) {
+        int padding = itemView.getResources().getDimensionPixelSize(mode == MODE_GRID
+                ? R.dimen.list_container_padding : R.dimen.grid_container_padding);
+        mRoot.setPadding(padding, 0, padding, 0);
     }
 
     private void onButtonClick(View button) {
