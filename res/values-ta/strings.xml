@@ -244,8 +244,7 @@
     <string name="chip_title_videos" msgid="7011260091979776447">"வீடியோக்கள்"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"ஆவணங்கள்"</string>
     <string name="chip_title_large_files" msgid="7740269190493883980">"பெரிய ஃபைல்கள்"</string>
-    <!-- no translation found for chip_title_from_this_week (4961536405220379672) -->
-    <skip />
+    <string name="chip_title_from_this_week" msgid="4961536405220379672">"இந்த வாரம்"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"கோப்புறையின் பெயர்"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"புதிய பெயர்"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> என்ற ஃபைல் மாதிரிக்காட்சியாகத் தெரியும்"</string>

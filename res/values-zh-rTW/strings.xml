@@ -244,8 +244,7 @@
     <string name="chip_title_videos" msgid="7011260091979776447">"影片"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"文件"</string>
     <string name="chip_title_large_files" msgid="7740269190493883980">"大型檔案"</string>
-    <!-- no translation found for chip_title_from_this_week (4961536405220379672) -->
-    <skip />
+    <string name="chip_title_from_this_week" msgid="4961536405220379672">"本週"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"資料夾名稱"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"新名稱"</string>
     <string name="preview_file" msgid="4056622696305432343">"預覽 <xliff:g id="FILENAME">%1$s</xliff:g> 檔案"</string>
