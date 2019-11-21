@@ -331,6 +331,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mFocusManager = mInjector.getFocusManager(mRecView, mModel);
         mActions = mInjector.getActionHandler(mContentLock);
 
+        mRecView.setAccessibilityDelegateCompat(
+                new AccessibilityEventRouter(mRecView,
+                        (View child) -> onAccessibilityClick(child),
+                        (View child) -> onAccessibilityLongClick(child)));
         mSelectionMetadata = new SelectionMetadata(mModel::getItem);
         mDetailsLookup = new DocsItemDetailsLookup(mRecView);
 
@@ -539,10 +543,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             mLayout.setSpanCount(mColumnCount);
         }
 
-        final int innerPadding = getResources().getDimensionPixelSize(R.dimen.container_padding);
+        int pad = getDirectoryPadding(mode);
         mAppBarHeight = getAppBarLayoutHeight();
         mSaveLayoutHeight = getSaveLayoutHeight();
-        mRecView.setPadding(innerPadding, mAppBarHeight, innerPadding, mSaveLayoutHeight);
+        mRecView.setPadding(pad, mAppBarHeight, pad, mSaveLayoutHeight);
         mRecView.requestLayout();
         mIconHelper.setViewMode(mode);
 
@@ -635,6 +639,17 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private int getScaledSize(@DimenRes int id) {
         return (int) (getResources().getDimensionPixelSize(id) * mLiveScale);
+    }
+
+    private int getDirectoryPadding(@ViewMode int mode) {
+        switch (mode) {
+            case MODE_GRID:
+                return getResources().getDimensionPixelSize(R.dimen.grid_container_padding);
+            case MODE_LIST:
+                return getResources().getDimensionPixelSize(R.dimen.list_container_padding);
+            default:
+                throw new IllegalArgumentException("Unsupported layout mode: " + mode);
+        }
     }
 
     private boolean handleMenuItemClick(MenuItem item) {
@@ -1279,10 +1294,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {
             setupDragAndDropOnDocumentView(holder.itemView, cursor);
-            holder.itemView.setAccessibilityDelegate(new AccessibilityEventRouter(
-                    DirectoryFragment.this::onAccessibilityClick,
-                    DirectoryFragment.this::onAccessibilityLongClick
-            ));
         }
 
         @Override

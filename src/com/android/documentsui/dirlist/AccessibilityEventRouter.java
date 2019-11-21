@@ -18,15 +18,19 @@ package com.android.documentsui.dirlist;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.accessibility.AccessibilityNodeInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerViewAccessibilityDelegate;
 
 import java.util.function.Function;
 
 /**
- * Custom Accessibility Delegate for item views in RecyclerViews to route click events to
+ * Custom Accessibility Delegate for RecyclerViews to route click events on its child views to
  * proper handlers, and to surface selection state to a11y events.
  * <p>
  * The majority of event handling isdone using TouchDetector instead of View.OnCLickListener, which
@@ -39,41 +43,59 @@ import java.util.function.Function;
  * for marking a view as selected. We will surface that selection state to a11y services in this
  * class.
  */
-public class AccessibilityEventRouter extends View.AccessibilityDelegate {
+public class AccessibilityEventRouter extends RecyclerViewAccessibilityDelegate {
 
+    private final ItemDelegate mItemDelegate;
     private final Function<View, Boolean> mClickCallback;
     private final Function<View, Boolean> mLongClickCallback;
 
     public AccessibilityEventRouter(
-            @NonNull Function<View, Boolean> clickCallback,
+            RecyclerView recyclerView, @NonNull Function<View, Boolean> clickCallback,
             @Nullable Function<View, Boolean> longClickCallback) {
-        super();
+        super(recyclerView);
         mClickCallback = clickCallback;
         mLongClickCallback = longClickCallback;
+        mItemDelegate = new ItemDelegate(this) {
+            @Override
+            public void onInitializeAccessibilityNodeInfo(View host,
+                    AccessibilityNodeInfoCompat info) {
+                super.onInitializeAccessibilityNodeInfo(host, info);
+                final RecyclerView.ViewHolder holder = recyclerView.getChildViewHolder(host);
+                // if the viewHolder is a DocumentsHolder instance and the ItemDetails
+                // is null, it can't be clicked
+                if (holder instanceof DocumentHolder) {
+                    if (((DocumentHolder) holder).getItemDetails() != null) {
+                        addAction(info);
+                    }
+                } else {
+                    addAction(info);
+                }
+                info.setSelected(host.isActivated());
+            }
+
+            @Override
+            public boolean performAccessibilityAction(View host, int action, Bundle args) {
+                // We are only handling click events; route all other to default implementation
+                if (action == AccessibilityNodeInfoCompat.ACTION_CLICK) {
+                    return mClickCallback.apply(host);
+                } else if (action == AccessibilityNodeInfoCompat.ACTION_LONG_CLICK
+                        && mLongClickCallback != null) {
+                    return mLongClickCallback.apply(host);
+                }
+                return super.performAccessibilityAction(host, action, args);
+            }
+        };
     }
 
     @Override
-    public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info) {
-        addAction(info);
-        info.setSelected(host.isActivated());
+    public AccessibilityDelegateCompat getItemDelegate() {
+        return mItemDelegate;
     }
 
-    @Override
-    public boolean performAccessibilityAction(View host, int action, Bundle args) {
-        // We are only handling click events; route all other to default implementation
-        if (action == AccessibilityNodeInfo.ACTION_CLICK) {
-            return mClickCallback.apply(host);
-        } else if (action == AccessibilityNodeInfo.ACTION_LONG_CLICK
-                && mLongClickCallback != null) {
-            return mLongClickCallback.apply(host);
-        }
-        return super.performAccessibilityAction(host, action, args);
-    }
-
-    private void addAction(AccessibilityNodeInfo info) {
-        info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
+    private void addAction(AccessibilityNodeInfoCompat info) {
+        info.addAction(AccessibilityActionCompat.ACTION_CLICK);
         if (mLongClickCallback != null) {
-            info.addAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
+            info.addAction(AccessibilityNodeInfoCompat.ACTION_LONG_CLICK);
         }
     }
 }
