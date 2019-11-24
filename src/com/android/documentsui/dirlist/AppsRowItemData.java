@@ -17,9 +17,10 @@
 package com.android.documentsui.dirlist;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.base.RootInfo;
@@ -35,15 +36,24 @@ import com.android.documentsui.sidebar.RootItem;
 public abstract class AppsRowItemData {
 
     private final String mTitle;
+    private final @Nullable String mSummary;
     protected final ActionHandler mActionHandler;
 
     public AppsRowItemData(Item item, ActionHandler actionHandler) {
         mTitle = item.title;
+        mSummary = item.getSummary();
         mActionHandler = actionHandler;
     }
 
     public final String getTitle() {
         return mTitle;
+    }
+
+    /**
+     * Get the summary from {@link Item}.
+     */
+    public final @Nullable String getSummary() {
+        return mSummary;
     }
 
     protected abstract Drawable getIconDrawable(Context context);
