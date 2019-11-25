@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.os.SystemClock;
@@ -44,8 +43,8 @@ import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.services.TestNotificationService;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -83,7 +82,9 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
                     mErrorReason = intent.getStringExtra(
                             TestNotificationService.EXTRA_ERROR_REASON);
                 }
-                mCountDownLatch.countDown();
+                if (mCountDownLatch != null) {
+                    mCountDownLatch.countDown();
+                }
             }
         }
     };
@@ -105,6 +106,8 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     private boolean mIsVirtualSdCard;
 
     private int mPreTestStayAwakeValue;
+
+    private String mDeviceLabel;
 
     public FileCopyUiTest() {
         super(FilesActivity.class);
@@ -130,6 +133,11 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         mPreTestStayAwakeValue = Settings.Global.getInt(context.getContentResolver(),
                 Settings.Global.STAY_ON_WHILE_PLUGGED_IN);
         device.executeShellCommand("settings put global stay_on_while_plugged_in 3");
+
+        mDeviceLabel = Settings.Global.getString(context.getContentResolver(),
+                Settings.Global.DEVICE_NAME);
+        // If null or empty, use default name.
+        mDeviceLabel = TextUtils.isEmpty(mDeviceLabel) ? "Internal Storage" : mDeviceLabel;
 
         // If Internal Storage is not shown, turn on.
         State state = ((FilesActivity) getActivity()).getDisplayState();
@@ -168,7 +176,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     @Override
     public void tearDown() throws Exception {
         // Delete created files
-        deleteDocuments(Build.MODEL);
+        deleteDocuments(mDeviceLabel);
         deleteDocuments(mSdCardLabel);
 
         for (RootAndFolderPair rootAndFolder : mFoldersToCleanup) {
@@ -183,6 +191,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
                 + mPreTestStayAwakeValue);
 
         context.unregisterReceiver(mReceiver);
+        mCountDownLatch = null;
         try {
             bots.notifications.setNotificationAccess(getActivity(), false);
         } catch (Exception e) {
@@ -404,24 +413,24 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     @HugeLongTest
     public void testCopyDocuments_FromSdCard() throws Exception {
         createDocuments(mSdCardLabel, mSdCardRoot, mStorageDocsHelper);
-        copyFiles(mSdCardLabel, Build.MODEL);
+        copyFiles(mSdCardLabel, mDeviceLabel);
 
         // Check that original folder exists
         bots.roots.openRoot(mSdCardLabel);
         bots.directory.assertDocumentsPresent(TARGET_FOLDER);
 
         // Check that copied files exist
-        assertFilesCopied(Build.MODEL, mPrimaryRoot, mStorageDocsHelper);
+        assertFilesCopied(mDeviceLabel, mPrimaryRoot, mStorageDocsHelper);
     }
 
     // Copy Internal Storage -> SD Card //
     @HugeLongTest
     public void testCopyDocuments_ToSdCard() throws Exception {
-        createDocuments(Build.MODEL, mPrimaryRoot, mStorageDocsHelper);
-        copyFiles(Build.MODEL, mSdCardLabel);
+        createDocuments(mDeviceLabel, mPrimaryRoot, mStorageDocsHelper);
+        copyFiles(mDeviceLabel, mSdCardLabel);
 
         // Check that original folder exists
-        bots.roots.openRoot(Build.MODEL);
+        bots.roots.openRoot(mDeviceLabel);
         bots.directory.assertDocumentsPresent(TARGET_FOLDER);
 
         // Check that copied files exist
@@ -469,7 +478,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         mCountDownLatch = new CountDownLatch(1);
 
         // Open Internal Storage Root.
-        bots.roots.openRoot(Build.MODEL);
+        bots.roots.openRoot(mDeviceLabel);
         device.waitForIdle();
 
         // Select Download folder.
