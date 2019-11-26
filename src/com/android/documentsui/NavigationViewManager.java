@@ -139,16 +139,13 @@ public class NavigationViewManager {
             mBreadcrumb.show(false);
             mToolbar.setTitle(null);
             mSearchBarView.setVisibility(View.VISIBLE);
-        } else if (mState.stack.size() <= 1) {
-            mBreadcrumb.show(false);
+        } else {
             mSearchBarView.setVisibility(View.GONE);
-            String title = mEnv.getCurrentRoot().title;
+            String title = mState.stack.size() <= 1
+                    ? mEnv.getCurrentRoot().title : mState.stack.getTitle();
             if (VERBOSE) Log.v(TAG, "New toolbar title is: " + title);
             mToolbar.setTitle(title);
-        } else {
             mBreadcrumb.show(true);
-            mToolbar.setTitle(null);
-            mSearchBarView.setVisibility(View.GONE);
             mBreadcrumb.postUpdate();
         }
     }
