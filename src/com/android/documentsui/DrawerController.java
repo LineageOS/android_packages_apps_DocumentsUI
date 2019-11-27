@@ -159,10 +159,17 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void setOpen(boolean open) {
+            View list = mDrawer.findViewById(R.id.roots_list);
             if (open) {
                 mLayout.openDrawer(mDrawer);
+                if (list != null) {
+                    mDrawer.requestFocus();
+                }
             } else {
                 mLayout.closeDrawer(mDrawer);
+                if (list != null) {
+                    mDrawer.clearFocus();
+                }
             }
         }
 
