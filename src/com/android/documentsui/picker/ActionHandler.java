@@ -298,7 +298,12 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         Metrics.logAppVisited(info);
         mInjector.pickResult.increaseActionCount();
         final Intent intent = new Intent(mActivity.getIntent());
-        intent.setFlags(intent.getFlags() & ~Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+        final int flagsRemoved = Intent.FLAG_ACTIVITY_FORWARD_RESULT
+                | Intent.FLAG_GRANT_READ_URI_PERMISSION
+                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION;
+        intent.setFlags(intent.getFlags() & ~flagsRemoved);
         intent.setComponent(new ComponentName(
                 info.activityInfo.applicationInfo.packageName, info.activityInfo.name));
         try {

@@ -545,6 +545,26 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testOpenAppRoot_removeFlags() throws Exception {
+        mActivity.intent.setFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT
+                | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
+                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        mHandler.openRoot(TestResolveInfo.create());
+        assertEquals((long) mActivity.startActivityForResult.getLastValue().second,
+                AbstractActionHandler.CODE_FORWARD);
+        assertNotNull(mActivity.startActivityForResult.getLastValue().first);
+
+        int flags = mActivity.startActivityForResult.getLastValue().first.getFlags();
+        assertEquals(0, flags & Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+        assertEquals(0, flags & Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        assertEquals(0, flags & Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
+        assertEquals(0, flags & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        assertEquals(0, flags & Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    }
+
+    @Test
     public void testOpenAppRootWithQueryContent_matchedContent() throws Exception {
         final String queryContent = "query";
         mActivity.intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryContent);
