@@ -21,6 +21,8 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -144,4 +146,20 @@ public interface ProvidersAccess {
         }
         return matching;
     }
+
+    /**
+     * Returns the root should default show on current state.
+     */
+    static @Nullable RootInfo getDefaultRoot(Collection<RootInfo> roots, State state) {
+        for (RootInfo root : ProvidersAccess.getMatchingRoots(roots, state)) {
+            if (root.isExternalStorage() && state.action == State.ACTION_OPEN_TREE) {
+                return root;
+            }
+            if (root.isDownloads()) {
+                return root;
+            }
+        }
+        return null;
+    }
+
 }
