@@ -236,15 +236,15 @@
     <string name="chip_title_images" msgid="7838299046109841015">"Imagens"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"Áudio"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"Vídeos"</string>
-    <string name="chip_title_documents" msgid="7432457563000753983">"Docs"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"Documentos"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nome da pasta"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Novo nome"</string>
     <string name="preview_file" msgid="4056622696305432343">"Pré-visualizar o ficheiro <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Procure ficheiros noutras aplicações"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Permitir acesso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Pretende permitir o acesso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" em \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Irá permitir que a aplicação \"<xliff:g id="APPNAME">%1$s</xliff:g>\" tenha acesso total a todos os ficheiros atualmente armazenados nesta localização e a qualquer conteúdo armazenado aqui no futuro."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Pesquise neste telemóvel"</string>
-    <string name="delete_search_history" msgid="2202015025607694515">"Elimine o histórico de pesquisas <xliff:g id="TEXT">%1$s</xliff:g>."</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Pesquise este telemóvel."</string>
 </resources>

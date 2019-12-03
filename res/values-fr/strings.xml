@@ -37,7 +37,7 @@
     <string name="menu_delete" msgid="1022254131543256626">"Supprimer"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Tout sélectionner"</string>
     <string name="menu_select" msgid="1366061076507142387">"Sélectionner"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"Trier par..."</string>
+    <string name="menu_sort" msgid="3362419226163725275">"Trier par"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Copier vers…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Déplacer vers…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Compresser"</string>
@@ -69,12 +69,12 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Dernière modif."</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nom de fichier (de A à Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Type (de A à Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Taille (moins volumineux d\'abord)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Date de modification (plus anciens d\'abord)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Taille (plus petits d\'abord)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Modifiés (plus anciens d\'abord)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nom de fichier (de Z à A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Type (de Z à A)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Taille (plus volumineux d\'abord)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Date de modification (plus récents d\'abord)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Taille (plus grands d\'abord)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Modifiés (plus récents d\'abord)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Trier par"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Triés par <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Nombre d\'éléments"</string>
@@ -243,8 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Parcourir des fichiers dans d\'autres applications"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonyme"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Autoriser l\'accès à \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Autoriser l\'accès à \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" dans \"<xliff:g id="ROOT">%2$s</xliff:g>\" ?"</string>
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"L\'application <xliff:g id="APPNAME">%1$s</xliff:g> bénéficiera alors d\'un accès complet à l\'ensemble des fichiers actuellement stockés à cet emplacement et à l\'ensemble du contenu qui y sera stocké à l\'avenir."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Rechercher sur ce téléphone"</string>
-    <string name="delete_search_history" msgid="2202015025607694515">"Supprimer l\'historique des recherches <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

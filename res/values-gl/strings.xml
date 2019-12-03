@@ -92,7 +92,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"Atallos"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Dispositivos"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Máis aplicacións"</string>
-    <string name="empty" msgid="5300254272613103004">"Non hai elementos"</string>
+    <string name="empty" msgid="5300254272613103004">"Ningún elemento"</string>
     <string name="no_results" msgid="2371026325236359209">"Non hai coincidencias en %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Non se pode abrir o ficheiro"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Non se poden abrir ficheiros dentro de arquivos"</string>
@@ -202,7 +202,7 @@
       <item quantity="one">Queres eliminar <xliff:g id="COUNT_0">%1$d</xliff:g> ficheiro?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other">Queres eliminar <xliff:g id="COUNT_1">%1$d</xliff:g> cartafoles e o seu contido?</item>
+      <item quantity="other">Queres eliminar <xliff:g id="COUNT_1">%1$d</xliff:g> cartafoles e os seus contidos?</item>
       <item quantity="one">Queres eliminar <xliff:g id="COUNT_0">%1$d</xliff:g> cartafol e o seu contido?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
@@ -243,8 +243,7 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Consultar ficheiros noutras aplicacións"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Aplicación anónima"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Permitir acceso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Queres permitir o acceso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" en \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Queres permitir o acceso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" en \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Permitirá que \"<xliff:g id="APPNAME">%1$s</xliff:g>\" teña acceso completo a todos os ficheiros almacenados actualmente ou no futuro nesta localización."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Realiza buscas neste teléfono"</string>
-    <string name="delete_search_history" msgid="2202015025607694515">"Elimina o historial de busca <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

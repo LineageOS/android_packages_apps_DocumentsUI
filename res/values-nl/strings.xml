@@ -66,15 +66,15 @@
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Overzicht"</string>
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Type"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Grootte"</string>
-    <string name="sort_dimension_date" msgid="4231005651895254033">"Bewerkt"</string>
+    <string name="sort_dimension_date" msgid="4231005651895254033">"Aangepast"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Bestandsnaam (A - Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Type (A - Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Grootte (kleinste eerst)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Bewerkt (oudste eerst)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Aangepast (oudste eerst)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Bestandsnaam (Z - A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Type (Z - A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Grootte (grootste eerst)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Bewerkt (nieuwste eerst)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Aangepast (nieuwste eerst)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sorteren op"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Gesorteerd op <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Aantal items"</string>
@@ -103,7 +103,7 @@
     <string name="extract_notification_title" msgid="5067393961754430469">"Bestanden uitpakken"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"Bestanden verplaatsen"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"Bestanden verwijderen"</string>
-    <string name="copy_remaining" msgid="5390517377265177727">"Nog <xliff:g id="DURATION">%s</xliff:g>"</string>
+    <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> resterend"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> items kopiëren.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> item kopiëren.</item>
@@ -243,8 +243,7 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Door bestanden browsen in andere apps"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anoniem"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Toegang tot \'<xliff:g id="DIRECTORY">%1$s</xliff:g>\' toestaan"</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Toegang tot \'<xliff:g id="DIRECTORY">%1$s</xliff:g>\' toestaan in \'<xliff:g id="ROOT">%2$s</xliff:g>\'?"</string>
+    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Toegang tot \'<xliff:g id="DIRECTORY">%1$s</xliff:g>\' toestaan op \'<xliff:g id="ROOT">%2$s</xliff:g>\'?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"\'<xliff:g id="APPNAME">%1$s</xliff:g>\' krijgt volledige toegang tot alle bestanden die op deze locatie zijn opgeslagen en daar in de toekomst worden opgeslagen."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Deze telefoon doorzoeken"</string>
-    <string name="delete_search_history" msgid="2202015025607694515">"Zoekgeschiedenis verwijderen <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
