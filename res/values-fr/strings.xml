@@ -176,8 +176,8 @@
       <item quantity="other">Ces fichiers ont été convertis dans un autre format : <xliff:g id="LIST_1">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> élément a été copié dans le Presse-papiers.</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> éléments ont été copiés dans le Presse-papiers.</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> élément a été copié dans le presse-papiers.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> éléments ont été copiés dans le presse-papiers.</item>
     </plurals>
     <string name="file_operation_rejected" msgid="4301554203329008794">"Opération relative au fichier non acceptée."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"L\'opération relative au fichier a échoué."</string>
