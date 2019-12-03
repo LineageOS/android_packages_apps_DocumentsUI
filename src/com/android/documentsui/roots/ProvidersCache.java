@@ -35,12 +35,15 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Root;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
+
+import androidx.annotation.GuardedBy;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
@@ -48,12 +51,9 @@ import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
-import androidx.annotation.GuardedBy;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
-import android.os.FileUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -409,12 +409,8 @@ public class ProvidersCache implements ProvidersAccess {
 
     @Override
     public RootInfo getDefaultRootBlocking(State state) {
-        for (RootInfo root : ProvidersAccess.getMatchingRoots(getRootsBlocking(), state)) {
-            if (root.isDownloads()) {
-                return root;
-            }
-        }
-        return mRecentsRoot;
+        RootInfo root = ProvidersAccess.getDefaultRoot(getRootsBlocking(), state);
+        return root != null ? root : mRecentsRoot;
     }
 
     public void logCache() {

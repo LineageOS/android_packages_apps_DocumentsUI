@@ -18,6 +18,7 @@ package com.android.documentsui.roots;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+import android.provider.DocumentsContract;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -128,6 +129,28 @@ public class ProvidersAccessTest extends AndroidTestCase {
         assertContainsExactly(
                 newArrayList(mNull, mWild, mAudio, mImages),
                 ProvidersAccess.getMatchingRoots(mRoots, mState));
+    }
+
+    public void testDefaultRoot() {
+        mState.acceptMimes = new String[] { "*/*" };
+        assertNull(ProvidersAccess.getDefaultRoot(mRoots, mState));
+
+        RootInfo downloads = buildForMimeTypes("*/*");
+        downloads.authority = Providers.AUTHORITY_DOWNLOADS;
+        mRoots.add(downloads);
+
+        assertEquals(downloads, ProvidersAccess.getDefaultRoot(mRoots, mState));
+    }
+
+    public void testDefaultRoot_openDocumentTree() {
+        RootInfo storage = buildForMimeTypes("*/*");
+        storage.authority = Providers.AUTHORITY_STORAGE;
+        storage.flags = DocumentsContract.Root.FLAG_SUPPORTS_IS_CHILD;
+        mRoots.add(storage);
+
+        mState.action = State.ACTION_OPEN_TREE;
+        mState.acceptMimes = new String[] { "*/*" };
+        assertEquals(storage, ProvidersAccess.getDefaultRoot(mRoots, mState));
     }
 
     public void testExcludedAuthorities() throws Exception {
