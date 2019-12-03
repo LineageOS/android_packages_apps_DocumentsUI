@@ -122,7 +122,9 @@ public class ActionModeController extends SelectionObserver<String>
         mActionMode = null;
         mMenu = null;
 
-        mSelectionMgr.clearSelection();
+        if (mSelected.size() > 0) {
+            mSelectionMgr.clearSelection();
+        }
 
         // Reset window title back to activity title, i.e. Root name
         mActivity.getWindow().setTitle(mActivity.getTitle());
