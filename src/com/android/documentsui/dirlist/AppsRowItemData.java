@@ -39,9 +39,9 @@ public abstract class AppsRowItemData {
     private final @Nullable String mSummary;
     protected final ActionHandler mActionHandler;
 
-    public AppsRowItemData(Item item, ActionHandler actionHandler) {
+    public AppsRowItemData(Item item, ActionHandler actionHandler, boolean shouldShowSummary) {
         mTitle = item.title;
-        mSummary = item.getSummary();
+        mSummary = shouldShowSummary ? item.getSummary() : null;
         mActionHandler = actionHandler;
     }
 
@@ -64,8 +64,8 @@ public abstract class AppsRowItemData {
 
         private final ResolveInfo mResolveInfo;
 
-        public AppData(AppItem item, ActionHandler actionHandler) {
-            super(item, actionHandler);
+        public AppData(AppItem item, ActionHandler actionHandler, boolean shouldShowSummary) {
+            super(item, actionHandler, shouldShowSummary);
             mResolveInfo = item.info;
         }
 
@@ -89,8 +89,8 @@ public abstract class AppsRowItemData {
 
         private final RootInfo mRootInfo;
 
-        public RootData(RootItem item, ActionHandler actionHandler) {
-            super(item, actionHandler);
+        public RootData(RootItem item, ActionHandler actionHandler, boolean shouldShowSummary) {
+            super(item, actionHandler, shouldShowSummary);
             mRootInfo = item.root;
         }
 

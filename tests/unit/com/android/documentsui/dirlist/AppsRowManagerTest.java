@@ -83,14 +83,19 @@ public class AppsRowManagerTest {
         final List<Item> rootList = new ArrayList<>();
         rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
         rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler, "packageName"));
+        rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler, "packageName"));
 
         final List<AppsRowItemData> chipDataList = mAppsRowManager.updateList(rootList);
 
         assertEquals(chipDataList.size(), rootList.size());
         assertEquals(TestProvidersAccess.INSPECTOR.title, chipDataList.get(0).getTitle());
+        assertEquals(null, chipDataList.get(0).getSummary());
         assertFalse(chipDataList.get(0).showExitIcon());
         assertEquals(TestProvidersAccess.PICKLES.title, chipDataList.get(1).getTitle());
-        assertEquals(TestProvidersAccess.PICKLES.summary, chipDataList.get(1).getSummary());
+        assertEquals(null, chipDataList.get(1).getSummary());
+        assertEquals(TestProvidersAccess.PICKLES.summary, chipDataList.get(2).getSummary());
+        assertEquals(TestProvidersAccess.PICKLES.summary, chipDataList.get(3).getSummary());
         assertFalse(chipDataList.get(1).showExitIcon());
     }
 

@@ -103,7 +103,7 @@ public class AppItem extends Item {
     }
 
     @Override
-    String getPackageName() {
+    public String getPackageName() {
         return info.activityInfo.packageName;
     }
 

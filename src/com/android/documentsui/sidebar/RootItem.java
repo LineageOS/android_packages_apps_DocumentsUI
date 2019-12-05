@@ -141,7 +141,7 @@ public class RootItem extends Item {
     }
 
     @Override
-    String getPackageName() {
+    public String getPackageName() {
         return mPackageName;
     }
 
