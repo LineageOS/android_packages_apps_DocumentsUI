@@ -204,6 +204,10 @@ public class UiBot extends Bots.BaseBot {
         onView(withText(label)).perform(click());
     }
 
+    public void clickSaveButton() {
+        onView(withId(android.R.id.button1)).perform(click());
+    }
+
     public boolean waitForActionModeBarToAppear() {
         UiObject2 bar =
                 mDevice.wait(Until.findObject(
