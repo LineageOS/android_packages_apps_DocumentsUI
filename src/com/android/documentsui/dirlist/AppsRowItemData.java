@@ -58,7 +58,6 @@ public abstract class AppsRowItemData {
 
     protected abstract Drawable getIconDrawable(Context context);
     protected abstract void onClicked();
-    protected abstract boolean showExitIcon();
 
     public static class AppData extends AppsRowItemData {
 
@@ -77,11 +76,6 @@ public abstract class AppsRowItemData {
         @Override
         protected void onClicked() {
             mActionHandler.openRoot(mResolveInfo);
-        }
-
-        @Override
-        protected boolean showExitIcon() {
-            return true;
         }
     }
 
@@ -102,11 +96,6 @@ public abstract class AppsRowItemData {
         @Override
         protected void onClicked() {
             mActionHandler.openRoot(mRootInfo);
-        }
-
-        @Override
-        protected boolean showExitIcon() {
-            return false;
         }
     }
 }
