@@ -46,7 +46,6 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.ui.Snackbars;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
 /**
@@ -196,14 +195,19 @@ public class RenameDocumentFragment extends DialogFragment {
             mDialog.dismiss();
         } else if (!isValidDocumentName(newDisplayName)) {
             Log.w(TAG, "Failed to rename file - invalid name:" + newDisplayName);
-            Snackbars.makeSnackbar(getActivity(), R.string.rename_error,
-                    Snackbar.LENGTH_SHORT).show();
+            mRenameInputWrapper.setError(getContext().getString(R.string.rename_error));
+            Metrics.logRenameFileError();
         } else if (activity.getInjector().getModel().hasFileWithName(newDisplayName)){
             mRenameInputWrapper.setError(getContext().getString(R.string.name_conflict));
             selectFileName(mEditText);
             Metrics.logRenameFileError();
         } else {
             new RenameDocumentsTask(activity, newDisplayName).execute(mDocument);
+
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+            activity.getInjector().selectionMgr.clearSelection();
         }
 
     }
@@ -232,10 +236,6 @@ public class RenameDocumentFragment extends DialogFragment {
                 Snackbars.showRenameFailed(mActivity);
                 Metrics.logRenameFileError();
             }
-            if (mDialog != null) {
-                mDialog.dismiss();
-            }
-            mActivity.getInjector().selectionMgr.clearSelection();
             mActivity.reloadDocumentsIfNeeded();
         }
     }
