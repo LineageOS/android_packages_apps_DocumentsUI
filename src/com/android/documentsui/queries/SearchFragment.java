@@ -146,6 +146,8 @@ public class SearchFragment extends DialogFragment
         super.onStart();
         getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
+        // To avoid a11y saying button description when dialog show.
+        getDialog().setTitle(" ");
     }
 
     @Override
