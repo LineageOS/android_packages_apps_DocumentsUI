@@ -20,9 +20,9 @@ import android.content.res.Resources;
 import android.os.UserManager;
 import android.util.SparseBooleanArray;
 
-import com.android.documentsui.R;
-
 import androidx.annotation.BoolRes;
+
+import com.android.documentsui.R;
 
 /**
  * Provides access to feature flags configured in config.xml.
@@ -44,7 +44,6 @@ public interface Features {
     boolean isRemoteActionsEnabled();
     boolean isSystemKeyboardNavigationEnabled();
     boolean isVirtualFilesSharingEnabled();
-    boolean isDefaultRootInBrowseEnabled();
 
 
     /**
@@ -166,11 +165,6 @@ public interface Features {
         @Override
         public boolean isVirtualFilesSharingEnabled() {
             return isEnabled(R.bool.feature_virtual_files_sharing);
-        }
-
-        @Override
-        public boolean isDefaultRootInBrowseEnabled() {
-            return isEnabled(R.bool.feature_default_root_in_browse);
         }
     }
 }
