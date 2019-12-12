@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,7 +34,9 @@ import com.android.documentsui.sidebar.Item;
 import com.android.documentsui.sidebar.RootItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A manager class stored apps row chip data list. Data will be synced by RootsFragment.
@@ -50,11 +53,23 @@ public class AppsRowManager {
 
     public List<AppsRowItemData> updateList(List<Item> itemList) {
         mDataList.clear();
+
+        // If more than 1 item of the same package, show item summary (e.g. account id).
+        Map<String, Integer> packageNameCount = new HashMap<>();
         for (Item item : itemList) {
+            String packageName = item.getPackageName();
+            int previousCount = packageNameCount.containsKey(packageName)
+                    && !TextUtils.isEmpty(packageName)
+                    ? packageNameCount.get(packageName) : 0;
+            packageNameCount.put(packageName, previousCount + 1);
+        }
+
+        for (Item item : itemList) {
+            boolean shouldShowSummary = packageNameCount.get(item.getPackageName()) > 1;
             if (item instanceof RootItem) {
-                mDataList.add(new RootData((RootItem) item, mActionHandler));
+                mDataList.add(new RootData((RootItem) item, mActionHandler, shouldShowSummary));
             } else {
-                mDataList.add(new AppData((AppItem) item, mActionHandler));
+                mDataList.add(new AppData((AppItem) item, mActionHandler, shouldShowSummary));
             }
         }
         return mDataList;

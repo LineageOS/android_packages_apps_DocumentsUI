@@ -62,7 +62,10 @@ public abstract class Item {
 
     abstract void open();
 
-    String getPackageName() {
+    /**
+     * Get the package name string.
+     */
+    public String getPackageName() {
         return "";
     }
 
