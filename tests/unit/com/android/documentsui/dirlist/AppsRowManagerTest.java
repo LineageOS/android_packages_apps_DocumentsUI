@@ -17,7 +17,6 @@
 package com.android.documentsui.dirlist;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -91,12 +90,10 @@ public class AppsRowManagerTest {
         assertEquals(chipDataList.size(), rootList.size());
         assertEquals(TestProvidersAccess.INSPECTOR.title, chipDataList.get(0).getTitle());
         assertEquals(null, chipDataList.get(0).getSummary());
-        assertFalse(chipDataList.get(0).showExitIcon());
         assertEquals(TestProvidersAccess.PICKLES.title, chipDataList.get(1).getTitle());
         assertEquals(null, chipDataList.get(1).getSummary());
         assertEquals(TestProvidersAccess.PICKLES.summary, chipDataList.get(2).getSummary());
         assertEquals(TestProvidersAccess.PICKLES.summary, chipDataList.get(3).getSummary());
-        assertFalse(chipDataList.get(1).showExitIcon());
     }
 
     @Test
@@ -114,11 +111,9 @@ public class AppsRowManagerTest {
         assertEquals(chipDataList.size(), hybridList.size());
         assertEquals(TestProvidersAccess.INSPECTOR.title, chipDataList.get(0).getTitle());
         assertTrue(chipDataList.get(0) instanceof AppsRowItemData.RootData);
-        assertFalse(chipDataList.get(0).showExitIcon());
         assertEquals(TestProvidersAccess.PICKLES.title, chipDataList.get(1).getTitle());
         assertNull(chipDataList.get(1).getSummary());
         assertTrue(chipDataList.get(1) instanceof AppsRowItemData.AppData);
-        assertTrue(chipDataList.get(1).showExitIcon());
     }
 
     @Test
