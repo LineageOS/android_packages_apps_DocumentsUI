@@ -38,6 +38,7 @@
             android:elevation="3dp"
             android:theme="?actionBarTheme"
             android:popupTheme="?actionBarPopupTheme"
+            app:collapseContentDescription="@string/button_back"
             app:titleTextAppearance="@style/ToolbarTitle">
 
             <TextView

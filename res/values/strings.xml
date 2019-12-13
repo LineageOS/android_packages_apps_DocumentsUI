@@ -114,6 +114,8 @@
     <!-- Button label that show in the providers service. Many providers have their own app such
      as google drive. Pressing this button would open in the file in the providers app. -->
     <string name="button_show_provider">Show in provider</string>
+    <!-- Button label that do back action [CHAR LIMIT=24] -->
+    <string name="button_back">Back</string>
 
     <!-- A string used to show user that currently documents are not sorted in any given order. [CHAR_LIMIT=30] -->
     <string name="not_sorted">Not sorted</string>

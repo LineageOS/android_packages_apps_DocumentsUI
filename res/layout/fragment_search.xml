@@ -29,7 +29,7 @@
         android:layout_margin="@dimen/search_bar_margin"
         android:theme="?actionBarTheme"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationContentDescription="@string/abc_toolbar_collapse_description">
+        app:navigationContentDescription="@string/button_back">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
