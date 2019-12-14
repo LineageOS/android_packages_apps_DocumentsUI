@@ -106,13 +106,11 @@ public class AppsRowManager {
         final ImageView app_icon = view.findViewById(R.id.app_icon);
         final TextView title = view.findViewById(android.R.id.title);
         final TextView summary = view.findViewById(R.id.summary);
-        final ImageView exit_icon = view.findViewById(R.id.exit_icon);
 
         app_icon.setImageDrawable(data.getIconDrawable(view.getContext()));
         title.setText(data.getTitle());
         summary.setText(data.getSummary());
         summary.setVisibility(data.getSummary() != null ? View.VISIBLE : View.GONE);
-        exit_icon.setVisibility(data.showExitIcon() ? View.VISIBLE : View.GONE);
         view.setOnClickListener(v -> data.onClicked());
     }
 }
