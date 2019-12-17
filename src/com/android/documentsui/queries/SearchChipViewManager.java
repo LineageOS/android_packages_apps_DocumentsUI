@@ -78,7 +78,7 @@ public class SearchChipViewManager {
     private static final String[] VIDEOS_MIMETYPES = new String[]{"video/*"};
     private static final String[] AUDIO_MIMETYPES =
             new String[]{"audio/*", "application/ogg", "application/x-flac"};
-    private static final String[] DOCUMENTS_MIMETYPES = new String[]{"application/*", "text/*"};
+    private static final String[] DOCUMENTS_MIMETYPES = MimeTypes.getDocumentMimeTypeArray();
     private static final String[] EMPTY_MIMETYPES = new String[]{""};
 
     private static final Map<Integer, SearchChipData> sMimeTypesChipItems = new HashMap<>();
@@ -377,6 +377,8 @@ public class SearchChipViewManager {
             chipIcon = context.getDrawable(R.drawable.ic_chip_large_files);
         } else if (chipData.getChipType() == TYPE_FROM_THIS_WEEK) {
             chipIcon = context.getDrawable(R.drawable.ic_chip_from_this_week);
+        } else if (chipData.getChipType() == TYPE_DOCUMENTS) {
+            chipIcon = IconUtils.loadMimeIcon(context, MimeTypes.GENERIC_TYPE);
         } else {
             // get the icon drawable with the first mimeType in chipData
             chipIcon = IconUtils.loadMimeIcon(context, chipData.getMimeTypes()[0]);
