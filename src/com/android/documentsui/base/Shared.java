@@ -37,6 +37,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.PluralsRes;
 import androidx.appcompat.app.AlertDialog;
 
@@ -229,6 +230,31 @@ public final class Shared {
             // For that reason, we ignore this exception.
         }
         return callingPackage;
+    }
+
+    /**
+     * Returns the calling app name.
+     * @param activity
+     * @return the calling app name or general anonymous name if not found
+     */
+    @NonNull
+    public static String getCallingAppName(Activity activity) {
+        final String anonymous = activity.getString(R.string.anonymous_application);
+        final String packageName = getCallingPackageName(activity);
+        if (TextUtils.isEmpty(packageName)) {
+            return anonymous;
+        }
+
+        final PackageManager pm = activity.getPackageManager();
+        ApplicationInfo ai;
+        try {
+            ai = pm.getApplicationInfo(packageName, 0);
+        } catch (final PackageManager.NameNotFoundException e) {
+            return anonymous;
+        }
+
+        CharSequence result = pm.getApplicationLabel(ai);
+        return TextUtils.isEmpty(result) ? anonymous : result.toString();
     }
 
     /**

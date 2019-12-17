@@ -25,6 +25,7 @@ import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
 
 /**
@@ -38,10 +39,12 @@ abstract class Message {
     // If a message has a new callback when updated, this field should be updated.
     protected @Nullable Runnable mCallback;
 
+    private @Nullable CharSequence mMessageTitle;
     private @Nullable CharSequence mMessageString;
     private @Nullable CharSequence mButtonString;
     private @Nullable Drawable mIcon;
     private boolean mShouldShow = false;
+    protected boolean mShouldKeep = false;
 
     Message(Environment env, Runnable defaultCallback) {
         mEnv = env;
@@ -50,10 +53,12 @@ abstract class Message {
 
     abstract void update(Update Event);
 
-    protected void update(CharSequence messageString, CharSequence buttonString, Drawable icon) {
+    protected void update(@Nullable CharSequence messageTitle, CharSequence messageString,
+            @Nullable CharSequence buttonString, Drawable icon) {
         if (messageString == null) {
             return;
         }
+        mMessageTitle = messageTitle;
         mMessageString = messageString;
         mButtonString = buttonString;
         mIcon = icon;
@@ -82,6 +87,18 @@ abstract class Message {
         return mShouldShow;
     }
 
+    /**
+     * Return this message should keep showing or not.
+     * @return true if this message should keep showing.
+     */
+    boolean shouldKeep() {
+        return mShouldKeep;
+    }
+
+    CharSequence getTitleString() {
+        return mMessageTitle;
+    }
+
     CharSequence getMessageString() {
         return mMessageString;
     }
@@ -107,11 +124,14 @@ abstract class Message {
             if (event.hasAuthenticationException()) {
                 updateToAuthenticationExceptionHeader(event);
             } else if (mEnv.getModel().error != null) {
-                update(mEnv.getModel().error, null,
+                update(null, mEnv.getModel().error, null,
                         mEnv.getContext().getDrawable(R.drawable.ic_dialog_alert));
             } else if (mEnv.getModel().info != null) {
-                update(mEnv.getModel().info, null,
+                update(null, mEnv.getModel().info, null,
                         mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
+            } else if (mEnv.getDisplayState().action == State.ACTION_OPEN_TREE
+                    && mEnv.getDisplayState().stack.peek().isBlockedFromTree()) {
+                updateBlockFromTreeMessage();
             }
         }
 
@@ -121,7 +141,7 @@ abstract class Message {
             RootInfo root = mEnv.getDisplayState().stack.getRoot();
             String appName = DocumentsApplication.getProvidersCache(
                     mEnv.getContext()).getApplicationName(root.userId, root.authority);
-            update(mEnv.getContext().getString(R.string.authentication_required, appName),
+            update(null, mEnv.getContext().getString(R.string.authentication_required, appName),
                     mEnv.getContext().getResources().getText(R.string.sign_in),
                     mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
             mCallback = () -> {
@@ -129,6 +149,22 @@ abstract class Message {
                         (AuthenticationRequiredException) event.getException();
                 mEnv.getActionHandler().startAuthentication(exception.getUserAction());
             };
+        }
+
+        private void updateBlockFromTreeMessage() {
+            mShouldKeep = true;
+            if (mEnv.getDisplayState().stack.size() <= 1) {
+                update(null,
+                        mEnv.getContext().getString(R.string.open_tree_header_message_root),
+                        null, mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
+            } else {
+                final String folder = mEnv.getDisplayState().stack.getTitle();
+                final String callingApp = mEnv.getCallingAppName();
+                update(mEnv.getContext().getString(R.string.open_tree_header_title,
+                        folder, callingApp),
+                        mEnv.getContext().getString(R.string.open_tree_header_message_child),
+                        null, mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
+            }
         }
     }
 
@@ -151,13 +187,13 @@ abstract class Message {
         }
 
         private void updateToInflatedErrorMesage() {
-            update(mEnv.getContext().getResources().getText(R.string.query_error), null,
+            update(null, mEnv.getContext().getResources().getText(R.string.query_error), null,
                     mEnv.getContext().getDrawable(R.drawable.hourglass));
         }
 
         private void updateToCantDisplayContentMessage() {
-            update(mEnv.getContext().getResources().getText(R.string.cant_display_content), null,
-                    mEnv.getContext().getDrawable(R.drawable.empty));
+            update(null, mEnv.getContext().getResources().getText(R.string.cant_display_content),
+                    null, mEnv.getContext().getDrawable(R.drawable.empty));
         }
 
         private void updateToInflatedEmptyMessage() {
@@ -170,7 +206,7 @@ abstract class Message {
             } else {
                 message = mEnv.getContext().getResources().getText(R.string.empty);
             }
-            update(message, null, mEnv.getContext().getDrawable(R.drawable.empty));
+            update(null, message, null, mEnv.getContext().getDrawable(R.drawable.empty));
         }
     }
 }

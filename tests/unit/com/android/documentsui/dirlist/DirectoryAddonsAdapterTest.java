@@ -29,6 +29,7 @@ import androidx.test.filters.MediumTest;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.Model;
 import com.android.documentsui.ModelId;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestActionHandler;
@@ -138,6 +139,28 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
         assertHolderType(0, DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE);
     }
 
+    public void testOpenTreeMessage_isBlockFromTreeChild() {
+        mEnv.state.action = State.ACTION_OPEN_TREE;
+        DocumentInfo info = new DocumentInfo();
+        info.flags += DocumentsContract.Document.FLAG_DIR_BLOCKS_OPEN_DOCUMENT_TREE;
+        mEnv.state.stack.push(info);
+
+        mEnv.model.update();
+        assertEquals(2, mAdapter.getItemCount());
+        assertHolderType(0, DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE);
+    }
+
+    public void testOpenTreeMessage_normalChild() {
+        mEnv.state.action = State.ACTION_OPEN_TREE;
+        DocumentInfo info = new DocumentInfo();
+        mEnv.state.stack.push(info);
+
+        mEnv.model.update();
+        // Should only no items message show
+        assertEquals(1, mAdapter.getItemCount());
+        assertHolderType(0, DocumentsAdapter.ITEM_TYPE_INFLATED_MESSAGE);
+    }
+
     private void assertHolderType(int index, int type) {
         assertTrue(mAdapter.getItemViewType(index) == type);
     }
@@ -177,7 +200,7 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
 
         @Override
         public State getDisplayState() {
-            return null;
+            return mEnv.state;
         }
 
         @Override
@@ -197,6 +220,11 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
 
         @Override
         public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {}
+
+        @Override
+        public String getCallingAppName() {
+            return "unknown";
+        }
     }
 
     private static class DummyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
