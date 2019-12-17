@@ -73,12 +73,12 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
                 ROOT_0_ID,
                 ROOT_1_ID);
 
-        // Separate logic for "Documents" root, which presence depends on the config setting
-        if (docsRootEnabled()) {
-            bots.roots.assertRootsPresent("Documents");
-        } else {
-            bots.roots.assertRootsAbsent("Documents");
-        }
+//        // Separate logic for "Documents" root, which presence depends on the config setting
+//        if (docsRootEnabled()) {
+//            bots.roots.assertRootsPresent("Documents");
+//        } else {
+//            bots.roots.assertRootsAbsent("Documents");
+//        }
     }
 
     private boolean docsRootEnabled() {

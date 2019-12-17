@@ -42,6 +42,7 @@ public class TestProvidersAccess implements ProvidersAccess {
     public static final RootInfo IMAGE;
     public static final RootInfo AUDIO;
     public static final RootInfo VIDEO;
+    public static final RootInfo DOCUMENT;
     public static final RootInfo EXTERNALSTORAGE;
     public static final RootInfo NO_TREE_ROOT;
 
@@ -115,6 +116,12 @@ public class TestProvidersAccess implements ProvidersAccess {
         VIDEO.rootId = Providers.ROOT_ID_VIDEOS;
         VIDEO.title = "Videos";
         VIDEO.derivedType = RootInfo.TYPE_VIDEO;
+
+        DOCUMENT = new RootInfo();
+        DOCUMENT.authority = Providers.AUTHORITY_MEDIA;
+        DOCUMENT.rootId = Providers.ROOT_ID_DOCUMENTS;
+        DOCUMENT.title = "Documents";
+        DOCUMENT.derivedType = RootInfo.TYPE_DOCUMENTS;
 
         EXTERNALSTORAGE = new RootInfo();
         EXTERNALSTORAGE.authority = Providers.AUTHORITY_STORAGE;

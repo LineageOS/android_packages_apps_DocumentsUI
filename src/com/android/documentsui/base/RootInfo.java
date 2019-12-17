@@ -65,6 +65,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
             TYPE_IMAGES,
             TYPE_VIDEO,
             TYPE_AUDIO,
+            TYPE_DOCUMENTS,
             TYPE_DOWNLOADS,
             TYPE_LOCAL,
             TYPE_MTP,
@@ -78,12 +79,13 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     public static final int TYPE_IMAGES = 2;
     public static final int TYPE_VIDEO = 3;
     public static final int TYPE_AUDIO = 4;
-    public static final int TYPE_DOWNLOADS = 5;
-    public static final int TYPE_LOCAL = 6;
-    public static final int TYPE_MTP = 7;
-    public static final int TYPE_SD = 8;
-    public static final int TYPE_USB = 9;
-    public static final int TYPE_OTHER = 10;
+    public static final int TYPE_DOCUMENTS = 5;
+    public static final int TYPE_DOWNLOADS = 6;
+    public static final int TYPE_LOCAL = 7;
+    public static final int TYPE_MTP = 8;
+    public static final int TYPE_SD = 9;
+    public static final int TYPE_USB = 10;
+    public static final int TYPE_OTHER = 11;
 
     public String authority;
     public String rootId;
@@ -235,6 +237,9 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         } else if (isAudio()) {
             derivedType = TYPE_AUDIO;
             derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
+        } else if (isDocuments()) {
+            derivedType = TYPE_DOCUMENTS;
+            derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
         } else if (isRecents()) {
             derivedType = TYPE_RECENTS;
         } else if (isBugReport()) {
@@ -292,6 +297,11 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
                 && Providers.ROOT_ID_AUDIO.equals(rootId);
     }
 
+    public boolean isDocuments() {
+        return Providers.AUTHORITY_MEDIA.equals(authority)
+                && Providers.ROOT_ID_DOCUMENTS.equals(rootId);
+    }
+
     public boolean isMtp() {
         return Providers.AUTHORITY_MTP.equals(authority);
     }
@@ -303,7 +313,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         return derivedType == TYPE_IMAGES
                 || derivedType == TYPE_VIDEO
                 || derivedType == TYPE_AUDIO
-                || derivedType == TYPE_RECENTS;
+                || derivedType == TYPE_RECENTS
+                || derivedType == TYPE_DOCUMENTS;
     }
 
     /*
