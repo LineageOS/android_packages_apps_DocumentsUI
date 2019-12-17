@@ -325,10 +325,9 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
         synchronized (mTasks) {
             for (QueryTask task : mTasks.values()) {
-                FileUtils.closeQuietly(task);
+                mExecutors.lookup(task.authority).execute(() -> FileUtils.closeQuietly(task));
             }
         }
-
         FileUtils.closeQuietly(mResult);
         mResult = null;
 
