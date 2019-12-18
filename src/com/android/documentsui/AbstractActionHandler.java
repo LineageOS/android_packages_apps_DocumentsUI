@@ -412,6 +412,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         }
 
         assert(currentDoc != null);
+        if (currentDoc.equals(mState.stack.peek())) {
+            Log.w(TAG, "This DocumentInfo is already in current DocumentsStack");
+            return;
+        }
+
         mActivity.notifyDirectoryNavigated(currentDoc.derivedUri);
 
         mState.stack.push(currentDoc);

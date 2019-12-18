@@ -256,6 +256,14 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testOpenContainerDocument_sameDocumentInfo() {
+        mHandler.openContainerDocument(TestEnv.FOLDER_0);
+        mHandler.openContainerDocument(TestEnv.FOLDER_0);
+
+        assertEquals(1, mEnv.state.stack.size());
+    }
+
+    @Test
     public void testIncreasePickCountRecordCalled() throws Exception {
         mEnv.state.action = State.ACTION_GET_CONTENT;
         mEnv.state.stack.changeRoot(TestProvidersAccess.HOME);
