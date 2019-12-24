@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="files_label" msgid="771781190045103748">"Tệp"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"Nội dung tải xuống"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"Tệp đã tải xuống"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
