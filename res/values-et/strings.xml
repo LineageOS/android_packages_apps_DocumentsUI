@@ -62,6 +62,7 @@
     <string name="button_retry" msgid="4011461781916631389">"Proovi uuesti"</string>
     <string name="button_clear" msgid="5412304437764369441">"Kustuta"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Kuva teenuses"</string>
+    <string name="button_back" msgid="1888621708934742182">"Tagasi"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Sortimata"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Nimi"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Kokkuvõte"</string>
