@@ -40,6 +40,7 @@ public final class MimeTypes {
     static {
         sDocumentsMimeTypes.add("application/epub+zip");
         sDocumentsMimeTypes.add("application/javascript");
+        sDocumentsMimeTypes.add("application/msword");
         sDocumentsMimeTypes.add("application/pdf");
         sDocumentsMimeTypes.add("application/rar");
         sDocumentsMimeTypes.add("application/rtf");
