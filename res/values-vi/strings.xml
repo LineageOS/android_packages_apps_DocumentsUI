@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="files_label" msgid="771781190045103748">"Tệp"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"Nội dung tải xuống"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"Tệp đã tải xuống"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
@@ -62,6 +62,7 @@
     <string name="button_retry" msgid="4011461781916631389">"Thử lại"</string>
     <string name="button_clear" msgid="5412304437764369441">"Xóa"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Hiển thị trong nhà cung cấp"</string>
+    <string name="button_back" msgid="1888621708934742182">"Quay lại"</string>
     <string name="not_sorted" msgid="7813496644889115530">"Chưa được sắp xếp"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"Tên"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"Tóm tắt"</string>
