@@ -44,6 +44,7 @@ public final class MimeTypes {
         sDocumentsMimeTypes.add("application/pdf");
         sDocumentsMimeTypes.add("application/rar");
         sDocumentsMimeTypes.add("application/rtf");
+        sDocumentsMimeTypes.add("application/vnd.android.package-archive");
         sDocumentsMimeTypes.add("application/vnd.ms-excel");
         sDocumentsMimeTypes.add("application/vnd.ms-excel.addin.macroEnabled.12");
         sDocumentsMimeTypes.add("application/vnd.ms-excel.sheet.binary.macroEnabled.12");
