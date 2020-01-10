@@ -67,10 +67,6 @@
             android:visible="false"
             app:showAsAction="never"/>
         <item
-            android:id="@+id/option_menu_advanced"
-            android:visible="false"
-            app:showAsAction="never"/>
-        <item
             android:id="@+id/option_menu_settings"
             android:title="@string/menu_settings"
             android:visible="false"

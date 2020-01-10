@@ -98,11 +98,6 @@ public interface ProvidersAccess {
                 continue;
             }
 
-            if (!state.showAdvanced && root.isAdvanced()) {
-                if (VERBOSE) Log.v(tag, "Excluding root because: unwanted advanced device.");
-                continue;
-            }
-
             if (state.localOnly && !root.isLocalOnly()) {
                 if (VERBOSE) Log.v(tag, "Excluding root because: unwanted non-local device.");
                 continue;

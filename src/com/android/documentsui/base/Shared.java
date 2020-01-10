@@ -289,14 +289,6 @@ public final class Shared {
         return !TextUtils.isEmpty(context.getString(R.string.trusted_quick_viewer_package));
     }
 
-    /*
-     * Returns true if the local/device storage root must be visible (this also hides
-     * the option to toggle visibility in the menu.)
-     */
-    public static boolean mustShowDeviceRoot(Intent intent) {
-        return intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_ADVANCED, false);
-    }
-
     public static String getDeviceName(ContentResolver resolver) {
         // We match the value supplied by ExternalStorageProvider for
         // the internal storage root.

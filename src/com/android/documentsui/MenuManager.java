@@ -92,7 +92,6 @@ public abstract class MenuManager {
         updateSettings(mOptionMenu.findItem(R.id.option_menu_settings));
         updateSelectAll(mOptionMenu.findItem(R.id.option_menu_select_all));
         updateNewWindow(mOptionMenu.findItem(R.id.option_menu_new_window));
-        updateAdvanced(mOptionMenu.findItem(R.id.option_menu_advanced));
         updateDebug(mOptionMenu.findItem(R.id.option_menu_debug));
         updateInspect(mOptionMenu.findItem(R.id.option_menu_inspect));
         updateSort(mOptionMenu.findItem(R.id.option_menu_sort));
@@ -256,12 +255,6 @@ public abstract class MenuManager {
     protected void updateModePicker(MenuItem grid, MenuItem list) {
         grid.setVisible(mState.derivedMode != State.MODE_GRID);
         list.setVisible(mState.derivedMode != State.MODE_LIST);
-    }
-
-    protected void updateAdvanced(MenuItem advanced) {
-        advanced.setVisible(mState.showDeviceStorageOption);
-        advanced.setTitle(mState.showDeviceStorageOption && mState.showAdvanced
-                ? R.string.menu_advanced_hide : R.string.menu_advanced_show);
     }
 
     protected void updateSort(MenuItem sort) {
