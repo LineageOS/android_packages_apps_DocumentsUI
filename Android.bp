@@ -61,7 +61,7 @@ java_library {
 genrule {
     name: "statslog-docsui-java-gen",
     tools: ["stats-log-api-gen"],
-    cmd: "$(location stats-log-api-gen) --java $(out) --module docsui --javaPackage com.android.documentsui --javaClass DocumentsStatsLog",
+    cmd: "$(location stats-log-api-gen) --java $(out) --module docsui --javaPackage com.android.documentsui --javaClass DocumentsStatsLog --supportQ",
     out: ["com/android/documentsui/DocumentsStatsLog.java"],
 }
 
