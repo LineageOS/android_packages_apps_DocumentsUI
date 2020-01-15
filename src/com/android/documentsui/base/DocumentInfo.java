@@ -291,7 +291,7 @@ public class DocumentInfo implements Durable, Parcelable {
     }
 
     public boolean isBlockedFromTree() {
-        return (flags & Document.FLAG_DIR_BLOCKS_TREE) != 0;
+        return (flags & Document.FLAG_DIR_BLOCKS_OPEN_DOCUMENT_TREE) != 0;
     }
 
     // Containers are documents which can be opened in DocumentsUI as folders.
