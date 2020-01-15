@@ -429,18 +429,8 @@ public class ActionHandlerTest {
     }
 
     @Test
-    public void testInitLocation_DefaultsToRecent() throws Exception {
-        mActivity.resources.bools.put(R.bool.show_documents_root, false);
-        mFeatures.forceDefaultRoot = false;
-
-        mHandler.initLocation(mActivity.getIntent());
-        assertRecentPicked();
-    }
-
-    @Test
     public void testInitLocation_forceDefaultsToRoot() throws Exception {
         mActivity.resources.bools.put(R.bool.show_documents_root, false);
-        mFeatures.forceDefaultRoot = true;
         mActivity.resources.strings.put(R.string.default_root_uri,
                 TestProvidersAccess.DOWNLOADS.getUri().toString());
 
@@ -451,7 +441,6 @@ public class ActionHandlerTest {
     @Test
     public void testInitLocation_DocumentsRootEnabled() throws Exception {
         mActivity.resources.bools.put(R.bool.show_documents_root, true);
-        mFeatures.forceDefaultRoot = true;
         mActivity.resources.strings.put(R.string.default_root_uri,
                 TestProvidersAccess.HOME.getUri().toString());
 
@@ -476,10 +465,9 @@ public class ActionHandlerTest {
         intent.setData(DocumentsContract.buildRootsUri("com.test.wrongauthority"));
         mActivity.resources.strings.put(R.string.default_root_uri,
                 TestProvidersAccess.HOME.getUri().toString());
-        mFeatures.forceDefaultRoot = false;
 
         mHandler.initLocation(intent);
-        assertRecentPicked();
+        assertRootPicked(TestProvidersAccess.HOME.getUri());
     }
 
     @Test
@@ -712,12 +700,6 @@ public class ActionHandlerTest {
         RootInfo root = mActivity.rootPicked.getLastValue();
         assertNotNull(root);
         assertEquals(expectedUri, root.getUri());
-    }
-
-    private void assertRecentPicked() throws Exception{
-        mEnv.beforeAsserts();
-        assertEquals(TestProvidersAccess.RECENTS, mEnv.state.stack.getRoot());
-        mActivity.refreshCurrentRootAndDirectory.assertCalled();
     }
 
     private ActionHandler<TestActivity> createHandler() {

@@ -245,7 +245,9 @@ public final class Shared {
         Uri defaultUri = Uri.parse(activity.getResources().getString(R.string.default_root_uri));
 
         if (!DocumentsContract.isRootUri(activity, defaultUri)) {
-            throw new RuntimeException("Default Root URI is not a valid root URI.");
+            Log.e(TAG, "Default Root URI is not a valid root URI, falling back to Downloads.");
+            defaultUri = DocumentsContract.buildRootUri(Providers.AUTHORITY_DOWNLOADS,
+                    Providers.ROOT_ID_DOWNLOADS);
         }
 
         return defaultUri;

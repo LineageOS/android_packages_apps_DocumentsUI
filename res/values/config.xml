@@ -59,9 +59,6 @@
     <bool name="feature_virtual_files_sharing">true</bool>
     <bool name="feature_inspector">true</bool>
     <bool name="feature_debug_mode">false</bool>
-    <!-- If this value is true, the default root on action browse will be the root from
-    "default_root_uri". Otherwise, the default root will be the recent root.-->
-    <bool name="feature_default_root_in_browse">false</bool>
 
     <!-- Indicates if internal storage is shown as default or not. -->
     <bool name="config_default_show_device_root">false</bool>

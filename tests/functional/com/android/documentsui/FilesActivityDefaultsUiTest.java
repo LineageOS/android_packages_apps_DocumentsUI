@@ -46,30 +46,6 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
         return null;  // test the default, unaffected state of the app.
     }
 
-    public void testDefaultDirectory() throws Exception {
-        device.waitForIdle();
-
-        boolean defaultRootBrowse
-                = context.getResources().getBoolean(R.bool.feature_default_root_in_browse);
-
-        if (defaultRootBrowse) {
-            // Separate logic for "Documents" root, which presence depends on the config setting
-            if (docsRootEnabled()) {
-                bots.main.assertWindowTitle("Documents");
-            } else {
-                bots.main.assertWindowTitle("Downloads");
-            }
-        } else {
-            boolean showSearchBar =
-                    context.getResources().getBoolean(R.bool.show_search_bar);
-            if (showSearchBar) {
-                bots.main.assertSearchBarShow();
-            } else {
-                bots.main.assertWindowTitle("Recent");
-            }
-        }
-    }
-
     @HugeLongTest
     public void testNavigate_FromEmptyDirectory() throws Exception {
         device.waitForIdle();

@@ -463,11 +463,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
 
     @Override
     protected void launchToDefaultLocation() {
-        if (mFeatures.isDefaultRootInBrowseEnabled()) {
-            loadHomeDir();
-        } else {
-            loadRecent();
-        }
+        loadHomeDir();
     }
 
     // If EXTRA_STACK is not null in intent, we'll skip other means of loading
