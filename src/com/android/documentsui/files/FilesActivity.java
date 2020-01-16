@@ -57,7 +57,6 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
@@ -92,16 +91,14 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
 
         MessageBuilder messages = new MessageBuilder(this);
         Features features = Features.create(this);
-        ScopedPreferences prefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
 
         mInjector = new Injector<>(
                 features,
                 new Config(),
-                ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 messages,
                 DialogController.create(features, this),
                 DocumentsApplication.getFileTypeLookup(this),
-                new ShortcutsUpdater(this, prefs)::update);
+                new ShortcutsUpdater(this)::update);
 
         super.onCreate(icicle);
 
