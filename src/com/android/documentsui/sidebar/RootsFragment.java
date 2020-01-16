@@ -66,6 +66,7 @@ import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Events;
+import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -246,8 +247,20 @@ public class RootsFragment extends Fragment {
                 final String excludePackage = excludeSelf ? activity.getCallingPackage() : null;
                 List<Item> sortedItems = sortLoadResult(roots, excludePackage, handlerAppIntent,
                         DocumentsApplication.getProvidersCache(getContext()));
+
+                // Get the first visible position and offset
+                final int firstPosition = mList.getFirstVisiblePosition();
+                View firstChild = mList.getChildAt(0);
+                final int offset =
+                        firstChild != null ? firstChild.getTop() - mList.getPaddingTop() : 0;
+                final int oriItemCount = mAdapter != null ? mAdapter.getCount() : 0;
                 mAdapter = new RootsAdapter(activity, sortedItems, mDragListener);
                 mList.setAdapter(mAdapter);
+
+                // recover the position.
+                if (oriItemCount == mAdapter.getCount()) {
+                    mList.setSelectionFromTop(firstPosition, offset);
+                }
 
                 mInjector.shortcutsUpdater.accept(roots);
                 mInjector.appsRowManager.updateList(mApplicationItemList);
@@ -421,6 +434,12 @@ public class RootsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        final Context context = getActivity();
+        // Update the information for Storage's root
+        if (context != null) {
+            DocumentsApplication.getProvidersCache(context).updateAuthorityAsync(
+                    Providers.AUTHORITY_STORAGE);
+        }
         onDisplayStateChanged();
     }
 
