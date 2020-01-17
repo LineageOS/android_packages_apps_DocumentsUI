@@ -358,6 +358,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                             .withOnItemActivatedListener(this::onItemActivated)
                             .withOperationMonitor(mContentLock.getMonitor())
                             .withSelectionPredicate(selectionPredicate)
+                            .withGestureTooltypes(MotionEvent.TOOL_TYPE_FINGER,
+                                    MotionEvent.TOOL_TYPE_STYLUS)
                             .build();
             mInjector.updateSharedSelectionTracker(localTracker);
         }
