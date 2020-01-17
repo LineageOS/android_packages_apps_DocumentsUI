@@ -107,12 +107,6 @@ public interface ProvidersAccess {
                 continue;
             }
 
-            if (state.directoryCopy && root.isDownloads()) {
-                if (VERBOSE) Log.v(
-                        tag, "Excluding downloads root because: unsupported directory copy.");
-                continue;
-            }
-
             if (state.action == State.ACTION_OPEN && root.isEmpty()) {
                 if (VERBOSE) Log.v(tag, "Excluding empty root because: ACTION_OPEN.");
                 continue;

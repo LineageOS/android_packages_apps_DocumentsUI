@@ -66,12 +66,6 @@ public final class Shared {
     public static final String METADATA_VIDEO_LONGITUTE = "android.media.metadata.video:longitude";
 
     /**
-     * Extra boolean flag for {@link #ACTION_PICK_COPY_DESTINATION}, which
-     * specifies if the destination directory needs to create new directory or not.
-     */
-    public static final String EXTRA_DIRECTORY_COPY = "com.android.documentsui.DIRECTORY_COPY";
-
-    /**
      * Extra flag used to store the current stack so user opens in right spot.
      */
     public static final String EXTRA_STACK = "com.android.documentsui.STACK";
