@@ -443,8 +443,8 @@
     <string name="chip_title_audio">Audio</string>
     <!-- Title for videos chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_videos">Videos</string>
-    <!-- Title for image chip. [CHAR_LIMIT=40] -->
-    <string name="chip_title_documents">Document &amp; Other</string>
+    <!-- Title for image chip. [CHAR_LIMIT=25] -->
+    <string name="chip_title_documents">Documents</string>
     <!-- Title for large file chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_large_files">Large files</string>
     <!-- Title for from this week chip. [CHAR_LIMIT=25] -->

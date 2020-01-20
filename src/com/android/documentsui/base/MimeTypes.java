@@ -39,12 +39,9 @@ public final class MimeTypes {
 
     static {
         sDocumentsMimeTypes.add("application/epub+zip");
-        sDocumentsMimeTypes.add("application/javascript");
         sDocumentsMimeTypes.add("application/msword");
         sDocumentsMimeTypes.add("application/pdf");
-        sDocumentsMimeTypes.add("application/rar");
         sDocumentsMimeTypes.add("application/rtf");
-        sDocumentsMimeTypes.add("application/vnd.android.package-archive");
         sDocumentsMimeTypes.add("application/vnd.ms-excel");
         sDocumentsMimeTypes.add("application/vnd.ms-excel.addin.macroEnabled.12");
         sDocumentsMimeTypes.add("application/vnd.ms-excel.sheet.binary.macroEnabled.12");
@@ -104,15 +101,7 @@ public final class MimeTypes {
         sDocumentsMimeTypes.add("application/vnd.sun.xml.writer.global");
         sDocumentsMimeTypes.add("application/vnd.sun.xml.writer.template");
         sDocumentsMimeTypes.add("application/x-mspublisher");
-        sDocumentsMimeTypes.add("application/xml");
-        sDocumentsMimeTypes.add("application/zip");
-        sDocumentsMimeTypes.add("text/calendar");
-        sDocumentsMimeTypes.add("text/css");
-        sDocumentsMimeTypes.add("text/csv");
-        sDocumentsMimeTypes.add("text/html");
-        sDocumentsMimeTypes.add("text/plain");
-        sDocumentsMimeTypes.add("text/tab-separated-values");
-        sDocumentsMimeTypes.add("text/vcard");
+        sDocumentsMimeTypes.add("text/*");
     }
 
     /**
