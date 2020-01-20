@@ -934,7 +934,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         // to be copied? Why? Directory creation isn't supported by some roots
         // (like Downloads). This informs DocumentsActivity (the "picker")
         // to restrict available roots to just those with support.
-        intent.putExtra(Shared.EXTRA_DIRECTORY_COPY, hasDirectory(docs));
         intent.putExtra(FileOperationService.EXTRA_OPERATION_TYPE, mode);
 
         // This just identifies the type of request...we'll check it
@@ -951,15 +950,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             default:
                 throw new UnsupportedOperationException("Unknown request code: " + requestCode);
         }
-    }
-
-    private static boolean hasDirectory(List<DocumentInfo> docs) {
-        for (DocumentInfo info : docs) {
-            if (Document.MIME_TYPE_DIR.equals(info.mimeType)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void renameDocuments(Selection selected) {

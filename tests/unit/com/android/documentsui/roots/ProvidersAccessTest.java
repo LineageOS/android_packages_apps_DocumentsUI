@@ -68,20 +68,6 @@ public class ProvidersAccessTest extends AndroidTestCase {
                 ProvidersAccess.getMatchingRoots(mRoots, mState));
     }
 
-    public void testMatchingRoots_DirectoryCopy() throws Exception {
-        RootInfo downloads = buildForMimeTypes("*/*");
-        downloads.authority = Providers.AUTHORITY_DOWNLOADS;
-        mRoots.add(downloads);
-
-        mState.acceptMimes = new String[] { "*/*" };
-        mState.directoryCopy = true;
-
-        // basically we're asserting that the results don't contain downloads
-        assertContainsExactly(
-                newArrayList(mNull, mWild, mImages, mAudio, mDocs, mMalformed1, mMalformed2),
-                ProvidersAccess.getMatchingRoots(mRoots, mState));
-    }
-
     public void testMatchingRoots_PngOrWild() throws Exception {
         mState.acceptMimes = new String[] { "image/png", "*/*" };
         assertContainsExactly(

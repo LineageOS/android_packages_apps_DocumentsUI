@@ -246,11 +246,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         }
 
         if (state.action == ACTION_PICK_COPY_DESTINATION) {
-            // Indicates that a copy operation (or move) includes a directory.
-            // Why? Directory creation isn't supported by some roots (like Downloads).
-            // This allows us to restrict available roots to just those with support.
-            state.directoryCopy = intent.getBooleanExtra(
-                    Shared.EXTRA_DIRECTORY_COPY, false);
             state.copyOperationSubType = intent.getIntExtra(
                     FileOperationService.EXTRA_OPERATION_TYPE,
                     FileOperationService.OPERATION_COPY);

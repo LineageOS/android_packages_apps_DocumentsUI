@@ -84,10 +84,6 @@ public class State implements android.os.Parcelable {
     public boolean showDeviceStorageOption;
     public boolean showAdvanced;
 
-    // Indicates that a copy operation (or move) includes a directory.
-    // Why? Directory creation isn't supported by some roots (like Downloads).
-    // This allows us to restrict available roots to just those with support.
-    public boolean directoryCopy;
     public boolean openableOnly;
 
     /**
