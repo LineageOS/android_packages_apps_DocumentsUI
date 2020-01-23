@@ -375,6 +375,8 @@ public final class Metrics {
                         return MetricConsts.ROOT_IMAGES;
                     case Providers.ROOT_ID_VIDEOS:
                         return MetricConsts.ROOT_VIDEOS;
+                    case Providers.ROOT_ID_DOCUMENTS:
+                        return MetricConsts.ROOT_DOCUMENTS;
                     default:
                         return MetricConsts.ROOT_OTHER_DOCS_PROVIDER;
                 }

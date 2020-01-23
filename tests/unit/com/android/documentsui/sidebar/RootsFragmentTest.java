@@ -51,6 +51,7 @@ public class RootsFragmentTest {
             TestProvidersAccess.IMAGE.title,
             TestProvidersAccess.VIDEO.title,
             TestProvidersAccess.AUDIO.title,
+            TestProvidersAccess.DOCUMENT.title,
             TestProvidersAccess.DOWNLOADS.title,
             "" /* SpacerItem */,
             TestProvidersAccess.EXTERNALSTORAGE.title,
@@ -138,6 +139,7 @@ public class RootsFragmentTest {
         fakeRootInfoList.add(TestProvidersAccess.RECENTS);
         fakeRootInfoList.add(TestProvidersAccess.IMAGE);
         fakeRootInfoList.add(TestProvidersAccess.EXTERNALSTORAGE);
+        fakeRootInfoList.add(TestProvidersAccess.DOCUMENT);
         return fakeRootInfoList;
     }
 }

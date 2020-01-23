@@ -40,6 +40,7 @@ public class MetricConsts {
     public static final int ROOT_VIDEOS = 9;
     public static final int ROOT_MTP = 10;
     public static final int ROOT_THIRD_PARTY_APP = 11;
+    public static final int ROOT_DOCUMENTS = 12;
 
     @IntDef(flag = true, value = {
             ROOT_UNKNOWN,
@@ -53,7 +54,8 @@ public class MetricConsts {
             ROOT_RECENTS,
             ROOT_VIDEOS,
             ROOT_MTP,
-            ROOT_THIRD_PARTY_APP
+            ROOT_THIRD_PARTY_APP,
+            ROOT_DOCUMENTS
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface Root {

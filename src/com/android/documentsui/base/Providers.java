@@ -39,6 +39,7 @@ public final class Providers {
     public static final String ROOT_ID_IMAGES = "images_root";
     public static final String ROOT_ID_VIDEOS = "videos_root";
     public static final String ROOT_ID_AUDIO = "audio_root";
+    public static final String ROOT_ID_DOCUMENTS = "documents_root";
 
     public static final String AUTHORITY_MTP = "com.android.mtp.documents";
     public static final String AUTHORITY_BUGREPORT = "com.android.shell.documents";
