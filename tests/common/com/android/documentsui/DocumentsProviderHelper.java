@@ -30,6 +30,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.fail;
 
 import android.content.ContentProviderClient;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import androidx.annotation.Nullable;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import com.google.common.collect.Lists;
@@ -64,13 +66,15 @@ import java.util.List;
  */
 public class DocumentsProviderHelper {
 
+    private final UserId mUserId;
     private final String mAuthority;
     private final ContentProviderClient mClient;
 
-    public DocumentsProviderHelper(String authority, ContentProviderClient client) {
+    public DocumentsProviderHelper(UserId userId, String authority, Context context, String name) {
         checkArgument(!TextUtils.isEmpty(authority));
+        mUserId = userId;
         mAuthority = authority;
-        mClient = client;
+        mClient = userId.getContentResolver(context).acquireContentProviderClient(name);
     }
 
     public RootInfo getRoot(String documentId) throws RemoteException {
@@ -80,7 +84,7 @@ public class DocumentsProviderHelper {
             cursor = mClient.query(rootsUri, null, null, null, null);
             while (cursor.moveToNext()) {
                 if (documentId.equals(getCursorString(cursor, Root.COLUMN_ROOT_ID))) {
-                    return RootInfo.fromRootsCursor(mAuthority, cursor);
+                    return RootInfo.fromRootsCursor(mUserId, mAuthority, cursor);
                 }
             }
             throw new IllegalArgumentException("Can't find matching root for id=" + documentId);
@@ -343,6 +347,15 @@ public class DocumentsProviderHelper {
         mClient.call("configure", args, configuration);
     }
 
+    public void simulateReadErrorsForFile(String args, Bundle configuration)
+            throws RemoteException {
+        mClient.call("simulateReadErrorsForFile", args, configuration);
+    }
+
+    public void clear(String args, Bundle configuration) throws RemoteException {
+        mClient.call("clear", args, configuration);
+    }
+
     public List<RootInfo> getRootList() throws RemoteException {
         List<RootInfo> list = new ArrayList<>();
         final Uri rootsUri = DocumentsContract.buildRootsUri(mAuthority);
@@ -350,7 +363,7 @@ public class DocumentsProviderHelper {
         try {
             cursor = mClient.query(rootsUri, null, null, null, null);
             while (cursor.moveToNext()) {
-                RootInfo rootInfo = RootInfo.fromRootsCursor(mAuthority, cursor);
+                RootInfo rootInfo = RootInfo.fromRootsCursor(mUserId, mAuthority, cursor);
                 if (rootInfo != null) {
                     list.add(rootInfo);
                 }
@@ -361,5 +374,9 @@ public class DocumentsProviderHelper {
             FileUtils.closeQuietly(cursor);
         }
         return list;
+    }
+
+    public void cleanUp() {
+        mClient.close();
     }
 }

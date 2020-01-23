@@ -20,7 +20,6 @@ import static com.android.documentsui.base.Providers.AUTHORITY_STORAGE;
 import static com.android.documentsui.base.Providers.ROOT_ID_DEVICE;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -119,10 +118,9 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
         mFoldersToCleanup.clear();
 
-        // Create ContentProviderClient and DocumentsProviderHelper for using SD Card.
-        ContentProviderClient storageClient =
-                mResolver.acquireUnstableContentProviderClient(AUTHORITY_STORAGE);
-        mStorageDocsHelper = new DocumentsProviderHelper(AUTHORITY_STORAGE, storageClient);
+        // Create DocumentsProviderHelper for using SD Card.
+        mStorageDocsHelper = new DocumentsProviderHelper(userId, AUTHORITY_STORAGE, context,
+                AUTHORITY_STORAGE);
 
         // Set a flag to prevent many refreshes.
         Bundle bundle = new Bundle();

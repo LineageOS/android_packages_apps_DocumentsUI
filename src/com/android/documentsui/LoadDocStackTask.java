@@ -16,17 +16,19 @@
 
 package com.android.documentsui;
 
-import androidx.annotation.Nullable;
 import android.app.Activity;
 import android.net.Uri;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.ProvidersAccess;
 
 import java.util.List;
@@ -97,10 +99,11 @@ public class LoadDocStackTask extends PairedTask<Activity, Uri, DocumentStack> {
             throw new IllegalStateException("Provider doesn't provider root id.");
         }
 
-        RootInfo root = mProviders.getRootOneshot(authority, path.getRootId());
+        RootInfo root = mProviders.getRootOneshot(UserId.DEFAULT_USER, authority, path.getRootId());
         if (root == null) {
-            throw new IllegalStateException("Failed to load root for authority: " + authority +
-                    " and root ID: " + path.getRootId() + ".");
+            throw new IllegalStateException(
+                    "Failed to load root on user " + root.userId + " for authority: " + authority
+                            + " and root ID: " + path.getRootId() + ".");
         }
 
         List<DocumentInfo> docs = mDocs.getDocuments(authority, path.getPath());

@@ -280,7 +280,7 @@ class CopyJob extends ResolvedResourcesJob {
             RootInfo root = stack.getRoot();
             // Query root info here instead of using stack.root because the number there may be
             // stale.
-            root = cache.getRootOneshot(root.authority, root.rootId, true);
+            root = cache.getRootOneshot(root.userId, root.authority, root.rootId, true);
             if (root.availableBytes >= 0) {
                 available = (batchSize <= root.availableBytes);
             } else {
