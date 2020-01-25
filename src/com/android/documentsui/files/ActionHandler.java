@@ -62,6 +62,7 @@ import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
@@ -290,7 +291,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
         }
         DocumentInfo doc = mModel.getDocument(selection.iterator().next());
         Intent intent = new Intent(DocumentsContract.ACTION_DOCUMENT_SETTINGS);
-        intent.setPackage(mProviders.getPackageName(doc.authority));
+        intent.setPackage(mProviders.getPackageName(UserId.DEFAULT_USER, doc.authority));
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setData(doc.derivedUri);
         try {

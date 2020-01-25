@@ -54,7 +54,7 @@ public class RootItem extends Item {
     }
 
     public RootItem(RootInfo root, ActionHandler actionHandler, String packageName) {
-        super(R.layout.item_root, root.title, getStringId(root));
+        super(R.layout.item_root, root.title, getStringId(root), root.userId);
         this.root = root;
         mActionHandler = actionHandler;
         mPackageName = packageName;
@@ -170,6 +170,7 @@ public class RootItem extends Item {
     public String toString() {
         return "RootItem{"
                 + "id=" + stringId
+                + ", userId=" + userId
                 + ", root=" + root
                 + ", docInfo=" + docInfo
                 + "}";

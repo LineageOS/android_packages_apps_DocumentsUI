@@ -34,9 +34,11 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.LookupApplicationName;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.queries.SearchViewManager;
 
 import java.util.List;
@@ -49,7 +51,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     private final Context mContext;
     private final SelectionTracker<String> mSelectionManager;
     private final Lookup<String, Uri> mUriLookup;
-    private final Lookup<String, String> mAppNameLookup;
+    private final LookupApplicationName mAppNameLookup;
 
     public MenuManager(
             Features features,
@@ -58,7 +60,7 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
             DirectoryDetails dirDetails,
             Context context,
             SelectionTracker<String> selectionManager,
-            Lookup<String, String> appNameLookup,
+            LookupApplicationName appNameLookup,
             Lookup<String, Uri> uriLookup,
             IntSupplier filesCountSupplier) {
 
@@ -292,7 +294,8 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
             Resources res = mContext.getResources();
             String selectedModelId = mSelectionManager.getSelection().iterator().next();
             Uri selectedUri = mUriLookup.lookup(selectedModelId);
-            String appName = mAppNameLookup.lookup(selectedUri.getAuthority());
+            String appName = mAppNameLookup.getApplicationName(UserId.DEFAULT_USER,
+                    selectedUri.getAuthority());
             String title = res.getString(R.string.menu_view_in_owner, appName);
             view.setTitle(title);
         }

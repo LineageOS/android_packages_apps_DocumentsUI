@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
+import com.android.documentsui.base.UserId;
 
 /**
  * An {@link Item} for apps that supports some picking actions like
@@ -39,8 +40,8 @@ public class AppItem extends Item {
 
     private final ActionHandler mActionHandler;
 
-    public AppItem(ResolveInfo info, String title, ActionHandler actionHandler) {
-        super(R.layout.item_root, title, getStringId(info));
+    public AppItem(ResolveInfo info, String title, UserId userId, ActionHandler actionHandler) {
+        super(R.layout.item_root, title, getStringId(info), userId);
         this.info = info;
         mActionHandler = actionHandler;
     }
@@ -111,6 +112,7 @@ public class AppItem extends Item {
     public String toString() {
         return "AppItem{"
                 + "id=" + stringId
+                + ", userId=" + userId
                 + ", resolveInfo=" + info
                 + "}";
     }
