@@ -109,11 +109,11 @@ public class RuntimeDataSupplier implements DataSupplier {
     }
 
     @Override
-    public void getDocumentMetadata(Uri uri, Consumer<Bundle> callback) {
+    public void getDocumentMetadata(Uri uri, UserId userId, Consumer<Bundle> callback) {
         mMetadataCallbacks = new LoaderCallbacks<Bundle>() {
             @Override
             public Loader<Bundle> onCreateLoader(int id, Bundle unused) {
-                return new MetadataLoader(mContext, uri);
+                return new MetadataLoader(mContext, uri, userId.getContentResolver(mContext));
             }
 
             @Override

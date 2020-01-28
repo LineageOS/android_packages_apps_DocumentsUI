@@ -187,6 +187,7 @@ public final class InspectorController {
             if (docInfo.isMetadataSupported()) {
                 mLoader.getDocumentMetadata(
                         docInfo.derivedUri,
+                        docInfo.userId,
                         (Bundle bundle) -> {
                             onDocumentMetadataLoaded(docInfo, bundle);
                         });
@@ -304,7 +305,7 @@ public final class InspectorController {
          * @param uri
          * @param callback
          */
-        void getDocumentMetadata(Uri uri, Consumer<Bundle> callback);
+        void getDocumentMetadata(Uri uri, UserId userId, Consumer<Bundle> callback);
     }
 
     /**

@@ -183,7 +183,7 @@ public class DocumentLoaderTest extends TestCase {
                 InspectorProvider.AUTHORITY, InspectorProvider.TEST_JPEG);
         LatchedConsumer<Bundle> consumer = new LatchedConsumer<>(1);
 
-        mLoader.getDocumentMetadata(uri, consumer);
+        mLoader.getDocumentMetadata(uri, mUserId, consumer);
         mLoaderManager.getLoader(0).startLoading();
 
         consumer.assertCalled(100, TimeUnit.MILLISECONDS);
@@ -200,7 +200,7 @@ public class DocumentLoaderTest extends TestCase {
                 InspectorProvider.AUTHORITY, InspectorProvider.INVALID_JPEG);
         LatchedConsumer<Bundle> consumer = new LatchedConsumer<>(1);
 
-        mLoader.getDocumentMetadata(uri, consumer);
+        mLoader.getDocumentMetadata(uri, mUserId, consumer);
         mLoaderManager.getLoader(0).startLoading();
 
         consumer.assertCalled(100, TimeUnit.MILLISECONDS);

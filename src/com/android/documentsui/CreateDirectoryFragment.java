@@ -143,7 +143,7 @@ public class CreateDirectoryFragment extends DialogFragment {
 
         @Override
         protected DocumentInfo doInBackground(Void... params) {
-            final ContentResolver resolver = mActivity.getContentResolver();
+            final ContentResolver resolver = mCwd.userId.getContentResolver(mActivity);
             ContentProviderClient client = null;
             try {
                 client = DocumentsApplication.acquireUnstableProviderOrThrow(
