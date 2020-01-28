@@ -243,7 +243,7 @@
     <string name="chip_title_images" msgid="7838299046109841015">"Bilder"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"Lyd"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"Videoer"</string>
-    <string name="chip_title_documents" msgid="25574037665566964">"Dokument og annet"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"Dokumenter"</string>
     <string name="chip_title_large_files" msgid="7740269190493883980">"Store filer"</string>
     <string name="chip_title_from_this_week" msgid="4961536405220379672">"Denne uken"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"Mappenavn"</string>

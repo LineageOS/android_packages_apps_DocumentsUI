@@ -243,7 +243,7 @@
     <string name="chip_title_images" msgid="7838299046109841015">"చిత్రాలు"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"ఆడియో"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"వీడియోలు"</string>
-    <string name="chip_title_documents" msgid="25574037665566964">"డాక్యుమెంట్ &amp; ఇతరములు"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"పత్రాలు"</string>
     <string name="chip_title_large_files" msgid="7740269190493883980">"పెద్ద ఫైల్‌లు"</string>
     <string name="chip_title_from_this_week" msgid="4961536405220379672">"ఈ వారం"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"ఫోల్డర్ పేరు"</string>
