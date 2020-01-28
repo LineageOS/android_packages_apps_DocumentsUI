@@ -64,6 +64,7 @@ public class DocumentInfoTest extends AndroidTestCase {
 
     private static DocumentInfo createDocInfo(String authority, String docId, String mimeType) {
         DocumentInfo doc = new DocumentInfo();
+        doc.userId = UserId.DEFAULT_USER;
         doc.authority = authority;
         doc.documentId = docId;
         doc.mimeType = mimeType;
@@ -94,6 +95,14 @@ public class DocumentInfoTest extends AndroidTestCase {
     public void testEquals_HandlesNullFields() throws Exception {
         assertFalse(TEST_DOC.equals(new DocumentInfo()));
         assertFalse(new DocumentInfo().equals(TEST_DOC));
+    }
+
+    @Test
+    public void testNotEquals_differentUser() throws Exception {
+        DocumentInfo documentInfo1 = createDocInfo("authority.a", "doc.1", "text/plain");
+        DocumentInfo documentInfo2 = createDocInfo("authority.a", "doc.1", "text/plain");
+        documentInfo1.userId = UserId.of(documentInfo2.userId.getIdentifier() + 1);
+        assertFalse(documentInfo1.equals(documentInfo2));
     }
 
     @Test

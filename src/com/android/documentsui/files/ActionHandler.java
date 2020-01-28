@@ -186,7 +186,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
                     resolver, document.derivedUri.getAuthority());
             Uri newUri = DocumentsContract.renameDocument(
                     wrap(client), document.derivedUri, name);
-            return DocumentInfo.fromUri(resolver, newUri);
+            return DocumentInfo.fromUri(resolver, newUri, document.userId);
         } catch (Exception e) {
             Log.w(TAG, "Failed to rename file", e);
             return null;
@@ -745,8 +745,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
     @Override
     public void showInspector(DocumentInfo doc) {
         Metrics.logUserAction(MetricConsts.USER_ACTION_INSPECTOR);
-        Intent intent = new Intent(mActivity, InspectorActivity.class);
-        intent.setData(doc.derivedUri);
+        Intent intent = InspectorActivity.createIntent(mActivity, doc.derivedUri, doc.userId);
 
         // permit the display of debug info about the file.
         intent.putExtra(

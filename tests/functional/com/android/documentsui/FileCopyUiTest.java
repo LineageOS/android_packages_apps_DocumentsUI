@@ -457,7 +457,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         if (info == null) {
             ContentResolver cr = context.getContentResolver();
             Uri uri = mStorageDocsHelper.createFolder(mPrimaryRoot.documentId, "Download");
-            info = DocumentInfo.fromUri(cr, uri);
+            info = DocumentInfo.fromUri(cr, uri, userId);
         }
 
         assertTrue(info != null && info.isDirectory());

@@ -54,7 +54,9 @@ public class DocumentInfo implements Durable, Parcelable {
     private static final String TAG = "DocumentInfo";
     private static final int VERSION_INIT = 1;
     private static final int VERSION_SPLIT_URI = 2;
+    private static final int VERSION_USER_ID = 3;
 
+    public UserId userId;
     public String authority;
     public String documentId;
     public String mimeType;
@@ -74,6 +76,7 @@ public class DocumentInfo implements Durable, Parcelable {
 
     @Override
     public void reset() {
+        userId = UserId.UNSPECIFIED_USER;
         authority = null;
         documentId = null;
         mimeType = null;
@@ -90,9 +93,12 @@ public class DocumentInfo implements Durable, Parcelable {
     public void read(DataInputStream in) throws IOException {
         final int version = in.readInt();
         switch (version) {
-            case VERSION_INIT:
-                throw new ProtocolException("Ignored upgrade");
+            case VERSION_USER_ID:
+                userId = UserId.read(in);
             case VERSION_SPLIT_URI:
+                if (version < VERSION_USER_ID) {
+                    userId = UserId.CURRENT_USER;
+                }
                 authority = DurableUtils.readNullableString(in);
                 documentId = DurableUtils.readNullableString(in);
                 mimeType = DurableUtils.readNullableString(in);
@@ -104,6 +110,8 @@ public class DocumentInfo implements Durable, Parcelable {
                 icon = in.readInt();
                 deriveFields();
                 break;
+            case VERSION_INIT:
+                throw new ProtocolException("Ignored upgrade");
             default:
                 throw new ProtocolException("Unknown version " + version);
         }
@@ -111,7 +119,8 @@ public class DocumentInfo implements Durable, Parcelable {
 
     @Override
     public void write(DataOutputStream out) throws IOException {
-        out.writeInt(VERSION_SPLIT_URI);
+        out.writeInt(VERSION_USER_ID);
+        UserId.write(out, userId);
         DurableUtils.writeNullableString(out, authority);
         DurableUtils.writeNullableString(out, documentId);
         DurableUtils.writeNullableString(out, mimeType);
@@ -148,19 +157,22 @@ public class DocumentInfo implements Durable, Parcelable {
     };
 
     public static DocumentInfo fromDirectoryCursor(Cursor cursor) {
-        assert(cursor != null);
+        assert (cursor != null);
+        assert (cursor.getColumnIndex(RootCursorWrapper.COLUMN_USER_ID) >= 0);
+        final UserId userId = UserId.of(getCursorInt(cursor, RootCursorWrapper.COLUMN_USER_ID));
         final String authority = getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY);
-        return fromCursor(cursor, authority);
+        return fromCursor(cursor, userId, authority);
     }
 
-    public static DocumentInfo fromCursor(Cursor cursor, String authority) {
+    public static DocumentInfo fromCursor(Cursor cursor, UserId userId, String authority) {
         assert(cursor != null);
         final DocumentInfo info = new DocumentInfo();
-        info.updateFromCursor(cursor, authority);
+        info.updateFromCursor(cursor, userId, authority);
         return info;
     }
 
-    public void updateFromCursor(Cursor cursor, String authority) {
+    public void updateFromCursor(Cursor cursor, UserId userId, String authority) {
+        this.userId = userId;
         this.authority = authority;
         this.documentId = getCursorString(cursor, Document.COLUMN_DOCUMENT_ID);
         this.mimeType = getCursorString(cursor, Document.COLUMN_MIME_TYPE);
@@ -173,22 +185,27 @@ public class DocumentInfo implements Durable, Parcelable {
         this.deriveFields();
     }
 
-    public static DocumentInfo fromUri(ContentResolver resolver, Uri uri)
+    /**
+     * Resolves a document info from the uri. The caller should specify the user of the resolver
+     * by providing a {@link UserId}.
+     */
+    public static DocumentInfo fromUri(ContentResolver resolver, Uri uri, UserId userId)
             throws FileNotFoundException {
         final DocumentInfo info = new DocumentInfo();
-        info.updateFromUri(resolver, uri);
+        info.updateFromUri(resolver, uri, userId);
         return info;
     }
 
     /**
-     * Update a possibly stale restored document against a live
-     * {@link DocumentsProvider}.
+     * Update a possibly stale restored document against a live {@link DocumentsProvider}.  The
+     * caller should specify the user of the resolver by providing a {@link UserId}.
      */
-    public void updateSelf(ContentResolver resolver) throws FileNotFoundException {
-        updateFromUri(resolver, derivedUri);
+    public void updateSelf(ContentResolver resolver, UserId userId) throws FileNotFoundException {
+        updateFromUri(resolver, derivedUri, userId);
     }
 
-    public void updateFromUri(ContentResolver resolver, Uri uri) throws FileNotFoundException {
+    private void updateFromUri(ContentResolver resolver, Uri uri, UserId userId)
+            throws FileNotFoundException {
         ContentProviderClient client = null;
         Cursor cursor = null;
         try {
@@ -198,7 +215,7 @@ public class DocumentInfo implements Durable, Parcelable {
             if (!cursor.moveToFirst()) {
                 throw new FileNotFoundException("Missing details for " + uri);
             }
-            updateFromCursor(cursor, uri.getAuthority());
+            updateFromCursor(cursor, userId, uri.getAuthority());
         } catch (Throwable t) {
             throw asFileNotFoundException(t);
         } finally {
@@ -216,6 +233,7 @@ public class DocumentInfo implements Durable, Parcelable {
     public String toString() {
         return "DocumentInfo{"
                 + "docId=" + documentId
+                + ", userId=" + userId
                 + ", name=" + displayName
                 + ", mimeType=" + mimeType
                 + ", isContainer=" + isContainer()
@@ -309,7 +327,7 @@ public class DocumentInfo implements Durable, Parcelable {
 
     @Override
     public int hashCode() {
-        return derivedUri.hashCode() + mimeType.hashCode();
+        return userId.hashCode() + derivedUri.hashCode() + mimeType.hashCode();
     }
 
     @Override
@@ -325,7 +343,8 @@ public class DocumentInfo implements Durable, Parcelable {
         if (o instanceof DocumentInfo) {
             DocumentInfo other = (DocumentInfo) o;
             // Uri + mime type should be totally unique.
-            return Objects.equals(derivedUri, other.derivedUri)
+            return Objects.equals(userId, other.userId)
+                    && Objects.equals(derivedUri, other.derivedUri)
                     && Objects.equals(mimeType, other.mimeType);
         }
 

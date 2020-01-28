@@ -443,7 +443,7 @@ class CopyJob extends ResolvedResourcesJob {
 
         DocumentInfo dstInfo = null;
         try {
-            dstInfo = DocumentInfo.fromUri(getContentResolver(), dstUri);
+            dstInfo = DocumentInfo.fromUri(getContentResolver(), dstUri, dest.userId);
         } catch (FileNotFoundException | RuntimeException e) {
             Metrics.logFileOperationFailure(
                     appContext, MetricConsts.SUBFILEOP_QUERY_DOCUMENT, dstUri);
@@ -493,7 +493,7 @@ class CopyJob extends ResolvedResourcesJob {
             DocumentInfo src;
             while (cursor.moveToNext() && !isCanceled()) {
                 try {
-                    src = DocumentInfo.fromCursor(cursor, srcDir.authority);
+                    src = DocumentInfo.fromCursor(cursor, srcDir.userId, srcDir.authority);
                     processDocument(src, srcDir, destDir);
                 } catch (RuntimeException e) {
                     Log.e(TAG, String.format(
