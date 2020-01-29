@@ -58,6 +58,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     // private static final int VERSION_INIT = 1; // Not used anymore
     private static final int VERSION_DROP_TYPE = 2;
     private static final int VERSION_SEARCH_TYPE = 3;
+    private static final int VERSION_USER_ID = 4;
 
     // The values of these constants determine the sort order of various roots in the RootsFragment.
     @IntDef(flag = false, value = {
@@ -87,6 +88,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     public static final int TYPE_USB = 10;
     public static final int TYPE_OTHER = 11;
 
+    public UserId userId;
     public String authority;
     public String rootId;
     public int flags;
@@ -112,6 +114,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     @Override
     public void reset() {
+        userId = UserId.UNSPECIFIED_USER;
         authority = null;
         rootId = null;
         flags = 0;
@@ -133,7 +136,12 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     public void read(DataInputStream in) throws IOException {
         final int version = in.readInt();
         switch (version) {
+            case VERSION_USER_ID:
+                userId = UserId.read(in);
             case VERSION_SEARCH_TYPE:
+                if (version < VERSION_USER_ID) {
+                    userId = UserId.CURRENT_USER;
+                }
                 queryArgs = DurableUtils.readNullableString(in);
             case VERSION_DROP_TYPE:
                 authority = DurableUtils.readNullableString(in);
@@ -154,7 +162,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     @Override
     public void write(DataOutputStream out) throws IOException {
-        out.writeInt(VERSION_SEARCH_TYPE);
+        out.writeInt(VERSION_USER_ID);
+        UserId.write(out, userId);
         DurableUtils.writeNullableString(out, queryArgs);
         DurableUtils.writeNullableString(out, authority);
         DurableUtils.writeNullableString(out, rootId);
@@ -191,8 +200,9 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         }
     };
 
-    public static RootInfo fromRootsCursor(String authority, Cursor cursor) {
+    public static RootInfo fromRootsCursor(UserId userId, String authority, Cursor cursor) {
         final RootInfo root = new RootInfo();
+        root.userId = userId;
         root.authority = authority;
         root.rootId = getCursorString(cursor, Root.COLUMN_ROOT_ID);
         root.flags = getCursorInt(cursor, Root.COLUMN_FLAGS);
@@ -430,7 +440,8 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
         if (o instanceof RootInfo) {
             RootInfo other = (RootInfo) o;
-            return Objects.equals(authority, other.authority)
+            return Objects.equals(userId, other.userId)
+                    && Objects.equals(authority, other.authority)
                     && Objects.equals(rootId, other.rootId);
         }
 
@@ -439,7 +450,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(authority, rootId);
+        return Objects.hash(userId, authority, rootId);
     }
 
     @Override
@@ -461,6 +472,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     @Override
     public String toString() {
         return "Root{"
+                + "userId=" + userId
                 + "authority=" + authority
                 + ", rootId=" + rootId
                 + ", title=" + title

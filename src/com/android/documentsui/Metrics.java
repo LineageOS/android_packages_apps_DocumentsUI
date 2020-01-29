@@ -37,6 +37,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.picker.PickResult;
 import com.android.documentsui.roots.ProvidersAccess;
@@ -340,7 +341,7 @@ public final class Metrics {
                 context.getContentResolver(), Providers.AUTHORITY_STORAGE)) {
             final Path path = DocumentsContract.findDocumentPath(wrap(client), docUri);
             final ProvidersAccess providers = DocumentsApplication.getProvidersCache(context);
-            final RootInfo root = providers.getRootOneshot(
+            final RootInfo root = providers.getRootOneshot(UserId.DEFAULT_USER,
                     Providers.AUTHORITY_STORAGE, path.getRootId());
             isInternal = !root.supportsEject();
         } catch (FileNotFoundException | RemoteException | RuntimeException e) {

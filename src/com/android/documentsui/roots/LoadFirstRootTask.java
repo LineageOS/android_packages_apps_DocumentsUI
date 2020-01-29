@@ -21,6 +21,7 @@ import android.net.Uri;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 
 import java.util.Collection;
 
@@ -40,7 +41,8 @@ public final class LoadFirstRootTask<T extends Activity & CommonAddons>
         final String authority = rootUri.getAuthority();
         String rootId = null;
 
-        final Collection<RootInfo> roots = mProviders.getRootsForAuthorityBlocking(authority);
+        final Collection<RootInfo> roots = mProviders.getRootsForAuthorityBlocking(
+                UserId.DEFAULT_USER, authority);
         if (!roots.isEmpty()) {
             rootId = roots.iterator().next().rootId;
         }

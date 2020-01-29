@@ -269,7 +269,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         // have no reason to hang around.
         // TODO: Rather than just disappearing, maybe we should inform
         // the user what has happened, let them close us. Less surprising.
-        if (mProviders.getRootBlocking(root.authority, root.rootId) == null) {
+        if (mProviders.getRootBlocking(root.userId, root.authority, root.rootId) == null) {
             finish();
         }
     }
