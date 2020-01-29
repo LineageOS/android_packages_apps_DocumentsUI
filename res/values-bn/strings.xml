@@ -243,7 +243,7 @@
     <string name="chip_title_images" msgid="7838299046109841015">"ছবি"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"অডিও"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"ভিডিও"</string>
-    <string name="chip_title_documents" msgid="25574037665566964">"ডকুমেন্ট এবং অন্যান্য"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"ডকুমেন্ট"</string>
     <string name="chip_title_large_files" msgid="7740269190493883980">"বড় ফাইল"</string>
     <string name="chip_title_from_this_week" msgid="4961536405220379672">"এই সপ্তাহ"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"ফোল্ডারের নাম"</string>
