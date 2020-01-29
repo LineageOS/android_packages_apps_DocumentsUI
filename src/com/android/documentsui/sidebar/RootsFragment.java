@@ -16,6 +16,8 @@
 
 package com.android.documentsui.sidebar;
 
+import static androidx.core.util.Preconditions.checkNotNull;
+
 import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
@@ -70,6 +72,7 @@ import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.roots.RootsLoader;
@@ -308,7 +311,7 @@ public class RootsFragment extends Fragment {
                 storageProviders.add(item);
             } else {
                 item = new RootItem(root, mActionHandler,
-                        providersAccess.getPackageName(root.authority));
+                        providersAccess.getPackageName(root.userId, root.authority));
                 otherProviders.add(item);
             }
         }
@@ -356,14 +359,16 @@ public class RootsFragment extends Fragment {
             Intent handlerAppIntent, @Nullable String excludePackage, List<Item> result,
             List<RootItem> otherProviders) {
         if (VERBOSE) Log.v(TAG, "Adding handler apps for intent: " + handlerAppIntent);
+
+        UserId userId = UserId.DEFAULT_USER;
         Context context = getContext();
-        final PackageManager pm = context.getPackageManager();
+        final PackageManager pm = userId.getPackageManager(context);
         final List<ResolveInfo> infos = pm.queryIntentActivities(
                 handlerAppIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
         final List<Item> rootList = new ArrayList<>();
-        final Map<String, ResolveInfo> appsMapping = new HashMap<>();
-        final Map<String, Item> appItems = new HashMap<>();
+        final Map<UserPackageName, ResolveInfo> appsMapping = new HashMap<>();
+        final Map<UserPackageName, Item> appItems = new HashMap<>();
         ProfileItem profileItem = null;
 
         // Omit ourselves and maybe calling package from the list
@@ -378,16 +383,17 @@ public class RootsFragment extends Fragment {
             final String packageName = info.activityInfo.packageName;
             if (!context.getPackageName().equals(packageName) &&
                     !TextUtils.equals(excludePackage, packageName)) {
-                appsMapping.put(packageName, info);
+                UserPackageName userPackageName = new UserPackageName(userId, packageName);
+                appsMapping.put(userPackageName, info);
 
                 // for change personal profile root.
                 if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
                     profileItem = new ProfileItem(info, info.loadLabel(pm).toString(),
                             mActionHandler);
                 } else {
-                    final Item item = new AppItem(info, info.loadLabel(pm).toString(),
+                    final Item item = new AppItem(info, info.loadLabel(pm).toString(), userId,
                             mActionHandler);
-                    appItems.put(packageName, item);
+                    appItems.put(userPackageName, item);
                     if (VERBOSE) Log.v(TAG, "Adding handler app: " + item);
                 }
             }
@@ -395,13 +401,14 @@ public class RootsFragment extends Fragment {
 
         // If there are some providers and apps has the same package name, combine them as one item.
         for (RootItem rootItem : otherProviders) {
-            final String packageName = rootItem.getPackageName();
-            final ResolveInfo resolveInfo = appsMapping.get(packageName);
+            final UserPackageName userPackageName = new UserPackageName(rootItem.userId,
+                    rootItem.getPackageName());
+            final ResolveInfo resolveInfo = appsMapping.get(userPackageName);
 
             final Item item;
             if (resolveInfo != null) {
                 item = new RootAndAppItem(rootItem.root, resolveInfo, mActionHandler);
-                appItems.remove(packageName);
+                appItems.remove(userPackageName);
             } else {
                 item = rootItem;
             }
@@ -627,5 +634,39 @@ public class RootsFragment extends Fragment {
     @FunctionalInterface
     interface RootUpdater {
         void updateDocInfoForRoot(DocumentInfo doc);
+    }
+
+    private static class UserPackageName {
+        final UserId userId;
+        final String packageName;
+
+        UserPackageName(UserId userId, String packageName) {
+            this.userId = checkNotNull(userId);
+            this.packageName = checkNotNull(packageName);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (o == null) {
+                return false;
+            }
+
+            if (this == o) {
+                return true;
+            }
+
+            if (o instanceof UserPackageName) {
+                UserPackageName other = (UserPackageName) o;
+                return Objects.equals(userId, other.userId)
+                        && Objects.equals(packageName, other.packageName);
+            }
+
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(userId, packageName);
+        }
     }
 }

@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 
 import com.android.documentsui.MenuManager;
 import com.android.documentsui.R;
+import com.android.documentsui.base.UserId;
 
 /**
  * Describes a root navigation point of documents. Each one of them is presented as an item in the
@@ -37,12 +38,14 @@ public abstract class Item {
     private final @LayoutRes int mLayoutId;
 
     public final String title;
+    public final UserId userId;
     final String stringId;
 
-    public Item(@LayoutRes int layoutId, String title, String stringId) {
+    public Item(@LayoutRes int layoutId, String title, String stringId, UserId userId) {
         mLayoutId = layoutId;
         this.title = title;
         this.stringId = stringId;
+        this.userId = userId;
     }
 
     public View getView(View convertView, ViewGroup parent) {

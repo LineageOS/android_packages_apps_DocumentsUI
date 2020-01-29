@@ -33,6 +33,7 @@ import com.android.documentsui.SelectionHelpers;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.TestData;
 import com.android.documentsui.testing.TestDirectoryDetails;
 import com.android.documentsui.testing.TestEnv;
@@ -217,7 +218,7 @@ public final class MenuManagerTest {
         return Uri.EMPTY;
     }
 
-    private String getApplicationNameFromAuthority(String authority) {
+    private String getApplicationNameFromAuthority(UserId userId, String authority) {
         return "TestApp";
     }
 

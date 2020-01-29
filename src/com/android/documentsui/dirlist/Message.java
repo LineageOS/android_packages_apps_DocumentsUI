@@ -16,17 +16,15 @@
 
 package com.android.documentsui.dirlist;
 
-import androidx.annotation.Nullable;
 import android.app.AuthenticationRequiredException;
-import android.app.PendingIntent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
 
 /**
@@ -121,8 +119,8 @@ abstract class Message {
             assert(mEnv.getFeatures().isRemoteActionsEnabled());
 
             RootInfo root = mEnv.getDisplayState().stack.getRoot();
-            String appName = DocumentsApplication
-                    .getProvidersCache(mEnv.getContext()).getApplicationName(root.authority);
+            String appName = DocumentsApplication.getProvidersCache(
+                    mEnv.getContext()).getApplicationName(root.userId, root.authority);
             update(mEnv.getContext().getString(R.string.authentication_required, appName),
                     mEnv.getContext().getResources().getText(R.string.sign_in),
                     mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));

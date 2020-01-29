@@ -227,12 +227,12 @@ public class TestProvidersAccess implements ProvidersAccess {
     }
 
     @Override
-    public String getApplicationName(String authority) {
+    public String getApplicationName(UserId userId, String authority) {
         return "Test Application";
     }
 
     @Override
-    public String getPackageName(String authority) {
+    public String getPackageName(UserId userId, String authority) {
         return "com.android.documentsui";
     }
 }

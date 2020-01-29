@@ -55,9 +55,9 @@ public interface ProvidersAccess {
 
     RootInfo getRecentsRoot();
 
-    String getApplicationName(String authority);
+    String getApplicationName(UserId userId, String authority);
 
-    String getPackageName(String authority);
+    String getPackageName(UserId userId, String authority);
 
     /**
      * Returns a list of roots for the specified user and authority. If not found, then

@@ -52,6 +52,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.archives.ArchivesProvider;
+import com.android.documentsui.base.LookupApplicationName;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -74,7 +75,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Cache of known storage backends and their roots.
  */
-public class ProvidersCache implements ProvidersAccess {
+public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     private static final String TAG = "ProvidersCache";
 
     // Not all providers are equally well written. If a provider returns
@@ -108,7 +109,7 @@ public class ProvidersCache implements ProvidersAccess {
     private HashSet<UserAuthority> mStoppedAuthorities = new HashSet<>();
 
     @GuardedBy("mObservedAuthoritiesDetails")
-    private final Map<String, PackageDetails> mObservedAuthoritiesDetails = new HashMap<>();
+    private final Map<UserAuthority, PackageDetails> mObservedAuthoritiesDetails = new HashMap<>();
 
     public ProvidersCache(Context context) {
         mContext = context;
@@ -158,13 +159,14 @@ public class ProvidersCache implements ProvidersAccess {
     }
 
     @Override
-    public String getApplicationName(String authority) {
-        return mObservedAuthoritiesDetails.get(authority).applicationName;
+    public String getApplicationName(UserId userId, String authority) {
+        return mObservedAuthoritiesDetails.get(
+                new UserAuthority(userId, authority)).applicationName;
     }
 
     @Override
-    public String getPackageName(String authority) {
-        return mObservedAuthoritiesDetails.get(authority).packageName;
+    public String getPackageName(UserId userId, String authority) {
+        return mObservedAuthoritiesDetails.get(new UserAuthority(userId, authority)).packageName;
     }
 
     public void updateAsync(boolean forceRefreshAll) {
@@ -293,12 +295,12 @@ public class ProvidersCache implements ProvidersAccess {
         }
 
         synchronized (mObservedAuthoritiesDetails) {
-            if (!mObservedAuthoritiesDetails.containsKey(authority)) {
+            if (!mObservedAuthoritiesDetails.containsKey(userAuthority)) {
                 CharSequence appName = pm.getApplicationLabel(provider.applicationInfo);
                 String packageName = provider.applicationInfo.packageName;
 
                 mObservedAuthoritiesDetails.put(
-                        authority, new PackageDetails(appName.toString(), packageName));
+                        userAuthority, new PackageDetails(appName.toString(), packageName));
 
                 // Watch for any future updates
                 final Uri rootsUri = DocumentsContract.buildRootsUri(authority);
@@ -439,13 +441,13 @@ public class ProvidersCache implements ProvidersAccess {
     }
 
     public void logCache() {
-        ContentResolver resolver = mContext.getContentResolver();
         StringBuilder output = new StringBuilder();
 
-        for (String authority : mObservedAuthoritiesDetails.keySet()) {
+        for (UserAuthority userAuthority : mObservedAuthoritiesDetails.keySet()) {
             List<String> roots = new ArrayList<>();
-            Uri rootsUri = DocumentsContract.buildRootsUri(authority);
-            Bundle systemCache = resolver.getCache(rootsUri);
+            Uri rootsUri = DocumentsContract.buildRootsUri(userAuthority.authority);
+            Bundle systemCache = userAuthority.userId.getContentResolver(mContext).getCache(
+                    rootsUri);
             if (systemCache != null) {
                 ArrayList<RootInfo> cachedRoots = systemCache.getParcelableArrayList(TAG);
                 for (RootInfo root : cachedRoots) {
@@ -454,7 +456,7 @@ public class ProvidersCache implements ProvidersAccess {
             }
 
             output.append((output.length() == 0) ? "System cache: " : ", ");
-            output.append(authority).append("=").append(roots);
+            output.append(userAuthority).append("=").append(roots);
         }
 
         Log.i(TAG, output.toString());
