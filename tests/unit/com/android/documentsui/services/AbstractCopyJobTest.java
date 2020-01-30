@@ -164,7 +164,7 @@ public abstract class AbstractCopyJobTest<T extends CopyJob> extends AbstractJob
         mDocs.writeDocument(testFile, HAM_BYTES);
 
         String testId = DocumentsContract.getDocumentId(testFile);
-        mClient.call("simulateReadErrorsForFile", testId, null);
+        mDocs.simulateReadErrorsForFile(testId, null);
 
         createJob(newArrayList(testFile)).run();
 

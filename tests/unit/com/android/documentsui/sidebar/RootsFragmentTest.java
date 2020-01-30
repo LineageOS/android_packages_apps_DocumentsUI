@@ -26,6 +26,7 @@ import androidx.test.filters.MediumTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
 
@@ -102,7 +103,7 @@ public class RootsFragmentTest {
         final ResolveInfo info = TestResolveInfo.create();
         info.activityInfo.packageName = testPackageName;
 
-        rootList.add(new AppItem(info, TestProvidersAccess.PICKLES.title,
+        rootList.add(new AppItem(info, TestProvidersAccess.PICKLES.title, UserId.DEFAULT_USER,
                 null /* actionHandler */));
         rootList.add(new RootAndAppItem(TestProvidersAccess.INSPECTOR, info,
                 null /* actionHandler */));

@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,10 +42,10 @@ public interface ProvidersAccess {
 
     /**
      * Return the requested {@link RootInfo}, but only loading the roots for the
-     * requested authority. This is useful when we want to load fast without
+     * requested user and authority. This is useful when we want to load fast without
      * waiting for all the other roots to come back.
      */
-    RootInfo getRootOneshot(String authority, String rootId);
+    RootInfo getRootOneshot(UserId userId, String authority, String rootId);
 
     Collection<RootInfo> getMatchingRootsBlocking(State state);
 
@@ -54,15 +55,15 @@ public interface ProvidersAccess {
 
     RootInfo getRecentsRoot();
 
-    String getApplicationName(String authority);
+    String getApplicationName(UserId userId, String authority);
 
-    String getPackageName(String authority);
+    String getPackageName(UserId userId, String authority);
 
     /**
-     * Returns a list of roots for the specified authority. If not found, then
+     * Returns a list of roots for the specified user and authority. If not found, then
      * an empty list is returned.
      */
-    Collection<RootInfo> getRootsForAuthorityBlocking(String authority);
+    Collection<RootInfo> getRootsForAuthorityBlocking(UserId userId, String authority);
 
     public static List<RootInfo> getMatchingRoots(Collection<RootInfo> roots, State state) {
 

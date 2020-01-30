@@ -19,7 +19,6 @@ package com.android.documentsui.services;
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
-import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
@@ -35,6 +34,7 @@ import com.android.documentsui.StubProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.clipping.UrisSupplier;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.testing.DocsProviders;
@@ -49,9 +49,9 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
     static final byte[] HAM_BYTES = "ham and cheese".getBytes();
     static final byte[] FRUITY_BYTES = "I love fruit cakes!".getBytes();
 
+    UserId mUserId;
     Context mContext;
     ContentResolver mResolver;
-    ContentProviderClient mClient;
     DocumentsProviderHelper mDocs;
     TestJobListener mJobListener;
     RootInfo mSrcRoot;
@@ -70,11 +70,11 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
         mJobListener = new TestJobListener();
 
         // NOTE: Must be the "target" context, else security checks in content provider will fail.
+        mUserId = UserId.DEFAULT_USER;
         mContext = getContext();
         mResolver = mContext.getContentResolver();
 
-        mClient = mResolver.acquireContentProviderClient(AUTHORITY);
-        mDocs = new DocumentsProviderHelper(AUTHORITY, mClient);
+        mDocs = new DocumentsProviderHelper(mUserId, AUTHORITY, mContext, AUTHORITY);
 
         initTestFiles();
     }
@@ -82,12 +82,12 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         resetStorage();
-        mClient.release();
+        mDocs.cleanUp();
         super.tearDown();
     }
 
     private void resetStorage() throws RemoteException {
-        mClient.call("clear", null, null);
+        mDocs.clear(null, null);
     }
 
     private void initTestFiles() throws RemoteException {

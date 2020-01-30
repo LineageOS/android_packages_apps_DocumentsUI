@@ -54,6 +54,7 @@ import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.FocusHandler;
@@ -591,7 +592,8 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
 
     protected final void loadDeviceRoot() {
         mActivity.onRootPicked(
-                mProviders.getRootOneshot(Providers.AUTHORITY_STORAGE, Providers.ROOT_ID_DEVICE));
+                mProviders.getRootOneshot(UserId.DEFAULT_USER, Providers.AUTHORITY_STORAGE,
+                        Providers.ROOT_ID_DEVICE));
     }
 
     protected final void loadHomeDir() {

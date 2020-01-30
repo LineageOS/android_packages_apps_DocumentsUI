@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.PairedTask;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 
 public class LoadRootTask<T extends Activity & CommonAddons>
         extends PairedTask<T, Void, RootInfo> {
@@ -54,7 +55,8 @@ public class LoadRootTask<T extends Activity & CommonAddons>
             Log.d(TAG, "Loading root: " + mRootUri);
         }
 
-        return mProviders.getRootOneshot(mRootUri.getAuthority(), getRootId(mRootUri));
+        return mProviders.getRootOneshot(UserId.DEFAULT_USER, mRootUri.getAuthority(),
+                getRootId(mRootUri));
     }
 
     @Override

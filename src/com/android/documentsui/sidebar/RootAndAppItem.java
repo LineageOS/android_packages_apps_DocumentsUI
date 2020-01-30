@@ -66,6 +66,7 @@ class RootAndAppItem extends RootItem {
     public String toString() {
         return "RootAndAppItem{"
                 + "id=" + stringId
+                + ", userId=" + userId
                 + ", root=" + root
                 + ", resolveInfo=" + resolveInfo
                 + ", docInfo=" + docInfo

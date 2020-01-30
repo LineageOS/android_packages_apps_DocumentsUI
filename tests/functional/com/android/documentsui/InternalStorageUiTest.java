@@ -44,8 +44,8 @@ public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
     public void setUp() throws Exception {
         super.setUp();
 
-        mClient = mResolver.acquireUnstableContentProviderClient(Providers.AUTHORITY_STORAGE);
-        mDocsHelper = new DocumentsProviderHelper(Providers.AUTHORITY_STORAGE, mClient);
+        mDocsHelper = new DocumentsProviderHelper(userId, Providers.AUTHORITY_STORAGE, context,
+                Providers.AUTHORITY_STORAGE);
         rootPrimary = mDocsHelper.getRoot(Providers.ROOT_ID_DEVICE);
 
         // If Internal Storage is not shown, turn on.

@@ -34,6 +34,7 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.sidebar.AppItem;
 import com.android.documentsui.sidebar.Item;
 import com.android.documentsui.sidebar.RootItem;
@@ -104,7 +105,8 @@ public class AppsRowManagerTest {
 
         List<Item> hybridList = new ArrayList<>();
         hybridList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
-        hybridList.add(new AppItem(info, TestProvidersAccess.PICKLES.title, mActionHandler));
+        hybridList.add(new AppItem(info, TestProvidersAccess.PICKLES.title, UserId.DEFAULT_USER,
+                mActionHandler));
 
         final List<AppsRowItemData> chipDataList = mAppsRowManager.updateList(hybridList);
 

@@ -38,6 +38,7 @@ import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.R;
 import com.android.documentsui.TestProviderActivity;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.inspector.InspectorController.ActionDisplay;
 import com.android.documentsui.inspector.InspectorController.DataSupplier;
 import com.android.documentsui.inspector.InspectorController.DebugDisplay;
@@ -63,6 +64,7 @@ public class InspectorControllerTest  {
 
     private static final String OPEN_IN_PROVIDER_DOC = "OpenInProviderTest";
 
+    private UserId mUserId;
     private TestActivity mActivity;
     private TestLoaderManager mLoaderManager;
     private TestDataSupplier mDataSupplier;
@@ -82,6 +84,7 @@ public class InspectorControllerTest  {
     @Before
     public void setUp() throws Exception {
 
+        mUserId = UserId.DEFAULT_USER;
         mEnv = TestEnv.create();
         mPm = TestPackageManager.create();
         mLoaderManager = new TestLoaderManager();
@@ -174,7 +177,7 @@ public class InspectorControllerTest  {
 
         Uri uri = DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY,
             OPEN_IN_PROVIDER_DOC);
-        mController.showInProvider(uri);
+        mController.showInProvider(uri, mUserId);
 
         assertNotNull(mActivity.started);
         assertEquals("com.android.documentsui", mActivity.started.getPackage());

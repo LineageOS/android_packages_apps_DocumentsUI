@@ -21,6 +21,7 @@ import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.ProvidersAccess;
 
 import java.util.ArrayList;
@@ -48,9 +49,12 @@ public class TestProvidersAccess implements ProvidersAccess {
 
 
     static {
+        UserId userId = UserId.DEFAULT_USER;
+
         DOWNLOADS = new RootInfo() {{
             flags = Root.FLAG_SUPPORTS_CREATE;
         }};
+        DOWNLOADS.userId = userId;
         DOWNLOADS.authority = Providers.AUTHORITY_DOWNLOADS;
         DOWNLOADS.rootId = Providers.ROOT_ID_DOWNLOADS;
         DOWNLOADS.title = "Downloads";
@@ -60,6 +64,7 @@ public class TestProvidersAccess implements ProvidersAccess {
                 | Root.FLAG_SUPPORTS_RECENTS;
 
         HOME = new RootInfo();
+        HOME.userId = userId;
         HOME.authority = Providers.AUTHORITY_STORAGE;
         HOME.rootId = Providers.ROOT_ID_HOME;
         HOME.title = "Home";
@@ -70,6 +75,7 @@ public class TestProvidersAccess implements ProvidersAccess {
                 | Root.FLAG_SUPPORTS_RECENTS;
 
         HAMMY = new RootInfo();
+        HAMMY.userId = userId;
         HAMMY.authority = "yummies";
         HAMMY.rootId = "hamsandwich";
         HAMMY.title = "Ham Sandwich";
@@ -77,6 +83,7 @@ public class TestProvidersAccess implements ProvidersAccess {
         HAMMY.flags = Root.FLAG_LOCAL_ONLY;
 
         PICKLES = new RootInfo();
+        PICKLES.userId = userId;
         PICKLES.authority = "yummies";
         PICKLES.rootId = "pickles";
         PICKLES.title = "Pickles";
@@ -90,9 +97,11 @@ public class TestProvidersAccess implements ProvidersAccess {
                 availableBytes = -1;
             }
         };
+        RECENTS.userId = userId;
         RECENTS.title = "Recents";
 
         INSPECTOR = new RootInfo();
+        INSPECTOR.userId = userId;
         INSPECTOR.authority = InspectorProvider.AUTHORITY;
         INSPECTOR.rootId = InspectorProvider.ROOT_ID;
         INSPECTOR.title = "Inspector";
@@ -100,30 +109,35 @@ public class TestProvidersAccess implements ProvidersAccess {
             | Root.FLAG_SUPPORTS_CREATE;
 
         IMAGE = new RootInfo();
+        IMAGE.userId = userId;
         IMAGE.authority = Providers.AUTHORITY_MEDIA;
         IMAGE.rootId = Providers.ROOT_ID_IMAGES;
         IMAGE.title = "Images";
         IMAGE.derivedType = RootInfo.TYPE_IMAGES;
 
         AUDIO = new RootInfo();
+        AUDIO.userId = userId;
         AUDIO.authority = Providers.AUTHORITY_MEDIA;
         AUDIO.rootId = Providers.ROOT_ID_AUDIO;
         AUDIO.title = "Audio";
         AUDIO.derivedType = RootInfo.TYPE_AUDIO;
 
         VIDEO = new RootInfo();
+        VIDEO.userId = userId;
         VIDEO.authority = Providers.AUTHORITY_MEDIA;
         VIDEO.rootId = Providers.ROOT_ID_VIDEOS;
         VIDEO.title = "Videos";
         VIDEO.derivedType = RootInfo.TYPE_VIDEO;
 
         DOCUMENT = new RootInfo();
+        DOCUMENT.userId = userId;
         DOCUMENT.authority = Providers.AUTHORITY_MEDIA;
         DOCUMENT.rootId = Providers.ROOT_ID_DOCUMENTS;
         DOCUMENT.title = "Documents";
         DOCUMENT.derivedType = RootInfo.TYPE_DOCUMENTS;
 
         EXTERNALSTORAGE = new RootInfo();
+        EXTERNALSTORAGE.userId = userId;
         EXTERNALSTORAGE.authority = Providers.AUTHORITY_STORAGE;
         EXTERNALSTORAGE.rootId = Providers.ROOT_ID_DEVICE;
         EXTERNALSTORAGE.title = "Device";
@@ -132,6 +146,7 @@ public class TestProvidersAccess implements ProvidersAccess {
                 | Root.FLAG_SUPPORTS_IS_CHILD;
 
         NO_TREE_ROOT = new RootInfo();
+        NO_TREE_ROOT.userId = userId;
         NO_TREE_ROOT.authority = "no.tree.authority";
         NO_TREE_ROOT.rootId = "1";
         NO_TREE_ROOT.title = "No Tree Title";
@@ -167,10 +182,10 @@ public class TestProvidersAccess implements ProvidersAccess {
     }
 
     @Override
-    public RootInfo getRootOneshot(String authority, String rootId) {
+    public RootInfo getRootOneshot(UserId userId, String authority, String rootId) {
         if (roots.containsKey(authority)) {
             for (RootInfo root : roots.get(authority)) {
-                if (rootId.equals(root.rootId)) {
+                if (rootId.equals(root.rootId) && root.userId.equals(userId)) {
                     return root;
                 }
             }
@@ -188,7 +203,7 @@ public class TestProvidersAccess implements ProvidersAccess {
     }
 
     @Override
-    public Collection<RootInfo> getRootsForAuthorityBlocking(String authority) {
+    public Collection<RootInfo> getRootsForAuthorityBlocking(UserId userId, String authority) {
         return roots.get(authority);
     }
 
@@ -212,12 +227,12 @@ public class TestProvidersAccess implements ProvidersAccess {
     }
 
     @Override
-    public String getApplicationName(String authority) {
+    public String getApplicationName(UserId userId, String authority) {
         return "Test Application";
     }
 
     @Override
-    public String getPackageName(String authority) {
+    public String getPackageName(UserId userId, String authority) {
         return "com.android.documentsui";
     }
 }
