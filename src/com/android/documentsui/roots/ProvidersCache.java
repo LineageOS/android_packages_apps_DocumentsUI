@@ -51,6 +51,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
+import com.android.documentsui.UserIdManager;
+import com.android.documentsui.UserPackage;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.LookupApplicationName;
 import com.android.documentsui.base.Providers;
@@ -111,8 +113,11 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     @GuardedBy("mObservedAuthoritiesDetails")
     private final Map<UserAuthority, PackageDetails> mObservedAuthoritiesDetails = new HashMap<>();
 
-    public ProvidersCache(Context context) {
+    private final UserIdManager mUserIdManager;
+
+    public ProvidersCache(Context context, UserIdManager userIdManager) {
         mContext = context;
+        mUserIdManager = userIdManager;
 
         // Create a new anonymous "Recents" RootInfo. It's a faker.
         mRecentsRoot = new RootInfo() {{
@@ -154,7 +159,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
             if (DEBUG) {
                 Log.i(TAG, "Updating roots due to change on user " + mUserId + "at " + uri);
             }
-            updateAuthorityAsync(uri.getAuthority());
+            updateAuthorityAsync(mUserId, uri.getAuthority());
         }
     }
 
@@ -184,18 +189,19 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         assert(mRecentsRoot.flags == (Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_IS_CHILD));
         assert(mRecentsRoot.availableBytes == -1);
 
-        new UpdateTask(forceRefreshAll, null)
-                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new UpdateTask(forceRefreshAll, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void updatePackageAsync(String packageName) {
-        new UpdateTask(false, packageName).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    public void updatePackageAsync(UserId userId, String packageName) {
+        new UpdateTask(false, new UserPackage(userId, packageName)).executeOnExecutor(
+                AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void updateAuthorityAsync(String authority) {
-        final ProviderInfo info = mContext.getPackageManager().resolveContentProvider(authority, 0);
+    public void updateAuthorityAsync(UserId userId, String authority) {
+        final ProviderInfo info = userId.getPackageManager(mContext).resolveContentProvider(
+                authority, 0);
         if (info != null) {
-            updatePackageAsync(info.packageName);
+            updatePackageAsync(userId, info.packageName);
         }
     }
 
@@ -215,7 +221,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
      * Block until the first {@link UpdateTask} pass has finished.
      *
      * @return {@code true} if cached roots is ready to roll, otherwise
-     *         {@code false} if we timed out while waiting.
+     * {@code false} if we timed out while waiting.
      */
     private boolean waitForFirstLoad() {
         boolean success = false;
@@ -316,7 +322,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
             final Bundle systemCache = resolver.getCache(rootsUri);
             if (systemCache != null) {
                 ArrayList<RootInfo> cachedRoots = systemCache.getParcelableArrayList(TAG);
-                assert(cachedRoots != null);
+                assert (cachedRoots != null);
                 if (!cachedRoots.isEmpty() || PERMIT_EMPTY_CACHE.contains(authority)) {
                     if (VERBOSE) Log.v(TAG, "System cache hit for " + authority);
                     return cachedRoots;
@@ -464,8 +470,8 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
 
     private class UpdateTask extends AsyncTask<Void, Void, Void> {
         private final boolean mForceRefreshAll;
-        private final String mForceRefreshPackage;
-        private final UserId mUserId = UserId.DEFAULT_USER;
+        @Nullable
+        private final UserPackage mForceRefreshUserPackage;
 
         private final Multimap<UserAuthority, RootInfo> mTaskRoots = ArrayListMultimap.create();
         private final HashSet<UserAuthority> mTaskStoppedAuthorities = new HashSet<>();
@@ -475,12 +481,12 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
          *
          * @param forceRefreshAll when true, all previously cached values for
          *            all packages should be ignored.
-         * @param forceRefreshPackage when non-null, all previously cached
-         *            values for this specific package should be ignored.
+         * @param forceRefreshUserPackage when non-null, all previously cached
+         *            values for this specific user package should be ignored.
          */
-        public UpdateTask(boolean forceRefreshAll, String forceRefreshPackage) {
+        UpdateTask(boolean forceRefreshAll, @Nullable UserPackage forceRefreshUserPackage) {
             mForceRefreshAll = forceRefreshAll;
-            mForceRefreshPackage = forceRefreshPackage;
+            mForceRefreshUserPackage = forceRefreshUserPackage;
         }
 
         @Override
@@ -489,16 +495,17 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
 
             mTaskRoots.put(new UserAuthority(mRecentsRoot.userId, mRecentsRoot.authority),
                     mRecentsRoot);
+            for (UserId userId : mUserIdManager.getUserIds()) {
+                final PackageManager pm = userId.getPackageManager(mContext);
 
-            final PackageManager pm = mUserId.getPackageManager(mContext);
-
-            // Pick up provider with action string
-            final Intent intent = new Intent(DocumentsContract.PROVIDER_INTERFACE);
-            final List<ResolveInfo> providers = pm.queryIntentContentProviders(intent, 0);
-            for (ResolveInfo info : providers) {
-                ProviderInfo providerInfo = info.providerInfo;
-                if (providerInfo.authority != null) {
-                    handleDocumentsProvider(providerInfo);
+                // Pick up provider with action string
+                final Intent intent = new Intent(DocumentsContract.PROVIDER_INTERFACE);
+                final List<ResolveInfo> providers = pm.queryIntentContentProviders(intent, 0);
+                for (ResolveInfo info : providers) {
+                    ProviderInfo providerInfo = info.providerInfo;
+                    if (providerInfo.authority != null) {
+                        handleDocumentsProvider(providerInfo, userId);
+                    }
                 }
             }
 
@@ -519,21 +526,21 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
             return null;
         }
 
-        private void handleDocumentsProvider(ProviderInfo info) {
-            UserAuthority userAuthority = new UserAuthority(mUserId, info.authority);
+        private void handleDocumentsProvider(ProviderInfo info, UserId userId) {
+            UserAuthority userAuthority = new UserAuthority(userId, info.authority);
             // Ignore stopped packages for now; we might query them
             // later during UI interaction.
             if ((info.applicationInfo.flags & ApplicationInfo.FLAG_STOPPED) != 0) {
                 if (VERBOSE) {
-                    Log.v(TAG,
-                            "Ignoring stopped authority " + info.authority + ", user " + mUserId);
+                    Log.v(TAG, "Ignoring stopped authority " + info.authority + ", user " + userId);
                 }
                 mTaskStoppedAuthorities.add(userAuthority);
                 return;
             }
 
             final boolean forceRefresh = mForceRefreshAll
-                    || Objects.equals(info.packageName, mForceRefreshPackage);
+                    || Objects.equals(new UserPackage(userId, info.packageName),
+                    mForceRefreshUserPackage);
             mTaskRoots.putAll(userAuthority, loadRootsForAuthority(userAuthority, forceRefresh));
         }
 

@@ -16,8 +16,6 @@
 
 package com.android.documentsui.sidebar;
 
-import static androidx.core.util.Preconditions.checkNotNull;
-
 import static com.android.documentsui.base.Shared.compareToIgnoreCaseNullable;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
@@ -64,6 +62,7 @@ import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
+import com.android.documentsui.UserPackage;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -367,8 +366,8 @@ public class RootsFragment extends Fragment {
                 handlerAppIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
         final List<Item> rootList = new ArrayList<>();
-        final Map<UserPackageName, ResolveInfo> appsMapping = new HashMap<>();
-        final Map<UserPackageName, Item> appItems = new HashMap<>();
+        final Map<UserPackage, ResolveInfo> appsMapping = new HashMap<>();
+        final Map<UserPackage, Item> appItems = new HashMap<>();
         ProfileItem profileItem = null;
 
         // Omit ourselves and maybe calling package from the list
@@ -383,8 +382,8 @@ public class RootsFragment extends Fragment {
             final String packageName = info.activityInfo.packageName;
             if (!context.getPackageName().equals(packageName) &&
                     !TextUtils.equals(excludePackage, packageName)) {
-                UserPackageName userPackageName = new UserPackageName(userId, packageName);
-                appsMapping.put(userPackageName, info);
+                UserPackage userPackage = new UserPackage(userId, packageName);
+                appsMapping.put(userPackage, info);
 
                 // for change personal profile root.
                 if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
@@ -393,7 +392,7 @@ public class RootsFragment extends Fragment {
                 } else {
                     final Item item = new AppItem(info, info.loadLabel(pm).toString(), userId,
                             mActionHandler);
-                    appItems.put(userPackageName, item);
+                    appItems.put(userPackage, item);
                     if (VERBOSE) Log.v(TAG, "Adding handler app: " + item);
                 }
             }
@@ -401,14 +400,14 @@ public class RootsFragment extends Fragment {
 
         // If there are some providers and apps has the same package name, combine them as one item.
         for (RootItem rootItem : otherProviders) {
-            final UserPackageName userPackageName = new UserPackageName(rootItem.userId,
+            final UserPackage userPackage = new UserPackage(rootItem.userId,
                     rootItem.getPackageName());
-            final ResolveInfo resolveInfo = appsMapping.get(userPackageName);
+            final ResolveInfo resolveInfo = appsMapping.get(userPackage);
 
             final Item item;
             if (resolveInfo != null) {
                 item = new RootAndAppItem(rootItem.root, resolveInfo, mActionHandler);
-                appItems.remove(userPackageName);
+                appItems.remove(userPackage);
             } else {
                 item = rootItem;
             }
@@ -445,7 +444,7 @@ public class RootsFragment extends Fragment {
         // Update the information for Storage's root
         if (context != null) {
             DocumentsApplication.getProvidersCache(context).updateAuthorityAsync(
-                    Providers.AUTHORITY_STORAGE);
+                    UserId.DEFAULT_USER, Providers.AUTHORITY_STORAGE);
         }
         onDisplayStateChanged();
     }
@@ -634,39 +633,5 @@ public class RootsFragment extends Fragment {
     @FunctionalInterface
     interface RootUpdater {
         void updateDocInfoForRoot(DocumentInfo doc);
-    }
-
-    private static class UserPackageName {
-        final UserId userId;
-        final String packageName;
-
-        UserPackageName(UserId userId, String packageName) {
-            this.userId = checkNotNull(userId);
-            this.packageName = checkNotNull(packageName);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (o == null) {
-                return false;
-            }
-
-            if (this == o) {
-                return true;
-            }
-
-            if (o instanceof UserPackageName) {
-                UserPackageName other = (UserPackageName) o;
-                return Objects.equals(userId, other.userId)
-                        && Objects.equals(packageName, other.packageName);
-            }
-
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(userId, packageName);
-        }
     }
 }
