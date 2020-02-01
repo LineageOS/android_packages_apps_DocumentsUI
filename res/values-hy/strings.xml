@@ -30,7 +30,7 @@
     <string name="menu_search" msgid="1876699106790719849">"Որոնել"</string>
     <string name="menu_settings" msgid="6520844520117939047">"Հիշասարքի կարգավորումներ"</string>
     <string name="menu_open" msgid="9092138100049759315">"Բացել"</string>
-    <string name="menu_open_with" msgid="5507647065467520229">"Բացել հետևյալով՝"</string>
+    <string name="menu_open_with" msgid="5507647065467520229">"Բացել հավելվածով"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"Բացել նոր պատուհանում"</string>
     <string name="menu_save" msgid="5195367497138965168">"Պահել"</string>
     <string name="menu_share" msgid="4307140947108068356">"Կիսվել"</string>
@@ -75,7 +75,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"տեսակի (Ֆ – Ա)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"չափի (սկզբում մեծերը)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"փոփոխման (նորից հին)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Տեսակավորում"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Տեսակավորել ըստ"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Տեսակավորված ըստ՝ <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Տարրերի քանակ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Աճման կարգով"</string>
@@ -243,8 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Գտնել ֆայլեր այլ հավելվածներում"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Անանուն"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Հասանելի դարձնել <xliff:g id="DIRECTORY">%1$s</xliff:g> պանակը"</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Հասանելի դարձնե՞լ «<xliff:g id="DIRECTORY">%1$s</xliff:g>» (<xliff:g id="ROOT">%2$s</xliff:g>) պանակը"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"<xliff:g id="APPNAME">%1$s</xliff:g> հավելվածին հասանելի կլինեն բոլոր ֆայլերը, որոնք այժմ պահվում են այս պանակում կամ կտեղափոխվեն այստեղ հետագայում:"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Որոնեք հեռախոսում"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Ջնջել որոնումների պատմությունը՝ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

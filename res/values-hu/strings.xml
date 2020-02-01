@@ -67,14 +67,14 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Típus"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Méret"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Módosítva"</string>
-    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Fájlnév (növekvő)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Típus (növekvő)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Méret (legkisebbtől)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Módosítva (régebbi elöl)"</string>
-    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Fájlnév (csökkenő)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Típus (csökkenő)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Méret (legnagyobbtól)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Módosítva (újabb elöl)"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Fájlnév (A-tól Z-ig)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Típus (A-tól Z-ig)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Méret (legkisebb elöl)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Módosítás (régebbi elöl)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Fájlnév (Z-től A-ig)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Típus (Z-től A-ig)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Méret (legnagyobb elöl)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Módosítás (újabb elöl)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Rendezési szempont"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Rendezés <xliff:g id="LABEL">%s</xliff:g> szerint"</string>
     <string name="directory_items" msgid="6645621978998614003">"Elemek száma"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Fájlok böngészése más alkalmazásokban"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Névtelen"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Hozzáférés engedélyezése a következőhöz: „<xliff:g id="DIRECTORY">%1$s</xliff:g>”"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Engedélyezi a(z) „<xliff:g id="DIRECTORY">%1$s</xliff:g>” könyvtárhoz való hozzáférést itt: „<xliff:g id="ROOT">%2$s</xliff:g>”?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Engedélyezi a(z) „<xliff:g id="DIRECTORY">%1$s</xliff:g>” könyvtárhoz való hozzáférést itt: „<xliff:g id="ROOT">%2$s</xliff:g>”?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Engedélyezi a teljes hozzáférést a(z) „<xliff:g id="APPNAME">%1$s</xliff:g>” alkalmazás számára a jelenleg és a jövőben ezen a helyen tárolt tartalmakhoz."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Keresés ezen a telefonon"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Keresési előzmények törlése – <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

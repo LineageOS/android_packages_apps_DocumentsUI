@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"অন্য এপত ফাইল ব্ৰাউজ কৰক"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"পৰিচয়বিহীন"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" এক্সেছ কৰাৰ অনুমতি দিয়ক"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"ত থকা \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" এক্সেছ কৰাৰ অনুমতি দিবনে?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"ত থকা \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" এক্সেছ কৰাৰ অনুমতি দিবনে?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ইয়ে \"<xliff:g id="APPNAME">%1$s</xliff:g>\"ক বৰ্তমান এই অৱস্থানত থকা আৰু ভৱিষ্যতে এই অৱস্থানত জমা কৰা সকলো ফাইল সম্পূৰ্ণভাৱে এক্সেছ কৰাৰ অনুমতি দিব।"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"এই ফ’নটো সন্ধান কৰক"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"সন্ধান ইতিহাস মচক <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
