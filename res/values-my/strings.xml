@@ -70,7 +70,7 @@
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ဖိုင်အမည် (A မှ Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"အမျိုးအစား (A မှ Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"အရွယ်အစား (အသေးဆုံးမှစ)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"မွမ်းမံချိန် (အဟောင်း)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"မွမ်းမံချိန် (အဟောင်းမှစ)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"ဖိုင်အမည် (Z မှ A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"အမျိုးအစား (Z မှ A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"အရွယ်အစား (အကြီးဆုံးမှစ)"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"အခြားအက်ပ်များတွင် ဖိုင်များကို ဖွင့်ကြည့်ပါ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"အမည်မသိ"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" အသုံးပြုခွင့်ပေးရန်"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" တွင် \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ကို အသုံးပြုခွင့်ပေးမလား။"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" တွင် \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ကို အသုံးပြုခွင့်ပေးလိုပါသလား။"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"၎င်းက ဤတည်နေရာတွင် လက်ရှိသိမ်းထားသည့် ဖိုင်အားလုံးနှင့် နောင်ဤနေရာတွင် သိမ်းမည့် အကြောင်းအရာများသို့ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ကို အသုံးပြုခွင့် အပြည့်ပေးပါမည်။"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ဤဖုန်းကို ရှာရန်"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"ဤဖုန်းတွင် ရှာရန်"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"ရှာဖွေမှတ်တမ်း <xliff:g id="TEXT">%1$s</xliff:g> ကိုဖျက်သည်"</string>
 </resources>

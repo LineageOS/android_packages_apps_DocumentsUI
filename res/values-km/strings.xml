@@ -35,7 +35,7 @@
     <string name="menu_save" msgid="5195367497138965168">"រក្សាទុក"</string>
     <string name="menu_share" msgid="4307140947108068356">"ចែករំលែក​"</string>
     <string name="menu_delete" msgid="1022254131543256626">"លុប"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"ជ្រើស​ទាំងអស់"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"ជ្រើស​រើសទាំងអស់"</string>
     <string name="menu_select" msgid="1366061076507142387">"ជ្រើសរើស"</string>
     <string name="menu_sort" msgid="3362419226163725275">"តម្រៀប​តាម..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ចម្លងទៅ…"</string>
@@ -202,8 +202,8 @@
       <item quantity="one">លុបឯកសារ <xliff:g id="COUNT_0">%1$d</xliff:g> ឬ?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other">លុបថត <xliff:g id="COUNT_1">%1$d</xliff:g> និងមាតិការបស់វាឬ?</item>
-      <item quantity="one">លុបថត <xliff:g id="COUNT_0">%1$d</xliff:g> និងមាតិការបស់វាឬ?</item>
+      <item quantity="other">លុបថត <xliff:g id="COUNT_1">%1$d</xliff:g> និងខ្លឹមសាររបស់វាឬ?</item>
+      <item quantity="one">លុបថត <xliff:g id="COUNT_0">%1$d</xliff:g> និងខ្លឹមសាររបស់វាឬ?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other">លុបធាតុ <xliff:g id="COUNT_1">%1$d</xliff:g> ឬ?</item>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"រុករក​ឯកសារ​នៅក្នុង​កម្មវិធី​ផ្សេងទៀត"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"អនាមិក"</string>
     <string name="open_tree_button" msgid="19992834788135845">"អនុញ្ញាត​ឱ្យ​ចូលប្រើ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"អនុញ្ញាត​ឱ្យ​ចូលប្រើ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" នៅលើ \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"អនុញ្ញាត​ឱ្យ​ចូលប្រើ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" នៅក្នុង \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ការធ្វើ​បែបនេះ​នឹង​អនុញ្ញាត​ឱ្យ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" អាច​ចូលប្រើ​ឯកសារ​ទាំងអស់​ដែល​កំពុងផ្ទុក​នៅក្រោម​ទីតាំង​នេះ​បានពេញលេញ រួមទាំងខ្លឹមសារ​នាពេលខាងមុខ​ផ្សេងទៀត​ដែល​ផ្ទុក​នៅទីនេះ។"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ទូរសព្ទ​នេះ"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"លុប​ប្រវត្តិស្វែងរក <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

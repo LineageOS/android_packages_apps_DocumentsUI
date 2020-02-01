@@ -37,7 +37,7 @@
     <string name="menu_delete" msgid="1022254131543256626">"Удалить"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Выбрать все"</string>
     <string name="menu_select" msgid="1366061076507142387">"Выбрать"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"Сортировать"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"Сортировать…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Копировать в…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Переместить в..."</string>
     <string name="menu_compress" msgid="37539111904724188">"Сжать"</string>
@@ -75,7 +75,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"типу (от Я до А)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"размеру (с больших)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"изменениям (с новых)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Сортировка"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Сортировать по…"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Отсортировано по <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Количество объектов"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"По возрастанию"</string>
@@ -287,7 +287,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Найти файлы в других приложениях"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимное приложение"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Открыть доступ к папке \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Открыть доступ к папке \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" (<xliff:g id="ROOT">%2$s</xliff:g>)?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Разрешить доступ к папке \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" (<xliff:g id="ROOT">%2$s</xliff:g>)?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Приложение \"<xliff:g id="APPNAME">%1$s</xliff:g>\" получит полный доступ ко всем файлам, которые хранятся в этой папке сейчас или будут помещены в нее позже."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Поиск на этом телефоне"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Очистить историю поиска: <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

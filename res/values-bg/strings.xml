@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Преглед на файлове в други приложения"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимно"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Разрешаване на достъп до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Да се разреши ли достъп до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“ на „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Да се разреши ли достъп до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“ на „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Така „<xliff:g id="APPNAME">%1$s</xliff:g>“ ще получи пълен достъп до всички файлове, които понастоящем се съхраняват в това местоположение, както и до всяко съдържание, което ще се съхранява тук в бъдеще."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Търсете в този телефон"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Изтриване на <xliff:g id="TEXT">%1$s</xliff:g> от историята на търсенията"</string>
 </resources>

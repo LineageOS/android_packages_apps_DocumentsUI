@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Phequlula amafayela kwezinye izinhlelo zokusebenza"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Okungaziwa"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Vumela ukufinyelela ku-\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Vumela ukufinyelela ku-\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ku-\"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Vumela ukufinyelela ku-\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ku-\"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Izovumela i-\"<xliff:g id="APPNAME">%1$s</xliff:g>\" ukuze inikeze ukufinyelela okugcwele kuwo wonke amafayela manje agcinwe ngaphansi kwale ndawo, futhi noma ikuphi okuqukethwe okuzayo kuzogcinwa lapha."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Sesha le foni"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Susa umlando wokusesha <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
