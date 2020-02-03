@@ -469,6 +469,14 @@
     <string name="open_tree_dialog_title">Allow <xliff:g id="appName" example="Drive">%1$s</xliff:g> to access files in <xliff:g id="directory" example="DCIM">%2$s</xliff:g>?</string>
     <!-- Confrim dialog message show on open document tree flow.-->
     <string name="open_tree_dialog_message">This will let <xliff:g id="appName" example="Drive">%1$s</xliff:g> access current and future content stored in <xliff:g id="directory" example="DCIM">%2$s</xliff:g>.</string>
+    <!-- Header message title show on open document tree flow. [CHAR_LIMIT=48] -->
+    <string name="open_tree_header_title">Can\u2019t share <xliff:g id="folderName" example="Download">%1$s</xliff:g> folder with <xliff:g id="appName" example="Drive">%2$s</xliff:g></string>
+    <!-- Header message content show on open document tree flow and on root top. [CHAR_LIMIT=80]-->
+    <string name="open_tree_header_message_root">Choose a folder below, or create a new one</string>
+    <!-- Header message content show on open document tree flow and in child folder. [CHAR_LIMIT=80]-->
+    <string name="open_tree_header_message_child">Choose another folder, or create a new one</string>
+
+
 
     <!-- Search hint on search view. [CHAR LIMIT=48] -->
     <string name="search_bar_hint">Search this phone</string>

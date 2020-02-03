@@ -16,14 +16,13 @@
 
 package com.android.documentsui.picker;
 
+import static com.android.documentsui.base.Shared.getCallingAppName;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import android.text.TextUtils;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -87,9 +86,9 @@ public class ConfirmFragment extends DialogFragment {
                 final BaseActivity activity = (BaseActivity) getActivity();
                 final String target = activity.getCurrentTitle();
                 final String text = getString(R.string.open_tree_dialog_title,
-                        getAppName(getActivity().getCallingPackage()), target);
+                        getCallingAppName(getActivity()), target);
                 message = getString(R.string.open_tree_dialog_message,
-                        getAppName(getActivity().getCallingPackage()), target);
+                        getCallingAppName(getActivity()), target);
 
                 builder.setTitle(text);
                 builder.setMessage(message);
@@ -114,24 +113,6 @@ public class ConfirmFragment extends DialogFragment {
 
         outState.putParcelable(Shared.EXTRA_DOC, mTarget);
         outState.putInt(CONFIRM_TYPE, mType);
-    }
-
-    private String getAppName(String packageName) {
-        final String anonymous = getString(R.string.anonymous_application);
-        if (TextUtils.isEmpty(packageName)) {
-            return anonymous;
-        }
-
-        final PackageManager pm = getContext().getPackageManager();
-        ApplicationInfo ai;
-        try {
-            ai = pm.getApplicationInfo(packageName, 0);
-        } catch (final PackageManager.NameNotFoundException e) {
-            return anonymous;
-        }
-
-        CharSequence result = pm.getApplicationLabel(ai);
-        return TextUtils.isEmpty(result) ? anonymous : result.toString();
     }
 
     public static void show(FragmentManager fm, DocumentInfo overwriteTarget, int type) {

@@ -112,5 +112,10 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
 
         @Override
         public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {}
+
+        @Override
+        public String getCallingAppName() {
+            return "unknown";
+        }
     }
 }
