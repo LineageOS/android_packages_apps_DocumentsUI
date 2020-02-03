@@ -47,7 +47,6 @@ public class TestProvidersAccess implements ProvidersAccess {
     public static final RootInfo EXTERNALSTORAGE;
     public static final RootInfo NO_TREE_ROOT;
 
-
     static {
         UserId userId = UserId.DEFAULT_USER;
 
@@ -154,6 +153,26 @@ public class TestProvidersAccess implements ProvidersAccess {
         NO_TREE_ROOT.flags = Root.FLAG_LOCAL_ONLY;
     }
 
+    public static class OtherUser {
+        public static final UserId USER_ID = UserId.of(UserId.DEFAULT_USER.getIdentifier() + 1);
+
+        public static final RootInfo DOWNLOADS;
+
+        static {
+            UserId userId = OtherUser.USER_ID;
+
+            DOWNLOADS = new RootInfo();
+            DOWNLOADS.userId = userId;
+            DOWNLOADS.authority = Providers.AUTHORITY_DOWNLOADS;
+            DOWNLOADS.rootId = Providers.ROOT_ID_DOWNLOADS;
+            DOWNLOADS.title = "Downloads";
+            DOWNLOADS.derivedType = RootInfo.TYPE_DOWNLOADS;
+            DOWNLOADS.flags = Root.FLAG_LOCAL_ONLY
+                    | Root.FLAG_SUPPORTS_CREATE
+                    | Root.FLAG_SUPPORTS_RECENTS;
+        }
+    }
+
     public final Map<String, Collection<RootInfo>> roots = new HashMap<>();
     private @Nullable RootInfo nextRoot;
 
@@ -222,7 +241,7 @@ public class TestProvidersAccess implements ProvidersAccess {
     }
 
     @Override
-    public RootInfo getRecentsRoot() {
+    public RootInfo getRecentsRoot(UserId userId) {
         return RECENTS;
     }
 

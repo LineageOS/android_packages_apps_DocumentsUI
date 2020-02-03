@@ -58,6 +58,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
@@ -751,7 +752,7 @@ public abstract class BaseActivity
         if (root != null) {
             return root;
         } else {
-            return mProviders.getRecentsRoot();
+            return mProviders.getRecentsRoot(UserId.DEFAULT_USER);
         }
     }
 
