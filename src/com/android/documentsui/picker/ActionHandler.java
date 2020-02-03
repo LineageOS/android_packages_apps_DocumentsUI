@@ -27,7 +27,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.QuickViewConstants;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -47,7 +46,6 @@ import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
-import com.android.documentsui.Model;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -57,7 +55,6 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AnimationView;
-import com.android.documentsui.files.QuickViewIntentBuilder;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
@@ -74,13 +71,9 @@ import javax.annotation.Nullable;
 class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionHandler<T> {
 
     private static final String TAG = "PickerActionHandler";
-    private static final String[] PREVIEW_FEATURES = {
-            QuickViewConstants.FEATURE_VIEW
-    };
 
     private final Features mFeatures;
     private final ActivityConfig mConfig;
-    private final Model mModel;
     private final LastAccessedStorage mLastAccessed;
 
     private UpdatePickResultTask mUpdatePickResultTask;
@@ -98,7 +91,6 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
 
         mConfig = injector.config;
         mFeatures = injector.features;
-        mModel = injector.getModel();
         mLastAccessed = lastAccessed;
         mUpdatePickResultTask = new UpdatePickResultTask(
             activity.getApplicationContext(), mInjector.pickResult);
@@ -346,32 +338,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
                     + details.getSelectionKey());
             return false;
         }
-        return priviewDocument(doc);
 
-    }
-
-    @VisibleForTesting
-    boolean priviewDocument(DocumentInfo doc) {
-        Intent intent = new QuickViewIntentBuilder(
-                mActivity.getPackageManager(),
-                mActivity.getResources(),
-                doc,
-                mModel,
-                true /* fromPicker */).build();
-
-        if (intent != null) {
-            try {
-                mActivity.startActivity(intent);
-                return true;
-            } catch (SecurityException e) {
-                Log.e(TAG, "Caught security error: " + e.getLocalizedMessage());
-            }
-        } else {
-            Log.e(TAG, "Quick view intetn is null");
-        }
-
-        mInjector.dialogs.showNoApplicationFound();
-        return false;
+        onDocumentOpened(doc, VIEW_TYPE_PREVIEW, VIEW_TYPE_REGULAR, true);
+        return !doc.isContainer();
     }
 
     void pickDocument(FragmentManager fm, DocumentInfo pickTarget) {

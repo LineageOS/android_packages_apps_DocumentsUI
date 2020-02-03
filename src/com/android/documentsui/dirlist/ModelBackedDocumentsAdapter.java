@@ -33,7 +33,6 @@ import com.android.documentsui.Model;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 
 import java.util.ArrayList;
@@ -140,8 +139,7 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
         holder.setEnabled(enabled);
         holder.setSelected(mEnv.isSelected(modelId), false);
         holder.setAction(mEnv.getDisplayState().action);
-        holder.bindPreviewIcon(Shared.hasQuickViewer(mEnv.getContext())
-                        && mEnv.getDisplayState().shouldShowPreview() && enabled,
+        holder.bindPreviewIcon(mEnv.getDisplayState().shouldShowPreview() && enabled,
                 view -> mEnv.getActionHandler().previewItem(holder.getItemDetails()));
 
         mEnv.onBindDocumentHolder(holder, cursor);
