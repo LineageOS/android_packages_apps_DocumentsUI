@@ -70,17 +70,15 @@ public class GlobalSearchLoaderTest {
 
         final DocumentInfo doc = mEnv.model.createFile(SEARCH_STRING + ".jpg", FILE_FLAG);
         doc.lastModified = System.currentTimeMillis();
-        mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
+        mEnv.mockProviders.get(TestProvidersAccess.DOWNLOADS.authority)
                 .setNextChildDocumentsReturns(doc);
 
-        TestProvidersAccess.HOME.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
-        mEnv.state.showAdvanced = true;
+        TestProvidersAccess.DOWNLOADS.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
     }
 
     @After
     public void tearDown() {
-        TestProvidersAccess.HOME.flags &= ~DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
-        mEnv.state.showAdvanced = false;
+        TestProvidersAccess.DOWNLOADS.flags &= ~DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
     }
 
     @Test
@@ -98,44 +96,10 @@ public class GlobalSearchLoaderTest {
     }
 
     @Test
-    public void testShowAdvance_recentRoot_beIgnored() {
-        TestProvidersAccess.IMAGE.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
-        assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.IMAGE));
-        TestProvidersAccess.IMAGE.flags &= ~DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
-    }
-
-    @Test
-    public void testShowAdvance_imageRoot_beIgnored() {
-        TestProvidersAccess.IMAGE.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
-                | DocumentsContract.Root.FLAG_LOCAL_ONLY;
-        assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.IMAGE));
-        TestProvidersAccess.IMAGE.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
-                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
-    }
-
-    @Test
-    public void testShowAdvance_videoRoot_beIgnored() {
-        TestProvidersAccess.VIDEO.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
-                | DocumentsContract.Root.FLAG_LOCAL_ONLY;
-        assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.VIDEO));
-        TestProvidersAccess.VIDEO.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
-                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
-    }
-
-    @Test
-    public void testShowAdvance_audioRoot_beIgnored() {
-        TestProvidersAccess.AUDIO.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
-                | DocumentsContract.Root.FLAG_LOCAL_ONLY;
-        assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.AUDIO));
-        TestProvidersAccess.AUDIO.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
-                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
-    }
-
-    @Test
-    public void testShowAdvance_downloadRoot_beIgnored() {
-        TestProvidersAccess.DOWNLOADS.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
-        assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.DOWNLOADS));
-        TestProvidersAccess.DOWNLOADS.flags &= ~DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
+    public void testShowAdvance_storageRoot_beIgnored() {
+        TestProvidersAccess.HOME.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
+        assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.HOME));
+        TestProvidersAccess.HOME.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH);
     }
 
     @Test
@@ -143,7 +107,7 @@ public class GlobalSearchLoaderTest {
         final DocumentInfo doc = mEnv.model.createFolder(SEARCH_STRING);
         doc.lastModified = System.currentTimeMillis();
 
-        mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
+        mEnv.mockProviders.get(TestProvidersAccess.DOWNLOADS.authority)
                 .setNextChildDocumentsReturns(doc);
 
         final DirectoryResult result = mLoader.loadInBackground();
@@ -181,7 +145,7 @@ public class GlobalSearchLoaderTest {
         final DocumentInfo testApkDoc = mEnv.model.createFile("test.apk");
         testApkDoc.lastModified = System.currentTimeMillis();
 
-        mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
+        mEnv.mockProviders.get(TestProvidersAccess.DOWNLOADS.authority)
                 .setNextChildDocumentsReturns(pdfDoc, apkDoc, testApkDoc);
 
         mEnv.state.sortModel.sortByUser(
@@ -212,10 +176,11 @@ public class GlobalSearchLoaderTest {
         final DocumentInfo testApkDoc = mEnv.model.createFile("test.apk");
         testApkDoc.lastModified = System.currentTimeMillis();
 
-        mEnv.mockProviders.get(TestProvidersAccess.HAMMY.authority)
+        mEnv.mockProviders.get(TestProvidersAccess.PICKLES.authority)
                 .setNextChildDocumentsReturns(pdfDoc, apkDoc, testApkDoc);
 
-        TestProvidersAccess.HAMMY.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
+        TestProvidersAccess.PICKLES.flags |= (DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
 
         mEnv.state.sortModel.sortByUser(
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
@@ -225,6 +190,7 @@ public class GlobalSearchLoaderTest {
 
         assertEquals(3, c.getCount());
 
-        TestProvidersAccess.HAMMY.flags &= ~DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
+        TestProvidersAccess.PICKLES.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
     }
 }

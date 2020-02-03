@@ -20,7 +20,6 @@ import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.State;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
 
@@ -47,13 +46,6 @@ public class InternalStorageUiTest extends ActivityTest<FilesActivity> {
         mDocsHelper = new DocumentsProviderHelper(userId, Providers.AUTHORITY_STORAGE, context,
                 Providers.AUTHORITY_STORAGE);
         rootPrimary = mDocsHelper.getRoot(Providers.ROOT_ID_DEVICE);
-
-        // If Internal Storage is not shown, turn on.
-        State state = ((FilesActivity) getActivity()).getDisplayState();
-        if (!state.showAdvanced) {
-            bots.main.clickToolbarOverflowItem(
-                    context.getResources().getString(R.string.menu_advanced_show));
-        }
 
         bots.roots.openRoot(rootPrimary.title);
         deleteTestFiles();

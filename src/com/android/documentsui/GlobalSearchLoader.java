@@ -69,13 +69,9 @@ public class GlobalSearchLoader extends MultiRootDocumentsLoader {
             return true;
         }
 
-        // If the value of showAdvanced is true,
-        // don't query media roots and downloads root to avoid showing
-        // duplicated files.
-        if (mState.showAdvanced && (root.isLibrary() || root.isDownloads())) {
-            return true;
-        }
-        return false;
+        // To prevent duplicate files on search result, ignore storage root because its almost
+        // files include in media root.
+        return root.isStorage();
     }
 
     @Override

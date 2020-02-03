@@ -98,7 +98,6 @@ public final class MenuManagerTest {
     private TestMenuItem optionNewWindow;
     private TestMenuItem optionCreateDir;
     private TestMenuItem optionSelectAll;
-    private TestMenuItem optionAdvanced;
     private TestMenuItem optionSettings;
     private TestMenuItem optionSort;
     private TestMenuItem mOptionLauncher;
@@ -158,7 +157,6 @@ public final class MenuManagerTest {
         optionNewWindow = testMenu.findItem(R.id.option_menu_new_window);
         optionCreateDir = testMenu.findItem(R.id.option_menu_create_dir);
         optionSelectAll = testMenu.findItem(R.id.option_menu_select_all);
-        optionAdvanced = testMenu.findItem(R.id.option_menu_advanced);
         optionSettings = testMenu.findItem(R.id.option_menu_settings);
         optionSort = testMenu.findItem(R.id.option_menu_sort);
         mOptionLauncher = testMenu.findItem(R.id.option_menu_launcher);
@@ -264,8 +262,6 @@ public final class MenuManagerTest {
     public void testOptionMenu() {
         mgr.updateOptionMenu(testMenu);
 
-        optionAdvanced.assertInvisible();
-        optionAdvanced.assertTitle(R.string.menu_advanced_show);
         optionCreateDir.assertDisabled();
         optionDebug.assertInvisible();
         optionSort.assertEnabled();
@@ -293,16 +289,6 @@ public final class MenuManagerTest {
         mgr.updateOptionMenu(testMenu);
 
         optionCreateDir.assertEnabled();
-    }
-
-    @Test
-    public void testOptionMenu_showAdvanced() {
-        state.showAdvanced = true;
-        state.showDeviceStorageOption = true;
-        mgr.updateOptionMenu(testMenu);
-
-        optionAdvanced.assertVisible();
-        optionAdvanced.assertTitle(R.string.menu_advanced_hide);
     }
 
     @Test

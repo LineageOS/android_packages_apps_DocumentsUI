@@ -37,7 +37,6 @@ import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.State;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.services.TestNotificationService;
@@ -136,13 +135,6 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
                 Settings.Global.DEVICE_NAME);
         // If null or empty, use default name.
         mDeviceLabel = TextUtils.isEmpty(mDeviceLabel) ? "Internal Storage" : mDeviceLabel;
-
-        // If Internal Storage is not shown, turn on.
-        State state = ((FilesActivity) getActivity()).getDisplayState();
-        if (!state.showAdvanced) {
-            bots.main.clickToolbarOverflowItem(
-                    context.getResources().getString(R.string.menu_advanced_show));
-        }
 
         try {
             bots.notifications.setNotificationAccess(getActivity(), true);

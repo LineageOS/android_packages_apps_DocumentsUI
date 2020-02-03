@@ -18,7 +18,6 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
-import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.MODE_GRID;
 
 import android.content.Intent;
@@ -65,7 +64,6 @@ import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.prefs.Preferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
-import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchChipData;
 import com.android.documentsui.queries.SearchFragment;
@@ -281,11 +279,6 @@ public abstract class BaseActivity
         // just limits the scope of what we expect to come flowing
         // through here until we know we want more and fancier options.
         assert(Preferences.shouldBackup(pref));
-
-        switch (pref) {
-            case ScopedPreferences.INCLUDE_DEVICE_ROOT:
-                updateDisplayAdvancedDevices(mInjector.prefs.getShowDeviceRoot());
-        }
     }
 
     @Override
@@ -359,14 +352,6 @@ public abstract class BaseActivity
         state.excludedAuthorities = getExcludedAuthorities();
 
         includeState(state);
-
-        // always show device root in tree mode
-        final boolean mustShowDeviceRoot =
-                state.action == ACTION_OPEN_TREE || Shared.mustShowDeviceRoot(intent);
-        state.showAdvanced = mustShowDeviceRoot || mInjector.prefs.getShowDeviceRoot();
-
-        // Only show the toggle if advanced isn't forced enabled.
-        state.showDeviceStorageOption = !mustShowDeviceRoot;
 
         if (DEBUG) {
             Log.d(mTag, "Created new state object: " + state);
@@ -459,10 +444,6 @@ public abstract class BaseActivity
             case R.id.option_menu_search:
                 // SearchViewManager listens for this directly.
                 return false;
-
-            case R.id.option_menu_advanced:
-                onDisplayAdvancedDevices();
-                return true;
 
             case R.id.option_menu_select_all:
                 getInjector().actions.selectAllFiles();
@@ -599,28 +580,6 @@ public abstract class BaseActivity
 
     public State getDisplayState() {
         return mState;
-    }
-
-    /**
-     * Set internal storage visible based on explicit user action.
-     */
-    private void onDisplayAdvancedDevices() {
-        boolean display = !mState.showAdvanced;
-        Metrics.logUserAction(display
-                ? MetricConsts.USER_ACTION_SHOW_ADVANCED : MetricConsts.USER_ACTION_HIDE_ADVANCED);
-
-        mInjector.prefs.setShowDeviceRoot(display);
-        updateDisplayAdvancedDevices(display);
-    }
-
-    private void updateDisplayAdvancedDevices(boolean display) {
-        mState.showAdvanced = display;
-        @Nullable RootsFragment fragment = RootsFragment.get(getSupportFragmentManager());
-        if (fragment != null) {
-            // This also takes care of updating launcher shortcuts (which are roots :)
-            fragment.onDisplayStateChanged();
-        }
-        invalidateOptionsMenu();
     }
 
     /**
