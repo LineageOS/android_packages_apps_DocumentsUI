@@ -37,6 +37,7 @@ import com.android.documentsui.base.State.ViewMode;
 final class HeaderMessageDocumentHolder extends MessageHolder {
     private final View mRoot;
     private final ImageView mIcon;
+    private final TextView mTitle;
     private final TextView mTextView;
     private final Button mButton;
     private Message mMessage;
@@ -46,6 +47,7 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
 
         mRoot = itemView.findViewById(R.id.item_root);
         mIcon = (ImageView) itemView.findViewById(R.id.message_icon);
+        mTitle = itemView.findViewById(R.id.message_title);
         mTextView = (TextView) itemView.findViewById(R.id.message_textview);
         mButton = (Button) itemView.findViewById(R.id.button_dismiss);
     }
@@ -73,10 +75,23 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
 
     @Override
     public void bind(Cursor cursor, String modelId) {
+        if (mMessage.getTitleString() != null) {
+            mTitle.setVisibility(View.VISIBLE);
+            mTitle.setText(mMessage.getTitleString());
+        } else {
+            mTitle.setVisibility(View.GONE);
+        }
+
         mTextView.setText(mMessage.getMessageString());
         mIcon.setImageDrawable(mMessage.getIcon());
-        if (mMessage.getButtonString() != null) {
-            mButton.setText(mMessage.getButtonString());
+
+        if (mMessage.shouldKeep()) {
+            mButton.setVisibility(View.GONE);
+        } else {
+            mButton.setVisibility(View.VISIBLE);
+            if (mMessage.getButtonString() != null) {
+                mButton.setText(mMessage.getButtonString());
+            }
         }
     }
 }

@@ -250,6 +250,9 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         } else if (isDocuments()) {
             derivedType = TYPE_DOCUMENTS;
             derivedIcon = LOAD_FROM_CONTENT_RESOLVER;
+            // The mime type of Documents root from MediaProvider is "*/*" for performance concern.
+            // Align the supported mime types with document search chip
+            derivedMimeTypes = MimeTypes.getDocumentMimeTypeArray();
         } else if (isRecents()) {
             derivedType = TYPE_RECENTS;
         } else if (isBugReport()) {

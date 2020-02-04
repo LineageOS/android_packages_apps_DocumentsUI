@@ -37,6 +37,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.PluralsRes;
 import androidx.appcompat.app.AlertDialog;
 
@@ -232,6 +233,31 @@ public final class Shared {
     }
 
     /**
+     * Returns the calling app name.
+     * @param activity
+     * @return the calling app name or general anonymous name if not found
+     */
+    @NonNull
+    public static String getCallingAppName(Activity activity) {
+        final String anonymous = activity.getString(R.string.anonymous_application);
+        final String packageName = getCallingPackageName(activity);
+        if (TextUtils.isEmpty(packageName)) {
+            return anonymous;
+        }
+
+        final PackageManager pm = activity.getPackageManager();
+        ApplicationInfo ai;
+        try {
+            ai = pm.getApplicationInfo(packageName, 0);
+        } catch (final PackageManager.NameNotFoundException e) {
+            return anonymous;
+        }
+
+        CharSequence result = pm.getApplicationLabel(ai);
+        return TextUtils.isEmpty(result) ? anonymous : result.toString();
+    }
+
+    /**
      * Returns the default directory to be presented after starting the activity.
      * Method can be overridden if the change of the behavior of the the child activity is needed.
      */
@@ -287,14 +313,6 @@ public final class Shared {
      */
     public static boolean hasQuickViewer(Context context) {
         return !TextUtils.isEmpty(context.getString(R.string.trusted_quick_viewer_package));
-    }
-
-    /*
-     * Returns true if the local/device storage root must be visible (this also hides
-     * the option to toggle visibility in the menu.)
-     */
-    public static boolean mustShowDeviceRoot(Intent intent) {
-        return intent.getBooleanExtra(DocumentsContract.EXTRA_SHOW_ADVANCED, false);
     }
 
     public static String getDeviceName(ContentResolver resolver) {

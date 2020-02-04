@@ -81,8 +81,6 @@ public class State implements android.os.Parcelable {
 
     public boolean allowMultiple;
     public boolean localOnly;
-    public boolean showDeviceStorageOption;
-    public boolean showAdvanced;
 
     public boolean openableOnly;
 
@@ -150,8 +148,6 @@ public class State implements android.os.Parcelable {
         out.writeStringArray(acceptMimes);
         out.writeInt(allowMultiple ? 1 : 0);
         out.writeInt(localOnly ? 1 : 0);
-        out.writeInt(showDeviceStorageOption ? 1 : 0);
-        out.writeInt(showAdvanced ? 1 : 0);
         DurableUtils.writeToParcel(out, stack);
         out.writeMap(dirConfigs);
         out.writeList(excludedAuthorities);
@@ -166,8 +162,6 @@ public class State implements android.os.Parcelable {
                 + ", acceptMimes=" + Arrays.toString(acceptMimes)
                 + ", allowMultiple=" + allowMultiple
                 + ", localOnly=" + localOnly
-                + ", showDeviceStorageOption=" + showDeviceStorageOption
-                + ", showAdvanced=" + showAdvanced
                 + ", stack=" + stack
                 + ", dirConfigs=" + dirConfigs
                 + ", excludedAuthorities=" + excludedAuthorities
@@ -189,8 +183,6 @@ public class State implements android.os.Parcelable {
             state.acceptMimes = in.createStringArray();
             state.allowMultiple = in.readInt() != 0;
             state.localOnly = in.readInt() != 0;
-            state.showDeviceStorageOption = in.readInt() != 0;
-            state.showAdvanced = in.readInt() != 0;
             DurableUtils.readFromParcel(in, state.stack);
             in.readMap(state.dirConfigs, loader);
             in.readList(state.excludedAuthorities, loader);
