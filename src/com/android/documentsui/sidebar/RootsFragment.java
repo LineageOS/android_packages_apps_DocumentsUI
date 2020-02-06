@@ -70,7 +70,6 @@ import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Events;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.ProvidersAccess;
@@ -301,9 +300,7 @@ public class RootsFragment extends Fragment {
         for (final RootInfo root : roots) {
             final RootItem item;
 
-            if (root.isExternalStorageHome() && !Shared.shouldShowDocumentsRoot(getContext())) {
-                continue;
-            } else if (root.isLibrary() || root.isDownloads()) {
+            if (root.isLibrary() || root.isDownloads()) {
                 item = new RootItem(root, mActionHandler);
                 libraries.add(item);
             } else if (root.isStorage()) {

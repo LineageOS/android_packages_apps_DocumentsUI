@@ -430,22 +430,11 @@ public class ActionHandlerTest {
 
     @Test
     public void testInitLocation_forceDefaultsToRoot() throws Exception {
-        mActivity.resources.bools.put(R.bool.show_documents_root, false);
         mActivity.resources.strings.put(R.string.default_root_uri,
                 TestProvidersAccess.DOWNLOADS.getUri().toString());
 
         mHandler.initLocation(mActivity.getIntent());
         assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
-    }
-
-    @Test
-    public void testInitLocation_DocumentsRootEnabled() throws Exception {
-        mActivity.resources.bools.put(R.bool.show_documents_root, true);
-        mActivity.resources.strings.put(R.string.default_root_uri,
-                TestProvidersAccess.HOME.getUri().toString());
-
-        mHandler.initLocation(mActivity.getIntent());
-        assertRootPicked(TestProvidersAccess.HOME.getUri());
     }
 
     @Test
