@@ -142,7 +142,8 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
             cursor.registerContentObserver(mObserver);
 
-            cursor = new RootCursorWrapper(mUri.getAuthority(), mRoot.rootId, cursor, -1);
+            cursor = new RootCursorWrapper(mDoc.userId, mUri.getAuthority(), mRoot.rootId, cursor,
+                    -1);
 
             if (mSearchMode && !mFeatures.isFoldersInSearchResultsEnabled()) {
                 // There is no findDocumentPath API. Enable filtering on folders in search mode.

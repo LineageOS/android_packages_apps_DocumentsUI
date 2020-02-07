@@ -82,7 +82,8 @@ public class RecentsLoader extends MultiRootDocumentsLoader {
 
         @Override
         protected RootCursorWrapper generateResultCursor(RootInfo rootInfo, Cursor oriCursor) {
-            return new RootCursorWrapper(authority, rootInfo.rootId, oriCursor, MAX_DOCS_FROM_ROOT);
+            return new RootCursorWrapper(rootInfo.userId, authority, rootInfo.rootId, oriCursor,
+                    MAX_DOCS_FROM_ROOT);
         }
     }
 }

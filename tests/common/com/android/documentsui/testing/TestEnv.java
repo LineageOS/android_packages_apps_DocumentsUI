@@ -31,6 +31,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.TestFocusHandler;
 import com.android.documentsui.sorting.SortModel;
 import com.android.documentsui.ui.TestDialogController;
@@ -79,8 +80,8 @@ public class TestEnv {
         this.features = features;
         state.sortModel = SortModel.createModel();
         mExecutor = new TestScheduledExecutorService();
-        model = new TestModel(authority, features);
-        archiveModel = new TestModel(ArchivesProvider.AUTHORITY, features);
+        model = new TestModel(UserId.DEFAULT_USER, authority, features);
+        archiveModel = new TestModel(UserId.DEFAULT_USER, ArchivesProvider.AUTHORITY, features);
         selectionMgr = SelectionHelpers.createTestInstance();
         searchViewManager = new TestSearchViewManager();
         injector = new Injector(

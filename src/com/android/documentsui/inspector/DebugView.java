@@ -72,6 +72,7 @@ public class DebugView extends TableView implements DebugDisplay {
     public void accept(DocumentInfo info) {
         setTitle(R.string.inspector_debug_section, true);
 
+        put(R.string.debug_user_id, info.userId.toString());
         put(R.string.debug_content_uri, info.derivedUri.toString());
         put(R.string.debug_document_id, info.documentId);
         put(R.string.debug_raw_mimetype, info.mimeType);

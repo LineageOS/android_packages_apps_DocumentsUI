@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -93,6 +93,18 @@ public class UserIdTest extends AndroidTestCase {
 
         assertThat(UserId.of(differentUserHandle).asContext(mockContext)).isSameAs(
                 expectedContext);
+    }
+
+    @Test
+    public void testOf_UserIdUserHandleIdentifier() {
+        UserHandle userHandle = UserHandle.of(10);
+        assertEquals(UserId.of(userHandle), UserId.of(userHandle.getIdentifier()));
+    }
+
+    @Test
+    public void testOf_UserIdRecreatingShouldEqual() {
+        UserId userId = UserId.of(3);
+        assertEquals(userId, UserId.of(userId.getIdentifier()));
     }
 
     @Test
