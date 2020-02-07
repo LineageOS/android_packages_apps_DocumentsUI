@@ -106,7 +106,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             mSignal = new CancellationSignal();
         }
 
-        final ContentResolver resolver = getContext().getContentResolver();
+        final ContentResolver resolver = mDoc.userId.getContentResolver(getContext());
         final String authority = mUri.getAuthority();
 
         final DirectoryResult result = new DirectoryResult();
@@ -235,6 +235,6 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         FileUtils.closeQuietly(mResult);
         mResult = null;
 
-        getContext().getContentResolver().unregisterContentObserver(mObserver);
+        mDoc.userId.getContentResolver(getContext()).unregisterContentObserver(mObserver);
     }
 }

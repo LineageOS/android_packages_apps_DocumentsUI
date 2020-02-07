@@ -420,7 +420,7 @@ public class InspectorControllerTest  {
         }
 
         @Override
-        public void getDocumentMetadata(Uri uri, Consumer<Bundle> callback) {
+        public void getDocumentMetadata(Uri uri, UserId userId, Consumer<Bundle> callback) {
             callback.accept(mMetadata);
         }
 

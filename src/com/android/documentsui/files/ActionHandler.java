@@ -172,7 +172,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
 
     @Override
     public @Nullable DocumentInfo renameDocument(String name, DocumentInfo document) {
-        ContentResolver resolver = mActivity.getContentResolver();
+        ContentResolver resolver = document.userId.getContentResolver(mActivity);
         ContentProviderClient client = null;
 
         try {

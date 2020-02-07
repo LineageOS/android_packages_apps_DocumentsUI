@@ -140,7 +140,7 @@ public interface DocumentsAccess {
 
         @Override
         public Uri createDocument(DocumentInfo parentDoc, String mimeType, String displayName) {
-            final ContentResolver resolver = mContext.getContentResolver();
+            final ContentResolver resolver = parentDoc.userId.getContentResolver(mContext);
             try (ContentProviderClient client = DocumentsApplication.acquireUnstableProviderOrThrow(
                         resolver, parentDoc.derivedUri.getAuthority())) {
                 return DocumentsContract.createDocument(
