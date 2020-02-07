@@ -21,6 +21,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -50,6 +51,7 @@ import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -59,6 +61,7 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.FocusHandler;
 import com.android.documentsui.files.LauncherActivity;
+import com.android.documentsui.files.QuickViewIntentBuilder;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.GetRootDocumentTask;
 import com.android.documentsui.roots.LoadFirstRootTask;
@@ -66,6 +69,7 @@ import com.android.documentsui.roots.LoadRootTask;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.sidebar.EjectRootTask;
 import com.android.documentsui.sorting.SortListFragment;
+import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.Snackbars;
 
 import java.util.ArrayList;
@@ -100,6 +104,8 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     protected final SelectionTracker<String> mSelectionMgr;
     protected final SearchViewManager mSearchMgr;
     protected final Lookup<String, Executor> mExecutors;
+    protected final DialogController mDialogs;
+    protected final Model mModel;
     protected final Injector<?> mInjector;
 
     private final LoaderBindings mBindings;
@@ -143,6 +149,8 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         mSelectionMgr = injector.selectionMgr;
         mSearchMgr = searchMgr;
         mExecutors = executors;
+        mDialogs = injector.dialogs;
+        mModel = injector.getModel();
         mInjector = injector;
 
         mBindings = new LoaderBindings();
@@ -354,6 +362,198 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         } else {
             openChildContainer(doc);
         }
+    }
+
+    // TODO: Make this private and make tests call interface method instead.
+    /**
+     * Behavior when a document is opened.
+     */
+    @VisibleForTesting
+    public void onDocumentOpened(DocumentInfo doc, @ViewType int type, @ViewType int fallback,
+            boolean fromPicker) {
+        // In picker mode, don't access archive container to avoid pick file in archive files.
+        if (doc.isContainer() && !fromPicker) {
+            openContainerDocument(doc);
+            return;
+        }
+
+        if (manageDocument(doc)) {
+            return;
+        }
+
+        // For APKs, even if the type is preview, we send an ACTION_VIEW intent to allow
+        // PackageManager to install it.  This allows users to install APKs from any root.
+        // The Downloads special case is handled above in #manageDocument.
+        if (MimeTypes.isApkType(doc.mimeType)) {
+            viewDocument(doc);
+            return;
+        }
+
+        switch (type) {
+            case VIEW_TYPE_REGULAR:
+                if (viewDocument(doc)) {
+                    return;
+                }
+                break;
+
+            case VIEW_TYPE_PREVIEW:
+                if (previewDocument(doc, fromPicker)) {
+                    return;
+                }
+                break;
+
+            default:
+                throw new IllegalArgumentException("Illegal view type.");
+        }
+
+        switch (fallback) {
+            case VIEW_TYPE_REGULAR:
+                if (viewDocument(doc)) {
+                    return;
+                }
+                break;
+
+            case VIEW_TYPE_PREVIEW:
+                if (previewDocument(doc, fromPicker)) {
+                    return;
+                }
+                break;
+
+            case VIEW_TYPE_NONE:
+                break;
+
+            default:
+                throw new IllegalArgumentException("Illegal fallback view type.");
+        }
+
+        // Failed to view including fallback, and it's in an archive.
+        if (type != VIEW_TYPE_NONE && fallback != VIEW_TYPE_NONE && doc.isInArchive()) {
+            mDialogs.showViewInArchivesUnsupported();
+        }
+    }
+
+    private boolean viewDocument(DocumentInfo doc) {
+        if (doc.isPartial()) {
+            Log.w(TAG, "Can't view partial file.");
+            return false;
+        }
+
+        if (doc.isInArchive()) {
+            Log.w(TAG, "Can't view files in archives.");
+            return false;
+        }
+
+        if (doc.isDirectory()) {
+            Log.w(TAG, "Can't view directories.");
+            return true;
+        }
+
+        Intent intent = buildViewIntent(doc);
+        if (DEBUG && intent.getClipData() != null) {
+            Log.d(TAG, "Starting intent w/ clip data: " + intent.getClipData());
+        }
+
+        try {
+            mActivity.startActivity(intent);
+            return true;
+        } catch (ActivityNotFoundException e) {
+            mDialogs.showNoApplicationFound();
+        }
+        return false;
+    }
+
+    private boolean previewDocument(DocumentInfo doc, boolean fromPicker) {
+        if (doc.isPartial()) {
+            Log.w(TAG, "Can't view partial file.");
+            return false;
+        }
+
+        Intent intent = new QuickViewIntentBuilder(
+                mActivity.getPackageManager(),
+                mActivity.getResources(),
+                doc,
+                mModel,
+                fromPicker).build();
+
+        if (intent != null) {
+            // TODO: un-work around issue b/24963914. Should be fixed soon.
+            try {
+                mActivity.startActivity(intent);
+                return true;
+            } catch (SecurityException e) {
+                // Carry on to regular view mode.
+                Log.e(TAG, "Caught security error: " + e.getLocalizedMessage());
+            }
+        }
+
+        return false;
+    }
+
+
+    protected boolean manageDocument(DocumentInfo doc) {
+        if (isManagedDownload(doc)) {
+            // First try managing the document; we expect manager to filter
+            // based on authority, so we don't grant.
+            Intent manage = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENT);
+            manage.setData(doc.derivedUri);
+            try {
+                mActivity.startActivity(manage);
+                return true;
+            } catch (ActivityNotFoundException ex) {
+                // Fall back to regular handling.
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isManagedDownload(DocumentInfo doc) {
+        // Anything on downloads goes through the back through downloads manager
+        // (that's the MANAGE_DOCUMENT bit).
+        // This is done for two reasons:
+        // 1) The file in question might be a failed/queued or otherwise have some
+        //    specialized download handling.
+        // 2) For APKs, the download manager will add on some important security stuff
+        //    like origin URL.
+        // 3) For partial files, the download manager will offer to restart/retry downloads.
+
+        // All other files not on downloads, event APKs, would get no benefit from this
+        // treatment, thusly the "isDownloads" check.
+
+        // Launch MANAGE_DOCUMENTS only for the root level files, so it's not called for
+        // files in archives or in child folders. Also, if the activity is already browsing
+        // a ZIP from downloads, then skip MANAGE_DOCUMENTS.
+        if (Intent.ACTION_VIEW.equals(mActivity.getIntent().getAction())
+                && mState.stack.size() > 1) {
+            // viewing the contents of an archive.
+            return false;
+        }
+
+        // management is only supported in Downloads root or downloaded files show in Recent root.
+        if (Providers.AUTHORITY_DOWNLOADS.equals(doc.authority)) {
+            // only on APKs or partial files.
+            return MimeTypes.isApkType(doc.mimeType) || doc.isPartial();
+        }
+
+        return false;
+    }
+
+    protected Intent buildViewIntent(DocumentInfo doc) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(doc.derivedUri, doc.mimeType);
+
+        // Downloads has traditionally added the WRITE permission
+        // in the TrampolineActivity. Since this behavior is long
+        // established, we set the same permission for non-managed files
+        // This ensures consistent behavior between the Downloads root
+        // and other roots.
+        int flags = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_SINGLE_TOP;
+        if (doc.isWriteSupported()) {
+            flags |= Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+        }
+        intent.setFlags(flags);
+
+        return intent;
     }
 
     @Override
