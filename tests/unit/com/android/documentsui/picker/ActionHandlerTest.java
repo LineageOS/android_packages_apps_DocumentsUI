@@ -587,8 +587,28 @@ public class ActionHandlerTest {
         mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
         mActivity.currentRoot = TestProvidersAccess.HOME;
 
-        mHandler.priviewDocument(TestEnv.FILE_GIF);
+        mHandler.onDocumentOpened(TestEnv.FILE_GIF, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR, true);
         mActivity.assertActivityStarted(Intent.ACTION_QUICK_VIEW);
+    }
+
+    @Test
+    public void testPreviewItem_archives() throws Exception {
+        mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
+        mActivity.currentRoot = TestProvidersAccess.HOME;
+
+        mHandler.onDocumentOpened(TestEnv.FILE_ARCHIVE, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR, true);
+        mActivity.assertActivityStarted(Intent.ACTION_QUICK_VIEW);
+    }
+
+    @Test
+    public void testPreviewItem_noQuickViewer() throws Exception {
+        mActivity.currentRoot = TestProvidersAccess.HOME;
+
+        mHandler.onDocumentOpened(TestEnv.FILE_GIF, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR, true);
+        mActivity.assertActivityStarted(Intent.ACTION_VIEW);
     }
 
     private void testInitLocationDefaultToRecentsOnAction(@ActionType int action)
