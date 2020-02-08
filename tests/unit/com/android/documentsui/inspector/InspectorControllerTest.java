@@ -134,7 +134,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testHideDebugByDefault() throws Exception {
-        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri, mUserId);  // actual URI doesn't matter :)
         mDebugTestDouble.assertVisible(false);
         mDebugTestDouble.assertEmpty();
     }
@@ -146,7 +146,7 @@ public class InspectorControllerTest  {
     public void testShowDebugUpdatesView() throws Exception {
         mShowDebug = true;
         recreateController();
-        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri, mUserId);  // actual URI doesn't matter :)
         mDebugTestDouble.assertVisible(true);
         mDebugTestDouble.assertNotEmpty();
     }
@@ -158,7 +158,7 @@ public class InspectorControllerTest  {
     public void testExtraTitleOverridesDisplayName() throws Exception {
         mTitle = "hammy!";
         recreateController();
-        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri, mUserId);  // actual URI doesn't matter :)
         mDetailsTestDouble.assertTitle("hammy!");
     }
 
@@ -191,7 +191,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testUpdateViewWithValidInput() throws Exception {
-        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri, mUserId);  // actual URI doesn't matter :)
         mHeaderTestDouble.assertCalled();
         mDetailsTestDouble.assertCalled();
     }
@@ -209,7 +209,7 @@ public class InspectorControllerTest  {
             DocumentsContract.buildDocumentUri(InspectorProvider.AUTHORITY, OPEN_IN_PROVIDER_DOC);
         doc.flags = doc.flags | Document.FLAG_SUPPORTS_SETTINGS;
         mDataSupplier.mDoc = doc;
-        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(doc.derivedUri, mUserId);  // actual URI doesn't matter :)
         assertTrue(mShowInProvider.becameVisible);
     }
 
@@ -220,7 +220,7 @@ public class InspectorControllerTest  {
      */
     @Test
     public void testShowInProvider_invisible() throws Exception {
-        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri, mUserId);  // actual URI doesn't matter :)
         assertFalse(mShowInProvider.becameVisible);
     }
 
@@ -233,7 +233,7 @@ public class InspectorControllerTest  {
     @Test
     public void testUpdateView_withNullValue() throws Exception {
         mDataSupplier.mDoc = null;
-        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri, mUserId);  // actual URI doesn't matter :)
 
         mErrCallback.assertCalled();
         mHeaderTestDouble.assertNotCalled();
@@ -245,7 +245,7 @@ public class InspectorControllerTest  {
         DocumentInfo doc = TestEnv.clone(TestEnv.FILE_JPG);
         doc.flags |= DocumentsContract.Document.FLAG_SUPPORTS_METADATA;
         mDataSupplier.mDoc = doc;
-        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(doc.derivedUri, mUserId);  // actual URI doesn't matter :)
         mMedia.assertGeoCallbackInstalled();
     }
 
@@ -255,14 +255,14 @@ public class InspectorControllerTest  {
         doc.flags |= DocumentsContract.Document.FLAG_SUPPORTS_METADATA;
         mDataSupplier.mDoc = doc;
         mDataSupplier.mMetadata = null;  // sorry, no results sucka!
-        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(doc.derivedUri, mUserId);  // actual URI doesn't matter :)
     }
 
     @Test
     public void testMetadata_notDisplayedDocWithoutSupportFlag() {
         assert !TestEnv.FILE_JPG.isMetadataSupported();
         mDataSupplier.mDoc = TestEnv.FILE_JPG;  // this is the default value. For "good measure".
-        mController.loadInfo(TestEnv.FILE_JPG.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(TestEnv.FILE_JPG.derivedUri, mUserId);  // actual URI doesn't matter :)
         mMedia.assertVisible(false);
         mMedia.assertEmpty();
     }
@@ -272,7 +272,7 @@ public class InspectorControllerTest  {
         DocumentInfo doc = TestEnv.clone(TestEnv.FILE_JPG);
         doc.flags |= DocumentsContract.Document.FLAG_SUPPORTS_METADATA;
         mDataSupplier.mDoc = doc;
-        mController.loadInfo(doc.derivedUri);  // actual URI doesn't matter :)
+        mController.loadInfo(doc.derivedUri, mUserId);  // actual URI doesn't matter :)
         mMedia.mGeoClickCallback.run();
         Intent geoIntent = mActivity.started;
         assertEquals(Intent.ACTION_VIEW, geoIntent.getAction());
@@ -415,12 +415,12 @@ public class InspectorControllerTest  {
         private @Nullable Bundle mMetadata;
 
         @Override
-        public void loadDocInfo(Uri uri, Consumer<DocumentInfo> callback) {
+        public void loadDocInfo(Uri uri, UserId userId, Consumer<DocumentInfo> callback) {
             callback.accept(mDoc);
         }
 
         @Override
-        public void getDocumentMetadata(Uri uri, Consumer<Bundle> callback) {
+        public void getDocumentMetadata(Uri uri, UserId userId, Consumer<Bundle> callback) {
             callback.accept(mMetadata);
         }
 

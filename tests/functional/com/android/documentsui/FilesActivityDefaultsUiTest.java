@@ -25,7 +25,6 @@ import androidx.recyclerview.R;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.Shared;
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
 
@@ -72,16 +71,5 @@ public class FilesActivityDefaultsUiTest extends ActivityTest<FilesActivity> {
                 "Downloads",
                 ROOT_0_ID,
                 ROOT_1_ID);
-
-//        // Separate logic for "Documents" root, which presence depends on the config setting
-//        if (docsRootEnabled()) {
-//            bots.roots.assertRootsPresent("Documents");
-//        } else {
-//            bots.roots.assertRootsAbsent("Documents");
-//        }
-    }
-
-    private boolean docsRootEnabled() {
-        return Shared.shouldShowDocumentsRoot(context);
     }
 }

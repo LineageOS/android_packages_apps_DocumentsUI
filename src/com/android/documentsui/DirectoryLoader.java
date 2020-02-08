@@ -106,7 +106,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             mSignal = new CancellationSignal();
         }
 
-        final ContentResolver resolver = getContext().getContentResolver();
+        final ContentResolver resolver = mDoc.userId.getContentResolver(getContext());
         final String authority = mUri.getAuthority();
 
         final DirectoryResult result = new DirectoryResult();
@@ -142,7 +142,8 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
             cursor.registerContentObserver(mObserver);
 
-            cursor = new RootCursorWrapper(mUri.getAuthority(), mRoot.rootId, cursor, -1);
+            cursor = new RootCursorWrapper(mDoc.userId, mUri.getAuthority(), mRoot.rootId, cursor,
+                    -1);
 
             if (mSearchMode && !mFeatures.isFoldersInSearchResultsEnabled()) {
                 // There is no findDocumentPath API. Enable filtering on folders in search mode.
@@ -234,6 +235,6 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         FileUtils.closeQuietly(mResult);
         mResult = null;
 
-        getContext().getContentResolver().unregisterContentObserver(mObserver);
+        mDoc.userId.getContentResolver(getContext()).unregisterContentObserver(mObserver);
     }
 }

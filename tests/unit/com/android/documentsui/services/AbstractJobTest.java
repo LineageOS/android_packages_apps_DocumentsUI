@@ -98,7 +98,7 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
     FileOperation createOperation(@OpType int opType, List<Uri> srcs, Uri srcParent,
             Uri destination) throws Exception {
         DocumentStack stack =
-                new DocumentStack(mSrcRoot, DocumentInfo.fromUri(mResolver, destination));
+                new DocumentStack(mSrcRoot, DocumentInfo.fromUri(mResolver, destination, mUserId));
 
         UrisSupplier urisSupplier = DocsProviders.createDocsProvider(srcs);
         FileOperation operation = new FileOperation.Builder()
@@ -122,7 +122,7 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
     final T createJob(@OpType int opType, List<Uri> srcs, Uri srcParent, Uri destination)
             throws Exception {
         DocumentStack stack =
-                new DocumentStack(mSrcRoot, DocumentInfo.fromUri(mResolver, destination));
+                new DocumentStack(mSrcRoot, DocumentInfo.fromUri(mResolver, destination, mUserId));
 
         UrisSupplier urisSupplier = DocsProviders.createDocsProvider(srcs);
         FileOperation operation = new FileOperation.Builder()

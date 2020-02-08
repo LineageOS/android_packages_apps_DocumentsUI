@@ -21,10 +21,12 @@ import static androidx.core.util.Preconditions.checkNotNull;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Process;
 import android.os.UserHandle;
 
 import androidx.annotation.VisibleForTesting;
+import androidx.loader.content.CursorLoader;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -61,6 +63,16 @@ public final class UserId {
         return new UserId(userHandle);
     }
 
+
+    /**
+     * Returns a {@link UserId} for the given user id identifier.
+     *
+     * @see UserHandle#getIdentifier
+     */
+    public static UserId of(int userIdentifier) {
+        return of(UserHandle.of(userIdentifier));
+    }
+
     /**
      * Returns the given context if the user is the current user or unspecified. Otherwise, returns
      * an "android" package context as the user.
@@ -93,15 +105,21 @@ public final class UserId {
         return asContext(context).getContentResolver();
     }
 
+    /**
+     * Returns an identifier stored in this user id. This can be used to recreate the {@link UserId}
+     * by {@link UserId#of(int)}.
+     */
+    public int getIdentifier() {
+        return mUserHandle.getIdentifier();
+    }
+
     private boolean isUnspecified() {
         return UNSPECIFIED_USER.equals(this);
     }
 
     @Override
     public String toString() {
-        return "UserId{"
-                + (isUnspecified() ? "UNSPECIFIED" : mUserHandle.getIdentifier())
-                + "}";
+        return isUnspecified() ? "UNSPECIFIED" : String.valueOf(mUserHandle.getIdentifier());
     }
 
     @Override
@@ -147,5 +165,12 @@ public final class UserId {
     public static void write(DataOutputStream out, UserId userId) throws IOException {
         out.writeInt(VERSION_INIT);
         out.writeInt(userId.mUserHandle.getIdentifier());
+    }
+
+    /**
+     * Create a cursor loader of the user for the given uri.
+     */
+    public static CursorLoader createCursorLoader(Context context, Uri uri, UserId userId) {
+        return new CursorLoader(userId.asContext(context), uri, null, null, null, null);
     }
 }

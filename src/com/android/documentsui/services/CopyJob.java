@@ -394,7 +394,8 @@ class CopyJob extends ResolvedResourcesJob {
         if (src.isVirtual()) {
             String[] streamTypes = null;
             try {
-                streamTypes = getContentResolver().getStreamTypes(src.derivedUri, "*/*");
+                streamTypes = src.userId.getContentResolver(service).getStreamTypes(src.derivedUri,
+                        "*/*");
             } catch (RuntimeException e) {
                 Metrics.logFileOperationFailure(
                         appContext, MetricConsts.SUBFILEOP_OBTAIN_STREAM_TYPE, src.derivedUri);
@@ -443,7 +444,8 @@ class CopyJob extends ResolvedResourcesJob {
 
         DocumentInfo dstInfo = null;
         try {
-            dstInfo = DocumentInfo.fromUri(getContentResolver(), dstUri);
+            dstInfo = DocumentInfo.fromUri(dest.userId.getContentResolver(service), dstUri,
+                    dest.userId);
         } catch (FileNotFoundException | RuntimeException e) {
             Metrics.logFileOperationFailure(
                     appContext, MetricConsts.SUBFILEOP_QUERY_DOCUMENT, dstUri);
@@ -493,7 +495,7 @@ class CopyJob extends ResolvedResourcesJob {
             DocumentInfo src;
             while (cursor.moveToNext() && !isCanceled()) {
                 try {
-                    src = DocumentInfo.fromCursor(cursor, srcDir.authority);
+                    src = DocumentInfo.fromCursor(cursor, srcDir.userId, srcDir.authority);
                     processDocument(src, srcDir, destDir);
                 } catch (RuntimeException e) {
                     Log.e(TAG, String.format(

@@ -38,6 +38,7 @@
             <item type="drawable" name="ic_eject"/>
             <item type="drawable" name="ic_root_download"/>
             <item type="drawable" name="ic_sd_storage"/>
+            <item type="drawable" name="ic_root_smartphone"/>
             <item type="drawable" name="root_list_selector"/>
             <!-- END DRAWABLE -->
 

@@ -31,6 +31,7 @@ import androidx.test.rule.provider.ProviderTestRule;
 
 import com.android.documentsui.InspectorProvider;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.inspector.InspectorController.DataSupplier;
 import com.android.documentsui.testing.LatchedConsumer;
 import com.android.documentsui.testing.TestSupportLoaderManager;
@@ -54,6 +55,7 @@ public class DocumentLoaderTest extends TestCase {
     private static final String NOT_DIRECTORY = "OpenInProviderTest";
 
     private Context mContext;
+    private UserId mUserId;
     private TestSupportLoaderManager mLoaderManager;
     private DataSupplier mLoader;
     private ContentResolver mResolver;
@@ -67,6 +69,7 @@ public class DocumentLoaderTest extends TestCase {
         super.setUp();
 
         mContext = prepareContentResolverSource();
+        mUserId = UserId.DEFAULT_USER;
         mResolver = mContext.getContentResolver();
         mLoaderManager = new TestSupportLoaderManager();
         mLoader = new RuntimeDataSupplier(mContext, mLoaderManager);
@@ -99,7 +102,7 @@ public class DocumentLoaderTest extends TestCase {
         Uri validUri = DocumentsContract.buildDocumentUri(
                 InspectorProvider.AUTHORITY, TEST_DOC_NAME);
         LatchedConsumer<DocumentInfo> consumer = new LatchedConsumer<>(1);
-        mLoader.loadDocInfo(validUri, consumer);
+        mLoader.loadDocInfo(validUri, mUserId, consumer);
 
         // this is a test double that requires explicitly loading. @see TestLoaderManager
         mLoaderManager.getLoader(0).startLoading();
@@ -120,7 +123,7 @@ public class DocumentLoaderTest extends TestCase {
     public void testInvalidInput() throws Exception {
         Uri invalidUri = Uri.parse("content://poodles/chuckleberry/ham");
         LatchedConsumer<DocumentInfo> consumer = new LatchedConsumer<>(1);
-        mLoader.loadDocInfo(invalidUri, consumer);
+        mLoader.loadDocInfo(invalidUri, mUserId, consumer);
 
         // this is a test double that requires explicitly loading. @see TestLoaderManager
         mLoaderManager.getLoader(0).startLoading();
@@ -136,7 +139,7 @@ public class DocumentLoaderTest extends TestCase {
         LatchedConsumer<DocumentInfo> consumer = new LatchedConsumer<>(1);
 
         try {
-            mLoader.loadDocInfo(invalidUri, consumer);
+            mLoader.loadDocInfo(invalidUri, mUserId, consumer);
 
             // this is a test double that requires explicitly loading. @see TestLoaderManager
             mLoaderManager.getLoader(0).startLoading();
@@ -149,7 +152,7 @@ public class DocumentLoaderTest extends TestCase {
         Uri dirUri = DocumentsContract.buildDocumentUri(
             InspectorProvider.AUTHORITY, DIR_TOP);
 
-        DocumentInfo info = DocumentInfo.fromUri(mResolver, dirUri);
+        DocumentInfo info = DocumentInfo.fromUri(mResolver, dirUri, mUserId);
 
         LatchedConsumer<Integer> consumer = new LatchedConsumer<>(1);
         mLoader.loadDirCount(info, consumer);
@@ -164,7 +167,7 @@ public class DocumentLoaderTest extends TestCase {
         Uri uri = DocumentsContract.buildDocumentUri(
             InspectorProvider.AUTHORITY, NOT_DIRECTORY);
 
-        DocumentInfo info = DocumentInfo.fromUri(mResolver, uri);
+        DocumentInfo info = DocumentInfo.fromUri(mResolver, uri, mUserId);
         LatchedConsumer<Integer> consumer = new LatchedConsumer<>(1);
 
         try {
@@ -180,7 +183,7 @@ public class DocumentLoaderTest extends TestCase {
                 InspectorProvider.AUTHORITY, InspectorProvider.TEST_JPEG);
         LatchedConsumer<Bundle> consumer = new LatchedConsumer<>(1);
 
-        mLoader.getDocumentMetadata(uri, consumer);
+        mLoader.getDocumentMetadata(uri, mUserId, consumer);
         mLoaderManager.getLoader(0).startLoading();
 
         consumer.assertCalled(100, TimeUnit.MILLISECONDS);
@@ -197,7 +200,7 @@ public class DocumentLoaderTest extends TestCase {
                 InspectorProvider.AUTHORITY, InspectorProvider.INVALID_JPEG);
         LatchedConsumer<Bundle> consumer = new LatchedConsumer<>(1);
 
-        mLoader.getDocumentMetadata(uri, consumer);
+        mLoader.getDocumentMetadata(uri, mUserId, consumer);
         mLoaderManager.getLoader(0).startLoading();
 
         consumer.assertCalled(100, TimeUnit.MILLISECONDS);

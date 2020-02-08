@@ -25,6 +25,7 @@ import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.Model;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import libcore.content.type.MimeMap;
@@ -42,13 +43,15 @@ public class TestModel extends Model {
         Document.COLUMN_MIME_TYPE
     };
 
+    private final UserId mUserId;
     private final String mAuthority;
     private int mLastId = 0;
     private Random mRand = new Random();
     private MatrixCursor mCursor;
 
-    public TestModel(String authority, Features features) {
+    public TestModel(UserId userId, String authority, Features features) {
         super(features);
+        mUserId = userId;
         mAuthority = authority;
         reset();
     }
@@ -102,6 +105,7 @@ public class TestModel extends Model {
 
     public DocumentInfo createDocument(String name, String mimeType, int flags) {
         DocumentInfo doc = new DocumentInfo();
+        doc.userId = mUserId;
         doc.authority = mAuthority;
         doc.documentId = Integer.toString(++mLastId);
         doc.derivedUri = DocumentsContract.buildDocumentUri(doc.authority, doc.documentId);

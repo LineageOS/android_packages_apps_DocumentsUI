@@ -16,8 +16,6 @@
 
 package com.android.documentsui;
 
-import androidx.annotation.Nullable;
-
 import static android.content.ContentResolver.wrap;
 
 import android.content.ContentProviderClient;
@@ -31,9 +29,12 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -46,13 +47,16 @@ import java.util.List;
 public interface DocumentsAccess {
 
     @Nullable DocumentInfo getRootDocument(RootInfo root);
-    @Nullable DocumentInfo getDocument(Uri uri);
-    @Nullable DocumentInfo getArchiveDocument(Uri uri);
+    @Nullable DocumentInfo getDocument(Uri uri, UserId userId);
+    @Nullable DocumentInfo getArchiveDocument(Uri uri, UserId userId);
 
     boolean isDocumentUri(Uri uri);
-    @Nullable Path findDocumentPath(Uri uri) throws RemoteException, FileNotFoundException;
 
-    List<DocumentInfo> getDocuments(String authority, List<String> docIds) throws RemoteException;
+    @Nullable
+    Path findDocumentPath(Uri uri, UserId userId) throws RemoteException, FileNotFoundException;
+
+    List<DocumentInfo> getDocuments(UserId userId, String authority, List<String> docIds)
+            throws RemoteException;
 
     @Nullable Uri createDocument(DocumentInfo parentDoc, String mimeType, String displayName);
 
@@ -71,15 +75,16 @@ public interface DocumentsAccess {
         }
 
         @Override
-        public @Nullable DocumentInfo getRootDocument(RootInfo root) {
-            return getDocument(
-                    DocumentsContract.buildDocumentUri(root.authority, root.documentId));
+        @Nullable
+        public DocumentInfo getRootDocument(RootInfo root) {
+            return getDocument(DocumentsContract.buildDocumentUri(root.authority, root.documentId),
+                    root.userId);
         }
 
         @Override
-        public @Nullable DocumentInfo getDocument(Uri uri) {
+        public @Nullable DocumentInfo getDocument(Uri uri, UserId userId) {
             try {
-                return DocumentInfo.fromUri(mContext.getContentResolver(), uri);
+                return DocumentInfo.fromUri(userId.getContentResolver(mContext), uri, userId);
             } catch (FileNotFoundException e) {
                 Log.w(TAG, "Couldn't create DocumentInfo for uri: " + uri);
             }
@@ -88,11 +93,11 @@ public interface DocumentsAccess {
         }
 
         @Override
-        public List<DocumentInfo> getDocuments(String authority, List<String> docIds)
+        public List<DocumentInfo> getDocuments(UserId userId, String authority, List<String> docIds)
                 throws RemoteException {
 
-            try(final ContentProviderClient client = DocumentsApplication
-                    .acquireUnstableProviderOrThrow(mContext.getContentResolver(), authority)) {
+            try (ContentProviderClient client = DocumentsApplication.acquireUnstableProviderOrThrow(
+                    userId.getContentResolver(mContext), authority)) {
 
                 List<DocumentInfo> result = new ArrayList<>(docIds.size());
                 for (String docId : docIds) {
@@ -103,7 +108,7 @@ public interface DocumentsAccess {
                             throw new RemoteException("Failed to move cursor.");
                         }
 
-                        result.add(DocumentInfo.fromCursor(cursor, authority));
+                        result.add(DocumentInfo.fromCursor(cursor, userId, authority));
                     }
                 }
 
@@ -112,9 +117,10 @@ public interface DocumentsAccess {
         }
 
         @Override
-        public DocumentInfo getArchiveDocument(Uri uri) {
-            return getDocument(ArchivesProvider.buildUriForArchive(uri,
-                    ParcelFileDescriptor.MODE_READ_ONLY));
+        public DocumentInfo getArchiveDocument(Uri uri, UserId userId) {
+            return getDocument(
+                    ArchivesProvider.buildUriForArchive(uri, ParcelFileDescriptor.MODE_READ_ONLY),
+                    userId);
         }
 
         @Override
@@ -123,8 +129,9 @@ public interface DocumentsAccess {
         }
 
         @Override
-        public Path findDocumentPath(Uri docUri) throws RemoteException, FileNotFoundException {
-            final ContentResolver resolver = mContext.getContentResolver();
+        public Path findDocumentPath(Uri docUri, UserId userId)
+                throws RemoteException, FileNotFoundException {
+            final ContentResolver resolver = userId.getContentResolver(mContext);
             try (final ContentProviderClient client = DocumentsApplication
                     .acquireUnstableProviderOrThrow(resolver, docUri.getAuthority())) {
                 return DocumentsContract.findDocumentPath(wrap(client), docUri);
@@ -133,7 +140,7 @@ public interface DocumentsAccess {
 
         @Override
         public Uri createDocument(DocumentInfo parentDoc, String mimeType, String displayName) {
-            final ContentResolver resolver = mContext.getContentResolver();
+            final ContentResolver resolver = parentDoc.userId.getContentResolver(mContext);
             try (ContentProviderClient client = DocumentsApplication.acquireUnstableProviderOrThrow(
                         resolver, parentDoc.derivedUri.getAuthority())) {
                 return DocumentsContract.createDocument(

@@ -149,8 +149,8 @@ public final class InspectorController {
         mLoader.reset();
     }
 
-    public void loadInfo(Uri uri) {
-        mLoader.loadDocInfo(uri, this::updateView);
+    public void loadInfo(Uri uri, UserId userId) {
+        mLoader.loadDocInfo(uri, userId, this::updateView);
     }
 
     /**
@@ -187,6 +187,7 @@ public final class InspectorController {
             if (docInfo.isMetadataSupported()) {
                 mLoader.getDocumentMetadata(
                         docInfo.derivedUri,
+                        docInfo.userId,
                         (Bundle bundle) -> {
                             onDocumentMetadataLoaded(docInfo, bundle);
                         });
@@ -281,10 +282,11 @@ public final class InspectorController {
          * Starts the Asynchronous process of loading file data.
          *
          * @param uri - A content uri to query metadata from.
+         * @param userId - A user to load the uri from.
          * @param callback - Function to be called when the loader has finished loading metadata. A
          * DocumentInfo will be sent to this method. DocumentInfo may be null.
          */
-        void loadDocInfo(Uri uri, Consumer<DocumentInfo> callback);
+        void loadDocInfo(Uri uri, UserId userId, Consumer<DocumentInfo> callback);
 
         /**
          * Loads a folders item count.
@@ -303,7 +305,7 @@ public final class InspectorController {
          * @param uri
          * @param callback
          */
-        void getDocumentMetadata(Uri uri, Consumer<Bundle> callback);
+        void getDocumentMetadata(Uri uri, UserId userId, Consumer<Bundle> callback);
     }
 
     /**
