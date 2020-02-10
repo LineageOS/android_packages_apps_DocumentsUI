@@ -24,6 +24,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Process;
 import android.os.UserHandle;
+import android.os.UserManager;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.loader.content.CursorLoader;
@@ -39,12 +40,12 @@ import java.util.Objects;
 public final class UserId {
 
     // A unspecified user is used as when the user's value is uninitialized. e.g. rootInfo.reset()
-    public static UserId UNSPECIFIED_USER = UserId.of(UserHandle.of(-1000));
+    public static final UserId UNSPECIFIED_USER = UserId.of(UserHandle.of(-1000));
     // A current user represents the user of the app's process. It is mainly used for comparison.
-    public static UserId CURRENT_USER = UserId.of(Process.myUserHandle());
+    public static final UserId CURRENT_USER = UserId.of(Process.myUserHandle());
     // A default user represents the user of the app's process. It is mainly used for operation
     // which supports only the current user only.
-    public static UserId DEFAULT_USER = CURRENT_USER;
+    public static final UserId DEFAULT_USER = CURRENT_USER;
 
     private static final int VERSION_INIT = 1;
 
@@ -58,11 +59,9 @@ public final class UserId {
     /**
      * Returns a {@link UserId} for a given {@link UserHandle}.
      */
-    @VisibleForTesting
-    static UserId of(UserHandle userHandle) {
+    public static UserId of(UserHandle userHandle) {
         return new UserId(userHandle);
     }
-
 
     /**
      * Returns a {@link UserId} for the given user id identifier.
@@ -103,6 +102,20 @@ public final class UserId {
      */
     public ContentResolver getContentResolver(Context context) {
         return asContext(context).getContentResolver();
+    }
+
+    /**
+     * Returns true if this user refers to the system user; false otherwise.
+     */
+    public boolean isSystem() {
+        return mUserHandle.isSystem();
+    }
+
+    /**
+     * Returns true if the this user is a managed profile.
+     */
+    public boolean isManagedProfile(UserManager userManager) {
+        return userManager.isManagedProfile(mUserHandle.getIdentifier());
     }
 
     /**

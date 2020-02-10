@@ -113,6 +113,13 @@ public interface ProvidersAccess {
                 continue;
             }
 
+            if (!UserId.CURRENT_USER.equals(root.userId) && !state.supportsCrossProfile()) {
+                if (VERBOSE) {
+                    Log.v(tag, "Excluding root because: action does not support cross profile.");
+                }
+                continue;
+            }
+
             final boolean overlap =
                     MimeTypes.mimeMatches(root.derivedMimeTypes, state.acceptMimes) ||
                     MimeTypes.mimeMatches(state.acceptMimes, root.derivedMimeTypes);
