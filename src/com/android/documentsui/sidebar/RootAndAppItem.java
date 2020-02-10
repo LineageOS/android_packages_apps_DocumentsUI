@@ -41,7 +41,7 @@ class RootAndAppItem extends RootItem {
 
     @Override
     boolean showAppDetails() {
-        mActionHandler.showAppDetails(resolveInfo);
+        mActionHandler.showAppDetails(resolveInfo, userId);
         return true;
     }
 

@@ -361,7 +361,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             mSearchManager.recordHistory();
         } else if (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT) {
             // Explicit file picked, return
-            mInjector.actions.finishPicking(doc.derivedUri);
+            mInjector.actions.finishPicking(doc.getDocumentUri());
             mSearchManager.recordHistory();
         } else if (mState.action == ACTION_CREATE) {
             // Replace selected file
@@ -375,7 +375,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             final int size = docs.size();
             final Uri[] uris = new Uri[size];
             for (int i = 0; i < size; i++) {
-                uris[i] = docs.get(i).derivedUri;
+                uris[i] = docs.get(i).getDocumentUri();
             }
             mInjector.actions.finishPicking(uris);
             mSearchManager.recordHistory();

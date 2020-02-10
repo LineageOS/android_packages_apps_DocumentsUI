@@ -264,7 +264,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     @Override
-    public void showAppDetails(ResolveInfo info) {
+    public void showAppDetails(ResolveInfo info, UserId userId) {
         throw new UnsupportedOperationException("Can't show app details.");
     }
 
@@ -455,7 +455,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         }
 
         try {
-            mActivity.startActivity(intent);
+            doc.userId.startActivityAsUser(mActivity, intent);
             return true;
         } catch (ActivityNotFoundException e) {
             mDialogs.showNoApplicationFound();
@@ -479,7 +479,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         if (intent != null) {
             // TODO: un-work around issue b/24963914. Should be fixed soon.
             try {
-                mActivity.startActivity(intent);
+                doc.userId.startActivityAsUser(mActivity, intent);
                 return true;
             } catch (SecurityException e) {
                 // Carry on to regular view mode.
@@ -498,7 +498,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             Intent manage = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENT);
             manage.setData(doc.derivedUri);
             try {
-                mActivity.startActivity(manage);
+                doc.userId.startActivityAsUser(mActivity, manage);
                 return true;
             } catch (ActivityNotFoundException ex) {
                 // Fall back to regular handling.

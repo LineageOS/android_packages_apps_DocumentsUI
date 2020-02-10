@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.testing;
 
+import android.os.UserHandle;
 import android.provider.DocumentsContract.Root;
 
 import com.android.documentsui.InspectorProvider;
@@ -34,6 +35,8 @@ import javax.annotation.Nullable;
 
 public class TestProvidersAccess implements ProvidersAccess {
 
+    public static final UserId USER_ID = UserId.DEFAULT_USER;
+
     public static final RootInfo DOWNLOADS;
     public static final RootInfo HOME;
     public static final RootInfo HAMMY;
@@ -48,8 +51,7 @@ public class TestProvidersAccess implements ProvidersAccess {
     public static final RootInfo NO_TREE_ROOT;
 
     static {
-        UserId userId = UserId.DEFAULT_USER;
-
+        UserId userId = USER_ID;
         DOWNLOADS = new RootInfo() {{
             flags = Root.FLAG_SUPPORTS_CREATE;
         }};
@@ -154,7 +156,9 @@ public class TestProvidersAccess implements ProvidersAccess {
     }
 
     public static class OtherUser {
-        public static final UserId USER_ID = UserId.of(UserId.DEFAULT_USER.getIdentifier() + 1);
+        public static final UserHandle USER_HANDLE = UserHandle.of(
+                TestProvidersAccess.USER_ID.getIdentifier() + 1);
+        public static final UserId USER_ID = UserId.of(OtherUser.USER_HANDLE);
 
         public static final RootInfo DOWNLOADS;
 

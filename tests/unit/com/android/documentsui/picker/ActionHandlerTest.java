@@ -580,6 +580,17 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testPreviewItem_onOtherUser() throws Exception {
+        mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
+        mActivity.currentRoot = TestProvidersAccess.OtherUser.DOWNLOADS;
+
+        mHandler.onDocumentOpened(TestEnv.OtherUser.FILE_PNG, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR, true);
+        mActivity.assertActivityAsUserStarted(Intent.ACTION_QUICK_VIEW,
+                TestProvidersAccess.OtherUser.USER_HANDLE);
+    }
+
+    @Test
     public void testPreviewItem_archives() throws Exception {
         mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
         mActivity.currentRoot = TestProvidersAccess.HOME;
