@@ -30,6 +30,7 @@ import androidx.legacy.app.ActionBarDrawerToggle;
 
 import com.android.documentsui.base.Display;
 import com.android.documentsui.base.Providers;
+import com.android.documentsui.base.UserId;
 
 /**
  * A facade over the various pieces comprising "roots fragment in a Drawer".
@@ -204,7 +205,7 @@ public abstract class DrawerController implements DrawerListener {
             mToggle.onDrawerOpened(drawerView);
             // Update the information for Storage's root
             DocumentsApplication.getProvidersCache(drawerView.getContext()).updateAuthorityAsync(
-                    Providers.AUTHORITY_STORAGE);
+                    UserId.DEFAULT_USER, Providers.AUTHORITY_STORAGE);
         }
 
         @Override

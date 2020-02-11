@@ -137,6 +137,13 @@ public class State implements android.os.Parcelable {
         return true;
     }
 
+    /**
+     * Returns true if the action of the {@link State} can support cross-profile by DocsUI.
+     */
+    public boolean supportsCrossProfile() {
+        return action == ACTION_GET_CONTENT;
+    }
+
     @Override
     public int describeContents() {
         return 0;

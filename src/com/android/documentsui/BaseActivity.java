@@ -95,6 +95,7 @@ public abstract class BaseActivity
     protected Injector<?> mInjector;
 
     protected ProvidersCache mProviders;
+    protected UserIdManager mUserIdManager;
     protected DocumentsAccess mDocs;
     protected DrawerController mDrawer;
 
@@ -152,6 +153,7 @@ public abstract class BaseActivity
         mDrawer = DrawerController.create(this, mInjector.config);
         Metrics.logActivityLaunch(mState, intent);
 
+        mUserIdManager = DocumentsApplication.getUserIdManager(this);
         mProviders = DocumentsApplication.getProvidersCache(this);
         mDocs = DocumentsAccess.create(this);
 
