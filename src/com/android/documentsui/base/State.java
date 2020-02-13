@@ -85,6 +85,11 @@ public class State implements android.os.Parcelable {
     public boolean openableOnly;
 
     /**
+     * Represents whether the intent is a cross-profile intent
+     */
+    public boolean canShareAcrossProfile = false;
+
+    /**
      * This is basically a sub-type for the copy operation. It can be either COPY,
      * COMPRESS, EXTRACT or MOVE.
      * The only legal values, if set, are: OPERATION_COPY, OPERATION_COMPRESS,

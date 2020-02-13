@@ -91,7 +91,7 @@ public class RootsFragment extends Fragment {
 
     private static final String TAG = "RootsFragment";
     private static final String EXTRA_INCLUDE_APPS = "includeApps";
-    private static final String PROFILE_TARGET_ACTIVITY =
+    public static final String PROFILE_TARGET_ACTIVITY =
             "com.android.internal.app.IntentForwarderActivity";
     private static final int CONTEXT_MENU_ITEM_TIMEOUT = 500;
 
@@ -384,6 +384,8 @@ public class RootsFragment extends Fragment {
 
                 // for change personal profile root.
                 if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
+                    // TODO: only set in current user
+                    getBaseActivity().getDisplayState().canShareAcrossProfile = true;
                     profileItem = new ProfileItem(info, info.loadLabel(pm).toString(),
                             mActionHandler);
                 } else {

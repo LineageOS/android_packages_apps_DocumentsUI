@@ -22,6 +22,7 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.TAG;
 
 import android.database.AbstractCursor;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.DocumentsContract.Document;
@@ -135,5 +136,15 @@ public class FilteringCursorWrapper extends AbstractCursor {
     @Override
     public boolean isNull(int column) {
         return mCursor.isNull(column);
+    }
+
+    @Override
+    public void registerContentObserver(ContentObserver observer) {
+        mCursor.registerContentObserver(observer);
+    }
+
+    @Override
+    public void unregisterContentObserver(ContentObserver observer) {
+        mCursor.unregisterContentObserver(observer);
     }
 }
