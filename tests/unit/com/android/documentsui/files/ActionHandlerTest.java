@@ -567,9 +567,10 @@ public class ActionHandlerTest {
         refreshAnswer = false;
         mEnv.populateStack();
         mHandler.refreshDocument(mEnv.model.getDocument(
-                ModelId.build(TestProvidersAccess.HOME.authority, "1")), (boolean answer) -> {
-            refreshAnswer = answer;
-        });
+                ModelId.build(mEnv.model.mUserId, TestProvidersAccess.HOME.authority, "1")),
+                (boolean answer) -> {
+                    refreshAnswer = answer;
+                });
 
         mEnv.beforeAsserts();
         if (mEnv.features.isContentRefreshEnabled()) {

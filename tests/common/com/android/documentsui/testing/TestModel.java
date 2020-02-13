@@ -43,7 +43,7 @@ public class TestModel extends Model {
         Document.COLUMN_MIME_TYPE
     };
 
-    private final UserId mUserId;
+    public final UserId mUserId;
     private final String mAuthority;
     private int mLastId = 0;
     private Random mRand = new Random();

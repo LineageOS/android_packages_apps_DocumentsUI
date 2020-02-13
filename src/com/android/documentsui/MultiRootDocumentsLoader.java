@@ -330,10 +330,6 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
         }
         FileUtils.closeQuietly(mResult);
         mResult = null;
-
-        if (mObserver != null) {
-            getContext().getContentResolver().unregisterContentObserver(mObserver);
-        }
     }
 
     // TODO: create better transfer of ownership around cursor to ensure its
@@ -402,17 +398,17 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
                 return;
             }
 
-            ContentProviderClient client = null;
-            try {
-                client = DocumentsApplication.acquireUnstableProviderOrThrow(
-                        getContext().getContentResolver(), authority);
+            final int rootInfoCount = rootInfos.size();
+            final Cursor[] res = new Cursor[rootInfoCount];
+            mCursors = new Cursor[rootInfoCount];
 
-                final int rootInfoCount = rootInfos.size();
-                final Cursor[] res = new Cursor[rootInfoCount];
-                mCursors = new Cursor[rootInfoCount];
-
-                for (int i = 0; i < rootInfoCount; i++) {
-                    final Uri uri = getQueryUri(rootInfos.get(i));
+            for (int i = 0; i < rootInfoCount; i++) {
+                final RootInfo rootInfo = rootInfos.get(i);
+                try (ContentProviderClient client =
+                             DocumentsApplication.acquireUnstableProviderOrThrow(
+                                     rootInfo.userId.getContentResolver(getContext()),
+                                     authority)) {
+                    final Uri uri = getQueryUri(rootInfo);
                     try {
                         final Bundle queryArgs = new Bundle();
                         mState.sortModel.addQuerySortArgs(queryArgs);
@@ -421,17 +417,14 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
                         if (mObserver != null) {
                             res[i].registerContentObserver(mObserver);
                         }
-                        mCursors[i] = generateResultCursor(rootInfos.get(i), res[i]);
+                        mCursors[i] = generateResultCursor(rootInfo, res[i]);
                     } catch (Exception e) {
-                        Log.w(TAG, "Failed to load " + authority + ", " + rootInfos.get(i).rootId,
-                                e);
+                        Log.w(TAG, "Failed to load " + authority + ", " + rootInfo.rootId, e);
                     }
-                }
 
-            } catch (Exception e) {
-                Log.w(TAG, "Failed to acquire content resolver for authority: " + authority);
-            } finally {
-                FileUtils.closeQuietly(client);
+                } catch (Exception e) {
+                    Log.w(TAG, "Failed to acquire content resolver for authority: " + authority);
+                }
             }
 
             set(mCursors);
@@ -449,6 +442,9 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
             }
 
             for (Cursor cursor : mCursors) {
+                if (mObserver != null && cursor != null) {
+                    cursor.unregisterContentObserver(mObserver);
+                }
                 FileUtils.closeQuietly(cursor);
             }
 
