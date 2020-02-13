@@ -154,6 +154,42 @@ public class UserIdManagerTest {
         }
     }
 
+    @Test
+    public void testGetUserIds_systemUserAndManagedUser_returnCachedList() {
+        // Returns the both if there are system and managed users.
+        UserId currentUser = UserId.of(systemUser);
+        initializeUserIdManager(currentUser, Arrays.asList(systemUser, managedUser1));
+        assertThat(mUserIdManager.getUserIds()).isSameAs(mUserIdManager.getUserIds());
+    }
+
+    @Test
+    public void testGetManagedUser_contains() {
+        UserId currentUser = UserId.of(systemUser);
+        initializeUserIdManager(currentUser, Arrays.asList(systemUser, managedUser1));
+        assertThat(mUserIdManager.getManagedUser()).isEqualTo(UserId.of(managedUser1));
+    }
+
+    @Test
+    public void testGetSystemUser_contains() {
+        UserId currentUser = UserId.of(systemUser);
+        initializeUserIdManager(currentUser, Arrays.asList(systemUser, managedUser1));
+        assertThat(mUserIdManager.getSystemUser()).isEqualTo(UserId.of(systemUser));
+    }
+
+    @Test
+    public void testGetSystemUser_singletonList_returnNull() {
+        UserId currentUser = UserId.of(systemUser);
+        initializeUserIdManager(currentUser, Arrays.asList(systemUser));
+        assertThat(mUserIdManager.getSystemUser()).isNull();
+    }
+
+    @Test
+    public void testGetManagedUser_missing() {
+        UserId currentUser = UserId.of(systemUser);
+        initializeUserIdManager(currentUser, Arrays.asList(systemUser, nonManagedUser1));
+        assertThat(mUserIdManager.getManagedUser()).isNull();
+    }
+
     private void initializeUserIdManager(UserId current, List<UserHandle> usersOnDevice) {
         when(mockUserManager.getUserProfiles()).thenReturn(usersOnDevice);
         mUserIdManager = new UserIdManager.RuntimeUserIdManager(mockContext, current, true);

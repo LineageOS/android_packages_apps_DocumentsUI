@@ -483,4 +483,10 @@
 
     <!-- Content description for deleting search history. [CHAR_LIMIT=60] -->
     <string name="delete_search_history">Delete search history <xliff:g id="text" example="image">%1$s</xliff:g></string>
+
+    <!-- Label of tab to indicate personal directory [CHAR LIMIT=40] -->
+    <string name="personal_tab">Personal</string>
+
+    <!-- Label of tab to indicate work directory [CHAR LIMIT=40] -->
+    <string name="work_tab">Work</string>
 </resources>

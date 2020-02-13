@@ -327,6 +327,10 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
                 || derivedType == TYPE_SD;
     }
 
+    public boolean isPhoneStorage() {
+        return derivedType == TYPE_LOCAL;
+    }
+
     public boolean hasSettings() {
         return (flags & Root.FLAG_HAS_SETTINGS) != 0;
     }
@@ -373,6 +377,13 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
 
     public boolean isUsb() {
         return (flags & Root.FLAG_REMOVABLE_USB) != 0;
+    }
+
+    /**
+     * Returns true if this root supports cross profile.
+     */
+    public boolean supportsCrossProfile() {
+        return isLibrary() || isDownloads() || isPhoneStorage();
     }
 
     private Drawable loadMimeTypeIcon(Context context) {

@@ -75,6 +75,7 @@ import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,7 +96,6 @@ public abstract class BaseActivity
     protected Injector<?> mInjector;
 
     protected ProvidersCache mProviders;
-    protected UserIdManager mUserIdManager;
     protected DocumentsAccess mDocs;
     protected DrawerController mDrawer;
 
@@ -153,7 +153,6 @@ public abstract class BaseActivity
         mDrawer = DrawerController.create(this, mInjector.config);
         Metrics.logActivityLaunch(mState, intent);
 
-        mUserIdManager = DocumentsApplication.getUserIdManager(this);
         mProviders = DocumentsApplication.getProvidersCache(this);
         mDocs = DocumentsAccess.create(this);
 
@@ -162,8 +161,11 @@ public abstract class BaseActivity
 
         Breadcrumb breadcrumb = findViewById(R.id.horizontal_breadcrumb);
         assert(breadcrumb != null);
+        TabLayout profileTabs = findViewById(R.id.tabs);
+        assert (profileTabs != null);
 
-        mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb);
+        mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
+                profileTabs, DocumentsApplication.getUserIdManager(this));
         SearchManagerListener searchListener = new SearchManagerListener() {
             /**
              * Called when search results changed. Refreshes the content of the directory. It
@@ -736,6 +738,11 @@ public abstract class BaseActivity
     @Override
     public boolean isSearchExpanded() {
         return mSearchManager.isExpanded();
+    }
+
+    @Override
+    public boolean isSearching() {
+        return mSearchManager.isSearching();
     }
 
     @Override
