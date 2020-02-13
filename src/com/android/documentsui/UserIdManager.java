@@ -36,6 +36,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.os.BuildCompat;
 
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.UserId;
 
 import java.util.ArrayList;
@@ -80,8 +81,6 @@ public interface UserIdManager {
 
         private static final String TAG = "UserIdManager";
 
-        private static final boolean ENABLE_MULTI_PROFILES = false; // compile-time feature flag
-
         private final Context mContext;
         private final UserId mCurrentUser;
         private final boolean mIsDeviceSupported;
@@ -105,7 +104,7 @@ public interface UserIdManager {
 
         private RuntimeUserIdManager(Context context) {
             this(context, UserId.CURRENT_USER,
-                    ENABLE_MULTI_PROFILES && isDeviceSupported(context));
+                    Features.CROSS_PROFILE_TABS && isDeviceSupported(context));
         }
 
         @VisibleForTesting

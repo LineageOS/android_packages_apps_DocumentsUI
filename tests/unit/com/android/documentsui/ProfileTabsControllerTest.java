@@ -28,9 +28,10 @@ import org.junit.Test;
 public class ProfileTabsControllerTest {
 
     private SelectionTracker<String> mSelectionMgr = SelectionHelpers.createTestInstance();
-    private Boolean testEnabledValue = null;
+
+    private FakeProfileTabs mFakeProfileTabs = new FakeProfileTabs();
     private ProfileTabsController mController = new ProfileTabsController(mSelectionMgr,
-            enabled -> testEnabledValue = enabled);
+            enabled -> mFakeProfileTabs.enabled = enabled);
 
     @Before
     public void setUp() throws Exception {
@@ -40,14 +41,14 @@ public class ProfileTabsControllerTest {
     @Test
     public void testNoSelection_enable() {
         mController.onSelectionRestored();
-        assertThat(testEnabledValue).isTrue();
+        assertThat(mFakeProfileTabs.isEnabled()).isTrue();
     }
 
     @Test
     public void testClearSelection_enable() {
         mSelectionMgr.select("foo");
         mSelectionMgr.clearSelection();
-        assertThat(testEnabledValue).isTrue();
+        assertThat(mFakeProfileTabs.isEnabled()).isTrue();
     }
 
     @Test
@@ -56,13 +57,13 @@ public class ProfileTabsControllerTest {
         mSelectionMgr.select("bar");
         mSelectionMgr.deselect("foo");
         mSelectionMgr.deselect("bar");
-        assertThat(testEnabledValue).isTrue();
+        assertThat(mFakeProfileTabs.isEnabled()).isTrue();
     }
 
     @Test
     public void testSelection_disable() {
         mSelectionMgr.select("foo");
-        assertThat(testEnabledValue).isFalse();
+        assertThat(mFakeProfileTabs.isEnabled()).isFalse();
     }
 
     @Test
@@ -70,7 +71,7 @@ public class ProfileTabsControllerTest {
         mSelectionMgr.select("foo");
         mSelectionMgr.select("bar");
         mSelectionMgr.select("apple");
-        assertThat(testEnabledValue).isFalse();
+        assertThat(mFakeProfileTabs.isEnabled()).isFalse();
     }
 
     @Test
@@ -78,6 +79,17 @@ public class ProfileTabsControllerTest {
         mSelectionMgr.select("foo");
         mSelectionMgr.select("bar");
         mSelectionMgr.deselect("bar");
-        assertThat(testEnabledValue).isFalse();
+        assertThat(mFakeProfileTabs.isEnabled()).isFalse();
+    }
+
+    private static class FakeProfileTabs {
+        Boolean enabled = null;
+
+        boolean isEnabled() {
+            if (enabled == null) {
+                throw new IllegalArgumentException("Not initialized");
+            }
+            return enabled;
+        }
     }
 }

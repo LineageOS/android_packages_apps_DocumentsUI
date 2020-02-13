@@ -36,27 +36,29 @@ public class LoadRootTask<T extends Activity & CommonAddons>
 
     protected final ProvidersAccess mProviders;
     private final Uri mRootUri;
+    private final UserId mUserId;
     private final LoadRootCallback mCallback;
 
     public LoadRootTask(
             T activity,
             ProvidersAccess providers,
             Uri rootUri,
+            UserId userId,
             LoadRootCallback callback) {
         super(activity);
         mProviders = providers;
         mRootUri = rootUri;
+        mUserId = userId;
         mCallback = callback;
     }
 
     @Override
     protected RootInfo run(Void... params) {
         if (DEBUG) {
-            Log.d(TAG, "Loading root: " + mRootUri);
+            Log.d(TAG, "Loading root: " + mRootUri + " on user " + mUserId);
         }
 
-        return mProviders.getRootOneshot(UserId.DEFAULT_USER, mRootUri.getAuthority(),
-                getRootId(mRootUri));
+        return mProviders.getRootOneshot(mUserId, mRootUri.getAuthority(), getRootId(mRootUri));
     }
 
     @Override
@@ -66,7 +68,7 @@ public class LoadRootTask<T extends Activity & CommonAddons>
                 Log.d(TAG, "Loaded root: " + root);
             }
         } else {
-            Log.w(TAG, "Failed to find root: " + mRootUri);
+            Log.w(TAG, "Failed to find root: " + mRootUri + " on user " + mUserId);
         }
 
         mCallback.onRootLoaded(root);

@@ -67,6 +67,7 @@ import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Events;
+import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -247,7 +248,9 @@ public class RootsFragment extends Fragment {
                         intent.getBooleanExtra(DocumentsContract.EXTRA_EXCLUDE_SELF, false);
                 final String excludePackage = excludeSelf ? activity.getCallingPackage() : null;
                 List<Item> sortedItems = sortLoadResult(roots, excludePackage, handlerAppIntent,
-                        DocumentsApplication.getProvidersCache(getContext()));
+                        DocumentsApplication.getProvidersCache(getContext()),
+                        getBaseActivity().getSelectedUser(),
+                        DocumentsApplication.getUserIdManager(getContext()).getUserIds());
 
                 // Get the first visible position and offset
                 final int firstPosition = mList.getFirstVisiblePosition();
@@ -289,11 +292,14 @@ public class RootsFragment extends Fragment {
             Collection<RootInfo> roots,
             @Nullable String excludePackage,
             @Nullable Intent handlerAppIntent,
-            ProvidersAccess providersAccess) {
+            ProvidersAccess providersAccess,
+            UserId selectedUser,
+            List<UserId> userIds) {
         final List<Item> result = new ArrayList<>();
 
-        final List<RootItem> libraries = new ArrayList<>();
-        final List<RootItem> storageProviders = new ArrayList<>();
+        final RootItemListBuilder librariesBuilder = new RootItemListBuilder(selectedUser, userIds);
+        final RootItemListBuilder storageProvidersBuilder = new RootItemListBuilder(selectedUser,
+                userIds);
         final List<RootItem> otherProviders = new ArrayList<>();
 
         for (final RootInfo root : roots) {
@@ -301,16 +307,19 @@ public class RootsFragment extends Fragment {
 
             if (root.isLibrary() || root.isDownloads()) {
                 item = new RootItem(root, mActionHandler);
-                libraries.add(item);
+                librariesBuilder.add(item);
             } else if (root.isStorage()) {
                 item = new RootItem(root, mActionHandler);
-                storageProviders.add(item);
+                storageProvidersBuilder.add(item);
             } else {
                 item = new RootItem(root, mActionHandler,
                         providersAccess.getPackageName(root.userId, root.authority));
                 otherProviders.add(item);
             }
         }
+
+        final List<RootItem> libraries = librariesBuilder.getList();
+        final List<RootItem> storageProviders = storageProvidersBuilder.getList();
 
         final RootComparator comp = new RootComparator();
         Collections.sort(libraries, comp);
@@ -328,7 +337,7 @@ public class RootsFragment extends Fragment {
 
         // Include apps that can handle this intent too.
         if (handlerAppIntent != null) {
-            includeHandlerApps(handlerAppIntent, excludePackage, result, otherProviders);
+            includeHandlerApps(handlerAppIntent, excludePackage, result, otherProviders, userIds);
         } else {
             // Only add providers
             Collections.sort(otherProviders, comp);
@@ -343,7 +352,6 @@ public class RootsFragment extends Fragment {
                 mApplicationItemList.add(item);
             }
         }
-
         return result;
     }
 
@@ -353,46 +361,50 @@ public class RootsFragment extends Fragment {
      */
     private void includeHandlerApps(
             Intent handlerAppIntent, @Nullable String excludePackage, List<Item> result,
-            List<RootItem> otherProviders) {
+            List<RootItem> otherProviders, List<UserId> userIds) {
         if (VERBOSE) Log.v(TAG, "Adding handler apps for intent: " + handlerAppIntent);
 
-        UserId userId = UserId.DEFAULT_USER;
         Context context = getContext();
-        final PackageManager pm = userId.getPackageManager(context);
-        final List<ResolveInfo> infos = pm.queryIntentActivities(
-                handlerAppIntent, PackageManager.MATCH_DEFAULT_ONLY);
-
         final List<Item> rootList = new ArrayList<>();
+        final List<Item> rootListOtherUser = new ArrayList<>();
         final Map<UserPackage, ResolveInfo> appsMapping = new HashMap<>();
         final Map<UserPackage, Item> appItems = new HashMap<>();
         ProfileItem profileItem = null;
 
-        // Omit ourselves and maybe calling package from the list
-        for (ResolveInfo info : infos) {
-            if (!info.activityInfo.exported) {
-                if (VERBOSE) {
-                    Log.v(TAG, "Non exported activity: " + info.activityInfo);
+        final String myPackageName = context.getPackageName();
+        for (UserId userId : userIds) {
+            final PackageManager pm = userId.getPackageManager(context);
+            final List<ResolveInfo> infos = pm.queryIntentActivities(
+                    handlerAppIntent, PackageManager.MATCH_DEFAULT_ONLY);
+
+            // Omit ourselves and maybe calling package from the list
+            for (ResolveInfo info : infos) {
+                if (!info.activityInfo.exported) {
+                    if (VERBOSE) {
+                        Log.v(TAG, "Non exported activity: " + info.activityInfo);
+                    }
+                    continue;
                 }
-                continue;
-            }
 
-            final String packageName = info.activityInfo.packageName;
-            if (!context.getPackageName().equals(packageName) &&
-                    !TextUtils.equals(excludePackage, packageName)) {
-                UserPackage userPackage = new UserPackage(userId, packageName);
-                appsMapping.put(userPackage, info);
+                final String packageName = info.activityInfo.packageName;
+                if (!myPackageName.equals(packageName)
+                        && !TextUtils.equals(excludePackage, packageName)) {
+                    UserPackage userPackage = new UserPackage(userId, packageName);
+                    appsMapping.put(userPackage, info);
 
-                // for change personal profile root.
-                if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
-                    // TODO: only set in current user
-                    getBaseActivity().getDisplayState().canShareAcrossProfile = true;
-                    profileItem = new ProfileItem(info, info.loadLabel(pm).toString(),
-                            mActionHandler);
-                } else {
-                    final Item item = new AppItem(info, info.loadLabel(pm).toString(), userId,
-                            mActionHandler);
-                    appItems.put(userPackage, item);
-                    if (VERBOSE) Log.v(TAG, "Adding handler app: " + item);
+                    // for change personal profile root.
+                    if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
+                        if (UserId.CURRENT_USER.equals(userId)) {
+                            getBaseActivity().getDisplayState().canShareAcrossProfile = true;
+                            profileItem = new ProfileItem(info, info.loadLabel(pm).toString(),
+                                    mActionHandler);
+                        }
+                    } else {
+                        final Item item = new AppItem(info, info.loadLabel(pm).toString(), userId,
+                                mActionHandler);
+                        appItems.put(userPackage, item);
+                        if (VERBOSE) Log.v(TAG, "Adding handler app: " + item);
+                    }
                 }
             }
         }
@@ -411,11 +423,27 @@ public class RootsFragment extends Fragment {
                 item = rootItem;
             }
 
-            if (VERBOSE) Log.v(TAG, "Adding provider : " + item);
-            rootList.add(item);
+            if (UserId.CURRENT_USER.equals(item.userId)) {
+                if (VERBOSE) Log.v(TAG, "Adding provider : " + item);
+                rootList.add(item);
+            } else {
+                if (VERBOSE) Log.v(TAG, "Adding provider to other users : " + item);
+                rootListOtherUser.add(item);
+            }
         }
 
-        rootList.addAll(appItems.values());
+        for (Item item : appItems.values()) {
+            if (UserId.CURRENT_USER.equals(item.userId)) {
+                rootList.add(item);
+            } else {
+                rootListOtherUser.add(item);
+            }
+        }
+
+        if (profileItem != null && Features.CROSS_PROFILE_TABS) {
+            // Combine lists only if we enabled profile tab feature.
+            rootList.addAll(rootListOtherUser);
+        }
 
         if (!result.isEmpty() && !rootList.isEmpty()) {
             result.add(new SpacerItem());
@@ -430,7 +458,8 @@ public class RootsFragment extends Fragment {
 
         mApplicationItemList = rootList;
 
-        if (profileItem != null) {
+        if (profileItem != null && !Features.CROSS_PROFILE_TABS) {
+            // Add profile item if we don't support cross-profile tab.
             result.add(new SpacerItem());
             result.add(profileItem);
         }
@@ -443,7 +472,7 @@ public class RootsFragment extends Fragment {
         // Update the information for Storage's root
         if (context != null) {
             DocumentsApplication.getProvidersCache(context).updateAuthorityAsync(
-                    UserId.DEFAULT_USER, Providers.AUTHORITY_STORAGE);
+                    ((BaseActivity) context).getSelectedUser(), Providers.AUTHORITY_STORAGE);
         }
         onDisplayStateChanged();
     }
@@ -480,6 +509,13 @@ public class RootsFragment extends Fragment {
                 }
             }
         }
+    }
+
+    /**
+     * Called when the selected user is changed. It reloads roots with the current user.
+     */
+    public void onSelectedUserChanged() {
+        LoaderManager.getInstance(this).restartLoader(/* id= */ 2, /* args= */ null, mCallbacks);
     }
 
     /**

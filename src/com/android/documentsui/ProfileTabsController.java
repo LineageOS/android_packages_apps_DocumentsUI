@@ -16,11 +16,13 @@
 
 package com.android.documentsui;
 
+import static androidx.core.util.Preconditions.checkNotNull;
+
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.SelectionTracker.SelectionObserver;
 
 /**
- * A controller that listens to selection changes and control profile tabs behavior.
+ * A controller that listens to selection changes and controls profile tabs behavior.
  */
 public class ProfileTabsController extends SelectionObserver<String> {
 
@@ -32,17 +34,21 @@ public class ProfileTabsController extends SelectionObserver<String> {
     public ProfileTabsController(
             SelectionTracker<String> selectionMgr,
             ProfileTabsAddons profileTabsAddons) {
-        mSelectionMgr = selectionMgr;
-        mProfileTabsAddons = profileTabsAddons;
+        mSelectionMgr = checkNotNull(selectionMgr);
+        mProfileTabsAddons = checkNotNull(profileTabsAddons);
     }
 
     @Override
     public void onSelectionChanged() {
-        mProfileTabsAddons.setEnabled(mSelectionMgr.getSelection().isEmpty());
+        onSelectionUpdated();
     }
 
     @Override
     public void onSelectionRestored() {
-        onSelectionChanged();
+        onSelectionUpdated();
+    }
+
+    private void onSelectionUpdated() {
+        mProfileTabsAddons.setEnabled(mSelectionMgr.getSelection().isEmpty());
     }
 }

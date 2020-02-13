@@ -30,7 +30,6 @@ import androidx.legacy.app.ActionBarDrawerToggle;
 
 import com.android.documentsui.base.Display;
 import com.android.documentsui.base.Providers;
-import com.android.documentsui.base.UserId;
 
 /**
  * A facade over the various pieces comprising "roots fragment in a Drawer".
@@ -49,7 +48,7 @@ public abstract class DrawerController implements DrawerListener {
     /**
      * Returns a controller suitable for {@code Layout}.
      */
-    public static DrawerController create(Activity activity, ActivityConfig activityConfig) {
+    public static DrawerController create(BaseActivity activity, ActivityConfig activityConfig) {
 
         DrawerLayout layout = (DrawerLayout) activity.findViewById(R.id.drawer_layout);
 
@@ -68,7 +67,8 @@ public abstract class DrawerController implements DrawerListener {
                 R.string.drawer_open,
                 R.string.drawer_close);
 
-        return new RuntimeDrawerController(layout, drawer, toggle, toolbar, activityConfig);
+        return new RuntimeDrawerController(layout, drawer, toggle, toolbar, activityConfig,
+                activity);
     }
 
     /**
@@ -101,19 +101,22 @@ public abstract class DrawerController implements DrawerListener {
         private DrawerLayout mLayout;
         private View mDrawer;
         private Toolbar mToolbar;
+        private AbstractActionHandler.CommonAddons mCommonAddons;
 
         public RuntimeDrawerController(
                 DrawerLayout layout,
                 View drawer,
                 ActionBarDrawerToggle toggle,
                 Toolbar drawerToolbar,
-                ActivityConfig activityConfig) {
+                ActivityConfig activityConfig,
+                AbstractActionHandler.CommonAddons commonAddons) {
             mToolbar = drawerToolbar;
             assert(layout != null);
 
             mLayout = layout;
             mDrawer = drawer;
             mToggle = toggle;
+            mCommonAddons = commonAddons;
 
             mLayout.setDrawerListener(this);
 
@@ -205,7 +208,7 @@ public abstract class DrawerController implements DrawerListener {
             mToggle.onDrawerOpened(drawerView);
             // Update the information for Storage's root
             DocumentsApplication.getProvidersCache(drawerView.getContext()).updateAuthorityAsync(
-                    UserId.DEFAULT_USER, Providers.AUTHORITY_STORAGE);
+                    mCommonAddons.getSelectedUser(), Providers.AUTHORITY_STORAGE);
         }
 
         @Override
