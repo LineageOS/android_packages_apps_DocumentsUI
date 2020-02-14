@@ -28,6 +28,12 @@
     <!-- used for search chip. -->
     <include layout="@layout/search_chip_row"/>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
     <!-- used for apps row. -->
     <include layout="@layout/apps_row"/>
 
