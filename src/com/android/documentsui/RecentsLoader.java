@@ -26,6 +26,7 @@ import android.text.format.DateUtils;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.RootCursorWrapper;
 
@@ -43,9 +44,12 @@ public class RecentsLoader extends MultiRootDocumentsLoader {
     /** Maximum documents from a single root. */
     private static final int MAX_DOCS_FROM_ROOT = 64;
 
+    private final UserId mUserId;
+
     public RecentsLoader(Context context, ProvidersAccess providers, State state,
-            Lookup<String, Executor> executors, Lookup<String, String> fileTypeMap) {
+            Lookup<String, Executor> executors, Lookup<String, String> fileTypeMap, UserId userId) {
         super(context, providers, state, executors, fileTypeMap);
+        mUserId = userId;
     }
 
     @Override
@@ -60,8 +64,8 @@ public class RecentsLoader extends MultiRootDocumentsLoader {
 
     @Override
     protected boolean shouldIgnoreRoot(RootInfo root) {
-        // only query the root is local only and support recents
-        return !root.isLocalOnly() || !root.supportsRecents();
+        // only query the root is local only, support recents, and is from the selected user.
+        return !root.isLocalOnly() || !root.supportsRecents() || !mUserId.equals(root.userId);
     }
 
     @Override
