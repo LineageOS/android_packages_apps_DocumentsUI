@@ -20,7 +20,6 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
-import androidx.annotation.IntDef;
 import android.app.AuthenticationRequiredException;
 import android.database.Cursor;
 import android.net.Uri;
@@ -29,6 +28,7 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
+import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.selection.Selection;
@@ -37,6 +37,7 @@ import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Features;
+import com.android.documentsui.base.UserId;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -256,6 +257,11 @@ public class Model {
     public Uri getItemUri(String modelId) {
         final Cursor cursor = getItem(modelId);
         return DocumentInfo.getUri(cursor);
+    }
+
+    public UserId getItemUserId(String modelId) {
+        final Cursor cursor = getItem(modelId);
+        return DocumentInfo.getUserId(cursor);
     }
 
     /**

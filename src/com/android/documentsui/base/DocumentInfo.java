@@ -418,6 +418,10 @@ public class DocumentInfo implements Durable, Parcelable {
             getCursorString(cursor, Document.COLUMN_DOCUMENT_ID));
     }
 
+    public static UserId getUserId(Cursor cursor) {
+        return UserId.of(getCursorInt(cursor, RootCursorWrapper.COLUMN_USER_ID));
+    }
+
     public static void addMimeTypes(ContentResolver resolver, Uri uri, Set<String> mimeTypes) {
         assert(uri != null);
         if ("content".equals(uri.getScheme())) {

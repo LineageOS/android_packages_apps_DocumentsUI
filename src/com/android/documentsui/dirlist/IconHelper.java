@@ -44,6 +44,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
+import com.android.documentsui.base.UserId;
 
 import java.util.function.BiConsumer;
 
@@ -136,7 +137,7 @@ public class IconHelper {
             ImageView iconThumb,
             ImageView iconMime,
             @Nullable ImageView subIconMime) {
-        load(doc.derivedUri, doc.mimeType, doc.flags, doc.icon, doc.lastModified,
+        load(doc.derivedUri, doc.userId, doc.mimeType, doc.flags, doc.icon, doc.lastModified,
                 iconThumb, iconMime, subIconMime);
     }
 
@@ -153,8 +154,9 @@ public class IconHelper {
      * @param subIconMime The second itemview's mime icon. Always visible.
      * @return
      */
-    public void load(Uri uri, String mimeType, int docFlags, int docIcon, long docLastModified,
-            ImageView iconThumb, ImageView iconMime, @Nullable ImageView subIconMime) {
+    public void load(Uri uri, UserId userId, String mimeType, int docFlags, int docIcon,
+            long docLastModified, ImageView iconThumb, ImageView iconMime,
+            @Nullable ImageView subIconMime) {
         boolean loadedThumbnail = false;
 
         final String docAuthority = uri.getAuthority();
@@ -165,7 +167,7 @@ public class IconHelper {
         final boolean showThumbnail = supportsThumbnail && allowThumbnail && mThumbnailsEnabled;
         if (showThumbnail) {
             loadedThumbnail =
-                loadThumbnail(uri, docAuthority, docLastModified, iconThumb, iconMime);
+                loadThumbnail(uri, userId, docAuthority, docLastModified, iconThumb, iconMime);
         }
 
         final Drawable mimeIcon = getDocumentIcon(mContext, docAuthority,
@@ -183,9 +185,9 @@ public class IconHelper {
         }
     }
 
-    private boolean loadThumbnail(Uri uri, String docAuthority, long docLastModified,
+    private boolean loadThumbnail(Uri uri, UserId userId, String docAuthority, long docLastModified,
             ImageView iconThumb, ImageView iconMime) {
-        final Result result = mThumbnailCache.getThumbnail(uri, mCurrentSize);
+        final Result result = mThumbnailCache.getThumbnail(uri, userId, mCurrentSize);
 
         try {
             final Bitmap cachedThumbnail = result.getThumbnail();
@@ -200,7 +202,7 @@ public class IconHelper {
                         (cachedThumbnail == null ? ThumbnailLoader.ANIM_FADE_IN :
                                 ThumbnailLoader.ANIM_NO_OP);
 
-                final ThumbnailLoader task = new ThumbnailLoader(uri, iconThumb,
+                final ThumbnailLoader task = new ThumbnailLoader(uri, userId, iconThumb,
                         mCurrentSize, docLastModified,
                         bitmap -> {
                             if (bitmap != null) {
