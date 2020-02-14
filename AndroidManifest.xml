@@ -35,7 +35,8 @@
         android:supportsRtl="true"
         android:allowBackup="true"
         android:backupAgent=".prefs.BackupAgent"
-        android:fullBackupOnly="false">
+        android:fullBackupOnly="false"
+        android:crossProfile="true">
 
         <meta-data
             android:name="com.google.android.backup.api_key"
