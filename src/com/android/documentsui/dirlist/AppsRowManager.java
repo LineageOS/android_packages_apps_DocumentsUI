@@ -27,6 +27,7 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AppsRowItemData.AppData;
 import com.android.documentsui.dirlist.AppsRowItemData.RootData;
 import com.android.documentsui.sidebar.AppItem;
@@ -90,16 +91,20 @@ public class AppsRowManager {
             return;
         }
 
-        appsRowLayout.setVisibility(View.VISIBLE);
         final LinearLayout appsGroup = activity.findViewById(R.id.apps_group);
         appsGroup.removeAllViews();
 
         final LayoutInflater inflater = activity.getLayoutInflater();
+        final UserId selectedUser = activity.getSelectedUser();
         for (AppsRowItemData data : mDataList) {
-            View item = inflater.inflate(R.layout.apps_item, appsGroup, false);
-            bindView(item, data);
-            appsGroup.addView(item);
+            if (selectedUser.equals(data.getUserId())) {
+                View item = inflater.inflate(R.layout.apps_item, appsGroup, false);
+                bindView(item, data);
+                appsGroup.addView(item);
+            }
         }
+
+        appsRowLayout.setVisibility(appsGroup.getChildCount() > 0 ? View.VISIBLE : View.GONE);
     }
 
     private void bindView(View view, AppsRowItemData data) {

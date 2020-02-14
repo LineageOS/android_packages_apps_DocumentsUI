@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.sidebar.AppItem;
 import com.android.documentsui.sidebar.Item;
 import com.android.documentsui.sidebar.RootItem;
@@ -35,11 +36,13 @@ import com.android.documentsui.sidebar.RootItem;
  */
 public abstract class AppsRowItemData {
 
+    private final UserId mUserId;
     private final String mTitle;
     private final @Nullable String mSummary;
     protected final ActionHandler mActionHandler;
 
     public AppsRowItemData(Item item, ActionHandler actionHandler, boolean shouldShowSummary) {
+        mUserId = item.userId;
         mTitle = item.title;
         mSummary = shouldShowSummary ? item.getSummary() : null;
         mActionHandler = actionHandler;
@@ -47,6 +50,10 @@ public abstract class AppsRowItemData {
 
     public final String getTitle() {
         return mTitle;
+    }
+
+    public final UserId getUserId() {
+        return mUserId;
     }
 
     /**

@@ -52,7 +52,8 @@ public class TestProvidersAccess implements ProvidersAccess {
     public static final RootInfo SD_CARD;
 
     static {
-        UserId userId = USER_ID;
+        UserId userId = TestProvidersAccess.USER_ID;
+
         DOWNLOADS = new RootInfo() {{
             flags = Root.FLAG_SUPPORTS_CREATE;
         }};
