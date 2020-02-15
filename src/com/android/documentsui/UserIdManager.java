@@ -21,13 +21,17 @@ import static androidx.core.util.Preconditions.checkNotNull;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.util.Log;
 
+import androidx.annotation.GuardedBy;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.os.BuildCompat;
 
@@ -36,17 +40,28 @@ import com.android.documentsui.base.UserId;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Interface to query user ids.
  */
 public interface UserIdManager {
 
     /**
-     * Returns the {@UserId} of each profile which should be queried for documents. This
-     * will always include {@link UserId#CURRENT_USER}.
+     * Returns the {@UserId} of each profile which should be queried for documents. This will always
+     * include {@link UserId#CURRENT_USER}.
      */
     List<UserId> getUserIds();
+
+    /**
+     * Returns the system user from {@link #getUserIds()} if the list at least 2 users. Otherwise,
+     * returns null.
+     */
+    UserId getSystemUser();
+
+    /**
+     * Returns the managed user from {@link #getUserIds()} if the list at least 2 users. Otherwise,
+     * returns null.
+     */
+    UserId getManagedUser();
 
     /**
      * Creates an implementation of {@link UserIdManager}.
@@ -68,6 +83,23 @@ public interface UserIdManager {
         private final UserId mCurrentUser;
         private final boolean mIsDeviceSupported;
 
+        @GuardedBy("mUserIds")
+        private final List<UserId> mUserIds = new ArrayList<>();
+        @GuardedBy("mUserIds")
+        private UserId mSystemUser = null;
+        @GuardedBy("mUserIds")
+        private UserId mManagedUser = null;
+
+        private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                synchronized (mUserIds) {
+                    mUserIds.clear();
+                }
+            }
+        };
+
         private RuntimeUserIdManager(Context context) {
             this(context, UserId.CURRENT_USER,
                     ENABLE_MULTI_PROFILES && isDeviceSupported(context));
@@ -78,10 +110,45 @@ public interface UserIdManager {
             mContext = context.getApplicationContext();
             mCurrentUser = checkNotNull(currentUser);
             mIsDeviceSupported = isDeviceSupported;
+
+
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_USER_ADDED);
+            filter.addAction(Intent.ACTION_USER_REMOVED);
+            mContext.registerReceiver(mIntentReceiver, filter);
         }
 
         @Override
         public List<UserId> getUserIds() {
+            synchronized (mUserIds) {
+                if (mUserIds.isEmpty()) {
+                    mUserIds.addAll(getUserIdsInternal());
+                }
+            }
+            return mUserIds;
+        }
+
+        @Override
+        public UserId getSystemUser() {
+            synchronized (mUserIds) {
+                if (mUserIds.isEmpty()) {
+                    getUserIds();
+                }
+            }
+            return mSystemUser;
+        }
+
+        @Override
+        public UserId getManagedUser() {
+            synchronized (mUserIds) {
+                if (mUserIds.isEmpty()) {
+                    getUserIds();
+                }
+            }
+            return mManagedUser;
+        }
+
+        public List<UserId> getUserIdsInternal() {
             final List<UserId> result = new ArrayList<>();
             result.add(mCurrentUser);
 
@@ -103,6 +170,7 @@ public interface UserIdManager {
 
             UserId systemUser = null;
             UserId managedUser = null;
+
             for (UserHandle userHandle : userProfiles) {
                 if (userHandle.isSystem()) {
                     systemUser = UserId.of(userHandle);
@@ -136,6 +204,8 @@ public interface UserIdManager {
                             + (systemUser != null));
                 }
             }
+            mSystemUser = systemUser;
+            mManagedUser = managedUser;
             return result;
         }
 

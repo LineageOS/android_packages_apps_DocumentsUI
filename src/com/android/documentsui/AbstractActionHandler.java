@@ -803,7 +803,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     protected final void loadRecent() {
-        mState.stack.changeRoot(mProviders.getRecentsRoot());
+        mState.stack.changeRoot(mProviders.getRecentsRoot(UserId.DEFAULT_USER));
         mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
     }
 
@@ -846,12 +846,13 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                     if (DEBUG) {
                         Log.d(TAG, "Creating new loader recents.");
                     }
-                    loader =  new RecentsLoader(
+                    loader = new RecentsLoader(
                             context,
                             mProviders,
                             mState,
                             mExecutors,
-                            mInjector.fileTypeLookup);
+                            mInjector.fileTypeLookup,
+                            mState.stack.getRoot().userId);
                 }
                 loader.setObserver(observer);
                 return loader;

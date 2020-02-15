@@ -73,6 +73,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * Cache of known storage backends and their roots.
@@ -95,7 +96,8 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     @GuardedBy("mRootsChangedObservers")
     private final Map<UserId, RootsChangedObserver> mRootsChangedObservers = new HashMap<>();
 
-    private final RootInfo mRecentsRoot;
+    @GuardedBy("mRecentsRoots")
+    private final Map<UserId, RootInfo> mRecentsRoots = new HashMap<>();
 
     private final Object mLock = new Object();
     private final CountDownLatch mFirstLoad = new CountDownLatch(1);
@@ -118,11 +120,12 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     public ProvidersCache(Context context, UserIdManager userIdManager) {
         mContext = context;
         mUserIdManager = userIdManager;
+    }
 
-        // Create a new anonymous "Recents" RootInfo. It's a faker.
-        mRecentsRoot = new RootInfo() {{
+    private RootInfo generateRecentsRoot(UserId rootUserId) {
+        return new RootInfo() {{
             // Special root for recents
-            userId = UserId.DEFAULT_USER;
+            userId = rootUserId;
             derivedIcon = R.drawable.ic_root_recent;
             derivedType = RootInfo.TYPE_RECENTS;
             flags = Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_IS_CHILD | Root.FLAG_SUPPORTS_SEARCH;
@@ -132,13 +135,23 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         }};
     }
 
-    private RootsChangedObserver getRootsChangedObserver(UserId userId) {
-        synchronized (mRootsChangedObservers) {
-            if (!mRootsChangedObservers.containsKey(userId)) {
-                mRootsChangedObservers.put(userId, new RootsChangedObserver(userId));
+    private RootInfo createOrGetRecentsRoot(UserId userId) {
+        return createOrGetByUserId(mRecentsRoots, userId, user -> generateRecentsRoot(user));
+    }
+
+    private RootsChangedObserver createOrGetRootsChangedObserver(UserId userId) {
+        return createOrGetByUserId(mRootsChangedObservers, userId,
+                user -> new RootsChangedObserver(user));
+    }
+
+    private static <T> T createOrGetByUserId(Map<UserId, T> map, UserId userId,
+            Function<UserId, T> supplier) {
+        synchronized (map) {
+            if (!map.containsKey(userId)) {
+                map.put(userId, supplier.apply(userId));
             }
         }
-        return mRootsChangedObservers.get(userId);
+        return map.get(userId);
     }
 
     private class RootsChangedObserver extends ContentObserver {
@@ -179,15 +192,18 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         // NOTE: This method is called when the UI language changes.
         // For that reason we update our RecentsRoot to reflect
         // the current language.
-        mRecentsRoot.title = mContext.getString(R.string.root_recent);
-
-        // Nothing else about the root should ever change.
-        assert(mRecentsRoot.authority == null);
-        assert(mRecentsRoot.rootId == null);
-        assert(mRecentsRoot.derivedIcon == R.drawable.ic_root_recent);
-        assert(mRecentsRoot.derivedType == RootInfo.TYPE_RECENTS);
-        assert(mRecentsRoot.flags == (Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_IS_CHILD));
-        assert(mRecentsRoot.availableBytes == -1);
+        final String title = mContext.getString(R.string.root_recent);
+        for (UserId userId : mUserIdManager.getUserIds()) {
+            RootInfo recentRoot = createOrGetRecentsRoot(userId);
+            recentRoot.title = title;
+            // Nothing else about the root should ever change.
+            assert (recentRoot.authority == null);
+            assert (recentRoot.rootId == null);
+            assert (recentRoot.derivedIcon == R.drawable.ic_root_recent);
+            assert (recentRoot.derivedType == RootInfo.TYPE_RECENTS);
+            assert (recentRoot.flags == (Root.FLAG_LOCAL_ONLY | Root.FLAG_SUPPORTS_IS_CHILD));
+            assert (recentRoot.availableBytes == -1);
+        }
 
         new UpdateTask(forceRefreshAll, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
@@ -311,7 +327,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
                 // Watch for any future updates
                 final Uri rootsUri = DocumentsContract.buildRootsUri(authority);
                 resolver.registerContentObserver(rootsUri, true,
-                        getRootsChangedObserver(userId));
+                        createOrGetRootsChangedObserver(userId));
             }
         }
 
@@ -403,12 +419,12 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     }
 
     @Override
-    public RootInfo getRecentsRoot() {
-        return mRecentsRoot;
+    public RootInfo getRecentsRoot(UserId userId) {
+        return createOrGetRecentsRoot(userId);
     }
 
     public boolean isRecentsRoot(RootInfo root) {
-        return mRecentsRoot.equals(root);
+        return mRecentsRoots.containsValue(root);
     }
 
     @Override
@@ -443,7 +459,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     @Override
     public RootInfo getDefaultRootBlocking(State state) {
         RootInfo root = ProvidersAccess.getDefaultRoot(getRootsBlocking(), state);
-        return root != null ? root : mRecentsRoot;
+        return root != null ? root : createOrGetRecentsRoot(UserId.CURRENT_USER);
     }
 
     public void logCache() {
@@ -493,11 +509,11 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         protected Void doInBackground(Void... params) {
             final long start = SystemClock.elapsedRealtime();
 
-            mTaskRoots.put(new UserAuthority(mRecentsRoot.userId, mRecentsRoot.authority),
-                    mRecentsRoot);
             for (UserId userId : mUserIdManager.getUserIds()) {
-                final PackageManager pm = userId.getPackageManager(mContext);
+                final RootInfo recents = createOrGetRecentsRoot(userId);
+                mTaskRoots.put(new UserAuthority(recents.userId, recents.authority), recents);
 
+                final PackageManager pm = userId.getPackageManager(mContext);
                 // Pick up provider with action string
                 final Intent intent = new Intent(DocumentsContract.PROVIDER_INTERFACE);
                 final List<ResolveInfo> providers = pm.queryIntentContentProviders(intent, 0);

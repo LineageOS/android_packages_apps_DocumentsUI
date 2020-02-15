@@ -53,7 +53,7 @@ public interface ProvidersAccess {
 
     RootInfo getDefaultRootBlocking(State state);
 
-    RootInfo getRecentsRoot();
+    RootInfo getRecentsRoot(UserId userId);
 
     String getApplicationName(UserId userId, String authority);
 

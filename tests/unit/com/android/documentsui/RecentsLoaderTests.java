@@ -28,6 +28,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.ActivityManagers;
 import com.android.documentsui.testing.TestCursor;
 import com.android.documentsui.testing.TestEnv;
@@ -61,7 +62,8 @@ public class RecentsLoaderTests {
         mEnv.state.acceptMimes = new String[] { "*/*" };
 
         mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state,
-                TestImmediateExecutor.createLookup(), new TestFileTypeLookup());
+                TestImmediateExecutor.createLookup(), new TestFileTypeLookup(),
+                UserId.DEFAULT_USER);
     }
 
     @Test
@@ -72,6 +74,11 @@ public class RecentsLoaderTests {
     @Test
     public void testLocalOnlyRoot_supportRecent_notIgnored() {
         assertFalse(mLoader.shouldIgnoreRoot(TestProvidersAccess.DOWNLOADS));
+    }
+
+    @Test
+    public void testLocalOnlyRoot_supportRecent_differentUser_beIgnored() {
+        assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.OtherUser.DOWNLOADS));
     }
 
     @Test
