@@ -37,11 +37,14 @@ import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DummyProfileTabsAddons;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
+import com.android.documentsui.ProfileTabsAddons;
+import com.android.documentsui.ProfileTabsController;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
@@ -74,6 +77,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     private Injector<ActionHandler<FilesActivity>> mInjector;
     private ActivityInputHandler mActivityInputHandler;
     private SharedInputHandler mSharedInputHandler;
+    private final ProfileTabsAddons mProfileTabsAddonsStub = new DummyProfileTabsAddons();
 
     public FilesActivity() {
         super(R.layout.files_activity, TAG);
@@ -147,6 +151,12 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                 mInjector);
 
         mInjector.searchManager = mSearchManager;
+
+        // No profile tabs will be shown on FilesActivity. Use a dummy to avoid unnecessary
+        // operations.
+        mInjector.profileTabsController = new ProfileTabsController(
+                mInjector.selectionMgr,
+                mProfileTabsAddonsStub);
 
         mAppsRowManager = new AppsRowManager(mInjector.actions);
         mInjector.appsRowManager = mAppsRowManager;

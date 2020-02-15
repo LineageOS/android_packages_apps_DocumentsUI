@@ -21,6 +21,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +37,6 @@ import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
-import androidx.annotation.VisibleForTesting;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -66,6 +66,9 @@ public class Injector<T extends ActionHandler> {
 
     @ContentScoped
     public ActionModeController actionModeController;
+
+    @ContentScoped
+    public ProfileTabsController profileTabsController;
 
     @ContentScoped
     public T actions;
