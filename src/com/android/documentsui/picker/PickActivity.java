@@ -23,6 +23,8 @@ import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
@@ -206,6 +208,14 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             final Intent moreApps = new Intent(intent);
             moreApps.setComponent(null);
             moreApps.setPackage(null);
+            for (ResolveInfo info : getPackageManager().queryIntentActivities(moreApps,
+                    PackageManager.MATCH_DEFAULT_ONLY)) {
+                if (RootsFragment.PROFILE_TARGET_ACTIVITY.equals(
+                        info.activityInfo.targetActivity)) {
+                    mState.canShareAcrossProfile = true;
+                    break;
+                }
+            }
             RootsFragment.show(getSupportFragmentManager(), moreApps);
         } else if (mState.action == ACTION_OPEN ||
                    mState.action == ACTION_CREATE ||

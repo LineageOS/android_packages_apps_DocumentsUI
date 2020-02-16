@@ -22,6 +22,7 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MergeCursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
@@ -31,6 +32,7 @@ import android.os.RemoteException;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
 import com.android.documentsui.archives.ArchivesProvider;
@@ -42,9 +44,12 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
@@ -57,6 +62,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private final LockingContentObserver mObserver;
     private final RootInfo mRoot;
+    private final State mState;
     private final Uri mUri;
     private final SortModel mModel;
     private final Lookup<String, String> mFileTypeLookup;
@@ -81,6 +87,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
         super(context);
         mFeatures = features;
+        mState = state;
         mRoot = state.stack.getRoot();
         mUri = uri;
         mModel = state.sortModel;
@@ -124,8 +131,16 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             final Bundle queryArgs = new Bundle();
             mModel.addQuerySortArgs(queryArgs);
 
+            final List<UserId> userIds = new ArrayList<>();
             if (mSearchMode) {
                 queryArgs.putAll(mQueryArgs);
+                if (mState.canShareAcrossProfile && mRoot.supportsCrossProfile()) {
+                    userIds.addAll(
+                            DocumentsApplication.getUserIdManager(getContext()).getUserIds());
+                }
+            }
+            if (userIds.isEmpty()) {
+                userIds.add(mDoc.userId);
             }
 
             if (mFeatures.isContentPagingEnabled()) {
@@ -134,16 +149,12 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
                 DebugFlags.addForcedPagingArgs(queryArgs);
             }
 
-            cursor = client.query(mUri, null, queryArgs, mSignal);
+            cursor = queryOnUsers(userIds, authority, queryArgs);
 
             if (cursor == null) {
                 throw new RemoteException("Provider returned null");
             }
-
             cursor.registerContentObserver(mObserver);
-
-            cursor = new RootCursorWrapper(mDoc.userId, mUri.getAuthority(), mRoot.rootId, cursor,
-                    -1);
 
             if (mSearchMode && !mFeatures.isFoldersInSearchResultsEnabled()) {
                 // There is no findDocumentPath API. Enable filtering on folders in search mode.
@@ -174,6 +185,38 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         return result;
+    }
+
+    @Nullable
+    private Cursor queryOnUsers(List<UserId> userIds, String authority, Bundle queryArgs)
+            throws RemoteException {
+        final List<Cursor> cursors = new ArrayList<>(userIds.size());
+        for (UserId userId : userIds) {
+            try (ContentProviderClient userClient =
+                         DocumentsApplication.acquireUnstableProviderOrThrow(
+                                 userId.getContentResolver(getContext()), authority)) {
+                Cursor c = userClient.query(mUri, /* projection= */null, queryArgs, mSignal);
+                if (c != null) {
+                    cursors.add(new RootCursorWrapper(userId, mUri.getAuthority(), mRoot.rootId,
+                            c, /* maxCount= */-1));
+                }
+            } catch (RemoteException e) {
+                Log.d(TAG, "Failed to query for user " + userId, e);
+                // Searching on other profile may not succeed because profile may be in quiet mode.
+                if (UserId.CURRENT_USER.equals(userId)) {
+                    throw e;
+                }
+            }
+        }
+        int size = cursors.size();
+        switch (size) {
+            case 0:
+                return null;
+            case 1:
+                return cursors.get(0);
+            default:
+                return new MergeCursor(cursors.toArray(new Cursor[size]));
+        }
     }
 
     @Override
@@ -232,9 +275,11 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         // Ensure the loader is stopped
         onStopLoading();
 
+        if (mResult.cursor != null && mObserver != null) {
+            mResult.cursor.unregisterContentObserver(mObserver);
+        }
+
         FileUtils.closeQuietly(mResult);
         mResult = null;
-
-        mDoc.userId.getContentResolver(getContext()).unregisterContentObserver(mObserver);
     }
 }
