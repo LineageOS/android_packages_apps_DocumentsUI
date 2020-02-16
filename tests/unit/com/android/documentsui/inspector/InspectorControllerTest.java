@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.UserHandle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -84,8 +85,8 @@ public class InspectorControllerTest  {
     @Before
     public void setUp() throws Exception {
 
-        mUserId = UserId.DEFAULT_USER;
         mEnv = TestEnv.create();
+        mUserId = mEnv.userId;
         mPm = TestPackageManager.create();
         mLoaderManager = new TestLoaderManager();
         mDataSupplier = new TestDataSupplier();
@@ -285,13 +286,22 @@ public class InspectorControllerTest  {
         assertTrue(strUri.contains(TestEnv.FILE_JPG.displayName));
     }
 
-    private static class TestActivity extends Activity {
+    private class TestActivity extends Activity {
 
         private @Nullable Intent started;
 
         @Override
         public void startActivity(Intent intent) {
             started = intent;
+        }
+
+        @Override
+        public void startActivityAsUser(Intent intent, UserHandle user) {
+            if (user.equals(mEnv.userHandle)) {
+                startActivity(intent);
+                return;
+            }
+            throw new UnsupportedOperationException("not implemented");
         }
     }
 

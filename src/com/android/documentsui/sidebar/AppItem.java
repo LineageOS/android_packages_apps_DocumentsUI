@@ -71,7 +71,7 @@ public class AppItem extends Item {
 
     @Override
     boolean showAppDetails() {
-        mActionHandler.showAppDetails(info);
+        mActionHandler.showAppDetails(info, userId);
         return true;
     }
 

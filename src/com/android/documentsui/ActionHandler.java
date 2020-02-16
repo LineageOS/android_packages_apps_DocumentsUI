@@ -30,6 +30,7 @@ import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -88,7 +89,7 @@ public interface ActionHandler {
      */
     void startAuthentication(PendingIntent intent);
 
-    void showAppDetails(ResolveInfo info);
+    void showAppDetails(ResolveInfo info, UserId userId);
 
     void openRoot(RootInfo root);
 

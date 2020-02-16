@@ -20,11 +20,13 @@ import static androidx.core.util.Preconditions.checkNotNull;
 
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Process;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.provider.DocumentsContract;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.loader.content.CursorLoader;
@@ -116,6 +118,20 @@ public final class UserId {
      */
     public boolean isManagedProfile(UserManager userManager) {
         return userManager.isManagedProfile(mUserHandle.getIdentifier());
+    }
+
+    /**
+     * Returns a document uri representing this user.
+     */
+    public Uri buildDocumentUriAsUser(String authority, String documentId) {
+        return DocumentsContract.buildDocumentUriAsUser(authority, documentId, mUserHandle);
+    }
+
+    /**
+     * Starts activity for this user
+     */
+    public void startActivityAsUser(Context context, Intent intent) {
+        context.startActivityAsUser(intent, mUserHandle);
     }
 
     /**
