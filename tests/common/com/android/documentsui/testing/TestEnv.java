@@ -176,7 +176,7 @@ public class TestEnv {
 
     public void populateStack() {
         DocumentInfo rootDoc = model.getDocument(
-                ModelId.build(TestProvidersAccess.HOME.authority, "1"));
+                ModelId.build(model.mUserId, TestProvidersAccess.HOME.authority, "1"));
 
         // These are test setup sanity checks, not test assertions.
         assert rootDoc != null;
@@ -197,7 +197,7 @@ public class TestEnv {
 
     public void selectDocument(DocumentInfo info) {
         List<String> ids = new ArrayList<>(1);
-        ids.add(ModelId.build(info.authority, info.documentId));
+        ids.add(ModelId.build(info.userId, info.authority, info.documentId));
         selectionMgr.setItemsSelected(ids, true);
     }
 
@@ -205,7 +205,7 @@ public class TestEnv {
         List<String> ids = new ArrayList<>(count);
         for (int i = 0; i < count; i++) {
             DocumentInfo info = model.createFile(String.valueOf(i));
-            ids.add(ModelId.build(info.authority, info.documentId));
+            ids.add(ModelId.build(info.userId, info.authority, info.documentId));
         }
         selectionMgr.setItemsSelected(ids, true);
     }
