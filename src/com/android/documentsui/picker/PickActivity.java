@@ -48,6 +48,7 @@ import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.Metrics;
+import com.android.documentsui.ProfileTabsController;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
@@ -122,6 +123,10 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mInjector.selectionMgr,
                 mInjector.menuManager,
                 mInjector.messages);
+
+        mInjector.profileTabsController = new ProfileTabsController(
+                mInjector.selectionMgr,
+                getProfileTabsAddon());
 
         mInjector.pickResult = getPickResult(icicle);
         mInjector.actions = new ActionHandler<>(

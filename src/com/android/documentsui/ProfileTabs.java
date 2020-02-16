@@ -19,6 +19,7 @@ package com.android.documentsui;
 import static androidx.core.util.Preconditions.checkNotNull;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -33,7 +34,8 @@ import java.util.List;
 /**
  * A manager class to control UI on a {@link TabLayout} for cross-profile purpose.
  */
-public class ProfileTabs {
+public class ProfileTabs implements ProfileTabsAddons {
+    private static final float DISABLED_TAB_OPACITY = 0.38f;
 
     private final TabLayout mTabs;
     private final State mState;
@@ -102,5 +104,21 @@ public class ProfileTabs {
 
     private TabLayout.Tab createTab(int resId, UserId userId) {
         return mTabs.newTab().setText(resId).setTag(userId);
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        if (mTabs.getChildCount() > 0) {
+            View view = mTabs.getChildAt(0);
+            if (view instanceof ViewGroup) {
+                ViewGroup tabs = (ViewGroup) view;
+                for (int i = 0; i < tabs.getChildCount(); i++) {
+                    View tabView = tabs.getChildAt(i);
+                    tabView.setEnabled(enabled);
+                    tabView.setAlpha((enabled || mTabs.getSelectedTabPosition() == i) ? 1f
+                            : DISABLED_TAB_OPACITY);
+                }
+            }
+        }
     }
 }
