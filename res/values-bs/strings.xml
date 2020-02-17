@@ -276,6 +276,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Koristi ovaj folder"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Dozvoliti aplikaciji <xliff:g id="APPNAME">%1$s</xliff:g> da pristupi fajlovima u direktoriju <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Na ovaj način će se aplikaciji <xliff:g id="APPNAME">%1$s</xliff:g> omogućiti pristup trenutnom i budućem sadržaju pohranjenom u direktoriju <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Nije moguće dijeliti folder <xliff:g id="FOLDERNAME">%1$s</xliff:g> s aplikacijom <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Odaberite folder ispod ili kreirajte novi"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Odaberite drugi folder ili kreirajte novi"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Pretražite ovaj telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Izbriši historiju pretraživanja <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

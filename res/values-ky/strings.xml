@@ -59,7 +59,7 @@
     <string name="button_extract" msgid="1038674453689912247">"Чыгаруу"</string>
     <string name="button_move" msgid="8596460499325291272">"Жылдыруу"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Көз жаздымда калтыруу"</string>
-    <string name="button_retry" msgid="4011461781916631389">"Кайра аракет кылыңыз"</string>
+    <string name="button_retry" msgid="4011461781916631389">"Кайталап көрүңүз"</string>
     <string name="button_clear" msgid="5412304437764369441">"Тазалоо"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Демейки колдонмодон көрсөтүү"</string>
     <string name="button_back" msgid="1888621708934742182">"Артка"</string>
@@ -150,7 +150,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> нерсе жок кылынбай койду</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> нерсе жок кылынбай койду</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="2385563502445129570">"Чоо-жайын көрүү үчүн таптаңыз"</string>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Чоо-жайын билгиңиз келсе, таптаңыз"</string>
     <string name="close" msgid="905969391788869975">"Жабуу"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="other">Төмөнкү файлдар көчүрүлгөн жок: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -169,8 +169,8 @@
       <item quantity="one">Төмөнкү файл жылдырылган жок: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
-      <item quantity="other">Төмөнкү файлдар жок кылынган жок: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="one">Төмөнкү файл жок кылынган жок: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+      <item quantity="other">Төмөнкү файлдар өчкөн жок: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">Төмөнкү файл өчкөн жок: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
       <item quantity="other">Төмөнкү файлдардын форматы өзгөртүлдү: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Бул папканы колдонуу"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> колдонмосуна <xliff:g id="DIRECTORY">%2$s</xliff:g> папкасына кирүү мүмкүнчүлүгүн бересизби?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Бул <xliff:g id="APPNAME">%1$s</xliff:g> колдонмосуна <xliff:g id="DIRECTORY">%2$s</xliff:g> папкасында сакталган учурдагы жана келечектеги мазмунга кирүү мүмкүнчүлүгүн берет."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> папкасы <xliff:g id="APPNAME">%2$s</xliff:g> менен бөлүшүлбөй жатат"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Төмөнкү папканы тандаңыз же жаңысын түзүңүз"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Башка папканы тандаңыз же жаңысын түзүңүз"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Ушул телефондо издөө"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Издөө таржымалы тазалансын: <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

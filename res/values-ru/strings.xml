@@ -298,6 +298,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Использовать эту папку"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Разрешить приложению \"<xliff:g id="APPNAME">%1$s</xliff:g>\" доступ к файлам в папке \"<xliff:g id="DIRECTORY">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Приложение \"<xliff:g id="APPNAME">%1$s</xliff:g>\" получит доступ ко всему контенту, который есть в папке \"<xliff:g id="DIRECTORY">%2$s</xliff:g>\" сейчас или будет помещен в нее позже."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Предоставить сервису \"<xliff:g id="APPNAME">%2$s</xliff:g>\" доступ к папке \"<xliff:g id="FOLDERNAME">%1$s</xliff:g>\" нельзя"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Выберите папку ниже или создайте новую"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Выберите другую папку или создайте новую"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Поиск на этом телефоне"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Очистить историю поиска: <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

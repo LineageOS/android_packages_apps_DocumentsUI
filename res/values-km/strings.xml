@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ប្រើថតនេះ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"អនុញ្ញាតឱ្យ <xliff:g id="APPNAME">%1$s</xliff:g> ចូលប្រើឯកសារ​នៅក្នុង <xliff:g id="DIRECTORY">%2$s</xliff:g> ដែរទេ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ការធ្វើបែបនេះ​នឹងអនុញ្ញាតឱ្យ <xliff:g id="APPNAME">%1$s</xliff:g> ចូលប្រើខ្លឹមសារ​បច្ចុប្បន្ន និងនាពេលអនាគត ដែលបានរក្សាទុក​នៅក្នុង <xliff:g id="DIRECTORY">%2$s</xliff:g>។"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"មិនអាច​ចែករំលែក​ថត <xliff:g id="FOLDERNAME">%1$s</xliff:g> ជាមួយ <xliff:g id="APPNAME">%2$s</xliff:g> បានទេ"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ជ្រើសរើស​ថត​ខាងក្រោម ឬ​បង្កើត​ថតថ្មី"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"ជ្រើសរើស​ថត​ផ្សេងទៀត ឬ​បង្កើត​ថតថ្មី"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ទូរសព្ទ​នេះ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"លុប​ប្រវត្តិស្វែងរក <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

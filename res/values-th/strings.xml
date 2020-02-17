@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ใช้โฟลเดอร์นี้"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"อนุญาตให้ <xliff:g id="APPNAME">%1$s</xliff:g> เข้าถึงไฟล์ใน <xliff:g id="DIRECTORY">%2$s</xliff:g> ไหม"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"การดำเนินการนี้จะทำให้ <xliff:g id="APPNAME">%1$s</xliff:g> เข้าถึงเนื้อหาในปัจจุบันและอนาคตที่จัดเก็บไว้ใน <xliff:g id="DIRECTORY">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"แชร์โฟลเดอร์ <xliff:g id="FOLDERNAME">%1$s</xliff:g> กับ <xliff:g id="APPNAME">%2$s</xliff:g> ไม่ได้"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"เลือกโฟลเดอร์ด้านล่าง หรือสร้างโฟลเดอร์ใหม่"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"เลือกโฟลเดอร์อื่น หรือสร้างโฟลเดอร์ใหม่"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ค้นหาโทรศัพท์เครื่องนี้"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ลบประวัติการค้นหา <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

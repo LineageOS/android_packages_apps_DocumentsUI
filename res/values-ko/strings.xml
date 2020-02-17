@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"이 폴더 사용"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g>에서 <xliff:g id="DIRECTORY">%2$s</xliff:g>의 파일에 액세스하도록 허용하시겠습니까?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"이를 통해 <xliff:g id="APPNAME">%1$s</xliff:g>에서 <xliff:g id="DIRECTORY">%2$s</xliff:g>에 저장된 현재 및 향후 콘텐츠에 액세스할 수 있습니다."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> 폴더를 <xliff:g id="APPNAME">%2$s</xliff:g> 앱과 공유할 수 없습니다"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"아래 폴더 중에서 선택하거나 새 폴더를 만드세요"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"다른 폴더를 선택하거나 새 폴더를 만드세요"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"이 휴대전화 검색"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"검색 기록 삭제 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

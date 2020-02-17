@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Erabili karpeta hau"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g> direktorioko fitxategiak atzitzeko baimena eman nahi diozu <xliff:g id="APPNAME">%1$s</xliff:g> aplikazioari?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> aplikazioak <xliff:g id="DIRECTORY">%2$s</xliff:g> direktorioan gordetako uneko eta etorkizuneko edukia atzitu ahalko du."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Ezin da partekatu <xliff:g id="FOLDERNAME">%1$s</xliff:g> karpeta <xliff:g id="APPNAME">%2$s</xliff:g> aplikazioarekin"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Aukeratu hemen beheko karpetetako bat edo sortu beste bat"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Aukeratu edo sortu beste karpeta bat"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Bilatu telefono honetan"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ezabatu bilaketa-historia (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

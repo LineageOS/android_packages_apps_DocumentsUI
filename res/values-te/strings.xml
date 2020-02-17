@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ఈ ఫోల్డర్‌ను ఉపయోగించండి"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g>లోని ఫైల్‌లను యాక్సెస్ చేయడానికి <xliff:g id="APPNAME">%1$s</xliff:g>ని అనుమతించాలా?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ఇది <xliff:g id="DIRECTORY">%2$s</xliff:g>లో నిల్వ చేసిన ప్రస్తుత మరియు భవిష్యత్తు కంటెంట్‌ను <xliff:g id="APPNAME">%1$s</xliff:g> యాక్సెస్ చేయడానికి అనుమతిస్తుంది."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> ఫోల్డర్‌ ను <xliff:g id="APPNAME">%2$s</xliff:g>లో షేర్ చేయడం సాధ్యం కాదు"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"దిగువన ఒక ఫోల్డర్‌ను ఎంచుకోండి లేదా కొత్తదాన్ని రూపొందించండి"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"వేరొక ఫోల్డర్‌ను ఎంచుకోండి లేదా కొత్తదాన్ని రూపొందించండి"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ఈ ఫోన్‌లో వెతకండి"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"శోధన చరిత్ర <xliff:g id="TEXT">%1$s</xliff:g>ను తొలగించండి"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

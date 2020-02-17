@@ -276,6 +276,11 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Koristi ovaj direktorijum"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Dozvolićete da <xliff:g id="APPNAME">%1$s</xliff:g> pristupa datotekama u direktorijumu <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Ovo će omogućiti aplikaciji <xliff:g id="APPNAME">%1$s</xliff:g> da pristupa aktuelnom i budućem sadržaju sačuvanom u direktorijumu <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Ne možete da delite direktorijum <xliff:g id="FOLDERNAME">%1$s</xliff:g> s aplikacijom <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Odaberite direktorijum u nastavku ili napravite novi"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Odaberite neki drugi direktorijum ili napravite novi"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Pretražite ovaj telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Izbrišite istoriju pretrage <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Lični"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Posao"</string>
 </resources>

@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ಈ ಫೋಲ್ಡರ್ ಬಳಸಿ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g> ನಲ್ಲಿರುವ ಫೈಲ್‌ಗಳಿಗೆ ಪ್ರವೇಶಿಸಲು <xliff:g id="APPNAME">%1$s</xliff:g> ಆ್ಯಪ್‌ಗೆ ಅನುಮತಿಸಬೇಕೆ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ಇದು ಪ್ರಸ್ತುತ ಮತ್ತು ಭವಿಷ್ಯದಲ್ಲಿ <xliff:g id="DIRECTORY">%2$s</xliff:g> ನಲ್ಲಿ ಸಂಗ್ರಹವಾಗಿರುವ ವಿಷಯವನ್ನು ಪ್ರವೇಶಿಸಲು <xliff:g id="APPNAME">%1$s</xliff:g> ಆ್ಯಪ್‌ಗೆ ಅನುಮತಿಸುತ್ತದೆ."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> ಜೊತೆಗೆ <xliff:g id="FOLDERNAME">%1$s</xliff:g> ಅನ್ನು ಹಂಚಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಿಲ್ಲ"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ಕೆಳಗಿನ ಫೋಲ್ಡರ್ ಅನ್ನು ಆರಿಸಿ ಅಥವಾ ಹೊಸದನ್ನು ರಚಿಸಿ"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"ಬೇರೊಂದು ಫೋಲ್ಡರ್ ಅನ್ನು ಆರಿಸಿ ಅಥವಾ ಹೊಸದನ್ನು ರಚಿಸಿ"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ಈ ಫೋನ್‍ನಲ್ಲಿ ಹುಡುಕಿ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ಹುಡುಕಾಟ ಇತಿಹಾಸವನ್ನು ಅಳಿಸಿ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

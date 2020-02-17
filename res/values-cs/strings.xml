@@ -298,6 +298,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Použít tuto složku"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Povolit aplikaci <xliff:g id="APPNAME">%1$s</xliff:g> přístup k souborům v adresáři <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Aplikace <xliff:g id="APPNAME">%1$s</xliff:g> získá přístup ke stávajícímu a budoucímu obsahu adresáře <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Složku <xliff:g id="FOLDERNAME">%1$s</xliff:g> nelze sdílet s aplikací <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Vyberte složku níže nebo vytvořte novou"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Vyberte jinou složku nebo vytvořte novou"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Hledat v telefonu"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Vymazat historii vyhledávání <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>
