@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Осы қалтаны пайдалану"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> үшін <xliff:g id="DIRECTORY">%2$s</xliff:g> қалтасындағы файлдарды пайдалануға рұқсат етілсін бе?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> қолданбасы <xliff:g id="DIRECTORY">%2$s</xliff:g> қалтасындағы қазіргі және алда сақталатын мазмұндарды пайдалана алатын болады."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> қалтасы <xliff:g id="APPNAME">%2$s</xliff:g> қолданбасымен бөлісілмейді"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Төмендегі қалтаны таңдаңыз немесе жаңасын жасаңыз"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Басқа қалта таңдаңыз немесе жаңасын жасаңыз"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Осы телефоннан іздеу"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Іздеу тарихын <xliff:g id="TEXT">%1$s</xliff:g> жою"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

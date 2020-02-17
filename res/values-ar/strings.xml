@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="files_label" msgid="771781190045103748">"الملفات"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"التنزيلات"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"عمليات التنزيل"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
@@ -316,7 +316,7 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"أحدث الملفات على الهاتف"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"الملفات على الهاتف"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> على الهاتف"</string>
-    <string name="root_info_header_downloads" msgid="8848161246921154115">"الملفات في مجلد \"عمليات التنزيل\""</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"الملفات في مجلد \"المحتوى الذي تم تنزيله\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ملفات على <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"الملفات في <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"ملفات من <xliff:g id="LABEL">%1$s</xliff:g>"</string>
@@ -342,6 +342,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"استخدام هذا المجلد"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"هل تريد السماح لتطبيق <xliff:g id="APPNAME">%1$s</xliff:g> بالوصول إلى <xliff:g id="DIRECTORY">%2$s</xliff:g>؟"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"سيسمح هذا الإجراء لتطبيق <xliff:g id="APPNAME">%1$s</xliff:g> بالوصول إلى المحتوى المخزن في <xliff:g id="DIRECTORY">%2$s</xliff:g> حاليًا وفي المستقبل."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"لا يمكن مشاركة المجلد <xliff:g id="FOLDERNAME">%1$s</xliff:g> مع <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"اختيار مجلد أدناه أو إنشاء مجلد جديد"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"اختيار مجلد آخر أو إنشاء مجلد جديد"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"البحث في هذا الهاتف"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"حذف سجلّ البحث <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>
