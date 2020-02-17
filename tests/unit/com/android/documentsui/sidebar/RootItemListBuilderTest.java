@@ -40,26 +40,26 @@ import java.util.List;
 public class RootItemListBuilderTest {
 
     private static final RootItem DOWNLOADS_DEFAULT_USER =
-            new RootItem(TestProvidersAccess.DOWNLOADS, null);
+            new RootItem(TestProvidersAccess.DOWNLOADS, null, false);
     private static final RootItem HAMMY_DEFAULT_USER =
-            new RootItem(TestProvidersAccess.HAMMY, null);
+            new RootItem(TestProvidersAccess.HAMMY, null, false);
     private static final RootItem HOME_DEFAULT_USER =
-            new RootItem(TestProvidersAccess.HOME, null);
+            new RootItem(TestProvidersAccess.HOME, null, false);
     private static final RootItem IMAGE_DEFAULT_USER =
-            new RootItem(TestProvidersAccess.IMAGE, null);
+            new RootItem(TestProvidersAccess.IMAGE, null, false);
     private static final RootItem PICKLES_DEFAULT_USER =
-            new RootItem(TestProvidersAccess.PICKLES, null);
+            new RootItem(TestProvidersAccess.PICKLES, null, false);
     private static final RootItem SDCARD_DEFAULT_USER =
-            new RootItem(TestProvidersAccess.SD_CARD, null);
+            new RootItem(TestProvidersAccess.SD_CARD, null, false);
 
     private static final RootItem DOWNLOADS_OTHER_USER =
-            new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, null);
+            new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, null, false);
     private static final RootItem HOME_OTHER_USER =
-            new RootItem(TestProvidersAccess.OtherUser.HOME, null);
+            new RootItem(TestProvidersAccess.OtherUser.HOME, null, false);
     private static final RootItem IMAGE_OTHER_USER =
-            new RootItem(TestProvidersAccess.OtherUser.IMAGE, null);
+            new RootItem(TestProvidersAccess.OtherUser.IMAGE, null, false);
     private static final RootItem PICKLES_OTHER_USER =
-            new RootItem(TestProvidersAccess.OtherUser.PICKLES, null);
+            new RootItem(TestProvidersAccess.OtherUser.PICKLES, null, false);
 
     private RootItemListBuilder mBuilder;
 

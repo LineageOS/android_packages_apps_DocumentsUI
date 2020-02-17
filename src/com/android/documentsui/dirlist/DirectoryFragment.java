@@ -304,7 +304,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             mLocalState.mSelectionId = Integer.toHexString(System.identityHashCode(mRecView));
         }
 
-        mIconHelper = new IconHelper(mActivity, MODE_GRID);
+        mIconHelper = new IconHelper(mActivity, MODE_GRID, mState.supportsCrossProfile());
 
         mAdapter = new DirectoryAddonsAdapter(
                 mAdapterEnv,

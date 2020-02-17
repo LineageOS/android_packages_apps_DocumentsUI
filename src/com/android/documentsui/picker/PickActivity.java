@@ -143,7 +143,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
         Intent intent = getIntent();
 
-        mAppsRowManager = new AppsRowManager(mInjector.actions);
+        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile());
         mInjector.appsRowManager = mAppsRowManager;
 
         mSharedInputHandler =

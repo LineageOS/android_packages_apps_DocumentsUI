@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.testing;
 
+import android.os.Process;
 import android.os.UserHandle;
 import android.provider.DocumentsContract.Root;
 
@@ -35,7 +36,8 @@ import javax.annotation.Nullable;
 
 public class TestProvidersAccess implements ProvidersAccess {
 
-    public static final UserId USER_ID = UserId.DEFAULT_USER;
+    public static final UserHandle USER_HANDLE = Process.myUserHandle();
+    public static final UserId USER_ID = UserId.of(USER_HANDLE);
 
     public static final RootInfo DOWNLOADS;
     public static final RootInfo HOME;

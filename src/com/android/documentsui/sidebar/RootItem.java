@@ -51,17 +51,20 @@ public class RootItem extends Item {
     public @Nullable DocumentInfo docInfo;
 
     protected final ActionHandler mActionHandler;
+    protected final boolean mMaybeShowBadge;
     private final String mPackageName;
 
-    public RootItem(RootInfo root, ActionHandler actionHandler) {
-        this(root, actionHandler, "" /* packageName */);
+    public RootItem(RootInfo root, ActionHandler actionHandler, boolean maybeShowBadge) {
+        this(root, actionHandler, "" /* packageName */, maybeShowBadge);
     }
 
-    public RootItem(RootInfo root, ActionHandler actionHandler, String packageName) {
+    public RootItem(RootInfo root, ActionHandler actionHandler, String packageName,
+            boolean maybeShowBadge) {
         super(R.layout.item_root, root.title, getStringId(root), root.userId);
         this.root = root;
         mActionHandler = actionHandler;
         mPackageName = packageName;
+        mMaybeShowBadge = maybeShowBadge;
     }
 
     private static String getStringId(RootInfo root) {
@@ -114,7 +117,7 @@ public class RootItem extends Item {
     }
 
     protected final void bindIconAndTitle(View view) {
-        bindIcon(view, root.loadDrawerIcon(view.getContext()));
+        bindIcon(view, root.loadDrawerIcon(view.getContext(), mMaybeShowBadge));
         bindTitle(view);
     }
 
@@ -213,7 +216,7 @@ public class RootItem extends Item {
     public static RootItem createDummyItem(RootItem item, UserId targetUser) {
         RootInfo dummyRootInfo = RootInfo.copyRootInfo(item.root);
         dummyRootInfo.userId = targetUser;
-        RootItem dummy = new RootItem(dummyRootInfo, item.mActionHandler);
+        RootItem dummy = new RootItem(dummyRootInfo, item.mActionHandler, item.mMaybeShowBadge);
         return dummy;
     }
 }

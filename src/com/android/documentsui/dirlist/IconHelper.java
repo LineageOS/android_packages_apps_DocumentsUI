@@ -62,15 +62,17 @@ public class IconHelper {
     private int mMode;
     private Point mCurrentSize;
     private boolean mThumbnailsEnabled = true;
+    private final boolean mMaybeShowBadge;
 
     /**
      * @param context
      * @param mode MODE_GRID or MODE_LIST
      */
-    public IconHelper(Context context, int mode) {
+    public IconHelper(Context context, int mode, boolean maybeShowBadge) {
         mContext = context;
         setViewMode(mode);
         mThumbnailCache = DocumentsApplication.getThumbnailCache(context);
+        mMaybeShowBadge = maybeShowBadge;
     }
 
     /**
@@ -170,7 +172,7 @@ public class IconHelper {
                 loadThumbnail(uri, userId, docAuthority, docLastModified, iconThumb, iconMime);
         }
 
-        final Drawable mimeIcon = getDocumentIcon(mContext, docAuthority,
+        final Drawable mimeIcon = getDocumentIcon(mContext, userId, docAuthority,
                 DocumentsContract.getDocumentId(uri), mimeType, docIcon);
         if (subIconMime != null) {
             setMimeIcon(subIconMime, mimeIcon);
@@ -230,10 +232,10 @@ public class IconHelper {
         view.setAlpha(0f);
     }
 
-    private Drawable getDocumentIcon(
-        Context context, String authority, String id, String mimeType, int icon) {
+    private Drawable getDocumentIcon(Context context, UserId userId, String authority, String id,
+            String mimeType, int icon) {
         if (icon != 0) {
-            return IconUtils.loadPackageIcon(context, authority, icon);
+            return IconUtils.loadPackageIcon(context, userId, authority, icon, mMaybeShowBadge);
         } else {
             return IconUtils.loadMimeIcon(context, mimeType, authority, id, mMode);
         }
@@ -244,6 +246,6 @@ public class IconHelper {
      */
     public Drawable getDocumentIcon(Context context, DocumentInfo doc) {
         return getDocumentIcon(
-                context, doc.authority, doc.documentId, doc.mimeType, doc.icon);
+                context, doc.userId, doc.authority, doc.documentId, doc.mimeType, doc.icon);
     }
 }

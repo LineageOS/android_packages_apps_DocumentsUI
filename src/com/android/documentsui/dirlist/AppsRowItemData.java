@@ -36,16 +36,19 @@ import com.android.documentsui.sidebar.RootItem;
  */
 public abstract class AppsRowItemData {
 
-    private final UserId mUserId;
+    protected final UserId mUserId;
     private final String mTitle;
     private final @Nullable String mSummary;
     protected final ActionHandler mActionHandler;
+    protected final boolean mMaybeShowBadge;
 
-    public AppsRowItemData(Item item, ActionHandler actionHandler, boolean shouldShowSummary) {
+    public AppsRowItemData(Item item, ActionHandler actionHandler, boolean shouldShowSummary,
+            boolean maybeShowBadge) {
         mUserId = item.userId;
         mTitle = item.title;
         mSummary = shouldShowSummary ? item.getSummary() : null;
         mActionHandler = actionHandler;
+        mMaybeShowBadge = maybeShowBadge;
     }
 
     public final String getTitle() {
@@ -70,14 +73,15 @@ public abstract class AppsRowItemData {
 
         private final ResolveInfo mResolveInfo;
 
-        public AppData(AppItem item, ActionHandler actionHandler, boolean shouldShowSummary) {
-            super(item, actionHandler, shouldShowSummary);
+        public AppData(AppItem item, ActionHandler actionHandler, boolean shouldShowSummary,
+                boolean maybeShowBadge) {
+            super(item, actionHandler, shouldShowSummary, maybeShowBadge);
             mResolveInfo = item.info;
         }
 
         @Override
         protected Drawable getIconDrawable(Context context) {
-            return mResolveInfo.loadIcon(context.getPackageManager());
+            return mResolveInfo.loadIcon(mUserId.getPackageManager(context));
         }
 
         @Override
@@ -90,14 +94,15 @@ public abstract class AppsRowItemData {
 
         private final RootInfo mRootInfo;
 
-        public RootData(RootItem item, ActionHandler actionHandler, boolean shouldShowSummary) {
-            super(item, actionHandler, shouldShowSummary);
+        public RootData(RootItem item, ActionHandler actionHandler, boolean shouldShowSummary,
+                boolean maybeShowBadge) {
+            super(item, actionHandler, shouldShowSummary, maybeShowBadge);
             mRootInfo = item.root;
         }
 
         @Override
         protected Drawable getIconDrawable(Context context) {
-            return mRootInfo.loadIcon(context);
+            return mRootInfo.loadIcon(context, mMaybeShowBadge);
         }
 
         @Override
