@@ -711,9 +711,41 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     @Override
-    public final void loadRoot(Uri uri) {
-        new LoadRootTask<>(mActivity, mProviders, uri, this::onRootLoaded)
+    public final void loadRoot(Uri uri, UserId userId) {
+        new LoadRootTask<>(mActivity, mProviders, uri, userId, this::onRootLoaded)
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
+    }
+
+    @Override
+    public final void loadCrossProfileRoot(RootInfo info, UserId selectedUser) {
+        if (info.isRecents()) {
+            openRoot(mProviders.getRecentsRoot(selectedUser));
+            return;
+        }
+        new LoadRootTask<>(mActivity, mProviders, info.getUri(), selectedUser,
+                new LoadCrossProfileRootCallback(info, selectedUser))
+                .executeOnExecutor(mExecutors.lookup(info.getUri().getAuthority()));
+    }
+
+    private class LoadCrossProfileRootCallback implements LoadRootTask.LoadRootCallback {
+        private final RootInfo mOriginalRoot;
+        private final UserId mSelectedUserId;
+
+        LoadCrossProfileRootCallback(RootInfo rootInfo, UserId selectedUser) {
+            mOriginalRoot = rootInfo;
+            mSelectedUserId = selectedUser;
+        }
+
+        @Override
+        public void onRootLoaded(@Nullable RootInfo root) {
+            if (root == null) {
+                // There is no such root in the other profile. Maybe the provider is missing on
+                // the other profile. Create a dummy root and open it to show error message.
+                root = RootInfo.copyRootInfo(mOriginalRoot);
+                root.userId = mSelectedUserId;
+            }
+            openRoot(root);
+        }
     }
 
     @Override
@@ -799,7 +831,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     protected final void loadHomeDir() {
-        loadRoot(Shared.getDefaultRootUri(mActivity));
+        loadRoot(Shared.getDefaultRootUri(mActivity), UserId.DEFAULT_USER);
     }
 
     protected final void loadRecent() {
@@ -918,6 +950,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         void onDocumentPicked(DocumentInfo doc);
         RootInfo getCurrentRoot();
         DocumentInfo getCurrentDirectory();
+        UserId getSelectedUser();
         /**
          * Check whether current directory is root of recent.
          */

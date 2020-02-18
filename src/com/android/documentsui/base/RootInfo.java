@@ -200,6 +200,30 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         }
     };
 
+    /**
+     * Returns a new root info copied from the provided root info.
+     */
+    public static RootInfo copyRootInfo(RootInfo root) {
+        final RootInfo newRoot = new RootInfo();
+        newRoot.userId = root.userId;
+        newRoot.authority = root.authority;
+        newRoot.rootId = root.rootId;
+        newRoot.flags = root.flags;
+        newRoot.icon = root.icon;
+        newRoot.title = root.title;
+        newRoot.summary = root.summary;
+        newRoot.documentId = root.documentId;
+        newRoot.availableBytes = root.availableBytes;
+        newRoot.mimeTypes = root.mimeTypes;
+        newRoot.queryArgs = root.queryArgs;
+
+        // derived fields
+        newRoot.derivedType = root.derivedType;
+        newRoot.derivedIcon = root.derivedIcon;
+        newRoot.derivedMimeTypes = root.derivedMimeTypes;
+        return newRoot;
+    }
+
     public static RootInfo fromRootsCursor(UserId userId, String authority, Cursor cursor) {
         final RootInfo root = new RootInfo();
         root.userId = userId;
@@ -469,7 +493,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     public String toString() {
         return "Root{"
                 + "userId=" + userId
-                + "authority=" + authority
+                + ", authority=" + authority
                 + ", rootId=" + rootId
                 + ", title=" + title
                 + ", isUsb=" + isUsb()

@@ -69,7 +69,8 @@ public class RootsFragmentTest {
     @Test
     public void testSortLoadResult_WithCorrectOrder() {
         List<Item> items = mRootsFragment.sortLoadResult(createFakeRootInfoList(),
-                null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess());
+                null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess(),
+                UserId.DEFAULT_USER, Collections.singletonList(UserId.DEFAULT_USER));
         assertTrue(assertSortedResult(items));
     }
 

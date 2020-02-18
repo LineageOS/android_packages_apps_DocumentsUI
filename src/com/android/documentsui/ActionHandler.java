@@ -95,7 +95,9 @@ public interface ActionHandler {
 
     void openRoot(ResolveInfo app);
 
-    void loadRoot(Uri uri);
+    void loadRoot(Uri uri, UserId userId);
+
+    void loadCrossProfileRoot(RootInfo info, UserId selectedUser);
 
     void loadFirstRoot(Uri uri);
 

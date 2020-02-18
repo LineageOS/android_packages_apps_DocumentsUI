@@ -158,7 +158,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         Uri uri = intent.getParcelableExtra(DocumentsContract.EXTRA_INITIAL_URI);
         if (uri != null) {
             if (DocumentsContract.isRootUri(mActivity, uri)) {
-                loadRoot(uri);
+                loadRoot(uri, UserId.DEFAULT_USER);
                 return true;
             } else if (DocumentsContract.isDocumentUri(mActivity, uri)) {
                 return launchToDocument(uri);

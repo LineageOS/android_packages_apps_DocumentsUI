@@ -21,7 +21,7 @@ import static androidx.core.util.Preconditions.checkNotNull;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.VisibleForTesting;
+import androidx.annotation.Nullable;
 
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
@@ -42,6 +42,8 @@ public class ProfileTabs implements ProfileTabsAddons {
     private final NavigationViewManager.Environment mEnv;
     private final UserIdManager mUserIdManager;
     private List<UserId> mUserIds;
+    @Nullable
+    private Listener mListener;
 
     public ProfileTabs(TabLayout tabLayout, State state, UserIdManager userIdManager,
             NavigationViewManager.Environment env) {
@@ -51,6 +53,22 @@ public class ProfileTabs implements ProfileTabsAddons {
         mUserIdManager = checkNotNull(userIdManager);
         mTabs.removeAllTabs();
         mUserIds = Collections.singletonList(UserId.CURRENT_USER);
+        mTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (mListener != null) {
+                    mListener.onUserSelected((UserId) tab.getTag());
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
     }
 
     /**
@@ -59,6 +77,10 @@ public class ProfileTabs implements ProfileTabsAddons {
     public void updateView() {
         updateTabsIfNeeded();
         mTabs.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
+    }
+
+    public void setListener(@Nullable Listener listener) {
+        mListener = listener;
     }
 
     private void updateTabsIfNeeded() {
@@ -70,9 +92,13 @@ public class ProfileTabs implements ProfileTabsAddons {
             mUserIds = userIds;
             mTabs.removeAllTabs();
             if (mUserIds.size() > 1) {
-                mTabs.addTab(createTab(R.string.personal_tab, mUserIdManager.getSystemUser()));
-                mTabs.addTab(createTab(R.string.work_tab, mUserIdManager.getManagedUser()));
+                // set setSelected to false otherwise it will trigger callback.
+                mTabs.addTab(createTab(R.string.personal_tab,
+                        mUserIdManager.getSystemUser()), /* setSelected= */false);
+                mTabs.addTab(createTab(R.string.work_tab,
+                        mUserIdManager.getManagedUser()), /* setSelected= */false);
             }
+            mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(UserId.CURRENT_USER)));
         }
     }
 
@@ -80,7 +106,6 @@ public class ProfileTabs implements ProfileTabsAddons {
      * Returns the user represented by the selected tab. If there is no tab, return the
      * current user.
      */
-    @VisibleForTesting
     public UserId getSelectedUser() {
         if (mTabs.getTabCount() > 1 && mTabs.getSelectedTabPosition() >= 0) {
             return (UserId) mTabs.getTabAt(mTabs.getSelectedTabPosition()).getTag();
@@ -120,5 +145,15 @@ public class ProfileTabs implements ProfileTabsAddons {
                 }
             }
         }
+    }
+
+    /**
+     * Interface definition for a callback to be invoked.
+     */
+    interface Listener {
+        /**
+         * Called when a user tab has been selected.
+         */
+        void onUserSelected(UserId userId);
     }
 }
