@@ -76,6 +76,7 @@ public class AppsRowManagerTest {
         when(mActivity.getDisplayState()).thenReturn(mState);
         when(mActivity.findViewById(R.id.apps_row)).thenReturn(mAppsRow);
         when(mActivity.findViewById(R.id.apps_group)).thenReturn(mAppsGroup);
+        when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.USER_ID);
     }
 
     @Test
@@ -133,6 +134,43 @@ public class AppsRowManagerTest {
     }
 
     @Test
+    public void testUpdateView_showSelectedUserItems() {
+        mState.action = State.ACTION_GET_CONTENT;
+        mState.stack.changeRoot(TestProvidersAccess.RECENTS);
+        final List<Item> rootList = new ArrayList<>();
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.PICKLES, mActionHandler));
+        mAppsRowManager.updateList(rootList);
+
+        mAppsRowManager.updateView(mActivity);
+        assertEquals(View.VISIBLE, mAppsRow.getVisibility());
+        assertEquals(4, mAppsGroup.getChildCount());
+    }
+
+    @Test
+    public void testUpdateView_showSelectedUserItems_otherUser() {
+        mState.action = State.ACTION_GET_CONTENT;
+        when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.OtherUser.USER_ID);
+        mState.stack.changeRoot(TestProvidersAccess.RECENTS);
+        final List<Item> rootList = new ArrayList<>();
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.PICKLES, mActionHandler));
+        mAppsRowManager.updateList(rootList);
+
+        mAppsRowManager.updateView(mActivity);
+        assertEquals(View.VISIBLE, mAppsRow.getVisibility());
+        assertEquals(2, mAppsGroup.getChildCount());
+    }
+
+    @Test
     public void testUpdateView_notInRecent_hideRow() {
         mState.action = State.ACTION_BROWSE;
         final List<Item> rootList = new ArrayList<>();
@@ -166,6 +204,24 @@ public class AppsRowManagerTest {
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
 
         final List<Item> rootList = new ArrayList<>();
+        mAppsRowManager.updateList(rootList);
+
+        mAppsRowManager.updateView(mActivity);
+
+        assertEquals(View.GONE, mAppsRow.getVisibility());
+    }
+
+    @Test
+    public void testUpdateView_noItemsOnSelectedUser_hideRow() {
+        mState.action = State.ACTION_GET_CONTENT;
+        mState.stack.changeRoot(TestProvidersAccess.RECENTS);
+        when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.OtherUser.USER_ID);
+
+        final List<Item> rootList = new ArrayList<>();
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler));
         mAppsRowManager.updateList(rootList);
 
         mAppsRowManager.updateView(mActivity);
