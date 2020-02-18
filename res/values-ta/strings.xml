@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"இந்தக் கோப்புறையைப் பயன்படுத்து"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g> இல் உள்ள ஃபைல்களை அணுக <xliff:g id="APPNAME">%1$s</xliff:g> ஆப்ஸை அனுமதிக்கவா?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"இது <xliff:g id="DIRECTORY">%2$s</xliff:g> இல் சேமிக்கப்பட்டுள்ள தற்போதைய மற்றும் வருங்கால உள்ளடக்கத்தை அணுக <xliff:g id="APPNAME">%1$s</xliff:g> ஆப்ஸை அனுமதிக்கும்."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> உடன் <xliff:g id="FOLDERNAME">%1$s</xliff:g> கோப்புறையைப் பகிர முடியவில்லை"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"கீழுள்ள கோப்புறை ஒன்றைத் தேர்ந்தெடுக்கவும் அல்லது புதியது ஒன்றை உருவாக்கவும்"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"வேறொரு கோப்புறையைத் தேர்ந்தெடுக்கவும் அல்லது புதியது ஒன்றை உருவாக்கவும்"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"இந்த மொபைலில் தேடவும்"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"தேடல் வரலாற்றை நீக்கும் பட்டன் <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

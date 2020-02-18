@@ -269,7 +269,7 @@ public final class InspectorController {
         intent.setPackage(mProviders.getPackageName(userId, uri.getAuthority()));
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setData(uri);
-        mContext.startActivity(intent);
+        userId.startActivityAsUser(mContext, intent);
     }
 
     /**

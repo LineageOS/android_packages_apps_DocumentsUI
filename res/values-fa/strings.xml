@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"استفاده از این پوشه"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"به <xliff:g id="APPNAME">%1$s</xliff:g> اجازه می‌دهید به فایل‌های موجود در <xliff:g id="DIRECTORY">%2$s</xliff:g> دسترسی داشته باشد؟"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"این کار به <xliff:g id="APPNAME">%1$s</xliff:g> امکان می‌دهد به محتوای کنونی و آتی ذخیره‌شده در <xliff:g id="DIRECTORY">%2$s</xliff:g> دسترسی داشته باشد."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"پوشه <xliff:g id="FOLDERNAME">%1$s</xliff:g> با <xliff:g id="APPNAME">%2$s</xliff:g> هم‌رسانی نشد"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"پوشه‌ای در زیر انتخاب کنید یا پوشه جدیدی ایجاد کنید"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"پوشه دیگری انتخاب کنید یا پوشه جدیدی ایجاد کنید"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"جستجوی این تلفن"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"حذف سابقه جستجوی <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

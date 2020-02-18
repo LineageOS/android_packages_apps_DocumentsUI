@@ -106,6 +106,10 @@ public class NavigationViewManager {
         mSearchBarView.setOnClickListener(listener);
     }
 
+    public ProfileTabsAddons getProfileTabsAddons() {
+        return mProfileTabs;
+    }
+
     private void onNavigationIconClicked() {
         if (mDrawer.isPresent()) {
             mDrawer.setOpen(true);

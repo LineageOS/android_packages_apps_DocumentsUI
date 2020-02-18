@@ -32,6 +32,7 @@ import android.os.UserManager;
 import android.util.Log;
 
 import androidx.annotation.GuardedBy;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.os.BuildCompat;
 
@@ -55,12 +56,14 @@ public interface UserIdManager {
      * Returns the system user from {@link #getUserIds()} if the list at least 2 users. Otherwise,
      * returns null.
      */
+    @Nullable
     UserId getSystemUser();
 
     /**
      * Returns the managed user from {@link #getUserIds()} if the list at least 2 users. Otherwise,
      * returns null.
      */
+    @Nullable
     UserId getManagedUser();
 
     /**
@@ -148,7 +151,7 @@ public interface UserIdManager {
             return mManagedUser;
         }
 
-        public List<UserId> getUserIdsInternal() {
+        private List<UserId> getUserIdsInternal() {
             final List<UserId> result = new ArrayList<>();
             result.add(mCurrentUser);
 

@@ -254,6 +254,11 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ይህን አቃፊ ተጠቀም"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> በ <xliff:g id="DIRECTORY">%2$s</xliff:g> ውስጥ ፋይሎችን ለመድረስ ይፈቀድለት?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ይህ <xliff:g id="APPNAME">%1$s</xliff:g> በ <xliff:g id="DIRECTORY">%2$s</xliff:g> ውስጥ የተከማቹ አሁን ያሉ እና ወደፊት የሚኖሩ ይዘቶችን መድረስ እንዲችል ያደርገዋል።"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> አቃፊን ከ<xliff:g id="APPNAME">%2$s</xliff:g> ጋር ማጋራት አይቻልም"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ከዚህ በታች አቃፊ ይምረጡ ወይም አዲስ ይፍጠሩ"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"ሌላ አቃፊ ይምረጡ ወይም አዲስ ይፍጠሩ"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ይህን ስልክ ይፈልጉ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"የፍለጋ ታሪክ ይሰርዙ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"የግል"</string>
+    <string name="work_tab" msgid="7265359366883747413">"ሥራ"</string>
 </resources>

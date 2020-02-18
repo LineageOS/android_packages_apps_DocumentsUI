@@ -254,6 +254,11 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ໃຊ້ໂຟນເດີນີ້"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"ອະນຸຍາດໃຫ້ <xliff:g id="APPNAME">%1$s</xliff:g> ເຂົ້າເຖິງໄຟລ໌ໃນ <xliff:g id="DIRECTORY">%2$s</xliff:g> ໄດ້ບໍ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ນີ້ຈະເຮັດໃຫ້ <xliff:g id="APPNAME">%1$s</xliff:g> ມີສິດເຂົ້າເຖິງເນື້ອຫາປັດຈຸບັນ ແລະ ອະນາຄົດທີ່ຈັດເກັບໄວ້ໃນ <xliff:g id="DIRECTORY">%2$s</xliff:g> ໄດ້."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"ບໍ່ສາມາດແບ່ງປັນໂຟນເດີ <xliff:g id="FOLDERNAME">%1$s</xliff:g> ໃຫ້ <xliff:g id="APPNAME">%2$s</xliff:g> ໄດ້"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ເລືອກໂຟນເດີທາງລຸ່ມ ຫຼື ສ້າງໂຟນເດີໃໝ່"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"ເລືອກໂຟນເດີອື່ນ ຫຼື ສ້າງໂຟນເດີໃໝ່"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ຊອກຫາໂທລະສັບໜ່ວຍນີ້"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ລຶບປະຫວັດການຊອກຫາ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"ສ່ວນຕົວ"</string>
+    <string name="work_tab" msgid="7265359366883747413">"ວຽກ"</string>
 </resources>

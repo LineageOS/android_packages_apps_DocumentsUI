@@ -254,6 +254,11 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Gebruik hierdie vouer"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Gee <xliff:g id="APPNAME">%1$s</xliff:g> toegang tot lêers in <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Dit sal <xliff:g id="APPNAME">%1$s</xliff:g> toegang gee tot huidige en toekomstige inhoud wat in <xliff:g id="DIRECTORY">%2$s</xliff:g> geberg word."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Kan nie <xliff:g id="FOLDERNAME">%1$s</xliff:g>-vouer met <xliff:g id="APPNAME">%2$s</xliff:g> deel nie"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Kies \'n vouer hieronder of skep \'n nuwe een"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Kies \'n ander vouer of skep \'n nuwe een"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Deursoek hierdie foon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Vee soekgeskiedenis uit: <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Persoonlik"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Werk"</string>
 </resources>

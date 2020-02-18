@@ -325,6 +325,18 @@ public class DocumentInfo implements Durable, Parcelable {
         return (flags & Document.FLAG_DIR_PREFERS_LAST_MODIFIED) != 0;
     }
 
+    /**
+     * Returns a document uri representing this {@link DocumentInfo}. The URI contains user
+     * information. Use this when uri is needed externally. For usage within DocsUI, use
+     * {@link #derivedUri}.
+     */
+    public Uri getDocumentUri() {
+        if (UserId.CURRENT_USER.equals(userId)) {
+            return derivedUri;
+        }
+        return userId.buildDocumentUriAsUser(authority, documentId);
+    }
+
     @Override
     public int hashCode() {
         return userId.hashCode() + derivedUri.hashCode() + mimeType.hashCode();

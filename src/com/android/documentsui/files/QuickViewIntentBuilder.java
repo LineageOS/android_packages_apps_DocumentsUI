@@ -17,8 +17,8 @@
 package com.android.documentsui.files;
 
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
-import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.Shared.MAX_DOCS_IN_INTENT;
+import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -28,18 +28,18 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Range;
 
+import androidx.annotation.Nullable;
+
+import com.android.documentsui.Model;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.Model;
 import com.android.documentsui.roots.RootCursorWrapper;
 
 import java.util.ArrayList;
@@ -111,7 +111,7 @@ public final class QuickViewIntentBuilder {
 
         if (!TextUtils.isEmpty(trustedPkg)) {
             Intent intent = new Intent(Intent.ACTION_QUICK_VIEW);
-            intent.setDataAndType(mDocument.derivedUri, mDocument.mimeType);
+            intent.setDataAndType(mDocument.getDocumentUri(), mDocument.mimeType);
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
                     | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setPackage(trustedPkg);

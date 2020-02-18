@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Nota þessa möppu"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Veita <xliff:g id="APPNAME">%1$s</xliff:g> aðgang að skrám í <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Þetta veitir <xliff:g id="APPNAME">%1$s</xliff:g> aðgang að efni sem vistað er í <xliff:g id="DIRECTORY">%2$s</xliff:g> nú og síðar."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Ekki er hægt að deila möppunni <xliff:g id="FOLDERNAME">%1$s</xliff:g> með <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Veldu möppu hér að neðan eða búðu til nýja"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Veldu aðra möppu eða búðu til nýja"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Leita í þessum síma"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Eyða leitarferli <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

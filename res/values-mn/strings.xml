@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Энэ фолдерыг ашиглах"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g>-д байгаа файлд хандахыг <xliff:g id="APPNAME">%1$s</xliff:g>-д зөвшөөрөх үү?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Энэ нь <xliff:g id="DIRECTORY">%2$s</xliff:g>-д одоо байгаа болон ирээдүйд хадгалах контентод хандахыг <xliff:g id="APPNAME">%1$s</xliff:g>-д зөвшөөрнө."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> фолдерыг <xliff:g id="APPNAME">%2$s</xliff:g>-тай хуваалцах боломжгүй"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Доорх фолдерыг сонгох эсвэл шинийг үүсгэнэ үү"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Өөр фолдер сонгох эсвэл шинийг үүсгэнэ үү"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Энэ утсыг хайх"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Хайлтын түүхийг устгах <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

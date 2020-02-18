@@ -54,6 +54,7 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
@@ -232,12 +233,12 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     @Override
-    public void showAppDetails(ResolveInfo info) {
+    public void showAppDetails(ResolveInfo info, UserId userId) {
         mInjector.pickResult.increaseActionCount();
         final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.fromParts("package", info.activityInfo.packageName, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        mActivity.startActivity(intent);
+        userId.startActivityAsUser(mActivity, intent);
     }
 
     @Override

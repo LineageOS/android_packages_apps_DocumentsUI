@@ -254,6 +254,11 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Օգտագործել այս պանակը"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Թույլատրե՞լ <xliff:g id="APPNAME">%1$s</xliff:g> հավելվածին օգտագործել «<xliff:g id="DIRECTORY">%2$s</xliff:g>» գրացուցակի ֆայլերը"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> հավելվածին հասանելի կլինի «<xliff:g id="DIRECTORY">%2$s</xliff:g>» գրացուցակի ներկա և ապագա բովանդակությունը:"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"«<xliff:g id="FOLDERNAME">%1$s</xliff:g>» պանակը չհաջողվեց հասանելի դարձնել <xliff:g id="APPNAME">%2$s</xliff:g> հավելվածին"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Ընտրեք պանակ ներքևից կամ ստեղծեք նորը"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Ընտրեք այլ պանակ կամ ստեղծեք նորը"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Որոնեք հեռախոսում"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ջնջել որոնումների պատմությունը՝ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Անձնական"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Աշխատանքային"</string>
 </resources>

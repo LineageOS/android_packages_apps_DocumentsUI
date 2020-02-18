@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"اس فولڈر کو استعمال کریں"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> کو <xliff:g id="DIRECTORY">%2$s</xliff:g> میں فائلز تک رسائی حاصل کرنے کی اجازت دیں؟"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"اس سے <xliff:g id="APPNAME">%1$s</xliff:g> کو <xliff:g id="DIRECTORY">%2$s</xliff:g> میں اسٹور کردہ موجودہ اور آئندہ کے مواد تک رسائی حاصل ہوگی۔"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> فولڈر کو <xliff:g id="APPNAME">%2$s</xliff:g> کے ساتھ اشتراک نہیں کر سکتے"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ذیل میں ایک فولڈر منتخب کریں یا ایک نیا تخلیق کریں"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"کوئی دوسرا فولڈر منتخب کریں یا ایک نیا تخلیق کریں"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"اس فون میں تلاش کریں"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"تلاش کی سرگزشت کی <xliff:g id="TEXT">%1$s</xliff:g> حذف کریں"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

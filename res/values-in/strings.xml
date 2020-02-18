@@ -254,6 +254,11 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Gunakan folder ini"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Izinkan <xliff:g id="APPNAME">%1$s</xliff:g> mengakses file di <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Tindakan ini akan mengizinkan <xliff:g id="APPNAME">%1$s</xliff:g> mengakses konten saat ini dan mendatang yang disimpan di <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Tidak dapat membagikan folder <xliff:g id="FOLDERNAME">%1$s</xliff:g> kepada <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Pilih folder di bawah, atau buat folder baru"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Pilih folder lain, atau buat folder baru"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Telusuri ponsel ini"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Menghapus histori penelusuran <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Pribadi"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Kerja"</string>
 </resources>

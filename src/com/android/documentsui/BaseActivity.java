@@ -434,6 +434,10 @@ public abstract class BaseActivity
         updateHeaderTitle();
     }
 
+    protected ProfileTabsAddons getProfileTabsAddon() {
+        return mNavigator.getProfileTabsAddons();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

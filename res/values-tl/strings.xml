@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Gamitin ang folder na ito"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Pahintulutan ang <xliff:g id="APPNAME">%1$s</xliff:g> na i-access ang mga file sa <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Bibigyang-daan nito ang <xliff:g id="APPNAME">%1$s</xliff:g> na i-access ang content sa kasalukuyan at hinaharap na naka-store sa <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Hindi maibahagi ang folder na <xliff:g id="FOLDERNAME">%1$s</xliff:g> sa <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Pumili ng folder sa ibaba, o gumawa ng bago"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Pumili ng ibang folder, o gumawa ng bago"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Maghanap sa teleponong ito"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"I-delete ang history ng paghahanap <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>
