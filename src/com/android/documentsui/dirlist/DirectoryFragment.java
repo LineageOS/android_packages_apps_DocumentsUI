@@ -1161,7 +1161,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         String[] ids = mModel.getModelIds();
         int numOfEvicts = Math.min(ids.length, CACHE_EVICT_LIMIT);
         for (int i = 0; i < numOfEvicts; ++i) {
-            cache.removeUri(mModel.getItemUri(ids[i]));
+            cache.removeUri(mModel.getItemUri(ids[i]), mModel.getItemUserId(ids[i]));
         }
 
         final DocumentInfo doc = mActivity.getCurrentDirectory();
