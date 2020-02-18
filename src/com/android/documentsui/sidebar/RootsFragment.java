@@ -247,10 +247,13 @@ public class RootsFragment extends Fragment {
                 final boolean excludeSelf =
                         intent.getBooleanExtra(DocumentsContract.EXTRA_EXCLUDE_SELF, false);
                 final String excludePackage = excludeSelf ? activity.getCallingPackage() : null;
+                final boolean maybeShowBadge =
+                        getBaseActivity().getDisplayState().supportsCrossProfile();
                 List<Item> sortedItems = sortLoadResult(roots, excludePackage, handlerAppIntent,
                         DocumentsApplication.getProvidersCache(getContext()),
                         getBaseActivity().getSelectedUser(),
-                        DocumentsApplication.getUserIdManager(getContext()).getUserIds());
+                        DocumentsApplication.getUserIdManager(getContext()).getUserIds(),
+                        maybeShowBadge);
 
                 // Get the first visible position and offset
                 final int firstPosition = mList.getFirstVisiblePosition();
@@ -294,7 +297,8 @@ public class RootsFragment extends Fragment {
             @Nullable Intent handlerAppIntent,
             ProvidersAccess providersAccess,
             UserId selectedUser,
-            List<UserId> userIds) {
+            List<UserId> userIds,
+            boolean maybeShowBadge) {
         final List<Item> result = new ArrayList<>();
 
         final RootItemListBuilder librariesBuilder = new RootItemListBuilder(selectedUser, userIds);
@@ -306,14 +310,15 @@ public class RootsFragment extends Fragment {
             final RootItem item;
 
             if (root.isLibrary() || root.isDownloads()) {
-                item = new RootItem(root, mActionHandler);
+                item = new RootItem(root, mActionHandler, maybeShowBadge);
                 librariesBuilder.add(item);
             } else if (root.isStorage()) {
-                item = new RootItem(root, mActionHandler);
+                item = new RootItem(root, mActionHandler, maybeShowBadge);
                 storageProvidersBuilder.add(item);
             } else {
                 item = new RootItem(root, mActionHandler,
-                        providersAccess.getPackageName(root.userId, root.authority));
+                        providersAccess.getPackageName(root.userId, root.authority),
+                        maybeShowBadge);
                 otherProviders.add(item);
             }
         }
@@ -337,7 +342,8 @@ public class RootsFragment extends Fragment {
 
         // Include apps that can handle this intent too.
         if (handlerAppIntent != null) {
-            includeHandlerApps(handlerAppIntent, excludePackage, result, otherProviders, userIds);
+            includeHandlerApps(handlerAppIntent, excludePackage, result, otherProviders, userIds,
+                    maybeShowBadge);
         } else {
             // Only add providers
             Collections.sort(otherProviders, comp);
@@ -361,7 +367,7 @@ public class RootsFragment extends Fragment {
      */
     private void includeHandlerApps(
             Intent handlerAppIntent, @Nullable String excludePackage, List<Item> result,
-            List<RootItem> otherProviders, List<UserId> userIds) {
+            List<RootItem> otherProviders, List<UserId> userIds, boolean maybeShowBadge) {
         if (VERBOSE) Log.v(TAG, "Adding handler apps for intent: " + handlerAppIntent);
 
         Context context = getContext();
@@ -417,7 +423,8 @@ public class RootsFragment extends Fragment {
 
             final Item item;
             if (resolveInfo != null) {
-                item = new RootAndAppItem(rootItem.root, resolveInfo, mActionHandler);
+                item = new RootAndAppItem(rootItem.root, resolveInfo, mActionHandler,
+                        maybeShowBadge);
                 appItems.remove(userPackage);
             } else {
                 item = rootItem;

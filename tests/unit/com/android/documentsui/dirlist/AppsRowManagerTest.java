@@ -53,6 +53,7 @@ public class AppsRowManagerTest {
     private AppsRowManager mAppsRowManager;
 
     private ActionHandler mActionHandler;
+    private boolean mMaybeShowBadge;
     private BaseActivity mActivity;
     private State mState;
 
@@ -63,7 +64,7 @@ public class AppsRowManagerTest {
     public void setUp() {
         mActionHandler = new TestActionHandler();
 
-        mAppsRowManager = new AppsRowManager(mActionHandler);
+        mAppsRowManager = new AppsRowManager(mActionHandler, mMaybeShowBadge);
 
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -82,10 +83,12 @@ public class AppsRowManagerTest {
     @Test
     public void testUpdateList_byRootItem() {
         final List<Item> rootList = new ArrayList<>();
-        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler, "packageName"));
-        rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler, "packageName"));
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler, "packageName",
+                mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler, "packageName",
+                mMaybeShowBadge));
 
         final List<AppsRowItemData> chipDataList = mAppsRowManager.updateList(rootList);
 
@@ -105,7 +108,8 @@ public class AppsRowManagerTest {
         info.activityInfo.packageName = testPackageName;
 
         List<Item> hybridList = new ArrayList<>();
-        hybridList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
+        hybridList.add(
+                new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
         hybridList.add(new AppItem(info, TestProvidersAccess.PICKLES.title, UserId.DEFAULT_USER,
                 mActionHandler));
 
@@ -124,7 +128,7 @@ public class AppsRowManagerTest {
         mState.action = State.ACTION_BROWSE;
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
         final List<Item> rootList = new ArrayList<>();
-        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
         mAppsRowManager.updateList(rootList);
 
         mAppsRowManager.updateView(mActivity);
@@ -138,12 +142,14 @@ public class AppsRowManagerTest {
         mState.action = State.ACTION_GET_CONTENT;
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
         final List<Item> rootList = new ArrayList<>();
-        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.OtherUser.PICKLES, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, mActionHandler,
+                mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.PICKLES, mActionHandler,
+                mMaybeShowBadge));
         mAppsRowManager.updateList(rootList);
 
         mAppsRowManager.updateView(mActivity);
@@ -157,12 +163,14 @@ public class AppsRowManagerTest {
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.OtherUser.USER_ID);
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
         final List<Item> rootList = new ArrayList<>();
-        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.OtherUser.PICKLES, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, mActionHandler,
+                mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.PICKLES, mActionHandler,
+                mMaybeShowBadge));
         mAppsRowManager.updateList(rootList);
 
         mAppsRowManager.updateView(mActivity);
@@ -174,7 +182,7 @@ public class AppsRowManagerTest {
     public void testUpdateView_notInRecent_hideRow() {
         mState.action = State.ACTION_BROWSE;
         final List<Item> rootList = new ArrayList<>();
-        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
         mAppsRowManager.updateList(rootList);
 
         mState.stack.changeRoot(TestProvidersAccess.DOWNLOADS);
@@ -190,7 +198,7 @@ public class AppsRowManagerTest {
 
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
         final List<Item> rootList = new ArrayList<>();
-        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
         mAppsRowManager.updateList(rootList);
 
         mAppsRowManager.updateView(mActivity);
@@ -218,10 +226,10 @@ public class AppsRowManagerTest {
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.OtherUser.USER_ID);
 
         final List<Item> rootList = new ArrayList<>();
-        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler));
-        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler));
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler, mMaybeShowBadge));
         mAppsRowManager.updateList(rootList);
 
         mAppsRowManager.updateView(mActivity);

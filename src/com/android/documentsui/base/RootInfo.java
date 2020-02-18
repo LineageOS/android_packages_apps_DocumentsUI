@@ -423,24 +423,25 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         }
     }
 
-    public Drawable loadIcon(Context context) {
+    public Drawable loadIcon(Context context, boolean maybeShowBadge) {
         if (derivedIcon == LOAD_FROM_CONTENT_RESOLVER) {
             return loadMimeTypeIcon(context);
         } else if (derivedIcon != 0) {
+            // derivedIcon is set with the resources of the current user.
             return context.getDrawable(derivedIcon);
         } else {
-            return IconUtils.loadPackageIcon(context, authority, icon);
+            return IconUtils.loadPackageIcon(context, userId, authority, icon, maybeShowBadge);
         }
     }
 
-    public Drawable loadDrawerIcon(Context context) {
+    public Drawable loadDrawerIcon(Context context, boolean maybeShowBadge) {
         if (derivedIcon == LOAD_FROM_CONTENT_RESOLVER) {
             return IconUtils.applyTintColor(context, loadMimeTypeIcon(context),
                     R.color.item_root_icon);
         } else if (derivedIcon != 0) {
             return IconUtils.applyTintColor(context, derivedIcon, R.color.item_root_icon);
         } else {
-            return IconUtils.loadPackageIcon(context, authority, icon);
+            return IconUtils.loadPackageIcon(context, userId, authority, icon, maybeShowBadge);
         }
     }
 

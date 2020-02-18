@@ -46,10 +46,12 @@ public class AppsRowManager {
 
     private final ActionHandler mActionHandler;
     private final List<AppsRowItemData> mDataList;
+    private final boolean mMaybeShowBadge;
 
-    public AppsRowManager(ActionHandler handler) {
+    public AppsRowManager(ActionHandler handler, boolean maybeShowBadge) {
         mDataList = new ArrayList<>();
         mActionHandler = handler;
+        mMaybeShowBadge = maybeShowBadge;
     }
 
     public List<AppsRowItemData> updateList(List<Item> itemList) {
@@ -68,9 +70,11 @@ public class AppsRowManager {
         for (Item item : itemList) {
             boolean shouldShowSummary = packageNameCount.get(item.getPackageName()) > 1;
             if (item instanceof RootItem) {
-                mDataList.add(new RootData((RootItem) item, mActionHandler, shouldShowSummary));
+                mDataList.add(new RootData((RootItem) item, mActionHandler, shouldShowSummary,
+                        mMaybeShowBadge));
             } else {
-                mDataList.add(new AppData((AppItem) item, mActionHandler, shouldShowSummary));
+                mDataList.add(new AppData((AppItem) item, mActionHandler, shouldShowSummary,
+                        mMaybeShowBadge));
             }
         }
         return mDataList;

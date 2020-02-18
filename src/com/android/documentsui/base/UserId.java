@@ -22,6 +22,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Process;
 import android.os.UserHandle;
@@ -90,6 +91,7 @@ public final class UserId {
         } catch (PackageManager.NameNotFoundException e) {
             throw new IllegalStateException("android package not found.");
         }
+
     }
 
     /**
@@ -104,6 +106,21 @@ public final class UserId {
      */
     public ContentResolver getContentResolver(Context context) {
         return asContext(context).getContentResolver();
+    }
+
+    /**
+     * Returns a drawable object associated with a particular resource ID in this user.
+     */
+    public Drawable getDrawable(Context context, int resId) {
+        return asContext(context).getDrawable(resId);
+    }
+
+    /**
+     * If this target user is a managed profile, then this returns a badged copy of the given icon
+     * to be able to distinguish it from the original icon.
+     */
+    public Drawable getUserBadgedIcon(Context context, Drawable drawable) {
+        return getPackageManager(context).getUserBadgedIcon(drawable, mUserHandle);
     }
 
     /**

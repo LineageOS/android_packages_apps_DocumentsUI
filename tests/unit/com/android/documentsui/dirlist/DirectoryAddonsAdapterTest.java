@@ -55,9 +55,11 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
         DocumentsAdapter.Environment env = new TestEnvironment(testContext);
 
         mAdapter = new DirectoryAddonsAdapter(
-            env,
-            new ModelBackedDocumentsAdapter(
-                    env, new IconHelper(testContext, State.MODE_GRID), new TestFileTypeLookup()));
+                env,
+                new ModelBackedDocumentsAdapter(
+                        env,
+                        new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */ false),
+                        new TestFileTypeLookup()));
 
         mEnv.model.addUpdateListener(mAdapter.getModelUpdateListener());
     }
