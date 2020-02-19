@@ -91,13 +91,13 @@ public class ThemeOverlayManagerTest {
     }
 
     @Test
-    public void testOverlayPackagesForDocumentsUI_shouldBeNonStatic() {
+    public void testOverlayPackagesForDocumentsUI_shouldBeMutable() {
         final String docsuiPkgId = mContext.getPackageName();
         final OverlayManager manager = mContext.getSystemService(OverlayManager.class);
         final List<OverlayInfo> infos = manager.getOverlayInfosForTarget(docsuiPkgId, mUserHandle);
 
         for (OverlayInfo info : infos) {
-            assertThat(info.isStatic).isFalse();
+            assertThat(info.isMutable).isTrue();
         }
     }
 
