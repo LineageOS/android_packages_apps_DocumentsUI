@@ -44,6 +44,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
+import com.android.documentsui.base.UserId;
 
 import java.util.function.BiConsumer;
 
@@ -61,15 +62,17 @@ public class IconHelper {
     private int mMode;
     private Point mCurrentSize;
     private boolean mThumbnailsEnabled = true;
+    private final boolean mMaybeShowBadge;
 
     /**
      * @param context
      * @param mode MODE_GRID or MODE_LIST
      */
-    public IconHelper(Context context, int mode) {
+    public IconHelper(Context context, int mode, boolean maybeShowBadge) {
         mContext = context;
         setViewMode(mode);
         mThumbnailCache = DocumentsApplication.getThumbnailCache(context);
+        mMaybeShowBadge = maybeShowBadge;
     }
 
     /**
@@ -136,7 +139,7 @@ public class IconHelper {
             ImageView iconThumb,
             ImageView iconMime,
             @Nullable ImageView subIconMime) {
-        load(doc.derivedUri, doc.mimeType, doc.flags, doc.icon, doc.lastModified,
+        load(doc.derivedUri, doc.userId, doc.mimeType, doc.flags, doc.icon, doc.lastModified,
                 iconThumb, iconMime, subIconMime);
     }
 
@@ -153,8 +156,9 @@ public class IconHelper {
      * @param subIconMime The second itemview's mime icon. Always visible.
      * @return
      */
-    public void load(Uri uri, String mimeType, int docFlags, int docIcon, long docLastModified,
-            ImageView iconThumb, ImageView iconMime, @Nullable ImageView subIconMime) {
+    public void load(Uri uri, UserId userId, String mimeType, int docFlags, int docIcon,
+            long docLastModified, ImageView iconThumb, ImageView iconMime,
+            @Nullable ImageView subIconMime) {
         boolean loadedThumbnail = false;
 
         final String docAuthority = uri.getAuthority();
@@ -165,10 +169,10 @@ public class IconHelper {
         final boolean showThumbnail = supportsThumbnail && allowThumbnail && mThumbnailsEnabled;
         if (showThumbnail) {
             loadedThumbnail =
-                loadThumbnail(uri, docAuthority, docLastModified, iconThumb, iconMime);
+                loadThumbnail(uri, userId, docAuthority, docLastModified, iconThumb, iconMime);
         }
 
-        final Drawable mimeIcon = getDocumentIcon(mContext, docAuthority,
+        final Drawable mimeIcon = getDocumentIcon(mContext, userId, docAuthority,
                 DocumentsContract.getDocumentId(uri), mimeType, docIcon);
         if (subIconMime != null) {
             setMimeIcon(subIconMime, mimeIcon);
@@ -183,9 +187,9 @@ public class IconHelper {
         }
     }
 
-    private boolean loadThumbnail(Uri uri, String docAuthority, long docLastModified,
+    private boolean loadThumbnail(Uri uri, UserId userId, String docAuthority, long docLastModified,
             ImageView iconThumb, ImageView iconMime) {
-        final Result result = mThumbnailCache.getThumbnail(uri, mCurrentSize);
+        final Result result = mThumbnailCache.getThumbnail(uri, userId, mCurrentSize);
 
         try {
             final Bitmap cachedThumbnail = result.getThumbnail();
@@ -200,7 +204,7 @@ public class IconHelper {
                         (cachedThumbnail == null ? ThumbnailLoader.ANIM_FADE_IN :
                                 ThumbnailLoader.ANIM_NO_OP);
 
-                final ThumbnailLoader task = new ThumbnailLoader(uri, iconThumb,
+                final ThumbnailLoader task = new ThumbnailLoader(uri, userId, iconThumb,
                         mCurrentSize, docLastModified,
                         bitmap -> {
                             if (bitmap != null) {
@@ -228,10 +232,10 @@ public class IconHelper {
         view.setAlpha(0f);
     }
 
-    private Drawable getDocumentIcon(
-        Context context, String authority, String id, String mimeType, int icon) {
+    private Drawable getDocumentIcon(Context context, UserId userId, String authority, String id,
+            String mimeType, int icon) {
         if (icon != 0) {
-            return IconUtils.loadPackageIcon(context, authority, icon);
+            return IconUtils.loadPackageIcon(context, userId, authority, icon, mMaybeShowBadge);
         } else {
             return IconUtils.loadMimeIcon(context, mimeType, authority, id, mMode);
         }
@@ -242,6 +246,6 @@ public class IconHelper {
      */
     public Drawable getDocumentIcon(Context context, DocumentInfo doc) {
         return getDocumentIcon(
-                context, doc.authority, doc.documentId, doc.mimeType, doc.icon);
+                context, doc.userId, doc.authority, doc.documentId, doc.mimeType, doc.icon);
     }
 }

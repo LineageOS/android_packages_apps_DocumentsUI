@@ -200,6 +200,30 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         }
     };
 
+    /**
+     * Returns a new root info copied from the provided root info.
+     */
+    public static RootInfo copyRootInfo(RootInfo root) {
+        final RootInfo newRoot = new RootInfo();
+        newRoot.userId = root.userId;
+        newRoot.authority = root.authority;
+        newRoot.rootId = root.rootId;
+        newRoot.flags = root.flags;
+        newRoot.icon = root.icon;
+        newRoot.title = root.title;
+        newRoot.summary = root.summary;
+        newRoot.documentId = root.documentId;
+        newRoot.availableBytes = root.availableBytes;
+        newRoot.mimeTypes = root.mimeTypes;
+        newRoot.queryArgs = root.queryArgs;
+
+        // derived fields
+        newRoot.derivedType = root.derivedType;
+        newRoot.derivedIcon = root.derivedIcon;
+        newRoot.derivedMimeTypes = root.derivedMimeTypes;
+        return newRoot;
+    }
+
     public static RootInfo fromRootsCursor(UserId userId, String authority, Cursor cursor) {
         final RootInfo root = new RootInfo();
         root.userId = userId;
@@ -399,24 +423,25 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         }
     }
 
-    public Drawable loadIcon(Context context) {
+    public Drawable loadIcon(Context context, boolean maybeShowBadge) {
         if (derivedIcon == LOAD_FROM_CONTENT_RESOLVER) {
             return loadMimeTypeIcon(context);
         } else if (derivedIcon != 0) {
+            // derivedIcon is set with the resources of the current user.
             return context.getDrawable(derivedIcon);
         } else {
-            return IconUtils.loadPackageIcon(context, authority, icon);
+            return IconUtils.loadPackageIcon(context, userId, authority, icon, maybeShowBadge);
         }
     }
 
-    public Drawable loadDrawerIcon(Context context) {
+    public Drawable loadDrawerIcon(Context context, boolean maybeShowBadge) {
         if (derivedIcon == LOAD_FROM_CONTENT_RESOLVER) {
             return IconUtils.applyTintColor(context, loadMimeTypeIcon(context),
                     R.color.item_root_icon);
         } else if (derivedIcon != 0) {
             return IconUtils.applyTintColor(context, derivedIcon, R.color.item_root_icon);
         } else {
-            return IconUtils.loadPackageIcon(context, authority, icon);
+            return IconUtils.loadPackageIcon(context, userId, authority, icon, maybeShowBadge);
         }
     }
 
@@ -469,7 +494,7 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
     public String toString() {
         return "Root{"
                 + "userId=" + userId
-                + "authority=" + authority
+                + ", authority=" + authority
                 + ", rootId=" + rootId
                 + ", title=" + title
                 + ", isUsb=" + isUsb()

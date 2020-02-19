@@ -48,7 +48,9 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
         DocumentsAdapter.Environment env = new TestEnvironment(testContext);
 
         mAdapter = new ModelBackedDocumentsAdapter(
-                env, new IconHelper(testContext, State.MODE_GRID), new TestFileTypeLookup());
+                env,
+                new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */ false),
+                new TestFileTypeLookup());
         mAdapter.getModelUpdateListener().accept(Model.Update.UPDATE);
     }
 

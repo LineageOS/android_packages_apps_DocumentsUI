@@ -33,7 +33,7 @@ public final class LoadFirstRootTask<T extends Activity & CommonAddons>
             ProvidersAccess providers,
             Uri rootUri,
             LoadRootCallback callback) {
-        super(activity, providers, rootUri, callback);
+        super(activity, providers, rootUri, UserId.DEFAULT_USER, callback);
     }
 
     @Override

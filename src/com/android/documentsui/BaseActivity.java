@@ -267,6 +267,16 @@ public abstract class BaseActivity
             mNavigator.update();
         });
 
+        mNavigator.setProfileTabsListener(userId -> {
+            // Reload the roots with the selected user is changed.
+            final RootsFragment roots = RootsFragment.get(getSupportFragmentManager());
+            if (roots != null) {
+                roots.onSelectedUserChanged();
+            }
+
+            mInjector.actions.loadCrossProfileRoot(getCurrentRoot(), userId);
+        });
+
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
 
         mPreferencesMonitor = new PreferencesMonitor(
@@ -751,12 +761,16 @@ public abstract class BaseActivity
     }
 
     @Override
+    public UserId getSelectedUser() {
+        return mNavigator.getSelectedUser();
+    }
+
     public RootInfo getCurrentRoot() {
         RootInfo root = mState.stack.getRoot();
         if (root != null) {
             return root;
         } else {
-            return mProviders.getRecentsRoot(UserId.DEFAULT_USER);
+            return mProviders.getRecentsRoot(getSelectedUser());
         }
     }
 

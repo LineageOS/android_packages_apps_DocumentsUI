@@ -497,7 +497,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
                 }
                 // If we've got a specific root to display, restore that root using a dedicated
                 // authority. That way a misbehaving provider won't result in an ANR.
-                loadRoot(uri);
+                loadRoot(uri, UserId.DEFAULT_USER);
                 return true;
             } else if (DocumentsContract.isRootsUri(mActivity, uri)) {
                 if (DEBUG) {
@@ -527,7 +527,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
         if (DownloadManager.ACTION_VIEW_DOWNLOADS.equals(intent.getAction())) {
             Uri uri = DocumentsContract.buildRootUri(Providers.AUTHORITY_DOWNLOADS,
                     Providers.ROOT_ID_DOWNLOADS);
-            loadRoot(uri);
+            loadRoot(uri, UserId.DEFAULT_USER);
             return true;
         }
 

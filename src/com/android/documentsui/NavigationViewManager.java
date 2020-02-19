@@ -31,6 +31,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -110,6 +111,13 @@ public class NavigationViewManager {
         return mProfileTabs;
     }
 
+    /**
+     * Sets a listener to the profile tabs.
+     */
+    public void setProfileTabsListener(ProfileTabs.Listener listener) {
+        mProfileTabs.setListener(listener);
+    }
+
     private void onNavigationIconClicked() {
         if (mDrawer.isPresent()) {
             mDrawer.setOpen(true);
@@ -125,6 +133,10 @@ public class NavigationViewManager {
         if (changed) {
             mEnv.refreshCurrentRootAndDirectory(AnimationView.ANIM_LEAVE);
         }
+    }
+
+    public UserId getSelectedUser() {
+        return mProfileTabs.getSelectedUser();
     }
 
     public void update() {

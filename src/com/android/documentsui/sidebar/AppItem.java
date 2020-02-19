@@ -55,7 +55,8 @@ public class AppItem extends Item {
     }
 
     protected void bindIcon(ImageView icon) {
-        final PackageManager pm = icon.getContext().getPackageManager();
+        final PackageManager pm = userId.getPackageManager(icon.getContext());
+        // This always gives badged icon if package manager is from a managed profile.
         icon.setImageDrawable(info.loadIcon(pm));
     }
 

@@ -15,6 +15,7 @@
  */
 package com.android.documentsui.testing;
 
+import android.os.Process;
 import android.os.UserHandle;
 import android.provider.DocumentsContract.Root;
 
@@ -35,7 +36,8 @@ import javax.annotation.Nullable;
 
 public class TestProvidersAccess implements ProvidersAccess {
 
-    public static final UserId USER_ID = UserId.DEFAULT_USER;
+    public static final UserHandle USER_HANDLE = Process.myUserHandle();
+    public static final UserId USER_ID = UserId.of(USER_HANDLE);
 
     public static final RootInfo DOWNLOADS;
     public static final RootInfo HOME;
@@ -49,9 +51,11 @@ public class TestProvidersAccess implements ProvidersAccess {
     public static final RootInfo DOCUMENT;
     public static final RootInfo EXTERNALSTORAGE;
     public static final RootInfo NO_TREE_ROOT;
+    public static final RootInfo SD_CARD;
 
     static {
-        UserId userId = USER_ID;
+        UserId userId = TestProvidersAccess.USER_ID;
+
         DOWNLOADS = new RootInfo() {{
             flags = Root.FLAG_SUPPORTS_CREATE;
         }};
@@ -153,6 +157,15 @@ public class TestProvidersAccess implements ProvidersAccess {
         NO_TREE_ROOT.title = "No Tree Title";
         NO_TREE_ROOT.derivedType = RootInfo.TYPE_LOCAL;
         NO_TREE_ROOT.flags = Root.FLAG_LOCAL_ONLY;
+
+        SD_CARD = new RootInfo();
+        SD_CARD.userId = userId;
+        SD_CARD.authority = Providers.AUTHORITY_STORAGE;
+        SD_CARD.rootId = Providers.ROOT_ID_DOCUMENTS;
+        SD_CARD.title = "SD card";
+        SD_CARD.derivedType = RootInfo.TYPE_SD;
+        SD_CARD.flags = Root.FLAG_LOCAL_ONLY
+                | Root.FLAG_SUPPORTS_IS_CHILD;
     }
 
     public static class OtherUser {
@@ -161,6 +174,10 @@ public class TestProvidersAccess implements ProvidersAccess {
         public static final UserId USER_ID = UserId.of(OtherUser.USER_HANDLE);
 
         public static final RootInfo DOWNLOADS;
+        public static final RootInfo HOME;
+        public static final RootInfo IMAGE;
+        public static final RootInfo PICKLES;
+        public static final RootInfo MTP_ROOT;
 
         static {
             UserId userId = OtherUser.USER_ID;
@@ -174,6 +191,41 @@ public class TestProvidersAccess implements ProvidersAccess {
             DOWNLOADS.flags = Root.FLAG_LOCAL_ONLY
                     | Root.FLAG_SUPPORTS_CREATE
                     | Root.FLAG_SUPPORTS_RECENTS;
+
+            HOME = new RootInfo();
+            HOME.userId = userId;
+            HOME.authority = Providers.AUTHORITY_STORAGE;
+            HOME.rootId = Providers.ROOT_ID_HOME;
+            HOME.title = "Home";
+            HOME.derivedType = RootInfo.TYPE_LOCAL;
+            HOME.flags = Root.FLAG_LOCAL_ONLY
+                    | Root.FLAG_SUPPORTS_CREATE
+                    | Root.FLAG_SUPPORTS_IS_CHILD
+                    | Root.FLAG_SUPPORTS_RECENTS;
+
+            IMAGE = new RootInfo();
+            IMAGE.userId = userId;
+            IMAGE.authority = Providers.AUTHORITY_MEDIA;
+            IMAGE.rootId = Providers.ROOT_ID_IMAGES;
+            IMAGE.title = "Images";
+            IMAGE.derivedType = RootInfo.TYPE_IMAGES;
+
+            PICKLES = new RootInfo();
+            PICKLES.userId = userId;
+            PICKLES.authority = "yummies";
+            PICKLES.rootId = "pickles";
+            PICKLES.title = "Pickles";
+            PICKLES.summary = "Yummy pickles";
+
+            MTP_ROOT = new RootInfo();
+            MTP_ROOT.userId = userId;
+            MTP_ROOT.authority = Providers.AUTHORITY_MTP;
+            MTP_ROOT.rootId = Providers.ROOT_ID_DOCUMENTS;
+            MTP_ROOT.title = "MTP";
+            MTP_ROOT.derivedType = RootInfo.TYPE_MTP;
+            MTP_ROOT.flags = Root.FLAG_SUPPORTS_CREATE
+                    | Root.FLAG_LOCAL_ONLY
+                    | Root.FLAG_SUPPORTS_IS_CHILD;
         }
     }
 
