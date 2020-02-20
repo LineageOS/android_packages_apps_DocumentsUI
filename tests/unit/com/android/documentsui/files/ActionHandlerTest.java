@@ -68,6 +68,7 @@ import com.android.documentsui.testing.TestDragAndDropManager;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.testing.UserManagers;
 import com.android.documentsui.ui.TestDialogController;
 
 import org.junit.Before;
@@ -97,6 +98,7 @@ public class ActionHandlerTest {
         mFeatures = new TestFeatures();
         mEnv = TestEnv.create(mFeatures);
         mActivity = TestActivity.create(mEnv);
+        mActivity.userManager = UserManagers.create();
         mActionModeAddons = new TestActionModeAddons();
         mDialogs = new TestDialogController();
         mClipper = new TestDocumentClipper();

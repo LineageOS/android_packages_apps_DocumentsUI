@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
@@ -135,6 +137,39 @@ public class GlobalSearchLoaderTest {
     }
 
     @Test
+    public void testSearchResult_includeDirectory_excludedOtherUsers() {
+        mEnv.state.canShareAcrossProfile = false;
+
+        TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.USER_ID;
+        TestProvidersAccess.PICKLES.userId = TestProvidersAccess.OtherUser.USER_ID;
+        TestProvidersAccess.PICKLES.flags |= (DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
+
+        final DocumentInfo currentUserDoc = mEnv.model.createFile(
+                SEARCH_STRING + "_currentUser.pdf");
+        currentUserDoc.lastModified = System.currentTimeMillis();
+        mEnv.mockProviders.get(TestProvidersAccess.DOWNLOADS.authority)
+                .setNextChildDocumentsReturns(currentUserDoc);
+
+        final DocumentInfo otherUserDoc = mEnv.model.createFile(SEARCH_STRING + "_otherUser.png");
+        otherUserDoc.lastModified = System.currentTimeMillis();
+        mEnv.mockProviders.get(TestProvidersAccess.PICKLES.authority)
+                .setNextChildDocumentsReturns(otherUserDoc);
+
+        final DirectoryResult result = mLoader.loadInBackground();
+        final Cursor c = result.cursor;
+
+        assertThat(c.getCount()).isEqualTo(1);
+        c.moveToNext();
+        final String docName = c.getString(c.getColumnIndex(Document.COLUMN_DISPLAY_NAME));
+        assertThat(docName).contains("currentUser");
+
+        TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.USER_ID;
+        TestProvidersAccess.PICKLES.userId = TestProvidersAccess.USER_ID;
+        TestProvidersAccess.PICKLES.flags &= ~DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
+    }
+
+    @Test
     public void testSearchResult_includeSearchString() {
         final DocumentInfo pdfDoc = mEnv.model.createFile(SEARCH_STRING + ".pdf");
         pdfDoc.lastModified = System.currentTimeMillis();
@@ -190,6 +225,104 @@ public class GlobalSearchLoaderTest {
 
         assertEquals(3, c.getCount());
 
+        TestProvidersAccess.PICKLES.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
+    }
+
+    @Test
+    public void testSearchResult_includeCurrentUserRootOnly() {
+        mEnv.state.canShareAcrossProfile = false;
+        mEnv.state.action = State.ACTION_GET_CONTENT;
+
+        final DocumentInfo pdfDoc = mEnv.model.createFile(SEARCH_STRING + ".pdf");
+        pdfDoc.lastModified = System.currentTimeMillis();
+
+        final DocumentInfo apkDoc = mEnv.model.createFile(SEARCH_STRING + ".apk");
+        apkDoc.lastModified = System.currentTimeMillis();
+
+        final DocumentInfo testApkDoc = mEnv.model.createFile("test.apk");
+        testApkDoc.lastModified = System.currentTimeMillis();
+
+        mEnv.mockProviders.get(TestProvidersAccess.PICKLES.authority)
+                .setNextChildDocumentsReturns(pdfDoc, apkDoc, testApkDoc);
+        TestProvidersAccess.PICKLES.userId = TestProvidersAccess.OtherUser.USER_ID;
+
+        TestProvidersAccess.PICKLES.flags |= (DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
+        mEnv.state.sortModel.sortByUser(
+                SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
+
+        final DirectoryResult result = mLoader.loadInBackground();
+        final Cursor c = result.cursor;
+
+        assertEquals(1, c.getCount());
+
+        TestProvidersAccess.PICKLES.userId = TestProvidersAccess.USER_ID;
+        TestProvidersAccess.PICKLES.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
+    }
+
+
+    @Test
+    public void testSearchResult_includeBothUsersRoots() {
+        mEnv.state.canShareAcrossProfile = true;
+        mEnv.state.action = State.ACTION_GET_CONTENT;
+
+        final DocumentInfo pdfDoc = mEnv.model.createFile(SEARCH_STRING + ".pdf");
+        pdfDoc.lastModified = System.currentTimeMillis();
+
+        final DocumentInfo apkDoc = mEnv.model.createFile(SEARCH_STRING + ".apk");
+        apkDoc.lastModified = System.currentTimeMillis();
+
+        final DocumentInfo testApkDoc = mEnv.model.createFile("test.apk");
+        testApkDoc.lastModified = System.currentTimeMillis();
+
+        mEnv.mockProviders.get(TestProvidersAccess.PICKLES.authority)
+                .setNextChildDocumentsReturns(pdfDoc, apkDoc, testApkDoc);
+        TestProvidersAccess.PICKLES.userId = TestProvidersAccess.OtherUser.USER_ID;
+
+        TestProvidersAccess.PICKLES.flags |= (DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
+        mEnv.state.sortModel.sortByUser(
+                SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
+
+        final DirectoryResult result = mLoader.loadInBackground();
+        final Cursor c = result.cursor;
+
+        assertEquals(3, c.getCount());
+
+        TestProvidersAccess.PICKLES.userId = TestProvidersAccess.USER_ID;
+        TestProvidersAccess.PICKLES.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
+    }
+
+
+    @Test
+    public void testSearchResult_emptyCurrentUsersRoot() {
+        mEnv.state.canShareAcrossProfile = false;
+        mEnv.state.action = State.ACTION_GET_CONTENT;
+
+        final DocumentInfo pdfDoc = mEnv.model.createFile(SEARCH_STRING + ".pdf");
+        pdfDoc.lastModified = System.currentTimeMillis();
+
+        mEnv.mockProviders.get(TestProvidersAccess.PICKLES.authority)
+                .setNextChildDocumentsReturns(pdfDoc);
+
+        TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.OtherUser.USER_ID;
+        TestProvidersAccess.PICKLES.userId = TestProvidersAccess.OtherUser.USER_ID;
+        TestProvidersAccess.PICKLES.flags |= (DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
+                | DocumentsContract.Root.FLAG_LOCAL_ONLY);
+        mEnv.state.sortModel.sortByUser(
+                SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
+
+        final DirectoryResult result = mLoader.loadInBackground();
+        assertThat(result.cursor.getCount()).isEqualTo(0);
+        // We don't expect exception even if all roots are from other users.
+        assertThat(result.exception).isNull();
+
+
+        TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.USER_ID;
+        TestProvidersAccess.PICKLES.userId = TestProvidersAccess.USER_ID;
         TestProvidersAccess.PICKLES.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH
                 | DocumentsContract.Root.FLAG_LOCAL_ONLY);
     }
