@@ -43,6 +43,7 @@ import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
+import com.android.documentsui.ForResultForwarderActivity;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
@@ -313,7 +314,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
             return;
         }
 
-        final Intent intent = new Intent(mActivity.getIntent());
+        Intent intent = new Intent(mActivity.getIntent());
         final int flagsRemoved = Intent.FLAG_ACTIVITY_FORWARD_RESULT
                 | Intent.FLAG_GRANT_READ_URI_PERMISSION
                 | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
@@ -322,6 +323,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         intent.setFlags(intent.getFlags() & ~flagsRemoved);
         intent.setComponent(new ComponentName(
                 info.activityInfo.applicationInfo.packageName, info.activityInfo.name));
+        if (!UserId.CURRENT_USER.equals(userId)) {
+            intent = ForResultForwarderActivity.getIntent(mActivity, intent, userId);
+        }
         try {
             boolean isCurrentUser = UserId.CURRENT_USER.equals(userId);
             mActivity.startActivityForResult(intent,
