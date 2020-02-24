@@ -38,22 +38,23 @@ public final class MimeTypes {
     private static final Set<String> sDocumentsMimeTypes = new ArraySet<>();
 
     static {
+        // all lower case
         sDocumentsMimeTypes.add("application/epub+zip");
         sDocumentsMimeTypes.add("application/msword");
         sDocumentsMimeTypes.add("application/pdf");
         sDocumentsMimeTypes.add("application/rtf");
         sDocumentsMimeTypes.add("application/vnd.ms-excel");
-        sDocumentsMimeTypes.add("application/vnd.ms-excel.addin.macroEnabled.12");
-        sDocumentsMimeTypes.add("application/vnd.ms-excel.sheet.binary.macroEnabled.12");
-        sDocumentsMimeTypes.add("application/vnd.ms-excel.sheet.macroEnabled.12");
-        sDocumentsMimeTypes.add("application/vnd.ms-excel.template.macroEnabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-excel.addin.macroenabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-excel.sheet.binary.macroenabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-excel.sheet.macroenabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-excel.template.macroenabled.12");
         sDocumentsMimeTypes.add("application/vnd.ms-powerpoint");
-        sDocumentsMimeTypes.add("application/vnd.ms-powerpoint.addin.macroEnabled.12");
-        sDocumentsMimeTypes.add("application/vnd.ms-powerpoint.presentation.macroEnabled.12");
-        sDocumentsMimeTypes.add("application/vnd.ms-powerpoint.slideshow.macroEnabled.12");
-        sDocumentsMimeTypes.add("application/vnd.ms-powerpoint.template.macroEnabled.12");
-        sDocumentsMimeTypes.add("application/vnd.ms-word.document.macroEnabled.12");
-        sDocumentsMimeTypes.add("application/vnd.ms-word.template.macroEnabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-powerpoint.addin.macroenabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-powerpoint.presentation.macroenabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-powerpoint.slideshow.macroenabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-powerpoint.template.macroenabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-word.document.macroenabled.12");
+        sDocumentsMimeTypes.add("application/vnd.ms-word.template.macroenabled.12");
         sDocumentsMimeTypes.add("application/vnd.oasis.opendocument.chart");
         sDocumentsMimeTypes.add("application/vnd.oasis.opendocument.database");
         sDocumentsMimeTypes.add("application/vnd.oasis.opendocument.formula");
