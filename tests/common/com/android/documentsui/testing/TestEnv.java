@@ -96,7 +96,6 @@ public class TestEnv {
         injector = new Injector(
                 features,
                 new TestActivityConfig(),
-                null,       // ScopedPreferences are not currently required for tests
                 null,       // MessageBuilder is not currently required for tests
                 dialogs,
                 new TestFileTypeLookup(),

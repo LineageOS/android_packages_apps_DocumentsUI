@@ -26,7 +26,6 @@ import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import static org.mockito.Mockito.mock;
@@ -43,7 +42,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
@@ -71,7 +69,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.BooleanSupplier;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
@@ -86,7 +83,6 @@ public final class SearchViewManagerTest {
     private SearchChipViewManager mSearchChipViewManager;
 
     private boolean mListenerOnSearchChangedCalled;
-    private boolean mRecordSearch;
 
     @Before
     public void setUp() {
@@ -123,11 +119,8 @@ public final class SearchViewManagerTest {
 
         ViewGroup chipGroup = mock(ViewGroup.class);
         mSearchChipViewManager = spy(new SearchChipViewManager(chipGroup));
-        BooleanSupplier supplier = () -> mRecordSearch;
-        mRecordSearch = true;
         mSearchViewManager = new TestableSearchViewManager(searchListener, mTestEventHandler,
-                mSearchChipViewManager, null /* savedState */, supplier,
-                mTestTimer, mTestHandler);
+                mSearchChipViewManager, null /* savedState */, mTestTimer, mTestHandler);
 
         mTestMenu = TestMenu.create();
         mSearchMenuItem = mTestMenu.findItem(R.id.option_menu_search);
@@ -144,11 +137,9 @@ public final class SearchViewManagerTest {
                 EventHandler<String> commandProcessor,
                 SearchChipViewManager chipViewManager,
                 @Nullable Bundle savedState,
-                @NonNull BooleanSupplier pauseHistorySupplier,
                 Timer timer,
                 Handler handler) {
-            super(listener, commandProcessor, chipViewManager, savedState,
-                    pauseHistorySupplier, timer, handler);
+            super(listener, commandProcessor, chipViewManager, savedState, timer, handler);
         }
 
         @Override
@@ -328,16 +319,6 @@ public final class SearchViewManagerTest {
 
         assertEquals(mSearchViewManager.getCurrentSearch(),
                 mSearchViewManager.getRecordedHistory());
-    }
-
-    @Test
-    public void testHistoryRecorded_pauseRecord() {
-        mRecordSearch = false;
-
-        mSearchViewManager.onClick(null);
-        mSearchViewManager.onQueryTextSubmit("q");
-
-        assertNull(mSearchViewManager.getRecordedHistory());
     }
 
     @Test
