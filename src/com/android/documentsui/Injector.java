@@ -33,7 +33,6 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.picker.PickResult;
-import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
@@ -50,7 +49,6 @@ public class Injector<T extends ActionHandler> {
 
     public final Features features;
     public final ActivityConfig config;
-    public final ScopedPreferences prefs;
     public final MessageBuilder messages;
     public final Lookup<String, String> fileTypeLookup;
     public final Consumer<Collection<RootInfo>> shortcutsUpdater;
@@ -86,12 +84,11 @@ public class Injector<T extends ActionHandler> {
     public Injector(
             Features features,
             ActivityConfig config,
-            ScopedPreferences prefs,
             MessageBuilder messages,
             DialogController dialogs,
             Lookup<String, String> fileTypeLookup,
             Consumer<Collection<RootInfo>> shortcutsUpdater) {
-        this(features, config, prefs, messages, dialogs, fileTypeLookup,
+        this(features, config, messages, dialogs, fileTypeLookup,
                 shortcutsUpdater, new Model(features));
     }
 
@@ -99,7 +96,6 @@ public class Injector<T extends ActionHandler> {
     public Injector(
             Features features,
             ActivityConfig config,
-            ScopedPreferences prefs,
             MessageBuilder messages,
             DialogController dialogs,
             Lookup<String, String> fileTypeLookup,
@@ -108,7 +104,6 @@ public class Injector<T extends ActionHandler> {
 
         this.features = features;
         this.config = config;
-        this.prefs = prefs;
         this.messages = messages;
         this.dialogs = dialogs;
         this.fileTypeLookup = fileTypeLookup;
