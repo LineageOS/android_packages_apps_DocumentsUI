@@ -63,7 +63,6 @@ import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.LocalPreferences;
-import com.android.documentsui.prefs.Preferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchChipData;
@@ -250,7 +249,7 @@ public abstract class BaseActivity
 
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
-                chipGroup, icicle, mInjector.prefs::isRecordSearch);
+                chipGroup, icicle);
         // initialize the chip sets by accept mime types
         mSearchManager.initChipSets(mState.acceptMimes);
         // update the chip items by the mime types of the root
@@ -293,7 +292,7 @@ public abstract class BaseActivity
         // For now, we only work with prefs that we backup. This
         // just limits the scope of what we expect to come flowing
         // through here until we know we want more and fancier options.
-        assert(Preferences.shouldBackup(pref));
+        assert (LocalPreferences.shouldBackup(pref));
     }
 
     @Override
