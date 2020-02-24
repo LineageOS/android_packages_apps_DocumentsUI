@@ -41,7 +41,6 @@ import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestMenu;
 import com.android.documentsui.testing.TestMenuInflater;
 import com.android.documentsui.testing.TestMenuItem;
-import com.android.documentsui.testing.TestScopedPreferences;
 import com.android.documentsui.testing.TestSearchViewManager;
 import com.android.documentsui.testing.TestSelectionDetails;
 
@@ -113,7 +112,6 @@ public final class MenuManagerTest {
     private TestSelectionDetails selectionDetails;
     private TestDirectoryDetails dirDetails;
     private TestSearchViewManager testSearchManager;
-    private TestScopedPreferences preferences;
     private RootInfo testRootInfo;
     private DocumentInfo testDocInfo;
     private State state = new State();
@@ -189,7 +187,6 @@ public final class MenuManagerTest {
         selectionDetails = new TestSelectionDetails();
         dirDetails = new TestDirectoryDetails();
         testSearchManager = new TestSearchViewManager();
-        preferences = new TestScopedPreferences();
         selectionManager = SelectionHelpers.createTestInstance(TestData.create(1));
         selectionManager.select("0");
 

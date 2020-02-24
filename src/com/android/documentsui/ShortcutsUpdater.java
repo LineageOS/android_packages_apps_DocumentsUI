@@ -27,7 +27,6 @@ import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.files.FilesActivity;
-import com.android.documentsui.prefs.ScopedPreferences;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,12 +39,10 @@ import java.util.Map;
  */
 public final class ShortcutsUpdater {
 
-    private final ScopedPreferences mPrefs;
     private final Context mContext;
 
-    public ShortcutsUpdater(Context context, ScopedPreferences prefs) {
+    public ShortcutsUpdater(Context context) {
         mContext = context;
-        mPrefs = prefs;
     }
 
     public void update(Collection<RootInfo> roots) {
