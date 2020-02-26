@@ -65,6 +65,7 @@ import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
+import com.android.documentsui.util.CrossProfileUtils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -215,8 +216,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             moreApps.setPackage(null);
             for (ResolveInfo info : getPackageManager().queryIntentActivities(moreApps,
                     PackageManager.MATCH_DEFAULT_ONLY)) {
-                if (RootsFragment.PROFILE_TARGET_ACTIVITY.equals(
-                        info.activityInfo.targetActivity)) {
+                if (CrossProfileUtils.isCrossProfileIntentForwarderActivity(info)) {
                     mState.canShareAcrossProfile = true;
                     break;
                 }
