@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.IconUtils;
@@ -63,15 +64,25 @@ public class IconHelper {
     private Point mCurrentSize;
     private boolean mThumbnailsEnabled = true;
     private final boolean mMaybeShowBadge;
+    @Nullable
+    private final UserId mManagedUser;
 
     /**
      * @param context
      * @param mode MODE_GRID or MODE_LIST
      */
     public IconHelper(Context context, int mode, boolean maybeShowBadge) {
+        this(context, mode, maybeShowBadge, DocumentsApplication.getThumbnailCache(context),
+                DocumentsApplication.getUserIdManager(context).getManagedUser());
+    }
+
+    @VisibleForTesting
+    IconHelper(Context context, int mode, boolean maybeShowBadge, ThumbnailCache thumbnailCache,
+            @Nullable UserId managedUser) {
         mContext = context;
         setViewMode(mode);
-        mThumbnailCache = DocumentsApplication.getThumbnailCache(context);
+        mThumbnailCache = thumbnailCache;
+        mManagedUser = managedUser;
         mMaybeShowBadge = maybeShowBadge;
     }
 
@@ -247,5 +258,13 @@ public class IconHelper {
     public Drawable getDocumentIcon(Context context, DocumentInfo doc) {
         return getDocumentIcon(
                 context, doc.userId, doc.authority, doc.documentId, doc.mimeType, doc.icon);
+    }
+
+    /**
+     * Returns true if we should show a briefcase icon for the given user.
+     */
+    public boolean shouldShowBadge(int userIdIdentifier) {
+        return mMaybeShowBadge && mManagedUser != null
+                && mManagedUser.getIdentifier() == userIdIdentifier;
     }
 }
