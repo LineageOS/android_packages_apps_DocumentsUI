@@ -18,6 +18,11 @@ package com.android.documentsui;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+
 import android.app.ActivityManager;
 import android.app.LoaderManager;
 import android.content.ComponentName;
@@ -29,6 +34,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.UserHandle;
+import android.os.UserManager;
 import android.test.mock.MockContentResolver;
 import android.util.Pair;
 
@@ -63,6 +69,7 @@ public abstract class TestActivity extends AbstractBase {
     public TestLoaderManager loaderManager;
     public TestSupportLoaderManager supportLoaderManager;
     public ActivityManager activityManager;
+    public UserManager userManager;
 
     public TestEventListener<Intent> startActivity;
     public TestEventListener<Pair<Intent, UserHandle>> startActivityAsUser;
@@ -100,6 +107,13 @@ public abstract class TestActivity extends AbstractBase {
         loaderManager = new TestLoaderManager();
         supportLoaderManager = new TestSupportLoaderManager();
         finishedHandler = new TestEventHandler<>();
+
+        // Setup some methods which cannot be overridden.
+        try {
+            doReturn(this).when(this).createPackageContextAsUser(anyString(), anyInt(),
+                    any());
+        } catch (PackageManager.NameNotFoundException e) {
+        }
     }
 
     @Override
@@ -231,6 +245,8 @@ public abstract class TestActivity extends AbstractBase {
         switch (service) {
             case Context.ACTIVITY_SERVICE:
                 return activityManager;
+            case Context.USER_SERVICE:
+                return userManager;
         }
 
         throw new IllegalArgumentException("Unknown service " + service);

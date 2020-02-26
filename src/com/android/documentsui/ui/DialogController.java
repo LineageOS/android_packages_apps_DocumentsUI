@@ -46,6 +46,7 @@ public interface DialogController {
     void showOperationUnsupported();
     void showViewInArchivesUnsupported();
     void showDocumentsClipped(int size);
+    void showActionNotAllowed();
 
     /**
      * Dialogs used when share file count over limit
@@ -133,6 +134,13 @@ public interface DialogController {
 
             mCurrentProgressDialog = OperationProgressDialog.create(mActivity, jobId, operation);
             mCurrentProgressDialog.show();
+        }
+
+        @Override
+        public void showActionNotAllowed() {
+            // Shows as a last resort when a document is not allowed to share across users
+            Snackbars.makeSnackbar(
+                    mActivity, R.string.toast_action_not_allowed, Snackbar.LENGTH_SHORT).show();
         }
 
         @Override

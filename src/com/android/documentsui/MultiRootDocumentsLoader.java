@@ -247,7 +247,8 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
         HashMap<String, List<RootInfo>> rootsIndex = new HashMap<>();
         for (RootInfo root : roots) {
             // ignore the root with authority is null. e.g. Recent
-            if (root.authority == null || shouldIgnoreRoot(root)) {
+            if (root.authority == null || shouldIgnoreRoot(root)
+                    || !mState.canInteractWith(root.userId)) {
                 continue;
             }
 

@@ -177,8 +177,11 @@ abstract class Message {
         @Override
         void update(Update event) {
             reset();
-            if (event.hasException() && !event.hasAuthenticationException()) {
-                updateToInflatedErrorMesage();
+            if (event.hasCrossProfileException()) {
+                // TODO: update error message.
+                updateToInflatedErrorMessage();
+            } else if (event.hasException() && !event.hasAuthenticationException()) {
+                updateToInflatedErrorMessage();
             } else if (event.hasAuthenticationException()) {
                 updateToCantDisplayContentMessage();
             } else if (mEnv.getModel().getModelIds().length == 0) {
@@ -186,7 +189,7 @@ abstract class Message {
             }
         }
 
-        private void updateToInflatedErrorMesage() {
+        private void updateToInflatedErrorMessage() {
             update(null, mEnv.getContext().getResources().getText(R.string.query_error), null,
                     mEnv.getContext().getDrawable(R.drawable.hourglass));
         }
