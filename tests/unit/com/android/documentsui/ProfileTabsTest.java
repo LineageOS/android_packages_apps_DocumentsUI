@@ -37,9 +37,7 @@ import com.google.android.material.tabs.TabLayout;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class ProfileTabsTest {
 
@@ -232,27 +230,6 @@ public class ProfileTabsTest {
             return isSearching;
         }
 
-    }
-
-    private static class TestUserIdManager implements UserIdManager {
-        List<UserId> userIds = new ArrayList<>();
-        UserId systemUser = null;
-        UserId managedUser = null;
-
-        @Override
-        public List<UserId> getUserIds() {
-            return userIds;
-        }
-
-        @Override
-        public UserId getSystemUser() {
-            return systemUser;
-        }
-
-        @Override
-        public UserId getManagedUser() {
-            return managedUser;
-        }
     }
 }
 

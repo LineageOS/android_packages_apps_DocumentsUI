@@ -122,26 +122,40 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         ContentProviderClient client = null;
         Cursor cursor;
         try {
-            client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
-            if (mDoc.isInArchive()) {
-                ArchivesProvider.acquireArchive(client, mUri);
-            }
-            result.client = client;
-
             final Bundle queryArgs = new Bundle();
             mModel.addQuerySortArgs(queryArgs);
 
             final List<UserId> userIds = new ArrayList<>();
             if (mSearchMode) {
                 queryArgs.putAll(mQueryArgs);
-                if (mState.canShareAcrossProfile && mRoot.supportsCrossProfile()) {
-                    userIds.addAll(
-                            DocumentsApplication.getUserIdManager(getContext()).getUserIds());
+                if (mState.supportsCrossProfile() && mRoot.supportsCrossProfile()) {
+                    for (UserId userId : DocumentsApplication.getUserIdManager(
+                            getContext()).getUserIds()) {
+                        if (mState.canInteractWith(userId)) {
+                            userIds.add(userId);
+                        }
+                    }
                 }
             }
             if (userIds.isEmpty()) {
                 userIds.add(mDoc.userId);
             }
+
+            if (userIds.size() == 1) {
+                if (!mState.canInteractWith(mDoc.userId)) {
+                    result.exception = new CrossProfileNoPermissionException();
+                    return result;
+                } else if (mDoc.userId.isQuietModeEnabled(getContext())) {
+                    result.exception = new CrossProfileQuietModeException();
+                    return result;
+                }
+            }
+
+            client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
+            if (mDoc.isInArchive()) {
+                ArchivesProvider.acquireArchive(client, mUri);
+            }
+            result.client = client;
 
             if (mFeatures.isContentPagingEnabled()) {
                 // TODO: At some point we don't want forced flags to override real paging...
@@ -275,7 +289,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         // Ensure the loader is stopped
         onStopLoading();
 
-        if (mResult.cursor != null && mObserver != null) {
+        if (mResult != null && mResult.cursor != null && mObserver != null) {
             mResult.cursor.unregisterContentObserver(mObserver);
         }
 
