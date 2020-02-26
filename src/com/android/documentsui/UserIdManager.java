@@ -34,7 +34,6 @@ import android.util.Log;
 import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
-import androidx.core.os.BuildCompat;
 
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.UserId;
@@ -214,7 +213,7 @@ public interface UserIdManager {
         private static boolean isDeviceSupported(Context context) {
             // The feature requires Android R DocumentsContract APIs and INTERACT_ACROSS_USERS
             // permission.
-            return (BuildCompat.isAtLeastR()
+            return (Build.VERSION.CODENAME.equals("R")
                     || (Build.VERSION.CODENAME.equals("REL") && Build.VERSION.SDK_INT >= 30))
                     && context.checkSelfPermission(Manifest.permission.INTERACT_ACROSS_USERS)
                     == PackageManager.PERMISSION_GRANTED;
