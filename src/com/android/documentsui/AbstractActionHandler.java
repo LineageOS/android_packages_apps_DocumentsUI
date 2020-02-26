@@ -825,9 +825,8 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     protected final void loadDeviceRoot() {
-        mActivity.onRootPicked(
-                mProviders.getRootOneshot(UserId.DEFAULT_USER, Providers.AUTHORITY_STORAGE,
-                        Providers.ROOT_ID_DEVICE));
+        loadRoot(DocumentsContract.buildRootUri(Providers.AUTHORITY_STORAGE,
+                Providers.ROOT_ID_DEVICE), UserId.DEFAULT_USER);
     }
 
     protected final void loadHomeDir() {
