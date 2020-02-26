@@ -401,7 +401,6 @@ public class RootsFragment extends Fragment {
                     // for change personal profile root.
                     if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
                         if (UserId.CURRENT_USER.equals(userId)) {
-                            getBaseActivity().getDisplayState().canShareAcrossProfile = true;
                             profileItem = new ProfileItem(info, info.loadLabel(pm).toString(),
                                     mActionHandler);
                         }
@@ -414,6 +413,9 @@ public class RootsFragment extends Fragment {
                 }
             }
         }
+
+        // TODO: refresh UI
+        getBaseActivity().getDisplayState().canShareAcrossProfile = profileItem != null;
 
         // If there are some providers and apps has the same package name, combine them as one item.
         for (RootItem rootItem : otherProviders) {

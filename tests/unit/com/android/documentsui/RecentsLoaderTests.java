@@ -16,9 +16,14 @@
 
 package com.android.documentsui;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 import android.database.Cursor;
 import android.provider.DocumentsContract.Document;
@@ -35,6 +40,7 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFileTypeLookup;
 import com.android.documentsui.testing.TestImmediateExecutor;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.testing.UserManagers;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -57,9 +63,11 @@ public class RecentsLoaderTests {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create(mEnv);
         mActivity.activityManager = ActivityManagers.create(false);
+        mActivity.userManager = UserManagers.create();
 
         mEnv.state.action = State.ACTION_BROWSE;
         mEnv.state.acceptMimes = new String[] { "*/*" };
+        mEnv.state.canShareAcrossProfile = true;
 
         mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state,
                 TestImmediateExecutor.createLookup(), new TestFileTypeLookup(),
@@ -140,5 +148,26 @@ public class RecentsLoaderTests {
 
         latch.await(1, TimeUnit.SECONDS);
         assertTrue(mContentChanged);
+    }
+
+    @Test
+    public void testLoaderOnUserWithoutPermission() {
+        mEnv.state.canShareAcrossProfile = false;
+        mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state,
+                TestImmediateExecutor.createLookup(), new TestFileTypeLookup(),
+                TestProvidersAccess.OtherUser.USER_ID);
+        final DirectoryResult result = mLoader.loadInBackground();
+
+        assertThat(result.cursor).isNull();
+        assertThat(result.exception).isInstanceOf(CrossProfileNoPermissionException.class);
+    }
+
+    @Test
+    public void testLoaderOnUser_quietMode() {
+        when(mActivity.userManager.isQuietModeEnabled(any())).thenReturn(true);
+        final DirectoryResult result = mLoader.loadInBackground();
+
+        assertThat(result.cursor).isNull();
+        assertThat(result.exception).isInstanceOf(CrossProfileQuietModeException.class);
     }
 }

@@ -93,7 +93,7 @@ public interface ActionHandler {
 
     void openRoot(RootInfo root);
 
-    void openRoot(ResolveInfo app);
+    void openRoot(ResolveInfo app, UserId userId);
 
     void loadRoot(Uri uri, UserId userId);
 
