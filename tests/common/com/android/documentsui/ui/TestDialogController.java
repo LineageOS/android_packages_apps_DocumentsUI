@@ -27,6 +27,7 @@ import junit.framework.Assert;
 public class TestDialogController implements DialogController {
 
     private int mFileOpStatus;
+    private boolean mActionNotAllowed;
     private boolean mNoApplicationFound;
     private boolean mDocumentsClipped;
     private boolean mViewInArchivesUnsupported;
@@ -46,6 +47,11 @@ public class TestDialogController implements DialogController {
     @Override
     public void showProgressDialog(String jobId, FileOperation operation) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void showActionNotAllowed() {
+        mActionNotAllowed = true;
     }
 
     @Override
@@ -85,6 +91,14 @@ public class TestDialogController implements DialogController {
 
     public void assertFileOpFailed() {
         Assert.assertEquals(FileOperations.Callback.STATUS_FAILED, mFileOpStatus);
+    }
+
+    public void assertActionNotAllowedShown() {
+        Assert.assertTrue(mActionNotAllowed);
+    }
+
+    public void assertActionNotAllowedNotShown() {
+        Assert.assertFalse(mActionNotAllowed);
     }
 
     public void assertNoAppFoundShown() {

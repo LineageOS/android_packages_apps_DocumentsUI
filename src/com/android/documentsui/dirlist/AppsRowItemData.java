@@ -86,7 +86,7 @@ public abstract class AppsRowItemData {
 
         @Override
         protected void onClicked() {
-            mActionHandler.openRoot(mResolveInfo);
+            mActionHandler.openRoot(mResolveInfo, mUserId);
         }
     }
 

@@ -42,6 +42,7 @@ import com.android.documentsui.testing.Roots;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.testing.UserManagers;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +67,7 @@ public class AbstractActionHandlerTest {
     public void setUp() {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create(mEnv);
+        mActivity.userManager = UserManagers.create();
         mHandler = new AbstractActionHandler<TestActivity>(
                 mActivity,
                 mEnv.state,
