@@ -45,6 +45,7 @@ final class GridPhotoHolder extends DocumentHolder {
     private final ImageView mIconCheck;
     private final IconHelper mIconHelper;
     private final View mPreviewIcon;
+    private final View mIconBriefcase;
 
     // This is used in as a convenience in our bind method.
     private final DocumentInfo mDoc = new DocumentInfo();
@@ -55,6 +56,7 @@ final class GridPhotoHolder extends DocumentHolder {
         mIconMimeLg = (ImageView) itemView.findViewById(R.id.icon_mime_lg);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
+        mIconBriefcase = itemView.findViewById(R.id.icon_briefcase);
         mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
@@ -99,6 +101,11 @@ final class GridPhotoHolder extends DocumentHolder {
                     itemView.getResources().getString(R.string.preview_file, mDoc.displayName));
             mPreviewIcon.setAccessibilityDelegate(new PreviewAccessibilityDelegate(clickCallback));
         }
+    }
+
+    @Override
+    public void bindBriefcaseIcon(boolean show) {
+        mIconBriefcase.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override

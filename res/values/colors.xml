@@ -41,4 +41,6 @@
     <color name="app_icon_background">#ff4688f2</color>
     <color name="shortcut_foreground">#ff3367d6</color>
     <color name="shortcut_background">#fff5f5f5</color>
+
+    <color name="briefcase_icon_color">#1A73E8</color>
 </resources>

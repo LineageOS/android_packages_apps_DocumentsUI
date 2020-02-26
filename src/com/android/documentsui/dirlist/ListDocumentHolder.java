@@ -53,6 +53,7 @@ final class ListDocumentHolder extends DocumentHolder {
     private final ImageView mIconMime;
     private final ImageView mIconThumb;
     private final ImageView mIconCheck;
+    private final ImageView mIconBriefcase;
     private final View mIconLayout;
     final View mPreviewIcon;
 
@@ -69,6 +70,7 @@ final class ListDocumentHolder extends DocumentHolder {
         mIconMime = (ImageView) itemView.findViewById(R.id.icon_mime);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
+        mIconBriefcase = (ImageView) itemView.findViewById(R.id.icon_briefcase);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
         mSize = (TextView) itemView.findViewById(R.id.size);
         mDate = (TextView) itemView.findViewById(R.id.date);
@@ -133,6 +135,11 @@ final class ListDocumentHolder extends DocumentHolder {
                         new PreviewAccessibilityDelegate(clickCallback));
             }
         }
+    }
+
+    @Override
+    public void bindBriefcaseIcon(boolean show) {
+        mIconBriefcase.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
