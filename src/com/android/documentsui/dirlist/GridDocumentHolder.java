@@ -48,6 +48,7 @@ final class GridDocumentHolder extends DocumentHolder {
     final ImageView mIconMimeSm;
     final ImageView mIconThumb;
     final ImageView mIconCheck;
+    final ImageView mIconBriefcase;
     final IconHelper mIconHelper;
     final View mIconLayout;
     final View mPreviewIcon;
@@ -66,6 +67,7 @@ final class GridDocumentHolder extends DocumentHolder {
         mIconMimeSm = (ImageView) itemView.findViewById(R.id.icon_mime_sm);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
+        mIconBriefcase = (ImageView) itemView.findViewById(R.id.icon_briefcase);
         mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
@@ -118,6 +120,11 @@ final class GridDocumentHolder extends DocumentHolder {
                     itemView.getResources().getString(R.string.preview_file, mDoc.displayName));
             mPreviewIcon.setAccessibilityDelegate(new PreviewAccessibilityDelegate(clickCallback));
         }
+    }
+
+    @Override
+    public void bindBriefcaseIcon(boolean show) {
+        mIconBriefcase.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
