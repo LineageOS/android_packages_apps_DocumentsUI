@@ -101,7 +101,7 @@ public class AppItem extends Item {
 
     @Override
     void open() {
-        mActionHandler.openRoot(info);
+        mActionHandler.openRoot(info, userId);
     }
 
     @Override
