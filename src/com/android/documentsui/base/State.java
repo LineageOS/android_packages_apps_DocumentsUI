@@ -90,6 +90,13 @@ public class State implements android.os.Parcelable {
     public boolean canShareAcrossProfile = false;
 
     /**
+     * Returns true if we are allowed to interact with the user.
+     */
+    public boolean canInteractWith(UserId userId) {
+        return canShareAcrossProfile || UserId.CURRENT_USER.equals(userId);
+    }
+
+    /**
      * This is basically a sub-type for the copy operation. It can be either COPY,
      * COMPRESS, EXTRACT or MOVE.
      * The only legal values, if set, are: OPERATION_COPY, OPERATION_COMPRESS,

@@ -201,6 +201,9 @@
     <!-- Toast shown when user want to share files amount over limit [CHAR LIMIT=60] -->
     <string name="toast_share_over_limit">Can\u2019t share more than <xliff:g id="count" example="1">%1$d</xliff:g> files</string>
 
+    <!-- Toast shown when a document is not allowed to share across users. This is a last-resort toast and not expected to be shown. [CHAR LIMIT=48] -->
+    <string name="toast_action_not_allowed">Action not allowed</string>
+
     <!-- Title of dialog when prompting user to select an app to share documents with [CHAR LIMIT=32] -->
     <string name="share_via">Share via</string>
 

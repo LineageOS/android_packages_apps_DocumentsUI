@@ -154,7 +154,7 @@ public abstract class BaseActivity
         Metrics.logActivityLaunch(mState, intent);
 
         mProviders = DocumentsApplication.getProvidersCache(this);
-        mDocs = DocumentsAccess.create(this);
+        mDocs = DocumentsAccess.create(this, mState);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
