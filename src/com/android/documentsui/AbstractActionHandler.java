@@ -89,6 +89,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     @VisibleForTesting
     public static final int CODE_FORWARD = 42;
     public static final int CODE_AUTHENTICATION = 43;
+    public static final int CODE_FORWARD_CROSS_PROFILE = 44;
 
     @VisibleForTesting
     static final int LOADER_ID = 42;
@@ -259,7 +260,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     @Override
-    public void openRoot(ResolveInfo app) {
+    public void openRoot(ResolveInfo app, UserId userId) {
         throw new UnsupportedOperationException("Can't open an app.");
     }
 
@@ -758,6 +759,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     public void loadDocumentsForCurrentStack() {
         DocumentStack stack = mState.stack;
         if (!stack.isRecents() && stack.isEmpty()) {
+            // TODO: we may also need to reload cross-profile supported root with empty stack
             DirectoryResult result = new DirectoryResult();
 
             // TODO (b/35996595): Consider plumbing through the actual exception, though it might
