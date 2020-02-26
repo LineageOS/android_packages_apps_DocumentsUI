@@ -316,6 +316,12 @@ public class Model {
                     && mException instanceof AuthenticationRequiredException;
         }
 
+        public boolean hasCrossProfileException() {
+            return mRemoteActionEnabled
+                    && hasException()
+                    && mException instanceof CrossProfileException;
+        }
+
         public @Nullable Exception getException() {
             return mException;
         }

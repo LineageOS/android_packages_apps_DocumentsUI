@@ -60,7 +60,7 @@ class RootAndAppItem extends RootItem {
 
     @Override
     protected void onActionClick(View view) {
-        mActionHandler.openRoot(resolveInfo);
+        mActionHandler.openRoot(resolveInfo, userId);
     }
 
     @Override

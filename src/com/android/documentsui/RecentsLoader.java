@@ -53,6 +53,20 @@ public class RecentsLoader extends MultiRootDocumentsLoader {
     }
 
     @Override
+    public DirectoryResult loadInBackground() {
+        if (!mState.canInteractWith(mUserId)) {
+            DirectoryResult result = new DirectoryResult();
+            result.exception = new CrossProfileNoPermissionException();
+            return result;
+        } else if (mUserId.isQuietModeEnabled(getContext())) {
+            DirectoryResult result = new DirectoryResult();
+            result.exception = new CrossProfileQuietModeException();
+            return result;
+        }
+        return super.loadInBackground();
+    }
+
+    @Override
     protected long getRejectBeforeTime() {
         return System.currentTimeMillis() - REJECT_OLDER_THAN;
     }

@@ -138,6 +138,15 @@ public final class UserId {
     }
 
     /**
+     * Returns true if the this user is in quiet mode.
+     */
+    public boolean isQuietModeEnabled(Context context) {
+        final UserManager userManager =
+                (UserManager) context.getSystemService(Context.USER_SERVICE);
+        return userManager.isQuietModeEnabled(mUserHandle);
+    }
+
+    /**
      * Returns a document uri representing this user.
      */
     public Uri buildDocumentUriAsUser(String authority, String documentId) {
