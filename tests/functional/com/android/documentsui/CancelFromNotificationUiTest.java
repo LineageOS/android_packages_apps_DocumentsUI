@@ -87,6 +87,8 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         // So, reset the storage size again to 500MB.
         Bundle bundle = new Bundle();
         bundle.putLong(EXTRA_SIZE, 500L);
+        // Set a flag to prevent many refreshes.
+        bundle.putBoolean(StubProvider.EXTRA_ENABLE_ROOT_NOTIFICATION, false);
         mDocsHelper.configure(null, bundle);
 
         try {
