@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -29,7 +31,7 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 
 import androidx.fragment.app.FragmentManager;
-import androidx.test.filters.MediumTest;
+import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
@@ -54,9 +56,9 @@ import org.mockito.Mockito;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-@MediumTest
+@LargeTest
 @RunWith(AndroidJUnit4.class)
-public class DialogFragmentTest {
+public class DialogUiTest {
 
     private static final String CREATE_FRAGEMENT_TAG = "create_directory";
     CreateDirectoryFragment mCreateDirectoryFragment;
@@ -81,7 +83,7 @@ public class DialogFragmentTest {
         mCreateDirectoryFragment = null;
     }
 
-/*    @Test
+    @Test
     public void testCreateDialogShows() throws Throwable {
         mActivityTestRule.runOnUiThread(() -> CreateDirectoryFragment.show(mFragmentManager));
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
@@ -216,7 +218,7 @@ public class DialogFragmentTest {
         // called, so test pass means it skip.
         CreateDirectoryFragment.show(mFragmentManager);
     }
-*/
+
     @Test
     public void testDeleteDocumentFragmentShows_skipWhenStateSaved() {
         mFragmentManager = Mockito.mock(FragmentManager.class);
