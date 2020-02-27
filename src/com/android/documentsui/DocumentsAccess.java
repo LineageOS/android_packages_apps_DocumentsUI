@@ -34,6 +34,7 @@ import androidx.annotation.Nullable;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 
 import java.io.FileNotFoundException;
@@ -53,15 +54,16 @@ public interface DocumentsAccess {
     boolean isDocumentUri(Uri uri);
 
     @Nullable
-    Path findDocumentPath(Uri uri, UserId userId) throws RemoteException, FileNotFoundException;
+    Path findDocumentPath(Uri uri, UserId userId)
+            throws RemoteException, FileNotFoundException, CrossProfileNoPermissionException;
 
     List<DocumentInfo> getDocuments(UserId userId, String authority, List<String> docIds)
-            throws RemoteException;
+            throws RemoteException, CrossProfileNoPermissionException;
 
     @Nullable Uri createDocument(DocumentInfo parentDoc, String mimeType, String displayName);
 
-    public static DocumentsAccess create(Context context) {
-        return new RuntimeDocumentAccess(context);
+    public static DocumentsAccess create(Context context, State state) {
+        return new RuntimeDocumentAccess(context, state);
     }
 
     public final class RuntimeDocumentAccess implements DocumentsAccess {
@@ -69,9 +71,11 @@ public interface DocumentsAccess {
         private static final String TAG = "DocumentAccess";
 
         private final Context mContext;
+        private final State mState;
 
-        private RuntimeDocumentAccess(Context context) {
+        private RuntimeDocumentAccess(Context context, State state) {
             mContext = context;
+            mState = state;
         }
 
         @Override
@@ -84,7 +88,9 @@ public interface DocumentsAccess {
         @Override
         public @Nullable DocumentInfo getDocument(Uri uri, UserId userId) {
             try {
-                return DocumentInfo.fromUri(userId.getContentResolver(mContext), uri, userId);
+                if (mState.canInteractWith(userId)) {
+                    return DocumentInfo.fromUri(userId.getContentResolver(mContext), uri, userId);
+                }
             } catch (FileNotFoundException e) {
                 Log.w(TAG, "Couldn't create DocumentInfo for uri: " + uri);
             }
@@ -94,8 +100,10 @@ public interface DocumentsAccess {
 
         @Override
         public List<DocumentInfo> getDocuments(UserId userId, String authority, List<String> docIds)
-                throws RemoteException {
-
+                throws RemoteException, CrossProfileNoPermissionException {
+            if (!mState.canInteractWith(userId)) {
+                throw new CrossProfileNoPermissionException();
+            }
             try (ContentProviderClient client = DocumentsApplication.acquireUnstableProviderOrThrow(
                     userId.getContentResolver(mContext), authority)) {
 
@@ -130,7 +138,10 @@ public interface DocumentsAccess {
 
         @Override
         public Path findDocumentPath(Uri docUri, UserId userId)
-                throws RemoteException, FileNotFoundException {
+                throws RemoteException, FileNotFoundException, CrossProfileNoPermissionException {
+            if (!mState.canInteractWith(userId)) {
+                throw new CrossProfileNoPermissionException();
+            }
             final ContentResolver resolver = userId.getContentResolver(mContext);
             try (final ContentProviderClient client = DocumentsApplication
                     .acquireUnstableProviderOrThrow(resolver, docUri.getAuthority())) {

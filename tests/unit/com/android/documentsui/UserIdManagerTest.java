@@ -28,7 +28,6 @@ import android.os.Build;
 import android.os.UserHandle;
 import android.os.UserManager;
 
-import androidx.core.os.BuildCompat;
 import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.base.UserId;
@@ -141,7 +140,7 @@ public class UserIdManagerTest {
     @Test
     public void testGetUserIds_deviceWithoutPermission() {
         // This test only tests for Android R or later. This test case always passes before R.
-        if (BuildCompat.isAtLeastR()
+        if (Build.VERSION.CODENAME.equals("R")
                 || (Build.VERSION.CODENAME.equals("REL") && Build.VERSION.SDK_INT >= 30)) {
             // When permission is denied, only returns the current user.
             when(mockContext.checkSelfPermission(Manifest.permission.INTERACT_ACROSS_USERS))
