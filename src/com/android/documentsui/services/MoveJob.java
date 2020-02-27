@@ -23,7 +23,6 @@ import static com.android.documentsui.services.FileOperationService.OPERATION_MO
 
 import android.app.Notification;
 import android.app.Notification.Builder;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Messenger;
@@ -38,6 +37,7 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Features;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.clipping.UrisSupplier;
 
 import java.io.FileNotFoundException;
@@ -95,9 +95,9 @@ final class MoveJob extends CopyJob {
     @Override
     public boolean setUp() {
         if (mSrcParentUri != null) {
-            final ContentResolver resolver = appContext.getContentResolver();
             try {
-                mSrcParent = DocumentInfo.fromUri(resolver, mSrcParentUri);
+                mSrcParent = DocumentInfo.fromUri(appContext.getContentResolver(), mSrcParentUri,
+                        UserId.DEFAULT_USER);
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "Failed to create srcParent.", e);
                 failureCount = mResourceUris.getItemCount();

@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ਇਹ ਫੋਲਡਰ ਵਰਤੋ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"ਕੀ <xliff:g id="APPNAME">%1$s</xliff:g> ਨੂੰ <xliff:g id="DIRECTORY">%2$s</xliff:g> ਵਿਚਲੀਆਂ ਫ਼ਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਦੇਣੀ ਹੈ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ਇਸ ਨਾਲ <xliff:g id="APPNAME">%1$s</xliff:g> ਨੂੰ <xliff:g id="DIRECTORY">%2$s</xliff:g> ਵਿੱਚ ਸਟੋਰ ਕੀਤੀ ਵਰਤਮਾਨ ਅਤੇ ਭਵਿੱਖੀ ਸਮੱਗਰੀ ਤੱਕ ਪਹੁੰਚ ਮਿਲੇਗੀ।"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> ਨਾਲ <xliff:g id="FOLDERNAME">%1$s</xliff:g> ਫੋਲਡਰ ਸਾਂਝਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ਹੇਠਾਂ ਦਿੱਤਾ ਕੋਈ ਫੋਲਡਰ ਚੁਣੋ, ਜਾਂ ਇੱਕ ਨਵਾਂ ਫੋਲਡਰ ਬਣਾਓ"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"ਕੋਈ ਹੋਰ ਫੋਲਡਰ ਚੁਣੋ, ਜਾਂ ਇੱਕ ਨਵਾਂ ਫੋਲਡਰ ਬਣਾਓ"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ਇਹ ਫ਼ੋਨ ਖੋਜੋ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ਖੋਜ ਇਤਿਹਾਸ ਮਿਟਾਓ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

@@ -285,13 +285,6 @@ public final class Shared {
     }
 
     /**
-     * Returns true if "Documents" root should be shown.
-     */
-    public static boolean shouldShowDocumentsRoot(Context context) {
-        return context.getResources().getBoolean(R.bool.show_documents_root);
-    }
-
-    /**
      * Check config whether DocumentsUI is launcher enabled or not.
      * @return true if launcher icon is shown.
      */
@@ -305,14 +298,6 @@ public final class Shared {
         }
 
         return false;
-    }
-
-    /**
-     * Check config has quick viewer package value or not.
-     * @return true if "trusted_quick_viewer_package" has value.
-     */
-    public static boolean hasQuickViewer(Context context) {
-        return !TextUtils.isEmpty(context.getString(R.string.trusted_quick_viewer_package));
     }
 
     public static String getDeviceName(ContentResolver resolver) {

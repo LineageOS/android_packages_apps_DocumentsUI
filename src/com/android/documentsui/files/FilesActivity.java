@@ -37,11 +37,14 @@ import com.android.documentsui.ActionModeController;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.DocsSelectionHelper;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.DummyProfileTabsAddons;
 import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.OperationDialogFragment;
 import com.android.documentsui.OperationDialogFragment.DialogType;
+import com.android.documentsui.ProfileTabsAddons;
+import com.android.documentsui.ProfileTabsController;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
@@ -54,7 +57,6 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
@@ -74,6 +76,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     private Injector<ActionHandler<FilesActivity>> mInjector;
     private ActivityInputHandler mActivityInputHandler;
     private SharedInputHandler mSharedInputHandler;
+    private final ProfileTabsAddons mProfileTabsAddonsStub = new DummyProfileTabsAddons();
 
     public FilesActivity() {
         super(R.layout.files_activity, TAG);
@@ -88,16 +91,14 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
 
         MessageBuilder messages = new MessageBuilder(this);
         Features features = Features.create(this);
-        ScopedPreferences prefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
 
         mInjector = new Injector<>(
                 features,
                 new Config(),
-                ScopedPreferences.create(this, PREFERENCES_SCOPE),
                 messages,
                 DialogController.create(features, this),
                 DocumentsApplication.getFileTypeLookup(this),
-                new ShortcutsUpdater(this, prefs)::update);
+                new ShortcutsUpdater(this)::update);
 
         super.onCreate(icicle);
 
@@ -148,7 +149,13 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
 
         mInjector.searchManager = mSearchManager;
 
-        mAppsRowManager = new AppsRowManager(mInjector.actions);
+        // No profile tabs will be shown on FilesActivity. Use a dummy to avoid unnecessary
+        // operations.
+        mInjector.profileTabsController = new ProfileTabsController(
+                mInjector.selectionMgr,
+                mProfileTabsAddonsStub);
+
+        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile());
         mInjector.appsRowManager = mAppsRowManager;
 
         mActivityInputHandler =

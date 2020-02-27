@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Usar este cartafol"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Queres permitir que <xliff:g id="APPNAME">%1$s</xliff:g> acceda aos ficheiros almacenados en <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Así <xliff:g id="APPNAME">%1$s</xliff:g> pode acceder ao contido, actual e futuro, almacenado en <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Non se puido compartir o cartafol <xliff:g id="FOLDERNAME">%1$s</xliff:g> con <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Escoller un dos seguintes cartafoles ou crear un novo"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Escoller outro cartafol ou crear un novo"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Realiza buscas neste teléfono"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Elimina o historial de busca <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

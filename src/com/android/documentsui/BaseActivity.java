@@ -58,11 +58,11 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
 import com.android.documentsui.prefs.LocalPreferences;
-import com.android.documentsui.prefs.Preferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.queries.CommandInterceptor;
 import com.android.documentsui.queries.SearchChipData;
@@ -75,6 +75,7 @@ import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,15 +154,18 @@ public abstract class BaseActivity
         Metrics.logActivityLaunch(mState, intent);
 
         mProviders = DocumentsApplication.getProvidersCache(this);
-        mDocs = DocumentsAccess.create(this);
+        mDocs = DocumentsAccess.create(this, mState);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Breadcrumb breadcrumb = findViewById(R.id.horizontal_breadcrumb);
         assert(breadcrumb != null);
+        TabLayout profileTabs = findViewById(R.id.tabs);
+        assert (profileTabs != null);
 
-        mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb);
+        mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
+                profileTabs, DocumentsApplication.getUserIdManager(this));
         SearchManagerListener searchListener = new SearchManagerListener() {
             /**
              * Called when search results changed. Refreshes the content of the directory. It
@@ -245,7 +249,7 @@ public abstract class BaseActivity
 
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
-                chipGroup, icicle, mInjector.prefs::isRecordSearch);
+                chipGroup, icicle);
         // initialize the chip sets by accept mime types
         mSearchManager.initChipSets(mState.acceptMimes);
         // update the chip items by the mime types of the root
@@ -260,6 +264,16 @@ public abstract class BaseActivity
         mNavigator.setSearchBarClickListener(v -> {
             mSearchManager.onSearchBarClicked();
             mNavigator.update();
+        });
+
+        mNavigator.setProfileTabsListener(userId -> {
+            // Reload the roots with the selected user is changed.
+            final RootsFragment roots = RootsFragment.get(getSupportFragmentManager());
+            if (roots != null) {
+                roots.onSelectedUserChanged();
+            }
+
+            mInjector.actions.loadCrossProfileRoot(getCurrentRoot(), userId);
         });
 
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
@@ -278,7 +292,7 @@ public abstract class BaseActivity
         // For now, we only work with prefs that we backup. This
         // just limits the scope of what we expect to come flowing
         // through here until we know we want more and fancier options.
-        assert(Preferences.shouldBackup(pref));
+        assert (LocalPreferences.shouldBackup(pref));
     }
 
     @Override
@@ -427,6 +441,10 @@ public abstract class BaseActivity
 
         expandAppBar();
         updateHeaderTitle();
+    }
+
+    protected ProfileTabsAddons getProfileTabsAddon() {
+        return mNavigator.getProfileTabsAddons();
     }
 
     @Override
@@ -737,12 +755,21 @@ public abstract class BaseActivity
     }
 
     @Override
+    public boolean isSearching() {
+        return mSearchManager.isSearching();
+    }
+
+    @Override
+    public UserId getSelectedUser() {
+        return mNavigator.getSelectedUser();
+    }
+
     public RootInfo getCurrentRoot() {
         RootInfo root = mState.stack.getRoot();
         if (root != null) {
             return root;
         } else {
-            return mProviders.getRecentsRoot();
+            return mProviders.getRecentsRoot(getSelectedUser());
         }
     }
 

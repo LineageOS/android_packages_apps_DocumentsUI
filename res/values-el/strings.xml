@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Χρήση αυτού του φακέλου"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Να έχει η εφαρμογή <xliff:g id="APPNAME">%1$s</xliff:g> πρόσβαση σε αρχεία του καταλόγου <xliff:g id="DIRECTORY">%2$s</xliff:g>;"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Αυτή η ενέργεια θα επιτρέψει στην εφαρμογή <xliff:g id="APPNAME">%1$s</xliff:g> να έχει πρόσβαση σε τρέχον και μελλοντικό περιεχόμενο του καταλόγου <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Αδύνατη η κοινοποίηση του φακέλου <xliff:g id="FOLDERNAME">%1$s</xliff:g> στην εφαρμ. <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Επιλέξτε παρακάτω έναν φάκελο ή δημιουργήστε νέο"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Επιλέξτε άλλο φάκελο ή δημιουργήστε νέο"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Αναζήτηση αυτού του τηλεφώνου"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Διαγραφή ιστορικού αναζήτησης <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

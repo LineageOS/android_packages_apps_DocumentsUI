@@ -23,12 +23,15 @@ import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.DocumentsContract;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +49,7 @@ import com.android.documentsui.FocusManager;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MenuManager.DirectoryDetails;
 import com.android.documentsui.Metrics;
+import com.android.documentsui.ProfileTabsController;
 import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
@@ -57,13 +61,13 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
-import com.android.documentsui.prefs.ScopedPreferences;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class PickActivity extends BaseActivity implements ActionHandler.Addons {
@@ -87,12 +91,10 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     public void onCreate(Bundle icicle) {
 
         Features features = Features.create(this);
-        ScopedPreferences prefs = ScopedPreferences.create(this, PREFERENCES_SCOPE);
 
         mInjector = new Injector<>(
                 features,
                 new Config(),
-                prefs,
                 new MessageBuilder(this),
                 DialogController.create(features, this),
                 DocumentsApplication.getFileTypeLookup(this),
@@ -121,6 +123,10 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mInjector.menuManager,
                 mInjector.messages);
 
+        mInjector.profileTabsController = new ProfileTabsController(
+                mInjector.selectionMgr,
+                getProfileTabsAddon());
+
         mInjector.pickResult = getPickResult(icicle);
         mInjector.actions = new ActionHandler<>(
                 this,
@@ -130,13 +136,14 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mSearchManager,
                 ProviderExecutor::forAuthority,
                 mInjector,
-                LastAccessedStorage.create());
+                LastAccessedStorage.create(),
+                DocumentsApplication.getUserIdManager(this));
 
         mInjector.searchManager = mSearchManager;
 
         Intent intent = getIntent();
 
-        mAppsRowManager = new AppsRowManager(mInjector.actions);
+        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile());
         mInjector.appsRowManager = mAppsRowManager;
 
         mSharedInputHandler =
@@ -206,6 +213,14 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             final Intent moreApps = new Intent(intent);
             moreApps.setComponent(null);
             moreApps.setPackage(null);
+            for (ResolveInfo info : getPackageManager().queryIntentActivities(moreApps,
+                    PackageManager.MATCH_DEFAULT_ONLY)) {
+                if (RootsFragment.PROFILE_TARGET_ACTIVITY.equals(
+                        info.activityInfo.targetActivity)) {
+                    mState.canShareAcrossProfile = true;
+                    break;
+                }
+            }
             RootsFragment.show(getSupportFragmentManager(), moreApps);
         } else if (mState.action == ACTION_OPEN ||
                    mState.action == ACTION_CREATE ||
@@ -361,7 +376,13 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             mSearchManager.recordHistory();
         } else if (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT) {
             // Explicit file picked, return
-            mInjector.actions.finishPicking(doc.derivedUri);
+            if (!canShare(Collections.singletonList(doc))) {
+                // A final check to make sure we can share the uri before returning it.
+                Log.e(TAG, "The document cannot be shared");
+                mInjector.dialogs.showActionNotAllowed();
+                return;
+            }
+            mInjector.actions.finishPicking(doc.getDocumentUri());
             mSearchManager.recordHistory();
         } else if (mState.action == ACTION_CREATE) {
             // Replace selected file
@@ -372,14 +393,29 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     @Override
     public void onDocumentsPicked(List<DocumentInfo> docs) {
         if (mState.action == ACTION_OPEN || mState.action == ACTION_GET_CONTENT) {
+            if (!canShare(docs)) {
+                // A final check to make sure we can share these uris before returning them.
+                Log.e(TAG, "One or more document cannot be shared");
+                mInjector.dialogs.showActionNotAllowed();
+                return;
+            }
             final int size = docs.size();
             final Uri[] uris = new Uri[size];
             for (int i = 0; i < size; i++) {
-                uris[i] = docs.get(i).derivedUri;
+                uris[i] = docs.get(i).getDocumentUri();
             }
             mInjector.actions.finishPicking(uris);
             mSearchManager.recordHistory();
         }
+    }
+
+    private boolean canShare(List<DocumentInfo> docs) {
+        for (DocumentInfo doc : docs) {
+            if (!mState.canInteractWith(doc.userId)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @CallSuper

@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Utilizar esta carpeta"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"¿Quieres permitir que <xliff:g id="APPNAME">%1$s</xliff:g> acceda a los archivos que hay en <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Esto permitirá que <xliff:g id="APPNAME">%1$s</xliff:g> acceda al contenido almacenado en <xliff:g id="DIRECTORY">%2$s</xliff:g> de ahora en adelante."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"No se ha podido compartir la carpeta <xliff:g id="FOLDERNAME">%1$s</xliff:g> con <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Selecciona una carpeta que esté más abajo o crea una"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Selecciona otra carpeta o crea una"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Buscar en este teléfono"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Eliminar el historial de búsqueda de <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

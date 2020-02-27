@@ -24,7 +24,6 @@ import androidx.annotation.StringRes;
 
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.ProvidersAccess;
 
 /**
@@ -68,7 +67,7 @@ public final class ShowInProviderAction extends Action {
 
     @Override
     public String getPackageName() {
-        return mProviders.getPackageName(UserId.DEFAULT_USER, mDoc.derivedUri.getAuthority());
+        return mProviders.getPackageName(mDoc.userId, mDoc.derivedUri.getAuthority());
     }
 
     public @StringRes int getButtonLabel() {

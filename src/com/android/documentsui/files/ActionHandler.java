@@ -154,7 +154,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
         Metrics.logUserAction(MetricConsts.USER_ACTION_SETTINGS);
         final Intent intent = new Intent(DocumentsContract.ACTION_DOCUMENT_ROOT_SETTINGS);
         intent.setDataAndType(root.getUri(), DocumentsContract.Root.MIME_TYPE_ITEM);
-        mActivity.startActivity(intent);
+        root.userId.startActivityAsUser(mActivity, intent);
     }
 
     @Override
@@ -172,7 +172,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
 
     @Override
     public @Nullable DocumentInfo renameDocument(String name, DocumentInfo document) {
-        ContentResolver resolver = mActivity.getContentResolver();
+        ContentResolver resolver = document.userId.getContentResolver(mActivity);
         ContentProviderClient client = null;
 
         try {
@@ -180,7 +180,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
                     resolver, document.derivedUri.getAuthority());
             Uri newUri = DocumentsContract.renameDocument(
                     wrap(client), document.derivedUri, name);
-            return DocumentInfo.fromUri(resolver, newUri);
+            return DocumentInfo.fromUri(resolver, newUri, document.userId);
         } catch (Exception e) {
             Log.w(TAG, "Failed to rename file", e);
             return null;
@@ -289,7 +289,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setData(doc.derivedUri);
         try {
-            mActivity.startActivity(intent);
+            doc.userId.startActivityAsUser(mActivity, intent);
         } catch (ActivityNotFoundException e) {
             Log.e(TAG, "Failed to view settings in application for " + doc.derivedUri, e);
             mDialogs.showNoApplicationFound();
@@ -369,7 +369,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
             intent = new Intent(Intent.ACTION_SEND);
             DocumentInfo doc = docs.get(0);
             intent.setType(doc.mimeType);
-            intent.putExtra(Intent.EXTRA_STREAM, doc.derivedUri);
+            intent.putExtra(Intent.EXTRA_STREAM, doc.getDocumentUri());
 
         } else if (docs.size() > 1) {
             intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
@@ -378,7 +378,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
             final ArrayList<Uri> uris = new ArrayList<>();
             for (DocumentInfo doc : docs) {
                 mimeTypes.add(doc.mimeType);
-                uris.add(doc.derivedUri);
+                uris.add(doc.getDocumentUri());
             }
 
             intent.setType(MimeTypes.findCommonMimeType(mimeTypes));
@@ -497,7 +497,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
                 }
                 // If we've got a specific root to display, restore that root using a dedicated
                 // authority. That way a misbehaving provider won't result in an ANR.
-                loadRoot(uri);
+                loadRoot(uri, UserId.DEFAULT_USER);
                 return true;
             } else if (DocumentsContract.isRootsUri(mActivity, uri)) {
                 if (DEBUG) {
@@ -527,7 +527,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
         if (DownloadManager.ACTION_VIEW_DOWNLOADS.equals(intent.getAction())) {
             Uri uri = DocumentsContract.buildRootUri(Providers.AUTHORITY_DOWNLOADS,
                     Providers.ROOT_ID_DOWNLOADS);
-            loadRoot(uri);
+            loadRoot(uri, UserId.DEFAULT_USER);
             return true;
         }
 
@@ -546,7 +546,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
         Intent intent = Intent.createChooser(buildViewIntent(doc), null);
         intent.putExtra(Intent.EXTRA_AUTO_LAUNCH_SINGLE_CHOICE, false);
         try {
-            mActivity.startActivity(intent);
+            doc.userId.startActivityAsUser(mActivity, intent);
         } catch (ActivityNotFoundException e) {
             mDialogs.showNoApplicationFound();
         }
@@ -555,8 +555,7 @@ public class ActionHandler<T extends FragmentActivity & AbstractActionHandler.Co
     @Override
     public void showInspector(DocumentInfo doc) {
         Metrics.logUserAction(MetricConsts.USER_ACTION_INSPECTOR);
-        Intent intent = new Intent(mActivity, InspectorActivity.class);
-        intent.setData(doc.derivedUri);
+        Intent intent = InspectorActivity.createIntent(mActivity, doc.derivedUri, doc.userId);
 
         // permit the display of debug info about the file.
         intent.putExtra(

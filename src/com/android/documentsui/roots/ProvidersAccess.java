@@ -53,7 +53,7 @@ public interface ProvidersAccess {
 
     RootInfo getDefaultRootBlocking(State state);
 
-    RootInfo getRecentsRoot();
+    RootInfo getRecentsRoot(UserId userId);
 
     String getApplicationName(UserId userId, String authority);
 
@@ -110,6 +110,13 @@ public interface ProvidersAccess {
 
             if (state.action == State.ACTION_GET_CONTENT && root.isEmpty()) {
                 if (VERBOSE) Log.v(tag, "Excluding empty root because: ACTION_GET_CONTENT.");
+                continue;
+            }
+
+            if (!UserId.CURRENT_USER.equals(root.userId) && !state.supportsCrossProfile()) {
+                if (VERBOSE) {
+                    Log.v(tag, "Excluding root because: action does not support cross profile.");
+                }
                 continue;
             }
 

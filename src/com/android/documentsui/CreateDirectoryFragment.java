@@ -143,14 +143,14 @@ public class CreateDirectoryFragment extends DialogFragment {
 
         @Override
         protected DocumentInfo doInBackground(Void... params) {
-            final ContentResolver resolver = mActivity.getContentResolver();
+            final ContentResolver resolver = mCwd.userId.getContentResolver(mActivity);
             ContentProviderClient client = null;
             try {
                 client = DocumentsApplication.acquireUnstableProviderOrThrow(
                         resolver, mCwd.derivedUri.getAuthority());
                 final Uri childUri = DocumentsContract.createDocument(
                         wrap(client), mCwd.derivedUri, Document.MIME_TYPE_DIR, mDisplayName);
-                DocumentInfo doc = DocumentInfo.fromUri(resolver, childUri);
+                DocumentInfo doc = DocumentInfo.fromUri(resolver, childUri, mCwd.userId);
                 return doc.isDirectory() ? doc : null;
             } catch (Exception e) {
                 Log.w(TAG, "Failed to create directory", e);

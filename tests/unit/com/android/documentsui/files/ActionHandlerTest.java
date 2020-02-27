@@ -68,6 +68,7 @@ import com.android.documentsui.testing.TestDragAndDropManager;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.testing.UserManagers;
 import com.android.documentsui.ui.TestDialogController;
 
 import org.junit.Before;
@@ -97,6 +98,7 @@ public class ActionHandlerTest {
         mFeatures = new TestFeatures();
         mEnv = TestEnv.create(mFeatures);
         mActivity = TestActivity.create(mEnv);
+        mActivity.userManager = UserManagers.create();
         mActionModeAddons = new TestActionModeAddons();
         mDialogs = new TestDialogController();
         mClipper = new TestDocumentClipper();
@@ -430,22 +432,11 @@ public class ActionHandlerTest {
 
     @Test
     public void testInitLocation_forceDefaultsToRoot() throws Exception {
-        mActivity.resources.bools.put(R.bool.show_documents_root, false);
         mActivity.resources.strings.put(R.string.default_root_uri,
                 TestProvidersAccess.DOWNLOADS.getUri().toString());
 
         mHandler.initLocation(mActivity.getIntent());
         assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
-    }
-
-    @Test
-    public void testInitLocation_DocumentsRootEnabled() throws Exception {
-        mActivity.resources.bools.put(R.bool.show_documents_root, true);
-        mActivity.resources.strings.put(R.string.default_root_uri,
-                TestProvidersAccess.HOME.getUri().toString());
-
-        mHandler.initLocation(mActivity.getIntent());
-        assertRootPicked(TestProvidersAccess.HOME.getUri());
     }
 
     @Test
@@ -578,9 +569,10 @@ public class ActionHandlerTest {
         refreshAnswer = false;
         mEnv.populateStack();
         mHandler.refreshDocument(mEnv.model.getDocument(
-                ModelId.build(TestProvidersAccess.HOME.authority, "1")), (boolean answer) -> {
-            refreshAnswer = answer;
-        });
+                ModelId.build(mEnv.model.mUserId, TestProvidersAccess.HOME.authority, "1")),
+                (boolean answer) -> {
+                    refreshAnswer = answer;
+                });
 
         mEnv.beforeAsserts();
         if (mEnv.features.isContentRefreshEnabled()) {

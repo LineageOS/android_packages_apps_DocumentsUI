@@ -34,14 +34,15 @@ class RootAndAppItem extends RootItem {
 
     public final ResolveInfo resolveInfo;
 
-    public RootAndAppItem(RootInfo root, ResolveInfo info, ActionHandler actionHandler) {
-        super(root, actionHandler, info.activityInfo.packageName);
+    public RootAndAppItem(RootInfo root, ResolveInfo info, ActionHandler actionHandler,
+            boolean maybeShowBadge) {
+        super(root, actionHandler, info.activityInfo.packageName, maybeShowBadge);
         this.resolveInfo = info;
     }
 
     @Override
     boolean showAppDetails() {
-        mActionHandler.showAppDetails(resolveInfo);
+        mActionHandler.showAppDetails(resolveInfo, userId);
         return true;
     }
 
@@ -59,7 +60,7 @@ class RootAndAppItem extends RootItem {
 
     @Override
     protected void onActionClick(View view) {
-        mActionHandler.openRoot(resolveInfo);
+        mActionHandler.openRoot(resolveInfo, userId);
     }
 
     @Override

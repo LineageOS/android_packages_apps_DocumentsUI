@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"આ ફોલ્ડરનો ઉપયોગ કરો"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"શું <xliff:g id="APPNAME">%1$s</xliff:g>ને <xliff:g id="DIRECTORY">%2$s</xliff:g>માંની ફાઇલો ઍક્સેસ કરવાની મંજૂરી આપીએ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"આનાથી <xliff:g id="APPNAME">%1$s</xliff:g> <xliff:g id="DIRECTORY">%2$s</xliff:g>માં સ્ટોર કરેલું હાલનું અને ભાવિ કન્ટેન્ટ ઍક્સેસ કરી શકશે."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> સાથે <xliff:g id="FOLDERNAME">%1$s</xliff:g> ફોલ્ડર શેર કરી શકતાં નથી"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"નીચે એક ફોલ્ડર પસંદ કરો અથવા એક નવું ફોલ્ડર બનાવો"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"અન્ય કોઈ ફોલ્ડર પસંદ કરો અથવા એક નવું ફોલ્ડર બનાવો"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"આ ફોન શોધો"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"શોધ ઇતિહાસ <xliff:g id="TEXT">%1$s</xliff:g> ડિલીટ કરો"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

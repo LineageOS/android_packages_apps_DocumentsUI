@@ -69,7 +69,10 @@ public class RootsFragmentTest {
     @Test
     public void testSortLoadResult_WithCorrectOrder() {
         List<Item> items = mRootsFragment.sortLoadResult(createFakeRootInfoList(),
-                null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess());
+                null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess(),
+                UserId.DEFAULT_USER,
+                Collections.singletonList(UserId.DEFAULT_USER),
+                /* maybeShowBadge */ false);
         assertTrue(assertSortedResult(items));
     }
 
@@ -80,11 +83,11 @@ public class RootsFragmentTest {
         final RootsFragment.ItemComparator comp = new RootsFragment.ItemComparator(testPackageName);
         final List<Item> rootList = new ArrayList<>();
         rootList.add(new RootItem(TestProvidersAccess.HAMMY, null /* actionHandler */,
-                errorTestPackageName));
+                errorTestPackageName, /* maybeShowBadge= */ false));
         rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, null /* actionHandler */,
-                errorTestPackageName));
+                errorTestPackageName, /* maybeShowBadge= */ false));
         rootList.add(new RootItem(TestProvidersAccess.PICKLES, null /* actionHandler */,
-                testPackageName));
+                testPackageName, /* maybeShowBadge= */ false));
         Collections.sort(rootList, comp);
 
         assertEquals(rootList.get(0).title, TestProvidersAccess.PICKLES.title);
@@ -98,7 +101,7 @@ public class RootsFragmentTest {
         final RootsFragment.ItemComparator comp = new RootsFragment.ItemComparator(testPackageName);
         final List<Item> rootList = new ArrayList<>();
         rootList.add(new RootItem(TestProvidersAccess.HAMMY, null /* actionHandler */,
-                testPackageName));
+                testPackageName, /* maybeShowBadge= */ false));
 
         final ResolveInfo info = TestResolveInfo.create();
         info.activityInfo.packageName = testPackageName;
@@ -106,7 +109,7 @@ public class RootsFragmentTest {
         rootList.add(new AppItem(info, TestProvidersAccess.PICKLES.title, UserId.DEFAULT_USER,
                 null /* actionHandler */));
         rootList.add(new RootAndAppItem(TestProvidersAccess.INSPECTOR, info,
-                null /* actionHandler */));
+                null /* actionHandler */, /* maybeShowBadge= */ false));
 
         Collections.sort(rootList, comp);
 

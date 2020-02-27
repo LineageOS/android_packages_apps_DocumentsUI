@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ဤဖိုင်တွဲကို အသုံးပြုပါ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> ကို <xliff:g id="DIRECTORY">%2$s</xliff:g> ရှိ ဖိုင်များကို သုံးခွင့်ပြုမလား။"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ဤသို့ပြုလုပ်ခြင်းဖြင့် <xliff:g id="APPNAME">%1$s</xliff:g> ကို လက်ရှိနှင့် အနာဂတ်တွင် <xliff:g id="DIRECTORY">%2$s</xliff:g> ထဲ သိမ်းမည့် အကြောင်းအရာများကို အသုံးပြုခွင့်ပေးပါမည်။"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"ဖိုင်တွဲ <xliff:g id="FOLDERNAME">%1$s</xliff:g> ကို <xliff:g id="APPNAME">%2$s</xliff:g> နှင့် မျှဝေ၍ မရပါ"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"အောက်ပါ ဖိုင်တွဲတစ်ခုကို ရွေးချယ်ပါ (သို့) ဖိုင်တွဲအသစ်တစ်ခု ပြုလုပ်ပါ"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"အခြားဖိုင်တွဲကို ရွေးချယ်ပါ (သို့) ဖိုင်တွဲအသစ်တစ်ခု ပြုလုပ်ပါ"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ဤဖုန်းတွင် ရှာရန်"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ရှာဖွေမှတ်တမ်း <xliff:g id="TEXT">%1$s</xliff:g> ကိုဖျက်သည်"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

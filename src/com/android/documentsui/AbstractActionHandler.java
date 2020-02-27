@@ -89,6 +89,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     @VisibleForTesting
     public static final int CODE_FORWARD = 42;
     public static final int CODE_AUTHENTICATION = 43;
+    public static final int CODE_FORWARD_CROSS_PROFILE = 44;
 
     @VisibleForTesting
     static final int LOADER_ID = 42;
@@ -259,12 +260,12 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     @Override
-    public void openRoot(ResolveInfo app) {
+    public void openRoot(ResolveInfo app, UserId userId) {
         throw new UnsupportedOperationException("Can't open an app.");
     }
 
     @Override
-    public void showAppDetails(ResolveInfo info) {
+    public void showAppDetails(ResolveInfo info, UserId userId) {
         throw new UnsupportedOperationException("Can't show app details.");
     }
 
@@ -358,6 +359,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         if (mSearchMgr.isSearching()) {
             loadDocument(
                     doc.derivedUri,
+                    doc.userId,
                     (@Nullable DocumentStack stack) -> openFolderInSearchResult(stack, doc));
         } else {
             openChildContainer(doc);
@@ -454,7 +456,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         }
 
         try {
-            mActivity.startActivity(intent);
+            doc.userId.startActivityAsUser(mActivity, intent);
             return true;
         } catch (ActivityNotFoundException e) {
             mDialogs.showNoApplicationFound();
@@ -478,7 +480,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         if (intent != null) {
             // TODO: un-work around issue b/24963914. Should be fixed soon.
             try {
-                mActivity.startActivity(intent);
+                doc.userId.startActivityAsUser(mActivity, intent);
                 return true;
             } catch (SecurityException e) {
                 // Carry on to regular view mode.
@@ -497,7 +499,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             Intent manage = new Intent(DocumentsContract.ACTION_MANAGE_DOCUMENT);
             manage.setData(doc.derivedUri);
             try {
-                mActivity.startActivity(manage);
+                doc.userId.startActivityAsUser(mActivity, manage);
                 return true;
             } catch (ActivityNotFoundException ex) {
                 // Fall back to regular handling.
@@ -581,7 +583,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             if (top.isArchive()) {
                 // Swap the zip file in original provider and the one provided by ArchiveProvider.
                 stack.pop();
-                stack.push(mDocs.getArchiveDocument(top.derivedUri));
+                stack.push(mDocs.getArchiveDocument(top.derivedUri, top.userId));
             }
 
             mState.stack.reset();
@@ -609,7 +611,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
             currentDoc = doc;
         } else if (doc.isArchive()) {
             // Archive.
-            currentDoc = mDocs.getArchiveDocument(doc.derivedUri);
+            currentDoc = mDocs.getArchiveDocument(doc.derivedUri, doc.userId);
         }
 
         assert(currentDoc != null);
@@ -699,19 +701,52 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         throw new UnsupportedOperationException("Share not supported!");
     }
 
-    protected final void loadDocument(Uri uri, LoadDocStackCallback callback) {
+    protected final void loadDocument(Uri uri, UserId userId, LoadDocStackCallback callback) {
         new LoadDocStackTask(
                 mActivity,
                 mProviders,
                 mDocs,
+                userId,
                 callback
                 ).executeOnExecutor(mExecutors.lookup(uri.getAuthority()), uri);
     }
 
     @Override
-    public final void loadRoot(Uri uri) {
-        new LoadRootTask<>(mActivity, mProviders, uri, this::onRootLoaded)
+    public final void loadRoot(Uri uri, UserId userId) {
+        new LoadRootTask<>(mActivity, mProviders, uri, userId, this::onRootLoaded)
                 .executeOnExecutor(mExecutors.lookup(uri.getAuthority()));
+    }
+
+    @Override
+    public final void loadCrossProfileRoot(RootInfo info, UserId selectedUser) {
+        if (info.isRecents()) {
+            openRoot(mProviders.getRecentsRoot(selectedUser));
+            return;
+        }
+        new LoadRootTask<>(mActivity, mProviders, info.getUri(), selectedUser,
+                new LoadCrossProfileRootCallback(info, selectedUser))
+                .executeOnExecutor(mExecutors.lookup(info.getUri().getAuthority()));
+    }
+
+    private class LoadCrossProfileRootCallback implements LoadRootTask.LoadRootCallback {
+        private final RootInfo mOriginalRoot;
+        private final UserId mSelectedUserId;
+
+        LoadCrossProfileRootCallback(RootInfo rootInfo, UserId selectedUser) {
+            mOriginalRoot = rootInfo;
+            mSelectedUserId = selectedUser;
+        }
+
+        @Override
+        public void onRootLoaded(@Nullable RootInfo root) {
+            if (root == null) {
+                // There is no such root in the other profile. Maybe the provider is missing on
+                // the other profile. Create a dummy root and open it to show error message.
+                root = RootInfo.copyRootInfo(mOriginalRoot);
+                root.userId = mSelectedUserId;
+            }
+            openRoot(root);
+        }
     }
 
     @Override
@@ -724,6 +759,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     public void loadDocumentsForCurrentStack() {
         DocumentStack stack = mState.stack;
         if (!stack.isRecents() && stack.isEmpty()) {
+            // TODO: we may also need to reload cross-profile supported root with empty stack
             DirectoryResult result = new DirectoryResult();
 
             // TODO (b/35996595): Consider plumbing through the actual exception, though it might
@@ -739,7 +775,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     protected final boolean launchToDocument(Uri uri) {
         // We don't support launching to a document in an archive.
         if (!Providers.isArchiveUri(uri)) {
-            loadDocument(uri, this::onStackLoaded);
+            loadDocument(uri, UserId.DEFAULT_USER, this::onStackLoaded);
             return true;
         }
 
@@ -791,17 +827,16 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     protected final void loadDeviceRoot() {
-        mActivity.onRootPicked(
-                mProviders.getRootOneshot(UserId.DEFAULT_USER, Providers.AUTHORITY_STORAGE,
-                        Providers.ROOT_ID_DEVICE));
+        loadRoot(DocumentsContract.buildRootUri(Providers.AUTHORITY_STORAGE,
+                Providers.ROOT_ID_DEVICE), UserId.DEFAULT_USER);
     }
 
     protected final void loadHomeDir() {
-        loadRoot(Shared.getDefaultRootUri(mActivity));
+        loadRoot(Shared.getDefaultRootUri(mActivity), UserId.DEFAULT_USER);
     }
 
     protected final void loadRecent() {
-        mState.stack.changeRoot(mProviders.getRecentsRoot());
+        mState.stack.changeRoot(mProviders.getRecentsRoot(UserId.DEFAULT_USER));
         mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
     }
 
@@ -844,12 +879,13 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                     if (DEBUG) {
                         Log.d(TAG, "Creating new loader recents.");
                     }
-                    loader =  new RecentsLoader(
+                    loader = new RecentsLoader(
                             context,
                             mProviders,
                             mState,
                             mExecutors,
-                            mInjector.fileTypeLookup);
+                            mInjector.fileTypeLookup,
+                            mState.stack.getRoot().userId);
                 }
                 loader.setObserver(observer);
                 return loader;
@@ -915,6 +951,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         void onDocumentPicked(DocumentInfo doc);
         RootInfo getCurrentRoot();
         DocumentInfo getCurrentDirectory();
+        UserId getSelectedUser();
         /**
          * Check whether current directory is root of recent.
          */

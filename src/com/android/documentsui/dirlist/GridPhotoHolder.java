@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
@@ -31,6 +32,7 @@ import android.widget.ImageView;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
 
@@ -43,6 +45,7 @@ final class GridPhotoHolder extends DocumentHolder {
     private final ImageView mIconCheck;
     private final IconHelper mIconHelper;
     private final View mPreviewIcon;
+    private final View mIconBriefcase;
 
     // This is used in as a convenience in our bind method.
     private final DocumentInfo mDoc = new DocumentInfo();
@@ -53,6 +56,7 @@ final class GridPhotoHolder extends DocumentHolder {
         mIconMimeLg = (ImageView) itemView.findViewById(R.id.icon_mime_lg);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
+        mIconBriefcase = itemView.findViewById(R.id.icon_briefcase);
         mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
@@ -100,6 +104,11 @@ final class GridPhotoHolder extends DocumentHolder {
     }
 
     @Override
+    public void bindBriefcaseIcon(boolean show) {
+        mIconBriefcase.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
     public boolean inDragRegion(MotionEvent event) {
         // Entire grid box should be draggable
         return true;
@@ -127,7 +136,9 @@ final class GridPhotoHolder extends DocumentHolder {
 
         mModelId = modelId;
 
-        mDoc.updateFromCursor(cursor, getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY));
+        mDoc.updateFromCursor(cursor,
+                UserId.of(getCursorInt(cursor, RootCursorWrapper.COLUMN_USER_ID)),
+                getCursorString(cursor, RootCursorWrapper.COLUMN_AUTHORITY));
 
         mIconHelper.stopLoading(mIconThumb);
 

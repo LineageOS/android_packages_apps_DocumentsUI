@@ -31,10 +31,10 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.clipping.ClipStorage;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
-import com.android.documentsui.prefs.ScopedAccessLocalPreferences;
 import com.android.documentsui.queries.SearchHistoryManager;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.theme.ThemeOverlayManager;
@@ -48,6 +48,7 @@ public class DocumentsApplication extends Application {
     private ClipStorage mClipStore;
     private DocumentClipper mClipper;
     private DragAndDropManager mDragAndDropManager;
+    private UserIdManager mUserIdManager;
     private Lookup<String, String> mFileTypeLookup;
 
     public static ProvidersCache getProvidersCache(Context context) {
@@ -78,6 +79,10 @@ public class DocumentsApplication extends Application {
         return ((DocumentsApplication) context.getApplicationContext()).mClipStore;
     }
 
+    public static UserIdManager getUserIdManager(Context context) {
+        return ((DocumentsApplication) context.getApplicationContext()).mUserIdManager;
+    }
+
     public static DragAndDropManager getDragAndDropManager(Context context) {
         return ((DocumentsApplication) context.getApplicationContext()).mDragAndDropManager;
     }
@@ -105,7 +110,9 @@ public class DocumentsApplication extends Application {
             Log.w(TAG, "Can't obtain OverlayManager from System Service!");
         }
 
-        mProviders = new ProvidersCache(this);
+        mUserIdManager = UserIdManager.create(this);
+
+        mProviders = new ProvidersCache(this, mUserIdManager);
         mProviders.updateAsync(false);
 
         mThumbnailCache = new ThumbnailCache(memoryClassBytes / 4);
@@ -130,7 +137,6 @@ public class DocumentsApplication extends Application {
         final IntentFilter localeFilter = new IntentFilter();
         localeFilter.addAction(Intent.ACTION_LOCALE_CHANGED);
         registerReceiver(mCacheReceiver, localeFilter);
-        ScopedAccessLocalPreferences.clearScopedAccessPreferences(this);
 
         SearchHistoryManager.getInstance(getApplicationContext());
     }
@@ -148,7 +154,7 @@ public class DocumentsApplication extends Application {
             final Uri data = intent.getData();
             if (data != null) {
                 final String packageName = data.getSchemeSpecificPart();
-                mProviders.updatePackageAsync(packageName);
+                mProviders.updatePackageAsync(UserId.DEFAULT_USER, packageName);
             } else {
                 mProviders.updateAsync(true);
             }

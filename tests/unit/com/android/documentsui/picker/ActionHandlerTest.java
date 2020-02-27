@@ -16,6 +16,8 @@
 
 package com.android.documentsui.picker;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -37,6 +39,8 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Injector;
 import com.android.documentsui.R;
+import com.android.documentsui.TestUserIdManager;
+import com.android.documentsui.UserIdManager;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
@@ -69,6 +73,7 @@ public class ActionHandlerTest {
     private TestableActionHandler<TestActivity> mHandler;
     private TestLastAccessedStorage mLastAccessed;
     private PickCountRecordStorage mPickCountRecord;
+    private TestUserIdManager mTestUserIdManager;
 
     @Before
     public void setUp() {
@@ -77,6 +82,7 @@ public class ActionHandlerTest {
         mEnv.providers.configurePm(mActivity.packageMgr);
         mEnv.injector.pickResult = new PickResult();
         mLastAccessed = new TestLastAccessedStorage();
+        mTestUserIdManager = new TestUserIdManager();
         mPickCountRecord = mock(PickCountRecordStorage.class);
 
         mHandler = new TestableActionHandler<>(
@@ -88,7 +94,8 @@ public class ActionHandlerTest {
                 mEnv::lookupExecutor,
                 mEnv.injector,
                 mLastAccessed,
-                mPickCountRecord
+                mPickCountRecord,
+                mTestUserIdManager
         );
 
         mEnv.selectionMgr.select("1");
@@ -102,18 +109,20 @@ public class ActionHandlerTest {
         private UpdatePickResultTask mTask;
 
         TestableActionHandler(
-            T activity,
-            State state,
-            ProvidersAccess providers,
-            DocumentsAccess docs,
-            SearchViewManager searchMgr,
-            Lookup<String, Executor> executors,
-            Injector injector,
-            LastAccessedStorage lastAccessed,
-            PickCountRecordStorage pickCountRecordStorage) {
-            super(activity, state, providers, docs, searchMgr, executors, injector, lastAccessed);
+                T activity,
+                State state,
+                ProvidersAccess providers,
+                DocumentsAccess docs,
+                SearchViewManager searchMgr,
+                Lookup<String, Executor> executors,
+                Injector injector,
+                LastAccessedStorage lastAccessed,
+                PickCountRecordStorage pickCountRecordStorage,
+                UserIdManager userIdManager) {
+            super(activity, state, providers, docs, searchMgr, executors, injector, lastAccessed,
+                    userIdManager);
             mTask = new UpdatePickResultTask(
-                mActivity, mInjector.pickResult, pickCountRecordStorage);
+                    mActivity, mInjector.pickResult, pickCountRecordStorage);
         }
 
         @Override
@@ -146,23 +155,10 @@ public class ActionHandlerTest {
 
     @Test
     public void testInitLocation_CopyDestination_DefaultsToDownloads() throws Exception {
-        mActivity.resources.bools.put(R.bool.show_documents_root, false);
-
         Intent intent = mActivity.getIntent();
         intent.setAction(Shared.ACTION_PICK_COPY_DESTINATION);
         mHandler.initLocation(mActivity.getIntent());
         assertRootPicked(TestProvidersAccess.DOWNLOADS.getUri());
-    }
-
-    @Test
-    public void testInitLocation_CopyDestination_DocumentsRootEnabled() throws Exception {
-        mActivity.resources.bools.put(R.bool.show_documents_root, true);
-        mActivity.resources.strings.put(R.string.default_root_uri, TestProvidersAccess.HOME.getUri().toString());
-
-        Intent intent = mActivity.getIntent();
-        intent.setAction(Shared.ACTION_PICK_COPY_DESTINATION);
-        mHandler.initLocation(intent);
-        assertRootPicked(TestProvidersAccess.HOME.getUri());
     }
 
     @Test
@@ -532,6 +528,37 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testOnAppPickedResult_OnOK_crossProfile() throws Exception {
+        mEnv.state.canShareAcrossProfile = true;
+        mTestUserIdManager.managedUser = TestProvidersAccess.OtherUser.USER_ID;
+        mTestUserIdManager.systemUser = TestProvidersAccess.USER_ID;
+
+        Intent intent = new Intent();
+        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD_CROSS_PROFILE,
+                Activity.RESULT_OK, intent);
+        mActivity.finishedHandler.assertCalled();
+        mActivity.setResult.assertCalled();
+
+        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
+        assertEquals(intent, mActivity.setResult.getLastValue().second);
+        mEnv.dialogs.assertActionNotAllowedNotShown();
+    }
+
+    @Test
+    public void testOnAppPickedResult_OnOK_crossProfile_withoutPermission() throws Exception {
+        mEnv.state.canShareAcrossProfile = false;
+        mTestUserIdManager.managedUser = TestProvidersAccess.OtherUser.USER_ID;
+        mTestUserIdManager.systemUser = TestProvidersAccess.USER_ID;
+
+        Intent intent = new Intent();
+        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD_CROSS_PROFILE,
+                Activity.RESULT_OK, intent);
+        mActivity.finishedHandler.assertNotCalled();
+        mActivity.setResult.assertNotCalled();
+        mEnv.dialogs.assertActionNotAllowedShown();
+    }
+
+    @Test
     public void testOnAppPickedResult_OnNotOK() throws Exception {
         Intent intent = new Intent();
         mHandler.onActivityResult(0, Activity.RESULT_OK, intent);
@@ -545,8 +572,18 @@ public class ActionHandlerTest {
     }
 
     @Test
+    public void testOnAppPickedResult_OnNotOK_crossProfile() throws Exception {
+        Intent intent = new Intent();
+        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD_CROSS_PROFILE,
+                Activity.RESULT_CANCELED,
+                intent);
+        mActivity.finishedHandler.assertNotCalled();
+        mActivity.setResult.assertNotCalled();
+    }
+
+    @Test
     public void testOpenAppRoot() throws Exception {
-        mHandler.openRoot(TestResolveInfo.create());
+        mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.USER_ID);
         assertEquals((long) mActivity.startActivityForResult.getLastValue().second,
                 AbstractActionHandler.CODE_FORWARD);
         assertNotNull(mActivity.startActivityForResult.getLastValue().first);
@@ -559,7 +596,7 @@ public class ActionHandlerTest {
                 | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
                 | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        mHandler.openRoot(TestResolveInfo.create());
+        mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.USER_ID);
         assertEquals((long) mActivity.startActivityForResult.getLastValue().second,
                 AbstractActionHandler.CODE_FORWARD);
         assertNotNull(mActivity.startActivityForResult.getLastValue().first);
@@ -576,10 +613,31 @@ public class ActionHandlerTest {
     public void testOpenAppRootWithQueryContent_matchedContent() throws Exception {
         final String queryContent = "query";
         mActivity.intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryContent);
-        mHandler.openRoot(TestResolveInfo.create());
+        mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.USER_ID);
         assertEquals(queryContent,
                 mActivity.startActivityForResult.getLastValue().first.getStringExtra(
                         Intent.EXTRA_CONTENT_QUERY));
+    }
+
+    @Test
+    public void testOpenAppRoot_doesNotHappen_differentUser() throws Exception {
+        final String queryContent = "query";
+        mActivity.intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryContent);
+        mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.OtherUser.USER_ID);
+        assertThat(mActivity.startActivityForResult.getLastValue()).isNull();
+        mEnv.dialogs.assertActionNotAllowedShown();
+    }
+
+    @Test
+    public void testOpenAppRoot_happenWithPermission_differentUser() throws Exception {
+        final String queryContent = "query";
+        mEnv.state.canShareAcrossProfile = true;
+        mActivity.intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryContent);
+        mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.OtherUser.USER_ID);
+        assertEquals(queryContent,
+                mActivity.startActivityForResult.getLastValue().first.getStringExtra(
+                        Intent.EXTRA_CONTENT_QUERY));
+        mEnv.dialogs.assertActionNotAllowedNotShown();
     }
 
     @Test
@@ -590,6 +648,17 @@ public class ActionHandlerTest {
         mHandler.onDocumentOpened(TestEnv.FILE_GIF, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR, true);
         mActivity.assertActivityStarted(Intent.ACTION_QUICK_VIEW);
+    }
+
+    @Test
+    public void testPreviewItem_onOtherUser() throws Exception {
+        mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
+        mActivity.currentRoot = TestProvidersAccess.OtherUser.DOWNLOADS;
+
+        mHandler.onDocumentOpened(TestEnv.OtherUser.FILE_PNG, ActionHandler.VIEW_TYPE_PREVIEW,
+                ActionHandler.VIEW_TYPE_REGULAR, true);
+        mActivity.assertActivityAsUserStarted(Intent.ACTION_QUICK_VIEW,
+                TestProvidersAccess.OtherUser.USER_HANDLE);
     }
 
     @Test
@@ -627,7 +696,6 @@ public class ActionHandlerTest {
     private void testInitLocationDefaultToDownloadsOnAction(@ActionType int action)
             throws Exception {
         mEnv.state.action = action;
-        mActivity.resources.bools.put(R.bool.show_documents_root, false);
         mActivity.resources.strings.put(R.string.default_root_uri,
                 TestProvidersAccess.DOWNLOADS.getUri().toString());
 

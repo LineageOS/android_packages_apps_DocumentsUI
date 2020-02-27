@@ -18,8 +18,10 @@ package com.android.documentsui;
 
 import static junit.framework.Assert.assertEquals;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
 
 import android.app.ActivityManager;
 import android.app.LoaderManager;
@@ -31,8 +33,13 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.test.mock.MockContentResolver;
 import android.util.Pair;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.base.DocumentInfo;
@@ -57,12 +64,15 @@ public abstract class TestActivity extends AbstractBase {
     public TestPackageManager packageMgr;
     public Intent intent;
     public RootInfo currentRoot;
+    public UserHandle currentUserHandle;
     public MockContentResolver contentResolver;
     public TestLoaderManager loaderManager;
     public TestSupportLoaderManager supportLoaderManager;
     public ActivityManager activityManager;
+    public UserManager userManager;
 
     public TestEventListener<Intent> startActivity;
+    public TestEventListener<Pair<Intent, UserHandle>> startActivityAsUser;
     public TestEventListener<Intent> startService;
     public TestEventListener<Pair<IntentSender, Integer>> startIntentSender;
     public TestEventListener<RootInfo> rootPicked;
@@ -82,8 +92,10 @@ public abstract class TestActivity extends AbstractBase {
         resources = TestResources.create();
         packageMgr = TestPackageManager.create();
         intent = new Intent();
+        currentUserHandle = env.userHandle;
 
         startActivity = new TestEventListener<>();
+        startActivityAsUser = new TestEventListener<>();
         startService = new TestEventListener<>();
         startIntentSender = new TestEventListener<>();
         rootPicked = new TestEventListener<>();
@@ -95,6 +107,13 @@ public abstract class TestActivity extends AbstractBase {
         loaderManager = new TestLoaderManager();
         supportLoaderManager = new TestSupportLoaderManager();
         finishedHandler = new TestEventHandler<>();
+
+        // Setup some methods which cannot be overridden.
+        try {
+            doReturn(this).when(this).createPackageContextAsUser(anyString(), anyInt(),
+                    any());
+        } catch (PackageManager.NameNotFoundException e) {
+        }
     }
 
     @Override
@@ -107,8 +126,23 @@ public abstract class TestActivity extends AbstractBase {
         startActivity.accept(intent);
     }
 
+    @Override
+    public final void startActivityAsUser(Intent intent, UserHandle userHandle) {
+        if (userHandle.equals(currentUserHandle)) {
+            startActivity(intent);
+        } else {
+            startActivityAsUser.accept(new Pair<>(intent, userHandle));
+        }
+    }
+
     public final void assertActivityStarted(String expectedAction) {
         assertEquals(expectedAction, startActivity.getLastValue().getAction());
+    }
+
+    public final void assertActivityAsUserStarted(String expectedAction, UserHandle userHandle) {
+        Pair<Intent, UserHandle> intentUserHandle = startActivityAsUser.getLastValue();
+        assertEquals(expectedAction, intentUserHandle.first.getAction());
+        assertEquals(intentUserHandle.second, userHandle);
     }
 
     @Override
@@ -211,6 +245,8 @@ public abstract class TestActivity extends AbstractBase {
         switch (service) {
             case Context.ACTIVITY_SERVICE:
                 return activityManager;
+            case Context.USER_SERVICE:
+                return userManager;
         }
 
         throw new IllegalArgumentException("Unknown service " + service);

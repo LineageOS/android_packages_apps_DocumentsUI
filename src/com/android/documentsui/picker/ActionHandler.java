@@ -46,6 +46,7 @@ import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
+import com.android.documentsui.UserIdManager;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -54,6 +55,7 @@ import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
@@ -75,18 +77,20 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     private final Features mFeatures;
     private final ActivityConfig mConfig;
     private final LastAccessedStorage mLastAccessed;
+    private final UserIdManager mUserIdManager;
 
     private UpdatePickResultTask mUpdatePickResultTask;
 
     ActionHandler(
-        T activity,
-        State state,
-        ProvidersAccess providers,
-        DocumentsAccess docs,
-        SearchViewManager searchMgr,
-        Lookup<String, Executor> executors,
-        Injector injector,
-        LastAccessedStorage lastAccessed) {
+            T activity,
+            State state,
+            ProvidersAccess providers,
+            DocumentsAccess docs,
+            SearchViewManager searchMgr,
+            Lookup<String, Executor> executors,
+            Injector injector,
+            LastAccessedStorage lastAccessed,
+            UserIdManager userIdManager) {
         super(activity, state, providers, docs, searchMgr, executors, injector);
 
         mConfig = injector.config;
@@ -94,6 +98,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         mLastAccessed = lastAccessed;
         mUpdatePickResultTask = new UpdatePickResultTask(
             activity.getApplicationContext(), mInjector.pickResult);
+        mUserIdManager = userIdManager;
     }
 
     @Override
@@ -157,7 +162,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         Uri uri = intent.getParcelableExtra(DocumentsContract.EXTRA_INITIAL_URI);
         if (uri != null) {
             if (DocumentsContract.isRootUri(mActivity, uri)) {
-                loadRoot(uri);
+                loadRoot(uri, UserId.DEFAULT_USER);
                 return true;
             } else if (DocumentsContract.isDocumentUri(mActivity, uri)) {
                 return launchToDocument(uri);
@@ -232,12 +237,12 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     @Override
-    public void showAppDetails(ResolveInfo info) {
+    public void showAppDetails(ResolveInfo info, UserId userId) {
         mInjector.pickResult.increaseActionCount();
         final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.fromParts("package", info.activityInfo.packageName, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        mActivity.startActivity(intent);
+        userId.startActivityAsUser(mActivity, intent);
     }
 
     @Override
@@ -250,15 +255,25 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         // let the user pick another app/backend.
         switch (requestCode) {
             case CODE_FORWARD:
-                onExternalAppResult(resultCode, data);
+            case CODE_FORWARD_CROSS_PROFILE:
+                onExternalAppResult(requestCode, resultCode, data);
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void onExternalAppResult(int resultCode, Intent data) {
+    private void onExternalAppResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != FragmentActivity.RESULT_CANCELED) {
+            if (requestCode == CODE_FORWARD_CROSS_PROFILE) {
+                UserId otherUser = UserId.CURRENT_USER.equals(mUserIdManager.getSystemUser())
+                        ? mUserIdManager.getManagedUser()
+                        : mUserIdManager.getSystemUser();
+                if (!mState.canInteractWith(otherUser)) {
+                    mDialogs.showActionNotAllowed();
+                    return;
+                }
+            }
             // Remember that we last picked via external app
             mLastAccessed.setLastAccessedToExternalApp(mActivity);
 
@@ -286,9 +301,18 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     @Override
-    public void openRoot(ResolveInfo info) {
+    public void openRoot(ResolveInfo info, UserId userId) {
         Metrics.logAppVisited(info);
         mInjector.pickResult.increaseActionCount();
+
+        // The App root item should not show if we cannot interact with the target user.
+        // But the user managed to get here, this is the final check of permission. We don't
+        // perform the check on activity result.
+        if (!mState.canInteractWith(userId)) {
+            mInjector.dialogs.showActionNotAllowed();
+            return;
+        }
+
         final Intent intent = new Intent(mActivity.getIntent());
         final int flagsRemoved = Intent.FLAG_ACTIVITY_FORWARD_RESULT
                 | Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -299,7 +323,9 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         intent.setComponent(new ComponentName(
                 info.activityInfo.applicationInfo.packageName, info.activityInfo.name));
         try {
-            mActivity.startActivityForResult(intent, CODE_FORWARD);
+            boolean isCurrentUser = UserId.CURRENT_USER.equals(userId);
+            mActivity.startActivityForResult(intent,
+                    isCurrentUser ? CODE_FORWARD : CODE_FORWARD_CROSS_PROFILE);
         } catch (SecurityException | ActivityNotFoundException e) {
             Log.e(TAG, "Caught error: " + e.getLocalizedMessage());
             mInjector.dialogs.showNoApplicationFound();

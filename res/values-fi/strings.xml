@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Käytä tätä kansiota"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Saako <xliff:g id="APPNAME">%1$s</xliff:g> pääsyn tiedostoihin (<xliff:g id="DIRECTORY">%2$s</xliff:g>)?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> saa pääsyn nykyiseen ja tulevaan sisältöön (<xliff:g id="DIRECTORY">%2$s</xliff:g>)."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> ei voi saada kansiota (<xliff:g id="FOLDERNAME">%1$s</xliff:g>)"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Valitse kansio alta tai luo uusi"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Valitse toinen kansio tai luo uusi"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Hae tältä puhelimelta"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Poista hakuhistoria <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

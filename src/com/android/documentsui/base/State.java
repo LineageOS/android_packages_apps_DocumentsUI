@@ -85,6 +85,18 @@ public class State implements android.os.Parcelable {
     public boolean openableOnly;
 
     /**
+     * Represents whether the intent is a cross-profile intent
+     */
+    public boolean canShareAcrossProfile = false;
+
+    /**
+     * Returns true if we are allowed to interact with the user.
+     */
+    public boolean canInteractWith(UserId userId) {
+        return canShareAcrossProfile || UserId.CURRENT_USER.equals(userId);
+    }
+
+    /**
      * This is basically a sub-type for the copy operation. It can be either COPY,
      * COMPRESS, EXTRACT or MOVE.
      * The only legal values, if set, are: OPERATION_COPY, OPERATION_COMPRESS,
@@ -135,6 +147,13 @@ public class State implements android.os.Parcelable {
             }
         }
         return true;
+    }
+
+    /**
+     * Returns true if the action of the {@link State} can support cross-profile by DocsUI.
+     */
+    public boolean supportsCrossProfile() {
+        return action == ACTION_GET_CONTENT;
     }
 
     @Override

@@ -254,6 +254,13 @@
     <string name="open_tree_button" msgid="6402871398424497776">"এই ফ\'ল্ডাৰটো ব্যৱহাৰ কৰক"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g>ক <xliff:g id="DIRECTORY">%2$s</xliff:g>ত থকা ফাইলসমূহ এক্সেছ কৰিবলৈ অনুমতি দিবনে?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"এইটোৱে <xliff:g id="APPNAME">%1$s</xliff:g>ক <xliff:g id="DIRECTORY">%2$s</xliff:g>ত ষ্ট\'ৰ কৰি থোৱা বর্তমান আৰু ভৱিষ্যতৰ সমল এক্সেছ কৰিবলৈ দিয়ে।"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g>ৰ জৰিয়তে <xliff:g id="FOLDERNAME">%1$s</xliff:g> ফ\'ল্ডাৰ শ্বেয়াৰ কৰিব নোৱাৰি"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"তলত এটা ফ\'ল্ডাৰ বাছনি কৰক অথবা এটা নতুন ফ\'ল্ডাৰ সৃষ্টি কৰক"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"অন্য এটা ফ\'ল্ডাৰ বাছনি কৰক অথবা এটা নতুন ফ\'ল্ডাৰ সৃষ্টি কৰক"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"এই ফ’নটো সন্ধান কৰক"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"সন্ধান ইতিহাস মচক <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>

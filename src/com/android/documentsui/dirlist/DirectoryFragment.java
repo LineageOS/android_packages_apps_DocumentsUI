@@ -79,6 +79,7 @@ import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
 import com.android.documentsui.Model;
+import com.android.documentsui.ProfileTabsController;
 import com.android.documentsui.R;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.DocumentFilters;
@@ -154,6 +155,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     @Injected
     @ContentScoped
     private ActionModeController mActionModeController;
+
+    @Injected
+    @ContentScoped
+    private ProfileTabsController mProfileTabsController;
 
     private DocDetailsLookup mDetailsLookup;
     private SelectionMetadata mSelectionMetadata;
@@ -299,7 +304,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             mLocalState.mSelectionId = Integer.toHexString(System.identityHashCode(mRecView));
         }
 
-        mIconHelper = new IconHelper(mActivity, MODE_GRID);
+        mIconHelper = new IconHelper(mActivity, MODE_GRID, mState.supportsCrossProfile());
 
         mAdapter = new DirectoryAddonsAdapter(
                 mAdapterEnv,
@@ -401,6 +406,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 this::handleMenuItemClick);
 
         mSelectionMgr.addObserver(mActionModeController);
+
+        mProfileTabsController = mInjector.profileTabsController;
+        mSelectionMgr.addObserver(mProfileTabsController);
 
         final ActivityManager am = (ActivityManager) mActivity.getSystemService(
                 Context.ACTIVITY_SERVICE);
@@ -1153,7 +1161,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         String[] ids = mModel.getModelIds();
         int numOfEvicts = Math.min(ids.length, CACHE_EVICT_LIMIT);
         for (int i = 0; i < numOfEvicts; ++i) {
-            cache.removeUri(mModel.getItemUri(ids[i]));
+            cache.removeUri(mModel.getItemUri(ids[i]), mModel.getItemUserId(ids[i]));
         }
 
         final DocumentInfo doc = mActivity.getCurrentDirectory();

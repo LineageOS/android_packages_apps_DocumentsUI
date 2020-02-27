@@ -295,7 +295,8 @@ public class DocumentsProviderHelper {
         Uri uri = buildChildDocumentsUri(mAuthority, documentId);
         List<DocumentInfo> children = new ArrayList<>();
         try (Cursor cursor = mClient.query(uri, null, null, null, null, null)) {
-            Cursor wrapper = new RootCursorWrapper(mAuthority, "totally-fake", cursor, maxCount);
+            Cursor wrapper = new RootCursorWrapper(mUserId, mAuthority, "totally-fake", cursor,
+                    maxCount);
             while (wrapper.moveToNext()) {
                 children.add(DocumentInfo.fromDirectoryCursor(wrapper));
             }

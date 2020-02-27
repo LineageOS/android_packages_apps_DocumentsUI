@@ -254,6 +254,11 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Bu jilddan foydalanish"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> ilovasiga <xliff:g id="DIRECTORY">%2$s</xliff:g> fayllaridan foydalanish huquqi berilsinmi?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> ilovasi <xliff:g id="DIRECTORY">%2$s</xliff:g> ichida hozir joylashgan va keyin kiritiladigan kontentlardan foydalana oladi."</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> jildi <xliff:g id="APPNAME">%2$s</xliff:g> ilovasi bilan ulashilmadi"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Quyidagi jildni tanlang yoki yangisini yarating"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Boshqa jild tanlang yoki yangisini yarating"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Shu telefondan qidirish"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Qidiruv tarixini tozalash (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Shaxsiy"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Ish"</string>
 </resources>
