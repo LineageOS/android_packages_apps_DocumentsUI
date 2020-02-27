@@ -19,6 +19,9 @@ package com.android.documentsui.base;
 import static com.android.documentsui.base.SharedMinimal.TAG;
 
 import android.app.Activity;
+import android.app.compat.CompatChanges;
+import android.compat.annotation.ChangeId;
+import android.compat.annotation.EnabledAfter;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -29,6 +32,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Looper;
+import android.os.UserHandle;
 import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -138,6 +142,16 @@ public final class Shared {
 
     private static final Collator sCollator;
 
+    /**
+     * We support restrict Storage Access Framework from {@link android.os.Build.VERSION_CODES#R}.
+     * App Compatibility flag that indicates whether the app should be restricted or not.
+     * This flag is turned on by default for all apps targeting >
+     * {@link android.os.Build.VERSION_CODES#Q}.
+     */
+    @ChangeId
+    @EnabledAfter(targetSdkVersion = android.os.Build.VERSION_CODES.Q)
+    private static final long RESTRICT_STORAGE_ACCESS_FRAMEWORK = 141600225L;
+
     static {
         sCollator = Collator.getInstance();
         sCollator.setStrength(Collator.SECONDARY);
@@ -147,8 +161,25 @@ public final class Shared {
      * @deprecated use {@link MessageBuilder#getQuantityString}
      */
     @Deprecated
-    public static final String getQuantityString(Context context, @PluralsRes int resourceId, int quantity) {
+    public static String getQuantityString(Context context, @PluralsRes int resourceId,
+            int quantity) {
         return context.getResources().getQuantityString(resourceId, quantity, quantity);
+    }
+
+    /**
+     * Whether the calling app should be restricted in Storage Access Framework or not.
+     */
+    public static boolean shouldRestrictStorageAccessFramework(Activity activity) {
+        final String packageName = getCallingPackageName(activity);
+        final int uid = UserId.CURRENT_USER.getIdentifier();
+        final boolean ret = CompatChanges.isChangeEnabled(RESTRICT_STORAGE_ACCESS_FRAMEWORK,
+                packageName, UserHandle.getUserHandleForUid(uid));
+
+        Log.d(TAG,
+                "shouldRestrictStorageAccessFramework = " + ret + ", packageName = " + packageName
+                        + " with user = " + uid);
+
+        return ret;
     }
 
     public static String formatTime(Context context, long when) {
