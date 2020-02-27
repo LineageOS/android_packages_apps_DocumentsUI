@@ -46,7 +46,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -88,17 +87,6 @@ public class ThemeOverlayManagerTest {
         when(mOverlayManager.getOverlayInfosForTarget(getDisabledTargetPackageId(),
                 mUserHandle)).thenReturn(Lists.newArrayList(
                 createOverlayInfo(getOverlayPackageId(), getDisabledTargetPackageId(), false)));
-    }
-
-    @Test
-    public void testOverlayPackagesForDocumentsUI_shouldBeMutable() {
-        final String docsuiPkgId = mContext.getPackageName();
-        final OverlayManager manager = mContext.getSystemService(OverlayManager.class);
-        final List<OverlayInfo> infos = manager.getOverlayInfosForTarget(docsuiPkgId, mUserHandle);
-
-        for (OverlayInfo info : infos) {
-            assertThat(info.isMutable).isTrue();
-        }
     }
 
     @Test
