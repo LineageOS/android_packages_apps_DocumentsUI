@@ -28,6 +28,10 @@ java_defaults {
         "guava",
     ],
 
+    libs: [
+        "app-compat-annotations",
+    ],
+
     privileged: true,
 
     certificate: "platform",
@@ -38,7 +42,15 @@ java_defaults {
 
     sdk_version: "system_current",
 
-    plugins: ["java_api_finder"],
+    plugins: [
+        "compat-changeid-annotation-processor",
+        "java_api_finder",
+    ],
+}
+
+platform_compat_config {
+    name: "documents-ui-compat-config",
+    src: ":DocumentsUI",
 }
 
 filegroup {
