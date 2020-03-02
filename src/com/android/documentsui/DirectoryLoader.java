@@ -70,6 +70,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     private final Bundle mQueryArgs;
     private final boolean mPhotoPicking;
 
+    @Nullable
     private DocumentInfo mDoc;
     private CancellationSignal mSignal;
     private DirectoryResult mResult;
@@ -113,7 +114,6 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             mSignal = new CancellationSignal();
         }
 
-        final ContentResolver resolver = mDoc.userId.getContentResolver(getContext());
         final String authority = mUri.getAuthority();
 
         final DirectoryResult result = new DirectoryResult();
@@ -138,24 +138,31 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
                 }
             }
             if (userIds.isEmpty()) {
-                userIds.add(mDoc.userId);
+                userIds.add(mRoot.userId);
             }
 
             if (userIds.size() == 1) {
-                if (!mState.canInteractWith(mDoc.userId)) {
+                if (!mState.canInteractWith(mRoot.userId)) {
                     result.exception = new CrossProfileNoPermissionException();
                     return result;
-                } else if (mDoc.userId.isQuietModeEnabled(getContext())) {
+                } else if (mRoot.userId.isQuietModeEnabled(getContext())) {
                     result.exception = new CrossProfileQuietModeException();
+                    return result;
+                } else if (mDoc == null) {
+                    // TODO (b/35996595): Consider plumbing through the actual exception, though it
+                    // might not be very useful (always pointing to
+                    // DatabaseUtils#readExceptionFromParcel()).
+                    result.exception = new IllegalStateException("Failed to load root document.");
                     return result;
                 }
             }
 
-            client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
-            if (mDoc.isInArchive()) {
+            if (mDoc != null && mDoc.isInArchive()) {
+                final ContentResolver resolver = mRoot.userId.getContentResolver(getContext());
+                client = DocumentsApplication.acquireUnstableProviderOrThrow(resolver, authority);
                 ArchivesProvider.acquireArchive(client, mUri);
+                result.client = client;
             }
-            result.client = client;
 
             if (mFeatures.isContentPagingEnabled()) {
                 // TODO: At some point we don't want forced flags to override real paging...

@@ -38,7 +38,7 @@ public class IconUtils {
             } else {
                 packageIcon = userId.getDrawable(context, icon);
             }
-            if (maybeShowBadge) {
+            if (packageIcon != null && maybeShowBadge) {
                 return userId.getUserBadgedIcon(context, packageIcon);
             } else {
                 return packageIcon;
