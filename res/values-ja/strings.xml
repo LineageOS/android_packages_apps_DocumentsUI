@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"アーカイブ内のファイルを開くことはできません"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"一部のドキュメントを削除できません"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"共有できるファイルは <xliff:g id="COUNT">%1$d</xliff:g> 件までです"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"操作が許可されていません"</string>
     <string name="share_via" msgid="8725082736005677161">"共有ツール"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ファイルのコピー中"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ファイルの圧縮中"</string>

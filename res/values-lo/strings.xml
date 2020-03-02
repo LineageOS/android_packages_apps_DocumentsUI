@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ບໍ່ສາມາດເປີດໄຟລ໌ໃນແຟ້ມຈັດເກັບໄດ້"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ບໍ່ສາມາດລຶບບາງເອກະສານໄດ້"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"ບໍ່ສາມາດແບ່ງປັນໄດ້ຫຼາຍກວ່າ <xliff:g id="COUNT">%1$d</xliff:g> ໄຟລ໌"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"ບໍ່ອະນຸຍາດໃຫ້ໃຊ້ຄຳສັ່ງ"</string>
     <string name="share_via" msgid="8725082736005677161">"ແບ່ງປັນຜ່ານ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ກຳລັງສຳເນົາໄຟລ໌"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ກຳລັງບີບອັດໄຟລ໌"</string>

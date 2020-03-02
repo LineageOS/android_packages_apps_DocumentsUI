@@ -100,6 +100,8 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"காப்பகங்களில் உள்ள கோப்புகளைத் திறக்க முடியாது"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"சில ஆவணங்களை நீக்க முடியவில்லை"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> கோப்புகளுக்கு மேல் பகிர முடியாது"</string>
+    <!-- no translation found for toast_action_not_allowed (1329382474450572415) -->
+    <skip />
     <string name="share_via" msgid="8725082736005677161">"இதன் வழியாகப் பகிர்"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"கோப்புகளை நகலெடுத்தல்"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"அளவைக் குறைக்கிறது"</string>
