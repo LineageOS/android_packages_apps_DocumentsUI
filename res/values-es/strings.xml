@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"No se pueden abrir los elementos archivados"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Error al eliminar algunos documentos"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"No se pueden compartir más de <xliff:g id="COUNT">%1$d</xliff:g> archivos"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Acción no permitida"</string>
     <string name="share_via" msgid="8725082736005677161">"Compartir a través de"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Copiando archivos"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Comprimiendo archivos"</string>
@@ -259,8 +260,6 @@
     <string name="open_tree_header_message_child" msgid="3420040714778063483">"Selecciona otra carpeta o crea una"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Buscar en este teléfono"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Eliminar el historial de búsqueda de <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"Personal"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Trabajo"</string>
 </resources>

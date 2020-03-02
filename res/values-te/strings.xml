@@ -100,6 +100,8 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ఆర్కైవ్‌లలో ఉన్న ఫైల్‌లను తెరవడం సాధ్యం కాదు"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"కొన్ని పత్రాలను తొలగించడం సాధ్యపడలేదు"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> ఫైల్‌ల కంటే ఎక్కువ షేర్ చేయలేరు"</string>
+    <!-- no translation found for toast_action_not_allowed (1329382474450572415) -->
+    <skip />
     <string name="share_via" msgid="8725082736005677161">"దీనితో భాగస్వామ్యం చేయండి"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ఫైల్‌లు కాపీ అవుతున్నాయి"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ఫైల్‌లను కుదిస్తోంది"</string>
@@ -259,8 +261,6 @@
     <string name="open_tree_header_message_child" msgid="3420040714778063483">"వేరొక ఫోల్డర్‌ను ఎంచుకోండి లేదా కొత్తదాన్ని రూపొందించండి"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ఈ ఫోన్‌లో వెతకండి"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"శోధన చరిత్ర <xliff:g id="TEXT">%1$s</xliff:g>ను తొలగించండి"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"వ్యక్తిగత డైరెక్టరీ"</string>
+    <string name="work_tab" msgid="7265359366883747413">"కార్యాలయ డైరెక్టరీ"</string>
 </resources>

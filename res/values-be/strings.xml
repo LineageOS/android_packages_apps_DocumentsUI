@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Немагчыма адкрыць файлы ў архівах"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Немагчыма выдаліць некаторыя дакументы"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Не ўдалося абагуліць, таму што файлаў больш за <xliff:g id="COUNT">%1$d</xliff:g>"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Дзеянне забаронена"</string>
     <string name="share_via" msgid="8725082736005677161">"Абагуліць праз"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Капіраванне файлаў"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Ідзе сцісканне файлаў"</string>
@@ -303,8 +304,6 @@
     <string name="open_tree_header_message_child" msgid="3420040714778063483">"Выберыце іншую папку ці стварыце новую"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Пошук на гэтым тэлефоне"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Выдаліць гісторыю пошуку <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"Асабісты"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Працоўны"</string>
 </resources>

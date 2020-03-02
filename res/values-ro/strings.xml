@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Nu se pot deschide fișierele în arhive"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Anumite documente nu au putut fi șterse"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Numărul de fișiere distribuite nu poate depăși <xliff:g id="COUNT">%1$d</xliff:g>"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Acțiunea nu este permisă"</string>
     <string name="share_via" msgid="8725082736005677161">"Trimiteți prin"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Se copiază fișierele"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Se comprimă fișierele"</string>
@@ -281,8 +282,6 @@
     <string name="open_tree_header_message_child" msgid="3420040714778063483">"Alegeți alt dosar sau creați unul"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Căutați în acest telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ștergeți istoricul căutărilor <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"Personal"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Serviciu"</string>
 </resources>

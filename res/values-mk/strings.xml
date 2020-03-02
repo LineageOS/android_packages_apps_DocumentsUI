@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Не може да се отвораат датотеките во архивите"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Некои документи не може да се избришат"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Не може да се споделат повеќе од <xliff:g id="COUNT">%1$d</xliff:g> датотеки"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Дејството не е дозволено"</string>
     <string name="share_via" msgid="8725082736005677161">"Споделете преку"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Се копираат датотеки"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Компримирање датотеки"</string>

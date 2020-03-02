@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"በማህደሮች ውስጥ ያሉ ፋይሎችን መክፈት አይቻልም"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"አንዳንድ ሰነዶችን መሰረዝ አልተቻለም"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"ከ <xliff:g id="COUNT">%1$d</xliff:g> በላይ ፋይሎች ማጋራት አይቻልም"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"እርምጃ አይፈቀድም"</string>
     <string name="share_via" msgid="8725082736005677161">"በዚህ በኩል ያጋሩ፦"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ፋይሎችን በመቅዳት ላይ"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ፋይሎችን በመጭመቅ ላይ"</string>
