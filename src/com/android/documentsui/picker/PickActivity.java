@@ -355,7 +355,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             mState.action == ACTION_PICK_COPY_DESTINATION) {
             final PickFragment pick = PickFragment.get(fm);
             if (pick != null) {
-                pick.setPickTarget(mState.action, mState.copyOperationSubType, cwd);
+                pick.setPickTarget(mState.action,
+                        mState.copyOperationSubType, mState.restrictScopeStorage, cwd);
             }
         }
     }
