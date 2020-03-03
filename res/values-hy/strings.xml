@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Հնարավոր չէ բացել արխիվացված ֆայլերը"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Հնարավոր չէ ջնջել որոշ փաստաթղթեր"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Կարող եք կիսվել առավելագույնը <xliff:g id="COUNT">%1$d</xliff:g> ֆայլով"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Գործողությունը չի թույլատրվում"</string>
     <string name="share_via" msgid="8725082736005677161">"Կիսվել"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Ֆայլերի պատճենում"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Ֆայլերի սեղմում"</string>

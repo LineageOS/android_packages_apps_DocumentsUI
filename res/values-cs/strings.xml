@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Soubory v archivu nelze otevírat"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Některé dokumenty nelze smazat"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Sdílet lze maximálně tento počet souborů: <xliff:g id="COUNT">%1$d</xliff:g>"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Akce není povolena"</string>
     <string name="share_via" msgid="8725082736005677161">"Sdílet pomocí"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopírování souborů"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Komprimace souborů"</string>
@@ -303,8 +304,6 @@
     <string name="open_tree_header_message_child" msgid="3420040714778063483">"Vyberte jinou složku nebo vytvořte novou"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Hledat v telefonu"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Vymazat historii vyhledávání <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"Osobní"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Práce"</string>
 </resources>
