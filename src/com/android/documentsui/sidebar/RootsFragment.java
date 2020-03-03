@@ -75,6 +75,7 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.roots.RootsLoader;
+import com.android.documentsui.util.CrossProfileUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,8 +93,6 @@ public class RootsFragment extends Fragment {
 
     private static final String TAG = "RootsFragment";
     private static final String EXTRA_INCLUDE_APPS = "includeApps";
-    public static final String PROFILE_TARGET_ACTIVITY =
-            "com.android.internal.app.IntentForwarderActivity";
     private static final int CONTEXT_MENU_ITEM_TIMEOUT = 500;
 
     private final OnItemClickListener mItemListener = new OnItemClickListener() {
@@ -399,7 +398,7 @@ public class RootsFragment extends Fragment {
                     appsMapping.put(userPackage, info);
 
                     // for change personal profile root.
-                    if (PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity)) {
+                    if (CrossProfileUtils.isCrossProfileIntentForwarderActivity(info)) {
                         if (UserId.CURRENT_USER.equals(userId)) {
                             profileItem = new ProfileItem(info, info.loadLabel(pm).toString(),
                                     mActionHandler);
