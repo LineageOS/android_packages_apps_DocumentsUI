@@ -141,8 +141,9 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
         assertHolderType(0, DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE);
     }
 
-    public void testOpenTreeMessage_isBlockFromTreeChild() {
+    public void testOpenTreeMessage_shouldBlockChild() {
         mEnv.state.action = State.ACTION_OPEN_TREE;
+        mEnv.state.restrictScopeStorage = true;
         DocumentInfo info = new DocumentInfo();
         info.flags += DocumentsContract.Document.FLAG_DIR_BLOCKS_OPEN_DOCUMENT_TREE;
         mEnv.state.stack.push(info);
@@ -155,6 +156,18 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
     public void testOpenTreeMessage_normalChild() {
         mEnv.state.action = State.ACTION_OPEN_TREE;
         DocumentInfo info = new DocumentInfo();
+        mEnv.state.stack.push(info);
+
+        mEnv.model.update();
+        // Should only no items message show
+        assertEquals(1, mAdapter.getItemCount());
+        assertHolderType(0, DocumentsAdapter.ITEM_TYPE_INFLATED_MESSAGE);
+    }
+
+    public void testOpenTreeMessage_restrictStorageAcceesFalse_blockTreeChild() {
+        mEnv.state.action = State.ACTION_OPEN_TREE;
+        DocumentInfo info = new DocumentInfo();
+        info.flags += DocumentsContract.Document.FLAG_DIR_BLOCKS_OPEN_DOCUMENT_TREE;
         mEnv.state.stack.push(info);
 
         mEnv.model.update();
