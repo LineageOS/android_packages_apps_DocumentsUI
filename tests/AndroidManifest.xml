@@ -35,6 +35,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.android.documentsui.PickActivityTest$ReturnResultActivity">
+            <intent-filter>
+                <action android:name="com.android.documentsui.test.action.RETURN_RESULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
         <provider
             android:name="com.android.documentsui.StubProvider"
             android:authorities="com.android.documentsui.stubprovider"
