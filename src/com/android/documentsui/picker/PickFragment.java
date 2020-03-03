@@ -71,6 +71,7 @@ public class PickFragment extends Fragment {
 
     private Injector<ActionHandler<PickActivity>> mInjector;
     private int mAction;
+    private boolean mRestrictScopeStorage;
     // Only legal values are OPERATION_COPY, OPERATION_COMPRESS, OPERATION_EXTRACT,
     // OPERATION_MOVE, and unset (OPERATION_UNKNOWN).
     private @OpType int mCopyOperationSubType = OPERATION_UNKNOWN;
@@ -136,12 +137,13 @@ public class PickFragment extends Fragment {
     /**
      * @param action Which action defined in State is the picker shown for.
      */
-    public void setPickTarget(
-            int action, @OpType int copyOperationSubType, DocumentInfo pickTarget) {
+    public void setPickTarget(int action, @OpType int copyOperationSubType,
+            boolean restrictScopeStorage, DocumentInfo pickTarget) {
         assert(copyOperationSubType != OPERATION_DELETE);
 
         mAction = action;
         mCopyOperationSubType = copyOperationSubType;
+        mRestrictScopeStorage = restrictScopeStorage;
         mPickTarget = pickTarget;
         if (mContainer != null) {
             updateView();
@@ -166,7 +168,7 @@ public class PickFragment extends Fragment {
                 mPick.setText(getString(R.string.open_tree_button));
                 mPick.setWidth(Integer.MAX_VALUE);
                 mCancel.setVisibility(View.GONE);
-                mPick.setEnabled(!mPickTarget.isBlockedFromTree());
+                mPick.setEnabled(!(mPickTarget.isBlockedFromTree() && mRestrictScopeStorage));
                 break;
             case State.ACTION_PICK_COPY_DESTINATION:
                 int titleId;
