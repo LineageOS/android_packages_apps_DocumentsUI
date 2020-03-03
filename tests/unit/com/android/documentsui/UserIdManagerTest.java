@@ -24,13 +24,13 @@ import static org.mockito.Mockito.when;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.UserHandle;
 import android.os.UserManager;
 
 import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.util.VersionUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -140,8 +140,7 @@ public class UserIdManagerTest {
     @Test
     public void testGetUserIds_deviceWithoutPermission() {
         // This test only tests for Android R or later. This test case always passes before R.
-        if (Build.VERSION.CODENAME.equals("R")
-                || (Build.VERSION.CODENAME.equals("REL") && Build.VERSION.SDK_INT >= 30)) {
+        if (VersionUtils.isAtLeastR()) {
             // When permission is denied, only returns the current user.
             when(mockContext.checkSelfPermission(Manifest.permission.INTERACT_ACROSS_USERS))
                     .thenReturn(PackageManager.PERMISSION_DENIED);
