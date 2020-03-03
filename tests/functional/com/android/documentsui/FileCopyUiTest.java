@@ -439,6 +439,9 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
         device.waitForIdle();
 
         assertFalse(bots.directory.findDocument(fileName1).isEnabled());
+
+        // Back to FilesActivity to do tear down action if necessary
+        bots.main.clickDialogCancelButton();
     }
 
     @HugeLongTest
