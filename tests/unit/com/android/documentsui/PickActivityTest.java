@@ -22,17 +22,21 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.DocumentsContract;
 
 import androidx.test.filters.SmallTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.ui.TestDialogController;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -41,7 +45,12 @@ import org.junit.Test;
 @SmallTest
 public class PickActivityTest {
 
+    private static final String RESULT_EXTRA = "test_result_extra";
+    private static final String RESULT_DATA = "123321";
+
+    private Context mTargetContext;
     private Intent intentGetContent;
+    private TestDialogController testDialogs;
 
     @Rule
     public final ActivityTestRule<PickActivity> mRule =
@@ -49,11 +58,15 @@ public class PickActivityTest {
 
     @Before
     public void setUp() throws Exception {
+        mTargetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+
         intentGetContent = new Intent(Intent.ACTION_GET_CONTENT);
         intentGetContent.addCategory(Intent.CATEGORY_OPENABLE);
         intentGetContent.setType("*/*");
         Uri hintUri = DocumentsContract.buildRootUri(AUTHORITY_STORAGE, "primary");
         intentGetContent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, hintUri);
+
+        testDialogs = new TestDialogController();
     }
 
     @Test
@@ -100,9 +113,50 @@ public class PickActivityTest {
 
         PickActivity pickActivity = mRule.launchActivity(intentGetContent);
         pickActivity.mState.canShareAcrossProfile = false;
+        pickActivity.getInjector().dialogs = testDialogs;
         pickActivity.onDocumentPicked(doc);
         SystemClock.sleep(3000);
 
         assertThat(pickActivity.isFinishing()).isFalse();
+        testDialogs.assertActionNotAllowedShown();
+    }
+
+    @Test
+    public void testStartForResultForwarderActivity() {
+        Intent originalIntent = new Intent("com.android.documentsui.test.action.RETURN_RESULT");
+        Intent intent = ForResultForwarderActivity.getIntent(mTargetContext, originalIntent,
+                TestProvidersAccess.USER_ID);
+
+        PickActivity pickActivity = mRule.launchActivity(intentGetContent);
+        pickActivity.startActivityForResult(intent, AbstractActionHandler.CODE_FORWARD);
+        SystemClock.sleep(3000);
+
+        Instrumentation.ActivityResult result = mRule.getActivityResult();
+        assertThat(result.getResultCode()).isEqualTo(Activity.RESULT_OK);
+        assertThat(result.getResultData().getStringExtra(RESULT_EXTRA)).isEqualTo(RESULT_DATA);
+    }
+
+    @Test
+    public void testStartForResultForwarderActivity_noActivity() {
+        Intent originalIntent = new Intent("no_app_handles_this_intent_action");
+        Intent intent = ForResultForwarderActivity.getIntent(mTargetContext, originalIntent,
+                TestProvidersAccess.USER_ID);
+
+        PickActivity pickActivity = mRule.launchActivity(intentGetContent);
+        pickActivity.startActivityForResult(intent, AbstractActionHandler.CODE_FORWARD);
+        SystemClock.sleep(3000);
+
+        assertThat(pickActivity.isFinishing()).isFalse();
+    }
+
+    public static class ReturnResultActivity extends Activity {
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            Intent data = new Intent();
+            data.putExtra(RESULT_EXTRA, RESULT_DATA);
+            setResult(Activity.RESULT_OK, data);
+            finish();
+        }
     }
 }
