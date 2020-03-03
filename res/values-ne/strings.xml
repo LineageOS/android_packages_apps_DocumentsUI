@@ -100,6 +100,8 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"अभिलेखहरूमा भएका फाइलहरू खोल्न सकिँदैन"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"केही कागजातहरूलाई मेट्न सकिएन"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> भन्दा बढी फाइलहरू आदान प्रदान गर्न सकिँदैन"</string>
+    <!-- no translation found for toast_action_not_allowed (1329382474450572415) -->
+    <skip />
     <string name="share_via" msgid="8725082736005677161">"निम्नमार्फत साझेदारी गर्नुहोस्"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फाइलहरूका प्रतिलिपि बनाउँदै"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"फाइलहरू कम्प्रेस गर्दै"</string>
@@ -259,8 +261,6 @@
     <string name="open_tree_header_message_child" msgid="3420040714778063483">"अर्को फोल्डर छनौट गर्नुहोस् वा नयाँ सिर्जना गर्नुहोस्"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"यो फोनमा खोज्नुहोस्"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"खोजसम्बन्धी इतिहास मेट्नुहोस् <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"व्यक्तिगत"</string>
+    <string name="work_tab" msgid="7265359366883747413">"काम"</string>
 </resources>

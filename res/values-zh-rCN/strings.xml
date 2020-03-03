@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"无法打开归档文件"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"无法删除部分文档"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"最多只能分享 <xliff:g id="COUNT">%1$d</xliff:g> 个文件"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"不允许执行此操作"</string>
     <string name="share_via" msgid="8725082736005677161">"分享方式"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"正在复制文件"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"正在压缩文件"</string>
@@ -259,8 +260,6 @@
     <string name="open_tree_header_message_child" msgid="3420040714778063483">"选择其他文件夹，或创建一个新文件夹"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"搜索此手机"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"删除搜索记录“<xliff:g id="TEXT">%1$s</xliff:g>”"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"个人"</string>
+    <string name="work_tab" msgid="7265359366883747413">"工作"</string>
 </resources>

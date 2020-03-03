@@ -100,6 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Arxivdəki faylları açmaq olmur"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Bəzi sənədləri silə bilmir"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Maksimum <xliff:g id="COUNT">%1$d</xliff:g> fayl paylaşıla bilər"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Əməliyyata icazə verilmir"</string>
     <string name="share_via" msgid="8725082736005677161">"Bunun vasitəsilə paylaş:"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Fayllar kopyalanır"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Faylların sıxılması"</string>
@@ -259,8 +260,6 @@
     <string name="open_tree_header_message_child" msgid="3420040714778063483">"Başqa qovluq seçin və ya yenisini yaradın"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Bu telefonu axtarın"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"<xliff:g id="TEXT">%1$s</xliff:g> üçün axtarış tarixçəsini silin"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"Şəxsi"</string>
+    <string name="work_tab" msgid="7265359366883747413">"İş"</string>
 </resources>
