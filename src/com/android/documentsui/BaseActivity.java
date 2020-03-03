@@ -364,6 +364,7 @@ public abstract class BaseActivity
         state.sortModel = SortModel.createModel();
         state.localOnly = intent.getBooleanExtra(Intent.EXTRA_LOCAL_ONLY, false);
         state.excludedAuthorities = getExcludedAuthorities();
+        state.restrictScopeStorage = Shared.shouldRestrictStorageAccessFramework(this);
 
         includeState(state);
 
