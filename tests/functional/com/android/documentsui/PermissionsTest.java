@@ -18,9 +18,9 @@ package com.android.documentsui;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Build;
 
 import com.android.documentsui.files.FilesActivity;
+import com.android.documentsui.util.VersionUtils;
 
 import org.junit.Test;
 
@@ -39,16 +39,9 @@ public class PermissionsTest extends ActivityTest<FilesActivity> {
 
     @Test
     public void testPermissionGranted_interactAcrossUsersOnR() {
-        if (isAtLeastR()) {
+        if (VersionUtils.isAtLeastR()) {
             assertEquals(PackageManager.PERMISSION_GRANTED,
                     context.checkSelfPermission(Manifest.permission.INTERACT_ACROSS_USERS));
         }
-    }
-
-    private static boolean isAtLeastR() {
-        return (Build.VERSION.CODENAME.equals("REL") && Build.VERSION.SDK_INT >= 30)
-                || (Build.VERSION.CODENAME.length() == 1
-                && Build.VERSION.CODENAME.charAt(0) >= 'R'
-                && Build.VERSION.CODENAME.charAt(0) <= 'Z');
     }
 }
