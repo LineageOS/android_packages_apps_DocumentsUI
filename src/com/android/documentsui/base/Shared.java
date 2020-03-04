@@ -32,7 +32,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Looper;
-import android.os.UserHandle;
+import android.os.Process;
 import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -171,13 +171,11 @@ public final class Shared {
      */
     public static boolean shouldRestrictStorageAccessFramework(Activity activity) {
         final String packageName = getCallingPackageName(activity);
-        final int uid = UserId.CURRENT_USER.getIdentifier();
         final boolean ret = CompatChanges.isChangeEnabled(RESTRICT_STORAGE_ACCESS_FRAMEWORK,
-                packageName, UserHandle.getUserHandleForUid(uid));
+                packageName, Process.myUserHandle());
 
         Log.d(TAG,
-                "shouldRestrictStorageAccessFramework = " + ret + ", packageName = " + packageName
-                        + " with user = " + uid);
+                "shouldRestrictStorageAccessFramework = " + ret + ", packageName = " + packageName);
 
         return ret;
     }
