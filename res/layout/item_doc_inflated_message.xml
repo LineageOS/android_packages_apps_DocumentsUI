@@ -18,34 +18,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/empty"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="?android:attr/colorBackground"
     android:focusable="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/artwork"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_alignParentTop="true"
             android:layout_marginBottom="25dp"
             android:scaleType="fitCenter"
             android:maxHeight="250dp"
-            android:adjustViewBounds="true"
             android:contentDescription="@null"/>
 
         <TextView
             android:id="@+id/message"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/artwork"
-            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="25dp"
+            android:gravity="center_horizontal"
             style="?android:attr/textAppearanceListItem"/>
 
-    </RelativeLayout>
-
+    </LinearLayout>
 </FrameLayout>

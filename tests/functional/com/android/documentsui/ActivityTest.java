@@ -37,7 +37,7 @@ import android.view.MotionEvent;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.bots.Bots;
-import com.android.documentsui.bots.UiBot;
+import com.android.documentsui.files.FilesActivity;
 
 import javax.annotation.Nullable;
 
@@ -145,8 +145,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
     }
 
     protected void launchActivity() {
-        final Intent intent = context.getPackageManager().getLaunchIntentForPackage(
-                UiBot.targetPackageName);
+        final Intent intent = new Intent(context, FilesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         if (getInitialRoot() != null) {
             intent.setAction(Intent.ACTION_VIEW);

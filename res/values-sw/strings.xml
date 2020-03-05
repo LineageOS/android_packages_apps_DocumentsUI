@@ -94,7 +94,7 @@
     <string name="root_type_apps" msgid="8646073235029886342">"Programu zaidi"</string>
     <string name="empty" msgid="5300254272613103004">"Hakuna chochote"</string>
     <string name="no_results" msgid="2371026325236359209">"Hakuna zinazolingana katika %1$s"</string>
-    <string name="toast_no_application" msgid="7555319548595113121">"Imeshindwa kufungua faili"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"Haiwezi kufungua faili"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Haiwezi kufungua faili zilizo kwenye kumbukumbu"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Imeshindwa kufuta baadhi ya hati"</string>
     <string name="share_via" msgid="8725082736005677161">"Shiriki kupitia"</string>
@@ -243,8 +243,7 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Vinjari faili katika programu zingine"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Haijulikani"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Ruhusu ifikie \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Ungependa kuruhusu ifikie \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" kwenye \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Ungependa kuruhusu ifikie \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" kwenye \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Itaipa \"<xliff:g id="APPNAME">%1$s</xliff:g>\" idhini kamili za kufikia faili zote ambazo umehifadhi kwa sasa katika eneo hili na maudhui yoyote utakayohifadhi hapa."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Tafuta kwenye simu hii"</string>
-    <string name="delete_search_history" msgid="2202015025607694515">"Futa <xliff:g id="TEXT">%1$s</xliff:g> ya historia ya mambo uliyotafuta"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Tafuta simu hii"</string>
 </resources>

@@ -69,11 +69,11 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Изменето"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Име на датотека (А до Ш)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Тип (А до Ш)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Големина (прво најмали)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Големина (најмали први)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Изменети (прво најстари)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Име на датотека (Ш до А)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Тип (Ш до А)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Големина (прво најголеми)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Големина (најгол. први)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Изменети (прво најнови)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Подреди според"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Сортирани според <xliff:g id="LABEL">%s</xliff:g>"</string>
@@ -243,8 +243,7 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Прелистувајте датотеки во други апликации"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимна"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Дозволи пристап до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“"</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Да се дозволи пристап до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“ во „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
+    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Да се дозволи пристап до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“ на „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Ќе ѝ се дозволи на <xliff:g id="APPNAME">%1$s</xliff:g> да има целосен пристап до сите датотеки моментално складирани на оваа локација и до сите идни содржини складирани тука."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Пребарајте го телефонов"</string>
-    <string name="delete_search_history" msgid="2202015025607694515">"Избришете ја историјата на пребарување <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
