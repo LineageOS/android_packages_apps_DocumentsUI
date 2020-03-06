@@ -869,7 +869,8 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                             mState,
                             mExecutors,
                             mInjector.fileTypeLookup,
-                            mSearchMgr.buildQueryArgs());
+                            mSearchMgr.buildQueryArgs(),
+                            mState.stack.getRoot().userId);
                 } else {
                     if (DEBUG) {
                         Log.d(TAG, "Creating new loader recents.");

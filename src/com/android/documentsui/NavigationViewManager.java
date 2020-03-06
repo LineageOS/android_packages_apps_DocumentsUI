@@ -234,6 +234,6 @@ public class NavigationViewManager {
         @Deprecated  // Use CommonAddones#refreshCurrentRootAndDirectory
         void refreshCurrentRootAndDirectory(int animation);
         boolean isSearchExpanded();
-        boolean isSearching();
+        boolean isTextSearching();
     }
 }
