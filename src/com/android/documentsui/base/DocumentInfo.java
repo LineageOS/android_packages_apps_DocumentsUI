@@ -35,6 +35,7 @@ import androidx.annotation.VisibleForTesting;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.documentsui.util.VersionUtils;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -309,7 +310,11 @@ public class DocumentInfo implements Durable, Parcelable {
     }
 
     public boolean isBlockedFromTree() {
-        return (flags & Document.FLAG_DIR_BLOCKS_OPEN_DOCUMENT_TREE) != 0;
+        if (VersionUtils.isAtLeastR()) {
+            return (flags & Document.FLAG_DIR_BLOCKS_OPEN_DOCUMENT_TREE) != 0;
+        } else {
+            return false;
+        }
     }
 
     // Containers are documents which can be opened in DocumentsUI as folders.
