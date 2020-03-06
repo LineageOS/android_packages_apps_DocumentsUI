@@ -35,6 +35,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFileTypeLookup;
+import com.android.documentsui.util.VersionUtils;
 
 @MediumTest
 public class DirectoryAddonsAdapterTest extends AndroidTestCase {
@@ -142,6 +143,10 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
     }
 
     public void testOpenTreeMessage_shouldBlockChild() {
+        if (!VersionUtils.isAtLeastR()) {
+            return;
+        }
+
         mEnv.state.action = State.ACTION_OPEN_TREE;
         mEnv.state.restrictScopeStorage = true;
         DocumentInfo info = new DocumentInfo();
@@ -164,7 +169,11 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
         assertHolderType(0, DocumentsAdapter.ITEM_TYPE_INFLATED_MESSAGE);
     }
 
-    public void testOpenTreeMessage_restrictStorageAcceesFalse_blockTreeChild() {
+    public void testOpenTreeMessage_restrictStorageAccessFalse_blockTreeChild() {
+        if (!VersionUtils.isAtLeastR()) {
+            return;
+        }
+
         mEnv.state.action = State.ACTION_OPEN_TREE;
         DocumentInfo info = new DocumentInfo();
         info.flags += DocumentsContract.Document.FLAG_DIR_BLOCKS_OPEN_DOCUMENT_TREE;
