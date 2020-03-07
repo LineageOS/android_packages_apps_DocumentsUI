@@ -44,6 +44,16 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
       bots.directory.waitForDocument(fileName1);
     }
 
+    @Override
+    public void tearDown() throws Exception {
+        // manually close activity to avoid SearchFragment show when Activity close. ref b/142840883
+        device.waitForIdle();
+        device.pressBack();
+        device.pressBack();
+        device.pressBack();
+        super.tearDown();
+    }
+
     public void testSearchIconVisible() throws Exception {
         // The default root (root 0) supports search
         bots.search.assertInputExists(false);

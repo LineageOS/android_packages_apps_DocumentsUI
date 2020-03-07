@@ -124,7 +124,7 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> आइटम मिटाए जा रहे हैं.</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आइटम मिटाए जा रहे हैं.</item>
     </plurals>
-    <string name="undo" msgid="2902438994196400565">"पूर्ववत करें"</string>
+    <string name="undo" msgid="2902438994196400565">"पहले जैसा करें"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"तैयार किया जा रहा है..."</string>
     <string name="compress_preparing" msgid="7401605598969019696">"तैयार किया जा रहा है..."</string>
     <string name="extract_preparing" msgid="4796626960061745796">"तैयार किया जा रहा है..."</string>
