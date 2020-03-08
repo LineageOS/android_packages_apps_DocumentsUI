@@ -100,8 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"আর্কাইভের ফাইলগুলি খোলা যাচ্ছে না"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"কিছু দস্তাবেজ মোছা গেল না"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g>টির বেশি ফাইল শেয়ার করতে পারবেন না"</string>
-    <!-- no translation found for toast_action_not_allowed (1329382474450572415) -->
-    <skip />
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"অ্যাকশনটি অনুমোদন করা হয়নি"</string>
     <string name="share_via" msgid="8725082736005677161">"এর মাধ্যমে শেয়ার করুন"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ফাইলগুলি কপি করা হচ্ছে"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ফাইলগুলি"</string>

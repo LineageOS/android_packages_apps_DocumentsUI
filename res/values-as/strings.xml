@@ -100,8 +100,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"আৰ্কাইভত থকা ফাইলবোৰ খুলিব নোৱাৰি"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"কিছুমান নথি মচিব পৰা নগ\'ল"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g>টাতকৈ অধিক ফাইল শ্বেয়াৰ কৰিব নোৱাৰি"</string>
-    <!-- no translation found for toast_action_not_allowed (1329382474450572415) -->
-    <skip />
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"এই কাৰ্যৰ অনুমতি নাই"</string>
     <string name="share_via" msgid="8725082736005677161">"ইয়াৰ জৰিয়তে শ্বেয়াৰ কৰক"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ফাইলসমূহৰ প্ৰতিলিপি কৰি থকা হৈছে"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ফাইলবোৰ সংকুচিত কৰি থকা হৈছে"</string>
