@@ -781,8 +781,8 @@ public abstract class BaseActivity
     }
 
     @Override
-    public boolean isSearching() {
-        return mSearchManager.isSearching();
+    public boolean isTextSearching() {
+        return mSearchManager.isTextSearching();
     }
 
     @Override
