@@ -17,7 +17,6 @@
 package com.android.documentsui.dirlist;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.test.AndroidTestCase;
@@ -27,10 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.ActionHandler;
-import com.android.documentsui.Model;
 import com.android.documentsui.ModelId;
 import com.android.documentsui.base.DocumentInfo;
-import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
@@ -53,7 +50,7 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
         mEnv.clear();
 
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
-        DocumentsAdapter.Environment env = new TestEnvironment(testContext);
+        DocumentsAdapter.Environment env = new TestEnvironment(testContext, mEnv, mActionHandler);
 
         mAdapter = new DirectoryAddonsAdapter(
                 env,
@@ -187,68 +184,6 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
 
     private void assertHolderType(int index, int type) {
         assertTrue(mAdapter.getItemViewType(index) == type);
-    }
-
-    private final class TestEnvironment implements DocumentsAdapter.Environment {
-        private final Context testContext;
-
-        private TestEnvironment(Context testContext) {
-            this.testContext = testContext;
-        }
-
-        @Override
-        public Features getFeatures() {
-            return mEnv.features;
-        }
-
-        @Override
-        public ActionHandler getActionHandler() { return mActionHandler; }
-
-        @Override
-        public boolean isSelected(String id) {
-            return false;
-        }
-
-        @Override
-        public boolean isDocumentEnabled(String mimeType, int flags) {
-            return true;
-        }
-
-        @Override
-        public void initDocumentHolder(DocumentHolder holder) {}
-
-        @Override
-        public Model getModel() {
-            return mEnv.model;
-        }
-
-        @Override
-        public State getDisplayState() {
-            return mEnv.state;
-        }
-
-        @Override
-        public boolean isInSearchMode() {
-            return false;
-        }
-
-        @Override
-        public Context getContext() {
-            return testContext;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return 4;
-        }
-
-        @Override
-        public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {}
-
-        @Override
-        public String getCallingAppName() {
-            return "unknown";
-        }
     }
 
     private static class DummyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

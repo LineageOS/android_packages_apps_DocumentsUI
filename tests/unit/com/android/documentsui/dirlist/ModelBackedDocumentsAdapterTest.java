@@ -17,14 +17,12 @@
 package com.android.documentsui.dirlist;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.test.AndroidTestCase;
 
 import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.Model;
-import com.android.documentsui.base.Features;
 import com.android.documentsui.base.State;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
@@ -45,7 +43,7 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
         mEnv = TestEnv.create(AUTHORITY);
         mActionHandler = new TestActionHandler();
 
-        DocumentsAdapter.Environment env = new TestEnvironment(testContext);
+        DocumentsAdapter.Environment env = new TestEnvironment(testContext, mEnv, mActionHandler);
 
         mAdapter = new ModelBackedDocumentsAdapter(
                 env,
@@ -57,67 +55,5 @@ public class ModelBackedDocumentsAdapterTest extends AndroidTestCase {
     // Tests that the item count is correct.
     public void testItemCount() {
         assertEquals(mEnv.model.getItemCount(), mAdapter.getItemCount());
-    }
-
-    private final class TestEnvironment implements DocumentsAdapter.Environment {
-        private final Context testContext;
-
-        @Override
-        public Features getFeatures() {
-            return mEnv.features;
-        }
-
-        @Override
-        public ActionHandler getActionHandler() { return mActionHandler; }
-
-        private TestEnvironment(Context testContext) {
-            this.testContext = testContext;
-        }
-
-        @Override
-        public boolean isSelected(String id) {
-            return false;
-        }
-
-        @Override
-        public boolean isDocumentEnabled(String mimeType, int flags) {
-            return true;
-        }
-
-        @Override
-        public void initDocumentHolder(DocumentHolder holder) {}
-
-        @Override
-        public Model getModel() {
-            return mEnv.model;
-        }
-
-        @Override
-        public State getDisplayState() {
-            return null;
-        }
-
-        @Override
-        public boolean isInSearchMode() {
-            return false;
-        }
-
-        @Override
-        public Context getContext() {
-            return testContext;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return 4;
-        }
-
-        @Override
-        public void onBindDocumentHolder(DocumentHolder holder, Cursor cursor) {}
-
-        @Override
-        public String getCallingAppName() {
-            return "unknown";
-        }
     }
 }
