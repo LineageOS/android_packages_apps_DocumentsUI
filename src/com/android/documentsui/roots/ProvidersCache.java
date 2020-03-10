@@ -187,7 +187,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         return mObservedAuthoritiesDetails.get(new UserAuthority(userId, authority)).packageName;
     }
 
-    public void updateAsync(boolean forceRefreshAll) {
+    public void updateAsync(boolean forceRefreshAll, @Nullable Runnable callback) {
 
         // NOTE: This method is called when the UI language changes.
         // For that reason we update our RecentsRoot to reflect
@@ -205,12 +205,13 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
             assert (recentRoot.availableBytes == -1);
         }
 
-        new UpdateTask(forceRefreshAll, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new UpdateTask(forceRefreshAll, null, callback).executeOnExecutor(
+                AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void updatePackageAsync(UserId userId, String packageName) {
-        new UpdateTask(false, new UserPackage(userId, packageName)).executeOnExecutor(
-                AsyncTask.THREAD_POOL_EXECUTOR);
+        new UpdateTask(false, new UserPackage(userId, packageName),
+                /* callback= */ null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public void updateAuthorityAsync(UserId userId, String authority) {
@@ -488,6 +489,8 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         private final boolean mForceRefreshAll;
         @Nullable
         private final UserPackage mForceRefreshUserPackage;
+        @Nullable
+        private final Runnable mCallback;
 
         private final Multimap<UserAuthority, RootInfo> mTaskRoots = ArrayListMultimap.create();
         private final HashSet<UserAuthority> mTaskStoppedAuthorities = new HashSet<>();
@@ -499,10 +502,13 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
          *            all packages should be ignored.
          * @param forceRefreshUserPackage when non-null, all previously cached
          *            values for this specific user package should be ignored.
+         * @param callback when non-null, it will be invoked after the task is executed.
          */
-        UpdateTask(boolean forceRefreshAll, @Nullable UserPackage forceRefreshUserPackage) {
+        UpdateTask(boolean forceRefreshAll, @Nullable UserPackage forceRefreshUserPackage,
+                @Nullable Runnable callback) {
             mForceRefreshAll = forceRefreshAll;
             mForceRefreshUserPackage = forceRefreshUserPackage;
+            mCallback = callback;
         }
 
         @Override
@@ -540,6 +546,13 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
             mFirstLoad.countDown();
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(BROADCAST_ACTION));
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (mCallback != null) {
+                mCallback.run();
+            }
         }
 
         private void handleDocumentsProvider(ProviderInfo info, UserId userId) {

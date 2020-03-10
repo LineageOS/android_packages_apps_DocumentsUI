@@ -147,6 +147,19 @@ public final class UserId {
     }
 
     /**
+     * Disables quiet mode for a managed profile. The caller should check {@code
+     * MODIFY_QUIET_MODE} permission first.
+     *
+     * @return {@code false} if user's credential is needed in order to turn off quiet mode,
+     * {@code true} otherwise
+     */
+    public boolean requestQuietModeDisabled(Context context) {
+        final UserManager userManager =
+                (UserManager) context.getSystemService(Context.USER_SERVICE);
+        return userManager.requestQuietModeEnabled(false, mUserHandle);
+    }
+
+    /**
      * Returns a document uri representing this user.
      */
     public Uri buildDocumentUriAsUser(String authority, String documentId) {
