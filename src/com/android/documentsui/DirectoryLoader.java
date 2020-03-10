@@ -29,6 +29,7 @@ import android.os.CancellationSignal;
 import android.os.FileUtils;
 import android.os.OperationCanceledException;
 import android.os.RemoteException;
+import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
 
@@ -128,7 +129,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             final List<UserId> userIds = new ArrayList<>();
             if (mSearchMode) {
                 queryArgs.putAll(mQueryArgs);
-                if (mState.supportsCrossProfile() && mRoot.supportsCrossProfile()) {
+                if (shouldSearchAcrossProfile()) {
                     for (UserId userId : DocumentsApplication.getUserIdManager(
                             getContext()).getUserIds()) {
                         if (mState.canInteractWith(userId)) {
@@ -206,6 +207,12 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         }
 
         return result;
+    }
+
+    private boolean shouldSearchAcrossProfile() {
+        return mState.supportsCrossProfile()
+                && mRoot.supportsCrossProfile()
+                && mQueryArgs.containsKey(DocumentsContract.QUERY_ARG_DISPLAY_NAME);
     }
 
     @Nullable

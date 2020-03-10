@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.RootCursorWrapper;
 
@@ -40,6 +41,7 @@ import java.util.concurrent.Executor;
  */
 public class GlobalSearchLoader extends MultiRootDocumentsLoader {
     private final Bundle mQueryArgs;
+    private final UserId mUserId;
 
     /*
      * Create the loader to query multiple roots support
@@ -57,15 +59,24 @@ public class GlobalSearchLoader extends MultiRootDocumentsLoader {
      */
     GlobalSearchLoader(Context context, ProvidersAccess providers, State state,
             Lookup<String, Executor> executors, Lookup<String, String> fileTypeMap,
-            @NonNull Bundle queryArgs) {
+            @NonNull Bundle queryArgs, UserId userId) {
         super(context, providers, state, executors, fileTypeMap);
         mQueryArgs = queryArgs;
+        mUserId = userId;
     }
 
     @Override
     protected boolean shouldIgnoreRoot(RootInfo root) {
         // Only support local search in GlobalSearchLoader
         if (!root.isLocalOnly() || !root.supportsSearch()) {
+            return true;
+        }
+
+        if (mState.supportsCrossProfile() && root.supportsCrossProfile()
+                && !mQueryArgs.containsKey(DocumentsContract.QUERY_ARG_DISPLAY_NAME)
+                && !mUserId.equals(root.userId)) {
+            // Ignore cross-profile roots if it is not a text search. For example, the user may
+            // just filter documents by mime type.
             return true;
         }
 

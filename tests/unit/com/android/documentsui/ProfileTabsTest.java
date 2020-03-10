@@ -72,7 +72,7 @@ public class ProfileTabsTest {
 
         mTabLayout = view.findViewById(R.id.tabs);
         mTestEnv = new TestEnvironment();
-        mTestEnv.isSearching = false;
+        mTestEnv.isTextSearching = false;
 
         mTestUserIdManager = new TestUserIdManager();
         mTestCommonAddons = new TestCommonAddons();
@@ -152,7 +152,7 @@ public class ProfileTabsTest {
 
     @Test
     public void testUpdateView_twoUsers_isSearching_shouldHide() {
-        mTestEnv.isSearching = true;
+        mTestEnv.isTextSearching = true;
         initializeWithUsers(systemUser, managedUser);
 
         assertThat(mTabLayout.getVisibility()).isEqualTo(View.GONE);
@@ -242,7 +242,7 @@ public class ProfileTabsTest {
      */
     private static class TestEnvironment implements NavigationViewManager.Environment {
 
-        public boolean isSearching = false;
+        public boolean isTextSearching = false;
 
         @Override
         public RootInfo getCurrentRoot() {
@@ -265,8 +265,8 @@ public class ProfileTabsTest {
         }
 
         @Override
-        public boolean isSearching() {
-            return isSearching;
+        public boolean isTextSearching() {
+            return isTextSearching;
         }
 
     }
