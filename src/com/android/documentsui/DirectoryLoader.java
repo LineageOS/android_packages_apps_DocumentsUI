@@ -146,7 +146,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
                     result.exception = new CrossProfileNoPermissionException();
                     return result;
                 } else if (mRoot.userId.isQuietModeEnabled(getContext())) {
-                    result.exception = new CrossProfileQuietModeException();
+                    result.exception = new CrossProfileQuietModeException(mRoot.userId);
                     return result;
                 } else if (mDoc == null) {
                     // TODO (b/35996595): Consider plumbing through the actual exception, though it

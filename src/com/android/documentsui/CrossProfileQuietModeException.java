@@ -16,8 +16,17 @@
 
 package com.android.documentsui;
 
+import static androidx.core.util.Preconditions.checkNotNull;
+
+import com.android.documentsui.base.UserId;
+
 /**
- * Represents an exception when the other profile is in quiet mode.
+ * Represents an exception when the given profile is in quiet mode.
  */
-class CrossProfileQuietModeException extends CrossProfileException {
+public class CrossProfileQuietModeException extends CrossProfileException {
+    public final UserId mUserId;
+
+    public CrossProfileQuietModeException(UserId userId) {
+        mUserId = checkNotNull(userId);
+    }
 }
