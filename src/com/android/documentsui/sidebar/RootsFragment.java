@@ -413,8 +413,13 @@ public class RootsFragment extends Fragment {
             }
         }
 
-        // TODO: refresh UI
-        getBaseActivity().getDisplayState().canShareAcrossProfile = profileItem != null;
+        boolean canShareAcrossProfile = profileItem != null;
+        if (getBaseActivity().getDisplayState().canShareAcrossProfile != canShareAcrossProfile) {
+            getBaseActivity().getDisplayState().canShareAcrossProfile = canShareAcrossProfile;
+            if (!UserId.CURRENT_USER.equals(getBaseActivity().getSelectedUser())) {
+                mActionHandler.loadDocumentsForCurrentStack();
+            }
+        }
 
         // If there are some providers and apps has the same package name, combine them as one item.
         for (RootItem rootItem : otherProviders) {
@@ -448,7 +453,7 @@ public class RootsFragment extends Fragment {
             }
         }
 
-        if (profileItem != null && Features.CROSS_PROFILE_TABS) {
+        if (canShareAcrossProfile && Features.CROSS_PROFILE_TABS) {
             // Combine lists only if we enabled profile tab feature.
             rootList.addAll(rootListOtherUser);
         }
@@ -466,7 +471,7 @@ public class RootsFragment extends Fragment {
 
         mApplicationItemList = rootList;
 
-        if (profileItem != null && !Features.CROSS_PROFILE_TABS) {
+        if (canShareAcrossProfile && !Features.CROSS_PROFILE_TABS) {
             // Add profile item if we don't support cross-profile tab.
             result.add(new SpacerItem());
             result.add(profileItem);
