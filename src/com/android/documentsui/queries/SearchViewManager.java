@@ -600,7 +600,7 @@ public class SearchViewManager implements
         return mCurrentSearch != null || mChipViewManager.hasCheckedItems();
     }
 
-    private boolean isTextSearching() {
+    public boolean isTextSearching() {
         return mCurrentSearch != null;
     }
 
