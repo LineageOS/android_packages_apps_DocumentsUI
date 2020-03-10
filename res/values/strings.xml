@@ -173,6 +173,24 @@
     <!-- Error message shown when querying for a list of documents failed [CHAR LIMIT=48] -->
     <string name="query_error">Can\u2019t load content at the moment</string>
 
+    <!-- Error message title shown when the target profile is in quiet mode [CHAR LIMIT=72] -->
+    <string name="quiet_mode_error_title">Turn on work apps</string>
+    <!-- Error message content shown when the target profile is in quiet mode [CHAR LIMIT=72] -->
+    <string name="quiet_mode_error_message">Turn on work apps to access work files</string>
+    <!-- Button text shown on a button when work profile is off. Clicking on the button will switch on the work profile [CHAR LIMIT=48] -->
+    <string name="quiet_mode_button">Switch on work</string>
+
+    <!-- Error message title shown when the admin does not allow the user to share files across profile [CHAR LIMIT=72] -->
+    <string name="cant_share_across_profile_error_title">Can\u2019t share across profiles</string>
+    <!-- Error message content shown when the admin does not allow the user to share files across profile. Shows in work tab[CHAR LIMIT=200] -->
+    <string name="cant_share_to_personal_error_message">Your IT admin does not allow you to access
+        work files from a personal app
+    </string>
+    <!-- Error message content shown when the admin does not allow the user to share files across profile. Shows in personal tab[CHAR LIMIT=200] -->
+    <string name="cant_share_to_work_error_message">Your IT admin does not allow you to
+        access personal files from a work app
+    </string>
+
     <!-- Title of storage root location that contains recently modified or used documents [CHAR LIMIT=24] -->
     <string name="root_recent">Recent</string>
     <!-- Subtitle of storage root indicating the total free space available, in bytes [CHAR LIMIT=24] -->
