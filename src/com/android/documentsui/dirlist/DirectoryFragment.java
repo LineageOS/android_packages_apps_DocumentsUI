@@ -23,13 +23,16 @@ import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 
 import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.os.UserHandle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
 import android.util.Log;
@@ -52,6 +55,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import androidx.recyclerview.selection.MutableSelection;
 import androidx.recyclerview.selection.Selection;
@@ -82,6 +86,7 @@ import com.android.documentsui.Model;
 import com.android.documentsui.ProfileTabsController;
 import com.android.documentsui.R;
 import com.android.documentsui.ThumbnailCache;
+import com.android.documentsui.TimeoutTask;
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -91,6 +96,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.clipping.ClipStore;
 import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.clipping.UrisSupplier;
@@ -102,6 +108,8 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
+
+import com.google.common.base.Objects;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -211,6 +219,26 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         return true;
     };
 
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (isManagedProfileAction(action)) {
+                UserHandle userHandle = intent.getParcelableExtra(Intent.EXTRA_USER);
+                if (Objects.equal(mActivity.getSelectedUser(), UserId.of(userHandle))) {
+                    // We only need to refresh the layout when the selected user is equal to the
+                    // received profile user.
+                    onRefresh();
+                }
+            }
+        }
+    };
+
+    private static boolean isManagedProfileAction(String action) {
+        return Intent.ACTION_MANAGED_PROFILE_UNLOCKED.equals(action)
+                || Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action);
+    }
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -272,6 +300,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onDestroyView() {
         mInjector.actions.unregisterDisplayStateChangedListener(mOnDisplayStateChanged);
+        if (mState.supportsCrossProfile()) {
+            LocalBroadcastManager.getInstance(mActivity).unregisterReceiver(mReceiver);
+        }
 
         // Cancel any outstanding thumbnail requests
         final int count = mRecView.getChildCount();
@@ -427,6 +458,16 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         // Kick off loader at least once
         mActions.loadDocumentsForCurrentStack();
+
+        if (mState.supportsCrossProfile()) {
+            final IntentFilter filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_MANAGED_PROFILE_UNLOCKED);
+            filter.addAction(Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE);
+            // DocumentsApplication will resend the broadcast locally after roots are updated.
+            // Register to a local broadcast manager to avoid this fragment from updating before
+            // roots are updated.
+            LocalBroadcastManager.getInstance(mActivity).registerReceiver(mReceiver, filter);
+        }
     }
 
     @Override
@@ -1165,6 +1206,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         }
 
         final DocumentInfo doc = mActivity.getCurrentDirectory();
+        if (doc == null) {
+            // If there is no root doc, try to reload the root doc from root info.
+            Log.w(TAG, "No root document. Try to get root document.");
+            getRootDocumentAndMaybeRefreshDocument();
+            return;
+        }
         mActions.refreshDocument(doc, (boolean refreshSupported) -> {
             if (refreshSupported) {
                 mRefreshLayout.setRefreshing(false);
@@ -1173,6 +1220,26 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mActions.loadDocumentsForCurrentStack();
             }
         });
+    }
+
+    private void getRootDocumentAndMaybeRefreshDocument() {
+        // If we can reload the root doc successfully, we will push it to the stack and load the
+        // stack.
+        final RootInfo emptyDocRoot = mActivity.getCurrentRoot();
+        mInjector.actions.getRootDocument(
+                emptyDocRoot,
+                TimeoutTask.DEFAULT_TIMEOUT,
+                rootDoc -> {
+                    mRefreshLayout.setRefreshing(false);
+                    if (rootDoc != null && mActivity.getCurrentDirectory() == null) {
+                        // Make sure the stack does not change during task was running.
+                        Log.d(TAG, "Root doc is retrieved. Pushing to the stack");
+                        mState.stack.push(rootDoc);
+                        mActivity.updateNavigator();
+                        mActions.loadDocumentsForCurrentStack();
+                    }
+                }
+        );
     }
 
     private final class ModelUpdateListener implements EventListener<Model.Update> {
