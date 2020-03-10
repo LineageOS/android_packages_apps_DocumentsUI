@@ -3,18 +3,21 @@ package com.android.documentsui.files;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.QuickViewConstants;
 import android.content.pm.PackageManager;
 
+import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestPackageManager;
 import com.android.documentsui.testing.TestResources;
-
-import androidx.test.InstrumentationRegistry;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +32,7 @@ import java.util.Set;
 public class QuickViewIntentBuilderTest {
 
     private static String mTargetPackageName;
+    private Context mContext = mock(Context.class);
     private PackageManager mPm;
     private TestEnv mEnv;
     private TestResources mRes;
@@ -38,6 +42,7 @@ public class QuickViewIntentBuilderTest {
         mTargetPackageName =
                 InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageName();
         mPm = TestPackageManager.create();
+        when(mContext.getPackageManager()).thenReturn(mPm);
         mEnv = TestEnv.create();
         mRes = TestResources.create();
 
@@ -48,7 +53,7 @@ public class QuickViewIntentBuilderTest {
     public void testSetsNoFeatures_InArchiveDocument() {
         QuickViewIntentBuilder builder =
                 new QuickViewIntentBuilder(
-                        mPm, mRes, TestEnv.FILE_IN_ARCHIVE, mEnv.archiveModel, false);
+                        mContext, mRes, TestEnv.FILE_IN_ARCHIVE, mEnv.archiveModel, false);
 
         Intent intent = builder.build();
 
@@ -59,7 +64,7 @@ public class QuickViewIntentBuilderTest {
     @Test
     public void testSetsFullFeatures_RegularDocument() {
         QuickViewIntentBuilder builder =
-                new QuickViewIntentBuilder(mPm, mRes, TestEnv.FILE_JPG, mEnv.model, false);
+                new QuickViewIntentBuilder(mContext, mRes, TestEnv.FILE_JPG, mEnv.model, false);
 
         Intent intent = builder.build();
 
@@ -79,7 +84,7 @@ public class QuickViewIntentBuilderTest {
     public void testPickerFeatures_RegularDocument() {
 
         QuickViewIntentBuilder builder =
-                new QuickViewIntentBuilder(mPm, mRes, TestEnv.FILE_JPG, mEnv.model, true);
+                new QuickViewIntentBuilder(mContext, mRes, TestEnv.FILE_JPG, mEnv.model, true);
 
         Intent intent = builder.build();
 
