@@ -22,6 +22,7 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Context;
 import android.content.Intent;
 import android.content.QuickViewConstants;
 import android.content.pm.PackageManager;
@@ -80,18 +81,18 @@ public final class QuickViewIntentBuilder {
     private final boolean mFromPicker;
 
     public QuickViewIntentBuilder(
-            PackageManager packageMgr,
+            Context context,
             Resources resources,
             DocumentInfo doc,
             Model model,
             boolean fromPicker) {
 
-        assert(packageMgr != null);
+        assert(context != null);
         assert(resources != null);
         assert(doc != null);
         assert(model != null);
 
-        mPackageMgr = packageMgr;
+        mPackageMgr = doc.userId.getPackageManager(context);
         mResources = resources;
         mDocument = doc;
         mModel = model;
