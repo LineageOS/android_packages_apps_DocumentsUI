@@ -308,7 +308,9 @@ public class RootsFragment extends Fragment {
         for (final RootInfo root : roots) {
             final RootItem item;
 
-            if (root.isLibrary() || root.isDownloads()) {
+            if (root.isExternalStorageHome()) {
+                continue;
+            } else if (root.isLibrary() || root.isDownloads()) {
                 item = new RootItem(root, mActionHandler, maybeShowBadge);
                 librariesBuilder.add(item);
             } else if (root.isStorage()) {
