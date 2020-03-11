@@ -18,7 +18,6 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 
-import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Outline;
 import android.graphics.drawable.Drawable;
@@ -60,7 +59,7 @@ public class NavigationViewManager {
     private final boolean mShowSearchBar;
 
     public NavigationViewManager(
-            Activity activity,
+            BaseActivity activity,
             DrawerController drawer,
             State state,
             NavigationViewManager.Environment env,
@@ -74,7 +73,7 @@ public class NavigationViewManager {
         mEnv = env;
         mBreadcrumb = breadcrumb;
         mBreadcrumb.setup(env, state, this::onNavigationItemSelected);
-        mProfileTabs = new ProfileTabs(tabLayout, mState, userIdManager, mEnv);
+        mProfileTabs = new ProfileTabs(tabLayout, mState, userIdManager, mEnv, activity);
 
         mToolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
@@ -235,6 +234,6 @@ public class NavigationViewManager {
         @Deprecated  // Use CommonAddones#refreshCurrentRootAndDirectory
         void refreshCurrentRootAndDirectory(int animation);
         boolean isSearchExpanded();
-        boolean isSearching();
+        boolean isTextSearching();
     }
 }

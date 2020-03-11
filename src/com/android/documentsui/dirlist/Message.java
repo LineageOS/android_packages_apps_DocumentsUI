@@ -16,16 +16,22 @@
 
 package com.android.documentsui.dirlist;
 
+import android.Manifest;
 import android.app.AuthenticationRequiredException;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 
+import com.android.documentsui.CrossProfileNoPermissionException;
+import com.android.documentsui.CrossProfileQuietModeException;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
 
 /**
@@ -45,6 +51,7 @@ abstract class Message {
     private @Nullable Drawable mIcon;
     private boolean mShouldShow = false;
     protected boolean mShouldKeep = false;
+    protected int mLayout;
 
     Message(Environment env, Runnable defaultCallback) {
         mEnv = env;
@@ -69,6 +76,7 @@ abstract class Message {
         mMessageString = null;
         mIcon = null;
         mShouldShow = false;
+        mLayout = 0;
     }
 
     void runCallback() {
@@ -81,6 +89,10 @@ abstract class Message {
 
     Drawable getIcon() {
         return mIcon;
+    }
+
+    int getLayout() {
+        return mLayout;
     }
 
     boolean shouldShow() {
@@ -171,16 +183,27 @@ abstract class Message {
 
     final static class InflateMessage extends Message {
 
+        private final boolean mCanModifyQuietMode;
+
         InflateMessage(Environment env, Runnable callback) {
             super(env, callback);
+            mCanModifyQuietMode =
+                    mEnv.getContext().checkSelfPermission(Manifest.permission.MODIFY_QUIET_MODE)
+                            == PackageManager.PERMISSION_GRANTED;
         }
 
         @Override
         void update(Update event) {
             reset();
             if (event.hasCrossProfileException()) {
-                // TODO: update error message.
-                updateToInflatedErrorMessage();
+                if (event.getException() instanceof CrossProfileQuietModeException) {
+                    updateToQuietModeErrorMessage(
+                            ((CrossProfileQuietModeException) event.getException()).mUserId);
+                } else if (event.getException() instanceof CrossProfileNoPermissionException) {
+                    updateToCrossProfileNoPermissionErrorMessage();
+                } else {
+                    updateToInflatedErrorMessage();
+                }
             } else if (event.hasException() && !event.hasAuthenticationException()) {
                 updateToInflatedErrorMessage();
             } else if (event.hasAuthenticationException()) {
@@ -188,6 +211,39 @@ abstract class Message {
             } else if (mEnv.getModel().getModelIds().length == 0) {
                 updateToInflatedEmptyMessage();
             }
+        }
+
+        private void updateToQuietModeErrorMessage(UserId userId) {
+            mLayout = InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR;
+            CharSequence buttonText = null;
+            if (mCanModifyQuietMode) {
+                buttonText = mEnv.getContext().getResources().getText(R.string.quiet_mode_button);
+                mCallback = () ->
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... voids) {
+                                userId.requestQuietModeDisabled(mEnv.getContext());
+                                return null;
+                            }
+                        }.execute();
+            }
+            update(
+                    mEnv.getContext().getResources().getText(R.string.quiet_mode_error_title),
+                    mEnv.getContext().getResources().getText(R.string.quiet_mode_error_message),
+                    buttonText,
+                    mEnv.getContext().getDrawable(R.drawable.work_off));
+        }
+
+        private void updateToCrossProfileNoPermissionErrorMessage() {
+            mLayout = InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR;
+            update(
+                    mEnv.getContext().getResources().getText(
+                            R.string.cant_share_across_profile_error_title),
+                    mEnv.getContext().getResources().getText(UserId.CURRENT_USER.isSystem()
+                            ? R.string.cant_share_to_personal_error_message
+                            : R.string.cant_share_to_work_error_message),
+                    /* buttonString= */ null,
+                    mEnv.getContext().getDrawable(R.drawable.share_off));
         }
 
         private void updateToInflatedErrorMessage() {

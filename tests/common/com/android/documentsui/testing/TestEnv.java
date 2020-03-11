@@ -62,6 +62,7 @@ public class TestEnv {
     public static DocumentInfo FILE_READ_ONLY;
 
     public static class OtherUser {
+        public static DocumentInfo FOLDER_0;
         public static DocumentInfo FILE_PNG;
     }
 
@@ -72,6 +73,7 @@ public class TestEnv {
     public final TestFocusHandler focusHandler = new TestFocusHandler();
     public final TestDialogController dialogs = new TestDialogController();
     public final TestModel model;
+    public final TestModel modelOtherUser;
     public final TestModel archiveModel;
     public final DocsSelectionHelper selectionMgr;
     public final TestSearchViewManager searchViewManager;
@@ -83,13 +85,14 @@ public class TestEnv {
     public final MockContentResolver contentResolver;
     public final Map<String, TestDocumentsProvider> mockProviders;
 
-    private TestEnv(Context context, Features features, String authority, UserId userId) {
+    private TestEnv(Context context, Features features, String authority) {
         this.features = features;
-        this.userId = userId;
+        this.userId = TestProvidersAccess.USER_ID;
         userHandle = UserHandle.of(userId.getIdentifier());
         state.sortModel = SortModel.createModel();
         mExecutor = new TestScheduledExecutorService();
         model = new TestModel(userId, authority, features);
+        modelOtherUser = new TestModel(TestProvidersAccess.OtherUser.USER_ID, authority, features);
         archiveModel = new TestModel(userId, ArchivesProvider.AUTHORITY, features);
         selectionMgr = SelectionHelpers.createTestInstance();
         searchViewManager = new TestSearchViewManager();
@@ -142,7 +145,7 @@ public class TestEnv {
     }
 
     private static TestEnv create(Context context, Features features, String authority) {
-        TestEnv env = new TestEnv(context, features, authority, TestProvidersAccess.USER_ID);
+        TestEnv env = new TestEnv(context, features, authority);
         env.reset();
         return env;
     }
@@ -178,8 +181,8 @@ public class TestEnv {
                         | Document.FLAG_SUPPORTS_DELETE
                         | Document.FLAG_SUPPORTS_RENAME);
 
-        OtherUser.FILE_PNG = model.createFile("work.png");
-        OtherUser.FILE_PNG.userId = TestProvidersAccess.OtherUser.USER_ID;
+        OtherUser.FOLDER_0 = modelOtherUser.createFolder("folder 0");
+        OtherUser.FILE_PNG = modelOtherUser.createFile("work.png");
 
         archiveModel.update();
         model.update();

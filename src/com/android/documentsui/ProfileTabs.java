@@ -23,10 +23,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
+import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.common.base.Objects;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,23 +42,28 @@ public class ProfileTabs implements ProfileTabsAddons {
     private final TabLayout mTabs;
     private final State mState;
     private final NavigationViewManager.Environment mEnv;
+    private final AbstractActionHandler.CommonAddons mCommonAddons;
     private final UserIdManager mUserIdManager;
     private List<UserId> mUserIds;
     @Nullable
     private Listener mListener;
+    private TabLayout.OnTabSelectedListener mOnTabSelectedListener;
 
     public ProfileTabs(TabLayout tabLayout, State state, UserIdManager userIdManager,
-            NavigationViewManager.Environment env) {
+            NavigationViewManager.Environment env,
+            AbstractActionHandler.CommonAddons commonAddons) {
         mTabs = checkNotNull(tabLayout);
         mState = checkNotNull(state);
         mEnv = checkNotNull(env);
+        mCommonAddons = checkNotNull(commonAddons);
         mUserIdManager = checkNotNull(userIdManager);
         mTabs.removeAllTabs();
         mUserIds = Collections.singletonList(UserId.CURRENT_USER);
-        mTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mOnTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (mListener != null) {
+                    // find a way to identify user iteraction
                     mListener.onUserSelected((UserId) tab.getTag());
                 }
             }
@@ -68,7 +75,8 @@ public class ProfileTabs implements ProfileTabsAddons {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
-        });
+        };
+        mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
     }
 
     /**
@@ -76,6 +84,15 @@ public class ProfileTabs implements ProfileTabsAddons {
      */
     public void updateView() {
         updateTabsIfNeeded();
+        RootInfo currentRoot = mCommonAddons.getCurrentRoot();
+        if (mTabs.getSelectedTabPosition() == -1
+                || !Objects.equal(currentRoot.userId, getSelectedUser())) {
+            // Update the layout according to the current root if necessary.
+            // Make sure we do not invoke callback. Otherwise, it is likely to cause infinite loop.
+            mTabs.removeOnTabSelectedListener(mOnTabSelectedListener);
+            mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
+            mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
+        }
         mTabs.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
     }
 
@@ -98,7 +115,6 @@ public class ProfileTabs implements ProfileTabsAddons {
                 mTabs.addTab(createTab(R.string.work_tab,
                         mUserIdManager.getManagedUser()), /* setSelected= */false);
             }
-            mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(UserId.CURRENT_USER)));
         }
     }
 
@@ -122,7 +138,7 @@ public class ProfileTabs implements ProfileTabsAddons {
         // 5. the root supports cross profile.
         return mState.supportsCrossProfile()
                 && mTabs.getTabCount() > 1
-                && !mEnv.isSearching()
+                && !mEnv.isTextSearching()
                 && mState.stack.size() <= 1
                 && mState.stack.getRoot() != null && mState.stack.getRoot().supportsCrossProfile();
     }
