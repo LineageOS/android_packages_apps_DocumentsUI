@@ -267,13 +267,38 @@ public abstract class BaseActivity
         });
 
         mNavigator.setProfileTabsListener(userId -> {
-            // Reload the roots with the selected user is changed.
+            // There are several possible cases that may trigger this callback.
+            // 1. A user click on tab layout.
+            // 2. A user click on tab layout, when filter is checked. (searching = true)
+            // 3. A user click on a open a dir of a different user in search (stack size > 1)
+            // 4. After tab layout is initialized.
+
+            if (!mState.stack.isInitialized()) {
+                return;
+            }
+
+            // Reload the roots when the selected user is changed.
+            // After reloading, we have visually same roots in the drawer. But they are
+            // different by holding different userId. Next time when user select a root, it can
+            // bring the user to correct root doc.
             final RootsFragment roots = RootsFragment.get(getSupportFragmentManager());
             if (roots != null) {
                 roots.onSelectedUserChanged();
             }
 
-            mInjector.actions.loadCrossProfileRoot(getCurrentRoot(), userId);
+            if (mState.stack.size() <= 1) {
+                // We do not load cross-profile root if the stack contains two documents. The
+                // stack may contain >1 docs when the user select a folder of the other user in
+                // search. In that case, we don't want to reload the root. The whole stack
+                // and the root will be updated in openFolderInSearchResult.
+
+                // When a user filters files by search chips on the root doc, we will be in
+                // searching mode and with stack size 1 (0 if rootDoc cannot be loaded).
+                // The activity will clear search on root picked. If we don't clear the search,
+                // user may see the search result screen show up briefly and then get cleared.
+                mSearchManager.cancelSearch();
+                mInjector.actions.loadCrossProfileRoot(getCurrentRoot(), userId);
+            }
         });
 
         mSortController = SortController.create(this, mState.derivedMode, mState.sortModel);
@@ -756,8 +781,8 @@ public abstract class BaseActivity
     }
 
     @Override
-    public boolean isSearching() {
-        return mSearchManager.isSearching();
+    public boolean isTextSearching() {
+        return mSearchManager.isTextSearching();
     }
 
     @Override

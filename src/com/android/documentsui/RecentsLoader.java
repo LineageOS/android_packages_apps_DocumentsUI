@@ -60,7 +60,7 @@ public class RecentsLoader extends MultiRootDocumentsLoader {
             return result;
         } else if (mUserId.isQuietModeEnabled(getContext())) {
             DirectoryResult result = new DirectoryResult();
-            result.exception = new CrossProfileQuietModeException();
+            result.exception = new CrossProfileQuietModeException(mUserId);
             return result;
         }
         return super.loadInBackground();

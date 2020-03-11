@@ -19,5 +19,5 @@ package com.android.documentsui;
 /**
  * Represents an exception when no permission to query the target profile.
  */
-class CrossProfileNoPermissionException extends CrossProfileException {
+public class CrossProfileNoPermissionException extends CrossProfileException {
 }

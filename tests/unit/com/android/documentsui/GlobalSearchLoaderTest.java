@@ -55,6 +55,7 @@ public class GlobalSearchLoaderTest {
     private TestEnv mEnv;
     private TestActivity mActivity;
     private GlobalSearchLoader mLoader;
+    private Bundle mQueryArgs = new Bundle();
 
     @Before
     public void setUp() {
@@ -65,10 +66,10 @@ public class GlobalSearchLoaderTest {
         mEnv.state.action = State.ACTION_BROWSE;
         mEnv.state.acceptMimes = new String[]{"*/*"};
 
-        final Bundle queryArgs = new Bundle();
-        queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, SEARCH_STRING);
+        mQueryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, SEARCH_STRING);
         mLoader = new GlobalSearchLoader(mActivity, mEnv.providers, mEnv.state,
-                TestImmediateExecutor.createLookup(), new TestFileTypeLookup(), queryArgs);
+                TestImmediateExecutor.createLookup(), new TestFileTypeLookup(), mQueryArgs,
+                TestProvidersAccess.USER_ID);
 
         final DocumentInfo doc = mEnv.model.createFile(SEARCH_STRING + ".jpg", FILE_FLAG);
         doc.lastModified = System.currentTimeMillis();
@@ -102,6 +103,23 @@ public class GlobalSearchLoaderTest {
         TestProvidersAccess.HOME.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
         assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.HOME));
         TestProvidersAccess.HOME.flags &= ~(DocumentsContract.Root.FLAG_SUPPORTS_SEARCH);
+    }
+
+    @Test
+    public void testCrossProfileRoot_notInTextSearch_beIgnored() {
+        mEnv.state.action = State.ACTION_GET_CONTENT;
+        mQueryArgs.remove(DocumentsContract.QUERY_ARG_DISPLAY_NAME);
+        TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.OtherUser.USER_ID;
+        assertThat(mLoader.shouldIgnoreRoot(TestProvidersAccess.DOWNLOADS)).isTrue();
+        TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.USER_ID;
+    }
+
+    @Test
+    public void testCrossProfileRoot_inTextSearch_beIncluded() {
+        mEnv.state.action = State.ACTION_GET_CONTENT;
+        TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.OtherUser.USER_ID;
+        assertThat(mLoader.shouldIgnoreRoot(TestProvidersAccess.DOWNLOADS)).isFalse();
+        TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.USER_ID;
     }
 
     @Test
