@@ -138,13 +138,14 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 ProviderExecutor::forAuthority,
                 mInjector,
                 LastAccessedStorage.create(),
-                DocumentsApplication.getUserIdManager(this));
+                mUserIdManager);
 
         mInjector.searchManager = mSearchManager;
 
         Intent intent = getIntent();
 
-        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile());
+        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
+                mUserIdManager);
         mInjector.appsRowManager = mAppsRowManager;
 
         mSharedInputHandler =
