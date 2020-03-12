@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
+import com.android.documentsui.UserIdManager;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AppsRowItemData.AppData;
@@ -47,11 +48,14 @@ public class AppsRowManager {
     private final ActionHandler mActionHandler;
     private final List<AppsRowItemData> mDataList;
     private final boolean mMaybeShowBadge;
+    private final UserIdManager mUserIdManager;
 
-    public AppsRowManager(ActionHandler handler, boolean maybeShowBadge) {
+    public AppsRowManager(ActionHandler handler, boolean maybeShowBadge,
+            UserIdManager userIdManager) {
         mDataList = new ArrayList<>();
         mActionHandler = handler;
         mMaybeShowBadge = maybeShowBadge;
+        mUserIdManager = userIdManager;
     }
 
     public List<AppsRowItemData> updateList(List<Item> itemList) {
@@ -80,17 +84,22 @@ public class AppsRowManager {
         return mDataList;
     }
 
-    private boolean shouldShow(State state) {
+    private boolean shouldShow(State state, boolean isTextSearching) {
         boolean isHiddenAction = state.action == State.ACTION_CREATE
                 || state.action == State.ACTION_OPEN_TREE
                 || state.action == State.ACTION_PICK_COPY_DESTINATION;
-        return state.stack.isRecents() && !isHiddenAction && mDataList.size() > 0;
+        boolean isTextSearchingAcrossProfile = mUserIdManager.getUserIds().size() > 1
+                && state.supportsCrossProfile()
+                && isTextSearching;
+
+        return state.stack.isRecents() && !isHiddenAction && mDataList.size() > 0
+                && !isTextSearchingAcrossProfile;
     }
 
     public void updateView(BaseActivity activity) {
         final View appsRowLayout = activity.findViewById(R.id.apps_row);
 
-        if (!shouldShow(activity.getDisplayState())) {
+        if (!shouldShow(activity.getDisplayState(), activity.isTextSearching())) {
             appsRowLayout.setVisibility(View.GONE);
             return;
         }
