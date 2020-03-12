@@ -298,6 +298,16 @@ public class RootInfo implements Durable, Parcelable, Comparable<RootInfo> {
         return authority == null && rootId == null;
     }
 
+    /**
+     * Return true, if the root is from ExternalStorage and the id is home. Otherwise, return false.
+     */
+    public boolean isExternalStorageHome() {
+        // Note that "home" is the expected root id for the auto-created
+        // user home directory on external storage. The "home" value should
+        // match ExternalStorageProvider.ROOT_ID_HOME.
+        return isExternalStorage() && "home".equals(rootId);
+    }
+
     public boolean isExternalStorage() {
         return Providers.AUTHORITY_STORAGE.equals(authority);
     }
