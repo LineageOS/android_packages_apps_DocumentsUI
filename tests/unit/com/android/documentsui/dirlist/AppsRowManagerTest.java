@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -33,6 +35,7 @@ import androidx.test.InstrumentationRegistry;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
+import com.android.documentsui.TestUserIdManager;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.sidebar.AppItem;
@@ -41,6 +44,8 @@ import com.android.documentsui.sidebar.RootItem;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
+
+import com.google.common.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -55,6 +60,7 @@ public class AppsRowManagerTest {
     private ActionHandler mActionHandler;
     private boolean mMaybeShowBadge;
     private BaseActivity mActivity;
+    private TestUserIdManager mTestUserIdManager;
     private State mState;
 
     private View mAppsRow;
@@ -63,8 +69,9 @@ public class AppsRowManagerTest {
     @Before
     public void setUp() {
         mActionHandler = new TestActionHandler();
+        mTestUserIdManager = new TestUserIdManager();
 
-        mAppsRowManager = new AppsRowManager(mActionHandler, mMaybeShowBadge);
+        mAppsRowManager = new AppsRowManager(mActionHandler, mMaybeShowBadge, mTestUserIdManager);
 
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -78,6 +85,9 @@ public class AppsRowManagerTest {
         when(mActivity.findViewById(R.id.apps_row)).thenReturn(mAppsRow);
         when(mActivity.findViewById(R.id.apps_group)).thenReturn(mAppsGroup);
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.USER_ID);
+
+        mTestUserIdManager.userIds =
+                Lists.newArrayList(UserId.DEFAULT_USER, TestProvidersAccess.OtherUser.USER_ID);
     }
 
     @Test
@@ -217,6 +227,48 @@ public class AppsRowManagerTest {
         mAppsRowManager.updateView(mActivity);
 
         assertEquals(View.GONE, mAppsRow.getVisibility());
+    }
+
+    @Test
+    public void testUpdateView_crossProfileSearch_hideRow() {
+        mState.action = State.ACTION_GET_CONTENT;
+        when(mActivity.isTextSearching()).thenReturn(true);
+
+        mState.stack.changeRoot(TestProvidersAccess.RECENTS);
+        final List<Item> rootList = new ArrayList<>();
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, mActionHandler,
+                mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.PICKLES, mActionHandler,
+                mMaybeShowBadge));
+        mAppsRowManager.updateList(rootList);
+        mAppsRowManager.updateView(mActivity);
+
+        assertThat(mAppsRow.getVisibility()).isEqualTo(View.GONE);
+    }
+
+    @Test
+    public void testUpdateView_notCrossProfileSearch_showRow() {
+        mState.action = State.ACTION_GET_CONTENT;
+        when(mActivity.isTextSearching()).thenReturn(false);
+
+        mState.stack.changeRoot(TestProvidersAccess.RECENTS);
+        final List<Item> rootList = new ArrayList<>();
+        rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.AUDIO, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.HAMMY, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.IMAGE, mActionHandler, mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.DOWNLOADS, mActionHandler,
+                mMaybeShowBadge));
+        rootList.add(new RootItem(TestProvidersAccess.OtherUser.PICKLES, mActionHandler,
+                mMaybeShowBadge));
+        mAppsRowManager.updateList(rootList);
+        mAppsRowManager.updateView(mActivity);
+
+        assertThat(mAppsRow.getVisibility()).isEqualTo(View.VISIBLE);
     }
 
     @Test
