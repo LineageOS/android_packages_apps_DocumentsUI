@@ -57,6 +57,7 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestLastAccessedStorage;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
+import com.android.documentsui.util.VersionUtils;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -681,13 +682,16 @@ public class ActionHandlerTest {
 
     @Test
     public void testPreviewItem_onOtherUser() throws Exception {
-        mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
-        mActivity.currentRoot = TestProvidersAccess.OtherUser.DOWNLOADS;
+        if (VersionUtils.isAtLeastR()) {
 
-        mHandler.onDocumentOpened(TestEnv.OtherUser.FILE_PNG, ActionHandler.VIEW_TYPE_PREVIEW,
+            mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
+            mActivity.currentRoot = TestProvidersAccess.OtherUser.DOWNLOADS;
+
+            mHandler.onDocumentOpened(TestEnv.OtherUser.FILE_PNG, ActionHandler.VIEW_TYPE_PREVIEW,
                 ActionHandler.VIEW_TYPE_REGULAR, true);
-        mActivity.assertActivityAsUserStarted(Intent.ACTION_QUICK_VIEW,
+            mActivity.assertActivityAsUserStarted(Intent.ACTION_QUICK_VIEW,
                 TestProvidersAccess.OtherUser.USER_HANDLE);
+        }
     }
 
     @Test
