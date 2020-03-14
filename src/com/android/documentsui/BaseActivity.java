@@ -90,6 +90,7 @@ public abstract class BaseActivity
 
     protected SearchViewManager mSearchManager;
     protected AppsRowManager mAppsRowManager;
+    protected UserIdManager mUserIdManager;
     protected State mState;
 
     @Injected
@@ -199,6 +200,9 @@ public abstract class BaseActivity
             @Override
             public void onSearchViewChanged(boolean opened) {
                 mNavigator.update();
+                // We also need to update AppsRowManager because we may want to show/hide the
+                // appsRow in cross-profile search according to the searching conditions.
+                mAppsRowManager.updateView(BaseActivity.this);
             }
 
             @Override
@@ -248,6 +252,7 @@ public abstract class BaseActivity
                         cmdInterceptor);
 
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
+        mUserIdManager = DocumentsApplication.getUserIdManager(this);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
                 chipGroup, icicle);
         // initialize the chip sets by accept mime types
