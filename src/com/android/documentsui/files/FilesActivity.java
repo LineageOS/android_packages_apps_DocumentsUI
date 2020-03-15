@@ -155,7 +155,8 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                 mInjector.selectionMgr,
                 mProfileTabsAddonsStub);
 
-        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile());
+        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
+                mUserIdManager);
         mInjector.appsRowManager = mAppsRowManager;
 
         mActivityInputHandler =
