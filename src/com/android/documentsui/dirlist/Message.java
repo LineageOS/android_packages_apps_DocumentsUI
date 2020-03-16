@@ -19,6 +19,7 @@ package com.android.documentsui.dirlist;
 import android.Manifest;
 import android.app.AuthenticationRequiredException;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
@@ -229,21 +230,54 @@ abstract class Message {
             }
             update(
                     mEnv.getContext().getResources().getText(R.string.quiet_mode_error_title),
-                    mEnv.getContext().getResources().getText(R.string.quiet_mode_error_message),
+                    /* messageString= */ "",
                     buttonText,
                     mEnv.getContext().getDrawable(R.drawable.work_off));
         }
 
         private void updateToCrossProfileNoPermissionErrorMessage() {
             mLayout = InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR;
-            update(
-                    mEnv.getContext().getResources().getText(
-                            R.string.cant_share_across_profile_error_title),
-                    mEnv.getContext().getResources().getText(UserId.CURRENT_USER.isSystem()
-                            ? R.string.cant_share_to_personal_error_message
-                            : R.string.cant_share_to_work_error_message),
+            boolean currentUserIsSystem = UserId.CURRENT_USER.isSystem();
+            update(getCrossProfileNoPermissionErrorTitle(),
+                    getCrossProfileNoPermissionErrorMessage(),
                     /* buttonString= */ null,
                     mEnv.getContext().getDrawable(R.drawable.share_off));
+        }
+
+        private CharSequence getCrossProfileNoPermissionErrorTitle() {
+            boolean currentUserIsSystem = UserId.CURRENT_USER.isSystem();
+            Resources res = mEnv.getContext().getResources();
+            switch (mEnv.getDisplayState().action) {
+                case State.ACTION_GET_CONTENT:
+                case State.ACTION_OPEN:
+                case State.ACTION_OPEN_TREE:
+                    return res.getText(currentUserIsSystem
+                            ? R.string.cant_select_work_files_error_title
+                            : R.string.cant_select_personal_files_error_title);
+                case State.ACTION_CREATE:
+                    return res.getText(currentUserIsSystem
+                            ? R.string.cant_save_to_work_error_title
+                            : R.string.cant_save_to_personal_error_title);
+            }
+            return res.getText(R.string.cross_profile_action_not_allowed_title);
+        }
+
+        private CharSequence getCrossProfileNoPermissionErrorMessage() {
+            boolean currentUserIsSystem = UserId.CURRENT_USER.isSystem();
+            Resources res = mEnv.getContext().getResources();
+            switch (mEnv.getDisplayState().action) {
+                case State.ACTION_GET_CONTENT:
+                case State.ACTION_OPEN:
+                case State.ACTION_OPEN_TREE:
+                    return res.getText(currentUserIsSystem
+                            ? R.string.cant_select_work_files_error_message
+                            : R.string.cant_select_personal_files_error_message);
+                case State.ACTION_CREATE:
+                    return res.getText(currentUserIsSystem
+                            ? R.string.cant_save_to_work_error_message
+                            : R.string.cant_save_to_personal_error_message);
+            }
+            return res.getText(R.string.cross_profile_action_not_allowed_message);
         }
 
         private void updateToInflatedErrorMessage() {
