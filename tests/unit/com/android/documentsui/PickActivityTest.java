@@ -37,6 +37,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.picker.PickActivity;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.ui.TestDialogController;
+import com.android.documentsui.util.VersionUtils;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -89,19 +90,21 @@ public class PickActivityTest {
 
     @Test
     public void testOnDocumentPicked_otherUser() {
-        DocumentInfo doc = new DocumentInfo();
-        doc.userId = TestProvidersAccess.OtherUser.USER_ID;
-        doc.authority = "authority";
-        doc.documentId = "documentId";
+        if (VersionUtils.isAtLeastR()) {
+            DocumentInfo doc = new DocumentInfo();
+            doc.userId = TestProvidersAccess.OtherUser.USER_ID;
+            doc.authority = "authority";
+            doc.documentId = "documentId";
 
-        PickActivity pickActivity = mRule.launchActivity(intentGetContent);
-        pickActivity.mState.canShareAcrossProfile = true;
-        pickActivity.onDocumentPicked(doc);
-        SystemClock.sleep(3000);
+            PickActivity pickActivity = mRule.launchActivity(intentGetContent);
+            pickActivity.mState.canShareAcrossProfile = true;
+            pickActivity.onDocumentPicked(doc);
+            SystemClock.sleep(3000);
 
-        Instrumentation.ActivityResult result = mRule.getActivityResult();
-        assertThat(result.getResultCode()).isEqualTo(Activity.RESULT_OK);
-        assertThat(result.getResultData().getData()).isEqualTo(doc.getDocumentUri());
+            Instrumentation.ActivityResult result = mRule.getActivityResult();
+            assertThat(result.getResultCode()).isEqualTo(Activity.RESULT_OK);
+            assertThat(result.getResultData().getData()).isEqualTo(doc.getDocumentUri());
+        }
     }
 
     @Test
