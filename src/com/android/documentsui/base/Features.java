@@ -32,7 +32,7 @@ public interface Features {
     /**
      * Temporary compile-time feature flag to enable in-app cross-profile browsing for some intent.
      */
-    boolean CROSS_PROFILE_TABS = false;
+    boolean CROSS_PROFILE_TABS = true;
 
     boolean isArchiveCreationEnabled();
     boolean isCommandInterceptorEnabled();
