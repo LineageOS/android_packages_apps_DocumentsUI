@@ -43,6 +43,7 @@ import com.android.documentsui.Injector;
 import com.android.documentsui.R;
 import com.android.documentsui.TestUserIdManager;
 import com.android.documentsui.UserIdManager;
+import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
@@ -57,6 +58,7 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestLastAccessedStorage;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
+import com.android.documentsui.util.VersionUtils;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -681,13 +683,19 @@ public class ActionHandlerTest {
 
     @Test
     public void testPreviewItem_onOtherUser() throws Exception {
-        mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
-        mActivity.currentRoot = TestProvidersAccess.OtherUser.DOWNLOADS;
+        if (VersionUtils.isAtLeastR()) {
+            mActivity.resources.setQuickViewerPackage("corptropolis.viewer");
+            mActivity.currentRoot = TestProvidersAccess.OtherUser.DOWNLOADS;
+            mEnv.model.reset();
+            DocumentInfo otherUserDoc = mEnv.model.createDocumentForUser("a.png",
+                    "image/png", /* flags= */ 0, TestProvidersAccess.OtherUser.USER_ID);
+            mEnv.model.update();
 
-        mHandler.onDocumentOpened(TestEnv.OtherUser.FILE_PNG, ActionHandler.VIEW_TYPE_PREVIEW,
-                ActionHandler.VIEW_TYPE_REGULAR, true);
-        mActivity.assertActivityAsUserStarted(Intent.ACTION_QUICK_VIEW,
-                TestProvidersAccess.OtherUser.USER_HANDLE);
+            mHandler.onDocumentOpened(otherUserDoc, ActionHandler.VIEW_TYPE_PREVIEW,
+                    ActionHandler.VIEW_TYPE_REGULAR, true);
+            mActivity.assertActivityAsUserStarted(Intent.ACTION_QUICK_VIEW,
+                    TestProvidersAccess.OtherUser.USER_HANDLE);
+        }
     }
 
     @Test
