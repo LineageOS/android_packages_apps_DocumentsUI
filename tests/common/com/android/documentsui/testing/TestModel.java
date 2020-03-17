@@ -36,6 +36,7 @@ public class TestModel extends Model {
 
     static final String[] COLUMNS = new String[]{
         RootCursorWrapper.COLUMN_AUTHORITY,
+        RootCursorWrapper.COLUMN_USER_ID,
         Document.COLUMN_DOCUMENT_ID,
         Document.COLUMN_FLAGS,
         Document.COLUMN_DISPLAY_NAME,
@@ -103,9 +104,10 @@ public class TestModel extends Model {
                 flags);
     }
 
-    public DocumentInfo createDocument(String name, String mimeType, int flags) {
+    public DocumentInfo createDocumentForUser(String name, String mimeType, int flags,
+            UserId userId) {
         DocumentInfo doc = new DocumentInfo();
-        doc.userId = mUserId;
+        doc.userId = userId;
         doc.authority = mAuthority;
         doc.documentId = Integer.toString(++mLastId);
         doc.derivedUri = DocumentsContract.buildDocumentUri(doc.authority, doc.documentId);
@@ -119,10 +121,15 @@ public class TestModel extends Model {
         return doc;
     }
 
+    public DocumentInfo createDocument(String name, String mimeType, int flags) {
+        return createDocumentForUser(name, mimeType, flags, mUserId);
+    }
+
     private void addToCursor(DocumentInfo doc) {
         MatrixCursor.RowBuilder row = mCursor.newRow();
         row.add(Document.COLUMN_DOCUMENT_ID, doc.documentId);
         row.add(RootCursorWrapper.COLUMN_AUTHORITY, doc.authority);
+        row.add(RootCursorWrapper.COLUMN_USER_ID, doc.userId);
         row.add(Document.COLUMN_DISPLAY_NAME, doc.displayName);
         row.add(Document.COLUMN_MIME_TYPE, doc.mimeType);
         row.add(Document.COLUMN_FLAGS, doc.flags);
