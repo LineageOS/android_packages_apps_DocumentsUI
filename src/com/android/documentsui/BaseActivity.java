@@ -437,6 +437,12 @@ public abstract class BaseActivity
     }
 
     @Override
+    public void setRootsDrawerLocked(boolean locked) {
+        mDrawer.setLocked(locked);
+        mNavigator.update();
+    }
+
+    @Override
     public void onRootPicked(RootInfo root) {
         // Clicking on the current root removes search
         mSearchManager.cancelSearch();
