@@ -326,6 +326,11 @@ public class ProfileTabsTest {
         }
 
         @Override
+        public void setRootsDrawerLocked(boolean locked) {
+            throw new UnsupportedOperationException("not implemented");
+        }
+
+        @Override
         public void updateNavigator() {
             throw new UnsupportedOperationException("not implemented");
         }
