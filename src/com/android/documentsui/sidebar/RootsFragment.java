@@ -254,6 +254,9 @@ public class RootsFragment extends Fragment {
                         DocumentsApplication.getUserIdManager(getContext()).getUserIds(),
                         maybeShowBadge);
 
+                // Disable drawer if only one root
+                activity.setRootsDrawerLocked(sortedItems.size() <= 1);
+
                 // Get the first visible position and offset
                 final int firstPosition = mList.getFirstVisiblePosition();
                 View firstChild = mList.getChildAt(0);

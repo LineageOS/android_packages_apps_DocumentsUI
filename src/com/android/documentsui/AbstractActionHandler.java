@@ -964,6 +964,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         boolean isInRecents();
         void setRootsDrawerOpen(boolean open);
 
+        /**
+         * Set the locked status of the DrawerController.
+         */
+        void setRootsDrawerLocked(boolean locked);
+
         // TODO: Let navigator listens to State
         void updateNavigator();
 
