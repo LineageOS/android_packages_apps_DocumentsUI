@@ -20,6 +20,7 @@ import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.app.Activity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 
 import androidx.annotation.ColorRes;
@@ -41,6 +42,7 @@ public abstract class DrawerController implements DrawerListener {
 
     public abstract void update();
     public abstract void setOpen(boolean open);
+    public abstract void setLocked(boolean locked);
     public abstract boolean isPresent();
     public abstract boolean isOpen();
     abstract void setTitle(String title);
@@ -179,13 +181,23 @@ public abstract class DrawerController implements DrawerListener {
         }
 
         @Override
+        public void setLocked(boolean locked) {
+            if (locked) {
+                mLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            } else {
+                mLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+        }
+
+        @Override
         public boolean isOpen() {
             return mLayout.isDrawerOpen(mDrawer);
         }
 
         @Override
         public boolean isPresent() {
-            return true;
+            return DrawerLayout.LOCK_MODE_UNLOCKED
+                    == mLayout.getDrawerLockMode(Gravity.START);
         }
 
         @Override
@@ -229,6 +241,9 @@ public abstract class DrawerController implements DrawerListener {
 
         @Override
         public void setOpen(boolean open) {}
+
+        @Override
+        public void setLocked(boolean locked) {}
 
         @Override
         public boolean isOpen() {
