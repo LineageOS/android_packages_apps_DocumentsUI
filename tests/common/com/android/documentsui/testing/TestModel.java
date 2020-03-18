@@ -20,6 +20,7 @@ import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Document;
+import android.webkit.MimeTypeMap;
 
 import com.android.documentsui.DirectoryResult;
 import com.android.documentsui.Model;
@@ -27,8 +28,6 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
-
-import libcore.content.type.MimeMap;
 
 import java.util.Random;
 
@@ -141,7 +140,7 @@ public class TestModel extends Model {
 
         while(i != -1) {
             name = name.substring(i + 1);
-            String type = MimeMap.getDefault().guessMimeTypeFromExtension(name);
+            String type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(name);
             if (type != null) {
                 return type;
             }
