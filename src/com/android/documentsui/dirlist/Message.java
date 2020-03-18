@@ -133,6 +133,9 @@ abstract class Message {
                     && mEnv.getDisplayState().stack.peek().isBlockedFromTree()
                     && mEnv.getDisplayState().restrictScopeStorage) {
                 updateBlockFromTreeMessage();
+                mCallback = () -> {
+                    mEnv.getActionHandler().showCreateDirectoryDialog();
+                };
             }
         }
 
@@ -154,18 +157,10 @@ abstract class Message {
 
         private void updateBlockFromTreeMessage() {
             mShouldKeep = true;
-            if (mEnv.getDisplayState().stack.size() <= 1) {
-                update(null,
-                        mEnv.getContext().getString(R.string.open_tree_header_message_root),
-                        null, mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
-            } else {
-                final String folder = mEnv.getDisplayState().stack.getTitle();
-                final String callingApp = mEnv.getCallingAppName();
-                update(mEnv.getContext().getString(R.string.open_tree_header_title,
-                        folder, callingApp),
-                        mEnv.getContext().getString(R.string.open_tree_header_message_child),
-                        null, mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
-            }
+            update(mEnv.getContext().getString(R.string.directory_blocked_header_title),
+                    mEnv.getContext().getString(R.string.directory_blocked_header_subtitle),
+                    mEnv.getContext().getString(R.string.create_new_folder_button),
+                    mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
         }
     }
 
