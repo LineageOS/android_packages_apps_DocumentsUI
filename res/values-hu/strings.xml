@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"Nem sikerült menteni a dokumentumot"</string>
     <string name="create_error" msgid="3092144450044861994">"Nem sikerült létrehozni a mappát"</string>
     <string name="query_error" msgid="6625421453613879336">"Jelenleg nem lehet tartalmat betölteni"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Kapcsolja be a munkahelyi alkalmazásokat"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Kapcsolja be a munkahelyi alkalmazásokat a munkahelyi fájlok eléréséhez"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"Munkaprofil bekapcsolása"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Nem lehet profilok közti megosztást végezni"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"Rendszergazdája nem engedélyezi a munkahelyi fájlokhoz való hozzáférést személyes alkalmazáson keresztül"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"Rendszergazdája nem engedélyezi a személyes fájlokhoz való hozzáférést munkahelyi alkalmazáson keresztül"</string>
     <string name="root_recent" msgid="1080156975424341623">"Legutóbbiak"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> szabad"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Tárhelyszolgáltatások"</string>

@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"ಡಾಕ್ಯುಮೆಂಟ್ ಉಳಿಸಲು ವಿಫಲವಾಗಿದೆ"</string>
     <string name="create_error" msgid="3092144450044861994">"ಫೋಲ್ಡರ್ ರಚಿಸಲು ವಿಫಲವಾಗಿದೆ"</string>
     <string name="query_error" msgid="6625421453613879336">"ಈ ಕ್ಷಣದಲ್ಲಿ ವಿಷಯವನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"ಕೆಲಸಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಆ್ಯಪ್‌ಗಳನ್ನು ಆನ್ ಮಾಡಿ"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"ಕೆಲಸದ ಫೈಲ್‌ಗಳಿಗೆ ಪ್ರವೇಶಿಸಲು ಕೆಲಸಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಆ್ಯಪ್‌ಗಳನ್ನು ಆನ್ ಮಾಡಿ"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"ಉದ್ಯೋಗ ಪ್ರೊಫೈಲ್‌ ಅನ್ನು ಆನ್ ಮಾಡಿ"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"ಪ್ರೊಫೈಲ್‌ಗಳಾದ್ಯಂತ ಹಂಚಿಕೊಳ್ಳಲು ಸಾಧ್ಯವಿಲ್ಲ"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"ನಿಮ್ಮ IT ನಿರ್ವಾಹಕರು ವೈಯಕ್ತಿಕ ಆ್ಯಪ್‌ನಿಂದ ಕೆಲಸದ ಫೈಲ್‌ಗಳನ್ನು ಪ್ರವೇಶಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುವುದಿಲ್ಲ"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"ನಿಮ್ಮ IT ನಿರ್ವಾಹಕರು ಕೆಲಸಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಆ್ಯಪ್‌ನಿಂದ ವೈಯಕ್ತಿಕ ಫೈಲ್‌ಗಳನ್ನು ಪ್ರವೇಶಿಸಲು ನಿಮಗೆ ಅನುಮತಿಸುವುದಿಲ್ಲ"</string>
     <string name="root_recent" msgid="1080156975424341623">"ಇತ್ತೀಚಿನದು"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ಮುಕ್ತವಾಗಿದೆ"</string>
     <string name="root_type_service" msgid="6521366147466512289">"ಸಂಗ್ರಹಣೆ ಸೇವೆಗಳು"</string>

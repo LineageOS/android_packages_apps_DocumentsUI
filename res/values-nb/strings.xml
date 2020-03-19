@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"Kunne ikke lagre dokumentet"</string>
     <string name="create_error" msgid="3092144450044861994">"Kunne ikke opprette mappen"</string>
     <string name="query_error" msgid="6625421453613879336">"Kan ikke laste inn innholdet for øyeblikket"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Slå på jobbapper"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Slå på jobbprofilen for å få tilgang til jobbfiler"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"Slå på jobbprofilen"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Kan ikke dele mellom profiler"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"IT-administratoren din tillater ikke at du får tilgang til jobbfiler fra en personlig app"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"IT-administratoren din tillater ikke at du får tilgang til personlige filer fra en jobbapp"</string>
     <string name="root_recent" msgid="1080156975424341623">"Nylige"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ledig"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Lagringstjenester"</string>

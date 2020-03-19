@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"ලේඛනය සුරැකීම අසාර්ථක විය"</string>
     <string name="create_error" msgid="3092144450044861994">"ෆෝල්ඩරය සැදීම අසාර්ථක විය"</string>
     <string name="query_error" msgid="6625421453613879336">"මේ මොහොතේ අන්තර්ගතය පූරණය කිරීමට නොහැකිය"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"කාර්යාල යෙදුම් ක්‍රියාත්මක කරන්න"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"කාර්යාල ගොනු වෙත ප්‍රවේශ වීමට කාර්යාල යෙදුම් ක්‍රියාත්මක කරන්න"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"කාර්යාලය ක්‍රියාත්මක කරන්න"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"පැතිකඩවල් හරහා බෙදා ගත නොහැකිය"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"ඔබේ IT පරිපාලක පෞද්ගලික යෙදුමකින් ඔබට කාර්යාල ගොනු වෙත ප්‍රවේශ වීමට ඉඩ නොදේ"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"ඔබේ IT පරිපාලක කාර්යාල යෙදුමකින් ඔබට පෞද්ගලික ගොනු වෙත ප්‍රවේශ වීමට ඉඩ නොදේ"</string>
     <string name="root_recent" msgid="1080156975424341623">"මෑත"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> නිදහස්ය"</string>
     <string name="root_type_service" msgid="6521366147466512289">"ගබඩා සේවා"</string>

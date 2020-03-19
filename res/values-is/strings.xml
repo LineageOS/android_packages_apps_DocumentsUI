@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"Ekki tókst að vista skjalið"</string>
     <string name="create_error" msgid="3092144450044861994">"Ekki tókst að búa til möppu"</string>
     <string name="query_error" msgid="6625421453613879336">"Ekki hægt að hlaða efni í augnablikinu"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Kveikja á vinnuforritum"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Kveiktu á vinnuforritum til að fá aðgang að vinnuskrám"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"Skipta yfir í vinnu"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Ekki er hægt að deila á milli prófíla"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"Kerfisstjórinn þinn leyfir þér ekki að nálgast vinnuskrár í persónulegu forriti"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"Kerfisstjórinn þinn leyfir þér ekki að nálgast persónulegar skrár í vinnuforriti"</string>
     <string name="root_recent" msgid="1080156975424341623">"Nýlegt"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> laus"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Geymsluþjónusta"</string>

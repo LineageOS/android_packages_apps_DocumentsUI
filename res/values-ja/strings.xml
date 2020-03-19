@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"ドキュメントを保存できませんでした"</string>
     <string name="create_error" msgid="3092144450044861994">"フォルダを作成できませんでした"</string>
     <string name="query_error" msgid="6625421453613879336">"現在、コンテンツを読み込むことができません"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"仕事用アプリをオンにする"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"仕事用ファイルにアクセスするには、仕事用アプリをオンにしてください"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"仕事用に切り替え"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"プロファイル間で共有できません"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"IT 管理者は個人用アプリから仕事用ファイルへのアクセスを許可していません"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"IT 管理者は仕事用アプリから個人用ファイルへのアクセスを許可していません"</string>
     <string name="root_recent" msgid="1080156975424341623">"最近"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"空き容量: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"ストレージ サービス"</string>
