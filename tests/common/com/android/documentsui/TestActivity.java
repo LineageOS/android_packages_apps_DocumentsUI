@@ -79,6 +79,7 @@ public abstract class TestActivity extends AbstractBase {
     public TestEventListener<Void> restoreRootAndDirectory;
     public TestEventListener<Integer> refreshCurrentRootAndDirectory;
     public TestEventListener<Boolean> setRootsDrawerOpen;
+    public TestEventListener<Boolean> setRootsDrawerLocked;
     public TestEventListener<Uri> notifyDirectoryNavigated;
     public TestEventHandler<Void> finishedHandler;
 
@@ -102,6 +103,7 @@ public abstract class TestActivity extends AbstractBase {
         restoreRootAndDirectory = new TestEventListener<>();
         refreshCurrentRootAndDirectory =  new TestEventListener<>();
         setRootsDrawerOpen = new TestEventListener<>();
+        setRootsDrawerLocked = new TestEventListener<>();
         notifyDirectoryNavigated = new TestEventListener<>();
         contentResolver = env.contentResolver;
         loaderManager = new TestLoaderManager();
@@ -210,6 +212,11 @@ public abstract class TestActivity extends AbstractBase {
     @Override
     public final void setRootsDrawerOpen(boolean open) {
         setRootsDrawerOpen.accept(open);
+    }
+
+    @Override
+    public final void setRootsDrawerLocked(boolean locked) {
+        setRootsDrawerLocked.accept(locked);
     }
 
     @Override
