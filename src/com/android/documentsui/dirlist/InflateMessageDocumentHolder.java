@@ -91,9 +91,13 @@ final class InflateMessageDocumentHolder extends MessageHolder {
     private void bindCrossProfileMessageView() {
         mContentView.setVisibility(View.GONE);
         mCrossProfileView.setVisibility(View.VISIBLE);
-
         mCrossProfileTitle.setText(mMessage.getTitleString());
-        mCrossProfileMessage.setText(mMessage.getMessageString());
+        if (!TextUtils.isEmpty(mMessage.getMessageString())) {
+            mCrossProfileMessage.setVisibility(View.VISIBLE);
+            mCrossProfileMessage.setText(mMessage.getMessageString());
+        } else {
+            mCrossProfileMessage.setVisibility(View.GONE);
+        }
         mCrossProfileImage.setImageDrawable(mMessage.getIcon());
         if (!TextUtils.isEmpty(mMessage.getButtonString())) {
             mCrossProfileButton.setVisibility(View.VISIBLE);
