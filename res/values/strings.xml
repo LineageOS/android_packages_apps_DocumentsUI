@@ -496,8 +496,10 @@
     <!-- Hint on text input field for rename the file or the folder. [CHAR_LIMIT=48] -->
     <string name="input_hint_rename">New name</string>
 
-    <!-- Content description for preivew function. -->
+    <!-- Content description for preview function. -->
     <string name="preview_file">Preview the file <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
+    <!-- Content description text that's spoken by a screen reader. This text is for previewing a work file before opening it. -->
+    <string name="preview_work_file">Preview the work file <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
 
     <!-- Apps row title. [CHAR_LIMIT=60] -->
     <string name="apps_row_title">Browse files in other apps</string>
@@ -529,4 +531,7 @@
 
     <!-- Label of tab to indicate work directory [CHAR LIMIT=40] -->
     <string name="work_tab">Work</string>
+
+    <!-- Accessibility label to indicate the subject(e.g. file/folder) is from work profile -->
+    <string name="a11y_work">Work</string>
 </resources>
