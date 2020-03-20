@@ -38,8 +38,11 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
     private final View mRoot;
     private final ImageView mIcon;
     private final TextView mTitle;
+    private final TextView mSubtitle;
     private final TextView mTextView;
-    private final Button mButton;
+    private final View mActionView;
+    private final Button mDismissButton;
+    private final Button mActionButton;
     private Message mMessage;
 
     public HeaderMessageDocumentHolder(Context context, ViewGroup parent) {
@@ -48,13 +51,17 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
         mRoot = itemView.findViewById(R.id.item_root);
         mIcon = (ImageView) itemView.findViewById(R.id.message_icon);
         mTitle = itemView.findViewById(R.id.message_title);
+        mSubtitle = itemView.findViewById(R.id.message_subtitle);
         mTextView = (TextView) itemView.findViewById(R.id.message_textview);
-        mButton = (Button) itemView.findViewById(R.id.button_dismiss);
+        mActionView = (View) itemView.findViewById(R.id.action_view);
+        mActionButton = (Button) itemView.findViewById(R.id.action_button);
+        mDismissButton = (Button) itemView.findViewById(R.id.dismiss_button);
     }
 
     public void bind(Message message) {
         mMessage = message;
-        mButton.setOnClickListener(this::onButtonClick);
+        mDismissButton.setOnClickListener(this::onButtonClick);
+        mActionButton.setOnClickListener(this::onButtonClick);
         bind(null, null);
     }
 
@@ -77,20 +84,30 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
     public void bind(Cursor cursor, String modelId) {
         if (mMessage.getTitleString() != null) {
             mTitle.setVisibility(View.VISIBLE);
+            mSubtitle.setVisibility(View.VISIBLE);
+            mTextView.setVisibility(View.GONE);
             mTitle.setText(mMessage.getTitleString());
+            mSubtitle.setText(mMessage.getMessageString());
         } else {
             mTitle.setVisibility(View.GONE);
+            mSubtitle.setVisibility(View.GONE);
+            mTextView.setVisibility(View.VISIBLE);
+            mTextView.setText(mMessage.getMessageString());
         }
 
-        mTextView.setText(mMessage.getMessageString());
         mIcon.setImageDrawable(mMessage.getIcon());
 
         if (mMessage.shouldKeep()) {
-            mButton.setVisibility(View.GONE);
-        } else {
-            mButton.setVisibility(View.VISIBLE);
+            mActionView.setVisibility(View.VISIBLE);
+            mDismissButton.setVisibility(View.GONE);
             if (mMessage.getButtonString() != null) {
-                mButton.setText(mMessage.getButtonString());
+                mActionButton.setText(mMessage.getButtonString());
+            }
+        } else {
+            mActionView.setVisibility(View.GONE);
+            mDismissButton.setVisibility(View.VISIBLE);
+            if (mMessage.getButtonString() != null) {
+                mDismissButton.setText(mMessage.getButtonString());
             }
         }
     }
