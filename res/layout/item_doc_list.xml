@@ -89,7 +89,7 @@
                     android:layout_marginEnd="@dimen/briefcase_icon_margin"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_briefcase"
-                    android:contentDescription="@null"/>
+                    android:contentDescription="@string/a11y_work"/>
 
                 <TextView
                     android:id="@android:id/title"
