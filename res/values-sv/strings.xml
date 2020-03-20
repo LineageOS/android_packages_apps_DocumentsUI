@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"Det gick inte att spara dokumentet"</string>
     <string name="create_error" msgid="3092144450044861994">"Det gick inte att skapa mappen"</string>
     <string name="query_error" msgid="6625421453613879336">"Det går inte att läsa in innehållet just nu"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Aktivera jobbappar"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Aktivera jobbappar om du vill komma åt jobbfiler"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"Aktivera jobbprofil"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Det går inte att dela mellan profiler"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"IT-administratören tillåter inte åtkomst till jobbfiler från privata appar"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"IT-administratören tillåter inte åtkomst till privata filer från jobbappar"</string>
     <string name="root_recent" msgid="1080156975424341623">"Senaste"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ledigt"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Lagringstjänster"</string>

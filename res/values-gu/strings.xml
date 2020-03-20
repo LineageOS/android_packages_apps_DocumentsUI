@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"દસ્તાવેજ સાચવવામાં નિષ્ફળ થયાં"</string>
     <string name="create_error" msgid="3092144450044861994">"ફોલ્ડર બનાવવામાં નિષ્ફળ થયાં"</string>
     <string name="query_error" msgid="6625421453613879336">"આ પળે સામગ્રી લોડ કરી શકતાં નથી"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"ઑફિસ માટેની ઍપ ચાલુ કરો"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"ઑફિસની ફાઇલો ઍક્સેસ કરવા ઑફિસ માટેની ઍપ ચાલુ કરો"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"કાર્યાલયની પ્રોફાઇલ પર સ્વિચ કરો"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"અન્ય પ્રોફાઇલ સાથે શેર કરી શકતા નથી"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"તમારા IT વ્યવસ્થાપક તમને વ્યક્તિગત ઍપથી તમારી ઑફિસની ફાઇલોને ઍક્સેસ કરવાની મંજૂરી આપતા નથી"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"તમારા IT વ્યવસ્થાપક તમને ઑફિસ માટેની ઍપથી તમારી વ્યક્તિગત ફાઇલોને ઍક્સેસ કરવાની મંજૂરી આપતા નથી"</string>
     <string name="root_recent" msgid="1080156975424341623">"તાજેતરમાં"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ખાલી"</string>
     <string name="root_type_service" msgid="6521366147466512289">"સ્ટોરેજ સેવાઓ"</string>

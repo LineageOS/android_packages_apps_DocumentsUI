@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"დოკუმენტის შენახვა ვერ მოხერხდა"</string>
     <string name="create_error" msgid="3092144450044861994">"საქაღალდის შექმნა ვერ მოხერხდა"</string>
     <string name="query_error" msgid="6625421453613879336">"კონტენტის ჩატვირთვა ამჟამად ვერ ხერხდება"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"სამსახურის აპების ჩართვა"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"სამსახურის ფაილებზე წვდომისთვის ჩართეთ სამსახურის აპები"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"სამსახურზე გადართვა"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"პროფილებში გაზიარება შეუძლებელია"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"თქვენი IT ადმინისტრატორი გიკრძალავთ პირადი აპიდან სამსახურის ფაილებზე წვდომას"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"თქვენი IT ადმინისტრატორი გიკრძალავთ სამსახურის აპიდან პირად ფაილებზე წვდომას"</string>
     <string name="root_recent" msgid="1080156975424341623">"ბოლო"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> თავისუფალია"</string>
     <string name="root_type_service" msgid="6521366147466512289">"მეხსიერების სერვისები"</string>

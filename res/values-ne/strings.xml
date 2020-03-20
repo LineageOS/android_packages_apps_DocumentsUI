@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"कागजातलाई सुरक्षित गर्न सकिएन"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर सिर्जना गर्न सकिएन"</string>
     <string name="query_error" msgid="6625421453613879336">"यस समय सामग्री लोड गर्न सकिँदैन"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"कामसम्बन्धी अनुप्रयोगहरू सक्रिय गर्नुहोस्"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"कार्यालयका फाइलमाथि पहुँच राख्न कामसम्बन्धी अनुप्रयोग सक्रिय गर्नुहोस्"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"कार्य प्रोफाइल सक्रिय गर्नुहोस्"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"सबै प्रोफाइलहरूमा आदान प्रदान गर्न सकिँदैन"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"तपाईंका IT प्रशासकले तपाईंलाई कुनै पनि निजी अनुप्रयोगबाट कार्यालयका फाइलहरूमाथि पहुँच राख्न दिनुभएको छैन"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"तपाईंका IT प्रशासकले तपाईंलाई कामसम्बन्धी कुनै पनि अनुप्रयोगबाट निजी फाइलहरूमाथि पहुँच राख्न दिनुभएको छैन"</string>
     <string name="root_recent" msgid="1080156975424341623">"हालको"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> खाली छ"</string>
     <string name="root_type_service" msgid="6521366147466512289">"भण्डारण सम्बन्धी सेवाहरू"</string>

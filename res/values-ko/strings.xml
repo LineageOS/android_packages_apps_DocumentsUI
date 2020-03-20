@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"문서를 저장하지 못했습니다."</string>
     <string name="create_error" msgid="3092144450044861994">"폴더를 만들지 못했습니다."</string>
     <string name="query_error" msgid="6625421453613879336">"현재 콘텐츠를 로드할 수 없습니다."</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"직장 앱 사용 설정"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"직장 파일에 액세스하려면 직장 앱을 사용 설정하세요."</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"직장 프로필 사용"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"여러 프로필에서 공유할 수 없음"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"IT 관리자가 개인 앱에서 직장 파일에 액세스할 수 있도록 허용하지 않습니다."</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"IT 관리자가 직장 앱에서 개인 파일에 액세스할 수 있도록 허용하지 않습니다."</string>
     <string name="root_recent" msgid="1080156975424341623">"최근"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> 남음"</string>
     <string name="root_type_service" msgid="6521366147466512289">"저장용량 서비스"</string>

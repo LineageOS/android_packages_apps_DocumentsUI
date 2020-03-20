@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"Dokumentet kunne ikke gemmes"</string>
     <string name="create_error" msgid="3092144450044861994">"Mappen kunne ikke oprettes"</string>
     <string name="query_error" msgid="6625421453613879336">"Der kan ikke indlæses indhold i øjeblikket"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Aktivér arbejdsapps"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Aktivér arbejdsapps for at få adgang til arbejdsfiler"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"Aktivér arbejdsprofil"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Der kan ikke deles på tværs af profiler"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"Din it-administrator tillader ikke, at du tilgår arbejdsfiler fra en personlig app"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"Din it-administrator tillader ikke, at du tilgår personlige filer fra en arbejdsapp"</string>
     <string name="root_recent" msgid="1080156975424341623">"Seneste"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ledig plads"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Lagringstjenester"</string>

@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"Čuvanje dokumenta nije uspelo"</string>
     <string name="create_error" msgid="3092144450044861994">"Pravljenje direktorijuma nije uspelo"</string>
     <string name="query_error" msgid="6625421453613879336">"Učitavanje sadržaja trenutno nije moguće"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Uključite aplikacije za posao"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Uključite aplikacije za posao da biste pristupali datotekama za posao"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"Uključi profil za Work"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Ne možete da delite na svim profilima"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"IT administrator vam ne dozvoljava da pristupate datotekama za posao iz lične aplikacije"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"IT administrator vam ne dozvoljava da pristupate ličnim datotekama iz aplikacije za posao"</string>
     <string name="root_recent" msgid="1080156975424341623">"Nedavno"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"Slobodno je <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Usluge čuvanja"</string>

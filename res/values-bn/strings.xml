@@ -88,6 +88,12 @@
     <string name="save_error" msgid="8631128801982095782">"দস্তাবেজ সংরক্ষণ করা গেল না"</string>
     <string name="create_error" msgid="3092144450044861994">"ফোল্ডার তৈরি করা গেল না"</string>
     <string name="query_error" msgid="6625421453613879336">"এই মুহূর্তে কন্টেন্ট লোড করা যাবে না"</string>
+    <string name="quiet_mode_error_title" msgid="8005732533048435257">"অফিসের অ্যাপ চালু করুন"</string>
+    <string name="quiet_mode_error_message" msgid="4403092509256124781">"অফিসের ফাইলগুলি অ্যাক্সেস করতে অফিসের অ্যাপগুলি চালু করুন"</string>
+    <string name="quiet_mode_button" msgid="3175276537502181766">"অফিস প্রোফাইল চালু করুন"</string>
+    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"বিভিন্ন প্রোফাইল জুড়ে শেয়ার করা যাচ্ছে না"</string>
+    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"আপনার আইটি অ্যাডমিন ব্যক্তিগত অ্যাপ ব্যবহার করে অফিসের ফাইলগুলি অ্যাক্সেস করার অনুমতি দেয় না"</string>
+    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"আপনার আইটি অ্যাডমিন কোনও অফিসের অ্যাপ ব্যবহার করে ব্যক্তিগত ফাইলগুলি অ্যাক্সেস করার অনুমতি দেয় না"</string>
     <string name="root_recent" msgid="1080156975424341623">"সাম্প্রতিক"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> খালি আছে"</string>
     <string name="root_type_service" msgid="6521366147466512289">"সঞ্চয়স্থানের পরিষেবা"</string>
