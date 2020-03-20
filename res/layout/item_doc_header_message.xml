@@ -32,52 +32,90 @@
         app:strokeColor="?android:strokeColor">
 
         <LinearLayout
-            android:animateLayoutChanges="true"
-            android:id="@+id/message_container"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:minHeight="60dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:contentDescription="@null"
-                android:id="@+id/message_icon"
-                android:layout_height="@dimen/icon_size"
-                android:layout_width="@dimen/icon_size"
-                android:layout_margin="8dp"
-                android:layout_gravity="center"
-                android:scaleType="centerInside"/>
+            android:orientation="vertical">
 
             <LinearLayout
+                android:animateLayoutChanges="true"
+                android:id="@+id/message_container"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:minHeight="48dp"
-                android:paddingTop="12dp"
-                android:paddingEnd="12dp"
-                android:gravity="center_vertical"
+                android:minHeight="60dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:contentDescription="@null"
+                    android:id="@+id/message_icon"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_margin="8dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerInside"/>
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:minHeight="48dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/message_title"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textSize="16sp"
+                        android:textAppearance="@style/DrawerMenuPrimary"/>
+
+                    <TextView
+                        android:id="@+id/message_subtitle"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:selectAllOnFocus="true"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/message_textview"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:selectAllOnFocus="true"/>
+
+                    <Button
+                        android:id="@+id/dismiss_button"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@android:string/ok"
+                        style="@style/DialogTextButton"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/action_view"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/message_title"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:textAppearance="@style/DrawerMenuPrimary"/>
-
-                <TextView
-                    android:id="@+id/message_textview"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:selectAllOnFocus="true"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="?android:strokeColor"/>
 
                 <Button
-                    android:id="@+id/button_dismiss"
+                    android:id="@+id/action_button"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@android:string/ok"
+                    android:layout_marginStart="48dp"
+                    android:layout_gravity="start"
                     style="@style/DialogTextButton"/>
-
             </LinearLayout>
+
         </LinearLayout>
+
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>
