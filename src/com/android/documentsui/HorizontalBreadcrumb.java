@@ -24,8 +24,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -191,6 +189,7 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
             holder.mArrow.setVisibility(isLast ? View.GONE : View.VISIBLE);
 
             holder.itemView.setOnKeyListener(mClickListener);
+            holder.setLast(isLast);
         }
 
         private DocumentInfo getItem(int position) {
@@ -208,20 +207,6 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
 
         public void updateLastItemSize() {
             mLastItemSize = mState.stack.size();
-        }
-    }
-
-    private static class BreadcrumbHolder extends RecyclerView.ViewHolder {
-
-        protected TextView mTitle;
-        protected ImageView mArrow;
-        protected int mDefaultTextColor;
-
-        public BreadcrumbHolder(View itemView) {
-            super(itemView);
-            mTitle = itemView.findViewById(R.id.breadcrumb_text);
-            mArrow = itemView.findViewById(R.id.breadcrumb_arrow);
-            mDefaultTextColor = mTitle.getTextColors().getDefaultColor();
         }
     }
 
