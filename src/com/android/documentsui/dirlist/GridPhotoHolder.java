@@ -98,7 +98,10 @@ final class GridPhotoHolder extends DocumentHolder {
         mPreviewIcon.setVisibility(show ? View.VISIBLE : View.GONE);
         if (show) {
             mPreviewIcon.setContentDescription(
-                    itemView.getResources().getString(R.string.preview_file, mDoc.displayName));
+                    itemView.getResources().getString(
+                            mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier())
+                                    ? R.string.preview_work_file
+                                    : R.string.preview_file, mDoc.displayName));
             mPreviewIcon.setAccessibilityDelegate(new PreviewAccessibilityDelegate(clickCallback));
         }
     }
@@ -152,6 +155,11 @@ final class GridPhotoHolder extends DocumentHolder {
         final String docSize =
                 Formatter.formatFileSize(mContext, getCursorLong(cursor, Document.COLUMN_SIZE));
         final String docDate = Shared.formatTime(mContext, mDoc.lastModified);
-        itemView.setContentDescription(mDoc.displayName + ", " + docSize + ", " + docDate);
+        if (mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier())) {
+            itemView.setContentDescription((mContext.getText(R.string.a11y_work) + ", ")
+                    + mDoc.displayName + ", " + docSize + ", " + docDate);
+        } else {
+            itemView.setContentDescription(mDoc.displayName + ", " + docSize + ", " + docDate);
+        }
     }
 }
