@@ -27,6 +27,7 @@ import android.content.Context;
 import android.os.UserHandle;
 import android.os.UserManager;
 
+import androidx.core.util.Preconditions;
 import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -34,6 +35,7 @@ import com.android.documentsui.CrossProfileNoPermissionException;
 import com.android.documentsui.CrossProfileQuietModeException;
 import com.android.documentsui.Model;
 import com.android.documentsui.R;
+import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
@@ -62,11 +64,14 @@ public final class MessageTest {
                 InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
         DocumentsAdapter.Environment env =
                 new TestEnvironment(mContext, TestEnv.create(), new TestActionHandler());
+        env.getDisplayState().action = State.ACTION_GET_CONTENT;
         mInflateMessage = new Message.InflateMessage(env, mDefaultCallback);
     }
 
     @Test
     public void testInflateMessage_updateToCrossProfileNoPermission() {
+        // Make sure this test is running on system user.
+        Preconditions.checkArgument(UserId.CURRENT_USER.isSystem());
         Model.Update error = new Model.Update(
                 new CrossProfileNoPermissionException(),
                 /* isRemoteActionsEnabled= */ true);
@@ -75,9 +80,9 @@ public final class MessageTest {
         assertThat(mInflateMessage.getLayout())
                 .isEqualTo(InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR);
         assertThat(mInflateMessage.getTitleString())
-                .isEqualTo(mContext.getString(R.string.cant_share_across_profile_error_title));
-        // The value varies according to the current user. Simply assert not null.
-        assertThat(mInflateMessage.getMessageString()).isNotNull();
+                .isEqualTo(mContext.getString(R.string.cant_select_work_files_error_title));
+        assertThat(mInflateMessage.getMessageString())
+                .isEqualTo(mContext.getString(R.string.cant_select_work_files_error_message));
         // No button for this error
         assertThat(mInflateMessage.getButtonString()).isNull();
     }
@@ -92,8 +97,6 @@ public final class MessageTest {
                 .isEqualTo(InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR);
         assertThat(mInflateMessage.getTitleString())
                 .isEqualTo(mContext.getString(R.string.quiet_mode_error_title));
-        assertThat(mInflateMessage.getMessageString())
-                .isEqualTo(mContext.getString(R.string.quiet_mode_error_message));
         if (VersionUtils.isAtLeastR()) {
             // On R or above, we should have permission and can populate a button
             assertThat(mInflateMessage.getButtonString()).isEqualTo(
