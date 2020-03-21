@@ -173,23 +173,43 @@
     <!-- Error message shown when querying for a list of documents failed [CHAR LIMIT=48] -->
     <string name="query_error">Can\u2019t load content at the moment</string>
 
-    <!-- Error message title shown when the target profile is in quiet mode [CHAR LIMIT=72] -->
-    <string name="quiet_mode_error_title">Turn on work apps</string>
-    <!-- Error message content shown when the target profile is in quiet mode [CHAR LIMIT=72] -->
-    <string name="quiet_mode_error_message">Turn on work apps to access work files</string>
-    <!-- Button text shown on a button when work profile is off. Clicking on the button will switch on the work profile [CHAR LIMIT=48] -->
-    <string name="quiet_mode_button">Switch on work</string>
+    <!-- Title of an error message. This screen is shown when the user's work profile is paused. [CHAR LIMIT=72] -->
+    <string name="quiet_mode_error_title">Work profile is paused</string>
+    <!-- Button text shown on a button when work profile is paused. Tapping the button will switch on the work profile [CHAR LIMIT=48] -->
+    <string name="quiet_mode_button">Turn on</string>
 
-    <!-- Error message title shown when the admin does not allow the user to share files across profile [CHAR LIMIT=72] -->
-    <string name="cant_share_across_profile_error_title">Can\u2019t share across profiles</string>
-    <!-- Error message content shown when the admin does not allow the user to share files across profile. Shows in work tab[CHAR LIMIT=200] -->
-    <string name="cant_share_to_personal_error_message">Your IT admin does not allow you to access
-        work files from a personal app
+    <!-- Error message title shown when a user's IT admin does not allow the user to select work files from a personal app. [CHAR LIMIT=72] -->
+    <string name="cant_select_work_files_error_title">Can\u2019t select work files</string>
+    <!-- Error message that's shown when the user's IT admin doesn't allow the user to select work files from a personal app. [CHAR LIMIT=200] -->
+    <string name="cant_select_work_files_error_message">Your IT admin doesn\u2019t allow you to
+        access work files from a personal app
     </string>
-    <!-- Error message content shown when the admin does not allow the user to share files across profile. Shows in personal tab[CHAR LIMIT=200] -->
-    <string name="cant_share_to_work_error_message">Your IT admin does not allow you to
+
+    <!-- Error message title shown when the user's IT admin doesn't allow them to select personal files from a work app. [CHAR LIMIT=72] -->
+    <string name="cant_select_personal_files_error_title">Can\u2019t select personal files</string>
+    <!-- Error message that's shown when the user's IT admin doesn't allow the user to select personal files from a work app. [CHAR LIMIT=200] -->
+    <string name="cant_select_personal_files_error_message">Your IT admin doesn\u2019t allow you to
         access personal files from a work app
     </string>
+
+    <!-- Error message title shown when the admin does not allow the user to save files from their personal profile to their work profile. [CHAR LIMIT=72] -->
+    <string name="cant_save_to_work_error_title">Can\u2019t save to work profile</string>
+    <!-- Error message shown when the user's IT admin doesn't allow the user to save files from their personal profile to their work profile. [CHAR LIMIT=200] -->
+    <string name="cant_save_to_work_error_message">Your IT admin doesn\u2019t allow you to save
+        personal files to your work profile
+    </string>
+
+    <!-- Error message title shown when the admin does not allow the user to save files from their work profile to their personal profile. [CHAR LIMIT=72] -->
+    <string name="cant_save_to_personal_error_title">Can\u2019t save to personal profile</string>
+    <!-- Error message shown when the user's IT admin doesn't allow the user to save files from their work profile to their personal profile. [CHAR LIMIT=200] -->
+    <string name="cant_save_to_personal_error_message">Your IT admin doesn\u2019t allow you to save
+        work files to your personal profile
+    </string>
+
+    <!-- Error message title. This message is shown when a user tries to do something on their work device, but that action isn't allowed by their IT admin. [CHAR LIMIT=72] -->
+    <string name="cross_profile_action_not_allowed_title">This action isn\u2019t allowed</string>
+    <!-- Error message. This message is shown when a user tries to do something on their work device, but that action isn't allowed by their IT admin. [CHAR LIMIT=200] -->
+    <string name="cross_profile_action_not_allowed_message">To learn more, contact your IT admin</string>
 
     <!-- Title of storage root location that contains recently modified or used documents [CHAR LIMIT=24] -->
     <string name="root_recent">Recent</string>
@@ -476,8 +496,10 @@
     <!-- Hint on text input field for rename the file or the folder. [CHAR_LIMIT=48] -->
     <string name="input_hint_rename">New name</string>
 
-    <!-- Content description for preivew function. -->
+    <!-- Content description for preview function. -->
     <string name="preview_file">Preview the file <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
+    <!-- Content description text that's spoken by a screen reader. This text is for previewing a work file before opening it. -->
+    <string name="preview_work_file">Preview the work file <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
 
     <!-- Apps row title. [CHAR_LIMIT=60] -->
     <string name="apps_row_title">Browse files in other apps</string>
@@ -490,13 +512,12 @@
     <string name="open_tree_dialog_title">Allow <xliff:g id="appName" example="Drive">%1$s</xliff:g> to access files in <xliff:g id="directory" example="DCIM">%2$s</xliff:g>?</string>
     <!-- Confrim dialog message show on open document tree flow.-->
     <string name="open_tree_dialog_message">This will let <xliff:g id="appName" example="Drive">%1$s</xliff:g> access current and future content stored in <xliff:g id="directory" example="DCIM">%2$s</xliff:g>.</string>
-    <!-- Header message title show on open document tree flow. [CHAR_LIMIT=48] -->
-    <string name="open_tree_header_title">Can\u2019t share <xliff:g id="folderName" example="Download">%1$s</xliff:g> folder with <xliff:g id="appName" example="Drive">%2$s</xliff:g></string>
-    <!-- Header message content show on open document tree flow and on root top. [CHAR_LIMIT=80]-->
-    <string name="open_tree_header_message_root">Choose a folder below, or create a new one</string>
-    <!-- Header message content show on open document tree flow and in child folder. [CHAR_LIMIT=80]-->
-    <string name="open_tree_header_message_child">Choose another folder, or create a new one</string>
-
+    <!-- Header message title show on open document tree flow when directory is blocked. [CHAR_LIMIT=48] -->
+    <string name="directory_blocked_header_title">Choose another folder</string>
+    <!-- Header message subtitle show on open document tree flow when directory is blocked. [CHAR_LIMIT=80]-->
+    <string name="directory_blocked_header_subtitle">This folder can\u2019t be used for security reasons</string>
+    <!-- Button text for the "create new folder" button. [CHAR_LIMIT=48] -->
+    <string name="create_new_folder_button">Create new folder</string>
 
 
     <!-- Search hint on search view. [CHAR LIMIT=48] -->
@@ -510,4 +531,7 @@
 
     <!-- Label of tab to indicate work directory [CHAR LIMIT=40] -->
     <string name="work_tab">Work</string>
+
+    <!-- Accessibility label to indicate the subject(e.g. file/folder) is from work profile -->
+    <string name="a11y_work">Work</string>
 </resources>
