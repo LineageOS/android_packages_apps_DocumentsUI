@@ -130,7 +130,10 @@ final class ListDocumentHolder extends DocumentHolder {
             mPreviewIcon.setVisibility(show ? View.VISIBLE : View.GONE);
             if (show) {
                 mPreviewIcon.setContentDescription(
-                        itemView.getResources().getString(R.string.preview_file, mDoc.displayName));
+                        itemView.getResources().getString(
+                                mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier())
+                                        ? R.string.preview_work_file
+                                        : R.string.preview_file, mDoc.displayName));
                 mPreviewIcon.setAccessibilityDelegate(
                         new PreviewAccessibilityDelegate(clickCallback));
             }

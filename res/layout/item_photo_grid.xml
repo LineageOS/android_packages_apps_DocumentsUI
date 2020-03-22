@@ -119,7 +119,7 @@
                 android:background="@drawable/circle_button_background"
                 android:layout_gravity="center"
                 android:scaleType="fitCenter"
-                android:contentDescription="@null"/>
+                android:contentDescription="@string/a11y_work"/>
         </FrameLayout>
 
         <!-- An overlay that draws the item border when it is focused. -->
