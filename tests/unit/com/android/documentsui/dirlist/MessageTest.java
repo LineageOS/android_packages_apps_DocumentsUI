@@ -40,7 +40,6 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.UserManagers;
-import com.android.documentsui.util.VersionUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -97,16 +96,11 @@ public final class MessageTest {
                 .isEqualTo(InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR);
         assertThat(mInflateMessage.getTitleString())
                 .isEqualTo(mContext.getString(R.string.quiet_mode_error_title));
-        if (VersionUtils.isAtLeastR()) {
-            // On R or above, we should have permission and can populate a button
-            assertThat(mInflateMessage.getButtonString()).isEqualTo(
-                    mContext.getString(R.string.quiet_mode_button));
-            assertThat(mInflateMessage.mCallback).isNotNull();
-            mInflateMessage.mCallback.run();
-            verify(mUserManager, timeout(3000))
-                    .requestQuietModeEnabled(false, UserHandle.of(mUserId.getIdentifier()));
-        } else {
-            assertThat(mInflateMessage.getButtonString()).isNull();
-        }
+        assertThat(mInflateMessage.getButtonString()).isEqualTo(
+                mContext.getString(R.string.quiet_mode_button));
+        assertThat(mInflateMessage.mCallback).isNotNull();
+        mInflateMessage.mCallback.run();
+        verify(mUserManager, timeout(3000))
+                .requestQuietModeEnabled(false, UserHandle.of(mUserId.getIdentifier()));
     }
 }
