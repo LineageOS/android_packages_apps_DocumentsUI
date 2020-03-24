@@ -88,12 +88,30 @@
     <string name="save_error" msgid="8631128801982095782">"စာဖိုင်ကို သိမ်း၍မရခဲ့ပါ"</string>
     <string name="create_error" msgid="3092144450044861994">"ဖိုင်တွဲကို ဖန်တီး၍ မရခဲ့ပါ"</string>
     <string name="query_error" msgid="6625421453613879336">"ဖိုင်ကို လောလောဆယ် တင်ပေး၍မရသေးပါ"</string>
-    <string name="quiet_mode_error_title" msgid="8005732533048435257">"အလုပ်သုံးအက်ပ်များ ဖွင့်ပါ"</string>
-    <string name="quiet_mode_error_message" msgid="4403092509256124781">"အလုပ်ဖိုင်များ ဝင်သုံးရန် အလုပ်သုံးအက်ပ်များ ဖွင့်ပါ"</string>
-    <string name="quiet_mode_button" msgid="3175276537502181766">"အလုပ်ပရိုဖိုင် ဖွင့်ရန်"</string>
-    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"ပရိုဖိုင်များအကြား မျှဝေ၍ မရပါ"</string>
-    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"ကိုယ်ရေးကိုယ်တာအက်ပ်မှနေ၍ အလုပ်ဖိုင်များ ဝင်သုံးရန် သင်၏ IT စီမံခန့်ခွဲသူက သင့်ကိုခွင့်မပြုပါ"</string>
-    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"အလုပ်အက်ပ်မှနေ၍ ကိုယ်ရေးကိုယ်တာဖိုင်များ ဝင်သုံးရန် သင်၏ IT စီမံခန့်ခွဲသူက သင့်ကိုခွင့်မပြုပါ"</string>
+    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
+    <skip />
+    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
+    <skip />
     <string name="root_recent" msgid="1080156975424341623">"လတ်တလော"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> လက်ကျန်ရှိသည်"</string>
     <string name="root_type_service" msgid="6521366147466512289">"သိုလှောင်ရုံဝန်ဆောင်မှု"</string>
@@ -256,16 +274,23 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"ဖိုင်တွဲအမည်"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"အမည်အသစ်"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> ဖိုင်ကို အစမ်းကြည့်ရန်"</string>
+    <!-- no translation found for preview_work_file (4495643735563487273) -->
+    <skip />
     <string name="apps_row_title" msgid="3340490016663092925">"အခြားအက်ပ်များတွင် ဖိုင်များကို ဖွင့်ကြည့်ပါ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"အမည်မသိ"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"ဤဖိုင်တွဲကို အသုံးပြုပါ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> ကို <xliff:g id="DIRECTORY">%2$s</xliff:g> ရှိ ဖိုင်များကို သုံးခွင့်ပြုမလား။"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ဤသို့ပြုလုပ်ခြင်းဖြင့် <xliff:g id="APPNAME">%1$s</xliff:g> ကို လက်ရှိနှင့် အနာဂတ်တွင် <xliff:g id="DIRECTORY">%2$s</xliff:g> ထဲ သိမ်းမည့် အကြောင်းအရာများကို အသုံးပြုခွင့်ပေးပါမည်။"</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"ဖိုင်တွဲ <xliff:g id="FOLDERNAME">%1$s</xliff:g> ကို <xliff:g id="APPNAME">%2$s</xliff:g> နှင့် မျှဝေ၍ မရပါ"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"အောက်ပါ ဖိုင်တွဲတစ်ခုကို ရွေးချယ်ပါ (သို့) ဖိုင်တွဲအသစ်တစ်ခု ပြုလုပ်ပါ"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"အခြားဖိုင်တွဲကို ရွေးချယ်ပါ (သို့) ဖိုင်တွဲအသစ်တစ်ခု ပြုလုပ်ပါ"</string>
+    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
+    <skip />
+    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
+    <skip />
+    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
+    <skip />
     <string name="search_bar_hint" msgid="4517366509897977321">"ဤဖုန်းတွင် ရှာရန်"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ရှာဖွေမှတ်တမ်း <xliff:g id="TEXT">%1$s</xliff:g> ကိုဖျက်သည်"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ကိုယ်ပိုင်"</string>
     <string name="work_tab" msgid="7265359366883747413">"အလုပ်"</string>
+    <!-- no translation found for a11y_work (7504431382825242153) -->
+    <skip />
 </resources>

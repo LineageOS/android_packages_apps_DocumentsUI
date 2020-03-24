@@ -88,12 +88,30 @@
     <string name="save_error" msgid="8631128801982095782">"문서를 저장하지 못했습니다."</string>
     <string name="create_error" msgid="3092144450044861994">"폴더를 만들지 못했습니다."</string>
     <string name="query_error" msgid="6625421453613879336">"현재 콘텐츠를 로드할 수 없습니다."</string>
-    <string name="quiet_mode_error_title" msgid="8005732533048435257">"직장 앱 사용 설정"</string>
-    <string name="quiet_mode_error_message" msgid="4403092509256124781">"직장 파일에 액세스하려면 직장 앱을 사용 설정하세요."</string>
-    <string name="quiet_mode_button" msgid="3175276537502181766">"직장 프로필 사용"</string>
-    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"여러 프로필에서 공유할 수 없음"</string>
-    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"IT 관리자가 개인 앱에서 직장 파일에 액세스할 수 있도록 허용하지 않습니다."</string>
-    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"IT 관리자가 직장 앱에서 개인 파일에 액세스할 수 있도록 허용하지 않습니다."</string>
+    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
+    <skip />
+    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
+    <skip />
     <string name="root_recent" msgid="1080156975424341623">"최근"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> 남음"</string>
     <string name="root_type_service" msgid="6521366147466512289">"저장용량 서비스"</string>
@@ -256,16 +274,23 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"폴더 이름"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"새 이름"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> 파일 미리보기"</string>
+    <!-- no translation found for preview_work_file (4495643735563487273) -->
+    <skip />
     <string name="apps_row_title" msgid="3340490016663092925">"다른 앱의 파일 탐색"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"익명"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"이 폴더 사용"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g>에서 <xliff:g id="DIRECTORY">%2$s</xliff:g>의 파일에 액세스하도록 허용하시겠습니까?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"이를 통해 <xliff:g id="APPNAME">%1$s</xliff:g>에서 <xliff:g id="DIRECTORY">%2$s</xliff:g>에 저장된 현재 및 향후 콘텐츠에 액세스할 수 있습니다."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> 폴더를 <xliff:g id="APPNAME">%2$s</xliff:g> 앱과 공유할 수 없습니다"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"아래 폴더 중에서 선택하거나 새 폴더를 만드세요"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"다른 폴더를 선택하거나 새 폴더를 만드세요"</string>
+    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
+    <skip />
+    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
+    <skip />
+    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
+    <skip />
     <string name="search_bar_hint" msgid="4517366509897977321">"이 휴대전화 검색"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"검색 기록 삭제 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"개인"</string>
     <string name="work_tab" msgid="7265359366883747413">"직장"</string>
+    <!-- no translation found for a11y_work (7504431382825242153) -->
+    <skip />
 </resources>

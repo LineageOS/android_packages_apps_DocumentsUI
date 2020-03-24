@@ -88,12 +88,30 @@
     <string name="save_error" msgid="8631128801982095782">"Gagal menyimpan dokumen"</string>
     <string name="create_error" msgid="3092144450044861994">"Gagal membuat folder"</string>
     <string name="query_error" msgid="6625421453613879336">"Tidak dapat memuatkan kandungan pada masa ini"</string>
-    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Hidupkan apl kerja"</string>
-    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Hidupkan apl kerja untuk mengakses fail kerja"</string>
-    <string name="quiet_mode_button" msgid="3175276537502181766">"Hidupkan kerja"</string>
-    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Tidak dapat berkongsi merentas profil"</string>
-    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"Pentadbir IT anda tidak membenarkan anda mengakses fail kerja daripada apl peribadi"</string>
-    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"Pentadbir IT anda tidak membenarkan anda mengakses fail peribadi daripada apl kerja"</string>
+    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
+    <skip />
+    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
+    <skip />
     <string name="root_recent" msgid="1080156975424341623">"Terbaharu"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> kosong"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Perkhidmatan storan"</string>
@@ -256,16 +274,23 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nama folder"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nama baharu"</string>
     <string name="preview_file" msgid="4056622696305432343">"Pratonton fail <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <!-- no translation found for preview_work_file (4495643735563487273) -->
+    <skip />
     <string name="apps_row_title" msgid="3340490016663092925">"Semak imbas fail dalam apl lain"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Awanama"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Gunakan folder ini"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Benarkan <xliff:g id="APPNAME">%1$s</xliff:g> mengakses fail dalam <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Tindakan ini akan membenarkan <xliff:g id="APPNAME">%1$s</xliff:g> mengakses kandungan semasa dan kandungan masa hadapan yang disimpan dalam <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"Tidak dapat berkongsi folder <xliff:g id="FOLDERNAME">%1$s</xliff:g> dengan <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Pilih folder di bawah atau buat folder baharu"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Pilih folder lain atau buat folder baharu"</string>
+    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
+    <skip />
+    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
+    <skip />
+    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
+    <skip />
     <string name="search_bar_hint" msgid="4517366509897977321">"Cari dalam telefon ini"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Padamkan sejarah carian <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Peribadi"</string>
     <string name="work_tab" msgid="7265359366883747413">"Kerja"</string>
+    <!-- no translation found for a11y_work (7504431382825242153) -->
+    <skip />
 </resources>
