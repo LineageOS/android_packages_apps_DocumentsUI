@@ -28,7 +28,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -41,6 +40,9 @@ import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.services.FileOperationService.OpType;
+import com.android.documentsui.ui.Snackbars;
+
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Display pick confirmation bar, usually for selecting a directory.
@@ -56,7 +58,12 @@ public class PickFragment extends Fragment {
     private final View.OnClickListener mPickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mInjector.actions.pickDocument(getChildFragmentManager(), mPickTarget);
+            if (mPick.isEnabled()) {
+                mInjector.actions.pickDocument(getChildFragmentManager(), mPickTarget);
+            } else {
+                String msg = getResources().getString(R.string.directory_blocked_header_subtitle);
+                Snackbars.makeSnackbar(getActivity(), msg, Snackbar.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -78,8 +85,9 @@ public class PickFragment extends Fragment {
     private @OpType int mCopyOperationSubType = OPERATION_UNKNOWN;
     private DocumentInfo mPickTarget;
     private View mContainer;
-    private TextView mPick;
-    private TextView mCancel;
+    private View mPickOverlay;
+    private Button mPick;
+    private Button mCancel;
 
     public static void show(FragmentManager fm) {
         // Fragment can be restored by FragmentManager automatically.
@@ -103,6 +111,8 @@ public class PickFragment extends Fragment {
         mContainer = inflater.inflate(R.layout.fragment_pick, container, false);
 
         mPick = (Button) mContainer.findViewById(android.R.id.button1);
+        mPickOverlay = mContainer.findViewById((R.id.pick_button_overlay));
+        mPickOverlay.setOnClickListener(mPickListener);
         mPick.setOnClickListener(mPickListener);
 
         mCancel = (Button) mContainer.findViewById(android.R.id.button2);
@@ -172,6 +182,10 @@ public class PickFragment extends Fragment {
                 mPick.setWidth(Integer.MAX_VALUE);
                 mCancel.setVisibility(View.GONE);
                 mPick.setEnabled(!(mPickTarget.isBlockedFromTree() && mRestrictScopeStorage));
+                mPickOverlay.setVisibility(
+                        mPickTarget.isBlockedFromTree() && mRestrictScopeStorage
+                                ? View.VISIBLE
+                                : View.GONE);
                 break;
             case State.ACTION_PICK_COPY_DESTINATION:
                 int titleId;
