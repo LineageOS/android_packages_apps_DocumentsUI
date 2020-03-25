@@ -138,7 +138,7 @@ public class ProfileTabs implements ProfileTabsAddons {
         // 5. the root supports cross profile.
         return mState.supportsCrossProfile()
                 && mTabs.getTabCount() > 1
-                && !mEnv.isTextSearching()
+                && !mEnv.isSearchExpanded()
                 && mState.stack.size() <= 1
                 && mState.stack.getRoot() != null && mState.stack.getRoot().supportsCrossProfile();
     }
