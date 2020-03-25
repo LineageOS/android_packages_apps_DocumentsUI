@@ -84,22 +84,22 @@ public class AppsRowManager {
         return mDataList;
     }
 
-    private boolean shouldShow(State state, boolean isTextSearching) {
+    private boolean shouldShow(State state, boolean isSearchExpanded) {
         boolean isHiddenAction = state.action == State.ACTION_CREATE
                 || state.action == State.ACTION_OPEN_TREE
                 || state.action == State.ACTION_PICK_COPY_DESTINATION;
-        boolean isTextSearchingAcrossProfile = mUserIdManager.getUserIds().size() > 1
+        boolean isSearchExpandedAcrossProfile = mUserIdManager.getUserIds().size() > 1
                 && state.supportsCrossProfile()
-                && isTextSearching;
+                && isSearchExpanded;
 
         return state.stack.isRecents() && !isHiddenAction && mDataList.size() > 0
-                && !isTextSearchingAcrossProfile;
+                && !isSearchExpandedAcrossProfile;
     }
 
     public void updateView(BaseActivity activity) {
         final View appsRowLayout = activity.findViewById(R.id.apps_row);
 
-        if (!shouldShow(activity.getDisplayState(), activity.isTextSearching())) {
+        if (!shouldShow(activity.getDisplayState(), activity.isSearchExpanded())) {
             appsRowLayout.setVisibility(View.GONE);
             return;
         }
