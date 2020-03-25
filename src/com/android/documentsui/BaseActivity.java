@@ -213,6 +213,9 @@ public abstract class BaseActivity
                     Metrics.logUserAction(MetricConsts.USER_ACTION_SEARCH_CHIP);
                     Metrics.logSearchType(item.getChipType());
                 }
+                // We also need to update AppsRowManager because we may want to show/hide the
+                // appsRow in cross-profile search according to the searching conditions.
+                mAppsRowManager.updateView(BaseActivity.this);
             }
 
             @Override
@@ -789,11 +792,6 @@ public abstract class BaseActivity
     @Override
     public boolean isSearchExpanded() {
         return mSearchManager.isExpanded();
-    }
-
-    @Override
-    public boolean isTextSearching() {
-        return mSearchManager.isTextSearching();
     }
 
     @Override
