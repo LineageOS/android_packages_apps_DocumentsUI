@@ -88,12 +88,30 @@
     <string name="save_error" msgid="8631128801982095782">"Impossibile salvare il documento."</string>
     <string name="create_error" msgid="3092144450044861994">"Impossibile creare la cartella."</string>
     <string name="query_error" msgid="6625421453613879336">"Impossibile caricare i contenuti al momento."</string>
-    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Attiva app di lavoro"</string>
-    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Attiva le app di lavoro per accedere ai file di lavoro"</string>
-    <string name="quiet_mode_button" msgid="3175276537502181766">"Attiva profilo di lavoro"</string>
-    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Impossibile condividere tra profili"</string>
-    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"L\'amministratore IT non ti consente di accedere ai file di lavoro da un\'app personale"</string>
-    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"L\'amministratore IT non ti consente di accedere ai file personali da un\'app di lavoro"</string>
+    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
+    <skip />
+    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
+    <skip />
     <string name="root_recent" msgid="1080156975424341623">"Recenti"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> liberi"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Servizi di archiviazione"</string>
@@ -256,16 +274,23 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nome cartella"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nuovo nome"</string>
     <string name="preview_file" msgid="4056622696305432343">"Visualizza il file <xliff:g id="FILENAME">%1$s</xliff:g> in anteprima"</string>
+    <!-- no translation found for preview_work_file (4495643735563487273) -->
+    <skip />
     <string name="apps_row_title" msgid="3340490016663092925">"Sfoglia i file in altre app"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonima"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Usa questa cartella"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Consentire all\'app <xliff:g id="APPNAME">%1$s</xliff:g> di accedere ai file memorizzati in <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> potrà accedere ai contenuti attuali e futuri memorizzati in <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"Impossibile condividere la cartella <xliff:g id="FOLDERNAME">%1$s</xliff:g> con <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Scegli una delle seguenti cartelle o creane una nuova"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Scegli un\'altra cartella o creane una nuova"</string>
+    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
+    <skip />
+    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
+    <skip />
+    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
+    <skip />
     <string name="search_bar_hint" msgid="4517366509897977321">"Cerca su questo telefono"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Elimina la cronologia delle ricerche <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personale"</string>
     <string name="work_tab" msgid="7265359366883747413">"Lavoro"</string>
+    <!-- no translation found for a11y_work (7504431382825242153) -->
+    <skip />
 </resources>

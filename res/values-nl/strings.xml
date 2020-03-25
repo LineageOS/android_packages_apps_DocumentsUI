@@ -88,12 +88,30 @@
     <string name="save_error" msgid="8631128801982095782">"Kan document niet opslaan"</string>
     <string name="create_error" msgid="3092144450044861994">"Kan map niet maken"</string>
     <string name="query_error" msgid="6625421453613879336">"Kan content momenteel niet laden"</string>
-    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Schakel werk-apps in"</string>
-    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Schakel werk-apps in om werkbestanden te openen"</string>
-    <string name="quiet_mode_button" msgid="3175276537502181766">"Werkprofiel inschakelen"</string>
-    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Kan niet delen tussen profielen"</string>
-    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"Je IT-beheerder staat je niet toe om werkbestanden te openen vanuit een persoonlijke app"</string>
-    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"Je IT-beheerder staat je niet toe om persoonlijke bestanden te openen vanuit een werk-app"</string>
+    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
+    <skip />
+    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
+    <skip />
     <string name="root_recent" msgid="1080156975424341623">"Recent"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> vrij"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Opslagservices"</string>
@@ -256,16 +274,23 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Mapnaam"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nieuwe naam"</string>
     <string name="preview_file" msgid="4056622696305432343">"Voorbeeld van het bestand <xliff:g id="FILENAME">%1$s</xliff:g> bekijken"</string>
+    <!-- no translation found for preview_work_file (4495643735563487273) -->
+    <skip />
     <string name="apps_row_title" msgid="3340490016663092925">"Door bestanden browsen in andere apps"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anoniem"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Deze map gebruiken"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> toegang geven tot bestanden in <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Hiermee heeft <xliff:g id="APPNAME">%1$s</xliff:g> toegang tot huidige en toekomstige content in <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"Kan de map <xliff:g id="FOLDERNAME">%1$s</xliff:g> niet delen met <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Kies hieronder een map of maak een nieuwe map"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Kies een andere map of maak een nieuwe map"</string>
+    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
+    <skip />
+    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
+    <skip />
+    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
+    <skip />
     <string name="search_bar_hint" msgid="4517366509897977321">"Deze telefoon doorzoeken"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Zoekgeschiedenis verwijderen <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Persoonlijk"</string>
     <string name="work_tab" msgid="7265359366883747413">"Werk"</string>
+    <!-- no translation found for a11y_work (7504431382825242153) -->
+    <skip />
 </resources>

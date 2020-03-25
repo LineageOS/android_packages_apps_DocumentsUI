@@ -88,12 +88,30 @@
     <string name="save_error" msgid="8631128801982095782">"Hujjatni saqlab bo‘lmadi"</string>
     <string name="create_error" msgid="3092144450044861994">"Jildni yaratib bo‘lmadi"</string>
     <string name="query_error" msgid="6625421453613879336">"Ayni paytda kontentni yuklab bo‘lmayapti"</string>
-    <string name="quiet_mode_error_title" msgid="8005732533048435257">"Ishga oid ilovalarni yoqish"</string>
-    <string name="quiet_mode_error_message" msgid="4403092509256124781">"Ishga oid fayllarga kirish uchun ishga oid ilovalarni yoqing"</string>
-    <string name="quiet_mode_button" msgid="3175276537502181766">"Ish rejimini yoqish"</string>
-    <string name="cant_share_across_profile_error_title" msgid="4437094864157824668">"Profillar orasida ulashish imkonsiz"</string>
-    <string name="cant_share_to_personal_error_message" msgid="197843630615832916">"AT administratoringiz shaxsiy ilovadan ishga oid fayllarga kirishni taqiqlagan"</string>
-    <string name="cant_share_to_work_error_message" msgid="23912488821800531">"AT administratoringiz ishga oid ilovadan shaxsiy fayllarga kirishni taqiqlagan"</string>
+    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
+    <skip />
+    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
+    <skip />
+    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
+    <skip />
+    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
+    <skip />
+    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
+    <skip />
+    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
+    <skip />
+    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
+    <skip />
     <string name="root_recent" msgid="1080156975424341623">"Yaqinda"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> bo‘sh"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Xotira xizmatlari"</string>
@@ -256,16 +274,23 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Jild nomi"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Yangi nom"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> fayliga nazar solish"</string>
+    <!-- no translation found for preview_work_file (4495643735563487273) -->
+    <skip />
     <string name="apps_row_title" msgid="3340490016663092925">"Boshqa ilovalardagi fayllarni topish"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Bu jilddan foydalanish"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> ilovasiga <xliff:g id="DIRECTORY">%2$s</xliff:g> fayllaridan foydalanish huquqi berilsinmi?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> ilovasi <xliff:g id="DIRECTORY">%2$s</xliff:g> ichida hozir joylashgan va keyin kiritiladigan kontentlardan foydalana oladi."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> jildi <xliff:g id="APPNAME">%2$s</xliff:g> ilovasi bilan ulashilmadi"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Quyidagi jildni tanlang yoki yangisini yarating"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Boshqa jild tanlang yoki yangisini yarating"</string>
+    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
+    <skip />
+    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
+    <skip />
+    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
+    <skip />
     <string name="search_bar_hint" msgid="4517366509897977321">"Shu telefondan qidirish"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Qidiruv tarixini tozalash (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Shaxsiy"</string>
     <string name="work_tab" msgid="7265359366883747413">"Ish"</string>
+    <!-- no translation found for a11y_work (7504431382825242153) -->
+    <skip />
 </resources>
