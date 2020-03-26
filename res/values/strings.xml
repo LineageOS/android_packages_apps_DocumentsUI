@@ -526,10 +526,10 @@
     <!-- Content description for deleting search history. [CHAR_LIMIT=60] -->
     <string name="delete_search_history">Delete search history <xliff:g id="text" example="image">%1$s</xliff:g></string>
 
-    <!-- Label of tab to indicate personal directory [CHAR LIMIT=40] -->
+    <!-- Label in tab and sidebar to indicate personal content [CHAR LIMIT=40] -->
     <string name="personal_tab">Personal</string>
 
-    <!-- Label of tab to indicate work directory [CHAR LIMIT=40] -->
+    <!-- Label in tab and sidebar tab to indicate work content [CHAR LIMIT=40] -->
     <string name="work_tab">Work</string>
 
     <!-- Accessibility label to indicate the subject(e.g. file/folder) is from work profile -->

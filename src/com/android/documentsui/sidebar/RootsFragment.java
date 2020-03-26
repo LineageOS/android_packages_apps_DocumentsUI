@@ -377,6 +377,7 @@ public class RootsFragment extends Fragment {
         Context context = getContext();
         final List<Item> rootList = new ArrayList<>();
         final List<Item> rootListOtherUser = new ArrayList<>();
+        final List<Item> resultRootList = new ArrayList<>();
         final Map<UserPackage, ResolveInfo> appsMapping = new HashMap<>();
         final Map<UserPackage, Item> appItems = new HashMap<>();
         ProfileItem profileItem = null;
@@ -458,29 +459,67 @@ public class RootsFragment extends Fragment {
             }
         }
 
-        if (canShareAcrossProfile && Features.CROSS_PROFILE_TABS) {
-            // Combine lists only if we enabled profile tab feature.
-            rootList.addAll(rootListOtherUser);
-        }
-
-        if (!result.isEmpty() && !rootList.isEmpty()) {
-            result.add(new SpacerItem());
-        }
-
         final String preferredRootPackage = getResources().getString(
                 R.string.preferred_root_package, "");
-
         final ItemComparator comp = new ItemComparator(preferredRootPackage);
-        Collections.sort(rootList, comp);
-        result.addAll(rootList);
 
-        mApplicationItemList = rootList;
+        if (canShareAcrossProfile && Features.CROSS_PROFILE_TABS) {
+            // Combine lists only if we enabled profile tab feature.
+            if (!rootList.isEmpty() && !rootListOtherUser.isEmpty()) {
+                // Identify personal and work root list.
+                final List<Item> personalRootList;
+                final List<Item> workRootList;
+                if (UserId.CURRENT_USER.isSystem()) {
+                    personalRootList = rootList;
+                    workRootList = rootListOtherUser;
+                } else {
+                    personalRootList = rootListOtherUser;
+                    workRootList = rootList;
+                }
+                Collections.sort(personalRootList, comp);
+                Collections.sort(workRootList, comp);
 
+                // Make sure mApplicationItemList has items from both profiles.
+                final List<Item> mergeRootList =
+                        new ArrayList<>(rootList.size() + rootListOtherUser.size());
+                mergeRootList.addAll(rootList);
+                mergeRootList.addAll(rootListOtherUser);
+                mApplicationItemList = mergeRootList;
+
+                // Add header and list to the result
+                resultRootList.add(new HeaderItem(getString(R.string.personal_tab)));
+                resultRootList.addAll(personalRootList);
+                resultRootList.add(new HeaderItem(getString(R.string.work_tab)));
+                resultRootList.addAll(workRootList);
+            } else {
+                // There is no more than 1 user, we can add all lists to result without inserting
+                // personal or work header.
+                resultRootList.addAll(rootList);
+                resultRootList.addAll(rootListOtherUser);
+                Collections.sort(resultRootList, comp);
+                mApplicationItemList = resultRootList;
+            }
+        } else {
+            resultRootList.addAll(rootList);
+            Collections.sort(resultRootList, comp);
+            mApplicationItemList = resultRootList;
+        }
+        addListToResult(result, resultRootList);
+
+        // This will be removed when feature flag is removed.
         if (canShareAcrossProfile && !Features.CROSS_PROFILE_TABS) {
             // Add profile item if we don't support cross-profile tab.
             result.add(new SpacerItem());
             result.add(profileItem);
         }
+    }
+
+    private void addListToResult(List<Item> result, List<Item> rootList) {
+        if (!result.isEmpty() && !rootList.isEmpty()) {
+            result.add(new SpacerItem());
+        }
+
+        result.addAll(rootList);
     }
 
     @Override
