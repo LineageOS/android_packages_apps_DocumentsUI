@@ -86,6 +86,11 @@ public class State implements android.os.Parcelable {
     public boolean restrictScopeStorage;
 
     /**
+     * Represents whether the state supports cross-profile file picking.
+     */
+    public boolean supportsCrossProfile = false;
+
+    /**
      * Represents whether the intent is a cross-profile intent
      */
     public boolean canShareAcrossProfile = false;
@@ -151,10 +156,10 @@ public class State implements android.os.Parcelable {
     }
 
     /**
-     * Returns true if the action of the {@link State} can support cross-profile by DocsUI.
+     * Returns true if DocsUI supports cross-profile for this {@link State}.
      */
     public boolean supportsCrossProfile() {
-        return action == ACTION_GET_CONTENT;
+        return supportsCrossProfile;
     }
 
     @Override

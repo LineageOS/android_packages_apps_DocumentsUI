@@ -65,7 +65,7 @@ public class ProfileTabsTest {
         mContext.getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         mState = new State();
-        mState.action = State.ACTION_GET_CONTENT;
+        mState.supportsCrossProfile = true;
         mState.stack.changeRoot(TestProvidersAccess.DOWNLOADS);
         mState.stack.push(TestEnv.FOLDER_0);
         View view = layoutInflater.inflate(R.layout.directory_header, null);
@@ -104,10 +104,10 @@ public class ProfileTabsTest {
     }
 
     @Test
-    public void testUpdateView_twoUsers_browse_shouldHide() {
+    public void testUpdateView_twoUsers_doesNotSupportCrossProfile_shouldHide() {
         initializeWithUsers(systemUser, managedUser);
 
-        mState.action = State.ACTION_BROWSE;
+        mState.supportsCrossProfile = false;
         mProfileTabs.updateView();
 
         assertThat(mTabLayout.getVisibility()).isEqualTo(View.GONE);
