@@ -162,11 +162,11 @@ public abstract class BaseActivity
 
         Breadcrumb breadcrumb = findViewById(R.id.horizontal_breadcrumb);
         assert(breadcrumb != null);
-        TabLayout profileTabs = findViewById(R.id.tabs);
-        assert (profileTabs != null);
+        View profileTabsContainer = findViewById(R.id.tabs_container);
+        assert (profileTabsContainer != null);
 
         mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
-                profileTabs, DocumentsApplication.getUserIdManager(this));
+                profileTabsContainer, DocumentsApplication.getUserIdManager(this));
         SearchManagerListener searchListener = new SearchManagerListener() {
             /**
              * Called when search results changed. Refreshes the content of the directory. It
