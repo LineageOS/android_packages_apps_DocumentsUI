@@ -74,6 +74,6 @@
     </style>
 
     <style name="TabTheme" parent="@style/Theme.MaterialComponents.DayNight">
-        <item name="colorPrimary">@color/edge_effect_light</item>
+        <item name="colorPrimary">@color/edge_effect</item>
     </style>
 </resources>
