@@ -41,9 +41,4 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustUnspecified</item>
 
     </style>
-
-    <!-- Material theme for the pages containing TabLayout and ViewPager -->
-    <style name="TabTheme" parent="@style/Theme.MaterialComponents.DayNight">
-        <item name="colorPrimary">@color/edge_effect_dark</item>
-    </style>
 </resources>
