@@ -39,6 +39,7 @@ import java.util.List;
 public class ProfileTabs implements ProfileTabsAddons {
     private static final float DISABLED_TAB_OPACITY = 0.38f;
 
+    private final View mTabsContainer;
     private final TabLayout mTabs;
     private final State mState;
     private final NavigationViewManager.Environment mEnv;
@@ -49,10 +50,11 @@ public class ProfileTabs implements ProfileTabsAddons {
     private Listener mListener;
     private TabLayout.OnTabSelectedListener mOnTabSelectedListener;
 
-    public ProfileTabs(TabLayout tabLayout, State state, UserIdManager userIdManager,
+    public ProfileTabs(View tabLayoutContainer, State state, UserIdManager userIdManager,
             NavigationViewManager.Environment env,
             AbstractActionHandler.CommonAddons commonAddons) {
-        mTabs = checkNotNull(tabLayout);
+        mTabsContainer = checkNotNull(tabLayoutContainer);
+        mTabs = tabLayoutContainer.findViewById(R.id.tabs);
         mState = checkNotNull(state);
         mEnv = checkNotNull(env);
         mCommonAddons = checkNotNull(commonAddons);
@@ -93,7 +95,7 @@ public class ProfileTabs implements ProfileTabsAddons {
             mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
             mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
         }
-        mTabs.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
+        mTabsContainer.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
     }
 
     public void setListener(@Nullable Listener listener) {

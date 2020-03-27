@@ -64,7 +64,7 @@ public class NavigationViewManager {
             State state,
             NavigationViewManager.Environment env,
             Breadcrumb breadcrumb,
-            TabLayout tabLayout,
+            View tabLayoutContainer,
             UserIdManager userIdManager) {
 
         mToolbar = activity.findViewById(R.id.toolbar);
@@ -73,7 +73,7 @@ public class NavigationViewManager {
         mEnv = env;
         mBreadcrumb = breadcrumb;
         mBreadcrumb.setup(env, state, this::onNavigationItemSelected);
-        mProfileTabs = new ProfileTabs(tabLayout, mState, userIdManager, mEnv, activity);
+        mProfileTabs = new ProfileTabs(tabLayoutContainer, mState, userIdManager, mEnv, activity);
 
         mToolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
