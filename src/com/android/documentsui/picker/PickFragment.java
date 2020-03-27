@@ -51,6 +51,7 @@ public class PickFragment extends Fragment {
     private static final String ACTION_KEY = "action";
     private static final String COPY_OPERATION_SUBTYPE_KEY = "copyOperationSubType";
     private static final String PICK_TARGET_KEY = "pickTarget";
+    private static final String RESTRICT_SCOPE_STORAGE_KEY = "restrictScopeStorage";
 
     private final View.OnClickListener mPickListener = new View.OnClickListener() {
         @Override
@@ -120,6 +121,7 @@ public class PickFragment extends Fragment {
             mCopyOperationSubType =
                     savedInstanceState.getInt(COPY_OPERATION_SUBTYPE_KEY);
             mPickTarget = savedInstanceState.getParcelable(PICK_TARGET_KEY);
+            mRestrictScopeStorage = savedInstanceState.getBoolean(RESTRICT_SCOPE_STORAGE_KEY);
             updateView();
         }
 
@@ -132,6 +134,7 @@ public class PickFragment extends Fragment {
         outState.putInt(ACTION_KEY, mAction);
         outState.putInt(COPY_OPERATION_SUBTYPE_KEY, mCopyOperationSubType);
         outState.putParcelable(PICK_TARGET_KEY, mPickTarget);
+        outState.putBoolean(RESTRICT_SCOPE_STORAGE_KEY, mRestrictScopeStorage);
     }
 
     /**
