@@ -30,7 +30,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.NavigationViewManager.Environment;
-import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.dirlist.AccessibilityEventRouter;
 
 import java.util.function.Consumer;
@@ -65,7 +64,7 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
             IntConsumer listener) {
 
         mClickListener = listener;
-        mLayoutManager = new LinearLayoutManager(
+        mLayoutManager = new HorizontalBreadcrumbLinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new BreadcrumbAdapter(state, env, this::onKey);
         // Since we are using GestureDetector to detect click events, a11y services don't know which
@@ -163,7 +162,7 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
             mState = state;
             mEnv = env;
             mClickListener = clickListener;
-            mLastItemSize = mState.stack.size();
+            mLastItemSize = getItemCount();
         }
 
         @Override
@@ -175,14 +174,16 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
 
         @Override
         public void onBindViewHolder(BreadcrumbHolder holder, int position) {
-            final DocumentInfo doc = getItem(position);
             final int padding = (int) holder.itemView.getResources()
                     .getDimension(R.dimen.breadcrumb_item_padding);
             final int enableColor = holder.itemView.getContext().getColor(R.color.primary);
             final boolean isFirst = position == 0;
+            // Note that when isFirst is true, there might not be a DocumentInfo on the stack as it
+            // could be an error state screen accessible from the root info.
             final boolean isLast = position == getItemCount() - 1;
 
-            holder.mTitle.setText(isFirst ? mEnv.getCurrentRoot().title : doc.displayName);
+            holder.mTitle.setText(
+                    isFirst ? mEnv.getCurrentRoot().title : mState.stack.get(position).displayName);
             holder.mTitle.setTextColor(isLast ? enableColor : holder.mDefaultTextColor);
             holder.mTitle.setPadding(isFirst ? padding * 3 : padding,
                     padding, isLast ? padding * 2 : padding, padding);
@@ -192,12 +193,19 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
             holder.setLast(isLast);
         }
 
-        private DocumentInfo getItem(int position) {
-            return mState.stack.get(position);
-        }
-
         @Override
         public int getItemCount() {
+            // Don't show recents in the breadcrumb.
+            if (mState.stack.isRecents()) {
+                return 0;
+            }
+            // Continue showing the root title in the breadcrumb for cross-profile error screens.
+            if (mState.supportsCrossProfile()
+                    && mState.stack.size() == 0
+                    && mState.stack.getRoot() != null
+                    && mState.stack.getRoot().supportsCrossProfile()) {
+                return 1;
+            }
             return mState.stack.size();
         }
 
@@ -206,7 +214,7 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
         }
 
         public void updateLastItemSize() {
-            mLastItemSize = mState.stack.size();
+            mLastItemSize = getItemCount();
         }
     }
 
@@ -236,6 +244,24 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
 
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        }
+    }
+
+    private static class HorizontalBreadcrumbLinearLayoutManager extends LinearLayoutManager {
+
+        /**
+         * Disable predictive animations. There is a bug in RecyclerView which causes views that
+         * are being reloaded to pull invalid view holders from the internal recycler stack if the
+         * adapter size has decreased since the ViewHolder was recycled.
+         */
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+
+        HorizontalBreadcrumbLinearLayoutManager(
+                Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
         }
     }
 }
