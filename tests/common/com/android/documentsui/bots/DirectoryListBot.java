@@ -164,7 +164,7 @@ public class DirectoryListBot extends Bots.BaseBot {
     private UiObject findHeaderMessageButton() {
         return findObject(
                 mDirContainerId,
-                mTargetPackage + ":id/button_dismiss");
+                mTargetPackage + ":id/dismiss_button");
     }
 
     private UiObject findPlaceholderMessageTextView() {
