@@ -167,6 +167,18 @@ public final class UserId {
     }
 
     /**
+     * Returns a tree document uri representing this user.
+     */
+    public Uri buildTreeDocumentUriAsUser(String authority, String documentId) {
+        String authorityWithUserInfo = buildDocumentUriAsUser(authority, documentId).getAuthority();
+        Uri treeUri = DocumentsContract.buildTreeDocumentUri(authority, documentId);
+
+        return treeUri.buildUpon()
+                .encodedAuthority(authorityWithUserInfo)
+                .build();
+    }
+
+    /**
      * Starts activity for this user
      */
     public void startActivityAsUser(Context context, Intent intent) {
