@@ -48,6 +48,5 @@
     <color name="error_image_color">#757575</color>
 
     <color name="tab_indicator_color">#1A73E8</color> <!-- Blue 600 -->
-    <color name="edge_effect_dark">@android:color/black</color>
-    <color name="edge_effect_light">@android:color/white</color>
+    <color name="edge_effect">@android:color/black</color>
 </resources>
