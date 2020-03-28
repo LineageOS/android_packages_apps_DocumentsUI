@@ -72,4 +72,8 @@
         <item name="queryBackground">@color/menu_search_background</item>
         <item name="snackbarButtonStyle">@style/SnackbarButtonStyle</item>
     </style>
+
+    <style name="TabTheme" parent="@style/Theme.MaterialComponents.DayNight">
+        <item name="colorPrimary">@color/edge_effect</item>
+    </style>
 </resources>

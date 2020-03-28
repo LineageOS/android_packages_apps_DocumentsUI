@@ -114,4 +114,9 @@
         <item name="fontFamily">@string/config_fontFamilyMedium</item>
     </style>
 
+    <style name="TabTextAppearance" parent="@android:style/TextAppearance.DeviceDefault.Medium">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
+    </style>
+
 </resources>
