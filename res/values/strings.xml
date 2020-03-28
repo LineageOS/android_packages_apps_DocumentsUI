@@ -514,7 +514,7 @@
     <string name="open_tree_dialog_message">This will let <xliff:g id="appName" example="Drive">%1$s</xliff:g> access current and future content stored in <xliff:g id="directory" example="DCIM">%2$s</xliff:g>.</string>
     <!-- Header message title show on open document tree flow when directory is blocked. [CHAR_LIMIT=48] -->
     <string name="directory_blocked_header_title">Choose another folder</string>
-    <!-- Header message subtitle show on open document tree flow when directory is blocked. [CHAR_LIMIT=80]-->
+    <!-- Header message subtitle show on open document tree flow when directory is blocked. [CHAR_LIMIT=90]-->
     <string name="directory_blocked_header_subtitle">This folder can\u2019t be used for security reasons</string>
     <!-- Button text for the "create new folder" button. [CHAR_LIMIT=48] -->
     <string name="create_new_folder_button">Create new folder</string>
