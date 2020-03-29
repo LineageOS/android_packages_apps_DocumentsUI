@@ -45,7 +45,6 @@ java_defaults {
     min_sdk_version: "29",
 
     plugins: [
-        "compat-changeid-annotation-processor",
         "java_api_finder",
     ],
 }
