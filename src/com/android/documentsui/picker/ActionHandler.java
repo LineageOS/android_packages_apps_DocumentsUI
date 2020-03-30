@@ -419,7 +419,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         if (mFeatures.isOverwriteConfirmationEnabled()) {
             mInjector.dialogs.confirmAction(fm, replaceTarget, ConfirmFragment.TYPE_OVERWRITE);
         } else {
-            finishPicking(replaceTarget.derivedUri);
+            finishPicking(replaceTarget.getDocumentUri());
         }
     }
 
