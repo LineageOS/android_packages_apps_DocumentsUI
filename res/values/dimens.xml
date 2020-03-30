@@ -121,4 +121,6 @@
     <dimen name="action_bar_space_margin">@dimen/action_bar_space_height</dimen>
 
     <dimen name="refresh_icon_range">64dp</dimen>
+
+    <dimen name="item_doc_inflated_message_padding_top">0dp</dimen>
 </resources>
