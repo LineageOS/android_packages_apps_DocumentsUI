@@ -171,7 +171,8 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                         mDrawer,
                         mInjector.searchManager::onSearchBarClicked);
 
-        RootsFragment.show(getSupportFragmentManager(), null);
+        RootsFragment.show(getSupportFragmentManager(), /* includeApps= */ false,
+                /* intent= */ null);
 
         final Intent intent = getIntent();
 
