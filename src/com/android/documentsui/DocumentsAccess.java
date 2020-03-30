@@ -153,13 +153,27 @@ public interface DocumentsAccess {
         public Uri createDocument(DocumentInfo parentDoc, String mimeType, String displayName) {
             final ContentResolver resolver = parentDoc.userId.getContentResolver(mContext);
             try (ContentProviderClient client = DocumentsApplication.acquireUnstableProviderOrThrow(
-                        resolver, parentDoc.derivedUri.getAuthority())) {
-                return DocumentsContract.createDocument(
+                    resolver, parentDoc.derivedUri.getAuthority())) {
+                Uri createUri = DocumentsContract.createDocument(
                         wrap(client), parentDoc.derivedUri, mimeType, displayName);
+                // If the document info's user is the current user, we can simply return the uri.
+                // Otherwise, we need to create document with the content resolver from the other
+                // user. The uri returned from that content resolver does not contain the user
+                // info. Hence we need to append the other user info to the uri otherwise an app
+                // will think the uri is from the current user.
+                // The way to append a userInfo is to use the authority which contains user info
+                // obtained from the parentDoc.getDocumentUri().
+                return UserId.CURRENT_USER.equals(parentDoc.userId)
+                        ? createUri : appendEncodedParentAuthority(parentDoc, createUri);
             } catch (Exception e) {
                 Log.w(TAG, "Failed to create document", e);
                 return null;
             }
+        }
+
+        private Uri appendEncodedParentAuthority(DocumentInfo parentDoc, Uri uri) {
+            return uri.buildUpon().encodedAuthority(
+                    parentDoc.getDocumentUri().getAuthority()).build();
         }
     }
 }
