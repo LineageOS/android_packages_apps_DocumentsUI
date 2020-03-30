@@ -66,6 +66,7 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import com.android.documentsui.util.CrossProfileUtils;
+import com.android.documentsui.util.VersionUtils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -265,6 +266,9 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             state.copyOperationSubType = intent.getIntExtra(
                     FileOperationService.EXTRA_OPERATION_TYPE,
                     FileOperationService.OPERATION_COPY);
+        } else if (Features.CROSS_PROFILE_TABS && VersionUtils.isAtLeastR()
+                && state.action == ACTION_GET_CONTENT) {
+            state.supportsCrossProfile = true;
         }
     }
 
