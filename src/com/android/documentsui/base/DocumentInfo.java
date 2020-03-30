@@ -331,7 +331,7 @@ public class DocumentInfo implements Durable, Parcelable {
     }
 
     /**
-     * Returns a document uri representing this {@link DocumentInfo}. The URI contains user
+     * Returns a document uri representing this {@link DocumentInfo}. The URI may contain user
      * information. Use this when uri is needed externally. For usage within DocsUI, use
      * {@link #derivedUri}.
      */
@@ -340,6 +340,18 @@ public class DocumentInfo implements Durable, Parcelable {
             return derivedUri;
         }
         return userId.buildDocumentUriAsUser(authority, documentId);
+    }
+
+
+    /**
+     * Returns a tree document uri representing this {@link DocumentInfo}. The URI may contain user
+     * information. Use this when uri is needed externally.
+     */
+    public Uri getTreeDocumentUri() {
+        if (UserId.CURRENT_USER.equals(userId)) {
+            return DocumentsContract.buildTreeDocumentUri(authority, documentId);
+        }
+        return userId.buildTreeDocumentUriAsUser(authority, documentId);
     }
 
     @Override
