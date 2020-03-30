@@ -141,7 +141,7 @@ public class ProvidersAccessTest extends AndroidTestCase {
     }
 
     public void testMatchingRoots_FlacOrPng_crossProfile() throws Exception {
-        mState.action = State.ACTION_GET_CONTENT;
+        mState.supportsCrossProfile = true;
         mState.acceptMimes = new String[]{"application/x-flac", "image/png"};
         assertContainsExactly(
                 newArrayList(mNull, mWild, mAudio, mImages, mImagesOtherUser),
