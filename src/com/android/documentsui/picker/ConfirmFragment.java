@@ -76,7 +76,7 @@ public class ConfirmFragment extends DialogFragment {
                         android.R.string.ok,
                         (DialogInterface dialog, int id) -> {
                             pickResult.increaseActionCount();
-                            mActions.finishPicking(mTarget.derivedUri);
+                            mActions.finishPicking(mTarget.getDocumentUri());
                         });
                 break;
             case TYPE_OEPN_TREE:
