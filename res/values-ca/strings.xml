@@ -88,30 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"No s\'ha pogut desar el document"</string>
     <string name="create_error" msgid="3092144450044861994">"No s\'ha pogut crear la carpeta"</string>
     <string name="query_error" msgid="6625421453613879336">"En aquest moment no es pot carregar el contingut"</string>
-    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
-    <skip />
-    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
-    <skip />
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"El perfil de treball està en pausa"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Activa"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"No es poden seleccionar els fitxers de treball"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"L\'administrador de TI no et permet accedir als fitxers de treball des de l\'aplicació personal"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"No es poden seleccionar els fitxers personals"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"L\'administrador de TI no et permet accedir als fitxers personals des de l\'aplicació de treball"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"No es pot desar al perfil de treball"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"L\'administrador de TI no et permet desar fitxers personals al teu perfil de treball"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"No es pot desar al perfil personal"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"L\'administrador de TI no et permet desar fitxers de treball al teu perfil personal"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Aquesta acció no està permesa"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Per obtenir més informació, contacta amb l\'administrador de TI"</string>
     <string name="root_recent" msgid="1080156975424341623">"Recents"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> d\'espai lliure"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Serveis d\'emmagatzematge"</string>
@@ -274,23 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nom de la carpeta"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nom nou"</string>
     <string name="preview_file" msgid="4056622696305432343">"Previsualitza el fitxer <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
-    <!-- no translation found for preview_work_file (4495643735563487273) -->
-    <skip />
+    <string name="preview_work_file" msgid="4495643735563487273">"Previsualitza el fitxer de treball <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Cerca fitxers en altres aplicacions"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anònima"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Utilitza aquesta carpeta"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Vols permetre que <xliff:g id="APPNAME">%1$s</xliff:g> accedeixi als fitxers del directori <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Això permetrà que <xliff:g id="APPNAME">%1$s</xliff:g> accedeixi al contingut emmagatzemat a <xliff:g id="DIRECTORY">%2$s</xliff:g> actualment i en el futur."</string>
-    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
-    <skip />
-    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Tria una altra carpeta"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Aquesta carpeta no es pot utilitzar per raons de seguretat"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"Crea una carpeta"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Cerca en aquest telèfon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Suprimeix l\'historial de cerques <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personal"</string>
     <string name="work_tab" msgid="7265359366883747413">"Feina"</string>
-    <!-- no translation found for a11y_work (7504431382825242153) -->
-    <skip />
+    <string name="a11y_work" msgid="7504431382825242153">"Treball"</string>
 </resources>

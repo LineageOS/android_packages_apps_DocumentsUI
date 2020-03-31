@@ -88,30 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"Sənədi yadda saxlaya bilmədi"</string>
     <string name="create_error" msgid="3092144450044861994">"Qovluq yaradıla bilmədi"</string>
     <string name="query_error" msgid="6625421453613879336">"Məzmun hazırda yüklənmir"</string>
-    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
-    <skip />
-    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
-    <skip />
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"İş profilinə fasilə verilib"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Aktiv edin"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"İş faylları seçmək olmur"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT admininiz şəxsi tətbiqdən iş fayllarına giriş icazəsi vermir"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Şəxsi faylları seçmək olmur"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT admininiz iş tətbiqindən şəxsi fayllara giriş icazəsi vermir"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"İş profilində saxlamaq olmur"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT admininiz şəxsi fayllarınızı iş profilinizdə saxlamağa icazə vermir"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Şəxsi profildə saxlamaq olmur"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT admininiz iş fayllarınızı şəxsi profilinizdə saxlamağa icazə vermir"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Bu əməliyyata icazə verilmir"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Ətraflı məlumat üçün IT admininiz ilə əlaqə saxlayın"</string>
     <string name="root_recent" msgid="1080156975424341623">"Son"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ödənişsiz"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Saxlama xidmətləri"</string>
@@ -274,23 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Qovluq adı"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Yeni ad"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> faylını önizləyin"</string>
-    <!-- no translation found for preview_work_file (4495643735563487273) -->
-    <skip />
+    <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> adlı iş faylına əvvəlcədən baxın"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Faylları digər tətbiqlərdə axtarın"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Bu qovluğu istifadə edin"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> tətbiqinə <xliff:g id="DIRECTORY">%2$s</xliff:g> bölməsində saxlanmış fayllara giriş icazəsi verilsin?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> tətbiqinə <xliff:g id="DIRECTORY">%2$s</xliff:g> bölməsində saxlanmış və saxlanacaq məzmuna giriş icazəsi veriləcək."</string>
-    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
-    <skip />
-    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Başqa bir qovluq seçin"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Bu qovluq təhlükəsizlik səbəbləri ilə əlaqədar istifadə edilə bilməz"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"Yeni qovluq yaradın"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Bu telefonu axtarın"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"<xliff:g id="TEXT">%1$s</xliff:g> üçün axtarış tarixçəsini silin"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Şəxsi"</string>
     <string name="work_tab" msgid="7265359366883747413">"İş"</string>
-    <!-- no translation found for a11y_work (7504431382825242153) -->
-    <skip />
+    <string name="a11y_work" msgid="7504431382825242153">"İş"</string>
 </resources>

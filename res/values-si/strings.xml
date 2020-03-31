@@ -88,30 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"ලේඛනය සුරැකීම අසාර්ථක විය"</string>
     <string name="create_error" msgid="3092144450044861994">"ෆෝල්ඩරය සැදීම අසාර්ථක විය"</string>
     <string name="query_error" msgid="6625421453613879336">"මේ මොහොතේ අන්තර්ගතය පූරණය කිරීමට නොහැකිය"</string>
-    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
-    <skip />
-    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
-    <skip />
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"කාර්යාල පැතිකඩ විරාම කර ඇත"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"ක්‍රියාත්මක කරන්න"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"කාර්යාල ගොනු තේරීමට හැකිය"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ඔබේ IT පරිපාලක ඔබට පෞද්ගලික යෙදුමකින් කාර්යාල ගොනු වෙත ප්‍රවේශ වීමට ඉඩ නොදේ"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"පෞද්ගලික ගොනු තේරීමට නොහැකිය"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ඔබේ IT පරිපාලක ඔබට කාර්යාල යෙදුමකින් පෞද්ගලික ගොනු වෙත ප්‍රවේශ වීමට ඉඩ නොදේ"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"කාර්යාල පැතිකඩ වෙත සුරැකිය නොහැකිය"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"ඔබේ IT පරිපාලක පෞද්ගලික ගොනු ඔබේ කාර්යාල පැතිකඩ වෙත සුරැකීමට ඉඩ නොදේ"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"පෞද්ගලික පැතිකඩ වෙත සුරැකීමට හැකිය"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"ඔබේ IT පරිපාලක කාර්යාල ගොනු ඔබේ පෞද්ගලික පැතිකඩ වෙත සුරැකීමට ඉඩ නොදේ"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"මෙම ක්‍රියාව ඉඩ දී නැත"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"තවත් දැන ගැනීමට, ඔබේ IT සම්බන්ධ කර ගන්න"</string>
     <string name="root_recent" msgid="1080156975424341623">"මෑත"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> නිදහස්ය"</string>
     <string name="root_type_service" msgid="6521366147466512289">"ගබඩා සේවා"</string>
@@ -274,23 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"ෆෝල්ඩරයේ නම"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"අලුත් නම"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> ගොනුව පෙර දකින්න"</string>
-    <!-- no translation found for preview_work_file (4495643735563487273) -->
-    <skip />
+    <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> කාර්යාල ගොනුව පෙරදසුන් කරන්න"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"වෙනත් යෙදුම්වල ගොනු බ්‍රවුස් කරන්න"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"නිර්නාමික"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"මෙම ෆෝල්ඩරය භාවිත කරන්න"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g>ට <xliff:g id="DIRECTORY">%2$s</xliff:g> හි ගොනු වෙත ප්‍රවේශ වීමට ඉඩ දෙන්නද?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"මෙය <xliff:g id="APPNAME">%1$s</xliff:g>ට <xliff:g id="DIRECTORY">%2$s</xliff:g> හි භාවිත කර ඇති වත්මන් සහ අනාගත අන්තර්ගත වෙත ප්‍රවේශය ඉඩ දෙයි"</string>
-    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
-    <skip />
-    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"තවත් ෆෝල්ඩරයක් තෝරා ගන්න"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"මෙම ෆෝල්ඩරය ආරක්ෂක හේතු සඳහා භාවිත කළ නොහැකිය"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"නව ෆෝල්ඩරය තනන්න"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"මෙම දුරකථනයේ සොයන්න"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"සෙවීම් ඉතිහාසය මකන්න <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"පෞද්ගලික"</string>
     <string name="work_tab" msgid="7265359366883747413">"කාර්යාල"</string>
-    <!-- no translation found for a11y_work (7504431382825242153) -->
-    <skip />
+    <string name="a11y_work" msgid="7504431382825242153">"කාර්යාල"</string>
 </resources>
