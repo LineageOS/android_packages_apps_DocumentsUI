@@ -23,8 +23,6 @@ import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
@@ -66,6 +64,7 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import com.android.documentsui.util.CrossProfileUtils;
+import com.android.documentsui.util.VersionUtils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -211,23 +210,23 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             saveContainer.setBackgroundColor(Color.TRANSPARENT);
         }
 
-        if (mState.action == ACTION_GET_CONTENT) {
-            final Intent moreApps = new Intent(intent);
-            moreApps.setComponent(null);
-            moreApps.setPackage(null);
-            for (ResolveInfo info : getPackageManager().queryIntentActivities(moreApps,
-                    PackageManager.MATCH_DEFAULT_ONLY)) {
-                if (CrossProfileUtils.isCrossProfileIntentForwarderActivity(info)) {
-                    mState.canShareAcrossProfile = true;
-                    break;
-                }
-            }
-            RootsFragment.show(getSupportFragmentManager(), moreApps);
-        } else if (mState.action == ACTION_OPEN ||
-                   mState.action == ACTION_CREATE ||
-                   mState.action == ACTION_OPEN_TREE ||
-                   mState.action == ACTION_PICK_COPY_DESTINATION) {
-            RootsFragment.show(getSupportFragmentManager(), (Intent) null);
+        final Intent moreApps = new Intent(intent);
+        moreApps.setComponent(null);
+        moreApps.setPackage(null);
+        if (mState.supportsCrossProfile()
+                && CrossProfileUtils.getCrossProfileResolveInfo(
+                        getPackageManager(), moreApps) != null) {
+            mState.canShareAcrossProfile = true;
+        }
+
+        if (mState.action == ACTION_GET_CONTENT
+                || mState.action == ACTION_OPEN
+                || mState.action == ACTION_CREATE
+                || mState.action == ACTION_OPEN_TREE
+                || mState.action == ACTION_PICK_COPY_DESTINATION) {
+            RootsFragment.show(getSupportFragmentManager(),
+                    /* includeApps= */ mState.action == ACTION_GET_CONTENT,
+                    /* intent= */ moreApps);
         }
     }
 
@@ -265,6 +264,10 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             state.copyOperationSubType = intent.getIntExtra(
                     FileOperationService.EXTRA_OPERATION_TYPE,
                     FileOperationService.OPERATION_COPY);
+        } else if (Features.CROSS_PROFILE_TABS && VersionUtils.isAtLeastR()) {
+            // We show tabs on PickActivity except copying/moving, which does not support
+            // cross-profile action.
+            state.supportsCrossProfile = true;
         }
     }
 
