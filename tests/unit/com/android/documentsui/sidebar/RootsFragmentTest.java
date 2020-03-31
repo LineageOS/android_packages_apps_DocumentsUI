@@ -26,6 +26,7 @@ import androidx.test.filters.MediumTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
@@ -68,7 +69,9 @@ public class RootsFragmentTest {
 
     @Test
     public void testSortLoadResult_WithCorrectOrder() {
-        List<Item> items = mRootsFragment.sortLoadResult(createFakeRootInfoList(),
+        List<Item> items = mRootsFragment.sortLoadResult(
+                new State(),
+                createFakeRootInfoList(),
                 null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess(),
                 UserId.DEFAULT_USER,
                 Collections.singletonList(UserId.DEFAULT_USER),

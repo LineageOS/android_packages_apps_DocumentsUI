@@ -143,6 +143,7 @@ abstract class Message {
                 update(null, mEnv.getModel().info, null,
                         mEnv.getContext().getDrawable(R.drawable.ic_dialog_info));
             } else if (mEnv.getDisplayState().action == State.ACTION_OPEN_TREE
+                    && mEnv.getDisplayState().stack.peek() != null
                     && mEnv.getDisplayState().stack.peek().isBlockedFromTree()
                     && mEnv.getDisplayState().restrictScopeStorage) {
                 updateBlockFromTreeMessage();
