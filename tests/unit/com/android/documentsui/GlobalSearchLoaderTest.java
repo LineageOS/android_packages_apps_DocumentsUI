@@ -107,7 +107,7 @@ public class GlobalSearchLoaderTest {
 
     @Test
     public void testCrossProfileRoot_notInTextSearch_beIgnored() {
-        mEnv.state.action = State.ACTION_GET_CONTENT;
+        mEnv.state.supportsCrossProfile = true;
         mQueryArgs.remove(DocumentsContract.QUERY_ARG_DISPLAY_NAME);
         TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.OtherUser.USER_ID;
         assertThat(mLoader.shouldIgnoreRoot(TestProvidersAccess.DOWNLOADS)).isTrue();
@@ -116,7 +116,7 @@ public class GlobalSearchLoaderTest {
 
     @Test
     public void testCrossProfileRoot_inTextSearch_beIncluded() {
-        mEnv.state.action = State.ACTION_GET_CONTENT;
+        mEnv.state.supportsCrossProfile = true;
         TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.OtherUser.USER_ID;
         assertThat(mLoader.shouldIgnoreRoot(TestProvidersAccess.DOWNLOADS)).isFalse();
         TestProvidersAccess.DOWNLOADS.userId = TestProvidersAccess.USER_ID;
@@ -250,7 +250,7 @@ public class GlobalSearchLoaderTest {
     @Test
     public void testSearchResult_includeCurrentUserRootOnly() {
         mEnv.state.canShareAcrossProfile = false;
-        mEnv.state.action = State.ACTION_GET_CONTENT;
+        mEnv.state.supportsCrossProfile = true;
 
         final DocumentInfo pdfDoc = mEnv.model.createFile(SEARCH_STRING + ".pdf");
         pdfDoc.lastModified = System.currentTimeMillis();
@@ -284,7 +284,7 @@ public class GlobalSearchLoaderTest {
     @Test
     public void testSearchResult_includeBothUsersRoots() {
         mEnv.state.canShareAcrossProfile = true;
-        mEnv.state.action = State.ACTION_GET_CONTENT;
+        mEnv.state.supportsCrossProfile = true;
 
         final DocumentInfo pdfDoc = mEnv.model.createFile(SEARCH_STRING + ".pdf");
         pdfDoc.lastModified = System.currentTimeMillis();
@@ -318,7 +318,7 @@ public class GlobalSearchLoaderTest {
     @Test
     public void testSearchResult_emptyCurrentUsersRoot() {
         mEnv.state.canShareAcrossProfile = false;
-        mEnv.state.action = State.ACTION_GET_CONTENT;
+        mEnv.state.supportsCrossProfile = true;
 
         final DocumentInfo pdfDoc = mEnv.model.createFile(SEARCH_STRING + ".pdf");
         pdfDoc.lastModified = System.currentTimeMillis();
