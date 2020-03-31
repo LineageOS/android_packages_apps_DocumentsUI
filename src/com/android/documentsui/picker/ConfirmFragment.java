@@ -22,7 +22,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -77,12 +76,11 @@ public class ConfirmFragment extends DialogFragment {
                         android.R.string.ok,
                         (DialogInterface dialog, int id) -> {
                             pickResult.increaseActionCount();
-                            mActions.finishPicking(mTarget.derivedUri);
+                            mActions.finishPicking(mTarget.getDocumentUri());
                         });
                 break;
             case TYPE_OEPN_TREE:
-                final Uri uri = DocumentsContract.buildTreeDocumentUri(
-                        mTarget.authority, mTarget.documentId);
+                final Uri treeUri = mTarget.getTreeDocumentUri();
                 final BaseActivity activity = (BaseActivity) getActivity();
                 final String target = activity.getCurrentTitle();
                 final String text = getString(R.string.open_tree_dialog_title,
@@ -96,7 +94,7 @@ public class ConfirmFragment extends DialogFragment {
                         R.string.allow,
                         (DialogInterface dialog, int id) -> {
                             pickResult.increaseActionCount();
-                            mActions.finishPicking(uri);
+                            mActions.finishPicking(treeUri);
                         });
                 break;
 
