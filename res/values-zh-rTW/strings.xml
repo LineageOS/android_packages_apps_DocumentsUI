@@ -88,30 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"無法儲存文件"</string>
     <string name="create_error" msgid="3092144450044861994">"無法建立資料夾"</string>
     <string name="query_error" msgid="6625421453613879336">"目前無法載入內容"</string>
-    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
-    <skip />
-    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
-    <skip />
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"工作資料夾已暫停"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"開啟"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"無法選取工作檔案"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"你的 IT 管理員不允許你透過個人應用程式存取工作檔案"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"無法選取個人檔案"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"你的 IT 管理員不允許你透過工作應用程式存取個人檔案"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"無法儲存到工作資料夾"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"你的 IT 管理員不允許你將個人檔案儲存到工作資料夾"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"無法儲存到個人資料夾"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"你的 IT 管理員不允許你將工作檔案儲存到個人資料夾"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"不允許執行這項動作"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"如要瞭解詳情，請與你的 IT 管理員聯絡"</string>
     <string name="root_recent" msgid="1080156975424341623">"最近"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"可用空間：<xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"儲存空間服務"</string>
@@ -274,23 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"資料夾名稱"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"新名稱"</string>
     <string name="preview_file" msgid="4056622696305432343">"預覽 <xliff:g id="FILENAME">%1$s</xliff:g> 檔案"</string>
-    <!-- no translation found for preview_work_file (4495643735563487273) -->
-    <skip />
+    <string name="preview_work_file" msgid="4495643735563487273">"預覽工作檔案「<xliff:g id="FILENAME">%1$s</xliff:g>」"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"瀏覽其他應用程式中的檔案"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"匿名"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"使用這個資料夾"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"要允許「<xliff:g id="APPNAME">%1$s</xliff:g>」存取「<xliff:g id="DIRECTORY">%2$s</xliff:g>」中的檔案嗎？"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"如果你這麼做，「<xliff:g id="APPNAME">%1$s</xliff:g>」從現在開始就能存取儲存在「<xliff:g id="DIRECTORY">%2$s</xliff:g>」中的內容。"</string>
-    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
-    <skip />
-    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"請選擇其他資料夾"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"基於安全考量，你無法使用這個資料夾"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"建立新資料夾"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"搜尋這支手機"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"刪除搜尋記錄 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"個人"</string>
     <string name="work_tab" msgid="7265359366883747413">"工作"</string>
-    <!-- no translation found for a11y_work (7504431382825242153) -->
-    <skip />
+    <string name="a11y_work" msgid="7504431382825242153">"工作"</string>
 </resources>

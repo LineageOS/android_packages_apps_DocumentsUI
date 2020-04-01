@@ -88,30 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"कागजातलाई सुरक्षित गर्न सकिएन"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर सिर्जना गर्न सकिएन"</string>
     <string name="query_error" msgid="6625421453613879336">"यस समय सामग्री लोड गर्न सकिँदैन"</string>
-    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
-    <skip />
-    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
-    <skip />
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्य प्रोफाइल पज गरिएको छ"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"सक्रिय गर्नुहोस्"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कार्यालयका फाइलहरू चयन गर्न सकिएन"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"तपाईंका IT प्रशासकले तपाईंलाई व्यक्तिगत अनुप्रयोगमार्फत कार्यालयका फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"व्यक्तिगत फाइलहरू चयन गर्न सकिएन"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"तपाईंका IT प्रशासकले तपाईंलाई कामसम्बन्धी अनुप्रयोगमार्फत व्यक्तिगत फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"कार्य प्रोफाइलमा सुरक्षित गर्न सकिएन"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"तपाईंका IT प्रशासकले तपाईंलाई आफ्नो कार्य प्रोफाइलमा रहेका अनुप्रयोगहरूमा व्यक्तिगत फाइलहरू सुरक्षित गर्ने अनुमति दिनुभएको छैन"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"व्यक्तिगत प्रोफाइलमा सुरक्षित गर्न सकिएन"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"तपाईंका IT प्रशासकले तपाईंलाई आफ्नो व्यक्तिगत प्रोफाइलमा रहेका अनुप्रयोगहरूमा कार्यालयका फाइलहरू सुरक्षित गर्ने अनुमति दिनुभएको छैन"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"यो कार्य गर्ने अनुमति छैन"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"थप जानकारी प्राप्त गर्न आफ्ना IT प्रशासकसँग सम्पर्क गर्नुहोस्"</string>
     <string name="root_recent" msgid="1080156975424341623">"हालको"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> खाली छ"</string>
     <string name="root_type_service" msgid="6521366147466512289">"भण्डारण सम्बन्धी सेवाहरू"</string>
@@ -274,23 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"फोल्डरको नाम"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"नयाँ नाम"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> फाइलको पूर्वावलोकन गर्नुहोस्‌"</string>
-    <!-- no translation found for preview_work_file (4495643735563487273) -->
-    <skip />
+    <string name="preview_work_file" msgid="4495643735563487273">"कार्यालयको <xliff:g id="FILENAME">%1$s</xliff:g> नामक फाइलको पूर्वावलोकन गर्नुहोस्"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"अन्य अनुप्रयोगहरूमा फाइलहरू ब्राउज गर्नुहोस्‌"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"अज्ञात"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"यो फोल्डर प्रयोग गर्नुहोस्"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> लाई <xliff:g id="DIRECTORY">%2$s</xliff:g> मा भएका फाइलहरूमाथि पहुँच राख्न दिने हो?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"यसले <xliff:g id="APPNAME">%1$s</xliff:g> लाई <xliff:g id="DIRECTORY">%2$s</xliff:g> मा सुरक्षित गरिएका वर्तमान र भविष्यका सामग्रीमाथि पहुँच राख्न अनुमति दिन्छ।"</string>
-    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
-    <skip />
-    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"अर्को फोल्डर छान्नुहोस्"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"असुरक्षाका कारण यो फोल्डर प्रयोग गर्न सकिँदैन"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"नयाँ फोल्डर सिर्जना गर्नुहोस्"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"यो फोनमा खोज्नुहोस्"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"खोजसम्बन्धी इतिहास मेट्नुहोस् <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"व्यक्तिगत"</string>
     <string name="work_tab" msgid="7265359366883747413">"काम"</string>
-    <!-- no translation found for a11y_work (7504431382825242153) -->
-    <skip />
+    <string name="a11y_work" msgid="7504431382825242153">"काम"</string>
 </resources>

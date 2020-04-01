@@ -88,30 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"Nem sikerült menteni a dokumentumot"</string>
     <string name="create_error" msgid="3092144450044861994">"Nem sikerült létrehozni a mappát"</string>
     <string name="query_error" msgid="6625421453613879336">"Jelenleg nem lehet tartalmat betölteni"</string>
-    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
-    <skip />
-    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
-    <skip />
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"A munkaprofil szüneteltetve van"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Bekapcsolás"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nem választhatók ki munkafájlok"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Rendszergazdája nem engedélyezi, hogy munkafájlokhoz férjen hozzá személyes alkalmazásból"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nem választhatók ki személyes fájlok"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Rendszergazdája nem engedélyezi, hogy személyes fájlokhoz férjen hozzá munkahelyi alkalmazásból"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nem lehetséges a mentés a munkaprofilba"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Rendszergazdája nem engedélyezi, hogy személyes fájlokat mentsen munkaprofiljába"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nem lehetséges a mentés a személyes profilba"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Rendszergazdája nem engedélyezi, hogy munkafájlokat mentsen személyes profiljába"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ez a művelet nem engedélyezett"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"További információért forduljon rendszergazdájához"</string>
     <string name="root_recent" msgid="1080156975424341623">"Legutóbbiak"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> szabad"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Tárhelyszolgáltatások"</string>
@@ -274,23 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Mappa neve"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Új név"</string>
     <string name="preview_file" msgid="4056622696305432343">"A(z) <xliff:g id="FILENAME">%1$s</xliff:g> előnézete"</string>
-    <!-- no translation found for preview_work_file (4495643735563487273) -->
-    <skip />
+    <string name="preview_work_file" msgid="4495643735563487273">"A(z) <xliff:g id="FILENAME">%1$s</xliff:g> munkafájl előnézete"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Fájlok böngészése más alkalmazásokban"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Névtelen"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Jelenlegi mappa használata"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Engedélyezi, hogy a(z) <xliff:g id="APPNAME">%1$s</xliff:g> hozzáférhessen a(z) <xliff:g id="DIRECTORY">%2$s</xliff:g> fájljaihoz?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"A(z) <xliff:g id="APPNAME">%1$s</xliff:g> alkalmazás így hozzáfér majd a(z) <xliff:g id="DIRECTORY">%2$s</xliff:g> könyvtárban található jelenlegi és jövőbeli tartalmakhoz."</string>
-    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
-    <skip />
-    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Válasszon másik mappát"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Ez a mappa biztonsági okokból nem használható"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"Új mappa létrehozása"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Keresés ezen a telefonon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Keresési előzmények törlése – <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Személyes"</string>
     <string name="work_tab" msgid="7265359366883747413">"Munkahelyi"</string>
-    <!-- no translation found for a11y_work (7504431382825242153) -->
-    <skip />
+    <string name="a11y_work" msgid="7504431382825242153">"Munka"</string>
 </resources>

@@ -88,30 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"Yehlulekile ukulondoloza idokhumenti"</string>
     <string name="create_error" msgid="3092144450044861994">"Yehlulekile ukudala ifolda"</string>
     <string name="query_error" msgid="6625421453613879336">"Ayikwazanga ukulayisha okuqukethwe okwamanje"</string>
-    <!-- no translation found for quiet_mode_error_title (9126656325282792843) -->
-    <skip />
-    <!-- no translation found for quiet_mode_button (6977115032320235420) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_title (6688716319549644354) -->
-    <skip />
-    <!-- no translation found for cant_select_work_files_error_message (683480676150690641) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_title (3200697170148617742) -->
-    <skip />
-    <!-- no translation found for cant_select_personal_files_error_message (4105905035459118209) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_title (1351323070040641358) -->
-    <skip />
-    <!-- no translation found for cant_save_to_work_error_message (4975583233814059890) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_title (858327493694069780) -->
-    <skip />
-    <!-- no translation found for cant_save_to_personal_error_message (6991758723736381751) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_title (6611281348716476478) -->
-    <skip />
-    <!-- no translation found for cross_profile_action_not_allowed_message (7331275433061690947) -->
-    <skip />
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Iphrofayela yomsebenzi iphunyuziwe"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Vula"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ayikwazi ukukhetha amafayela omsebenzi"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Umphathi wakho we-IT akakuvumeli ukuba ufinyelele amafayela omsebenzi avela kuhlelo lokusebenza lomuntu siqu"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Ayikwazi ukukhetha amafayela akho siqu"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Umphathi wakho we-IT akakuvumeli ukuba ufinyelele amafayela akho siqu avela ohlelweni lokusebenza lomsebenzi"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ayikwazi ukulondoloza kuphrofayela lomsebenzi"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Umphathi wakho we-IT akakuvumeli ukuba ulondoloze amafayela akho siqu kwiphrofayela lakho lomsebenzi"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Ayikwazi ukulondoloza kuphrofayela lakho siqu"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Umphathi wakho we-IT akakuvumeli ukuba ulondoloze amafayela akho omsebenzi kwiphrofayela lakho"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Lesi senzo asivunyelwe"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Ukuze ufunde kabanzi, xhumana nomphathi wakho we-IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Okwakamuva"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> okhululekile"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Amasevisi wesitoreji"</string>
@@ -274,23 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Igama lefolda"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Igama elisha"</string>
     <string name="preview_file" msgid="4056622696305432343">"Buka kuqala ifayela le-<xliff:g id="FILENAME">%1$s</xliff:g>"</string>
-    <!-- no translation found for preview_work_file (4495643735563487273) -->
-    <skip />
+    <string name="preview_work_file" msgid="4495643735563487273">"Hlola kuqala ifayela lomsebenzi i-<xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Phequlula amafayela kwezinye izinhlelo zokusebenza"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Okungaziwa"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Sebenzisa le folda"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Vumela i-<xliff:g id="APPNAME">%1$s</xliff:g> ukuthi ifinyelele kumafayela aku-<xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Lokhu kuzovumela i-<xliff:g id="APPNAME">%1$s</xliff:g> ifinyelele kokuqukethwe kwakho kwamanje nokuzayo okugcinwe ku-<xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <!-- no translation found for directory_blocked_header_title (2241035414909614922) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (3210782607462478700) -->
-    <skip />
-    <!-- no translation found for create_new_folder_button (8859613309559794890) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Khetha enye ifolda"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Le folda ayikwazi ukusetshenziselwa izizathu zokuvikeleka"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"Dala ifolda entsha"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Sesha le foni"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Susa umlando wokusesha <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Okomuntu siqu"</string>
     <string name="work_tab" msgid="7265359366883747413">"Umsebenzi"</string>
-    <!-- no translation found for a11y_work (7504431382825242153) -->
-    <skip />
+    <string name="a11y_work" msgid="7504431382825242153">"Umsebenzi"</string>
 </resources>
