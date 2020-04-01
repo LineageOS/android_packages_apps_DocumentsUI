@@ -16,7 +16,11 @@
 
 package com.android.documentsui.util;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+
+import androidx.annotation.Nullable;
 
 /**
  * A utility class for cross-profile usage.
@@ -39,5 +43,21 @@ public class CrossProfileUtils {
             return PROFILE_TARGET_ACTIVITY.equals(info.activityInfo.targetActivity);
         }
         return false;
+    }
+
+    /**
+     * Returns the {@ResolveInfo} if this intent is a cross-profile intent or {@code null}
+     * otherwise.
+     */
+    @Nullable
+    public static ResolveInfo getCrossProfileResolveInfo(PackageManager packageManager,
+            Intent intent) {
+        for (ResolveInfo info : packageManager.queryIntentActivities(intent,
+                PackageManager.MATCH_DEFAULT_ONLY)) {
+            if (isCrossProfileIntentForwarderActivity(info)) {
+                return info;
+            }
+        }
+        return null;
     }
 }
