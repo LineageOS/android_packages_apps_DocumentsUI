@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -272,6 +273,7 @@ public class RootsFragment extends Fragment {
                 }
 
                 List<Item> sortedItems = sortLoadResult(
+                        getResources(),
                         state,
                         roots,
                         excludePackage,
@@ -345,6 +347,7 @@ public class RootsFragment extends Fragment {
      */
     @VisibleForTesting
     List<Item> sortLoadResult(
+            Resources resources,
             State state,
             Collection<RootInfo> roots,
             @Nullable String excludePackage,
@@ -396,7 +399,6 @@ public class RootsFragment extends Fragment {
         if (VERBOSE) Log.v(TAG, "Adding storage roots: " + storageProviders);
         result.addAll(storageProviders);
 
-
         final List<Item> rootList = new ArrayList<>();
         final List<Item> rootListOtherUser = new ArrayList<>();
         mApplicationItemList = new ArrayList<>();
@@ -416,31 +418,19 @@ public class RootsFragment extends Fragment {
             }
         }
 
-
-        if (state.supportsCrossProfile() && state.canShareAcrossProfile
-                && !rootList.isEmpty() && !rootListOtherUser.isEmpty()) {
-            // Identify personal and work root list.
-            final List<Item> personalRootList;
-            final List<Item> workRootList;
-            if (UserId.CURRENT_USER.isSystem()) {
-                personalRootList = rootList;
-                workRootList = rootListOtherUser;
-            } else {
-                personalRootList = rootListOtherUser;
-                workRootList = rootList;
-            }
-
-            // Add header and list to the result
-            final List<Item> resultRootList = new ArrayList<>();
-            resultRootList.add(new HeaderItem(getString(R.string.personal_tab)));
-            resultRootList.addAll(personalRootList);
-            resultRootList.add(new HeaderItem(getString(R.string.work_tab)));
-            resultRootList.addAll(workRootList);
-            addListToResult(result, resultRootList);
-        } else {
-            addListToResult(result, rootList);
-        }
+        List<Item> presentableList = new UserItemsCombiner(resources, state)
+                .setRootListForCurrentUser(rootList)
+                .setRootListForOtherUser(rootListOtherUser)
+                .createPresentableList();
+        addListToResult(result, presentableList);
         return result;
+    }
+
+    private void addListToResult(List<Item> result, List<Item> rootList) {
+        if (!result.isEmpty() && !rootList.isEmpty()) {
+            result.add(new SpacerItem());
+        }
+        result.addAll(rootList);
     }
 
     /**
@@ -532,14 +522,6 @@ public class RootsFragment extends Fragment {
         } else {
             mApplicationItemList.addAll(rootList);
         }
-    }
-
-    private void addListToResult(List<Item> result, List<Item> rootList) {
-        if (!result.isEmpty() && !rootList.isEmpty()) {
-            result.add(new SpacerItem());
-        }
-
-        result.addAll(rootList);
     }
 
     @Override
