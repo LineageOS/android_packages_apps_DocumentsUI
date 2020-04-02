@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import android.content.pm.ResolveInfo;
 
 import androidx.test.filters.MediumTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.RootInfo;
@@ -70,6 +71,7 @@ public class RootsFragmentTest {
     @Test
     public void testSortLoadResult_WithCorrectOrder() {
         List<Item> items = mRootsFragment.sortLoadResult(
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getResources(),
                 new State(),
                 createFakeRootInfoList(),
                 null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess(),
