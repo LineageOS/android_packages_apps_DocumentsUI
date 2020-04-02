@@ -30,7 +30,13 @@
         app:titleEnabled="false"
         app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
-        <include layout="@layout/directory_header"/>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/directory_header"/>
+
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:id="@+id/toolbar_background_layout"
