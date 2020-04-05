@@ -312,8 +312,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Użyj tego folderu"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Zezwolić aplikacji <xliff:g id="APPNAME">%1$s</xliff:g> na dostęp do plików w katalogu <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"To zezwoli aplikacji <xliff:g id="APPNAME">%1$s</xliff:g> na dostęp do bieżących i przyszłych plików w katalogu <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Wybierz inny folder"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Tego folderu nie można użyć ze względów bezpieczeństwa"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Nie można użyć tego folderu"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Aby chronić swoją prywatność, wybierz inny folder"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Utwórz nowy folder"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Szukaj na telefonie"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Usuń historię wyszukiwania <xliff:g id="TEXT">%1$s</xliff:g>"</string>

@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Gebruik hierdie vouer"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Gee <xliff:g id="APPNAME">%1$s</xliff:g> toegang tot lêers in <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Dit sal <xliff:g id="APPNAME">%1$s</xliff:g> toegang gee tot huidige en toekomstige inhoud wat in <xliff:g id="DIRECTORY">%2$s</xliff:g> geberg word."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Kies \'n ander vouer"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Hierdie vouer kan vir sekuriteitredes nie gebruik word nie"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Kan nie hierdie vouer gebruik nie"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Kies \'n ander vouer om jou privaatheid te beskerm"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Skep nuwe vouer"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Deursoek hierdie foon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Vee soekgeskiedenis uit: <xliff:g id="TEXT">%1$s</xliff:g>"</string>

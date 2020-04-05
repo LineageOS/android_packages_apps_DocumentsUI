@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Nota þessa möppu"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Veita <xliff:g id="APPNAME">%1$s</xliff:g> aðgang að skrám í <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Þetta veitir <xliff:g id="APPNAME">%1$s</xliff:g> aðgang að efni sem vistað er í <xliff:g id="DIRECTORY">%2$s</xliff:g> nú og síðar."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Veldu aðra möppu"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Ekki er hægt að nota þessa möppu af öryggisástæðum"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Ekki er hægt að nota þessa möppu"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Veldu aðra möppu til að tryggja persónuvernd þína"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Búa til nýja möppu"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Leita í þessum síma"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Eyða leitarferli <xliff:g id="TEXT">%1$s</xliff:g>"</string>
