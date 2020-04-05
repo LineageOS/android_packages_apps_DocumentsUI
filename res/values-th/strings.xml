@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ใช้โฟลเดอร์นี้"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"อนุญาตให้ <xliff:g id="APPNAME">%1$s</xliff:g> เข้าถึงไฟล์ใน <xliff:g id="DIRECTORY">%2$s</xliff:g> ไหม"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"การดำเนินการนี้จะทำให้ <xliff:g id="APPNAME">%1$s</xliff:g> เข้าถึงเนื้อหาในปัจจุบันและอนาคตที่จัดเก็บไว้ใน <xliff:g id="DIRECTORY">%2$s</xliff:g>"</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"เลือกโฟลเดอร์อื่น"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"โฟลเดอร์นี้ใช้งานไม่ได้เนื่องจากเหตุผลด้านความปลอดภัย"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"ใช้โฟลเดอร์นี้ไม่ได้"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"เลือกโฟลเดอร์อื่นเพื่อปกป้องความเป็นส่วนตัว"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"สร้างโฟลเดอร์ใหม่"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ค้นหาโทรศัพท์เครื่องนี้"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ลบประวัติการค้นหา <xliff:g id="TEXT">%1$s</xliff:g>"</string>

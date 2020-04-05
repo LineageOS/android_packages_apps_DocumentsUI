@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ប្រើថតនេះ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"អនុញ្ញាតឱ្យ <xliff:g id="APPNAME">%1$s</xliff:g> ចូលប្រើឯកសារ​នៅក្នុង <xliff:g id="DIRECTORY">%2$s</xliff:g> ដែរទេ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ការធ្វើបែបនេះ​នឹងអនុញ្ញាតឱ្យ <xliff:g id="APPNAME">%1$s</xliff:g> ចូលប្រើខ្លឹមសារ​បច្ចុប្បន្ន និងនាពេលអនាគត ដែលបានរក្សាទុក​នៅក្នុង <xliff:g id="DIRECTORY">%2$s</xliff:g>។"</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"ជ្រើសរើស​ថត​ផ្សេងទៀត"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"មិន​អាចប្រើ​ថតនេះ​បានទេ ដោយសារ​ហេតុផល​សុវត្ថិភាព"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"មិនអាចប្រើ​ថតនេះ​បានទេ"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ដើម្បី​ការពារ​ឯកជនភាព​របស់អ្នក សូម​ជ្រើសរើស​ថតផ្សេងទៀត"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"បង្កើត​ថត​ថ្មី"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ទូរសព្ទ​នេះ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"លុប​ប្រវត្តិស្វែងរក <xliff:g id="TEXT">%1$s</xliff:g>"</string>

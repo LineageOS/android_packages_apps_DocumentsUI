@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Përdor këtë dosje"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Dëshiron ta lejosh <xliff:g id="APPNAME">%1$s</xliff:g> të ketë qasje në skedarët në <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Kjo do ta lejojë <xliff:g id="APPNAME">%1$s</xliff:g> të ketë qasje në përmbajtjen aktuale dhe të ardhshme të ruajtur në <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Zgjidh një dosje tjetër"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Ky skedar nuk mund të përdoret për arsye sigurie"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Kjo dosje nuk mund të përdoret"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Për të mbrojtur privatësinë tënde, zgjidh një dosje tjetër"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Krijo dosje të re"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Kërko në këtë telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Fshi historikun e kërkimeve për <xliff:g id="TEXT">%1$s</xliff:g>"</string>
