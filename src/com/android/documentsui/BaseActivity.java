@@ -75,7 +75,6 @@ import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -344,6 +343,19 @@ public abstract class BaseActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (mState.stack.getTitle() == null) {
+            // First launch.
+            setTitle("");
+            return;
+        }
+
+        // Append app name for TalkBack when app enters foreground.
+        setTitle(String.format("%s. %s", getString(R.string.files_label), mState.stack.getTitle()));
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         boolean showMenu = super.onCreateOptionsMenu(menu);
 
@@ -606,7 +618,13 @@ public abstract class BaseActivity
         }
 
         // Causes talkback to announce the activity's new title
-        setTitle(mState.stack.getTitle());
+        String appName = getString(R.string.files_label);
+        if (getTitle().toString().isEmpty()) {
+            // First launch, TalkBack announces app name.
+            setTitle(String.format("%s. %s", appName, mState.stack.getTitle()));
+        } else {
+            setTitle(mState.stack.getTitle());
+        }
 
         invalidateOptionsMenu();
         mSortController.onViewModeChanged(mState.derivedMode);
