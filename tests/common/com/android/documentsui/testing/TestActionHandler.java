@@ -24,6 +24,7 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.TestActivity;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.base.UserId;
 
 import java.util.function.Consumer;
 
@@ -33,6 +34,7 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
 
     public final TestEventHandler<ItemDetails<String>> open = new TestEventHandler<>();
     public boolean mDeleteHappened;
+    public boolean mRequestDisablingQuietModeHappened;
 
     public DocumentInfo nextRootDocument;
 
@@ -61,6 +63,11 @@ public class TestActionHandler extends AbstractActionHandler<TestActivity> {
     @Override
     public void showDeleteDialog() {
         mDeleteHappened = true;
+    }
+
+    @Override
+    public void requestQuietModeDisabled(RootInfo info, UserId userId) {
+        mRequestDisablingQuietModeHappened = true;
     }
 
     @Override
