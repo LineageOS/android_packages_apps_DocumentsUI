@@ -15,6 +15,19 @@
 -->
 
 <!-- The collection of resources for theming the appearance of a device -->
+<!-- TODO: Resolving resource overlay for Q module updates. Remove when public.xml is
+    removed from DocumentsUIGoogle.
+    Add a new entry to DocumentsUIGoogle public.xml when adding new resource here.
+    Follow these steps to identify a new resource id for the resource.
+    1. Find last resource id for the particular type.
+       bool, string, etc.
+       Example: <public type="bool" name="pre_existing_bool" id="0x7f04001a" />
+       bool last resource id is 0x7f04001a
+       First  6 characters are an identifier for bool, so the id should be
+       0x7f04xxxx where xxxx is 001a+1 = 001b.
+    4. Add entry to public.xml
+       Example: <public type="bool" name="new_bool_config" id="0x7f04001b" />
+-->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <overlayable name="DocumentsUICustomization">
