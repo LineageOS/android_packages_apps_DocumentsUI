@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"Không lưu tài liệu được"</string>
     <string name="create_error" msgid="3092144450044861994">"Không thể tạo thư mục"</string>
     <string name="query_error" msgid="6625421453613879336">"Không thể tải nội dung vào lúc này"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Hồ sơ công việc của bạn đã bị tạm dừng"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Bật"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Không thể chọn các tệp công việc"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Quản trị viên CNTT không cho phép bạn truy cập vào tệp công việc từ ứng dụng cá nhân"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Không thể chọn các tệp cá nhân"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Quản trị viên CNTT không cho phép bạn truy cập vào tệp cá nhân từ ứng dụng công việc"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Không thể lưu vào hồ sơ công việc"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Quản trị viên CNTT không cho phép bạn lưu tệp cá nhân vào hồ sơ công việc của bạn"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Không thể lưu vào hồ sơ cá nhân"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Quản trị viên CNTT không cho phép bạn lưu tệp công việc vào hồ sơ cá nhân của bạn"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Quản trị viên CNTT không cho phép thực hiện thao tác này"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Hãy liên hệ với quản trị viên CNTT để tìm hiểu thêm"</string>
     <string name="root_recent" msgid="1080156975424341623">"Gần đây"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> còn trống"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Dịch vụ lưu trữ"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Không thể mở tệp trong lưu trữ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Không thể xóa một số tài liệu"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Bạn không thể chia sẻ quá <xliff:g id="COUNT">%1$d</xliff:g> tệp"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Hành động này không được cho phép"</string>
     <string name="share_via" msgid="8725082736005677161">"Chia sẻ qua"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Đang sao chép tệp"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Nén tệp"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Tên thư mục"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Tên mới"</string>
     <string name="preview_file" msgid="4056622696305432343">"Xem trước tệp <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"Xem trước tệp công việc <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Duyệt qua tệp trong các ứng dụng khác"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Ẩn danh"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Sử dụng thư mục này"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Cho phép <xliff:g id="APPNAME">%1$s</xliff:g> truy cập vào tệp trong <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Thao tác này sẽ cho phép <xliff:g id="APPNAME">%1$s</xliff:g> truy cập vào nội dung đang và sẽ được lưu trữ trong <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"Không thể chia sẻ thư mục <xliff:g id="FOLDERNAME">%1$s</xliff:g> với <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Chọn một thư mục dưới đây hoặc tạo một thư mục mới"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Chọn thư mục khác hoặc tạo một thư mục mới"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Không thể dùng thư mục này"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Để bảo vệ quyền riêng tư của bạn, hãy chọn một thư mục khác"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"Tạo thư mục mới"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Tìm kiếm trên điện thoại này"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Xóa lịch sử tìm kiếm <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"Cá nhân"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Công việc"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"Công việc"</string>
 </resources>

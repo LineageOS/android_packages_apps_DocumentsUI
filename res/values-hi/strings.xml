@@ -71,11 +71,11 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"बदले जाने का समय"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"फ़ाइल का नाम (A से Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"प्रकार (A से Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"आकार (सबसे छोटा पहले)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"साइज़ (सबसे छोटा पहले)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"बदला गया (पुरानी तारीख से)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"फ़ाइल का नाम (Z से A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"प्रकार (Z से A)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"आकार (सबसे बड़ा पहले)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"साइज़ (सबसे बड़ा पहले)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"बदला गया (नई तारीख से)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"इस क्रम से लगाएं"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> से क्रम से लगाया गया"</string>
@@ -88,8 +88,20 @@
     <string name="save_error" msgid="8631128801982095782">"दस्तावेज़ सहेजने में विफल रहा"</string>
     <string name="create_error" msgid="3092144450044861994">"फ़ोल्डर बनाने में विफल रहा"</string>
     <string name="query_error" msgid="6625421453613879336">"इस समय सामग्री लोड नहीं की जा सकती"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"वर्क प्रोफ़ाइल रोक दी गई है"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"चालू करें"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"दफ़्तर की फ़ाइलें नहीं चुनी जा सकतीं"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"आपका आईटी एडमिन आपको किसी निजी ऐप्लिकेशन से दफ़्तर की फ़ाइलें ऐक्सेस करने की मंज़ूरी नहीं देता"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"निजी फ़ाइलें नहीं चुनी जा सकतीं"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"आपका आईटी एडमिन आपको ऑफ़िस के काम से जुड़े ऐप्लिकेशन से निजी फ़ाइलें ऐक्सेस करने की अनुमति नहीं देता"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"वर्क प्रोफ़ाइल में सेव नहीं की जा सकतीं"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"आपका आईटी एडमिन आपको निजी फ़ाइलें वर्क प्रोफ़ाइल में सेव करने की अनुमति नहीं देता"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"निजी प्रोफ़ाइल में सेव नहीं की जा सकतीं"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"आपका आईटी एडमिन आपको दफ़्तर की फ़ाइलें निजी प्रोफ़ाइल में सेव करने की अनुमति नहीं देता"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"इसकी अनुमति नहीं है"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"ज़्यादा जानने के लिए, अपने आईटी एडमिन से संपर्क करें"</string>
     <string name="root_recent" msgid="1080156975424341623">"हाल ही का"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> रिक्त"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> खाली"</string>
     <string name="root_type_service" msgid="6521366147466512289">"जगह सेवाएं"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"शॉर्टकट"</string>
     <string name="root_type_device" msgid="1713604128005476585">"डिवाइस"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"संग्रह में मौजूद फ़ाइलें नहीं खोली जा सकतीं"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"कुछ दस्तावेज़ों को हटाने में असमर्थ"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> से ज़्यादा फ़ाइलें शेयर नहीं की जा सकतीं"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"शेयर नहीं किया जा सकता"</string>
     <string name="share_via" msgid="8725082736005677161">"इसके ज़रिए शेयर करें"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"फ़ाइलें कॉपी हो रही हैं"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"फ़ाइलें कंप्रेस करना"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"फ़ोल्डर का नाम"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"नया नाम"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> फ़ाइल की झलक देखें"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"दफ़्तर की फ़ाइल <xliff:g id="FILENAME">%1$s</xliff:g> की झलक देखें"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"दूसरे ऐप्लिकेशन में फ़ाइलें ब्राउज़ करें"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"अनाम"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"यह फ़ोल्डर इस्तेमाल करें"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"क्या आप <xliff:g id="APPNAME">%1$s</xliff:g> को <xliff:g id="DIRECTORY">%2$s</xliff:g> में मौजूद फ़ाइलों का ऐक्सेस देना चाहते हैं?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ऐसा करने से <xliff:g id="APPNAME">%1$s</xliff:g> को <xliff:g id="DIRECTORY">%2$s</xliff:g> में सेव और आने वाले समय में सेव होनी वाली सामग्री का ऐक्सेस मिल जाएगा."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> फ़ोल्डर को <xliff:g id="APPNAME">%2$s</xliff:g> में शेयर नहीं किया जा सकता"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"नीचे दिया गया कोई फ़ोल्डर चुनें या नया फ़ोल्डर बनाएं"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"कोई और फ़ोल्डर चुनें या नया फ़ोल्डर बनाएं"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"इस फ़ोल्डर का इस्तेमाल नहीं किया जा सकता"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"अपनी निजता की सुरक्षा करने के लिए, कोई और फ़ोल्डर चुनें"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"नया फ़ोल्डर बनाएं"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"यह फ़ोन खोजें"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"खोज का इतिहास मिटाएं <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"निजी"</string>
+    <string name="work_tab" msgid="7265359366883747413">"काम से जुड़ी"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"काम से जुड़ी"</string>
 </resources>

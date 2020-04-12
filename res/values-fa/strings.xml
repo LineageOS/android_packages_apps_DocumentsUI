@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"سند ذخیره نشد"</string>
     <string name="create_error" msgid="3092144450044861994">"ایجاد پوشه انجام نشد"</string>
     <string name="query_error" msgid="6625421453613879336">"محتوا درحال حاضر بار نمی‌شود"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"نمایه کاری موقتاً متوقف شده است"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"روشن کردن"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"انتخاب فایل‌های کاری ممکن نیست"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"سرپرست فناوری اطلاعات اجازه نمی‌دهد از برنامه شخصی به فایل‌های کاری دسترسی پیدا کنید"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"انتخاب فایل‌های شخصی ممکن نیست"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"سرپرست فناوری اطلاعات اجازه نمی‌دهد از برنامه کاری به فایل‌های شخصی دسترسی پیدا کنید"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"ذخیره در نمایه کاری ممکن نیست"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"سرپرست فناوری اطلاعات اجازه نمی‌دهد فایل‌های شخصی را در نمایه کاری ذخیره کنید"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"ذخیره در نمایه شخصی ممکن نیست"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"سرپرست فناوری اطلاعات اجازه نمی‌دهد فایل‌های کاری را در نمایه شخصی ذخیره کنید"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"این کنش مجاز نیست"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"برای اطلاعات بیشتر، با سرپرست فناوری اطلاعات تماس بگیرید."</string>
     <string name="root_recent" msgid="1080156975424341623">"اخیر"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> آزاد"</string>
     <string name="root_type_service" msgid="6521366147466512289">"خدمات ذخیره‌سازی"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"فایل‌های موجود در بایگانی‌ها باز نمی‌شوند"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"برخی از اسناد حذف نمی‌شوند"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"نمی‌توان بیش از <xliff:g id="COUNT">%1$d</xliff:g> فایل هم‌رسانی کرد"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"کنش مجاز نیست"</string>
     <string name="share_via" msgid="8725082736005677161">"اشتراک‌گذاری از طریق"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"در حال کپی کردن فایل‌ها"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"درحال فشرده‌سازی فایل‌ها"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"نام پوشه"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"نام جدید"</string>
     <string name="preview_file" msgid="4056622696305432343">"پیش‌نمایش فایل <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"پیش‌نمایش فایل کاری <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"مرور فایل‌ها در سایر برنامه‌ها"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ناشناس"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"استفاده از این پوشه"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"به <xliff:g id="APPNAME">%1$s</xliff:g> اجازه می‌دهید به فایل‌های موجود در <xliff:g id="DIRECTORY">%2$s</xliff:g> دسترسی داشته باشد؟"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"این کار به <xliff:g id="APPNAME">%1$s</xliff:g> امکان می‌دهد به محتوای کنونی و آتی ذخیره‌شده در <xliff:g id="DIRECTORY">%2$s</xliff:g> دسترسی داشته باشد."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"پوشه <xliff:g id="FOLDERNAME">%1$s</xliff:g> با <xliff:g id="APPNAME">%2$s</xliff:g> هم‌رسانی نشد"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"پوشه‌ای در زیر انتخاب کنید یا پوشه جدیدی ایجاد کنید"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"پوشه دیگری انتخاب کنید یا پوشه جدیدی ایجاد کنید"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"نمی‌توانید از این پوشه استفاده کنید"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"برای محافظت از حریم‌خصوصی‌تان، پوشه دیگری را انتخاب کنید"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"ایجاد پوشه جدید"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"جستجوی این تلفن"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"حذف سابقه جستجوی <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"شخصی"</string>
+    <string name="work_tab" msgid="7265359366883747413">"کاری"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"کاری"</string>
 </resources>

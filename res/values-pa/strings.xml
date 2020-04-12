@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"ਦਸਾਤਵੇਜ਼ ਰੱਖਿਅਤ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ"</string>
     <string name="create_error" msgid="3092144450044861994">"ਫੋਲਡਰ ਬਣਾਉਣਾ ਅਸਫਲ ਰਿਹਾ"</string>
     <string name="query_error" msgid="6625421453613879336">"ਇਸ ਵੇਲੇ ਸਮੱਗਰੀ ਨੂੰ ਲੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"ਕਾਰਜ ਪ੍ਰੋਫਾਈਲ ਨੂੰ ਰੋਕਿਆ ਗਿਆ ਹੈ"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"ਚਾਲੂ ਕਰੋ"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"ਕਾਰਜ ਸੰਬੰਧੀ ਫ਼ਾਈਲਾਂ ਨੂੰ ਨਹੀਂ ਚੁਣਿਆ ਜਾ ਸਕਦਾ"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ਤੁਹਾਡਾ ਆਈ.ਟੀ. ਪ੍ਰਸ਼ਾਸਕ ਤੁਹਾਨੂੰ ਨਿੱਜੀ ਐਪ ਤੋਂ ਕਾਰਜ ਸੰਬੰਧੀ ਫ਼ਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਨਹੀਂ ਕਰਨ ਦਿੰਦਾ"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"ਨਿੱਜੀ ਫ਼ਾਈਲਾਂ ਨੂੰ ਨਹੀਂ ਚੁਣਿਆ ਜਾ ਸਕਦਾ"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ਤੁਹਾਡਾ ਆਈ.ਟੀ. ਪ੍ਰਸ਼ਾਸਕ ਤੁਹਾਨੂੰ ਕੰਮ ਸੰਬੰਧੀ ਐਪ ਤੋਂ ਨਿੱਜੀ ਫ਼ਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਨਹੀਂ ਕਰਨ ਦਿੰਦਾ"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"ਕਾਰਜ ਪ੍ਰੋਫਾਈਲ ਵਿੱਚ ਰੱਖਿਅਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"ਤੁਹਾਡਾ ਆਈ.ਟੀ. ਪ੍ਰਸ਼ਾਸਕ ਤੁਹਾਨੂੰ ਆਪਣੇ ਕਾਰਜ ਪ੍ਰੋਫਾਈਲ ਵਿੱਚ ਨਿੱਜੀ ਫ਼ਾਈਲਾਂ ਰੱਖਿਅਤ ਨਹੀਂ ਕਰਨ ਦਿੰਦਾ"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"ਨਿੱਜੀ ਪ੍ਰੋਫਾਈਲ ਵਿੱਚ ਰੱਖਿਅਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"ਤੁਹਾਡਾ ਆਈ.ਟੀ. ਪ੍ਰਸ਼ਾਸਕ ਤੁਹਾਨੂੰ ਆਪਣੇ ਨਿੱਜੀ ਪ੍ਰੋਫਾਈਲ ਵਿੱਚ ਕਾਰਜ ਸੰਬੰਧੀ ਫ਼ਾਈਲਾਂ ਰੱਖਿਅਤ ਨਹੀਂ ਕਰਨ ਦਿੰਦਾ"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"ਇਸ ਕਾਰਵਾਈ ਦੀ ਇਜਾਜ਼ਤ ਨਹੀਂ ਹੈ"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"ਹੋਰ ਜਾਣਨ ਲਈ, ਆਪਣੇ ਆਈ.ਟੀ. ਪ੍ਰਸ਼ਾਸਕ ਨਾਲ ਸੰਪਰਕ ਕਰੋ"</string>
     <string name="root_recent" msgid="1080156975424341623">"ਹਾਲੀਆ"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ਖਾਲੀ"</string>
     <string name="root_type_service" msgid="6521366147466512289">"ਸਟੋਰੇਜ ਸੇਵਾਵਾਂ"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ਪੁਰਾਲੇਖਾਂ ਵਿੱਚ ਫ਼ਾਈਲਾਂ ਨੂੰ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ਕੁਝ ਦਸਤਾਵੇਜ਼ਾਂ ਨੂੰ ਮਿਟਾਉਣ ਦੇ ਅਯੋਗ"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> ਤੋਂ ਵੱਧ ਫ਼ਾਈਲਾਂ ਸਾਂਝੀਆਂ ਨਹੀਂ ਕੀਤੀਆਂ ਜਾ ਸਕਦੀਆਂ"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"ਕਾਰਵਾਈ ਦੀ ਇਜਾਜ਼ਤ ਨਹੀਂ ਹੈ"</string>
     <string name="share_via" msgid="8725082736005677161">"ਇਸ ਰਾਹੀਂ ਸਾਂਝਾ ਕਰੋ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ਫ਼ਾਈਲਾਂ ਕਾਪੀ ਕਰ ਰਿਹਾ ਹੈ"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ਆਕਾਰ ਛੋਟਾ ਕੀਤਾ ਜਾ ਰਿਹਾ"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"ਫੋਲਡਰ ਦਾ ਨਾਮ"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"ਨਵਾਂ ਨਾਮ"</string>
     <string name="preview_file" msgid="4056622696305432343">"ਫ਼ਾਈਲ <xliff:g id="FILENAME">%1$s</xliff:g> ਦੀ ਪੂਰਵ-ਝਲਕ ਦੇਖੋ"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"ਕਾਰਜ ਸੰਬੰਧੀ ਫ਼ਾਈਲ <xliff:g id="FILENAME">%1$s</xliff:g> ਦੀ ਪੂਰਵ-ਝਲਕ ਦੇਖੋ"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"ਹੋਰ ਐਪਾਂ ਵਿੱਚ ਫ਼ਾਈਲਾਂ ਬ੍ਰਾਊਜ਼ ਕਰੋ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ਗੁਮਨਾਮ"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"ਇਹ ਫੋਲਡਰ ਵਰਤੋ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"ਕੀ <xliff:g id="APPNAME">%1$s</xliff:g> ਨੂੰ <xliff:g id="DIRECTORY">%2$s</xliff:g> ਵਿਚਲੀਆਂ ਫ਼ਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਦੇਣੀ ਹੈ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ਇਸ ਨਾਲ <xliff:g id="APPNAME">%1$s</xliff:g> ਨੂੰ <xliff:g id="DIRECTORY">%2$s</xliff:g> ਵਿੱਚ ਸਟੋਰ ਕੀਤੀ ਵਰਤਮਾਨ ਅਤੇ ਭਵਿੱਖੀ ਸਮੱਗਰੀ ਤੱਕ ਪਹੁੰਚ ਮਿਲੇਗੀ।"</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> ਨਾਲ <xliff:g id="FOLDERNAME">%1$s</xliff:g> ਫੋਲਡਰ ਸਾਂਝਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ਹੇਠਾਂ ਦਿੱਤਾ ਕੋਈ ਫੋਲਡਰ ਚੁਣੋ, ਜਾਂ ਇੱਕ ਨਵਾਂ ਫੋਲਡਰ ਬਣਾਓ"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"ਕੋਈ ਹੋਰ ਫੋਲਡਰ ਚੁਣੋ, ਜਾਂ ਇੱਕ ਨਵਾਂ ਫੋਲਡਰ ਬਣਾਓ"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"ਇਹ ਫੋਲਡਰ ਨਹੀਂ ਵਰਤਿਆ ਜਾ ਸਕਦਾ"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ਆਪਣੀ ਪਰਦੇਦਾਰੀ ਦੀ ਸੁਰੱਖਿਆ ਲਈ, ਕੋਈ ਹੋਰ ਫੋਲਡਰ ਚੁਣੋ"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"ਨਵਾਂ ਫੋਲਡਰ ਬਣਾਓ"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ਇਹ ਫ਼ੋਨ ਖੋਜੋ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ਖੋਜ ਇਤਿਹਾਸ ਮਿਟਾਓ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"ਨਿੱਜੀ"</string>
+    <string name="work_tab" msgid="7265359366883747413">"ਕੰਮ ਸੰਬੰਧੀ ਡਾਇਰੈਕਟਰੀ"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"ਕੰਮ"</string>
 </resources>
