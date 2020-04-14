@@ -268,10 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ਇਹ ਫੋਲਡਰ ਵਰਤੋ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"ਕੀ <xliff:g id="APPNAME">%1$s</xliff:g> ਨੂੰ <xliff:g id="DIRECTORY">%2$s</xliff:g> ਵਿਚਲੀਆਂ ਫ਼ਾਈਲਾਂ ਤੱਕ ਪਹੁੰਚ ਦੇਣੀ ਹੈ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ਇਸ ਨਾਲ <xliff:g id="APPNAME">%1$s</xliff:g> ਨੂੰ <xliff:g id="DIRECTORY">%2$s</xliff:g> ਵਿੱਚ ਸਟੋਰ ਕੀਤੀ ਵਰਤਮਾਨ ਅਤੇ ਭਵਿੱਖੀ ਸਮੱਗਰੀ ਤੱਕ ਪਹੁੰਚ ਮਿਲੇਗੀ।"</string>
-    <!-- no translation found for directory_blocked_header_title (1164584889578740066) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (2829150911849033408) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"ਇਹ ਫੋਲਡਰ ਨਹੀਂ ਵਰਤਿਆ ਜਾ ਸਕਦਾ"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ਆਪਣੀ ਪਰਦੇਦਾਰੀ ਦੀ ਸੁਰੱਖਿਆ ਲਈ, ਕੋਈ ਹੋਰ ਫੋਲਡਰ ਚੁਣੋ"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"ਨਵਾਂ ਫੋਲਡਰ ਬਣਾਓ"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ਇਹ ਫ਼ੋਨ ਖੋਜੋ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ਖੋਜ ਇਤਿਹਾਸ ਮਿਟਾਓ <xliff:g id="TEXT">%1$s</xliff:g>"</string>

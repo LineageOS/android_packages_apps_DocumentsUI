@@ -101,7 +101,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Esta acción no está permitida"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Para obtener más información, ponte en contacto con tu administrador de TI"</string>
     <string name="root_recent" msgid="1080156975424341623">"Reciente"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> de espacio libre"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> libre"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Servicios almacenamiento"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Accesos directos"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Dispositivos"</string>
@@ -125,8 +125,8 @@
       <item quantity="one">Copiando <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other">Se están comprimiendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
-      <item quantity="one">Se está comprimiendo <xliff:g id="COUNT_0">%1$d</xliff:g> archivo.</item>
+      <item quantity="other">Comprimiendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
+      <item quantity="one">Comprimiendo <xliff:g id="COUNT_0">%1$d</xliff:g> archivo.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other">Se están extrayendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
@@ -243,7 +243,7 @@
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> en el teléfono"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Archivos de Descargas"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Archivos de <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
-    <string name="root_info_header_folder" msgid="5851172222368049864">"Archivos que hay en <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
+    <string name="root_info_header_folder" msgid="5851172222368049864">"Archivos en <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Archivos de <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Archivos de <xliff:g id="LABEL">%1$s</xliff:g> (<xliff:g id="SUMMARY">%2$s</xliff:g>)"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Imágenes recientes del teléfono"</string>
@@ -266,7 +266,7 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Ver archivos en otras aplicaciones"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Utilizar esta carpeta"</string>
-    <string name="open_tree_dialog_title" msgid="6339509533852318569">"¿Quieres permitir que <xliff:g id="APPNAME">%1$s</xliff:g> acceda a los archivos que hay en <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
+    <string name="open_tree_dialog_title" msgid="6339509533852318569">"¿Permitir que <xliff:g id="APPNAME">%1$s</xliff:g> acceda a los archivos que hay en <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Esto permitirá que <xliff:g id="APPNAME">%1$s</xliff:g> acceda al contenido almacenado en <xliff:g id="DIRECTORY">%2$s</xliff:g> de ahora en adelante."</string>
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Esta carpeta no se puede usar"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Para proteger tu privacidad, elige otra carpeta"</string>
