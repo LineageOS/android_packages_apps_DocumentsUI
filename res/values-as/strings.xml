@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"নথি-পত্ৰ ছেভ কৰিব পৰা নগ\'ল"</string>
     <string name="create_error" msgid="3092144450044861994">"ফ\'ল্ডাৰ সৃষ্টি কৰিব পৰা নগ\'ল"</string>
     <string name="query_error" msgid="6625421453613879336">"এই মুহূৰ্তত সমল ল\'ড কৰিব নোৱাৰি"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"কৰ্মস্থানৰ প্ৰ\'ফাইলটো পজ কৰা আছে"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"অন কৰক"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"কৰ্মস্থানৰ ফাইলসমূহ বাছনি কৰিব নোৱাৰি"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"আপোনাৰ আইটি প্ৰশাসকে আপোনাক কোনো ব্যক্তিগত এপৰ পৰা কর্মস্থানৰ ফাইলসমূহলৈ এক্সেছ কৰিবলৈ অনুমতি নিদিয়ে"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"ব্যক্তিগত ফাইলসমূহ বাছনি কৰিব নোৱাৰি"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"আপোনাৰ আইটি প্ৰশাসকে আপোনাক কোনো কৰ্মস্থানৰ এপৰ পৰা ব্যক্তিগত ফাইলসমূহলৈ এক্সেছ কৰিবলৈ অনুমতি নিদিয়ে"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"কৰ্মস্থানৰ প্ৰ\'ফাইলত ছেভ কৰিব নোৱাৰি"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"আপোনাৰ আইটি প্ৰশাসকে আপোনাক আপোনাৰ কর্মস্থানৰ প্ৰ\'ফাইলত ব্যক্তিগত ফাইলসমূহ ছেভ কৰিবলৈ অনুমতি নিদিয়ে"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"ব্যক্তিগত প্ৰফাইলত ছেভ কৰিব নোৱাৰি"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"আপোনাৰ আইটি প্ৰশাসকে আপোনাক আপোনাৰ ব্যক্তিগত প্ৰ\'ফাইলত কৰ্মস্থানৰ ফাইলসমূহ ছেভ কৰিবলৈ অনুমতি নিদিয়ে"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"এই কাৰ্যটোৰ অনুমতি নাই"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"অধিক জানিবলৈ আপোনাৰ আইটি প্ৰশাসকৰ সৈতে যোগাযোগ কৰক"</string>
     <string name="root_recent" msgid="1080156975424341623">"শেহতীয়া"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> খালী আছে"</string>
     <string name="root_type_service" msgid="6521366147466512289">"সঞ্চয়াগাৰৰ সেৱাসমূহ"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"আৰ্কাইভত থকা ফাইলবোৰ খুলিব নোৱাৰি"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"কিছুমান নথি মচিব পৰা নগ\'ল"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g>টাতকৈ অধিক ফাইল শ্বেয়াৰ কৰিব নোৱাৰি"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"এই কাৰ্যৰ অনুমতি নাই"</string>
     <string name="share_via" msgid="8725082736005677161">"ইয়াৰ জৰিয়তে শ্বেয়াৰ কৰক"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ফাইলসমূহৰ প্ৰতিলিপি কৰি থকা হৈছে"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ফাইলবোৰ সংকুচিত কৰি থকা হৈছে"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"ফ’ল্ডাৰৰ নাম"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"নতুন নাম"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> ফাইলটো পূৰ্বদৰ্শন কৰক"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"কৰ্মস্থানৰ ফাইলটো <xliff:g id="FILENAME">%1$s</xliff:g> পূৰ্বদৰ্শন কৰক"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"অন্য এপত ফাইল ব্ৰাউজ কৰক"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"পৰিচয়বিহীন"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"এই ফ\'ল্ডাৰটো ব্যৱহাৰ কৰক"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g>ক <xliff:g id="DIRECTORY">%2$s</xliff:g>ত থকা ফাইলসমূহ এক্সেছ কৰিবলৈ অনুমতি দিবনে?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"এইটোৱে <xliff:g id="APPNAME">%1$s</xliff:g>ক <xliff:g id="DIRECTORY">%2$s</xliff:g>ত ষ্ট\'ৰ কৰি থোৱা বর্তমান আৰু ভৱিষ্যতৰ সমল এক্সেছ কৰিবলৈ দিয়ে।"</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g>ৰ জৰিয়তে <xliff:g id="FOLDERNAME">%1$s</xliff:g> ফ\'ল্ডাৰ শ্বেয়াৰ কৰিব নোৱাৰি"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"তলত এটা ফ\'ল্ডাৰ বাছনি কৰক অথবা এটা নতুন ফ\'ল্ডাৰ সৃষ্টি কৰক"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"অন্য এটা ফ\'ল্ডাৰ বাছনি কৰক অথবা এটা নতুন ফ\'ল্ডাৰ সৃষ্টি কৰক"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"এই ফ’ল্ডাৰটো ব্যৱহাৰ কৰিব নোৱাৰি"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"আপোনাৰ গোপনীয়তা সুৰক্ষিত কৰিবলৈ অন্য এটা ফ’ল্ডাৰ বাছনি কৰক"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"নতুন ফ\'ল্ডাৰ সৃষ্টি কৰক"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"এই ফ’নটো সন্ধান কৰক"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"সন্ধান ইতিহাস মচক <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"ব্যক্তিগত"</string>
+    <string name="work_tab" msgid="7265359366883747413">"কৰ্মস্থান"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"কৰ্মস্থান"</string>
 </resources>

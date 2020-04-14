@@ -70,11 +70,11 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"വലുപ്പം"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"പരിഷ്‌ക്കരിച്ചു"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ഫയലിൻ്റെ പേര് (A - Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"ടൈപ്പ് ചെയ്യൂ (A - Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"തരം (A - Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"വലുപ്പം (ചെറുത് ആദ്യം)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"പരിഷ്ക്കരിച്ചത് (പഴയത് ആദ്യം)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"ഫയലിൻ്റെ പേര് (Z - A)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"ടൈപ്പ് ചെയ്യൂ (Z - A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"തരം (Z - A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"വലുപ്പം (വലുത് ആദ്യം)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"പരിഷ്ക്കരിച്ചത് (പുതിയത് ആദ്യം)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"ഇപ്രകാരം അടുക്കുക"</string>
@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"പ്രമാണം സംരക്ഷിക്കുന്നതിൽ പരാജയപ്പെട്ടു"</string>
     <string name="create_error" msgid="3092144450044861994">"ഫോൾഡർ സൃഷ്‌ടിക്കുന്നതിൽ പരാജയപ്പെട്ടു"</string>
     <string name="query_error" msgid="6625421453613879336">"ഇപ്പോൾ ഉള്ളടക്കം ലോഡുചെയ്യാൻ കഴിയില്ല"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"ഔദ്യോഗിക പ്രൊഫൈൽ തൽക്കാലം നിർത്തിയിരിക്കുന്നു"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"ഓണാക്കുക"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"ഔദ്യോഗിക ഫയലുകൾ തിരഞ്ഞെടുക്കാനാവില്ല"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"വ്യക്തിപര ആപ്പിൽ നിന്ന് ഔദ്യോഗിക ഫയലുകൾ ആക്സസ് ചെയ്യാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"വ്യക്തിപര ഫയലുകൾ തിരഞ്ഞെടുക്കാനാവില്ല"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ഔദ്യോഗിക ആപ്പിൽ നിന്ന് വ്യക്തിപര ഫയലുകൾ ആക്സസ് ചെയ്യാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"ഔദ്യോഗിക പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാനാവില്ല"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"വ്യക്തിപര ഫയലുകൾ ഔദ്യോഗിക പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"വ്യക്തിപര പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാനാവില്ല"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"ഔദ്യോഗിക ഫയലുകൾ നിങ്ങളുടെ വ്യക്തിപര പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാൻ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"ഈ പ്രവൃത്തി അനുവദനീയമല്ല"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"കൂടുതലറിയാൻ, നിങ്ങളുടെ ഐടി അഡ്‌മിനെ ബന്ധപ്പെടുക"</string>
     <string name="root_recent" msgid="1080156975424341623">"ഏറ്റവും പുതിയത്"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ലഭ്യമാണ്"</string>
     <string name="root_type_service" msgid="6521366147466512289">"സംഭരണ സേവനങ്ങൾ"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ആർക്കൈവുകളിലെ ഫയലുകൾ തുറക്കാൻ കഴിയില്ല"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ചില പ്രമാണങ്ങൾ ഇല്ലാതാക്കാനായില്ല"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g>-ൽ കൂടുതൽ ഫയലുകൾ പങ്കിടാനാകില്ല"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"നടപടി അനുവദനീയമല്ല"</string>
     <string name="share_via" msgid="8725082736005677161">"ഇതുവഴി പങ്കിടുക"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ഫയലുകൾ പകർത്തുന്നു"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ഫയലുകൾ കംപ്രസ്സുചെയ്യുന്നു"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"ഫോൾഡറിന്റെ പേര്"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"പുതിയ പേര്"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> ഫയൽ പ്രിവ്യൂ ചെയ്യുക"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> എന്ന ഔദ്യോഗിക ഫയൽ പ്രിവ്യൂ ചെയ്യുക"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"ഫയലുകള്‍ മറ്റ് ആപ്പുകളില്‍ ബ്രൗസ് ചെയ്യുക"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"അജ്ഞാതം"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"ഈ ഫോൾഡർ ഉപയോഗിക്കുക"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g> എന്നതിലെ ഫയലുകൾ ആക്സസ് ചെയ്യാൻ <xliff:g id="APPNAME">%1$s</xliff:g> എന്നതിനെ അനുവദിക്കണോ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ഇത് <xliff:g id="APPNAME">%1$s</xliff:g> എന്നതിനെ <xliff:g id="DIRECTORY">%2$s</xliff:g> എന്നതിൽ നിലവിൽ സംഭരിച്ചിട്ടുള്ളതും ഭാവിയിൽ സംഭരിക്കുന്നതുമായ ഉള്ളടക്കം ആക്സസ് ചെയ്യാൻ അനുവദിക്കും."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> എന്നതുമായി <xliff:g id="FOLDERNAME">%1$s</xliff:g> പങ്കിടാനാവില്ല"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ചുവടെയുള്ള ഒരു ഫോൾഡർ തിരഞ്ഞെടുക്കുകയോ പുതിയൊരെണ്ണം സൃഷ്ടിക്കുകയോ ചെയ്യുക"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"മറ്റൊരു ഫോൾഡർ തിരഞ്ഞെടുക്കുകയോ പുതിയൊരെണ്ണം സൃഷ്ടിക്കുകയോ ചെയ്യുക"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"ഈ ഫോൾഡർ ഉപയോഗിക്കാനാവില്ല"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"നിങ്ങളുടെ സ്വകാര്യത പരിരക്ഷിക്കാൻ മറ്റൊരു ഫോൾഡർ തിരഞ്ഞെടുക്കുക"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"പുതിയ ഫോൾഡർ സൃഷ്‌ടിക്കുക"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ഈ ഫോണിൽ തിരയുക"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"തിരയൽ ചരിത്രം <xliff:g id="TEXT">%1$s</xliff:g> ഇല്ലാതാക്കുക"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"വ്യക്തിപരമായത്"</string>
+    <string name="work_tab" msgid="7265359366883747413">"ജോലി"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"ഔദ്യോഗികം"</string>
 </resources>

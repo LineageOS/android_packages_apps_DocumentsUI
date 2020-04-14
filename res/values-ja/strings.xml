@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"ドキュメントを保存できませんでした"</string>
     <string name="create_error" msgid="3092144450044861994">"フォルダを作成できませんでした"</string>
     <string name="query_error" msgid="6625421453613879336">"現在、コンテンツを読み込むことができません"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"仕事用プロファイルが一時停止しています"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"ON にする"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"仕事用ファイルは選択できません"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT 管理者は、個人用アプリから仕事用ファイルにアクセスすることを許可していません"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"個人用ファイルは選択できません"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT 管理者は、仕事用アプリから個人用ファイルにアクセスすることを許可していません"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"仕事用プロファイルには保存できません"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT 管理者は、仕事用プロファイルに個人用ファイルを保存することを許可していません"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"個人用プロファイルには保存できません"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT 管理者は、個人用プロファイルに仕事用ファイルを保存することを許可していません"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"この操作は許可されていません"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"詳しくは、IT 管理者にお問い合わせください"</string>
     <string name="root_recent" msgid="1080156975424341623">"最近"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"空き容量: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"ストレージ サービス"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"アーカイブ内のファイルを開くことはできません"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"一部のドキュメントを削除できません"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"共有できるファイルは <xliff:g id="COUNT">%1$d</xliff:g> 件までです"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"操作が許可されていません"</string>
     <string name="share_via" msgid="8725082736005677161">"共有ツール"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ファイルのコピー中"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ファイルの圧縮中"</string>
@@ -249,16 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"フォルダ名"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"新しい名前"</string>
     <string name="preview_file" msgid="4056622696305432343">"ファイル <xliff:g id="FILENAME">%1$s</xliff:g> をプレビューする"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"仕事用ファイル <xliff:g id="FILENAME">%1$s</xliff:g> をプレビューする"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"他のアプリでファイルを探す"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"匿名"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"このフォルダを使用"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g> 内のファイルへのアクセスを<xliff:g id="APPNAME">%1$s</xliff:g>に許可しますか？"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="DIRECTORY">%2$s</xliff:g> 内のコンテンツに<xliff:g id="APPNAME">%1$s</xliff:g>がアクセスできるようになります。"</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"「<xliff:g id="FOLDERNAME">%1$s</xliff:g>」フォルダを<xliff:g id="APPNAME">%2$s</xliff:g>と共有できません"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"下のフォルダを選択するか、新しいフォルダを作成してください"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"別のフォルダを選択するか、新しいフォルダを作成してください"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"このスマートフォンを検索する"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"このフォルダは使用できません"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"プライバシーを保護するため、別のフォルダを選択してください"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"新規フォルダを作成"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"スマートフォン内を検索"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"検索履歴「<xliff:g id="TEXT">%1$s</xliff:g>」を削除します"</string>
     <string name="personal_tab" msgid="3878576287868528503">"個人用"</string>
     <string name="work_tab" msgid="7265359366883747413">"仕事用"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"仕事用"</string>
 </resources>
