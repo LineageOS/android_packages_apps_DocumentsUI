@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
@@ -47,11 +48,15 @@ final class InflateMessageDocumentHolder extends MessageHolder {
 
     private View mContentView;
     private View mCrossProfileView;
+    private View mCrossProfileContent;
+    private ProgressBar mCrossProfileProgress;
 
     public InflateMessageDocumentHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_doc_inflated_message);
         mContentView = itemView.findViewById(R.id.content);
         mCrossProfileView = itemView.findViewById(R.id.cross_profile);
+        mCrossProfileContent = mCrossProfileView.findViewById(R.id.cross_profile_content);
+        mCrossProfileProgress = mCrossProfileView.findViewById(R.id.cross_profile_progress);
 
         mContentMessage = mContentView.findViewById(R.id.message);
         mContentImage = mContentView.findViewById(R.id.artwork);
@@ -76,7 +81,9 @@ final class InflateMessageDocumentHolder extends MessageHolder {
         }
     }
 
-    private void onButtonClick(View button) {
+    private void onCrossProfileButtonClick(View button) {
+        mCrossProfileContent.setVisibility(View.GONE);
+        mCrossProfileProgress.setVisibility(View.VISIBLE);
         mMessage.runCallback();
     }
 
@@ -91,6 +98,9 @@ final class InflateMessageDocumentHolder extends MessageHolder {
     private void bindCrossProfileMessageView() {
         mContentView.setVisibility(View.GONE);
         mCrossProfileView.setVisibility(View.VISIBLE);
+        mCrossProfileContent.setVisibility(View.VISIBLE);
+        mCrossProfileProgress.setVisibility(View.GONE);
+
         mCrossProfileTitle.setText(mMessage.getTitleString());
         if (!TextUtils.isEmpty(mMessage.getMessageString())) {
             mCrossProfileMessage.setVisibility(View.VISIBLE);
@@ -102,7 +112,7 @@ final class InflateMessageDocumentHolder extends MessageHolder {
         if (!TextUtils.isEmpty(mMessage.getButtonString())) {
             mCrossProfileButton.setVisibility(View.VISIBLE);
             mCrossProfileButton.setText(mMessage.getButtonString());
-            mCrossProfileButton.setOnClickListener(this::onButtonClick);
+            mCrossProfileButton.setOnClickListener(this::onCrossProfileButtonClick);
         } else {
             mCrossProfileButton.setVisibility(View.GONE);
         }
