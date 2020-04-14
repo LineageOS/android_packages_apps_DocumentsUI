@@ -312,8 +312,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Naudoti šį aplanką"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Leisti programai „<xliff:g id="APPNAME">%1$s</xliff:g>“ pasiekti failus kataloge „<xliff:g id="DIRECTORY">%2$s</xliff:g>“?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Taip programa „<xliff:g id="APPNAME">%1$s</xliff:g>“ galės pasiekti dabartinį ir būsimą turinį, saugomą kataloge „<xliff:g id="DIRECTORY">%2$s</xliff:g>“."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Kito aplanko pasirinkimas"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Šio aplanko negalima naudoti saugos sumetimais"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Negalima naudoti šio aplanko"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Kad apsaugotumėte privatumą, pasirinkite kitą aplanką"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Kurti naują aplanką"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Ieškoti šiame telefone"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ištrinkite paieškos istoriją <xliff:g id="TEXT">%1$s</xliff:g>"</string>

@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"使用此資料夾"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"要允許「<xliff:g id="APPNAME">%1$s</xliff:g>」存取「<xliff:g id="DIRECTORY">%2$s</xliff:g>」中的檔案嗎？"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"這樣會允許「<xliff:g id="APPNAME">%1$s</xliff:g>」在今後存取儲存在「<xliff:g id="DIRECTORY">%2$s</xliff:g>」的內容。"</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"選擇其他資料夾"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"為了安全起見，此資料夾無法使用"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"無法使用此資料夾"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"為保護您的私隱，請選擇其他資料夾"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"建立新資料夾"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"搜尋這部手機"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"刪除搜尋記錄 <xliff:g id="TEXT">%1$s</xliff:g>"</string>

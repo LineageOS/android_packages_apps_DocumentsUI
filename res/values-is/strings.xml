@@ -92,12 +92,12 @@
     <string name="quiet_mode_button" msgid="6977115032320235420">"Kveikja"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ekki er hægt að velja vinnuskrár"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Kerfisstjórinn þinn leyfir þér ekki að opna vinnuskrár í forritum til einkanota"</string>
-    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Ekki er hægt að velja eigin skrár"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Kerfisstjórinn þinn leyfir þér ekki að opna eigin skrár úr vinnuforriti"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Ekki er hægt að velja einkaskrár"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Kerfisstjórinn þinn leyfir þér ekki að opna einkaskrár í vinnuforriti"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ekki er hægt að vista á vinnusniði"</string>
-    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Kerfisstjórinn þinn leyfir þér ekki að vista eigin skrár á vinnusniðinu"</string>
-    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Ekki er hægt að vista á eigin sniði"</string>
-    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Kerfisstjórinn þinn leyfir þér ekki að vista vinnuskrár á eigin sniði"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Kerfisstjórinn þinn leyfir þér ekki að vista einkaskrár á vinnusniðinu"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Ekki er hægt að vista á einkasniði"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Kerfisstjórinn þinn leyfir þér ekki að vista vinnuskrár á einkasniði"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Þessi aðgerð er ekki leyfð"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Hafðu samband við kerfisstjórann til að fá frekari upplýsingar"</string>
     <string name="root_recent" msgid="1080156975424341623">"Nýlegt"</string>
@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Nota þessa möppu"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Veita <xliff:g id="APPNAME">%1$s</xliff:g> aðgang að skrám í <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Þetta veitir <xliff:g id="APPNAME">%1$s</xliff:g> aðgang að efni sem vistað er í <xliff:g id="DIRECTORY">%2$s</xliff:g> nú og síðar."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Veldu aðra möppu"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Ekki er hægt að nota þessa möppu af öryggisástæðum"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Ekki er hægt að nota þessa möppu"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Veldu aðra möppu til að tryggja persónuvernd þína"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Búa til nýja möppu"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Leita í þessum síma"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Eyða leitarferli <xliff:g id="TEXT">%1$s</xliff:g>"</string>

@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Օգտագործել այս պանակը"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Թույլատրե՞լ <xliff:g id="APPNAME">%1$s</xliff:g> հավելվածին օգտագործել «<xliff:g id="DIRECTORY">%2$s</xliff:g>» գրացուցակի ֆայլերը"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> հավելվածին հասանելի կլինի «<xliff:g id="DIRECTORY">%2$s</xliff:g>» գրացուցակի ներկա և ապագա բովանդակությունը:"</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Ընտրեք մեկ այլ պանակ"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Անվտանգության նկատառումներով՝ այս պանակը չի կարող օգտագործվել"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Այլ պանակ ընտրեք"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Ձեր գաղտնիությունը պաշտպանելու նպատակով մենք արգելափակել ենք այս պանակի մուտքը"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Ստեղծել նոր պանակ"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Որոնեք հեռախոսում"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ջնջել որոնումների պատմությունը՝ <xliff:g id="TEXT">%1$s</xliff:g>"</string>

@@ -312,8 +312,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"לשימוש בתיקייה זו"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"האם להתיר ל-<xliff:g id="APPNAME">%1$s</xliff:g> לגשת לקבצים שבספרייה <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"פעולה זו תעניק ל-<xliff:g id="APPNAME">%1$s</xliff:g> גישה לתוכן נוכחי ועתידי המאוחסן ב-<xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"בחירת תיקייה אחרת"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"לא ניתן להשתמש בתיקייה זו מטעמי אבטחה"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"לא ניתן להשתמש בתיקייה הזו"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"כדי להגן על הפרטיות שלך, עליך לבחור תיקייה אחרת"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"יצירת תיקייה חדשה"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"חיפוש בטלפון זה"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"מחיקת היסטוריית החיפושים <xliff:g id="TEXT">%1$s</xliff:g>"</string>
