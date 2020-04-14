@@ -35,7 +35,7 @@
     <string name="menu_save" msgid="5195367497138965168">"Guardar"</string>
     <string name="menu_share" msgid="4307140947108068356">"Compartir"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Borrar"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"Seleccionar todos"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Seleccionar todo"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Anular la selección de todo"</string>
     <string name="menu_select" msgid="1366061076507142387">"Seleccionar"</string>
     <string name="menu_sort" msgid="3362419226163725275">"Ordenar por…"</string>

@@ -75,7 +75,7 @@
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"परिमार्जित गरियो (सबैभन्दा पुरानो पहिले)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"फाइलको नाम (ज्ञ देखि क)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"प्रकार (ज्ञ देखि क)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"आकार (सबैभन्दा ठूलो पहिले)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"आकार (सबैभन्दा ठुलो पहिले)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"परिमार्जित गरियो (सबभन्दा नयाँ पहिलो)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"यसअनुसार क्रमबद्ध गर्नुहोस्"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> द्वारा क्रमबद्ध गरियो"</string>
@@ -88,8 +88,8 @@
     <string name="save_error" msgid="8631128801982095782">"कागजातलाई सुरक्षित गर्न सकिएन"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर सिर्जना गर्न सकिएन"</string>
     <string name="query_error" msgid="6625421453613879336">"यस समय सामग्री लोड गर्न सकिँदैन"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्यलयको प्रोफाइल रोकिएको छ"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"सक्रिय गर्नुहोस्"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्यलयको प्रोफाइल अस्थायी रूपमा रोक्का गरिएको छ"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"सक्रिय गरियोस्"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कार्यालयका फाइलहरू चयन गर्न सकिएन"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"तपाईंका IT प्रशासकले तपाईंलाई व्यक्तिगत अनुप्रयोगमार्फत कार्यालयका फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"व्यक्तिगत फाइलहरू चयन गर्न सकिएन"</string>
@@ -268,10 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"यो फोल्डर प्रयोग गर्नुहोस्"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> लाई <xliff:g id="DIRECTORY">%2$s</xliff:g> मा भएका फाइलहरूमाथि पहुँच राख्न दिने हो?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"यसले <xliff:g id="APPNAME">%1$s</xliff:g> लाई <xliff:g id="DIRECTORY">%2$s</xliff:g> मा सुरक्षित गरिएका वर्तमान र भविष्यका सामग्रीमाथि पहुँच राख्न अनुमति दिन्छ।"</string>
-    <!-- no translation found for directory_blocked_header_title (1164584889578740066) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (2829150911849033408) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"यो फोल्डर प्रयोग गर्न सकिएन"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"आफ्नो गोपनीयताको संरक्षण गर्न अर्को फोल्डर छान्नुहोस्"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"नयाँ फोल्डर सिर्जना गर्नुहोस्"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"यो फोनमा खोज्नुहोस्"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"खोजसम्बन्धी इतिहास मेट्नुहोस् <xliff:g id="TEXT">%1$s</xliff:g>"</string>

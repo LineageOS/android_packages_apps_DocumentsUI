@@ -71,11 +71,11 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"बदले जाने का समय"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"फ़ाइल का नाम (A से Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"प्रकार (A से Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"आकार (सबसे छोटा पहले)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"साइज़ (सबसे छोटा पहले)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"बदला गया (पुरानी तारीख से)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"फ़ाइल का नाम (Z से A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"प्रकार (Z से A)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"आकार (सबसे बड़ा पहले)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"साइज़ (सबसे बड़ा पहले)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"बदला गया (नई तारीख से)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"इस क्रम से लगाएं"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> से क्रम से लगाया गया"</string>
@@ -101,7 +101,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"इसकी अनुमति नहीं है"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"ज़्यादा जानने के लिए, अपने आईटी एडमिन से संपर्क करें"</string>
     <string name="root_recent" msgid="1080156975424341623">"हाल ही का"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> रिक्त"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> खाली"</string>
     <string name="root_type_service" msgid="6521366147466512289">"जगह सेवाएं"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"शॉर्टकट"</string>
     <string name="root_type_device" msgid="1713604128005476585">"डिवाइस"</string>
