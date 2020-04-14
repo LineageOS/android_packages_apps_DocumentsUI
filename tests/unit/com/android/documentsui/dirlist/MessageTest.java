@@ -19,12 +19,9 @@ package com.android.documentsui.dirlist;
 import static com.google.common.truth.Truth.assertThat;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.timeout;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import android.content.Context;
-import android.os.UserHandle;
 import android.os.UserManager;
 
 import androidx.core.util.Preconditions;
@@ -53,16 +50,18 @@ public final class MessageTest {
     private Runnable mDefaultCallback = () -> {
     };
     private UserManager mUserManager;
+    private TestActionHandler mTestActionHandler;
 
     @Before
     public void setUp() {
         mContext = mock(Context.class);
         mUserManager = UserManagers.create();
+        mTestActionHandler = new TestActionHandler();
         when(mContext.getSystemService(Context.USER_SERVICE)).thenReturn(mUserManager);
         when(mContext.getResources()).thenReturn(
                 InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
         DocumentsAdapter.Environment env =
-                new TestEnvironment(mContext, TestEnv.create(), new TestActionHandler());
+                new TestEnvironment(mContext, TestEnv.create(), mTestActionHandler);
         env.getDisplayState().action = State.ACTION_GET_CONTENT;
         mInflateMessage = new Message.InflateMessage(env, mDefaultCallback);
     }
@@ -100,7 +99,7 @@ public final class MessageTest {
                 mContext.getString(R.string.quiet_mode_button));
         assertThat(mInflateMessage.mCallback).isNotNull();
         mInflateMessage.mCallback.run();
-        verify(mUserManager, timeout(3000))
-                .requestQuietModeEnabled(false, UserHandle.of(mUserId.getIdentifier()));
+
+        assertThat(mTestActionHandler.mRequestDisablingQuietModeHappened).isTrue();
     }
 }
