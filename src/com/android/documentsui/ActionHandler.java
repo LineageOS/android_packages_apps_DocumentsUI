@@ -89,6 +89,8 @@ public interface ActionHandler {
      */
     void startAuthentication(PendingIntent intent);
 
+    void requestQuietModeDisabled(RootInfo info, UserId userId);
+
     void showAppDetails(ResolveInfo info, UserId userId);
 
     void openRoot(RootInfo root);
