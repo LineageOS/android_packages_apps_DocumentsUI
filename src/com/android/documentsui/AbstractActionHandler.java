@@ -177,6 +177,11 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     @Override
+    public void requestQuietModeDisabled(RootInfo info, UserId userId) {
+        new RequestQuietModeDisabledTask(mActivity, userId).execute();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case CODE_AUTHENTICATION:
