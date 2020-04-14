@@ -21,7 +21,6 @@ import android.app.AuthenticationRequiredException;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 
@@ -215,14 +214,8 @@ abstract class Message {
             CharSequence buttonText = null;
             if (mCanModifyQuietMode) {
                 buttonText = mEnv.getContext().getResources().getText(R.string.quiet_mode_button);
-                mCallback = () ->
-                        new AsyncTask<Void, Void, Void>() {
-                            @Override
-                            protected Void doInBackground(Void... voids) {
-                                userId.requestQuietModeDisabled(mEnv.getContext());
-                                return null;
-                            }
-                        }.execute();
+                mCallback = () -> mEnv.getActionHandler().requestQuietModeDisabled(
+                        mEnv.getDisplayState().stack.getRoot(), userId);
             }
             update(
                     mEnv.getContext().getResources().getText(R.string.quiet_mode_error_title),
