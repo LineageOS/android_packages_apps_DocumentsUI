@@ -35,7 +35,7 @@
     <string name="menu_save" msgid="5195367497138965168">"Guardar"</string>
     <string name="menu_share" msgid="4307140947108068356">"Compartir"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Borrar"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"Seleccionar todos"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Seleccionar todo"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Anular la selección de todo"</string>
     <string name="menu_select" msgid="1366061076507142387">"Seleccionar"</string>
     <string name="menu_sort" msgid="3362419226163725275">"Ordenar por…"</string>
@@ -262,14 +262,14 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nombre de carpeta"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nombre nuevo"</string>
     <string name="preview_file" msgid="4056622696305432343">"Obtener vista previa del archivo <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
-    <string name="preview_work_file" msgid="4495643735563487273">"Obtener vista previa del archivo de trabajo <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"Obtén una vista previa del archivo de trabajo <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Explorar archivos en otras apps"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Usar esta carpeta"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"¿Deseas brindarle a <xliff:g id="APPNAME">%1$s</xliff:g> acceso a los archivos almacenados en <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Se le brindará a <xliff:g id="APPNAME">%1$s</xliff:g> acceso al contenido actual y futuro almacenado en <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Seleccionar otra carpeta"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Por razones de seguridad, no se puede usar esta carpeta"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"No se puede usar esta carpeta"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Para proteger tu privacidad, elige otra carpeta"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crear carpeta"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Buscar en este teléfono"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Borrar historial de búsqueda de <xliff:g id="TEXT">%1$s</xliff:g>"</string>
