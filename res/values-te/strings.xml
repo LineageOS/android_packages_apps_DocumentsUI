@@ -268,10 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ఈ ఫోల్డర్‌ను ఉపయోగించండి"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g>లోని ఫైల్‌లను యాక్సెస్ చేయడానికి <xliff:g id="APPNAME">%1$s</xliff:g>ని అనుమతించాలా?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ఇది <xliff:g id="DIRECTORY">%2$s</xliff:g>లో నిల్వ చేసిన ప్రస్తుత మరియు భవిష్యత్తు కంటెంట్‌ను <xliff:g id="APPNAME">%1$s</xliff:g> యాక్సెస్ చేయడానికి అనుమతిస్తుంది."</string>
-    <!-- no translation found for directory_blocked_header_title (1164584889578740066) -->
-    <skip />
-    <!-- no translation found for directory_blocked_header_subtitle (2829150911849033408) -->
-    <skip />
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"ఈ ఫోల్డర్‌ను ఉపయోగించడం సాధ్యం కాదు"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"మీ గోప్యతను కాపాడుకోవటానికి, మరొక ఫోల్డర్‌ను ఎంచుకోండి"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"కొత్త ఫోల్డర్‌ని సృష్టించు"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ఈ ఫోన్‌లో వెతకండి"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"శోధన చరిత్ర <xliff:g id="TEXT">%1$s</xliff:g>ను తొలగించండి"</string>

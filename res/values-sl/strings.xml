@@ -72,11 +72,11 @@
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Ime datoteke (od A do Ž)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Vrsta (od A do Ž)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Velikost (od najmanjše)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Spremenjeno (od najstarejše)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Spremenjeno (najprej najstarejše)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Ime datoteke (od Ž do A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Vrsta (od Ž do A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Velikost (od največje)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Spremenjeno (od najnovejše)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Spremenjeno (najprej najnovejše)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Razvrsti po"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Razvrščeno po: <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Število elementov"</string>
