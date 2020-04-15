@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"ଡକୁମେଣ୍ଟକୁ ସେଭ୍‍ କରିପାରିଲା ନାହିଁ"</string>
     <string name="create_error" msgid="3092144450044861994">"ଫୋଲ୍ଡର୍‍ ତିଆରି କରିହେଲା ନାହିଁ"</string>
     <string name="query_error" msgid="6625421453613879336">"ଏହି ସମୟରେ କଣ୍ଟେଣ୍ଟ ଲୋଡ୍‍ କରିପାରିବ ନାହିଁ"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"ୱାର୍କ ପ୍ରୋଫାଇଲ୍ ବିରତ କରାଯାଇଛି"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"ଚାଲୁ କରନ୍ତୁ"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"କାର୍ଯ୍ୟସ୍ଥଳୀ ଫାଇଲଗୁଡ଼ିକ ଚୟନ କରାଯାଇପାରିବ ନାହିଁ"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଏକ ବ୍ୟକ୍ତିଗତ ଆପରୁ କାର୍ଯ୍ୟସ୍ଥଳୀ ଫାଇଲଗୁଡ଼ିକ ଆକ୍ସେସ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"ବ୍ୟକ୍ତିଗତ ଫାଇଲଗୁଡ଼ିକ ଚୟନ କରାଯାଇପାରିବ ନାହିଁ"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଏକ କାର୍ଯ୍ୟସ୍ଥଳୀ ଆପରୁ ବ୍ୟକ୍ତିଗତ ଫାଇଲଗୁଡ଼ିକ ଆକ୍ସେସ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"ୱାର୍କ ପ୍ରୋଫାଇଲରେ ସେଭ୍ କରାଯାଇପାରିବ ନାହିଁ"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଆପଣଙ୍କ ୱାର୍କ ପ୍ରୋଫାଇଲରେ ବ୍ୟକ୍ତିଗତ ଫାଇଲଗୁଡ଼ିକୁ ସେଭ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"ବ୍ୟକ୍ତିଗତ ପ୍ରୋଫାଇଲରେ ସେଭ୍ କରାଯାଇପାରିବ ନାହିଁ"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଆପଣଙ୍କ ବ୍ୟକ୍ତିଗତ ପ୍ରୋଫାଇଲରେ କାର୍ଯ୍ୟସ୍ଥଳୀର ଫାଇଲଗୁଡ଼ିକ ସେଭ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"ଏହି କାର୍ଯ୍ୟକୁ ଅନୁମତି ଦିଆଯାଇ ନାହିଁ"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"ଅଧିକ ଜାଣିବାକୁ, ଆପଣଙ୍କ IT ଆଡମିନଙ୍କ ସହ ଯୋଗାଯୋଗ କରନ୍ତୁ"</string>
     <string name="root_recent" msgid="1080156975424341623">"କିଛି ସମୟ ପୂର୍ବରୁ"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ଖାଲି ଅଛି"</string>
     <string name="root_type_service" msgid="6521366147466512289">"ଷ୍ଟୋରେଜ୍‍ ସେବା"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ସଂଗ୍ରହରେ ଥିବା ଫାଇଲ୍‍ ଖୋଲିପାରିବ ନାହିଁ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"କିଛି ଡକୁମେଣ୍ଟ ଡିଲିଟ୍‍ କରିହେବ ନାହିଁ"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g>ଟିରୁ ଅଧିକ ଫାଇଲ୍ ସେୟାର୍ କରାଯାଇପାରିବ ନାହିଁ"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"କାର୍ଯ୍ୟଟିକୁ ଅନୁମତି ନାହିଁ"</string>
     <string name="share_via" msgid="8725082736005677161">"ଏହା ମାଧ୍ୟମରେ ସେୟାର୍‌ କରନ୍ତୁ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ଫାଇଲ୍‌ଗୁଡ଼ିକ କପୀ କରାଯାଉଛି"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ଫାଇଲ୍‍ ଛୋଟ କରାଯାଉଛି"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"ଫୋଲ୍ଡର୍‌ ନାମ"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"ନୂଆ ନାମ"</string>
     <string name="preview_file" msgid="4056622696305432343">"ଫାଇଲ୍‍ <xliff:g id="FILENAME">%1$s</xliff:g> ପୂର୍ବାବଲୋକନ କରନ୍ତୁ"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"କାର୍ଯ୍ୟସ୍ଥଳୀ ଫାଇଲ୍ <xliff:g id="FILENAME">%1$s</xliff:g>ର ପ୍ରିଭ୍ୟୁ କରନ୍ତୁ"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"ଅନ୍ୟ ଆପ୍ସରେ ଫାଇଲ୍‍ ବ୍ରାଉଜ୍‍ କରନ୍ତୁ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ବେନାମୀ"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"ଏହି ଫୋଲ୍ଡର୍ ବ୍ୟବହାର କରନ୍ତୁ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g>ରେ ଫାଇଲ୍‍ଗୁଡ଼ିକୁ ଆକ୍ସେସ୍ କରିବାକୁ <xliff:g id="APPNAME">%1$s</xliff:g>କୁ ଅନୁମତି ଦେବେ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ଏହା <xliff:g id="DIRECTORY">%2$s</xliff:g>ରେ ଷ୍ଟୋର୍ କରଯାଇଥିବା ବର୍ତ୍ତମାନ ଏବଂ ଭବିଷ୍ୟତର ବିଷୟବସ୍ତୁ <xliff:g id="APPNAME">%1$s</xliff:g> ଆକ୍ସେସ୍ କରିବାକୁ ଦେବ।"</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> ସହିତ <xliff:g id="FOLDERNAME">%1$s</xliff:g> ଫୋଲ୍ଡର୍ ସେୟାର୍ କରିପାରିବ ନାହିଁ"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"ତଳେ ଅନ୍ୟ ଏକ ଫୋଲ୍ଡର୍ ଚୟନ କରନ୍ତୁ ବା ଏକ ନୂଆ ତିଆରି କରନ୍ତୁ"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"ଅନ୍ୟ ଏକ ଫୋଲ୍ଡର୍ ଚୟନ କରନ୍ତୁ ବା ଏକ ନୂଆ ତିଆରି କରନ୍ତୁ"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"ଏହି ଫୋଲ୍ଡରକୁ ବ୍ୟବହାର କରାଯାଇପାରିବ ନାହିଁ"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ଆପଣଙ୍କ ଗୋପନୀୟତାକୁ ସୁରକ୍ଷିତ କରିବାକୁ ଅନ୍ୟ ଏକ ଫୋଲ୍ଡର୍ ବାଛନ୍ତୁ"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"ନୂଆ ଫୋଲ୍ଡର୍ ତିଆରି କରନ୍ତୁ"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ଏହି ଫୋନ୍‌ ଖୋଜନ୍ତୁ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ସର୍ଚ୍ଚ ଇତିବୃତ୍ତି <xliff:g id="TEXT">%1$s</xliff:g>କୁ ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"ବ୍ୟକ୍ତିଗତ"</string>
+    <string name="work_tab" msgid="7265359366883747413">"କାର୍ଯ୍ୟସ୍ଥଳୀ"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"କାର୍ଯ୍ୟସ୍ଥଳୀ"</string>
 </resources>

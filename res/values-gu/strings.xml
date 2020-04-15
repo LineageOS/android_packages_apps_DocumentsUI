@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"દસ્તાવેજ સાચવવામાં નિષ્ફળ થયાં"</string>
     <string name="create_error" msgid="3092144450044861994">"ફોલ્ડર બનાવવામાં નિષ્ફળ થયાં"</string>
     <string name="query_error" msgid="6625421453613879336">"આ પળે સામગ્રી લોડ કરી શકતાં નથી"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"કાર્યાલયની પ્રોફાઇલ થોભાવી છે"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"ચાલુ કરો"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"ઑફિસની ફાઇલોને પસંદ કરી શકતા નથી"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"તમારા IT વ્યવસ્થાપક તમને વ્યક્તિગત ઍપ પરથી ઑફિસની ફાઇલોને ઍક્સેસ કરવાની મંજૂરી આપતા નથી"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"વ્યક્તિગત ફાઇલોને પસંદ કરી શકતા નથી"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"તમારા IT વ્યવસ્થાપક તમને ઑફિસ માટેની ઍપ પરથી વ્યક્તિગત ફાઇલોને ઍક્સેસ કરવાની મંજૂરી આપતા નથી"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"કાર્યાલયની પ્રોફાઇલમાં સાચવી શકતા નથી"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"તમારા IT વ્યવસ્થાપક તમને તમારી કાર્યાલયની પ્રોફાઇલમાં વ્યક્તિગત ફાઇલોને સાચવવાની મંજૂરી આપતા નથી"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"વ્યક્તિગત પ્રોફાઇલમાં સાચવી શકતા નથી"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"તમારા IT વ્યવસ્થાપક તમને તમારી વ્યક્તિગત પ્રોફાઇલમાં ઑફિસની ફાઇલોને સાચવવાની મંજૂરી આપતા નથી"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"આ ક્રિયાની મંજૂરી નથી"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"વધુ જાણવા માટે, તમારા IT વ્યવસ્થાપકનો સંપર્ક કરો"</string>
     <string name="root_recent" msgid="1080156975424341623">"તાજેતરમાં"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ખાલી"</string>
     <string name="root_type_service" msgid="6521366147466512289">"સ્ટોરેજ સેવાઓ"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"આર્કાઇવમાંની ફાઇલો ખોલી શકાતી નથી"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"કેટલાક દસ્તાવેજો કાઢી નાખવામાં અસમર્થ"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g>થી વધુ ફાઇલ શેર કરી શકાતી નથી"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"ક્રિયાની મંજૂરી નથી"</string>
     <string name="share_via" msgid="8725082736005677161">"આના દ્વારા શેર કરો"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ફાઇલો કૉપિ કરી રહ્યાં છે"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ફાઇલોને સંકુચિત કરવી"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"ફોલ્ડરનું નામ"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"નવું નામ"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> ફાઇલને પ્રીવ્યૂ કરો"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"ઑફિસની ફાઇલ <xliff:g id="FILENAME">%1$s</xliff:g>ને પ્રીવ્યૂ કરો"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"અન્ય ઍપમાં ફાઇલો બ્રાઉઝ કરો"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"અજ્ઞાત"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"આ ફોલ્ડરનો ઉપયોગ કરો"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"શું <xliff:g id="APPNAME">%1$s</xliff:g>ને <xliff:g id="DIRECTORY">%2$s</xliff:g>માંની ફાઇલો ઍક્સેસ કરવાની મંજૂરી આપીએ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"આનાથી <xliff:g id="APPNAME">%1$s</xliff:g> <xliff:g id="DIRECTORY">%2$s</xliff:g>માં સ્ટોર કરેલું હાલનું અને ભાવિ કન્ટેન્ટ ઍક્સેસ કરી શકશે."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="APPNAME">%2$s</xliff:g> સાથે <xliff:g id="FOLDERNAME">%1$s</xliff:g> ફોલ્ડર શેર કરી શકતાં નથી"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"નીચે એક ફોલ્ડર પસંદ કરો અથવા એક નવું ફોલ્ડર બનાવો"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"અન્ય કોઈ ફોલ્ડર પસંદ કરો અથવા એક નવું ફોલ્ડર બનાવો"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"આ ફોલ્ડરનો ઉપયોગ કરી શકાતો નથી"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"તમારી પ્રાઇવસી સુરક્ષિત રાખવા માટે, અન્ય ફોલ્ડર પસંદ કરો"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"નવું ફોલ્ડર બનાવો"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"આ ફોન શોધો"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"શોધ ઇતિહાસ <xliff:g id="TEXT">%1$s</xliff:g> ડિલીટ કરો"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"વ્યક્તિગત"</string>
+    <string name="work_tab" msgid="7265359366883747413">"ઑફિસ માટેની ડાયરેક્ટરી"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"ઑફિસ"</string>
 </resources>

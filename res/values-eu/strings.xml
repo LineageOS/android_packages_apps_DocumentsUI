@@ -88,6 +88,18 @@
     <string name="save_error" msgid="8631128801982095782">"Ezin izan da gorde dokumentua"</string>
     <string name="create_error" msgid="3092144450044861994">"Ezin izan da sortu karpeta"</string>
     <string name="query_error" msgid="6625421453613879336">"Une honetan ezin da kargatu edukia"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Pausatu egin da laneko profila"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Aktibatu"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ezin dira hautatu laneko fitxategiak"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IKT saileko administratzaileak ez dizu ematen baimenik laneko fitxategiak aplikazio pertsonal batetik atzitzeko"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Ezin dira hautatu fitxategi pertsonalak"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IKT saileko administratzaileak ez dizu ematen baimenik fitxategi pertsonalak laneko aplikazio batetik atzitzeko"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ezin da gorde laneko profilean"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IKT saileko administratzaileak ez dizu ematen baimenik fitxategi pertsonalak zure laneko profilean gordetzeko"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Ezin da gorde profil pertsonalean"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IKT saileko administratzaileak ez dizu ematen baimenik laneko fitxategiak zure profil pertsonalean gordetzeko"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ez da onartzen ekintza"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Informazio gehiago lortzeko, jarri IKT saileko administratzailearekin harremanetan"</string>
     <string name="root_recent" msgid="1080156975424341623">"Azkenak"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> erabilgarri"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Biltegiratze-zerbitzuak"</string>
@@ -100,6 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Ezin dira ireki artxiboetako fitxategiak"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Ezin dira ezabatu dokumentu batzuk"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Ezin dira partekatu <xliff:g id="COUNT">%1$d</xliff:g> fitxategi baino gehiago"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Ez da onartzen ekintza"</string>
     <string name="share_via" msgid="8725082736005677161">"Partekatu honekin:"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopiatu fitxategiak"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Fitxategiak konprimatzen"</string>
@@ -249,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Karpetaren izena"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Izen berria"</string>
     <string name="preview_file" msgid="4056622696305432343">"Aurreikusi <xliff:g id="FILENAME">%1$s</xliff:g> fitxategia"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"Aurreikusi laneko <xliff:g id="FILENAME">%1$s</xliff:g> fitxategia"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Arakatu beste aplikazio batzuetako fitxategiak"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimoa"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Erabili karpeta hau"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g> direktorioko fitxategiak atzitzeko baimena eman nahi diozu <xliff:g id="APPNAME">%1$s</xliff:g> aplikazioari?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> aplikazioak <xliff:g id="DIRECTORY">%2$s</xliff:g> direktorioan gordetako uneko eta etorkizuneko edukia atzitu ahalko du."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"Ezin da partekatu <xliff:g id="FOLDERNAME">%1$s</xliff:g> karpeta <xliff:g id="APPNAME">%2$s</xliff:g> aplikazioarekin"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Aukeratu hemen beheko karpetetako bat edo sortu beste bat"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Aukeratu edo sortu beste karpeta bat"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Ezin da erabili karpeta hori"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Pribatutasuna babesteko, aukeratu beste karpeta bat"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"Sortu karpeta bat"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Bilatu telefono honetan"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ezabatu bilaketa-historia (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
-    <!-- no translation found for personal_tab (3878576287868528503) -->
-    <skip />
-    <!-- no translation found for work_tab (7265359366883747413) -->
-    <skip />
+    <string name="personal_tab" msgid="3878576287868528503">"Pertsonala"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Lanekoa"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"Lana"</string>
 </resources>
