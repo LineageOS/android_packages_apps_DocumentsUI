@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Utilitza aquesta carpeta"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Vols permetre que <xliff:g id="APPNAME">%1$s</xliff:g> accedeixi als fitxers del directori <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Això permetrà que <xliff:g id="APPNAME">%1$s</xliff:g> accedeixi al contingut emmagatzemat a <xliff:g id="DIRECTORY">%2$s</xliff:g> actualment i en el futur."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Tria una altra carpeta"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Aquesta carpeta no es pot utilitzar per raons de seguretat"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"No es pot utilitzar aquesta carpeta"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Per protegir la teva privadesa, tria una altra carpeta"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crea una carpeta"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Cerca en aquest telèfon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Suprimeix l\'historial de cerques <xliff:g id="TEXT">%1$s</xliff:g>"</string>

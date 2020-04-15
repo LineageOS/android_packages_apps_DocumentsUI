@@ -112,7 +112,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Không thể mở tệp trong lưu trữ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Không thể xóa một số tài liệu"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Bạn không thể chia sẻ quá <xliff:g id="COUNT">%1$d</xliff:g> tệp"</string>
-    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Hành động này không được cho phép"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Thao tác này không được phép"</string>
     <string name="share_via" msgid="8725082736005677161">"Chia sẻ qua"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Đang sao chép tệp"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Nén tệp"</string>
@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Sử dụng thư mục này"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Cho phép <xliff:g id="APPNAME">%1$s</xliff:g> truy cập vào tệp trong <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Thao tác này sẽ cho phép <xliff:g id="APPNAME">%1$s</xliff:g> truy cập vào nội dung đang và sẽ được lưu trữ trong <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Chọn một thư mục khác"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Bạn không được phép sử dụng thư mục này vì lý do bảo mật"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Không thể dùng thư mục này"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Để bảo vệ quyền riêng tư của bạn, hãy chọn một thư mục khác"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Tạo thư mục mới"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Tìm kiếm trên điện thoại này"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Xóa lịch sử tìm kiếm <xliff:g id="TEXT">%1$s</xliff:g>"</string>

@@ -71,11 +71,11 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"बदले जाने का समय"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"फ़ाइल का नाम (A से Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"प्रकार (A से Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"आकार (सबसे छोटा पहले)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"साइज़ (सबसे छोटा पहले)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"बदला गया (पुरानी तारीख से)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"फ़ाइल का नाम (Z से A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"प्रकार (Z से A)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"आकार (सबसे बड़ा पहले)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"साइज़ (सबसे बड़ा पहले)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"बदला गया (नई तारीख से)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"इस क्रम से लगाएं"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g> से क्रम से लगाया गया"</string>
@@ -95,13 +95,13 @@
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"निजी फ़ाइलें नहीं चुनी जा सकतीं"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"आपका आईटी एडमिन आपको ऑफ़िस के काम से जुड़े ऐप्लिकेशन से निजी फ़ाइलें ऐक्सेस करने की अनुमति नहीं देता"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"वर्क प्रोफ़ाइल में सेव नहीं की जा सकतीं"</string>
-    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"आपका आईटी एडमिन आपको आपकी निजी फ़ाइलें वर्क प्रोफ़ाइल में सेव करने की अनुमति नहीं देता"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"आपका आईटी एडमिन आपको निजी फ़ाइलें वर्क प्रोफ़ाइल में सेव करने की अनुमति नहीं देता"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"निजी प्रोफ़ाइल में सेव नहीं की जा सकतीं"</string>
-    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"आपका आईटी एडमिन आपको आपकी दफ़्तर की फ़ाइलें निजी प्रोफ़ाइल में सेव करने की अनुमति नहीं देता"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"आपका आईटी एडमिन आपको दफ़्तर की फ़ाइलें निजी प्रोफ़ाइल में सेव करने की अनुमति नहीं देता"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"इसकी अनुमति नहीं है"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"ज़्यादा जानने के लिए, अपने आईटी एडमिन से संपर्क करें"</string>
     <string name="root_recent" msgid="1080156975424341623">"हाल ही का"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> रिक्त"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> खाली"</string>
     <string name="root_type_service" msgid="6521366147466512289">"जगह सेवाएं"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"शॉर्टकट"</string>
     <string name="root_type_device" msgid="1713604128005476585">"डिवाइस"</string>
@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"यह फ़ोल्डर इस्तेमाल करें"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"क्या आप <xliff:g id="APPNAME">%1$s</xliff:g> को <xliff:g id="DIRECTORY">%2$s</xliff:g> में मौजूद फ़ाइलों का ऐक्सेस देना चाहते हैं?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ऐसा करने से <xliff:g id="APPNAME">%1$s</xliff:g> को <xliff:g id="DIRECTORY">%2$s</xliff:g> में सेव और आने वाले समय में सेव होनी वाली सामग्री का ऐक्सेस मिल जाएगा."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"कोई दूसरा फ़ोल्डर चुनें"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"सुरक्षा वजहों से इस फ़ोल्डर का इस्तेमाल नहीं किया जा सकता"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"इस फ़ोल्डर का इस्तेमाल नहीं किया जा सकता"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"अपनी निजता की सुरक्षा करने के लिए, कोई और फ़ोल्डर चुनें"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"नया फ़ोल्डर बनाएं"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"यह फ़ोन खोजें"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"खोज का इतिहास मिटाएं <xliff:g id="TEXT">%1$s</xliff:g>"</string>

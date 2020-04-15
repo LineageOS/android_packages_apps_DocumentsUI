@@ -262,18 +262,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Ordnername"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Neuer Name"</string>
     <string name="preview_file" msgid="4056622696305432343">"Datei \"<xliff:g id="FILENAME">%1$s</xliff:g>\" als Vorschau ansehen"</string>
-    <string name="preview_work_file" msgid="4495643735563487273">"Vorschau der geschäftlichen Datei <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"Vorschau der geschäftlichen Datei \"<xliff:g id="FILENAME">%1$s</xliff:g>\""</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Dateien in anderen Apps ansehen"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonym"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Diesen Ordner verwenden"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> erlauben, auf Dateien in <xliff:g id="DIRECTORY">%2$s</xliff:g> zuzugreifen?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> kann dann auf Inhalte zugreifen, die derzeit und zukünftig in <xliff:g id="DIRECTORY">%2$s</xliff:g> gespeichert sind."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Anderen Ordner wählen"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Dieser Ordner kann aus Sicherheitsgründen nicht verwendet werden"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Dieser Ordner kann nicht verwendet werden"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Zum Schutz deiner Daten einen anderen Ordner auswählen"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Neuen Ordner erstellen"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Auf diesem Smartphone suchen"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"<xliff:g id="TEXT">%1$s</xliff:g>-Suchverlauf löschen"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Privat"</string>
     <string name="work_tab" msgid="7265359366883747413">"Geschäftlich"</string>
-    <string name="a11y_work" msgid="7504431382825242153">"Arbeit"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"Aus Arbeitsprofil"</string>
 </resources>

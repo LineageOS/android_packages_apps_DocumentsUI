@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Използване на тази папка"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Да се разреши ли на <xliff:g id="APPNAME">%1$s</xliff:g> достъп до файловете в(ъв) <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Това ще разреши на <xliff:g id="APPNAME">%1$s</xliff:g> да осъществява достъп до текущото и бъдещото съдържание, което се съхранява в(ъв) <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Избиране на друга папка"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"От съображения за сигурност използването на тази папка не е разрешено"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Тази папка не може да се използва"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Изберете друга папка, за да защитите поверителността си"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Създаване на нова папка"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Търсете в този телефон"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Изтриване на <xliff:g id="TEXT">%1$s</xliff:g> от историята на търсенията"</string>

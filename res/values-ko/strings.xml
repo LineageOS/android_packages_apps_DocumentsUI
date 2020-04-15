@@ -268,8 +268,8 @@
     <string name="open_tree_button" msgid="6402871398424497776">"이 폴더 사용"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g>에서 <xliff:g id="DIRECTORY">%2$s</xliff:g>의 파일에 액세스하도록 허용하시겠습니까?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"이를 통해 <xliff:g id="APPNAME">%1$s</xliff:g>에서 <xliff:g id="DIRECTORY">%2$s</xliff:g>에 저장된 현재 및 향후 콘텐츠에 액세스할 수 있습니다."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"다른 폴더 선택"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"보안상의 이유로 이 폴더를 사용할 수 없습니다."</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"이 폴더를 사용할 수 없음"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"개인정보 보호를 위해 다른 폴더를 선택하세요."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"새 폴더 만들기"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"이 휴대전화 검색"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"검색 기록 삭제 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
