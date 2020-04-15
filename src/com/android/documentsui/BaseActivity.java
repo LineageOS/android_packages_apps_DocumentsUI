@@ -619,10 +619,10 @@ public abstract class BaseActivity
 
         // Causes talkback to announce the activity's new title
         String appName = getString(R.string.files_label);
-        if (getTitle().toString().isEmpty()) {
+        if (getTitle() == null || getTitle().toString().isEmpty()) {
             // First launch, TalkBack announces app name.
             setTitle(String.format("%s. %s", appName, mState.stack.getTitle()));
-        } else {
+        } else if (mState.stack.getTitle() != null) {
             setTitle(mState.stack.getTitle());
         }
 
