@@ -117,7 +117,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
+                    android:textAppearance="@style/ItemDocListCaptionText"/>
 
                 <TextView
                     android:id="@+id/size"
@@ -128,7 +128,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
+                    android:textAppearance="@style/ItemDocListCaptionText"/>
 
                 <TextView
                     android:id="@+id/file_type"
@@ -139,7 +139,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
+                    android:textAppearance="@style/ItemDocListCaptionText"/>
             </LinearLayout>
         </LinearLayout>
 
