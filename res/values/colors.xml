@@ -49,4 +49,7 @@
 
     <color name="tab_indicator_color">#1A73E8</color> <!-- Blue 600 -->
     <color name="edge_effect">@android:color/black</color>
+
+    <color name="doc_list_item_subtitle_enabled">#5F6368</color> <!-- Gray 700 -->
+    <color name="doc_list_item_subtitle_disabled">#613c4043</color> <!-- 38% Grey800 -->
 </resources>
