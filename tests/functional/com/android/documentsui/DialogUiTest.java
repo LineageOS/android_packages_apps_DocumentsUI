@@ -104,7 +104,7 @@ public class DialogUiTest {
         assertNotNull("Dialog was null", mCreateDirectoryFragment.getDialog());
         assertTrue("Dialog was not being shown", mCreateDirectoryFragment.getDialog().isShowing());
 
-        mActivityTestRule.runOnUiThread(() -> mCreateDirectoryFragment.dismiss());
+        mActivityTestRule.runOnUiThread(() -> mCreateDirectoryFragment.getDialog().dismiss());
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
         assertNull("Dialog should be null after dismiss()", mCreateDirectoryFragment.getDialog());
