@@ -25,7 +25,6 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.DocumentsContract;
 
@@ -122,44 +121,5 @@ public class PickActivityTest {
 
         assertThat(pickActivity.isFinishing()).isFalse();
         testDialogs.assertActionNotAllowedShown();
-    }
-
-    @Test
-    public void testStartForResultForwarderActivity() {
-        Intent originalIntent = new Intent("com.android.documentsui.test.action.RETURN_RESULT");
-        Intent intent = ForResultForwarderActivity.getIntent(mTargetContext, originalIntent,
-                TestProvidersAccess.USER_ID);
-
-        PickActivity pickActivity = mRule.launchActivity(intentGetContent);
-        pickActivity.startActivityForResult(intent, AbstractActionHandler.CODE_FORWARD);
-        SystemClock.sleep(3000);
-
-        Instrumentation.ActivityResult result = mRule.getActivityResult();
-        assertThat(result.getResultCode()).isEqualTo(Activity.RESULT_OK);
-        assertThat(result.getResultData().getStringExtra(RESULT_EXTRA)).isEqualTo(RESULT_DATA);
-    }
-
-    @Test
-    public void testStartForResultForwarderActivity_noActivity() {
-        Intent originalIntent = new Intent("no_app_handles_this_intent_action");
-        Intent intent = ForResultForwarderActivity.getIntent(mTargetContext, originalIntent,
-                TestProvidersAccess.USER_ID);
-
-        PickActivity pickActivity = mRule.launchActivity(intentGetContent);
-        pickActivity.startActivityForResult(intent, AbstractActionHandler.CODE_FORWARD);
-        SystemClock.sleep(3000);
-
-        assertThat(pickActivity.isFinishing()).isFalse();
-    }
-
-    public static class ReturnResultActivity extends Activity {
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            Intent data = new Intent();
-            data.putExtra(RESULT_EXTRA, RESULT_DATA);
-            setResult(Activity.RESULT_OK, data);
-            finish();
-        }
     }
 }
