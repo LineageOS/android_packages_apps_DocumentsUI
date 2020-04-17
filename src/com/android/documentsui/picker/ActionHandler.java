@@ -43,7 +43,6 @@ import androidx.recyclerview.selection.ItemDetailsLookup.ItemDetails;
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.DocumentsAccess;
-import com.android.documentsui.ForResultForwarderActivity;
 import com.android.documentsui.Injector;
 import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
@@ -243,46 +242,6 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (DEBUG) {
-            Log.d(TAG, "onActivityResult() code=" + resultCode);
-        }
-
-        // Only relay back results when not canceled; otherwise stick around to
-        // let the user pick another app/backend.
-        switch (requestCode) {
-            case CODE_FORWARD:
-            case CODE_FORWARD_CROSS_PROFILE:
-                onExternalAppResult(requestCode, resultCode, data);
-                break;
-            default:
-                super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    private void onExternalAppResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != FragmentActivity.RESULT_CANCELED) {
-            if (requestCode == CODE_FORWARD_CROSS_PROFILE) {
-                UserId otherUser = UserId.CURRENT_USER.equals(mUserIdManager.getSystemUser())
-                        ? mUserIdManager.getManagedUser()
-                        : mUserIdManager.getSystemUser();
-                if (!mState.canInteractWith(otherUser)) {
-                    mDialogs.showActionNotAllowed();
-                    return;
-                }
-            }
-            // Remember that we last picked via external app
-            mLastAccessed.setLastAccessedToExternalApp(mActivity);
-
-            updatePickResult(data, false, MetricConsts.ROOT_THIRD_PARTY_APP);
-
-            // Pass back result to original caller
-            mActivity.setResult(resultCode, data, 0);
-            mActivity.finish();
-        }
-    }
-
-    @Override
     public void openInNewWindow(DocumentStack path) {
         // Open new window support only depends on vanilla Activity, so it is
         // implemented in our parent class. But we don't support that in
@@ -311,26 +270,29 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         }
 
         Intent intent = new Intent(mActivity.getIntent());
-        final int flagsRemoved = Intent.FLAG_ACTIVITY_FORWARD_RESULT
-                | Intent.FLAG_GRANT_READ_URI_PERMISSION
+        final int flagsRemoved = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
                 | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION;
         intent.setFlags(intent.getFlags() & ~flagsRemoved);
+        intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
         intent.setComponent(new ComponentName(
                 info.activityInfo.applicationInfo.packageName, info.activityInfo.name));
-        if (!UserId.CURRENT_USER.equals(userId)) {
-            intent = ForResultForwarderActivity.getIntent(mActivity, intent, userId);
-        }
         try {
             boolean isCurrentUser = UserId.CURRENT_USER.equals(userId);
-            mActivity.startActivityForResult(intent,
-                    isCurrentUser ? CODE_FORWARD : CODE_FORWARD_CROSS_PROFILE);
+            if (isCurrentUser) {
+                mActivity.startActivity(intent);
+            } else {
+                userId.startActivityAsUser(mActivity, intent);
+            }
+            mActivity.finish();
         } catch (SecurityException | ActivityNotFoundException e) {
             Log.e(TAG, "Caught error: " + e.getLocalizedMessage());
             mInjector.dialogs.showNoApplicationFound();
         }
     }
+
 
     @Override
     public void springOpenDirectory(DocumentInfo doc) {

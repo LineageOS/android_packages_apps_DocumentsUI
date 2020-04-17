@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.DocumentsContract;
@@ -36,9 +37,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.test.filters.MediumTest;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.DocumentsAccess;
-import com.android.documentsui.ForResultForwarderActivity;
 import com.android.documentsui.Injector;
 import com.android.documentsui.R;
 import com.android.documentsui.TestUserIdManager;
@@ -523,113 +522,57 @@ public class ActionHandlerTest {
         mActivity.finishedHandler.assertCalled();
     }
 
-    @Test
-    public void testOnAppPickedResult_OnOK() throws Exception {
-        Intent intent = new Intent();
-        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD, Activity.RESULT_OK, intent);
-        mActivity.finishedHandler.assertCalled();
-        mActivity.setResult.assertCalled();
-
-        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
-        assertEquals(intent, mActivity.setResult.getLastValue().second);
-    }
-
-    @Test
-    public void testOnAppPickedResult_OnOK_crossProfile() throws Exception {
-        mEnv.state.canShareAcrossProfile = true;
-        mTestUserIdManager.managedUser = TestProvidersAccess.OtherUser.USER_ID;
-        mTestUserIdManager.systemUser = TestProvidersAccess.USER_ID;
-
-        Intent intent = new Intent();
-        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD_CROSS_PROFILE,
-                Activity.RESULT_OK, intent);
-        mActivity.finishedHandler.assertCalled();
-        mActivity.setResult.assertCalled();
-
-        assertEquals(Activity.RESULT_OK, (long) mActivity.setResult.getLastValue().first);
-        assertEquals(intent, mActivity.setResult.getLastValue().second);
-        mEnv.dialogs.assertActionNotAllowedNotShown();
-    }
-
-    @Test
-    public void testOnAppPickedResult_OnOK_crossProfile_withoutPermission() throws Exception {
-        mEnv.state.canShareAcrossProfile = false;
-        mTestUserIdManager.managedUser = TestProvidersAccess.OtherUser.USER_ID;
-        mTestUserIdManager.systemUser = TestProvidersAccess.USER_ID;
-
-        Intent intent = new Intent();
-        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD_CROSS_PROFILE,
-                Activity.RESULT_OK, intent);
-        mActivity.finishedHandler.assertNotCalled();
-        mActivity.setResult.assertNotCalled();
-        mEnv.dialogs.assertActionNotAllowedShown();
-    }
-
-    @Test
-    public void testOnAppPickedResult_OnNotOK() throws Exception {
-        Intent intent = new Intent();
-        mHandler.onActivityResult(0, Activity.RESULT_OK, intent);
-        mActivity.finishedHandler.assertNotCalled();
-        mActivity.setResult.assertNotCalled();
-
-        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD, Activity.RESULT_CANCELED,
-                intent);
-        mActivity.finishedHandler.assertNotCalled();
-        mActivity.setResult.assertNotCalled();
-    }
-
-    @Test
-    public void testOnAppPickedResult_OnNotOK_crossProfile() throws Exception {
-        Intent intent = new Intent();
-        mHandler.onActivityResult(AbstractActionHandler.CODE_FORWARD_CROSS_PROFILE,
-                Activity.RESULT_CANCELED,
-                intent);
-        mActivity.finishedHandler.assertNotCalled();
-        mActivity.setResult.assertNotCalled();
-    }
 
     @Test
     public void testOpenAppRoot() throws Exception {
         mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.USER_ID);
-        assertEquals((long) mActivity.startActivityForResult.getLastValue().second,
-                AbstractActionHandler.CODE_FORWARD);
-        assertNotNull(mActivity.startActivityForResult.getLastValue().first);
+        assertNotNull(mActivity.startActivity.getLastValue());
     }
 
     @Test
     public void testOpenAppRoot_otherUser() throws Exception {
+        ResolveInfo info = TestResolveInfo.create();
         mEnv.state.canShareAcrossProfile = true;
-        mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.OtherUser.USER_ID);
-        assertEquals((long) mActivity.startActivityForResult.getLastValue().second,
-                AbstractActionHandler.CODE_FORWARD_CROSS_PROFILE);
-        Intent forwarderIntent = mActivity.startActivityForResult.getLastValue().first;
-        assertThat(forwarderIntent.getComponent()).isEqualTo(
-                new ComponentName(mActivity.getPackageName(),
-                        ForResultForwarderActivity.class.getName()));
-        Intent originalIntent = forwarderIntent.getParcelableExtra(EXTRA_INTENT);
-        assertThat(originalIntent).isNotNull();
-        assertThat(forwarderIntent.getIntExtra(EXTRA_USER, -1))
-                .isEqualTo(TestProvidersAccess.OtherUser.USER_ID.getIdentifier());
+        mHandler.openRoot(info, TestProvidersAccess.OtherUser.USER_ID);
+        assertThat(mActivity.startActivityAsUser.getLastValue().first.getComponent()).isEqualTo(
+                new ComponentName(info.activityInfo.applicationInfo.packageName,
+                info.activityInfo.name));
+        assertThat(mActivity.startActivityAsUser.getLastValue().second)
+            .isEqualTo(TestProvidersAccess.OtherUser.USER_HANDLE);
+
+        int flags = mActivity.startActivityAsUser.getLastValue().first.getFlags();
+        assertEquals(0, flags & Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        assertEquals(0, flags & Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
+        assertEquals(0, flags & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        assertEquals(0, flags & Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        assertEquals(Intent.FLAG_ACTIVITY_FORWARD_RESULT,
+                flags & Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+        assertEquals(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP,
+                flags & Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
     }
 
     @Test
-    public void testOpenAppRoot_removeFlags() throws Exception {
+    public void testOpenAppRoot_removeFlagsAddForwardResult() throws Exception {
+        ResolveInfo info = TestResolveInfo.create();
         mActivity.intent.setFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT
                 | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
                 | Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
                 | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.USER_ID);
-        assertEquals((long) mActivity.startActivityForResult.getLastValue().second,
-                AbstractActionHandler.CODE_FORWARD);
-        assertNotNull(mActivity.startActivityForResult.getLastValue().first);
+        mHandler.openRoot(info, TestProvidersAccess.USER_ID);
+        assertThat(mActivity.startActivity.getLastValue().getComponent()).isEqualTo(
+                new ComponentName(info.activityInfo.applicationInfo.packageName,
+                info.activityInfo.name));
 
-        int flags = mActivity.startActivityForResult.getLastValue().first.getFlags();
-        assertEquals(0, flags & Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+        int flags = mActivity.startActivity.getLastValue().getFlags();
         assertEquals(0, flags & Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         assertEquals(0, flags & Intent.FLAG_GRANT_PREFIX_URI_PERMISSION);
         assertEquals(0, flags & Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         assertEquals(0, flags & Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        assertEquals(Intent.FLAG_ACTIVITY_FORWARD_RESULT,
+                flags & Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+        assertEquals(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP,
+                flags & Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
     }
 
     @Test
@@ -638,8 +581,8 @@ public class ActionHandlerTest {
         mActivity.intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryContent);
         mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.USER_ID);
         assertEquals(queryContent,
-                mActivity.startActivityForResult.getLastValue().first.getStringExtra(
-                        Intent.EXTRA_CONTENT_QUERY));
+                mActivity.startActivity.getLastValue().getStringExtra(
+                Intent.EXTRA_CONTENT_QUERY));
     }
 
     @Test
@@ -649,26 +592,6 @@ public class ActionHandlerTest {
         mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.OtherUser.USER_ID);
         assertThat(mActivity.startActivityForResult.getLastValue()).isNull();
         mEnv.dialogs.assertActionNotAllowedShown();
-    }
-
-    @Test
-    public void testOpenAppRoot_happensWithPermission_differentUser() throws Exception {
-        final String queryContent = "query";
-        mEnv.state.canShareAcrossProfile = true;
-        mActivity.intent.putExtra(Intent.EXTRA_CONTENT_QUERY, queryContent);
-        mHandler.openRoot(TestResolveInfo.create(), TestProvidersAccess.OtherUser.USER_ID);
-
-        Intent forwarderIntent = mActivity.startActivityForResult.getLastValue().first;
-        assertThat(forwarderIntent.getComponent()).isEqualTo(
-                new ComponentName(mActivity.getPackageName(),
-                        ForResultForwarderActivity.class.getName()));
-
-        Intent originalIntent = forwarderIntent.getParcelableExtra(EXTRA_INTENT);
-        assertThat(originalIntent.getStringExtra(
-                Intent.EXTRA_CONTENT_QUERY)).isEqualTo(queryContent);
-        assertThat(forwarderIntent.getIntExtra(EXTRA_USER, -1))
-                .isEqualTo(TestProvidersAccess.OtherUser.USER_ID.getIdentifier());
-        mEnv.dialogs.assertActionNotAllowedNotShown();
     }
 
     @Test
