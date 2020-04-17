@@ -119,7 +119,8 @@ public class SearchViewManager implements
         mChipViewManager.setSearchChipViewManagerListener(this::onChipCheckedStateChanged);
 
         if (savedState != null) {
-            mCurrentSearch = savedState.getString(Shared.EXTRA_QUERY);
+            String savedQuery = savedState.getString(Shared.EXTRA_QUERY);
+            mCurrentSearch = savedQuery != null ? savedQuery : "";
             mChipViewManager.restoreCheckedChipItems(savedState);
         } else {
             mCurrentSearch = null;
@@ -223,6 +224,7 @@ public class SearchViewManager implements
         if (clearButton != null) {
             clearButton.setOnClickListener(v -> {
                 mSearchView.setQuery("", false);
+                mSearchView.requestFocus();
                 mListener.onSearchViewClearClicked();
             });
         }
@@ -232,7 +234,7 @@ public class SearchViewManager implements
         mSearchView.setMaxWidth(Integer.MAX_VALUE);
         mMenuItem.setOnActionExpandListener(this);
 
-        restoreSearch(false);
+        restoreSearch(true);
     }
 
     /**

@@ -77,11 +77,23 @@
                 <include layout="@layout/directory_header" />
 
                 <FrameLayout
-                    android:id="@+id/container_directory"
-                    android:clipToPadding="false"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1">
+
+                    <FrameLayout
+                        android:id="@+id/container_directory"
+                        android:clipToPadding="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <FrameLayout
+                        android:id="@+id/container_search_fragment"
+                        android:clipToPadding="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </FrameLayout>
 
                 <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:id="@+id/container_save"
