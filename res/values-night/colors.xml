@@ -29,4 +29,8 @@
 
     <color name="edge_effect">@android:color/white</color>
     <color name="tab_indicator_color">#669DF6</color> <!-- Blue 400 -->
+
+    <!-- AppCompat.textColorSecondary -->
+    <color name="doc_list_item_subtitle_enabled">#b3ffffff</color>
+    <color name="doc_list_item_subtitle_disabled">#36ffffff</color>
 </resources>
