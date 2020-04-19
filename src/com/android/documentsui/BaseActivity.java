@@ -174,6 +174,10 @@ public abstract class BaseActivity
              */
             @Override
             public void onSearchChanged(@Nullable String query) {
+                if (query != null) {
+                    SearchFragment.dismissFragment(getSupportFragmentManager());
+                }
+
                 if (mSearchManager.isSearching()) {
                     Metrics.logSearchMode(query != null, mSearchManager.hasCheckedChip());
                     if (mInjector.pickResult != null) {
@@ -226,6 +230,8 @@ public abstract class BaseActivity
                         && !isInitailSearch) {
                     SearchFragment.showFragment(getSupportFragmentManager(),
                             mSearchManager.getSearchViewText());
+                } else {
+                    SearchFragment.dismissFragment(getSupportFragmentManager());
                 }
             }
 
