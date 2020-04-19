@@ -125,8 +125,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ລາຍການ</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other">Compressing <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
-      <item quantity="one">ກຳ​ລັງ​ລຶບ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
+      <item quantity="other">ກຳລັງບີບອັດ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟ​ລ໌.</item>
+      <item quantity="one">ກຳລັງບີບອັດ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other">Extracting <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
@@ -241,7 +241,7 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"ໄຟລ໌ຫຼ້າສຸດຢູ່ໂທລະສັບ"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"ໄຟລ໌ຢູ່ໂທລະສັບ"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> ຢູ່ໂທລະສັບ"</string>
-    <string name="root_info_header_downloads" msgid="8848161246921154115">"ໄຟລ໌ໃນການດາວໂຫຼດ"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"ໄຟລ໌ໃນ ດາວໂຫລດ"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ໄຟລ໌ຢູ່ <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"ໄຟລ໌ໃນ <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"ໄຟລ໌ຈາກ <xliff:g id="LABEL">%1$s</xliff:g>"</string>

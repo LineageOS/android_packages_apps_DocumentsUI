@@ -100,7 +100,7 @@
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Admin IT tidak mengizinkan Anda menyimpan file kerja ke profil pribadi Anda"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Tindakan ini tidak diizinkan"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Untuk mempelajari lebih lanjut, hubungi admin IT Anda"</string>
-    <string name="root_recent" msgid="1080156975424341623">"Baru-baru ini"</string>
+    <string name="root_recent" msgid="1080156975424341623">"Terbaru"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> kosong"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Layanan penyimpanan"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Pintasan"</string>
