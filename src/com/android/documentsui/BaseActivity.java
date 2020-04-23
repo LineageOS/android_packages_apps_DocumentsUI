@@ -20,6 +20,7 @@ import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.State.MODE_GRID;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -416,6 +417,11 @@ public abstract class BaseActivity
         state.localOnly = intent.getBooleanExtra(Intent.EXTRA_LOCAL_ONLY, false);
         state.excludedAuthorities = getExcludedAuthorities();
         state.restrictScopeStorage = Shared.shouldRestrictStorageAccessFramework(this);
+        state.showHiddenFiles = LocalPreferences.getShowHiddenFiles(
+                getApplicationContext(),
+                getApplicationContext()
+                        .getResources()
+                        .getBoolean(R.bool.show_hidden_files_by_default));
 
         includeState(state);
 
@@ -535,6 +541,10 @@ public abstract class BaseActivity
 
             case R.id.option_menu_launcher:
                 getInjector().actions.switchLauncherIcon();
+                return true;
+
+            case R.id.option_menu_show_hidden_files:
+                onClickedShowHiddenFiles();
                 return true;
 
             case R.id.sub_menu_grid:
@@ -662,6 +672,23 @@ public abstract class BaseActivity
 
     public State getDisplayState() {
         return mState;
+    }
+
+    /**
+     * Updates hidden files visibility based on user action.
+     */
+    private void onClickedShowHiddenFiles() {
+        boolean showHiddenFiles = !mState.showHiddenFiles;
+        Context context = getApplicationContext();
+
+        Metrics.logUserAction(showHiddenFiles
+                ? MetricConsts.USER_ACTION_SHOW_HIDDEN_FILES
+                : MetricConsts.USER_ACTION_HIDE_HIDDEN_FILES);
+        LocalPreferences.setShowHiddenFiles(context, showHiddenFiles);
+        mState.showHiddenFiles = showHiddenFiles;
+
+        // Calls this to trigger either MultiRootDocumentsLoader or DirectoryLoader reloading.
+        mInjector.actions.loadDocumentsForCurrentStack();
     }
 
     /**

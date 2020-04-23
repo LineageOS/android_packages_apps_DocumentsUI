@@ -41,7 +41,6 @@ import com.android.documentsui.base.FilteringCursorWrapper;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
-import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.RootCursorWrapper;
 
@@ -182,12 +181,8 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
                             continue;
                         }
 
-                        boolean fallback = getContext()
-                                .getResources()
-                                .getBoolean(R.bool.show_hidden_files_by_default);
-                        boolean showHiddenFiles =
-                                LocalPreferences.getShowHiddenFiles(getContext(), fallback);
-                        cursor = new FilteringCursorWrapper(cursor, showHiddenFiles);
+                        // Filter hidden files.
+                        cursor = new FilteringCursorWrapper(cursor, mState.showHiddenFiles);
 
                         final FilteringCursorWrapper filtered = new FilteringCursorWrapper(
                                 cursor, mState.acceptMimes, getRejectMimes(), rejectBefore) {

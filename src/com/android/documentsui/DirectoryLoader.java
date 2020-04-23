@@ -46,7 +46,6 @@ import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
-import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
 
@@ -179,9 +178,8 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             }
             cursor.registerContentObserver(mObserver);
 
-            boolean showHiddenFiles = LocalPreferences.getShowHiddenFiles(getContext(),
-                    getContext().getResources().getBoolean(R.bool.show_hidden_files_by_default));
-            cursor = new FilteringCursorWrapper(cursor, showHiddenFiles);
+            // Filter hidden files.
+            cursor = new FilteringCursorWrapper(cursor, mState.showHiddenFiles);
 
             if (mSearchMode && !mFeatures.isFoldersInSearchResultsEnabled()) {
                 // There is no findDocumentPath API. Enable filtering on folders in search mode.
