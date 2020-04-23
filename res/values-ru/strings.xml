@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="files_label" msgid="771781190045103748">"Файлы"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"Загрузки"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"Скачанное"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
@@ -101,13 +101,13 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Это действие запрещено"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Чтобы узнать больше, обратитесь к администратору."</string>
     <string name="root_recent" msgid="1080156975424341623">"Недавние"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"Свободно <xliff:g id="SIZE">%1$s</xliff:g>"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"Свободно: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Службы хранения"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Ярлыки"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Устройства"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Другие приложения"</string>
-    <string name="empty" msgid="5300254272613103004">"Нет объектов"</string>
-    <string name="no_results" msgid="2371026325236359209">"В \"%1$s\" ничего не найдено"</string>
+    <string name="empty" msgid="5300254272613103004">"Ничего нет."</string>
+    <string name="no_results" msgid="2371026325236359209">"В разделе \"%1$s\" ничего не найдено."</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Не удалось открыть файл"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Нельзя открывать файлы в архивах"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Не удалось удалить некоторые документы"</string>
@@ -127,10 +127,10 @@
       <item quantity="other">Копирование <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="one">Сжатие <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
-      <item quantity="few">Сжатие <xliff:g id="COUNT_1">%1$d</xliff:g> файлов</item>
-      <item quantity="many">Сжатие <xliff:g id="COUNT_1">%1$d</xliff:g> файлов</item>
-      <item quantity="other">Сжатие <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
+      <item quantity="one">Сжатие <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
+      <item quantity="few">Сжатие <xliff:g id="COUNT_1">%1$d</xliff:g> файлов…</item>
+      <item quantity="many">Сжатие <xliff:g id="COUNT_1">%1$d</xliff:g> файлов…</item>
+      <item quantity="other">Сжатие <xliff:g id="COUNT_1">%1$d</xliff:g> файла…</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="one">Извлечение <xliff:g id="COUNT_1">%1$d</xliff:g> файла</item>
@@ -288,8 +288,8 @@
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Файлы в папке \"Загрузки\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Файлы на устройстве <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Файлы в папке \"<xliff:g id="FOLDER">%1$s</xliff:g>\""</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"Файлы из сервиса \'<xliff:g id="LABEL">%1$s</xliff:g>\'"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Файлы из сервиса \'<xliff:g id="LABEL">%1$s</xliff:g>\' (<xliff:g id="SUMMARY">%2$s</xliff:g>)"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Файлы из сервиса \"<xliff:g id="LABEL">%1$s</xliff:g>\""</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Файлы из сервиса \"<xliff:g id="LABEL">%1$s</xliff:g>\" (<xliff:g id="SUMMARY">%2$s</xliff:g>)"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Недавние изображения на телефоне"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Изображения на телефоне"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Изображения в папке \"Загрузки\""</string>
@@ -307,7 +307,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Новое название"</string>
     <string name="preview_file" msgid="4056622696305432343">"Открыть файл \"<xliff:g id="FILENAME">%1$s</xliff:g>\" в режиме предпросмотра."</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Предпросмотр рабочего файла \"<xliff:g id="FILENAME">%1$s</xliff:g>\""</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Найти файлы в других приложениях"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Поиск файлов в других приложениях"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимное приложение"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Использовать эту папку"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Разрешить приложению \"<xliff:g id="APPNAME">%1$s</xliff:g>\" доступ к файлам в папке \"<xliff:g id="DIRECTORY">%2$s</xliff:g>\"?"</string>

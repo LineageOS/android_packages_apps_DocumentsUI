@@ -244,7 +244,7 @@
     <string name="root_info_header_downloads" msgid="8848161246921154115">"ფაილები ჩამოტვირთვებში"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ფაილები <xliff:g id="DEVICE">%1$s</xliff:g>-ზე"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"სურათები საქაღალდეში: <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"ფაილები <xliff:g id="LABEL">%1$s</xliff:g>-იდან"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"ფაილები <xliff:g id="LABEL">%1$s</xliff:g>-დან"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ფაილები <xliff:g id="LABEL">%1$s</xliff:g>-იდან / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"ბოლოდროინდელი სურათები ტელეფონზე"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"სურათები ტელეფონზე"</string>

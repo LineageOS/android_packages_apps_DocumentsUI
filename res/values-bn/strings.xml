@@ -45,7 +45,7 @@
     <string name="menu_extract" msgid="8171946945982532262">"এখানে রাখুন…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"পুনঃনামকরণ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"তথ্য পান"</string>
-    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> এ দেখুন"</string>
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>-এ দেখুন"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"নতুন উইন্ডো"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"কাট করুন"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"কপি করুন"</string>
@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"ডিভাইস"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"আরও অ্যাপ্স"</string>
     <string name="empty" msgid="5300254272613103004">"কোনও আইটেম নেই"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s এ কোনো মিল নেই"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s-এ কোনও মিল নেই"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ফাইল খোলা যাবে না"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"আর্কাইভের ফাইলগুলি খোলা যাচ্ছে না"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"কিছু দস্তাবেজ মোছা গেল না"</string>
@@ -243,7 +243,7 @@
     <string name="root_info_header_media" msgid="2774453755906260852">"ফোনে সেভ করা <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"ডাউনলোড ফোল্ডারে ফাইল"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> ডিভাইসে সেভ করা ফাইলগুলি"</string>
-    <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g>-এ ফোল্ডার"</string>
+    <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g>-এ থাকা ফাইল"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>-এ সেভ করা ফাইলগুলি"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>-এ সেভ করা ফাইলগুলি"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"ফোনে সম্প্রতি আসা ছবি"</string>

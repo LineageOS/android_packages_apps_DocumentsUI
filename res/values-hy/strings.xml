@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Սարքեր"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Այլ ծրագրեր"</string>
     <string name="empty" msgid="5300254272613103004">"Ոչինչ չկա"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s-ում համընկնումներ չկան"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s – Համընկնումներ չկան"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Հնարավոր չէ բացել ֆայլը"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Հնարավոր չէ բացել արխիվացված ֆայլերը"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Հնարավոր չէ ջնջել որոշ փաստաթղթեր"</string>
@@ -238,12 +238,12 @@
       <item quantity="one">Ընտրված է՝ <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="other">Ընտրված է՝ <xliff:g id="COUNT_1">%1$d</xliff:g></item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"Ձեր հեռախոսում վերջերս բացված ֆայլերը"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Ձեր հեռախոսում վերջերս բացված ֆայլեր"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"Ֆայլեր հեռախոսում"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> հեռախոսում"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Ֆայլեր «Նեռբեռնումներ» պանակում"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Ֆայլեր <xliff:g id="DEVICE">%1$s</xliff:g> սարքում"</string>
-    <string name="root_info_header_folder" msgid="5851172222368049864">"«<xliff:g id="FOLDER">%1$s</xliff:g>» գրացուցակի ֆայլերը"</string>
+    <string name="root_info_header_folder" msgid="5851172222368049864">"Ֆայլեր «<xliff:g id="FOLDER">%1$s</xliff:g>» պանակում"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Ֆայլեր <xliff:g id="LABEL">%1$s</xliff:g> ծառայությունից"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Ֆայլեր <xliff:g id="LABEL">%1$s</xliff:g> (<xliff:g id="SUMMARY">%2$s</xliff:g>) ծառայությունից"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Նոր պատկերներ հեռախոսում"</string>
@@ -263,7 +263,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Նոր անունը"</string>
     <string name="preview_file" msgid="4056622696305432343">"Դիտել «<xliff:g id="FILENAME">%1$s</xliff:g>» ֆայլը"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Նախադիտել <xliff:g id="FILENAME">%1$s</xliff:g> աշխատանքային ֆայլը"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Գտնել ֆայլեր այլ հավելվածներում"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Գտեք ֆայլեր այլ հավելվածներում"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Անանուն"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Օգտագործել այս պանակը"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Թույլատրե՞լ <xliff:g id="APPNAME">%1$s</xliff:g> հավելվածին օգտագործել «<xliff:g id="DIRECTORY">%2$s</xliff:g>» գրացուցակի ֆայլերը"</string>

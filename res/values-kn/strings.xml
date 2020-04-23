@@ -40,7 +40,7 @@
     <string name="menu_select" msgid="1366061076507142387">"ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="menu_sort" msgid="3362419226163725275">"ಹೀಗೆ ವಿಂಗಡಿಸಿ..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ಇದಕ್ಕೆ ನಕಲಿಸಿ…"</string>
-    <string name="menu_move" msgid="2310760789561129882">"ಇದಕ್ಕೆ ಸರಿಸು…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"ಇದಕ್ಕೆ ಸರಿಸಿ…"</string>
     <string name="menu_compress" msgid="37539111904724188">"ಕುಗ್ಗಿಸಿ"</string>
     <string name="menu_extract" msgid="8171946945982532262">"ಇದಕ್ಕೆ ಬೇರ್ಪಡಿಸಲಾಗಿದೆ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ಮರುಹೆಸರಿಸು"</string>
@@ -48,13 +48,13 @@
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ಹೊಸ ವಿಂಡೋ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ಕತ್ತರಿಸು"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"ನಕಲಿಸು"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"ನಕಲಿಸಿ"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ಅಂಟಿಸು"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ಫೋಲ್ಡರ್‌ಗೆ ನಕಲಿಸಿ"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"ಆಂತರಿಕ ಸಂಗ್ರಹಣೆ ತೋರಿಸು"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ಆಂತರಿಕ ಸಂಗ್ರಹಣೆಯನ್ನು ಮರೆಮಾಡಿ"</string>
     <string name="button_select" msgid="240863497069321364">"ಆಯ್ಕೆಮಾಡಿ"</string>
-    <string name="button_copy" msgid="8219059853840996027">"ನಕಲಿಸು"</string>
+    <string name="button_copy" msgid="8219059853840996027">"ನಕಲಿಸಿ"</string>
     <string name="button_compress" msgid="8951561310857223966">"ಕುಗ್ಗಿಸಿ"</string>
     <string name="button_extract" msgid="1038674453689912247">"ಬೇರ್ಪಡಿಸಿ"</string>
     <string name="button_move" msgid="8596460499325291272">"ಸರಿಸು"</string>

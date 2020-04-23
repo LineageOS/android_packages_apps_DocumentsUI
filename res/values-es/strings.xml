@@ -90,7 +90,7 @@
     <string name="query_error" msgid="6625421453613879336">"No se puede cargar contenido en este momento"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"El perfil de trabajo está en pausa"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Activar"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"No se pueden seleccionar archivos de trabajo"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"No puedes usar archivos de trabajo"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Tu administrador de TI no te permite acceder a archivos de trabajo desde una aplicación personal"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"No se pueden seleccionar archivos personales"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Tu administrador de TI no te permite acceder a archivos personales desde una aplicación de trabajo"</string>
@@ -125,8 +125,8 @@
       <item quantity="one">Copiando <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other">Se están comprimiendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
-      <item quantity="one">Se está comprimiendo <xliff:g id="COUNT_0">%1$d</xliff:g> archivo.</item>
+      <item quantity="other">Comprimiendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
+      <item quantity="one">Comprimiendo <xliff:g id="COUNT_0">%1$d</xliff:g> archivo.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other">Se están extrayendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
@@ -241,9 +241,9 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"Archivos recientes del teléfono"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"Archivos del teléfono"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> en el teléfono"</string>
-    <string name="root_info_header_downloads" msgid="8848161246921154115">"Archivos de Descargas"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"Archivos en Descargas"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Archivos de <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
-    <string name="root_info_header_folder" msgid="5851172222368049864">"Archivos que hay en <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
+    <string name="root_info_header_folder" msgid="5851172222368049864">"Archivos en <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Archivos de <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Archivos de <xliff:g id="LABEL">%1$s</xliff:g> (<xliff:g id="SUMMARY">%2$s</xliff:g>)"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Imágenes recientes del teléfono"</string>
