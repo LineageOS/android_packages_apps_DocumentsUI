@@ -101,7 +101,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Cette action n\'est pas autorisée"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Communiquez avec votre administrateur informatique pour en savoir plus"</string>
     <string name="root_recent" msgid="1080156975424341623">"Fichiers récents"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> disponible"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> d\'espace libre"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Services de stockage"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Raccourcis"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Appareils"</string>

@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Geräte"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Weitere Apps"</string>
     <string name="empty" msgid="5300254272613103004">"Keine Elemente"</string>
-    <string name="no_results" msgid="2371026325236359209">"Keine Übereinstimmungen in %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"Keine Übereinstimmungen in \"%1$s\""</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Datei kann nicht geöffnet werden"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Dateien in Archiven können nicht geöffnet werden"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Einige Dokumente konnten nicht gelöscht werden"</string>
@@ -244,7 +244,7 @@
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Dateien in \"Downloads\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Dateien auf <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Dateien in <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"Dateien von <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Dateien aus \"<xliff:g id="LABEL">%1$s</xliff:g>\""</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Dateien von <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Neue Bilder auf dem Smartphone"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Bilder auf dem Smartphone"</string>
