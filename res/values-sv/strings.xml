@@ -69,12 +69,12 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Filtyp"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Storlek"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Ändrades senast"</string>
-    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Filnamn (A till Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Typ (A till Z)"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Filnamn (A till Ö)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Typ (A till Ö)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Storlek (minsta först)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Ändrad (äldsta först)"</string>
-    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Filnamn (Z till A)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Typ (Z till A)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Filnamn (Ö till A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Typ (Ö till A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Storlek (största först)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Ändrade (senaste först)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortera efter"</string>

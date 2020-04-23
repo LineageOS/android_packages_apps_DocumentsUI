@@ -38,9 +38,9 @@
     <string name="menu_select_all" msgid="7600576812185570403">"全选"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"取消全选"</string>
     <string name="menu_select" msgid="1366061076507142387">"选择"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"排序依据…"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"排序方式…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"复制到…"</string>
-    <string name="menu_move" msgid="2310760789561129882">"移动到…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"移至…"</string>
     <string name="menu_compress" msgid="37539111904724188">"压缩"</string>
     <string name="menu_extract" msgid="8171946945982532262">"解压到…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重命名"</string>
@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"设备"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"更多应用"</string>
     <string name="empty" msgid="5300254272613103004">"无任何文件"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s中没有任何相符项"</string>
+    <string name="no_results" msgid="2371026325236359209">"“%1$s”中没有任何相符项"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"无法打开文件"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"无法打开归档文件"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"无法删除部分文档"</string>

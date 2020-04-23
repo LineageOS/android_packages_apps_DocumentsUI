@@ -100,7 +100,7 @@
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଆପଣଙ୍କ ବ୍ୟକ୍ତିଗତ ପ୍ରୋଫାଇଲରେ କାର୍ଯ୍ୟସ୍ଥଳୀର ଫାଇଲଗୁଡ଼ିକ ସେଭ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"ଏହି କାର୍ଯ୍ୟକୁ ଅନୁମତି ଦିଆଯାଇ ନାହିଁ"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"ଅଧିକ ଜାଣିବାକୁ, ଆପଣଙ୍କ IT ଆଡମିନଙ୍କ ସହ ଯୋଗାଯୋଗ କରନ୍ତୁ"</string>
-    <string name="root_recent" msgid="1080156975424341623">"କିଛି ସମୟ ପୂର୍ବରୁ"</string>
+    <string name="root_recent" msgid="1080156975424341623">"ବର୍ତ୍ତମାନର"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ଖାଲି ଅଛି"</string>
     <string name="root_type_service" msgid="6521366147466512289">"ଷ୍ଟୋରେଜ୍‍ ସେବା"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"ଶର୍ଟକଟ୍‍"</string>
@@ -271,7 +271,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"ଏହି ଫୋଲ୍ଡରକୁ ବ୍ୟବହାର କରାଯାଇପାରିବ ନାହିଁ"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ଆପଣଙ୍କ ଗୋପନୀୟତାକୁ ସୁରକ୍ଷିତ କରିବାକୁ ଅନ୍ୟ ଏକ ଫୋଲ୍ଡର୍ ବାଛନ୍ତୁ"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"ନୂଆ ଫୋଲ୍ଡର୍ ତିଆରି କରନ୍ତୁ"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ଏହି ଫୋନ୍‌ ଖୋଜନ୍ତୁ"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"ଏହି ଫୋନରେ ଖୋଜନ୍ତୁ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ସର୍ଚ୍ଚ ଇତିବୃତ୍ତି <xliff:g id="TEXT">%1$s</xliff:g>କୁ ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ବ୍ୟକ୍ତିଗତ"</string>
     <string name="work_tab" msgid="7265359366883747413">"କାର୍ଯ୍ୟସ୍ଥଳୀ"</string>

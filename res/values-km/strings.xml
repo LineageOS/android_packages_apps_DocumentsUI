@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"ឧបករណ៍"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"កម្ម​វិធី​​ច្រើន​ទៀត"</string>
     <string name="empty" msgid="5300254272613103004">"គ្មានធាតុ​"</string>
-    <string name="no_results" msgid="2371026325236359209">"មិនមានការប្រកួតនៅក្នុង %1$s ទេ"</string>
+    <string name="no_results" msgid="2371026325236359209">"គ្មានលទ្ធផលត្រូវគ្នាក្នុង %1$s ទេ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"មិនអាចបើកឯកសារបានទេ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"មិនអាចបើក​ឯកសារ​នៅក្នុងបណ្ណសារបានទេ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"មិនអាចលុបឯកសារមួយចំនួន"</string>
@@ -271,7 +271,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"មិនអាចប្រើ​ថតនេះ​បានទេ"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ដើម្បី​ការពារ​ឯកជនភាព​របស់អ្នក សូម​ជ្រើសរើស​ថតផ្សេងទៀត"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"បង្កើត​ថត​ថ្មី"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ទូរសព្ទ​នេះ"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ក្នុងទូរសព្ទ​នេះ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"លុប​ប្រវត្តិស្វែងរក <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ផ្ទាល់ខ្លួន"</string>
     <string name="work_tab" msgid="7265359366883747413">"ការងារ"</string>
