@@ -317,7 +317,7 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Ustvari novo mapo"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Iščite v tem telefonu"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Brisanje zgodovine iskanja <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Osebni"</string>
-    <string name="work_tab" msgid="7265359366883747413">"Delovni"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Osebno"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Služba"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Delovna"</string>
 </resources>

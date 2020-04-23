@@ -125,8 +125,8 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आइटम कॉपी किए जा रहे हैं.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइलें संपीड़ित की जा रही हैं.</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइलें संपीड़ित की जा रही हैं.</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइल कंप्रेस की जा रही है.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइलें कंप्रेस की जा रही हैं.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइलें निकाली जा रही हैं.</item>

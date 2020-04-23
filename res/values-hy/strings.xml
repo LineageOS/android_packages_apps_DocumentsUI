@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Սարքեր"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Այլ ծրագրեր"</string>
     <string name="empty" msgid="5300254272613103004">"Ոչինչ չկա"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s-ում համընկնումներ չկան"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s – Համընկնումներ չկան"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Հնարավոր չէ բացել ֆայլը"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Հնարավոր չէ բացել արխիվացված ֆայլերը"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Հնարավոր չէ ջնջել որոշ փաստաթղթեր"</string>
