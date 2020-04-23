@@ -27,6 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import static org.hamcrest.CoreMatchers.allOf;
@@ -111,8 +112,12 @@ public class UiBot extends Bots.BaseBot {
 
     public void assertMenuEnabled(int id, boolean enabled) {
         UiObject2 menu = findMenuWithName(mContext.getString(id));
-        assertNotNull(menu);
-        assertEquals(enabled, menu.isEnabled());
+        if (enabled) {
+            assertNotNull(menu);
+            assertEquals(enabled, menu.isEnabled());
+        } else {
+            assertNull(menu);
+        }
     }
 
     public void assertInActionMode(boolean inActionMode) {
