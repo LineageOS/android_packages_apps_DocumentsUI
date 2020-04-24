@@ -119,6 +119,7 @@
     <!--This value should equal actionBarSize + (2 x search_bar_margin)-->
     <dimen name="action_bar_space_height">64dp</dimen>
     <dimen name="action_bar_space_margin">@dimen/action_bar_space_height</dimen>
+    <dimen name="action_mode_text_size">18sp</dimen>
 
     <dimen name="refresh_icon_range">64dp</dimen>
 
