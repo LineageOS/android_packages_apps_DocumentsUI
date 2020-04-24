@@ -119,8 +119,7 @@ public class SearchViewManager implements
         mChipViewManager.setSearchChipViewManagerListener(this::onChipCheckedStateChanged);
 
         if (savedState != null) {
-            String savedQuery = savedState.getString(Shared.EXTRA_QUERY);
-            mCurrentSearch = savedQuery != null ? savedQuery : "";
+            mCurrentSearch = savedState.getString(Shared.EXTRA_QUERY);
             mChipViewManager.restoreCheckedChipItems(savedState);
         } else {
             mCurrentSearch = null;
@@ -416,6 +415,10 @@ public class SearchViewManager implements
      * @param state Bundle to save state too
      */
     public void onSaveInstanceState(Bundle state) {
+        if (mSearchView.hasFocus() && mCurrentSearch == null) {
+            // Restore focus even if no text was input before screen rotation.
+            mCurrentSearch = "";
+        }
         state.putString(Shared.EXTRA_QUERY, mCurrentSearch);
         mChipViewManager.onSaveInstanceState(state);
     }
