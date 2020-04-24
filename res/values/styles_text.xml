@@ -55,6 +55,10 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="ActionModeTitle" parent="@style/ToolbarTitle">
+        <item name="android:textSize">@dimen/action_mode_text_size</item>
+    </style>
+
     <style name="ToolbarTitle" parent="@android:style/TextAppearance.Material.Title">
         <item name="fontFamily">@string/config_fontFamilyMedium</item>
     </style>
