@@ -132,6 +132,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface RequestCode {}
+
     public static final int REQUEST_COPY_DESTINATION = 1;
 
     static final String TAG = "DirectoryFragment";
@@ -140,6 +141,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     private static final int REFRESH_SPINNER_TIMEOUT = 500;
     private static final int PROVIDER_MAX_RETRIES = 10;
     private static final long PROVIDER_TEST_DELAY = 4000;
+    private static final String ACTION_MEDIA_REMOVED = "android.intent.action.MEDIA_REMOVED";
+    private static final String ACTION_MEDIA_MOUNTED = "android.intent.action.MEDIA_MOUNTED";
+    private static final String ACTION_MEDIA_EJECT = "android.intent.action.MEDIA_EJECT";
 
     private BaseActivity mActivity;
 
@@ -257,6 +261,22 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         }
     };
 
+    private final BroadcastReceiver mSdCardBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            onRefresh();
+        }
+    };
+
+    private IntentFilter getSdCardStateChangeFilter() {
+        IntentFilter sdCardStateChangeFilter = new IntentFilter();
+        sdCardStateChangeFilter.addAction(ACTION_MEDIA_REMOVED);
+        sdCardStateChangeFilter.addAction(ACTION_MEDIA_MOUNTED);
+        sdCardStateChangeFilter.addAction(ACTION_MEDIA_EJECT);
+        sdCardStateChangeFilter.addDataScheme("file");
+        return sdCardStateChangeFilter;
+    }
+
     private void checkUriAndScheduleCheckIfNeeded(UserId userId) {
         RootInfo currentRoot = mActivity.getCurrentRoot();
         DocumentInfo currentDoc = mActivity.getDisplayState().stack.peek();
@@ -304,8 +324,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private boolean isProviderAvailable(Uri uri, UserId userId) {
         try (ContentProviderClient userClient =
-                     DocumentsApplication.acquireUnstableProviderOrThrow(
-                             userId.getContentResolver(mActivity), uri.getAuthority())) {
+                DocumentsApplication.acquireUnstableProviderOrThrow(
+                        userId.getContentResolver(mActivity), uri.getAuthority())) {
             Cursor testCursor = userClient.query(uri, /* projection= */ null,
                     /* queryArgs= */null, /* cancellationSignal= */ null);
             if (testCursor != null) {
@@ -390,6 +410,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mHandler.removeCallbacks(mProviderTestRunnable);
             }
         }
+        getContext().unregisterReceiver(mSdCardBroadcastReceiver);
 
         // Cancel any outstanding thumbnail requests
         final int count = mRecView.getChildCount();
@@ -536,7 +557,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         // If mDocument is null, we sort it by last modified by default because it's in Recents.
         final boolean prefersLastModified =
                 (mLocalState.mDocument == null)
-                || mLocalState.mDocument.prefersSortByLastModified();
+                        || mLocalState.mDocument.prefersSortByLastModified();
         // Call this before adding the listener to avoid restarting the loader one more time
         mState.sortModel.setDefaultDimension(
                 prefersLastModified
@@ -555,6 +576,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             // roots are updated.
             LocalBroadcastManager.getInstance(mActivity).registerReceiver(mReceiver, filter);
         }
+        getContext().registerReceiver(mSdCardBroadcastReceiver, getSdCardStateChangeFilter());
     }
 
     @Override
@@ -672,6 +694,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     /**
      * Updates the layout after the view mode switches.
+     *
      * @param mode The new view mode.
      */
     private void updateLayout(@ViewMode int mode) {
@@ -705,21 +728,26 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     /**
      * Updates the layout after the view mode switches.
+     *
      * @param mode The new view mode.
      */
     private void scaleLayout(float scale) {
         assert DEBUG;
 
-        if (VERBOSE) Log.v(
-                TAG, "Handling scale event: " + scale + ", existing scale: " + mLiveScale);
+        if (VERBOSE) {
+            Log.v(
+                    TAG, "Handling scale event: " + scale + ", existing scale: " + mLiveScale);
+        }
 
         if (mMode == MODE_GRID) {
             float minScale = getFraction(R.fraction.grid_scale_min);
             float maxScale = getFraction(R.fraction.grid_scale_max);
             float nextScale = mLiveScale * scale;
 
-            if (VERBOSE) Log.v(TAG,
-                    "Next scale " + nextScale + ", Min/max scale " + minScale + "/" + maxScale);
+            if (VERBOSE) {
+                Log.v(TAG,
+                        "Next scale " + nextScale + ", Min/max scale " + minScale + "/" + maxScale);
+            }
 
             if (nextScale > minScale && nextScale < maxScale) {
                 if (DEBUG) {
@@ -866,7 +894,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                         ? mActivity.getCurrentDirectory()
                         : mModel.getDocuments(selection).get(0);
 
-                        mActions.showInspector(doc);
+                mActions.showInspector(doc);
                 return true;
 
             case R.id.dir_menu_cut_to_clipboard:
@@ -926,7 +954,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         } else {
             DocumentHolder holder = getDocumentHolder(child);
             mActions.openItem(holder.getItemDetails(), ActionHandler.VIEW_TYPE_PREVIEW,
-                ActionHandler.VIEW_TYPE_REGULAR);
+                    ActionHandler.VIEW_TYPE_REGULAR);
         }
         return true;
     }
@@ -1104,7 +1132,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         RenameDocumentFragment.show(getChildFragmentManager(), docs.get(0));
     }
 
-    Model getModel(){
+    Model getModel() {
         return mModel;
     }
 
@@ -1170,9 +1198,10 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     /**
      * Gets the model ID for a given RecyclerView item.
+     *
      * @param view A View that is a document item view, or a child of a document item view.
      * @return The Model ID for the given document, or null if the given view is not associated with
-     *     a document item view.
+     * a document item view.
      */
     private @Nullable String getModelId(View view) {
         View itemView = mRecView.findContainingItemView(view);
@@ -1194,8 +1223,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     /**
-    * Add or remove mToolbarPreDrawListener implement on DirectoryFragment to ViewTreeObserver.
-    */
+     * Add or remove mToolbarPreDrawListener implement on DirectoryFragment to ViewTreeObserver.
+     */
     public void setPreDrawListenerEnabled(boolean enable) {
         if (mActivity == null) {
             return;
@@ -1250,6 +1279,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         ft.commitAllowingStateLoss();
     }
 
+    /** Gets the fragment from the fragment manager. */
     public static @Nullable DirectoryFragment get(FragmentManager fm) {
         // TODO: deal with multiple directories shown at once
         Fragment fragment = fm.findFragmentById(getFragmentId());
@@ -1263,7 +1293,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     /**
-     *  Scroll to top of recyclerView in fragment
+     * Scroll to top of recyclerView in fragment
      */
     public void scrollToTop() {
         if (mRecView != null) {
@@ -1272,7 +1302,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     /**
-     *  Stop the scroll of recyclerView in fragment
+     * Stop the scroll of recyclerView in fragment
      */
     public void stopScroll() {
         if (mRecView != null) {
