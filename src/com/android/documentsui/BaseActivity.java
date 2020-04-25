@@ -129,7 +129,7 @@ public abstract class BaseActivity
 
     @CallSuper
     @Override
-    public void onCreate(Bundle icicle) {
+    public void onCreate(Bundle savedInstanceState) {
         // Record the time when onCreate is invoked for metric.
         mStartTime = new Date().getTime();
 
@@ -138,7 +138,7 @@ public abstract class BaseActivity
         // in case Activity continueusly encounter resource not found exception
         getTheme().applyStyle(R.style.DocumentsDefaultTheme, false);
 
-        super.onCreate(icicle);
+        super.onCreate(savedInstanceState);
 
         final Intent intent = getIntent();
 
@@ -149,7 +149,7 @@ public abstract class BaseActivity
         setContainer();
 
         mInjector = getInjector();
-        mState = getState(icicle);
+        mState = getState(savedInstanceState);
         mDrawer = DrawerController.create(this, mInjector.config);
         Metrics.logActivityLaunch(mState, intent);
 
@@ -262,14 +262,14 @@ public abstract class BaseActivity
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
         mUserIdManager = DocumentsApplication.getUserIdManager(this);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
-                chipGroup, icicle);
+                chipGroup, savedInstanceState);
         // initialize the chip sets by accept mime types
         mSearchManager.initChipSets(mState.acceptMimes);
         // update the chip items by the mime types of the root
         mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);
         // parse the query content from intent when launch the
         // activity at the first time
-        if (icicle == null) {
+        if (savedInstanceState == null) {
             mHasQueryContentFromIntent = mSearchManager.parseQueryContentFromIntent(getIntent(),
                     mState.action);
         }
@@ -399,9 +399,9 @@ public abstract class BaseActivity
         super.onDestroy();
     }
 
-    private State getState(@Nullable Bundle icicle) {
-        if (icicle != null) {
-            State state = icicle.<State>getParcelable(Shared.EXTRA_STATE);
+    private State getState(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            State state = savedInstanceState.<State>getParcelable(Shared.EXTRA_STATE);
             if (DEBUG) {
                 Log.d(mTag, "Recovered existing state object: " + state);
             }

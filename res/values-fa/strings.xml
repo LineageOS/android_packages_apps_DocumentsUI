@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"دستگاه‌ها"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"برنامه‌های بیشتر"</string>
     <string name="empty" msgid="5300254272613103004">"موردی موجود نیست"</string>
-    <string name="no_results" msgid="2371026325236359209">"‏مورد منطبقی در %1$s وجود ندارد"</string>
+    <string name="no_results" msgid="2371026325236359209">"‏نتیجه منطبقی در «%1$s» پیدا نشد"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"فایل باز نمی‌شود"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"فایل‌های موجود در بایگانی‌ها باز نمی‌شوند"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"برخی از اسناد حذف نمی‌شوند"</string>
@@ -244,7 +244,7 @@
     <string name="root_info_header_downloads" msgid="8848161246921154115">"فایل‌های موجود در بارگیری‌ها"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"فایل‌های موجود در <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"فایل‌های موجود در <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"فایل‌های <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"فایل‌ها از <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"فایل‌های <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"تصاویر اخیر در تلفن"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"تصاویر موجود در تلفن"</string>

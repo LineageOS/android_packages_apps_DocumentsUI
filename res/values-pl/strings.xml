@@ -101,7 +101,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ta czynność jest niedozwolona"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Aby dowiedzieć się więcej, skontaktuj się z administratorem IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Najnowsze"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> wolne"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"Wolne <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Usługi pamięci masowej"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Skróty"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Urządzenia"</string>

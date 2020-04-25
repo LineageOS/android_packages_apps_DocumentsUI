@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Уреди"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Други апликации"</string>
     <string name="empty" msgid="5300254272613103004">"Нема ставки"</string>
-    <string name="no_results" msgid="2371026325236359209">"Нема поклопувања во %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"Нема совпаѓања во %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Датотеката не може да се отвори"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Не може да се отвораат датотеките во архивите"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Некои документи не може да се избришат"</string>
