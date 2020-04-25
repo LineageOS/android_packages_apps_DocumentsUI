@@ -47,6 +47,7 @@ import android.content.res.AssetFileDescriptor;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.DeadObjectException;
 import android.os.FileUtils;
 import android.os.Handler;
 import android.os.Looper;
@@ -359,6 +360,9 @@ class CopyJob extends ResolvedResourcesJob {
                         return;
                     }
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
+                    if (e instanceof DeadObjectException) {
+                        releaseClient(src);
+                    }
                     Log.e(TAG, "Provider side copy failed for: " + src.derivedUri
                             + " due to an exception.", e);
                     Metrics.logFileOperationFailure(
@@ -427,6 +431,9 @@ class CopyJob extends ResolvedResourcesJob {
             dstUri = DocumentsContract.createDocument(
                     wrap(getClient(dest)), dest.derivedUri, dstMimeType, dstDisplayName);
         } catch (FileNotFoundException | RemoteException | RuntimeException e) {
+            if (e instanceof DeadObjectException) {
+                releaseClient(dest);
+            }
             Metrics.logFileOperationFailure(
                     appContext, MetricConsts.SUBFILEOP_CREATE_DOCUMENT, dest.derivedUri);
             throw new ResourceException(
@@ -486,6 +493,9 @@ class CopyJob extends ResolvedResourcesJob {
             try {
                 cursor = queryChildren(srcDir, queryColumns);
             } catch (RemoteException | RuntimeException e) {
+                if (e instanceof DeadObjectException) {
+                    releaseClient(srcDir);
+                }
                 Metrics.logFileOperationFailure(
                         appContext, MetricConsts.SUBFILEOP_QUERY_CHILDREN, srcDir.derivedUri);
                 throw new ResourceException("Failed to query children of %s due to an exception.",
@@ -545,6 +555,9 @@ class CopyJob extends ResolvedResourcesJob {
                     srcFileAsAsset = getClient(src).openTypedAssetFileDescriptor(
                                 src.derivedUri, mimeType, null, mSignal);
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
+                    if (e instanceof DeadObjectException) {
+                        releaseClient(src);
+                    }
                     Metrics.logFileOperationFailure(
                             appContext, MetricConsts.SUBFILEOP_OPEN_FILE, src.derivedUri);
                     throw new ResourceException("Failed to open a file as asset for %s due to an "
@@ -565,6 +578,9 @@ class CopyJob extends ResolvedResourcesJob {
                 try {
                     srcFile = getClient(src).openFile(src.derivedUri, "r", mSignal);
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
+                    if (e instanceof DeadObjectException) {
+                        releaseClient(src);
+                    }
                     Metrics.logFileOperationFailure(
                             appContext, MetricConsts.SUBFILEOP_OPEN_FILE, src.derivedUri);
                     throw new ResourceException(
@@ -578,6 +594,9 @@ class CopyJob extends ResolvedResourcesJob {
             try {
                 dstFile = getClient(dest).openFile(dest.derivedUri, "w", mSignal);
             } catch (FileNotFoundException | RemoteException | RuntimeException e) {
+                if (e instanceof DeadObjectException) {
+                    releaseClient(dest);
+                }
                 Metrics.logFileOperationFailure(
                         appContext, MetricConsts.SUBFILEOP_OPEN_FILE, dest.derivedUri);
                 throw new ResourceException("Failed to open the destination file %s for writing "
@@ -744,6 +763,9 @@ class CopyJob extends ResolvedResourcesJob {
                 }
             }
         } catch (RemoteException | RuntimeException e) {
+            if (e instanceof DeadObjectException) {
+                releaseClient(uri);
+            }
             throw new ResourceException(
                     "Failed to calculate size for %s due to an exception.", uri, e);
         } finally {
@@ -824,6 +846,9 @@ class CopyJob extends ResolvedResourcesJob {
             try {
                 return isChildDocument(wrap(getClient(doc)), doc.derivedUri, parent.derivedUri);
             } catch (FileNotFoundException | RemoteException | RuntimeException e) {
+                if (e instanceof DeadObjectException) {
+                    releaseClient(doc);
+                }
                 throw new ResourceException(
                         "Failed to check if %s is a child of %s due to an exception.",
                         doc.derivedUri, parent.derivedUri, e);
@@ -887,6 +912,9 @@ class CopyJob extends ResolvedResourcesJob {
                 }
             }
         } catch (Throwable t) {
+            if (t instanceof DeadObjectException) {
+                releaseClient(target);
+            }
             Log.w(TAG, String.format("Failed to determine if isRecursiveCopy" +
                 " for source %s and target %s", sourceUri, targetUri), t);
         }
