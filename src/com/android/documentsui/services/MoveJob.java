@@ -25,6 +25,7 @@ import android.app.Notification;
 import android.app.Notification.Builder;
 import android.content.Context;
 import android.net.Uri;
+import android.os.DeadObjectException;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
@@ -154,6 +155,9 @@ final class MoveJob extends CopyJob {
                         return;
                     }
                 } catch (FileNotFoundException | RemoteException | RuntimeException e) {
+                    if (e instanceof DeadObjectException) {
+                        releaseClient(src);
+                    }
                     Metrics.logFileOperationFailure(
                             appContext, MetricConsts.SUBFILEOP_QUICK_MOVE, src.derivedUri);
                     Log.e(TAG, "Provider side move failed for: " + src.derivedUri
