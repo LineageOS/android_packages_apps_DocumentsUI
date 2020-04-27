@@ -222,6 +222,9 @@ public class SearchViewManager implements
         mSearchView.setOnQueryTextFocusChangeListener(this);
         final View clearButton = mSearchView.findViewById(R.id.search_close_btn);
         if (clearButton != null) {
+            clearButton.setPadding(clearButton.getPaddingStart() + getPixelForDp(4),
+                    clearButton.getPaddingTop(), clearButton.getPaddingEnd() + getPixelForDp(4),
+                    clearButton.getPaddingBottom());
             clearButton.setOnClickListener(v -> {
                 mSearchView.setQuery("", false);
                 mSearchView.requestFocus();
@@ -333,6 +336,11 @@ public class SearchViewManager implements
             return true;
         }
         return false;
+    }
+
+    private int getPixelForDp(int dp) {
+        final float scale = mSearchView.getContext().getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
     }
 
     private void cancelQueuedSearch() {
