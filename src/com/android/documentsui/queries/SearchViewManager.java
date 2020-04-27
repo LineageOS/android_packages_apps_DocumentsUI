@@ -159,6 +159,11 @@ public class SearchViewManager implements
         final Bundle queryArgs = mChipViewManager.getCheckedChipQueryArgs();
         if (!TextUtils.isEmpty(mCurrentSearch)) {
             queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, mCurrentSearch);
+        } else if (isExpanded() && isSearching()) {
+            // The existence of the DocumentsContract.QUERY_ARG_DISPLAY_NAME constant is used to
+            // determine if this is a text search (as opposed to simply filtering from within a
+            // non-searching view), so ensure the argument exists when searching.
+            queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, "");
         }
 
         return queryArgs;
