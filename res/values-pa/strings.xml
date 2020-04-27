@@ -274,6 +274,6 @@
     <string name="search_bar_hint" msgid="4517366509897977321">"ਇਹ ਫ਼ੋਨ ਖੋਜੋ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ਖੋਜ ਇਤਿਹਾਸ ਮਿਟਾਓ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ਨਿੱਜੀ"</string>
-    <string name="work_tab" msgid="7265359366883747413">"ਕੰਮ ਸੰਬੰਧੀ ਡਾਇਰੈਕਟਰੀ"</string>
+    <string name="work_tab" msgid="7265359366883747413">"ਕਾਰਜ-ਸਥਾਨ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ਕੰਮ"</string>
 </resources>

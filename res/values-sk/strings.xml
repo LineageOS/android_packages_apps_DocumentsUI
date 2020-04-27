@@ -91,9 +91,9 @@
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Pracovný profil je pozastavený"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Zapnúť"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Pracovné súbory sa nedajú vybrať"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Váš správca IT vám zakázal prístup k pracovným súborom v osobnej aplikácii"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Váš správca IT vám zakázal prístup k pracovným súborom z osobnej aplikácie"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Osobné súbory sa nedajú vybrať"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Váš správca IT vám zakázal prístup k osobným súborom v pracovnej aplikácii"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Váš správca IT vám zakázal prístup k osobným súborom z pracovnej aplikácie"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nie je možné ukladať do pracovného profilu"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Váš správca IT vám zakázal ukladať osobné súbory do pracovného profilu"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nedajú sa uložiť do osobného profilu"</string>
@@ -285,7 +285,7 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"Nedávne súbory v telefóne"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"Súbory v telefóne"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> v telefóne"</string>
-    <string name="root_info_header_downloads" msgid="8848161246921154115">"Súbory v priečinku stiahnutých súborov"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"Súbory v priečinku Stiahnuté"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Súbory v zariadení <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Súbory v priečinku <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Súbory zo služby <xliff:g id="LABEL">%1$s</xliff:g>"</string>

@@ -90,9 +90,9 @@
     <string name="query_error" msgid="6625421453613879336">"Այս պահին հնարավոր չէ բեռնել բովանդակությունը"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Աշխատանքային պրոֆիլը դադարեցված է"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Միացնել"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Հնարավոր չէ ընտրել աշխատանքային ֆայլեր"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Հնարավոր չէ աշխատանքային ֆայլեր ընտրել"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Ձեր ՏՏ ադմինիստրատորը չի թույլատրում աշխատանքային ֆայլերի օգտագործումը անձնական հավելվածներից"</string>
-    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Հնարավոր չէ ընտրել անձնական ֆայլեր"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Հնարավոր չէ անձնական ֆայլեր ընտրել"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Ձեր ՏՏ ադմինիստրատորը չի թույլատրում աշխատանքային ֆայլերի օգտագործումը անձնական հավելվածներից"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Հնարավոր չէ պահել աշխատանքային պրոֆիլում"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Ձեր ՏՏ ադմինիստրատորը չի թույլատրում պահել անձնական ֆայլերը աշխատանքային պրոֆիլում"</string>

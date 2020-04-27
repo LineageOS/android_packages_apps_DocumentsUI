@@ -28,7 +28,7 @@
     <string name="menu_grid" msgid="1453636521731880680">"ଗ୍ରୀଡ୍‍ ଭ୍ୟୁ"</string>
     <string name="menu_list" msgid="6714267452146410402">"ତାଲିକା ଭ୍ୟୁ"</string>
     <string name="menu_search" msgid="1876699106790719849">"ସର୍ଚ୍ଚ କରନ୍ତୁ"</string>
-    <string name="menu_settings" msgid="6520844520117939047">"ଷ୍ଟୋରେଜ୍‌ ସେଟିଙ୍ଗ"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"ଷ୍ଟୋରେଜ୍‌ ସେଟିଂସ୍"</string>
     <string name="menu_open" msgid="9092138100049759315">"ଖୋଲନ୍ତୁ"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"ଏଥିରେ ଖୋଲନ୍ତୁ"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲନ୍ତୁ"</string>
@@ -40,22 +40,22 @@
     <string name="menu_select" msgid="1366061076507142387">"ଚୟନ କରନ୍ତୁ"</string>
     <string name="menu_sort" msgid="3362419226163725275">"ଏହି ଅନୁସାରେ ସଜାନ୍ତୁ..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ଏଠାକୁ କପି କରନ୍ତୁ…"</string>
-    <string name="menu_move" msgid="2310760789561129882">"ଏଥିକୁ ନିଅନ୍ତୁ…"</string>
-    <string name="menu_compress" msgid="37539111904724188">"ଛୋଟ କରନ୍ତୁ"</string>
+    <string name="menu_move" msgid="2310760789561129882">"ଏଠାକୁ ନିଅନ୍ତୁ…"</string>
+    <string name="menu_compress" msgid="37539111904724188">"କମ୍ପ୍ରେସ୍ କରନ୍ତୁ"</string>
     <string name="menu_extract" msgid="8171946945982532262">"ଏଠାକୁ ଏକ୍ସଟ୍ରାକ୍ଟ କରନ୍ତୁ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ନାମ ବଦଳାନ୍ତୁ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"ସୂଚନା ପାଆନ୍ତୁ"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>ରେ ଦେଖନ୍ତୁ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ନୂଆ ୱିଣ୍ଡୋ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"କଟ୍‌ କରନ୍ତୁ"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"କପୀ କରନ୍ତୁ"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"କପି କରନ୍ତୁ"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ପେଷ୍ଟ କରନ୍ତୁ"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ଫୋଲ୍ଡର୍‌ରେ ପେଷ୍ଟ କରନ୍ତୁ"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"ଇଣ୍ଟର୍ନଲ୍‌ ଷ୍ଟୋରେଜ୍‌କୁ ଦେଖାନ୍ତୁ"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ଇଣ୍ଟର୍ନଲ୍‌ ଷ୍ଟୋରେଜ୍‌କୁ ଲୁଚାନ୍ତୁ"</string>
     <string name="button_select" msgid="240863497069321364">"ଚୟନ କରନ୍ତୁ"</string>
-    <string name="button_copy" msgid="8219059853840996027">"କପୀ କରନ୍ତୁ"</string>
-    <string name="button_compress" msgid="8951561310857223966">"ଛୋଟ କରନ୍ତୁ"</string>
+    <string name="button_copy" msgid="8219059853840996027">"କପି କରନ୍ତୁ"</string>
+    <string name="button_compress" msgid="8951561310857223966">"କମ୍ପ୍ରେସ୍ କରନ୍ତୁ"</string>
     <string name="button_extract" msgid="1038674453689912247">"ଏକ୍ସଟ୍ରାକ୍ଟ କରନ୍ତୁ"</string>
     <string name="button_move" msgid="8596460499325291272">"ନେଇଯାଆନ୍ତୁ"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ଖାରଜ କରନ୍ତୁ"</string>
@@ -115,7 +115,7 @@
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"କାର୍ଯ୍ୟଟିକୁ ଅନୁମତି ନାହିଁ"</string>
     <string name="share_via" msgid="8725082736005677161">"ଏହା ମାଧ୍ୟମରେ ସେୟାର୍‌ କରନ୍ତୁ"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ଫାଇଲ୍‌ଗୁଡ଼ିକ କପୀ କରାଯାଉଛି"</string>
-    <string name="compress_notification_title" msgid="6830195148113751021">"ଫାଇଲ୍‍ ଛୋଟ କରାଯାଉଛି"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"ଫାଇଲ୍‍ କମ୍ପ୍ରେସ୍ କରାଯାଉଛି"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"ଫାଇଲ୍‍ ଏକ୍ସଟ୍ରାକ୍ଟ କରିବା"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"ଫାଇଲ୍‌ଗୁଡ଼ିକ ନିଆଯାଉଛି"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"ଫାଇଲ୍‍ ଡିଲିଟ୍‌ କରାଯାଉଛି"</string>
@@ -125,8 +125,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଆଇଟମ୍ କପୀ କରାଯାଉଛି।</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଫାଇଲ୍‍ ଛୋଟ କରାଯାଉଛି।</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଫାଇଲ୍‍ ଛୋଟ କରାଯାଉଛି।</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଫାଇଲ୍‍ କମ୍ପ୍ରେସ୍ କରାଯାଉଛି।</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଫାଇଲ୍‍ କମ୍ପ୍ରେସ୍ କରାଯାଉଛି।</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଫାଇଲ୍‍ ଏକ୍ସଟ୍ରାକ୍ଟ କରାଯାଉଛି।</item>
@@ -148,8 +148,8 @@
     <string name="delete_preparing" msgid="7339349837842802508">"ପ୍ରସ୍ତୁତ କରାଯାଉଛି…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଆଇଟମ୍‍ କପୀ କରାଯାଇପାରିଲା ନାହିଁ</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଆଇଟମ୍‍ କପୀ କରାଯାଇପାରିଲା ନାହିଁ</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଆଇଟମ୍‍ କପି କରାଯାଇପାରିଲା ନାହିଁ</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଆଇଟମ୍‍ କପି କରାଯାଇପାରିଲା ନାହିଁ</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଫାଇଲ୍‍ ଛୋଟ କରାଯାଇପାରିଲା ନାହିଁ</item>
@@ -238,10 +238,10 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଚୟନ କରାଯାଇଛି</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଚୟନ କରାଯାଇଛି</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"ଫୋନ୍‌ରେ ଥିବା କିଛି ସମୟପୂର୍ବର ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"ଫୋନ୍‌ରେ ଥିବା କିଛି ସମୟ ପୂର୍ବର ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"ଫୋନ୍‌ରେ ଥିବା ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"ଫୋନ୍‌ରେ <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_downloads" msgid="8848161246921154115">"ଡାଉନ୍‌ଲୋଡ୍ସ ଫୋଲ୍ଡର୍‌ରେ ଥିବା ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"ଡାଉନ୍‌ଲୋଡ୍ ଫୋଲ୍ଡର୍‌ରେ ଥିବା ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g>ରେ ଥିବା ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g>ରେ ଫାଇଲ୍‍ଗୁଡ଼ିକ"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>ରୁ ଫାଇଲ୍‍ଗୁଡ଼ିକ"</string>
