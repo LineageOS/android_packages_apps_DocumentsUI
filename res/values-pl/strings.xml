@@ -101,7 +101,7 @@
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ta czynność jest niedozwolona"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Aby dowiedzieć się więcej, skontaktuj się z administratorem IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Najnowsze"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> wolne"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"Wolne <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Usługi pamięci masowej"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Skróty"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Urządzenia"</string>
@@ -267,7 +267,7 @@
       <item quantity="other">Usunąć <xliff:g id="COUNT_1">%1$d</xliff:g> elementu?</item>
       <item quantity="one">Usunąć <xliff:g id="COUNT_0">%1$d</xliff:g> element?</item>
     </plurals>
-    <string name="images_shortcut_label" msgid="2545168016070493574">"Grafika"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"Obrazy"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Nie można otworzyć i przeglądać archiwum. Plik jest uszkodzony lub ma nieodpowiedni format."</string>
     <string name="name_conflict" msgid="28407269328862986">"Plik o tej nazwie już istnieje."</string>
     <string name="authentication_required" msgid="8030880723643436099">"Aby wyświetlić zawartość tego katalogu, zaloguj się w usłudze <xliff:g id="NAME">%1$s</xliff:g>"</string>
@@ -299,7 +299,7 @@
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"Zdjęcia z: <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="chip_title_images" msgid="7838299046109841015">"Obrazy"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"Dźwięk"</string>
-    <string name="chip_title_videos" msgid="7011260091979776447">"Wideo"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"Filmy"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"Dokumenty"</string>
     <string name="chip_title_large_files" msgid="7740269190493883980">"Duże pliki"</string>
     <string name="chip_title_from_this_week" msgid="4961536405220379672">"Ten tydzień"</string>

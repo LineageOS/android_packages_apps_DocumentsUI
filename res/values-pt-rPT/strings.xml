@@ -263,7 +263,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Novo nome"</string>
     <string name="preview_file" msgid="4056622696305432343">"Pré-visualizar o ficheiro <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Pré-visualize o ficheiro de trabalho <xliff:g id="FILENAME">%1$s</xliff:g>."</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Procure ficheiros noutras aplicações"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Procure ficheiros noutras apps"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Utilizar esta pasta"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Permitir que a aplicação <xliff:g id="APPNAME">%1$s</xliff:g> aceda aos ficheiros em <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>

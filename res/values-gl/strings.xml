@@ -271,7 +271,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Non se pode utilizar este cartafol"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Para protexer a túa privacidade, escolle outro cartafol"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crear novo cartafol"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Realiza buscas neste teléfono"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Busca neste teléfono"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Elimina o historial de busca <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Persoal"</string>
     <string name="work_tab" msgid="7265359366883747413">"Traballo"</string>
