@@ -91,7 +91,7 @@
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Рабочий профиль приостановлен"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Включить"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Невозможно выбрать рабочие файлы"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Системный администратор запретил доступ к рабочим файлам из личного приложения."</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Системный администратор запретил доступ к рабочим файлам из личных приложений."</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Невозможно выбрать личные файлы"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Системный администратор запретил доступ к личным файлам из рабочего приложения."</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Невозможно сохранить файлы"</string>
@@ -317,7 +317,7 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Новая папка"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Поиск на этом телефоне"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Очистить историю поиска: <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Личный"</string>
-    <string name="work_tab" msgid="7265359366883747413">"Рабочий"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Личное"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Рабочее"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Работа"</string>
 </resources>
