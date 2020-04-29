@@ -104,6 +104,22 @@ public class RecentsLoaderTests {
     }
 
     @Test
+    public void testShowOrHideHiddenFiles() {
+        final DocumentInfo doc = mEnv.model.createFile(".test");
+        doc.lastModified = System.currentTimeMillis();
+        mEnv.mockProviders.get(TestProvidersAccess.HOME.authority)
+                .setNextRecentDocumentsReturns(doc);
+
+        assertEquals(false, mLoader.mState.showHiddenFiles);
+        DirectoryResult result = mLoader.loadInBackground();
+        assertEquals(0, result.cursor.getCount());
+
+        mLoader.mState.showHiddenFiles = true;
+        result = mLoader.loadInBackground();
+        assertEquals(1, result.cursor.getCount());
+    }
+
+    @Test
     public void testDocumentsNotMovable() {
         final DocumentInfo doc = mEnv.model.createFile("freddy.jpg",
                 Document.FLAG_SUPPORTS_MOVE

@@ -141,6 +141,22 @@ public class GlobalSearchLoaderTest {
     }
 
     @Test
+    public void testShowOrHideHiddenFiles() {
+        final DocumentInfo doc = mEnv.model.createFile(".test" + SEARCH_STRING);
+        doc.lastModified = System.currentTimeMillis();
+        mEnv.mockProviders.get(TestProvidersAccess.DOWNLOADS.authority)
+                .setNextChildDocumentsReturns(doc);
+
+        assertEquals(false, mLoader.mState.showHiddenFiles);
+        DirectoryResult result = mLoader.loadInBackground();
+        assertEquals(0, result.cursor.getCount());
+
+        mLoader.mState.showHiddenFiles = true;
+        result = mLoader.loadInBackground();
+        assertEquals(1, result.cursor.getCount());
+    }
+
+    @Test
     public void testSearchResult_isNotMovable() {
         final DirectoryResult result = mLoader.loadInBackground();
 
