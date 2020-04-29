@@ -180,6 +180,10 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
                             // after a query.
                             continue;
                         }
+
+                        // Filter hidden files.
+                        cursor = new FilteringCursorWrapper(cursor, mState.showHiddenFiles);
+
                         final FilteringCursorWrapper filtered = new FilteringCursorWrapper(
                                 cursor, mState.acceptMimes, getRejectMimes(), rejectBefore) {
                             @Override
