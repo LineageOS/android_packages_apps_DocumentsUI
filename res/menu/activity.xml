@@ -77,6 +77,11 @@
            android:visible="false"
            app:showAsAction="never"/>
         <item
+            android:id="@+id/option_menu_show_hidden_files"
+            android:title="@string/menu_show_hidden_files"
+            android:visible="false"
+            app:showAsAction="never"/>
+        <item
             android:id="@+id/option_menu_launcher"
             android:visible="false"
             app:showAsAction="never"/>
