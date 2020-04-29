@@ -349,19 +349,6 @@ public abstract class BaseActivity
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (mState.stack.getTitle() == null) {
-            // First launch.
-            setTitle("");
-            return;
-        }
-
-        // Append app name for TalkBack when app enters foreground.
-        setTitle(String.format("%s. %s", getString(R.string.files_label), mState.stack.getTitle()));
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         boolean showMenu = super.onCreateOptionsMenu(menu);
 
@@ -623,13 +610,17 @@ public abstract class BaseActivity
             roots.onCurrentRootChanged();
         }
 
-        // Causes talkback to announce the activity's new title
         String appName = getString(R.string.files_label);
-        if (getTitle() == null || getTitle().toString().isEmpty()) {
+        String currentTitle = getTitle() != null ? getTitle().toString() : "";
+        if (currentTitle.equals(appName)) {
             // First launch, TalkBack announces app name.
-            setTitle(String.format("%s. %s", appName, mState.stack.getTitle()));
-        } else if (mState.stack.getTitle() != null) {
-            setTitle(mState.stack.getTitle());
+            getWindow().getDecorView().announceForAccessibility(appName);
+        }
+
+        String newTitle = mState.stack.getTitle();
+        if (newTitle != null) {
+            // Causes talkback to announce the activity's new title
+            setTitle(newTitle);
         }
 
         invalidateOptionsMenu();
