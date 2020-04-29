@@ -244,8 +244,8 @@
     <string name="root_info_header_downloads" msgid="8848161246921154115">"ไฟล์ใน \"ดาวน์โหลด\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ไฟล์ใน <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"ไฟล์ใน <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"ไฟล์จาก <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ไฟล์จาก <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"ไฟล์จาก \"<xliff:g id="LABEL">%1$s</xliff:g>\""</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ไฟล์จาก \"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>\""</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"รูปภาพล่าสุดในโทรศัพท์"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"รูปภาพในโทรศัพท์"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"รูปภาพใน \"ดาวน์โหลด\""</string>
