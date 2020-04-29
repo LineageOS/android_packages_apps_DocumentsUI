@@ -96,6 +96,7 @@ public abstract class MenuManager {
         updateInspect(mOptionMenu.findItem(R.id.option_menu_inspect));
         updateSort(mOptionMenu.findItem(R.id.option_menu_sort));
         updateLauncher(mOptionMenu.findItem(R.id.option_menu_launcher));
+        updateShowHiddenFiles(mOptionMenu.findItem(R.id.option_menu_show_hidden_files));
 
         Menus.disableHiddenItems(mOptionMenu);
         mSearchManager.updateMenu();
@@ -256,6 +257,13 @@ public abstract class MenuManager {
     protected void updateModePicker(MenuItem grid, MenuItem list) {
         Menus.setEnabledAndVisible(grid, mState.derivedMode != State.MODE_GRID);
         Menus.setEnabledAndVisible(list, mState.derivedMode != State.MODE_LIST);
+    }
+
+    protected void updateShowHiddenFiles(MenuItem showHidden) {
+        Menus.setEnabledAndVisible(showHidden, true);
+        showHidden.setTitle(mState.showHiddenFiles
+                ? R.string.menu_hide_hidden_files
+                : R.string.menu_show_hidden_files);
     }
 
     protected void updateSort(MenuItem sort) {

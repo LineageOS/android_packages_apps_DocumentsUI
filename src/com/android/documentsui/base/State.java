@@ -84,6 +84,7 @@ public class State implements android.os.Parcelable {
 
     public boolean openableOnly;
     public boolean restrictScopeStorage;
+    public boolean showHiddenFiles;
 
     /**
      * Represents whether the state supports cross-profile file picking.
