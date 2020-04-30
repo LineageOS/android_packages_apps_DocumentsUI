@@ -595,12 +595,6 @@ public abstract class BaseActivity
      */
     @Override
     public final void refreshCurrentRootAndDirectory(int anim) {
-        // The following call will crash if it's called before onCreateOptionMenu() is called in
-        // which we install menu item to search view manager, and there is a search query we need to
-        // restore. This happens when we're still initializing our UI so we shouldn't cancel the
-        // search which will be restored later in onCreateOptionMenu(). Try finding a way to guard
-        // refreshCurrentRootAndDirectory() from being called while we're restoring the state of UI
-        // from the saved state passed in onCreate().
         mSearchManager.cancelSearch();
 
         // only set the query content in the first launch
