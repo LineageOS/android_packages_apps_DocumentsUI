@@ -242,6 +242,8 @@ public class MetricConsts {
     public static final int USER_ACTION_INSPECTOR = 31;
     public static final int USER_ACTION_SEARCH_CHIP = 32;
     public static final int USER_ACTION_SEARCH_HISTORY = 33;
+    public static final int USER_ACTION_SHOW_HIDDEN_FILES = 34;
+    public static final int USER_ACTION_HIDE_HIDDEN_FILES = 35;
 
     @IntDef(flag = false, value = {
             USER_ACTION_UNKNOWN,
@@ -277,7 +279,9 @@ public class MetricConsts {
             USER_ACTION_VIEW_IN_APPLICATION,
             USER_ACTION_INSPECTOR,
             USER_ACTION_SEARCH_CHIP,
-            USER_ACTION_SEARCH_HISTORY
+            USER_ACTION_SEARCH_HISTORY,
+            USER_ACTION_SHOW_HIDDEN_FILES,
+            USER_ACTION_HIDE_HIDDEN_FILES
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface UserAction {
