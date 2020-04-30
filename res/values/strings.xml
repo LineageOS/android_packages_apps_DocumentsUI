@@ -538,4 +538,8 @@
 
     <!-- Accessibility label to indicate the subject(e.g. file/folder) is from work profile -->
     <string name="a11y_work">Work</string>
+
+    <!-- Snackbar shown when users drag and drop files from another app
+    to DocumentsUI. [CHAR_LIMIT=100] -->
+    <string name="drag_from_another_app">Drag from another app not allowed.</string>
 </resources>
