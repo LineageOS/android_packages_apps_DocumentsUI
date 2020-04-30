@@ -72,6 +72,26 @@ public class FilteringCursorWrapper extends AbstractCursor {
         }
     }
 
+    public FilteringCursorWrapper(Cursor cursor, boolean showHiddenFiles) {
+        mCursor = cursor;
+
+        final int count = cursor.getCount();
+        mPosition = new int[count];
+
+        cursor.moveToPosition(-1);
+        while (cursor.moveToNext() && mCount < count) {
+            final String name = getCursorString(cursor, Document.COLUMN_DISPLAY_NAME);
+            if (!showHiddenFiles && name.startsWith(".")) {
+                continue;
+            }
+            mPosition[mCount++] = cursor.getPosition();
+        }
+
+        if (DEBUG && mCount != cursor.getCount()) {
+            Log.d(TAG, "Before filtering " + cursor.getCount() + ", after " + mCount);
+        }
+    }
+
     @Override
     public Bundle getExtras() {
         return mCursor.getExtras();

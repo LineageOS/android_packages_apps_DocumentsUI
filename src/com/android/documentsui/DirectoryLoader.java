@@ -178,6 +178,9 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             }
             cursor.registerContentObserver(mObserver);
 
+            // Filter hidden files.
+            cursor = new FilteringCursorWrapper(cursor, mState.showHiddenFiles);
+
             if (mSearchMode && !mFeatures.isFoldersInSearchResultsEnabled()) {
                 // There is no findDocumentPath API. Enable filtering on folders in search mode.
                 cursor = new FilteringCursorWrapper(cursor, null, SEARCH_REJECT_MIMES);
