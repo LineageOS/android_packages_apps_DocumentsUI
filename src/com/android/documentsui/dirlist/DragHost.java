@@ -30,11 +30,14 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.AbstractDragHost;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.DragAndDropManager;
+import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.State;
 import com.android.documentsui.ui.DialogController;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.function.Predicate;
 
@@ -103,6 +106,16 @@ class DragHost<T extends Activity & AbstractActionHandler.CommonAddons> extends 
     public void onDragEntered(View v) {
         mActivity.setRootsDrawerOpen(false);
         mDragAndDropManager.updateState(v, mState.stack.getRoot(), mDestinationLookup.lookup(v));
+    }
+
+    @Override
+    public boolean canHandleDragEvent(View v) {
+        if (!mDragAndDropManager.isDragFromSameApp()) {
+            Snackbar.make(
+                    v, R.string.drag_from_another_app, Snackbar.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     boolean canSpringOpen(View v) {
