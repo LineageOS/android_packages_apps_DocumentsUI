@@ -24,9 +24,11 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.Nullable;
 
+import com.android.documentsui.CrossProfileException;
 import com.android.documentsui.CrossProfileNoPermissionException;
 import com.android.documentsui.CrossProfileQuietModeException;
 import com.android.documentsui.DocumentsApplication;
+import com.android.documentsui.Metrics;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.R;
 import com.android.documentsui.base.RootInfo;
@@ -192,7 +194,9 @@ abstract class Message {
         void update(Update event) {
             reset();
             if (event.hasCrossProfileException()) {
-                if (event.getException() instanceof CrossProfileQuietModeException) {
+                CrossProfileException e = (CrossProfileException) event.getException();
+                Metrics.logCrossProfileEmptyState(e);
+                if (e instanceof CrossProfileQuietModeException) {
                     updateToQuietModeErrorMessage(
                             ((CrossProfileQuietModeException) event.getException()).mUserId);
                 } else if (event.getException() instanceof CrossProfileNoPermissionException) {

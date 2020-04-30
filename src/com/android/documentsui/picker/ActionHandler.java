@@ -286,6 +286,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
             } else {
                 userId.startActivityAsUser(mActivity, intent);
             }
+            Metrics.logLaunchOtherApp(!UserId.CURRENT_USER.equals(userId));
             mActivity.finish();
         } catch (SecurityException | ActivityNotFoundException e) {
             Log.e(TAG, "Caught error: " + e.getLocalizedMessage());
