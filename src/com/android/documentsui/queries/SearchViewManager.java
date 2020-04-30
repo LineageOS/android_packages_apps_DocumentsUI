@@ -159,6 +159,11 @@ public class SearchViewManager implements
         final Bundle queryArgs = mChipViewManager.getCheckedChipQueryArgs();
         if (!TextUtils.isEmpty(mCurrentSearch)) {
             queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, mCurrentSearch);
+        } else if (isExpanded() && isSearching()) {
+            // The existence of the DocumentsContract.QUERY_ARG_DISPLAY_NAME constant is used to
+            // determine if this is a text search (as opposed to simply filtering from within a
+            // non-searching view), so ensure the argument exists when searching.
+            queryArgs.putString(DocumentsContract.QUERY_ARG_DISPLAY_NAME, "");
         }
 
         return queryArgs;
@@ -221,6 +226,9 @@ public class SearchViewManager implements
         mSearchView.setOnQueryTextFocusChangeListener(this);
         final View clearButton = mSearchView.findViewById(R.id.search_close_btn);
         if (clearButton != null) {
+            clearButton.setPadding(clearButton.getPaddingStart() + getPixelForDp(4),
+                    clearButton.getPaddingTop(), clearButton.getPaddingEnd() + getPixelForDp(4),
+                    clearButton.getPaddingBottom());
             clearButton.setOnClickListener(v -> {
                 mSearchView.setQuery("", false);
                 mSearchView.requestFocus();
@@ -332,6 +340,11 @@ public class SearchViewManager implements
             return true;
         }
         return false;
+    }
+
+    private int getPixelForDp(int dp) {
+        final float scale = mSearchView.getContext().getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
     }
 
     private void cancelQueuedSearch() {
