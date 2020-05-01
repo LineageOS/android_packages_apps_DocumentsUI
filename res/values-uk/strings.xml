@@ -288,8 +288,8 @@
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Файли в папці \"Завантаження\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Файли на пристрої <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Файли в папці \"<xliff:g id="FOLDER">%1$s</xliff:g>\""</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"Файли зі сховища даних <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Файли зі сховища даних <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Файли зі сховища \"<xliff:g id="LABEL">%1$s</xliff:g>\""</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Файли зі сховища \"<xliff:g id="LABEL">%1$s</xliff:g>\" (<xliff:g id="SUMMARY">%2$s</xliff:g>)"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Нещодавні зображення на телефоні"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Зображення на телефоні"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Зображення в папці \"Завантаження\""</string>
@@ -307,7 +307,7 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Нова назва"</string>
     <string name="preview_file" msgid="4056622696305432343">"Переглянути файл \"<xliff:g id="FILENAME">%1$s</xliff:g>\""</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Попередній перегляд робочого файлу \"<xliff:g id="FILENAME">%1$s</xliff:g>\""</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Переглянути файли в інших додатках"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Пошук файлів в інших додатках"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонімно"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Використовувати цю папку"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Надати додатку <xliff:g id="APPNAME">%1$s</xliff:g> доступ до файлів у каталозі \"<xliff:g id="DIRECTORY">%2$s</xliff:g>\"?"</string>

@@ -99,7 +99,7 @@
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Kişisel profile kaydedilemiyor"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"BT yöneticiniz iş dosyalarını kişisel profilinize kaydetmenize izin vermiyor"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Bu işleme izin verilmiyor"</string>
-    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Daha fazla bilgi edinmek için BT yöneticinizle iletişime geçin."</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"BT yöneticinizden daha fazla bilgi alabilirsiniz."</string>
     <string name="root_recent" msgid="1080156975424341623">"Son"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> boş"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Depolama hizmetleri"</string>

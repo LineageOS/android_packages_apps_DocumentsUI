@@ -91,9 +91,9 @@
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Ажлын профайлыг түр зогсоосон"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Асаах"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ажлын файлуудыг сонгох боломжгүй байна"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Таны мэдээлэл технологийн админ танд хувийн аппаас ажлын файлуудад хандахыг зөвшөөрөхгүй байна"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Таны мэдээлэл технологийн админ танд хувийн аппаас ажлын файлуудад хандахыг зөвшөөрөөгүй байна"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Хувийн файлуудыг сонгох боломжгүй байна"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Таны мэдээлэл технологийн админ ажлын аппаас хувийн файлуудад хандахыг танд зөвшөөрөхгүй байна"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Таны мэдээлэл технологийн админ ажлын аппаас хувийн файлуудад хандахыг танд зөвшөөрөөгүй байна"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ажлын профайлыг хадгалах боломжгүй байна"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Таны мэдээлэл технологийн админ танд ажлын профайлдаа хувийн файлууд хадгалахыг зөвшөөрөхгүй байна"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Хувийн профайлыг хадгалах боломжгүй байна"</string>

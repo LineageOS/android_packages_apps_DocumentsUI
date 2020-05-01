@@ -295,7 +295,7 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Napravi novi direktorijum"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Pretražite ovaj telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Izbrišite istoriju pretrage <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Lični"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Lično"</string>
     <string name="work_tab" msgid="7265359366883747413">"Posao"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Posao"</string>
 </resources>
