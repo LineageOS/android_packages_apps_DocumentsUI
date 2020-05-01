@@ -30,6 +30,8 @@ import android.provider.DocumentsContract;
 import android.provider.DocumentsContract.Path;
 import android.provider.DocumentsProvider;
 import android.util.Log;
+import android.util.StatsEvent;
+import android.util.StatsLog;
 
 import androidx.annotation.Nullable;
 
@@ -87,6 +89,24 @@ public final class Metrics {
      */
     public static void logRootVisited(@MetricConsts.ContextScope int scope, RootInfo info) {
         DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_ROOT_VISITED, scope, sanitizeRoot(info));
+    }
+
+    public static void logLaunchOtherApp(boolean acrossProfile) {
+        DevicePolicyEventLogger.write(DevicePolicyMetricConsts.EVENT_ID_DOCSUI_LAUNCH_OTHER_APP,
+                acrossProfile);
+    }
+
+    public static void logCrossProfileEmptyState(CrossProfileException e) {
+        int eventId;
+        if (e instanceof CrossProfileQuietModeException) {
+            eventId = DevicePolicyMetricConsts.EVENT_ID_DOCSUI_EMPTY_STATE_QUIET_MODE;
+        } else if (e instanceof CrossProfileNoPermissionException) {
+            eventId = DevicePolicyMetricConsts.EVENT_ID_DOCSUI_EMPTY_STATE_NO_PERMISSION;
+        } else {
+            Log.d(TAG, "logCrossProfileEmptyState: Unexpected exception " + e);
+            return;
+        }
+        DevicePolicyEventLogger.write(eventId, /* booleanValue= */ true);
     }
 
     /**
@@ -331,6 +351,9 @@ public final class Metrics {
                 result.getRoot(),
                 result.getMimeType(),
                 result.getRepeatedPickTimes());
+
+        DevicePolicyEventLogger.write(DevicePolicyMetricConsts.EVENT_ID_DOCSUI_PICK_RESULT,
+                result.hasCrossProfileUri());
     }
 
     private static void logStorageFileOperationFailure(
@@ -611,5 +634,25 @@ public final class Metrics {
             Log.w(TAG, "Invalid root Uri " + uri.toSafeString());
         }
         return null;
+    }
+
+    /**
+     * The implementation is copied from StatsLogInternal for the DEVICE_POLICY_EVENT.
+     */
+    private static class DevicePolicyEventLogger {
+        public static void write(@DevicePolicyMetricConsts.EventId int eventId,
+                boolean booleanValue) {
+            final StatsEvent.Builder builder = StatsEvent.newBuilder();
+            builder.setAtomId(DevicePolicyMetricConsts.ATOM_DEVICE_POLICY_EVENT);
+            builder.writeInt(eventId); // eventId
+            builder.writeString(null); // adminPackageName
+            builder.writeInt(0); // intValue
+            builder.writeBoolean(booleanValue); // booleanValue
+            builder.writeLong(0); // timePeriodMs
+            builder.writeByteArray(new byte[0]); // bytes
+
+            builder.usePooledBuffer();
+            StatsLog.write(builder.build());
+        }
     }
 }
