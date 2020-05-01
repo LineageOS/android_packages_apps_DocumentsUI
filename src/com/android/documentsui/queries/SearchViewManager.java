@@ -86,9 +86,9 @@ public class SearchViewManager implements
     private boolean mIsHistorySearch;
     private boolean mShowSearchBar;
 
-    private Menu mMenu;
-    private MenuItem mMenuItem;
-    private SearchView mSearchView;
+    private @Nullable Menu mMenu;
+    private @Nullable MenuItem mMenuItem;
+    private @Nullable SearchView mSearchView;
 
     public SearchViewManager(
             SearchManagerListener listener,
@@ -249,7 +249,7 @@ public class SearchViewManager implements
      * is done before onPrepareOptionsMenu(Menu menu) that is overriding the icons visibility.
      */
     public void updateMenu() {
-        if (isExpanded() && mFullBar) {
+        if (mMenu != null && isExpanded() && mFullBar) {
             mMenu.setGroupVisible(R.id.group_hide_when_searching, false);
         }
     }
@@ -258,7 +258,7 @@ public class SearchViewManager implements
      * @param stack New stack.
      */
     public void update(DocumentStack stack) {
-        if (mMenuItem == null) {
+        if (mMenuItem == null || mSearchView == null) {
             if (DEBUG) {
                 Log.d(TAG, "update called before Search MenuItem installed.");
             }
@@ -364,6 +364,10 @@ public class SearchViewManager implements
      * change.
      */
     public void restoreSearch(boolean keepFocus) {
+        if (mSearchView == null) {
+            return;
+        }
+
         if (isTextSearching()) {
             onSearchBarClicked();
             mSearchView.setQuery(mCurrentSearch, false);
@@ -377,13 +381,17 @@ public class SearchViewManager implements
     }
 
     public void onSearchBarClicked() {
+        if (mMenuItem == null) {
+            return;
+        }
+
         mMenuItem.expandActionView();
         onSearchExpanded();
     }
 
     private void onSearchExpanded() {
         mSearchExpanded = true;
-        if (mFullBar) {
+        if (mFullBar && mMenu != null) {
             mMenu.setGroupVisible(R.id.group_hide_when_searching, false);
         }
 
@@ -412,7 +420,7 @@ public class SearchViewManager implements
             mListener.onSearchChanged(mCurrentSearch);
         }
 
-        if (mFullBar) {
+        if (mFullBar && mMenuItem != null) {
             mMenuItem.collapseActionView();
         }
         mListener.onSearchFinished();
@@ -428,7 +436,7 @@ public class SearchViewManager implements
      * @param state Bundle to save state too
      */
     public void onSaveInstanceState(Bundle state) {
-        if (mSearchView.hasFocus() && mCurrentSearch == null) {
+        if (mSearchView != null && mSearchView.hasFocus() && mCurrentSearch == null) {
             // Restore focus even if no text was input before screen rotation.
             mCurrentSearch = "";
         }
@@ -470,9 +478,9 @@ public class SearchViewManager implements
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus && !mChipViewManager.hasCheckedItems()) {
-            if (mCurrentSearch == null) {
+            if (mSearchView != null && mCurrentSearch == null) {
                 mSearchView.setIconified(true);
-            } else if (TextUtils.isEmpty(mSearchView.getQuery())) {
+            } else if (TextUtils.isEmpty(getSearchViewText())) {
                 cancelSearch();
             }
         }
@@ -542,9 +550,13 @@ public class SearchViewManager implements
     /**
      * Get current text on search view.
      *
-     * @return  Cuttent string on search view
+     * @return  Current string on search view
      */
     public String getSearchViewText() {
+        if (mSearchView == null) {
+            return null;
+        }
+
         return mSearchView.getQuery().toString();
     }
 
