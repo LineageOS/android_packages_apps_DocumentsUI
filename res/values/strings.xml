@@ -75,6 +75,10 @@
     <string name="menu_rename">Rename</string>
     <!-- Menu item that displays properties about the selected document [CHAR LIMIT=28] -->
     <string name="menu_inspect">Get info</string>
+    <!-- Menu item that shows hidden files [CHAR LIMIT=28] -->
+    <string name="menu_show_hidden_files">Show hidden files</string>
+    <!-- Menu item that hides hidden files [CHAR LIMIT=28] -->
+    <string name="menu_hide_hidden_files">Don\u2019t show hidden files</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_view_in_owner">View in <xliff:g id="source" example="Google Drive">%1$s</xliff:g></string>
 
@@ -534,4 +538,8 @@
 
     <!-- Accessibility label to indicate the subject(e.g. file/folder) is from work profile -->
     <string name="a11y_work">Work</string>
+
+    <!-- Snackbar shown when users drag and drop files from another app
+    to DocumentsUI. [CHAR_LIMIT=100] -->
+    <string name="drag_from_another_app">Drag from another app not allowed.</string>
 </resources>

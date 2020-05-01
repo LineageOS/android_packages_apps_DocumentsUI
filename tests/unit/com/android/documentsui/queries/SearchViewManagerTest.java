@@ -352,6 +352,37 @@ public final class SearchViewManagerTest {
     }
 
     @Test
+    public void testBuildQueryArgs_emptySearchString_expandedSearchWithChips_hasEmptyButNotMissingSearchString()
+            throws Exception {
+        mSearchViewManager.onClick(null);
+        mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
+        fastForwardTo(SearchViewManager.SEARCH_DELAY_MS);
+
+        final String queryString =
+                mSearchViewManager.buildQueryArgs()
+                        .getString(DocumentsContract.QUERY_ARG_DISPLAY_NAME);
+        assertEquals("", queryString);
+    }
+
+    @Test
+    public void testBuildQueryArgs_emptySearchString_withChipsWithoutExpandedSearch_hasNoSearchString()
+            throws Exception {
+        mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
+        fastForwardTo(SearchViewManager.SEARCH_DELAY_MS);
+
+        assertFalse(mSearchViewManager.buildQueryArgs().containsKey(QUERY_ARG_DISPLAY_NAME));
+    }
+
+    @Test
+    public void testBuildQueryArgs_emptySearchString_expandedSearchWithNoChips_hasNoSearchString()
+            throws Exception {
+        mSearchViewManager.onClick(null);
+        fastForwardTo(SearchViewManager.SEARCH_DELAY_MS);
+
+        assertFalse(mSearchViewManager.buildQueryArgs().containsKey(QUERY_ARG_DISPLAY_NAME));
+    }
+
+    @Test
     public void testBuildQueryArgs_hasMimeType() throws Exception {
         mSearchViewManager.onClick(null);
         mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
