@@ -30,6 +30,7 @@ import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.AbstractDragHost;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.DragAndDropManager;
+import com.android.documentsui.Metrics;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -110,7 +111,9 @@ class DragHost<T extends Activity & AbstractActionHandler.CommonAddons> extends 
 
     @Override
     public boolean canHandleDragEvent(View v) {
-        if (!mDragAndDropManager.isDragFromSameApp()) {
+        boolean dragInitiatedFromDocsUI = mDragAndDropManager.isDragFromSameApp();
+        Metrics.logDragInitiated(dragInitiatedFromDocsUI);
+        if (!dragInitiatedFromDocsUI) {
             Snackbar.make(
                     v, R.string.drag_from_another_app, Snackbar.LENGTH_SHORT).show();
             return false;
