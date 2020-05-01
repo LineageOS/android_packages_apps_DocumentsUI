@@ -341,6 +341,14 @@ public final class Metrics {
                 getSearchMode(isKeywordSearch, isChipsSearch));
     }
 
+    /**
+     * Logs drag initiated from which app, documentsUI or another app.
+     */
+    public static void logDragInitiated(boolean isDragInitatedFromDocsUI) {
+        DocumentsStatsLog.write(DocumentsStatsLog.DOCS_UI_DRAG_AND_DROP_REPORTED,
+                isDragInitatedFromDocsUI);
+    }
+
     public static void logPickResult(PickResult result) {
         DocumentsStatsLog.write(
                 DocumentsStatsLog.DOCS_UI_PICK_RESULT_REPORTED,
