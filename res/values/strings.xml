@@ -541,5 +541,5 @@
 
     <!-- Snackbar shown when users drag and drop files from another app
     to DocumentsUI. [CHAR_LIMIT=100] -->
-    <string name="drag_from_another_app">Drag from another app not allowed.</string>
+    <string name="drag_from_another_app">You can\u2019t move files from another app.</string>
 </resources>
