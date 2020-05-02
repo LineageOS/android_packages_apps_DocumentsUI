@@ -19,6 +19,9 @@ package com.android.documentsui.queries;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,10 +74,16 @@ public class SearchFragment extends Fragment{
         ft.commitNow();
     }
 
-    public static void dismissFragment(FragmentManager fm) {
+    /**
+     * Posts the dismissal of the dialog to the next frame of the main looper thread. This method
+     * should be used in cases where the user is still searching, since it can avoid other elements
+     * from flashing for a frame when they are reacting to the same state change (e.g.
+     * http://b/153094528).
+     */
+    public static void dismissFragmentNextFrame(FragmentManager fm) {
         SearchFragment fragment = get(fm);
         if (fragment != null) {
-            fragment.dismiss();
+            fragment.dismissNextFrame();
         }
     }
 
@@ -152,7 +161,7 @@ public class SearchFragment extends Fragment{
         mSearchViewManager.setHistorySearch();
         mSearchViewManager.setCurrentSearch(item);
         mSearchViewManager.restoreSearch(true);
-        dismiss();
+        dismissNextFrame();
     }
 
     private void dismiss() {
@@ -173,6 +182,16 @@ public class SearchFragment extends Fragment{
         if (directoryContainer != null) {
             directoryContainer.setVisibility(visibility);
         }
+    }
+
+    /**
+     * Posts the dismissal of the dialog to the next frame of the main looper thread. This method
+     * should be used in cases where the user is still searching, since it can avoid other elements
+     * from flashing for a frame when they are reacting to the same state change (e.g.
+     * http://b/153094528).
+     */
+    private void dismissNextFrame() {
+        new Handler(Looper.getMainLooper()).post(this::dismiss);
     }
 
     private class HistoryListAdapter extends ArrayAdapter<String> {
