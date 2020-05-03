@@ -44,7 +44,7 @@
     <string name="menu_compress" msgid="37539111904724188">"圧縮"</string>
     <string name="menu_extract" msgid="8171946945982532262">"次の場所に解凍…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"名前を変更"</string>
-    <string name="menu_inspect" msgid="7279855349299446224">"情報を見る"</string>
+    <string name="menu_inspect" msgid="7279855349299446224">"詳細情報"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>に表示"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"新しいウィンドウ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"切り取り"</string>
@@ -107,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"デバイス"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"その他のアプリ"</string>
     <string name="empty" msgid="5300254272613103004">"項目はありません"</string>
-    <string name="no_results" msgid="2371026325236359209">"該当するものは %1$s にありません"</string>
+    <string name="no_results" msgid="2371026325236359209">"該当するものは [%1$s] にありません"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ファイルを開けません"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"アーカイブ内のファイルを開くことはできません"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"一部のドキュメントを削除できません"</string>
@@ -238,7 +238,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> 個を選択中</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> 個を選択中</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"スマートフォンで最近使用したファイル"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"最近のファイル"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"スマートフォンにあるファイル"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"スマートフォンにある<xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"[ダウンロード] 内のファイル"</string>

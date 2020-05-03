@@ -90,7 +90,7 @@
     <string name="query_error" msgid="6625421453613879336">"Sisällön lataaminen epäonnistui."</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Työprofiilin käyttö on keskeytetty"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Laita päälle"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ei voi valita työtiedostoja"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Työtiedostot eivät ole valittavissa"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT-järjestelmänvalvoja ei salli sinulle pääsyä työtiedostoihin henkilökohtaisesta sovelluksesta"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Ei voi valita henkilökohtaisia tiedostoja"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT-järjestelmänvalvoja ei salli sinulle pääsyä henkilökohtaisiin tiedostoihin työsovelluksesta"</string>
@@ -271,7 +271,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Tätä kansiota ei voi käyttää"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Valitse toinen kansio tietosuojasi turvaamiseksi"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Luo uusi kansio"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Hae tältä puhelimelta"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Hae tästä puhelimesta"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Poista hakuhistoria <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Henkilökohtainen"</string>
     <string name="work_tab" msgid="7265359366883747413">"Työ"</string>
