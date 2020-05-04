@@ -16,6 +16,7 @@
 
 package com.android.documentsui.dirlist;
 
+import android.os.UserManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -127,6 +128,8 @@ public class AppsRowManager {
 
         app_icon.setImageDrawable(data.getIconDrawable(view.getContext()));
         title.setText(data.getTitle());
+        title.setContentDescription(
+                data.getUserId().getUserBadgedLabel(view.getContext(), data.getTitle()));
         summary.setText(data.getSummary());
         summary.setVisibility(data.getSummary() != null ? View.VISIBLE : View.GONE);
         view.setOnClickListener(v -> data.onClicked());
