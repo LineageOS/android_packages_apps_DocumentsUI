@@ -18,7 +18,9 @@ package com.android.documentsui.sidebar;
 
 import android.content.Context;
 import android.content.pm.ResolveInfo;
+import android.os.UserManager;
 import android.provider.DocumentsProvider;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.android.documentsui.ActionHandler;
@@ -51,7 +53,8 @@ class RootAndAppItem extends RootItem {
         final Context context = convertView.getContext();
 
         String contentDescription =
-                context.getResources().getString(R.string.open_external_app, root.title);
+                context.getResources().getString(
+                        R.string.open_external_app, userId.getUserBadgedLabel(context, root.title));
 
         bindAction(convertView, View.VISIBLE, R.drawable.ic_exit_to_app, contentDescription);
         bindIconAndTitle(convertView);
