@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"다음 위치에 추출..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"이름 바꾸기"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"정보 확인"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"숨겨진 파일 표시"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"숨겨진 파일 표시 안함"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>에서 보기"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"새 창"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"잘라내기"</string>
@@ -276,4 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"개인"</string>
     <string name="work_tab" msgid="7265359366883747413">"직장"</string>
     <string name="a11y_work" msgid="7504431382825242153">"직장"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"파일을 다른 앱에서 이동할 수 없습니다."</string>
 </resources>

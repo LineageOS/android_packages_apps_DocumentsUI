@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"Izdvoj u…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Preimenuj"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Prikaži informacije"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Prikazuj skrivene datoteke"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Ne prikazuj skrivene"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Prikaži u: <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Novi prozor"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Iseci"</string>
@@ -88,14 +90,14 @@
     <string name="save_error" msgid="8631128801982095782">"Čuvanje dokumenta nije uspelo"</string>
     <string name="create_error" msgid="3092144450044861994">"Pravljenje direktorijuma nije uspelo"</string>
     <string name="query_error" msgid="6625421453613879336">"Učitavanje sadržaja trenutno nije moguće"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Profil za Work je pauziran"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Poslovni profil je pauziran"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Uključi"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Izbor datoteka za posao nije uspeo"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT administrator vam ne dozvoljava da pristupate datotekama za posao iz lične aplikacije"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Izbor ličnih datoteka nije uspeo"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT administrator vam ne dozvoljava da pristupate ličnim datotekama iz aplikacije za posao"</string>
-    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Čuvanje na profilu za Work nije uspelo"</string>
-    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT administrator vam ne dozvoljava da čuvate lične datoteke na profilu za Work"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT administrator vam ne dozvoljava da pristupate ličnim datotekama iz poslovne aplikacije"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Čuvanje na poslovnom profilu nije uspelo"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT administrator vam ne dozvoljava da čuvate lične datoteke na poslovnom profilu"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Čuvanje na ličnom profilu nije uspelo"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT administrator vam ne dozvoljava da čuvate datoteke za posao na ličnom profilu"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ova radnja nije dozvoljena"</string>
@@ -298,4 +300,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"Lično"</string>
     <string name="work_tab" msgid="7265359366883747413">"Posao"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Posao"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Ne možete da premeštate datoteke iz druge aplikacije."</string>
 </resources>

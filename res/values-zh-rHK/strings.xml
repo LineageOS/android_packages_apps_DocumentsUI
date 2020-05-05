@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"壓縮至…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重新命名"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"顯示資訊"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"顯示已隱藏的檔案"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"不要顯示已隱藏的檔案"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"在「<xliff:g id="SOURCE">%1$s</xliff:g>」中查看"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"新視窗"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"剪下"</string>
@@ -276,4 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"個人"</string>
     <string name="work_tab" msgid="7265359366883747413">"工作"</string>
     <string name="a11y_work" msgid="7504431382825242153">"工作"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"您無法移動其他應用程式的檔案。"</string>
 </resources>
