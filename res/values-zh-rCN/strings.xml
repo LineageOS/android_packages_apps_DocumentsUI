@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"解压到…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重命名"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"获取信息"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"显示隐藏的文件"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"不显示隐藏的文件"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"在“<xliff:g id="SOURCE">%1$s</xliff:g>”中查看"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"新建窗口"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"剪切"</string>
@@ -88,7 +90,7 @@
     <string name="save_error" msgid="8631128801982095782">"无法保存文档"</string>
     <string name="create_error" msgid="3092144450044861994">"无法创建文件夹"</string>
     <string name="query_error" msgid="6625421453613879336">"暂时无法加载内容"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"工作资料已暂停使用"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"工作资料已被暂停"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"开启"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"无法选择工作文件"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"您的 IT 管理员不允许您通过个人应用访问工作文件"</string>
@@ -245,7 +247,7 @@
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g>上的文件"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g> 中的文件"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>中的文件"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g>中的文件/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g>中的文件 / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"手机上的近期图片"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"手机上的图片"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"“下载”中的图片"</string>
@@ -276,4 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"个人"</string>
     <string name="work_tab" msgid="7265359366883747413">"工作"</string>
     <string name="a11y_work" msgid="7504431382825242153">"工作"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"您无法移动其他应用中的文件。"</string>
 </resources>
