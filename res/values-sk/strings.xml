@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"Rozbaliť do…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Premenovať"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Zobraziť informácie"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Zobraziť skryté súbory"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Nezobrazovať skryté súbory"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Zobraziť v službe <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nové okno"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Vystrihnúť"</string>
@@ -289,7 +291,7 @@
     <string name="root_info_header_storage" msgid="2989014130584927442">"Súbory v zariadení <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Súbory v priečinku <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Súbory zo služby <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Súbory z: <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Súbory zo služby <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Nedávne obrázky v telefóne"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Obrázky v telefóne"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Obrázky v priečinku stiahnutých súborov"</string>
@@ -320,4 +322,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"Osobné"</string>
     <string name="work_tab" msgid="7265359366883747413">"Práca"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Práca"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Nemôžete presúvať súbory z inej aplikácie."</string>
 </resources>
