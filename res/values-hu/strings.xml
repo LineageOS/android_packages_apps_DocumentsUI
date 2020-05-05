@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"Kicsomagolás ide…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Átnevezés"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Információ megjelenítése"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Rejtett fájlok megjelenítése"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Ne mutasson rejtett fájlokat"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Megtekintés a következőben: <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Új ablak"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kivágás"</string>
@@ -88,7 +90,7 @@
     <string name="save_error" msgid="8631128801982095782">"Nem sikerült menteni a dokumentumot"</string>
     <string name="create_error" msgid="3092144450044861994">"Nem sikerült létrehozni a mappát"</string>
     <string name="query_error" msgid="6625421453613879336">"Jelenleg nem lehet tartalmat betölteni"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"A munkaprofil szüneteltetve van"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"A munkaprofil használata szünetel"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Bekapcsolás"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nem választhatók ki munkafájlok"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Rendszergazdája nem engedélyezi, hogy munkafájlokhoz férjen hozzá személyes alkalmazásból"</string>
@@ -276,4 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"Személyes"</string>
     <string name="work_tab" msgid="7265359366883747413">"Munkahelyi"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Munka"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Nem lehet áthelyezni fájlokat más alkalmazásból."</string>
 </resources>

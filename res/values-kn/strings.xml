@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"ಇದಕ್ಕೆ ಬೇರ್ಪಡಿಸಲಾಗಿದೆ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ಮರುಹೆಸರಿಸು"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"ಮಾಹಿತಿಯನ್ನು ಪಡೆಯಿರಿ"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"ಮರೆಮಾಡಿದ ಫೈಲ್‌ಗಳನ್ನು ತೋರಿಸಿ"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"ಮರೆಮಾಡಿದ ಫೈಲ್‌ ತೋರಿಸಬೇಡಿ"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ಹೊಸ ವಿಂಡೋ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ಕತ್ತರಿಸು"</string>
@@ -276,4 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"ವೈಯಕ್ತಿಕ"</string>
     <string name="work_tab" msgid="7265359366883747413">"ಉದ್ಯೋಗ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ಉದ್ಯೋಗ"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"ನೀವು ಬೇರೊಂದು ಆ್ಯಪ್‌ನಿಂದ ಫೈಲ್‌ಗಳನ್ನು ಸರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
 </resources>
