@@ -22,7 +22,7 @@
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
-    <string name="title_open" msgid="3165686459158020921">"Buka dari"</string>
+    <string name="title_open" msgid="3165686459158020921">"Buka daripada"</string>
     <string name="title_save" msgid="4384490653102710025">"Simpan ke"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"Folder baharu"</string>
     <string name="menu_grid" msgid="1453636521731880680">"Paparan grid"</string>

@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"ឧបករណ៍"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"កម្ម​វិធី​​ច្រើន​ទៀត"</string>
     <string name="empty" msgid="5300254272613103004">"គ្មានធាតុ​"</string>
-    <string name="no_results" msgid="2371026325236359209">"មិនមានការប្រកួតនៅក្នុង %1$s ទេ"</string>
+    <string name="no_results" msgid="2371026325236359209">"គ្មានលទ្ធផលត្រូវគ្នាក្នុង %1$s ទេ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"មិនអាចបើកឯកសារបានទេ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"មិនអាចបើក​ឯកសារ​នៅក្នុងបណ្ណសារបានទេ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"មិនអាចលុបឯកសារមួយចំនួន"</string>
@@ -245,6 +245,6 @@
     <string name="open_tree_button" msgid="19992834788135845">"អនុញ្ញាត​ឱ្យ​ចូលប្រើ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"អនុញ្ញាត​ឱ្យ​ចូលប្រើ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" នៅក្នុង \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ការធ្វើ​បែបនេះ​នឹង​អនុញ្ញាត​ឱ្យ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" អាច​ចូលប្រើ​ឯកសារ​ទាំងអស់​ដែល​កំពុងផ្ទុក​នៅក្រោម​ទីតាំង​នេះ​បានពេញលេញ រួមទាំងខ្លឹមសារ​នាពេលខាងមុខ​ផ្សេងទៀត​ដែល​ផ្ទុក​នៅទីនេះ។"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ទូរសព្ទ​នេះ"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ក្នុងទូរសព្ទ​នេះ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"លុប​ប្រវត្តិស្វែងរក <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

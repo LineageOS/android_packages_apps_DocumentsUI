@@ -22,7 +22,7 @@
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
-    <string name="title_open" msgid="3165686459158020921">"Кийинкиден ачуу"</string>
+    <string name="title_open" msgid="3165686459158020921">"Ачуу"</string>
     <string name="title_save" msgid="4384490653102710025">"Кийинкиге сактоо"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"Жаңы папка"</string>
     <string name="menu_grid" msgid="1453636521731880680">"Тор көрүнүшү"</string>
@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Түзмөктөр"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Көбүрөөк колдонмолор"</string>
     <string name="empty" msgid="5300254272613103004">"Эч нерсе жок"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s ичинде дал келүүлөр жок"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s бөлүмүндө эч нерсе табылган жок"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Файл ачылбай жатат"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Архивделген файлдарды ачуу мүмкүн эмес"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Кээ бир документтерди өчүрүү мүмкүн болбой жатат"</string>
@@ -226,8 +226,8 @@
     <string name="root_info_header_global_search" msgid="9099308729787003373">"Телефондогу файлдар"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"Телефондогу <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> түзмөгүндөгү файлдар"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> сактагычындагы файлдар"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> сактагычындагы файлдар / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> кызматындагы файлдар"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> кызматындагы файлдар / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Телефондогу акыркы сүрөттөр"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Телефондогу сүрөттөр"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> түзмөгүндөгү сүрөттөр"</string>

@@ -22,7 +22,7 @@
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
-    <string name="title_open" msgid="3165686459158020921">"在以下位置開啟文件："</string>
+    <string name="title_open" msgid="3165686459158020921">"從以下位置開啟："</string>
     <string name="title_save" msgid="4384490653102710025">"儲存至："</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"新資料夾"</string>
     <string name="menu_grid" msgid="1453636521731880680">"格狀檢視"</string>
@@ -222,12 +222,12 @@
       <item quantity="other">已選取 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目</item>
       <item quantity="one">已選取 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"手機上的最近檔案"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"最近在手機上使用過的檔案"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"手機上的檔案"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"手機上的<xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> 上的檔案"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"來自<xliff:g id="LABEL">%1$s</xliff:g>的檔案"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"來自<xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g> 的檔案"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>中的檔案"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>中的檔案"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"手機上最近的圖片"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"手機上的圖片"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g>上的圖片"</string>
@@ -240,11 +240,11 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"資料夾名稱"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"新名稱"</string>
     <string name="preview_file" msgid="4056622696305432343">"預覽 <xliff:g id="FILENAME">%1$s</xliff:g> 檔案"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"透過其他應用程式瀏覽檔案"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"瀏覽其他應用程式中的檔案"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"匿名"</string>
     <string name="open_tree_button" msgid="19992834788135845">"允許存取「<xliff:g id="DIRECTORY">%1$s</xliff:g>」"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"要允許存取<xliff:g id="ROOT">%2$s</xliff:g>的<xliff:g id="DIRECTORY">%1$s</xliff:g>嗎？"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"這項操作將允許「<xliff:g id="APPNAME">%1$s</xliff:g>」完整存取目前儲存在此位置的所有檔案，以及任何未來在此儲存的內容。"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"搜尋這部手機"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"在這部手機中搜尋"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"刪除搜尋記錄 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

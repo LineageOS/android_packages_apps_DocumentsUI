@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Uređaji"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Više aplikacija"</string>
     <string name="empty" msgid="5300254272613103004">"Nema stavki"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s ne sadrži podudaranja"</string>
+    <string name="no_results" msgid="2371026325236359209">"Mapa %1$s ne sadrži podudaranja"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Datoteka se ne može otvoriti"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Nije moguće otvoriti datoteke u arhivama"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Nije moguće izbrisati neke dokumente"</string>
@@ -248,8 +248,8 @@
     <string name="root_info_header_global_search" msgid="9099308729787003373">"Datoteke na telefonu"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> na telefonu"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Datoteke na uređaju <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"Datoteke s usluge <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Datoteke s usluge <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Datoteke usluge <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Datoteke usluge <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Nedavne slike na telefonu"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Slike na telefonu"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Slike na uređaju <xliff:g id="DEVICE">%1$s</xliff:g>"</string>

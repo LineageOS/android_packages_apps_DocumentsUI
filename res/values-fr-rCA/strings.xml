@@ -69,12 +69,12 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Dernière modification"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nom de fichier (A à Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Type (A à Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Taille (plus petit en 1er)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Modif. (plus anc. en 1er)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Taille (plus petits d\'abord)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Date de modification (plus anciens d\'abord)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nom de fichier (Z à A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Type (Z à A)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Taille (plus gros en 1er)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Modif. (plus réc. en 1er)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Taille (plus gros d\'abord)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Date de modification (plus récents d\'abord)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Trier par"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Trié par <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Nombre d\'éléments"</string>
@@ -87,7 +87,7 @@
     <string name="create_error" msgid="3092144450044861994">"Échec de la création du dossier"</string>
     <string name="query_error" msgid="6625421453613879336">"Impossible de charger le contenu pour le moment"</string>
     <string name="root_recent" msgid="1080156975424341623">"Fichiers récents"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> disponible"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> d\'espace libre"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Services de stockage"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Raccourcis"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Appareils"</string>

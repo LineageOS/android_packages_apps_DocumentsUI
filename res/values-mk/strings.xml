@@ -40,7 +40,7 @@
     <string name="menu_sort" msgid="3362419226163725275">"Подреди според…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Копирај во…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Премести во…"</string>
-    <string name="menu_compress" msgid="37539111904724188">"Компресирај"</string>
+    <string name="menu_compress" msgid="37539111904724188">"Компримирај"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Отпакувај во…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Преименувај"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Добијте информации"</string>
@@ -54,7 +54,7 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"Сокриј внатр. меморија"</string>
     <string name="button_select" msgid="240863497069321364">"Избери"</string>
     <string name="button_copy" msgid="8219059853840996027">"Копирај"</string>
-    <string name="button_compress" msgid="8951561310857223966">"Компресирај"</string>
+    <string name="button_compress" msgid="8951561310857223966">"Компримирај"</string>
     <string name="button_extract" msgid="1038674453689912247">"Извлечи"</string>
     <string name="button_move" msgid="8596460499325291272">"Премести"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"Отфрли"</string>
@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Уреди"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Други апликации"</string>
     <string name="empty" msgid="5300254272613103004">"Нема ставки"</string>
-    <string name="no_results" msgid="2371026325236359209">"Нема поклопувања во %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"Нема совпаѓања во %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Датотеката не може да се отвори"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Не може да се отвораат датотеките во архивите"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Некои документи не може да се избришат"</string>
@@ -109,8 +109,8 @@
       <item quantity="other">Се копираат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="one">Се компресира <xliff:g id="COUNT_1">%1$d</xliff:g> датотека.</item>
-      <item quantity="other">Се компресираат <xliff:g id="COUNT_1">%1$d</xliff:g> датотеки.</item>
+      <item quantity="one">Се компримира <xliff:g id="COUNT_1">%1$d</xliff:g> датотека.</item>
+      <item quantity="other">Се компримираат <xliff:g id="COUNT_1">%1$d</xliff:g> датотеки.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="one">Се извлекува <xliff:g id="COUNT_1">%1$d</xliff:g> датотека.</item>
@@ -237,7 +237,7 @@
     <string name="chip_title_audio" msgid="1032801828748235436">"Аудио"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"Видеа"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"Документи"</string>
-    <string name="input_hint_new_folder" msgid="479672411219725677">"Име на папка"</string>
+    <string name="input_hint_new_folder" msgid="479672411219725677">"Име на папката"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Ново име"</string>
     <string name="preview_file" msgid="4056622696305432343">"Прегледајте ја датотеката <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Прелистувајте датотеки во други апликации"</string>

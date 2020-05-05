@@ -67,13 +67,13 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Filtyp"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Storlek"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Ändrades senast"</string>
-    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Filnamn (A till Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Typ (A till Z)"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Filnamn (A till Ö)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Typ (A till Ö)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Storlek (minsta först)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Ändrad (äldsta först)"</string>
-    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Filnamn (Z till A)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Typ (Z till A)"</string>
-    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Size (största först)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Filnamn (Ö till A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Typ (Ö till A)"</string>
+    <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Storlek (största först)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Ändrade (senaste först)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortera efter"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Sorterat efter <xliff:g id="LABEL">%s</xliff:g>"</string>
@@ -222,8 +222,8 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> har valts</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> har valts</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"Senaste filerna på mobilen"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"Filer på mobilen"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Senaste filerna på telefonen"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Filer på telefonen"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> på mobilen"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Filer på <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Filer från <xliff:g id="LABEL">%1$s</xliff:g>"</string>
@@ -245,6 +245,6 @@
     <string name="open_tree_button" msgid="19992834788135845">"Vill du tillåta åtkomst till <xliff:g id="DIRECTORY">%1$s</xliff:g>"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"Vill du tillåta åtkomst till <xliff:g id="DIRECTORY">%1$s</xliff:g> på <xliff:g id="ROOT">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Tillåter att <xliff:g id="APPNAME">%1$s</xliff:g> får fullständig åtkomst till alla nuvarande och framtida filer som lagras här."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Sök på mobilen"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Sök på telefonen"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Radera sökhistorik – <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

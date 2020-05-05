@@ -109,8 +109,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ລາຍການ</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other">Compressing <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
-      <item quantity="one">ກຳ​ລັງ​ລຶບ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
+      <item quantity="other">ກຳລັງບີບອັດ <xliff:g id="COUNT_1">%1$d</xliff:g> ໄຟ​ລ໌.</item>
+      <item quantity="one">ກຳລັງບີບອັດ <xliff:g id="COUNT_0">%1$d</xliff:g> ໄຟ​ລ໌.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other">Extracting <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>

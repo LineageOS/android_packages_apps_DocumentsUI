@@ -72,7 +72,7 @@
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Størrelse (mindste først)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Ændret (ældste først)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Filnavn (Å til A)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Type (Z til Å)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Type (Å til A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Størrelse (største først)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Ændret (nyeste først)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortér efter"</string>

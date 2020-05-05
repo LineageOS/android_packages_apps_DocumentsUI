@@ -67,12 +67,12 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"Tipo"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"Dimensioni"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"Ultima modifica"</string>
-    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nome file (da A a Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipo (da A a Z)"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nome file (A-Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipo (A-Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Dimensione (crescente)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Modifica meno recente"</string>
-    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nome file (da Z a A)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tipo (da Z a A)"</string>
+    <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nome file (Z-A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tipo (Z-A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Dimensione (decrescente)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Modifica più recente"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Ordina per"</string>

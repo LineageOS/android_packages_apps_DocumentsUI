@@ -235,7 +235,7 @@
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"Myndir frá <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="chip_title_images" msgid="7838299046109841015">"Myndir"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"Hljóð"</string>
-    <string name="chip_title_videos" msgid="7011260091979776447">"Vídeó"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"Myndskeið"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"Skjöl"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"Möppuheiti"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nýtt heiti"</string>

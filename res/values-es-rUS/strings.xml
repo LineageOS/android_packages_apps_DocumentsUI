@@ -35,7 +35,7 @@
     <string name="menu_save" msgid="5195367497138965168">"Guardar"</string>
     <string name="menu_share" msgid="4307140947108068356">"Compartir"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Borrar"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"Seleccionar todos"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"Seleccionar todo"</string>
     <string name="menu_select" msgid="1366061076507142387">"Seleccionar"</string>
     <string name="menu_sort" msgid="3362419226163725275">"Ordenar por…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Copiar a…"</string>
@@ -86,7 +86,7 @@
     <string name="save_error" msgid="8631128801982095782">"Error al guardar el documento"</string>
     <string name="create_error" msgid="3092144450044861994">"Error al crear la carpeta"</string>
     <string name="query_error" msgid="6625421453613879336">"No se puede cargar el contenido en este momento"</string>
-    <string name="root_recent" msgid="1080156975424341623">"Reciente"</string>
+    <string name="root_recent" msgid="1080156975424341623">"Recientes"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> de espacio libre"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Servicios almacenamiento"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Accesos directos"</string>

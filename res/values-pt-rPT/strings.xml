@@ -80,7 +80,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Número de itens"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendente"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Descendente"</string>
-    <string name="open_external_app" msgid="7107920381038980086">"Abrir a aplicação <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"Abrir a app <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Mostrar raízes"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Ocultar raízes"</string>
     <string name="save_error" msgid="8631128801982095782">"Falha ao guardar o documento"</string>
@@ -240,11 +240,11 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nome da pasta"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Novo nome"</string>
     <string name="preview_file" msgid="4056622696305432343">"Pré-visualizar o ficheiro <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Procure ficheiros noutras aplicações"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Procure ficheiros noutras apps"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Permitir acesso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Pretende permitir o acesso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" em \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
-    <string name="open_tree_dialog_message" msgid="8545093618524340168">"Irá permitir que a aplicação \"<xliff:g id="APPNAME">%1$s</xliff:g>\" tenha acesso total a todos os ficheiros atualmente armazenados nesta localização e a qualquer conteúdo armazenado aqui no futuro."</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Permitir o acesso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" em \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_message" msgid="8545093618524340168">"Irá permitir que a app \"<xliff:g id="APPNAME">%1$s</xliff:g>\" tenha acesso total a todos os ficheiros atualmente armazenados nesta localização e a qualquer conteúdo armazenado aqui no futuro."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Pesquise neste telemóvel"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Elimine o histórico de pesquisas <xliff:g id="TEXT">%1$s</xliff:g>."</string>
 </resources>

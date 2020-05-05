@@ -76,7 +76,7 @@
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"الحجم (الأكبر أولاً)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"تاريخ التعديل (الأحدث أولاً)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"الترتيب حسب"</string>
-    <string name="sort_dimension_button_title" msgid="1898606989130896126">"الترتيب بحسب <xliff:g id="LABEL">%s</xliff:g>"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"الترتيب حسب <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"عدد العناصر"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"تصاعدي"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"تنازلي"</string>
@@ -86,7 +86,7 @@
     <string name="save_error" msgid="8631128801982095782">"تعذّر حفظ المستند"</string>
     <string name="create_error" msgid="3092144450044861994">"تعذّر إنشاء المجلد"</string>
     <string name="query_error" msgid="6625421453613879336">"يتعذر تحميل المحتوى في الوقت الحالي"</string>
-    <string name="root_recent" msgid="1080156975424341623">"الأخيرة"</string>
+    <string name="root_recent" msgid="1080156975424341623">"المحتوى المستخدَم أو المعدَّل مؤخرًا"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> خالية"</string>
     <string name="root_type_service" msgid="6521366147466512289">"خدمات التخزين"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"الاختصارات"</string>
@@ -252,12 +252,12 @@
     <string name="allow" msgid="1275746941353040309">"السماح"</string>
     <string name="deny" msgid="5127201668078153379">"رفض"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
-      <item quantity="zero">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
-      <item quantity="two">تم تحديد عنصرين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
-      <item quantity="few">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عناصر</item>
-      <item quantity="many">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عنصرًا</item>
-      <item quantity="other">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
-      <item quantity="one">تم تحديد عنصر واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
+      <item quantity="zero">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
+      <item quantity="two">تم اختيار عنصرين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
+      <item quantity="few">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g> عناصر</item>
+      <item quantity="many">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g> عنصرًا</item>
+      <item quantity="other">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
+      <item quantity="one">تم اختيار عنصر واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
     </plurals>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="zero"><xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>

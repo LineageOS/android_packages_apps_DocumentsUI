@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"기기"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"앱 더보기"</string>
     <string name="empty" msgid="5300254272613103004">"항목 없음"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s에 일치하는 항목이 없습니다."</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s에 일치하는 항목 없음"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"파일을 열 수 없습니다."</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"보관 파일 안에 있는 파일은 열 수 없습니다."</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"일부 문서를 삭제할 수 없습니다."</string>
