@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.UserManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.dirlist.AppsRowItemData;
 
 /**
  * An {@link Item} for apps that supports some picking actions like
@@ -85,6 +88,7 @@ public class AppItem extends Item {
         final ImageView actionIcon = (ImageView) convertView.findViewById(R.id.action_icon);
 
         titleView.setText(title);
+        titleView.setContentDescription(userId.getUserBadgedLabel(convertView.getContext(), title));
 
         bindIcon(icon);
         bindActionIcon(actionIconArea, actionIcon);

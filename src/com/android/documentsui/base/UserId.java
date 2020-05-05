@@ -124,6 +124,14 @@ public final class UserId {
     }
 
     /**
+     * Returns the value of {@link PackageManager#getUserBadgedLabel(CharSequence, UserHandle)} for
+     * the user and given label.
+     */
+    public CharSequence getUserBadgedLabel(Context context, CharSequence label) {
+        return getPackageManager(context).getUserBadgedLabel(label, mUserHandle);
+    }
+
+    /**
      * Returns true if this user refers to the system user; false otherwise.
      */
     public boolean isSystem() {
