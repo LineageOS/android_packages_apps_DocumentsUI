@@ -291,7 +291,7 @@
     <string name="root_info_header_storage" msgid="2989014130584927442">"Súbory v zariadení <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Súbory v priečinku <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Súbory zo služby <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Súbory z: <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Súbory zo služby <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Nedávne obrázky v telefóne"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Obrázky v telefóne"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Obrázky v priečinku stiahnutých súborov"</string>

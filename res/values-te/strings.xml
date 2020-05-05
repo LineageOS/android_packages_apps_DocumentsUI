@@ -278,5 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"వ్యక్తిగత డైరెక్టరీ"</string>
     <string name="work_tab" msgid="7265359366883747413">"కార్యాలయ డైరెక్టరీ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ఆఫీసు"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"మీరు మరొక యాప్ నుండి ఫైల్స్‌ను తరలించలేరు."</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"మీరు వేరే ఇతర యాప్ నుండి ఫైల్స్‌ను తరలించలేరు."</string>
 </resources>
