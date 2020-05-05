@@ -255,8 +255,14 @@ public abstract class MenuManager {
             List<KeyboardShortcutGroup> data, IntFunction<String> stringSupplier);
 
     protected void updateModePicker(MenuItem grid, MenuItem list) {
-        Menus.setEnabledAndVisible(grid, mState.derivedMode != State.MODE_GRID);
-        Menus.setEnabledAndVisible(list, mState.derivedMode != State.MODE_LIST);
+        // The order of enabling disabling menu item in wrong order removed accessibility focus.
+        if (mState.derivedMode != State.MODE_LIST) {
+            Menus.setEnabledAndVisible(list, mState.derivedMode != State.MODE_LIST);
+            Menus.setEnabledAndVisible(grid, mState.derivedMode != State.MODE_GRID);
+        } else {
+            Menus.setEnabledAndVisible(grid, mState.derivedMode != State.MODE_GRID);
+            Menus.setEnabledAndVisible(list, mState.derivedMode != State.MODE_LIST);
+        }
     }
 
     protected void updateShowHiddenFiles(MenuItem showHidden) {
