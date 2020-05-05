@@ -90,7 +90,7 @@
     <string name="save_error" msgid="8631128801982095782">"દસ્તાવેજ સાચવવામાં નિષ્ફળ થયાં"</string>
     <string name="create_error" msgid="3092144450044861994">"ફોલ્ડર બનાવવામાં નિષ્ફળ થયાં"</string>
     <string name="query_error" msgid="6625421453613879336">"આ પળે સામગ્રી લોડ કરી શકતાં નથી"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"કાર્યાલયની પ્રોફાઇલ થોભાવી છે"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"ઑફિસની પ્રોફાઇલ થોભાવી છે"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"ચાલુ કરો"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"ઑફિસની ફાઇલોને પસંદ કરી શકતા નથી"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"તમારા IT વ્યવસ્થાપક તમને વ્યક્તિગત ઍપ પરથી ઑફિસની ફાઇલોને ઍક્સેસ કરવાની મંજૂરી આપતા નથી"</string>

@@ -278,6 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"Persoonlijk"</string>
     <string name="work_tab" msgid="7265359366883747413">"Werk"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Werk"</string>
-    <!-- no translation found for drag_from_another_app (8310249276199969905) -->
-    <skip />
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Je kunt geen bestanden verplaatsen vanuit een andere app."</string>
 </resources>
