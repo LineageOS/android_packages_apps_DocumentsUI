@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"ਇਸ ਵਿੱਚ ਐਕਸਟ੍ਰੈਕਟ ਕਰੋ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ਨਾਮ ਬਦਲੋ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰੋ"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"ਲੁਕਾਈਆਂ ਗਈਆਂ ਫ਼ਾਈਲਾਂ ਦਿਖਾਓ"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"ਲੁਕਾਈਆਂ ਗਈਆਂ ਫ਼ਾਈਲਾਂ ਨਾ ਦਿਖਾਓ"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> ਵਿੱਚ ਦੇਖੋ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ਨਵੀਂ ਵਿੰਡੋ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ਕੱਟੋ"</string>
@@ -276,4 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"ਨਿੱਜੀ"</string>
     <string name="work_tab" msgid="7265359366883747413">"ਕਾਰਜ-ਸਥਾਨ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ਕੰਮ"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਐਪ ਤੋਂ ਫ਼ਾਈਲਾਂ ਨਹੀਂ ਲਿਜਾ ਸਕਦੇ।"</string>
 </resources>
