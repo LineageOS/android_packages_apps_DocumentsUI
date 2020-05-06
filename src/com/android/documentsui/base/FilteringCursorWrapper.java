@@ -81,7 +81,7 @@ public class FilteringCursorWrapper extends AbstractCursor {
         cursor.moveToPosition(-1);
         while (cursor.moveToNext() && mCount < count) {
             final String name = getCursorString(cursor, Document.COLUMN_DISPLAY_NAME);
-            if (!showHiddenFiles && name.startsWith(".")) {
+            if (!showHiddenFiles && name != null && name.startsWith(".")) {
                 continue;
             }
             mPosition[mCount++] = cursor.getPosition();
