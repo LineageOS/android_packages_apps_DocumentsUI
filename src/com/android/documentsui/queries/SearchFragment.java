@@ -17,7 +17,6 @@
 package com.android.documentsui.queries;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -104,6 +103,7 @@ public class SearchFragment extends Fragment{
         final BaseActivity activity = (BaseActivity) getActivity();
         final Injector injector = activity.getInjector();
         mSearchViewManager = injector.searchManager;
+        mSearchViewManager.setFragmentManager(this.getParentFragmentManager());
 
         final String currentQuery = getArguments().getString(KEY_QUERY, "");
 
@@ -124,12 +124,11 @@ public class SearchFragment extends Fragment{
         View toolbar = getActivity().findViewById(R.id.toolbar_background_layout);
         if (toolbar != null) {
             // Align top with the bottom of search bar.
-            Rect rect = new Rect();
-            toolbar.getGlobalVisibleRect(rect);
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
-            layoutParams.setMargins(0, rect.height(), 0, 0);
+            layoutParams.setMargins(0, getResources().getDimensionPixelSize(
+                    R.dimen.action_bar_space_height), 0, 0);
             getView().setLayoutParams(layoutParams);
         }
 
@@ -152,7 +151,6 @@ public class SearchFragment extends Fragment{
         mSearchViewManager.setHistorySearch();
         mSearchViewManager.setCurrentSearch(item);
         mSearchViewManager.restoreSearch(true);
-        dismiss();
     }
 
     private void dismiss() {
