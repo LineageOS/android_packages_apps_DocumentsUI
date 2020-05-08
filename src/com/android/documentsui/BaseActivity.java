@@ -175,10 +175,6 @@ public abstract class BaseActivity
              */
             @Override
             public void onSearchChanged(@Nullable String query) {
-                if (query != null) {
-                    SearchFragment.dismissFragment(getSupportFragmentManager());
-                }
-
                 if (mSearchManager.isSearching()) {
                     Metrics.logSearchMode(query != null, mSearchManager.hasCheckedChip());
                     if (mInjector.pickResult != null) {
@@ -227,10 +223,11 @@ public abstract class BaseActivity
                 final boolean isInitailSearch
                         = !TextUtils.isEmpty(mSearchManager.getCurrentSearch())
                         && TextUtils.isEmpty(mSearchManager.getSearchViewText());
-                if (hasFocus && (SearchFragment.get(getSupportFragmentManager()) == null)
-                        && !isInitailSearch) {
-                    SearchFragment.showFragment(getSupportFragmentManager(),
-                            mSearchManager.getSearchViewText());
+                if (hasFocus) {
+                    if (!isInitailSearch) {
+                        SearchFragment.showFragment(getSupportFragmentManager(),
+                                mSearchManager.getSearchViewText());
+                    }
                 } else {
                     SearchFragment.dismissFragment(getSupportFragmentManager());
                 }
