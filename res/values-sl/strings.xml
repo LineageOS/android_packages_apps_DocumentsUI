@@ -109,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Naprave"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Več aplikacij"</string>
     <string name="empty" msgid="5300254272613103004">"Ni elementov"</string>
-    <string name="no_results" msgid="2371026325236359209">"Tukaj ni ujemanj: %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"Ni ujemanj v »%1$s«"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Datoteke ni mogoče odpreti"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Datotek ni mogoče odpreti v arhivih"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Nekaterih dokumentov ni mogoče izbrisati"</string>
