@@ -109,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Συσκευές"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Περισσότερες εφαρμογές"</string>
     <string name="empty" msgid="5300254272613103004">"Δεν υπάρχουν στοιχεία"</string>
-    <string name="no_results" msgid="2371026325236359209">"Χωρίς αντιστοιχίσεις στο %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"Καμία αντιστοίχιση στο %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Δεν είναι δυνατό το άνοιγμα του αρχείου"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Αδύνατο άνοιγμα αρχείων σε αρχειοθήκες"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Δεν είναι δυνατή η διαγραφή ορισμένων εγγράφων"</string>

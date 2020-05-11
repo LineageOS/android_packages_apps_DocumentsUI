@@ -108,7 +108,7 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"Ярлики"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Пристрої"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Інші додатки"</string>
-    <string name="empty" msgid="5300254272613103004">"Немає елементів"</string>
+    <string name="empty" msgid="5300254272613103004">"Нічого немає"</string>
     <string name="no_results" msgid="2371026325236359209">"Немає збігів для запиту \"%1$s\""</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Не вдалося відкрити файл"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Не вдалося відкрити файли в архівах"</string>
