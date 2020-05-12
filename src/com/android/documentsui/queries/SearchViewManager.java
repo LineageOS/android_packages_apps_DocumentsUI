@@ -41,6 +41,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.documentsui.MetricConsts;
 import com.android.documentsui.Metrics;
@@ -89,6 +90,7 @@ public class SearchViewManager implements
     private @Nullable Menu mMenu;
     private @Nullable MenuItem mMenuItem;
     private @Nullable SearchView mSearchView;
+    private @Nullable FragmentManager mFragmentManager;
 
     public SearchViewManager(
             SearchManagerListener listener,
@@ -242,6 +244,10 @@ public class SearchViewManager implements
         mMenuItem.setOnActionExpandListener(this);
 
         restoreSearch(true);
+    }
+
+    public void setFragmentManager(FragmentManager fragmentManager) {
+        mFragmentManager = fragmentManager;
     }
 
     /**
@@ -511,8 +517,17 @@ public class SearchViewManager implements
     @Override
     public boolean onQueryTextChange(String newText) {
         //Skip first search when search expanded
-        if (!(mCurrentSearch == null && newText.isEmpty())) {
-            performSearch(newText);
+        if (mCurrentSearch == null && newText.isEmpty()) {
+            return true;
+        }
+
+        performSearch(newText);
+        if (mFragmentManager != null) {
+            if (!newText.isEmpty()) {
+                SearchFragment.dismissFragment(mFragmentManager);
+            } else {
+                SearchFragment.showFragment(mFragmentManager, "");
+            }
         }
         return true;
     }
