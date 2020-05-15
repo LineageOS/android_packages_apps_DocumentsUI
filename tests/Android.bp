@@ -29,6 +29,14 @@ filegroup {
     ],
 }
 
+filegroup {
+    name: "DocumentsUIUnitTests-srcs",
+    srcs: [
+        "common/**/*.java",
+        "unit/**/*.java",
+    ],
+}
+
 android_library {
     name: "DocumentsUITests-res-lib",
 
