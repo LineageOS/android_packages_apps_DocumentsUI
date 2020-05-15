@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.theme;
+package com.android.documentsui;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -37,6 +37,8 @@ import androidx.core.util.Consumer;
 import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
+
+import com.android.documentsui.theme.ThemeOverlayManager;
 
 import com.google.common.collect.Lists;
 
