@@ -99,6 +99,29 @@ android_library {
     min_sdk_version: "29",
 }
 
+android_library {
+    name: "DocumentsUI-res-lib-tests",
+
+    manifest: "AndroidManifestForUnitTests.xml",
+
+    static_libs: [
+        "androidx.appcompat_appcompat",
+        "com.google.android.material_material",
+    ],
+
+    resource_dirs: [
+        "res",
+    ],
+
+    aaptflags: [
+        "--auto-add-overlay",
+    ],
+
+    sdk_version: "system_current",
+    target_sdk_version: "29",
+    min_sdk_version: "29",
+}
+
 android_app {
     name: "DocumentsUI",
 

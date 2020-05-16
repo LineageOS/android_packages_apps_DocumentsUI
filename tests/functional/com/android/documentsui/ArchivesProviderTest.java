@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.documentsui.archives;
+package com.android.documentsui;
 
 import static android.content.ContentResolver.wrap;
 
@@ -35,26 +35,27 @@ import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.MediumTest;
 import androidx.test.runner.AndroidJUnit4;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import com.android.documentsui.archives.ArchivesProvider;
+import com.android.documentsui.archives.ResourcesProvider;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @RunWith(AndroidJUnit4.class)
 @MediumTest
@@ -79,9 +80,9 @@ public class ArchivesProviderTest {
     public void testQueryRoots() throws InterruptedException, RemoteException {
         final ContentResolver resolver = mContext.getContentResolver();
         final Uri rootsUri = DocumentsContract.buildRootsUri(ArchivesProvider.AUTHORITY);
-        try (final ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
+        try (ContentProviderClient client = resolver.acquireUnstableContentProviderClient(
                 rootsUri)) {
-            final Cursor cursor = client.query(rootsUri, null, null, null, null, null);
+            Cursor cursor = client.query(rootsUri, null, null, null, null, null);
             assertNotNull("Cursor must not be null.", cursor);
             assertEquals(0, cursor.getCount());
         }
