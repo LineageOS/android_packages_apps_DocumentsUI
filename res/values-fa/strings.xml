@@ -28,7 +28,7 @@
     <string name="menu_grid" msgid="1453636521731880680">"نمای جدولی"</string>
     <string name="menu_list" msgid="6714267452146410402">"نمای فهرست"</string>
     <string name="menu_search" msgid="1876699106790719849">"جستجو"</string>
-    <string name="menu_settings" msgid="6520844520117939047">"تنظیمات ذخیره‌سازی"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"تنظیمات فضای ذخیره‌سازی"</string>
     <string name="menu_open" msgid="9092138100049759315">"باز"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"باز کردن با"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"باز کردن در پنجرهٔ جدید"</string>
@@ -53,8 +53,8 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"کپی"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"جای‌گذاری"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"جای‌گذاری در پوشه"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"نمایش حافظه داخلی"</string>
-    <string name="menu_advanced_hide" msgid="6488381508009246334">"پنهان کردن حافظه داخلی"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"نمایش فضای ذخیره‌سازی داخلی"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"پنهان کردن فضای ذخیره‌سازی داخلی"</string>
     <string name="button_select" msgid="240863497069321364">"انتخاب"</string>
     <string name="button_copy" msgid="8219059853840996027">"کپی"</string>
     <string name="button_compress" msgid="8951561310857223966">"فشرده کردن"</string>
@@ -104,7 +104,7 @@
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"برای اطلاعات بیشتر، با سرپرست فناوری اطلاعات تماس بگیرید."</string>
     <string name="root_recent" msgid="1080156975424341623">"اخیر"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> آزاد"</string>
-    <string name="root_type_service" msgid="6521366147466512289">"خدمات ذخیره‌سازی"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"خدمات فضای ذخیره‌سازی"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"میان‌برها"</string>
     <string name="root_type_device" msgid="1713604128005476585">"دستگاه‌ها"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"برنامه‌های بیشتر"</string>
