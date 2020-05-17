@@ -273,7 +273,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"无法使用此文件夹"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"为保护您的隐私，请选择其他文件夹"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"新建文件夹"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"搜索此手机"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"在此手机内搜索"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"删除搜索记录“<xliff:g id="TEXT">%1$s</xliff:g>”"</string>
     <string name="personal_tab" msgid="3878576287868528503">"个人"</string>
     <string name="work_tab" msgid="7265359366883747413">"工作"</string>
