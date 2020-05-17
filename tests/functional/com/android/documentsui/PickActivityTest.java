@@ -49,8 +49,8 @@ public class PickActivityTest {
     private static final String RESULT_DATA = "123321";
 
     private Context mTargetContext;
-    private Intent intentGetContent;
-    private TestDialogController testDialogs;
+    private Intent mIntentGetContent;
+    private TestDialogController mTestDialogs;
 
     @Rule
     public final ActivityTestRule<PickActivity> mRule =
@@ -60,13 +60,13 @@ public class PickActivityTest {
     public void setUp() throws Exception {
         mTargetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        intentGetContent = new Intent(Intent.ACTION_GET_CONTENT);
-        intentGetContent.addCategory(Intent.CATEGORY_OPENABLE);
-        intentGetContent.setType("*/*");
+        mIntentGetContent = new Intent(Intent.ACTION_GET_CONTENT);
+        mIntentGetContent.addCategory(Intent.CATEGORY_OPENABLE);
+        mIntentGetContent.setType("*/*");
         Uri hintUri = DocumentsContract.buildRootUri(AUTHORITY_STORAGE, "primary");
-        intentGetContent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, hintUri);
+        mIntentGetContent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, hintUri);
 
-        testDialogs = new TestDialogController();
+        mTestDialogs = new TestDialogController();
     }
 
     @Test
@@ -76,7 +76,7 @@ public class PickActivityTest {
         doc.authority = "authority";
         doc.documentId = "documentId";
 
-        PickActivity pickActivity = mRule.launchActivity(intentGetContent);
+        PickActivity pickActivity = mRule.launchActivity(mIntentGetContent);
         pickActivity.mState.canShareAcrossProfile = true;
         pickActivity.onDocumentPicked(doc);
         SystemClock.sleep(3000);
@@ -95,7 +95,7 @@ public class PickActivityTest {
             doc.authority = "authority";
             doc.documentId = "documentId";
 
-            PickActivity pickActivity = mRule.launchActivity(intentGetContent);
+            PickActivity pickActivity = mRule.launchActivity(mIntentGetContent);
             pickActivity.mState.canShareAcrossProfile = true;
             pickActivity.onDocumentPicked(doc);
             SystemClock.sleep(3000);
@@ -113,13 +113,13 @@ public class PickActivityTest {
         doc.authority = "authority";
         doc.documentId = "documentId";
 
-        PickActivity pickActivity = mRule.launchActivity(intentGetContent);
+        PickActivity pickActivity = mRule.launchActivity(mIntentGetContent);
         pickActivity.mState.canShareAcrossProfile = false;
-        pickActivity.getInjector().dialogs = testDialogs;
+        pickActivity.getInjector().dialogs = mTestDialogs;
         pickActivity.onDocumentPicked(doc);
         SystemClock.sleep(3000);
 
         assertThat(pickActivity.isFinishing()).isFalse();
-        testDialogs.assertActionNotAllowedShown();
+        mTestDialogs.assertActionNotAllowedShown();
     }
 }
