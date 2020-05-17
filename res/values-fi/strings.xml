@@ -114,7 +114,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Arkistoissa olevia tiedostoja ei voi avata."</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Joidenkin dokumenttien poistaminen epäonnistui."</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Voit jakaa enintään <xliff:g id="COUNT">%1$d</xliff:g> tiedostoa"</string>
-    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Toiminto ei sallittu"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Tämä ei ole sallitua"</string>
     <string name="share_via" msgid="8725082736005677161">"Jaa sovelluksessa"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopioidaan tiedostoja"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Pakataan tiedostoja"</string>
