@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"फायली"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"डाउनलोड"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -92,7 +92,7 @@
     <string name="query_error" msgid="6625421453613879336">"याक्षणी सामग्री लोड करू शकत नाही"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्य प्रोफाइल थांबवली आहे"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"सुरू करा"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कामासंबंधित फायली निवडता आल्या नाहीत"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कामासंबंधित फाइल निवडता आल्या नाहीत"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"तुमचा आयटी ॲडमिन तुम्हाला वैयक्तिक ॲपवरून कामासंबंधित फाइल अ‍ॅक्सेस करण्याची परवानगी देत नाही"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"वैयक्तिक फाइल निवडता आल्या नाहीत"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"तुमचा आयटी ॲडमिन तुम्हाला कार्य ॲपवरून वैयक्तिक फाइल अ‍ॅक्सेस करण्याची परवानगी देत नाही"</string>
@@ -111,16 +111,16 @@
     <string name="empty" msgid="5300254272613103004">"कोणतेही आयटम नाहीत"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s मध्‍ये कोणत्याही जुळण्‍या नाहीत"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"फाईल उघडू शकत नाही"</string>
-    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"संग्रहणांमध्‍ये फायली उघडू शकत नाही"</string>
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"संग्रहणांमध्‍ये फाइल उघडू शकत नाही"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"काही दस्‍तऐवज हटविण्‍यात अक्षम"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> हून अधिक फाइल शेअर करू शकत नाही"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"कृतीस अनुमती नाही"</string>
     <string name="share_via" msgid="8725082736005677161">"द्वारे शेअर करा"</string>
-    <string name="copy_notification_title" msgid="52256435625098456">"फायली कॉपी करणे"</string>
-    <string name="compress_notification_title" msgid="6830195148113751021">"फायली संकुचित करत आहे"</string>
-    <string name="extract_notification_title" msgid="5067393961754430469">"फायली काढत आहे"</string>
-    <string name="move_notification_title" msgid="3173424987049347605">"फायली हलविणे"</string>
-    <string name="delete_notification_title" msgid="2512757431856830792">"फायली हटविणे"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"फाइल कॉपी करणे"</string>
+    <string name="compress_notification_title" msgid="6830195148113751021">"फाइल संकुचित करत आहे"</string>
+    <string name="extract_notification_title" msgid="5067393961754430469">"फाइल काढत आहे"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"फाइल हलविणे"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"फाइल हटविणे"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> शिल्लक"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम कॉपी करत आहे.</item>
@@ -131,7 +131,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> फाइल संकुचित करत आहे.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फायली काढत आहे.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फाइल काढत आहे.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> फाइल काढत आहे.</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
@@ -154,7 +154,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> आयटम कॉपी करु शकलो नाही</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फायली संकुचित करू शकले नाहीत</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फाइल संकुचित करू शकले नाहीत</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> फाइल संकुचित करू शकले नाही</item>
     </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
@@ -168,27 +168,27 @@
     <string name="notification_touch_for_details" msgid="2385563502445129570">"तपशील पाहण्यासाठी टॅप करा"</string>
     <string name="close" msgid="905969391788869975">"बंद करा"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
-      <item quantity="other">या फायली कॉपी केल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फाइल कॉपी केल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="one">ही फाइल कॉपी केली नव्‍हती: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
-      <item quantity="other">या फायली संकुचित केल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फाइल संकुचित केल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="one">ही फाइल संकुचित केली नव्‍हती: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
-      <item quantity="other">या फायली काढल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फाइल काढल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="one">ही फाइल काढली नव्‍हती: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
-      <item quantity="other">या फायली हलवल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फाइल हलवल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="one">ही फाइल हलवली नव्‍हती: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
-      <item quantity="other">या फायली हटवल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फाइल हटवल्‍या नव्‍हत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="one">ही फाइल हटवली नव्‍हती: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
-      <item quantity="other">या फायली अन्‍य स्‍वरूपात रूपांतरित केल्‍या होत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="other">या फाइल अन्‍य स्‍वरूपात रूपांतरित केल्‍या होत्‍या: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="one">ही फाइल अन्‍य स्‍वरूपात रूपांतरित केली होती: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
@@ -199,7 +199,7 @@
     <string name="file_operation_error" msgid="2234357335716533795">"फाइल ऑपरेशन अयशस्वी झाले."</string>
     <string name="rename_error" msgid="6700093173508118635">"दस्तऐवज पुनर्नामित करण्‍यात अयशस्वी झाले"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"बाहेर काढा"</string>
-    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"काही फायली रूपांतरित केल्या होत्या"</string>
+    <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"काही फाइल रूपांतरित केल्या होत्या"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="STORAGE"><i>^3</i></xliff:g> वर <xliff:g id="APPNAME"><b>^1</b></xliff:g> ला <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकेवर प्रवेशाची मंजूरी द्यायची?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> ला <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकेेमध्ये प्रवेश मंजूर करायचा?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> ला फोटो आणि व्हिडिओंंसह आपल्या डेटामध्ये <xliff:g id="STORAGE"><i>^2</i></xliff:g> वर प्रवेशाची मंजूरी द्यायची?"</string>
@@ -216,7 +216,7 @@
     <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" हटवायची?"</string>
     <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" फोल्डर आणि त्यामधील आशय हटवायचा?"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फायली हटवायच्या?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फाइल हटवायच्या?</item>
       <item quantity="one"> <xliff:g id="COUNT_0">%1$d</xliff:g> फाईल हटवायची?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
@@ -240,11 +240,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> निवडले</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> निवडला</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"फोनवरील अलीकडील फायली"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"फोनवरील अलीकडील फाइल"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"फोनवरील फाइल"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"फोनवरील <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"डाउनलोड मधील फाइल"</string>
-    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> वरील फायली"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> वरील फाइल"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g> मधील फाइल"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> मधील फाइल"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> मधील फाइल / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>

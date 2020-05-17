@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"ಫೈಲ್‌ಗಳು"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -109,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"ಸಾಧನಗಳು"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"ಇನ್ನಷ್ಟು ಅಪ್ಲಿಕೇಶನ್‌ಗಳು"</string>
     <string name="empty" msgid="5300254272613103004">"ಯಾವುದೇ ಐಟಂಗಳಿಲ್ಲ"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s ರಲ್ಲಿ ಹೊಂದಾಣಿಕೆಗಳಿಲ್ಲ"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s ನಲ್ಲಿ ಹೊಂದಾಣಿಕೆಗಳಿಲ್ಲ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ಆರ್ಕೈವ್‌ಗಳಲ್ಲಿ ಫೈಲ್‌ಗಳನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ಕೆಲವು ಡಾಕ್ಯುಮೆಂಟ್‌ಗಳನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"</string>
