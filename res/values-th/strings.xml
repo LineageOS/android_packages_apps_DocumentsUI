@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"อุปกรณ์"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"แอปเพิ่มเติม"</string>
     <string name="empty" msgid="5300254272613103004">"ไม่มีรายการ"</string>
-    <string name="no_results" msgid="2371026325236359209">"ไม่พบข้อมูลที่ตรงกันใน %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"ไม่พบข้อมูลที่ตรงกันใน \"%1$s\""</string>
     <string name="toast_no_application" msgid="7555319548595113121">"เปิดไฟล์ไม่ได้"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"เปิดไฟล์ในที่เก็บถาวรไม่ได้"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ไม่สามารถลบเอกสารบางรายการ"</string>

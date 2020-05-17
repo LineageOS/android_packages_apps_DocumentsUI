@@ -240,7 +240,7 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nom du dossier"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nouveau nom"</string>
     <string name="preview_file" msgid="4056622696305432343">"Prévisualiser le fichier <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Parcourir des fichiers dans d\'autres applications"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Parcourir les fichiers dans d\'autres applications"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonyme"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Autoriser l\'accès à \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"Autoriser l\'accès à \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" dans \"<xliff:g id="ROOT">%2$s</xliff:g>\" ?"</string>

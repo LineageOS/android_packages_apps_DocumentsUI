@@ -240,7 +240,7 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"फोल्डरको नाम"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"नयाँ नाम"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> फाइलको पूर्वावलोकन गर्नुहोस्‌"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"अन्य अनुप्रयोगहरूमा फाइलहरू ब्राउज गर्नुहोस्‌"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"अन्य एपहरूमा फाइलहरू खोज्नुहोस्"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"अज्ञात"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" माथि पहुँच राख्न दिनुहोस्"</string>
     <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" मा रहेको \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" माथि पहुँच राख्न दिने हो?"</string>
