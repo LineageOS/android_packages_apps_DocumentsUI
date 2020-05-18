@@ -45,6 +45,7 @@ import com.android.documentsui.picker.PickResult;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
+import com.android.documentsui.util.VersionUtils;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -645,11 +646,15 @@ public final class Metrics {
     }
 
     /**
-     * The implementation is copied from StatsLogInternal for the DEVICE_POLICY_EVENT.
+     * The implementation is copied from StatsLogInternal for the DEVICE_POLICY_EVENT. This is a
+     * no-op pre-R.
      */
     private static class DevicePolicyEventLogger {
         public static void write(@DevicePolicyMetricConsts.EventId int eventId,
                 boolean booleanValue) {
+            if (!VersionUtils.isAtLeastR()) {
+                return;
+            }
             final StatsEvent.Builder builder = StatsEvent.newBuilder();
             builder.setAtomId(DevicePolicyMetricConsts.ATOM_DEVICE_POLICY_EVENT);
             builder.writeInt(eventId); // eventId
