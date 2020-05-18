@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"ଫାଇଲ୍‍"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ଡାଉନଲୋଡ୍‌"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -92,8 +92,8 @@
     <string name="query_error" msgid="6625421453613879336">"ଏହି ସମୟରେ କଣ୍ଟେଣ୍ଟ ଲୋଡ୍‍ କରିପାରିବ ନାହିଁ"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"ୱାର୍କ ପ୍ରୋଫାଇଲ୍ ବିରତ କରାଯାଇଛି"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"ଚାଲୁ କରନ୍ତୁ"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"କାର୍ଯ୍ୟସ୍ଥଳୀ ଫାଇଲଗୁଡ଼ିକ ଚୟନ କରାଯାଇପାରିବ ନାହିଁ"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଏକ ବ୍ୟକ୍ତିଗତ ଆପରୁ କାର୍ଯ୍ୟସ୍ଥଳୀ ଫାଇଲଗୁଡ଼ିକ ଆକ୍ସେସ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"ୱାର୍କ ଫାଇଲଗୁଡ଼ିକ ଚୟନ କରାଯାଇପାରିବ ନାହିଁ"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଏକ ବ୍ୟକ୍ତିଗତ ଆପରୁ ୱାର୍କ ଫାଇଲଗୁଡ଼ିକ ଆକ୍ସେସ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"ବ୍ୟକ୍ତିଗତ ଫାଇଲଗୁଡ଼ିକ ଚୟନ କରାଯାଇପାରିବ ନାହିଁ"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଏକ କାର୍ଯ୍ୟସ୍ଥଳୀ ଆପରୁ ବ୍ୟକ୍ତିଗତ ଫାଇଲଗୁଡ଼ିକ ଆକ୍ସେସ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"ୱାର୍କ ପ୍ରୋଫାଇଲରେ ସେଭ୍ କରାଯାଇପାରିବ ନାହିଁ"</string>
@@ -204,7 +204,7 @@
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="DIRECTORY"><i>^2</i></xliff:g> ଡିରେକ୍ଟୋରୀକୁ <xliff:g id="APPNAME"><b>^1</b></xliff:g>ର ଆକ୍ସେସ୍‍ ମଞ୍ଜୁରୀ ଦେବେ?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"ଫଟୋ ଓ ଭିଡିଓ ସମେତ <xliff:g id="STORAGE"><i>^2</i></xliff:g>ରେ, ଆପଣଙ୍କ ଡାଟାକୁ <xliff:g id="APPNAME"><b>^1</b></xliff:g>ର ଆକ୍ସେସ୍‍ ମଞ୍ଜୁରୀ ଦେବେ?"</string>
     <string name="allow" msgid="1275746941353040309">"ଅନୁମତି ଦିଅନ୍ତୁ"</string>
-    <string name="deny" msgid="5127201668078153379">"ପ୍ରତ୍ୟାଖ୍ୟାନ କରନ୍ତୁ"</string>
+    <string name="deny" msgid="5127201668078153379">"ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଚୟନିତ</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଚୟନିତ</item>
@@ -240,7 +240,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g>ଟି ଚୟନ କରାଯାଇଛି</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g>ଟି ଚୟନ କରାଯାଇଛି</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"ଫୋନ୍‌ରେ ଥିବା କିଛି ସମୟ ପୂର୍ବର ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"ଫୋନ୍‌ରେ ଥିବା ବର୍ତ୍ତମାନର ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"ଫୋନ୍‌ରେ ଥିବା ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"ଫୋନ୍‌ରେ <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"ଡାଉନ୍‌ଲୋଡ୍ ଫୋଲ୍ଡର୍‌ରେ ଥିବା ଫାଇଲ୍‌ଗୁଡ଼ିକ"</string>
@@ -276,7 +276,7 @@
     <string name="search_bar_hint" msgid="4517366509897977321">"ଏହି ଫୋନରେ ଖୋଜନ୍ତୁ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ସର୍ଚ୍ଚ ଇତିବୃତ୍ତି <xliff:g id="TEXT">%1$s</xliff:g>କୁ ଡିଲିଟ୍‌ କରନ୍ତୁ"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ବ୍ୟକ୍ତିଗତ"</string>
-    <string name="work_tab" msgid="7265359366883747413">"କାର୍ଯ୍ୟସ୍ଥଳୀ"</string>
-    <string name="a11y_work" msgid="7504431382825242153">"କାର୍ଯ୍ୟସ୍ଥଳୀ"</string>
+    <string name="work_tab" msgid="7265359366883747413">"ୱାର୍କ"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"ୱାର୍କ"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"ଆପଣ ଅନ୍ୟ ଏକ ଆପରୁ ଫାଇଲଗୁଡ଼ିକ ମୁଭ୍ କରିପାରିବେ ନାହିଁ।"</string>
 </resources>

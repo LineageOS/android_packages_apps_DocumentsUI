@@ -114,7 +114,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"無法開啟已封存的檔案"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"無法刪除部分文件"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"最多只能分享 <xliff:g id="COUNT">%1$d</xliff:g> 個檔案"</string>
-    <string name="toast_action_not_allowed" msgid="1329382474450572415">"不允許此操作"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"此操作無法進行"</string>
     <string name="share_via" msgid="8725082736005677161">"分享方式："</string>
     <string name="copy_notification_title" msgid="52256435625098456">"複製檔案"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"正在壓縮檔案"</string>
@@ -273,7 +273,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"無法使用這個資料夾"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"為保護你的隱私，請選擇其他資料夾"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"建立新資料夾"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"搜尋這支手機"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"在手機內搜尋"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"刪除搜尋記錄 <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"個人"</string>
     <string name="work_tab" msgid="7265359366883747413">"工作"</string>

@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"ఫైల్‌లు"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"డౌన్‌లోడ్‌లు"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -93,9 +93,9 @@
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"కార్యాలయ ప్రొఫైల్ పాజ్ చేయబడింది"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"ఆన్ చేయి"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"కార్యాలయ ఫైళ్లను ఎంపిక చేయడం సాధ్యం కాదు"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"వ్యక్తిగత యాప్ నుండి కార్యాలయ ఫైళ్లను యాక్సెస్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"వ్యక్తిగత యాప్ నుండి ఆఫీస్ ఫైళ్లను యాక్సెస్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"వ్యక్తిగత ఫైళ్లను ఎంపిక చేయడం సాధ్యం కాదు"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"కార్యాలయ యాప్ నుండి వ్యక్తిగత ఫైళ్లను యాక్సెస్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ఆఫీస్ యాప్ నుండి వ్యక్తిగత ఫైళ్లను యాక్సెస్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"కార్యాలయ ప్రొఫైల్‌కి సేవ్ చేయడం సాధ్యం కాదు"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"మీ కార్యాలయ ప్రొఫైల్‌లో వ్యక్తిగత ఫైళ్లను సేవ్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"వ్యక్తిగత ప్రొఫైల్‌లో సేవ్ చేయడం సాధ్యం కాదు"</string>
@@ -227,7 +227,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> అంశాలను తొలగించాలా?</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> అంశాన్ని తొలగించాలా?</item>
     </plurals>
-    <string name="images_shortcut_label" msgid="2545168016070493574">"చిత్రాలు"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"ఇమేజ్‌లు"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"బ్రౌజింగ్‌ కోసం ఆర్కైవ్‌ని తెరవడం సాధ్యపడలేదు. ఫైల్ పాడైంది లేదా మద్దతు లేని ఆకృతిలో ఉంది."</string>
     <string name="name_conflict" msgid="28407269328862986">"ఈ పేరుతో ఇప్పటికే ఒక ఫైల్ ఉంది."</string>
     <string name="authentication_required" msgid="8030880723643436099">"ఈ డైరెక్టరీని వీక్షించాలంటే, <xliff:g id="NAME">%1$s</xliff:g>కి సైన్ ఇన్ చేయండి"</string>
@@ -240,7 +240,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ఎంచుకోబడ్డాయి</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ఎంచుకోబడింది</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"ఫోన్‌లో తాజా ఫైల్‌లు"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"ఫోన్‌లోని ఇటీవలి ఫైళ్లు"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"ఫోన్‌లో ఫైల్‌లు"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"ఫోన్‌లోని <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"\'డౌన్‌లోడ్‌లు\'లోని ఫైల్‌లు"</string>
@@ -255,17 +255,17 @@
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g>లోని చిత్రాలు"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g>లోని ఫోటోలు"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g>లోని ఫోటోలు / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="chip_title_images" msgid="7838299046109841015">"చిత్రాలు"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"ఇమేజ్‌లు"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"ఆడియో"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"వీడియోలు"</string>
-    <string name="chip_title_documents" msgid="7432457563000753983">"పత్రాలు"</string>
-    <string name="chip_title_large_files" msgid="7740269190493883980">"పెద్ద ఫైల్‌లు"</string>
+    <string name="chip_title_documents" msgid="7432457563000753983">"డాక్యుమెంట్‌లు"</string>
+    <string name="chip_title_large_files" msgid="7740269190493883980">"పెద్ద ఫైళ్లు"</string>
     <string name="chip_title_from_this_week" msgid="4961536405220379672">"ఈ వారం"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"ఫోల్డర్ పేరు"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"కొత్త పేరు"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g>ని ప్రివ్యూ చేయండి"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"కార్యాలయ ఫైల్ <xliff:g id="FILENAME">%1$s</xliff:g>ని ప్రివ్యూ చేయండి"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"ఇతర యాప్‌లలో ఫైల్స్‌ని బ్రౌజ్ చేయి"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"ఇతర యాప్‌లలోని ఫైళ్లను బ్రౌజ్ చేయండి"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"తెలియనిది"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"ఈ ఫోల్డర్‌ను ఉపయోగించండి"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g>లోని ఫైల్‌లను యాక్సెస్ చేయడానికి <xliff:g id="APPNAME">%1$s</xliff:g>ని అనుమతించాలా?"</string>
