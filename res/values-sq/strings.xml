@@ -109,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Pajisjet"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Aplikacione të tjera"</string>
     <string name="empty" msgid="5300254272613103004">"Nuk ka artikuj"</string>
-    <string name="no_results" msgid="2371026325236359209">"Nuk ka asnjë përputhje në %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"Nuk ka asnjë përputhje te %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Skedari nuk mund të hapet"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Skedarët në arkiva nuk mund të hapen"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"E pamundur të fshihen disa dokumente"</string>
