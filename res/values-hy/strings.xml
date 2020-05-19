@@ -114,7 +114,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Հնարավոր չէ բացել արխիվացված ֆայլերը"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Հնարավոր չէ ջնջել որոշ փաստաթղթեր"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Կարող եք կիսվել առավելագույնը <xliff:g id="COUNT">%1$d</xliff:g> ֆայլով"</string>
-    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Գործողությունը չի թույլատրվում"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Գործողությունն արգելված է"</string>
     <string name="share_via" msgid="8725082736005677161">"Կիսվել"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Ֆայլերի պատճենում"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Ֆայլերի սեղմում"</string>
@@ -246,8 +246,8 @@
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Ֆայլեր «Նեռբեռնումներ» պանակում"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Ֆայլեր <xliff:g id="DEVICE">%1$s</xliff:g> սարքում"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Ֆայլեր «<xliff:g id="FOLDER">%1$s</xliff:g>» պանակում"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"Ֆայլեր <xliff:g id="LABEL">%1$s</xliff:g> ծառայությունից"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Ֆայլեր <xliff:g id="LABEL">%1$s</xliff:g> (<xliff:g id="SUMMARY">%2$s</xliff:g>) ծառայությունից"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>-ի ֆայլեր"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> (<xliff:g id="SUMMARY">%2$s</xliff:g>) ֆայլեր"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Նոր պատկերներ հեռախոսում"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Պատկերներ հեռախոսում"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Պատկերներ «Նեռբեռնումներ» պանակում"</string>

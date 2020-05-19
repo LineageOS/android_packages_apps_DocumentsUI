@@ -109,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"מכשירים"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"עוד אפליקציות"</string>
     <string name="empty" msgid="5300254272613103004">"אין פריטים"</string>
-    <string name="no_results" msgid="2371026325236359209">"‏אין התאמות ב-%1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"‏אין התאמות ב%1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"לא ניתן לפתוח את הקובץ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"לא ניתן לפתוח קבצים בארכיונים"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"לא ניתן למחוק חלק מהמסמכים"</string>
