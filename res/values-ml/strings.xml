@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"ഫയലുകള്‍"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ഡൗൺലോഡുകൾ"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -93,7 +93,7 @@
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"ഔദ്യോഗിക പ്രൊഫൈൽ തൽക്കാലം നിർത്തിയിരിക്കുന്നു"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"ഓണാക്കുക"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"ഔദ്യോഗിക ഫയലുകൾ തിരഞ്ഞെടുക്കാനാവില്ല"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"വ്യക്തിപര ആപ്പിൽ നിന്ന് ഔദ്യോഗിക ഫയലുകൾ ആക്സസ് ചെയ്യാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"വ്യക്തിപരമായ ആപ്പിൽ നിന്ന് ഔദ്യോഗിക ഫയലുകൾ ആക്സസ് ചെയ്യാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"വ്യക്തിപര ഫയലുകൾ തിരഞ്ഞെടുക്കാനാവില്ല"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ഔദ്യോഗിക ആപ്പിൽ നിന്ന് വ്യക്തിപര ഫയലുകൾ ആക്സസ് ചെയ്യാൻ നിങ്ങളുടെ ഐടി അഡ്മിൻ അനുവദിക്കുന്നില്ല"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"ഔദ്യോഗിക പ്രൊഫൈലിലേക്ക് സംരക്ഷിക്കാനാവില്ല"</string>
@@ -275,7 +275,7 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"പുതിയ ഫോൾഡർ സൃഷ്‌ടിക്കുക"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ഈ ഫോണിൽ തിരയുക"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"തിരയൽ ചരിത്രം <xliff:g id="TEXT">%1$s</xliff:g> ഇല്ലാതാക്കുക"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"വ്യക്തിപരമായത്"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"വ്യക്തിപരം"</string>
     <string name="work_tab" msgid="7265359366883747413">"ഔദ്യോഗികം"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ഔദ്യോഗികം"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"മറ്റ് ആപ്പിൽ നിന്ന് ഫയലുകൾ നീക്കാൻ നിങ്ങൾക്ക് കഴിയില്ല."</string>
