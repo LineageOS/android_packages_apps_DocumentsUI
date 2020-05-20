@@ -51,7 +51,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
 
     private static final int BUFFER_SIZE = 10 * 1024 * 1024;
 
-    private static final int WAIT_TIME_SECONDS = 60;
+    private static final int WAIT_TIME_SECONDS = 120;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
