@@ -43,6 +43,7 @@
         <activity
             android:name=".picker.PickActivity"
             android:theme="@style/DocumentsTheme"
+            android:exported="true"
             android:visibleToInstantApps="true">
             <intent-filter>
                 <action android:name="android.intent.action.OPEN_DOCUMENT" />
@@ -88,6 +89,7 @@
             android:targetActivity=".files.LauncherActivity"
             android:enabled="@bool/is_launcher_enabled"
             android:label="@string/launcher_label"
+            android:exported="true"
             android:icon="@drawable/launcher_icon" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -100,6 +102,7 @@
         <activity
             android:name=".files.FilesActivity"
             android:documentLaunchMode="intoExisting"
+            android:exported="true"
             android:theme="@style/DocumentsTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -118,6 +121,7 @@
 
         <activity-alias android:name=".ViewDownloadsActivity"
                         android:targetActivity=".files.FilesActivity"
+                        android:exported="true"
                         android:enabled="@bool/handle_view_downloads_intent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW_DOWNLOADS" />
@@ -127,6 +131,7 @@
 
         <activity
             android:name=".ScopedAccessActivity"
+            android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.os.storage.action.OPEN_EXTERNAL_DIRECTORY" />
@@ -155,7 +160,8 @@
             </intent-filter>
         </provider>
 
-        <receiver android:name=".PackageReceiver">
+        <receiver android:name=".PackageReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
                 <action android:name="android.intent.action.PACKAGE_DATA_CLEARED" />
@@ -163,13 +169,15 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".roots.BootReceiver" android:enabled="false">
+        <receiver android:name=".roots.BootReceiver" android:enabled="false"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".PreBootReceiver">
+        <receiver android:name=".PreBootReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PRE_BOOT_COMPLETED" />
             </intent-filter>
@@ -187,6 +195,7 @@
         <activity
             android:name=".selection.demo.SelectionDemoActivity"
             android:label="Selection Demo"
+            android:exported="true"
             android:theme="@style/DocumentsTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
