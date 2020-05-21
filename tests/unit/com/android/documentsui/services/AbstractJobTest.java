@@ -76,6 +76,9 @@ public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
 
         mDocs = new DocumentsProviderHelper(mUserId, AUTHORITY, mContext, AUTHORITY);
 
+        // Reset storage before starting the tests.
+        resetStorage();
+
         initTestFiles();
     }
 
