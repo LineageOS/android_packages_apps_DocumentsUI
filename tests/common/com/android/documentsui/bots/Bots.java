@@ -35,7 +35,7 @@ import androidx.test.InstrumentationRegistry;
  */
 public final class Bots {
 
-    private static final int TIMEOUT = 5000;
+    private static final int TIMEOUT = 15000;
 
     public final BreadBot breadcrumb;
     public final DirectoryListBot directory;
