@@ -52,7 +52,6 @@ public class ContextMenuUiTest extends ActivityTest<FilesActivity> {
         menuItems.put("Rename", false);
         menuItems.put("Delete", false);
         menuItems.put("Open in new window", false);
-        menuItems.put("Paste into folder", false);
         menuItems.put("Select all", false);
         menuItems.put("New folder", false);
     }
