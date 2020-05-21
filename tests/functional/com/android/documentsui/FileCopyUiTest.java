@@ -153,7 +153,12 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
             mIsVirtualSdCard = enableVirtualSdCard();
             assertTrue("Cannot set virtual SD Card", mIsVirtualSdCard);
             // Call initStorageRootInfo() again for setting SD Card root
-            initStorageRootInfo();
+            int attempts = 0;
+            while (mSdCardRoot == null && attempts++ < 15) {
+                SystemClock.sleep(1000);
+                initStorageRootInfo();
+            }
+            assertNotNull("Cannot find virtual SD Card", mSdCardRoot);
         }
 
         IntentFilter filter = new IntentFilter();
@@ -173,8 +178,21 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
             deleteDocuments(rootAndFolder.root, rootAndFolder.folder);
         }
 
+        // Eject virtual SD card
         if (mIsVirtualSdCard) {
             device.executeShellCommand("sm set-virtual-disk false");
+            while (mSdCardRoot != null) {
+                List<RootInfo> rootList = mStorageDocsHelper.getRootList();
+                for (RootInfo info : rootList) {
+                    if (info.isSd()) {
+                        SystemClock.sleep(1000);
+                        break;
+                    }
+
+                    mSdCardRoot = null;
+                    mSdCardLabel = null;
+                }
+            }
         }
 
         device.executeShellCommand("settings put global stay_on_while_plugged_in "
