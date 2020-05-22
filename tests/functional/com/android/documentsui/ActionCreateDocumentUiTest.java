@@ -57,15 +57,16 @@ public class ActionCreateDocumentUiTest {
     private Context mTargetContext;
     private Context mContext;
     private Bots mBots;
+    private UiDevice mDevice;
 
     @Before
     public void setup() {
-        UiDevice device = UiDevice.getInstance(getInstrumentation());
         UiAutomation automation = getInstrumentation().getUiAutomation();
 
+        mDevice = UiDevice.getInstance(getInstrumentation());
         mTargetContext = getInstrumentation().getTargetContext();
         mContext = getInstrumentation().getContext();
-        mBots = new Bots(device, automation, mTargetContext, 5000);
+        mBots = new Bots(mDevice, automation, mTargetContext, 5000);
     }
 
     @Test
@@ -84,6 +85,7 @@ public class ActionCreateDocumentUiTest {
 
         mBots.main.setDialogText(fileName);
         mBots.main.clickSaveButton();
+        mDevice.waitForIdle();
 
         Instrumentation.ActivityResult activityResult = mRule.getActivityResult();
 
