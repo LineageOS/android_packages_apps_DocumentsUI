@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -153,7 +154,12 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
             mIsVirtualSdCard = enableVirtualSdCard();
             assertTrue("Cannot set virtual SD Card", mIsVirtualSdCard);
             // Call initStorageRootInfo() again for setting SD Card root
-            initStorageRootInfo();
+            int attempts = 0;
+            while (mSdCardRoot == null && attempts++ < 15) {
+                SystemClock.sleep(1000);
+                initStorageRootInfo();
+            }
+            assertNotNull("Cannot find virtual SD Card", mSdCardRoot);
         }
 
         IntentFilter filter = new IntentFilter();
@@ -167,14 +173,38 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     public void tearDown() throws Exception {
         // Delete created files
         deleteDocuments(mDeviceLabel);
-        deleteDocuments(mSdCardLabel);
+        try {
+            deleteDocuments(mSdCardLabel);
+        } catch (UiObjectNotFoundException e) {
+            Log.d(TAG, "SD Card ejected unexpectedly. ", e);
+            mSdCardRoot = null;
+            mSdCardLabel = null;
+        }
 
         for (RootAndFolderPair rootAndFolder : mFoldersToCleanup) {
             deleteDocuments(rootAndFolder.root, rootAndFolder.folder);
         }
 
-        if (mIsVirtualSdCard) {
+        // Eject virtual SD card
+        if (mIsVirtualSdCard && mSdCardRoot != null) {
             device.executeShellCommand("sm set-virtual-disk false");
+            int attempts = 0;
+            while (mSdCardRoot != null && attempts++ < 15) {
+                List<RootInfo> rootList = mStorageDocsHelper.getRootList();
+                boolean sdCardRootHidden = true;
+                for (RootInfo info : rootList) {
+                    if (info.isSd()) {
+                        sdCardRootHidden = false;
+                        SystemClock.sleep(1000);
+                        break;
+                    }
+                }
+                if (sdCardRootHidden) {
+                    mSdCardRoot = null;
+                    mSdCardLabel = null;
+                }
+            }
+            assertNull("Cannot eject virtual SD Card", mSdCardRoot);
         }
 
         device.executeShellCommand("settings put global stay_on_while_plugged_in "
