@@ -246,7 +246,7 @@
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Arquivos em \"Downloads\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Arquivos no <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Arquivos em <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"Arquivos do <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"Arquivos de <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Arquivos do <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"Imagens recentes no smartphone"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Imagens no smartphone"</string>
