@@ -84,7 +84,7 @@
     <string name="directory_items" msgid="6645621978998614003">"จำนวนรายการ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"จากน้อยไปมาก"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"จากมากไปน้อย"</string>
-    <string name="open_external_app" msgid="7107920381038980086">"เปิด <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"เปิด \"<xliff:g id="APPNAME">%1$s</xliff:g>\""</string>
     <string name="drawer_open" msgid="8071673398187261741">"แสดงราก"</string>
     <string name="drawer_close" msgid="4263880768630848848">"ซ่อนราก"</string>
     <string name="save_error" msgid="8631128801982095782">"การบันทึกเอกสารล้มเหลว"</string>
