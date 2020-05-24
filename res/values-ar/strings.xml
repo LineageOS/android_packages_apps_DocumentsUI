@@ -364,7 +364,7 @@
     <string name="search_bar_hint" msgid="4517366509897977321">"البحث في هذا الهاتف"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"حذف سجلّ البحث <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"شخصي"</string>
-    <string name="work_tab" msgid="7265359366883747413">"عمل"</string>
+    <string name="work_tab" msgid="7265359366883747413">"للعمل"</string>
     <string name="a11y_work" msgid="7504431382825242153">"عمل"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"لا يمكنك نقل الملفات من تطبيق آخر."</string>
 </resources>
