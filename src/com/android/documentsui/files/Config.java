@@ -19,6 +19,7 @@ package com.android.documentsui.files;
 import com.android.documentsui.ActivityConfig;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.RootInfo;
+import com.android.documentsui.util.VersionUtils;
 
 /**
  * Provides support for Files activity specific specializations.
@@ -32,7 +33,7 @@ public final class Config extends ActivityConfig {
 
         // When in Files activity, allow External Storage provider to view
         // Android/[data|obb|sandbox] directories which are otherwise hidden for privacy reasons.
-        if (root != null && root.isExternalStorage()) {
+        if (VersionUtils.isAtLeastR() && root != null && root.isExternalStorage()) {
             return true;
         }
         // When in downloads top level directory, we also show active downloads.
