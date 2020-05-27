@@ -52,6 +52,7 @@
         <activity
             android:name=".picker.PickActivity"
             android:theme="@style/DocumentsTheme"
+            android:exported="true"
             android:visibleToInstantApps="true">
             <intent-filter android:priority="100">
                 <action android:name="android.intent.action.OPEN_DOCUMENT" />
@@ -96,6 +97,7 @@
             android:name=".LauncherActivity"
             android:targetActivity=".files.LauncherActivity"
             android:label="@string/launcher_label"
+            android:exported="true"
             android:icon="@drawable/launcher_icon" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -108,6 +110,7 @@
         <activity
             android:name=".files.FilesActivity"
             android:documentLaunchMode="intoExisting"
+            android:exported="true"
             android:theme="@style/DocumentsTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -126,6 +129,7 @@
 
         <activity-alias android:name=".ViewDownloadsActivity"
                         android:targetActivity=".files.FilesActivity"
+                        android:exported="true"
                         android:enabled="@bool/handle_view_downloads_intent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW_DOWNLOADS" />
@@ -135,6 +139,7 @@
 
         <activity
             android:name=".ScopedAccessActivity"
+            android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.os.storage.action.OPEN_EXTERNAL_DIRECTORY" />
