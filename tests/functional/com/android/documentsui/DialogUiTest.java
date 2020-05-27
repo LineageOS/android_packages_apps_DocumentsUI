@@ -201,10 +201,11 @@ public class DialogUiTest {
 
         final TextInputEditText inputView =
                 mCreateDirectoryFragment.getDialog().getWindow().findViewById(android.R.id.text1);
-        Paint paint = inputView.getPaint();
-        final float textSize = paint.getTextSize();
 
-        assertTrue(inputView.getHeight() > Math.round(textSize));
+        assertTrue(
+                "Failed with inputView height " + inputView.getHeight() + " and input text height "
+                        + getInputTextHeight(inputView),
+                inputView.getHeight() > getInputTextHeight(inputView));
 
         switchOrientation(mActivityTestRule.getActivity());
     }
