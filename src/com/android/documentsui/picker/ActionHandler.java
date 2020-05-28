@@ -132,7 +132,7 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         if (DEBUG) {
             Log.d(TAG, "Load last accessed stack.");
         }
-        loadLastAccessedStack();
+        initLoadLastAccessedStack();
     }
 
     @Override
@@ -166,6 +166,14 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
         }
 
         return false;
+    }
+
+    private void initLoadLastAccessedStack() {
+        if (DEBUG) {
+            Log.d(TAG, "Attempting to load last used stack for calling package.");
+        }
+        // Block UI until stack is fully loaded, else there is an intermediate incomplete UI state.
+        onLastAccessedStackLoaded(mLastAccessed.getLastAccessed(mActivity, mProviders, mState));
     }
 
     private void loadLastAccessedStack() {
