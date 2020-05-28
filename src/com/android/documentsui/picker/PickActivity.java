@@ -36,7 +36,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.CallSuper;
-import androidx.core.util.Preconditions;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -91,7 +90,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     @Override
     public void onCreate(Bundle icicle) {
-
+        setTheme(R.style.DocumentsTheme);
         Features features = Features.create(this);
 
         mInjector = new Injector<>(
