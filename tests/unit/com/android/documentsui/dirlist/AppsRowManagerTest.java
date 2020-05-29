@@ -44,6 +44,7 @@ import com.android.documentsui.sidebar.RootItem;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
+import com.android.documentsui.util.VersionUtils;
 
 import com.google.common.collect.Lists;
 
@@ -169,6 +170,9 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_showSelectedUserItems_otherUser() {
+        if (!VersionUtils.isAtLeastR()) {
+            return;
+        }
         mState.action = State.ACTION_GET_CONTENT;
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.OtherUser.USER_ID);
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
