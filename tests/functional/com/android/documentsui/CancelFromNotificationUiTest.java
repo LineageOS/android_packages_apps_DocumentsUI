@@ -64,7 +64,6 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
                     mErrorReason = intent.getStringExtra(
                             TestNotificationService.EXTRA_ERROR_REASON);
                 }
-                Log.i(TAG, "Received operation broadcast " + mOperationExecuted);
                 mCountDownLatch.countDown();
             }
         }
@@ -108,7 +107,6 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
 
         mOperationExecuted = false;
         mErrorReason = "No response from Notification";
-        Log.i(TAG, "Initializing mOperationExecuted.");
         mCountDownLatch = new CountDownLatch(1);
     }
 
