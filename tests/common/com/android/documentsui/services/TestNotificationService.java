@@ -174,9 +174,9 @@ public class TestNotificationService extends NotificationListenerService {
         return result;
     }
 
-    private boolean isStartProgress(Notification notifiction) {
-        ProgressBar progressBar = getProgresssBar(getRemoteViews(notifiction));
-        return (progressBar != null) ? progressBar.getProgress() > 0 : false;
+    private boolean isStartProgress(Notification notification) {
+        ProgressBar progressBar = getProgresssBar(getRemoteViews(notification));
+        return progressBar != null;
     }
 
     private RemoteViews getRemoteViews(Notification notifiction) {
