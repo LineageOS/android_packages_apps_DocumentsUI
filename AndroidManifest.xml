@@ -51,8 +51,8 @@
 
         <activity
             android:name=".picker.PickActivity"
-            android:theme="@style/DocumentsTheme"
             android:exported="true"
+            android:theme="@style/LauncherTheme"
             android:visibleToInstantApps="true">
             <intent-filter android:priority="100">
                 <action android:name="android.intent.action.OPEN_DOCUMENT" />
@@ -111,7 +111,7 @@
             android:name=".files.FilesActivity"
             android:documentLaunchMode="intoExisting"
             android:exported="true"
-            android:theme="@style/DocumentsTheme">
+            android:theme="@style/LauncherTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
