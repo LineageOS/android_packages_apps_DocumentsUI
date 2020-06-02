@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="files_label" msgid="771781190045103748">"الملفات"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"التنزيلات"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"عمليات التنزيل"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
@@ -297,7 +297,7 @@
     <string name="archive_loading_failed" msgid="7243436722828766996">"يتعذر فتح الأرشيف وتصفحه. ربما يكون الملف تالفًا أو بتنسيق غير متوافق."</string>
     <string name="name_conflict" msgid="28407269328862986">"هناك ملف بالاسم نفسه‬."</string>
     <string name="authentication_required" msgid="8030880723643436099">"لعرض هذا الدليل، يُرجى تسجيل الدخول إلى <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="cant_display_content" msgid="8633226333229417237">"يتعذَّر عرض المحتويات"</string>
+    <string name="cant_display_content" msgid="8633226333229417237">"يتعذَّر عرض المحتوى"</string>
     <string name="sign_in" msgid="6253762676723505592">"تسجيل الدخول"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"أرشيف<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"هل تريد استبدال <xliff:g id="NAME">%1$s</xliff:g>؟"</string>
