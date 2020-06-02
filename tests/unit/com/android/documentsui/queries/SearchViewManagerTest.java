@@ -412,12 +412,16 @@ public final class SearchViewManagerTest {
         mSearchViewManager.onClick(null);
         mSearchChipViewManager.mCheckedChipItems = getFakeSearchChipDataList();
 
+        final long startTime = LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault())
+                .toInstant().toEpochMilli();
+
         final Bundle queryArgs = mSearchViewManager.buildQueryArgs();
         assertFalse(queryArgs.isEmpty());
 
+        final long endTime  = LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault())
+                .toInstant().toEpochMilli();
         final long weekAgoTime = queryArgs.getLong(QUERY_ARG_LAST_MODIFIED_AFTER);
-        assertEquals(LocalDate.now().minusDays(7).atStartOfDay(ZoneId.systemDefault())
-                .toInstant().toEpochMilli(), weekAgoTime);
+        assertTrue(weekAgoTime == endTime || weekAgoTime == startTime);
     }
 
     @Test
