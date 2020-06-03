@@ -189,6 +189,7 @@ public class DialogUiTest {
     public void testCreateDirectoryFragmentShows_textInputEditText_shouldNotTruncateOnLandscape()
             throws Throwable {
         switchOrientation(mActivityTestRule.getActivity());
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         mScreenDensitySession.setLargestDensity();
         mActivityTestRule.finishActivity();
         mActivityTestRule.launchActivity(mFileActivityIntent);
