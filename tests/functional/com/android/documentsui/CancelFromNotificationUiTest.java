@@ -35,6 +35,8 @@ import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.filters.HugeLongTest;
 import com.android.documentsui.services.TestNotificationService;
 
+import org.junit.Ignore;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -216,6 +218,8 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
+    // (TODO: b/156756197) : Deflake tests
+    @Ignore
     public void testMoveDocument_CancelFromNotification() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
         bots.directory.findDocument(TARGET_FILE);
