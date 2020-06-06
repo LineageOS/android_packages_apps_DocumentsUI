@@ -90,7 +90,7 @@
     <string name="save_error" msgid="8631128801982095782">"Nie udało się zapisać dokumentu"</string>
     <string name="create_error" msgid="3092144450044861994">"Nie udało się utworzyć folderu"</string>
     <string name="query_error" msgid="6625421453613879336">"Teraz nie można załadować zawartości"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Wstrzymano profil do pracy"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Wstrzymano profil służbowy"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Włącz"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nie można wybrać plików związanych z pracą"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administrator IT nie pozwala na dostęp do plików związanych z pracą w aplikacjach osobistych"</string>
