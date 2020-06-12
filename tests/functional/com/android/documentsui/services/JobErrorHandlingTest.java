@@ -17,6 +17,7 @@
 package com.android.documentsui.services;
 
 import static com.android.documentsui.services.FileOperationService.OPERATION_DELETE;
+
 import static com.google.common.collect.Lists.newArrayList;
 
 import android.net.Uri;
@@ -78,7 +79,7 @@ public class JobErrorHandlingTest extends AbstractJobTest<DeleteJob> {
     /**
      * Creates a job with a stack consisting to the default src directory.
      */
-    private final DeleteJob createJob(List<Uri> srcs, Uri srcParent) throws Exception {
+    private DeleteJob createJob(List<Uri> srcs, Uri srcParent) throws Exception {
         Uri stack = DocumentsContract.buildDocumentUri(AUTHORITY, mSrcRoot.documentId);
         return createJob(OPERATION_DELETE, srcs, srcParent, stack);
     }
