@@ -98,7 +98,7 @@ android_library {
 }
 
 android_library {
-    name: "DocumentsUI-res-lib-tests",
+    name: "DocumentsUIUnitTests-res-lib",
 
     manifest: "AndroidManifestForUnitTests.xml",
 

@@ -17,6 +17,7 @@
 package com.android.documentsui.services;
 
 import static com.android.documentsui.services.FileOperationService.OPERATION_MOVE;
+
 import static com.google.common.collect.Lists.newArrayList;
 
 import android.net.Uri;
