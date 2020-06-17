@@ -16,9 +16,6 @@
 
 package com.android.documentsui.archives;
 
-import com.android.documentsui.archives.Archive;
-import com.android.documentsui.tests.R;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -29,9 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 
-import android.util.Log;
-
 public class TestUtils {
+
     public static final Uri ARCHIVE_URI = Uri.parse("content://i/love/strawberries");
     public static final String NOTIFICATION_URI = "content://notification-uri";
 
@@ -54,8 +50,7 @@ public class TestUtils {
     }
 
     /**
-     * Opens a resource and returns the contents via file descriptor to a local
-     * snapshot file.
+     * Opens a resource and returns the contents via file descriptor to a local snapshot file.
      */
     public ParcelFileDescriptor getSeekableDescriptor(int resource) {
         // Extract the file from resources.
@@ -64,14 +59,14 @@ public class TestUtils {
             file = File.createTempFile("com.android.documentsui.archives.tests{",
                     "}.zip", mTargetContext.getCacheDir());
             try (
-                final FileOutputStream outputStream =
-                        new ParcelFileDescriptor.AutoCloseOutputStream(
-                                ParcelFileDescriptor.open(
-                                        file, ParcelFileDescriptor.MODE_WRITE_ONLY));
-                final InputStream inputStream =
-                        mTestContext.getResources().openRawResource(resource);
+                    FileOutputStream outputStream =
+                            new ParcelFileDescriptor.AutoCloseOutputStream(
+                                    ParcelFileDescriptor.open(
+                                            file, ParcelFileDescriptor.MODE_WRITE_ONLY));
+                    InputStream inputStream =
+                            mTestContext.getResources().openRawResource(resource);
             ) {
-                final byte[] buffer = new byte[32 * 1024];
+                byte[] buffer = new byte[32 * 1024];
                 int bytes;
                 while ((bytes = inputStream.read(buffer)) != -1) {
                     outputStream.write(buffer, 0, bytes);
@@ -103,19 +98,19 @@ public class TestUtils {
                         @Override
                         public void run() {
                             try (
-                                final ParcelFileDescriptor.AutoCloseOutputStream outputStream =
-                                        new ParcelFileDescriptor.
-                                                AutoCloseOutputStream(finalOutputPipe);
-                                final InputStream inputStream =
-                                        mTestContext.getResources().openRawResource(resource);
+                                    ParcelFileDescriptor.AutoCloseOutputStream outputStream =
+                                            new ParcelFileDescriptor.AutoCloseOutputStream(
+                                                    finalOutputPipe);
+                                    InputStream inputStream =
+                                            mTestContext.getResources().openRawResource(resource);
                             ) {
-                                final byte[] buffer = new byte[32 * 1024];
+                                byte[] buffer = new byte[32 * 1024];
                                 int bytes;
                                 while ((bytes = inputStream.read(buffer)) != -1) {
                                     outputStream.write(buffer, 0, bytes);
                                 }
                             } catch (IOException e) {
-                              throw new IllegalStateException("Piping resource failed.", e);
+                                throw new IllegalStateException("Piping resource failed.", e);
                             }
                         }
                     });

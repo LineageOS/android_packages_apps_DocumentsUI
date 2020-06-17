@@ -94,8 +94,6 @@ public class DocumentLoaderTest extends TestCase {
     /**
      * Tests the loader using the Inspector Content provider. This test that we got valid info back
      * from the loader.
-     *
-     * @throws Exception
      */
     @Test
     public void testLoadsDocument() throws Exception {
@@ -116,8 +114,6 @@ public class DocumentLoaderTest extends TestCase {
 
     /**
      * Test invalid uri, DocumentInfo returned should be null.
-     *
-     * @throws Exception
      */
     @Test
     public void testInvalidInput() throws Exception {
@@ -144,13 +140,14 @@ public class DocumentLoaderTest extends TestCase {
             // this is a test double that requires explicitly loading. @see TestLoaderManager
             mLoaderManager.getLoader(0).startLoading();
             fail("Should have thrown exception.");
-        } catch (Exception expected) {}
+        } catch (Exception expected) {
+        }
     }
 
     @Test
     public void testDir_loadNumberOfChildren() throws Exception {
         Uri dirUri = DocumentsContract.buildDocumentUri(
-            InspectorProvider.AUTHORITY, DIR_TOP);
+                InspectorProvider.AUTHORITY, DIR_TOP);
 
         DocumentInfo info = DocumentInfo.fromUri(mResolver, dirUri, mUserId);
 
@@ -165,7 +162,7 @@ public class DocumentLoaderTest extends TestCase {
     @Test
     public void testDir_notADirectory() throws Exception {
         Uri uri = DocumentsContract.buildDocumentUri(
-            InspectorProvider.AUTHORITY, NOT_DIRECTORY);
+                InspectorProvider.AUTHORITY, NOT_DIRECTORY);
 
         DocumentInfo info = DocumentInfo.fromUri(mResolver, uri, mUserId);
         LatchedConsumer<Integer> consumer = new LatchedConsumer<>(1);
@@ -174,11 +171,12 @@ public class DocumentLoaderTest extends TestCase {
             mLoader.loadDirCount(info, consumer);
             mLoaderManager.getLoader(0).startLoading();
             fail("should have thrown exception");
-        } catch (Exception expected) {}
+        } catch (Exception expected) {
+        }
     }
 
     @Test
-    public void testLoadMetadata() throws Exception  {
+    public void testLoadMetadata() throws Exception {
         Uri uri = DocumentsContract.buildDocumentUri(
                 InspectorProvider.AUTHORITY, InspectorProvider.TEST_JPEG);
         LatchedConsumer<Bundle> consumer = new LatchedConsumer<>(1);
@@ -195,7 +193,7 @@ public class DocumentLoaderTest extends TestCase {
     }
 
     @Test
-    public void testLoadMetadata_Unsupported() throws Exception  {
+    public void testLoadMetadata_Unsupported() throws Exception {
         Uri uri = DocumentsContract.buildDocumentUri(
                 InspectorProvider.AUTHORITY, InspectorProvider.INVALID_JPEG);
         LatchedConsumer<Bundle> consumer = new LatchedConsumer<>(1);

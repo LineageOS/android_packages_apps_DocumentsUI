@@ -25,8 +25,6 @@ import android.test.suitebuilder.annotation.MediumTest;
 
 import androidx.test.InstrumentationRegistry;
 
-import com.android.documentsui.archives.WriteableArchive;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +38,7 @@ import java.util.zip.ZipFile;
 
 @MediumTest
 public class WriteableArchiveTest extends AndroidTestCase {
+
     private static final Uri ARCHIVE_URI = Uri.parse("content://i/love/strawberries");
     private static final String NOTIFICATION_URI =
             "content://com.android.documentsui.archives/notification-uri";
@@ -221,7 +220,7 @@ public class WriteableArchiveTest extends AndroidTestCase {
         }
 
         final ParcelFileDescriptor fd = mArchive.openDocument(documentId, "w", null);
-        try (final ParcelFileDescriptor.AutoCloseOutputStream outputStream =
+        try (ParcelFileDescriptor.AutoCloseOutputStream outputStream =
                 new ParcelFileDescriptor.AutoCloseOutputStream(fd)) {
             outputStream.write("Hello world!".getBytes());
         }
@@ -251,7 +250,7 @@ public class WriteableArchiveTest extends AndroidTestCase {
         ZipFile zip = null;
         try {
             try {
-            zip = new ZipFile(mFile);
+                zip = new ZipFile(mFile);
             } catch (Exception e) {
                 throw new IOException(mFile.getAbsolutePath());
             }
@@ -280,7 +279,7 @@ public class WriteableArchiveTest extends AndroidTestCase {
         ZipFile zip = null;
         try {
             try {
-            zip = new ZipFile(mFile);
+                zip = new ZipFile(mFile);
             } catch (Exception e) {
                 throw new IOException(mFile.getAbsolutePath());
             }
