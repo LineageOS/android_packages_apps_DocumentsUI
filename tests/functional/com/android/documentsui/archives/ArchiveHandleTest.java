@@ -17,6 +17,7 @@
 package com.android.documentsui.archives;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,6 +28,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.test.runner.AndroidJUnit4;
 
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.compressors.CompressorException;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,13 +43,6 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
-
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.ArchiveException;
-import org.apache.commons.compress.compressors.CompressorException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class ArchiveHandleTest {
@@ -201,7 +202,7 @@ public class ArchiveHandleTest {
     @Test
     public void buildArchiveHandle_tarFile_shouldNotNull() throws Exception {
         ArchiveHandle archiveHandle = prepareArchiveHandle("archives/tar/hello.tar",
-                ".tar","application/x-gtar");
+                ".tar", "application/x-gtar");
 
         assertThat(archiveHandle).isNotNull();
     }
