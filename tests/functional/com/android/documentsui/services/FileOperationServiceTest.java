@@ -134,7 +134,7 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         try {
             startService(createCopyIntent(new ArrayList<>(), BETA_DOC));
             fail("Should have throw exception.");
-        } catch(IllegalArgumentException expected) {
+        } catch (IllegalArgumentException expected) {
             // We're sending a naughty empty list that should result in an IllegalArgumentException.
         }
         startService(createCopyIntent(Arrays.asList(GAMMA_DOC), DELTA_DOC));
@@ -328,7 +328,7 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         stack.push(dest);
 
         List<Uri> uris = new ArrayList<>(files.size());
-        for (DocumentInfo file: files) {
+        for (DocumentInfo file : files) {
             uris.add(file.derivedUri);
         }
 
@@ -342,7 +342,7 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         DocumentStack stack = new DocumentStack();
 
         List<Uri> uris = new ArrayList<>(files.size());
-        for (DocumentInfo file: files) {
+        for (DocumentInfo file : files) {
             uris.add(file.derivedUri);
         }
 
@@ -443,15 +443,15 @@ public class FileOperationServiceTest extends ServiceTestCase<FileOperationServi
         public Parcelable.Creator<TestFileOperation> CREATOR =
                 new Parcelable.Creator<TestFileOperation>() {
 
-            @Override
-            public TestFileOperation createFromParcel(Parcel source) {
-                throw new UnsupportedOperationException("Can't create from a parcel.");
-            }
+                    @Override
+                    public TestFileOperation createFromParcel(Parcel source) {
+                        throw new UnsupportedOperationException("Can't create from a parcel.");
+                    }
 
-            @Override
-            public TestFileOperation[] newArray(int size) {
-                throw new UnsupportedOperationException("Can't create a new array.");
-            }
-        };
+                    @Override
+                    public TestFileOperation[] newArray(int size) {
+                        throw new UnsupportedOperationException("Can't create a new array.");
+                    }
+                };
     }
 }

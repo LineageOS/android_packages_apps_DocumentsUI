@@ -16,8 +16,12 @@
 
 package com.android.documentsui.archives;
 
+import static android.os.ParcelFileDescriptor.MODE_READ_ONLY;
+
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.apache.commons.compress.utils.IOUtils;
 import org.junit.rules.TestName;
@@ -37,10 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import static android.os.ParcelFileDescriptor.MODE_READ_ONLY;
 
 public class ArchiveFileTestRule extends TestName {
     private static final String TAG = ArchiveFileTestRule.class.getSimpleName();
@@ -156,7 +156,7 @@ public class ArchiveFileTestRule extends TestName {
         ParcelFileDescriptor parcelFileDescriptor = openAssetFile(assetPath, ".text");
 
         try (FileInputStream fileInputStream =
-                     new FileInputStream(parcelFileDescriptor.getFileDescriptor())){
+                new FileInputStream(parcelFileDescriptor.getFileDescriptor())) {
             return getStringFromInputStream(fileInputStream);
         }
     }

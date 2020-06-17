@@ -45,7 +45,7 @@ import java.util.List;
 @MediumTest
 public abstract class AbstractJobTest<T extends Job> extends AndroidTestCase {
 
-    static String AUTHORITY = StubProvider.DEFAULT_AUTHORITY;
+    static final String AUTHORITY = StubProvider.DEFAULT_AUTHORITY;
     static final byte[] HAM_BYTES = "ham and cheese".getBytes();
     static final byte[] FRUITY_BYTES = "I love fruit cakes!".getBytes();
 
