@@ -99,10 +99,10 @@ public class OverlayableTest extends ThemeUiTestBase {
 
     @Test
     public void testDimen_gridItemRadius_isReasonable() {
-        int MAX_RADIUS = 160;
+        int maxRadius = 160;
         assertThat(
                 mTargetContext.getResources().getDimensionPixelSize(
-                        R.dimen.grid_item_radius)).isLessThan(MAX_RADIUS);
+                        R.dimen.grid_item_radius)).isLessThan(maxRadius);
         assertThat(
                 mTargetContext.getResources().getDimensionPixelSize(
                         R.dimen.grid_item_radius)).isAtLeast(0);
