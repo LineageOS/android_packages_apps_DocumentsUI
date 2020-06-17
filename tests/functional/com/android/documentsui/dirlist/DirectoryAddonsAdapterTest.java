@@ -187,10 +187,16 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
     }
 
     private static class DummyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
         @Override
-        public int getItemCount() { return 0; }
+        public int getItemCount() {
+            return 0;
+        }
+
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {}
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        }
+
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return null;
