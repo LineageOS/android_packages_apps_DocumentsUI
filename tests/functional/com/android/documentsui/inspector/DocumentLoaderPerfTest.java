@@ -16,10 +16,9 @@
 package com.android.documentsui.inspector;
 
 import android.content.Context;
+
 import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.LargeTest;
-
-import org.junit.Before;
 
 /**
  * This test just like DocumentLoaderTest except that this test runs in real context environment.

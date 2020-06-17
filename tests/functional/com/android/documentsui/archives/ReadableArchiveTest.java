@@ -38,12 +38,6 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.tests.R;
 
-import java.io.IOException;
-import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.junit.After;
@@ -51,9 +45,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class ReadableArchiveTest {
+
     private static final Uri ARCHIVE_URI = Uri.parse("content://i/love/strawberries");
     private static final String NOTIFICATION_URI =
             "content://com.android.documentsui.archives/notification-uri";
@@ -145,7 +146,6 @@ public class ReadableArchiveTest {
         assertEquals(0,
                 cursor.getInt(cursor.getColumnIndexOrThrow(Document.COLUMN_SIZE)));
 
-
         // Check if querying children works too.
         final Cursor childCursor = mArchive.queryChildDocuments(
                 createArchiveId("/dir1/").toDocumentId(), null, null);
@@ -170,7 +170,7 @@ public class ReadableArchiveTest {
             throws IOException, CompressorException, ArchiveException {
         loadArchive(mTestUtils.getNonSeekableDescriptor(R.raw.no_dirs));
         final Cursor cursor = mArchive.queryChildDocuments(
-            createArchiveId("/").toDocumentId(), null, null);
+                createArchiveId("/").toDocumentId(), null, null);
 
         assertTrue(cursor.moveToFirst());
         assertEquals(
@@ -394,7 +394,7 @@ public class ReadableArchiveTest {
                 createArchiveId("/dir2/strawberries.txt").toDocumentId(),
                 "r", null /* signal */);
         assertTrue(Archive.canSeek(descriptor));
-        try (final ParcelFileDescriptor.AutoCloseInputStream inputStream =
+        try (ParcelFileDescriptor.AutoCloseInputStream inputStream =
                 new ParcelFileDescriptor.AutoCloseInputStream(descriptor)) {
             Os.lseek(descriptor.getFileDescriptor(), "I love ".length(), OsConstants.SEEK_SET);
             assertEquals("strawberries!", new Scanner(inputStream).nextLine());
