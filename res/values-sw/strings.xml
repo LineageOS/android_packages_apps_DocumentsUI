@@ -278,5 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"Binafsi"</string>
     <string name="work_tab" msgid="7265359366883747413">"Kazini"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Kazi"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Huwezi kuhamisha programu kutoka faili nyingine."</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Huwezi kuhamisha faili kutoka programu nyingine."</string>
 </resources>

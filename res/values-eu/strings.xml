@@ -278,5 +278,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"Pertsonala"</string>
     <string name="work_tab" msgid="7265359366883747413">"Lanekoa"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Lana"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Ezin dituzu beste aplikazioetako fitxategiak mugitu."</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Ezin dituzu mugitu beste aplikazio batzuetako fitxategiak."</string>
 </resources>
