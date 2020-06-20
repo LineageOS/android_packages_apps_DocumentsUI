@@ -731,7 +731,7 @@ public abstract class BaseActivity
             case RootInfo.TYPE_IMAGES:
             case RootInfo.TYPE_VIDEO:
             case RootInfo.TYPE_AUDIO:
-                result = getString(R.string.root_info_header_media, rootTitle);
+                result = rootTitle;
                 break;
             case RootInfo.TYPE_DOWNLOADS:
                 result = getHeaderDownloadsTitle();
