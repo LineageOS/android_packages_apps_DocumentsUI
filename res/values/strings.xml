@@ -452,11 +452,9 @@
     </plurals>
 
     <!-- Header title for list of documents in recent root. [CHAR_LIMIT=60] -->
-    <string name="root_info_header_recent">Recent files on phone</string>
+    <string name="root_info_header_recent">Recent files</string>
     <!-- Header title for list of documents in global searching. [CHAR_LIMIT=60] -->
-    <string name="root_info_header_global_search">Files on phone</string>
-    <!-- Header title for list of documents in media type root. [CHAR_LIMIT=60] -->
-    <string name="root_info_header_media"><xliff:g id="label" example="images">%1$s</xliff:g> on phone</string>
+    <string name="root_info_header_global_search">Files</string>
     <!-- Header title for list of documents in downloads root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_downloads">Files in Downloads</string>
     <!-- Header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
@@ -468,9 +466,9 @@
     <!-- Header title for list of documents 3rd party provider root eg. Drive, Box. with root summary. The summary is usually present by email account[CHAR_LIMIT=60] -->
     <string name="root_info_header_app_with_summary">Files from <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
     <!-- On photo picking state, the header title for list of documents in recent root. [CHAR_LIMIT=60] -->
-    <string name="root_info_header_image_recent">Recent images on phone</string>
+    <string name="root_info_header_image_recent">Recent images</string>
     <!-- On photo picking state, the header title for list of documents in global searching. [CHAR_LIMIT=60] -->
-    <string name="root_info_header_image_global_search">Images on phone</string>
+    <string name="root_info_header_image_global_search">Images</string>
     <!-- On photo picking state, the header title for list of documents in downloads root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_image_downloads">Images in Downloads</string>
     <!-- On photo picking state, the header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
