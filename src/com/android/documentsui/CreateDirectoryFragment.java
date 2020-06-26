@@ -167,7 +167,7 @@ public class CreateDirectoryFragment extends DialogFragment {
                 mActivity.onDirectoryCreated(result);
                 Metrics.logCreateDirOperation();
             } else {
-                Snackbars.makeSnackbar(mActivity, R.string.create_error, Snackbar.LENGTH_SHORT)
+                Snackbars.makeSnackbar(mActivity, R.string.create_error, Snackbar.LENGTH_LONG)
                         .show();
                 Metrics.logCreateDirError();
             }
