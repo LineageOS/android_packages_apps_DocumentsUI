@@ -62,7 +62,7 @@ public class PickFragment extends Fragment {
                 mInjector.actions.pickDocument(getChildFragmentManager(), mPickTarget);
             } else {
                 String msg = getResources().getString(R.string.directory_blocked_header_subtitle);
-                Snackbars.makeSnackbar(getActivity(), msg, Snackbar.LENGTH_SHORT).show();
+                Snackbars.makeSnackbar(getActivity(), msg, Snackbar.LENGTH_LONG).show();
             }
         }
     };
