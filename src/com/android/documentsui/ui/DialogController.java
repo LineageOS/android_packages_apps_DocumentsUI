@@ -140,13 +140,13 @@ public interface DialogController {
         public void showActionNotAllowed() {
             // Shows as a last resort when a document is not allowed to share across users
             Snackbars.makeSnackbar(
-                    mActivity, R.string.toast_action_not_allowed, Snackbar.LENGTH_SHORT).show();
+                    mActivity, R.string.toast_action_not_allowed, Snackbar.LENGTH_LONG).show();
         }
 
         @Override
         public void showNoApplicationFound() {
             Snackbars.makeSnackbar(
-                    mActivity, R.string.toast_no_application, Snackbar.LENGTH_SHORT).show();
+                    mActivity, R.string.toast_no_application, Snackbar.LENGTH_LONG).show();
         }
 
         @Override
@@ -157,7 +157,7 @@ public interface DialogController {
         @Override
         public void showViewInArchivesUnsupported() {
             Snackbars.makeSnackbar(mActivity, R.string.toast_view_in_archives_unsupported,
-                    Snackbar.LENGTH_SHORT).show();
+                    Snackbar.LENGTH_LONG).show();
         }
 
         @Override
@@ -168,7 +168,7 @@ public interface DialogController {
         @Override
         public void showShareOverLimit(int size) {
             String message = mActivity.getString(R.string.toast_share_over_limit, size);
-            Snackbars.makeSnackbar(mActivity, message, Snackbar.LENGTH_SHORT).show();
+            Snackbars.makeSnackbar(mActivity, message, Snackbar.LENGTH_LONG).show();
         }
 
         @Override
