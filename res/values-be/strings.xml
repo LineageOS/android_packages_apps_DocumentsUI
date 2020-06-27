@@ -284,16 +284,15 @@
       <item quantity="many">Выбрана: <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="other">Выбрана: <xliff:g id="COUNT_1">%1$d</xliff:g></item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"Нядаўнія файлы на тэлефоне"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"Файлы на тэлефоне"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> на тэлефоне"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"Нядаўнія файлы"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"Файлы"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Файлы ў Спампоўках"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Файлы на прыладзе \"<xliff:g id="DEVICE">%1$s</xliff:g>\""</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Файлы ў папцы \"<xliff:g id="FOLDER">%1$s</xliff:g>\""</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Файлы з: <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Файлы з: <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Нядаўнія відарысы з тэлефона"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Відарысы на тэлефоне"</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Нядаўнія відарысы"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Відарысы"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Відарысы ў Спампоўках"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Відарысы на прыладзе <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Відарысы ў папцы \"<xliff:g id="FOLDER">%1$s</xliff:g>\""</string>
