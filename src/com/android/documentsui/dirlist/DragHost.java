@@ -115,7 +115,7 @@ class DragHost<T extends Activity & AbstractActionHandler.CommonAddons> extends 
         Metrics.logDragInitiated(dragInitiatedFromDocsUI);
         if (!dragInitiatedFromDocsUI) {
             Snackbar.make(
-                    v, R.string.drag_from_another_app, Snackbar.LENGTH_SHORT).show();
+                    v, R.string.drag_from_another_app, Snackbar.LENGTH_LONG).show();
             return false;
         }
         return true;
