@@ -240,7 +240,7 @@
       <item quantity="other">已選取 <xliff:g id="COUNT_1">%1$d</xliff:g> 個項目</item>
       <item quantity="one">已選取 <xliff:g id="COUNT_0">%1$d</xliff:g> 個項目</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="5654901877295332262">"近期檔案"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"最近的檔案"</string>
     <string name="root_info_header_global_search" msgid="4904078222280496152">"檔案"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"「下載」中的檔案"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> 上的檔案"</string>
