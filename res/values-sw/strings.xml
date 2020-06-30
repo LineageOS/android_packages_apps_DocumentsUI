@@ -240,16 +240,15 @@
       <item quantity="other">Umechagua <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">Umechagua <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"Faili za hivi majuzi kwenye simu"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"Faili zilizo kwenye simu"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> kwenye simu"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"Faili ulizofungua hivi majuzi"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"Faili"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Faili zilizo kwenye Vipakuliwa"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Faili zilizo kwenye <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Faili zilizo kwenye <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Faili kutoka <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Faili kutoka <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Picha za hivi majuzi zilizo kwenye simu"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Picha kwenye simu"</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Picha za hivi majuzi"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Picha"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Picha zilizo kwenye Vipakuliwa"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Picha kwenye <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Picha zilizo kwenye <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -278,5 +277,5 @@
     <string name="personal_tab" msgid="3878576287868528503">"Binafsi"</string>
     <string name="work_tab" msgid="7265359366883747413">"Kazini"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Kazi"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Huwezi kuhamisha programu kutoka faili nyingine."</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Huwezi kuhamisha faili kutoka programu nyingine."</string>
 </resources>
