@@ -72,7 +72,7 @@ public class SearchFragment extends Fragment{
 
     public static void dismissFragment(FragmentManager fm) {
         SearchFragment fragment = get(fm);
-        if (fragment != null) {
+        if (fragment != null && fragment.getActivity() != null) {
             fragment.dismiss();
         }
     }
@@ -154,6 +154,11 @@ public class SearchFragment extends Fragment{
     }
 
     private void dismiss() {
+        if (getActivity() == null) {
+            // Fragment has already been detached from activity.
+            return;
+        }
+
         updateDirectoryVisibility(View.VISIBLE);
 
         FragmentTransaction ft = getParentFragmentManager().beginTransaction();
