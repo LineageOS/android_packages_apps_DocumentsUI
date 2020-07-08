@@ -431,7 +431,10 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
     // Copy SD Card -> Internal Storage //
     @HugeLongTest
-    public void testCopyDocuments_FromSdCard() throws Exception {
+    // TODO (b/160649487): excluded in FRC MTS release, and we should add it back later.
+    // Notice because this class inherits JUnit3 TestCase, the right way to suppress a test
+    // is by removing "test" from prefix, instead of adding @Ignore.
+    public void ignored_testCopyDocuments_FromSdCard() throws Exception {
         createDocuments(mSdCardLabel, mSdCardRoot, mStorageDocsHelper);
         copyFiles(mSdCardLabel, mDeviceLabel);
 
@@ -445,7 +448,10 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
     // Copy Internal Storage -> SD Card //
     @HugeLongTest
-    public void testCopyDocuments_ToSdCard() throws Exception {
+    // TODO (b/160649487): excluded in FRC MTS release, and we should add it back later.
+    // Notice because this class inherits JUnit3 TestCase, the right way to suppress a test
+    // is by removing "test" from prefix, instead of adding @Ignore.
+    public void ignored_testCopyDocuments_ToSdCard() throws Exception {
         createDocuments(mDeviceLabel, mPrimaryRoot, mStorageDocsHelper);
         copyFiles(mDeviceLabel, mSdCardLabel);
 
