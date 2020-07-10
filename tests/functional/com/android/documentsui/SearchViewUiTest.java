@@ -100,6 +100,23 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
         bots.search.assertInputExists(false);
     }
 
+    public void testSearchFragment_DismissedOnCloseAfterCancel() throws Exception {
+        bots.search.clickIcon();
+        bots.search.setInputText("query text");
+
+        // Cancel search
+        device.pressBack();
+        device.waitForIdle();
+
+        // Close search
+        device.pressBack();
+        device.waitForIdle();
+
+        bots.search.assertIconVisible(true);
+        bots.search.assertInputExists(false);
+        bots.search.assertSearchHistoryVisible(false);
+    }
+
     public void testSearchView_ClearsTextOnBack() throws Exception {
         bots.search.clickIcon();
         bots.search.setInputText("file2");
