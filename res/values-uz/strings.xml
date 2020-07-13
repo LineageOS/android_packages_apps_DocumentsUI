@@ -49,7 +49,7 @@
     <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Yashirin fayllar chiqmasin"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> orqali ochish"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Yangi oyna"</string>
-    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kesish"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kesib olish"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Nusxa olish"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Joylash"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"Jildga qo‘shish"</string>
