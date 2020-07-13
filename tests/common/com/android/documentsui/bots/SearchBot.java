@@ -92,6 +92,18 @@ public class SearchBot extends Bots.BaseBot {
         }
     }
 
+    public void assertSearchHistoryVisible(boolean visible) {
+        if (visible) {
+            assertTrue(
+                    "Search fragment should be shown.",
+                    findSearchHistoryView().exists());
+        } else {
+            assertFalse(
+                    "Search fragment should be dismissed.",
+                    findSearchHistoryView().exists());
+        }
+    }
+
     public void assertInputEquals(String query)
             throws UiObjectNotFoundException {
         UiObject textField = findSearchViewTextField();
@@ -115,6 +127,10 @@ public class SearchBot extends Bots.BaseBot {
 
     private UiObject findSearchView() {
         return findObject(mTargetPackage + ":id/option_menu_search");
+    }
+
+    private UiObject findSearchHistoryView() {
+        return findObject(mTargetPackage + ":id/history_list");
     }
 
     private UiObject findSearchViewTextField() {
