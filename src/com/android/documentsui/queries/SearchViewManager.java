@@ -420,6 +420,11 @@ public class SearchViewManager implements
 
         // Refresh the directory if a search was done
         if (mCurrentSearch != null || mChipViewManager.hasCheckedItems()) {
+            // Make sure SearchFragment was dismissed.
+            if (mFragmentManager != null) {
+                SearchFragment.dismissFragment(mFragmentManager);
+            }
+
             // Clear checked chips
             mChipViewManager.clearCheckedChips();
             mCurrentSearch = null;
