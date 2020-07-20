@@ -184,7 +184,7 @@
       <item quantity="one">לא ניתן היה למחוק פריט <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"הקש כדי להציג פרטים"</string>
-    <string name="close" msgid="905969391788869975">"סגור"</string>
+    <string name="close" msgid="905969391788869975">"סגירה"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="two">הקבצים הבאים לא הועתקו: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="many">הקבצים הבאים לא הועתקו: <xliff:g id="LIST_1">%1$s</xliff:g></item>
