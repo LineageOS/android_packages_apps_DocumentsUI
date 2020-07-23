@@ -150,7 +150,7 @@ public class SearchFragment extends Fragment{
         final String item = mHistoryList.get(position);
         mSearchViewManager.setHistorySearch();
         mSearchViewManager.setCurrentSearch(item);
-        mSearchViewManager.restoreSearch(true);
+        mSearchViewManager.restoreSearch(/* keepFocus= */ false);
     }
 
     private void dismiss() {
