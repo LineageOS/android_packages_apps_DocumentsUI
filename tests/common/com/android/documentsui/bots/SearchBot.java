@@ -34,6 +34,7 @@ import android.content.Context;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 import android.view.View;
 
 import androidx.recyclerview.R;
@@ -74,6 +75,13 @@ public class SearchBot extends Bots.BaseBot {
     public void clickSearchViewClearButton() throws UiObjectNotFoundException {
         UiObject clear = findSearchViewClearButton();
         clear.click();
+    }
+
+    // Click on the search history item with specified queryText, if exists.
+    public void clickSearchHistory(String queryText) throws UiObjectNotFoundException {
+        UiObject history = findSearchHistoryView();
+        UiSelector historyItemSelector = new UiSelector().text(queryText);
+        mDevice.findObject(history.getSelector().childSelector(historyItemSelector)).click();
     }
 
     public void setInputText(String query) throws UiObjectNotFoundException {
