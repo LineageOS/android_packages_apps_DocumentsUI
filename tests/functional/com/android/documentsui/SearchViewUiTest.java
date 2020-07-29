@@ -244,5 +244,23 @@ public class SearchViewUiTest extends ActivityTest<FilesActivity> {
 
         bots.search.assertInputExists(true);
         bots.search.assertInputFocused(true);
+        bots.search.assertSearchHistoryVisible(true);
+    }
+
+    public void testSearchView_focusClearedAfterSelectingSearchHistory() throws Exception {
+        String queryText = "history";
+        bots.search.clickIcon();
+        bots.search.setInputText(queryText);
+        bots.keyboard.pressEnter();
+        device.waitForIdle();
+
+        bots.search.clickSearchViewClearButton();
+        device.waitForIdle();
+        bots.search.assertInputFocused(true);
+        bots.search.assertSearchHistoryVisible(true);
+
+        bots.search.clickSearchHistory(queryText);
+        bots.search.assertInputFocused(false);
+        bots.search.assertSearchHistoryVisible(false);
     }
 }
