@@ -31,6 +31,6 @@ public class VersionUtils {
      */
     public static boolean isAtLeastR() {
         return Build.VERSION.CODENAME.equals("R")
-                || (Build.VERSION.CODENAME.equals("REL") && Build.VERSION.SDK_INT >= 30);
+                || Build.VERSION.SDK_INT >= 30;
     }
 }
