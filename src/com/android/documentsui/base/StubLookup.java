@@ -17,8 +17,10 @@ package com.android.documentsui.base;
 
 /**
  * Lookup that always returns null.
+ * @param <K> input type (the "key") which implements {@link Lookup}.
+ * @param <V> output type (the "value") which implements {@link Lookup}.
  */
-public final class DummyLookup<K, V> implements Lookup<K, V> {
+public final class StubLookup<K, V> implements Lookup<K, V> {
     @Override
     public V lookup(K key) {
         return null;
