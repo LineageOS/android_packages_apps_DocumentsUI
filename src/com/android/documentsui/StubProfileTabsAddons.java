@@ -17,9 +17,9 @@
 package com.android.documentsui;
 
 /**
- * A dummy {@ProfileTabsAddons} implementation.
+ * A stub {@ProfileTabsAddons} implementation.
  */
-public class DummyProfileTabsAddons implements ProfileTabsAddons {
+public class StubProfileTabsAddons implements ProfileTabsAddons {
 
     @Override
     public void setEnabled(boolean enabled) {

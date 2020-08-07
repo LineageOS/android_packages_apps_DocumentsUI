@@ -367,7 +367,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         mRecView.setItemAnimator(new DirectoryItemAnimator());
 
         mInjector = mActivity.getInjector();
-        // Initially, this selection tracker (delegator) uses a dummy implementation, so it must be
+        // Initially, this selection tracker (delegator) uses a stub implementation, so it must be
         // updated (reset) when necessary things are ready.
         mSelectionMgr = mInjector.selectionMgr;
         mModel = mInjector.getModel();
@@ -492,7 +492,7 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                         this::getModelId,
                         mRecView::findChildViewUnder,
                         DocumentsApplication.getDragAndDropManager(mActivity))
-                : DragStartListener.DUMMY;
+                : DragStartListener.STUB;
 
         {
             // Limiting the scope of the localTracker so nobody uses it.
