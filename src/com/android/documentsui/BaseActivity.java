@@ -934,7 +934,7 @@ public abstract class BaseActivity
                 getMainLooper().getQueue().addIdleHandler(new IdleHandler() {
                     @Override
                     public boolean queueIdle() {
-                        // If startup benchmark is requested by a whitelisted testing package, then
+                        // If startup benchmark is requested by an allowedlist testing package, then
                         // close the activity once idle, and notify the testing activity.
                         if (getIntent().getBooleanExtra(EXTRA_BENCHMARK, false) &&
                                 BENCHMARK_TESTING_PACKAGE.equals(getCallingPackage())) {
