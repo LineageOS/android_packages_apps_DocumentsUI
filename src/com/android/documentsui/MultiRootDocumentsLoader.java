@@ -181,17 +181,18 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
                             continue;
                         }
 
-                        // Filter hidden files.
-                        cursor = new FilteringCursorWrapper(cursor, mState.showHiddenFiles);
-
-                        final FilteringCursorWrapper filtered = new FilteringCursorWrapper(
-                                cursor, mState.acceptMimes, getRejectMimes(), rejectBefore) {
+                        final FilteringCursorWrapper filteredCursor =
+                                new FilteringCursorWrapper(cursor) {
                             @Override
                             public void close() {
                                 // Ignored, since we manage cursor lifecycle internally
                             }
                         };
-                        cursors.add(filtered);
+                        filteredCursor.filterHiddenFiles(mState.showHiddenFiles);
+                        filteredCursor.filterMimes(mState.acceptMimes, getRejectMimes());
+                        filteredCursor.filterLastModified(rejectBefore);
+
+                        cursors.add(filteredCursor);
                     }
 
                 } catch (InterruptedException e) {
