@@ -56,7 +56,6 @@ import java.util.concurrent.Executor;
 public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private static final String TAG = "DirectoryLoader";
-
     private static final String[] SEARCH_REJECT_MIMES = new String[] { Document.MIME_TYPE_DIR };
     private static final String[] PHOTO_PICKING_ACCEPT_MIMES = new String[]
             {Document.MIME_TYPE_DIR, MimeTypes.IMAGE_MIME};
@@ -178,17 +177,16 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             }
             cursor.registerContentObserver(mObserver);
 
-            // Filter hidden files.
-            cursor = new FilteringCursorWrapper(cursor, mState.showHiddenFiles);
-
+            FilteringCursorWrapper filteringCursor = new FilteringCursorWrapper(cursor);
+            filteringCursor.filterHiddenFiles(mState.showHiddenFiles);
             if (mSearchMode && !mFeatures.isFoldersInSearchResultsEnabled()) {
                 // There is no findDocumentPath API. Enable filtering on folders in search mode.
-                cursor = new FilteringCursorWrapper(cursor, null, SEARCH_REJECT_MIMES);
+                filteringCursor.filterMimes(/* acceptMimes= */ null, SEARCH_REJECT_MIMES);
             }
-
             if (mPhotoPicking) {
-                cursor = new FilteringCursorWrapper(cursor, PHOTO_PICKING_ACCEPT_MIMES, null);
+                filteringCursor.filterMimes(PHOTO_PICKING_ACCEPT_MIMES, /* rejectMimes= */ null);
             }
+            cursor = filteringCursor;
 
             // TODO: When API tweaks have landed, use ContentResolver.EXTRA_HONORED_ARGS
             // instead of checking directly for ContentResolver.QUERY_ARG_SORT_COLUMNS (won't work)
