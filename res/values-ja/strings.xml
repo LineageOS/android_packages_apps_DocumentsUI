@@ -168,7 +168,7 @@
     <string name="notification_touch_for_details" msgid="2385563502445129570">"タップすると詳細が表示されます"</string>
     <string name="close" msgid="905969391788869975">"閉じる"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
-      <item quantity="other">ファイル <xliff:g id="LIST_1">%1$s</xliff:g> は圧縮されませんでした。</item>
+      <item quantity="other">ファイル <xliff:g id="LIST_1">%1$s</xliff:g> はコピーされませんでした。</item>
       <item quantity="one">ファイル <xliff:g id="LIST_0">%1$s</xliff:g> はコピーされませんでした。</item>
     </plurals>
     <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
