@@ -27,7 +27,7 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"പുതിയ ഫോൾഡർ"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ഗ്രിഡ് കാഴ്‌ച"</string>
     <string name="menu_list" msgid="6714267452146410402">"ലിസ്റ്റ് കാഴ്‌ച"</string>
-    <string name="menu_search" msgid="1876699106790719849">"തിരയുക"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Search"</string>
     <string name="menu_settings" msgid="6520844520117939047">"സ്റ്റോറേജ് ക്രമീകരണം"</string>
     <string name="menu_open" msgid="9092138100049759315">"തുറക്കുക"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"ഇത് ഉപയോഗിച്ച് തുറക്കുക"</string>
