@@ -35,6 +35,7 @@ import com.android.documentsui.MetricConsts;
 import com.android.documentsui.R;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.util.VersionUtils;
 
 import com.google.android.material.chip.Chip;
 import com.google.common.primitives.Ints;
@@ -96,9 +97,11 @@ public class SearchChipViewManager {
     static {
         sMimeTypesChipItems.put(TYPE_IMAGES,
                 new SearchChipData(TYPE_IMAGES, R.string.chip_title_images, IMAGES_MIMETYPES));
-        sMimeTypesChipItems.put(TYPE_DOCUMENTS,
-                new SearchChipData(TYPE_DOCUMENTS, R.string.chip_title_documents,
-                        DOCUMENTS_MIMETYPES));
+        if (VersionUtils.isAtLeastR()) {
+            sMimeTypesChipItems.put(TYPE_DOCUMENTS,
+                    new SearchChipData(TYPE_DOCUMENTS, R.string.chip_title_documents,
+                            DOCUMENTS_MIMETYPES));
+        }
         sMimeTypesChipItems.put(TYPE_AUDIO,
                 new SearchChipData(TYPE_AUDIO, R.string.chip_title_audio, AUDIO_MIMETYPES));
         sMimeTypesChipItems.put(TYPE_VIDEOS,
