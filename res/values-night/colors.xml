@@ -33,4 +33,6 @@
     <!-- AppCompat.textColorSecondary -->
     <color name="doc_list_item_subtitle_enabled">#b3ffffff</color>
     <color name="doc_list_item_subtitle_disabled">#36ffffff</color>
+
+    <color name="list_divider_color">#9aa0a6</color>
 </resources>
