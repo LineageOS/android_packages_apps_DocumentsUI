@@ -104,8 +104,6 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
      * @param state current state
      * @param executors the executors of authorities
      * @param fileTypeMap the map of mime types and file types.
-     * @param lock the selection lock
-     * @param contentChangedCallback callback when content changed
      */
     public MultiRootDocumentsLoader(Context context, ProvidersAccess providers, State state,
             Lookup<String, Executor> executors, Lookup<String, String> fileTypeMap) {
@@ -304,10 +302,11 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
     @Override
     protected void onStartLoading() {
-        if (mResult != null) {
+        boolean isCursorStale = checkIfCursorStale(mResult);
+        if (mResult != null && !isCursorStale) {
             deliverResult(mResult);
         }
-        if (takeContentChanged() || mResult == null) {
+        if (takeContentChanged() || mResult == null || isCursorStale) {
             forceLoad();
         }
     }
@@ -456,5 +455,23 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
             mIsClosed = true;
         }
+    }
+
+    private boolean checkIfCursorStale(DirectoryResult result) {
+        if (mResult == null) {
+            return true;
+        }
+        Cursor cursor = result.cursor;
+        cursor.moveToPosition(-1);
+        for (int pos = 0; pos < cursor.getCount(); ++pos) {
+            try {
+                if (!cursor.moveToNext()) {
+                    return true;
+                }
+            } catch (Exception e) {
+                return true;
+            }
+        }
+        return false;
     }
 }
