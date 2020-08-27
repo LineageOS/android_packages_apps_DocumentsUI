@@ -51,7 +51,7 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
 
     private static final int BUFFER_SIZE = 10 * 1024 * 1024;
 
-    private static final int WAIT_TIME_SECONDS = 60;
+    private static final int WAIT_TIME_SECONDS = 120;
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -87,6 +87,8 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
         // So, reset the storage size again to 500MB.
         Bundle bundle = new Bundle();
         bundle.putLong(EXTRA_SIZE, 500L);
+        // Set a flag to prevent many refreshes.
+        bundle.putBoolean(StubProvider.EXTRA_ENABLE_ROOT_NOTIFICATION, false);
         mDocsHelper.configure(null, bundle);
 
         try {
@@ -214,7 +216,10 @@ public class CancelFromNotificationUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
-    public void testMoveDocument_CancelFromNotification() throws Exception {
+    // (TODO: b/156756197) : Deflake tests
+    // Notice because this class inherits JUnit3 TestCase, the right way to suppress a test
+    // is by removing "test" from prefix, instead of adding @Ignore.
+    public void ignored_testMoveDocument_CancelFromNotification() throws Exception {
         bots.roots.openRoot(ROOT_0_ID);
         bots.directory.findDocument(TARGET_FILE);
         device.waitForIdle();

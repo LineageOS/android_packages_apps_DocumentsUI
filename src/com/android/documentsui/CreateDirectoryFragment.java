@@ -61,6 +61,11 @@ public class CreateDirectoryFragment extends DialogFragment {
     private static final String TAG_CREATE_DIRECTORY = "create_directory";
 
     public static void show(FragmentManager fm) {
+        if (fm.isStateSaved()) {
+            Log.w(TAG, "Skip show create folder dialog because state saved");
+            return;
+        }
+
         final CreateDirectoryFragment dialog = new CreateDirectoryFragment();
         dialog.show(fm, TAG_CREATE_DIRECTORY);
     }
@@ -137,20 +142,15 @@ public class CreateDirectoryFragment extends DialogFragment {
         }
 
         @Override
-        protected void onPreExecute() {
-            mActivity.setPending(true);
-        }
-
-        @Override
         protected DocumentInfo doInBackground(Void... params) {
-            final ContentResolver resolver = mActivity.getContentResolver();
+            final ContentResolver resolver = mCwd.userId.getContentResolver(mActivity);
             ContentProviderClient client = null;
             try {
                 client = DocumentsApplication.acquireUnstableProviderOrThrow(
                         resolver, mCwd.derivedUri.getAuthority());
                 final Uri childUri = DocumentsContract.createDocument(
                         wrap(client), mCwd.derivedUri, Document.MIME_TYPE_DIR, mDisplayName);
-                DocumentInfo doc = DocumentInfo.fromUri(resolver, childUri);
+                DocumentInfo doc = DocumentInfo.fromUri(resolver, childUri, mCwd.userId);
                 return doc.isDirectory() ? doc : null;
             } catch (Exception e) {
                 Log.w(TAG, "Failed to create directory", e);
@@ -167,11 +167,10 @@ public class CreateDirectoryFragment extends DialogFragment {
                 mActivity.onDirectoryCreated(result);
                 Metrics.logCreateDirOperation();
             } else {
-                Snackbars.makeSnackbar(mActivity, R.string.create_error, Snackbar.LENGTH_SHORT)
+                Snackbars.makeSnackbar(mActivity, R.string.create_error, Snackbar.LENGTH_LONG)
                         .show();
                 Metrics.logCreateDirError();
             }
-            mActivity.setPending(false);
         }
     }
 }
