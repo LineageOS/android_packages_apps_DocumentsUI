@@ -202,7 +202,7 @@
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"केही फाइलहरू रूपान्तरण गरिएका छन्"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="STORAGE"><i>^3</i></xliff:g> मा रहेको <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकामाथि पहुँच राख्न दिने हो?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> निर्देशिकामाथि पहुँच राख्न दिने हो?"</string>
-    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="STORAGE"><i>^2</i></xliff:g> मा भएका तस्बिर र भिडियोहरू लगायत तपाईँको डेटामाथि पहुँच राख्न दिने हो?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> लाई <xliff:g id="STORAGE"><i>^2</i></xliff:g> मा भएका फोटो र भिडियोहरू लगायत तपाईँको डेटामाथि पहुँच राख्न दिने हो?"</string>
     <string name="allow" msgid="1275746941353040309">"अनुमति दिनुहोस्"</string>
     <string name="deny" msgid="5127201668078153379">"अस्वीकार गर्नुहोस्"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
