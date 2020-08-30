@@ -279,10 +279,11 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
     @Override
     protected void onStartLoading() {
-        if (mResult != null) {
+        boolean isCursorStale = checkIfCursorStale(mResult);
+        if (mResult != null && !isCursorStale) {
             deliverResult(mResult);
         }
-        if (takeContentChanged() || mResult == null) {
+        if (takeContentChanged() || mResult == null || isCursorStale) {
             forceLoad();
         }
     }
@@ -310,5 +311,23 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
         FileUtils.closeQuietly(mResult);
         mResult = null;
+    }
+
+    private boolean checkIfCursorStale(DirectoryResult result) {
+        if (mResult == null) {
+            return true;
+        }
+        Cursor cursor = result.cursor;
+        cursor.moveToPosition(-1);
+        for (int pos = 0; pos < cursor.getCount(); ++pos) {
+            try {
+                if (!cursor.moveToNext()) {
+                    return true;
+                }
+            } catch (Exception e) {
+                return true;
+            }
+        }
+        return false;
     }
 }
