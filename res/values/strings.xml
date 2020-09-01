@@ -540,4 +540,11 @@
     <!-- Snackbar shown when users drag and drop files from another app
     to DocumentsUI. [CHAR_LIMIT=100] -->
     <string name="drag_from_another_app">You can\u2019t move files from another app.</string>
+
+    <!-- Accessibility announcement when switching to grid mode of files and directories shown. [CHAR_LIMIT=100] -->
+    <string name="grid_mode_showing">Showing in grid mode.</string>
+
+    <!-- Accessibility announcement when switching to list mode of files and directories shown. [CHAR_LIMIT=100] -->
+    <string name="list_mode_showing">Showing in list mode.</string>
+
 </resources>
