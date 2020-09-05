@@ -86,7 +86,7 @@
     <string name="save_error" msgid="8631128801982095782">"Gagal menyimpan dokumen"</string>
     <string name="create_error" msgid="3092144450044861994">"Gagal membuat folder"</string>
     <string name="query_error" msgid="6625421453613879336">"Tidak dapat memuat konten saat ini"</string>
-    <string name="root_recent" msgid="1080156975424341623">"Baru-baru ini"</string>
+    <string name="root_recent" msgid="1080156975424341623">"Terbaru"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> kosong"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Layanan penyimpanan"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Pintasan"</string>
@@ -147,7 +147,7 @@
       <item quantity="other">Tidak dapat menghapus <xliff:g id="COUNT_1">%1$d</xliff:g> item</item>
       <item quantity="one">Tidak dapat menghapus <xliff:g id="COUNT_0">%1$d</xliff:g> item</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="2385563502445129570">"Tap untuk melihat detail"</string>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"Ketuk untuk melihat detail"</string>
     <string name="close" msgid="905969391788869975">"Tutup"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="other">File ini tidak disalin: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Cari file di aplikasi lain"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Izinkan akses ke \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Izinkan akses ke \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" di \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Izinkan akses ke \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" di \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Ini akan mengizinkan \"<xliff:g id="APPNAME">%1$s</xliff:g>\" untuk memiliki akses penuh ke semua file yang saat ini tersimpan di lokasi ini, dan semua konten yang nantinya disimpan di sini."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Telusuri ponsel ini"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Menghapus histori penelusuran <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

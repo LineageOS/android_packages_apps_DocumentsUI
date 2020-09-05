@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"ফাইলগুলি"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ডাউনলোড"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -27,7 +27,7 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"নতুন ফোল্ডার"</string>
     <string name="menu_grid" msgid="1453636521731880680">"গ্রিড দৃশ্য"</string>
     <string name="menu_list" msgid="6714267452146410402">"তালিকা দৃশ্য"</string>
-    <string name="menu_search" msgid="1876699106790719849">"খুঁজুন"</string>
+    <string name="menu_search" msgid="1876699106790719849">"সার্চ"</string>
     <string name="menu_settings" msgid="6520844520117939047">"সঞ্চয়স্থানের সেটিংস"</string>
     <string name="menu_open" msgid="9092138100049759315">"খুলুন"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"এর মাধ্যমে খুলুন"</string>
@@ -44,7 +44,7 @@
     <string name="menu_extract" msgid="8171946945982532262">"এখানে রাখুন…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"পুনঃনামকরণ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"তথ্য পান"</string>
-    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> এ দেখুন"</string>
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>-এ দেখুন"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"নতুন উইন্ডো"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"কাট করুন"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"কপি করুন"</string>
@@ -92,8 +92,8 @@
     <string name="root_type_shortcut" msgid="6059343175525442279">"শর্টকাট"</string>
     <string name="root_type_device" msgid="1713604128005476585">"ডিভাইস"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"আরও অ্যাপ্স"</string>
-    <string name="empty" msgid="5300254272613103004">"কোনো আইটেম নেই"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s এ কোনো মিল নেই"</string>
+    <string name="empty" msgid="5300254272613103004">"কোনও আইটেম নেই"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s-এ কোনও মিল নেই"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ফাইল খোলা যাবে না"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"আর্কাইভের ফাইলগুলি খোলা যাচ্ছে না"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"কিছু দস্তাবেজ মোছা গেল না"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"অন্যান্য অ্যাপে ফাইল ব্রাউজ করুন"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"বেনামী"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\"-এ অ্যাক্সেসের অনুমতি দিন"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"-এর <xliff:g id="DIRECTORY">%1$s</xliff:g>-এ অ্যাক্সেস করার অনুমতি দিতে চান?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"-এর \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" অ্যাক্সেস করার অনুমতি দিতে চান?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"এই লোকেশনে বর্তমানে থাকা এবং ভবিষ্যতে রাখা যেকোনও ফাইলে <xliff:g id="APPNAME">%1$s</xliff:g> এর অ্যাক্সেস করার অনুমতি দেয়।"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"এই ফোনটি খুঁজুন"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"এই ফোনে খুঁজুন"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"সার্চের ইতিহাস মুছুন <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

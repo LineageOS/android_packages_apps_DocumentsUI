@@ -37,9 +37,9 @@
     <string name="menu_delete" msgid="1022254131543256626">"删除"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"全选"</string>
     <string name="menu_select" msgid="1366061076507142387">"选择"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"排序依据…"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"排序方式…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"复制到…"</string>
-    <string name="menu_move" msgid="2310760789561129882">"移动到…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"移至…"</string>
     <string name="menu_compress" msgid="37539111904724188">"压缩"</string>
     <string name="menu_extract" msgid="8171946945982532262">"解压到…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"重命名"</string>
@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"设备"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"更多应用"</string>
     <string name="empty" msgid="5300254272613103004">"无任何文件"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s中没有任何相符项"</string>
+    <string name="no_results" msgid="2371026325236359209">"“%1$s”中没有任何相符项"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"无法打开文件"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"无法打开归档文件"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"无法删除部分文档"</string>
@@ -202,8 +202,8 @@
       <item quantity="one">要删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件吗？</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other">要删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件夹及其中的内容吗？</item>
-      <item quantity="one">要删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件夹及其中的内容吗？</item>
+      <item quantity="other">要删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 个文件夹及其内容吗？</item>
+      <item quantity="one">要删除 <xliff:g id="COUNT_0">%1$d</xliff:g> 个文件夹及其内容吗？</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other">要删除 <xliff:g id="COUNT_1">%1$d</xliff:g> 项吗？</item>
@@ -225,9 +225,9 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"最近在手机上使用过的文件"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"手机上的文件"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"手机上的<xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g>上的文件"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> 上的文件"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g>中的文件"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g>中的文件/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g>中的文件 / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"手机上的近期图片"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"手机上的图片"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g>上的图片"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"浏览其他应用中的文件"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"匿名"</string>
     <string name="open_tree_button" msgid="19992834788135845">"允许访问“<xliff:g id="DIRECTORY">%1$s</xliff:g>”"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"允许访问“<xliff:g id="ROOT">%2$s</xliff:g>”上的“<xliff:g id="DIRECTORY">%1$s</xliff:g>”吗？"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"要允许访问“<xliff:g id="ROOT">%2$s</xliff:g>”中的“<xliff:g id="DIRECTORY">%1$s</xliff:g>”吗？"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"它将允许“<xliff:g id="APPNAME">%1$s</xliff:g>”拥有对以下内容的完整访问权限：目前存储在此位置下的所有文件，以及日后存储在此处的任何内容。"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"搜索此手机"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"在此手机内搜索"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"删除搜索记录“<xliff:g id="TEXT">%1$s</xliff:g>”"</string>
 </resources>

@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Устройства"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Още приложения"</string>
     <string name="empty" msgid="5300254272613103004">"Няма елементи"</string>
-    <string name="no_results" msgid="2371026325236359209">"В/ъв „%1$s“ няма съответствия"</string>
+    <string name="no_results" msgid="2371026325236359209">"В(ъв) „%1$s“ няма съответствия"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Файлът не може да се отвори"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Файловете в архиви не могат да се отварят"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Някои документи не могат да бъдат изтрити"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Преглед на файлове в други приложения"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Анонимно"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Разрешаване на достъп до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Да се разреши ли достъп до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“ на „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Да се разреши ли достъп до „<xliff:g id="DIRECTORY">%1$s</xliff:g>“ на „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Така „<xliff:g id="APPNAME">%1$s</xliff:g>“ ще получи пълен достъп до всички файлове, които понастоящем се съхраняват в това местоположение, както и до всяко съдържание, което ще се съхранява тук в бъдеще."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Търсете в този телефон"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Изтриване на <xliff:g id="TEXT">%1$s</xliff:g> от историята на търсенията"</string>
 </resources>

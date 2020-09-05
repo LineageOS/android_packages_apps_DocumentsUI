@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"ফাইল"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ডাউনল\'ডসমূহ"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -27,7 +27,7 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"নতুন ফ\'ল্ডাৰ"</string>
     <string name="menu_grid" msgid="1453636521731880680">"গ্ৰিড হিচাপে চোৱাৰ সুবিধা"</string>
     <string name="menu_list" msgid="6714267452146410402">"সূচী অনুসৰি চোৱাৰ সুবিধা"</string>
-    <string name="menu_search" msgid="1876699106790719849">"অনুসন্ধান কৰক"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Search"</string>
     <string name="menu_settings" msgid="6520844520117939047">"সঞ্চয়াগাৰৰ ছেটিংসমূহ"</string>
     <string name="menu_open" msgid="9092138100049759315">"খোলক"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"ইয়াৰ জৰিয়তে খোলক"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"অন্য এপত ফাইল ব্ৰাউজ কৰক"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"পৰিচয়বিহীন"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" এক্সেছ কৰাৰ অনুমতি দিয়ক"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"ত থকা \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" এক্সেছ কৰাৰ অনুমতি দিবনে?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\"ত থকা \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" এক্সেছ কৰাৰ অনুমতি দিবনে?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ইয়ে \"<xliff:g id="APPNAME">%1$s</xliff:g>\"ক বৰ্তমান এই অৱস্থানত থকা আৰু ভৱিষ্যতে এই অৱস্থানত জমা কৰা সকলো ফাইল সম্পূৰ্ণভাৱে এক্সেছ কৰাৰ অনুমতি দিব।"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"এই ফ’নটো সন্ধান কৰক"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"সন্ধান ইতিহাস মচক <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

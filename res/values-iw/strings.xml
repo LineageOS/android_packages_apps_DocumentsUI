@@ -22,7 +22,7 @@
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
-    <string name="title_open" msgid="3165686459158020921">"פתח מ-"</string>
+    <string name="title_open" msgid="3165686459158020921">"פתיחה מ-"</string>
     <string name="title_save" msgid="4384490653102710025">"שמור ב-"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"תיקיה חדשה"</string>
     <string name="menu_grid" msgid="1453636521731880680">"תצוגת רשת"</string>
@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"מכשירים"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"עוד אפליקציות"</string>
     <string name="empty" msgid="5300254272613103004">"אין פריטים"</string>
-    <string name="no_results" msgid="2371026325236359209">"‏אין התאמות ב-%1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"‏אין התאמות ב%1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"לא ניתן לפתוח את הקובץ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"לא ניתן לפתוח קבצים בארכיונים"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"לא ניתן למחוק חלק מהמסמכים"</string>
@@ -166,7 +166,7 @@
       <item quantity="one">לא ניתן היה למחוק פריט <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"הקש כדי להציג פרטים"</string>
-    <string name="close" msgid="905969391788869975">"סגור"</string>
+    <string name="close" msgid="905969391788869975">"סגירה"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="two">הקבצים הבאים לא הועתקו: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="many">הקבצים הבאים לא הועתקו: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -287,7 +287,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"חיפוש קבצים באפליקציות אחרות"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"אנונימית"</string>
     <string name="open_tree_button" msgid="19992834788135845">"מתן גישה אל \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"לאפשר גישה אל \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ב-\"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"להתיר גישה אל \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ב-\"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"לאפליקציה \"<xliff:g id="APPNAME">%1$s</xliff:g>\" תהיה הרשאת גישה מלאה לכל הקבצים שמאוחסנים כרגע במיקום זה, ולכל תוכן שיאוחסן כאן בעתיד."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"חיפוש בטלפון זה"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"מחיקת היסטוריית החיפושים <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

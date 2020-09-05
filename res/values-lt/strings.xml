@@ -69,7 +69,7 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Pakeista"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Failo pav. (nuo A iki Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Tipas (nuo A iki Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Dydis (pirmiau mažiausi)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Dydis (pirm. mažiausi)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Pakeista (pirm. sen.)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Failo pav. (nuo Z iki A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tipas (nuo Z iki A)"</string>
@@ -284,10 +284,11 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Aplanko pavadinimas"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Naujas pavadinimas"</string>
     <string name="preview_file" msgid="4056622696305432343">"Peržiūrėti failą „<xliff:g id="FILENAME">%1$s</xliff:g>“"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Failų naršymas kitose programos"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Failų naršymas kitose programose"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anoniminė"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Leisti pasiekti „<xliff:g id="DIRECTORY">%1$s</xliff:g>“"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Leisti pasiekti „<xliff:g id="DIRECTORY">%1$s</xliff:g>“, esantį „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Leisti pasiekti „<xliff:g id="DIRECTORY">%1$s</xliff:g>“, esantį „<xliff:g id="ROOT">%2$s</xliff:g>“?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"„<xliff:g id="APPNAME">%1$s</xliff:g>“ galės pasiekti visus šiuo metu šioje vietoje saugomus failus ir visą turinį, kuris bus čia saugomas."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Ieškoti šiame telefone"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Ištrinkite paieškos istoriją <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
