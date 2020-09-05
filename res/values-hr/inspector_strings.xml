@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="inspector_title" msgid="1924760928091740238">"Informacije"</string>
     <string name="inspector_load_error" msgid="7522190243413249291">"Učitavanje informacija o datoteci nije uspjelo"</string>
-    <string name="inspector_debug_section" msgid="2576052661505700421">"Podaci o otklanjanju pogrešaka (samo razvoj)"</string>
+    <string name="inspector_debug_section" msgid="2576052661505700421">"Podaci o otklanjanju pogrešaka (samo za programere)"</string>
     <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"Neobrađeni metapodaci: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
     <string name="inspector_metadata_section" msgid="6077622515328240575">"Pojedinosti o medijma"</string>
     <string name="handler_app_file_opens_with" msgid="5272329600389613550">"Ova se vrsta datoteke otvara aplikacijom"</string>
@@ -44,6 +44,4 @@
     <string name="metadata_composer" msgid="4696926808308256056">"Skladatelj"</string>
     <string name="metadata_album" msgid="1661699531214720236">"Album"</string>
     <string name="metadata_address" msgid="1849921023707744640">"Lokacija"</string>
-    <string name="debug_stream_types" msgid="2088565280360139333">"Vrste strujanja"</string>
-    <string name="debug_raw_size" msgid="7487139640175650185">"Neobrađena veličina (u bajtovima)"</string>
 </resources>
