@@ -225,9 +225,9 @@
     <string name="root_info_header_recent" msgid="8754386597210017725">"فون پر حالیہ فائلز"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"فون میں فائلز"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"فون پر <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> میں فائلز"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> کی جانب سے فائلز"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> کی جانب سے فائلز"</string>
+    <string name="root_info_header_storage" msgid="2989014130584927442">"‫<xliff:g id="DEVICE">%1$s</xliff:g> میں فائلز"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"‫<xliff:g id="LABEL">%1$s</xliff:g> کی فائلز"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"‫<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> میں موجود فائلز"</string>
     <string name="root_info_header_image_recent" msgid="6252335619444758201">"فون پر موجود حالیہ تصاویر"</string>
     <string name="root_info_header_image_global_search" msgid="7945533325610533016">"فون پر موجود تصاویر"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> پر موجود تصاویر"</string>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"دیگر ایپس میں فائلز کو براؤز کریں"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"گمنام"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" تک رسائی کی اجازت دیں"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" پر \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" تک رسائی کی اجازت دیں؟"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" میں \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" تک رسائی کی اجازت دیں؟"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"یہ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" کو فی الوقت اس مقام کے تحت اسٹور کردہ تمام فائلوں اور یہاں اسٹور کردہ مستقبل کے کسی بھی مواد تک مکمل رسائی کی اجازت دے گی۔"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"یہ فون تلاش کریں"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"اس فون میں تلاش کریں"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"تلاش کی سرگزشت کی <xliff:g id="TEXT">%1$s</xliff:g> حذف کریں"</string>
 </resources>

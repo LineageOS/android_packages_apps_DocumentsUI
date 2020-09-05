@@ -16,7 +16,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"ഫയലുകള്‍"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ഡൗൺലോഡുകൾ"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
@@ -27,7 +27,7 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"പുതിയ ഫോൾഡർ"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ഗ്രിഡ് കാഴ്‌ച"</string>
     <string name="menu_list" msgid="6714267452146410402">"ലിസ്റ്റ് കാഴ്‌ച"</string>
-    <string name="menu_search" msgid="1876699106790719849">"തിരയുക"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Search"</string>
     <string name="menu_settings" msgid="6520844520117939047">"സ്റ്റോറേജ് ക്രമീകരണം"</string>
     <string name="menu_open" msgid="9092138100049759315">"തുറക്കുക"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"ഇത് ഉപയോഗിച്ച് തുറക്കുക"</string>
@@ -40,10 +40,10 @@
     <string name="menu_sort" msgid="3362419226163725275">"ഇപ്രകാരം അടുക്കുക..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ഇതിൽ പകർത്തുക…"</string>
     <string name="menu_move" msgid="2310760789561129882">"ഇതിലേക്ക് നീക്കുക..."</string>
-    <string name="menu_compress" msgid="37539111904724188">"കംപ്രസ്സുചെയ്യുക"</string>
+    <string name="menu_compress" msgid="37539111904724188">"കംപ്രസ് ചെയ്യുക"</string>
     <string name="menu_extract" msgid="8171946945982532262">"എക്സ്ട്രാക്റ്റുചെയ്യുക…"</string>
-    <string name="menu_rename" msgid="1883113442688817554">"പേരുമാറ്റുക"</string>
-    <string name="menu_inspect" msgid="7279855349299446224">"വിവരങ്ങൾ സ്വന്തമാക്കൂ"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"പേര് മാറ്റുക"</string>
+    <string name="menu_inspect" msgid="7279855349299446224">"വിവരങ്ങൾ നേടുക"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> എന്നതിൽ കാണുക"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"പുതിയ വിന്‍‍ഡോ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"മുറിക്കുക"</string>
@@ -54,7 +54,7 @@
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ആന്തരിക സ്റ്റോറേജ്  മറയ്‌ക്കുക"</string>
     <string name="button_select" msgid="240863497069321364">"തിരഞ്ഞെടുക്കുക"</string>
     <string name="button_copy" msgid="8219059853840996027">"പകര്‍ത്തുക"</string>
-    <string name="button_compress" msgid="8951561310857223966">"കംപ്രസ്സുചെയ്യുക"</string>
+    <string name="button_compress" msgid="8951561310857223966">"കംപ്രസ് ചെയ്യുക"</string>
     <string name="button_extract" msgid="1038674453689912247">"എക്‌സ്ട്രാക്‌റ്റുചെയ്യുക"</string>
     <string name="button_move" msgid="8596460499325291272">"നീക്കുക"</string>
     <string name="button_dismiss" msgid="7235249361023803349">"ഡിസ്മിസ് ചെയ്യുക"</string>
@@ -68,13 +68,13 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"വലുപ്പം"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"പരിഷ്‌ക്കരിച്ചു"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ഫയലിൻ്റെ പേര് (A - Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"ടൈപ്പ് ചെയ്യൂ (A - Z)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"തരം (A - Z)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"വലുപ്പം (ചെറുത് ആദ്യം)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"പരിഷ്ക്കരിച്ചത് (പഴയത് ആദ്യം)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"പരിഷ്‍കരിച്ചത് (പഴയത് ആദ്യം)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"ഫയലിൻ്റെ പേര് (Z - A)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"ടൈപ്പ് ചെയ്യൂ (Z - A)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"തരം (Z - A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"വലുപ്പം (വലുത് ആദ്യം)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"പരിഷ്ക്കരിച്ചത് (പുതിയത് ആദ്യം)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"പരിഷ്‍കരിച്ചത് (പുതിയത് ആദ്യം)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"ഇപ്രകാരം അടുക്കുക"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"<xliff:g id="LABEL">%s</xliff:g>-ൻ്റെ അടിസ്ഥാനത്തിൽ അടുക്കിയിരിക്കുന്നു"</string>
     <string name="directory_items" msgid="6645621978998614003">"ഇനങ്ങളുടെ എണ്ണം"</string>
@@ -109,8 +109,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ഇനം ‌പകർത്തുന്നു.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ഫയലുകൾ കംപ്രസ്സുചെയ്യുന്നു.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ഫയൽ കംപ്രസ്സുചെയ്യുന്നു.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ഫയലുകൾ കംപ്രസ് ചെയ്യുന്നു.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ഫയൽ കംപ്രസ് ചെയ്യുന്നു.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ഫയലുകൾ എക്‌സ്‌ട്രാക്‌റ്റുചെയ്യുന്നു.</item>
@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ഫയലുകള്‍ മറ്റ് ആപ്പുകളില്‍ ബ്രൗസ് ചെയ്യുക"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"അജ്ഞാതം"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" എന്നതിലേക്ക് ആക്‌സസ് അനുവദിക്കുക"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" എന്നതിൽ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" എന്നതിലേക്ക് ആക്‌സസ് നൽകണോ?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" എന്നതിൽ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" എന്നതിന് ആക്‌സസ് നൽകണോ?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ഇത് \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ആപ്പിന് ഈ ലൊക്കേഷനിൽ സംഭരിച്ചിരിക്കുന്ന എല്ലാ ഫയലുകളിലേക്കും ഭാവിയിൽ ഇവിടെ സംഭരിക്കപ്പെടുന്ന എല്ലാ ഉള്ളടക്കത്തിലേക്കും പൂർണ്ണ ആക്‌സസ് അനുവദിക്കും."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ഈ ഫോൺ തിരയുക"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"ഈ ഫോണിൽ തിരയുക"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"തിരയൽ ചരിത്രം <xliff:g id="TEXT">%1$s</xliff:g> ഇല്ലാതാക്കുക"</string>
 </resources>

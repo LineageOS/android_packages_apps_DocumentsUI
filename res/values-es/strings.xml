@@ -109,8 +109,8 @@
       <item quantity="one">Copiando <xliff:g id="COUNT_0">%1$d</xliff:g> elemento.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other">Se están comprimiendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
-      <item quantity="one">Se está comprimiendo <xliff:g id="COUNT_0">%1$d</xliff:g> archivo.</item>
+      <item quantity="other">Comprimiendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
+      <item quantity="one">Comprimiendo <xliff:g id="COUNT_0">%1$d</xliff:g> archivo.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other">Se están extrayendo <xliff:g id="COUNT_1">%1$d</xliff:g> archivos.</item>
@@ -240,11 +240,11 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nombre de la carpeta"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nombre nuevo"</string>
     <string name="preview_file" msgid="4056622696305432343">"Obtener una vista previa del archivo <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Consultar archivos en otras aplicaciones"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Ver archivos en otras aplicaciones"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Permitir acceso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"¿Quieres permitir el acceso a \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" en \"<xliff:g id="ROOT">%2$s</xliff:g>\"?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"De este modo, la aplicación \"<xliff:g id="APPNAME">%1$s</xliff:g>\" podrá acceder a todos los archivos almacenados en esta ubicación y al contenido que se almacene en ella en el futuro."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Buscar este teléfono"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Buscar en este teléfono"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Eliminar el historial de búsqueda de <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

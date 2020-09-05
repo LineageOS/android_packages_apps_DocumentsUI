@@ -16,18 +16,18 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="files_label" msgid="771781190045103748">"ಫೈಲ್‌ಗಳು"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ಡೌನ್‌ಲೋಡ್‌ಗಳು"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
-    <string name="title_open" msgid="3165686459158020921">"ಇದರ ಮೂಲಕ ತೆರೆಯಿರಿ"</string>
+    <string name="title_open" msgid="3165686459158020921">"ಇಲ್ಲಿಂದ ತೆರೆಯಿರಿ"</string>
     <string name="title_save" msgid="4384490653102710025">"ಇವುಗಳಲ್ಲಿ ಉಳಿಸಿ"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"ಹೊಸ ಫೋಲ್ಡರ್"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ಗ್ರಿಡ್ ವೀಕ್ಷಣೆ"</string>
     <string name="menu_list" msgid="6714267452146410402">"ಪಟ್ಟಿ ವೀಕ್ಷಣೆ"</string>
-    <string name="menu_search" msgid="1876699106790719849">"ಹುಡುಕಿ"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Search"</string>
     <string name="menu_settings" msgid="6520844520117939047">"ಸಂಗ್ರಹಣೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು"</string>
     <string name="menu_open" msgid="9092138100049759315">"ತೆರೆ"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"ಇದರ ಮೂಲಕ ತೆರೆಯಿರಿ"</string>
@@ -37,9 +37,9 @@
     <string name="menu_delete" msgid="1022254131543256626">"ಅಳಿಸಿ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="menu_select" msgid="1366061076507142387">"ಆಯ್ಕೆಮಾಡಿ"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"ಇವುಗಳನ್ನು ವಿಂಗಡಿಸಿ..."</string>
+    <string name="menu_sort" msgid="3362419226163725275">"ಹೀಗೆ ವಿಂಗಡಿಸಿ..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ಇದಕ್ಕೆ ನಕಲಿಸಿ…"</string>
-    <string name="menu_move" msgid="2310760789561129882">"ಇದಕ್ಕೆ ಸರಿಸು…"</string>
+    <string name="menu_move" msgid="2310760789561129882">"ಇದಕ್ಕೆ ಸರಿಸಿ…"</string>
     <string name="menu_compress" msgid="37539111904724188">"ಕುಗ್ಗಿಸಿ"</string>
     <string name="menu_extract" msgid="8171946945982532262">"ಇದಕ್ಕೆ ಬೇರ್ಪಡಿಸಲಾಗಿದೆ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ಮರುಹೆಸರಿಸು"</string>
@@ -47,13 +47,13 @@
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ಹೊಸ ವಿಂಡೋ"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ಕತ್ತರಿಸು"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"ನಕಲಿಸು"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"ನಕಲಿಸಿ"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ಅಂಟಿಸು"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ಫೋಲ್ಡರ್‌ಗೆ ನಕಲಿಸಿ"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"ಆಂತರಿಕ ಸಂಗ್ರಹಣೆ ತೋರಿಸು"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"ಆಂತರಿಕ ಸಂಗ್ರಹಣೆಯನ್ನು ಮರೆಮಾಡಿ"</string>
     <string name="button_select" msgid="240863497069321364">"ಆಯ್ಕೆಮಾಡಿ"</string>
-    <string name="button_copy" msgid="8219059853840996027">"ನಕಲಿಸು"</string>
+    <string name="button_copy" msgid="8219059853840996027">"ನಕಲಿಸಿ"</string>
     <string name="button_compress" msgid="8951561310857223966">"ಕುಗ್ಗಿಸಿ"</string>
     <string name="button_extract" msgid="1038674453689912247">"ಬೇರ್ಪಡಿಸಿ"</string>
     <string name="button_move" msgid="8596460499325291272">"ಸರಿಸು"</string>
@@ -93,7 +93,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"ಸಾಧನಗಳು"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"ಇನ್ನಷ್ಟು ಅಪ್ಲಿಕೇಶನ್‌ಗಳು"</string>
     <string name="empty" msgid="5300254272613103004">"ಯಾವುದೇ ಐಟಂಗಳಿಲ್ಲ"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s ರಲ್ಲಿ ಹೊಂದಾಣಿಕೆಗಳಿಲ್ಲ"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s ನಲ್ಲಿ ಹೊಂದಾಣಿಕೆಗಳಿಲ್ಲ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ಫೈಲ್ ತೆರೆಯಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"ಆರ್ಕೈವ್‌ಗಳಲ್ಲಿ ಫೈಲ್‌ಗಳನ್ನು ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ಕೆಲವು ಡಾಕ್ಯುಮೆಂಟ್‌ಗಳನ್ನು ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"</string>
@@ -243,8 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"ಇತರ ಆ್ಯಪ್‌ಗಳಲ್ಲಿರುವ ಫೈಲ್‌ಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"ಅನಾಮಧೇಯ"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" ಗೆ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸಿ"</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" ನಲ್ಲಿರುವ \"<xliff:g id="DIRECTORY">%1$s</xliff:g> ಗೆ ಪ್ರವೇಶವನ್ನು ಅನುಮತಿಸುವುದೇ?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"ಇದು ಈ ಸ್ಥಾನದಲ್ಲಿ ಪ್ರಸ್ತುತವಾಗಿ ಸಂಗ್ರಹವಾಗಿರುವ ಎಲ್ಲಾ ಫೈಲ್‌ಗಳಿಗೆ ಮತ್ತು ಭವಿಷ್ಯದಲ್ಲಿ ಸಂಗ್ರಹವಾಗುವ ಎಲ್ಲಾ ವಿಷಯಕ್ಕೆ \"<xliff:g id="APPNAME">%1$s</xliff:g>\" ಪೂರ್ಣ ಪ್ರವೇಶ ನೀಡುತ್ತದೆ."</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ಈ ಫೋನ್ ಹುಡುಕಿ"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"ಈ ಫೋನ್‍ನಲ್ಲಿ ಹುಡುಕಿ"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"ಹುಡುಕಾಟ ಇತಿಹಾಸವನ್ನು ಅಳಿಸಿ <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

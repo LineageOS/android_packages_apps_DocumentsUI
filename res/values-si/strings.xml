@@ -243,7 +243,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"වෙනත් යෙදුම්වල ගොනු බ්‍රවුස් කරන්න"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"නිර්නාමික"</string>
     <string name="open_tree_button" msgid="19992834788135845">"\"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" වෙත ප්‍රවේශයට ඉඩ දෙන්න"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" මත \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" වෙත ප්‍රවේශයට ඉඩ දෙන්නේද?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"\"<xliff:g id="ROOT">%2$s</xliff:g>\" තුළ \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" වෙත ප්‍රවේශයට ඉඩ දෙන්නේද?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"එය දැනට මෙම ස්ථානයේ ගබඩා කර ඇති සියලුම ගොනු, සහ මෙහි අනාගතය ගොනු කෙරෙන ඕනෑම අන්තර්ගතයක් වෙත \"<xliff:g id="APPNAME">%1$s</xliff:g>\" හට සම්පූර්ණ ප්‍රවේශයට ඉඩ දෙයි."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"මෙම දුරකථනයේ සොයන්න"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"සෙවීම් ඉතිහාසය මකන්න <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

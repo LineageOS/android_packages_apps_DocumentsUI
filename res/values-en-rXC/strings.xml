@@ -222,14 +222,19 @@
       <item quantity="other">‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‏‎‏‎‎‎‏‏‎‏‏‎‎‏‏‎‏‎‎‏‎‎‎‎‎‎‏‏‏‏‏‎‎‎‏‎‎‎‏‎‎‎‏‎‏‎‏‏‎‏‎‎‎‎‏‎‎‎‏‎‎‏‎‎‏‎‎‏‏‎<xliff:g id="COUNT_1">%1$d</xliff:g>‎‏‎‎‏‏‏‎ selected‎‏‎‎‏‎</item>
       <item quantity="one">‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‏‎‏‎‎‎‏‏‎‏‏‎‎‏‏‎‏‎‎‏‎‎‎‎‎‎‏‏‏‏‏‎‎‎‏‎‎‎‏‎‎‎‏‎‏‎‏‏‎‏‎‎‎‎‏‎‎‎‏‎‎‏‎‎‏‎‎‏‏‎<xliff:g id="COUNT_0">%1$d</xliff:g>‎‏‎‎‏‏‏‎ selected‎‏‎‎‏‎</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‏‏‏‎‎‏‎‏‏‏‏‏‎‏‏‏‎‏‎‏‎‎‎‎‏‏‏‎‏‎‎‎‏‏‏‎‎‏‎‎‏‎‎‏‎‎‏‏‎‎‏‏‏‏‏‎‏‏‏‏‎‏‎Recent files on phone‎‏‎‎‏‎"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‏‏‏‏‏‎‎‏‎‎‎‏‏‏‎‎‏‏‏‏‎‏‎‎‎‏‎‏‎‎‎‏‎‏‏‏‎‎‏‎‎‏‎‎‎‎‏‎‏‏‎‎‎‏‏‏‏‎‏‏‎‏‎Files on phone‎‏‎‎‏‎"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‎‏‎‎‏‏‎‏‎‎‎‎‎‎‎‏‏‎‏‎‏‏‎‏‏‏‏‏‏‎‏‏‏‎‎‎‏‏‎‏‎‎‎‏‎‏‎‎‏‏‏‏‏‏‏‎‏‏‏‎‏‎‎‎‎‏‎‎‏‏‎<xliff:g id="LABEL">%1$s</xliff:g>‎‏‎‎‏‏‏‎ on phone‎‏‎‎‏‎"</string>
+    <!-- no translation found for root_info_header_recent (8754386597210017725) -->
+    <skip />
+    <!-- no translation found for root_info_header_global_search (9099308729787003373) -->
+    <skip />
+    <!-- no translation found for root_info_header_media (2774453755906260852) -->
+    <skip />
     <string name="root_info_header_storage" msgid="2989014130584927442">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‎‏‎‏‎‎‏‎‏‏‏‏‎‏‏‎‎‎‏‏‏‎‎‏‎‎‎‎‎‏‏‏‏‏‎‏‎‏‎‎‎‏‎‎‎‏‏‎‎‏‏‏‏‎‎‏‏‎‏‎‎‏‎‎Files on ‎‏‎‎‏‏‎<xliff:g id="DEVICE">%1$s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‎‏‏‏‏‎‏‎‏‏‏‏‏‏‏‎‎‎‎‎‏‎‎‎‎‎‏‎‏‏‏‎‏‎‏‏‏‏‎‏‎‎‎‎‎‎‎‏‏‎‎‏‎‎‏‏‎‎‏‎‏‎‏‎Files from ‎‏‎‎‏‏‎<xliff:g id="LABEL">%1$s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‎‏‎‏‏‎‎‏‎‏‏‏‎‏‏‎‏‏‏‏‎‎‎‏‎‎‏‏‏‏‎‏‎‏‎‏‏‏‎‎‎‏‎‏‏‎‎‏‏‏‏‎‏‎‏‎‏‎‎‎‏‏‎‎Files from ‎‏‎‎‏‏‎<xliff:g id="LABEL">%1$s</xliff:g>‎‏‎‎‏‏‏‎ / ‎‏‎‎‏‏‎<xliff:g id="SUMMARY">%2$s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‎‏‎‏‏‎‏‏‎‎‎‏‎‎‏‏‎‎‎‎‏‎‎‎‎‏‏‏‏‎‏‎‎‏‏‏‎‏‏‎‎‎‎‏‏‎‏‏‎‏‎‏‏‎‏‎‏‏‏‎‎‏‎Recent images on phone‎‏‎‎‏‎"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‏‎‏‏‏‎‎‏‎‎‎‏‎‎‎‎‏‏‎‏‎‎‎‏‏‏‎‏‏‎‎‏‏‎‎‎‎‎‎‎‎‎‏‎‏‏‎‏‎‎‎‎‎‎‏‎‎‏‏‎‎‎‎Images on phone‎‏‎‎‏‎"</string>
+    <!-- no translation found for root_info_header_image_recent (6252335619444758201) -->
+    <skip />
+    <!-- no translation found for root_info_header_image_global_search (7945533325610533016) -->
+    <skip />
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‎‎‎‏‏‎‏‎‎‏‎‏‏‏‏‎‏‏‏‎‏‏‏‏‏‎‎‎‏‎‏‎‏‎‏‎‏‏‏‏‏‏‎‎‏‎‏‎‏‎‏‏‏‎‏‎‎‏‏‎‏‎‎Images on ‎‏‎‎‏‏‎<xliff:g id="DEVICE">%1$s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‎‎‎‎‏‏‎‏‏‎‏‎‏‏‎‏‏‏‏‏‎‏‎‎‏‎‎‎‏‎‏‎‏‎‏‎‎‎‎‎‎‏‎‏‎‏‎‎‎‏‎‎‏‎‏‏‏‎‏‏‏‏‎Images from ‎‏‎‎‏‏‎<xliff:g id="LABEL">%1$s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‎‏‏‎‎‎‏‏‏‎‎‎‏‎‏‎‎‏‎‎‏‎‏‎‏‏‏‏‎‏‎‎‎‏‎‏‏‏‏‏‏‏‏‏‎‏‎‏‏‎‏‎‏‎‏‏‎‎‏‎‏‎‎Images from ‎‏‎‎‏‏‎<xliff:g id="LABEL">%1$s</xliff:g>‎‏‎‎‏‏‏‎ / ‎‏‎‎‏‏‎<xliff:g id="SUMMARY">%2$s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
@@ -242,8 +247,12 @@
     <string name="preview_file" msgid="4056622696305432343">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‎‏‏‏‎‎‎‎‏‎‎‏‏‎‎‎‎‎‎‎‏‎‎‏‏‎‏‏‎‎‏‎‏‏‏‎‎‎‏‎‎‎‏‎‎‏‎‏‎‎‏‎‏‏‏‎‎‎‏‎‏‏‏‎Preview the file ‎‏‎‎‏‏‎<xliff:g id="FILENAME">%1$s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‎‏‎‏‏‏‎‎‏‎‏‏‎‏‏‏‏‎‎‏‏‎‏‏‏‏‏‏‎‎‎‏‎‏‏‎‎‏‎‏‏‏‏‎‎‎‏‎‎‏‏‏‏‏‎‏‎‏‏‏‏‎‏‎Browse files in other apps‎‏‎‎‏‎"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‏‎‏‎‎‏‏‏‏‎‏‏‎‏‏‏‏‏‎‏‎‏‏‎‏‎‏‎‏‎‏‏‏‎‏‏‏‎‎‎‏‎‎‏‏‎‏‏‎‏‎‎‏‎‏‎‎‎‎‏‏‎‎Anonymous‎‏‎‎‏‎"</string>
-    <string name="open_tree_button" msgid="19992834788135845">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‎‏‏‏‏‎‎‎‏‏‏‎‎‎‎‎‏‏‏‎‏‏‎‎‎‎‎‏‎‎‏‎‏‏‏‏‎‎‏‏‎‎‏‏‎‎‏‎‎‏‏‏‎‏‎‎‏‎‏‎Allow access to \"‎‏‎‎‏‏‎<xliff:g id="DIRECTORY">%1$s</xliff:g>‎‏‎‎‏‏‏‎\"‎‏‎‎‏‎"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‏‎‎‎‎‎‏‏‎‏‏‎‎‎‎‎‏‏‎‎‏‎‏‎‎‏‎‏‎‏‏‏‎‏‏‏‏‏‏‏‎‏‎‏‏‎‎‎‎‏‏‎‏‎‏‎‎‏‎‏‏‎‎Allow access to \"‎‏‎‎‏‏‎<xliff:g id="DIRECTORY">%1$s</xliff:g>‎‏‎‎‏‏‏‎\" on \"‎‏‎‎‏‏‎<xliff:g id="ROOT">%2$s</xliff:g>‎‏‎‎‏‏‏‎\"?‎‏‎‎‏‎"</string>
-    <string name="open_tree_dialog_message" msgid="8545093618524340168">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‏‏‏‏‎‏‏‎‏‎‎‏‎‏‏‎‎‏‎‎‎‏‎‏‎‏‎‏‏‏‏‏‎‏‎‎‏‎‎‎‏‎‎‏‏‎‎‏‏‎‏‏‏‏‏‏‏‏‎‎‏‎‎‎‎It will allow \"‎‏‎‎‏‏‎<xliff:g id="APPNAME">%1$s</xliff:g>‎‏‎‎‏‏‏‎\" to have full access to all files currently stored under this location, and any future content stored here.‎‏‎‎‏‎"</string>
+    <!-- no translation found for open_tree_button (19992834788135845) -->
+    <skip />
+    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
+    <skip />
+    <!-- no translation found for open_tree_dialog_message (8545093618524340168) -->
+    <skip />
     <string name="search_bar_hint" msgid="4517366509897977321">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‏‎‏‏‏‏‏‎‏‎‏‏‎‎‎‎‏‏‏‎‏‎‎‎‏‏‏‎‏‎‎‎‎‎‎‏‏‏‏‎‏‎‏‏‎‏‏‏‎‎‎‎‏‏‎‏‏‏‏‎‏‎‎‏‎Search this phone‎‏‎‎‏‎"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"‎‏‎‎‎‎‎‏‎‏‏‏‎‎‎‎‎‎‏‎‎‏‎‎‎‎‏‏‏‏‏‎‏‏‏‏‏‎‏‎‎‎‏‏‏‏‎‎‏‎‎‎‎‎‏‏‏‏‏‏‏‏‏‎‏‏‏‏‏‏‎‏‏‎‏‎‏‏‎‏‎‏‏‎‎‎‏‎‏‏‎‎‏‏‎Delete search history ‎‏‎‎‏‏‎<xliff:g id="TEXT">%1$s</xliff:g>‎‏‎‎‏‏‏‎‎‏‎‎‏‎"</string>
 </resources>

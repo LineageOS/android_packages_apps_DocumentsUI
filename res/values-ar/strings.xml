@@ -17,7 +17,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="files_label" msgid="771781190045103748">"الملفات"</string>
-    <string name="downloads_label" msgid="5462789470049501103">"التنزيلات"</string>
+    <string name="downloads_label" msgid="5462789470049501103">"عمليات التنزيل"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
     <!-- no translation found for launcher_label (799410258349837668) -->
@@ -35,9 +35,9 @@
     <string name="menu_save" msgid="5195367497138965168">"حفظ"</string>
     <string name="menu_share" msgid="4307140947108068356">"مشاركة"</string>
     <string name="menu_delete" msgid="1022254131543256626">"حذف"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"تحديد الكل"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"اختيار الكل"</string>
     <string name="menu_select" msgid="1366061076507142387">"اختيار"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"ترتيب حسب..."</string>
+    <string name="menu_sort" msgid="3362419226163725275">"الترتيب حسب..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"نسخ إلى…"</string>
     <string name="menu_move" msgid="2310760789561129882">"نقل إلى..."</string>
     <string name="menu_compress" msgid="37539111904724188">"ضغط"</string>
@@ -70,13 +70,13 @@
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"اسم الملف (من الألف للياء)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"النوع (من الألف إلى الياء)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"الحجم (الأصغر أولاً)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"تواريخ معدلة (الأقدم أولاً)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"تاريخ التعديل (الأقدم أولاً)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"اسم الملف (من الياء للألف)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"النوع (من الياء إلى الألف)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"الحجم (الأكبر أولاً)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"تواريخ معدلة (الأحدث أولاً)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"ترتيب بحسب"</string>
-    <string name="sort_dimension_button_title" msgid="1898606989130896126">"الترتيب بحسب <xliff:g id="LABEL">%s</xliff:g>"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"تاريخ التعديل (الأحدث أولاً)"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"الترتيب حسب"</string>
+    <string name="sort_dimension_button_title" msgid="1898606989130896126">"الترتيب حسب <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"عدد العناصر"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"تصاعدي"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"تنازلي"</string>
@@ -86,14 +86,14 @@
     <string name="save_error" msgid="8631128801982095782">"تعذّر حفظ المستند"</string>
     <string name="create_error" msgid="3092144450044861994">"تعذّر إنشاء المجلد"</string>
     <string name="query_error" msgid="6625421453613879336">"يتعذر تحميل المحتوى في الوقت الحالي"</string>
-    <string name="root_recent" msgid="1080156975424341623">"الأخيرة"</string>
+    <string name="root_recent" msgid="1080156975424341623">"المحتوى المستخدَم أو المعدَّل مؤخرًا"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> خالية"</string>
     <string name="root_type_service" msgid="6521366147466512289">"خدمات التخزين"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"الاختصارات"</string>
     <string name="root_type_device" msgid="1713604128005476585">"الأجهزة"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"المزيد من التطبيقات"</string>
     <string name="empty" msgid="5300254272613103004">"ليس هناك أي عناصر."</string>
-    <string name="no_results" msgid="2371026325236359209">"‏لا نتائج مطابقة في %1$s."</string>
+    <string name="no_results" msgid="2371026325236359209">"‏لا نتائج مطابقة في \"%1$s\"."</string>
     <string name="toast_no_application" msgid="7555319548595113121">"يتعذر فتح الملف"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"يتعذر فتح الملفات في الأرشيف"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"تعذر حذف بعض المستندات"</string>
@@ -252,12 +252,12 @@
     <string name="allow" msgid="1275746941353040309">"السماح"</string>
     <string name="deny" msgid="5127201668078153379">"رفض"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
-      <item quantity="zero">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
-      <item quantity="two">تم تحديد عنصرين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
-      <item quantity="few">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عناصر</item>
-      <item quantity="many">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عنصرًا</item>
-      <item quantity="other">تم تحديد <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
-      <item quantity="one">تم تحديد <xliff:g id="COUNT_0">%1$d</xliff:g> عنصر</item>
+      <item quantity="zero">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
+      <item quantity="two">تم اختيار عنصرين (<xliff:g id="COUNT_1">%1$d</xliff:g>)</item>
+      <item quantity="few">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g> عناصر</item>
+      <item quantity="many">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g> عنصرًا</item>
+      <item quantity="other">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
+      <item quantity="one">تم اختيار عنصر واحد (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
     </plurals>
     <plurals name="elements_dragged" formatted="false" msgid="5932571296037626279">
       <item quantity="zero"><xliff:g id="COUNT_1">%1$d</xliff:g> عنصر</item>
@@ -297,7 +297,7 @@
     <string name="archive_loading_failed" msgid="7243436722828766996">"يتعذر فتح الأرشيف وتصفحه. ربما يكون الملف تالفًا أو بتنسيق غير متوافق."</string>
     <string name="name_conflict" msgid="28407269328862986">"هناك ملف بالاسم نفسه‬."</string>
     <string name="authentication_required" msgid="8030880723643436099">"لعرض هذا الدليل، يُرجى تسجيل الدخول إلى <xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="cant_display_content" msgid="8633226333229417237">"يتعذَّر عرض المحتويات"</string>
+    <string name="cant_display_content" msgid="8633226333229417237">"يتعذَّر عرض المحتوى"</string>
     <string name="sign_in" msgid="6253762676723505592">"تسجيل الدخول"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"أرشيف<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"هل تريد استبدال <xliff:g id="NAME">%1$s</xliff:g>؟"</string>
@@ -310,7 +310,7 @@
       <item quantity="other">تم اختيار <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">تم اختيار <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"أحدث الملفات على الهاتف"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"آخر الملفات المُستخدمة على الهاتف"</string>
     <string name="root_info_header_global_search" msgid="9099308729787003373">"الملفات على الهاتف"</string>
     <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> على الهاتف"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ملفات على <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
@@ -331,8 +331,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"تصفّح الملفات في تطبيقات أخرى"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"مجهول"</string>
     <string name="open_tree_button" msgid="19992834788135845">"السماح بالوصول إلى \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\""</string>
-    <!-- no translation found for open_tree_dialog_title (8429465292253532274) -->
-    <skip />
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"هل تريد السماح بالوصول إلى \"<xliff:g id="DIRECTORY">%1$s</xliff:g>\" على \"<xliff:g id="ROOT">%2$s</xliff:g>\"؟"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"يؤدي ذلك إلى السماح لتطبيق \"<xliff:g id="APPNAME">%1$s</xliff:g>\" بالحصول على إمكانية الدخول الكاملة إلى جميع الملفات المخزَّنة حاليًا ضِمنَ هذا الموقع وإلى أيّ محتوى يُخزَّن هنا في المستقبل."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"البحث في هذا الهاتف"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"حذف سجلّ البحث <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>

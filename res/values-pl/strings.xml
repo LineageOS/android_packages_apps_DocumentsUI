@@ -57,7 +57,7 @@
     <string name="button_compress" msgid="8951561310857223966">"Skompresuj"</string>
     <string name="button_extract" msgid="1038674453689912247">"Rozpakuj"</string>
     <string name="button_move" msgid="8596460499325291272">"Przenieś"</string>
-    <string name="button_dismiss" msgid="7235249361023803349">"Odrzuć"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Zamknij"</string>
     <string name="button_retry" msgid="4011461781916631389">"Spróbuj jeszcze raz"</string>
     <string name="button_clear" msgid="5412304437764369441">"Zrezygnuj"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Pokaż w usłudze"</string>
@@ -69,12 +69,12 @@
     <string name="sort_dimension_date" msgid="4231005651895254033">"Zmieniono"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Nazwa pliku (A–Z)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Typ (A–Z)"</string>
-    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Rozmiar (malejąco)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Zmodyfikowane (od najstarszych)"</string>
+    <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Rozmiar (rosnąco)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Czas modyfikacji (od najstarszych)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Nazwa pliku (Z–A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Typ (Z–A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Rozmiar (malejąco)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Zmodyfikowane (od najnowszych)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Czas modyfikacji (od najnowszych)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortuj według"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Posortowano wg: <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Liczba elementów"</string>
@@ -87,7 +87,7 @@
     <string name="create_error" msgid="3092144450044861994">"Nie udało się utworzyć folderu"</string>
     <string name="query_error" msgid="6625421453613879336">"Teraz nie można załadować zawartości"</string>
     <string name="root_recent" msgid="1080156975424341623">"Najnowsze"</string>
-    <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> wolne"</string>
+    <string name="root_available_bytes" msgid="8269870862691408864">"Wolne <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Usługi pamięci masowej"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"Skróty"</string>
     <string name="root_type_device" msgid="1713604128005476585">"Urządzenia"</string>
@@ -251,7 +251,7 @@
       <item quantity="other">Usunąć <xliff:g id="COUNT_1">%1$d</xliff:g> elementu?</item>
       <item quantity="one">Usunąć <xliff:g id="COUNT_0">%1$d</xliff:g> element?</item>
     </plurals>
-    <string name="images_shortcut_label" msgid="2545168016070493574">"Grafika"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"Obrazy"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Nie można otworzyć i przeglądać archiwum. Plik jest uszkodzony lub ma nieodpowiedni format."</string>
     <string name="name_conflict" msgid="28407269328862986">"Plik o tej nazwie już istnieje."</string>
     <string name="authentication_required" msgid="8030880723643436099">"Aby wyświetlić zawartość tego katalogu, zaloguj się w usłudze <xliff:g id="NAME">%1$s</xliff:g>"</string>
@@ -279,7 +279,7 @@
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"Zdjęcia z: <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="chip_title_images" msgid="7838299046109841015">"Obrazy"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"Dźwięk"</string>
-    <string name="chip_title_videos" msgid="7011260091979776447">"Wideo"</string>
+    <string name="chip_title_videos" msgid="7011260091979776447">"Filmy"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"Dokumenty"</string>
     <string name="input_hint_new_folder" msgid="479672411219725677">"Nazwa folderu"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Nowa nazwa"</string>
@@ -287,7 +287,8 @@
     <string name="apps_row_title" msgid="3340490016663092925">"Przeglądaj pliki w innych aplikacjach"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimowa"</string>
     <string name="open_tree_button" msgid="19992834788135845">"Zezwalaj na dostęp do katalogu „<xliff:g id="DIRECTORY">%1$s</xliff:g>”"</string>
-    <string name="open_tree_dialog_title" msgid="6978383241897450134">"Zezwolić na dostęp do katalogu „<xliff:g id="DIRECTORY">%1$s</xliff:g>” na urządzeniu „<xliff:g id="ROOT">%2$s</xliff:g>”?"</string>
+    <string name="open_tree_dialog_title" msgid="8429465292253532274">"Zezwolić na dostęp do katalogu „<xliff:g id="DIRECTORY">%1$s</xliff:g>” w katalogu „<xliff:g id="ROOT">%2$s</xliff:g>”?"</string>
     <string name="open_tree_dialog_message" msgid="8545093618524340168">"Aplikacja „<xliff:g id="APPNAME">%1$s</xliff:g>” uzyska pełny dostęp do plików zapisanych obecnie w tej lokalizacji i do wszystkich treści, które pojawią się tu w przyszłości."</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Szukaj na telefonie"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Usuń historię wyszukiwania <xliff:g id="TEXT">%1$s</xliff:g>"</string>
 </resources>
