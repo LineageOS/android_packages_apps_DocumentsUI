@@ -24,6 +24,7 @@ import android.provider.DocumentsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.widget.HorizontalScrollView;
 
 import androidx.annotation.NonNull;
@@ -468,6 +469,10 @@ public class SearchChipViewManager {
             if (parent instanceof HorizontalScrollView) {
                 final int scrollToX = isRtl ? parent.getWidth() : 0;
                 ((HorizontalScrollView) parent).smoothScrollTo(scrollToX, 0);
+                if (mChipGroup.getChildCount() > 0) {
+                    mChipGroup.getChildAt(0)
+                            .sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+                }
             }
         }
     }
