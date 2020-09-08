@@ -322,4 +322,6 @@
     <string name="work_tab" msgid="7265359366883747413">"Pracovní"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Pracovní"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Není možné přesouvat soubory z jiné aplikace."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"Zobrazuje se mřížka s položkami."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"Zobrazuje se seznam položek."</string>
 </resources>

@@ -27,7 +27,7 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"नवीन फोल्डर"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ग्रिड दृश्य"</string>
     <string name="menu_list" msgid="6714267452146410402">"सूची"</string>
-    <string name="menu_search" msgid="1876699106790719849">"शोधा"</string>
+    <string name="menu_search" msgid="1876699106790719849">"Search"</string>
     <string name="menu_settings" msgid="6520844520117939047">"स्टोरेज सेटिंग्ज"</string>
     <string name="menu_open" msgid="9092138100049759315">"उघडा"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"यासह उघडा"</string>
@@ -278,4 +278,6 @@
     <string name="work_tab" msgid="7265359366883747413">"ऑफिस"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ऑफिस"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"तुम्ही दुसऱ्या ॲपमधील फाइल हलवू शकत नाही."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"ग्रिड मोडमध्ये दाखवत आहे."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"सूची मोडमध्ये दाखवत आहे."</string>
 </resources>
