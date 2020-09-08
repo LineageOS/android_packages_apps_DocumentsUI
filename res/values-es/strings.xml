@@ -92,7 +92,7 @@
     <string name="query_error" msgid="6625421453613879336">"No se puede cargar contenido en este momento"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"El perfil de trabajo está en pausa"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Activar"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"No puedes usar archivos de trabajo"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"No se pueden seleccionar archivos de trabajo"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Tu administrador de TI no te permite acceder a archivos de trabajo desde una aplicación personal"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"No se pueden seleccionar archivos personales"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Tu administrador de TI no te permite acceder a archivos personales desde una aplicación de trabajo"</string>
@@ -266,10 +266,10 @@
     <string name="preview_work_file" msgid="4495643735563487273">"Previsualizar el archivo de trabajo <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Ver archivos en otras aplicaciones"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
-    <string name="open_tree_button" msgid="6402871398424497776">"Utilizar esta carpeta"</string>
+    <string name="open_tree_button" msgid="6402871398424497776">"Usar esta carpeta"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"¿Permitir que <xliff:g id="APPNAME">%1$s</xliff:g> acceda a los archivos que hay en <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Esto permitirá que <xliff:g id="APPNAME">%1$s</xliff:g> acceda al contenido almacenado en <xliff:g id="DIRECTORY">%2$s</xliff:g> de ahora en adelante."</string>
-    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Esta carpeta no se puede usar"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"No se puede usar esta carpeta"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Para proteger tu privacidad, elige otra carpeta"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crear carpeta nueva"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Buscar en este teléfono"</string>

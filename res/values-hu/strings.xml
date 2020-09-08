@@ -96,9 +96,9 @@
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Rendszergazdája nem engedélyezi, hogy munkafájlokhoz férjen hozzá személyes alkalmazásból"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nem választhatók ki személyes fájlok"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Rendszergazdája nem engedélyezi, hogy személyes fájlokhoz férjen hozzá munkahelyi alkalmazásból"</string>
-    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nem lehetséges a mentés a munkaprofilba"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nem lehet menteni a munkaprofilba"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Rendszergazdája nem engedélyezi, hogy személyes fájlokat mentsen munkaprofiljába"</string>
-    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nem lehetséges a mentés a személyes profilba"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nem lehet menteni a személyes profilba"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Rendszergazdája nem engedélyezi, hogy munkafájlokat mentsen személyes profiljába"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ez a művelet nem engedélyezett"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"További információért forduljon rendszergazdájához"</string>
