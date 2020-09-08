@@ -98,7 +98,7 @@
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Pentadbir IT anda tidak membenarkan anda mengakses fail peribadi daripada apl kerja"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Tidak dapat menyimpan pada profil kerja"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Pentadbir IT anda tidak membenarkan anda menyimpan fail peribadi pada profil kerja anda"</string>
-    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Tidak dapat menyimpan ke profil peribadi"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Tidak dapat menyimpan pada profil peribadi"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Pentadbir IT anda tidak membenarkan anda menyimpan fail kerja pada profil peribadi anda"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Tindakan ini tidak dibenarkan"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Untuk mengetahui lebih lanjut, hubungi pentadbir IT anda"</string>
@@ -278,4 +278,8 @@
     <string name="work_tab" msgid="7265359366883747413">"Kerja"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Kerja"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Anda tidak boleh mengalihkan fail daripada apl lain."</string>
+    <!-- no translation found for grid_mode_showing (2803166871485028508) -->
+    <skip />
+    <!-- no translation found for list_mode_showing (1225413902295895166) -->
+    <skip />
 </resources>

@@ -286,7 +286,7 @@
     </plurals>
     <string name="root_info_header_recent" msgid="5654901877295332262">"Недавние файлы"</string>
     <string name="root_info_header_global_search" msgid="4904078222280496152">"Файлы"</string>
-    <string name="root_info_header_downloads" msgid="8848161246921154115">"Файлы в папке \"Загрузки\""</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"Файлы в папке \"Скачанные\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Файлы на устройстве <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Файлы в папке \"<xliff:g id="FOLDER">%1$s</xliff:g>\""</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Файлы из сервиса \"<xliff:g id="LABEL">%1$s</xliff:g>\""</string>
@@ -322,4 +322,8 @@
     <string name="work_tab" msgid="7265359366883747413">"Рабочее"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Работа"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Перемещать файлы из другого приложения нельзя."</string>
+    <!-- no translation found for grid_mode_showing (2803166871485028508) -->
+    <skip />
+    <!-- no translation found for list_mode_showing (1225413902295895166) -->
+    <skip />
 </resources>
