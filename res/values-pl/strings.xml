@@ -92,12 +92,12 @@
     <string name="query_error" msgid="6625421453613879336">"Teraz nie można załadować zawartości"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Wstrzymano profil służbowy"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Włącz"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nie można wybrać plików związanych z pracą"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administrator IT nie pozwala na dostęp do plików związanych z pracą w aplikacjach osobistych"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nie można wybrać plików służbowych"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administrator IT nie pozwala na dostęp do plików służbowych w aplikacjach osobistych"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nie można wybrać plików osobistych"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Administrator IT nie pozwala na dostęp do plików osobistych w aplikacjach do pracy"</string>
-    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nie można zapisać w profilu do pracy"</string>
-    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Administrator IT nie pozwala na zapisywanie plików osobistych w profilu do pracy"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Administrator IT nie pozwala na dostęp do plików osobistych w aplikacjach służbowych"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nie można zapisać w profilu służbowym"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Administrator IT nie pozwala na zapisywanie plików osobistych w profilu służbowym"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nie można zapisać w profilu osobistym"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Administrator IT nie pozwala na zapisywanie plików związanych z pracą w profilu osobistym"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ta czynność jest niedozwolona"</string>
