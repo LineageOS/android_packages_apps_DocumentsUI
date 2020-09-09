@@ -98,8 +98,8 @@
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT-administratören tillåter inte att du öppnar privata filer i en jobbapp"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Det går inte att spara i jobbprofilen"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT-administratören tillåter inte att du sparar privata filer i jobbprofilen"</string>
-    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Det går inte att spara i den personliga profilen"</string>
-    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT-administratören tillåter inte att du sparar jobbfiler i den personliga profilen"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Det går inte att spara i den privata profilen"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT-administratören tillåter inte att du sparar jobbfiler i den privata profilen"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Förbjuden åtgärd"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Kontakta IT-administratören om du vill veta mer"</string>
     <string name="root_recent" msgid="1080156975424341623">"Senaste"</string>

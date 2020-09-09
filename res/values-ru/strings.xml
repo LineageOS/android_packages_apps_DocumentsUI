@@ -286,7 +286,7 @@
     </plurals>
     <string name="root_info_header_recent" msgid="5654901877295332262">"Недавние файлы"</string>
     <string name="root_info_header_global_search" msgid="4904078222280496152">"Файлы"</string>
-    <string name="root_info_header_downloads" msgid="8848161246921154115">"Файлы в папке \"Загрузки\""</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"Файлы в папке \"Скачанные\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Файлы на устройстве <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Файлы в папке \"<xliff:g id="FOLDER">%1$s</xliff:g>\""</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Файлы из сервиса \"<xliff:g id="LABEL">%1$s</xliff:g>\""</string>

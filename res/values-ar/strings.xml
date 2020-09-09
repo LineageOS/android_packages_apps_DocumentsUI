@@ -92,9 +92,9 @@
     <string name="query_error" msgid="6625421453613879336">"يتعذر تحميل المحتوى في الوقت الحالي"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"تم إيقاف الملف الشخصي للعمل مؤقتًا"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"تفعيل"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"لا يمكن اختيار ملفات العمل."</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"لا يمكن اختيار ملفات العمل"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"لا يسمح لك مشرف تكنولوجيا المعلومات بالوصول إلى ملفات العمل من تطبيق شخصي."</string>
-    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"لا يمكن اختيار ملفات شخصية."</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"لا يمكن اختيار ملفات شخصية"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"لا يسمح لك مشرف تكنولوجيا المعلومات بالوصول إلى الملفات الشخصية من تطبيق عمل."</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"لا يمكن حفظ الملفات في الملف الشخصي للعمل"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"لا يسمح لك مشرف تكنولوجيا المعلومات بحفظ الملفات الشخصية في ملفك الشخصي للعمل."</string>
