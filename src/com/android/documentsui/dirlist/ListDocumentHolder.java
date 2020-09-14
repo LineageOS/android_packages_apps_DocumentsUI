@@ -22,6 +22,7 @@ import static com.android.documentsui.base.DocumentInfo.getCursorString;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,15 +42,14 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
 
+import java.util.ArrayList;
 import java.util.function.Function;
 
 final class ListDocumentHolder extends DocumentHolder {
 
     private final TextView mTitle;
     private final @Nullable LinearLayout mDetails;  // Container of date/size/summary
-    private final TextView mDate;
-    private final TextView mSize;
-    private final TextView mType;
+    private final TextView mMetadataView;
     private final ImageView mIconMime;
     private final ImageView mIconThumb;
     private final ImageView mIconCheck;
@@ -72,9 +72,7 @@ final class ListDocumentHolder extends DocumentHolder {
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
         mIconBriefcase = (ImageView) itemView.findViewById(R.id.icon_briefcase);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
-        mSize = (TextView) itemView.findViewById(R.id.size);
-        mDate = (TextView) itemView.findViewById(R.id.date);
-        mType = (TextView) itemView.findViewById(R.id.file_type);
+        mMetadataView = (TextView) itemView.findViewById(R.id.metadata);
         // Warning: mDetails view doesn't exists in layout-sw720dp-land layout
         mDetails = (LinearLayout) itemView.findViewById(R.id.line2);
         mPreviewIcon = itemView.findViewById(R.id.preview_icon);
@@ -214,22 +212,18 @@ final class ListDocumentHolder extends DocumentHolder {
             // Note, we don't show any details for any directory...ever.
             hasDetails = false;
         } else {
+            ArrayList<String> metadataList = new ArrayList<>();
             if (mDoc.lastModified > 0) {
                 hasDetails = true;
-                mDate.setText(Shared.formatTime(mContext, mDoc.lastModified));
-            } else {
-                mDate.setText(null);
+                metadataList.add(Shared.formatTime(mContext, mDoc.lastModified));
             }
-
             if (mDoc.size > -1) {
                 hasDetails = true;
-                mSize.setVisibility(View.VISIBLE);
-                mSize.setText(Formatter.formatFileSize(mContext, mDoc.size));
-            } else {
-                mSize.setVisibility(View.INVISIBLE);
+                metadataList.add(Formatter.formatFileSize(mContext, mDoc.size));
             }
 
-            mType.setText(mFileTypeLookup.lookup(mDoc.mimeType));
+            metadataList.add(mFileTypeLookup.lookup(mDoc.mimeType));
+            mMetadataView.setText(TextUtils.join(", ", metadataList));
         }
 
         // mDetails view doesn't exists in layout-sw720dp-land layout
