@@ -92,13 +92,13 @@
     <string name="query_error" msgid="6625421453613879336">"Učitavanje sadržaja trenutno nije moguće"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Poslovni profil je pauziran"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Uključi"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Izbor datoteka za posao nije uspeo"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ne možete da izaberete poslovne fajlove"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT administrator vam ne dozvoljava da pristupate datotekama za posao iz lične aplikacije"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Izbor ličnih datoteka nije uspeo"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"IT administrator vam ne dozvoljava da pristupate ličnim datotekama iz poslovne aplikacije"</string>
-    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Čuvanje na poslovnom profilu nije uspelo"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ne možete da sačuvate na poslovnom profilu"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"IT administrator vam ne dozvoljava da čuvate lične datoteke na poslovnom profilu"</string>
-    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Čuvanje na ličnom profilu nije uspelo"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Ne možete da sačuvate na ličnom profilu"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT administrator vam ne dozvoljava da čuvate datoteke za posao na ličnom profilu"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ova radnja nije dozvoljena"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Obratite se IT administratoru da biste saznali više"</string>
