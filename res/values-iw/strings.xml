@@ -322,4 +322,6 @@
     <string name="work_tab" msgid="7265359366883747413">"עבודה"</string>
     <string name="a11y_work" msgid="7504431382825242153">"עבודה"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"אי אפשר להעביר קבצים מאפליקציה אחרת."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"הצגה בתצוגת טבלה."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"הצגה בתצוגת רשימה."</string>
 </resources>
