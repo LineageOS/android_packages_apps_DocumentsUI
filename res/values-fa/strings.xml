@@ -278,4 +278,6 @@
     <string name="work_tab" msgid="7265359366883747413">"کاری"</string>
     <string name="a11y_work" msgid="7504431382825242153">"کاری"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"نمی‌توانید فایل‌ها را از برنامه دیگری انتقال دهید."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"نمایش در حالت جدولی."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"نمایش در حالت فهرست."</string>
 </resources>
