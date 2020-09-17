@@ -314,19 +314,19 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     }
 
     private boolean checkIfCursorStale(DirectoryResult result) {
-        if (mResult == null) {
+        if (result == null || result.cursor == null || result.cursor.isClosed()) {
             return true;
         }
         Cursor cursor = result.cursor;
-        cursor.moveToPosition(-1);
-        for (int pos = 0; pos < cursor.getCount(); ++pos) {
-            try {
+        try {
+            cursor.moveToPosition(-1);
+            for (int pos = 0; pos < cursor.getCount(); ++pos) {
                 if (!cursor.moveToNext()) {
                     return true;
                 }
-            } catch (Exception e) {
-                return true;
             }
+        } catch (Exception e) {
+            return true;
         }
         return false;
     }
