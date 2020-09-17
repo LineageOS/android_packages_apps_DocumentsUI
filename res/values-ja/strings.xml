@@ -278,4 +278,6 @@
     <string name="work_tab" msgid="7265359366883747413">"仕事用"</string>
     <string name="a11y_work" msgid="7504431382825242153">"仕事用"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"別のアプリからファイルを移動することはできません。"</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"グリッドモードで表示しています。"</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"リストモードで表示しています。"</string>
 </resources>

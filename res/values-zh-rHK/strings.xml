@@ -278,4 +278,6 @@
     <string name="work_tab" msgid="7265359366883747413">"工作"</string>
     <string name="a11y_work" msgid="7504431382825242153">"工作"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"您無法移動其他應用程式的檔案。"</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"用格狀模式顯示緊。"</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"用清單模式顯示緊。"</string>
 </resources>

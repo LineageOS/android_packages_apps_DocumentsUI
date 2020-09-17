@@ -278,4 +278,6 @@
     <string name="work_tab" msgid="7265359366883747413">"কৰ্মস্থান"</string>
     <string name="a11y_work" msgid="7504431382825242153">"কৰ্মস্থান"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"আপুনি অন্য এটা এপৰ পৰা ফাইল স্থানান্তৰ কৰিব নোৱাৰে।"</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"গ্ৰিড ম’ডত দেখুৱাই থকা হৈছে।"</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"সূচীযুক্ত ম’ডত দেখুৱাই থকা হৈছে।"</string>
 </resources>
