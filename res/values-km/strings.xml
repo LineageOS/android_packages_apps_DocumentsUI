@@ -278,8 +278,6 @@
     <string name="work_tab" msgid="7265359366883747413">"ការងារ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ការងារ"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"អ្នកមិនអាច​ផ្លាស់ទី​ឯកសារ​ពីកម្មវិធី​ផ្សេងទៀត​បានទេ។"</string>
-    <!-- no translation found for grid_mode_showing (2803166871485028508) -->
-    <skip />
-    <!-- no translation found for list_mode_showing (1225413902295895166) -->
-    <skip />
+    <string name="grid_mode_showing" msgid="2803166871485028508">"បង្ហាញក្នុងមុខងារ​ក្រឡា។"</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"បង្ហាញក្នុង​មុខងារបញ្ជី។"</string>
 </resources>

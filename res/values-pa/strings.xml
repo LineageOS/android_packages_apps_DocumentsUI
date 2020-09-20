@@ -278,8 +278,6 @@
     <string name="work_tab" msgid="7265359366883747413">"ਕਾਰਜ-ਸਥਾਨ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ਕੰਮ"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਐਪ ਤੋਂ ਫ਼ਾਈਲਾਂ ਨਹੀਂ ਲਿਜਾ ਸਕਦੇ।"</string>
-    <!-- no translation found for grid_mode_showing (2803166871485028508) -->
-    <skip />
-    <!-- no translation found for list_mode_showing (1225413902295895166) -->
-    <skip />
+    <string name="grid_mode_showing" msgid="2803166871485028508">"ਗ੍ਰਿਡ ਮੋਡ ਵਿੱਚ ਦਿਖਾਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ"</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"ਸੂਚੀ ਮੋਡ ਵਿੱਚ ਦਿਖਾਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ।"</string>
 </resources>

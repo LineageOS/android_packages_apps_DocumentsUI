@@ -278,8 +278,6 @@
     <string name="work_tab" msgid="7265359366883747413">"Munkahelyi"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Munka"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Nem lehet áthelyezni fájlokat más alkalmazásból."</string>
-    <!-- no translation found for grid_mode_showing (2803166871485028508) -->
-    <skip />
-    <!-- no translation found for list_mode_showing (1225413902295895166) -->
-    <skip />
+    <string name="grid_mode_showing" msgid="2803166871485028508">"Megjelenítés rácsnézetben."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"Megjelenítés listanézetben."</string>
 </resources>
