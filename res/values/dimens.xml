@@ -89,8 +89,9 @@
     <dimen name="root_info_header_height">60dp</dimen>
     <dimen name="root_info_header_horizontal_padding">24dp</dimen>
 
-    <dimen name="search_chip_group_margin">8dp</dimen>
+    <dimen name="search_chip_group_margin">20dp</dimen>
     <dimen name="search_chip_spacing">8dp</dimen>
+    <dimen name="search_chip_half_spacing">4dp</dimen>
     <dimen name="search_chip_icon_padding">4dp</dimen>
     <dimen name="search_chip_radius">16dp</dimen>
 
