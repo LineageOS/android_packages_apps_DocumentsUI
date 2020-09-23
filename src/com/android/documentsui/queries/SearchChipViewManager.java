@@ -399,7 +399,7 @@ public class SearchChipViewManager {
      * Reorder the chips in chip group. The checked chip has higher order.
      *
      * @param clickedChip the clicked chip, may be null.
-     * @param hasAnim if true, play move animation. Otherwise, not.
+     * @param hasAnim     if true, play move animation. Otherwise, not.
      */
     private void reorderCheckedChips(@Nullable Chip clickedChip, boolean hasAnim) {
         final ArrayList<Chip> chipList = new ArrayList<>();
@@ -425,9 +425,10 @@ public class SearchChipViewManager {
             return;
         }
 
-        final int chipSpacing = mChipGroup.getPaddingEnd();
+        final int chipSpacing = mChipGroup.getResources().getDimensionPixelSize(
+                R.dimen.search_chip_spacing);
         final boolean isRtl = mChipGroup.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
-        float lastX = isRtl ? mChipGroup.getWidth() - chipSpacing : chipSpacing;
+        float lastX = isRtl ? mChipGroup.getWidth() - chipSpacing / 2 : chipSpacing / 2;
 
         // remove all chips except current clicked chip to avoid losing
         // accessibility focus.
