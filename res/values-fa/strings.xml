@@ -204,7 +204,7 @@
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه داده شود به فهرست راهنمای <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> دسترسی داشته باشد؟"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"به <xliff:g id="APPNAME"><b>^1</b></xliff:g> اجازه می‌دهید به داده‌هایتان دسترسی پیدا کند، از جمله عکس‌ها و ویدئوهایتان در <xliff:g id="STORAGE"><i>^2</i></xliff:g>؟"</string>
     <string name="allow" msgid="1275746941353040309">"اجازه دادن"</string>
-    <string name="deny" msgid="5127201668078153379">"اجازه ندارد"</string>
+    <string name="deny" msgid="5127201668078153379">"مجاز نبودن"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="one">‏<xliff:g id="COUNT_1">%1$d</xliff:g> مورد انتخاب شد</item>
       <item quantity="other">‏<xliff:g id="COUNT_1">%1$d</xliff:g> مورد انتخاب شد</item>
