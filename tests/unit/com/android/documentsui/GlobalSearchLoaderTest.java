@@ -132,7 +132,7 @@ public class GlobalSearchLoaderTest {
 
         final DirectoryResult result = mLoader.loadInBackground();
 
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
         assertEquals(1, c.getCount());
 
         c.moveToNext();
@@ -151,18 +151,18 @@ public class GlobalSearchLoaderTest {
 
         assertEquals(false, mLoader.mState.showHiddenFiles);
         DirectoryResult result = mLoader.loadInBackground();
-        assertEquals(0, result.cursor.getCount());
+        assertEquals(0, result.getCursor().getCount());
 
         mLoader.mState.showHiddenFiles = true;
         result = mLoader.loadInBackground();
-        assertEquals(2, result.cursor.getCount());
+        assertEquals(2, result.getCursor().getCount());
     }
 
     @Test
     public void testSearchResult_isNotMovable() {
         final DirectoryResult result = mLoader.loadInBackground();
 
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
         assertEquals(1, c.getCount());
 
         c.moveToNext();
@@ -193,7 +193,7 @@ public class GlobalSearchLoaderTest {
                 .setNextChildDocumentsReturns(otherUserDoc);
 
         final DirectoryResult result = mLoader.loadInBackground();
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
 
         assertThat(c.getCount()).isEqualTo(1);
         c.moveToNext();
@@ -223,7 +223,7 @@ public class GlobalSearchLoaderTest {
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
 
         final DirectoryResult result = mLoader.loadInBackground();
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
 
         assertEquals(2, c.getCount());
 
@@ -257,7 +257,7 @@ public class GlobalSearchLoaderTest {
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
 
         final DirectoryResult result = mLoader.loadInBackground();
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
 
         assertEquals(3, c.getCount());
 
@@ -289,7 +289,7 @@ public class GlobalSearchLoaderTest {
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
 
         final DirectoryResult result = mLoader.loadInBackground();
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
 
         assertEquals(1, c.getCount());
 
@@ -323,7 +323,7 @@ public class GlobalSearchLoaderTest {
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
 
         final DirectoryResult result = mLoader.loadInBackground();
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
 
         assertEquals(3, c.getCount());
 
@@ -352,7 +352,7 @@ public class GlobalSearchLoaderTest {
                 SortModel.SORT_DIMENSION_ID_TITLE, SortDimension.SORT_DIRECTION_ASCENDING);
 
         final DirectoryResult result = mLoader.loadInBackground();
-        assertThat(result.cursor.getCount()).isEqualTo(0);
+        assertThat(result.getCursor().getCount()).isEqualTo(0);
         // We don't expect exception even if all roots are from other users.
         assertThat(result.exception).isNull();
 

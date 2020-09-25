@@ -237,7 +237,7 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
         extras.putBoolean(DocumentsContract.EXTRA_LOADING, !allDone);
         sorted.setExtras(extras);
 
-        result.cursor = sorted;
+        result.setCursor(sorted);
 
         return result;
     }
@@ -458,10 +458,10 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
     }
 
     private boolean checkIfCursorStale(DirectoryResult result) {
-        if (result == null || result.cursor == null || result.cursor.isClosed()) {
+        if (result == null || result.getCursor() == null || result.getCursor().isClosed()) {
             return true;
         }
-        Cursor cursor = result.cursor;
+        Cursor cursor = result.getCursor();
         try {
             cursor.moveToPosition(-1);
             for (int pos = 0; pos < cursor.getCount(); ++pos) {
