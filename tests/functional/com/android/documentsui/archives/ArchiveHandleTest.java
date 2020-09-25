@@ -555,7 +555,7 @@ public class ArchiveHandleTest {
                         "application/zip");
 
         assertThat(transformToIterable(archiveHandle.getEntries()))
-                .containsAllIn(sExpectEntries);
+                .containsAtLeastElementsIn(sExpectEntries);
     }
 
     @Test
@@ -565,7 +565,7 @@ public class ArchiveHandleTest {
                 "application/x-gtar");
 
         assertThat(transformToIterable(archiveHandle.getEntries()))
-                .containsAllIn(sExpectEntries);
+                .containsAtLeastElementsIn(sExpectEntries);
     }
 
     @Test
@@ -575,7 +575,7 @@ public class ArchiveHandleTest {
                         "application/x-compressed-tar");
 
         assertThat(transformToIterable(archiveHandle.getEntries()))
-                .containsAllIn(sExpectEntries);
+                .containsAtLeastElementsIn(sExpectEntries);
     }
 
     @Test
@@ -585,7 +585,7 @@ public class ArchiveHandleTest {
                         "application/x-bzip-compressed-tar");
 
         assertThat(transformToIterable(archiveHandle.getEntries()))
-                .containsAllIn(sExpectEntries);
+                .containsAtLeastElementsIn(sExpectEntries);
     }
 
     @Test
@@ -595,7 +595,7 @@ public class ArchiveHandleTest {
                         "application/x-brotli-compressed-tar");
 
         assertThat(transformToIterable(archiveHandle.getEntries()))
-                .containsAllIn(sExpectEntries);
+                .containsAtLeastElementsIn(sExpectEntries);
     }
 
     @Test
@@ -605,6 +605,6 @@ public class ArchiveHandleTest {
                         "application/x-xz-compressed-tar");
 
         assertThat(transformToIterable(archiveHandle.getEntries()))
-                .containsAllIn(sExpectEntries);
+                .containsAtLeastElementsIn(sExpectEntries);
     }
 }
