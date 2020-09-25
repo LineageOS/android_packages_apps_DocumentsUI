@@ -132,6 +132,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         mInjector.actionModeController = new ActionModeController(
                 this,
                 mInjector.selectionMgr,
+                mNavigator,
                 mInjector.menuManager,
                 mInjector.messages);
 
