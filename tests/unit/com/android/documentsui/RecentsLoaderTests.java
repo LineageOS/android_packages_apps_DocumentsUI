@@ -99,7 +99,7 @@ public class RecentsLoaderTests {
 
         final DirectoryResult result = mLoader.loadInBackground();
 
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
         assertEquals(0, c.getCount());
     }
 
@@ -116,11 +116,11 @@ public class RecentsLoaderTests {
 
         assertEquals(false, mLoader.mState.showHiddenFiles);
         DirectoryResult result = mLoader.loadInBackground();
-        assertEquals(0, result.cursor.getCount());
+        assertEquals(0, result.getCursor().getCount());
 
         mLoader.mState.showHiddenFiles = true;
         result = mLoader.loadInBackground();
-        assertEquals(2, result.cursor.getCount());
+        assertEquals(2, result.getCursor().getCount());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class RecentsLoaderTests {
 
         final DirectoryResult result = mLoader.loadInBackground();
 
-        final Cursor c = result.cursor;
+        final Cursor c = result.getCursor();
         assertEquals(1, c.getCount());
         for (int i = 0; i < c.getCount(); ++i) {
             c.moveToNext();
@@ -178,7 +178,7 @@ public class RecentsLoaderTests {
                 TestProvidersAccess.OtherUser.USER_ID);
         final DirectoryResult result = mLoader.loadInBackground();
 
-        assertThat(result.cursor).isNull();
+        assertThat(result.getCursor()).isNull();
         assertThat(result.exception).isInstanceOf(CrossProfileNoPermissionException.class);
     }
 
@@ -187,7 +187,7 @@ public class RecentsLoaderTests {
         when(mActivity.userManager.isQuietModeEnabled(any())).thenReturn(true);
         final DirectoryResult result = mLoader.loadInBackground();
 
-        assertThat(result.cursor).isNull();
+        assertThat(result.getCursor()).isNull();
         assertThat(result.exception).isInstanceOf(CrossProfileQuietModeException.class);
     }
 }
