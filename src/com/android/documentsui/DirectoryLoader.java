@@ -56,7 +56,7 @@ import java.util.concurrent.Executor;
 public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
 
     private static final String TAG = "DirectoryLoader";
-    private static final String[] SEARCH_REJECT_MIMES = new String[] { Document.MIME_TYPE_DIR };
+    private static final String[] SEARCH_REJECT_MIMES = new String[]{Document.MIME_TYPE_DIR};
     private static final String[] PHOTO_PICKING_ACCEPT_MIMES = new String[]
             {Document.MIME_TYPE_DIR, MimeTypes.IMAGE_MIME};
 
@@ -196,7 +196,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             } else {
                 cursor = mModel.sortCursor(cursor, mFileTypeLookup);
             }
-            result.cursor = cursor;
+            result.setCursor(cursor);
         } catch (Exception e) {
             Log.w(TAG, "Failed to query", e);
             result.exception = e;
@@ -305,8 +305,8 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
         // Ensure the loader is stopped
         onStopLoading();
 
-        if (mResult != null && mResult.cursor != null && mObserver != null) {
-            mResult.cursor.unregisterContentObserver(mObserver);
+        if (mResult != null && mResult.getCursor() != null && mObserver != null) {
+            mResult.getCursor().unregisterContentObserver(mObserver);
         }
 
         FileUtils.closeQuietly(mResult);
@@ -314,10 +314,10 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
     }
 
     private boolean checkIfCursorStale(DirectoryResult result) {
-        if (result == null || result.cursor == null || result.cursor.isClosed()) {
+        if (result == null || result.getCursor() == null || result.getCursor().isClosed()) {
             return true;
         }
-        Cursor cursor = result.cursor;
+        Cursor cursor = result.getCursor();
         try {
             cursor.moveToPosition(-1);
             for (int pos = 0; pos < cursor.getCount(); ++pos) {
