@@ -511,15 +511,15 @@ public class ActionHandlerTest {
     @Test
     public void testDragAndDrop_OnReadOnlyRoot() throws Exception {
         RootInfo root = new RootInfo(); // root by default has no SUPPORT_CREATE flag
-        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, null, null, null,
-                null, true);
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, null, null, null,
+                null, null, true);
         assertFalse(mHandler.dropOn(event, root));
     }
 
     @Test
     public void testDragAndDrop_OnLibraryRoot() throws Exception {
-        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, null, null, null,
-                null, true);
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, null, null, null,
+                null, null, true);
         assertFalse(mHandler.dropOn(event, TestProvidersAccess.RECENTS));
     }
 
@@ -530,8 +530,8 @@ public class ActionHandlerTest {
         // our Clipper is getting the original CipData passed in.
         Object localState = new Object();
         ClipData clipData = ClipDatas.createTestClipData();
-        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, localState, null, clipData,
-                null, true);
+        DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, localState, null,
+                clipData, null, null, true);
 
         mHandler.dropOn(event, TestProvidersAccess.DOWNLOADS);
         event.recycle();
