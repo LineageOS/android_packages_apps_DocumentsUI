@@ -233,7 +233,7 @@
     <string name="authentication_required" msgid="8030880723643436099">"ଏହି ଡିରେକ୍ଟୋରୀ ଦେଖିବାକୁ, <xliff:g id="NAME">%1$s</xliff:g>ରେ ସାଇନ୍‍ କରନ୍ତୁ"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"ଜଣ୍ଟେଣ୍ଟ ଦେଖାଇ ପାରିବ ନାହିଁ"</string>
     <string name="sign_in" msgid="6253762676723505592">"ସାଇନ୍‌-ଇନ୍ କରନ୍ତୁ"</string>
-    <string name="new_archive_file_name" msgid="1604650338077249838">"ସଂଗ୍ରହ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"ଆର୍କାଇଭ<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g>ଙ୍କୁ ବଦଳାଇବେ?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"ବ୍ୟାକଗ୍ରାଉଣ୍ଡରେ ଜାରିରଖନ୍ତୁ"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
