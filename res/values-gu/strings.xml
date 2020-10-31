@@ -27,7 +27,7 @@
     <string name="menu_create_dir" msgid="2413624798689091042">"નવું ફોલ્ડર"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ગ્રિડ દૃશ્ય"</string>
     <string name="menu_list" msgid="6714267452146410402">"સૂચિ દૃશ્ય"</string>
-    <string name="menu_search" msgid="1876699106790719849">"શોધો"</string>
+    <string name="menu_search" msgid="1876699106790719849">"શોધ"</string>
     <string name="menu_settings" msgid="6520844520117939047">"સ્ટોરેજ સેટિંગ"</string>
     <string name="menu_open" msgid="9092138100049759315">"ખોલો"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"આની સાથે ખોલો"</string>
@@ -96,7 +96,7 @@
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"તમારા IT વ્યવસ્થાપક તમને વ્યક્તિગત ઍપ પરથી ઑફિસની ફાઇલોને ઍક્સેસ કરવાની મંજૂરી આપતા નથી"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"વ્યક્તિગત ફાઇલોને પસંદ કરી શકતા નથી"</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"તમારા IT વ્યવસ્થાપક તમને ઑફિસ માટેની ઍપ પરથી વ્યક્તિગત ફાઇલોને ઍક્સેસ કરવાની મંજૂરી આપતા નથી"</string>
-    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"કાર્યાલયની પ્રોફાઇલમાં સાચવી શકતા નથી"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"ઑફિસની પ્રોફાઇલમાં સાચવી શકતા નથી"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"તમારા IT વ્યવસ્થાપક તમને તમારી કાર્યાલયની પ્રોફાઇલમાં વ્યક્તિગત ફાઇલોને સાચવવાની મંજૂરી આપતા નથી"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"વ્યક્તિગત પ્રોફાઇલમાં સાચવી શકતા નથી"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"તમારા IT વ્યવસ્થાપક તમને તમારી વ્યક્તિગત પ્રોફાઇલમાં ઑફિસની ફાઇલોને સાચવવાની મંજૂરી આપતા નથી"</string>
@@ -275,7 +275,7 @@
     <string name="search_bar_hint" msgid="4517366509897977321">"આ ફોન શોધો"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"શોધ ઇતિહાસ <xliff:g id="TEXT">%1$s</xliff:g> ડિલીટ કરો"</string>
     <string name="personal_tab" msgid="3878576287868528503">"વ્યક્તિગત"</string>
-    <string name="work_tab" msgid="7265359366883747413">"ઑફિસ માટેની ડાયરેક્ટરી"</string>
+    <string name="work_tab" msgid="7265359366883747413">"ઑફિસ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ઑફિસ"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"તમે કોઈ અન્ય ઍપમાંથી ફાઇલો ખસેડી શકતાં નથી."</string>
 </resources>
