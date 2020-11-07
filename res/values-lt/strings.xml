@@ -45,8 +45,6 @@
     <string name="menu_extract" msgid="8171946945982532262">"Išskleisti į..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"Pervardyti"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Gauti informacijos"</string>
-    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Rodyti paslėptus failus"</string>
-    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Nerodyti paslėptų failų"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Žr. <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Naujas langas"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Iškirpti"</string>
@@ -284,15 +282,16 @@
       <item quantity="many">Pasirinkta <xliff:g id="COUNT_1">%1$d</xliff:g> elemento</item>
       <item quantity="other">Pasirinkta <xliff:g id="COUNT_1">%1$d</xliff:g> elementų</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="5654901877295332262">"Naujausi failai"</string>
-    <string name="root_info_header_global_search" msgid="4904078222280496152">"Failai"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Naujausi failai telefone"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Failai telefone"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> telefone"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Failai aplanke „Atsisiuntimai“"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Failai „<xliff:g id="DEVICE">%1$s</xliff:g>“ įrenginyje"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Failai aplanke „<xliff:g id="FOLDER">%1$s</xliff:g>“"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Failai iš <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Failai iš <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Naujausi vaizdai"</string>
-    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Vaizdai"</string>
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Naujausi vaizdai telefone"</string>
+    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Vaizdai telefone"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Vaizdai aplanke „Atsisiuntimai“"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Vaizdai „<xliff:g id="DEVICE">%1$s</xliff:g>“"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Vaizdai aplanke „<xliff:g id="FOLDER">%1$s</xliff:g>“"</string>
@@ -313,15 +312,12 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Naudoti šį aplanką"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Leisti programai „<xliff:g id="APPNAME">%1$s</xliff:g>“ pasiekti failus kataloge „<xliff:g id="DIRECTORY">%2$s</xliff:g>“?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Taip programa „<xliff:g id="APPNAME">%1$s</xliff:g>“ galės pasiekti dabartinį ir būsimą turinį, saugomą kataloge „<xliff:g id="DIRECTORY">%2$s</xliff:g>“."</string>
-    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Negalima naudoti šio aplanko"</string>
-    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Kad apsaugotumėte privatumą, pasirinkite kitą aplanką"</string>
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Kito aplanko pasirinkimas"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Šio aplanko negalima naudoti saugos sumetimais"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Kurti naują aplanką"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Ieškoti šiame telefone"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ištrinkite paieškos istoriją <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Asmeninis"</string>
     <string name="work_tab" msgid="7265359366883747413">"Darbo"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Darbo"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Negalite perkelti failų iš kitos programos."</string>
-    <string name="grid_mode_showing" msgid="2803166871485028508">"Rodoma tinklelio režimu."</string>
-    <string name="list_mode_showing" msgid="1225413902295895166">"Rodoma sąrašo režimu."</string>
 </resources>

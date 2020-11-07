@@ -45,8 +45,6 @@
     <string name="menu_extract" msgid="8171946945982532262">"Издвој у…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Преименуј"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Прикажи информације"</string>
-    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Приказуј скривене датотеке"</string>
-    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Не приказуј скривене"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Прикажи у: <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Нови прозор"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Исеци"</string>
@@ -90,15 +88,15 @@
     <string name="save_error" msgid="8631128801982095782">"Чување документа није успело"</string>
     <string name="create_error" msgid="3092144450044861994">"Прављење директоријума није успело"</string>
     <string name="query_error" msgid="6625421453613879336">"Учитавање садржаја тренутно није могуће"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Пословни профил је паузиран"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Профил за Work је паузиран"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Укључи"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Не можете да изаберете пословне фајлове"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Избор датотека за посао није успео"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ИТ администратор вам не дозвољава да приступате датотекама за посао из личне апликације"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Избор личних датотека није успео"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ИТ администратор вам не дозвољава да приступате личним датотекама из пословне апликације"</string>
-    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Не можете да сачувате на пословном профилу"</string>
-    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"ИТ администратор вам не дозвољава да чувате личне датотеке на пословном профилу"</string>
-    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Не можете да сачувате на личном профилу"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"ИТ администратор вам не дозвољава да приступате личним датотекама из апликације за посао"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Чување на профилу за Work није успело"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"ИТ администратор вам не дозвољава да чувате личне датотеке на профилу за Work"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Чување на личном профилу није успело"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"ИТ администратор вам не дозвољава да чувате датотеке за посао на личном профилу"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Ова радња није дозвољена"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Обратите се ИТ администратору да бисте сазнали више"</string>
@@ -262,15 +260,16 @@
       <item quantity="few">Изабране су <xliff:g id="COUNT_1">%1$d</xliff:g> ставке</item>
       <item quantity="other">Изабрано је <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="5654901877295332262">"Недавне датотеке"</string>
-    <string name="root_info_header_global_search" msgid="4904078222280496152">"Датотеке"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Недавне датотеке на телефону"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Датотеке на телефону"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> на телефону"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Датотеке у Преузимањима"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Датотеке на уређају <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Датотеке у директоријуму <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Датотеке из апликације <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Датотеке из апликације <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Недавне слике"</string>
-    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Слике"</string>
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Недавне слике на телефону"</string>
+    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Слике на телефону"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Слике у Преузимањима"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Слике на уређају <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Слике у директоријуму <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -291,15 +290,12 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Користи овај директоријум"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Дозволићете да <xliff:g id="APPNAME">%1$s</xliff:g> приступа датотекама у директоријуму <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Ово ће омогућити апликацији <xliff:g id="APPNAME">%1$s</xliff:g> да приступа актуелном и будућем садржају сачуваном у директоријуму <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Не можете да користите овај директоријум"</string>
-    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Да бисте заштитили приватност, одаберите неки други директоријум"</string>
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Одаберите други директоријум"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Овај директоријум не може да се користи из безбедносних разлога"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Направи нови директоријум"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Претражите овај телефон"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Избришите историју претраге <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Лично"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Лични"</string>
     <string name="work_tab" msgid="7265359366883747413">"Посао"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Посао"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Не можете да премештате датотеке из друге апликације."</string>
-    <string name="grid_mode_showing" msgid="2803166871485028508">"Приказује се у режиму мреже."</string>
-    <string name="list_mode_showing" msgid="1225413902295895166">"Приказује се у режиму листе."</string>
 </resources>

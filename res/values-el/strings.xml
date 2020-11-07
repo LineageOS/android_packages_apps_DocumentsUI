@@ -45,8 +45,6 @@
     <string name="menu_extract" msgid="8171946945982532262">"Εξαγωγή σε…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Μετονομασία"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Λήψη πληροφοριών"</string>
-    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Εμφάνιση κρυφών αρχείων"</string>
-    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Μη εμφάνιση κρυφών αρχείων"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Προβολή σε <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Νέο παράθυρο"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Αποκοπή"</string>
@@ -93,7 +91,7 @@
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Το προφίλ εργασίας σας έχει τεθεί σε παύση."</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Ενεργοποίηση"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Δεν είναι δυνατή η επιλογή αρχείων εργασίας."</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Ο διαχειριστής δεν επιτρέπει την πρόσβαση σε αρχεία εργασίας από μια προσωπική εφαρμογή."</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Ο διαχειριστής IT δεν επιτρέπει την πρόσβαση σε αρχεία εργασίας από μια προσωπική εφαρμογή."</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Δεν είναι δυνατή η επιλογή προσωπικών αρχείων."</string>
     <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Ο διαχειριστής ΙΤ δεν επιτρέπει την πρόσβαση σε προσωπικά αρχεία από μια εφαρμογή εργασιών."</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Δεν είναι δυνατή η αποθήκευση στο προφίλ εργασίας."</string>
@@ -109,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Συσκευές"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Περισσότερες εφαρμογές"</string>
     <string name="empty" msgid="5300254272613103004">"Δεν υπάρχουν στοιχεία"</string>
-    <string name="no_results" msgid="2371026325236359209">"Καμία αντιστοίχιση στο %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"Χωρίς αντιστοιχίσεις στο %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Δεν είναι δυνατό το άνοιγμα του αρχείου"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Αδύνατο άνοιγμα αρχείων σε αρχειοθήκες"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Δεν είναι δυνατή η διαγραφή ορισμένων εγγράφων"</string>
@@ -240,15 +238,16 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> επιλεγμένα</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> επιλεγμένο</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="5654901877295332262">"Πρόσφατα αρχεία"</string>
-    <string name="root_info_header_global_search" msgid="4904078222280496152">"Αρχεία"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Πρόσφατα αρχεία στο τηλέφωνο"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Αρχεία στο τηλέφωνο"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> στο τηλέφωνο"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Αρχεία στις Λήψεις"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Αρχεία στη συσκευή <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Αρχεία στον φάκελο <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Αρχεία από <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Αρχεία από <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Πρόσφατες εικόνες"</string>
-    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Εικόνες"</string>
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Πρόσφατες εικόνες στο τηλέφωνο"</string>
+    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Εικόνες στο τηλέφωνο"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Εικόνες στις Λήψεις"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Εικόνες στη συσκευή <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Εικόνες στον φάκελο <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -269,15 +268,12 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Χρήση αυτού του φακέλου"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Να έχει η εφαρμογή <xliff:g id="APPNAME">%1$s</xliff:g> πρόσβαση σε αρχεία του καταλόγου <xliff:g id="DIRECTORY">%2$s</xliff:g>;"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Αυτή η ενέργεια θα επιτρέψει στην εφαρμογή <xliff:g id="APPNAME">%1$s</xliff:g> να έχει πρόσβαση σε τρέχον και μελλοντικό περιεχόμενο του καταλόγου <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Δεν είναι δυνατή η χρήση αυτού του φακέλου"</string>
-    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Για την προστασία του απορρήτου σας, επιλέξτε άλλο φάκελο"</string>
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Επιλέξτε κάποιον άλλο φάκελο"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Δεν είναι δυνατή η χρήση αυτού του φακέλου για λόγους ασφαλείας."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Δημιουργία νέου φακέλου"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"Αναζήτηση σε αυτό το τηλέφωνο"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"Αναζήτηση αυτού του τηλεφώνου"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Διαγραφή ιστορικού αναζήτησης <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Προσωπικός"</string>
     <string name="work_tab" msgid="7265359366883747413">"Εργασίας"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Εργασία"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Δεν είναι δυνατή η μεταφορά αρχείων από άλλη εφαρμογή."</string>
-    <string name="grid_mode_showing" msgid="2803166871485028508">"Εμφάνιση σε λειτουργία πλέγματος."</string>
-    <string name="list_mode_showing" msgid="1225413902295895166">"Εμφάνιση σε λειτουργία λίστας."</string>
 </resources>
