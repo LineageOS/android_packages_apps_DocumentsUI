@@ -45,8 +45,6 @@
     <string name="menu_extract" msgid="8171946945982532262">"ရွှေးချယ်ထည့်သွင်းရန်…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"အမည်ပြောင်းပါ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"အချက်အလက် ရယူရန်"</string>
-    <string name="menu_show_hidden_files" msgid="5140676344684492769">"ဝှက်ထားသည့်ဖိုင်များ ပြရန်"</string>
-    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"ဝှက်ထားသည့်ဖိုင်များ မပြရန်"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> တွင် ကြည့်ရန်"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ဝင်းဒိုးသစ်"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ဖြတ်ယူပါ"</string>
@@ -109,7 +107,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"စက်ပစ္စည်းများ"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"နောက်ထပ်အက်ပ်များ"</string>
     <string name="empty" msgid="5300254272613103004">"ဘာမျှ မရှိပါ"</string>
-    <string name="no_results" msgid="2371026325236359209">"%1$s တွင် တူညီသည့်အရာ မရှိပါ"</string>
+    <string name="no_results" msgid="2371026325236359209">"%1$s တွင် ကိုက်ညီသည့်အရာ မရှိပါ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ဖိုင်ကို ဖွင့်၍မရပါ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"မှတ်တမ်းဟောင်းထဲမှ ဖိုင်များကို ဖွင့်၍မရပါ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"အချို့စာဖိုင်များကို ဖျက်၍မရပါ"</string>
@@ -240,15 +238,16 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ခု ရွေးချယ်ထားသည်</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ခု ရွေးချယ်ထားသည်</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="5654901877295332262">"လတ်တလေား ဖိုင်များ"</string>
-    <string name="root_info_header_global_search" msgid="4904078222280496152">"ဖိုင်များ"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"ဖုန်းပေါ်ရှိ လတ်တလောဖိုင်များ"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"ဖုန်းပေါ်ရှိ ဖိုင်များ"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"ဖုန်းပေါ်ရှိ <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"\'ဒေါင်းလုဒ်များ\' ရှိ ဖိုင်များ"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> ပေါ်ရှိ ဖိုင်များ"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g> ရှိ ဖိုင်များ"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> မှ ဖိုင်များ"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> မှ ဖိုင်များ"</string>
-    <string name="root_info_header_image_recent" msgid="7494373563753926014">"လတ်တလော ပုံများ"</string>
-    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"ပုံများ"</string>
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"ဖုန်းပေါ်ရှိ လတ်တလောပုံများ"</string>
+    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"ဖုန်းပေါ်ရှိ ပုံများ"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"\'ဒေါင်းလုဒ်များ\' ရှိ ပုံများ"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> ပေါ်ရှိ ပုံများ"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g> ရှိ ပုံများ"</string>
@@ -269,15 +268,12 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ဤဖိုင်တွဲကို အသုံးပြုပါ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> ကို <xliff:g id="DIRECTORY">%2$s</xliff:g> ရှိ ဖိုင်များကို သုံးခွင့်ပြုမလား။"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ဤသို့ပြုလုပ်ခြင်းဖြင့် <xliff:g id="APPNAME">%1$s</xliff:g> ကို လက်ရှိနှင့် အနာဂတ်တွင် <xliff:g id="DIRECTORY">%2$s</xliff:g> ထဲ သိမ်းမည့် အကြောင်းအရာများကို အသုံးပြုခွင့်ပေးပါမည်။"</string>
-    <string name="directory_blocked_header_title" msgid="1164584889578740066">"ဤဖိုင်တွဲကို အသုံးပြု၍ မရပါ"</string>
-    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"သင်၏ကိုယ်ရေးလုံခြုံမှုကို ကာကွယ်ရန် ဖိုင်တွဲနောက်တစ်ခု ရွေးပါ"</string>
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"နောက်ဖိုင်တွဲတစ်ခု ရွေးခြင်း"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"လုံခြုံရေးအကြောင်းများအတွက် ဤဖိုင်တွဲကို အသုံးပြု၍မရပါ"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"ဖိုင်တွဲအသစ် ပြုလုပ်ရန်"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ဤဖုန်းတွင် ရှာရန်"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ရှာဖွေမှတ်တမ်း <xliff:g id="TEXT">%1$s</xliff:g> ကိုဖျက်သည်"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ကိုယ်ပိုင်"</string>
     <string name="work_tab" msgid="7265359366883747413">"အလုပ်"</string>
     <string name="a11y_work" msgid="7504431382825242153">"အလုပ်"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"အခြားအက်ပ်မှဖိုင်ကို ရွှေ့၍မရပါ။"</string>
-    <string name="grid_mode_showing" msgid="2803166871485028508">"ဇယားကွက်မုဒ်ဖြင့် ပြသရန်။"</string>
-    <string name="list_mode_showing" msgid="1225413902295895166">"စာရင်းမုဒ်ဖြင့် ပြသရန်။"</string>
 </resources>

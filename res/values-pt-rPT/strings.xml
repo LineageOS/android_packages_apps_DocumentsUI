@@ -45,8 +45,6 @@
     <string name="menu_extract" msgid="8171946945982532262">"Extrair para…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Mudar o nome"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Obter informações"</string>
-    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Mostrar ficheiros ocultos"</string>
-    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Não mostrar ficheiros ocultos"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Ver no <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nova janela"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Cortar"</string>
@@ -84,7 +82,7 @@
     <string name="directory_items" msgid="6645621978998614003">"Número de itens"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Ascendente"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"Descendente"</string>
-    <string name="open_external_app" msgid="7107920381038980086">"Abrir a app <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"Abrir a aplicação <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
     <string name="drawer_open" msgid="8071673398187261741">"Mostrar raízes"</string>
     <string name="drawer_close" msgid="4263880768630848848">"Ocultar raízes"</string>
     <string name="save_error" msgid="8631128801982095782">"Falha ao guardar o documento"</string>
@@ -240,15 +238,16 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> selecionados</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> selecionado</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="5654901877295332262">"Ficheiros recentes"</string>
-    <string name="root_info_header_global_search" msgid="4904078222280496152">"Ficheiros"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Ficheiros recentes no telemóvel"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Ficheiros no telemóvel"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> no telemóvel"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Ficheiros em Transferências"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Ficheiros no dispositivo <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Ficheiros em <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Ficheiros de <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Ficheiros de <xliff:g id="LABEL">%1$s</xliff:g>/<xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Imagens recentes"</string>
-    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Imagens"</string>
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Imagens recentes no telemóvel"</string>
+    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Imagens no telemóvel"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Imagens em Transferências"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Imagens no dispositivo <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Imagens em <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -264,20 +263,17 @@
     <string name="input_hint_rename" msgid="8390711744270994452">"Novo nome"</string>
     <string name="preview_file" msgid="4056622696305432343">"Pré-visualizar o ficheiro <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="preview_work_file" msgid="4495643735563487273">"Pré-visualize o ficheiro de trabalho <xliff:g id="FILENAME">%1$s</xliff:g>."</string>
-    <string name="apps_row_title" msgid="3340490016663092925">"Procure ficheiros noutras apps"</string>
+    <string name="apps_row_title" msgid="3340490016663092925">"Procure ficheiros noutras aplicações"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anónimo"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Utilizar esta pasta"</string>
-    <string name="open_tree_dialog_title" msgid="6339509533852318569">"Permitir que a app <xliff:g id="APPNAME">%1$s</xliff:g> aceda aos ficheiros em <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
-    <string name="open_tree_dialog_message" msgid="4120695398430659628">"Esta ação permite que a app <xliff:g id="APPNAME">%1$s</xliff:g> aceda ao conteúdo atual e futuro armazenado em <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Não é possível utilizar esta pasta"</string>
-    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Para proteger a sua privacidade, escolha outra pasta."</string>
+    <string name="open_tree_dialog_title" msgid="6339509533852318569">"Pretende permitir que a aplicação <xliff:g id="APPNAME">%1$s</xliff:g> aceda aos ficheiros em <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
+    <string name="open_tree_dialog_message" msgid="4120695398430659628">"Esta ação permite que a aplicação <xliff:g id="APPNAME">%1$s</xliff:g> aceda ao conteúdo atual e futuro armazenado em <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
+    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Escolha outra pasta"</string>
+    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Não é possível utilizar esta pasta por motivos de segurança."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Criar nova pasta"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Pesquise neste telemóvel"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Elimine o histórico de pesquisas <xliff:g id="TEXT">%1$s</xliff:g>."</string>
     <string name="personal_tab" msgid="3878576287868528503">"Pessoal"</string>
     <string name="work_tab" msgid="7265359366883747413">"Trabalho"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Trabalho"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Não pode mover ficheiros de outra app."</string>
-    <string name="grid_mode_showing" msgid="2803166871485028508">"A mostrar no modo de grelha…"</string>
-    <string name="list_mode_showing" msgid="1225413902295895166">"A mostrar no modo de lista…"</string>
 </resources>
