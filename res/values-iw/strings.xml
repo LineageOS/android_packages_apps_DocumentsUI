@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"חלץ לתיקייה…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"שנה שם"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"מידע על המסמך"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"הצגת קבצים מוסתרים"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"לא להציג קבצים מוסתרים"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"הצג ב-<xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"חלון חדש"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"גזור"</string>
@@ -107,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"מכשירים"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"עוד אפליקציות"</string>
     <string name="empty" msgid="5300254272613103004">"אין פריטים"</string>
-    <string name="no_results" msgid="2371026325236359209">"‏אין התאמות ב-%1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"‏אין התאמות ב%1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"לא ניתן לפתוח את הקובץ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"לא ניתן לפתוח קבצים בארכיונים"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"לא ניתן למחוק חלק מהמסמכים"</string>
@@ -182,7 +184,7 @@
       <item quantity="one">לא ניתן היה למחוק פריט <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"הקש כדי להציג פרטים"</string>
-    <string name="close" msgid="905969391788869975">"סגור"</string>
+    <string name="close" msgid="905969391788869975">"סגירה"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="two">הקבצים הבאים לא הועתקו: <xliff:g id="LIST_1">%1$s</xliff:g></item>
       <item quantity="many">הקבצים הבאים לא הועתקו: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -282,16 +284,15 @@
       <item quantity="other">נבחרו <xliff:g id="COUNT_1">%1$d</xliff:g> פריטים</item>
       <item quantity="one">נבחר פריט אחד (<xliff:g id="COUNT_0">%1$d</xliff:g>)</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"קבצים אחרונים בטלפון"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"קבצים בטלפון"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> בטלפון"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"קבצים שהיו בשימוש לאחרונה"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"קבצים"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"קבצים ב\'הורדות\'"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"קבצים ב-<xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"קבצים ב-<xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"קבצים מ-<xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"קבצים מ-<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"תמונות אחרונות בטלפון"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"תמונות בטלפון"</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"תמונות אחרונות"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"תמונות"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"תמונות ב\'הורדות\'"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"התמונות ב-<xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"תמונות ב-<xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -312,12 +313,15 @@
     <string name="open_tree_button" msgid="6402871398424497776">"לשימוש בתיקייה זו"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"האם להתיר ל-<xliff:g id="APPNAME">%1$s</xliff:g> לגשת לקבצים שבספרייה <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"פעולה זו תעניק ל-<xliff:g id="APPNAME">%1$s</xliff:g> גישה לתוכן נוכחי ועתידי המאוחסן ב-<xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"בחירת תיקייה אחרת"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"לא ניתן להשתמש בתיקייה זו מטעמי אבטחה"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"לא ניתן להשתמש בתיקייה הזו"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"כדי להגן על הפרטיות שלך, עליך לבחור תיקייה אחרת"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"יצירת תיקייה חדשה"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"חיפוש בטלפון זה"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"מחיקת היסטוריית החיפושים <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"אישי"</string>
     <string name="work_tab" msgid="7265359366883747413">"עבודה"</string>
     <string name="a11y_work" msgid="7504431382825242153">"עבודה"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"אי אפשר להעביר קבצים מאפליקציה אחרת."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"הצגה בתצוגת טבלה."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"הצגה בתצוגת רשימה."</string>
 </resources>

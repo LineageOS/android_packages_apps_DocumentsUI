@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"ស្រង់​ទៅ…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"ប្ដូរឈ្មោះ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"ទទួល​ព័ត៌មាន"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"បង្ហាញឯកសារ​ដែលបានលាក់"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"កុំបង្ហាញ​ឯកសារដែល​បានលាក់"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"មើល​នៅក្នុង <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"ផ្ទាំងវិនដូថ្មី"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"កាត់"</string>
@@ -58,7 +60,7 @@
     <string name="button_compress" msgid="8951561310857223966">"បង្ហាប់"</string>
     <string name="button_extract" msgid="1038674453689912247">"ស្រង់"</string>
     <string name="button_move" msgid="8596460499325291272">"ផ្លាស់ទី"</string>
-    <string name="button_dismiss" msgid="7235249361023803349">"បដិសេធ"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"ច្រានចោល"</string>
     <string name="button_retry" msgid="4011461781916631389">"ព្យាយាម​ម្តង​ទៀត"</string>
     <string name="button_clear" msgid="5412304437764369441">"សម្អាត"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"បង្ហាញ​នៅក្នុង​ក្រុមហ៊ុន​ផ្តល់សេវា"</string>
@@ -107,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"ឧបករណ៍"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"កម្ម​វិធី​​ច្រើន​ទៀត"</string>
     <string name="empty" msgid="5300254272613103004">"គ្មានធាតុ​"</string>
-    <string name="no_results" msgid="2371026325236359209">"មិនមានការប្រកួតនៅក្នុង %1$s ទេ"</string>
+    <string name="no_results" msgid="2371026325236359209">"គ្មានលទ្ធផលត្រូវគ្នាក្នុង %1$s ទេ"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"មិនអាចបើកឯកសារបានទេ"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"មិនអាចបើក​ឯកសារ​នៅក្នុងបណ្ណសារបានទេ"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"មិនអាចលុបឯកសារមួយចំនួន"</string>
@@ -238,16 +240,15 @@
       <item quantity="other">បាន​ជ្រើសរើស <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">បាន​ជ្រើសរើស <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"ឯកសារ​ថ្មីៗ​នៅលើទូរសព្ទ"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"ឯកសារ​នៅលើទូរសព្ទ"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> នៅលើ​ទូរសព្ទ"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"ឯកសារ​ថ្មីៗ"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"ឯកសារ"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"ឯកសារនៅក្នុងថតទាញយក"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ឯកសារ​នៅលើ <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"ឯកសារនៅក្នុង <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"ឯកសារ​ពី <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ឯកសារ​ពី <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"រូបភាពថ្មីៗ​នៅលើ​ទូរសព្ទ"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"រូបភាព​នៅលើ​ទូរសព្ទ"</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"រូបភាព​ថ្មីៗ"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"រូបភាព"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"រូបភាពនៅក្នុងថតទាញយក"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"រូបភាព​នៅលើ <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"រូបភាពនៅក្នុង <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -268,12 +269,15 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ប្រើថតនេះ"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"អនុញ្ញាតឱ្យ <xliff:g id="APPNAME">%1$s</xliff:g> ចូលប្រើឯកសារ​នៅក្នុង <xliff:g id="DIRECTORY">%2$s</xliff:g> ដែរទេ?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ការធ្វើបែបនេះ​នឹងអនុញ្ញាតឱ្យ <xliff:g id="APPNAME">%1$s</xliff:g> ចូលប្រើខ្លឹមសារ​បច្ចុប្បន្ន និងនាពេលអនាគត ដែលបានរក្សាទុក​នៅក្នុង <xliff:g id="DIRECTORY">%2$s</xliff:g>។"</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"ជ្រើសរើស​ថត​ផ្សេងទៀត"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"មិន​អាចប្រើ​ថតនេះ​បានទេ ដោយសារ​ហេតុផល​សុវត្ថិភាព"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"មិនអាចប្រើ​ថតនេះ​បានទេ"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ដើម្បី​ការពារ​ឯកជនភាព​របស់អ្នក សូម​ជ្រើសរើស​ថតផ្សេងទៀត"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"បង្កើត​ថត​ថ្មី"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ទូរសព្ទ​នេះ"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"ស្វែងរក​ក្នុងទូរសព្ទ​នេះ"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"លុប​ប្រវត្តិស្វែងរក <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ផ្ទាល់ខ្លួន"</string>
     <string name="work_tab" msgid="7265359366883747413">"ការងារ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ការងារ"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"អ្នកមិនអាច​ផ្លាស់ទី​ឯកសារ​ពីកម្មវិធី​ផ្សេងទៀត​បានទេ។"</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"បង្ហាញក្នុងមុខងារ​ក្រឡា។"</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"បង្ហាញក្នុង​មុខងារបញ្ជី។"</string>
 </resources>
