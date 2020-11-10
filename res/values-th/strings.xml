@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"แตกข้อมูลไปยัง…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"เปลี่ยนชื่อ"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"รับข้อมูล"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"แสดงไฟล์ที่ซ่อนไว้"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"ไม่ต้องแสดงไฟล์ที่ซ่อนไว้"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"ดูใน <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"หน้าต่างใหม่"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"ตัด"</string>
@@ -82,7 +84,7 @@
     <string name="directory_items" msgid="6645621978998614003">"จำนวนรายการ"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"จากน้อยไปมาก"</string>
     <string name="sort_direction_descending" msgid="1729187589765894076">"จากมากไปน้อย"</string>
-    <string name="open_external_app" msgid="7107920381038980086">"เปิด <xliff:g id="APPNAME">%1$s</xliff:g>"</string>
+    <string name="open_external_app" msgid="7107920381038980086">"เปิด \"<xliff:g id="APPNAME">%1$s</xliff:g>\""</string>
     <string name="drawer_open" msgid="8071673398187261741">"แสดงราก"</string>
     <string name="drawer_close" msgid="4263880768630848848">"ซ่อนราก"</string>
     <string name="save_error" msgid="8631128801982095782">"การบันทึกเอกสารล้มเหลว"</string>
@@ -107,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"อุปกรณ์"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"แอปเพิ่มเติม"</string>
     <string name="empty" msgid="5300254272613103004">"ไม่มีรายการ"</string>
-    <string name="no_results" msgid="2371026325236359209">"ไม่พบข้อมูลที่ตรงกันใน %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"ไม่พบข้อมูลที่ตรงกันใน \"%1$s\""</string>
     <string name="toast_no_application" msgid="7555319548595113121">"เปิดไฟล์ไม่ได้"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"เปิดไฟล์ในที่เก็บถาวรไม่ได้"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"ไม่สามารถลบเอกสารบางรายการ"</string>
@@ -238,16 +240,15 @@
       <item quantity="other">เลือกไว้ <xliff:g id="COUNT_1">%1$d</xliff:g> รายการ</item>
       <item quantity="one">เลือกไว้ <xliff:g id="COUNT_0">%1$d</xliff:g> รายการ</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"ไฟล์ล่าสุดในโทรศัพท์"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"ไฟล์ในโทรศัพท์"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g>ในโทรศัพท์"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"ไฟล์ล่าสุด"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"ไฟล์"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"ไฟล์ใน \"ดาวน์โหลด\""</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"ไฟล์ใน <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"ไฟล์ใน <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app" msgid="2125422047558420885">"ไฟล์จาก <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ไฟล์จาก <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"รูปภาพล่าสุดในโทรศัพท์"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"รูปภาพในโทรศัพท์"</string>
+    <string name="root_info_header_app" msgid="2125422047558420885">"ไฟล์จาก \"<xliff:g id="LABEL">%1$s</xliff:g>\""</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"ไฟล์จาก \"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>\""</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"รูปภาพล่าสุด"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"รูปภาพ"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"รูปภาพใน \"ดาวน์โหลด\""</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"รูปภาพใน <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"รูปภาพใน <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -268,12 +269,15 @@
     <string name="open_tree_button" msgid="6402871398424497776">"ใช้โฟลเดอร์นี้"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"อนุญาตให้ <xliff:g id="APPNAME">%1$s</xliff:g> เข้าถึงไฟล์ใน <xliff:g id="DIRECTORY">%2$s</xliff:g> ไหม"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"การดำเนินการนี้จะทำให้ <xliff:g id="APPNAME">%1$s</xliff:g> เข้าถึงเนื้อหาในปัจจุบันและอนาคตที่จัดเก็บไว้ใน <xliff:g id="DIRECTORY">%2$s</xliff:g>"</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"เลือกโฟลเดอร์อื่น"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"ใช้โฟลเดอร์นี้ด้วยเหตุผลด้านความปลอดภัยไม่ได้"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"ใช้โฟลเดอร์นี้ไม่ได้"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"เลือกโฟลเดอร์อื่นเพื่อปกป้องความเป็นส่วนตัว"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"สร้างโฟลเดอร์ใหม่"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"ค้นหาโทรศัพท์เครื่องนี้"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"ค้นหาในโทรศัพท์เครื่องนี้"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"ลบประวัติการค้นหา <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"ส่วนตัว"</string>
     <string name="work_tab" msgid="7265359366883747413">"งาน"</string>
     <string name="a11y_work" msgid="7504431382825242153">"งาน"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"คุณย้ายไฟล์จากแอปอื่นไม่ได้"</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"กำลังแสดงในโหมดตารางกริด"</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"กำลังแสดงในโหมดรายการ"</string>
 </resources>
