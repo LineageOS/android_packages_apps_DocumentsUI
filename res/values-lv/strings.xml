@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"Izvilkt..."</string>
     <string name="menu_rename" msgid="1883113442688817554">"Pārdēvēt"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Iegūt informāciju"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Rādīt paslēptos failus"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Nerādīt paslēptos failus"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Skatīt, izmantojot <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Jauns logs"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Izgriezt"</string>
@@ -260,16 +262,15 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> atlasīts</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> atlasīti</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"Jaunākie faili tālrunī"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"Faili tālrunī"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> tālrunī"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"Pēdējie faili"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"Faili"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Faili mapē Lejupielādes"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Faili ierīcē <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Faili mapē <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Faili no pakalpojuma <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Faili no pakalpojuma <xliff:g id="LABEL">%1$s</xliff:g> (<xliff:g id="SUMMARY">%2$s</xliff:g>)"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Pēdējie attēli tālrunī"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Attēli tālrunī"</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Pēdējie attēli"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Attēli"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Attēli mapē Lejupielādes"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Attēli ierīcē <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Attēli mapē <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -290,12 +291,15 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Izmantot šo mapi"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Vai atļaut lietotnei <xliff:g id="APPNAME">%1$s</xliff:g> piekļūt failiem mapē <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Tādējādi lietotne <xliff:g id="APPNAME">%1$s</xliff:g> varēs piekļūt esošajam un turpmāk pievienotajam saturam mapē <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Izvēlēties citu mapi"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Drošības apsvērumu dēļ šo mapi nevar izmantot"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Nevar izmantot šo mapi"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Lai aizsargātu savu konfidencialitāti, izvēlieties citu mapi."</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Izveidot jaunu mapi"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Meklēt šajā tālrunī"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Meklēšanas vēstures dzēšana <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personīgais profils"</string>
     <string name="work_tab" msgid="7265359366883747413">"Darba profils"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Darbs"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Jūs nevarat pārvietot failus no citas lietotnes."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"Tiek attēlots režģa režīms."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"Tiek attēlots saraksta režīms."</string>
 </resources>
