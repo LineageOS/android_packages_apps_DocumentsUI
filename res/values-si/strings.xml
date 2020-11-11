@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"උපුටා ගන්න…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"යළි නම් කරන්න"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"තොරතුරු ලබා ගන්න"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"සැඟවුණු ගොනු පෙන්වන්න"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"සැඟවුණු ගොනු නොපෙන්වන්න"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> තුළ බලන්න"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"නව කවුළුව"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"කපන්න"</string>
@@ -238,16 +240,15 @@
       <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ක් තෝරන ලදි</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ක් තෝරන ලදි</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"දුරකථනයේ මෑත ගොනු"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"දුරකථනයේ ගොනු"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"දුරකථනයේ <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"මෑත ගොනු"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"ගොනු"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"බාගැනීම්වල ගොනු"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> හි ගොනු"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g> හි ගොනු"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> වෙතින් ගොනු"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> වෙතින් ගොනු"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"දුරකථනයේ ඇති මෑත රූප"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"දුරකථනයේ ඇති රූප"</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"මෑත රූප"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"රූප"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"බාගැනීම්වල රූප"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> මත රූප"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g> හි රූප"</string>
@@ -268,12 +269,15 @@
     <string name="open_tree_button" msgid="6402871398424497776">"මෙම ෆෝල්ඩරය භාවිත කරන්න"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g>ට <xliff:g id="DIRECTORY">%2$s</xliff:g> හි ගොනු වෙත ප්‍රවේශ වීමට ඉඩ දෙන්නද?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"මෙය <xliff:g id="APPNAME">%1$s</xliff:g>ට <xliff:g id="DIRECTORY">%2$s</xliff:g> හි භාවිත කර ඇති වත්මන් සහ අනාගත අන්තර්ගත වෙත ප්‍රවේශය ඉඩ දෙයි"</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"තවත් ෆෝල්ඩරයක් තෝරා ගන්න"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"මෙම ෆෝල්ඩරය ආරක්ෂක හේතු සඳහා භාවිත කළ නොහැකිය"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"මෙම ෆෝල්ඩරය භාවිත කළ නොහැකිය"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"ඔබේ රහස්‍යතාව ආරක්ෂා කිරීමට, තවත් ෆෝල්ඩරයක් තෝරා ගන්න"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"නව ෆෝල්ඩරය තනන්න"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"මෙම දුරකථනයේ සොයන්න"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"සෙවීම් ඉතිහාසය මකන්න <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"පෞද්ගලික"</string>
     <string name="work_tab" msgid="7265359366883747413">"කාර්යාල"</string>
     <string name="a11y_work" msgid="7504431382825242153">"කාර්යාල"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"ඔබට වෙනත් යෙදුමකින් ගොනු ගෙන ඒමට නොහැකිය."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"ජාලක ප්‍රකාරය තුළ පෙන්වමින්."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"ලැයිස්තු ප්‍රකාරය තුළ පෙන්වමින්."</string>
 </resources>

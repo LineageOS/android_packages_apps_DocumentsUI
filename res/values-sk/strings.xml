@@ -45,6 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"Rozbaliť do…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Premenovať"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Zobraziť informácie"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Zobraziť skryté súbory"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Nezobrazovať skryté súbory"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Zobraziť v službe <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Nové okno"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Vystrihnúť"</string>
@@ -91,10 +93,10 @@
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"Pracovný profil je pozastavený"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"Zapnúť"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Pracovné súbory sa nedajú vybrať"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Váš správca IT vám zakázal prístup k pracovným súborom v osobnej aplikácii"</string>
-    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Osobné súbory nedajú vybrať"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Váš správca IT vám zakázal prístup k osobným súborom v pracovnej aplikácii"</string>
-    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nedajú sa uložiť do pracovného profilu"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Váš správca IT vám zakázal prístup k pracovným súborom z osobnej aplikácie"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Osobné súbory sa nedajú vybrať"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Váš správca IT vám zakázal prístup k osobným súborom z pracovnej aplikácie"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Nie je možné ukladať do pracovného profilu"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Váš správca IT vám zakázal ukladať osobné súbory do pracovného profilu"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nedajú sa uložiť do osobného profilu"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Váš správca IT vám zakázal ukladať pracovné súbory do osobného profilu"</string>
@@ -107,7 +109,7 @@
     <string name="root_type_device" msgid="1713604128005476585">"Zariadenia"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Ďalšie aplikácie"</string>
     <string name="empty" msgid="5300254272613103004">"Žiadne položky"</string>
-    <string name="no_results" msgid="2371026325236359209">"Žiadne zhody – %1$s"</string>
+    <string name="no_results" msgid="2371026325236359209">"V priečinku %1$s sa nič nenašlo"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Súbor nie je možné otvoriť"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Súbory sa nedajú otvoriť v archívoch"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Niektoré dokumenty sa nepodarilo odstrániť"</string>
@@ -282,16 +284,15 @@
       <item quantity="other">Vybrané: <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">Vybrané: <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"Nedávne súbory v telefóne"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"Súbory v telefóne"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> v telefóne"</string>
-    <string name="root_info_header_downloads" msgid="8848161246921154115">"Súbory v priečinku stiahnutých súborov"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"Nedávne súbory"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"Súbory"</string>
+    <string name="root_info_header_downloads" msgid="8848161246921154115">"Súbory v priečinku Stiahnuté"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Súbory v zariadení <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Súbory v priečinku <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Súbory zo služby <xliff:g id="LABEL">%1$s</xliff:g>"</string>
-    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Súbory z: <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Nedávne obrázky v telefóne"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Obrázky v telefóne"</string>
+    <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Súbory zo služby <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Nedávne obrázky"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Obrázky"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Obrázky v priečinku stiahnutých súborov"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Obrázky v zariadení <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Obrázky v priečinku <xliff:g id="FOLDER">%1$s</xliff:g>"</string>
@@ -312,12 +313,15 @@
     <string name="open_tree_button" msgid="6402871398424497776">"Použiť tento priečinok"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Chcete aplikácii <xliff:g id="APPNAME">%1$s</xliff:g> povoliť prístup k súborom v adresári <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Aplikácia <xliff:g id="APPNAME">%1$s</xliff:g> získa prístup k aktuálnemu a budúcemu obsahu adresára <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
-    <string name="directory_blocked_header_title" msgid="2241035414909614922">"Výber iného priečinka"</string>
-    <string name="directory_blocked_header_subtitle" msgid="3210782607462478700">"Tento priečinok sa nedá z bezpečnostných dôvodov použiť"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Tento priečinok sa nedá použiť"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Ak chcete ochrániť svoje súkromie, vyberte iný priečinok"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Vytvoriť nový priečinok"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Hľadať v telefóne"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Odstrániť históriu vyhľadávania <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Osobné"</string>
     <string name="work_tab" msgid="7265359366883747413">"Práca"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Práca"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Nemôžete presúvať súbory z inej aplikácie."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"Zobrazované v režime mriežky."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"Zobrazované v režime zoznamu."</string>
 </resources>
