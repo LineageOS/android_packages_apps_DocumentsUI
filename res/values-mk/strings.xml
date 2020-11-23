@@ -150,20 +150,20 @@
     <string name="delete_preparing" msgid="7339349837842802508">"Се подготвува…"</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g>/<xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="one">Не можеше да се копира <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
-      <item quantity="other">Не можеше да се копираат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>
+      <item quantity="one">Не може да се копира <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
+      <item quantity="other">Не може да се копираат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Не можеше да се компримира <xliff:g id="COUNT_1">%1$d</xliff:g> датотека</item>
-      <item quantity="other">Не можеше да се компримираат <xliff:g id="COUNT_1">%1$d</xliff:g> датотеки</item>
+      <item quantity="one">Не може да се компримира <xliff:g id="COUNT_1">%1$d</xliff:g> датотека</item>
+      <item quantity="other">Не може да се компримираат <xliff:g id="COUNT_1">%1$d</xliff:g> датотеки</item>
     </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="one">Не можеше да премести <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
-      <item quantity="other">Не можеше да преместат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>
+      <item quantity="one">Не може да премести <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
+      <item quantity="other">Не може да преместат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>
     </plurals>
     <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="one">Не можеше да се избрише <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
-      <item quantity="other">Не можеше да се избришат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>
+      <item quantity="one">Не може да се избрише <xliff:g id="COUNT_1">%1$d</xliff:g> ставка</item>
+      <item quantity="other">Не може да се избришат <xliff:g id="COUNT_1">%1$d</xliff:g> ставки</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Допрете за приказ на деталите"</string>
     <string name="close" msgid="905969391788869975">"Затвори"</string>
