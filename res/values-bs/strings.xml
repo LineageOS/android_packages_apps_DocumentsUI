@@ -216,9 +216,9 @@
     <string name="rename_error" msgid="6700093173508118635">"Promjena naziva dokumenta nije uspjela"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Izbaci"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Neki fajlovi su pretvoreni u drugi format"</string>
-    <string name="open_external_dialog_request" msgid="8173558471322861268">"Želite li aplikaciji <xliff:g id="APPNAME"><b>^1</b></xliff:g> odobriti pristup direktoriju <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> na pohrani <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"Želite li aplikaciji <xliff:g id="APPNAME"><b>^1</b></xliff:g> odobriti pristup direktoriju <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> na uređaju za pohranu <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Želite li aplikaciji <xliff:g id="APPNAME"><b>^1</b></xliff:g> odobriti pristup direktoriju <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
-    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Želite li aplikaciji <xliff:g id="APPNAME"><b>^1</b></xliff:g> odobriti pristup svojim podacima, uključujući fotografije i videozapise, na pohrani: <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Želite li aplikaciji <xliff:g id="APPNAME"><b>^1</b></xliff:g> odobriti pristup svojim podacima, uključujući fotografije i videozapise, na uređaju za pohranu <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
     <string name="allow" msgid="1275746941353040309">"Dozvoli"</string>
     <string name="deny" msgid="5127201668078153379">"Odbij"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
