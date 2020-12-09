@@ -45,8 +45,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"Извличане в/ъв…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Преименуване"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Получаване на информация"</string>
-    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Скрити файлове: Показване"</string>
-    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Скрити файлове: Без показв."</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Показване на скрити файлове"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Без показв. на скрити файлове"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Преглед в/ъв <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Нов прозорец"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Изрязване"</string>
