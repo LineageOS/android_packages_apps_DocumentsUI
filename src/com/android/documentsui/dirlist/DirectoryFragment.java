@@ -586,6 +586,9 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         // Add listener to update contents on sort model change
         mState.sortModel.addListener(mSortListener);
+        // After SD card is formatted, we go out of the view and come back. Similarly when users
+        // go out of the app to delete some files, we want to refresh the directory.
+        onRefresh();
     }
 
     @Override
