@@ -303,10 +303,11 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
     @Override
     protected void onStartLoading() {
-        if (mResult != null) {
+        boolean isCursorStale = checkIfCursorStale(mResult);
+        if (mResult != null && !isCursorStale) {
             deliverResult(mResult);
         }
-        if (takeContentChanged() || mResult == null) {
+        if (takeContentChanged() || mResult == null || isCursorStale) {
             forceLoad();
         }
     }
@@ -455,5 +456,23 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
             mIsClosed = true;
         }
+    }
+
+    private boolean checkIfCursorStale(DirectoryResult result) {
+        if (result == null || result.cursor == null || result.cursor.isClosed()) {
+            return true;
+        }
+        Cursor cursor = result.cursor;
+        try {
+            cursor.moveToPosition(-1);
+            for (int pos = 0; pos < cursor.getCount(); ++pos) {
+                if (!cursor.moveToNext()) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            return true;
+        }
+        return false;
     }
 }
