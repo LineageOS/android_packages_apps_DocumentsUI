@@ -194,6 +194,19 @@ public class NavigationViewManager {
     }
 
     private void updateToolbar() {
+        if (mCollapsingBarLayout == null) {
+            // Tablet mode does not use CollapsingBarLayout
+            // (res/layout-sw720dp/directory_app_bar.xml or res/layout/fixed_layout.xml)
+            if (shouldShowSearchBar()) {
+                mToolbar.setBackgroundResource(R.drawable.search_bar_background);
+                mToolbar.setOutlineProvider(mSearchBarOutlineProvider);
+            } else {
+                mToolbar.setBackground(mDefaultActionBarBackground);
+                mToolbar.setOutlineProvider(null);
+            }
+            return;
+        }
+
         CollapsingToolbarLayout.LayoutParams toolbarLayoutParams =
                 (CollapsingToolbarLayout.LayoutParams) mToolbar.getLayoutParams();
 

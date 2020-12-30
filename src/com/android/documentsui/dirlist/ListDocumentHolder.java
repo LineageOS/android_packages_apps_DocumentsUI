@@ -223,7 +223,9 @@ final class ListDocumentHolder extends DocumentHolder {
             }
 
             metadataList.add(mFileTypeLookup.lookup(mDoc.mimeType));
-            mMetadataView.setText(TextUtils.join(", ", metadataList));
+            if (mMetadataView != null) {
+                mMetadataView.setText(TextUtils.join(", ", metadataList));
+            }
         }
 
         // mDetails view doesn't exists in layout-sw720dp-land layout
