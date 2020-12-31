@@ -122,8 +122,10 @@ public class SearchFragment extends Fragment {
         mListView.setOnItemClickListener(this::onHistoryItemClicked);
 
         View toolbar = getActivity().findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            // Align top with the bottom of search bar.
+        View collapsingBarLayout = getActivity().findViewById(R.id.collapsing_toolbar);
+        if (toolbar != null && collapsingBarLayout != null) {
+            // If collapsingBarLayout is used (i.e. not in Tablet mode),
+            // need to align top with the bottom of search bar.
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT);
