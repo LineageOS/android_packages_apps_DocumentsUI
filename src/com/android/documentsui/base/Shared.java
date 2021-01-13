@@ -314,7 +314,8 @@ public final class Shared {
     public static void ensureKeyboardPresent(Context context, AlertDialog dialog) {
         if (!isHardwareKeyboardAvailable(context)) {
             dialog.getWindow().setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+                            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
     }
 

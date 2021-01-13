@@ -93,7 +93,7 @@ public class ModelTest {
         cursor = c;
 
         DirectoryResult r = new DirectoryResult();
-        r.cursor = cursor;
+        r.setCursor(cursor);
 
         // Instantiate the model with a dummy view adapter and listener that (for now) do nothing.
         model = new Model(features);
@@ -132,7 +132,7 @@ public class ModelTest {
 
         // Update the model, then make sure it contains all the expected items.
         DirectoryResult r = new DirectoryResult();
-        r.cursor = cIn;
+        r.setCursor(cIn);
         model.update(r);
 
         assertEquals(ITEM_COUNT * 2, model.getItemCount());
