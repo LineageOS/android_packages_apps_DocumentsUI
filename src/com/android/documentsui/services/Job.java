@@ -328,7 +328,8 @@ abstract public class Job implements Runnable {
                 .setContentTitle(title)
                 .setContentIntent(
                         PendingIntent.getActivity(appContext, 0,
-                                buildNavigateIntent(INTENT_TAG_PROGRESS), 0))
+                                buildNavigateIntent(INTENT_TAG_PROGRESS),
+                                PendingIntent.FLAG_IMMUTABLE))
                 .setCategory(Notification.CATEGORY_PROGRESS)
                 .setSmallIcon(icon)
                 .setOngoing(true);
