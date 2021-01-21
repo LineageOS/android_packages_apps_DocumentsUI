@@ -586,7 +586,7 @@ public class ActionHandlerTest {
     public void testAuthentication() throws Exception {
         PendingIntent intent = PendingIntent.getActivity(
                 InstrumentationRegistry.getInstrumentation().getTargetContext(), 0, new Intent(),
-                0);
+                PendingIntent.FLAG_IMMUTABLE);
 
         mHandler.startAuthentication(intent);
         assertEquals(intent.getIntentSender(), mActivity.startIntentSender.getLastValue().first);
