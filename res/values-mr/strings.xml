@@ -89,7 +89,7 @@
     <string name="drawer_close" msgid="4263880768630848848">"रूट लपवा"</string>
     <string name="save_error" msgid="8631128801982095782">"दस्तऐवज सेव्ह करणे अयशस्वी झाले"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर तयार करण्यात अयशस्वी झाले"</string>
-    <string name="query_error" msgid="6625421453613879336">"याक्षणी सामग्री लोड करू शकत नाही"</string>
+    <string name="query_error" msgid="6625421453613879336">"याक्षणी आशय लोड करू शकत नाही"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्य प्रोफाइल थांबवली आहे"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"सुरू करा"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कामासंबंधित फाइल निवडता आल्या नाहीत"</string>
@@ -110,7 +110,7 @@
     <string name="root_type_apps" msgid="8646073235029886342">"अधिक अ‍ॅप्‍स"</string>
     <string name="empty" msgid="5300254272613103004">"कोणतेही आयटम नाहीत"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s मध्‍ये कोणत्याही जुळण्‍या नाहीत"</string>
-    <string name="toast_no_application" msgid="7555319548595113121">"फाईल उघडू शकत नाही"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"फाइल उघडू शकत नाही"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"संग्रहणांमध्‍ये फाइल उघडू शकत नाही"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"काही दस्‍तऐवज हटविण्‍यात अक्षम"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> हून अधिक फाइल शेअर करू शकत नाही"</string>
@@ -217,21 +217,21 @@
     <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" फोल्डर आणि त्यामधील आशय हटवायचा?"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फाइल हटवायच्या?</item>
-      <item quantity="one"> <xliff:g id="COUNT_0">%1$d</xliff:g> फाईल हटवायची?</item>
+      <item quantity="one"> <xliff:g id="COUNT_0">%1$d</xliff:g> फाइल हटवायची?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फोल्डर आणि त्यामधील सामग्री हटवायची?</item>
-      <item quantity="one"> <xliff:g id="COUNT_0">%1$d</xliff:g> फोल्डर आणि त्यामधील सामग्री हटवायची?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फोल्डर आणि त्यामधील आशय हटवायची?</item>
+      <item quantity="one"> <xliff:g id="COUNT_0">%1$d</xliff:g> फोल्डर आणि त्यामधील आशय हटवायची?</item>
     </plurals>
     <plurals name="delete_items_confirmation_message" formatted="false" msgid="7285090426511028179">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> आयटम हटवायचे?</item>
       <item quantity="one"> <xliff:g id="COUNT_0">%1$d</xliff:g> आयटम हटवायचा?</item>
     </plurals>
-    <string name="images_shortcut_label" msgid="2545168016070493574">"इमेज"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"Images"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ब्राउझिंगसाठी संग्रहण उघडण्यात अक्षम. फाइल एकतर दूषित झाली आहे किंवा असमर्थित स्वरूपात आहे."</string>
     <string name="name_conflict" msgid="28407269328862986">"या नावाची फाइल आधीपासून अस्तित्वात आहे."</string>
     <string name="authentication_required" msgid="8030880723643436099">"डिरेक्टरी पाहण्यासाठी <xliff:g id="NAME">%1$s</xliff:g> मध्ये साइन इन करा"</string>
-    <string name="cant_display_content" msgid="8633226333229417237">"सामग्री प्रदर्शित करू शकत नाही"</string>
+    <string name="cant_display_content" msgid="8633226333229417237">"आशय प्रदर्शित करू शकत नाही"</string>
     <string name="sign_in" msgid="6253762676723505592">"साइन इन करा"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"संग्रहण<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g> अधिलिखित करायचे?"</string>
@@ -248,13 +248,13 @@
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> मधील फाइल"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> मधील फाइल / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="root_info_header_image_recent" msgid="7494373563753926014">"अलीकडील इमेज"</string>
-    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"इमेज"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Images"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"डाउनलोड मधील इमेज"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> वरील इमेज"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g> मधील इमेज"</string>
     <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g> कडील इमेज"</string>
     <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> कडील इमेज"</string>
-    <string name="chip_title_images" msgid="7838299046109841015">"इमेज"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"Images"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"ऑडिओ"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"व्हिडिओ"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"दस्तऐवज"</string>
