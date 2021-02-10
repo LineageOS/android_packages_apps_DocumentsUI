@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,13 +47,16 @@ import java.util.ArrayList;
 import java.util.function.Function;
 
 final class ListDocumentHolder extends DocumentHolder {
+    private static final String TAG = "ListDocumentHolder";
 
     private final TextView mTitle;
-    private final @Nullable LinearLayout mDetails;  // Container of date/size/summary
     private final @Nullable TextView mDate; // Non-null for tablets/sw720dp, null for other devices.
     private final @Nullable TextView mSize; // Non-null for tablets/sw720dp, null for other devices.
     private final @Nullable TextView mType; // Non-null for tablets/sw720dp, null for other devices.
-    private final @Nullable TextView mMetadataView; // Null for tablets/sw720dp
+    // Container for date + size + summary, null only for tablets/sw720dp
+    private final @Nullable LinearLayout mDetails;
+    // TextView for date + size + summary, null only for tablets/sw720dp
+    private final @Nullable TextView mMetadataView;
     private final ImageView mIconMime;
     private final ImageView mIconThumb;
     private final ImageView mIconCheck;
@@ -213,25 +217,36 @@ final class ListDocumentHolder extends DocumentHolder {
         mTitle.setText(mDoc.displayName, TextView.BufferType.SPANNABLE);
         mTitle.setVisibility(View.VISIBLE);
 
-        boolean hasDetails = false;
         if (mDoc.isDirectory()) {
             // Note, we don't show any details for any directory...ever.
-            hasDetails = false;
+            if (mDetails != null) {
+                // Non-tablets
+                mDetails.setVisibility(View.GONE);
+            }
         } else {
             // For tablets metadata is provided in columns mDate, mSize, mType.
             // For other devices mMetadataView consolidates the metadata info.
             if (mMetadataView != null) {
+                // Non-tablets
+                boolean hasDetails = false;
                 ArrayList<String> metadataList = new ArrayList<>();
                 if (mDoc.lastModified > 0) {
+                    hasDetails = true;
                     metadataList.add(Shared.formatTime(mContext, mDoc.lastModified));
                 }
                 if (mDoc.size > -1) {
+                    hasDetails = true;
                     metadataList.add(Formatter.formatFileSize(mContext, mDoc.size));
                 }
                 metadataList.add(mFileTypeLookup.lookup(mDoc.mimeType));
                 mMetadataView.setText(TextUtils.join(", ", metadataList));
-                mDetails.setVisibility(hasDetails ? View.VISIBLE : View.GONE);
-            } else { // Tablets
+                if (mDetails != null) {
+                    mDetails.setVisibility(hasDetails ? View.VISIBLE : View.GONE);
+                } else {
+                    Log.w(TAG, "mDetails is unexpectedly null for non-tablet devices!");
+                }
+            } else {
+                // Tablets
                 if (mDoc.lastModified > 0) {
                     mDate.setVisibility(View.VISIBLE);
                     mDate.setText(Shared.formatTime(mContext, mDoc.lastModified));
