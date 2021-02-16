@@ -14,9 +14,9 @@ android_test {
 
     static_libs: [
         "androidx.legacy_legacy-support-v4",
+        "collector-device-lib",
         "mockito-target",
         "ub-uiautomator",
-	      "collector-device-lib",
     ],
 
     platform_apis: true,
