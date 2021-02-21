@@ -45,8 +45,6 @@
     <string name="menu_extract" msgid="8171946945982532262">"Razširi v …"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Preimenuj"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Prikaži informacije"</string>
-    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Prikaži skrite datoteke"</string>
-    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Ne prikaži skritih datotek"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Prikaži v aplikaciji <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Novo okno"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Izreži"</string>
@@ -74,11 +72,11 @@
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"Ime datoteke (od A do Ž)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"Vrsta (od A do Ž)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"Velikost (od najmanjše)"</string>
-    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Spremenjeno (najprej najstarejše)"</string>
+    <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"Spremenjeno (od najstarejše)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"Ime datoteke (od Ž do A)"</string>
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Vrsta (od Ž do A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Velikost (od največje)"</string>
-    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Spremenjeno (najprej najnovejše)"</string>
+    <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Spremenjeno (od najnovejše)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Razvrsti po"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Razvrščeno po: <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Število elementov"</string>
@@ -90,18 +88,6 @@
     <string name="save_error" msgid="8631128801982095782">"Dokumenta ni bilo mogoče shraniti"</string>
     <string name="create_error" msgid="3092144450044861994">"Mape ni bilo mogoče ustvariti"</string>
     <string name="query_error" msgid="6625421453613879336">"Vsebine trenutno ni mogoče naložiti"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Delovni profil je začasno zaustavljen"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Vklopi"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ni mogoče izbrati službenih datotek"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Skrbnik za IT ne dovoli dostopa do službenih datotek iz osebne aplikacije"</string>
-    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Ni mogoče izbrati osebnih datotek"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"Skrbnik za IT ne dovoli dostopa do osebnih datotek iz delovne aplikacije"</string>
-    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ni mogoče shraniti v delovni profil"</string>
-    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"Skrbnik za IT ne dovoli shranjevanja osebnih datotek v delovni profil"</string>
-    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Ni mogoče shraniti v osebni profil"</string>
-    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Skrbnik za IT ne dovoli shranjevanja službenih datotek v osebni profil"</string>
-    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"To dejanje ni dovoljeno"</string>
-    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Za več informacij se obrnite na skrbnika za IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Nedavno"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"Prosto: <xliff:g id="SIZE">%1$s</xliff:g>"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Storitve shrambe"</string>
@@ -109,12 +95,11 @@
     <string name="root_type_device" msgid="1713604128005476585">"Naprave"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"Več aplikacij"</string>
     <string name="empty" msgid="5300254272613103004">"Ni elementov"</string>
-    <string name="no_results" msgid="2371026325236359209">"Ni ujemanj v »%1$s«"</string>
+    <string name="no_results" msgid="2371026325236359209">"Tukaj ni ujemanj: %1$s"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"Datoteke ni mogoče odpreti"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Datotek ni mogoče odpreti v arhivih"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Nekaterih dokumentov ni mogoče izbrisati"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Ne morete deliti več kot toliko datotek: <xliff:g id="COUNT">%1$d</xliff:g>"</string>
-    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Dejanje ni dovoljeno"</string>
     <string name="share_via" msgid="8725082736005677161">"Deli z drugimi prek"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Kopiranje datotek"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Stiskanje datotek"</string>
@@ -284,15 +269,16 @@
       <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> izbrani</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> izbranih</item>
     </plurals>
-    <string name="root_info_header_recent" msgid="5654901877295332262">"Nedavne datoteke"</string>
-    <string name="root_info_header_global_search" msgid="4904078222280496152">"Datoteke"</string>
+    <string name="root_info_header_recent" msgid="8754386597210017725">"Nedavne datoteke v telefonu"</string>
+    <string name="root_info_header_global_search" msgid="9099308729787003373">"Datoteke v telefonu"</string>
+    <string name="root_info_header_media" msgid="2774453755906260852">"<xliff:g id="LABEL">%1$s</xliff:g> v telefonu"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Datoteke v mapi »Prenosi«"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"Datoteke v napravi <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"Datoteke v mapi »<xliff:g id="FOLDER">%1$s</xliff:g>«"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"Datoteke iz: <xliff:g id="LABEL">%1$s</xliff:g>"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"Datoteke iz: <xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
-    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Nedavne slike"</string>
-    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Slike"</string>
+    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Nedavne slike v telefonu"</string>
+    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Slike v telefonu"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Slike v mapi »Prenosi«"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"Slike v napravi <xliff:g id="DEVICE">%1$s</xliff:g>"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"Slike v mapi »<xliff:g id="FOLDER">%1$s</xliff:g>«"</string>
@@ -307,19 +293,18 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Ime mape"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Novo ime"</string>
     <string name="preview_file" msgid="4056622696305432343">"Predogled datoteke <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
-    <string name="preview_work_file" msgid="4495643735563487273">"Predogled delovne datoteke <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Brskanje po datotekah v drugih aplikacijah"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonimno"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Uporabi to mapo"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Ali aplikaciji <xliff:g id="APPNAME">%1$s</xliff:g> dovolite dostop do datotek v imeniku »<xliff:g id="DIRECTORY">%2$s</xliff:g>«?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"S tem boste aplikaciji <xliff:g id="APPNAME">%1$s</xliff:g> omogočili dostop do sedanje in prihodnje vsebine imenika »<xliff:g id="DIRECTORY">%2$s</xliff:g>«."</string>
-    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Te mape ni mogoče uporabiti"</string>
-    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Izberite drugo mapo, da zaščitite svojo zasebnost"</string>
-    <string name="create_new_folder_button" msgid="8859613309559794890">"Ustvari novo mapo"</string>
+    <string name="open_tree_header_title" msgid="2116139702183931871">"Mape <xliff:g id="FOLDERNAME">%1$s</xliff:g> ni mogoče deliti z aplikacijo <xliff:g id="APPNAME">%2$s</xliff:g>"</string>
+    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Spodaj izberite mapo ali ustvarite novo"</string>
+    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Izberite drugo mapo ali ustvarite novo"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Iščite v tem telefonu"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Brisanje zgodovine iskanja <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Osebno"</string>
-    <string name="work_tab" msgid="7265359366883747413">"Služba"</string>
-    <string name="a11y_work" msgid="7504431382825242153">"Delovna"</string>
-    <string name="drag_from_another_app" msgid="8310249276199969905">"Datotek iz druge aplikacije ni mogoče premakniti."</string>
+    <!-- no translation found for personal_tab (3878576287868528503) -->
+    <skip />
+    <!-- no translation found for work_tab (7265359366883747413) -->
+    <skip />
 </resources>
