@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2013 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="files_label">Ficheros</string>
+    <string name="downloads_label">Descargues</string>
+    <string name="app_label">@string/files_label</string>
+    <string name="launcher_label">@string/files_label</string>
+    <string name="title_open">Abrir dende</string>
+    <string name="title_save">Guardar en</string>
+    <string name="menu_create_dir">Carpeta nueva</string>
+    <string name="menu_grid">Vista de cuadrícula</string>
+    <string name="menu_list">Vista de llistáu</string>
+    <string name="menu_search">Guetar</string>
+    <string name="menu_settings">Axustes d\'almacenamientu</string>
+    <string name="menu_open">Abrir</string>
+    <string name="menu_open_with">Abrir con</string>
+    <string name="menu_open_in_new_window">Abrir nuna ventana nueva</string>
+    <string name="menu_save">Guardar</string>
+    <string name="menu_share">Compartir</string>
+    <string name="menu_delete">Desaniciar</string>
+    <string name="menu_select_all">Esbillar too</string>
+    <string name="menu_select">Esbillar</string>
+    <string name="menu_copy">Copiar a\u2026</string>
+    <string name="menu_move">Mover a\u2026</string>
+    <string name="menu_compress">Comprimir</string>
+    <string name="menu_extract">Estrayer a\u2026</string>
+    <string name="menu_rename">Renomar</string>
+    <string name="menu_inspect">Guetar información</string>
+    <string name="menu_view_in_owner">Ver en <xliff:g id="source" example="Google Drive">%1$s</xliff:g></string>
+    <string name="menu_new_window">Ventana nueva</string>
+    <string name="menu_cut_to_clipboard">Cortar</string>
+    <string name="menu_copy_to_clipboard">Copiar</string>
+    <string name="menu_paste_from_clipboard">Apegar</string>
+    <string name="menu_paste_into_folder">Pegar na carpeta</string>
+    <string name="menu_advanced_show">Amosar almacenamientu internu</string>
+    <string name="menu_advanced_hide">Anubrir almacenamientu internu</string>
+    <string name="button_select">Esbillar</string>
+    <string name="button_copy">Copiar</string>
+    <string name="button_compress">Comprimir</string>
+    <string name="button_extract">Estrayer</string>
+    <string name="button_move">Mover</string>
+    <string name="button_dismiss">Escartar</string>
+    <string name="button_retry">Volvi tentalo</string>
+    <string name="button_clear">Desaniciar</string>
+    <string name="not_sorted">Ensin ordenar</string>
+    <string name="sort_dimension_name">Nome</string>
+    <string name="sort_dimension_summary">Resume</string>
+    <string name="sort_dimension_file_type">Triba</string>
+    <string name="sort_dimension_size">Tamañu</string>
+    <string name="sort_dimension_date">Modificáu</string>
+    <string name="directory_items">Númberu d\'items</string>
+    <string name="no_results">Nun hai coincidendies en %1$s</string>
+    <string name="copy_remaining">Queden <xliff:g id="duration" example="3 minutes">%s</xliff:g></string>
+    <plurals name="copy_begin">
+        <item quantity="one">Copiando <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
+        <item quantity="other">Copiando <xliff:g id="count" example="1">%1$d</xliff:g> items.</item>
+    </plurals>
+    <plurals name="compress_begin">
+        <item quantity="one">Comprimiendo <xliff:g id="count" example="1">%1$d</xliff:g> ficheru.</item>
+        <item quantity="other">Comprimiendo <xliff:g id="count" example="1">%1$d</xliff:g> ficheros.</item>
+    </plurals>
+    <plurals name="extract_begin">
+        <item quantity="one">Sacando <xliff:g id="count" example="1">%1$d</xliff:g> ficheru.</item>
+        <item quantity="other">Sacando <xliff:g id="count" example="1">%1$d</xliff:g> ficheros.</item>
+    </plurals>
+    <plurals name="move_begin">
+        <item quantity="one">Moviendo <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
+        <item quantity="other">Moviendo <xliff:g id="count" example="1">%1$d</xliff:g> items.</item>
+    </plurals>
+    <plurals name="deleting">
+        <item quantity="one">Desaniciando <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
+        <item quantity="other">Desaniciando <xliff:g id="count" example="1">%1$d</xliff:g> items.</item>
+    </plurals>
+    <string name="copy_preparing">Tresnando...</string>
+    <string name="compress_preparing">Tresnando...</string>
+    <string name="extract_preparing">Tresnando...</string>
+    <string name="move_preparing">Tresnando...</string>
+    <string name="delete_preparing">Tresnando...</string>
+    <string name="delete_progress"><xliff:g id="count" example="3">%1$d</xliff:g> / <xliff:g id="totalCount" example="5">%2$d</xliff:g></string>
+    <plurals name="copy_error_notification_title">
+        <item quantity="one">Nun pudo copiase <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
+        <item quantity="other">Nun pudo copiase <xliff:g id="count" example="1">%1$d</xliff:g> items</item>
+    </plurals>
+    <plurals name="compress_error_notification_title">
+        <item quantity="one">Nun pudo comprimise <xliff:g id="count" example="1">%1$d</xliff:g> ficheru</item>
+        <item quantity="other">Nun pudieron comprimise <xliff:g id="count" example="1">%1$d</xliff:g> ficheros</item>
+    </plurals>
+    <plurals name="move_error_notification_title">
+        <item quantity="one">Nun pudo movese <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
+        <item quantity="other">Nun pudieron movese <xliff:g id="count" example="1">%1$d</xliff:g> items</item>
+    </plurals>
+    <plurals name="delete_error_notification_title">
+        <item quantity="one">Nun pudo desaniciase <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
+        <item quantity="other">Nun pudieron desaniciase <xliff:g id="count" example="1">%1$d</xliff:g> items</item>
+    </plurals>
+    <plurals name="copy_failure_alert_content">
+        <item quantity="one">Esti ficheru nu\u2019n se pudo copiar: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
+        <item quantity="other">Estos ficheros nu\u2019n se pudieron copiar: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="compress_failure_alert_content">
+        <item quantity="one">Esti ficheru nu\u2019n se pudo comprimir: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
+        <item quantity="other">Estos ficheros nu\u2019n se pudieron comprimir: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="extract_failure_alert_content">
+        <item quantity="one">Esti ficheru nu\u2019n se pudo estrayer: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
+        <item quantity="other">Estos ficheros nu\u2019n se pudieron estrayer: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="move_failure_alert_content">
+        <item quantity="one">Esti ficheru nu\u2019n se pudo mover: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
+        <item quantity="other">Estos ficheros nu\u2019n se pudieron mover: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="delete_failure_alert_content">
+        <item quantity="one">Esti ficheru nu\u2019n se pudo desaniciar: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
+        <item quantity="other">Estos ficheros nu\u2019n se pudieron desaniciar: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="copy_converted_warning_content">
+        <item quantity="one">Estos fichereros pasaron a tener otru formatu: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
+        <item quantity="other">Estos ficheros pasaron a tener otru formatu: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
+    </plurals>
+    <plurals name="clipboard_files_clipped">
+        <item quantity="one">Copióse <xliff:g id="count" example="1">%1$d</xliff:g> elementu al cartafueyu.</item>
+        <item quantity="other">Copiáronse <xliff:g id="count" example="1">%1$d</xliff:g> elementos al cartafueyu.</item>
+    </plurals>
+    <string name="file_operation_rejected">La operación del ficheru nun tien sofitu.</string>
+    <string name="file_operation_error">Falló la operación de ficheru.</string>
+    <string name="rename_error">Fallu al renomar el documentu</string>
+    <string name="notification_copy_files_converted_title">Convirtiéronse dellos ficheros</string>
+    <string name="open_external_dialog_request">Permitir <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
+        accesu a <xliff:g id="directory" example="Pictures"><i>^2</i></xliff:g> directoriu en 
+        <xliff:g id="storage" example="SD Card"><i>^3</i></xliff:g>?</string>
+    <string name="open_external_dialog_request_primary_volume">¿Permitir <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
+        accesu a <xliff:g id="directory" example="Pictures"><i>^2</i></xliff:g> directoriu?</string>
+    <string name="open_external_dialog_root_request">Permitir <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
+        accesu a los tos datos, incluyendo semeyes y vídeos, en <xliff:g id="storage" example="SD Card"><i>^2</i></xliff:g>?</string>
+    <string name="allow">Permitir</string>
+    <string name="deny">Denegar</string>
+    <plurals name="elements_selected">
+        <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> elementu esbilláu</item>
+        <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> elementos esbillaos</item>
+    </plurals>
+    <plurals name="elements_dragged">
+        <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> elementu</item>
+        <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> elementos</item>
+    </plurals>
+    <string name="delete_filename_confirmation_message">¿Desaniciar «<xliff:g id="name" example="cat.jpg">%1$s</xliff:g>»?</string>
+    <string name="delete_foldername_confirmation_message">¿Desaniciar carpeta «<xliff:g id="name" example="Photos">%1$s</xliff:g>» y los sos conteníos?</string>
+    <plurals name="delete_files_confirmation_message">
+        <item quantity="one">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> ficheru?</item>
+        <item quantity="other">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> ficheros?</item>
+    </plurals>
+    <plurals name="delete_folders_confirmation_message">
+        <item quantity="one">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> carpeta y los sos conteníos?</item>
+        <item quantity="other">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> carpetes y los sos conteníos?</item>
+    </plurals>
+    <plurals name="delete_items_confirmation_message">
+        <item quantity="one">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> elementu?</item>
+        <item quantity="other">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> elementu?</item>
+    </plurals>
+    <string name="images_shortcut_label">Imáxenes</string>
+    <string name="sign_in">Aniciar sesión</string>
+    <string name="new_archive_file_name">ficheru<xliff:g id="extension" example=".zip">%s</xliff:g></string>
+    <string name="overwrite_file_confirmation_message">¿Sobrescribir <xliff:g id="name" example="foobar.txt">%1$s</xliff:g>?</string>
+    <string name="continue_in_background">Siguir de fondu</string>
+    <plurals name="selected_count">
+        <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> elementu esbilláu</item>
+        <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> elementos esbillaos</item>
+    </plurals>
+    <string name="root_info_header_global_search">Ficheros</string>
+    <string name="root_info_header_image_global_search">Imáxenes</string>
+    <string name="chip_title_images">Imáxenes</string>
+</resources>
