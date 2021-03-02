@@ -213,7 +213,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> елемента</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> елемент</item>
     </plurals>
-    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"Искате ли да изтриете „<xliff:g id="NAME">%1$s</xliff:g>“?"</string>
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"Искате ли да изтриете <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"Искате ли да изтриете папката „<xliff:g id="NAME">%1$s</xliff:g>“ и съдържанието в нея?"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
       <item quantity="other">Искате ли да изтриете <xliff:g id="COUNT_1">%1$d</xliff:g> файла?</item>
@@ -233,7 +233,7 @@
     <string name="authentication_required" msgid="8030880723643436099">"За да прегледате тази директория, влезте в/ъв <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"Съдържанието не може да бъде показано"</string>
     <string name="sign_in" msgid="6253762676723505592">"Вход"</string>
-    <string name="new_archive_file_name" msgid="1604650338077249838">"<xliff:g id="EXTENSION">%s</xliff:g> архивен файл"</string>
+    <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Да се презапише ли <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Продължаване на заден план"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
