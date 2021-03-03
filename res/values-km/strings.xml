@@ -51,7 +51,7 @@
     <string name="menu_new_window" msgid="2947837751796109126">"ផ្ទាំងវិនដូថ្មី"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"កាត់"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"ចម្លង"</string>
-    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"បិទភ្ជាប់"</string>
+    <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ដាក់ចូល"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"បិទភ្ជាប់ទៅក្នុងថត"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"បង្ហាញទំហំផ្ទុកខាងក្នុង"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"លាក់​ឧបករណ៍​​ផ្ទុក​ខាងក្នុង"</string>
