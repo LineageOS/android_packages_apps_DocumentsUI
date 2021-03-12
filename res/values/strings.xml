@@ -15,6 +15,13 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Error when rename does not have any string-->
+    <string name="missing_rename_error">You need to rename this</string>
+
+    <!-- Error to create new folder when name is not added -->
+    <string name="add_folder_name_error">You need to add a folder name</string>
+
     <!-- Title of the Files application [CHAR LIMIT=32] -->
     <string name="files_label">Files</string>
 
