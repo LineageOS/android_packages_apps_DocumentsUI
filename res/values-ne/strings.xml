@@ -50,13 +50,13 @@
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> मा हेर्नुहोस्"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"नयाँ विन्डो"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"काट्नुहोस्"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"प्रतिलिपि बनाउनुहोस्"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"कपी गर्नुहोस्"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"टाँस्नुहोस्"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"फोल्डर भित्र टाँस्नुहोस्"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"आन्तरिक भण्डारण देखाउनु"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"आन्तरिक भण्डारण लुकाउनु"</string>
     <string name="button_select" msgid="240863497069321364">"चयन गर्नुहोस्"</string>
-    <string name="button_copy" msgid="8219059853840996027">"प्रतिलिपि बनाउनुहोस्"</string>
+    <string name="button_copy" msgid="8219059853840996027">"कपी गर्नुहोस्"</string>
     <string name="button_compress" msgid="8951561310857223966">"कम्प्रेस गर्नुहोस्"</string>
     <string name="button_extract" msgid="1038674453689912247">"एकस्ट्रयाक्ट गर्नुहोस्"</string>
     <string name="button_move" msgid="8596460499325291272">"सार्नुहोस्"</string>
