@@ -54,4 +54,6 @@
     <color name="doc_list_item_subtitle_disabled">#613c4043</color> <!-- 38% Grey800 -->
 
     <color name="list_divider_color">#1f000000</color>
+
+    <color name="chip_selected_text">#3367D6</color> <!-- Blue 700 -->
 </resources>
