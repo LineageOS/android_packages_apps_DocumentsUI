@@ -125,23 +125,23 @@
     <string name="delete_notification_title" msgid="2512757431856830792">"Ֆայլերը ջնջվում են"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"Մինչ ավարտը՝ <xliff:g id="DURATION">%s</xliff:g>"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
-      <item quantity="one">Copying <xliff:g id="COUNT_1">%1$d</xliff:g> items.</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> տարրի պատճենում:</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> տարրի պատճենում:</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="one">Compressing <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլի սեղմում:</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլի սեղմում:</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
-      <item quantity="one">Extracting <xliff:g id="COUNT_1">%1$d</xliff:g> files.</item>
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլի արտահանում:</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլի դուրսբերում:</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլի դուրսբերում:</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
-      <item quantity="one">Moving <xliff:g id="COUNT_1">%1$d</xliff:g> items.</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> տարրի տեղափոխում:</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> տարրի տեղափոխում:</item>
     </plurals>
     <plurals name="deleting" formatted="false" msgid="1729138001178158901">
-      <item quantity="one">Deleting <xliff:g id="COUNT_1">%1$d</xliff:g> items.</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> տարրի ջնջում:</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> տարրի ջնջում:</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"Հետարկել"</string>
@@ -152,19 +152,19 @@
     <string name="delete_preparing" msgid="7339349837842802508">"Նախապատրաստում..."</string>
     <string name="delete_progress" msgid="2627631054702306423">"<xliff:g id="COUNT_0">%1$d</xliff:g> / <xliff:g id="TOTALCOUNT">%2$d</xliff:g>"</string>
     <plurals name="copy_error_notification_title" formatted="false" msgid="3188432450429390963">
-      <item quantity="one">Couldn’t copy <xliff:g id="COUNT_1">%1$d</xliff:g> items</item>
+      <item quantity="one">Չհաջողվեց պատճենել <xliff:g id="COUNT_1">%1$d</xliff:g> տարր</item>
       <item quantity="other">Չհաջողվեց պատճենել <xliff:g id="COUNT_1">%1$d</xliff:g> տարր</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="one">Couldn’t compress <xliff:g id="COUNT_1">%1$d</xliff:g> files</item>
+      <item quantity="one">Չհաջողվեց սեղմել <xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլ</item>
       <item quantity="other">Չհաջողվեց սեղմել <xliff:g id="COUNT_1">%1$d</xliff:g> ֆայլ</item>
     </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
-      <item quantity="one">Couldn’t move <xliff:g id="COUNT_1">%1$d</xliff:g> items</item>
+      <item quantity="one">Չհաջողվեց տեղափոխել <xliff:g id="COUNT_1">%1$d</xliff:g> տարր</item>
       <item quantity="other">Չհաջողվեց տեղափոխել <xliff:g id="COUNT_1">%1$d</xliff:g> տարր</item>
     </plurals>
     <plurals name="delete_error_notification_title" formatted="false" msgid="7568122018481625267">
-      <item quantity="one">Couldn’t delete <xliff:g id="COUNT_1">%1$d</xliff:g> items</item>
+      <item quantity="one">Չհաջողվեց ջնջել <xliff:g id="COUNT_1">%1$d</xliff:g> տարր</item>
       <item quantity="other">Չհաջողվեց ջնջել <xliff:g id="COUNT_1">%1$d</xliff:g> տարր</item>
     </plurals>
     <string name="notification_touch_for_details" msgid="2385563502445129570">"Հպեք՝ մանրամասները դիտելու համար"</string>
