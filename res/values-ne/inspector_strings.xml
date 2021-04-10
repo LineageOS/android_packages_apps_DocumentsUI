@@ -21,7 +21,7 @@
     <string name="inspector_debug_section" msgid="2576052661505700421">"डिबगसम्बन्धी जानकारी (विकासकर्ताका लागि मात्र)"</string>
     <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"अप्रशोधित मेटाडेटा: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
     <string name="inspector_metadata_section" msgid="6077622515328240575">"मिडियासम्बन्धी विवरणहरू"</string>
-    <string name="handler_app_file_opens_with" msgid="5272329600389613550">"यस प्रकारको फाइल निम्न अनुप्रयोगमार्फत खुल्छ"</string>
+    <string name="handler_app_file_opens_with" msgid="5272329600389613550">"यस प्रकारको फाइल निम्न एपमार्फत खुल्छ"</string>
     <string name="handler_app_belongs_to" msgid="5444507329303253553">"यो फाइलको प्रदायक"</string>
     <string name="handler_app_not_selected" msgid="1294439257183908786">"चयन गरिएको छैन"</string>
     <string name="handler_app_unknown" msgid="5911661530593229287">"अज्ञात"</string>
