@@ -35,4 +35,6 @@
     <color name="doc_list_item_subtitle_disabled">#36ffffff</color>
 
     <color name="list_divider_color">#9aa0a6</color>
+
+    <color name="chip_selected_text">#A1C2FA</color> <!-- Blue 200 -->
 </resources>
