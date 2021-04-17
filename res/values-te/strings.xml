@@ -71,7 +71,7 @@
     <string name="sort_dimension_name" msgid="6325591541414177579">"పేరు"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"సారాంశం"</string>
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"రకం"</string>
-    <string name="sort_dimension_size" msgid="2190547351159472884">"పరిమాణం"</string>
+    <string name="sort_dimension_size" msgid="2190547351159472884">"సైజ్‌"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"సవరించిన సమయం"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ఫైల్ పేరు (A నుండి Zకు)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"రకం (A నుండి Z)"</string>
