@@ -439,7 +439,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         waitForFirstLoad();
         loadStoppedAuthorities();
         synchronized (mLock) {
-            return mRoots.values();
+            return new HashSet<>(mRoots.values());
         }
     }
 
