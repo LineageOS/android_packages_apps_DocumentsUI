@@ -62,6 +62,7 @@ import com.android.documentsui.base.UserId;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.util.concurrent.MoreExecutors;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,7 +73,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -498,6 +502,11 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         @Nullable
         private final Runnable mCallback;
 
+        @GuardedBy("mLock")
+        private Multimap<UserAuthority, RootInfo> mLocalRoots = ArrayListMultimap.create();
+        @GuardedBy("mLock")
+        private HashSet<UserAuthority> mLocalStoppedAuthorities = new HashSet<>();
+
         /**
          * Create task to update roots cache.
          *
@@ -526,17 +535,12 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
             int previousPriority = Thread.currentThread().getPriority();
             Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 
-            synchronized (mLock) {
-                mRoots.clear();
-                mStoppedAuthorities.clear();
-            }
-
             final long start = SystemClock.elapsedRealtime();
 
             for (UserId userId : mUserIdManager.getUserIds()) {
                 final RootInfo recents = createOrGetRecentsRoot(userId);
                 synchronized (mLock) {
-                    mRoots.put(new UserAuthority(recents.userId, recents.authority), recents);
+                    mLocalRoots.put(new UserAuthority(recents.userId, recents.authority), recents);
                 }
             }
 
@@ -556,12 +560,14 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
 
             if (!taskInfos.isEmpty()) {
                 CountDownLatch updateTaskInternalCountDown = new CountDownLatch(taskInfos.size());
+                ExecutorService executor = MoreExecutors.getExitingExecutorService(
+                        (ThreadPoolExecutor) Executors.newCachedThreadPool());
                 for (SingleProviderUpdateTaskInfo taskInfo: taskInfos) {
-                    new Thread(() ->
+                    executor.submit(() ->
                             startSingleProviderUpdateTask(
                                     taskInfo.providerInfo,
                                     taskInfo.userId,
-                                    updateTaskInternalCountDown)).start();
+                                    updateTaskInternalCountDown));
                 }
 
                 // Block until all SingleProviderUpdateTask threads finish executing.
@@ -578,17 +584,17 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
             }
 
             final long delta = SystemClock.elapsedRealtime() - start;
-            int rootsCount = 0;
             synchronized (mLock) {
-                rootsCount = mRoots.size();
                 mFirstLoadDone = true;
                 if (mBootCompletedResult != null) {
                     mBootCompletedResult.finish();
                     mBootCompletedResult = null;
                 }
+                mRoots = mLocalRoots;
+                mStoppedAuthorities = mLocalStoppedAuthorities;
             }
             if (VERBOSE) {
-                Log.v(TAG, "Update found " + rootsCount + " roots in " + delta + "ms");
+                Log.v(TAG, "Update found " + mLocalRoots.size() + " roots in " + delta + "ms");
             }
 
             mFirstLoad.countDown();
@@ -626,7 +632,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
                     Log.v(TAG, "Ignoring stopped authority " + info.authority + ", user " + userId);
                 }
                 synchronized (mLock) {
-                    mStoppedAuthorities.add(userAuthority);
+                    mLocalStoppedAuthorities.add(userAuthority);
                 }
                 return;
             }
@@ -635,7 +641,8 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
                     || Objects.equals(
                     new UserPackage(userId, info.packageName), mForceRefreshUserPackage);
             synchronized (mLock) {
-                mRoots.putAll(userAuthority, loadRootsForAuthority(userAuthority, forceRefresh));
+                mLocalRoots.putAll(userAuthority,
+                        loadRootsForAuthority(userAuthority, forceRefresh));
             }
         }
     }
