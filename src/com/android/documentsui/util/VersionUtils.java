@@ -30,7 +30,8 @@ public class VersionUtils {
      * Returns whether the device is running on Android R or newer.
      */
     public static boolean isAtLeastR() {
-        return Build.VERSION.CODENAME.equals("R")
+        return isAtLeastS() // Keep reference to isAtLeastS() so it's not stripped from test apk
+                || Build.VERSION.CODENAME.equals("R")
                 || Build.VERSION.SDK_INT >= 30;
     }
 
