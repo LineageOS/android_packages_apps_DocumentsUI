@@ -46,8 +46,8 @@
             app:tabMaxWidth="0dp"
             app:tabGravity="fill"
             app:tabMode="fixed"
-            app:tabIndicatorColor="@color/tab_indicator_color"
-            app:tabSelectedTextColor="@color/tab_indicator_color"
+            app:tabIndicatorColor="?android:attr/colorAccent"
+            app:tabSelectedTextColor="?android:attr/colorAccent"
             app:tabTextAppearance="@style/TabTextAppearance"
             app:tabTextColor="?android:attr/textColorSecondary"/>
 
