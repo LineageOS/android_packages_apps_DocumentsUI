@@ -27,10 +27,18 @@ public class VersionUtils {
     }
 
     /**
-     * Returns whether the device is running on the Android R or newer.
+     * Returns whether the device is running on Android R or newer.
      */
     public static boolean isAtLeastR() {
         return Build.VERSION.CODENAME.equals("R")
                 || Build.VERSION.SDK_INT >= 30;
+    }
+
+    /**
+     * Returns whether the device is running on Android S or newer.
+     */
+    public static boolean isAtLeastS() {
+        return Build.VERSION.CODENAME.equals("S")
+                || Build.VERSION.SDK_INT >= 31;
     }
 }
