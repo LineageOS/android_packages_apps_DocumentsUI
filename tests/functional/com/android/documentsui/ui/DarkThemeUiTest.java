@@ -16,6 +16,8 @@
 
 package com.android.documentsui.ui;
 
+import static org.junit.Assume.assumeFalse;
+
 import android.content.Context;
 import android.content.res.Configuration;
 
@@ -24,6 +26,7 @@ import androidx.test.filters.SmallTest;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.tests.R;
+import com.android.documentsui.util.VersionUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +50,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
 
     @Test
     public void themeNightModeEnable_actionBarColorShouldBeDark() {
+        assumeFalse(VersionUtils.isAtLeastS()); // Disable for S dynamic color
         assertTheme(R.styleable.ThemeColor, R.styleable.ThemeColor_android_colorBackground,
                 mTheme.getResources().getColor(com.android.documentsui.R.color.app_background_color,
                         mTheme));
@@ -72,6 +76,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
 
     @Test
     public void themeNightModeEnable_windowBackgroundColorShouldBeDark() {
+        assumeFalse(VersionUtils.isAtLeastS()); // Disable for S dynamic color
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_windowBackground,
                 mTheme.getResources().getColor(com.android.documentsui.R.color.app_background_color,
                         mTheme));
@@ -79,6 +84,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
 
     @Test
     public void themeNightModeEnable_statusBarColorShouldBeDark() {
+        assumeFalse(VersionUtils.isAtLeastS()); // Disable for S dynamic color
         assertTheme(R.styleable.SystemWindow, R.styleable.SystemWindow_android_statusBarColor,
                 mTheme.getResources().getColor(com.android.documentsui.R.color.app_background_color,
                         mTheme));
@@ -86,6 +92,7 @@ public class DarkThemeUiTest extends ThemeUiTestBase {
 
     @Test
     public void appCompatThemeNightModeEnable_colorPrimaryShouldBeThemeable() {
+        assumeFalse(VersionUtils.isAtLeastS()); // Disable for S dynamic color
         assertTheme(R.styleable.ThemeColor, R.styleable.ThemeColor_android_colorPrimary,
                 mTheme.getResources().getColor(com.android.documentsui.R.color.primary, mTheme));
     }
