@@ -30,6 +30,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeTrue;
 
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -70,6 +71,7 @@ import com.android.documentsui.testing.TestFeatures;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
 import com.android.documentsui.ui.TestDialogController;
+import com.android.documentsui.util.VersionUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -510,6 +512,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDragAndDrop_OnReadOnlyRoot() throws Exception {
+        assumeTrue(VersionUtils.isAtLeastS());
         RootInfo root = new RootInfo(); // root by default has no SUPPORT_CREATE flag
         DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, null, null, null,
                 null, null, true);
@@ -518,6 +521,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDragAndDrop_OnLibraryRoot() throws Exception {
+        assumeTrue(VersionUtils.isAtLeastS());
         DragEvent event = DragEvent.obtain(DragEvent.ACTION_DROP, 1, 1, 0, 0, null, null, null,
                 null, null, true);
         assertFalse(mHandler.dropOn(event, TestProvidersAccess.RECENTS));
@@ -525,6 +529,7 @@ public class ActionHandlerTest {
 
     @Test
     public void testDragAndDrop_DropsOnWritableRoot() throws Exception {
+        assumeTrue(VersionUtils.isAtLeastS());
         // DragEvent gets recycled in Android, so it is possible that by the time the callback is
         // called, event.getLocalState() and event.getClipData() returns null. This tests to ensure
         // our Clipper is getting the original CipData passed in.
