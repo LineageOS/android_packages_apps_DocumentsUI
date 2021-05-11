@@ -126,7 +126,7 @@
               android:layout_height="wrap_content"
               android:ellipsize="end"
               android:singleLine="true"
-              android:textAppearance="@style/ItemDocListCaptionText" />
+              android:textAppearance="@style/ItemCaptionText" />
 
         </LinearLayout>
 
