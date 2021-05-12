@@ -106,7 +106,6 @@ final class ListDocumentHolder extends DocumentHolder {
 
         if (!itemView.isEnabled()) {
             assert (!selected);
-            return;
         }
 
         super.setSelected(selected, animate);
