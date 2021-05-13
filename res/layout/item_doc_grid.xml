@@ -176,7 +176,7 @@
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:textAlignment="viewStart"
-                        android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
+                        android:textAppearance="@style/ItemCaptionText" />
 
                     <TextView
                         android:id="@+id/date"
@@ -187,7 +187,7 @@
                         android:singleLine="true"
                         android:ellipsize="end"
                         android:textAlignment="viewStart"
-                        android:textAppearance="@android:style/TextAppearance.Material.Caption"/>
+                        android:textAppearance="@style/ItemCaptionText" />
 
                 </RelativeLayout>
 
