@@ -117,7 +117,7 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"కొన్ని పత్రాలను తొలగించడం సాధ్యపడలేదు"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> ఫైల్‌ల కంటే ఎక్కువ షేర్ చేయలేరు"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"చర్యకు అనుమతి లేదు"</string>
-    <string name="share_via" msgid="8725082736005677161">"దీనితో భాగస్వామ్యం చేయండి"</string>
+    <string name="share_via" msgid="8725082736005677161">"దీనితో షేర్ చేయండి"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ఫైల్‌లు కాపీ అవుతున్నాయి"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ఫైల్‌లను కుదిస్తోంది"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"ఫైల్‌లను సంగ్రహిస్తోంది"</string>
