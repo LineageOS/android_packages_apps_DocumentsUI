@@ -19,6 +19,13 @@
         <item name="android:textSize">11sp</item>
     </style>
 
+    <style name="SectionHeader" parent="@*android:style/TextAppearance.DeviceDefault.Medium">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="SortList" parent="@style/TextAppearance.AppCompat.Subhead">
         <item name="android:textColor">@color/sort_list_text</item>
         <item name="fontFamily">@string/config_fontFamilyMedium</item>
