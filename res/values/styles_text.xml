@@ -127,4 +127,9 @@
         <item name="android:textColor">@color/doc_list_item_subtitle_color</item>
     </style>
 
+    <style name="MenuItemTextAppearance" parent="*android:style/TextAppearance.DeviceDefault.Body2">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@string/config_fontFamily</item>
+    </style>
+
 </resources>
