@@ -107,7 +107,7 @@
     <string name="root_type_service" msgid="6521366147466512289">"నిల్వ పరికరాలు"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"సత్వరమార్గాలు"</string>
     <string name="root_type_device" msgid="1713604128005476585">"పరికరాలు"</string>
-    <string name="root_type_apps" msgid="8646073235029886342">"మరిన్ని అనువర్తనాలు"</string>
+    <string name="root_type_apps" msgid="8646073235029886342">"మరిన్ని యాప్‌లు"</string>
     <string name="empty" msgid="5300254272613103004">"అంశాలు లేవు"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$sలో సరిపోలినవి లేవు"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"ఫైల్‌ను తెరవడం సాధ్యపడదు"</string>
