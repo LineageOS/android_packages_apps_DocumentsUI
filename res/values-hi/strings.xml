@@ -16,6 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="missing_rename_error" msgid="9098952207447981103">"आपको इसका नाम बदलना होगा"</string>
+    <string name="add_folder_name_error" msgid="6014615052491406810">"फ़ोल्डर का नाम जोड़ना ज़रूरी है"</string>
     <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"डाउनलोड"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
@@ -68,7 +70,7 @@
     <string name="not_sorted" msgid="7813496644889115530">"क्रमबद्ध नहीं हैं"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"नाम"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"सारांश"</string>
-    <string name="sort_dimension_file_type" msgid="5779709622922085381">"प्रकार"</string>
+    <string name="sort_dimension_file_type" msgid="5779709622922085381">"टाइप"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"आकार"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"बदले जाने का समय"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"फ़ाइल का नाम (A से Z)"</string>

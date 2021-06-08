@@ -16,6 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="missing_rename_error" msgid="9098952207447981103">"तपाईंले यसको नाम बदल्नु पर्ने हुन्छ"</string>
+    <string name="add_folder_name_error" msgid="6014615052491406810">"तपाईंले फोल्डरको नाम हाल्नु पर्ने हुन्छ"</string>
     <string name="files_label" msgid="771781190045103748">"फाइलहरू"</string>
     <string name="downloads_label" msgid="5462789470049501103">"डाउनलोडहरू"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
@@ -23,7 +25,7 @@
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
     <string name="title_open" msgid="3165686459158020921">"निम्नबाट खोल्नुहोस्"</string>
-    <string name="title_save" msgid="4384490653102710025">"निम्नमा सुरक्षित गर्नुहोस्"</string>
+    <string name="title_save" msgid="4384490653102710025">"निम्नमा सेभ गर्नुहोस्"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"नयाँ फोल्डर"</string>
     <string name="menu_grid" msgid="1453636521731880680">"ग्रिड दृश्य"</string>
     <string name="menu_list" msgid="6714267452146410402">"सूची दृश्य"</string>
@@ -32,7 +34,7 @@
     <string name="menu_open" msgid="9092138100049759315">"खोल्नुहोस्"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"निम्नबाट खोल्नुहोस्"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"नयाँ विन्डोमा खोल्नुहोस्"</string>
-    <string name="menu_save" msgid="5195367497138965168">"सुरक्षित गर्नुहोस्"</string>
+    <string name="menu_save" msgid="5195367497138965168">"सेभ गर्नुहोस्"</string>
     <string name="menu_share" msgid="4307140947108068356">"सेयर गर्नुहोस्"</string>
     <string name="menu_delete" msgid="1022254131543256626">"मेट्नुहोस्"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"सबैलाई चयन गर्नुहोस्"</string>
@@ -50,13 +52,13 @@
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> मा हेर्नुहोस्"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"नयाँ विन्डो"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"काट्नुहोस्"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"प्रतिलिपि बनाउनुहोस्"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"कपी गर्नुहोस्"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"टाँस्नुहोस्"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"फोल्डर भित्र टाँस्नुहोस्"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"आन्तरिक भण्डारण देखाउनु"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"आन्तरिक भण्डारण लुकाउनु"</string>
     <string name="button_select" msgid="240863497069321364">"चयन गर्नुहोस्"</string>
-    <string name="button_copy" msgid="8219059853840996027">"प्रतिलिपि बनाउनुहोस्"</string>
+    <string name="button_copy" msgid="8219059853840996027">"कपी गर्नुहोस्"</string>
     <string name="button_compress" msgid="8951561310857223966">"कम्प्रेस गर्नुहोस्"</string>
     <string name="button_extract" msgid="1038674453689912247">"एकस्ट्रयाक्ट गर्नुहोस्"</string>
     <string name="button_move" msgid="8596460499325291272">"सार्नुहोस्"</string>
@@ -90,7 +92,7 @@
     <string name="save_error" msgid="8631128801982095782">"कागजातलाई सुरक्षित गर्न सकिएन"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर सिर्जना गर्न सकिएन"</string>
     <string name="query_error" msgid="6625421453613879336">"यस समय सामग्री लोड गर्न सकिँदैन"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्यलयको प्रोफाइल अस्थायी रूपमा रोक्का गरिएको छ"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्यलयको प्रोफाइल पज गरिएको छ"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"सक्रिय गरियोस्"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कार्यालयका फाइलहरू चयन गर्न मिल्दैन"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"तपाईंका IT एडमिनले तपाईंलाई व्यक्तिगत अनुप्रयोगमार्फत कार्यालयका फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
