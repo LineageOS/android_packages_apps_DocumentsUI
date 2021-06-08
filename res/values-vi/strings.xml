@@ -192,8 +192,8 @@
       <item quantity="one">Tệp này đã được chuyển đổi sang định dạng khác: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
-      <item quantity="other">Đã sao chép <xliff:g id="COUNT_1">%1$d</xliff:g> mục vào khay nhớ tạm.</item>
-      <item quantity="one">Đã sao chép <xliff:g id="COUNT_0">%1$d</xliff:g> mục vào khay nhớ tạm.</item>
+      <item quantity="other">Đã sao chép <xliff:g id="COUNT_1">%1$d</xliff:g> mục vào bảng nhớ tạm.</item>
+      <item quantity="one">Đã sao chép <xliff:g id="COUNT_0">%1$d</xliff:g> mục vào bảng nhớ tạm.</item>
     </plurals>
     <string name="file_operation_rejected" msgid="4301554203329008794">"Thao tác tệp không được hỗ trợ."</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Thao tác tệp không thành công."</string>
