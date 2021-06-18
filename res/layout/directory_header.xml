@@ -72,8 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textAppearance="@style/SortTitle"
-            android:textAllCaps="true"
+            android:textAppearance="@style/SectionHeader"
             android:maxLines="1"
             android:ellipsize="end"
             android:gravity="start|center_vertical"/>
