@@ -278,7 +278,7 @@
     <string name="delete_search_history" msgid="2202015025607694515">"Supprimer l\'historique des recherches <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personnel"</string>
     <string name="work_tab" msgid="7265359366883747413">"Professionnel"</string>
-    <string name="a11y_work" msgid="7504431382825242153">"Travail"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"Pro"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Vous ne pouvez pas déplacer de fichiers depuis une autre application."</string>
     <string name="grid_mode_showing" msgid="2803166871485028508">"Affichage en mode grille."</string>
     <string name="list_mode_showing" msgid="1225413902295895166">"Affichage en mode liste."</string>

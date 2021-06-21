@@ -310,7 +310,8 @@ abstract public class Job implements Runnable {
                         failureCount, failureCount))
                 .setContentText(service.getString(R.string.notification_touch_for_details))
                 .setContentIntent(PendingIntent.getActivity(appContext, 0, navigateIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT))
+                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT
+                        | PendingIntent.FLAG_MUTABLE))
                 .setCategory(Notification.CATEGORY_ERROR)
                 .setSmallIcon(icon)
                 .setAutoCancel(true);
@@ -342,7 +343,8 @@ abstract public class Job implements Runnable {
                         service,
                         0,
                         cancelIntent,
-                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_CANCEL_CURRENT));
+                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_CANCEL_CURRENT
+                        | PendingIntent.FLAG_MUTABLE));
 
         return progressBuilder;
     }

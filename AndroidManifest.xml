@@ -36,6 +36,8 @@
     <uses-permission android:name="android.permission.LOG_COMPAT_CHANGE"/>
     <uses-permission android:name="android.permission.READ_COMPAT_CHANGE_CONFIG"/>
 
+    <uses-permission android:name="android.permission.START_FOREGROUND_SERVICES_FROM_BACKGROUND"/>
+
     <application
         android:name=".DocumentsApplication"
         android:label="@string/app_label"
@@ -169,7 +171,8 @@
             </intent-filter>
         </provider>
 
-        <receiver android:name=".PackageReceiver">
+        <receiver android:name=".PackageReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
                 <action android:name="android.intent.action.PACKAGE_DATA_CLEARED" />
@@ -177,13 +180,15 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".roots.BootReceiver" android:enabled="false">
+        <receiver android:name=".roots.BootReceiver" android:enabled="false"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".PreBootReceiver">
+        <receiver android:name=".PreBootReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PRE_BOOT_COMPLETED" />
             </intent-filter>
@@ -201,6 +206,7 @@
         <activity
             android:name=".selection.demo.SelectionDemoActivity"
             android:label="Selection Demo"
+            android:exported="true"
             android:theme="@style/DocumentsTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

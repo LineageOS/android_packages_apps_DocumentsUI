@@ -95,7 +95,7 @@ public class ModelTest {
         DirectoryResult r = new DirectoryResult();
         r.setCursor(cursor);
 
-        // Instantiate the model with a dummy view adapter and listener that (for now) do nothing.
+        // Instantiate the model with a stub view adapter and listener that (for now) do nothing.
         model = new Model(features);
         // not sure why we add a listener here at all.
         model.addUpdateListener(new TestEventListener<>());

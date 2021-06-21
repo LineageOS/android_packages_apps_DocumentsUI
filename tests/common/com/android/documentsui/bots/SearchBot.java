@@ -49,7 +49,7 @@ import org.hamcrest.Matcher;
  */
 public class SearchBot extends Bots.BaseBot {
 
-    // Dumb search layout changes substantially between Ryu and Angler.
+    // Base search layout changes substantially between Ryu and Angler.
     @SuppressWarnings("unchecked")
     private static final Matcher<View> SEARCH_WIDGET = allOf(
             withId(R.id.option_menu_search),

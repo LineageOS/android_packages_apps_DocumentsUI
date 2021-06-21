@@ -19,7 +19,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/list_item_background"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
     android:focusable="true"
     android:orientation="horizontal" >
 
@@ -43,6 +45,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 app:cardElevation="0dp"
+                app:cardBackgroundColor="@android:color/transparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -107,7 +110,7 @@
                     android:ellipsize="middle"
                     android:singleLine="true"
                     android:textAlignment="viewStart"
-                    android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+                    android:textAppearance="@*android:style/TextAppearance.DeviceDefault.Subhead"
                     android:textColor="?android:attr/textColorPrimary"/>
             </LinearLayout>
 
@@ -120,7 +123,7 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textAlignment="viewStart"
-                android:textAppearance="@android:style/TextAppearance.Material.Body1"
+                android:textAppearance="@*android:style/TextAppearance.DeviceDefault.Body1"
                 android:textColor="?android:attr/textColorSecondary" />
 
             <TextView
@@ -133,7 +136,7 @@
                 android:minWidth="70dp"
                 android:singleLine="true"
                 android:textAlignment="viewEnd"
-                android:textAppearance="@android:style/TextAppearance.Material.Body1"
+                android:textAppearance="@*android:style/TextAppearance.DeviceDefault.Body1"
                 android:textColor="?android:attr/textColorSecondary" />
 
             <TextView
@@ -146,7 +149,7 @@
                 android:minWidth="70dp"
                 android:singleLine="true"
                 android:textAlignment="viewEnd"
-                android:textAppearance="@android:style/TextAppearance.Material.Body1"
+                android:textAppearance="@*android:style/TextAppearance.DeviceDefault.Body1"
                 android:textColor="?android:attr/textColorSecondary" />
         </LinearLayout>
 

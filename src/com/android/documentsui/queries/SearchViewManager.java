@@ -333,8 +333,6 @@ public class SearchViewManager implements
     public boolean cancelSearch() {
         if (mSearchView != null && (isExpanded() || isSearching())) {
             cancelQueuedSearch();
-            // If the query string is not empty search view won't get iconified
-            mSearchView.setQuery("", false);
 
             if (mFullBar) {
                 onClose();

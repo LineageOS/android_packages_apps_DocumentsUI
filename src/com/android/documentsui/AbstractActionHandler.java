@@ -747,7 +747,7 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         public void onRootLoaded(@Nullable RootInfo root) {
             if (root == null) {
                 // There is no such root in the other profile. Maybe the provider is missing on
-                // the other profile. Create a dummy root and open it to show error message.
+                // the other profile. Create a placeholder root and open it to show error message.
                 root = RootInfo.copyRootInfo(mOriginalRoot);
                 root.userId = mSelectedUserId;
             }

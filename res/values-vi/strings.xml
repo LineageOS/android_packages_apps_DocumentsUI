@@ -144,7 +144,7 @@
       <item quantity="other">Đang xóa <xliff:g id="COUNT_1">%1$d</xliff:g> mục.</item>
       <item quantity="one">Đang xóa <xliff:g id="COUNT_0">%1$d</xliff:g> mục.</item>
     </plurals>
-    <string name="undo" msgid="2902438994196400565">"Hoàn tác"</string>
+    <string name="undo" msgid="2902438994196400565">"Hủy"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"Đang chuẩn bị…"</string>
     <string name="compress_preparing" msgid="7401605598969019696">"Đang chuẩn bị…"</string>
     <string name="extract_preparing" msgid="4796626960061745796">"Đang chuẩn bị…"</string>

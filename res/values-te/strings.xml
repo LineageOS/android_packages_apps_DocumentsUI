@@ -71,7 +71,7 @@
     <string name="sort_dimension_name" msgid="6325591541414177579">"పేరు"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"సారాంశం"</string>
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"రకం"</string>
-    <string name="sort_dimension_size" msgid="2190547351159472884">"పరిమాణం"</string>
+    <string name="sort_dimension_size" msgid="2190547351159472884">"సైజ్‌"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"సవరించిన సమయం"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"ఫైల్ పేరు (A నుండి Zకు)"</string>
     <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"రకం (A నుండి Z)"</string>
@@ -92,7 +92,7 @@
     <string name="save_error" msgid="8631128801982095782">"పత్రాన్ని సేవ్ చేయడంలో విఫలమైంది"</string>
     <string name="create_error" msgid="3092144450044861994">"ఫోల్డర్‌ను సృష్టించడంలో విఫలమైంది"</string>
     <string name="query_error" msgid="6625421453613879336">"ఈ సమయంలో కంటెంట్‌ను లోడ్ చేయడం సాధ్యపడదు"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"కార్యాలయ ప్రొఫైల్ పాజ్ చేయబడింది"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"వర్క్ ప్రొఫైల్ పాజ్ చేయబడింది"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"ఆన్ చేయి"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"కార్యాలయ ఫైళ్లను ఎంపిక చేయడం సాధ్యం కాదు"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"వ్యక్తిగత యాప్ నుండి ఆఫీస్ ఫైళ్లను యాక్సెస్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
@@ -117,7 +117,7 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"కొన్ని పత్రాలను తొలగించడం సాధ్యపడలేదు"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> ఫైల్‌ల కంటే ఎక్కువ షేర్ చేయలేరు"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"చర్యకు అనుమతి లేదు"</string>
-    <string name="share_via" msgid="8725082736005677161">"దీనితో భాగస్వామ్యం చేయండి"</string>
+    <string name="share_via" msgid="8725082736005677161">"దీనితో షేర్ చేయండి"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ఫైల్‌లు కాపీ అవుతున్నాయి"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ఫైల్‌లను కుదిస్తోంది"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"ఫైల్‌లను సంగ్రహిస్తోంది"</string>

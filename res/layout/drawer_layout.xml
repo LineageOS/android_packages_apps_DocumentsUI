@@ -51,8 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <!-- Drawer edge is a dummy view used to capture hovering event
-                     on view edge to open the drawer. (b/28345294) -->
+                <!-- Drawer edge is a placeholder view used to capture hovering
+                     event on view edge to open the drawer. (b/28345294) -->
                 <View
                     android:id="@+id/drawer_edge"
                     android:background="@android:color/transparent"
@@ -88,7 +88,7 @@
                 android:background="?android:attr/colorBackground"
                 android:elevation="0dp"
                 app:titleTextAppearance="@style/DrawerMenuTitle"
-                app:titleTextColor="?android:colorPrimary"/>
+                app:titleTextColor="?android:colorAccent"/>
 
             <FrameLayout
                 android:id="@+id/container_roots"
