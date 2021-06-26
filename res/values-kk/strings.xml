@@ -45,7 +45,7 @@
     <string name="menu_move" msgid="2310760789561129882">"Тасымалдау…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Сығу"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Алынуда…"</string>
-    <string name="menu_rename" msgid="1883113442688817554">"Атауын өзгерту"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Атын өзгерту"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Ақпарат алу"</string>
     <string name="menu_show_hidden_files" msgid="5140676344684492769">"Жасырын файлдарды көрсету"</string>
     <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Жасырын файлдарды көрсетпеу"</string>
