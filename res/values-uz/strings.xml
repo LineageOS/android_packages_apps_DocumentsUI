@@ -45,9 +45,11 @@
     <string name="menu_extract" msgid="8171946945982532262">"Arxivdan chiqarish"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Qayta nomlash"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Axborot olish"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"Yashirin fayllarni chiqarish"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Yashirin fayllar chiqmasin"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> orqali ochish"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"Yangi oyna"</string>
-    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kesish"</string>
+    <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"Kesib olish"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"Nusxa olish"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"Joylash"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"Jildga qo‘shish"</string>
@@ -88,6 +90,18 @@
     <string name="save_error" msgid="8631128801982095782">"Hujjatni saqlab bo‘lmadi"</string>
     <string name="create_error" msgid="3092144450044861994">"Jildni yaratib bo‘lmadi"</string>
     <string name="query_error" msgid="6625421453613879336">"Ayni paytda kontentni yuklab bo‘lmayapti"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Ish profili pauza qilingan"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Yoqish"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ishga oid fayllarni tanlash imkonsiz"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"AT administratoringiz shaxsiy ilovadan ishga oid fayllarga kirishni taqiqlagan"</string>
+    <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Shaxsiy fayllar tanlanmadi"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"AT administratoringiz ishga oid ilovadan shaxsiy fayllarga kirishni taqiqlagan"</string>
+    <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"Ish profiliga saqlash imkonsiz"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"AT administratoringiz shaxsiy fayllarni ish profiliga saqlashni taqiqlagan"</string>
+    <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Shaxsiy profilga saqlash imkonsiz"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"AT administratoringiz ishga oid fayllarni shaxsiy profilingizga saqlashni taqiqlagan"</string>
+    <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Bu amalga ruxsat berilmagan"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Batafsil axborot olish uchun AT administratoringizga murojaat qiling"</string>
     <string name="root_recent" msgid="1080156975424341623">"Yaqinda"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> bo‘sh"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Xotira xizmatlari"</string>
@@ -100,6 +114,7 @@
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"Arxivdagi fayllarni ochib bo‘lmadi"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"Ba’zi hujjatlarni o‘chirib bo‘lmadi"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> tadan ortiq fayllarni ulashish imkonsiz"</string>
+    <string name="toast_action_not_allowed" msgid="1329382474450572415">"Bu amalga ruxsat berilmagan"</string>
     <string name="share_via" msgid="8725082736005677161">"Ulashish"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Fayllar nusxalanmoqda"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Fayllar arxivlanmoqda"</string>
@@ -225,16 +240,15 @@
       <item quantity="other">Belgilandi: <xliff:g id="COUNT_1">%1$d</xliff:g></item>
       <item quantity="one">Belgilandi: <xliff:g id="COUNT_0">%1$d</xliff:g></item>
     </plurals>
-    <string name="root_info_header_recent" msgid="8754386597210017725">"Telefonda yaqinda ochilgan fayllar"</string>
-    <string name="root_info_header_global_search" msgid="9099308729787003373">"Telefondagi fayllar"</string>
-    <string name="root_info_header_media" msgid="2774453755906260852">"Telefondagi <xliff:g id="LABEL">%1$s</xliff:g>"</string>
+    <string name="root_info_header_recent" msgid="5654901877295332262">"Oxirgi fayllar"</string>
+    <string name="root_info_header_global_search" msgid="4904078222280496152">"Fayllar"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"Yuklanmalardagi fayllar"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> qurilmasidagi fayllar"</string>
     <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g> ichidagi fayllar"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> fayllari"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> fayllari (<xliff:g id="SUMMARY">%2$s</xliff:g>)"</string>
-    <string name="root_info_header_image_recent" msgid="6252335619444758201">"Telefondagi oxirgi rasmlar"</string>
-    <string name="root_info_header_image_global_search" msgid="7945533325610533016">"Telefondagi rasmlar"</string>
+    <string name="root_info_header_image_recent" msgid="7494373563753926014">"Oxirgi rasmlar"</string>
+    <string name="root_info_header_image_global_search" msgid="7307009823489854697">"Rasmlar"</string>
     <string name="root_info_header_image_downloads" msgid="7072252612657612307">"Yuklanmalardagi rasmlar"</string>
     <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> qurilmasidagi rasmlar"</string>
     <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g> ichidagi rasmlar"</string>
@@ -249,16 +263,19 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"Jild nomi"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"Yangi nom"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> fayliga nazar solish"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> ish fayliga nazar solish"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Boshqa ilovalardagi fayllarni topish"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"Bu jilddan foydalanish"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="APPNAME">%1$s</xliff:g> ilovasiga <xliff:g id="DIRECTORY">%2$s</xliff:g> fayllaridan foydalanish huquqi berilsinmi?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"<xliff:g id="APPNAME">%1$s</xliff:g> ilovasi <xliff:g id="DIRECTORY">%2$s</xliff:g> ichida hozir joylashgan va keyin kiritiladigan kontentlardan foydalana oladi."</string>
-    <string name="open_tree_header_title" msgid="2116139702183931871">"<xliff:g id="FOLDERNAME">%1$s</xliff:g> jildi <xliff:g id="APPNAME">%2$s</xliff:g> ilovasi bilan ulashilmadi"</string>
-    <string name="open_tree_header_message_root" msgid="6479084144068341187">"Quyidagi jildni tanlang yoki yangisini yarating"</string>
-    <string name="open_tree_header_message_child" msgid="3420040714778063483">"Boshqa jild tanlang yoki yangisini yarating"</string>
+    <string name="directory_blocked_header_title" msgid="1164584889578740066">"Bu jilddan foydalanish imkonsiz"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Maxfiyligingizni muhofaza qilish uchun boshqa jildni tanlang"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"Yangi jild yaratish"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Shu telefondan qidirish"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Qidiruv tarixini tozalash (<xliff:g id="TEXT">%1$s</xliff:g>)"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Shaxsiy"</string>
     <string name="work_tab" msgid="7265359366883747413">"Ish"</string>
+    <string name="a11y_work" msgid="7504431382825242153">"Ish"</string>
+    <string name="drag_from_another_app" msgid="8310249276199969905">"Fayllarni boshqa ilovadan koʻchirish imkonsiz."</string>
 </resources>
