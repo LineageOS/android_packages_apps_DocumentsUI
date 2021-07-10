@@ -171,6 +171,10 @@ public final class Shared {
      * Whether the calling app should be restricted in Storage Access Framework or not.
      */
     public static boolean shouldRestrictStorageAccessFramework(Activity activity) {
+        if (VersionUtils.isAtLeastS()) {
+            return true;
+        }
+
         if (!VersionUtils.isAtLeastR()) {
             return false;
         }
