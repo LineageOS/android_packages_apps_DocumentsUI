@@ -94,14 +94,14 @@
     <string name="query_error" msgid="6625421453613879336">"தற்போது உள்ளடக்கத்தை ஏற்ற முடியவில்லை"</string>
     <string name="quiet_mode_error_title" msgid="9126656325282792843">"பணிக் கணக்கு இடைநிறுத்தப்பட்டது"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"ஆன் செய்"</string>
-    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"பணிக் கோப்புகளைத் தேர்ந்தெடுக்க முடியாது"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"பணிக் கோப்புகளைத் தனிப்பட்ட பணி ஆப்ஸில் இருந்து அணுகுவதை உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
+    <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"பணி ஃபைல்களைத் தேர்ந்தெடுக்க முடியாது"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"பணி ஃபைல்களைத் தனிப்பட்ட பணி ஆப்ஸில் இருந்து அணுகுவதை உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"தனிப்பட்ட ஃபைல்களைத் தேர்ந்தெடுக்க முடியாது"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"தனிப்பட்ட கோப்புகளைப் பணி ஆப்ஸில் இருந்து அணுகுவதை உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"தனிப்பட்ட ஃபைல்களைப் பணி ஆப்ஸில் இருந்து அணுகுவதை உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"பணிக் கணக்கில் சேமிக்க முடியாது"</string>
-    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"தனிப்பட்ட கோப்புகளைப் பணிக் கணக்கில் சேமிக்க உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
+    <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"தனிப்பட்ட ஃபைல்களைப் பணிக் கணக்கில் சேமிக்க உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"தனிப்பட்ட கணக்கில் சேமிக்க முடியாது"</string>
-    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"பணிக் கோப்புகளைத் தனிப்பட்ட கணக்கில் சேமிக்க உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
+    <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"பணி ஃபைல்களைத் தனிப்பட்ட கணக்கில் சேமிக்க உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"இந்தச் செயலுக்கு அனுமதியில்லை"</string>
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"மேலும் அறிய IT நிர்வாகியைத் தொடர்புகொள்ளவும்"</string>
     <string name="root_recent" msgid="1080156975424341623">"சமீபத்தியவை"</string>
@@ -113,14 +113,14 @@
     <string name="empty" msgid="5300254272613103004">"எதுவும் இல்லை"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s இல் பொருந்தும் முடிவு இல்லை"</string>
     <string name="toast_no_application" msgid="7555319548595113121">"கோப்பைத் திறக்க முடியாது"</string>
-    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"காப்பகங்களில் உள்ள கோப்புகளைத் திறக்க முடியாது"</string>
+    <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"காப்பகங்களில் உள்ள ஃபைல்களைத் திறக்க முடியாது"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"சில ஆவணங்களை நீக்க முடியவில்லை"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> கோப்புகளுக்கு மேல் பகிர முடியாது"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"செயல் அனுமதிக்கப்படவில்லை"</string>
     <string name="share_via" msgid="8725082736005677161">"இதன் வழியாகப் பகிர்"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"கோப்புகளை நகலெடுத்தல்"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"அளவைக் குறைக்கிறது"</string>
-    <string name="extract_notification_title" msgid="5067393961754430469">"கோப்புகளைப் பிரிக்கிறது"</string>
+    <string name="extract_notification_title" msgid="5067393961754430469">"ஃபைல்களைப் பிரிக்கிறது"</string>
     <string name="move_notification_title" msgid="3173424987049347605">"கோப்புகளை நகர்த்துதல்"</string>
     <string name="delete_notification_title" msgid="2512757431856830792">"கோப்புகளை நீக்குதல்"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> மீதமுள்ளன"</string>
@@ -133,7 +133,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பின் அளவைக் குறைக்கிறது.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளைப் பிரித்தெடுக்கிறது.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களைப் பிரித்தெடுக்கிறது.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பைப் பிரித்தெடுக்கிறது.</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
