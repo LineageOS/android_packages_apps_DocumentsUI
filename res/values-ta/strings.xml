@@ -127,8 +127,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பை நகலெடுக்கிறது.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளின் அளவைக் குறைக்கிறது.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பின் அளவைக் குறைக்கிறது.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களின் அளவைக் குறைக்கிறது.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலின் அளவைக் குறைக்கிறது.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களைப் பிரித்தெடுக்கிறது.</item>
@@ -154,8 +154,8 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> உருப்படியை நகலெடுக்க முடியவில்லை</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளின் அளவைக் குறைக்க முடியவில்லை</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பின் அளவைக் குறைக்க முடியவில்லை</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களின் அளவைக் குறைக்க முடியவில்லை</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலின் அளவைக் குறைக்க முடியவில்லை</item>
     </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> உருப்படிகளை நகர்த்த முடியவில்லை</item>
@@ -172,8 +172,8 @@
       <item quantity="one">இந்தக் கோப்பு நகலெடுக்கப்படவில்லை: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="compress_failure_alert_content" formatted="false" msgid="5760632881868842400">
-      <item quantity="other">இந்தக் கோப்புகளின் அளவு குறைக்கப்படவில்லை: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="one">இந்தக் கோப்பின் அளவு குறைக்கப்படவில்லை: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+      <item quantity="other">இந்த ஃபைல்களின் அளவு குறைக்கப்படவில்லை: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">இந்த ஃபைலின் அளவு குறைக்கப்படவில்லை: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="extract_failure_alert_content" formatted="false" msgid="7572748127571720803">
       <item quantity="other">இந்தக் கோப்புகள் பிரிக்கப்படவில்லை: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -263,7 +263,7 @@
     <string name="input_hint_new_folder" msgid="479672411219725677">"கோப்புறையின் பெயர்"</string>
     <string name="input_hint_rename" msgid="8390711744270994452">"புதிய பெயர்"</string>
     <string name="preview_file" msgid="4056622696305432343">"<xliff:g id="FILENAME">%1$s</xliff:g> என்ற ஃபைல் மாதிரிக்காட்சியாகத் தெரியும்"</string>
-    <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> என்ற பணிக் கோப்பின் மாதிரிக்காட்சியைப் பார்க்கவும்"</string>
+    <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> என்ற பணி ஃபைலின் மாதிரிக்காட்சியைப் பார்க்கவும்"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"ஃபைல்களை வேறு ஆப்ஸில் தேடவும்"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"பெயர் குறிப்பிடாதது"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"இந்தக் கோப்புறையைப் பயன்படுத்து"</string>
