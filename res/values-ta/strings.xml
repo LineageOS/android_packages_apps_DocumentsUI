@@ -129,7 +129,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பை நகலெடுக்கிறது.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளின் அளவைக் குறைக்கிறது.</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களின் அளவைக் குறைக்கிறது.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலின் அளவைக் குறைக்கிறது.</item>
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
@@ -156,7 +156,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> உருப்படியை நகலெடுக்க முடியவில்லை</item>
     </plurals>
     <plurals name="compress_error_notification_title" formatted="false" msgid="3043630066678213644">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளின் அளவைக் குறைக்க முடியவில்லை</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களின் அளவைக் குறைக்க முடியவில்லை</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலின் அளவைக் குறைக்க முடியவில்லை</item>
     </plurals>
     <plurals name="move_error_notification_title" formatted="false" msgid="2185736082411854754">
