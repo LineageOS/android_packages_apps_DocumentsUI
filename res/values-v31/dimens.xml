@@ -17,4 +17,6 @@
     <dimen name="action_bar_elevation">0dp</dimen>
     <dimen name="action_bar_margin">0dp</dimen>
     <dimen name="button_corner_radius">20dp</dimen>
+    <dimen name="tab_selector_indicator_height">0dp</dimen>
+    <dimen name="profile_tab_padding">20dp</dimen>
 </resources>
