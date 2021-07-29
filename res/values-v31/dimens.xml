@@ -16,4 +16,5 @@
 <resources>
     <dimen name="action_bar_elevation">0dp</dimen>
     <dimen name="action_bar_margin">0dp</dimen>
+    <dimen name="button_corner_radius">20dp</dimen>
 </resources>
