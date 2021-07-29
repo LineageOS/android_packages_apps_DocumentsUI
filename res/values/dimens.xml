@@ -54,6 +54,7 @@
     <dimen name="briefcase_icon_margin">8dp</dimen>
     <dimen name="briefcase_icon_size">14dp</dimen>
     <dimen name="briefcase_icon_size_photo">24dp</dimen>
+    <dimen name="button_corner_radius">2dp</dimen>
 
     <dimen name="drawer_edge_width">12dp</dimen>
 
