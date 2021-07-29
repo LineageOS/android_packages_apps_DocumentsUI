@@ -74,7 +74,7 @@
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@string/config_fontFamilyMedium</item>
     </style>
-
+    
     <style name="MaterialButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:textAppearance">@style/MaterialButtonTextAppearance</item>
     </style>
