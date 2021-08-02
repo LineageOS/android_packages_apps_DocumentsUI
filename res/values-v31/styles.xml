@@ -26,4 +26,16 @@
         <item name="android:actionMenuTextColor">@*android:color/accent_device_default_light</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="MaterialButton" parent="@style/Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:textAppearance">@style/MaterialButtonTextAppearance</item>
+        <item name="android:backgroundTint">?android:colorAccent</item>
+    </style>
+
+    <style name="MaterialOutlinedButton"
+        parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textAppearance">@style/MaterialButtonTextAppearance</item>
+        <item name="android:backgroundTint">@android:color/white</item>
+        <item name="android:textColor">?android:colorAccent</item>
+    </style>
 </resources>
