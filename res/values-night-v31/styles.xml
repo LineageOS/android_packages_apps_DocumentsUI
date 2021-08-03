@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2021 The Android Open Source Project
   ~
@@ -13,10 +14,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <resources>
-    <dimen name="action_bar_elevation">0dp</dimen>
-    <dimen name="action_bar_margin">0dp</dimen>
-    <dimen name="button_corner_radius">20dp</dimen>
-    <dimen name="tab_selector_indicator_height">0dp</dimen>
-    <dimen name="profile_tab_padding">20dp</dimen>
+    <style name="ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">?android:textColorSecondary</item>
+        <item name="android:actionMenuTextColor">@*android:color/accent_device_default_dark</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 </resources>

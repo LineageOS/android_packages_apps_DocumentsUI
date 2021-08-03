@@ -53,4 +53,7 @@
     <color name="list_divider_color">#1f000000</color>
     <color name="list_item_selected_background_color">?android:colorSecondary</color>
     <color name="color_surface_header">@color/app_background_color</color>
+
+    <color name="tab_selected_text_color">@color/primary</color>
+    <color name="tab_default_background_color">#E0E0E0</color>
 </resources>
