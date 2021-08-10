@@ -132,7 +132,7 @@
     </plurals>
     <plurals name="extract_begin" formatted="false" msgid="1006380679562903749">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களைப் பிரித்தெடுக்கிறது.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பைப் பிரித்தெடுக்கிறது.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலைப் பிரித்தெடுக்கிறது.</item>
     </plurals>
     <plurals name="move_begin" formatted="false" msgid="1464229874265756956">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> உருப்படிகளை நகர்த்துகிறது.</item>
