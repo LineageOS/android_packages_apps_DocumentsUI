@@ -126,7 +126,7 @@
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> மீதமுள்ளன"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளை நகலெடுக்கிறது.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பை நகலெடுக்கிறது.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலை நகலெடுக்கிறது.</item>
     </plurals>
     <plurals name="compress_begin" formatted="false" msgid="3534158317098678895">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களின் அளவைக் குறைக்கிறது.</item>
@@ -142,7 +142,7 @@
     </plurals>
     <plurals name="deleting" formatted="false" msgid="1729138001178158901">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளை நீக்குகிறது.</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பை நீக்குகிறது.</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலை நீக்குகிறது.</item>
     </plurals>
     <string name="undo" msgid="2902438994196400565">"செயல்தவிர்"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"தயாராகிறது..."</string>
@@ -215,11 +215,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> உருப்படிகள்</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> உருப்படி</item>
     </plurals>
-    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" கோப்பை நீக்கவா?"</string>
+    <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" ஃபைலை நீக்கவா?"</string>
     <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" கோப்புறையையும் அதன் உள்ளடக்கத்தையும் நீக்கவா?"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளை நீக்கவா?</item>
-      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> கோப்பை நீக்கவா?</item>
+      <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலை நீக்கவா?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புறைகளையும் அவற்றின் உள்ளடக்கத்தையும் நீக்கவா?</item>
