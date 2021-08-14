@@ -129,4 +129,6 @@
     <dimen name="refresh_icon_range">64dp</dimen>
 
     <dimen name="item_doc_inflated_message_padding_top">0dp</dimen>
+    <dimen name="cross_profile_button_corner_radius">0dp</dimen>
+    <dimen name="cross_profile_button_stroke_width">0dp</dimen>
 </resources>
