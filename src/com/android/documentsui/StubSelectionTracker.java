@@ -26,10 +26,11 @@ import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 import java.util.Set;
 
 /**
- * A dummy SelectionTracker used by DocsSelectionHelper before a real SelectionTracker has been
+ * A stub SelectionTracker used by DocsSelectionHelper before a real SelectionTracker has been
  * initialized by DirectoryFragment.
+ * @param <K> Selection key type which extends {@link SelectionTracker}.
  */
-public class DummySelectionTracker<K> extends SelectionTracker<K> {
+public class StubSelectionTracker<K> extends SelectionTracker<K> {
 
     @Override
     public void addObserver(SelectionObserver observer) {

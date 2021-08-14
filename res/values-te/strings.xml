@@ -16,6 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="missing_rename_error" msgid="9098952207447981103">"మీరు దీని పేరు మార్చాలి"</string>
+    <string name="add_folder_name_error" msgid="6014615052491406810">"మీరు ఫోల్డర్ పేరును జోడించాలి"</string>
     <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"డౌన్‌లోడ్‌లు"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
@@ -90,7 +92,7 @@
     <string name="save_error" msgid="8631128801982095782">"పత్రాన్ని సేవ్ చేయడంలో విఫలమైంది"</string>
     <string name="create_error" msgid="3092144450044861994">"ఫోల్డర్‌ను సృష్టించడంలో విఫలమైంది"</string>
     <string name="query_error" msgid="6625421453613879336">"ఈ సమయంలో కంటెంట్‌ను లోడ్ చేయడం సాధ్యపడదు"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"వర్క్ ప్రొఫైల్ పాజ్ చేయబడింది"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"కార్యాలయ ప్రొఫైల్ పాజ్ చేయబడింది"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"ఆన్ చేయి"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"కార్యాలయ ఫైళ్లను ఎంపిక చేయడం సాధ్యం కాదు"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"వ్యక్తిగత యాప్ నుండి ఆఫీస్ ఫైళ్లను యాక్సెస్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
@@ -115,7 +117,7 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"కొన్ని పత్రాలను తొలగించడం సాధ్యపడలేదు"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> ఫైల్‌ల కంటే ఎక్కువ షేర్ చేయలేరు"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"చర్యకు అనుమతి లేదు"</string>
-    <string name="share_via" msgid="8725082736005677161">"దీనితో షేర్ చేయండి"</string>
+    <string name="share_via" msgid="8725082736005677161">"దీనితో భాగస్వామ్యం చేయండి"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"ఫైల్‌లు కాపీ అవుతున్నాయి"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"ఫైల్‌లను కుదిస్తోంది"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"ఫైల్‌లను సంగ్రహిస్తోంది"</string>
@@ -278,4 +280,6 @@
     <string name="work_tab" msgid="7265359366883747413">"కార్యాలయ డైరెక్టరీ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ఆఫీసు"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"మీరు వేరే ఇతర యాప్ నుండి ఫైల్స్‌ను తరలించలేరు."</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"గ్రిడ్ మోడ్‌లో చూపుతోంది."</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"లిస్ట్ మోడ్‌లో చూపుతోంది."</string>
 </resources>

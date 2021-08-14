@@ -18,11 +18,14 @@ android_test {
 
     static_libs: [
         "androidx.legacy_legacy-support-v4",
+        "collector-device-lib",
         "mockito-target",
         "ub-uiautomator",
     ],
 
     platform_apis: true,
+
+    data: [":perfetto_artifacts"],
 
     instrumentation_for: "DocumentsUI",
 
