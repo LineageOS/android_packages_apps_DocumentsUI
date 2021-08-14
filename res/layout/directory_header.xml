@@ -64,6 +64,7 @@
     <include layout="@layout/apps_row"/>
 
     <LinearLayout
+        android:id="@+id/header_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/root_info_header_horizontal_padding"
