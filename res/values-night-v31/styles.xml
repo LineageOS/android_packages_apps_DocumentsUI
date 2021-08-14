@@ -21,4 +21,10 @@
         <item name="android:actionMenuTextColor">@*android:color/accent_device_default_dark</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="TabTextAppearance" parent="@android:style/TextAppearance.Material.Medium">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@string/config_fontFamilyMedium</item>
+        <item name="android:textColor">?android:attr/colorAccent</item>
+    </style>
 </resources>
