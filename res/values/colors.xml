@@ -56,4 +56,6 @@
 
     <color name="tab_selected_text_color">@color/primary</color>
     <color name="tab_default_background_color">#E0E0E0</color>
+
+    <color name="work_profile_button_stroke_color">@color/primary</color>
 </resources>

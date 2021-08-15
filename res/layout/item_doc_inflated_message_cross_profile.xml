@@ -17,6 +17,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -64,6 +65,9 @@
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:cornerRadius="@dimen/cross_profile_button_corner_radius"
+            app:strokeWidth="@dimen/cross_profile_button_stroke_width"
+            app:strokeColor="@color/work_profile_button_stroke_color"
             style="@style/EmptyStateButton"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2021 The Android Open Source Project
+  ~ Copyright (C) 2020 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,11 +15,5 @@
   ~ limitations under the License.
   -->
 <resources>
-    <dimen name="action_bar_elevation">0dp</dimen>
-    <dimen name="action_bar_margin">0dp</dimen>
-    <dimen name="button_corner_radius">20dp</dimen>
-    <dimen name="tab_selector_indicator_height">0dp</dimen>
-    <dimen name="profile_tab_padding">20dp</dimen>
-    <dimen name="cross_profile_button_corner_radius">30dp</dimen>
-    <dimen name="cross_profile_button_stroke_width">1dp</dimen>
+    <dimen name="item_doc_inflated_message_padding_top">30dp</dimen>
 </resources>
