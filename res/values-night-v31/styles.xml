@@ -27,4 +27,11 @@
         <item name="fontFamily">@string/config_fontFamilyMedium</item>
         <item name="android:textColor">?android:attr/colorAccent</item>
     </style>
+
+    <style name="EmptyStateButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@*android:color/system_neutral1_100</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textAppearance">@style/EmptyStateButtonTextAppearance</item>
+    </style>
 </resources>

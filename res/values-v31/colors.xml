@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2013 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2013 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,6 +14,8 @@
 -->
 
 <resources>
-    <color name="tab_selected_text_color">@android:color/white</color>
-    <color name="work_profile_button_stroke_color">#747775</color> <!-- neutral 500 -->
+  <color name="tab_selected_text_color">@android:color/white</color>
+  <color name="work_profile_button_stroke_color">
+    @*android:color/system_accent1_600
+  </color> <!-- primary 600 -->
 </resources>

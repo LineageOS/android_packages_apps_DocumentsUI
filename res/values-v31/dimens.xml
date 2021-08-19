@@ -21,4 +21,5 @@
     <dimen name="profile_tab_padding">20dp</dimen>
     <dimen name="cross_profile_button_corner_radius">30dp</dimen>
     <dimen name="cross_profile_button_stroke_width">1dp</dimen>
+    <dimen name="cross_profile_button_message_margin_top">16dp</dimen>
 </resources>
