@@ -42,7 +42,7 @@
     <color name="shortcut_foreground">#ff3367d6</color>
     <color name="shortcut_background">#fff5f5f5</color>
 
-    <color name="empty_state_text">#202124</color>
+    <color name="empty_state_text_color">#202124</color>
     <color name="error_image_color">#757575</color>
 
     <color name="edge_effect">@android:color/black</color>
