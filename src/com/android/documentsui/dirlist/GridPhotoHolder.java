@@ -125,7 +125,7 @@ final class GridPhotoHolder extends DocumentHolder {
 
     @Override
     public boolean inPreviewIconRegion(MotionEvent event) {
-        return Views.isEventOver(event, mPreviewIcon);
+        return Views.isEventOver(event, itemView.getParent(), mPreviewIcon);
     }
 
     /**
