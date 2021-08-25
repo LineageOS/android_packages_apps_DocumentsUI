@@ -15,13 +15,13 @@
 -->
 <resources>
     <style name="EmptyStateTitleText">
-        <item name="android:textColor">@color/empty_state_text</item>
+        <item name="android:textColor">@color/empty_state_text_color</item>
         <item name="android:textSize">18sp</item>
         <item name="fontFamily">@string/config_headerFontFamily</item>
     </style>
 
     <style name="EmptyStateMessageText">
-        <item name="android:textColor">@color/empty_state_message_text</item>
+        <item name="android:textColor">@color/empty_state_message_text_color</item>
         <item name="android:textSize">14sp</item>
         <item name="fontFamily">@string/config_fontFamily</item>
     </style>
