@@ -21,9 +21,9 @@
   <color name="work_profile_button_stroke_color">
     @*android:color/system_accent1_200
   </color> <!-- accent 200 -->
-  <color name="empty_state_text">@*android:color/system_neutral1_100</color>
+  <color name="empty_state_text_color">@*android:color/system_neutral1_100</color>
   <!-- neutral 100 -->
-  <color name="empty_state_message_text">@*android:color/system_neutral2_200
+  <color name="empty_state_message_text_color">@*android:color/system_neutral2_200
   </color>
   <!-- neutral variant 200 -->
 </resources>
