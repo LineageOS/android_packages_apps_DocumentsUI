@@ -17,7 +17,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_selected="true"
-        android:color="?android:attr/colorAccent"/>
+        android:color="@color/profile_tab_selected_color"/>
     <item
-        android:color="@color/tab_default_background_color"/>
+        android:color="@color/profile_tab_default_color"/>
 </selector>
