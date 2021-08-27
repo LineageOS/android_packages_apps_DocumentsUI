@@ -14,7 +14,12 @@
 -->
 
 <resources>
-  <color name="tab_selected_text_color">@android:color/white</color>
+  <color name="tab_selected_text_color">@*android:color/system_neutral1_900
+  </color>
+  <!-- neutral 900 -->
+  <color name="tab_unselected_text_color">@*android:color/system_neutral2_700
+  </color>
+  <!-- neutral variant 700-->
   <color name="work_profile_button_stroke_color">
     @*android:color/system_accent1_600
   </color> <!-- primary 600 -->
@@ -23,4 +28,10 @@
   <color name="empty_state_message_text_color">@*android:color/system_neutral2_700
   </color>
   <!-- neutral variant 700 -->
+  <color name="profile_tab_selected_color">@*android:color/system_accent1_100
+  </color>
+  <!-- accent 100 -->
+  <color name="profile_tab_default_color">@*android:color/system_neutral1_100
+  </color>
+  <!-- neutral 100 -->
 </resources>

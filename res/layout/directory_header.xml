@@ -52,7 +52,7 @@
             app:tabIndicatorHeight="@dimen/tab_selector_indicator_height"
             app:tabSelectedTextColor="@color/tab_selected_text_color"
             app:tabTextAppearance="@style/TabTextAppearance"
-            app:tabTextColor="?android:attr/textColorSecondary"/>
+            app:tabTextColor="@color/tab_unselected_text_color"/>
         <View
             android:id="@+id/tab_separator"
             android:layout_width="match_parent"
