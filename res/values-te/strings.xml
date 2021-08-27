@@ -190,8 +190,8 @@
       <item quantity="one">ఈ ఫైల్ తొలగించబడలేదు: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="copy_converted_warning_content" formatted="false" msgid="7433742181712126588">
-      <item quantity="other">ఈ ఫైళ్లు మరో ఆకృతిలోకి మార్పిడి చేయబడ్డాయి: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="one">ఈ ఫైల్ మరో ఆకృతిలోకి మార్పిడి చేయబడింది: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+      <item quantity="other">ఈ ఫైళ్లు మరో ఫార్మాట్‌లోకి మార్చబడ్డాయి: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">ఈ ఫైల్ మరో ఫార్మాట్‌లోకి మార్చబడింది: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="clipboard_files_clipped" formatted="false" msgid="4847061634862926902">
       <item quantity="other">క్లిప్‌బోర్డ్‌కు <xliff:g id="COUNT_1">%1$d</xliff:g> అంశాలు కాపీ చేయబడ్డాయి.</item>
@@ -230,7 +230,7 @@
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> అంశాన్ని తొలగించాలా?</item>
     </plurals>
     <string name="images_shortcut_label" msgid="2545168016070493574">"ఇమేజ్‌లు"</string>
-    <string name="archive_loading_failed" msgid="7243436722828766996">"బ్రౌజింగ్‌ కోసం ఆర్కైవ్‌ని తెరవడం సాధ్యపడలేదు. ఫైల్ పాడైంది లేదా మద్దతు లేని ఆకృతిలో ఉంది."</string>
+    <string name="archive_loading_failed" msgid="7243436722828766996">"బ్రౌజింగ్‌ కోసం ఆర్కైవ్‌ను తెరవడం సాధ్యపడలేదు. ఫైల్ కరప్ట్ అయింది లేదా సపోర్ట్‌ లేని ఫార్మాట్‌లో ఉంది."</string>
     <string name="name_conflict" msgid="28407269328862986">"ఈ పేరుతో ఇప్పటికే ఒక ఫైల్ ఉంది."</string>
     <string name="authentication_required" msgid="8030880723643436099">"ఈ డైరెక్టరీని వీక్షించాలంటే, <xliff:g id="NAME">%1$s</xliff:g>కి సైన్ ఇన్ చేయండి"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"కంటెంట్‌లను ప్రదర్శించడం సాధ్యం కాదు"</string>
