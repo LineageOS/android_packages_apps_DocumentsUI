@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"ஆவணத்தைச் சேமிக்க முடியவில்லை"</string>
     <string name="create_error" msgid="3092144450044861994">"கோப்புறையை உருவாக்க முடியவில்லை"</string>
     <string name="query_error" msgid="6625421453613879336">"தற்போது உள்ளடக்கத்தை ஏற்ற முடியவில்லை"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"பணிக் கணக்கு இடைநிறுத்தப்பட்டது"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"ஆன் செய்"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"பணி ஆப்ஸ் இடைநிறுத்தப்பட்டுள்ளன"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"பணி ஆப்ஸை இயக்கு"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"பணி ஃபைல்களைத் தேர்ந்தெடுக்க முடியாது"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"பணி ஃபைல்களைத் தனிப்பட்ட பணி ஆப்ஸில் இருந்து அணுகுவதை உங்கள் IT நிர்வாகி அனுமதிக்கவில்லை"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"தனிப்பட்ட ஃபைல்களைத் தேர்ந்தெடுக்க முடியாது"</string>
@@ -268,7 +268,7 @@
     <string name="preview_work_file" msgid="4495643735563487273">"<xliff:g id="FILENAME">%1$s</xliff:g> என்ற பணி ஃபைலின் மாதிரிக்காட்சியைப் பார்க்கவும்"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"ஃபைல்களை வேறு ஆப்ஸில் தேடவும்"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"பெயர் குறிப்பிடாதது"</string>
-    <string name="open_tree_button" msgid="6402871398424497776">"இந்தக் கோப்புறையைப் பயன்படுத்து"</string>
+    <string name="open_tree_button" msgid="6402871398424497776">"இந்த ஃபோல்டரைப் பயன்படுத்து"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g> இல் உள்ள ஃபைல்களை அணுக <xliff:g id="APPNAME">%1$s</xliff:g> ஆப்ஸை அனுமதிக்கவா?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"இது <xliff:g id="DIRECTORY">%2$s</xliff:g> இல் சேமிக்கப்பட்டுள்ள தற்போதைய மற்றும் வருங்கால உள்ளடக்கத்தை அணுக <xliff:g id="APPNAME">%1$s</xliff:g> ஆப்ஸை அனுமதிக்கும்."</string>
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"கோப்புறையைப் பயன்படுத்த இயலாது"</string>
