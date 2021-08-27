@@ -42,7 +42,7 @@
     <color name="shortcut_foreground">#ff3367d6</color>
     <color name="shortcut_background">#fff5f5f5</color>
 
-    <color name="empty_state_text">#202124</color>
+    <color name="empty_state_text_color">#202124</color>
     <color name="error_image_color">#757575</color>
 
     <color name="edge_effect">@android:color/black</color>
@@ -55,7 +55,8 @@
     <color name="color_surface_header">@color/app_background_color</color>
 
     <color name="tab_selected_text_color">@color/primary</color>
-    <color name="tab_default_background_color">#E0E0E0</color>
-
     <color name="work_profile_button_stroke_color">@color/primary</color>
+    <color name="profile_tab_selected_color">?android:attr/colorAccent</color>
+    <color name="profile_tab_default_color">#E0E0E0</color>
+    <color name="tab_unselected_text_color">#5F6368</color> <!-- Gray 700 -->
 </resources>
