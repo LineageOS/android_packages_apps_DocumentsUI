@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Salvarea documentului nu a reușit"</string>
     <string name="create_error" msgid="3092144450044861994">"Eroare la crearea dosarului"</string>
     <string name="query_error" msgid="6625421453613879336">"Momentan, conținutul nu poate fi încărcat"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Profilul de serviciu este întrerupt"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Activați"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Aplicațiile pentru lucru sunt întrerupte"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Activați aplicațiile pentru lucru"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nu se pot selecta fișiere de lucru"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administratorul IT nu vă permite să accesați fișiere de lucru dintr-o aplicație personală"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nu se pot selecta fișiere personale"</string>

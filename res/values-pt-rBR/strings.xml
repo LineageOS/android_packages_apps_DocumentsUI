@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Falha ao salvar o documento"</string>
     <string name="create_error" msgid="3092144450044861994">"Falha ao criar pasta"</string>
     <string name="query_error" msgid="6625421453613879336">"Não é possível carregar o conteúdo no momento"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"O perfil de trabalho está pausado"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Ativar"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Os apps de trabalho foram pausados"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Ativar apps de trabalho"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Não é possível selecionar arquivos de trabalho"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Seu administrador de TI não permite que você acesse arquivos de trabalho em um app pessoal"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Não foi possível selecionar arquivos pessoais"</string>
