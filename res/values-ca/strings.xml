@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"No s\'ha pogut desar el document"</string>
     <string name="create_error" msgid="3092144450044861994">"No s\'ha pogut crear la carpeta"</string>
     <string name="query_error" msgid="6625421453613879336">"En aquest moment no es pot carregar el contingut"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"El perfil de treball està en pausa"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Activa"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Les aplicacions de treball estan en pausa"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Activa les aplicacions de treball"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"No es poden seleccionar els fitxers de treball"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"L\'administrador de TI no et permet accedir als fitxers de treball des de l\'aplicació personal"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"No es poden seleccionar els fitxers personals"</string>
