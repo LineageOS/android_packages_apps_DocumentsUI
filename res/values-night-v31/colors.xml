@@ -18,9 +18,11 @@
   <color name="work_profile_button_stroke_color">
     @*android:color/system_accent1_200
   </color> <!-- accent 200 -->
-  <color name="empty_state_text_color">@*android:color/system_neutral1_100</color>
+  <color name="empty_state_text_color">@*android:color/system_neutral1_100
+  </color>
   <!-- neutral 100 -->
-  <color name="empty_state_message_text_color">@*android:color/system_neutral2_200
+  <color name="empty_state_message_text_color">
+    @*android:color/system_neutral2_200
   </color>
   <!-- neutral variant 200 -->
   <color name="tab_unselected_text_color">@*android:color/system_neutral2_200
@@ -32,4 +34,17 @@
   <color name="profile_tab_selected_color">@*android:color/system_neutral2_100
   </color>
   <!-- neutral variant 100 -->
+  <color name="fragment_pick_inactive_button_color">
+    @*android:color/system_neutral1_800
+  </color>
+  <!-- neutral 100 -->
+  <color name="fragment_pick_inactive_text_color">
+    @*android:color/system_neutral1_600
+  </color>
+  <!-- neutral 600 -->
+  <color name="fragment_pick_active_button_color">
+    @*android:color/system_neutral2_100
+  </color>
+  <!-- neutral variant 100 -->
+  <color name="fragment_pick_active_text_color">@android:color/black</color>
 </resources>

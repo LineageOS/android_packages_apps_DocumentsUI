@@ -33,4 +33,6 @@
 
     <color name="list_divider_color">#9aa0a6</color>
     <color name="list_item_selected_background_color">?android:colorSecondary</color>
+
+    <color name="fragment_pick_active_text_color">#202124</color> <!-- Grey 900 -->
 </resources>
