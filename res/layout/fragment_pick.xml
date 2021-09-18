@@ -44,6 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:backgroundTint="@color/fragment_pick_button_background_color"
+            android:textColor="@color/fragment_pick_button_text_color"
             android:layout_marginEnd="4dp" />
 
         <!-- Handles touch events when button1 is disabled. -->
