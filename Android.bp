@@ -75,6 +75,7 @@ java_defaults {
     plugins: [
         "java_api_finder",
     ],
+    lint: { strict_updatability_linting: true }
 }
 
 platform_compat_config {
@@ -95,6 +96,7 @@ java_library {
     srcs: [
         ":statslog-docsui-java-gen",
     ],
+    lint: { strict_updatability_linting: true }
 }
 
 genrule {
@@ -126,6 +128,7 @@ android_library {
     sdk_version: "system_current",
     target_sdk_version: "30",
     min_sdk_version: "29",
+    lint: { strict_updatability_linting: true }
 }
 
 android_library {
@@ -149,6 +152,7 @@ android_library {
     sdk_version: "system_current",
     target_sdk_version: "30",
     min_sdk_version: "29",
+    lint: { strict_updatability_linting: true }
 }
 
 android_app {
@@ -170,4 +174,6 @@ android_app {
 
     target_sdk_version: "30",
     min_sdk_version: "29",
+    lint: { strict_updatability_linting: true }
 }
+
