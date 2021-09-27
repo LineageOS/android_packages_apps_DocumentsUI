@@ -105,6 +105,15 @@ public class ProfileTabs implements ProfileTabsAddons {
         // Material next changes apply only for version S or greater
         if(VersionUtils.isAtLeastS()) {
             mTabSeparator.setVisibility(View.GONE);
+            int tabContainerHeightInDp = (int)mTabsContainer.getContext().getResources().
+                getDimension(R.dimen.tab_container_height);
+            mTabsContainer.getLayoutParams().height = tabContainerHeightInDp;
+            ViewGroup.MarginLayoutParams tabContainerMarginLayoutParams =
+                (ViewGroup.MarginLayoutParams) mTabsContainer.getLayoutParams();
+            int tabContainerMarginTop = (int)mTabsContainer.getContext().getResources().
+                getDimension(R.dimen.profile_tab_margin_top);
+            tabContainerMarginLayoutParams.setMargins(0, tabContainerMarginTop, 0, 0);
+            mTabsContainer.requestLayout();
             for (int i = 0; i < mTabs.getTabCount(); i++) {
 
                 // Tablayout holds a view that contains the individual tab
@@ -113,7 +122,12 @@ public class ProfileTabs implements ProfileTabsAddons {
                 // Get individual tab to set the style
                 ViewGroup.MarginLayoutParams marginLayoutParams =
                         (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-                marginLayoutParams.setMargins(10, 20, 10, 20);
+                int tabMarginSide = (int)mTabsContainer.getContext().getResources().
+                    getDimension(R.dimen.profile_tab_margin_side);
+                marginLayoutParams.setMargins(tabMarginSide, 0, tabMarginSide, 0);
+                int tabHeightInDp = (int)mTabsContainer.getContext().getResources().
+                    getDimension(R.dimen.tab_height);
+                tab.getLayoutParams().height = tabHeightInDp;
                 tab.requestLayout();
                 tab.setBackgroundResource(R.drawable.tab_border_rounded);
             }
