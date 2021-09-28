@@ -251,11 +251,11 @@
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g>లోని ఫైళ్లు"</string>
     <string name="root_info_header_image_recent" msgid="7494373563753926014">"ఇటీవలి ఇమేజ్‌లు"</string>
     <string name="root_info_header_image_global_search" msgid="7307009823489854697">"ఇమేజ్‌లు"</string>
-    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"\'డౌన్‌లోడ్‌లు\'లోని చిత్రాలు"</string>
-    <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g>లోని ఫోటోలు"</string>
-    <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g>లోని చిత్రాలు"</string>
-    <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g>లోని ఫోటోలు"</string>
-    <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g>లోని ఫోటోలు / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
+    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"\'డౌన్‌లోడ్‌లు\'లోని ఇమేజ్‌లు"</string>
+    <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g>లోని ఇమేజ్‌లు"</string>
+    <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g>లోని ఇమేజ్‌లు"</string>
+    <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g>లోని ఇమేజ్‌లు"</string>
+    <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g>లోని ఇమేజ్‌లు / <xliff:g id="SUMMARY">%2$s</xliff:g>"</string>
     <string name="chip_title_images" msgid="7838299046109841015">"ఇమేజ్‌లు"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"ఆడియో"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"వీడియోలు"</string>
