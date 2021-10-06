@@ -16,6 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="missing_rename_error" msgid="9098952207447981103">"ਤੁਹਾਨੂੰ ਇਸਦਾ ਨਾਮ ਬਦਲਣ ਦੀ ਲੋੜ ਹੈ"</string>
+    <string name="add_folder_name_error" msgid="6014615052491406810">"ਤੁਹਾਨੂੰ ਕੋਈ ਫੋਲਡਰ ਨਾਮ ਸ਼ਾਮਲ ਕਰਨ ਦੀ ਲੋੜ ਹੈ"</string>
     <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"ਡਾਊਨਲੋਡਾਂ"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
@@ -278,4 +280,6 @@
     <string name="work_tab" msgid="7265359366883747413">"ਕਾਰਜ-ਸਥਾਨ"</string>
     <string name="a11y_work" msgid="7504431382825242153">"ਕੰਮ"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"ਤੁਸੀਂ ਕਿਸੇ ਹੋਰ ਐਪ ਤੋਂ ਫ਼ਾਈਲਾਂ ਨਹੀਂ ਲਿਜਾ ਸਕਦੇ।"</string>
+    <string name="grid_mode_showing" msgid="2803166871485028508">"ਗ੍ਰਿਡ ਮੋਡ ਵਿੱਚ ਦਿਖਾਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ"</string>
+    <string name="list_mode_showing" msgid="1225413902295895166">"ਸੂਚੀ ਮੋਡ ਵਿੱਚ ਦਿਖਾਈਆਂ ਜਾ ਰਹੀਆਂ ਹਨ।"</string>
 </resources>
