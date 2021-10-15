@@ -47,8 +47,8 @@
     <string name="menu_extract" msgid="8171946945982532262">"இங்கு பிரி…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"மறுபெயரிடு"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"தகவலைப் பெறு"</string>
-    <string name="menu_show_hidden_files" msgid="5140676344684492769">"மறைக்கப்பட்ட கோப்புகளைக் காட்டு"</string>
-    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"மறைக்கப்பட்ட கோப்புகளைக் காட்டாதே"</string>
+    <string name="menu_show_hidden_files" msgid="5140676344684492769">"மறைக்கப்பட்ட ஃபைல்களைக் காட்டு"</string>
+    <string name="menu_hide_hidden_files" msgid="5654495713350153702">"மறைக்கப்பட்ட ஃபைல்களைக் காட்டாதே"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g> இல் காட்டு"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"புதிய சாளரம்"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"வெட்டு"</string>
@@ -115,14 +115,14 @@
     <string name="toast_no_application" msgid="7555319548595113121">"கோப்பைத் திறக்க முடியாது"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"காப்பகங்களில் உள்ள ஃபைல்களைத் திறக்க முடியாது"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"சில ஆவணங்களை நீக்க முடியவில்லை"</string>
-    <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> கோப்புகளுக்கு மேல் பகிர முடியாது"</string>
+    <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> ஃபைல்களுக்கு மேல் பகிர முடியாது"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"செயல் அனுமதிக்கப்படவில்லை"</string>
     <string name="share_via" msgid="8725082736005677161">"இதன் வழியாகப் பகிர்"</string>
-    <string name="copy_notification_title" msgid="52256435625098456">"கோப்புகளை நகலெடுத்தல்"</string>
+    <string name="copy_notification_title" msgid="52256435625098456">"ஃபைல்களை நகலெடுத்தல்"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"அளவைக் குறைக்கிறது"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"ஃபைல்களைப் பிரிக்கிறது"</string>
-    <string name="move_notification_title" msgid="3173424987049347605">"கோப்புகளை நகர்த்துதல்"</string>
-    <string name="delete_notification_title" msgid="2512757431856830792">"கோப்புகளை நீக்குதல்"</string>
+    <string name="move_notification_title" msgid="3173424987049347605">"ஃபைல்களை நகர்த்துதல்"</string>
+    <string name="delete_notification_title" msgid="2512757431856830792">"ஃபைல்களை நீக்குதல்"</string>
     <string name="copy_remaining" msgid="5390517377265177727">"<xliff:g id="DURATION">%s</xliff:g> மீதமுள்ளன"</string>
     <plurals name="copy_begin" formatted="false" msgid="151184708996738192">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளை நகலெடுக்கிறது.</item>
@@ -182,8 +182,8 @@
       <item quantity="one">இந்த ஃபைல் பிரிக்கப்படவில்லை: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="move_failure_alert_content" formatted="false" msgid="2747390342670799196">
-      <item quantity="other">இந்தக் கோப்புகள் நகர்த்தப்படவில்லை: <xliff:g id="LIST_1">%1$s</xliff:g></item>
-      <item quantity="one">இந்தக் கோப்பு நகர்த்தப்படவில்லை: <xliff:g id="LIST_0">%1$s</xliff:g></item>
+      <item quantity="other">இந்த ஃபைல்கள் நகர்த்தப்படவில்லை: <xliff:g id="LIST_1">%1$s</xliff:g></item>
+      <item quantity="one">இந்த ஃபைல் நகர்த்தப்படவில்லை: <xliff:g id="LIST_0">%1$s</xliff:g></item>
     </plurals>
     <plurals name="delete_failure_alert_content" formatted="false" msgid="6122372614839711711">
       <item quantity="other">இந்த ஃபைல்கள் நீக்கப்படவில்லை: <xliff:g id="LIST_1">%1$s</xliff:g></item>
@@ -218,7 +218,7 @@
     <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" ஃபைலை நீக்கவா?"</string>
     <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"\"<xliff:g id="NAME">%1$s</xliff:g>\" ஃபோல்டரையும் அதன் உள்ளடக்கத்தையும் நீக்கவா?"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
-      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> கோப்புகளை நீக்கவா?</item>
+      <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்களை நீக்கவா?</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைலை நீக்கவா?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
@@ -246,7 +246,7 @@
     <string name="root_info_header_global_search" msgid="4904078222280496152">"ஃபைல்கள்"</string>
     <string name="root_info_header_downloads" msgid="8848161246921154115">"பதிவிறக்கங்களில் உள்ள ஃபைல்கள்"</string>
     <string name="root_info_header_storage" msgid="2989014130584927442">"<xliff:g id="DEVICE">%1$s</xliff:g> இலுள்ள ஃபைல்கள்"</string>
-    <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g> கோப்புறையிலுள்ள ஃபைல்கள்"</string>
+    <string name="root_info_header_folder" msgid="5851172222368049864">"<xliff:g id="FOLDER">%1$s</xliff:g> ஃபோல்டரிலுள்ள ஃபைல்கள்"</string>
     <string name="root_info_header_app" msgid="2125422047558420885">"<xliff:g id="LABEL">%1$s</xliff:g> இலிருந்து ஃபைல்கள்"</string>
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> இலிருந்து ஃபைல்கள்"</string>
     <string name="root_info_header_image_recent" msgid="7494373563753926014">"சமீபத்திய படங்கள்"</string>
