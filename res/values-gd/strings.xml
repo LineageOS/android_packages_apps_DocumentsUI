@@ -208,7 +208,7 @@
         <item quantity="other">Cha deach na faidhlichean seo a dhì-dhùmhlachadh: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
     <plurals name="move_failure_alert_content">
-        <item quantity="one">Cha deach a faidhle seo a ghluasad: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
+        <item quantity="one">Cha deach am faidhle seo a ghluasad: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="two">Cha deach na faidhlichean seo a ghluasad: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="few">Cha deach na faidhlichean seo a ghluasad: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="other">Cha deach na faidhlichean seo a ghluasad: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
