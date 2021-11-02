@@ -37,8 +37,8 @@
     <string name="menu_save" msgid="5195367497138965168">"ছেভ কৰক"</string>
     <string name="menu_share" msgid="4307140947108068356">"শ্বেয়াৰ কৰক"</string>
     <string name="menu_delete" msgid="1022254131543256626">"মচক"</string>
-    <string name="menu_select_all" msgid="7600576812185570403">"সকলো বাছনি কৰক"</string>
-    <string name="menu_deselect_all" msgid="7729916068862742979">"সকলো বাছনি নোহোৱা কৰক"</string>
+    <string name="menu_select_all" msgid="7600576812185570403">"আটাইবোৰ বাছনি কৰক"</string>
+    <string name="menu_deselect_all" msgid="7729916068862742979">"আটাইবোৰ বাছনি নোহোৱা কৰক"</string>
     <string name="menu_select" msgid="1366061076507142387">"বাছনি কৰক"</string>
     <string name="menu_sort" msgid="3362419226163725275">"এই অনুসৰি সজাওক..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"ইয়াত প্ৰতিলিপি কৰক…"</string>
@@ -55,8 +55,8 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"প্ৰতিলিপি কৰক"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"পেইষ্ট কৰক"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ফ\'ল্ডাৰত পেইষ্ট কৰক"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"আভ্যন্তৰীণ সঞ্চয়াগাৰ দেখুৱাওক"</string>
-    <string name="menu_advanced_hide" msgid="6488381508009246334">"আভ্যন্তৰীণ সঞ্চয়াগাৰ লুকুৱাওক"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"আভ্যন্তৰীণ ষ্ট’ৰেজ দেখুৱাওক"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"আভ্যন্তৰীণ ষ্ট’ৰেজ লুকুৱাওক"</string>
     <string name="button_select" msgid="240863497069321364">"বাছনি কৰক"</string>
     <string name="button_copy" msgid="8219059853840996027">"প্ৰতিলিপি কৰক"</string>
     <string name="button_compress" msgid="8951561310857223966">"সংকুচিত কৰক"</string>
@@ -106,7 +106,7 @@
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"অধিক জানিবলৈ আপোনাৰ আইটি প্ৰশাসকৰ সৈতে যোগাযোগ কৰক"</string>
     <string name="root_recent" msgid="1080156975424341623">"শেহতীয়া"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> খালী আছে"</string>
-    <string name="root_type_service" msgid="6521366147466512289">"সঞ্চয়াগাৰৰ সেৱাসমূহ"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"ষ্ট’ৰেজৰ সেৱাসমূহ"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"শ্বৰ্টকাটসমূহ"</string>
     <string name="root_type_device" msgid="1713604128005476585">"ডিভাইচসমূহ"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"অধিক এপ্"</string>
