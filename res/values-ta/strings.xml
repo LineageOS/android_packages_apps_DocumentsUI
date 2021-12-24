@@ -112,7 +112,7 @@
     <string name="root_type_apps" msgid="8646073235029886342">"மேலும் ஆப்ஸ்"</string>
     <string name="empty" msgid="5300254272613103004">"எதுவும் இல்லை"</string>
     <string name="no_results" msgid="2371026325236359209">"%1$s இல் பொருந்தும் முடிவு இல்லை"</string>
-    <string name="toast_no_application" msgid="7555319548595113121">"கோப்பைத் திறக்க முடியாது"</string>
+    <string name="toast_no_application" msgid="7555319548595113121">"ஃபைலைத் திறக்க முடியாது"</string>
     <string name="toast_view_in_archives_unsupported" msgid="1923221390170964845">"காப்பகங்களில் உள்ள ஃபைல்களைத் திறக்க முடியாது"</string>
     <string name="toast_failed_delete" msgid="3453846588205817591">"சில ஆவணங்களை நீக்க முடியவில்லை"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"<xliff:g id="COUNT">%1$d</xliff:g> ஃபைல்களுக்கு மேல் பகிர முடியாது"</string>
@@ -197,8 +197,8 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ஃபைல்கள் , கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டன.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ஃபைல், கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது.</item>
     </plurals>
-    <string name="file_operation_rejected" msgid="4301554203329008794">"கோப்புச் செயல்பாடு ஆதரிக்கப்படவில்லை."</string>
-    <string name="file_operation_error" msgid="2234357335716533795">"கோப்புச் செயல்பாடு தோல்வியடைந்தது."</string>
+    <string name="file_operation_rejected" msgid="4301554203329008794">"ஃபைல் செயல்பாடு ஆதரிக்கப்படவில்லை."</string>
+    <string name="file_operation_error" msgid="2234357335716533795">"ஃபைல் செயல்பாடு தோல்வியடைந்தது."</string>
     <string name="rename_error" msgid="6700093173508118635">"ஆவணத்தின் பெயரை மாற்ற முடியவில்லை"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"வெளியேற்று"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"சில ஃபைல்கள்  மாற்றப்பட்டன"</string>
