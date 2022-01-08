@@ -14,320 +14,519 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Title of the Files application [CHAR LIMIT=32] -->
     <string name="files_label">Faidhlichean</string>
+    <!-- Title of the Downloads application, which sometimes Files is known as [CHAR LIMIT=16] -->
     <string name="downloads_label">Luchdaidhean a-nuas</string>
+    <!-- Title of the documents application [CHAR LIMIT=32] -->
     <string name="app_label">@string/files_label</string>
+    <!-- Title of the documents application [CHAR LIMIT=32] -->
     <string name="launcher_label">@string/files_label</string>
+    <!-- Action bar title prompting user to choose a location to open a document from [CHAR LIMIT=32] -->
     <string name="title_open">Fosgail o</string>
+    <!-- Action bar title prompting user to choose a location to save a document to [CHAR LIMIT=32] -->
     <string name="title_save">Sàbhail gu</string>
+    <!-- Menu item that creates a new directory/folder at the current location [CHAR LIMIT=28] -->
     <string name="menu_create_dir">Pasgan ùr</string>
+    <!-- Menu item that switches view to show documents as a large-format grid of thumbnails [CHAR LIMIT=28] -->
     <string name="menu_grid">Sealladh griod</string>
+    <!-- Menu item that switches view to show documents as a list [CHAR LIMIT=28] -->
     <string name="menu_list">Sealladh liosta</string>
+    <!-- Menu item that enters a mode to search for documents [CHAR LIMIT=28] -->
     <string name="menu_search">Lorg</string>
+    <!-- Menu item that opens settings/options for a device (like an SD card). [CHAR LIMIT=28] -->
     <string name="menu_settings">Roghainnean an stòrais</string>
+    <!-- Menu item title that opens the selected documents [CHAR LIMIT=28] -->
     <string name="menu_open">Fosgail</string>
+    <!-- Menu item title that shows a chooser to user to pick the app to open the selected documents. [CHAR LIMIT=28] -->
     <string name="menu_open_with">Fosgail le</string>
+    <!-- Menu item title that opens a doc in new window. [CHAR LIMIT=28] -->
     <string name="menu_open_in_new_window">Fosgail ann an uinneag ùr</string>
+    <!-- Menu item title that saves the current document [CHAR LIMIT=28] -->
     <string name="menu_save">Sàbhail</string>
+    <!-- Menu item title that shares the selected documents [CHAR LIMIT=28] -->
     <string name="menu_share">Co-roinn</string>
+    <!-- Menu item title that deletes the selected documents [CHAR LIMIT=28] -->
     <string name="menu_delete">Sguab às</string>
+    <!-- Menu item title that selects all documents in the current directory [CHAR LIMIT=28] -->
     <string name="menu_select_all">Tagh na h-uile</string>
+    <!-- Menu item title that deselects all documents in the current directory [CHAR LIMIT=28] -->
     <string name="menu_deselect_all">Dì-thagh na h-uile</string>
+    <!-- Menu item title that selects documents in the current directory [CHAR LIMIT=28] -->
     <string name="menu_select">Tagh</string>
+    <!-- Menu item title that sort documents in the current directory [CHAR LIMIT=28] -->
     <string name="menu_sort">Seòrsaich a-rèir…</string>
+    <!-- Menu item title that copies the selected documents [CHAR LIMIT=28] -->
     <string name="menu_copy">Cuir lethbhreac dheth gu…</string>
+    <!-- Menu item title that moves the selected documents [CHAR LIMIT=28] -->
     <string name="menu_move">Gluais gu…</string>
+    <!-- Menu item title that compresses the selected documents to the current directory [CHAR LIMIT=28] -->
     <string name="menu_compress">Dùmhlaich</string>
+    <!-- Menu item title that extracts the selected documents [CHAR LIMIT=28] -->
     <string name="menu_extract">Dì-dhùmhlaich gu\u2026</string>
+    <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_rename">Thoir ainm ùr air</string>
+    <!-- Menu item that displays properties about the selected document [CHAR LIMIT=28] -->
     <string name="menu_inspect">Faigh fiosrachadh</string>
+    <!-- Menu item that shows hidden files [CHAR LIMIT=36] -->
     <string name="menu_show_hidden_files">Seall faidhlichean falaichte</string>
+    <!-- Menu item that hides hidden files [CHAR LIMIT=36] -->
     <string name="menu_hide_hidden_files">Na seall faidhlichean falaichte</string>
+    <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_view_in_owner">Seall am broinn <xliff:g id="source" example="Google Drive">%1$s</xliff:g></string>
+    <!-- Menu item title that creates a new window in the activity [CHAR LIMIT=28] -->
     <string name="menu_new_window">Uinneag ùr</string>
+    <!-- Menu item title that cuts the selected documents to clipboard [CHAR LIMIT=28] -->
     <string name="menu_cut_to_clipboard">Geàrr às</string>
+    <!-- Menu item title that copies the selected documents to clipboard [CHAR LIMIT=28] -->
     <string name="menu_copy_to_clipboard">Dèan lethbhreac</string>
+    <!-- Menu item title that pastes files from the clipboard [CHAR LIMIT=28] -->
     <string name="menu_paste_from_clipboard">Cuir ann</string>
+    <!-- Menu item title that pastes files into the selected folder [CHAR LIMIT=28] -->
     <string name="menu_paste_into_folder">Cuir dhan phasgan seo</string>
+    <!-- Translators asked for a length exemption for the show/hide internal storage strings.
+         Thus the CHAR LIMIT=24/30 deviation is 'splained. -->
+    <!-- Menu item that reveals internal storage built into the device [CHAR LIMIT=30] -->
     <string name="menu_advanced_show">Seall an stòras inntearnail</string>
+    <!-- Menu item that hides internal storage built into the device [CHAR LIMIT=30] -->
     <string name="menu_advanced_hide">Falaich an stòras inntearnail</string>
+    <!-- Button label that select the current directory [CHAR LIMIT=24] -->
     <string name="button_select">Tagh</string>
+    <!-- Button label that copies files to the current directory [CHAR LIMIT=24] -->
     <string name="button_copy">Dèan lethbhreac</string>
+    <!-- Button label that compresses files to the current directory [CHAR LIMIT=24] -->
     <string name="button_compress">Dùmhlaich</string>
+    <!-- Button label that extracts files to the current directory [CHAR LIMIT=24] -->
     <string name="button_extract">Dì-dhùmhlaich</string>
+    <!-- Button label that moves files to the current directory [CHAR LIMIT=24] -->
     <string name="button_move">Gluais</string>
+    <!-- Button label that hides the error bar [CHAR LIMIT=24] -->
     <string name="button_dismiss">Leig seachad</string>
     <string name="button_retry">Feuch ris a-rithist</string>
+    <!-- Button label that removes the default application to open a file. -->
     <string name="button_clear">Falamhaich</string>
+    <!-- Button label that show in the providers service. Many providers have their own app such
+     as google drive. Pressing this button would open in the file in the providers app. -->
     <string name="button_show_provider">Seall san t-solaraiche</string>
+    <!-- Button label that do back action [CHAR LIMIT=24] -->
     <string name="button_back">Air ais</string>
+    <!-- A string used to show user that currently documents are not sorted in any given order. [CHAR_LIMIT=30] -->
     <string name="not_sorted">Gun seòrsachadh</string>
+    <!-- Table header for file name [CHAR_LIMIT=24] -->
     <string name="sort_dimension_name">Ainm</string>
+    <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
     <string name="sort_dimension_summary">Geàrr-chunntas</string>
+    <!-- Table header for file type. [CHAR_LIMIT=12] -->
     <string name="sort_dimension_file_type">Seòrsa</string>
+    <!-- Table header for file size. [CHAR_LIMIT=12] -->
     <string name="sort_dimension_size">Meud</string>
+    <!-- Table header for last modified time. [CHAR_LIMIT=18] -->
     <string name="sort_dimension_date">Air atharrachadh</string>
+    <!-- Bottom sheet list title for file name ascending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_name_ascending">Ainm faidhle (A gu Z)</string>
+    <!-- Bottom sheet list title for file type name ascending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_file_type_ascending">Seòrsa (A gu Z)</string>
+    <!-- Bottom sheet list title for size ascending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_size_ascending">Meud (beag gu mòr)</string>
+    <!-- Bottom sheet list title for date ascending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_date_ascending">Ceann-là atharrachaidh (sean gu ùr)</string>
+    <!-- Bottom sheet list title for file name descending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_name_descending">Ainm faidhle (Z gu A)</string>
+    <!-- Bottom sheet list title for file type name descending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_file_type_descending">Seòrsa (Z gu A)</string>
+    <!-- Bottom sheet list title for size descending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_size_descending">Meud (mòr gu beag)</string>
+    <!-- Bottom sheet list title for date descending [CHAR_LIMIT=42] -->
     <string name="sort_dimension_date_descending">Ceann-là atharrachaidh (ùr gu sean)</string>
+    <!-- Bottom sheet dialog title [CHAR_LIMIT=42] -->
     <string name="sort_dimension_dialog_title">Seòrsaich a-rèir</string>
+    <!-- Dropdown sort wiget button title. [CHAR_LIMIT=60] -->
     <string name="sort_dimension_button_title">Òrdugh a-rèir <xliff:g id="label" example="File name (A to Z)">%s</xliff:g></string>
+    <!--Table header for number of items in a folder.-->
     <string name="directory_items">Co mheud</string>
+    <!-- content description to describe ascending sorting used with upward arrow in table header. -->
     <string name="sort_direction_ascending">A’ dìreadh</string>
+    <!-- content description to describe descending sorting used with downward arrow in table header. -->
     <string name="sort_direction_descending">A’ teàrnadh.</string>
+    <!-- content description to describe the action icon to open the app on the root item. -->
     <string name="open_external_app">Fosgail <xliff:g id="appName" example="Drive">%1$s</xliff:g></string>
+    <!-- Accessibility title to open the drawer showing all roots where documents can be stored [CHAR LIMIT=32] -->
     <string name="drawer_open">Seall na freumhan</string>
+    <!-- Accessibility title to close the drawer showing all roots where documents can be stored [CHAR LIMIT=32] -->
     <string name="drawer_close">Falaich na freumhan</string>
+    <!-- Toast shown when saving a document failed with an error [CHAR LIMIT=48] -->
     <string name="save_error">Dh’fhàillig sàbhaladh na sgrìobhainn</string>
+    <!-- Toast shown when creating a folder failed with an error [CHAR LIMIT=48] -->
     <string name="create_error">Dh’fhàillig cruthachadh a’ phasgain</string>
+    <!-- Error message shown when querying for a list of documents failed [CHAR LIMIT=48] -->
     <string name="query_error">Chan urrainn dhuinn an t-susbaint a luchdadh an-dràsta</string>
+    <!-- Title of an error message. This screen is shown when the user's work profile is paused. [CHAR LIMIT=72] -->
     <string name="quiet_mode_error_title">Tha pròifil na h-obrach ’na stad</string>
+    <!-- Button text shown on a button when work profile is paused. Tapping the button will switch on the work profile [CHAR LIMIT=48] -->
     <string name="quiet_mode_button">Cuir air</string>
+    <!-- Error message title shown when a user's IT admin does not allow the user to select work files from a personal app. [CHAR LIMIT=72] -->
     <string name="cant_select_work_files_error_title">Chan urrainn dhut faidhlichean na h-obrach a thaghadh</string>
+    <!-- Error message that's shown when the user's IT admin doesn't allow the user to select work files from a personal app. [CHAR LIMIT=200] -->
     <string name="cant_select_work_files_error_message">Cha cheadaich an rianaire ICT agad
         gun inntrig thu faidhlichean na h-obrach o aplacaid phearsanta
     </string>
+    <!-- Error message title shown when the user's IT admin doesn't allow them to select personal files from a work app. [CHAR LIMIT=72] -->
     <string name="cant_select_personal_files_error_title">Chan urrainn dhut faidhlichean pearsanta a thaghadh</string>
+    <!-- Error message that's shown when the user's IT admin doesn't allow the user to select personal files from a work app. [CHAR LIMIT=200] -->
     <string name="cant_select_personal_files_error_message">Cha cheadaich an rianaire ICT agad
         gun inntrig thu faidhlichean pearsanta o aplacaid na h-obrach
     </string>
+    <!-- Error message title shown when the admin does not allow the user to save files from their personal profile to their work profile. [CHAR LIMIT=72] -->
     <string name="cant_save_to_work_error_title">Cha ghabh a shàbhaladh gu pròifil na h-obrach</string>
+    <!-- Error message shown when the user's IT admin doesn't allow the user to save files from their personal profile to their work profile. [CHAR LIMIT=200] -->
     <string name="cant_save_to_work_error_message">Cha cheadaich an rianaire ICT agad
         gun sàbhail thu faidhlichean pearsanta gu pròifil na h-obrach agad
     </string>
+    <!-- Error message title shown when the admin does not allow the user to save files from their work profile to their personal profile. [CHAR LIMIT=72] -->
     <string name="cant_save_to_personal_error_title">Cha ghabh a shàbhaladh gun phròifil phearsanta</string>
+    <!-- Error message shown when the user's IT admin doesn't allow the user to save files from their work profile to their personal profile. [CHAR LIMIT=200] -->
     <string name="cant_save_to_personal_error_message">Cha cheadaich an rianaire ICT agad
         gun sàbhail thu faidhlichean na h-obrach gun phròifil phearsanta agad
     </string>
+    <!-- Error message title. This message is shown when a user tries to do something on their work device, but that action isn't allowed by their IT admin. [CHAR LIMIT=72] -->
     <string name="cross_profile_action_not_allowed_title">Chan eil taic ris a’ ghnìomh seo</string>
+    <!-- Error message. This message is shown when a user tries to do something on their work device, but that action isn't allowed by their IT admin. [CHAR LIMIT=200] -->
     <string name="cross_profile_action_not_allowed_message">Airson barrachd fiosrachaidh, cuir fios gun rianaire ICT agad</string>
+    <!-- Title of storage root location that contains recently modified or used documents [CHAR LIMIT=24] -->
     <string name="root_recent">O chionn goirid</string>
+    <!-- Subtitle of storage root indicating the total free space available, in bytes [CHAR LIMIT=24] -->
     <string name="root_available_bytes"><xliff:g id="size" example="3GB">%1$s</xliff:g> saor</string>
+    <!-- Header title for list of storage roots that contains cloud services [CHAR LIMIT=24] -->
     <string name="root_type_service">Seirbheisean stòrais</string>
+    <!-- Header title for list of storage roots that contains shortcuts to documents that may be available elsewhere [CHAR LIMIT=24] -->
     <string name="root_type_shortcut">Ath-ghoiridean</string>
+    <!-- Header title for list of storage roots that contains physical devices [CHAR LIMIT=24] -->
     <string name="root_type_device">Uidheaman</string>
+    <!-- Header title for list of additional apps that can provide documents [CHAR LIMIT=24] -->
     <string name="root_type_apps">Barrachd aplacaidean</string>
+    <!-- Text shown when a directory of documents is empty [CHAR LIMIT=24] -->
     <string name="empty">Chan eil nì ann</string>
+    <!-- Text shown when a file search returns no items [CHAR LIMIT=32] -->
     <string name="no_results">Cha deach maids a lorg am broinn %1$s</string>
+    <!-- Toast shown when no app can be found to open the selected document [CHAR LIMIT=48] -->
     <string name="toast_no_application">Cha b’ urrainn dhuinn am faidhle fhosgladh</string>
+    <!-- Toast notifying that it's impossible to open files inside archives [CHAR LIMIT=48] -->
     <string name="toast_view_in_archives_unsupported">Chan urrainn dhuinn faidhle fhosgladh am broinn tasglann</string>
+    <!-- Toast shown when some of the selected documents failed to be deleted [CHAR LIMIT=48] -->
     <string name="toast_failed_delete">Cha b’ urrainn dhuinn a h-uile faidhle a sguabadh às</string>
+    <!-- Toast shown when user want to share files amount over limit [CHAR LIMIT=60] -->
     <string name="toast_share_over_limit">Chan urrainn dhut còrr is <xliff:g id="count" example="1">%1$d</xliff:g> faidhl(ichean) a cho-roinneadh</string>
+    <!-- Toast shown when a document is not allowed to share across users. This is a last-resort toast and not expected to be shown. [CHAR LIMIT=48] -->
     <string name="toast_action_not_allowed">Chan eil an gnìomh seo ceadaichte</string>
+    <!-- Title of dialog when prompting user to select an app to share documents with [CHAR LIMIT=32] -->
     <string name="share_via">Co-roinn slighe</string>
+    <!-- Title of the copy notification [CHAR LIMIT=24] -->
     <string name="copy_notification_title">A\' dèanamh lethbhreac dhe na faidhlichean</string>
+    <!-- Title of the compress notification [CHAR LIMIT=24] -->
     <string name="compress_notification_title">A’ dùmhlachadh faidhlichean</string>
+    <!-- Title of the extract notification [CHAR LIMIT=24] -->
     <string name="extract_notification_title">A’ dì-dhùmhlachadh nam faidhlichean</string>
+    <!-- Title of the move notification [CHAR LIMIT=24] -->
     <string name="move_notification_title">A’ gluasad nam faidhlichean</string>
+    <!-- Title of the move notification [CHAR LIMIT=24] -->
     <string name="delete_notification_title">A’ sguabadh às nam faidhlichean</string>
+    <!-- Text shown on the copy notification to indicate remaining time, in minutes [CHAR LIMIT=24] -->
     <string name="copy_remaining"><xliff:g id="duration" example="3 minutes">%s</xliff:g> air fhàgail</string>
+    <!-- Toast shown when a file copy is kicked off -->
     <plurals name="copy_begin">
         <item quantity="one">A’ dèanamh lethbhreac de <xliff:g id="count" example="1">%1$d</xliff:g> nì.</item>
         <item quantity="two">A’ dèanamh lethbhreac de <xliff:g id="count" example="3">%1$d</xliff:g> nì.</item>
         <item quantity="few">A’ dèanamh lethbhreac de <xliff:g id="count" example="3">%1$d</xliff:g> nithean.</item>
         <item quantity="other">A’ dèanamh lethbhreac de <xliff:g id="count" example="3">%1$d</xliff:g> nì.</item>
     </plurals>
+    <!-- Toast shown when a file compressing is kicked off -->
     <plurals name="compress_begin">
         <item quantity="one">A’ dùmhlachadh <xliff:g id="count" example="1">%1$d</xliff:g> fhaidhle.</item>
         <item quantity="two">A’ dùmhlachadh <xliff:g id="count" example="3">%1$d</xliff:g> fhaidhle.</item>
         <item quantity="few">A’ dùmhlachadh <xliff:g id="count" example="3">%1$d</xliff:g> faidhlichean.</item>
         <item quantity="other">A’ dùmhlachadh <xliff:g id="count" example="3">%1$d</xliff:g> faidhle.</item>
     </plurals>
+    <!-- Toast shown when a file extracting is kicked off -->
     <plurals name="extract_begin">
         <item quantity="one">A’ dì-dhùmhlachadh <xliff:g id="count" example="1">%1$d</xliff:g> fhaidhle.</item>
         <item quantity="two">A’ dì-dhùmhlachadh <xliff:g id="count" example="3">%1$d</xliff:g> fhaidhle.</item>
         <item quantity="few">A’ dì-dhùmhlachadh <xliff:g id="count" example="3">%1$d</xliff:g> faidhlichean.</item>
         <item quantity="other">A’ dì-dhùmhlachadh <xliff:g id="count" example="3">%1$d</xliff:g> faidhle.</item>
     </plurals>
+    <!-- Toast shown when a file move is kicked off -->
     <plurals name="move_begin">
         <item quantity="one">A’ gluasad <xliff:g id="count" example="1">%1$d</xliff:g> nì.</item>
         <item quantity="two">A’ gluasad <xliff:g id="count" example="3">%1$d</xliff:g> nì.</item>
         <item quantity="few">A’ gluasad <xliff:g id="count" example="3">%1$d</xliff:g> nithean.</item>
         <item quantity="other">A’ gluasad <xliff:g id="count" example="3">%1$d</xliff:g> nì.</item>
     </plurals>
+    <!-- Text shown when files are deleted -->
     <plurals name="deleting">
         <item quantity="one">A’ sguabadh às <xliff:g id="count" example="1">%1$d</xliff:g> nì.</item>
         <item quantity="two">A’ sguabadh às <xliff:g id="count" example="3">%1$d</xliff:g> nì.</item>
         <item quantity="few">A’ sguabadh às <xliff:g id="count" example="3">%1$d</xliff:g> nithean.</item>
         <item quantity="other">A’ sguabadh às <xliff:g id="count" example="3">%1$d</xliff:g> nì.</item>
     </plurals>
+    <!-- Text shown for the undo button -->
     <string name="undo">Neo-dhèan</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for copying files [CHAR LIMIT=32] -->
     <string name="copy_preparing">’Ga ullachadh…</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for compressing files [CHAR LIMIT=32] -->
     <string name="compress_preparing">’Ga ullachadh…</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for extracting files [CHAR LIMIT=32] -->
     <string name="extract_preparing">’Ga ullachadh…</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for moving files [CHAR LIMIT=32] -->
     <string name="move_preparing">’Ga ullachadh…</string>
+    <!-- Text shown on the notification while DocumentsUI performs setup in preparation for deleting files [CHAR LIMIT=32] -->
     <string name="delete_preparing">’Ga ullachadh…</string>
+    <!-- Text progress shown on the notification while DocumentsUI is deleting files. -->
     <string name="delete_progress"><xliff:g id="count" example="3">%1$d</xliff:g> / <xliff:g id="totalCount" example="5">%2$d</xliff:g></string>
+    <!-- Title of the copy error notification [CHAR LIMIT=48] -->
     <plurals name="copy_error_notification_title">
         <item quantity="one">Cha b’ urrainn dhuinn lethbhreac a dhèanamh de <xliff:g id="count" example="1">%1$d</xliff:g> nì</item>
         <item quantity="two">Cha b’ urrainn dhuinn lethbhreac a dhèanamh de <xliff:g id="count" example="2">%1$d</xliff:g> nì</item>
         <item quantity="few">Cha b’ urrainn dhuinn lethbhreac a dhèanamh de <xliff:g id="count" example="2">%1$d</xliff:g> nithean</item>
         <item quantity="other">Cha b’ urrainn dhuinn lethbhreac a dhèanamh de <xliff:g id="count" example="2">%1$d</xliff:g> nì</item>
     </plurals>
+    <!-- Title of the compress error notification [CHAR LIMIT=48] -->
     <plurals name="compress_error_notification_title">
         <item quantity="one">Cha b’ urrainn dhuinn <xliff:g id="count" example="1">%1$d</xliff:g> fhaidhle a dhùmhlachadh</item>
         <item quantity="two">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> fhaidhle a dhùmhlachadh</item>
         <item quantity="few">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> faidhlichean a dhùmhlachadh</item>
         <item quantity="other">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> faidhle a dhùmhlachadh</item>
     </plurals>
+    <!-- Title of the move error notification [CHAR LIMIT=48] -->
     <plurals name="move_error_notification_title">
         <item quantity="one">Cha b’ urrainn dhuinn <xliff:g id="count" example="1">%1$d</xliff:g> nì a ghluasad</item>
         <item quantity="two">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> nì a ghluasad</item>
         <item quantity="few">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> nithean a ghluasad</item>
         <item quantity="other">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> nì a ghluasad</item>
     </plurals>
+    <!-- Title of the delete error notification [CHAR LIMIT=48] -->
     <plurals name="delete_error_notification_title">
         <item quantity="one">Cha b’ urrainn dhuinn <xliff:g id="count" example="1">%1$d</xliff:g> nì a sguabadh às</item>
         <item quantity="two">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> nì a sguabadh às</item>
         <item quantity="few">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> nithean a sguabadh às</item>
         <item quantity="other">Cha b’ urrainn dhuinn <xliff:g id="count" example="2">%1$d</xliff:g> nì a sguabadh às</item>
     </plurals>
+    <!-- Second line for notifications saying that more information will be shown after touching [CHAR LIMIT=48] -->
     <string name="notification_touch_for_details">Thoir gnogag airson mion-fhiosrachadh a shealltainn</string>
+    <!-- Label of the close dialog button.[CHAR LIMIT=24] -->
     <string name="close">Dùin</string>
+    <!-- Contents of the copying failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="copy_failure_alert_content">
         <item quantity="one">Cha deach lethbhreac a dhèanamh dhen fhaidhle seo: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="two">Cha deach lethbhreac a dhèanamh dhe na faidhlichean seo: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="few">Cha deach lethbhreac a dhèanamh dhe na faidhlichean seo: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="other">Cha deach lethbhreac a dhèanamh dhe na faidhlichean seo: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+    <!-- Contents of the compressing failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="compress_failure_alert_content">
         <item quantity="one">Cha deach am faidhle seo a dhùmhlachadh: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="two">Cha deach na faidhlichean seo a dhùmhlachadh: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="few">Cha deach na faidhlichean seo a dhùmhlachadh: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="other">Cha deach na faidhlichean seo a dhùmhlachadh: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+    <!-- Contents of the extracting failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="extract_failure_alert_content">
         <item quantity="one">Cha deach am faidhle seo a dhì-dhùmhlachadh: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="two">Cha deach na faidhlichean seo a dhì-dhùmhlachadh: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="few">Cha deach na faidhlichean seo a dhì-dhùmhlachadh: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="other">Cha deach na faidhlichean seo a dhì-dhùmhlachadh: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+    <!-- Contents of the moving failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="move_failure_alert_content">
         <item quantity="one">Cha deach am faidhle seo a ghluasad: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="two">Cha deach na faidhlichean seo a ghluasad: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="few">Cha deach na faidhlichean seo a ghluasad: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="other">Cha deach na faidhlichean seo a ghluasad: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+    <!-- Contents of the deleting failure alert dialog. [CHAR LIMIT=48] -->
     <plurals name="delete_failure_alert_content">
         <item quantity="one">Cha deach am faidhle seo a sguabadh às: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="two">Cha deach na faidhlichean seo a sguabadh às: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="few">Cha deach na faidhlichean seo a sguabadh às: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="other">Cha deach na faidhlichean seo a sguabadh às: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+    <!-- Contents of the copying warning dialog due to converted files. [CHAR LIMIT=64] -->
     <plurals name="copy_converted_warning_content">
         <item quantity="one">Chaidh am faidhle seo iompachadh gu fòrmat eile: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
         <item quantity="two">Chaidh na faidhlichean seo iompachadh gu fòrmat eile: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="few">Chaidh na faidhlichean seo iompachadh gu fòrmat eile: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
         <item quantity="other">Chaidh na faidhlichean seo iompachadh gu fòrmat eile: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
     </plurals>
+    <!-- Toast shown when a user copies files to clipboard. -->
     <plurals name="clipboard_files_clipped">
         <item quantity="one">Chaidh lethbhreac de <xliff:g id="count" example="1">%1$d</xliff:g> nì a chur air an stòr-bhòrd.</item>
         <item quantity="two">Chaidh lethbhreac de <xliff:g id="count" example="3">%1$d</xliff:g> nì a chur air an stòr-bhòrd.</item>
         <item quantity="few">Chaidh lethbhreac de <xliff:g id="count" example="3">%1$d</xliff:g> nithean a chur air an stòr-bhòrd.</item>
         <item quantity="other">Chaidh lethbhreac de <xliff:g id="count" example="3">%1$d</xliff:g> nì a chur air an stòr-bhòrd.</item>
     </plurals>
+    <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
     <string name="file_operation_rejected">Chan eil taic ris an obrachadh faidhle seo.</string>
+    <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
     <string name="file_operation_error">Dh’fhàillig le obrachadh faidhle.</string>
+    <!-- Toast shown when renaming document failed with an error [CHAR LIMIT=48] -->
     <string name="rename_error">Cha deach leinn ainm ùr a thoirt air an sgrìobhainn</string>
+    <!-- Context Menu item that ejects the root selected [CHAR LIMIT=24] -->
     <string name="menu_eject_root">Gluais a-mach</string>
+    <!-- First line for notifications saying that some files were converted to a different format
+         during a copy. [CHAR LIMIT=48] -->
     <string name="notification_copy_files_converted_title">Chaidh cuid a dh’fhaidhlichean iompachadh</string>
+    <!-- Text in an alert dialog asking user to grant app access to a given directory in an external storage volume -->
     <string name="open_external_dialog_request">An doir thu cead inntrigidh dhan phasgan <xliff:g id="directory" example="Pictures"><i>^2</i></xliff:g> 
         air <xliff:g id="storage" example="SD Card"><i>^3</i></xliff:g> dha <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
 ?</string>
+    <!-- Text in an alert dialog asking user to grant app access to a given directory in the internal storage -->
     <string name="open_external_dialog_request_primary_volume">An doir thu cead inntrigidh dhan phasgan &lt;xliff:g id="directory" example="Pictures"&gt;&lt;i&gt;^2&lt;/i&gt;&lt;/xliff:g&gt; 
 dha &lt;xliff:g id="appName" example="System Settings"&gt;&lt;b&gt;^1&lt;/b&gt;?</string>
+    <!-- Text in an alert dialog asking user to grant app access to all data in an external storage volume -->
     <string name="open_external_dialog_root_request">An doir thu cead inntrigidh dhan dàta agad, a’ gabhail a-staigh nan dealbhan is videothan, air &lt;xliff:g id="directory" example="Pictures"&gt;&lt;i&gt;^2&lt;/i&gt;&lt;/xliff:g&gt; 
 dha &lt;xliff:g id="appName" example="System Settings"&gt;&lt;b&gt;^1&lt;/b&gt;?</string>
+    <!-- Text in the button asking user to allow access to a given directory. -->
     <string name="allow">Ceadaich</string>
+    <!-- Text in the button asking user to deny access to a given directory. -->
     <string name="deny">Diùlt</string>
+    <!-- Dialog text shown to users when asking if they want to delete files (a confirmation). -->
+    <!-- Label text showing user how many items are selected. Can be one or more elements. -->
     <plurals name="elements_selected">
         <item quantity="one">Chaidh <xliff:g id="count" example="1">%1$d</xliff:g> a thaghadh</item>
         <item quantity="two">Chaidh <xliff:g id="count" example="3">%1$d</xliff:g> a thaghadh</item>
         <item quantity="few">Chaidh <xliff:g id="count" example="3">%1$d</xliff:g> a thaghadh</item>
         <item quantity="other">Chaidh <xliff:g id="count" example="3">%1$d</xliff:g> a thaghadh</item>
     </plurals>
+    <!-- Label text showing user how many items are being dragged. Can be one or more elements. -->
     <plurals name="elements_dragged">
         <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> nì</item>
         <item quantity="two"><xliff:g id="count" example="3">%1$d</xliff:g> nì</item>
         <item quantity="few"><xliff:g id="count" example="3">%1$d</xliff:g> nithean</item>
         <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> nì</item>
     </plurals>
+    <!-- Dialog text shown to users when asking if they want to delete a file (a confirmation) -->
     <string name="delete_filename_confirmation_message">An sguab thu às “<xliff:g id="name" example="cat.jpg">%1$s</xliff:g>”?</string>
+    <!-- Dialog text shown to users when asking if they want to delete a folder (a confirmation) -->
     <string name="delete_foldername_confirmation_message">An sguab thu às am pasgan “<xliff:g id="name" example="Photos">%1$s</xliff:g>” ’s an t-susbaint ’na bhroinn?</string>
+    <!-- Dialog text shown to users when asking if they want to delete files (a confirmation). -->
     <plurals name="delete_files_confirmation_message">
         <item quantity="one">An sguab thu às <xliff:g id="count" example="1">%1$d</xliff:g> fhaidhle?</item>
         <item quantity="two">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> fhaidhle?</item>
         <item quantity="few">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> faidhlichean?</item>
         <item quantity="other">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> faidhle?</item>
     </plurals>
+    <!-- Dialog text shown to users when asking if they want to delete folders (a confirmation). -->
     <plurals name="delete_folders_confirmation_message">
         <item quantity="one">An sguab thu às <xliff:g id="count" example="1">%1$d</xliff:g> phasgan ’s an t-susbaint ’na bhroinn?</item>
         <item quantity="two">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> phasgan ’s an t-susbaint ’nam broinn?</item>
         <item quantity="few">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> pasganan ’s an t-susbaint ’nam broinn?</item>
         <item quantity="other">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> pasgan ’s an t-susbaint ’nam broinn?</item>
     </plurals>
+    <!-- Dialog text shown to users when asking if they want to delete mixed type items: files and folders (a confirmation). -->
     <plurals name="delete_items_confirmation_message">
         <item quantity="one">An sguab thu às <xliff:g id="count" example="1">%1$d</xliff:g> nì?</item>
         <item quantity="two">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> nì?</item>
         <item quantity="few">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> nithean?</item>
         <item quantity="other">An sguab thu às <xliff:g id="count" example="3">%1$d</xliff:g> nì?</item>
     </plurals>
+    <!-- Shortcut label of Images root folder -->
     <string name="images_shortcut_label">Dealbhan</string>
+    <!-- Error message shown when an archive fails to load -->
     <string name="archive_loading_failed">Cha b’ urrainn dhuinn an tasg-lann fhosgladh a chùm brabhsaidh. Tha am faidhle coirbte no cha chur sinn taic ris an fhòrmat.</string>
+    <!-- Error message displayed in rename dialog when there is a conflict with an existing file. -->
     <string name="name_conflict">Tha faidhle air a bheil an t-ainm seo ann mu thràth.</string>
+    <!-- Error message shown when more authentication is necessary to view files  -->
     <string name="authentication_required">Airson am pasgan seo a shealltainn, clàraich a-steach gu <xliff:g id="name" example="Cloud Storage">%1$s</xliff:g></string>
+    <!-- Error message shown when content cannot be displayed due to lack of authentication -->
     <string name="cant_display_content">Cha ghabh an t-susbaint a shealltainn</string>
+    <!-- Text shown on button to open an application that needs user to sign in -->
     <string name="sign_in">Clàraich a-steach</string>
+    <!-- File name of an archive file created when compressing files, without the file extension (.zip). -->
     <string name="new_archive_file_name">tasg-lann<xliff:g id="extension" example=".zip">%s</xliff:g></string>
+    <!-- Dialog text shown when confirming if they want to overwrite a file -->
     <string name="overwrite_file_confirmation_message">An sgrìobh thu thairis air <xliff:g id="name" example="foobar.txt">%1$s</xliff:g>?</string>
+    <!-- Button for continuing a file operation in background, eg. copying, moving or extracting. [CHAR LIMIT=48] -->
     <string name="continue_in_background">Cùm air sa chùlaibh</string>
+    <!-- Label describing the number of selected items [CHAR LIMIT=48] -->
     <plurals name="selected_count">
         <item quantity="one">Chaidh <xliff:g id="count" example="1">%1$d</xliff:g> a thaghadh</item>
         <item quantity="two">Chaidh <xliff:g id="count" example="3">%1$d</xliff:g> a thaghadh</item>
         <item quantity="few">Chaidh <xliff:g id="count" example="3">%1$d</xliff:g> a thaghadh</item>
         <item quantity="other">Chaidh <xliff:g id="count" example="3">%1$d</xliff:g> a thaghadh</item>
     </plurals>
+    <!-- Header title for list of documents in recent root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_recent">Faidhlichean o chionn goirid</string>
+    <!-- Header title for list of documents in global searching. [CHAR_LIMIT=60] -->
     <string name="root_info_header_global_search">Faidhlichean</string>
+    <!-- Header title for list of documents in downloads root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_downloads">Faidhlichean sna luchdaidhean a-nuas</string>
+    <!-- Header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_storage">Faidhlichean air <xliff:g id="device" example="Pixel">%1$s</xliff:g></string>
+    <!-- Header title for list of documents in folder. [CHAR_LIMIT=60] -->
     <string name="root_info_header_folder">Faidhlichean am broinn <xliff:g id="folder" example="DCIM">%1$s</xliff:g></string>
+    <!-- Header title for list of documents 3rd party provider root eg. Drive, Box. [CHAR_LIMIT=60] -->
     <string name="root_info_header_app">Faidhlichean o <xliff:g id="label" example="Drive">%1$s</xliff:g></string>
+    <!-- Header title for list of documents 3rd party provider root eg. Drive, Box. with root summary. The summary is usually present by email account[CHAR_LIMIT=60] -->
     <string name="root_info_header_app_with_summary">Faidhlichean o <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
+    <!-- On photo picking state, the header title for list of documents in recent root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_image_recent">Dealbhan o chionn goirid</string>
+    <!-- On photo picking state, the header title for list of documents in global searching. [CHAR_LIMIT=60] -->
     <string name="root_info_header_image_global_search">Dealbhan</string>
+    <!-- On photo picking state, the header title for list of documents in downloads root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_image_downloads">Dealbhan sna luchdaidhean a-nuas</string>
+    <!-- On photo picking state, the header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
     <string name="root_info_header_image_storage">Dealbhan air <xliff:g id="device" example="Pixel">%1$s</xliff:g></string>
+    <!-- On photo picking state, the header title for list of documents in folder. [CHAR_LIMIT=60] -->
     <string name="root_info_header_image_folder">Dealbhan am broinn <xliff:g id="folder" example="DCIM">%1$s</xliff:g></string>
+    <!-- On photo picking state, the header title for list of documents 3rd party provider root eg. Drive, Box. [CHAR_LIMIT=60] -->
     <string name="root_info_header_image_app">Dealbhan o <xliff:g id="label" example="Drive">%1$s</xliff:g></string>
+    <!-- On photo picking state, the header title for list of documents 3rd party provider root eg. Drive, Box. with root summary. The summary is usually present by email account[CHAR_LIMIT=60] -->
     <string name="root_info_header_image_app_with_summary">Dealbhan o <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
+    <!-- Title for images chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_images">Dealbhan</string>
+    <!-- Title for audio chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_audio">Fuaim</string>
+    <!-- Title for videos chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_videos">Videothan</string>
+    <!-- Title for image chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_documents">Sgrìobhainnean</string>
+    <!-- Title for large file chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_large_files">Faidhlichean mòra</string>
+    <!-- Title for from this week chip. [CHAR_LIMIT=25] -->
     <string name="chip_title_from_this_week">An t-seachdain seo</string>
+    <!-- Hint on text input field for create new folder. [CHAR_LIMIT=48] -->
     <string name="input_hint_new_folder">Ainm a’ phasgain</string>
+    <!-- Hint on text input field for rename the file or the folder. [CHAR_LIMIT=48] -->
     <string name="input_hint_rename">Ainm ùr</string>
+    <!-- Content description for preview function. -->
     <string name="preview_file">Ro-sheall am faidhle <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
+    <!-- Content description text that's spoken by a screen reader. This text is for previewing a work file before opening it. -->
     <string name="preview_work_file">Ro-sheall faidhle na h-obrach <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
+    <!-- Apps row title. [CHAR_LIMIT=60] -->
     <string name="apps_row_title">Rùraich na faidhleachan ann an aplacaidean eile</string>
+    <!-- The default name to present the anonymous application-->
     <string name="anonymous_application">Gun urra</string>
+    <!-- Button text show on open document tree flow. [CHAR_LIMIT=48] -->
     <string name="open_tree_button">Cleachd am pasgan seo</string>
+    <!-- Confrim dialog title show on open document tree flow. [CHAR_LIMIT=80] -->
     <string name="open_tree_dialog_title">An ceadaich thu gun inntrig <xliff:g id="appName" example="Drive">%1$s</xliff:g> na faidhlichean am broinn <xliff:g id="directory" example="DCIM">%2$s</xliff:g>?</string>
+    <!-- Confrim dialog message show on open document tree flow.-->
     <string name="open_tree_dialog_message">Bheir seo cothrom dha <xliff:g id="appName" example="Drive">%1$s</xliff:g> air an t-susbaint làithreach is ri teachd am broinn <xliff:g id="directory" example="DCIM">%2$s</xliff:g>.</string>
+    <!-- Header message title show on open document tree flow when directory is blocked. [CHAR_LIMIT=48] -->
     <string name="directory_blocked_header_title">Cha ghabh am pasgan seo cleachdadh</string>
+    <!-- Header message subtitle show on open document tree flow when directory is blocked. [CHAR_LIMIT=90]-->
     <string name="directory_blocked_header_subtitle">Gus do phrìobhaideachd a dhìon, tagh pasgan eile</string>
+    <!-- Button text for the "create new folder" button. [CHAR_LIMIT=48] -->
     <string name="create_new_folder_button">Cruthaich pasgan ùr</string>
+    <!-- Search hint on search view. [CHAR LIMIT=48] -->
     <string name="search_bar_hint">Lorg san fhòn seo</string>
+    <!-- Content description for deleting search history. [CHAR_LIMIT=60] -->
     <string name="delete_search_history">Sguab às <xliff:g id="text" example="image">%1$s</xliff:g> aig eachdraidh nan lorg</string>
+    <!-- Label in tab and sidebar to indicate personal content [CHAR LIMIT=40] -->
     <string name="personal_tab">Pearsanta</string>
+    <!-- Label in tab and sidebar tab to indicate work content [CHAR LIMIT=40] -->
     <string name="work_tab">Obair</string>
+    <!-- Accessibility label to indicate the subject(e.g. file/folder) is from work profile -->
     <string name="a11y_work">Obair</string>
+    <!-- Snackbar shown when users drag and drop files from another app
+    to DocumentsUI. [CHAR_LIMIT=100] -->
     <string name="drag_from_another_app">Chan urrainn dhut faidhlichean o aplacaid eile a ghluasad.</string>
 </resources>

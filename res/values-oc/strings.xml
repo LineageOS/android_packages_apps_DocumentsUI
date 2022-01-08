@@ -15,107 +15,60 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Title of the Files application [CHAR LIMIT=32] -->
-    <string name="files_label">Ficheros</string>
     <!-- Title of the Downloads application, which sometimes Files is known as [CHAR LIMIT=16] -->
-    <string name="downloads_label">Descargues</string>
     <!-- Title of the documents application [CHAR LIMIT=32] -->
-    <string name="app_label">@string/files_label</string>
     <!-- Title of the documents application [CHAR LIMIT=32] -->
-    <string name="launcher_label">@string/files_label</string>
     <!-- Action bar title prompting user to choose a location to open a document from [CHAR LIMIT=32] -->
-    <string name="title_open">Abrir dende</string>
     <!-- Action bar title prompting user to choose a location to save a document to [CHAR LIMIT=32] -->
-    <string name="title_save">Guardar en</string>
     <!-- Menu item that creates a new directory/folder at the current location [CHAR LIMIT=28] -->
-    <string name="menu_create_dir">Carpeta nueva</string>
     <!-- Menu item that switches view to show documents as a large-format grid of thumbnails [CHAR LIMIT=28] -->
-    <string name="menu_grid">Vista de cuadrícula</string>
     <!-- Menu item that switches view to show documents as a list [CHAR LIMIT=28] -->
-    <string name="menu_list">Vista de llistáu</string>
     <!-- Menu item that enters a mode to search for documents [CHAR LIMIT=28] -->
-    <string name="menu_search">Guetar</string>
     <!-- Menu item that opens settings/options for a device (like an SD card). [CHAR LIMIT=28] -->
-    <string name="menu_settings">Axustes d\'almacenamientu</string>
     <!-- Menu item title that opens the selected documents [CHAR LIMIT=28] -->
-    <string name="menu_open">Abrir</string>
     <!-- Menu item title that shows a chooser to user to pick the app to open the selected documents. [CHAR LIMIT=28] -->
-    <string name="menu_open_with">Abrir con</string>
     <!-- Menu item title that opens a doc in new window. [CHAR LIMIT=28] -->
-    <string name="menu_open_in_new_window">Abrir nuna ventana nueva</string>
     <!-- Menu item title that saves the current document [CHAR LIMIT=28] -->
-    <string name="menu_save">Guardar</string>
     <!-- Menu item title that shares the selected documents [CHAR LIMIT=28] -->
-    <string name="menu_share">Compartir</string>
     <!-- Menu item title that deletes the selected documents [CHAR LIMIT=28] -->
-    <string name="menu_delete">Desaniciar</string>
     <!-- Menu item title that selects all documents in the current directory [CHAR LIMIT=28] -->
-    <string name="menu_select_all">Esbillar too</string>
     <!-- Menu item title that deselects all documents in the current directory [CHAR LIMIT=28] -->
     <!-- Menu item title that selects documents in the current directory [CHAR LIMIT=28] -->
-    <string name="menu_select">Esbillar</string>
     <!-- Menu item title that sort documents in the current directory [CHAR LIMIT=28] -->
     <!-- Menu item title that copies the selected documents [CHAR LIMIT=28] -->
-    <string name="menu_copy">Copiar a\u2026</string>
     <!-- Menu item title that moves the selected documents [CHAR LIMIT=28] -->
-    <string name="menu_move">Mover a\u2026</string>
     <!-- Menu item title that compresses the selected documents to the current directory [CHAR LIMIT=28] -->
-    <string name="menu_compress">Comprimir</string>
     <!-- Menu item title that extracts the selected documents [CHAR LIMIT=28] -->
-    <string name="menu_extract">Estrayer a\u2026</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
-    <string name="menu_rename">Renomar</string>
     <!-- Menu item that displays properties about the selected document [CHAR LIMIT=28] -->
-    <string name="menu_inspect">Guetar información</string>
     <!-- Menu item that shows hidden files [CHAR LIMIT=36] -->
     <!-- Menu item that hides hidden files [CHAR LIMIT=36] -->
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
-    <string name="menu_view_in_owner">Ver en <xliff:g id="source" example="Google Drive">%1$s</xliff:g></string>
     <!-- Menu item title that creates a new window in the activity [CHAR LIMIT=28] -->
-    <string name="menu_new_window">Ventana nueva</string>
     <!-- Menu item title that cuts the selected documents to clipboard [CHAR LIMIT=28] -->
-    <string name="menu_cut_to_clipboard">Cortar</string>
     <!-- Menu item title that copies the selected documents to clipboard [CHAR LIMIT=28] -->
-    <string name="menu_copy_to_clipboard">Copiar</string>
     <!-- Menu item title that pastes files from the clipboard [CHAR LIMIT=28] -->
-    <string name="menu_paste_from_clipboard">Apegar</string>
     <!-- Menu item title that pastes files into the selected folder [CHAR LIMIT=28] -->
-    <string name="menu_paste_into_folder">Pegar na carpeta</string>
     <!-- Translators asked for a length exemption for the show/hide internal storage strings.
          Thus the CHAR LIMIT=24/30 deviation is 'splained. -->
     <!-- Menu item that reveals internal storage built into the device [CHAR LIMIT=30] -->
-    <string name="menu_advanced_show">Amosar almacenamientu internu</string>
     <!-- Menu item that hides internal storage built into the device [CHAR LIMIT=30] -->
-    <string name="menu_advanced_hide">Anubrir almacenamientu internu</string>
     <!-- Button label that select the current directory [CHAR LIMIT=24] -->
-    <string name="button_select">Esbillar</string>
     <!-- Button label that copies files to the current directory [CHAR LIMIT=24] -->
-    <string name="button_copy">Copiar</string>
     <!-- Button label that compresses files to the current directory [CHAR LIMIT=24] -->
-    <string name="button_compress">Comprimir</string>
     <!-- Button label that extracts files to the current directory [CHAR LIMIT=24] -->
-    <string name="button_extract">Estrayer</string>
     <!-- Button label that moves files to the current directory [CHAR LIMIT=24] -->
-    <string name="button_move">Mover</string>
     <!-- Button label that hides the error bar [CHAR LIMIT=24] -->
-    <string name="button_dismiss">Escartar</string>
-    <string name="button_retry">Volvi tentalo</string>
     <!-- Button label that removes the default application to open a file. -->
-    <string name="button_clear">Desaniciar</string>
     <!-- Button label that show in the providers service. Many providers have their own app such
      as google drive. Pressing this button would open in the file in the providers app. -->
     <!-- Button label that do back action [CHAR LIMIT=24] -->
     <!-- A string used to show user that currently documents are not sorted in any given order. [CHAR_LIMIT=30] -->
-    <string name="not_sorted">Ensin ordenar</string>
     <!-- Table header for file name [CHAR_LIMIT=24] -->
-    <string name="sort_dimension_name">Nome</string>
     <!-- Table header for metadata of downloaded files, such as download source and progress. [CHAR_LIMIT=24] -->
-    <string name="sort_dimension_summary">Resume</string>
     <!-- Table header for file type. [CHAR_LIMIT=12] -->
-    <string name="sort_dimension_file_type">Triba</string>
     <!-- Table header for file size. [CHAR_LIMIT=12] -->
-    <string name="sort_dimension_size">Tamañu</string>
     <!-- Table header for last modified time. [CHAR_LIMIT=18] -->
-    <string name="sort_dimension_date">Modificáu</string>
     <!-- Bottom sheet list title for file name ascending [CHAR_LIMIT=42] -->
     <!-- Bottom sheet list title for file type name ascending [CHAR_LIMIT=42] -->
     <!-- Bottom sheet list title for size ascending [CHAR_LIMIT=42] -->
@@ -127,7 +80,6 @@
     <!-- Bottom sheet dialog title [CHAR_LIMIT=42] -->
     <!-- Dropdown sort wiget button title. [CHAR_LIMIT=60] -->
     <!--Table header for number of items in a folder.-->
-    <string name="directory_items">Númberu d\'items</string>
     <!-- content description to describe ascending sorting used with upward arrow in table header. -->
     <!-- content description to describe descending sorting used with downward arrow in table header. -->
     <!-- content description to describe the action icon to open the app on the root item. -->
@@ -156,7 +108,6 @@
     <!-- Header title for list of additional apps that can provide documents [CHAR LIMIT=24] -->
     <!-- Text shown when a directory of documents is empty [CHAR LIMIT=24] -->
     <!-- Text shown when a file search returns no items [CHAR LIMIT=32] -->
-    <string name="no_results">Nun hai coincidendies en %1$s</string>
     <!-- Toast shown when no app can be found to open the selected document [CHAR LIMIT=48] -->
     <!-- Toast notifying that it's impossible to open files inside archives [CHAR LIMIT=48] -->
     <!-- Toast shown when some of the selected documents failed to be deleted [CHAR LIMIT=48] -->
@@ -169,178 +120,62 @@
     <!-- Title of the move notification [CHAR LIMIT=24] -->
     <!-- Title of the move notification [CHAR LIMIT=24] -->
     <!-- Text shown on the copy notification to indicate remaining time, in minutes [CHAR LIMIT=24] -->
-    <string name="copy_remaining">Queden <xliff:g id="duration" example="3 minutes">%s</xliff:g></string>
     <!-- Toast shown when a file copy is kicked off -->
-    <plurals name="copy_begin">
-        <item quantity="one">Copiando <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
-        <item quantity="other">Copiando <xliff:g id="count" example="1">%1$d</xliff:g> items.</item>
-    </plurals>
     <!-- Toast shown when a file compressing is kicked off -->
-    <plurals name="compress_begin">
-        <item quantity="one">Comprimiendo <xliff:g id="count" example="1">%1$d</xliff:g> ficheru.</item>
-        <item quantity="other">Comprimiendo <xliff:g id="count" example="1">%1$d</xliff:g> ficheros.</item>
-    </plurals>
     <!-- Toast shown when a file extracting is kicked off -->
-    <plurals name="extract_begin">
-        <item quantity="one">Sacando <xliff:g id="count" example="1">%1$d</xliff:g> ficheru.</item>
-        <item quantity="other">Sacando <xliff:g id="count" example="1">%1$d</xliff:g> ficheros.</item>
-    </plurals>
     <!-- Toast shown when a file move is kicked off -->
-    <plurals name="move_begin">
-        <item quantity="one">Moviendo <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
-        <item quantity="other">Moviendo <xliff:g id="count" example="1">%1$d</xliff:g> items.</item>
-    </plurals>
     <!-- Text shown when files are deleted -->
-    <plurals name="deleting">
-        <item quantity="one">Desaniciando <xliff:g id="count" example="1">%1$d</xliff:g> item.</item>
-        <item quantity="other">Desaniciando <xliff:g id="count" example="1">%1$d</xliff:g> items.</item>
-    </plurals>
     <!-- Text shown for the undo button -->
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for copying files [CHAR LIMIT=32] -->
-    <string name="copy_preparing">Tresnando...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for compressing files [CHAR LIMIT=32] -->
-    <string name="compress_preparing">Tresnando...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for extracting files [CHAR LIMIT=32] -->
-    <string name="extract_preparing">Tresnando...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for moving files [CHAR LIMIT=32] -->
-    <string name="move_preparing">Tresnando...</string>
     <!-- Text shown on the notification while DocumentsUI performs setup in preparation for deleting files [CHAR LIMIT=32] -->
-    <string name="delete_preparing">Tresnando...</string>
     <!-- Text progress shown on the notification while DocumentsUI is deleting files. -->
-    <string name="delete_progress"><xliff:g id="count" example="3">%1$d</xliff:g> / <xliff:g id="totalCount" example="5">%2$d</xliff:g></string>
     <!-- Title of the copy error notification [CHAR LIMIT=48] -->
-    <plurals name="copy_error_notification_title">
-        <item quantity="one">Nun pudo copiase <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
-        <item quantity="other">Nun pudo copiase <xliff:g id="count" example="1">%1$d</xliff:g> items</item>
-    </plurals>
     <!-- Title of the compress error notification [CHAR LIMIT=48] -->
-    <plurals name="compress_error_notification_title">
-        <item quantity="one">Nun pudo comprimise <xliff:g id="count" example="1">%1$d</xliff:g> ficheru</item>
-        <item quantity="other">Nun pudieron comprimise <xliff:g id="count" example="1">%1$d</xliff:g> ficheros</item>
-    </plurals>
     <!-- Title of the move error notification [CHAR LIMIT=48] -->
-    <plurals name="move_error_notification_title">
-        <item quantity="one">Nun pudo movese <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
-        <item quantity="other">Nun pudieron movese <xliff:g id="count" example="1">%1$d</xliff:g> items</item>
-    </plurals>
     <!-- Title of the delete error notification [CHAR LIMIT=48] -->
-    <plurals name="delete_error_notification_title">
-        <item quantity="one">Nun pudo desaniciase <xliff:g id="count" example="1">%1$d</xliff:g> item</item>
-        <item quantity="other">Nun pudieron desaniciase <xliff:g id="count" example="1">%1$d</xliff:g> items</item>
-    </plurals>
     <!-- Second line for notifications saying that more information will be shown after touching [CHAR LIMIT=48] -->
     <!-- Label of the close dialog button.[CHAR LIMIT=24] -->
     <!-- Contents of the copying failure alert dialog. [CHAR LIMIT=48] -->
-    <plurals name="copy_failure_alert_content">
-        <item quantity="one">Esti ficheru nu\u2019n se pudo copiar: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
-        <item quantity="other">Estos ficheros nu\u2019n se pudieron copiar: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
-    </plurals>
     <!-- Contents of the compressing failure alert dialog. [CHAR LIMIT=48] -->
-    <plurals name="compress_failure_alert_content">
-        <item quantity="one">Esti ficheru nu\u2019n se pudo comprimir: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
-        <item quantity="other">Estos ficheros nu\u2019n se pudieron comprimir: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
-    </plurals>
     <!-- Contents of the extracting failure alert dialog. [CHAR LIMIT=48] -->
-    <plurals name="extract_failure_alert_content">
-        <item quantity="one">Esti ficheru nu\u2019n se pudo estrayer: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
-        <item quantity="other">Estos ficheros nu\u2019n se pudieron estrayer: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
-    </plurals>
     <!-- Contents of the moving failure alert dialog. [CHAR LIMIT=48] -->
-    <plurals name="move_failure_alert_content">
-        <item quantity="one">Esti ficheru nu\u2019n se pudo mover: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
-        <item quantity="other">Estos ficheros nu\u2019n se pudieron mover: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
-    </plurals>
     <!-- Contents of the deleting failure alert dialog. [CHAR LIMIT=48] -->
-    <plurals name="delete_failure_alert_content">
-        <item quantity="one">Esti ficheru nu\u2019n se pudo desaniciar: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
-        <item quantity="other">Estos ficheros nu\u2019n se pudieron desaniciar: <xliff:g id="list" example="Document.pdf, Photo.jpg, Song.ogg">%1$s</xliff:g></item>
-    </plurals>
     <!-- Contents of the copying warning dialog due to converted files. [CHAR LIMIT=64] -->
-    <plurals name="copy_converted_warning_content">
-        <item quantity="one">Estos fichereros pasaron a tener otru formatu: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
-        <item quantity="other">Estos ficheros pasaron a tener otru formatu: <xliff:g id="list" example="Document.pdf">%1$s</xliff:g></item>
-    </plurals>
     <!-- Toast shown when a user copies files to clipboard. -->
-    <plurals name="clipboard_files_clipped">
-        <item quantity="one">Copióse <xliff:g id="count" example="1">%1$d</xliff:g> elementu al cartafueyu.</item>
-        <item quantity="other">Copiáronse <xliff:g id="count" example="1">%1$d</xliff:g> elementos al cartafueyu.</item>
-    </plurals>
     <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
-    <string name="file_operation_rejected">La operación del ficheru nun tien sofitu.</string>
     <!-- Toast shown when the file operation is not supported [CHAR LIMIT=48] -->
-    <string name="file_operation_error">Falló la operación de ficheru.</string>
     <!-- Toast shown when renaming document failed with an error [CHAR LIMIT=48] -->
-    <string name="rename_error">Fallu al renomar el documentu</string>
     <!-- Context Menu item that ejects the root selected [CHAR LIMIT=24] -->
     <!-- First line for notifications saying that some files were converted to a different format
          during a copy. [CHAR LIMIT=48] -->
-    <string name="notification_copy_files_converted_title">Convirtiéronse dellos ficheros</string>
     <!-- Text in an alert dialog asking user to grant app access to a given directory in an external storage volume -->
-    <string name="open_external_dialog_request">Permitir <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
-        accesu a <xliff:g id="directory" example="Pictures"><i>^2</i></xliff:g> directoriu en 
-        <xliff:g id="storage" example="SD Card"><i>^3</i></xliff:g>?</string>
     <!-- Text in an alert dialog asking user to grant app access to a given directory in the internal storage -->
-    <string name="open_external_dialog_request_primary_volume">¿Permitir <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
-        accesu a <xliff:g id="directory" example="Pictures"><i>^2</i></xliff:g> directoriu?</string>
     <!-- Text in an alert dialog asking user to grant app access to all data in an external storage volume -->
-    <string name="open_external_dialog_root_request">Permitir <xliff:g id="appName" example="System Settings"><b>^1</b></xliff:g>
-        accesu a los tos datos, incluyendo semeyes y vídeos, en <xliff:g id="storage" example="SD Card"><i>^2</i></xliff:g>?</string>
     <!-- Text in the button asking user to allow access to a given directory. -->
-    <string name="allow">Permitir</string>
     <!-- Text in the button asking user to deny access to a given directory. -->
-    <string name="deny">Denegar</string>
     <!-- Dialog text shown to users when asking if they want to delete files (a confirmation). -->
     <!-- Label text showing user how many items are selected. Can be one or more elements. -->
-    <plurals name="elements_selected">
-        <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> elementu esbilláu</item>
-        <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> elementos esbillaos</item>
-    </plurals>
     <!-- Label text showing user how many items are being dragged. Can be one or more elements. -->
-    <plurals name="elements_dragged">
-        <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> elementu</item>
-        <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> elementos</item>
-    </plurals>
     <!-- Dialog text shown to users when asking if they want to delete a file (a confirmation) -->
-    <string name="delete_filename_confirmation_message">¿Desaniciar «<xliff:g id="name" example="cat.jpg">%1$s</xliff:g>»?</string>
     <!-- Dialog text shown to users when asking if they want to delete a folder (a confirmation) -->
-    <string name="delete_foldername_confirmation_message">¿Desaniciar carpeta «<xliff:g id="name" example="Photos">%1$s</xliff:g>» y los sos conteníos?</string>
     <!-- Dialog text shown to users when asking if they want to delete files (a confirmation). -->
-    <plurals name="delete_files_confirmation_message">
-        <item quantity="one">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> ficheru?</item>
-        <item quantity="other">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> ficheros?</item>
-    </plurals>
     <!-- Dialog text shown to users when asking if they want to delete folders (a confirmation). -->
-    <plurals name="delete_folders_confirmation_message">
-        <item quantity="one">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> carpeta y los sos conteníos?</item>
-        <item quantity="other">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> carpetes y los sos conteníos?</item>
-    </plurals>
     <!-- Dialog text shown to users when asking if they want to delete mixed type items: files and folders (a confirmation). -->
-    <plurals name="delete_items_confirmation_message">
-        <item quantity="one">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> elementu?</item>
-        <item quantity="other">¿Desaniciar <xliff:g id="count" example="1">%1$d</xliff:g> elementu?</item>
-    </plurals>
     <!-- Shortcut label of Images root folder -->
-    <string name="images_shortcut_label">Imáxenes</string>
     <!-- Error message shown when an archive fails to load -->
     <!-- Error message displayed in rename dialog when there is a conflict with an existing file. -->
     <!-- Error message shown when more authentication is necessary to view files  -->
     <!-- Error message shown when content cannot be displayed due to lack of authentication -->
     <!-- Text shown on button to open an application that needs user to sign in -->
-    <string name="sign_in">Aniciar sesión</string>
     <!-- File name of an archive file created when compressing files, without the file extension (.zip). -->
-    <string name="new_archive_file_name">ficheru<xliff:g id="extension" example=".zip">%s</xliff:g></string>
     <!-- Dialog text shown when confirming if they want to overwrite a file -->
-    <string name="overwrite_file_confirmation_message">¿Sobrescribir <xliff:g id="name" example="foobar.txt">%1$s</xliff:g>?</string>
     <!-- Button for continuing a file operation in background, eg. copying, moving or extracting. [CHAR LIMIT=48] -->
-    <string name="continue_in_background">Siguir de fondu</string>
     <!-- Label describing the number of selected items [CHAR LIMIT=48] -->
-    <plurals name="selected_count">
-        <item quantity="one"><xliff:g id="count" example="1">%1$d</xliff:g> elementu esbilláu</item>
-        <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> elementos esbillaos</item>
-    </plurals>
     <!-- Header title for list of documents in recent root. [CHAR_LIMIT=60] -->
     <!-- Header title for list of documents in global searching. [CHAR_LIMIT=60] -->
-    <string name="root_info_header_global_search">Ficheros</string>
     <!-- Header title for list of documents in downloads root. [CHAR_LIMIT=60] -->
     <!-- Header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
     <!-- Header title for list of documents in folder. [CHAR_LIMIT=60] -->
@@ -348,14 +183,12 @@
     <!-- Header title for list of documents 3rd party provider root eg. Drive, Box. with root summary. The summary is usually present by email account[CHAR_LIMIT=60] -->
     <!-- On photo picking state, the header title for list of documents in recent root. [CHAR_LIMIT=60] -->
     <!-- On photo picking state, the header title for list of documents in global searching. [CHAR_LIMIT=60] -->
-    <string name="root_info_header_image_global_search">Imáxenes</string>
     <!-- On photo picking state, the header title for list of documents in downloads root. [CHAR_LIMIT=60] -->
     <!-- On photo picking state, the header title for list of documents in storage type root. [CHAR_LIMIT=60] -->
     <!-- On photo picking state, the header title for list of documents in folder. [CHAR_LIMIT=60] -->
     <!-- On photo picking state, the header title for list of documents 3rd party provider root eg. Drive, Box. [CHAR_LIMIT=60] -->
     <!-- On photo picking state, the header title for list of documents 3rd party provider root eg. Drive, Box. with root summary. The summary is usually present by email account[CHAR_LIMIT=60] -->
     <!-- Title for images chip. [CHAR_LIMIT=25] -->
-    <string name="chip_title_images">Imáxenes</string>
     <!-- Title for audio chip. [CHAR_LIMIT=25] -->
     <!-- Title for videos chip. [CHAR_LIMIT=25] -->
     <!-- Title for image chip. [CHAR_LIMIT=25] -->
