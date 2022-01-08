@@ -327,7 +327,7 @@
     <string name="apps_row_title">Pori ffeiliau yn apiau eraill</string>
     <string name="anonymous_application">Anhysbys</string>
     <string name="open_tree_button">Caniatáu mynediad at \"<xliff:g id="directory" example="DCIM">%1$s</xliff:g>\"</string>
-    <string name="open_tree_dialog_title">Caniatáu mynediad i \"<xliff:g id="directory" example="DCIM">%1$s</xliff:g>\" yn \"<xliff:g id="root" example="SD card">%2$s</xliff:g>\"?</string>
+    <string name="open_tree_dialog_title">Caniatáu mynediad at \"<xliff:g id="directory" example="DCIM">%1$s</xliff:g>\" yn \"<xliff:g id="root" example="SD card">%2$s</xliff:g>\"?</string>
     <string name="open_tree_dialog_message">Bydd yn caniatáu \"<xliff:g id="appName" example="Drive">%1$s</xliff:g>\" i gael mynediad llawn at bob ffeil wedi\u2019u cadw yn y lleoliad hwn nawr ac yn y dyfodol.</string>
     <string name="search_bar_hint">Chwilio\'r ffôn hon</string>
     <string name="delete_search_history">Dileu hanes chwilio <xliff:g id="text" example="image">%1$s</xliff:g></string>
