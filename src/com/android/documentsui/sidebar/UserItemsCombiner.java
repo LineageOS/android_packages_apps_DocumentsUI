@@ -16,10 +16,14 @@
 
 package com.android.documentsui.sidebar;
 
-import android.content.res.Resources;
+import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.PERSONAL_TAB;
+import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.WORK_TAB;
 
 import static androidx.core.util.Preconditions.checkArgument;
 import static androidx.core.util.Preconditions.checkNotNull;
+
+import android.app.admin.DevicePolicyManager;
+import android.content.res.Resources;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -38,13 +42,15 @@ class UserItemsCombiner {
 
     private UserId mCurrentUser;
     private final Resources mResources;
+    private final DevicePolicyManager mDpm;
     private final State mState;
     private List<Item> mRootList;
     private List<Item> mRootListOtherUser;
 
-    UserItemsCombiner(Resources resources, State state) {
+    UserItemsCombiner(Resources resources, DevicePolicyManager dpm, State state) {
         mCurrentUser = UserId.CURRENT_USER;
         mResources = checkNotNull(resources);
+        mDpm = dpm;
         mState = checkNotNull(state);
     }
 
@@ -85,9 +91,10 @@ class UserItemsCombiner {
                     personalRootList = mRootListOtherUser;
                     workRootList = mRootList;
                 }
-                result.add(new HeaderItem(mResources.getString(R.string.personal_tab)));
+                result.add(new HeaderItem(getEnterpriseString(
+                        PERSONAL_TAB, R.string.personal_tab)));
                 result.addAll(personalRootList);
-                result.add(new HeaderItem(mResources.getString(R.string.work_tab)));
+                result.add(new HeaderItem(getEnterpriseString(WORK_TAB, R.string.work_tab)));
                 result.addAll(workRootList);
             } else {
                 result.addAll(mRootList);
@@ -97,5 +104,9 @@ class UserItemsCombiner {
             result.addAll(mRootList);
         }
         return result;
+    }
+
+    private String getEnterpriseString(String updatableStringId, int defaultStringId) {
+        return mDpm.getString(updatableStringId, () -> mResources.getString(defaultStringId));
     }
 }
