@@ -16,6 +16,10 @@
 
 package com.android.documentsui.dirlist;
 
+import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.PREVIEW_WORK_FILE_ACCESSIBILITY;
+import static android.app.admin.DevicePolicyResources.Strings.UNDEFINED;
+
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -30,6 +34,7 @@ import android.widget.ImageView;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 
@@ -169,6 +174,16 @@ public abstract class DocumentHolder
 
     static ViewPropertyAnimator fade(ImageView view, float alpha) {
         return view.animate().setDuration(Shared.CHECK_ANIMATION_DURATION).alpha(alpha);
+    }
+
+    protected String getPreviewIconContentDescription(boolean isWorkProfile, String fileName) {
+        DevicePolicyManager dpm = itemView.getContext().getSystemService(DevicePolicyManager.class);
+        String updatableStringId = isWorkProfile ? PREVIEW_WORK_FILE_ACCESSIBILITY : UNDEFINED;
+        int defaultStringId = isWorkProfile ? R.string.preview_work_file : R.string.preview_file;
+        return dpm.getString(
+                updatableStringId,
+                () -> itemView.getResources().getString(defaultStringId, fileName),
+                /* formatArgs= */ fileName);
     }
 
     protected static class PreviewAccessibilityDelegate extends View.AccessibilityDelegate {

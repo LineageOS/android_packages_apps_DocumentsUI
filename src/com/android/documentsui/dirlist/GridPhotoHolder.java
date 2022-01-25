@@ -98,10 +98,9 @@ final class GridPhotoHolder extends DocumentHolder {
         mPreviewIcon.setVisibility(show ? View.VISIBLE : View.GONE);
         if (show) {
             mPreviewIcon.setContentDescription(
-                    itemView.getResources().getString(
-                            mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier())
-                                    ? R.string.preview_work_file
-                                    : R.string.preview_file, mDoc.displayName));
+                    getPreviewIconContentDescription(
+                            mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier()),
+                            mDoc.displayName));
             mPreviewIcon.setAccessibilityDelegate(new PreviewAccessibilityDelegate(clickCallback));
         }
     }
