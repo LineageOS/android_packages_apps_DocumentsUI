@@ -16,12 +16,18 @@
 
 package com.android.documentsui.dirlist;
 
+import static android.app.admin.DevicePolicyResources.Drawables.Style.SOLID_COLORED;
+import static android.app.admin.DevicePolicyResources.Drawables.WORK_PROFILE_ICON;
+
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.provider.DocumentsContract.Document;
 import android.text.format.Formatter;
 import android.view.MotionEvent;
@@ -30,12 +36,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
+import com.android.documentsui.util.VersionUtils;
 
 import java.util.function.Function;
 
@@ -71,6 +80,18 @@ final class GridDocumentHolder extends DocumentHolder {
         mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
+
+        if (VersionUtils.isAtLeastT()) {
+            setUpdatableWorkProfileIcon(context);
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private void setUpdatableWorkProfileIcon(Context context) {
+        DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
+        Drawable drawable = dpm.getDrawable(WORK_PROFILE_ICON, SOLID_COLORED, () ->
+                context.getDrawable(R.drawable.ic_briefcase));
+        mIconBriefcase.setImageDrawable(drawable);
     }
 
     @Override
