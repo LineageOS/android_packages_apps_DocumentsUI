@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
+import com.android.documentsui.util.VersionUtils;
 
 import java.util.function.Function;
 
@@ -177,13 +178,20 @@ public abstract class DocumentHolder
     }
 
     protected String getPreviewIconContentDescription(boolean isWorkProfile, String fileName) {
-        DevicePolicyManager dpm = itemView.getContext().getSystemService(DevicePolicyManager.class);
-        String updatableStringId = isWorkProfile ? PREVIEW_WORK_FILE_ACCESSIBILITY : UNDEFINED;
-        int defaultStringId = isWorkProfile ? R.string.preview_work_file : R.string.preview_file;
-        return dpm.getString(
-                updatableStringId,
-                () -> itemView.getResources().getString(defaultStringId, fileName),
-                /* formatArgs= */ fileName);
+        if (VersionUtils.isAtLeastT()) {
+            DevicePolicyManager dpm = itemView.getContext().getSystemService(
+                    DevicePolicyManager.class);
+            String updatableStringId = isWorkProfile ? PREVIEW_WORK_FILE_ACCESSIBILITY : UNDEFINED;
+            int defaultStringId =
+                    isWorkProfile ? R.string.preview_work_file : R.string.preview_file;
+            return dpm.getString(
+                    updatableStringId,
+                    () -> itemView.getResources().getString(defaultStringId, fileName),
+                    /* formatArgs= */ fileName);
+        } else {
+            return itemView.getResources().getString(
+                    isWorkProfile ? R.string.preview_work_file : R.string.preview_file, fileName);
+        }
     }
 
     protected static class PreviewAccessibilityDelegate extends View.AccessibilityDelegate {
