@@ -30,6 +30,7 @@ import androidx.annotation.VisibleForTesting;
 import com.android.documentsui.R;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.util.VersionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +108,10 @@ class UserItemsCombiner {
     }
 
     private String getEnterpriseString(String updatableStringId, int defaultStringId) {
-        return mDpm.getString(updatableStringId, () -> mResources.getString(defaultStringId));
+        if (VersionUtils.isAtLeastT()) {
+            return mDpm.getString(updatableStringId, () -> mResources.getString(defaultStringId));
+        } else {
+            return mResources.getString(defaultStringId);
+        }
     }
 }

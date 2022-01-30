@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static android.app.admin.DevicePolicyResources.Drawables.Style.OUTLINE;
+import static android.app.admin.DevicePolicyResources.Drawables.WORK_PROFILE_OFF_ICON;
 import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SAVE_TO_PERSONAL_MESSAGE;
 import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SAVE_TO_PERSONAL_TITLE;
 import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SAVE_TO_WORK_MESSAGE;
@@ -34,8 +36,10 @@ import android.app.AuthenticationRequiredException;
 import android.app.admin.DevicePolicyManager;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.android.documentsui.CrossProfileException;
 import com.android.documentsui.CrossProfileNoPermissionException;
@@ -48,6 +52,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
+import com.android.documentsui.util.VersionUtils;
 
 /**
  * Data object used by {@link InflateMessageDocumentHolder} and {@link HeaderMessageDocumentHolder}.
@@ -240,7 +245,7 @@ abstract class Message {
                             WORK_PROFILE_OFF_ERROR_TITLE, R.string.quiet_mode_error_title),
                     /* messageString= */ "",
                     buttonText,
-                    mEnv.getContext().getDrawable(R.drawable.work_off));
+                    getWorkProfileOffIcon());
         }
 
         private void updateToCrossProfileNoPermissionErrorMessage() {
@@ -328,9 +333,31 @@ abstract class Message {
         }
 
         private String getEnterpriseString(String updatableStringId, int defaultStringId) {
-            DevicePolicyManager dpm = mEnv.getContext().getSystemService(DevicePolicyManager.class);
-            return dpm.getString(
-                    updatableStringId, () -> mEnv.getContext().getString(defaultStringId));
+            if (VersionUtils.isAtLeastT()) {
+                DevicePolicyManager dpm = mEnv.getContext().getSystemService(
+                        DevicePolicyManager.class);
+                return dpm.getString(
+                        updatableStringId, () -> mEnv.getContext().getString(defaultStringId));
+            } else {
+                return mEnv.getContext().getString(defaultStringId);
+            }
+        }
+
+        private Drawable getWorkProfileOffIcon() {
+            if (VersionUtils.isAtLeastT()) {
+                return getUpdatableWorkProfileIcon();
+            } else {
+                return mEnv.getContext().getDrawable(R.drawable.work_off);
+            }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+        private Drawable getUpdatableWorkProfileIcon() {
+            DevicePolicyManager dpm = mEnv.getContext().getSystemService(
+                    DevicePolicyManager.class);
+            return dpm.getDrawable(
+                    WORK_PROFILE_OFF_ICON, OUTLINE,
+                    () -> mEnv.getContext().getDrawable(R.drawable.work_off));
         }
     }
 }
