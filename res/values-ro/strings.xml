@@ -298,7 +298,7 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Creați un dosar nou"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Căutați în acest telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ștergeți istoricul căutărilor <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Personale"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Personal"</string>
     <string name="work_tab" msgid="7265359366883747413">"Serviciu"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Serviciu"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Nu puteți muta fișiere din altă aplicație."</string>
