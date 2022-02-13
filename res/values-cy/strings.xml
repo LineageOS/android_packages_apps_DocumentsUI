@@ -32,6 +32,7 @@
     <string name="menu_share">Rhannu</string>
     <string name="menu_delete">Dileu</string>
     <string name="menu_select_all">Dewis y cwbl</string>
+    <string name="menu_deselect_all">Dad-ddewis y cwbl</string>
     <string name="menu_select">Dewis</string>
     <string name="menu_sort">Trefnu yn ôl...</string>
     <string name="menu_copy">Copïo i\u2026</string>
@@ -40,6 +41,8 @@
     <string name="menu_extract">Echdynnu i\u2026</string>
     <string name="menu_rename">Ailenwi</string>
     <string name="menu_inspect">Cael gwybodaeth</string>
+    <string name="menu_show_hidden_files">Dangos ffeiliau cudd</string>
+    <string name="menu_hide_hidden_files">Peidio â dangos ffeiliau cudd</string>
     <string name="menu_view_in_owner">Gweld yn <xliff:g id="source" example="Google Drive">%1$s</xliff:g></string>
     <string name="menu_new_window">Ffenestr newydd</string>
     <string name="menu_cut_to_clipboard">Torri</string>
@@ -57,6 +60,7 @@
     <string name="button_retry">Ceisio Eto</string>
     <string name="button_clear">Clirio</string>
     <string name="button_show_provider">Dangos yn y darparydd</string>
+    <string name="button_back">Nôl</string>
     <string name="not_sorted">Heb unrhyw drefn</string>
     <string name="sort_dimension_name">Enw</string>
     <string name="sort_dimension_summary">Crynodeb</string>
@@ -82,6 +86,26 @@
     <string name="save_error">Methwyd â chadw\'r ddogfen</string>
     <string name="create_error">Methwyd â chreu ffolder</string>
     <string name="query_error">Methu â llwytho cynnwys ar hyn o bryd</string>
+    <string name="quiet_mode_error_title">Proffil gwaith ar saib</string>
+    <string name="quiet_mode_button">Troi ymlaen</string>
+    <string name="cant_select_work_files_error_title">Ni ellir dewis ffeiliau gwaith</string>
+    <string name="cant_select_work_files_error_message">Dyw dy weinyddwyr TG  ddim yn dy 
+ganiatáu i gael at ffeiliau gwaith o 
+ap personol.</string>
+    <string name="cant_select_personal_files_error_title">Ni ellir dewis ffeiliau personol</string>
+    <string name="cant_select_personal_files_error_message">Dyw dy weinyddwyr TG  ddim yn dy 
+ganiatáu i gael at ffeiliau personol o 
+ap gwaith.</string>
+    <string name="cant_save_to_work_error_title">Ni ellir cadw i\'r proffil gwaith</string>
+    <string name="cant_save_to_work_error_message">Dyw dy weinyddwyr TG ddim yn dy 
+ganiatáu i gadw ffeiliau personol i
+dy broffil gwaith.</string>
+    <string name="cant_save_to_personal_error_title">Ni ellir cadw i\'r proffil personol</string>
+    <string name="cant_save_to_personal_error_message">Dyw dy weinyddwyr TG ddim yn dy 
+ganiatáu i gadw ffeiliau gwaith i
+dy broffil personol.</string>
+    <string name="cross_profile_action_not_allowed_title">Ni chaniateir y weithred hon</string>
+    <string name="cross_profile_action_not_allowed_message">I ddysgu rhagor, cysyllta â dy weinyddwyr TG</string>
     <string name="root_recent">Diweddar</string>
     <string name="root_available_bytes"><xliff:g id="size" example="3GB">%1$s</xliff:g> ar gael</string>
     <string name="root_type_service">Gwasanaethau storio</string>
@@ -93,6 +117,8 @@
     <string name="toast_no_application">Methu ag agor y ffeil</string>
     <string name="toast_view_in_archives_unsupported">Methu ag agor ffeiliau yn yr archifau</string>
     <string name="toast_failed_delete">Methu â dileu rhai dogfennau</string>
+    <string name="toast_share_over_limit">Methu â rhannu mwy na <xliff:g id="count" example="1">%1$d</xliff:g> ffeil.</string>
+    <string name="toast_action_not_allowed">Ni chaniateir y weithred</string>
     <string name="share_via">Rhannu drwy</string>
     <string name="copy_notification_title">Yn copïo ffeiliau</string>
     <string name="compress_notification_title">Yn cywasgu ffeiliau</string>
@@ -306,23 +332,42 @@
         <item quantity="many"><xliff:g id="count" example="3">%1$d</xliff:g> wedi\'u dewis</item>
         <item quantity="other"><xliff:g id="count" example="3">%1$d</xliff:g> wedi\'u dewis</item>
     </plurals>
+    <string name="root_info_header_recent">Ffeiliau diweddar</string>
     <string name="root_info_header_global_search">Ffeiliau</string>
+    <string name="root_info_header_downloads">Ffeiliau yn Llwythi</string>
     <string name="root_info_header_storage">Ffeiliau ar <xliff:g id="device" example="Pixel">%1$s</xliff:g></string>
+    <string name="root_info_header_folder">Ffeiliau yn <xliff:g id="folder" example="DCIM">%1$s</xliff:g></string>
     <string name="root_info_header_app">Ffeiliau o <xliff:g id="label" example="Drive">%1$s</xliff:g></string>
     <string name="root_info_header_app_with_summary">Ffeiliau o <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
+    <string name="root_info_header_image_recent">Delweddau diweddar</string>
     <string name="root_info_header_image_global_search">Delweddau</string>
+    <string name="root_info_header_image_downloads">Delweddau yn Llwythi</string>
     <string name="root_info_header_image_storage">Delweddau ar <xliff:g id="device" example="Pixel">%1$s</xliff:g></string>
+    <string name="root_info_header_image_folder">Delweddau yn <xliff:g id="folder" example="DCIM">%1$s</xliff:g></string>
     <string name="root_info_header_image_app">Delweddau o <xliff:g id="label" example="Drive">%1$s</xliff:g></string>
     <string name="root_info_header_image_app_with_summary">Delweddau o <xliff:g id="label" example="Drive">%1$s</xliff:g> / <xliff:g id="summary" example="example@com">%2$s</xliff:g></string>
     <string name="chip_title_images">Delweddau</string>
     <string name="chip_title_audio">Sain</string>
     <string name="chip_title_videos">Fideos</string>
     <string name="chip_title_documents">Dogfennau</string>
+    <string name="chip_title_large_files">Ffeiliau mawr</string>
+    <string name="chip_title_from_this_week">Yr wythnos hon</string>
     <string name="input_hint_new_folder">Enw\'r ffolder</string>
     <string name="input_hint_rename">Enw newydd</string>
     <string name="preview_file">Rhagolwg o\'r ffeil <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
+    <string name="preview_work_file">Rhagolwg o\'r ffeil gwaith <xliff:g id="fileName" example="example.jpg">%1$s</xliff:g></string>
     <string name="apps_row_title">Pori ffeiliau yn apiau eraill</string>
     <string name="anonymous_application">Anhysbys</string>
+    <string name="open_tree_button">Defnyddio\'r ffolder hon</string>
+    <string name="open_tree_dialog_title">Caniatâu <xliff:g id="appName" example="Drive">%1$s</xliff:g> i gael at ffeiliau yn <xliff:g id="directory" example="DCIM">%2$s</xliff:g>?</string>
+    <string name="open_tree_dialog_message">Bydd hyn yn gadael i <xliff:g id="appName" example="Drive">%1$s</xliff:g> gael mynediad at gynnwys wedi\'i gadw yn <xliff:g id="directory" example="DCIM">%2$s</xliff:g> nawr ac yn y dyfodol.</string>
+    <string name="directory_blocked_header_title">Ni ellir defnyddio\'r ffolder hon</string>
+    <string name="directory_blocked_header_subtitle">I warchod dy breifatrwydd, dewisa ffolder arall</string>
+    <string name="create_new_folder_button">Creu ffolder newydd</string>
     <string name="search_bar_hint">Chwilio\'r ffôn hon</string>
     <string name="delete_search_history">Dileu hanes chwilio <xliff:g id="text" example="image">%1$s</xliff:g></string>
+    <string name="personal_tab">Personol</string>
+    <string name="work_tab">Gwaith</string>
+    <string name="a11y_work">Gwaith</string>
+    <string name="drag_from_another_app">Ni ellir symud ffeiliau yma o ap arall.</string>
 </resources>
