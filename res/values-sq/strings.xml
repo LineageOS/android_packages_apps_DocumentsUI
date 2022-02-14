@@ -117,7 +117,7 @@
     <string name="toast_failed_delete" msgid="3453846588205817591">"E pamundur të fshihen disa dokumente"</string>
     <string name="toast_share_over_limit" msgid="5805442886537093015">"Nuk mund të ndahen më shumë se <xliff:g id="COUNT">%1$d</xliff:g> skedarë"</string>
     <string name="toast_action_not_allowed" msgid="1329382474450572415">"Veprimi nuk lejohet"</string>
-    <string name="share_via" msgid="8725082736005677161">"Shpërndaj nëpërmjet"</string>
+    <string name="share_via" msgid="8725082736005677161">"Shpërnda nëpërmjet"</string>
     <string name="copy_notification_title" msgid="52256435625098456">"Po kopjon skedarët"</string>
     <string name="compress_notification_title" msgid="6830195148113751021">"Skedarët po ngjishen"</string>
     <string name="extract_notification_title" msgid="5067393961754430469">"Po nxjerr skedarët"</string>
