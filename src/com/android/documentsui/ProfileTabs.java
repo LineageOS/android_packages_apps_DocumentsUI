@@ -16,11 +16,14 @@
 
 package com.android.documentsui;
 
+import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.PERSONAL_TAB;
+import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.WORK_TAB;
+
 import static androidx.core.util.Preconditions.checkNotNull;
 
+import android.app.admin.DevicePolicyManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
@@ -149,11 +152,25 @@ public class ProfileTabs implements ProfileTabsAddons {
             mTabs.removeAllTabs();
             if (mUserIds.size() > 1) {
                 // set setSelected to false otherwise it will trigger callback.
-                mTabs.addTab(createTab(R.string.personal_tab,
+                mTabs.addTab(createTab(
+                        getEnterpriseString(PERSONAL_TAB, R.string.personal_tab),
                         mUserIdManager.getSystemUser()), /* setSelected= */false);
-                mTabs.addTab(createTab(R.string.work_tab,
+                mTabs.addTab(createTab(
+                        getEnterpriseString(WORK_TAB, R.string.work_tab),
                         mUserIdManager.getManagedUser()), /* setSelected= */false);
             }
+        }
+    }
+
+    private String getEnterpriseString(String updatableStringId, int defaultStringId) {
+        if (VersionUtils.isAtLeastT()) {
+            DevicePolicyManager dpm = mTabsContainer.getContext().getSystemService(
+                    DevicePolicyManager.class);
+            return dpm.getString(
+                    updatableStringId,
+                    () -> mTabsContainer.getContext().getString(defaultStringId));
+        } else {
+            return mTabsContainer.getContext().getString(defaultStringId);
         }
     }
 
@@ -182,8 +199,8 @@ public class ProfileTabs implements ProfileTabsAddons {
                 && mState.stack.getRoot() != null && mState.stack.getRoot().supportsCrossProfile();
     }
 
-    private TabLayout.Tab createTab(int resId, UserId userId) {
-        return mTabs.newTab().setText(resId).setTag(userId);
+    private TabLayout.Tab createTab(String text, UserId userId) {
+        return mTabs.newTab().setText(text).setTag(userId);
     }
 
     @Override

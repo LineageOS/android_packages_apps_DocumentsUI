@@ -42,4 +42,12 @@ public class VersionUtils {
         return Build.VERSION.CODENAME.equals("S")
                 || Build.VERSION.SDK_INT >= 31;
     }
+
+    /**
+     * Returns whether the device is running on Android T or newer.
+     */
+    public static boolean isAtLeastT() {
+        return Build.VERSION.CODENAME.startsWith("T")
+                || Build.VERSION.SDK_INT >= 33;
+    }
 }
