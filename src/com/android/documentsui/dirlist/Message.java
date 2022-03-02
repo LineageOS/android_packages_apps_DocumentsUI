@@ -334,13 +334,18 @@ abstract class Message {
 
         private String getEnterpriseString(String updatableStringId, int defaultStringId) {
             if (VersionUtils.isAtLeastT()) {
-                DevicePolicyManager dpm = mEnv.getContext().getSystemService(
-                        DevicePolicyManager.class);
-                return dpm.getString(
-                        updatableStringId, () -> mEnv.getContext().getString(defaultStringId));
+                return getUpdatableEnterpriseString(updatableStringId, defaultStringId);
             } else {
                 return mEnv.getContext().getString(defaultStringId);
             }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+        private String getUpdatableEnterpriseString(String updatableStringId, int defaultStringId) {
+            DevicePolicyManager dpm = mEnv.getContext().getSystemService(
+                    DevicePolicyManager.class);
+            return dpm.getString(
+                    updatableStringId, () -> mEnv.getContext().getString(defaultStringId));
         }
 
         private Drawable getWorkProfileOffIcon() {
