@@ -22,6 +22,7 @@ import static android.app.admin.DevicePolicyResources.Strings.UNDEFINED;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -31,6 +32,7 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -179,19 +181,25 @@ public abstract class DocumentHolder
 
     protected String getPreviewIconContentDescription(boolean isWorkProfile, String fileName) {
         if (VersionUtils.isAtLeastT()) {
-            DevicePolicyManager dpm = itemView.getContext().getSystemService(
-                    DevicePolicyManager.class);
-            String updatableStringId = isWorkProfile ? PREVIEW_WORK_FILE_ACCESSIBILITY : UNDEFINED;
-            int defaultStringId =
-                    isWorkProfile ? R.string.preview_work_file : R.string.preview_file;
-            return dpm.getString(
-                    updatableStringId,
-                    () -> itemView.getResources().getString(defaultStringId, fileName),
-                    /* formatArgs= */ fileName);
+            return getUpdatablePreviewIconContentDescription(isWorkProfile, fileName);
         } else {
             return itemView.getResources().getString(
                     isWorkProfile ? R.string.preview_work_file : R.string.preview_file, fileName);
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private String getUpdatablePreviewIconContentDescription(
+            boolean isWorkProfile, String fileName) {
+        DevicePolicyManager dpm = itemView.getContext().getSystemService(
+                DevicePolicyManager.class);
+        String updatableStringId = isWorkProfile ? PREVIEW_WORK_FILE_ACCESSIBILITY : UNDEFINED;
+        int defaultStringId =
+                isWorkProfile ? R.string.preview_work_file : R.string.preview_file;
+        return dpm.getString(
+                updatableStringId,
+                () -> itemView.getResources().getString(defaultStringId, fileName),
+                /* formatArgs= */ fileName);
     }
 
     protected static class PreviewAccessibilityDelegate extends View.AccessibilityDelegate {
