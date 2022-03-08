@@ -277,7 +277,7 @@
     <string name="search_bar_hint" msgid="4517366509897977321">"Sök på telefonen"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Radera sökhistorik – <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Privat"</string>
-    <string name="work_tab" msgid="7265359366883747413">"Jobb"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Arbete"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Jobb"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Du kan inte flytta filer från en annan app."</string>
     <string name="grid_mode_showing" msgid="2803166871485028508">"Visas i rutnätsläge."</string>
