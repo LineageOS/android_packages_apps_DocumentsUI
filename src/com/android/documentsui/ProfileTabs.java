@@ -16,10 +16,10 @@
 
 package com.android.documentsui;
 
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.PERSONAL_TAB;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.WORK_TAB;
-
 import static androidx.core.util.Preconditions.checkNotNull;
+
+import static com.android.documentsui.DevicePolicyResources.Strings.PERSONAL_TAB;
+import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
 
 import android.app.admin.DevicePolicyManager;
 import android.os.Build;
@@ -176,7 +176,7 @@ public class ProfileTabs implements ProfileTabsAddons {
     private String getUpdatableEnterpriseString(String updatableStringId, int defaultStringId) {
         DevicePolicyManager dpm = mTabsContainer.getContext().getSystemService(
                 DevicePolicyManager.class);
-        return dpm.getString(
+        return dpm.getResources().getString(
                 updatableStringId,
                 () -> mTabsContainer.getContext().getString(defaultStringId));
     }
