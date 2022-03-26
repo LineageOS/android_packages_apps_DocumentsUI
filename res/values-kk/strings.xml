@@ -45,7 +45,7 @@
     <string name="menu_move" msgid="2310760789561129882">"Тасымалдау…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Сығу"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Алынуда…"</string>
-    <string name="menu_rename" msgid="1883113442688817554">"Атауын өзгерту"</string>
+    <string name="menu_rename" msgid="1883113442688817554">"Атын өзгерту"</string>
     <string name="menu_inspect" msgid="7279855349299446224">"Ақпарат алу"</string>
     <string name="menu_show_hidden_files" msgid="5140676344684492769">"Жасырын файлдарды көрсету"</string>
     <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Жасырын файлдарды көрсетпеу"</string>
@@ -232,7 +232,7 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Кескіндер"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Мұрағат жүктелмеді. Файл бүлінген немесе форматына қолдау көрсетілмейді."</string>
     <string name="name_conflict" msgid="28407269328862986">"Мұндай атаулы файл бұрыннан бар."</string>
-    <string name="authentication_required" msgid="8030880723643436099">"Бұл каталогті көру үшін <xliff:g id="NAME">%1$s</xliff:g> есептік жазбасына кіріңіз"</string>
+    <string name="authentication_required" msgid="8030880723643436099">"Бұл каталогті көру үшін <xliff:g id="NAME">%1$s</xliff:g> аккаунтына кіріңіз"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"Мазмұны көрсетілмейді"</string>
     <string name="sign_in" msgid="6253762676723505592">"Жүйеге кіру"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"archive<xliff:g id="EXTENSION">%s</xliff:g>"</string>
