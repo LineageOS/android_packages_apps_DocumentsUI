@@ -16,9 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
-import static android.app.admin.DevicePolicyResources.Drawables.Style.SOLID_NOT_COLORED;
-import static android.app.admin.DevicePolicyResources.Drawables.WORK_PROFILE_ICON;
-
+import static com.android.documentsui.DevicePolicyResources.Drawables.Style.SOLID_NOT_COLORED;
+import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFILE_ICON;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
@@ -78,8 +77,9 @@ final class GridPhotoHolder extends DocumentHolder {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private void setUpdatableWorkProfileIcon(Context context) {
         DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
-        Drawable drawable = dpm.getDrawable(WORK_PROFILE_ICON, SOLID_NOT_COLORED, () ->
-                context.getDrawable(R.drawable.ic_briefcase));
+        Drawable drawable = dpm.getResources().getDrawable(
+                WORK_PROFILE_ICON, SOLID_NOT_COLORED, () ->
+                        context.getDrawable(R.drawable.ic_briefcase));
         ImageView icon = (ImageView) mIconBriefcase.findViewById(R.id.icon_id);
 
         icon.setImageDrawable(drawable);

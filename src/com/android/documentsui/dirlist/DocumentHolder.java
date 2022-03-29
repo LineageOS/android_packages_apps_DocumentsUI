@@ -16,8 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.PREVIEW_WORK_FILE_ACCESSIBILITY;
-import static android.app.admin.DevicePolicyResources.Strings.UNDEFINED;
+import static com.android.documentsui.DevicePolicyResources.Strings.PREVIEW_WORK_FILE_ACCESSIBILITY;
+import static com.android.documentsui.DevicePolicyResources.Strings.UNDEFINED;
 
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
@@ -196,7 +196,7 @@ public abstract class DocumentHolder
         String updatableStringId = isWorkProfile ? PREVIEW_WORK_FILE_ACCESSIBILITY : UNDEFINED;
         int defaultStringId =
                 isWorkProfile ? R.string.preview_work_file : R.string.preview_file;
-        return dpm.getString(
+        return dpm.getResources().getString(
                 updatableStringId,
                 () -> itemView.getResources().getString(defaultStringId, fileName),
                 /* formatArgs= */ fileName);
