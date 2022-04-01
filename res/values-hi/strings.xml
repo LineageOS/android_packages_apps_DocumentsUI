@@ -70,7 +70,7 @@
     <string name="not_sorted" msgid="7813496644889115530">"क्रमबद्ध नहीं हैं"</string>
     <string name="sort_dimension_name" msgid="6325591541414177579">"नाम"</string>
     <string name="sort_dimension_summary" msgid="7724534446881397860">"सारांश"</string>
-    <string name="sort_dimension_file_type" msgid="5779709622922085381">"टाइप"</string>
+    <string name="sort_dimension_file_type" msgid="5779709622922085381">"प्रकार"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"आकार"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"बदले जाने का समय"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"फ़ाइल का नाम (A से Z)"</string>
@@ -218,7 +218,7 @@
     <string name="delete_filename_confirmation_message" msgid="8338069763240613258">"\"<xliff:g id="NAME">%1$s</xliff:g>\" को हटाना चाहते हैं?"</string>
     <string name="delete_foldername_confirmation_message" msgid="9084085260877704140">"फ़ोल्डर \"<xliff:g id="NAME">%1$s</xliff:g>\" और उसकी सामग्रियों को हटाना चाहते हैं?"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
-      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइल मिटाएं?</item>
+      <item quantity="one"><xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइलें मिटाएं?</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> फ़ाइलें मिटाएं?</item>
     </plurals>
     <plurals name="delete_folders_confirmation_message" formatted="false" msgid="1028946402799686388">
