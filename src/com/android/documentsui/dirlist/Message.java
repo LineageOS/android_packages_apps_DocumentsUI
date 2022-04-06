@@ -16,20 +16,20 @@
 
 package com.android.documentsui.dirlist;
 
-import static android.app.admin.DevicePolicyResources.Drawables.Style.OUTLINE;
-import static android.app.admin.DevicePolicyResources.Drawables.WORK_PROFILE_OFF_ICON;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SAVE_TO_PERSONAL_MESSAGE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SAVE_TO_PERSONAL_TITLE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SAVE_TO_WORK_MESSAGE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SAVE_TO_WORK_TITLE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SELECT_PERSONAL_FILES_MESSAGE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SELECT_PERSONAL_FILES_TITLE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SELECT_WORK_FILES_MESSAGE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CANT_SELECT_WORK_FILES_TITLE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CROSS_PROFILE_NOT_ALLOWED_MESSAGE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.CROSS_PROFILE_NOT_ALLOWED_TITLE;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.WORK_PROFILE_OFF_ENABLE_BUTTON;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.WORK_PROFILE_OFF_ERROR_TITLE;
+import static com.android.documentsui.DevicePolicyResources.Drawables.Style.OUTLINE;
+import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFILE_OFF_ICON;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SAVE_TO_PERSONAL_MESSAGE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SAVE_TO_PERSONAL_TITLE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SAVE_TO_WORK_MESSAGE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SAVE_TO_WORK_TITLE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_PERSONAL_FILES_MESSAGE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_PERSONAL_FILES_TITLE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_WORK_FILES_MESSAGE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_WORK_FILES_TITLE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CROSS_PROFILE_NOT_ALLOWED_MESSAGE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CROSS_PROFILE_NOT_ALLOWED_TITLE;
+import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ENABLE_BUTTON;
+import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ERROR_TITLE;
 
 import android.Manifest;
 import android.app.AuthenticationRequiredException;
@@ -334,13 +334,18 @@ abstract class Message {
 
         private String getEnterpriseString(String updatableStringId, int defaultStringId) {
             if (VersionUtils.isAtLeastT()) {
-                DevicePolicyManager dpm = mEnv.getContext().getSystemService(
-                        DevicePolicyManager.class);
-                return dpm.getString(
-                        updatableStringId, () -> mEnv.getContext().getString(defaultStringId));
+                return getUpdatableEnterpriseString(updatableStringId, defaultStringId);
             } else {
                 return mEnv.getContext().getString(defaultStringId);
             }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+        private String getUpdatableEnterpriseString(String updatableStringId, int defaultStringId) {
+            DevicePolicyManager dpm = mEnv.getContext().getSystemService(
+                    DevicePolicyManager.class);
+            return dpm.getResources().getString(
+                    updatableStringId, () -> mEnv.getContext().getString(defaultStringId));
         }
 
         private Drawable getWorkProfileOffIcon() {
@@ -355,7 +360,7 @@ abstract class Message {
         private Drawable getUpdatableWorkProfileIcon() {
             DevicePolicyManager dpm = mEnv.getContext().getSystemService(
                     DevicePolicyManager.class);
-            return dpm.getDrawable(
+            return dpm.getResources().getDrawable(
                     WORK_PROFILE_OFF_ICON, OUTLINE,
                     () -> mEnv.getContext().getDrawable(R.drawable.work_off));
         }

@@ -16,16 +16,18 @@
 
 package com.android.documentsui;
 
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.PERSONAL_TAB;
-import static android.app.admin.DevicePolicyResources.Strings.DocumentsUi.WORK_TAB;
-
 import static androidx.core.util.Preconditions.checkNotNull;
 
+import static com.android.documentsui.DevicePolicyResources.Strings.PERSONAL_TAB;
+import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
+
 import android.app.admin.DevicePolicyManager;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
@@ -164,14 +166,19 @@ public class ProfileTabs implements ProfileTabsAddons {
 
     private String getEnterpriseString(String updatableStringId, int defaultStringId) {
         if (VersionUtils.isAtLeastT()) {
-            DevicePolicyManager dpm = mTabsContainer.getContext().getSystemService(
-                    DevicePolicyManager.class);
-            return dpm.getString(
-                    updatableStringId,
-                    () -> mTabsContainer.getContext().getString(defaultStringId));
+            return getUpdatableEnterpriseString(updatableStringId, defaultStringId);
         } else {
             return mTabsContainer.getContext().getString(defaultStringId);
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private String getUpdatableEnterpriseString(String updatableStringId, int defaultStringId) {
+        DevicePolicyManager dpm = mTabsContainer.getContext().getSystemService(
+                DevicePolicyManager.class);
+        return dpm.getResources().getString(
+                updatableStringId,
+                () -> mTabsContainer.getContext().getString(defaultStringId));
     }
 
     /**
