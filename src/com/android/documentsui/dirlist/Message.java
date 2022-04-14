@@ -52,7 +52,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
-import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 /**
  * Data object used by {@link InflateMessageDocumentHolder} and {@link HeaderMessageDocumentHolder}.
@@ -333,7 +333,7 @@ abstract class Message {
         }
 
         private String getEnterpriseString(String updatableStringId, int defaultStringId) {
-            if (VersionUtils.isAtLeastT()) {
+            if (SdkLevel.isAtLeastT()) {
                 return getUpdatableEnterpriseString(updatableStringId, defaultStringId);
             } else {
                 return mEnv.getContext().getString(defaultStringId);
@@ -349,7 +349,7 @@ abstract class Message {
         }
 
         private Drawable getWorkProfileOffIcon() {
-            if (VersionUtils.isAtLeastT()) {
+            if (SdkLevel.isAtLeastT()) {
                 return getUpdatableWorkProfileIcon();
             } else {
                 return mEnv.getContext().getDrawable(R.drawable.work_off);
