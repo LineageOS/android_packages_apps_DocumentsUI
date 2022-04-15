@@ -39,7 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.documentsui.R;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
-import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 import java.util.function.Function;
 
@@ -180,7 +180,7 @@ public abstract class DocumentHolder
     }
 
     protected String getPreviewIconContentDescription(boolean isWorkProfile, String fileName) {
-        if (VersionUtils.isAtLeastT()) {
+        if (SdkLevel.isAtLeastT()) {
             return getUpdatablePreviewIconContentDescription(isWorkProfile, fileName);
         } else {
             return itemView.getResources().getString(
