@@ -16,11 +16,20 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_WORK_FILES_MESSAGE;
+import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_WORK_FILES_TITLE;
+import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ENABLE_BUTTON;
+import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ERROR_TITLE;
+
 import static com.google.common.truth.Truth.assertThat;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import android.app.admin.DevicePolicyManager;
+import android.app.admin.DevicePolicyResourcesManager;
 import android.content.Context;
 import android.os.UserManager;
 
@@ -50,6 +59,8 @@ public final class MessageTest {
     private Runnable mDefaultCallback = () -> {
     };
     private UserManager mUserManager;
+    private DevicePolicyManager mDevicePolicyManager;
+    private DevicePolicyResourcesManager mDevicePolicyResourcesManager;
     private TestActionHandler mTestActionHandler;
 
     @Before
@@ -57,7 +68,14 @@ public final class MessageTest {
         mContext = mock(Context.class);
         mUserManager = UserManagers.create();
         mTestActionHandler = new TestActionHandler();
+        mDevicePolicyManager = mock(DevicePolicyManager.class);
+        mDevicePolicyResourcesManager = mock(DevicePolicyResourcesManager.class);
         when(mContext.getSystemService(Context.USER_SERVICE)).thenReturn(mUserManager);
+        when(mContext.getSystemServiceName(DevicePolicyManager.class))
+                .thenReturn(Context.DEVICE_POLICY_SERVICE);
+        when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE))
+                .thenReturn(mDevicePolicyManager);
+        when(mDevicePolicyManager.getResources()).thenReturn(mDevicePolicyResourcesManager);
         when(mContext.getResources()).thenReturn(
                 InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
         DocumentsAdapter.Environment env =
@@ -73,8 +91,15 @@ public final class MessageTest {
         Model.Update error = new Model.Update(
                 new CrossProfileNoPermissionException(),
                 /* isRemoteActionsEnabled= */ true);
+        String title = mContext.getString(R.string.cant_select_work_files_error_title);
+        String message = mContext.getString(R.string.cant_select_work_files_error_message);
+        when(mDevicePolicyResourcesManager.getString(eq(CANT_SELECT_WORK_FILES_TITLE), any()))
+                .thenReturn(title);
+        when(mDevicePolicyResourcesManager.getString(eq(CANT_SELECT_WORK_FILES_MESSAGE), any()))
+                .thenReturn(message);
 
         mInflateMessage.update(error);
+
         assertThat(mInflateMessage.getLayout())
                 .isEqualTo(InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR);
         assertThat(mInflateMessage.getTitleString())
@@ -90,7 +115,15 @@ public final class MessageTest {
         Model.Update error = new Model.Update(
                 new CrossProfileQuietModeException(mUserId),
                 /* isRemoteActionsEnabled= */ true);
+        String title = mContext.getString(R.string.quiet_mode_error_title);
+        String text = mContext.getString(R.string.quiet_mode_button);
+        when(mDevicePolicyResourcesManager.getString(eq(WORK_PROFILE_OFF_ERROR_TITLE), any()))
+                .thenReturn(title);
+        when(mDevicePolicyResourcesManager.getString(eq(WORK_PROFILE_OFF_ENABLE_BUTTON), any()))
+                .thenReturn(text);
+
         mInflateMessage.update(error);
+
         assertThat(mInflateMessage.getLayout())
                 .isEqualTo(InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR);
         assertThat(mInflateMessage.getTitleString())
