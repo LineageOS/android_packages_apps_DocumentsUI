@@ -16,7 +16,7 @@
 
 package com.android.documentsui.util;
 
-import com.android.modules.utils.build.SdkLevel;
+import android.os.Build;
 
 /**
  * A utility class for checking Android version.
@@ -31,13 +31,15 @@ public class VersionUtils {
      */
     public static boolean isAtLeastR() {
         return isAtLeastS() // Keep reference to isAtLeastS() so it's not stripped from test apk
-                || SdkLevel.isAtLeastR();
+                || Build.VERSION.CODENAME.equals("R")
+                || Build.VERSION.SDK_INT >= 30;
     }
 
     /**
      * Returns whether the device is running on Android S or newer.
      */
     public static boolean isAtLeastS() {
-        return SdkLevel.isAtLeastS();
+        return Build.VERSION.CODENAME.equals("S")
+                || Build.VERSION.SDK_INT >= 31;
     }
 }

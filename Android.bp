@@ -13,18 +13,31 @@
 // limitations under the License.
 
 package {
-    default_applicable_licenses: ["Android-Apache-2.0"],
+    default_applicable_licenses: ["packages_apps_DocumentsUI_license"],
 }
 
+// Added automatically by a large-scale-change that took the approach of
+// 'apply every license found to every target'. While this makes sure we respect
+// every license restriction, it may not be entirely correct.
+//
+// e.g. GPL in an MIT project might only apply to the contrib/ directory.
+//
+// Please consider splitting the single license below into multiple licenses,
+// taking care not to lose any license_kind information, and overriding the
+// default license using the 'licenses: [...]' property on targets as needed.
+//
+// For unused files, consider creating a 'fileGroup' with "//visibility:private"
+// to attach the license to, and including a comment whether the files may be
+// used in the current project.
 // See: http://go/android-license-faq
 license {
-    // res/drawable contains at least 1 Public Domain file
-    name: "packages_apps_DocumentsUI_res_drawable_pd_license",
-    visibility: ["//visibility:private"],
+    name: "packages_apps_DocumentsUI_license",
+    visibility: [":__subpackages__"],
     license_kinds: [
+        "SPDX-license-identifier-Apache-2.0",
         "legacy_unencumbered",
     ],
-    license_text: [],
+    // large-scale-change unable to identify any license_text files
 }
 
 java_defaults {
@@ -41,7 +54,6 @@ java_defaults {
         "apache-commons-compress",
         "com.google.android.material_material",
         "guava",
-        "modules-utils-build_system",
     ],
 
     libs: [
@@ -63,7 +75,6 @@ java_defaults {
     plugins: [
         "java_api_finder",
     ],
-    lint: { strict_updatability_linting: true }
 }
 
 platform_compat_config {
@@ -84,7 +95,6 @@ java_library {
     srcs: [
         ":statslog-docsui-java-gen",
     ],
-    lint: { strict_updatability_linting: true }
 }
 
 genrule {
@@ -116,7 +126,6 @@ android_library {
     sdk_version: "system_current",
     target_sdk_version: "30",
     min_sdk_version: "29",
-    lint: { strict_updatability_linting: true }
 }
 
 android_library {
@@ -127,16 +136,10 @@ android_library {
     static_libs: [
         "androidx.appcompat_appcompat",
         "com.google.android.material_material",
-        "modules-utils-build_system",
     ],
 
     resource_dirs: [
         "res",
-    ],
-
-    licenses: [
-        "Android-Apache-2.0",
-        "packages_apps_DocumentsUI_res_drawable_pd_license",
     ],
 
     aaptflags: [
@@ -146,7 +149,6 @@ android_library {
     sdk_version: "system_current",
     target_sdk_version: "30",
     min_sdk_version: "29",
-    lint: { strict_updatability_linting: true }
 }
 
 android_app {
@@ -164,15 +166,8 @@ android_app {
         "res",
     ],
 
-    licenses: [
-        "Android-Apache-2.0",
-        "packages_apps_DocumentsUI_res_drawable_pd_license",
-    ],
-
     required: ["privapp_whitelist_com.android.documentsui"],
 
     target_sdk_version: "30",
     min_sdk_version: "29",
-    lint: { strict_updatability_linting: true }
 }
-

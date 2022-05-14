@@ -75,7 +75,6 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
 
-import com.android.documentsui.util.VersionUtils;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
@@ -168,11 +167,6 @@ public abstract class BaseActivity
 
         mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
                 profileTabsContainer, DocumentsApplication.getUserIdManager(this));
-        AppBarLayout appBarLayout = findViewById(R.id.app_bar);
-        if (appBarLayout != null) {
-            appBarLayout.addOnOffsetChangedListener(mNavigator);
-        }
-
         SearchManagerListener searchListener = new SearchManagerListener() {
             /**
              * Called when search results changed. Refreshes the content of the directory. It
@@ -717,20 +711,6 @@ public abstract class BaseActivity
         final AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         if (appBarLayout != null) {
             appBarLayout.setExpanded(true);
-        }
-    }
-
-    public void updateHeader(boolean shouldHideHeader){
-        View headerContainer = findViewById(R.id.header_container);
-        if(headerContainer == null){
-            updateHeaderTitle();
-            return;
-        }
-        if (shouldHideHeader) {
-            headerContainer.setVisibility(View.GONE);
-        } else {
-            headerContainer.setVisibility(View.VISIBLE);
-            updateHeaderTitle();
         }
     }
 

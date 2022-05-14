@@ -18,7 +18,6 @@ package com.android.documentsui.sidebar;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import android.app.admin.DevicePolicyManager;
 import android.content.res.Resources;
 import android.view.View;
 
@@ -70,9 +69,6 @@ public class UserItemsCombinerTest {
     private final State mState = new State();
     private final Resources mResources =
             InstrumentationRegistry.getInstrumentation().getTargetContext().getResources();
-    private final DevicePolicyManager mDpm =
-            InstrumentationRegistry.getInstrumentation().getTargetContext().getSystemService(
-                    DevicePolicyManager.class);
     private UserItemsCombiner mCombiner;
 
     @Before
@@ -83,7 +79,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableList_empty() {
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .setRootListForCurrentUser(Collections.emptyList())
                 .setRootListForOtherUser(Collections.emptyList());
         assertThat(mCombiner.createPresentableList()).isEmpty();
@@ -91,7 +87,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableList_currentIsPersonal_personalItemsOnly() {
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .setRootListForCurrentUser(PERSONAL_ITEMS)
                 .setRootListForOtherUser(Collections.emptyList());
         assertThat(mCombiner.createPresentableList())
@@ -102,7 +98,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableList_currentIsWork_personalItemsOnly() {
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .overrideCurrentUserForTest(WORK_USER)
                 .setRootListForCurrentUser(Collections.emptyList())
                 .setRootListForOtherUser(PERSONAL_ITEMS);
@@ -114,7 +110,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableList_currentIsPersonal_workItemsOnly() {
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .setRootListForCurrentUser(Collections.emptyList())
                 .setRootListForOtherUser(WORK_ITEMS);
         assertThat(mCombiner.createPresentableList())
@@ -125,7 +121,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableList_currentIsWork_workItemsOnly() {
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .overrideCurrentUserForTest(WORK_USER)
                 .setRootListForCurrentUser(WORK_ITEMS)
                 .setRootListForOtherUser(Collections.emptyList());
@@ -137,7 +133,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableList_currentIsPersonal_personalAndWorkItems() {
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .setRootListForCurrentUser(PERSONAL_ITEMS)
                 .setRootListForOtherUser(WORK_ITEMS);
 
@@ -155,7 +151,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableList_currentIsWork_personalAndWorkItems() {
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .overrideCurrentUserForTest(WORK_USER)
                 .setRootListForCurrentUser(WORK_ITEMS)
                 .setRootListForOtherUser(PERSONAL_ITEMS);
@@ -175,7 +171,7 @@ public class UserItemsCombinerTest {
     @Test
     public void testCreatePresentableList_currentIsPersonal_personalAndWorkItems_cannotShare() {
         mState.canShareAcrossProfile = false;
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .setRootListForCurrentUser(PERSONAL_ITEMS)
                 .setRootListForOtherUser(WORK_ITEMS);
 
@@ -188,7 +184,7 @@ public class UserItemsCombinerTest {
     @Test
     public void testCreatePresentableList_currentIsWork_personalItemsOnly_cannotShare() {
         mState.canShareAcrossProfile = false;
-        mCombiner = new UserItemsCombiner(mResources, mDpm, mState)
+        mCombiner = new UserItemsCombiner(mResources, mState)
                 .overrideCurrentUserForTest(WORK_USER)
                 .setRootListForCurrentUser(Collections.emptyList())
                 .setRootListForOtherUser(PERSONAL_ITEMS);

@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Không lưu tài liệu được"</string>
     <string name="create_error" msgid="3092144450044861994">"Không thể tạo thư mục"</string>
     <string name="query_error" msgid="6625421453613879336">"Không thể tải nội dung vào lúc này"</string>
-    <string name="quiet_mode_error_title" msgid="554319751414657910">"Ứng dụng công việc đã tạm dừng"</string>
-    <string name="quiet_mode_button" msgid="8051436551926677305">"Bật ứng dụng công việc"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Hồ sơ công việc của bạn đã bị tạm dừng"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Bật"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Không thể chọn các tệp công việc"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Quản trị viên CNTT không cho phép bạn truy cập vào tệp công việc từ ứng dụng cá nhân"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Không thể chọn các tệp cá nhân"</string>
@@ -275,7 +275,7 @@
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Để bảo vệ quyền riêng tư của bạn, hãy chọn một thư mục khác"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Tạo thư mục mới"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Tìm kiếm trên điện thoại này"</string>
-    <string name="delete_search_history" msgid="2202015025607694515">"Xoá nhật ký tìm kiếm <xliff:g id="TEXT">%1$s</xliff:g>"</string>
+    <string name="delete_search_history" msgid="2202015025607694515">"Xóa lịch sử tìm kiếm <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Cá nhân"</string>
     <string name="work_tab" msgid="7265359366883747413">"Công việc"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Công việc"</string>

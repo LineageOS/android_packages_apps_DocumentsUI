@@ -97,7 +97,7 @@ public class FilesAppPerfTest {
         final Bundle status = new Bundle();
         Arrays.sort(measurements);
         final long median = measurements[NUM_MEASUREMENTS / 2 - 1];
-        status.putDouble(key + "(ms)", median);
+        status.putDouble(key, median);
 
         InstrumentationRegistry.getInstrumentation().sendStatus(Activity.RESULT_OK, status);
     }

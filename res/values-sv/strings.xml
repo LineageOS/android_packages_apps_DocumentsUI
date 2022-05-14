@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Det gick inte att spara dokumentet"</string>
     <string name="create_error" msgid="3092144450044861994">"Det gick inte att skapa mappen"</string>
     <string name="query_error" msgid="6625421453613879336">"Det går inte att läsa in innehållet just nu"</string>
-    <string name="quiet_mode_error_title" msgid="554319751414657910">"Jobbappar har pausats"</string>
-    <string name="quiet_mode_button" msgid="8051436551926677305">"Aktivera jobbappar"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Jobbprofilen har pausats"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Aktivera"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Det går inte att välja jobbfiler"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT-administratören tillåter inte att du öppnar jobbfiler i en privat app"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Det går inte att välja privata filer"</string>
@@ -277,7 +277,7 @@
     <string name="search_bar_hint" msgid="4517366509897977321">"Sök på telefonen"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Radera sökhistorik – <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Privat"</string>
-    <string name="work_tab" msgid="7265359366883747413">"Jobb"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Arbete"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Jobb"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Du kan inte flytta filer från en annan app."</string>
     <string name="grid_mode_showing" msgid="2803166871485028508">"Visas i rutnätsläge."</string>

@@ -16,17 +16,12 @@
 
 package com.android.documentsui.dirlist;
 
-import static com.android.documentsui.DevicePolicyResources.Drawables.Style.SOLID_COLORED;
-import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFILE_ICON;
 import static com.android.documentsui.base.DocumentInfo.getCursorInt;
 import static com.android.documentsui.base.DocumentInfo.getCursorLong;
 import static com.android.documentsui.base.DocumentInfo.getCursorString;
 
-import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.provider.DocumentsContract.Document;
 import android.text.format.Formatter;
 import android.view.MotionEvent;
@@ -35,15 +30,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
-import com.android.modules.utils.build.SdkLevel;
 
 import java.util.function.Function;
 
@@ -79,18 +71,6 @@ final class GridDocumentHolder extends DocumentHolder {
         mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
-
-        if (SdkLevel.isAtLeastT()) {
-            setUpdatableWorkProfileIcon(context);
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private void setUpdatableWorkProfileIcon(Context context) {
-        DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
-        Drawable drawable = dpm.getResources().getDrawable(WORK_PROFILE_ICON, SOLID_COLORED, () ->
-                context.getDrawable(R.drawable.ic_briefcase));
-        mIconBriefcase.setImageDrawable(drawable);
     }
 
     @Override
@@ -136,9 +116,10 @@ final class GridDocumentHolder extends DocumentHolder {
         mPreviewIcon.setVisibility(show ? View.VISIBLE : View.GONE);
         if (show) {
             mPreviewIcon.setContentDescription(
-                    getPreviewIconContentDescription(
-                            mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier()),
-                            mDoc.displayName));
+                    itemView.getResources().getString(
+                            mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier())
+                                    ? R.string.preview_work_file
+                                    : R.string.preview_file, mDoc.displayName));
             mPreviewIcon.setAccessibilityDelegate(new PreviewAccessibilityDelegate(clickCallback));
         }
     }
@@ -156,12 +137,12 @@ final class GridDocumentHolder extends DocumentHolder {
 
     @Override
     public boolean inSelectRegion(MotionEvent event) {
-        return Views.isEventOver(event, itemView.getParent(), mIconLayout);
+        return Views.isEventOver(event, mIconLayout);
     }
 
     @Override
     public boolean inPreviewIconRegion(MotionEvent event) {
-        return Views.isEventOver(event, itemView.getParent(), mPreviewIcon);
+        return Views.isEventOver(event, mPreviewIcon);
     }
 
     /**

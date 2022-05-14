@@ -36,7 +36,7 @@
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"ဝင်းဒိုးအသစ်ဖြင့်ဖွင့်ပါ"</string>
     <string name="menu_save" msgid="5195367497138965168">"သိမ်းပါ"</string>
     <string name="menu_share" msgid="4307140947108068356">"မျှဝေပါ"</string>
-    <string name="menu_delete" msgid="1022254131543256626">"ဖျက်ရန်"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"ဖျက်ပါ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"အားလုံးကို ရွေးပါ"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"အားလုံးကို ပြန်ဖြုတ်ရန်"</string>
     <string name="menu_select" msgid="1366061076507142387">"ရွေးရန်"</string>
@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"စာဖိုင်ကို သိမ်း၍မရခဲ့ပါ"</string>
     <string name="create_error" msgid="3092144450044861994">"ဖိုင်တွဲကို ဖန်တီး၍ မရခဲ့ပါ"</string>
     <string name="query_error" msgid="6625421453613879336">"ဖိုင်ကို လောလောဆယ် တင်ပေး၍မရသေးပါ"</string>
-    <string name="quiet_mode_error_title" msgid="554319751414657910">"အလုပ်သုံးအက်ပ်များကို ခေတ္တရပ်ထားသည်"</string>
-    <string name="quiet_mode_button" msgid="8051436551926677305">"အလုပ်သုံးအက်ပ်များ ဖွင့်ရန်"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"အလုပ်ပရိုဖိုင် ခဏရပ်ထားသည်"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"ဖွင့်ရန်"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"အလုပ်ဖိုင်များကို ရွေး၍မရပါ"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ကိုယ်ပိုင်အက်ပ်မှနေ၍ အလုပ်ဖိုင်များ သုံးရန် သင်၏ IT စီမံခန့်ခွဲသူက ခွင့်မပြုပါ"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"ကိုယ်ပိုင်ဖိုင်များကို ရွေး၍မရပါ"</string>
@@ -144,7 +144,7 @@
       <item quantity="other">ဖိုင်<xliff:g id="COUNT_1">%1$d</xliff:g> ဖိုင်ကို ဖျက်နေသည်။</item>
       <item quantity="one">ဖိုင်<xliff:g id="COUNT_0">%1$d</xliff:g> ဖိုင်ကို ဖျက်နေသည်။</item>
     </plurals>
-    <string name="undo" msgid="2902438994196400565">"နောက်ပြန်ရန်"</string>
+    <string name="undo" msgid="2902438994196400565">"တစ်ဆင့်နောက်ပြန်ပါ"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"အသင့်ပြင်နေပါသည်..."</string>
     <string name="compress_preparing" msgid="7401605598969019696">"အသင့်ပြင်နေပါသည်..."</string>
     <string name="extract_preparing" msgid="4796626960061745796">"အသင့်ပြင်နေပါသည်..."</string>

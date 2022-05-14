@@ -26,7 +26,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.documentsui.R;
-import com.android.documentsui.util.VersionUtils;
 
 /**
  * RecyclerView.ViewHolder class that displays a message when there are no contents
@@ -109,11 +108,7 @@ final class InflateMessageDocumentHolder extends MessageHolder {
         } else {
             mCrossProfileMessage.setVisibility(View.GONE);
         }
-        if (VersionUtils.isAtLeastS()) {
-            mCrossProfileImage.setVisibility(View.GONE);
-        } else {
-            mCrossProfileImage.setImageDrawable(mMessage.getIcon());
-        }
+        mCrossProfileImage.setImageDrawable(mMessage.getIcon());
         if (!TextUtils.isEmpty(mMessage.getButtonString())) {
             mCrossProfileButton.setVisibility(View.VISIBLE);
             mCrossProfileButton.setText(mMessage.getButtonString());

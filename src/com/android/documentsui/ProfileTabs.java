@@ -18,21 +18,14 @@ package com.android.documentsui;
 
 import static androidx.core.util.Preconditions.checkNotNull;
 
-import static com.android.documentsui.DevicePolicyResources.Strings.PERSONAL_TAB;
-import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
-
-import android.app.admin.DevicePolicyManager;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
-import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.base.Objects;
@@ -56,7 +49,6 @@ public class ProfileTabs implements ProfileTabsAddons {
     @Nullable
     private Listener mListener;
     private TabLayout.OnTabSelectedListener mOnTabSelectedListener;
-    private View mTabSeparator;
 
     public ProfileTabs(View tabLayoutContainer, State state, UserIdManager userIdManager,
             NavigationViewManager.Environment env,
@@ -69,8 +61,6 @@ public class ProfileTabs implements ProfileTabsAddons {
         mUserIdManager = checkNotNull(userIdManager);
         mTabs.removeAllTabs();
         mUserIds = Collections.singletonList(UserId.CURRENT_USER);
-        mTabSeparator = tabLayoutContainer.findViewById(R.id.tab_separator);
-
         mOnTabSelectedListener = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -106,38 +96,6 @@ public class ProfileTabs implements ProfileTabsAddons {
             mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
         }
         mTabsContainer.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
-
-        // Material next changes apply only for version S or greater
-        if (SdkLevel.isAtLeastS()) {
-            mTabSeparator.setVisibility(View.GONE);
-            int tabContainerHeightInDp = (int)mTabsContainer.getContext().getResources().
-                getDimension(R.dimen.tab_container_height);
-            mTabsContainer.getLayoutParams().height = tabContainerHeightInDp;
-            ViewGroup.MarginLayoutParams tabContainerMarginLayoutParams =
-                (ViewGroup.MarginLayoutParams) mTabsContainer.getLayoutParams();
-            int tabContainerMarginTop = (int)mTabsContainer.getContext().getResources().
-                getDimension(R.dimen.profile_tab_margin_top);
-            tabContainerMarginLayoutParams.setMargins(0, tabContainerMarginTop, 0, 0);
-            mTabsContainer.requestLayout();
-            for (int i = 0; i < mTabs.getTabCount(); i++) {
-
-                // Tablayout holds a view that contains the individual tab
-                View tab = ((ViewGroup) mTabs.getChildAt(0)).getChildAt(i);
-
-                // Get individual tab to set the style
-                ViewGroup.MarginLayoutParams marginLayoutParams =
-                        (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-                int tabMarginSide = (int)mTabsContainer.getContext().getResources().
-                    getDimension(R.dimen.profile_tab_margin_side);
-                marginLayoutParams.setMargins(tabMarginSide, 0, tabMarginSide, 0);
-                int tabHeightInDp = (int)mTabsContainer.getContext().getResources().
-                    getDimension(R.dimen.tab_height);
-                tab.getLayoutParams().height = tabHeightInDp;
-                tab.requestLayout();
-                tab.setBackgroundResource(R.drawable.tab_border_rounded);
-            }
-
-        }
     }
 
     public void setListener(@Nullable Listener listener) {
@@ -154,31 +112,12 @@ public class ProfileTabs implements ProfileTabsAddons {
             mTabs.removeAllTabs();
             if (mUserIds.size() > 1) {
                 // set setSelected to false otherwise it will trigger callback.
-                mTabs.addTab(createTab(
-                        getEnterpriseString(PERSONAL_TAB, R.string.personal_tab),
+                mTabs.addTab(createTab(R.string.personal_tab,
                         mUserIdManager.getSystemUser()), /* setSelected= */false);
-                mTabs.addTab(createTab(
-                        getEnterpriseString(WORK_TAB, R.string.work_tab),
+                mTabs.addTab(createTab(R.string.work_tab,
                         mUserIdManager.getManagedUser()), /* setSelected= */false);
             }
         }
-    }
-
-    private String getEnterpriseString(String updatableStringId, int defaultStringId) {
-        if (SdkLevel.isAtLeastT()) {
-            return getUpdatableEnterpriseString(updatableStringId, defaultStringId);
-        } else {
-            return mTabsContainer.getContext().getString(defaultStringId);
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private String getUpdatableEnterpriseString(String updatableStringId, int defaultStringId) {
-        DevicePolicyManager dpm = mTabsContainer.getContext().getSystemService(
-                DevicePolicyManager.class);
-        return dpm.getResources().getString(
-                updatableStringId,
-                () -> mTabsContainer.getContext().getString(defaultStringId));
     }
 
     /**
@@ -206,8 +145,8 @@ public class ProfileTabs implements ProfileTabsAddons {
                 && mState.stack.getRoot() != null && mState.stack.getRoot().supportsCrossProfile();
     }
 
-    private TabLayout.Tab createTab(String text, UserId userId) {
-        return mTabs.newTab().setText(text).setTag(userId);
+    private TabLayout.Tab createTab(int resId, UserId userId) {
+        return mTabs.newTab().setText(resId).setTag(userId);
     }
 
     @Override

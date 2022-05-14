@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Salvarea documentului nu a reușit"</string>
     <string name="create_error" msgid="3092144450044861994">"Eroare la crearea dosarului"</string>
     <string name="query_error" msgid="6625421453613879336">"Momentan, conținutul nu poate fi încărcat"</string>
-    <string name="quiet_mode_error_title" msgid="554319751414657910">"Aplicațiile pentru lucru sunt întrerupte"</string>
-    <string name="quiet_mode_button" msgid="8051436551926677305">"Activați aplicațiile pentru lucru"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Profilul de serviciu este întrerupt"</string>
+    <string name="quiet_mode_button" msgid="6977115032320235420">"Activați"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nu se pot selecta fișiere de lucru"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administratorul IT nu vă permite să accesați fișiere de lucru dintr-o aplicație personală"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nu se pot selecta fișiere personale"</string>
@@ -298,7 +298,7 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Creați un dosar nou"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Căutați în acest telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Ștergeți istoricul căutărilor <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Personale"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Personal"</string>
     <string name="work_tab" msgid="7265359366883747413">"Serviciu"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Serviciu"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Nu puteți muta fișiere din altă aplicație."</string>
