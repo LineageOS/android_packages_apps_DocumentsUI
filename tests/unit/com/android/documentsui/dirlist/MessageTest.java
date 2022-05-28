@@ -46,6 +46,7 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.UserManagers;
+import com.android.modules.utils.build.SdkLevel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,7 +61,6 @@ public final class MessageTest {
     };
     private UserManager mUserManager;
     private DevicePolicyManager mDevicePolicyManager;
-    private DevicePolicyResourcesManager mDevicePolicyResourcesManager;
     private TestActionHandler mTestActionHandler;
 
     @Before
@@ -69,13 +69,11 @@ public final class MessageTest {
         mUserManager = UserManagers.create();
         mTestActionHandler = new TestActionHandler();
         mDevicePolicyManager = mock(DevicePolicyManager.class);
-        mDevicePolicyResourcesManager = mock(DevicePolicyResourcesManager.class);
         when(mContext.getSystemService(Context.USER_SERVICE)).thenReturn(mUserManager);
         when(mContext.getSystemServiceName(DevicePolicyManager.class))
                 .thenReturn(Context.DEVICE_POLICY_SERVICE);
         when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE))
                 .thenReturn(mDevicePolicyManager);
-        when(mDevicePolicyManager.getResources()).thenReturn(mDevicePolicyResourcesManager);
         when(mContext.getResources()).thenReturn(
                 InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
         DocumentsAdapter.Environment env =
@@ -91,12 +89,17 @@ public final class MessageTest {
         Model.Update error = new Model.Update(
                 new CrossProfileNoPermissionException(),
                 /* isRemoteActionsEnabled= */ true);
-        String title = mContext.getString(R.string.cant_select_work_files_error_title);
-        String message = mContext.getString(R.string.cant_select_work_files_error_message);
-        when(mDevicePolicyResourcesManager.getString(eq(CANT_SELECT_WORK_FILES_TITLE), any()))
-                .thenReturn(title);
-        when(mDevicePolicyResourcesManager.getString(eq(CANT_SELECT_WORK_FILES_MESSAGE), any()))
-                .thenReturn(message);
+        if (SdkLevel.isAtLeastT()) {
+            String title = mContext.getString(R.string.cant_select_work_files_error_title);
+            String message = mContext.getString(R.string.cant_select_work_files_error_message);
+            DevicePolicyResourcesManager devicePolicyResourcesManager = mock(
+                    DevicePolicyResourcesManager.class);
+            when(mDevicePolicyManager.getResources()).thenReturn(devicePolicyResourcesManager);
+            when(devicePolicyResourcesManager.getString(eq(CANT_SELECT_WORK_FILES_TITLE), any()))
+                    .thenReturn(title);
+            when(devicePolicyResourcesManager.getString(eq(CANT_SELECT_WORK_FILES_MESSAGE), any()))
+                    .thenReturn(message);
+        }
 
         mInflateMessage.update(error);
 
@@ -115,12 +118,17 @@ public final class MessageTest {
         Model.Update error = new Model.Update(
                 new CrossProfileQuietModeException(mUserId),
                 /* isRemoteActionsEnabled= */ true);
-        String title = mContext.getString(R.string.quiet_mode_error_title);
-        String text = mContext.getString(R.string.quiet_mode_button);
-        when(mDevicePolicyResourcesManager.getString(eq(WORK_PROFILE_OFF_ERROR_TITLE), any()))
-                .thenReturn(title);
-        when(mDevicePolicyResourcesManager.getString(eq(WORK_PROFILE_OFF_ENABLE_BUTTON), any()))
-                .thenReturn(text);
+        if (SdkLevel.isAtLeastT()) {
+            String title = mContext.getString(R.string.quiet_mode_error_title);
+            String text = mContext.getString(R.string.quiet_mode_button);
+            DevicePolicyResourcesManager devicePolicyResourcesManager = mock(
+                    DevicePolicyResourcesManager.class);
+            when(mDevicePolicyManager.getResources()).thenReturn(devicePolicyResourcesManager);
+            when(devicePolicyResourcesManager.getString(eq(WORK_PROFILE_OFF_ERROR_TITLE), any()))
+                    .thenReturn(title);
+            when(devicePolicyResourcesManager.getString(eq(WORK_PROFILE_OFF_ENABLE_BUTTON), any()))
+                    .thenReturn(text);
+        }
 
         mInflateMessage.update(error);
 
