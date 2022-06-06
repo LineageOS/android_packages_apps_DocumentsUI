@@ -92,7 +92,7 @@
     <string name="save_error" msgid="8631128801982095782">"कागजातलाई सुरक्षित गर्न सकिएन"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर सिर्जना गर्न सकिएन"</string>
     <string name="query_error" msgid="6625421453613879336">"यस समय सामग्री लोड गर्न सकिँदैन"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्यलयको प्रोफाइल अस्थायी रूपमा रोक्का गरिएको छ"</string>
+    <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्यलयको प्रोफाइल पज गरिएको छ"</string>
     <string name="quiet_mode_button" msgid="6977115032320235420">"सक्रिय गरियोस्"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कार्यालयका फाइलहरू चयन गर्न मिल्दैन"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"तपाईंका IT एडमिनले तपाईंलाई व्यक्तिगत अनुप्रयोगमार्फत कार्यालयका फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
@@ -229,7 +229,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> वस्तुहरूलाई मेट्ने हो?</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> वस्तुलाई मेट्ने हो?</item>
     </plurals>
-    <string name="images_shortcut_label" msgid="2545168016070493574">"छविहरू"</string>
+    <string name="images_shortcut_label" msgid="2545168016070493574">"फोटो"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"ब्राउजिङको अभिलेख खोल्न सकिएन। फाइल या त बिग्रेको छ वा कुनै समर्थन नगरिने ढाँचामा छ।"</string>
     <string name="name_conflict" msgid="28407269328862986">"यो नाम भएको फाइल पहिले नै छ।"</string>
     <string name="authentication_required" msgid="8030880723643436099">"यो निर्देशिका हेर्न <xliff:g id="NAME">%1$s</xliff:g> मा साइन इन गर्नुहोस्"</string>
@@ -251,12 +251,12 @@
     <string name="root_info_header_app_with_summary" msgid="3223302581236069702">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> का फाइलहरू"</string>
     <string name="root_info_header_image_recent" msgid="7494373563753926014">"हालसालैका फोटोहरू"</string>
     <string name="root_info_header_image_global_search" msgid="7307009823489854697">"फोटोहरू"</string>
-    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"डाउनलोड नामक फोल्डरमा भएका छविहरू"</string>
-    <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> मा रहेका छविहरू"</string>
-    <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g> मा भएका छविहरू"</string>
-    <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g> का छविहरू"</string>
-    <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> का छविहरू"</string>
-    <string name="chip_title_images" msgid="7838299046109841015">"छविहरू"</string>
+    <string name="root_info_header_image_downloads" msgid="7072252612657612307">"डाउनलोड नामक फोल्डरमा भएका फोटो"</string>
+    <string name="root_info_header_image_storage" msgid="5086740886360075930">"<xliff:g id="DEVICE">%1$s</xliff:g> मा रहेका फोटो"</string>
+    <string name="root_info_header_image_folder" msgid="5980430877636279667">"<xliff:g id="FOLDER">%1$s</xliff:g> मा भएका फोटो"</string>
+    <string name="root_info_header_image_app" msgid="4858114210851525359">"<xliff:g id="LABEL">%1$s</xliff:g> का फोटो"</string>
+    <string name="root_info_header_image_app_with_summary" msgid="6404842960923224778">"<xliff:g id="LABEL">%1$s</xliff:g> / <xliff:g id="SUMMARY">%2$s</xliff:g> का फोटो"</string>
+    <string name="chip_title_images" msgid="7838299046109841015">"फोटो"</string>
     <string name="chip_title_audio" msgid="1032801828748235436">"अडियो"</string>
     <string name="chip_title_videos" msgid="7011260091979776447">"भिडियोहरू"</string>
     <string name="chip_title_documents" msgid="7432457563000753983">"कागजातहरू"</string>
