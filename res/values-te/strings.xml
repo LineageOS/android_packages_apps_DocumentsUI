@@ -36,7 +36,7 @@
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరువు"</string>
     <string name="menu_save" msgid="5195367497138965168">"సేవ్ చేయి"</string>
     <string name="menu_share" msgid="4307140947108068356">"షేర్ చేయి"</string>
-    <string name="menu_delete" msgid="1022254131543256626">"తొలగించు"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"తొలగించండి"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"అన్నింటినీ ఎంచుకోండి"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"అన్నింటి ఎంపికను తీసివేయి"</string>
     <string name="menu_select" msgid="1366061076507142387">"ఎంచుకోండి"</string>
@@ -52,13 +52,13 @@
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>లో వీక్షించు"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"కొత్త విండో"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"కత్తిరించు"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"కాపీ చేయి"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"కాపీ చేయండి"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"అతికించు"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ఫోల్డర్‌లో అతికించు"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"అంతర్గత నిల్వను చూపు"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"అంతర్గత నిల్వను దాచు"</string>
     <string name="button_select" msgid="240863497069321364">"ఎంచుకోండి"</string>
-    <string name="button_copy" msgid="8219059853840996027">"కాపీ చేయి"</string>
+    <string name="button_copy" msgid="8219059853840996027">"కాపీ చేయండి"</string>
     <string name="button_compress" msgid="8951561310857223966">"కుదించు"</string>
     <string name="button_extract" msgid="1038674453689912247">"సంగ్రహించు"</string>
     <string name="button_move" msgid="8596460499325291272">"తరలించు"</string>
@@ -237,7 +237,7 @@
     <string name="sign_in" msgid="6253762676723505592">"సైన్ ఇన్ చేయండి"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"ఆర్కైవ్ చేయి<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g>ని భర్తీ చేయాలా?"</string>
-    <string name="continue_in_background" msgid="1974214559047793331">"నేపథ్యంలో కొనసాగించు"</string>
+    <string name="continue_in_background" msgid="1974214559047793331">"బ్యాక్‌గ్రౌండ్‌లో కొనసాగించు"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ఎంచుకోబడ్డాయి</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ఎంచుకోబడింది</item>
@@ -273,7 +273,7 @@
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"ఇది <xliff:g id="DIRECTORY">%2$s</xliff:g>లో నిల్వ చేసిన ప్రస్తుత మరియు భవిష్యత్తు కంటెంట్‌ను <xliff:g id="APPNAME">%1$s</xliff:g> యాక్సెస్ చేయడానికి అనుమతిస్తుంది."</string>
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"ఈ ఫోల్డర్‌ను ఉపయోగించడం సాధ్యం కాదు"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"మీ గోప్యతను కాపాడుకోవటానికి, మరొక ఫోల్డర్‌ను ఎంచుకోండి"</string>
-    <string name="create_new_folder_button" msgid="8859613309559794890">"కొత్త ఫోల్డర్‌ని సృష్టించు"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"కొత్త ఫోల్డర్‌ని క్రియేట్ చేయండి"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"ఈ ఫోన్‌లో వెతకండి"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"సెర్చ్ హిస్టరీ <xliff:g id="TEXT">%1$s</xliff:g>‌ను తొలగించండి"</string>
     <string name="personal_tab" msgid="3878576287868528503">"వ్యక్తిగత డైరెక్టరీ"</string>
