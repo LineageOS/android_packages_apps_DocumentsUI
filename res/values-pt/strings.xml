@@ -40,7 +40,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Selecionar tudo"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Desmarcar tudo"</string>
     <string name="menu_select" msgid="1366061076507142387">"Selecionar"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"Classificar por…"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"Ordenar por…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Copiar para..."</string>
     <string name="menu_move" msgid="2310760789561129882">"Mover para…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Compactar"</string>
@@ -81,7 +81,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tipo (Z a A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Tamanho (maior primeiro)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Modificado (mais recente primeiro)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Classificar por"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Ordenar por"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Classificado por <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Número de itens"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Crescente"</string>
@@ -203,7 +203,7 @@
     <string name="menu_eject_root" msgid="9215040039374893613">"Ejetar"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Alguns arquivos foram convertidos"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"Conceder ao <xliff:g id="APPNAME"><b>^1</b></xliff:g> acesso ao diretório <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> no <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
-    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Conceder acesso ao diretório <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> para <xliff:g id="APPNAME"><b>^1</b></xliff:g>?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Permitir acesso ao diretório <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> para <xliff:g id="APPNAME"><b>^1</b></xliff:g>?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"Conceder a <xliff:g id="APPNAME"><b>^1</b></xliff:g> acesso aos seus dados, incluindo fotos e vídeos, no/na <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
     <string name="allow" msgid="1275746941353040309">"Permitir"</string>
     <string name="deny" msgid="5127201668078153379">"Negar"</string>
