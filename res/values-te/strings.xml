@@ -52,13 +52,13 @@
     <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>లో వీక్షించు"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"కొత్త విండో"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"కత్తిరించు"</string>
-    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"కాపీ చేయండి"</string>
+    <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"కాపీ చేయి"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"అతికించు"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ఫోల్డర్‌లో అతికించు"</string>
     <string name="menu_advanced_show" msgid="7558626506462906726">"అంతర్గత నిల్వను చూపు"</string>
     <string name="menu_advanced_hide" msgid="6488381508009246334">"అంతర్గత నిల్వను దాచు"</string>
     <string name="button_select" msgid="240863497069321364">"ఎంచుకోండి"</string>
-    <string name="button_copy" msgid="8219059853840996027">"కాపీ చేయండి"</string>
+    <string name="button_copy" msgid="8219059853840996027">"కాపీ చేయి"</string>
     <string name="button_compress" msgid="8951561310857223966">"కుదించు"</string>
     <string name="button_extract" msgid="1038674453689912247">"సంగ్రహించు"</string>
     <string name="button_move" msgid="8596460499325291272">"తరలించు"</string>
@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"డాక్యుమెంట్‌ను సేవ్ చేయడంలో విఫలమైంది"</string>
     <string name="create_error" msgid="3092144450044861994">"ఫోల్డర్‌ను సృష్టించడంలో విఫలమైంది"</string>
     <string name="query_error" msgid="6625421453613879336">"ఈ సమయంలో కంటెంట్‌ను లోడ్ చేయడం సాధ్యపడదు"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"వర్క్ ప్రొఫైల్ పాజ్ చేయబడింది"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"ఆన్ చేయి"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"వర్క్ యాప్‌లు పాజ్ చేయబడ్డాయి"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"వర్క్ యాప్‌లను ఆన్ చేయండి"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"కార్యాలయ ఫైళ్లను ఎంపిక చేయడం సాధ్యం కాదు"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"వ్యక్తిగత యాప్ నుండి ఆఫీస్ ఫైళ్లను యాక్సెస్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"వ్యక్తిగత ఫైళ్లను ఎంపిక చేయడం సాధ్యం కాదు"</string>

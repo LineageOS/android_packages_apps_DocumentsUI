@@ -62,7 +62,7 @@
     <string name="button_compress" msgid="8951561310857223966">"Comprimir"</string>
     <string name="button_extract" msgid="1038674453689912247">"Extraer"</string>
     <string name="button_move" msgid="8596460499325291272">"Mover"</string>
-    <string name="button_dismiss" msgid="7235249361023803349">"Pechar"</string>
+    <string name="button_dismiss" msgid="7235249361023803349">"Ignorar"</string>
     <string name="button_retry" msgid="4011461781916631389">"Tentar de novo"</string>
     <string name="button_clear" msgid="5412304437764369441">"Borrar"</string>
     <string name="button_show_provider" msgid="6905880493806292753">"Mostrar no provedor"</string>
@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Non se puido gardar o documento"</string>
     <string name="create_error" msgid="3092144450044861994">"Non se puido crear o cartafol"</string>
     <string name="query_error" msgid="6625421453613879336">"Non se pode cargar o contido neste momento"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"O perfil de traballo está en pausa"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Activar"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Puxéronse en pausa as aplicacións do traballo"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Activar aplicacións do traballo"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Non se puideron seleccionar os ficheiros de traballo"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"O teu administrador de TI non permite acceder aos ficheiros do traballo desde unha aplicación persoal"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Non se puideron seleccionar os ficheiros persoais"</string>
