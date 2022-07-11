@@ -205,7 +205,7 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g>కి <xliff:g id="STORAGE"><i>^3</i></xliff:g>లో <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> డైరెక్టరీ యాక్సెస్‌ను మంజూరు చేయాలా?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g>కి <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> డైరెక్టరీ యాక్సెస్‌ను మంజూరు చేయాలా?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="STORAGE"><i>^2</i></xliff:g>లోని ఫోటోలు, వీడియోలతో సహా మీ డేటా యాక్సెస్‌ను <xliff:g id="APPNAME"><b>^1</b></xliff:g>కి మంజూరు చేయాలా?"</string>
-    <string name="allow" msgid="1275746941353040309">"అనుమతించు"</string>
+    <string name="allow" msgid="1275746941353040309">"అనుమతించండి"</string>
     <string name="deny" msgid="5127201668078153379">"తిరస్కరించు"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ఎంచుకోబడ్డాయి</item>
