@@ -49,7 +49,7 @@
     <string name="menu_inspect" msgid="7279855349299446224">"సమాచారాన్ని పొందండి"</string>
     <string name="menu_show_hidden_files" msgid="5140676344684492769">"దాచబడిన ఫైళ్లను చూపించు"</string>
     <string name="menu_hide_hidden_files" msgid="5654495713350153702">"దాచబడిన ఫైళ్లను చూపించవద్దు"</string>
-    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>లో వీక్షించు"</string>
+    <string name="menu_view_in_owner" msgid="7228948660557554770">"<xliff:g id="SOURCE">%1$s</xliff:g>లో చూడండి"</string>
     <string name="menu_new_window" msgid="2947837751796109126">"కొత్త విండో"</string>
     <string name="menu_cut_to_clipboard" msgid="2878752142015026229">"కత్తిరించండి"</string>
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"కాపీ చేయండి"</string>
@@ -167,7 +167,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> అంశాలను తొలగించడం సాధ్యపడలేదు</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> అంశాన్ని తొలగించడం సాధ్యపడలేదు</item>
     </plurals>
-    <string name="notification_touch_for_details" msgid="2385563502445129570">"వివరాలను వీక్షించడానికి నొక్కండి"</string>
+    <string name="notification_touch_for_details" msgid="2385563502445129570">"వివరాలను చూడటానికి నొక్కండి"</string>
     <string name="close" msgid="905969391788869975">"మూసివేయి"</string>
     <plurals name="copy_failure_alert_content" formatted="false" msgid="5570549471912990536">
       <item quantity="other">ఈ ఫైళ్లు కాపీ కాలేదు: <xliff:g id="LIST_1">%1$s</xliff:g></item>
