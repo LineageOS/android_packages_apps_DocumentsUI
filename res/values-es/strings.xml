@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"No se ha podido guardar el documento"</string>
     <string name="create_error" msgid="3092144450044861994">"No se ha podido crear la carpeta"</string>
     <string name="query_error" msgid="6625421453613879336">"No se puede cargar contenido en este momento"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"El perfil de trabajo está en pausa"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Activar"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Las aplicaciones de trabajo están en pausa"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Activar aplicaciones de trabajo"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"No se pueden seleccionar archivos de trabajo"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Tu administrador de TI no te permite acceder a archivos de trabajo desde una aplicación personal"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"No se pueden seleccionar archivos personales"</string>

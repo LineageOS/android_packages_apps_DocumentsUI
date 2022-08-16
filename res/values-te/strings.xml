@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"డాక్యుమెంట్‌ను సేవ్ చేయడంలో విఫలమైంది"</string>
     <string name="create_error" msgid="3092144450044861994">"ఫోల్డర్‌ను సృష్టించడంలో విఫలమైంది"</string>
     <string name="query_error" msgid="6625421453613879336">"ఈ సమయంలో కంటెంట్‌ను లోడ్ చేయడం సాధ్యపడదు"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"వర్క్ ప్రొఫైల్ పాజ్ చేయబడింది"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"ఆన్ చేయి"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"వర్క్ యాప్‌లు పాజ్ చేయబడ్డాయి"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"వర్క్ యాప్‌లను ఆన్ చేయండి"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"కార్యాలయ ఫైళ్లను ఎంపిక చేయడం సాధ్యం కాదు"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"వ్యక్తిగత యాప్ నుండి ఆఫీస్ ఫైళ్లను యాక్సెస్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"వ్యక్తిగత ఫైళ్లను ఎంపిక చేయడం సాధ్యం కాదు"</string>

@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Документтер сакталбай калды"</string>
     <string name="create_error" msgid="3092144450044861994">"Папка түзүлбөй калды"</string>
     <string name="query_error" msgid="6625421453613879336">"Учурда мазмун жүктөлбөй жатат"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Жумуш профили тындырылган"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Күйгүзүү"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Жумуш колдонмолору тындырылды"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Жумуш колдонмолорун күйгүзүү"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Жумуш файлдарын тандоого болбойт"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IT администраторуңуз жумуш файлдарына жеке колдонмодон кирүүгө тыюу салды"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Жеке файлдарды тандоого болбойт"</string>
@@ -205,7 +205,7 @@
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="STORAGE"><i>^3</i></xliff:g> түзмөгүндөгү <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> папканы пайдалануу мүмкүнчүлүгү берилсинби?"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> каталогун пайдалануу мүмкүнчүлүгү берилсинби?"</string>
     <string name="open_external_dialog_root_request" msgid="6776729293982633">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> колдонмосуна <xliff:g id="STORAGE"><i>^2</i></xliff:g> түзмөгүндөгү дайын-даректериңиз, сүрөттөрүңүз жана видеолоруңузду пайдалануу мүмкүнчүлүгү берилсинби?"</string>
-    <string name="allow" msgid="1275746941353040309">"Уруксат берүү"</string>
+    <string name="allow" msgid="1275746941353040309">"Ооба"</string>
     <string name="deny" msgid="5127201668078153379">"Тыюу салынат"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> тандалды</item>

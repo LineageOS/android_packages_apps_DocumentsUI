@@ -16,4 +16,14 @@
 <resources>
     <dimen name="action_bar_elevation">0dp</dimen>
     <dimen name="action_bar_margin">0dp</dimen>
+    <dimen name="button_corner_radius">20dp</dimen>
+    <dimen name="tab_selector_indicator_height">0dp</dimen>
+    <dimen name="tab_height">36dp</dimen>
+    <dimen name="tab_container_height">48dp</dimen>
+    <dimen name="profile_tab_padding">20dp</dimen>
+    <dimen name="profile_tab_margin_top">16dp</dimen>
+    <dimen name="profile_tab_margin_side">4dp</dimen>
+    <dimen name="cross_profile_button_corner_radius">30dp</dimen>
+    <dimen name="cross_profile_button_stroke_width">1dp</dimen>
+    <dimen name="cross_profile_button_message_margin_top">16dp</dimen>
 </resources>

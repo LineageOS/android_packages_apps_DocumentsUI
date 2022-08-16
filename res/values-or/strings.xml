@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"ଡକୁମେଣ୍ଟକୁ ସେଭ୍‍ କରିପାରିଲା ନାହିଁ"</string>
     <string name="create_error" msgid="3092144450044861994">"ଫୋଲ୍ଡର୍‍ ତିଆରି କରିହେଲା ନାହିଁ"</string>
     <string name="query_error" msgid="6625421453613879336">"ଏହି ସମୟରେ କଣ୍ଟେଣ୍ଟ ଲୋଡ୍‍ କରିପାରିବ ନାହିଁ"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"ୱାର୍କ ପ୍ରୋଫାଇଲ୍ ବିରତ କରାଯାଇଛି"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"ଚାଲୁ କରନ୍ତୁ"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"ୱାର୍କ ଆପଗୁଡ଼ିକୁ ବିରତ କରାଯାଇଛି"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"ୱାର୍କ ଆପଗୁଡ଼ିକୁ ଚାଲୁ କରନ୍ତୁ"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"ୱାର୍କ ଫାଇଲଗୁଡ଼ିକ ଚୟନ କରାଯାଇପାରିବ ନାହିଁ"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"ଆପଣଙ୍କ IT ଆଡମିନ୍ ଆପଣଙ୍କୁ ଏକ ବ୍ୟକ୍ତିଗତ ଆପରୁ ୱାର୍କ ଫାଇଲଗୁଡ଼ିକ ଆକ୍ସେସ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତି ନାହିଁ"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"ବ୍ୟକ୍ତିଗତ ଫାଇଲଗୁଡ଼ିକ ଚୟନ କରାଯାଇପାରିବ ନାହିଁ"</string>

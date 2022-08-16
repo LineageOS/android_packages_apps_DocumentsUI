@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Ruajtja e dokumentit dështoi"</string>
     <string name="create_error" msgid="3092144450044861994">"Krijimi i dosjes dështoi"</string>
     <string name="query_error" msgid="6625421453613879336">"Përmbajtja nuk mund të ngarkohet për momentin"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Profili i punës është në pauzë"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Aktivizo"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Aplikacionet e punës janë vendosur në pauzë"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Aktivizo aplikacionet e punës"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nuk mund të zgjedhësh skedarë pune"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administratori i teknologjisë së informacionit nuk të lejon të kesh qasje te skedarët e punës nga një aplikacion personal"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nuk mund të zgjedhësh skedarë personalë"</string>
