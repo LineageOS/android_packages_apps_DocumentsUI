@@ -1013,6 +1013,14 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         } else if (id == R.id.action_menu_sort) {
             mActions.showSortDialog();
             return true;
+        } else if (id == R.id.action_menu_add_shortcut || id == R.id.dir_menu_add_shortcut) {
+            assert selection.size() <= 1;
+            DocumentInfo documentInfo = selection.isEmpty()
+                    ? mActivity.getCurrentDirectory()
+                    : mModel.getDocuments(selection).get(0);
+
+            mActions.showAddShortcutDialog(documentInfo);
+            return true;
         }
         if (DEBUG) {
             Log.d(TAG, "Unhandled menu item selected: " + item);
