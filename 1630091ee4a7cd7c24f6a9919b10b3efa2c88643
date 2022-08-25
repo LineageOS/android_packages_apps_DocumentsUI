@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1eace41b_3fe8137d",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2022-08-25T12:39:27Z",
+      "side": 1,
+      "message": "Move to lineage_strings.xml so we can get translations.",
+      "revId": "1630091ee4a7cd7c24f6a9919b10b3efa2c88643",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
