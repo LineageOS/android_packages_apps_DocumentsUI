@@ -74,6 +74,7 @@ public abstract class MenuManager {
         updateInspect(menu.findItem(R.id.action_menu_inspect), selection);
         updateViewInOwner(menu.findItem(R.id.action_menu_view_in_owner), selection);
         updateSort(menu.findItem(R.id.action_menu_sort));
+        updateAddLauncherShortcut(menu.findItem(R.id.action_menu_add_shortcut), selection);
 
         Menus.disableHiddenItems(menu);
     }
@@ -204,6 +205,7 @@ public abstract class MenuManager {
         MenuItem copy = menu.findItem(R.id.dir_menu_copy_to_clipboard);
         MenuItem delete = menu.findItem(R.id.dir_menu_delete);
         MenuItem inspect = menu.findItem(R.id.dir_menu_inspect);
+        MenuItem addLauncherShortcut = menu.findItem(R.id.action_menu_add_shortcut);
 
         final boolean canCopy =
                 selectionDetails.size() > 0 && !selectionDetails.containsPartialFiles();
@@ -213,6 +215,7 @@ public abstract class MenuManager {
         Menus.setEnabledAndVisible(delete, canDelete);
 
         Menus.setEnabledAndVisible(inspect, selectionDetails.size() == 1);
+        Menus.setEnabledAndVisible(addLauncherShortcut, selectionDetails.size() == 1);
     }
 
     /**
@@ -371,6 +374,10 @@ public abstract class MenuManager {
 
     protected void updateOpenInContextMenu(MenuItem open, SelectionDetails selectionDetails) {
         Menus.setEnabledAndVisible(open, false);
+    }
+
+    protected void updateAddLauncherShortcut(MenuItem addLauncherShortcut, SelectionDetails selectionDetails) {
+        Menus.setEnabledAndVisible(addLauncherShortcut, false);
     }
 
     protected void updateLauncher(MenuItem launcher) {

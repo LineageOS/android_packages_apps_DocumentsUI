@@ -88,6 +88,8 @@
     <string name="menu_hide_hidden_files">Don\u2019t show hidden files</string>
     <!-- Menu item that renames the selected document [CHAR LIMIT=28] -->
     <string name="menu_view_in_owner">View in <xliff:g id="source" example="Google Drive">%1$s</xliff:g></string>
+    <!-- Menu item that adds the selected document to launcher home screen -->
+    <string name="menu_add_shortcut">Add launcher shortcut</string>
 
     <!-- Menu item title that creates a new window in the activity [CHAR LIMIT=28] -->
     <string name="menu_new_window">New window</string>
