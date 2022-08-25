@@ -948,6 +948,16 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                 mActions.showSortDialog();
                 return true;
 
+            case R.id.action_menu_add_shortcut:
+            case R.id.dir_menu_add_shortcut:
+                assert selection.size() <= 1;
+                DocumentInfo documentInfo = selection.isEmpty()
+                        ? mActivity.getCurrentDirectory()
+                        : mModel.getDocuments(selection).get(0);
+
+                mActions.showAddShortcutDialog(documentInfo);
+                return true;
+
             default:
                 if (DEBUG) {
                     Log.d(TAG, "Unhandled menu item selected: " + item);
