@@ -31,7 +31,10 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.database.Cursor;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -64,6 +67,7 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AnimationView.AnimationType;
 import com.android.documentsui.dirlist.FocusHandler;
+import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.files.LauncherActivity;
 import com.android.documentsui.files.QuickViewIntentBuilder;
 import com.android.documentsui.loaders.FolderLoader;
@@ -707,6 +711,23 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                             : PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                     PackageManager.DONT_KILL_APP);
         }
+    }
+
+    @Override
+    public void showAddShortcutDialog(DocumentInfo document) {
+        Intent intent = new Intent(mActivity, FilesActivity.class);
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.putExtra("DOCUMENT_URI", document.getDocumentUri().toString());
+        intent.putExtra("DOCUMENT_MIME", document.mimeType);
+        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        Icon launcherIcon = Icon.createWithResource(mActivity, R.drawable.ic_folder_shortcut);
+        String title = document.displayName;
+        ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(mActivity, title)
+                .setShortLabel(title)
+                .setIcon(launcherIcon)
+                .setIntent(intent)
+                .build();
+        mActivity.getSystemService(ShortcutManager.class).requestPinShortcut(shortcutInfo, null);
     }
 
     @Override
