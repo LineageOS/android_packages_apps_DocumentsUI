@@ -63,6 +63,7 @@ import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.dirlist.AppsRowManager;
 import com.android.documentsui.dirlist.DirectoryFragment;
+import com.android.documentsui.files.QuickViewIntentBuilder;
 import com.android.documentsui.prefs.LocalPreferences;
 import com.android.documentsui.prefs.PreferencesMonitor;
 import com.android.documentsui.queries.CommandInterceptor;
@@ -131,6 +132,20 @@ public abstract class BaseActivity
     @CallSuper
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // Intent launchIntent = getIntent();
+        // if (launchIntent != null) {
+        //     String uriString = launchIntent.getStringExtra("DOCUMENT_URI");
+        //     String mimeType = launchIntent.getStringExtra("DOCUMENT_MIME");
+        //     if (uriString != null && mimeType != null) {
+        //         Uri uri = Uri.parse(uriString);
+        //         Intent intent = new Intent(Intent.ACTION_VIEW);
+        //         intent.setDataAndType(uri, mimeType);
+        //         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+        //                 Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        //         startActivity(intent);
+        //     }
+        // }
+
         // Record the time when onCreate is invoked for metric.
         mStartTime = new Date().getTime();
 

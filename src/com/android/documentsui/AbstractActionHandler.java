@@ -28,7 +28,10 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.database.Cursor;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -680,6 +683,20 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
                     : PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                     PackageManager.DONT_KILL_APP);
         }
+    }
+
+    @Override
+    public void showAddShortcutDialog(DocumentInfo document) {
+        Intent intent = buildViewIntent(document);
+        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        Icon launcherIcon = Icon.createWithResource(mActivity, R.drawable.ic_folder_shortcut);
+        String title = document.displayName;
+        ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(mActivity, title)
+                .setShortLabel(title)
+                .setIcon(launcherIcon)
+                .setIntent(intent)
+                .build();
+        mActivity.getSystemService(ShortcutManager.class).requestPinShortcut(shortcutInfo, null);
     }
 
     @Override
