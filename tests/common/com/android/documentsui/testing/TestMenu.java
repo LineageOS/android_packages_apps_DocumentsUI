@@ -54,6 +54,7 @@ public abstract class TestMenu implements Menu {
                 R.id.dir_menu_paste_into_folder,
                 R.id.dir_menu_inspect,
                 R.id.dir_menu_open_in_new_window,
+                R.id.dir_menu_add_shortcut,
                 R.id.root_menu_eject_root,
                 R.id.root_menu_open_in_new_window,
                 R.id.root_menu_paste_into_folder,
@@ -72,6 +73,7 @@ public abstract class TestMenu implements Menu {
                 R.id.action_menu_inspect,
                 R.id.action_menu_view_in_owner,
                 R.id.action_menu_sort,
+                R.id.action_menu_add_shortcut,
                 R.id.option_menu_search,
                 R.id.option_menu_debug,
                 R.id.option_menu_new_window,
@@ -82,6 +84,7 @@ public abstract class TestMenu implements Menu {
                 R.id.option_menu_sort,
                 R.id.option_menu_show_hidden_files,
                 R.id.option_menu_launcher,
+                R.id.option_menu_add_shortcut,
                 R.id.sub_menu_grid,
                 R.id.sub_menu_list);
     }
