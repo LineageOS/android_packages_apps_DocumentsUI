@@ -459,6 +459,9 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
             if (dir == null) return false;
             mInjector.actions.selectAllFiles();
             return dir.onContextItemSelected(item);
+        } else if (id == R.id.option_menu_add_shortcut) {
+            assert(canCreateDirectory());
+            mInjector.actions.showAddShortcutDialog(getCurrentDirectory());
         } else {
             final boolean ok = super.onOptionsItemSelected(item);
             if (DEBUG && !ok) {

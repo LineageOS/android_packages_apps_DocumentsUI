@@ -61,5 +61,8 @@
         <item
             android:id="@+id/dir_menu_view_in_owner"
             android:title="@string/menu_view_in_owner" />
+        <item
+            android:id="@+id/dir_menu_add_shortcut"
+            android:title="@string/menu_add_shortcut" />
     </group>
 </menu>

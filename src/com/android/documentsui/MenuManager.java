@@ -107,6 +107,7 @@ public abstract class MenuManager {
         updateExtractTo(menu.findItem(getRes(R.id.action_menu_extract_to)), selection);
         updateInspect(menu.findItem(getRes(R.id.action_menu_inspect)), selection);
         updateViewInOwner(menu.findItem(getRes(R.id.action_menu_view_in_owner)), selection);
+        updateAddLauncherShortcut(menu.findItem(R.id.action_menu_add_shortcut), selection);
 
         if (isUseMaterial3FlagEnabled()) {
             updateOpen(menu.findItem(getRes(R.id.action_menu_open)), selection);
@@ -193,6 +194,7 @@ public abstract class MenuManager {
         updateLauncher(mOptionMenu.findItem(getRes(R.id.option_menu_launcher)));
         updateShowHiddenFiles(mOptionMenu.findItem(getRes(R.id.option_menu_show_hidden_files)));
         updateShowSummaryColumn(mOptionMenu.findItem(R.id.option_show_summary));
+        updateAddLauncherShortcut(mOptionMenu.findItem(R.id.option_menu_add_shortcut));
 
         if (isUseMaterial3FlagEnabled()) {
             updateSettings(mOptionMenu.findItem(getRes(R.id.option_menu_manage_device)));
@@ -384,6 +386,7 @@ public abstract class MenuManager {
         MenuItem copy = menu.findItem(getRes(R.id.dir_menu_copy_to_clipboard));
         MenuItem delete = menu.findItem(getRes(R.id.dir_menu_delete));
         MenuItem inspect = menu.findItem(getRes(R.id.dir_menu_inspect));
+        MenuItem addLauncherShortcut = menu.findItem(R.id.dir_menu_add_shortcut);
 
         if (isTrashFlowEnabled()) {
             MenuItem moveToTrash = menu.findItem(getRes(R.id.dir_menu_move_to_trash));
@@ -402,6 +405,8 @@ public abstract class MenuManager {
             Menus.setEnabledAndVisible(inspect, selectionDetails.size() == 1);
         }
 
+        Menus.setEnabledAndVisible(addLauncherShortcut, selectionDetails.size() == 1);
+
         updateCompress(menu.findItem(getRes(R.id.dir_menu_compress)), selectionDetails);
     }
 
@@ -417,12 +422,14 @@ public abstract class MenuManager {
         MenuItem deselectAll = menu.findItem(getRes(R.id.dir_menu_deselect_all));
         MenuItem createDir = menu.findItem(getRes(R.id.dir_menu_create_dir));
         MenuItem inspect = menu.findItem(getRes(R.id.dir_menu_inspect));
+        MenuItem addLauncherShortcut = menu.findItem(R.id.dir_menu_add_shortcut);
 
         updatePaste(paste);
         updateSelectAll(selectAll, selectionDetails);
         updateDeselectAll(deselectAll, selectionDetails);
         updateCreateDir(createDir);
         updateInspect(inspect);
+        updateAddLauncherShortcut(addLauncherShortcut);
     }
 
     /**
@@ -579,6 +586,10 @@ public abstract class MenuManager {
         Menus.setEnabledAndVisible(inspect, visible && mDirDetails.canInspectDirectory());
     }
 
+    protected void updateAddLauncherShortcut(MenuItem addLauncherShortcut) {
+        Menus.setEnabledAndVisible(addLauncherShortcut, false);
+    }
+
     /** This method is called for action mode, when a selection exists. */
     protected void updateInspect(MenuItem inspect, SelectionDetails selectionDetails) {
         boolean visible = mFeatures.isInspectorEnabled() && selectionDetails.size() <= 1;
@@ -660,6 +671,11 @@ public abstract class MenuManager {
 
     protected void updateOpen(MenuItem open, SelectionDetails selectionDetails) {
         Menus.setEnabledAndVisible(open, false);
+    }
+
+    protected void updateAddLauncherShortcut(MenuItem addLauncherShortcut,
+            SelectionDetails selectionDetails) {
+        Menus.setEnabledAndVisible(addLauncherShortcut, false);
     }
 
     protected void updateLauncher(MenuItem launcher) {

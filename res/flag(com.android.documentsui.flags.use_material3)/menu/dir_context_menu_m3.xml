@@ -60,5 +60,8 @@
         <item
             android:id="@+id/dir_menu_compress"
             android:title="@string/menu_compress" />
+        <item
+            android:id="@+id/dir_menu_add_shortcut"
+            android:title="@string/menu_add_shortcut" />
     </group>
 </menu>

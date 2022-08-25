@@ -120,5 +120,10 @@
             android:title="@string/menu_view_in_owner"
             android:visible="false"
             app:showAsAction="never" />
+        <item
+            android:id="@+id/action_menu_add_shortcut"
+            android:title="@string/menu_add_shortcut"
+            android:showAsAction="never"
+            app:showAsAction="never" />
     </group>
 </menu>
