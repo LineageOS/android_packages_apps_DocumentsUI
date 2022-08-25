@@ -184,6 +184,11 @@ public interface ActionHandler {
     void switchLauncherIcon();
 
     /**
+     * Shows a dialog to add file shortcut to launcher.
+     */
+    void showAddShortcutDialog(DocumentInfo document);
+
+    /**
      * Allow action handler to be initialized in a new scope.
      * @return this
      */

@@ -132,6 +132,23 @@ public abstract class BaseActivity
     @CallSuper
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // Handle shortcut intents
+        Intent launchIntent = getIntent();
+        if (launchIntent != null) {
+            String uriString = launchIntent.getStringExtra("DOCUMENT_URI");
+            String mimeType = launchIntent.getStringExtra("DOCUMENT_MIME");
+            if (uriString != null && mimeType != null) {
+                Uri uri = Uri.parse(uriString);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(uri, mimeType);
+                intent.setFlags(
+                        Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK |
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(intent);
+                finishAndRemoveTask();
+            }
+        }
+
         // Record the time when onCreate is invoked for metric.
         mStartTime = new Date().getTime();
 
@@ -384,7 +401,9 @@ public abstract class BaseActivity
 
     @Override
     protected void onDestroy() {
-        mRootsMonitor.stop();
+        if (mRootsMonitor != null) {
+            mRootsMonitor.stop();
+        }
         mPreferencesMonitor.stop();
         mSortController.destroy();
         super.onDestroy();

@@ -320,6 +320,10 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
             case R.id.option_menu_inspect:
                 mInjector.actions.showInspector(getCurrentDirectory());
                 break;
+            case R.id.option_menu_add_shortcut:
+                assert(canCreateDirectory());
+                mInjector.actions.showAddShortcutDialog(getCurrentDirectory());
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
