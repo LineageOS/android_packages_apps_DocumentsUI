@@ -70,6 +70,7 @@ public final class MenuManagerTest {
     private TestMenuItem dirPasteIntoFolder;
     private TestMenuItem dirInspect;
     private TestMenuItem dirOpenInNewWindow;
+    private TestMenuItem dirAddLauncherShortcut;
 
     /* Root List Context Menu items */
     private TestMenuItem rootEjectRoot;
@@ -92,6 +93,7 @@ public final class MenuManagerTest {
     private TestMenuItem actionModeViewInOwner;
     private TestMenuItem actionModeInspector;
     private TestMenuItem actionModeSort;
+    private TestMenuItem actionModeAddLauncherShortcut;
 
     /* Option Menu items */
     private TestMenuItem optionSearch;
@@ -102,6 +104,7 @@ public final class MenuManagerTest {
     private TestMenuItem optionSettings;
     private TestMenuItem optionInspector;
     private TestMenuItem optionSort;
+    private TestMenuItem optionAddLauncherShortcut;
     private TestMenuItem mOptionLauncher;
     private TestMenuItem mOptionShowHiddenFiles;
 
@@ -142,6 +145,7 @@ public final class MenuManagerTest {
         dirPasteIntoFolder = testMenu.findItem(R.id.dir_menu_paste_into_folder);
         dirInspect = testMenu.findItem(R.id.dir_menu_inspect);
         dirOpenInNewWindow = testMenu.findItem(R.id.dir_menu_open_in_new_window);
+        dirAddLauncherShortcut = testMenu.findItem(R.id.dir_menu_add_shortcut);
 
         rootEjectRoot = testMenu.findItem(R.id.root_menu_eject_root);
         rootOpenInNewWindow = testMenu.findItem(R.id.root_menu_open_in_new_window);
@@ -162,6 +166,7 @@ public final class MenuManagerTest {
         actionModeInspector = testMenu.findItem(R.id.action_menu_inspect);
         actionModeViewInOwner = testMenu.findItem(R.id.action_menu_view_in_owner);
         actionModeSort = testMenu.findItem(R.id.action_menu_sort);
+        actionModeAddLauncherShortcut = testMenu.findItem(R.id.action_menu_add_shortcut);
 
         // Menu actions (including overflow) when action mode is not active.
         optionSearch = testMenu.findItem(R.id.option_menu_search);
@@ -172,6 +177,7 @@ public final class MenuManagerTest {
         optionSettings = testMenu.findItem(R.id.option_menu_settings);
         optionInspector = testMenu.findItem(R.id.option_menu_inspect);
         optionSort = testMenu.findItem(R.id.option_menu_sort);
+        optionAddLauncherShortcut = testMenu.findItem(R.id.action_menu_add_shortcut);
         mOptionLauncher = testMenu.findItem(R.id.option_menu_launcher);
         mOptionShowHiddenFiles = testMenu.findItem(R.id.option_menu_show_hidden_files);
 
@@ -242,6 +248,7 @@ public final class MenuManagerTest {
         actionModeSort.assertEnabledAndVisible();
         actionModeSelectAll.assertEnabledAndVisible();
         mActionModeDeselectAll.assertDisabledAndInvisible();
+        actionModeAddLauncherShortcut.assertEnabledAndVisible();
     }
 
     @Test
@@ -410,12 +417,28 @@ public final class MenuManagerTest {
     }
 
     @Test
+    public void testActionMenu_AddLauncherShortcut_EnabledForSingleSelection() {
+        selectionDetails.size = 1;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeAddLauncherShortcut.assertEnabledAndVisible();
+    }
+
+    @Test
     public void testActionMenu_Inspector_DisabledForMultiSelection() {
         features.inspector = true;
         selectionDetails.size = 2;
         mgr.updateActionMenu(testMenu, selectionDetails);
 
         actionModeInspector.assertDisabledAndInvisible();
+    }
+
+    @Test
+    public void testActionMenu_AddLauncherShortcut_DisabledForMultiSelection() {
+        selectionDetails.size = 2;
+        mgr.updateActionMenu(testMenu, selectionDetails);
+
+        actionModeAddLauncherShortcut.assertDisabledAndInvisible();
     }
 
     @Test
@@ -438,6 +461,7 @@ public final class MenuManagerTest {
         optionSort.assertEnabledAndVisible();
         mOptionLauncher.assertDisabledAndInvisible();
         mOptionShowHiddenFiles.assertEnabledAndVisible();
+        optionAddLauncherShortcut.assertEnabledAndVisible();
         assertTrue(testSearchManager.updateMenuCalled());
     }
 
@@ -640,6 +664,12 @@ public final class MenuManagerTest {
         dirDetails.canInspectDirectory = true;
         mgr.updateContextMenuForContainer(testMenu, selectionDetails);
         dirInspect.assertEnabledAndVisible();
+    }
+
+    @Test
+    public void testContextMenu_CanAddShortcutForContainer() {
+        mgr.updateContextMenuForContainer(testMenu, selectionDetails);
+        dirAddLauncherShortcut.assertEnabledAndVisible();
     }
 
     @Test

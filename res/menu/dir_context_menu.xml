@@ -52,5 +52,8 @@
         <item
             android:id="@+id/dir_menu_inspect"
             android:title="@string/menu_inspect" />
+        <item
+            android:id="@+id/dir_menu_add_shortcut"
+            android:title="@string/menu_add_shortcut" />
     </group>
 </menu>
