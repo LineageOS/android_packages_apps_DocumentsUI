@@ -272,6 +272,17 @@ public final class MenuManager extends com.android.documentsui.MenuManager {
     }
 
     @Override
+    protected void updateAddLauncherShortcut(MenuItem addLauncherShortcut) {
+        Menus.setEnabledAndVisible(addLauncherShortcut, mDirDetails.canCreateDirectory());
+    }
+
+    @Override
+    protected void updateAddLauncherShortcut(MenuItem addLauncherShortcut,
+            SelectionDetails selectionDetails) {
+        Menus.setEnabledAndVisible(addLauncherShortcut, selectionDetails.size() <= 1);
+    }
+
+    @Override
     protected void updateViewInOwner(MenuItem view, SelectionDetails selectionDetails) {
         if (selectionDetails.canViewInOwner() &&
                 mSelectionManager.getSelection().iterator().hasNext()) {
