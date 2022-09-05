@@ -200,7 +200,7 @@
     <string name="file_operation_rejected" msgid="4301554203329008794">"Ֆայլի աշխատանքը չի աջակցվում:"</string>
     <string name="file_operation_error" msgid="2234357335716533795">"Չհաջողվեց գործարկել ֆայլը:"</string>
     <string name="rename_error" msgid="6700093173508118635">"Չհաջողվեց վերանվանել փաստաթուղթը"</string>
-    <string name="menu_eject_root" msgid="9215040039374893613">"Անջատել"</string>
+    <string name="menu_eject_root" msgid="9215040039374893613">"Հանել"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Որոշ ֆայլեր փոխարկվել են"</string>
     <string name="open_external_dialog_request" msgid="8173558471322861268">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> հավելվածին տրամադրե՞լ <xliff:g id="STORAGE"><i>^3</i></xliff:g>-ի <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> գրացուցակն օգտագործելու թույլտվություն:"</string>
     <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"<xliff:g id="APPNAME"><b>^1</b></xliff:g> հավելվածին տրամադրե՞լ <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> գրացուցակն օգտագործելու թույլտվություն:"</string>
