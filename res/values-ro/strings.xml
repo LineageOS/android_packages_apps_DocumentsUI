@@ -255,7 +255,7 @@
     <string name="name_conflict" msgid="28407269328862986">"Există deja un fișier cu acest nume."</string>
     <string name="authentication_required" msgid="8030880723643436099">"Pentru a vedea acest director, conectați-vă la <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"Nu se poate afișa conținutul"</string>
-    <string name="sign_in" msgid="6253762676723505592">"Conectați-vă"</string>
+    <string name="sign_in" msgid="6253762676723505592">"Conectează-te"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arhivă<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Suprascrieți <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Continuați în fundal"</string>
