@@ -295,7 +295,7 @@
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Astfel, <xliff:g id="APPNAME">%1$s</xliff:g> va putea accesa conținutul actual și viitor stocat în <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Nu puteți folosi acest dosar"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"Alegeți alt dosar ca să vă protejați confidențialitatea"</string>
-    <string name="create_new_folder_button" msgid="8859613309559794890">"Creați un dosar nou"</string>
+    <string name="create_new_folder_button" msgid="8859613309559794890">"Creează un dosar nou"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Caută în acest telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Șterge istoricul căutărilor <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"Personale"</string>
