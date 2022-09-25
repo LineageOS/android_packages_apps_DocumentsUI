@@ -38,15 +38,15 @@
     <string name="menu_share" msgid="4307140947108068356">"Trimite"</string>
     <string name="menu_delete" msgid="1022254131543256626">"Șterge"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"Selectează-le pe toate"</string>
-    <string name="menu_deselect_all" msgid="7729916068862742979">"Deselectați tot"</string>
+    <string name="menu_deselect_all" msgid="7729916068862742979">"Deselectează tot"</string>
     <string name="menu_select" msgid="1366061076507142387">"Selectează"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"Sortați după…"</string>
+    <string name="menu_sort" msgid="3362419226163725275">"Sortează după…"</string>
     <string name="menu_copy" msgid="7404820171352314754">"Copiază în…"</string>
     <string name="menu_move" msgid="2310760789561129882">"Mută în…"</string>
     <string name="menu_compress" msgid="37539111904724188">"Comprimă"</string>
     <string name="menu_extract" msgid="8171946945982532262">"Extrage în…"</string>
     <string name="menu_rename" msgid="1883113442688817554">"Redenumește"</string>
-    <string name="menu_inspect" msgid="7279855349299446224">"Obțineți informații"</string>
+    <string name="menu_inspect" msgid="7279855349299446224">"Vezi informațiile"</string>
     <string name="menu_show_hidden_files" msgid="5140676344684492769">"Afișează fișierele ascunse"</string>
     <string name="menu_hide_hidden_files" msgid="5654495713350153702">"Nu afișa fișierele ascunse"</string>
     <string name="menu_view_in_owner" msgid="7228948660557554770">"Afișează în <xliff:g id="SOURCE">%1$s</xliff:g>"</string>
@@ -81,7 +81,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Tip (de la Z la A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Dimensiune (întâi cele mai mari)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Data modificării (întâi cele mai noi)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortați după"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortează după"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Sortate după <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Numărul de articole"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"În ordine crescătoare"</string>
@@ -93,7 +93,7 @@
     <string name="create_error" msgid="3092144450044861994">"Eroare la crearea dosarului"</string>
     <string name="query_error" msgid="6625421453613879336">"Momentan, conținutul nu poate fi încărcat"</string>
     <string name="quiet_mode_error_title" msgid="554319751414657910">"Aplicațiile pentru lucru sunt întrerupte"</string>
-    <string name="quiet_mode_button" msgid="8051436551926677305">"Activați aplicațiile pentru lucru"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Activează aplicațiile pentru lucru"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Nu se pot selecta fișiere de lucru"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Administratorul IT nu vă permite să accesați fișiere de lucru dintr-o aplicație personală"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Nu se pot selecta fișiere personale"</string>
@@ -103,7 +103,7 @@
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Nu se poate salva în profilul personal"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Administratorul IT nu vă permite să salvați fișiere de lucru în profilul personal"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Acțiunea nu este permisă"</string>
-    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Pentru a afla mai multe, contactați administratorul IT"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Pentru a afla mai multe, contactează administratorul IT"</string>
     <string name="root_recent" msgid="1080156975424341623">"Recente"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> spațiu liber"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Servicii de stocare"</string>
@@ -253,12 +253,12 @@
     <string name="images_shortcut_label" msgid="2545168016070493574">"Imagini"</string>
     <string name="archive_loading_failed" msgid="7243436722828766996">"Nu se poate deschide arhiva pentru răsfoire. Fișierul ori este corupt, ori are un format neacceptat."</string>
     <string name="name_conflict" msgid="28407269328862986">"Există deja un fișier cu acest nume."</string>
-    <string name="authentication_required" msgid="8030880723643436099">"Pentru a vedea acest director, conectați-vă la <xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string name="authentication_required" msgid="8030880723643436099">"Pentru a vedea acest director, conectează-te la <xliff:g id="NAME">%1$s</xliff:g>"</string>
     <string name="cant_display_content" msgid="8633226333229417237">"Nu se poate afișa conținutul"</string>
     <string name="sign_in" msgid="6253762676723505592">"Conectează-te"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arhivă<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Suprascrii <xliff:g id="NAME">%1$s</xliff:g>?"</string>
-    <string name="continue_in_background" msgid="1974214559047793331">"Continuați în fundal"</string>
+    <string name="continue_in_background" msgid="1974214559047793331">"Continuă în fundal"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
       <item quantity="few"><xliff:g id="COUNT_1">%1$d</xliff:g> selectate</item>
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> selectate</item>
@@ -290,7 +290,7 @@
     <string name="preview_work_file" msgid="4495643735563487273">"Previzualizează fișierul de lucru <xliff:g id="FILENAME">%1$s</xliff:g>"</string>
     <string name="apps_row_title" msgid="3340490016663092925">"Caută fișiere în alte aplicații"</string>
     <string name="anonymous_application" msgid="7633027057951625862">"Anonim"</string>
-    <string name="open_tree_button" msgid="6402871398424497776">"Folosiți acest dosar"</string>
+    <string name="open_tree_button" msgid="6402871398424497776">"Folosește acest dosar"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Permiți ca <xliff:g id="APPNAME">%1$s</xliff:g> să acceseze fișierele din <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Astfel, <xliff:g id="APPNAME">%1$s</xliff:g> va putea accesa conținutul actual și viitor stocat în <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Nu puteți folosi acest dosar"</string>
