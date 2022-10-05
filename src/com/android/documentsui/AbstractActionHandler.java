@@ -720,7 +720,8 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
         intent.putExtra("DOCUMENT_URI", document.getDocumentUri().toString());
         intent.putExtra("DOCUMENT_MIME", document.mimeType);
         intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        Icon launcherIcon = Icon.createWithResource(mActivity, R.drawable.ic_folder_shortcut);
+        Icon launcherIcon =
+                Icon.createWithResource(mActivity, IconUtils.getIconResId(document.mimeType));
         String title = document.displayName;
         ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(mActivity, title)
                 .setShortLabel(title)
