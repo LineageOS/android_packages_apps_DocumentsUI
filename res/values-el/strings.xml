@@ -103,7 +103,7 @@
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Δεν είναι δυνατή η αποθήκευση στο προσωπικό σας προφίλ."</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"Ο διαχειριστής ΙΤ δεν επιτρέπει την αποθήκευση αρχείων εργασίας στο προσωπικό σας προφίλ."</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Η συγκεκριμένη ενέργεια δεν επιτρέπεται."</string>
-    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Για να μάθετε περισσότερα, επικοινωνήστε με τον διαχειριστή IT."</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"Για να μάθετε περισσότερα, επικοινωνήστε με τον διαχειριστή IT σας."</string>
     <string name="root_recent" msgid="1080156975424341623">"Πρόσφατα"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ελεύθερα"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Υπηρεσίες αποθήκευσης"</string>
