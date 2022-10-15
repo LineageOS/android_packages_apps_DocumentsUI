@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"कागजातलाई सुरक्षित गर्न सकिएन"</string>
     <string name="create_error" msgid="3092144450044861994">"फोल्डर सिर्जना गर्न सकिएन"</string>
     <string name="query_error" msgid="6625421453613879336">"यस समय सामग्री लोड गर्न सकिँदैन"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"कार्यलयको प्रोफाइल पज गरिएको छ"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"सक्रिय गरियोस्"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"कामसम्बन्धी एपहरू पज गरिएका छन्"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"कामसम्बन्धी एपहरू अन गर्नुहोस्"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कार्यालयका फाइलहरू चयन गर्न मिल्दैन"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"तपाईंका IT एडमिनले तपाईंलाई व्यक्तिगत अनुप्रयोगमार्फत कार्यालयका फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"व्यक्तिगत फाइलहरू चयन गर्न सकिएन"</string>

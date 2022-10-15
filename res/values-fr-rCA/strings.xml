@@ -92,8 +92,8 @@
     <string name="save_error" msgid="8631128801982095782">"Échec de l\'enregistrement du document"</string>
     <string name="create_error" msgid="3092144450044861994">"Échec de la création du dossier"</string>
     <string name="query_error" msgid="6625421453613879336">"Impossible de charger le contenu pour le moment"</string>
-    <string name="quiet_mode_error_title" msgid="9126656325282792843">"Le profil professionnel est interrompu"</string>
-    <string name="quiet_mode_button" msgid="6977115032320235420">"Activer"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Les applications professionnelles sont interrompues"</string>
+    <string name="quiet_mode_button" msgid="8051436551926677305">"Activer les applications professionnelles"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Impossible de sélectionner des fichiers professionnels"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"Votre administrateur informatique ne vous autorise pas à accéder à des fichiers professionnels à partir d\'une application personnelle"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"Impossible de sélectionner des fichiers personnels"</string>
