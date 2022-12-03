@@ -16,8 +16,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="missing_rename_error" msgid="9098952207447981103">"Trebuie să redenumiți elementul"</string>
-    <string name="add_folder_name_error" msgid="6014615052491406810">"Trebuie să adăugați un nume de dosar"</string>
+    <string name="missing_rename_error" msgid="9098952207447981103">"Trebuie să redenumești elementul"</string>
+    <string name="add_folder_name_error" msgid="6014615052491406810">"Trebuie să adaugi un nume de dosar"</string>
     <string name="files_label" msgid="771781190045103748">"Fișiere"</string>
     <string name="downloads_label" msgid="5462789470049501103">"Descărcări"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
