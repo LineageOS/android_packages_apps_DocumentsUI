@@ -16,6 +16,24 @@
       "message": "this is awkward, you\u0027re creating an intent to this app to then start another intent inside it using expecting it to re-open documents app, that may not be the case.\nAre shortcuts required to match a specific package?",
       "revId": "163cdeb594579591f6a20ecdb1a4ccbae0f1e062",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c203d831_09cf6003",
+        "filename": "src/com/android/documentsui/BaseActivity.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 21651
+      },
+      "writtenOn": "2022-12-22T18:12:10Z",
+      "side": 1,
+      "message": "What do you mean by \"expecting it to re-open documents app\"? It\u0027s expected to open whatever app is suitable for viewing the file with its mimetype.",
+      "parentUuid": "a008b0be_03f93140",
+      "revId": "163cdeb594579591f6a20ecdb1a4ccbae0f1e062",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ],
   "submitRequirementResults": []
