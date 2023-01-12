@@ -36,7 +36,7 @@
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"ဝင်းဒိုးအသစ်ဖြင့်ဖွင့်ပါ"</string>
     <string name="menu_save" msgid="5195367497138965168">"သိမ်းပါ"</string>
     <string name="menu_share" msgid="4307140947108068356">"မျှဝေပါ"</string>
-    <string name="menu_delete" msgid="1022254131543256626">"ဖျက်ရန်"</string>
+    <string name="menu_delete" msgid="1022254131543256626">"ဖျက်ပါ"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"အားလုံးကို ရွေးပါ"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"အားလုံးကို ပြန်ဖြုတ်ရန်"</string>
     <string name="menu_select" msgid="1366061076507142387">"ရွေးရန်"</string>
@@ -55,8 +55,8 @@
     <string name="menu_copy_to_clipboard" msgid="5064081159073330776">"မိတ္တူကူးပါ"</string>
     <string name="menu_paste_from_clipboard" msgid="360947260414135827">"ကူးထည့်ပါ"</string>
     <string name="menu_paste_into_folder" msgid="8000644546983240101">"ဖိုင်တွဲသို့ ကူးထည့်ပါ"</string>
-    <string name="menu_advanced_show" msgid="7558626506462906726">"စက်တွင်းသိုလှောင်ခန်း ပြပါ"</string>
-    <string name="menu_advanced_hide" msgid="6488381508009246334">"စက်တွင်းသိုလှောင်ခန်း ဖျောက်ပါ"</string>
+    <string name="menu_advanced_show" msgid="7558626506462906726">"အတွင်းသိမ်းခန်း ပြပါ"</string>
+    <string name="menu_advanced_hide" msgid="6488381508009246334">"အတွင်းသိမ်းခန်း ဖျောက်ပါ"</string>
     <string name="button_select" msgid="240863497069321364">"ရွေးချယ်ရန်"</string>
     <string name="button_copy" msgid="8219059853840996027">"မိတ္တူကူးရန်"</string>
     <string name="button_compress" msgid="8951561310857223966">"ချုံ့ရန်"</string>

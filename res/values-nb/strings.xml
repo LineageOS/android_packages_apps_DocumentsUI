@@ -40,7 +40,7 @@
     <string name="menu_select_all" msgid="7600576812185570403">"Velg alle"</string>
     <string name="menu_deselect_all" msgid="7729916068862742979">"Fjern merkingen for alle"</string>
     <string name="menu_select" msgid="1366061076507142387">"Velg"</string>
-    <string name="menu_sort" msgid="3362419226163725275">"Sorter etter..."</string>
+    <string name="menu_sort" msgid="3362419226163725275">"Sortér etter..."</string>
     <string name="menu_copy" msgid="7404820171352314754">"Kopiér til"</string>
     <string name="menu_move" msgid="2310760789561129882">"Flytt til"</string>
     <string name="menu_compress" msgid="37539111904724188">"Komprimer"</string>
@@ -81,7 +81,7 @@
     <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"Type (Å til A)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"Størrelse (største først)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"Modifisert (nyeste først)"</string>
-    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sorter etter"</string>
+    <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"Sortér etter"</string>
     <string name="sort_dimension_button_title" msgid="1898606989130896126">"Sortert etter <xliff:g id="LABEL">%s</xliff:g>"</string>
     <string name="directory_items" msgid="6645621978998614003">"Antall elementer"</string>
     <string name="sort_direction_ascending" msgid="5882787683763248102">"Stigende"</string>
@@ -103,7 +103,7 @@
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"Du kan ikke lagre i den personlige profilen"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"IT-administratoren din tillater ikke at du lagrer jobbfiler i den personlige profilen din"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"Handlingen er ikke tillatt"</string>
-    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"For å finne ut mer, kontakt IT-administratoren"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"For å finne ut mer, kontakt IT-administratoren din."</string>
     <string name="root_recent" msgid="1080156975424341623">"Nylige"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ledig"</string>
     <string name="root_type_service" msgid="6521366147466512289">"Lagringstjenester"</string>
