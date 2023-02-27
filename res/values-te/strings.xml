@@ -25,7 +25,7 @@
     <!-- no translation found for launcher_label (799410258349837668) -->
     <skip />
     <string name="title_open" msgid="3165686459158020921">"ఇక్కడి నుండి తెరువు"</string>
-    <string name="title_save" msgid="4384490653102710025">"ఇందులో సేవ్ చేయి"</string>
+    <string name="title_save" msgid="4384490653102710025">"ఇందులో సేవ్ చేయండి"</string>
     <string name="menu_create_dir" msgid="2413624798689091042">"కొత్త ఫోల్డర్"</string>
     <string name="menu_grid" msgid="1453636521731880680">"గ్రిడ్ వీక్షణ"</string>
     <string name="menu_list" msgid="6714267452146410402">"లిస్ట్‌ వీక్షణ"</string>
@@ -34,7 +34,7 @@
     <string name="menu_open" msgid="9092138100049759315">"తెరువు"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"దీనితో తెరువు"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరువు"</string>
-    <string name="menu_save" msgid="5195367497138965168">"సేవ్ చేయి"</string>
+    <string name="menu_save" msgid="5195367497138965168">"సేవ్ చేయండి"</string>
     <string name="menu_share" msgid="4307140947108068356">"షేర్ చేయి"</string>
     <string name="menu_delete" msgid="1022254131543256626">"తొలగించండి"</string>
     <string name="menu_select_all" msgid="7600576812185570403">"అన్నింటినీ ఎంచుకోండి"</string>
@@ -144,7 +144,7 @@
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> అంశాలను తొలగిస్తోంది.</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> అంశాన్ని తొలగిస్తోంది.</item>
     </plurals>
-    <string name="undo" msgid="2902438994196400565">"చర్య రద్దు చేయి"</string>
+    <string name="undo" msgid="2902438994196400565">"చర్య రద్దు చేయండి"</string>
     <string name="copy_preparing" msgid="4759516490222449324">"సిద్ధం చేస్తోంది..."</string>
     <string name="compress_preparing" msgid="7401605598969019696">"సిద్ధం చేస్తోంది..."</string>
     <string name="extract_preparing" msgid="4796626960061745796">"సిద్ధం చేస్తోంది..."</string>
@@ -237,7 +237,7 @@
     <string name="sign_in" msgid="6253762676723505592">"సైన్ ఇన్ చేయండి"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"ఆర్కైవ్ చేయండి<xliff:g id="EXTENSION">%s</xliff:g>"</string>
     <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"<xliff:g id="NAME">%1$s</xliff:g>ని భర్తీ చేయాలా?"</string>
-    <string name="continue_in_background" msgid="1974214559047793331">"బ్యాక్‌గ్రౌండ్‌లో కొనసాగించు"</string>
+    <string name="continue_in_background" msgid="1974214559047793331">"బ్యాక్‌గ్రౌండ్‌లో కొనసాగించండి"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
       <item quantity="other"><xliff:g id="COUNT_1">%1$d</xliff:g> ఎంచుకోబడ్డాయి</item>
       <item quantity="one"><xliff:g id="COUNT_0">%1$d</xliff:g> ఎంచుకోబడింది</item>
