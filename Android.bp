@@ -53,6 +53,7 @@ java_defaults {
     certificate: "platform",
 
     optimize: {
+        shrink_resources: true,
         proguard_flags_files: ["proguard.flags"],
     },
 
