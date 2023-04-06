@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static android.content.Context.RECEIVER_EXPORTED;
+
 import static com.android.documentsui.base.Providers.AUTHORITY_STORAGE;
 import static com.android.documentsui.base.Providers.ROOT_ID_DEVICE;
 
@@ -170,7 +172,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(TestNotificationService.ACTION_OPERATION_RESULT);
-        context.registerReceiver(mReceiver, filter);
+        context.registerReceiver(mReceiver, filter, RECEIVER_EXPORTED);
         context.sendBroadcast(new Intent(
                 TestNotificationService.ACTION_CHANGE_EXECUTION_MODE));
     }
