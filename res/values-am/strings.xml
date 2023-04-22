@@ -74,11 +74,11 @@
     <string name="sort_dimension_size" msgid="2190547351159472884">"መጠን"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"የተቀየረበት ጊዜ"</string>
     <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"የፋይል ስም (ሀ እስከ ፐ)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"አይነት (ሀ እስከ ፐ)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"ዓይነት (ሀ እስከ ፐ)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"መጠን (ትንሹ መጀመሪያ)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"ተቀይሯል (የድሮው መጀመሪያ)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"የፋይል ስም (ፐ እስከ ሀ)"</string>
-    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"አይነት (ፐ እስከ ሀ)"</string>
+    <string name="sort_dimension_file_type_descending" msgid="3344796059784511100">"ዓይነት (ፐ እስከ ሀ)"</string>
     <string name="sort_dimension_size_descending" msgid="2367030017597348938">"መጠን (ትልቁ መጀመሪያ)"</string>
     <string name="sort_dimension_date_descending" msgid="5466839955763127113">"ተቀይሯል (አዲሱ መጀመሪያ)"</string>
     <string name="sort_dimension_dialog_title" msgid="3048641573962982157">"ደርድር በ"</string>

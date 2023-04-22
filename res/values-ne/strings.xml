@@ -95,9 +95,9 @@
     <string name="quiet_mode_error_title" msgid="554319751414657910">"कामसम्बन्धी एपहरू पज गरिएका छन्"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"कामसम्बन्धी एपहरू अन गर्नुहोस्"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"कार्यालयका फाइलहरू चयन गर्न मिल्दैन"</string>
-    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"तपाईंका IT एडमिनले तपाईंलाई व्यक्तिगत अनुप्रयोगमार्फत कार्यालयका फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
+    <string name="cant_select_work_files_error_message" msgid="683480676150690641">"तपाईंका IT एडमिनले तपाईंलाई व्यक्तिगत एपमार्फत कार्यालयका फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
     <string name="cant_select_personal_files_error_title" msgid="3200697170148617742">"व्यक्तिगत फाइलहरू चयन गर्न सकिएन"</string>
-    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"तपाईंका IT एडमिनले तपाईंलाई कामसम्बन्धी अनुप्रयोगमार्फत व्यक्तिगत फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
+    <string name="cant_select_personal_files_error_message" msgid="4105905035459118209">"तपाईंका IT एडमिनले तपाईंलाई कामसम्बन्धी एपमार्फत व्यक्तिगत फाइलहरू प्रयोग गर्ने अनुमति दिनुभएको छैन"</string>
     <string name="cant_save_to_work_error_title" msgid="1351323070040641358">"कार्यलयको प्रोफाइलमा सुरक्षित गर्न सकिएन"</string>
     <string name="cant_save_to_work_error_message" msgid="4975583233814059890">"तपाईंका IT एडमिनले तपाईंलाई आफ्नो कार्यलयको प्रोफाइलमा रहेका एपहरूमा व्यक्तिगत फाइलहरू सुरक्षित गर्ने अनुमति दिनुभएको छैन"</string>
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"व्यक्तिगत प्रोफाइलमा सुरक्षित गर्न सकिएन"</string>
