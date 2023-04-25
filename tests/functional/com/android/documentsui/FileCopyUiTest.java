@@ -31,11 +31,11 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.test.filters.LargeTest;
+import androidx.test.uiautomator.UiObjectNotFoundException;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.RootInfo;

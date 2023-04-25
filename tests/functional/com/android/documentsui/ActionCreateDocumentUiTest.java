@@ -29,11 +29,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
-import android.support.test.uiautomator.UiDevice;
 
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
+import androidx.test.uiautomator.UiDevice;
 
 import com.android.documentsui.bots.Bots;
 import com.android.documentsui.picker.PickActivity;

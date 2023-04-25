@@ -29,7 +29,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Paint;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.support.test.uiautomator.UiDevice;
 import android.view.KeyEvent;
 
 import androidx.fragment.app.FragmentManager;
@@ -37,6 +36,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
+import androidx.test.uiautomator.UiDevice;
 
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.dirlist.RenameDocumentFragment;
