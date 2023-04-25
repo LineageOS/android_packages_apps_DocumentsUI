@@ -33,12 +33,12 @@ import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.allOf;
 
 import android.content.Context;
-import android.support.test.uiautomator.By;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject2;
 import android.view.View;
 
 import androidx.annotation.StringRes;
+import androidx.test.uiautomator.By;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject2;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortDimension;
