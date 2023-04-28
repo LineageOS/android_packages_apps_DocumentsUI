@@ -95,7 +95,7 @@ android_test {
         "androidx.test.ext.truth",
         "guava",
         "mockito-target",
-        "ub-uiautomator",
+        "androidx.test.uiautomator_uiautomator",
     ],
 
     jarjar_rules: "jarjar-rules.txt",
