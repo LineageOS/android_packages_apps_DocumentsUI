@@ -18,7 +18,7 @@
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="missing_rename_error" msgid="9098952207447981103">"Bạn cần đổi tên này"</string>
     <string name="add_folder_name_error" msgid="6014615052491406810">"Bạn cần thêm tên thư mục"</string>
-    <string name="files_label" msgid="771781190045103748">"Tệp"</string>
+    <string name="files_label" msgid="771781190045103748">"Files"</string>
     <string name="downloads_label" msgid="5462789470049501103">"Tệp đã tải xuống"</string>
     <!-- no translation found for app_label (8089292432455111409) -->
     <skip />
