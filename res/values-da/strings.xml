@@ -272,7 +272,7 @@
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"Vil du give <xliff:g id="APPNAME">%1$s</xliff:g> adgang til filerne i <xliff:g id="DIRECTORY">%2$s</xliff:g>?"</string>
     <string name="open_tree_dialog_message" msgid="4120695398430659628">"Dette giver <xliff:g id="APPNAME">%1$s</xliff:g> adgang til aktuelt og fremtidigt indhold, som gemmes i <xliff:g id="DIRECTORY">%2$s</xliff:g>."</string>
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"Denne mappe kan ikke bruges"</string>
-    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"For at beskytte dine personlige oplysninger skal du vælge en anden mappe"</string>
+    <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"For at beskytte dit privatliv skal du vælge en anden mappe"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"Opret ny mappe"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Søg på denne telefon"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Slet søgehistorikken <xliff:g id="TEXT">%1$s</xliff:g>"</string>

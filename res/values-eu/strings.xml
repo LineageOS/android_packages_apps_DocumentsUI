@@ -92,7 +92,7 @@
     <string name="save_error" msgid="8631128801982095782">"Ezin izan da gorde dokumentua"</string>
     <string name="create_error" msgid="3092144450044861994">"Ezin izan da sortu karpeta"</string>
     <string name="query_error" msgid="6625421453613879336">"Une honetan ezin da kargatu edukia"</string>
-    <string name="quiet_mode_error_title" msgid="554319751414657910">"Pausatu egin dira laneko aplikazioak"</string>
+    <string name="quiet_mode_error_title" msgid="554319751414657910">"Pausatuta daude laneko aplikazioak"</string>
     <string name="quiet_mode_button" msgid="8051436551926677305">"Aktibatu laneko aplikazioak"</string>
     <string name="cant_select_work_files_error_title" msgid="6688716319549644354">"Ezin dira hautatu laneko fitxategiak"</string>
     <string name="cant_select_work_files_error_message" msgid="683480676150690641">"IKT saileko administratzaileak ez dizu ematen baimenik laneko fitxategiak aplikazio pertsonal batetik atzitzeko"</string>
