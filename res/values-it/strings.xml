@@ -298,8 +298,8 @@
     <string name="create_new_folder_button" msgid="8859613309559794890">"Crea nuova cartella"</string>
     <string name="search_bar_hint" msgid="4517366509897977321">"Cerca su questo telefono"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"Elimina la cronologia delle ricerche <xliff:g id="TEXT">%1$s</xliff:g>"</string>
-    <string name="personal_tab" msgid="3878576287868528503">"Personali"</string>
-    <string name="work_tab" msgid="7265359366883747413">"Di lavoro"</string>
+    <string name="personal_tab" msgid="3878576287868528503">"Personale"</string>
+    <string name="work_tab" msgid="7265359366883747413">"Lavoro"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Lavoro"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Impossibile spostare file da un\'altra app."</string>
     <string name="grid_mode_showing" msgid="2803166871485028508">"Visualizzazione in modalità griglia."</string>
