@@ -274,7 +274,7 @@
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"इस फ़ोल्डर का इस्तेमाल नहीं किया जा सकता"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"अपनी निजता की सुरक्षा करने के लिए, कोई और फ़ोल्डर चुनें"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"नया फ़ोल्डर बनाएं"</string>
-    <string name="search_bar_hint" msgid="4517366509897977321">"यह फ़ोन खोजें"</string>
+    <string name="search_bar_hint" msgid="4517366509897977321">"इस फ़ोन में खोजें"</string>
     <string name="delete_search_history" msgid="2202015025607694515">"खोज का इतिहास मिटाएं <xliff:g id="TEXT">%1$s</xliff:g>"</string>
     <string name="personal_tab" msgid="3878576287868528503">"निजी"</string>
     <string name="work_tab" msgid="7265359366883747413">"काम से जुड़ी"</string>

@@ -73,8 +73,8 @@
     <string name="sort_dimension_file_type" msgid="5779709622922085381">"نوع"</string>
     <string name="sort_dimension_size" msgid="2190547351159472884">"اندازه"</string>
     <string name="sort_dimension_date" msgid="4231005651895254033">"آخرین تغییر"</string>
-    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"‏نام فایل (A تا Z)"</string>
-    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"‏نوع (A تا Z)"</string>
+    <string name="sort_dimension_name_ascending" msgid="3715725253270614742">"نام فایل (به‌ترتیب حروف الفبا)"</string>
+    <string name="sort_dimension_file_type_ascending" msgid="3466973933402894292">"نوع (به‌ترتیب حروف الفبا)"</string>
     <string name="sort_dimension_size_ascending" msgid="2617359017800057762">"اندازه (ابتدا کوچک‌ترین)"</string>
     <string name="sort_dimension_date_ascending" msgid="7920068979386920559">"اصلاح‌شده (ابتدا قدیمی‌ترین)"</string>
     <string name="sort_dimension_name_descending" msgid="1514525521100423342">"‏نام فایل (Z تا A)"</string>

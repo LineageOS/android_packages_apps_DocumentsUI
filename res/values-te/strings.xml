@@ -30,7 +30,7 @@
     <string name="menu_grid" msgid="1453636521731880680">"గ్రిడ్ వీక్షణ"</string>
     <string name="menu_list" msgid="6714267452146410402">"లిస్ట్‌ వీక్షణ"</string>
     <string name="menu_search" msgid="1876699106790719849">"సెర్చ్"</string>
-    <string name="menu_settings" msgid="6520844520117939047">"నిల్వ సెట్టింగ్‌లు"</string>
+    <string name="menu_settings" msgid="6520844520117939047">"స్టోరేజ్‌ సెట్టింగ్‌లు"</string>
     <string name="menu_open" msgid="9092138100049759315">"తెరువు"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"దీనితో తెరువు"</string>
     <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరువు"</string>
@@ -106,7 +106,7 @@
     <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"మరింత తెలుసుకోవడానికి, మీ IT అడ్మిన్‌ను సంప్రదించండి"</string>
     <string name="root_recent" msgid="1080156975424341623">"ఇటీవలివి"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ఖాళీగా ఉంది"</string>
-    <string name="root_type_service" msgid="6521366147466512289">"నిల్వ పరికరాలు"</string>
+    <string name="root_type_service" msgid="6521366147466512289">"స్టోరేజ్‌ పరికరాలు"</string>
     <string name="root_type_shortcut" msgid="6059343175525442279">"షార్ట్‌కట్స్"</string>
     <string name="root_type_device" msgid="1713604128005476585">"పరికరాలు"</string>
     <string name="root_type_apps" msgid="8646073235029886342">"మరిన్ని యాప్‌లు"</string>
@@ -270,7 +270,7 @@
     <string name="anonymous_application" msgid="7633027057951625862">"తెలియనిది"</string>
     <string name="open_tree_button" msgid="6402871398424497776">"ఈ ఫోల్డర్‌ను ఉపయోగించండి"</string>
     <string name="open_tree_dialog_title" msgid="6339509533852318569">"<xliff:g id="DIRECTORY">%2$s</xliff:g>లోని ఫైళ్లను యాక్సెస్ చేయడానికి <xliff:g id="APPNAME">%1$s</xliff:g>ని అనుమతించాలా?"</string>
-    <string name="open_tree_dialog_message" msgid="4120695398430659628">"ఇది <xliff:g id="DIRECTORY">%2$s</xliff:g>లో నిల్వ చేసిన ప్రస్తుత మరియు భవిష్యత్తు కంటెంట్‌ను <xliff:g id="APPNAME">%1$s</xliff:g> యాక్సెస్ చేయడానికి అనుమతిస్తుంది."</string>
+    <string name="open_tree_dialog_message" msgid="4120695398430659628">"ఇది <xliff:g id="DIRECTORY">%2$s</xliff:g>లో స్టోరేజ్‌ చేసిన ప్రస్తుత మరియు భవిష్యత్తు కంటెంట్‌ను <xliff:g id="APPNAME">%1$s</xliff:g> యాక్సెస్ చేయడానికి అనుమతిస్తుంది."</string>
     <string name="directory_blocked_header_title" msgid="1164584889578740066">"ఈ ఫోల్డర్‌ను ఉపయోగించడం సాధ్యం కాదు"</string>
     <string name="directory_blocked_header_subtitle" msgid="2829150911849033408">"మీ గోప్యతను కాపాడుకోవటానికి, మరొక ఫోల్డర్‌ను ఎంచుకోండి"</string>
     <string name="create_new_folder_button" msgid="8859613309559794890">"కొత్త ఫోల్డర్‌ని క్రియేట్ చేయండి"</string>
