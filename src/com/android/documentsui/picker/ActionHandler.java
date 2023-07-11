@@ -16,12 +16,17 @@
 
 package com.android.documentsui.picker;
 
+import static android.provider.DocumentsContract.isDocumentUri;
+import static android.provider.DocumentsContract.isRootUri;
+
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 import static com.android.documentsui.base.State.ACTION_CREATE;
 import static com.android.documentsui.base.State.ACTION_GET_CONTENT;
 import static com.android.documentsui.base.State.ACTION_OPEN;
 import static com.android.documentsui.base.State.ACTION_OPEN_TREE;
 import static com.android.documentsui.base.State.ACTION_PICK_COPY_DESTINATION;
+
+import static java.util.regex.Pattern.CASE_INSENSITIVE;
 
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
@@ -35,6 +40,8 @@ import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -52,6 +59,7 @@ import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.Lookup;
+import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -61,14 +69,12 @@ import com.android.documentsui.picker.ActionHandler.Addons;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.services.FileOperationService;
+import com.android.documentsui.util.FileUtils;
 
-import com.android.documentsui.util.VersionUtils;
+import java.io.IOException;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.concurrent.Executor;
-
 import java.util.regex.Pattern;
-import javax.annotation.Nullable;
 
 /**
  * Provides {@link PickActivity} action specializations to fragments.
@@ -77,12 +83,24 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
 
     private static final String TAG = "PickerActionHandler";
 
+    /**
+     * Used to prevent applications from using {@link Intent.ACTION_OPEN_DOCUMENT_TREE} and
+     * the {@link Intent.ACTION_OPEN_DOCUMENT} actions to request that the user select individual
+     * files from "/Android/data", "/Android/obb", "/Android/sandbox" directories and all their
+     * subdirectories (on the external storage), in accordance with the SAF privacy restrictions
+     * introduced in Android 11 (R).
+     *
+     * <p>
+     * See <a href="https://developer.android.com/about/versions/11/privacy/storage#file-access">
+     * Storage updates in Android 11</a>.
+     */
+    private static final Pattern PATTERN_RESTRICTED_INITIAL_PATH =
+            Pattern.compile("^/Android/(?:data|obb|sandbox).*", CASE_INSENSITIVE);
+
     private final Features mFeatures;
     private final ActivityConfig mConfig;
     private final LastAccessedStorage mLastAccessed;
     private final UserIdManager mUserIdManager;
-    private final static Pattern PATTERN_BLOCK_PATH = Pattern.compile(
-        ".*:android\\/(?:data|obb|sandbox)$");
 
     private UpdatePickResultTask mUpdatePickResultTask;
 
@@ -160,25 +178,84 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     }
 
     private boolean launchToInitialUri(Intent intent) {
-        Uri uri = intent.getParcelableExtra(DocumentsContract.EXTRA_INITIAL_URI);
-        if (uri != null) {
-            // In android S and above if path contains Android/data, Android/obb
-            // or Android/sandbox redirect to the root for which
-            // FLAG_DIR_BLOCKS_OPEN_DOCUMENT_TREE is already set
-            if(Shared.shouldRestrictStorageAccessFramework(mActivity)
-                && (PATTERN_BLOCK_PATH.matcher(uri.getPath().toLowerCase(Locale.ROOT)).matches())){
-                loadDeviceRoot();
-                return true;
-            }
-            if (DocumentsContract.isRootUri(mActivity, uri)) {
-                loadRoot(uri, UserId.DEFAULT_USER);
-                return true;
-            } else if (DocumentsContract.isDocumentUri(mActivity, uri)) {
-                return launchToDocument(uri);
-            }
+        final Uri initialUri = intent.getParcelableExtra(DocumentsContract.EXTRA_INITIAL_URI);
+        if (initialUri == null) {
+            return false;
         }
 
-        return false;
+        final boolean isRoot = isRootUri(mActivity, initialUri);
+        final boolean isDocument = !isRoot && isDocumentUri(mActivity, initialUri);
+
+        if (!isRoot && !isDocument) {
+            // Neither a root nor a document.
+            return false;
+        }
+
+        if (isRoot) {
+            loadRoot(initialUri, UserId.DEFAULT_USER);
+            return true;
+        }
+        // From here onwards: isDoc == true.
+
+        if (shouldPreemptivelyRestrictRequestedInitialUri(initialUri)) {
+            Log.w(TAG, "Requested initial URI - " + initialUri + " - is restricted: "
+                    + "loading device root instead.");
+            return false;
+        }
+
+        return launchToDocument(initialUri);
+    }
+
+    /**
+     * Starting with Android 11 (R, API Level 30) applications are no longer allowed to use the
+     * {@link Intent#ACTION_OPEN_DOCUMENT} and {@link Intent#ACTION_OPEN_DOCUMENT_TREE} to request
+     * that the user select individual files from "Android/data/", "Android/obb/",
+     * "Android/sandbox/" directories and all their subdirectories on "external storage".
+     * <p>
+     * See <a href="https://developer.android.com/about/versions/11/privacy/storage#file-access">
+     * Storage updates in Android 11</a>.
+     * <p>
+     * Ideally, this should be handled on the {@code ExternalStorageProvider} side, but as of
+     * Android 14 (U) FRC, {@code ExternalStorageProvider} "hides" only "Android/data/",
+     * "Android/obb/" and "Android/sandbox/" directories, but NOT their subdirectories.
+     */
+    private boolean shouldPreemptivelyRestrictRequestedInitialUri(@NonNull Uri uri) {
+        // Not restricting SAF access for the calling app.
+        if (!Shared.shouldRestrictStorageAccessFramework(mActivity)) {
+            return false;
+        }
+
+        // We only need to restrict some locations on the "external" storage.
+        if (!Providers.AUTHORITY_STORAGE.equals(uri.getAuthority())) {
+            return false;
+        }
+
+        // TODO(b/283962634): in the future this will have to be platform-version specific.
+        //  For example, if the fix on the ExternalStorageProvider side makes it to the Android 15,
+        //  we would change this to check if the platform version >= 15.
+        //  In the upcoming Android 14 release, however, ExternalStorageProvider does NOT yet
+        //  implement this logic.
+        final boolean externalProviderImplementsSafRestrictions = false;
+        if (externalProviderImplementsSafRestrictions) {
+            return false;
+        }
+
+        // External Storage Provider's docId format is "root:path/to/file"
+        // The getPathFromStorageDocId() turns that into "/path/to/file"
+        // Note the missing leading "/" in the path part of the docId, while the path returned by
+        // the getPathFromStorageDocId() start with "/".
+        final String docId = DocumentsContract.getDocumentId(uri);
+        final String filePath;
+        try {
+             filePath = FileUtils.getPathFromStorageDocId(docId);
+        } catch (IOException e) {
+            Log.w(TAG, "Could not get canonical file path from docId '" + docId + "'");
+            return true;
+        }
+
+        // Check if the app is asking for /Android/data, /Android/obb, /Android/sandbox or any of
+        // their subdirectories (on the external storage).
+        return PATTERN_RESTRICTED_INITIAL_PATH.matcher(filePath).matches();
     }
 
     private void initLoadLastAccessedStack() {
