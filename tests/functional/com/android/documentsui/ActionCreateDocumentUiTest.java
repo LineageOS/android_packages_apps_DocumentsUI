@@ -16,16 +16,19 @@
 
 package com.android.documentsui;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static android.app.Activity.RESULT_OK;
+import static android.content.Intent.ACTION_CREATE_DOCUMENT;
+import static android.content.Intent.CATEGORY_DEFAULT;
+import static android.content.Intent.CATEGORY_OPENABLE;
+import static android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
 import static com.android.documentsui.base.Providers.AUTHORITY_STORAGE;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import android.app.Activity;
 import android.app.Instrumentation;
-import android.app.UiAutomation;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.DocumentsContract;
@@ -33,11 +36,10 @@ import android.provider.DocumentsContract;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
-import androidx.test.uiautomator.UiDevice;
 
-import com.android.documentsui.bots.Bots;
 import com.android.documentsui.picker.PickActivity;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,62 +50,54 @@ import java.util.UUID;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ActionCreateDocumentUiTest {
+public class ActionCreateDocumentUiTest extends DocumentsUiTestBase {
 
     @Rule
     public final ActivityTestRule<PickActivity> mRule =
             new ActivityTestRule<>(PickActivity.class, false, false);
 
-    private Context mTargetContext;
-    private Context mContext;
-    private Bots mBots;
-    private UiDevice mDevice;
-
     @Before
-    public void setup() {
-        UiAutomation automation = getInstrumentation().getUiAutomation();
+    public void setup() throws Exception {
+        super.setUp();
+    }
 
-        mDevice = UiDevice.getInstance(getInstrumentation());
-        mTargetContext = getInstrumentation().getTargetContext();
-        mContext = getInstrumentation().getContext();
-        mBots = new Bots(mDevice, automation, mTargetContext, 5000);
+    @After
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
 
     @Test
     public void testActionCreate_TextFile() throws Exception {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        final Intent intent = new Intent(ACTION_CREATE_DOCUMENT);
+        intent.addCategory(CATEGORY_DEFAULT);
+        intent.addCategory(CATEGORY_OPENABLE);
         intent.setType("*/*");
-
-        Uri hintUri = DocumentsContract.buildRootUri(AUTHORITY_STORAGE, "primary");
-        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, hintUri);
+        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,
+                DocumentsContract.buildRootUri(AUTHORITY_STORAGE, "primary"));
 
         mRule.launchActivity(intent);
 
-        String fileName = UUID.randomUUID().toString() + ".txt";
+        final String fileName = UUID.randomUUID() + ".txt";
 
-        mBots.main.setDialogText(fileName);
-        mBots.main.clickSaveButton();
-        mDevice.waitForIdle();
+        bots.main.setDialogText(fileName);
+        bots.main.clickSaveButton();
+        device.waitForIdle();
 
-        Instrumentation.ActivityResult activityResult = mRule.getActivityResult();
+        final Instrumentation.ActivityResult activityResult = mRule.getActivityResult();
+        assertThat(activityResult.getResultCode()).isEqualTo(RESULT_OK);
 
-        Intent result = activityResult.getResultData();
-        Uri uri = result.getData();
-        int flags = result.getFlags();
+        final Intent resultData = activityResult.getResultData();
+        final Uri uri = resultData.getData();
 
-        assertThat(activityResult.getResultCode()).isEqualTo(Activity.RESULT_OK);
         assertThat(uri.getAuthority()).isEqualTo(AUTHORITY_STORAGE);
         assertThat(uri.getPath()).contains(fileName);
 
-        int expectedFlags =
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                        | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION;
+        assertThat(resultData.getFlags()).isEqualTo(FLAG_GRANT_READ_URI_PERMISSION
+                        | FLAG_GRANT_WRITE_URI_PERMISSION
+                        | FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 
-        assertThat(flags).isEqualTo(expectedFlags);
-        assertThat(DocumentsContract.deleteDocument(mContext.getContentResolver(), uri)).isTrue();
+        final boolean deletedSuccessfully =
+                DocumentsContract.deleteDocument(context.getContentResolver(), uri);
+        assertThat(deletedSuccessfully).isTrue();
     }
-
 }
