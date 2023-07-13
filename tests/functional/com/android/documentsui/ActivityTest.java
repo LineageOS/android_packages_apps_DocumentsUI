@@ -16,6 +16,8 @@
 
 package com.android.documentsui;
 
+import static java.util.Objects.requireNonNull;
+
 import android.app.Activity;
 import android.app.UiAutomation;
 import android.app.UiModeManager;
@@ -41,6 +43,8 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.bots.Bots;
 import com.android.documentsui.files.FilesActivity;
+
+import java.io.IOException;
 
 import javax.annotation.Nullable;
 
@@ -77,6 +81,9 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
     protected DocumentsProviderHelper mDocsHelper;
     protected ContentProviderClient mClient;
     protected UiModeManager mUiModeManager;
+
+    private String initialScreenOffTimeoutValue = null;
+    private String initialSleepTimeoutValue = null;
 
     public ActivityTest(Class<T> activityClass) {
         super(activityClass);
@@ -129,6 +136,9 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
         device.setOrientationNatural();
         device.pressKeyCode(KeyEvent.KEYCODE_WAKEUP);
         device.pressKeyCode(KeyEvent.KEYCODE_MENU);
+
+        disableScreenOffAndSleepTimeouts();
+
         setupTestingRoots();
 
         launchActivity();
@@ -148,6 +158,7 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
     public void tearDown() throws Exception {
         device.unfreezeRotation();
         mDocsHelper.cleanUp();
+        restoreScreenOffAndSleepTimeouts();
         super.tearDown();
     }
 
@@ -209,6 +220,29 @@ public abstract class ActivityTest<T extends Activity> extends ActivityInstrumen
                     .getSystemService(Context.UI_MODE_SERVICE);
             mUiModeManager.setNightMode(uiModeNight);
             device.waitForIdle(NIGHT_MODE_CHANGE_WAIT_TIME);
+        }
+    }
+
+    private void disableScreenOffAndSleepTimeouts() throws IOException {
+        initialScreenOffTimeoutValue = device.executeShellCommand(
+                "settings get system screen_off_timeout");
+        initialSleepTimeoutValue = device.executeShellCommand(
+                "settings get secure sleep_timeout");
+        device.executeShellCommand("settings put system screen_off_timeout -1");
+        device.executeShellCommand("settings put secure sleep_timeout -1");
+    }
+
+    private void restoreScreenOffAndSleepTimeouts() throws IOException {
+        requireNonNull(initialScreenOffTimeoutValue);
+        requireNonNull(initialSleepTimeoutValue);
+        try {
+            device.executeShellCommand(
+                    "settings put system screen_off_timeout " + initialScreenOffTimeoutValue);
+            device.executeShellCommand(
+                    "settings put secure sleep_timeout " + initialSleepTimeoutValue);
+        } finally {
+            initialScreenOffTimeoutValue = null;
+            initialSleepTimeoutValue = null;
         }
     }
 }
