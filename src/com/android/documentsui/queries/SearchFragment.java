@@ -163,9 +163,9 @@ public class SearchFragment extends Fragment {
 
         updateDirectoryVisibility(View.VISIBLE);
 
-        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-        ft.remove(this);
-        ft.commitNow();
+        getParentFragmentManager().beginTransaction()
+                .remove(this)
+                .commitAllowingStateLoss();
     }
 
     private void updateDirectoryVisibility(int visibility) {
