@@ -33,7 +33,7 @@
     <string name="menu_settings" msgid="6520844520117939047">"స్టోరేజ్‌ సెట్టింగ్‌లు"</string>
     <string name="menu_open" msgid="9092138100049759315">"తెరువు"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"దీనితో తెరువు"</string>
-    <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరువు"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరవండి"</string>
     <string name="menu_save" msgid="5195367497138965168">"సేవ్ చేయండి"</string>
     <string name="menu_share" msgid="4307140947108068356">"షేర్ చేయి"</string>
     <string name="menu_delete" msgid="1022254131543256626">"తొలగించండి"</string>
