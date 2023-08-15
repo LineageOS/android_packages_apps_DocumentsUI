@@ -19,7 +19,7 @@
     <string name="inspector_title" msgid="1924760928091740238">"Informacione"</string>
     <string name="inspector_load_error" msgid="7522190243413249291">"Informacioni i skedarit nuk mund të ngarkohej"</string>
     <string name="inspector_debug_section" msgid="2576052661505700421">"Informacioni i korrigjimit (vetëm zhvilluesit)"</string>
-    <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"Të dhënat meta të papërpunuara: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
+    <string name="inspector_debug_metadata_section" msgid="5875140675600744846">"Metadatat e papërpunuara: <xliff:g id="METADATATYPE">%1$s</xliff:g>"</string>
     <string name="inspector_metadata_section" msgid="6077622515328240575">"Detajet e medias"</string>
     <string name="handler_app_file_opens_with" msgid="5272329600389613550">"Ky lloj skedari hapet me"</string>
     <string name="handler_app_belongs_to" msgid="5444507329303253553">"Ky skedar ofrohet nga"</string>
