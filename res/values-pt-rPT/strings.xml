@@ -218,9 +218,9 @@
     <string name="rename_error" msgid="6700093173508118635">"Falha ao mudar o nome do documento"</string>
     <string name="menu_eject_root" msgid="9215040039374893613">"Ejetar"</string>
     <string name="notification_copy_files_converted_title" msgid="6916768494891833365">"Alguns ficheiros foram convertidos"</string>
-    <string name="open_external_dialog_request" msgid="8173558471322861268">"Pretende conceder a <xliff:g id="APPNAME"><b>^1</b></xliff:g> acesso ao diretório <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> no(a) <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
-    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Pretende conceder a <xliff:g id="APPNAME"><b>^1</b></xliff:g> acesso ao diretório <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
-    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Pretende conceder a <xliff:g id="APPNAME"><b>^1</b></xliff:g> acesso aos seus dados, incluindo fotos e vídeos, no(a) <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
+    <string name="open_external_dialog_request" msgid="8173558471322861268">"Quer conceder a <xliff:g id="APPNAME"><b>^1</b></xliff:g> acesso ao diretório <xliff:g id="DIRECTORY"><i>^2</i></xliff:g> no(a) <xliff:g id="STORAGE"><i>^3</i></xliff:g>?"</string>
+    <string name="open_external_dialog_request_primary_volume" msgid="2240992164087948176">"Quer conceder a <xliff:g id="APPNAME"><b>^1</b></xliff:g> acesso ao diretório <xliff:g id="DIRECTORY"><i>^2</i></xliff:g>?"</string>
+    <string name="open_external_dialog_root_request" msgid="6776729293982633">"Quer conceder a <xliff:g id="APPNAME"><b>^1</b></xliff:g> acesso aos seus dados, incluindo fotos e vídeos, no(a) <xliff:g id="STORAGE"><i>^2</i></xliff:g>?"</string>
     <string name="allow" msgid="1275746941353040309">"Permitir"</string>
     <string name="deny" msgid="5127201668078153379">"Recusar"</string>
     <plurals name="elements_selected" formatted="false" msgid="4448165978637163692">
@@ -257,7 +257,7 @@
     <string name="cant_display_content" msgid="8633226333229417237">"Não é possível apresentar conteúdos"</string>
     <string name="sign_in" msgid="6253762676723505592">"Iniciar sessão"</string>
     <string name="new_archive_file_name" msgid="1604650338077249838">"arquivo<xliff:g id="EXTENSION">%s</xliff:g>"</string>
-    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Pretende substituir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
+    <string name="overwrite_file_confirmation_message" msgid="2496109652768222716">"Quer substituir <xliff:g id="NAME">%1$s</xliff:g>?"</string>
     <string name="continue_in_background" msgid="1974214559047793331">"Continuar em segundo plano"</string>
     <plurals name="selected_count" formatted="false" msgid="7555250236512981129">
       <item quantity="many"><xliff:g id="COUNT_1">%1$d</xliff:g> selecionados</item>
