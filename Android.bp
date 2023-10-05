@@ -53,11 +53,11 @@ java_defaults {
     certificate: "platform",
 
     optimize: {
+        shrink_resources: true,
         proguard_flags_files: ["proguard.flags"],
     },
 
     sdk_version: "system_current",
-    target_sdk_version: "30",
     min_sdk_version: "29",
 
     lint: { strict_updatability_linting: true }
@@ -111,7 +111,7 @@ android_library {
     ],
 
     sdk_version: "system_current",
-    target_sdk_version: "30",
+    target_sdk_version: "33",
     min_sdk_version: "29",
     lint: { strict_updatability_linting: true }
 }
@@ -141,7 +141,7 @@ android_library {
     ],
 
     sdk_version: "system_current",
-    target_sdk_version: "30",
+    target_sdk_version: "33",
     min_sdk_version: "29",
     lint: { strict_updatability_linting: true }
 }
@@ -168,8 +168,8 @@ android_app {
 
     required: ["privapp_whitelist_com.android.documentsui"],
 
-    target_sdk_version: "30",
     min_sdk_version: "29",
+    updatable: true,
     lint: { strict_updatability_linting: true }
 }
 

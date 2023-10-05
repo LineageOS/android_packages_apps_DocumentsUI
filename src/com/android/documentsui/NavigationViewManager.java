@@ -40,6 +40,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -159,6 +160,15 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
 
     public void setSearchBarClickListener(View.OnClickListener listener) {
         mSearchBarView.setOnClickListener(listener);
+        if (SdkLevel.isAtLeastU()) {
+            try {
+                mSearchBarView.setHandwritingDelegatorCallback(
+                        () -> listener.onClick(mSearchBarView));
+            } catch (LinkageError e) {
+                // Running on a device with an older build of Android U
+                // TODO(b/274154553): Remove try/catch block after Android U Beta 1 is released
+            }
+        }
     }
 
     public ProfileTabsAddons getProfileTabsAddons() {
