@@ -65,18 +65,15 @@ public class SortListFragment extends DialogFragment {
         for (int i = 0; i < mModel.getSize(); ++i) {
             SortDimension dimension = mModel.getDimensionAt(i);
             if (dimension.getSortCapability() != SortDimension.SORT_CAPABILITY_NONE) {
-                switch (dimension.getId()) {
-                    case SortModel.SORT_DIMENSION_ID_TITLE:
-                    case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
-                        addBothDirectionDimension(dimension, true);
-                        break;
-                    case SortModel.SORT_DIMENSION_ID_DATE:
-                    case SortModel.SORT_DIMENSION_ID_SIZE:
-                        addBothDirectionDimension(dimension, false);
-                        break;
-                    default:
-                        mSortingList.add(new SortItem(dimension));
-                        break;
+                final int id = dimension.getId();
+                if (id == SortModel.SORT_DIMENSION_ID_TITLE
+                        || id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
+                    addBothDirectionDimension(dimension, true);
+                } else if (id == SortModel.SORT_DIMENSION_ID_DATE
+                        || id == SortModel.SORT_DIMENSION_ID_SIZE) {
+                    addBothDirectionDimension(dimension, false);
+                } else {
+                    mSortingList.add(new SortItem(dimension));
                 }
             }
         }
@@ -95,22 +92,21 @@ public class SortListFragment extends DialogFragment {
 
     public static @StringRes int getSheetLabelId(SortDimension dimension, @SortDirection int direction) {
         boolean isAscending = direction == SortDimension.SORT_DIRECTION_ASCENDING;
-        switch (dimension.getId()) {
-            case SortModel.SORT_DIMENSION_ID_TITLE:
-                return isAscending ? R.string.sort_dimension_name_ascending :
-                        R.string.sort_dimension_name_descending;
-            case SortModel.SORT_DIMENSION_ID_DATE:
-                return isAscending ? R.string.sort_dimension_date_ascending :
-                        R.string.sort_dimension_date_descending;
-            case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
-                return isAscending ? R.string.sort_dimension_file_type_ascending :
-                        R.string.sort_dimension_file_type_descending;
-            case SortModel.SORT_DIMENSION_ID_SIZE:
-                return isAscending ? R.string.sort_dimension_size_ascending :
-                        R.string.sort_dimension_size_descending;
-            default:
-                return dimension.getLabelId();
+        final int id = dimension.getId();
+        if (id == SortModel.SORT_DIMENSION_ID_TITLE) {
+            return isAscending ? R.string.sort_dimension_name_ascending :
+                    R.string.sort_dimension_name_descending;
+        } else if (id == SortModel.SORT_DIMENSION_ID_DATE) {
+            return isAscending ? R.string.sort_dimension_date_ascending :
+                    R.string.sort_dimension_date_descending;
+        } else if (id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
+            return isAscending ? R.string.sort_dimension_file_type_ascending :
+                    R.string.sort_dimension_file_type_descending;
+        } else if (id == SortModel.SORT_DIMENSION_ID_SIZE) {
+            return isAscending ? R.string.sort_dimension_size_ascending :
+                    R.string.sort_dimension_size_descending;
         }
+        return dimension.getLabelId();
     }
 
     @Override
