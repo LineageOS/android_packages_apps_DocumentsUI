@@ -19,7 +19,6 @@ package com.android.documentsui;
 import static com.android.documentsui.StubProvider.ROOT_0_ID;
 import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
-import androidx.recyclerview.R;
 import androidx.test.filters.LargeTest;
 import androidx.test.filters.Suppress;
 
