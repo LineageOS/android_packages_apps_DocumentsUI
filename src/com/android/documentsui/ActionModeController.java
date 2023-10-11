@@ -79,7 +79,8 @@ public class ActionModeController extends SelectionObserver<String>
                     Log.d(TAG, "Starting action mode.");
                 }
                 mActionMode = mActivity.startActionMode(this);
-                final View closeButton = mActivity.findViewById(R.id.action_mode_close_button);
+                final View closeButton =
+                        mActivity.findViewById(androidx.appcompat.R.id.action_mode_close_button);
                 if (closeButton != null) {
                     closeButton.setContentDescription(mActivity.getString(android.R.string.cancel));
                 }
