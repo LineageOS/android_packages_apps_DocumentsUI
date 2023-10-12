@@ -20,7 +20,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
-import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -170,7 +169,7 @@ public class SortListFragment extends DialogFragment {
 
     private static class SortItem {
 
-        @SortDimensionId final int id;
+        final int id;
         @SortDirection final int direction;
         @StringRes final int labelId;
 
@@ -180,7 +179,7 @@ public class SortListFragment extends DialogFragment {
             labelId = dimension.getLabelId();
         }
 
-        SortItem(@SortDimensionId int id, @SortDirection int direction, @StringRes int labelId) {
+        SortItem(int id, @SortDirection int direction, @StringRes int labelId) {
             this.id = id;
             this.direction = direction;
             this.labelId = labelId;
