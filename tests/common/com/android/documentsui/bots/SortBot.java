@@ -45,7 +45,6 @@ import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
 import com.android.documentsui.sorting.SortListFragment;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
 import org.hamcrest.Matcher;
 
@@ -67,7 +66,7 @@ public class SortBot extends Bots.BaseBot {
         mUiBot = uiBot;
     }
 
-    public void sortBy(@SortDimensionId int id, @SortDirection int direction) {
+    public void sortBy(int id, @SortDirection int direction) {
         assert(direction != SortDimension.SORT_DIRECTION_NONE);
 
         final @StringRes int labelId = mSortModel.getDimensionById(id).getLabelId();
@@ -102,7 +101,7 @@ public class SortBot extends Bots.BaseBot {
         assertTrue(Matchers.present(mColumnBot.MATCHER));
     }
 
-    private boolean sortByMenu(@SortDimensionId int id, @SortDirection int direction) {
+    private boolean sortByMenu(int id, @SortDirection int direction) {
         assert(direction != SortDimension.SORT_DIRECTION_NONE);
 
         clickMenuSort();
