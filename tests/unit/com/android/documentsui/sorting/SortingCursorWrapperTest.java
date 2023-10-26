@@ -34,6 +34,7 @@ import androidx.test.runner.AndroidJUnit4;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.documentsui.sorting.SortModel.SortDimensionId;
 import com.android.documentsui.testing.SortModels;
 import com.android.documentsui.testing.TestFileTypeLookup;
 
@@ -496,7 +497,7 @@ public class SortingCursorWrapperTest {
     }
 
     private Cursor createSortingCursorWrapper(Cursor c) {
-        final int id = sortModel.getSortedDimensionId();
+        final @SortDimensionId int id = sortModel.getSortedDimensionId();
         return new SortingCursorWrapper(c, sortModel.getDimensionById(id), fileTypeLookup);
     }
 }
