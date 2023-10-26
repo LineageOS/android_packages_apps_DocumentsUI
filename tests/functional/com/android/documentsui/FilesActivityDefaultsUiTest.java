@@ -21,6 +21,7 @@ import static com.android.documentsui.StubProvider.ROOT_1_ID;
 
 import android.os.RemoteException;
 
+import androidx.recyclerview.R;
 import androidx.test.filters.LargeTest;
 
 import com.android.documentsui.base.RootInfo;
