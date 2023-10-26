@@ -27,6 +27,7 @@ import android.provider.DocumentsContract.Document;
 
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.Shared;
+import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
 /**
  * Cursor wrapper that presents a sorted view of the underlying cursor. Handles
@@ -48,13 +49,16 @@ class SortingCursorWrapper extends AbstractCursor {
         long[] longValues = null;
         String[] ids = new String[count];
 
-        final int id = dimension.getId();
-        if (id == SortModel.SORT_DIMENSION_ID_TITLE
-                || id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
-            stringValues = new String[count];
-        } else if (id == SortModel.SORT_DIMENSION_ID_DATE
-                || id == SortModel.SORT_DIMENSION_ID_SIZE) {
-            longValues = new long[count];
+        final @SortDimensionId int id = dimension.getId();
+        switch (id) {
+            case SortModel.SORT_DIMENSION_ID_TITLE:
+            case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                stringValues = new String[count];
+                break;
+            case SortModel.SORT_DIMENSION_ID_DATE:
+            case SortModel.SORT_DIMENSION_ID_SIZE:
+                longValues = new long[count];
+                break;
         }
 
         cursor.moveToPosition(-1);
@@ -66,26 +70,34 @@ class SortingCursorWrapper extends AbstractCursor {
             isDirs[i] = Document.MIME_TYPE_DIR.equals(mimeType);
             ids[i] = getCursorString(mCursor, Document.COLUMN_DOCUMENT_ID);
 
-            if (id == SortModel.SORT_DIMENSION_ID_TITLE) {
-                final String displayName = getCursorString(
-                        mCursor, Document.COLUMN_DISPLAY_NAME);
-                stringValues[i] = displayName;
-            } else if (id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
-                stringValues[i] = fileTypeLookup.lookup(mimeType);
-            } else if (id == SortModel.SORT_DIMENSION_ID_DATE) {
-                longValues[i] = getLastModified(mCursor);
-            } else if (id == SortModel.SORT_DIMENSION_ID_SIZE) {
-                longValues[i] = getCursorLong(mCursor, Document.COLUMN_SIZE);
+            switch(id) {
+                case SortModel.SORT_DIMENSION_ID_TITLE:
+                    final String displayName = getCursorString(
+                            mCursor, Document.COLUMN_DISPLAY_NAME);
+                    stringValues[i] = displayName;
+                    break;
+                case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                    stringValues[i] = fileTypeLookup.lookup(mimeType);
+                    break;
+                case SortModel.SORT_DIMENSION_ID_DATE:
+                    longValues[i] = getLastModified(mCursor);
+                    break;
+                case SortModel.SORT_DIMENSION_ID_SIZE:
+                    longValues[i] = getCursorLong(mCursor, Document.COLUMN_SIZE);
+                    break;
             }
 
         }
 
-        if (id == SortModel.SORT_DIMENSION_ID_TITLE
-                || id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
-            binarySort(stringValues, isDirs, mPosition, ids, dimension.getSortDirection());
-        } else if (id == SortModel.SORT_DIMENSION_ID_DATE
-                || id == SortModel.SORT_DIMENSION_ID_SIZE) {
-            binarySort(longValues, isDirs, mPosition, ids, dimension.getSortDirection());
+        switch (id) {
+            case SortModel.SORT_DIMENSION_ID_TITLE:
+            case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                binarySort(stringValues, isDirs, mPosition, ids, dimension.getSortDirection());
+                break;
+            case SortModel.SORT_DIMENSION_ID_DATE:
+            case SortModel.SORT_DIMENSION_ID_SIZE:
+                binarySort(longValues, isDirs, mPosition, ids, dimension.getSortDirection());
+                break;
         }
 
     }

@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.android.documentsui.R;
 import com.android.documentsui.sorting.SortDimension.SortDirection;
+import com.android.documentsui.sorting.SortModel.SortDimensionId;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -65,15 +66,18 @@ public class SortListFragment extends DialogFragment {
         for (int i = 0; i < mModel.getSize(); ++i) {
             SortDimension dimension = mModel.getDimensionAt(i);
             if (dimension.getSortCapability() != SortDimension.SORT_CAPABILITY_NONE) {
-                final int id = dimension.getId();
-                if (id == SortModel.SORT_DIMENSION_ID_TITLE
-                        || id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
-                    addBothDirectionDimension(dimension, true);
-                } else if (id == SortModel.SORT_DIMENSION_ID_DATE
-                        || id == SortModel.SORT_DIMENSION_ID_SIZE) {
-                    addBothDirectionDimension(dimension, false);
-                } else {
-                    mSortingList.add(new SortItem(dimension));
+                switch (dimension.getId()) {
+                    case SortModel.SORT_DIMENSION_ID_TITLE:
+                    case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                        addBothDirectionDimension(dimension, true);
+                        break;
+                    case SortModel.SORT_DIMENSION_ID_DATE:
+                    case SortModel.SORT_DIMENSION_ID_SIZE:
+                        addBothDirectionDimension(dimension, false);
+                        break;
+                    default:
+                        mSortingList.add(new SortItem(dimension));
+                        break;
                 }
             }
         }
@@ -92,21 +96,22 @@ public class SortListFragment extends DialogFragment {
 
     public static @StringRes int getSheetLabelId(SortDimension dimension, @SortDirection int direction) {
         boolean isAscending = direction == SortDimension.SORT_DIRECTION_ASCENDING;
-        final int id = dimension.getId();
-        if (id == SortModel.SORT_DIMENSION_ID_TITLE) {
-            return isAscending ? R.string.sort_dimension_name_ascending :
-                    R.string.sort_dimension_name_descending;
-        } else if (id == SortModel.SORT_DIMENSION_ID_DATE) {
-            return isAscending ? R.string.sort_dimension_date_ascending :
-                    R.string.sort_dimension_date_descending;
-        } else if (id == SortModel.SORT_DIMENSION_ID_FILE_TYPE) {
-            return isAscending ? R.string.sort_dimension_file_type_ascending :
-                    R.string.sort_dimension_file_type_descending;
-        } else if (id == SortModel.SORT_DIMENSION_ID_SIZE) {
-            return isAscending ? R.string.sort_dimension_size_ascending :
-                    R.string.sort_dimension_size_descending;
+        switch (dimension.getId()) {
+            case SortModel.SORT_DIMENSION_ID_TITLE:
+                return isAscending ? R.string.sort_dimension_name_ascending :
+                        R.string.sort_dimension_name_descending;
+            case SortModel.SORT_DIMENSION_ID_DATE:
+                return isAscending ? R.string.sort_dimension_date_ascending :
+                        R.string.sort_dimension_date_descending;
+            case SortModel.SORT_DIMENSION_ID_FILE_TYPE:
+                return isAscending ? R.string.sort_dimension_file_type_ascending :
+                        R.string.sort_dimension_file_type_descending;
+            case SortModel.SORT_DIMENSION_ID_SIZE:
+                return isAscending ? R.string.sort_dimension_size_ascending :
+                        R.string.sort_dimension_size_descending;
+            default:
+                return dimension.getLabelId();
         }
-        return dimension.getLabelId();
     }
 
     @Override
@@ -165,7 +170,7 @@ public class SortListFragment extends DialogFragment {
 
     private static class SortItem {
 
-        final int id;
+        @SortDimensionId final int id;
         @SortDirection final int direction;
         @StringRes final int labelId;
 
@@ -175,7 +180,7 @@ public class SortListFragment extends DialogFragment {
             labelId = dimension.getLabelId();
         }
 
-        SortItem(int id, @SortDirection int direction, @StringRes int labelId) {
+        SortItem(@SortDimensionId int id, @SortDirection int direction, @StringRes int labelId) {
             this.id = id;
             this.direction = direction;
             this.labelId = labelId;
