@@ -33,12 +33,11 @@ import static org.hamcrest.CoreMatchers.anyOf;
 import android.content.Context;
 import android.view.View;
 
+import androidx.recyclerview.R;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
-
-import com.android.documentsui.R;
 
 import org.hamcrest.Matcher;
 
@@ -61,7 +60,7 @@ public class SearchBot extends Bots.BaseBot {
     // require this input be not clickable.
     @SuppressWarnings("unchecked")
     private static final Matcher<View> SEARCH_INPUT = allOf(
-            withId(androidx.appcompat.R.id.search_src_text),
+            withId(R.id.search_src_text),
             isDisplayed());
 
     public SearchBot(UiDevice device, Context context, int timeout) {

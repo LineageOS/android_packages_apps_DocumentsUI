@@ -141,8 +141,7 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
         // move directory_header out of the AppBarLayout.
 
         Window window = mActivity.getWindow();
-        View actionBar =
-                window.getDecorView().findViewById(androidx.appcompat.R.id.action_mode_bar);
+        View actionBar = window.getDecorView().findViewById(R.id.action_mode_bar);
         int dynamicHeaderColor = ContextCompat.getColor(mActivity,
                 offset == 0 ? mDefaultStatusBarColorResId : R.color.color_surface_header);
         if (actionBar != null) {
