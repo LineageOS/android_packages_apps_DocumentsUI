@@ -47,6 +47,16 @@ import java.util.function.Consumer;
  * Sort model that contains all columns and their sorting state.
  */
 public class SortModel implements Parcelable {
+    @IntDef({
+            SORT_DIMENSION_ID_UNKNOWN,
+            SORT_DIMENSION_ID_TITLE,
+            SORT_DIMENSION_ID_SUMMARY,
+            SORT_DIMENSION_ID_SIZE,
+            SORT_DIMENSION_ID_FILE_TYPE,
+            SORT_DIMENSION_ID_DATE
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SortDimensionId {}
     public static final int SORT_DIMENSION_ID_UNKNOWN = 0;
     public static final int SORT_DIMENSION_ID_TITLE = android.R.id.title;
     public static final int SORT_DIMENSION_ID_SUMMARY = android.R.id.summary;
