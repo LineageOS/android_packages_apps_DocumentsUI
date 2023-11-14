@@ -89,6 +89,17 @@ data_sources: {
     }
 }
 
+# "Expected Timeline" and "Actual Timeline" jor each process
+# See https://perfetto.dev/docs/data-sources/frametimeline#traceconfig
+data_sources {
+    config {
+        name: "android.surfaceflinger.frametimeline"
+    }
+}
+
+# Memory Profiling
+# See https://perfetto.dev/docs/data-sources/memory-counters
+
 # Android Logcat
 data_sources: {
     config {
