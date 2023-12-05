@@ -63,6 +63,7 @@ import com.android.documentsui.Injector;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.ItemDragListener;
 import com.android.documentsui.R;
+import com.android.documentsui.UserManagerState;
 import com.android.documentsui.UserPackage;
 import com.android.documentsui.base.BooleanConsumer;
 import com.android.documentsui.base.DocumentInfo;
@@ -77,6 +78,7 @@ import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.roots.RootsLoader;
 import com.android.documentsui.util.CrossProfileUtils;
+import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -130,11 +132,12 @@ public class RootsFragment extends Fragment {
 
     /**
      * Shows the {@link RootsFragment}.
-     * @param fm the FragmentManager for interacting with fragments associated with this
-     *           fragment's activity
+     *
+     * @param fm          the FragmentManager for interacting with fragments associated with this
+     *                    fragment's activity
      * @param includeApps if {@code true}, query the intent from the system and include apps in
      *                    the {@RootsFragment}.
-     * @param intent the intent to query for package manager
+     * @param intent      the intent to query for package manager
      */
     public static RootsFragment show(FragmentManager fm, boolean includeApps, Intent intent) {
         final Bundle args = new Bundle();
@@ -184,8 +187,8 @@ public class RootsFragment extends Fragment {
                             });
                         }
                         return false;
-            }
-        });
+                    }
+                });
         mList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         mList.setSelector(new ColorDrawable(Color.TRANSPARENT));
         return view;
@@ -266,10 +269,19 @@ public class RootsFragment extends Fragment {
                 // necessary.
                 ResolveInfo crossProfileResolveInfo = null;
                 if (state.supportsCrossProfile() && handlerAppIntent != null) {
-                    crossProfileResolveInfo = CrossProfileUtils.getCrossProfileResolveInfo(
-                            getContext().getPackageManager(), handlerAppIntent);
-                    updateCrossProfileStateAndMaybeRefresh(
-                            /* canShareAcrossProfile= */ crossProfileResolveInfo != null);
+                    if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                        UserManagerState userManagerState =
+                                DocumentsApplication.getUserManagerState(getContext());
+                        Map<UserId, Boolean> canForwardToProfileIdMap =
+                                userManagerState.getCanForwardToProfileIdMap(handlerAppIntent);
+                        updateCrossProfileMapStateAndMaybeRefresh(canForwardToProfileIdMap);
+                    } else {
+                        crossProfileResolveInfo = CrossProfileUtils.getCrossProfileResolveInfo(
+                                UserId.CURRENT_USER, getContext().getPackageManager(),
+                                handlerAppIntent, getContext());
+                        updateCrossProfileStateAndMaybeRefresh(
+                                /* canShareAcrossProfile= */ crossProfileResolveInfo != null);
+                    }
                 }
 
                 List<Item> sortedItems = sortLoadResult(
@@ -280,7 +292,7 @@ public class RootsFragment extends Fragment {
                         shouldIncludeHandlerApp ? handlerAppIntent : null,
                         DocumentsApplication.getProvidersCache(getContext()),
                         getBaseActivity().getSelectedUser(),
-                        DocumentsApplication.getUserIdManager(getContext()).getUserIds(),
+                        getUserIds(),
                         maybeShowBadge);
 
                 // This will be removed when feature flag is removed.
@@ -316,6 +328,13 @@ public class RootsFragment extends Fragment {
                 onCurrentRootChanged();
             }
 
+            private List<UserId> getUserIds() {
+                if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                    return DocumentsApplication.getUserManagerState(getContext()).getUserIds();
+                }
+                return DocumentsApplication.getUserIdManager(getContext()).getUserIds();
+            }
+
             @Override
             public void onLoaderReset(Loader<Collection<RootInfo>> loader) {
                 mAdapter = null;
@@ -338,12 +357,24 @@ public class RootsFragment extends Fragment {
         }
     }
 
+    private void updateCrossProfileMapStateAndMaybeRefresh(
+            Map<UserId, Boolean> canForwardToProfileIdMap) {
+        final State state = getBaseActivity().getDisplayState();
+        if (!state.canForwardToProfileIdMap.equals(canForwardToProfileIdMap)) {
+            state.canForwardToProfileIdMap = canForwardToProfileIdMap;
+            if (!UserId.CURRENT_USER.equals(getBaseActivity().getSelectedUser())) {
+                mActionHandler.loadDocumentsForCurrentStack();
+            }
+        }
+    }
+
     /**
      * If the package name of other providers or apps capable of handling the original intent
      * include the preferred root source, it will have higher order than others.
-     * @param excludePackage Exclude activities from this given package
+     *
+     * @param excludePackage   Exclude activities from this given package
      * @param handlerAppIntent When not null, apps capable of handling the original intent will
-     *            be included in list of roots (in special section at bottom).
+     *                         be included in list of roots (in special section at bottom).
      */
     @VisibleForTesting
     List<Item> sortLoadResult(
@@ -649,8 +680,8 @@ public class RootsFragment extends Fragment {
     }
 
     static void ejectClicked(View ejectIcon, RootInfo root, ActionHandler actionHandler) {
-        assert(ejectIcon != null);
-        assert(!root.ejecting);
+        assert (ejectIcon != null);
+        assert (!root.ejecting);
         ejectIcon.setEnabled(false);
         root.ejecting = true;
         actionHandler.ejectRoot(

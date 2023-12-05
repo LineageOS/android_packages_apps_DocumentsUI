@@ -16,6 +16,7 @@
 
 package com.android.documentsui;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
 import com.android.documentsui.base.UserId;
@@ -28,7 +29,8 @@ import java.util.Map;
 public class TestUserManagerState implements UserManagerState {
 
     public List<UserId> userIds = new ArrayList<>();
-    public Map<UserId, String> userIdLabelMap = new HashMap<>();
+    public Map<UserId, String> userIdToLabelMap = new HashMap<>();
+    public Map<UserId, Boolean> canFrowardToProfileIdMap = new HashMap<>();
 
     public Map<UserId, Drawable> userIdToBadgeMap = new HashMap<>();
 
@@ -39,11 +41,16 @@ public class TestUserManagerState implements UserManagerState {
 
     @Override
     public Map<UserId, String> getUserIdToLabelMap() {
-        return userIdLabelMap;
+        return userIdToLabelMap;
     }
 
     @Override
     public Map<UserId, Drawable> getUserIdToBadgeMap() {
         return userIdToBadgeMap;
+    }
+
+    @Override
+    public Map<UserId, Boolean> getCanForwardToProfileIdMap(Intent intent) {
+        return canFrowardToProfileIdMap;
     }
 }

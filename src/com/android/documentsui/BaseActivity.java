@@ -74,6 +74,7 @@ import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.util.FeatureFlagUtils;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -91,6 +92,7 @@ public abstract class BaseActivity
     protected SearchViewManager mSearchManager;
     protected AppsRowManager mAppsRowManager;
     protected UserIdManager mUserIdManager;
+    protected UserManagerState mUserManagerState;
     protected State mState;
 
     @Injected
@@ -122,8 +124,10 @@ public abstract class BaseActivity
     }
 
     protected abstract void refreshDirectory(int anim);
+
     /** Allows sub-classes to include information in a newly created State instance. */
     protected abstract void includeState(State initialState);
+
     protected abstract void onDirectoryCreated(DocumentInfo doc);
 
     public abstract Injector<?> getInjector();
@@ -161,12 +165,11 @@ public abstract class BaseActivity
         setSupportActionBar(toolbar);
 
         Breadcrumb breadcrumb = findViewById(R.id.horizontal_breadcrumb);
-        assert(breadcrumb != null);
+        assert (breadcrumb != null);
         View profileTabsContainer = findViewById(R.id.tabs_container);
         assert (profileTabsContainer != null);
 
-        mNavigator = new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
-                profileTabsContainer, DocumentsApplication.getUserIdManager(this));
+        mNavigator = getNavigationViewManager(breadcrumb, profileTabsContainer);
         AppBarLayout appBarLayout = findViewById(R.id.app_bar);
         if (appBarLayout != null) {
             appBarLayout.addOnOffsetChangedListener(mNavigator);
@@ -264,6 +267,7 @@ public abstract class BaseActivity
 
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
         mUserIdManager = DocumentsApplication.getUserIdManager(this);
+        mUserManagerState = DocumentsApplication.getUserManagerState(this);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
                 chipGroup, savedInstanceState);
         // initialize the chip sets by accept mime types
@@ -329,6 +333,16 @@ public abstract class BaseActivity
         setResult(AppCompatActivity.RESULT_CANCELED);
     }
 
+    private NavigationViewManager getNavigationViewManager(Breadcrumb breadcrumb,
+            View profileTabsContainer) {
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            return new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
+                    profileTabsContainer, DocumentsApplication.getUserManagerState(this));
+        }
+        return new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
+                profileTabsContainer, DocumentsApplication.getUserIdManager(this));
+    }
+
     public void onPreferenceChanged(String pref) {
         // For now, we only work with prefs that we backup. This
         // just limits the scope of what we expect to come flowing
@@ -386,6 +400,7 @@ public abstract class BaseActivity
         mRootsMonitor.stop();
         mPreferencesMonitor.stop();
         mSortController.destroy();
+        DocumentsApplication.invalidateUserManagerState(this);
         super.onDestroy();
     }
 
@@ -544,7 +559,6 @@ public abstract class BaseActivity
 
     /**
      * Returns true if a directory can be created in the current location.
-     * @return
      */
     protected boolean canCreateDirectory() {
         final RootInfo root = getCurrentRoot();
@@ -582,7 +596,6 @@ public abstract class BaseActivity
     /**
      * Refreshes the content of the director and the menu/action bar.
      * The current directory name and selection will get updated.
-     * @param anim
      */
     @Override
     public final void refreshCurrentRootAndDirectory(int anim) {
@@ -632,7 +645,7 @@ public abstract class BaseActivity
             try {
                 PackageInfo pkgInfo = getPackageManager().getPackageInfo(packageName,
                         PackageManager.GET_PROVIDERS);
-                for (ProviderInfo provider: pkgInfo.providers) {
+                for (ProviderInfo provider : pkgInfo.providers) {
                     authorities.add(provider.authority);
                 }
             } catch (PackageManager.NameNotFoundException e) {
@@ -708,9 +721,14 @@ public abstract class BaseActivity
         }
     }
 
-    public void updateHeader(boolean shouldHideHeader){
+    /**
+     * Updates headerContainer by setting its visibility
+     *
+     * @param shouldHideHeader whether to hide header container or not
+     */
+    public void updateHeader(boolean shouldHideHeader) {
         View headerContainer = findViewById(R.id.header_container);
-        if(headerContainer == null){
+        if (headerContainer == null) {
             updateHeaderTitle();
             return;
         }
@@ -779,7 +797,7 @@ public abstract class BaseActivity
 
     private String getHeaderDownloadsTitle() {
         return getString(mState.isPhotoPicking()
-            ? R.string.root_info_header_image_downloads : R.string.root_info_header_downloads);
+                ? R.string.root_info_header_image_downloads : R.string.root_info_header_downloads);
     }
 
     private String getHeaderStorageTitle(String rootTitle) {
@@ -809,6 +827,7 @@ public abstract class BaseActivity
 
     /**
      * Get title string equal to the string action bar displayed.
+     *
      * @return current directory title name
      */
     public String getCurrentTitle() {

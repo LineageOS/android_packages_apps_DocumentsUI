@@ -23,7 +23,9 @@ import static org.mockito.Mockito.when;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.pm.UserProperties;
 import android.os.UserHandle;
 import android.os.UserManager;
@@ -32,6 +34,7 @@ import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.UserManagers;
+import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
 
@@ -40,7 +43,9 @@ import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SmallTest
 public class UserManagerStateTest {
@@ -50,13 +55,19 @@ public class UserManagerStateTest {
     private static final int SHOW_IN_SHARING_SURFACES_NO = 2;
     private static final int CROSS_PROFILE_CONTENT_SHARING_NO_DELEGATION = 0;
     private static final int CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT = 1;
+
     private final UserHandle mSystemUser = UserHandle.SYSTEM;
     private final UserHandle mManagedUser = UserHandle.of(100);
     private final UserHandle mPrivateUser = UserHandle.of(101);
     private final UserHandle mOtherUser = UserHandle.of(102);
     private final UserHandle mNormalUser = UserHandle.of(103);
 
+    private final ResolveInfo mMockInfo1 = mock(ResolveInfo.class);
+    private final ResolveInfo mMockInfo2 = mock(ResolveInfo.class);
+    private final ResolveInfo mMockInfo3 = mock(ResolveInfo.class);
+
     private final Context mMockContext = mock(Context.class);
+    private final Intent mMockIntent = mock(Intent.class);
     private final UserManager mMockUserManager = UserManagers.create();
     private final PackageManager mMockPackageManager = mock(PackageManager.class);
     private UserManagerState mUserManagerState;
@@ -110,6 +121,12 @@ public class UserManagerStateTest {
         when(mMockUserManager.getProfileParent(mPrivateUser)).thenReturn(mSystemUser);
         when(mMockUserManager.getProfileParent(mOtherUser)).thenReturn(mSystemUser);
         when(mMockUserManager.getProfileParent(mNormalUser)).thenReturn(null);
+
+        if (SdkLevel.isAtLeastR()) {
+            when(mMockInfo1.isCrossProfileIntentForwarderActivity()).thenReturn(true);
+            when(mMockInfo2.isCrossProfileIntentForwarderActivity()).thenReturn(false);
+            when(mMockInfo3.isCrossProfileIntentForwarderActivity()).thenReturn(false);
+        }
 
         when(mMockContext.getPackageManager()).thenReturn(mMockPackageManager);
         when(mMockContext.getSystemServiceName(UserManager.class)).thenReturn("mMockUserManager");
@@ -289,9 +306,7 @@ public class UserManagerStateTest {
 
     @Test
     public void testGetUserIds_otherAndManagedUserCurrentUserOtherPostV_returnsManagedUser() {
-        // When there is no system user, returns the current user.
-        // This is a case theoretically can happen but we don't expect. So we return the current
-        // user only.
+        // Only the users with show in sharing surfaces separate are eligible to be returned
         if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mOtherUser);
         initializeUserManagerState(currentUser, Lists.newArrayList(mOtherUser, mManagedUser));
@@ -335,6 +350,216 @@ public class UserManagerStateTest {
         assertWithMessage("getUserIds does not return cached instance")
                 .that(mUserManagerState.getUserIds())
                 .isSameInstanceAs(mUserManagerState.getUserIds());
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_systemUserCanForwardToAll() {
+        UserId currentUser = UserId.of(mSystemUser);
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            initializeUserManagerState(currentUser,
+                    Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+            when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
+                    mMockResolveInfoList);
+        } else {
+            initializeUserManagerState(currentUser,
+                    Lists.newArrayList(mSystemUser, mManagedUser));
+            when(mMockPackageManager.queryIntentActivities(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY)).thenReturn(mMockResolveInfoList);
+        }
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
+        }
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_systemUserCanForwardToManaged() {
+        UserId currentUser = UserId.of(mSystemUser);
+        initializeUserManagerState(currentUser, Lists.newArrayList(mSystemUser, mManagedUser));
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
+                    mMockResolveInfoList);
+        } else {
+            when(mMockPackageManager.queryIntentActivities(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY)).thenReturn(mMockResolveInfoList);
+        }
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_systemUserCanAlwaysForwardToPrivate() {
+        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        initializeUserManagerState(currentUser, Lists.newArrayList(mSystemUser, mPrivateUser));
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_systemUserCanNotForwardToManagedUser() {
+        UserId currentUser = UserId.of(mSystemUser);
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo2, mMockInfo3);
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            initializeUserManagerState(currentUser,
+                    Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+            when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
+                    mMockResolveInfoList);
+        } else {
+            initializeUserManagerState(currentUser,
+                    Lists.newArrayList(mSystemUser, mManagedUser));
+            when(mMockPackageManager.queryIntentActivities(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY)).thenReturn(mMockResolveInfoList);
+        }
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), false);
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
+        }
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_managedCanForwardToAll() {
+        UserId currentUser = UserId.of(mManagedUser);
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            initializeUserManagerState(currentUser,
+                    Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+            when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY, mManagedUser)).thenReturn(
+                    mMockResolveInfoList);
+        } else {
+            initializeUserManagerState(currentUser,
+                    Lists.newArrayList(mSystemUser, mManagedUser));
+            when(mMockPackageManager.queryIntentActivities(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY)).thenReturn(mMockResolveInfoList);
+        }
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
+        }
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_managedCanNotForwardToAll() {
+        UserId currentUser = UserId.of(mManagedUser);
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo2, mMockInfo3);
+
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            initializeUserManagerState(currentUser,
+                    Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+            when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
+                    mMockResolveInfoList);
+        } else {
+            initializeUserManagerState(currentUser,
+                    Lists.newArrayList(mSystemUser, mManagedUser));
+            when(mMockPackageManager.queryIntentActivities(mMockIntent,
+                    PackageManager.MATCH_DEFAULT_ONLY)).thenReturn(mMockResolveInfoList);
+        }
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), false);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
+        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), false);
+        }
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_privateCanForwardToAll() {
+        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        UserId currentUser = UserId.of(mPrivateUser);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
+        when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(mMockResolveInfoList);
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_privateCanNotForwardToManagedUser() {
+        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        UserId currentUser = UserId.of(mPrivateUser);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo2, mMockInfo3);
+        when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(mMockResolveInfoList);
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), false);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testGetCanForwardToProfileIdMap_privateCanAlwaysForwardToSystemUser() {
+        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        UserId currentUser = UserId.of(mPrivateUser);
+        initializeUserManagerState(currentUser, Lists.newArrayList(mSystemUser, mPrivateUser));
+
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
+        expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
+        expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
+
+        assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
+                .isEqualTo(expectedCanForwardToProfileIdMap);
     }
 
     private void initializeUserManagerState(UserId current, List<UserHandle> usersOnDevice) {
