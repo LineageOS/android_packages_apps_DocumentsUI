@@ -39,6 +39,7 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
+import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
 
@@ -80,6 +81,29 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
             Breadcrumb breadcrumb,
             View tabLayoutContainer,
             UserIdManager userIdManager) {
+        this(activity, drawer, state, env, breadcrumb, tabLayoutContainer, userIdManager, null);
+    }
+
+    public NavigationViewManager(
+            BaseActivity activity,
+            DrawerController drawer,
+            State state,
+            NavigationViewManager.Environment env,
+            Breadcrumb breadcrumb,
+            View tabLayoutContainer,
+            UserManagerState userManagerState) {
+        this(activity, drawer, state, env, breadcrumb, tabLayoutContainer, null, userManagerState);
+    }
+
+    public NavigationViewManager(
+            BaseActivity activity,
+            DrawerController drawer,
+            State state,
+            NavigationViewManager.Environment env,
+            Breadcrumb breadcrumb,
+            View tabLayoutContainer,
+            UserIdManager userIdManager,
+            UserManagerState userManagerState) {
 
         mActivity = activity;
         mToolbar = activity.findViewById(R.id.toolbar);
@@ -89,7 +113,8 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
         mEnv = env;
         mBreadcrumb = breadcrumb;
         mBreadcrumb.setup(env, state, this::onNavigationItemSelected);
-        mProfileTabs = new ProfileTabs(tabLayoutContainer, mState, userIdManager, mEnv, activity);
+        mProfileTabs =
+                getProfileTabs(tabLayoutContainer, userIdManager, userManagerState, activity);
 
         mToolbar.setNavigationOnClickListener(
                 new View.OnClickListener() {
@@ -126,6 +151,13 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
                         view.getWidth() - marginEnd, view.getHeight(), radius);
             }
         };
+    }
+
+    private ProfileTabs getProfileTabs(View tabLayoutContainer, UserIdManager userIdManager,
+            UserManagerState userManagerState, BaseActivity activity) {
+        return FeatureFlagUtils.isPrivateSpaceEnabled()
+                ? new ProfileTabs(tabLayoutContainer, mState, userManagerState, mEnv, activity)
+                : new ProfileTabs(tabLayoutContainer, mState, userIdManager, mEnv, activity);
     }
 
     @Override

@@ -46,6 +46,7 @@ import androidx.annotation.VisibleForTesting;
 
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.util.CrossProfileUtils;
 import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
@@ -77,6 +78,12 @@ public interface UserManagerState {
      * returns {@code null} for non-profile userId
      */
     Map<UserId, Drawable> getUserIdToBadgeMap();
+
+    /**
+     * Returns a map of {@link UserId} to boolean value indicating whether
+     * the {@link UserId}.CURRENT_USER can forward {@link Intent} to that {@link UserId}
+     */
+    Map<UserId, Boolean> getCanForwardToProfileIdMap(Intent intent);
 
     /**
      * Creates an implementation of {@link UserManagerState}.
@@ -112,6 +119,13 @@ public interface UserManagerState {
          */
         @GuardedBy("mUserIdToBadgeMap")
         private final Map<UserId, Drawable> mUserIdToBadgeMap = new HashMap<>();
+        /**
+         * Map containing {@link UserId}, other than that of the current user, as key and boolean
+         * denoting whether it is accessible by the current user or not as value
+         */
+        @GuardedBy("mCanFrowardToProfileIdMap")
+        private final Map<UserId, Boolean> mCanFrowardToProfileIdMap = new HashMap<>();
+
 
         private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
             @Override
@@ -124,6 +138,9 @@ public interface UserManagerState {
                 }
                 synchronized (mUserIdToBadgeMap) {
                     mUserIdToBadgeMap.clear();
+                }
+                synchronized (mCanFrowardToProfileIdMap) {
+                    mCanFrowardToProfileIdMap.clear();
                 }
             }
         };
@@ -178,6 +195,16 @@ public interface UserManagerState {
                     getUserIdToBadgeMapInternal();
                 }
                 return mUserIdToBadgeMap;
+            }
+        }
+
+        @Override
+        public Map<UserId, Boolean> getCanForwardToProfileIdMap(Intent intent) {
+            synchronized (mCanFrowardToProfileIdMap) {
+                if (mCanFrowardToProfileIdMap.isEmpty()) {
+                    getCanForwardToProfileIdMapInternal(intent);
+                }
+                return mCanFrowardToProfileIdMap;
             }
         }
 
@@ -402,6 +429,117 @@ public interface UserManagerState {
                     () ->
                             mContext.getDrawable(R.drawable.ic_briefcase));
             return drawable;
+        }
+
+        private void getCanForwardToProfileIdMapInternal(Intent intent) {
+            // Versions less than V will not have the user properties required to determine whether
+            // cross profile check is delegated from parent or not
+            if (!SdkLevel.isAtLeastV()) {
+                getCanForwardToProfileIdMapPreV(intent);
+                return;
+            }
+            if (mUserManager == null) {
+                Log.e(TAG, "can not get user manager");
+                return;
+            }
+
+            List<UserId> parentOrDelegatedFromParent = new ArrayList<>();
+            List<UserId> canForwardToProfileIds = new ArrayList<>();
+            List<UserId> noDelegation = new ArrayList<>();
+
+            List<UserId> userIds = getUserIds();
+            for (UserId userId : userIds) {
+                final UserHandle userHandle = UserHandle.of(userId.getIdentifier());
+                // Parent (personal) profile and all the child profiles that delegate cross profile
+                // content sharing check to parent can share among each other
+                if (userId.getIdentifier() == ActivityManager.getCurrentUser()
+                        || isCrossProfileContentSharingStrategyDelegatedFromParent(userHandle)) {
+                    parentOrDelegatedFromParent.add(userId);
+                } else {
+                    noDelegation.add(userId);
+                }
+            }
+
+            if (noDelegation.size() > 1) {
+                Log.e(TAG, "There cannot be more than one profile delegating cross profile "
+                        + "content sharing check from self.");
+            }
+
+            /*
+             * Cross profile resolve info need to be checked in the following 2 cases:
+             * 1. current user is either parent or delegates check to parent and the target user
+             * does
+             *    not delegate to parent
+             * 2. current user does not delegate check to the parent and the target user is the
+             *    parent profile
+             */
+            UserId needToCheck;
+            if (parentOrDelegatedFromParent.contains(mCurrentUser)
+                    && !noDelegation.isEmpty()) {
+                needToCheck = noDelegation.get(0);
+            } else {
+                final UserHandle parentProfile = mUserManager.getProfileParent(
+                        UserHandle.of(mCurrentUser.getIdentifier()));
+                needToCheck = UserId.of(parentProfile);
+            }
+
+            if (needToCheck != null && CrossProfileUtils.getCrossProfileResolveInfo(mCurrentUser,
+                    mContext.getPackageManager(), intent, mContext) != null) {
+                if (parentOrDelegatedFromParent.contains(needToCheck)) {
+                    canForwardToProfileIds.addAll(parentOrDelegatedFromParent);
+                } else {
+                    canForwardToProfileIds.add(needToCheck);
+                }
+            }
+
+            if (parentOrDelegatedFromParent.contains(mCurrentUser)) {
+                canForwardToProfileIds.addAll(parentOrDelegatedFromParent);
+            }
+
+            for (UserId userId : userIds) {
+                synchronized (mCanFrowardToProfileIdMap) {
+                    if (userId.equals(mCurrentUser)) {
+                        mCanFrowardToProfileIdMap.put(userId, true);
+                        continue;
+                    }
+                    mCanFrowardToProfileIdMap.put(userId, canForwardToProfileIds.contains(userId));
+                }
+            }
+        }
+
+        @SuppressLint("NewApi")
+        private boolean isCrossProfileContentSharingStrategyDelegatedFromParent(
+                UserHandle userHandle) {
+            if (mUserManager == null) {
+                Log.e(TAG, "can not obtain user manager");
+                return false;
+            }
+            UserProperties userProperties = mUserManager.getUserProperties(userHandle);
+            if (java.util.Objects.equals(userProperties, null)) {
+                Log.e(TAG, "can not obtain user properties");
+                return false;
+            }
+
+            return userProperties.getCrossProfileContentSharingStrategy()
+                    == UserProperties.CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT;
+        }
+
+        private void getCanForwardToProfileIdMapPreV(Intent intent) {
+            // There only two profiles pre V
+            List<UserId> userIds = getUserIds();
+            for (UserId userId : userIds) {
+                synchronized (mCanFrowardToProfileIdMap) {
+                    if (mCurrentUser.equals(userId)) {
+                        mCanFrowardToProfileIdMap.put(userId, true);
+                    } else {
+                        mCanFrowardToProfileIdMap.put(userId,
+                                CrossProfileUtils.getCrossProfileResolveInfo(
+                                        mCurrentUser, mContext.getPackageManager(), intent,
+                                        mContext)
+                                        != null);
+                    }
+                }
+            }
         }
 
         private static boolean isDeviceSupported(Context context) {
