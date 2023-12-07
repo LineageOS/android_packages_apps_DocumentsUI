@@ -432,30 +432,53 @@ public class RootsFragment extends Fragment {
 
         final List<Item> rootList = new ArrayList<>();
         final List<Item> rootListOtherUser = new ArrayList<>();
+        final List<List<Item>> rootListAllUsers = new ArrayList<>();
+        for (int i = 0; i < userIds.size(); ++i) {
+            rootListAllUsers.add(new ArrayList<>());
+        }
+
         mApplicationItemList = new ArrayList<>();
         if (handlerAppIntent != null) {
             includeHandlerApps(state, handlerAppIntent, excludePackage, rootList, rootListOtherUser,
-                    otherProviders, userIds, maybeShowBadge);
+                    rootListAllUsers, otherProviders, userIds, maybeShowBadge);
         } else {
             // Only add providers
-            Collections.sort(otherProviders, comp);
+            otherProviders.sort(comp);
             for (RootItem item : otherProviders) {
-                if (UserId.CURRENT_USER.equals(item.userId)) {
-                    rootList.add(item);
+                if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                    createRootListsPrivateSpaceEnabled(item, userIds, rootListAllUsers);
                 } else {
-                    rootListOtherUser.add(item);
+                    createRootListsPrivateSpaceDisabled(item, rootList, rootListOtherUser);
                 }
                 mApplicationItemList.add(item);
             }
         }
 
-        List<Item> presentableList = new UserItemsCombiner(
-                context.getResources(), context.getSystemService(DevicePolicyManager.class), state)
+        List<Item> presentableList =
+                FeatureFlagUtils.isPrivateSpaceEnabled() ? getPresentableListPrivateSpaceEnabled(
+                        context, state, rootListAllUsers, userIds) :
+                        getPresentableListPrivateSpaceDisabled(context, state, rootList,
+                                rootListOtherUser);
+        addListToResult(result, presentableList);
+        return result;
+    }
+
+    private List<Item> getPresentableListPrivateSpaceEnabled(Context context, State state,
+            List<List<Item>> rootListAllUsers, List<UserId> userIds) {
+        return new UserItemsCombiner(context.getResources(),
+                context.getSystemService(DevicePolicyManager.class), state)
+                .setRootListForAllUsers(rootListAllUsers)
+                .createPresentableListForAllUsers(userIds,
+                        DocumentsApplication.getUserManagerState(context).getUserIdToLabelMap());
+    }
+
+    private List<Item> getPresentableListPrivateSpaceDisabled(Context context, State state,
+            List<Item> rootList, List<Item> rootListOtherUser) {
+        return new UserItemsCombiner(context.getResources(),
+                context.getSystemService(DevicePolicyManager.class), state)
                 .setRootListForCurrentUser(rootList)
                 .setRootListForOtherUser(rootListOtherUser)
                 .createPresentableList();
-        addListToResult(result, presentableList);
-        return result;
     }
 
     private void addListToResult(List<Item> result, List<Item> rootList) {
@@ -471,8 +494,8 @@ public class RootsFragment extends Fragment {
      */
     private void includeHandlerApps(State state,
             Intent handlerAppIntent, @Nullable String excludePackage, List<Item> rootList,
-            List<Item> rootListOtherUser, List<RootItem> otherProviders, List<UserId> userIds,
-            boolean maybeShowBadge) {
+            List<Item> rootListOtherUser, List<List<Item>> rootListAllUsers,
+            List<RootItem> otherProviders, List<UserId> userIds, boolean maybeShowBadge) {
         if (VERBOSE) Log.v(TAG, "Adding handler apps for intent: " + handlerAppIntent);
 
         Context context = getContext();
@@ -525,34 +548,73 @@ public class RootsFragment extends Fragment {
                 item = rootItem;
             }
 
-            if (UserId.CURRENT_USER.equals(item.userId)) {
-                if (VERBOSE) Log.v(TAG, "Adding provider : " + item);
-                rootList.add(item);
+            if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                createRootListsPrivateSpaceEnabled(item, userIds, rootListAllUsers);
             } else {
-                if (VERBOSE) Log.v(TAG, "Adding provider to other users : " + item);
-                rootListOtherUser.add(item);
+                createRootListsPrivateSpaceDisabled(item, rootList, rootListOtherUser);
             }
         }
 
         for (Item item : appItems.values()) {
-            if (UserId.CURRENT_USER.equals(item.userId)) {
-                rootList.add(item);
+            if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                createRootListsPrivateSpaceEnabled(item, userIds, rootListAllUsers);
             } else {
-                rootListOtherUser.add(item);
+                createRootListsPrivateSpaceDisabled(item, rootList, rootListOtherUser);
             }
         }
 
         final String preferredRootPackage = getResources().getString(
                 R.string.preferred_root_package, "");
         final ItemComparator comp = new ItemComparator(preferredRootPackage);
-        Collections.sort(rootList, comp);
-        Collections.sort(rootListOtherUser, comp);
 
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            addToApplicationItemListPrivateSpaceEnabled(userIds, rootListAllUsers, comp, state);
+        } else {
+            addToApplicationItemListPrivateSpaceDisabled(rootList, rootListOtherUser, comp, state);
+        }
+
+    }
+
+    private void addToApplicationItemListPrivateSpaceEnabled(List<UserId> userIds,
+            List<List<Item>> rootListAllUsers, ItemComparator comp, State state) {
+        for (int i = 0; i < userIds.size(); ++i) {
+            rootListAllUsers.get(i).sort(comp);
+            if (UserId.CURRENT_USER.equals(userIds.get(i))) {
+                mApplicationItemList.addAll(rootListAllUsers.get(i));
+            } else if (state.supportsCrossProfile && state.canInteractWith(userIds.get(i))) {
+                mApplicationItemList.addAll(rootListAllUsers.get(i));
+            }
+        }
+    }
+
+    private void addToApplicationItemListPrivateSpaceDisabled(List<Item> rootList,
+            List<Item> rootListOtherUser, ItemComparator comp, State state) {
+        rootList.sort(comp);
+        rootListOtherUser.sort(comp);
         if (state.supportsCrossProfile() && state.canShareAcrossProfile) {
             mApplicationItemList.addAll(rootList);
             mApplicationItemList.addAll(rootListOtherUser);
         } else {
             mApplicationItemList.addAll(rootList);
+        }
+    }
+
+    private void createRootListsPrivateSpaceEnabled(Item item, List<UserId> userIds,
+            List<List<Item>> rootListAllUsers) {
+        for (int i = 0; i < userIds.size(); ++i) {
+            if (userIds.get(i).equals(item.userId)) {
+                rootListAllUsers.get(i).add(item);
+                break;
+            }
+        }
+    }
+
+    private void createRootListsPrivateSpaceDisabled(Item item, List<Item> rootList,
+            List<Item> rootListOtherUser) {
+        if (UserId.CURRENT_USER.equals(item.userId)) {
+            rootList.add(item);
+        } else {
+            rootListOtherUser.add(item);
         }
     }
 

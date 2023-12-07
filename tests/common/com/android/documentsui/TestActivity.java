@@ -260,6 +260,14 @@ public abstract class TestActivity extends AbstractBase {
     }
 
     @Override
+    public final String getSystemServiceName(Class<?> serviceName) {
+        if (serviceName == UserManager.class) {
+            return Context.USER_SERVICE;
+        }
+        throw new IllegalArgumentException("Unknown service name " + serviceName);
+    }
+
+    @Override
     public final void finish() {
         finishedHandler.accept(null);
     }
