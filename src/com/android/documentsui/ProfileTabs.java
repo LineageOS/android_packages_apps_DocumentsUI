@@ -23,6 +23,7 @@ import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
 
 import android.app.admin.DevicePolicyManager;
 import android.os.Build;
+import android.os.UserManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -38,8 +39,10 @@ import com.android.modules.utils.build.SdkLevel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.base.Objects;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A manager class to control UI on a {@link TabLayout} for cross-profile purpose.
@@ -114,7 +117,7 @@ public class ProfileTabs implements ProfileTabsAddons {
     }
 
     /**
-     * Update the tab layout based on conditions.
+     * Update the tab layout based on status of availability of the hidden profile.
      */
     public void updateView() {
         updateTabsIfNeeded();
@@ -124,8 +127,13 @@ public class ProfileTabs implements ProfileTabsAddons {
             // Update the layout according to the current root if necessary.
             // Make sure we do not invoke callback. Otherwise, it is likely to cause infinite loop.
             mTabs.removeOnTabSelectedListener(mOnTabSelectedListener);
-            mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
-            mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
+            if (!mUserIds.contains(currentRoot.userId)) {
+                mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
+                mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(UserId.CURRENT_USER)));
+            } else {
+                mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
+                mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
+            }
         }
         mTabsContainer.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
 
@@ -172,16 +180,15 @@ public class ProfileTabs implements ProfileTabsAddons {
         // Given that mUserIds was initialized with only the current user, if getUserIds()
         // returns just the current user, we don't need to do anything on the tab layout.
         if (!userIds.equals(mUserIds)) {
-            mUserIds = userIds;
+            mUserIds = new ArrayList<>();
+            mUserIds.addAll(userIds);
             mTabs.removeAllTabs();
             if (mUserIds.size() > 1) {
-                // set setSelected to false otherwise it will trigger callback.
-                mTabs.addTab(createTab(
-                        getEnterpriseString(PERSONAL_TAB, R.string.personal_tab),
-                        mUserIdManager.getSystemUser()), /* setSelected= */false);
-                mTabs.addTab(createTab(
-                        getEnterpriseString(WORK_TAB, R.string.work_tab),
-                        mUserIdManager.getManagedUser()), /* setSelected= */false);
+                if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                    addTabsPrivateSpaceEnabled();
+                } else {
+                    addTabsPrivateSpaceDisabled();
+                }
             }
         }
     }
@@ -193,6 +200,28 @@ public class ProfileTabs implements ProfileTabsAddons {
         }
         assert mUserIdManager != null;
         return mUserIdManager.getUserIds();
+    }
+
+    private void addTabsPrivateSpaceEnabled() {
+        // set setSelected to false otherwise it will trigger callback.
+        assert mUserManagerState != null;
+        Map<UserId, String> userIdToLabelMap = mUserManagerState.getUserIdToLabelMap();
+        UserManager userManager = mTabsContainer.getContext().getSystemService(UserManager.class);
+        assert userManager != null;
+        for (UserId userId : mUserIds) {
+            mTabs.addTab(createTab(userIdToLabelMap.get(userId), userId), /* setSelected= */false);
+        }
+    }
+
+    private void addTabsPrivateSpaceDisabled() {
+        // set setSelected to false otherwise it will trigger callback.
+        assert mUserIdManager != null;
+        mTabs.addTab(createTab(
+                getEnterpriseString(PERSONAL_TAB, R.string.personal_tab),
+                mUserIdManager.getSystemUser()), /* setSelected= */false);
+        mTabs.addTab(createTab(
+                getEnterpriseString(WORK_TAB, R.string.work_tab),
+                mUserIdManager.getManagedUser()), /* setSelected= */false);
     }
 
     private String getEnterpriseString(String updatableStringId, int defaultStringId) {

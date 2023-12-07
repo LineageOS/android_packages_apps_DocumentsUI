@@ -196,11 +196,11 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
                         final FilteringCursorWrapper filteredCursor =
                                 new FilteringCursorWrapper(cursor) {
-                            @Override
-                            public void close() {
-                                // Ignored, since we manage cursor lifecycle internally
-                            }
-                        };
+                                    @Override
+                                    public void close() {
+                                        // Ignored, since we manage cursor lifecycle internally
+                                    }
+                                };
                         filteredCursor.filterHiddenFiles(mState.showHiddenFiles);
                         filteredCursor.filterMimes(mState.acceptMimes, getRejectMimes());
                         filteredCursor.filterLastModified(rejectBefore);

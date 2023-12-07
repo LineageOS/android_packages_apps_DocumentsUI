@@ -241,10 +241,12 @@ public interface UserManagerState {
                 if (userHandle.getIdentifier() == ActivityManager.getCurrentUser()) {
                     result.add(UserId.of(userHandle));
                 } else {
-                    final UserProperties userProperties =
-                            mUserManager.getUserProperties(userHandle);
-                    if (userProperties.getShowInSharingSurfaces()
-                            == UserProperties.SHOW_IN_SHARING_SURFACES_SEPARATE) {
+                    // Out of all the profiles returned by user manager the profiles that are
+                    // returned should satisfy both the following conditions:
+                    // 1. It has user property SHOW_IN_SHARING_SURFACES_SEPARATE
+                    // 2. Quite mode is not enabled, if it is enabled then the profile's user
+                    //    property is not SHOW_IN_QUIET_MODE_HIDDEN
+                    if (isProfileAllowed(userHandle)) {
                         result.add(UserId.of(userHandle));
                     }
                 }
@@ -252,6 +254,19 @@ public interface UserManagerState {
             if (result.isEmpty()) {
                 result.add(mCurrentUser);
             }
+        }
+
+        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        private boolean isProfileAllowed(UserHandle userHandle) {
+            final UserProperties userProperties =
+                    mUserManager.getUserProperties(userHandle);
+            if (userProperties.getShowInSharingSurfaces()
+                    == UserProperties.SHOW_IN_SHARING_SURFACES_SEPARATE) {
+                return !UserId.of(userHandle).isQuietModeEnabled(mContext)
+                        || userProperties.getShowInQuietMode()
+                        != UserProperties.SHOW_IN_QUIET_MODE_HIDDEN;
+            }
+            return false;
         }
 
         private void getUserIdsInternalPreV(List<UserHandle> userProfiles, List<UserId> result) {

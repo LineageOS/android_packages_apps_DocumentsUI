@@ -444,18 +444,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     private boolean canShare(List<DocumentInfo> docs) {
         for (DocumentInfo doc : docs) {
-            if (!canInteractWith(doc.userId)) {
+            if (!mState.canInteractWith(doc.userId)) {
                 return false;
             }
         }
         return true;
-    }
-
-    private boolean canInteractWith(UserId userId) {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
-            return mState.canForwardToProfileIdMap.getOrDefault(userId, false);
-        }
-        return mState.canInteractWith(userId);
     }
 
     @CallSuper

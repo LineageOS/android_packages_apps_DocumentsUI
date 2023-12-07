@@ -138,7 +138,10 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         mUserManagerState = userManagerState;
     }
 
-    private RootInfo generateRecentsRoot(UserId rootUserId) {
+    /**
+     * Generates recent root for the provided user id
+     */
+    public RootInfo generateRecentsRoot(UserId rootUserId) {
         return new RootInfo() {{
             // Special root for recents
             userId = rootUserId;
