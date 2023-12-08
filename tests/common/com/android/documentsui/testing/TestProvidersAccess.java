@@ -111,7 +111,7 @@ public class TestProvidersAccess implements ProvidersAccess {
         INSPECTOR.rootId = InspectorProvider.ROOT_ID;
         INSPECTOR.title = "Inspector";
         INSPECTOR.flags = Root.FLAG_LOCAL_ONLY
-            | Root.FLAG_SUPPORTS_CREATE;
+                | Root.FLAG_SUPPORTS_CREATE;
 
         IMAGE = new RootInfo();
         IMAGE.userId = userId;

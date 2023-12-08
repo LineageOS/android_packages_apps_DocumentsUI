@@ -16,8 +16,10 @@
 
 package com.android.documentsui.dirlist;
 
+import android.os.UserManager;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 
@@ -25,10 +27,13 @@ import com.android.documentsui.Model;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.Message.HeaderMessage;
 import com.android.documentsui.dirlist.Message.InflateMessage;
+import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Adapter wrapper that embellishes the directory list by inserting Holder views inbetween
@@ -49,12 +54,23 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
     private final Message mInflateMessage;
 
     DirectoryAddonsAdapter(Environment environment, DocumentsAdapter delegate) {
+        this(environment, delegate, null, null, null, null);
+    }
+
+    DirectoryAddonsAdapter(Environment environment, DocumentsAdapter delegate,
+            @Nullable UserId sourceUserId, @Nullable UserId selectedUserId,
+            @Nullable Map<UserId, String> userIdLabelMap, UserManager userManager) {
         mEnv = environment;
         mDelegate = delegate;
         // TODO: We should not instantiate the messages here, but rather instantiate them
         // when we get an update event.
         mHeaderMessage = new HeaderMessage(environment, this::onDismissHeaderMessage);
-        mInflateMessage = new InflateMessage(environment, this::onDismissHeaderMessage);
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            mInflateMessage = new InflateMessage(environment, this::onDismissHeaderMessage,
+                    sourceUserId, selectedUserId, userIdLabelMap, userManager);
+        } else {
+            mInflateMessage = new InflateMessage(environment, this::onDismissHeaderMessage);
+        }
 
         // Relay events published by our delegate to our listeners (presumably RecyclerView)
         // with adjusted positions.
@@ -295,13 +311,13 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            assert(itemCount == 1);
+            assert (itemCount == 1);
             notifyItemRangeChanged(toViewPosition(positionStart), itemCount, payload);
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            assert(itemCount == 1);
+            assert (itemCount == 1);
             if (positionStart < mBreakPosition) {
                 mBreakPosition++;
             }
@@ -310,7 +326,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            assert(itemCount == 1);
+            assert (itemCount == 1);
             if (positionStart < mBreakPosition) {
                 mBreakPosition--;
             }

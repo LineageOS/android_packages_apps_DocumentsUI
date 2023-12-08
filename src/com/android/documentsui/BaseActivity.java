@@ -118,6 +118,12 @@ public abstract class BaseActivity
 
     private PreferencesMonitor mPreferencesMonitor;
 
+    private boolean mHasProfileBecomeUnavailable = false;
+
+    public void setHasProfileBecomeUnavailable(boolean hasProfileBecomeUnavailable) {
+        mHasProfileBecomeUnavailable = hasProfileBecomeUnavailable;
+    }
+
     public BaseActivity(@LayoutRes int layoutId, String tag) {
         mLayoutId = layoutId;
         mTag = tag;
@@ -266,6 +272,7 @@ public abstract class BaseActivity
                         cmdInterceptor);
 
         ViewGroup chipGroup = findViewById(R.id.search_chip_group);
+
         mUserIdManager = DocumentsApplication.getUserIdManager(this);
         mUserManagerState = DocumentsApplication.getUserManagerState(this);
         mSearchManager = new SearchViewManager(searchListener, queryInterceptor,
@@ -317,7 +324,12 @@ public abstract class BaseActivity
                 // The activity will clear search on root picked. If we don't clear the search,
                 // user may see the search result screen show up briefly and then get cleared.
                 mSearchManager.cancelSearch();
-                mInjector.actions.loadCrossProfileRoot(getCurrentRoot(), userId);
+                // When a profile with user property SHOW_IN_QUIET_MODE_HIDDEN is currently
+                // selected, and it becomes unavailable, we reset the roots to recents.
+                // We do not reset it to recents when pick activity is due to ACTION_CREATE_DOCUMENT
+                mInjector.actions.loadCrossProfileRoot(
+                        (mHasProfileBecomeUnavailable && mState.action != State.ACTION_CREATE)
+                                ? getRecentsRoot() : getCurrentRoot(), userId);
             }
         });
 
@@ -866,6 +878,10 @@ public abstract class BaseActivity
         } else {
             return mProviders.getRecentsRoot(getSelectedUser());
         }
+    }
+
+    public RootInfo getRecentsRoot() {
+        return mProviders.generateRecentsRoot(getSelectedUser());
     }
 
     @Override

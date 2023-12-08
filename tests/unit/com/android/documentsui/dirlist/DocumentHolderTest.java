@@ -44,7 +44,8 @@ public class DocumentHolderTest extends AndroidTestCase {
         LayoutInflater inflater = LayoutInflater.from(context);
         mHolder = new DocumentHolder(getContext(), inflater.inflate(R.layout.item_doc_list, null)) {
             @Override
-            public void bind(Cursor cursor, String modelId) {}
+            public void bind(Cursor cursor, String modelId) {
+            }
         };
 
         mListener = new TestListener();
@@ -67,12 +68,12 @@ public class DocumentHolderTest extends AndroidTestCase {
     public MotionEvent createEvent(int tooltype) {
         long time = SystemClock.uptimeMillis();
 
-        PointerProperties properties[] = new PointerProperties[] {
+        PointerProperties[] properties = new PointerProperties[]{
                 new PointerProperties()
         };
         properties[0].toolType = tooltype;
 
-        PointerCoords coords[] = new PointerCoords[] {
+        PointerCoords[] coords = new PointerCoords[]{
                 new PointerCoords()
         };
 
@@ -96,7 +97,7 @@ public class DocumentHolderTest extends AndroidTestCase {
                 0, // edgeflags
                 0, // source
                 0 // flags
-                );
+        );
     }
 
     private class TestListener extends KeyboardEventListener<DocumentItemDetails> {

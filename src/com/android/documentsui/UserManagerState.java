@@ -86,6 +86,16 @@ public interface UserManagerState {
     Map<UserId, Boolean> getCanForwardToProfileIdMap(Intent intent);
 
     /**
+     * Updates the state of the list of userIds and all the associated maps according the intent
+     * received in broadcast
+     *
+     * @param userId {@link UserId} for the profile for which the availability status changed
+     * @param action {@link Intent}.ACTION_PROFILE_UNAVAILABLE or
+     *               {@link Intent}.ACTION_PROFILE_AVAILABLE
+     */
+    void onProfileActionStatusChange(String action, UserId userId);
+
+    /**
      * Creates an implementation of {@link UserManagerState}.
      */
     // TODO: b/314746383 Make this class a singleton
@@ -172,6 +182,7 @@ public interface UserManagerState {
         public List<UserId> getUserIds() {
             synchronized (mUserIds) {
                 if (mUserIds.isEmpty()) {
+                    Log.d("profileAction", "user ids empty");
                     mUserIds.addAll(getUserIdsInternal());
                 }
                 return mUserIds;
@@ -205,6 +216,47 @@ public interface UserManagerState {
                     getCanForwardToProfileIdMapInternal(intent);
                 }
                 return mCanFrowardToProfileIdMap;
+            }
+        }
+
+        @Override
+        @SuppressLint("NewApi")
+        public void onProfileActionStatusChange(String action, UserId userId) {
+            UserProperties userProperties = mUserManager.getUserProperties(
+                    UserHandle.of(userId.getIdentifier()));
+            if (userProperties.getShowInQuietMode() != UserProperties.SHOW_IN_QUIET_MODE_HIDDEN) {
+                return;
+            }
+            if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
+                synchronized (mUserIds) {
+                    mUserIds.remove(userId);
+                }
+                synchronized (mUserIdToLabelMap) {
+                    mUserIdToLabelMap.remove(userId);
+                }
+                synchronized (mUserIdToBadgeMap) {
+                    mUserIdToBadgeMap.remove(userId);
+                }
+                synchronized (mCanFrowardToProfileIdMap) {
+                    mCanFrowardToProfileIdMap.remove(userId);
+                }
+            } else if (Intent.ACTION_PROFILE_AVAILABLE.equals(action)) {
+                synchronized (mUserIds) {
+                    if (!mUserIds.contains(userId)) {
+                        mUserIds.add(userId);
+                    }
+                }
+                synchronized (mUserIdToLabelMap) {
+                    mUserIdToLabelMap.put(userId, getProfileLabel(userId));
+                }
+                synchronized (mUserIdToBadgeMap) {
+                    mUserIdToBadgeMap.put(userId, getProfileBadge(userId));
+                }
+                synchronized (mCanFrowardToProfileIdMap) {
+                    mCanFrowardToProfileIdMap.put(userId, true);
+                }
+            } else {
+                Log.e(TAG, "Unexpected action received: " + action);
             }
         }
 
@@ -488,11 +540,11 @@ public interface UserManagerState {
              * 2. current user does not delegate check to the parent and the target user is the
              *    parent profile
              */
-            UserId needToCheck;
+            UserId needToCheck = null;
             if (parentOrDelegatedFromParent.contains(mCurrentUser)
                     && !noDelegation.isEmpty()) {
                 needToCheck = noDelegation.get(0);
-            } else {
+            } else if (mCurrentUser.getIdentifier() != ActivityManager.getCurrentUser()) {
                 final UserHandle parentProfile = mUserManager.getProfileParent(
                         UserHandle.of(mCurrentUser.getIdentifier()));
                 needToCheck = UserId.of(parentProfile);

@@ -16,8 +16,13 @@
 
 package com.android.documentsui.dirlist;
 
+import static org.mockito.Mockito.when;
+
 import android.content.Context;
+import android.content.pm.UserProperties;
 import android.os.Bundle;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.provider.DocumentsContract;
 import android.test.AndroidTestCase;
 import android.view.ViewGroup;
@@ -29,10 +34,23 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ModelId;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFileTypeLookup;
+import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.testing.UserManagers;
+import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
+
+import com.google.android.collect.Lists;
+
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @MediumTest
 public class DirectoryAddonsAdapterTest extends AndroidTestCase {
@@ -43,6 +61,18 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
     private DirectoryAddonsAdapter mAdapter;
     private ActionHandler mActionHandler;
 
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
+
     public void setUp() {
 
         mEnv = TestEnv.create(AUTHORITY);
@@ -52,13 +82,36 @@ public class DirectoryAddonsAdapterTest extends AndroidTestCase {
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
         DocumentsAdapter.Environment env = new TestEnvironment(testContext, mEnv, mActionHandler);
 
-        mAdapter = new DirectoryAddonsAdapter(
-                env,
-                new ModelBackedDocumentsAdapter(
-                        env,
-                        new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */ false),
-                        new TestFileTypeLookup()));
-
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            UserId managedUser = UserId.of(100);
+            Map<UserId, String> userIdToLabelMap = new HashMap<>();
+            userIdToLabelMap.put(TestProvidersAccess.USER_ID, "Personal");
+            userIdToLabelMap.put(managedUser, "Work");
+            UserManager userManager = UserManagers.create();
+            if (SdkLevel.isAtLeastV()) {
+                UserProperties managedUserProperties = new UserProperties.Builder()
+                        .setShowInQuietMode(UserProperties.SHOW_IN_QUIET_MODE_PAUSED)
+                        .build();
+                when(userManager.getUserProperties(UserHandle.of(100)))
+                        .thenReturn(managedUserProperties);
+            }
+            mAdapter = new DirectoryAddonsAdapter(
+                    env,
+                    new ModelBackedDocumentsAdapter(
+                            env,
+                            new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */
+                                    false),
+                            new TestFileTypeLookup()),
+                    TestProvidersAccess.USER_ID, managedUser, userIdToLabelMap, userManager);
+        } else {
+            mAdapter = new DirectoryAddonsAdapter(
+                    env,
+                    new ModelBackedDocumentsAdapter(
+                            env,
+                            new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */
+                                    false),
+                            new TestFileTypeLookup()));
+        }
         mEnv.model.addUpdateListener(mAdapter.getModelUpdateListener());
     }
 

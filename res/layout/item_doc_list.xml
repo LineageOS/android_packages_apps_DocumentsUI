@@ -92,7 +92,7 @@
             android:layout_weight="1">
 
           <ImageView
-              android:id="@+id/icon_briefcase"
+              android:id="@+id/icon_profile_badge"
               android:layout_height="@dimen/briefcase_icon_size"
               android:layout_width="@dimen/briefcase_icon_size"
               android:layout_marginEnd="@dimen/briefcase_icon_margin"
