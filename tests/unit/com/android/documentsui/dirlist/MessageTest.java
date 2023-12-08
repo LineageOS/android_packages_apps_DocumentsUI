@@ -16,6 +16,8 @@
 
 package com.android.documentsui.dirlist;
 
+import static com.android.documentsui.DevicePolicyResources.Drawables.Style.OUTLINE;
+import static com.android.documentsui.DevicePolicyResources.Drawables.WORK_PROFILE_OFF_ICON;
 import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_WORK_FILES_MESSAGE;
 import static com.android.documentsui.DevicePolicyResources.Strings.CANT_SELECT_WORK_FILES_TITLE;
 import static com.android.documentsui.DevicePolicyResources.Strings.WORK_PROFILE_OFF_ENABLE_BUTTON;
@@ -31,6 +33,9 @@ import static org.mockito.Mockito.when;
 import android.app.admin.DevicePolicyManager;
 import android.app.admin.DevicePolicyResourcesManager;
 import android.content.Context;
+import android.content.pm.UserProperties;
+import android.graphics.drawable.Drawable;
+import android.os.UserHandle;
 import android.os.UserManager;
 
 import androidx.core.util.Preconditions;
@@ -45,11 +50,16 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
+import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
+import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @SmallTest
 public final class MessageTest {
@@ -69,7 +79,8 @@ public final class MessageTest {
         mUserManager = UserManagers.create();
         mTestActionHandler = new TestActionHandler();
         mDevicePolicyManager = mock(DevicePolicyManager.class);
-        when(mContext.getSystemService(Context.USER_SERVICE)).thenReturn(mUserManager);
+        when(mContext.getSystemServiceName(UserManager.class)).thenReturn("mUserManager");
+        when(mContext.getSystemService(UserManager.class)).thenReturn(mUserManager);
         when(mContext.getSystemServiceName(DevicePolicyManager.class))
                 .thenReturn(Context.DEVICE_POLICY_SERVICE);
         when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE))
@@ -79,7 +90,24 @@ public final class MessageTest {
         DocumentsAdapter.Environment env =
                 new TestEnvironment(mContext, TestEnv.create(), mTestActionHandler);
         env.getDisplayState().action = State.ACTION_GET_CONTENT;
-        mInflateMessage = new Message.InflateMessage(env, mDefaultCallback);
+        if (SdkLevel.isAtLeastV()) {
+            UserProperties userProperties = new UserProperties.Builder()
+                    .setShowInQuietMode(UserProperties.SHOW_IN_QUIET_MODE_PAUSED)
+                    .build();
+            UserHandle userHandle = UserHandle.of(mUserId.getIdentifier());
+            when(mUserManager.getUserProperties(userHandle)).thenReturn(userProperties);
+        }
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            String personalLabel = mContext.getString(R.string.personal_tab);
+            String workLabel = mContext.getString(R.string.work_tab);
+            Map<UserId, String> userIdToLabelMap = new HashMap<>();
+            userIdToLabelMap.put(TestProvidersAccess.USER_ID, personalLabel);
+            userIdToLabelMap.put(mUserId, workLabel);
+            mInflateMessage = new Message.InflateMessage(env, mDefaultCallback,
+                    TestProvidersAccess.USER_ID, mUserId, userIdToLabelMap, mUserManager);
+        } else {
+            mInflateMessage = new Message.InflateMessage(env, mDefaultCallback);
+        }
     }
 
     @Test
@@ -115,6 +143,7 @@ public final class MessageTest {
 
     @Test
     public void testInflateMessage_updateToCrossProfileQuietMode() {
+        if (SdkLevel.isAtLeastV()) return;
         Model.Update error = new Model.Update(
                 new CrossProfileQuietModeException(mUserId),
                 /* isRemoteActionsEnabled= */ true);
@@ -138,6 +167,49 @@ public final class MessageTest {
                 .isEqualTo(mContext.getString(R.string.quiet_mode_error_title));
         assertThat(mInflateMessage.getButtonString()).isEqualTo(
                 mContext.getString(R.string.quiet_mode_button));
+        assertThat(mInflateMessage.mCallback).isNotNull();
+        mInflateMessage.mCallback.run();
+
+        assertThat(mTestActionHandler.mRequestDisablingQuietModeHappened).isTrue();
+    }
+
+    @Test
+    public void testInflateMessage_updateToCrossProfileQuietMode_PostV() {
+        if (!SdkLevel.isAtLeastV()) return;
+        Model.Update error = new Model.Update(
+                new CrossProfileQuietModeException(mUserId),
+                /* isRemoteActionsEnabled= */ true);
+
+        DevicePolicyResourcesManager devicePolicyResourcesManager = mock(
+                DevicePolicyResourcesManager.class);
+        when(mDevicePolicyManager.getResources()).thenReturn(devicePolicyResourcesManager);
+
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            Drawable icon = mContext.getDrawable(R.drawable.work_off);
+            when(devicePolicyResourcesManager.getDrawable(eq(WORK_PROFILE_OFF_ICON), eq(OUTLINE),
+                    any()))
+                    .thenReturn(icon);
+        } else {
+            String title = mContext.getString(R.string.quiet_mode_error_title);
+            String text = mContext.getString(R.string.quiet_mode_button);
+            when(devicePolicyResourcesManager.getString(eq(WORK_PROFILE_OFF_ERROR_TITLE), any()))
+                    .thenReturn(title);
+            when(devicePolicyResourcesManager.getString(eq(WORK_PROFILE_OFF_ENABLE_BUTTON), any()))
+                    .thenReturn(text);
+        }
+        mInflateMessage.update(error);
+
+        assertThat(mInflateMessage.getLayout())
+                .isEqualTo(InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR);
+
+        if (!FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            assert mInflateMessage.getTitleString() != null;
+            assertThat(mInflateMessage.getTitleString().toString())
+                    .isEqualTo(mContext.getString(R.string.quiet_mode_error_title));
+            assert mInflateMessage.getButtonString() != null;
+            assertThat(mInflateMessage.getButtonString().toString()).isEqualTo(
+                    mContext.getString(R.string.quiet_mode_button));
+        }
         assertThat(mInflateMessage.mCallback).isNotNull();
         mInflateMessage.mCallback.run();
 

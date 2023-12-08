@@ -24,7 +24,7 @@ import android.widget.Space;
  * Base class for all non-Document Holder classes.
  */
 abstract class MessageHolder extends DocumentHolder {
-    public MessageHolder(Context context, Space space) {
+    MessageHolder(Context context, Space space) {
         super(context, space);
     }
 

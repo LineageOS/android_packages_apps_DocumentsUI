@@ -32,7 +32,7 @@ final class TransparentDividerDocumentHolder extends MessageHolder {
     private final int mVisibleHeight;
     private State mState;
 
-    public TransparentDividerDocumentHolder(Context context) {
+    TransparentDividerDocumentHolder(Context context) {
         super(context, new Space(context));
 
         mVisibleHeight = context.getResources().getDimensionPixelSize(

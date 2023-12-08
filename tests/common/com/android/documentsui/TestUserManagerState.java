@@ -31,8 +31,9 @@ public class TestUserManagerState implements UserManagerState {
     public List<UserId> userIds = new ArrayList<>();
     public Map<UserId, String> userIdToLabelMap = new HashMap<>();
     public Map<UserId, Boolean> canFrowardToProfileIdMap = new HashMap<>();
-
     public Map<UserId, Drawable> userIdToBadgeMap = new HashMap<>();
+    public String profileLabel = "Test";
+    public Drawable profileBadge = null;
 
     @Override
     public List<UserId> getUserIds() {
@@ -52,5 +53,22 @@ public class TestUserManagerState implements UserManagerState {
     @Override
     public Map<UserId, Boolean> getCanForwardToProfileIdMap(Intent intent) {
         return canFrowardToProfileIdMap;
+    }
+
+    @Override
+    public void onProfileActionStatusChange(String action, UserId userId) {
+        if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
+            userIds.remove(userId);
+            userIdToLabelMap.remove(userId);
+            userIdToBadgeMap.remove(userId);
+            canFrowardToProfileIdMap.put(userId, false);
+            return;
+        }
+        if (!userIds.contains(userId)) {
+            userIds.add(userId);
+        }
+        userIdToLabelMap.put(userId, profileLabel);
+        userIdToBadgeMap.put(userId, profileBadge);
+        canFrowardToProfileIdMap.put(userId, true);
     }
 }

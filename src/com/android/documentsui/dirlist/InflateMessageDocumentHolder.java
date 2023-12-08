@@ -52,7 +52,7 @@ final class InflateMessageDocumentHolder extends MessageHolder {
     private View mCrossProfileContent;
     private ProgressBar mCrossProfileProgress;
 
-    public InflateMessageDocumentHolder(Context context, ViewGroup parent) {
+    InflateMessageDocumentHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_doc_inflated_message);
         mContentView = itemView.findViewById(R.id.content);
         mCrossProfileView = itemView.findViewById(R.id.cross_profile);
