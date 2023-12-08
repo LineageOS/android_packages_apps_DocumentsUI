@@ -33,7 +33,7 @@
     <string name="menu_settings" msgid="6520844520117939047">"స్టోరేజ్‌ సెట్టింగ్‌లు"</string>
     <string name="menu_open" msgid="9092138100049759315">"తెరువు"</string>
     <string name="menu_open_with" msgid="5507647065467520229">"దీనితో తెరువు"</string>
-    <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరవండి"</string>
+    <string name="menu_open_in_new_window" msgid="6686563636123311276">"కొత్త విండోలో తెరువు"</string>
     <string name="menu_save" msgid="5195367497138965168">"సేవ్ చేయండి"</string>
     <string name="menu_share" msgid="4307140947108068356">"షేర్ చేయి"</string>
     <string name="menu_delete" msgid="1022254131543256626">"తొలగించండి"</string>
@@ -103,7 +103,7 @@
     <string name="cant_save_to_personal_error_title" msgid="858327493694069780">"వ్యక్తిగత ప్రొఫైల్‌లో సేవ్ చేయడం సాధ్యం కాదు"</string>
     <string name="cant_save_to_personal_error_message" msgid="6991758723736381751">"మీ వ్యక్తిగత ప్రొఫైల్‌లో కార్యాలయ ఫైళ్లను సేవ్ చేయడానికి మీ IT అడ్మిన్ అనుమతించరు"</string>
     <string name="cross_profile_action_not_allowed_title" msgid="6611281348716476478">"ఈ చర్య అనుమతించబడదు"</string>
-    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"మరింత తెలుసుకోవడానికి, మీ IT అడ్మిన్‌ను కాంటాక్ట్ చేయండి"</string>
+    <string name="cross_profile_action_not_allowed_message" msgid="7331275433061690947">"మరింత తెలుసుకోవడానికి, మీ IT అడ్మిన్‌ను సంప్రదించండి"</string>
     <string name="root_recent" msgid="1080156975424341623">"ఇటీవలివి"</string>
     <string name="root_available_bytes" msgid="8269870862691408864">"<xliff:g id="SIZE">%1$s</xliff:g> ఖాళీగా ఉంది"</string>
     <string name="root_type_service" msgid="6521366147466512289">"స్టోరేజ్‌ పరికరాలు"</string>
