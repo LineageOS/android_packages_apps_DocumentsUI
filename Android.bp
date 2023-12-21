@@ -60,7 +60,9 @@ java_defaults {
     sdk_version: "system_current",
     min_sdk_version: "29",
 
-    lint: { strict_updatability_linting: true }
+    lint: {
+        strict_updatability_linting: true,
+    },
 }
 
 platform_compat_config {
@@ -72,7 +74,7 @@ filegroup {
     name: "DocumentsUI-srcs",
     srcs: [
         "src/**/*.java",
-	":statslog-docsui-java-gen",
+        ":statslog-docsui-java-gen",
     ],
 }
 
@@ -81,14 +83,17 @@ java_library {
     srcs: [
         ":statslog-docsui-java-gen",
     ],
-    lint: { strict_updatability_linting: true }
+    lint: {
+        strict_updatability_linting: true,
+        baseline_filename: "lint-baseline.xml",
+    },
 }
 
 genrule {
     name: "statslog-docsui-java-gen",
     tools: ["stats-log-api-gen"],
     cmd: "$(location stats-log-api-gen) --java $(out) --module docsui" +
-         " --javaPackage com.android.documentsui --javaClass DocumentsStatsLog --minApiLevel 29",
+        " --javaPackage com.android.documentsui --javaClass DocumentsStatsLog --minApiLevel 29",
     out: ["com/android/documentsui/DocumentsStatsLog.java"],
 }
 
@@ -113,7 +118,10 @@ android_library {
     sdk_version: "system_current",
     target_sdk_version: "33",
     min_sdk_version: "29",
-    lint: { strict_updatability_linting: true }
+    lint: {
+        strict_updatability_linting: true,
+        baseline_filename: "lint-baseline.xml",
+    },
 }
 
 android_library {
@@ -143,7 +151,10 @@ android_library {
     sdk_version: "system_current",
     target_sdk_version: "33",
     min_sdk_version: "29",
-    lint: { strict_updatability_linting: true }
+    lint: {
+        strict_updatability_linting: true,
+        baseline_filename: "lint-baseline.xml",
+    },
 }
 
 android_app {
@@ -170,6 +181,8 @@ android_app {
 
     min_sdk_version: "29",
     updatable: true,
-    lint: { strict_updatability_linting: true }
+    lint: {
+        strict_updatability_linting: true,
+        baseline_filename: "lint-baseline.xml",
+    },
 }
-
