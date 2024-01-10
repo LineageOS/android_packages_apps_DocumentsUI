@@ -98,9 +98,11 @@ public class KeyValueRow extends LinearLayout {
     public void setOnClickListener(OnClickListener callback) {
         TextView clickable = ((TextView) findViewById(R.id.table_row_value));
         mDefaultTextColor = clickable.getTextColors();
-        TypedArray ta = getContext().obtainStyledAttributes(R.styleable.TextAppearance);
-        int linkColor = ta.getColor(R.styleable.TextAppearance_android_textColorLink,
-                mDefaultTextColor.getDefaultColor());
+        TypedArray ta =
+                getContext().obtainStyledAttributes(androidx.appcompat.R.styleable.TextAppearance);
+        int linkColor =
+                ta.getColor(androidx.appcompat.R.styleable.TextAppearance_android_textColorLink,
+                        mDefaultTextColor.getDefaultColor());
         ta.recycle();
         clickable.setTextColor(linkColor);
         clickable.setPaintFlags(clickable.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
