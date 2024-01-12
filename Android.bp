@@ -77,7 +77,7 @@ java_library {
     ],
     lint: {
         strict_updatability_linting: true,
-        baseline_filename: "lint-baseline.xml",
+
     },
 }
 
@@ -113,7 +113,7 @@ android_library {
     min_sdk_version: "29",
     lint: {
         strict_updatability_linting: true,
-        baseline_filename: "lint-baseline.xml",
+
     },
 }
 
@@ -131,7 +131,7 @@ android_library {
     min_sdk_version: "29",
     lint: {
         strict_updatability_linting: true,
-        baseline_filename: "lint-baseline.xml",
+
     },
 }
 
@@ -157,5 +157,6 @@ android_app {
     lint: {
         strict_updatability_linting: true,
         baseline_filename: "lint-baseline.xml",
+
     },
 }
