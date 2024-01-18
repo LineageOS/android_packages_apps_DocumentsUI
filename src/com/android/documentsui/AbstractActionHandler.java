@@ -779,32 +779,48 @@ public abstract class AbstractActionHandler<T extends FragmentActivity & CommonA
     }
 
     protected final boolean launchToDocument(Uri uri) {
-        // We don't support launching to a document in an archive.
-        if (!Providers.isArchiveUri(uri)) {
-            loadDocument(uri, UserId.DEFAULT_USER, this::onStackLoaded);
-            return true;
+        if (DEBUG) {
+            Log.d(TAG, "launchToDocument() uri=" + uri);
         }
 
-        return false;
+        // We don't support launching to a document in an archive.
+        if (Providers.isArchiveUri(uri)) {
+            return false;
+        }
+
+        loadDocument(uri, UserId.DEFAULT_USER, this::onStackToLaunchToLoaded);
+        return true;
     }
 
-    private void onStackLoaded(@Nullable DocumentStack stack) {
-        if (stack != null) {
-            if (!stack.peek().isDirectory()) {
-                // Requested document is not a directory. Pop it so that we can launch into its
-                // parent.
-                stack.pop();
-            }
-            mState.stack.reset(stack);
-            mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+    /**
+     * Invoked <b>only</b> once, when the initial stack (that is the stack we are going to
+     * "launch to") is loaded.
+     *
+     * @see #launchToDocument(Uri)
+     */
+    private void onStackToLaunchToLoaded(@Nullable DocumentStack stack) {
+        if (DEBUG) {
+            Log.d(TAG, "onLaunchStackLoaded() stack=" + stack);
+        }
 
-            Metrics.logLaunchAtLocation(mState, stack.getRoot().getUri());
-        } else {
+        if (stack == null) {
             Log.w(TAG, "Failed to launch into the given uri. Launch to default location.");
             launchToDefaultLocation();
 
             Metrics.logLaunchAtLocation(mState, null);
+            return;
         }
+
+        // Make sure the document at the top of the stack is a directory (if it isn't - just pop
+        // one off).
+        if (!stack.peek().isDirectory()) {
+            stack.pop();
+        }
+
+        mState.stack.reset(stack);
+        mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
+
+        Metrics.logLaunchAtLocation(mState, stack.getRoot().getUri());
     }
 
     private void onRootLoaded(@Nullable RootInfo root) {

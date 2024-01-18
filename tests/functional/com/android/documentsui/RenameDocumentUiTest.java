@@ -16,9 +16,8 @@
 
 package com.android.documentsui;
 
-import android.support.test.uiautomator.UiObjectNotFoundException;
-
 import androidx.test.filters.LargeTest;
+import androidx.test.uiautomator.UiObjectNotFoundException;
 
 import com.android.documentsui.files.FilesActivity;
 import com.android.documentsui.util.VersionUtils;
