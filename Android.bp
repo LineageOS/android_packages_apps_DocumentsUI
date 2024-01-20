@@ -59,10 +59,6 @@ java_defaults {
 
     sdk_version: "system_current",
     min_sdk_version: "29",
-
-    lint: {
-        strict_updatability_linting: true,
-    },
 }
 
 platform_compat_config {
@@ -77,7 +73,6 @@ java_library {
     ],
     lint: {
         strict_updatability_linting: true,
-
     },
 }
 
@@ -112,7 +107,6 @@ android_library {
     target_sdk_version: "33",
     min_sdk_version: "29",
     lint: {
-        strict_updatability_linting: true,
         baseline_filename: "lint-baseline.xml",
     },
 }
@@ -129,9 +123,6 @@ android_library {
     sdk_version: "system_current",
     target_sdk_version: "33",
     min_sdk_version: "29",
-    lint: {
-        strict_updatability_linting: true,
-    },
 }
 
 android_app {
@@ -153,7 +144,4 @@ android_app {
 
     min_sdk_version: "29",
     updatable: true,
-    lint: {
-        strict_updatability_linting: true,
-    },
 }
