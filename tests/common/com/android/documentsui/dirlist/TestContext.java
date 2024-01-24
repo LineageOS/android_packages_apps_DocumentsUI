@@ -30,7 +30,7 @@ public final class TestContext {
      */
     static Context createStorageTestContext(Context context, String authority) {
         final MockContentResolver testResolver = new MockContentResolver();
-        TestDocumentsProvider provider = new TestDocumentsProvider(authority);
+        TestDocumentsProvider provider = new TestDocumentsProvider(context, authority);
         testResolver.addProvider(authority, provider);
 
         return new ContextWrapper(context) {
