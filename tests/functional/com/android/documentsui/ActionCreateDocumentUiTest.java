@@ -80,8 +80,8 @@ public class ActionCreateDocumentUiTest extends DocumentsUiTestBase {
         final String fileName = UUID.randomUUID() + ".txt";
 
         bots.main.setDialogText(fileName);
-        bots.main.clickSaveButton();
         device.waitForIdle();
+        bots.main.clickSaveButton();
 
         final Instrumentation.ActivityResult activityResult = mRule.getActivityResult();
         assertThat(activityResult.getResultCode()).isEqualTo(RESULT_OK);
