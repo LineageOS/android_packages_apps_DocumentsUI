@@ -28,26 +28,31 @@ import android.content.pm.ResolveInfo;
 
 import androidx.test.filters.MediumTest;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
+import com.android.documentsui.util.FeatureFlagUtils;
+
+import com.google.android.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * An unit test for RootsFragment.
+ * A unit test for RootsFragment.
  */
-@RunWith(AndroidJUnit4.class)
+@RunWith(Parameterized.class)
 @MediumTest
 public class RootsFragmentTest {
 
@@ -69,6 +74,18 @@ public class RootsFragmentTest {
             TestProvidersAccess.INSPECTOR.title,
             TestProvidersAccess.PICKLES.title};
 
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
+
     @Before
     public void setUp() {
         mContext = mock(Context.class);
@@ -83,6 +100,7 @@ public class RootsFragmentTest {
 
     @Test
     public void testSortLoadResult_WithCorrectOrder() {
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) return;
         List<Item> items = mRootsFragment.sortLoadResult(
                 mContext,
                 new State(),

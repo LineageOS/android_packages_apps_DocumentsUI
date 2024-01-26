@@ -26,6 +26,7 @@ import androidx.annotation.IntDef;
 import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class State implements android.os.Parcelable {
 
@@ -100,8 +102,17 @@ public class State implements android.os.Parcelable {
      * Returns true if we are allowed to interact with the user.
      */
     public boolean canInteractWith(UserId userId) {
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            return canForwardToProfileIdMap.getOrDefault(userId, false);
+        }
         return canShareAcrossProfile || UserId.CURRENT_USER.equals(userId);
     }
+
+    /**
+     * Represents whether the intent can be forwarded to the {@link UserId} in the map
+     */
+    public Map<UserId, Boolean> canForwardToProfileIdMap = new HashMap<>();
+
 
     /**
      * This is basically a sub-type for the copy operation. It can be either COPY,

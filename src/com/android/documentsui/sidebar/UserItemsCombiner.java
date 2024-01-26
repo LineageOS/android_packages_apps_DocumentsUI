@@ -36,6 +36,7 @@ import com.android.modules.utils.build.SdkLevel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Converts user-specific lists of items into a single merged list appropriate for displaying in the
@@ -49,6 +50,7 @@ class UserItemsCombiner {
     private final State mState;
     private List<Item> mRootList;
     private List<Item> mRootListOtherUser;
+    private List<List<Item>> mRootListAllUsers;
 
     UserItemsCombiner(Resources resources, DevicePolicyManager dpm, State state) {
         mCurrentUser = UserId.CURRENT_USER;
@@ -70,6 +72,11 @@ class UserItemsCombiner {
 
     UserItemsCombiner setRootListForOtherUser(List<Item> rootList) {
         mRootListOtherUser = checkNotNull(rootList);
+        return this;
+    }
+
+    UserItemsCombiner setRootListForAllUsers(List<List<Item>> listOfRootLists) {
+        mRootListAllUsers = checkNotNull(listOfRootLists);
         return this;
     }
 
@@ -105,6 +112,52 @@ class UserItemsCombiner {
             }
         } else {
             result.addAll(mRootList);
+        }
+        return result;
+    }
+
+    public List<Item> createPresentableListForAllUsers(List<UserId> userIds,
+            Map<UserId, String> userIdToLabelMap) {
+
+        checkArgument(mRootListAllUsers != null, "RootListForAllUsers is not set");
+
+        final List<Item> result = new ArrayList<>();
+        if (mState.supportsCrossProfile()) {
+            // headerItemList will hold headers for userIds that are accessible, and
+            final List<Item> headerItemList = new ArrayList<>();
+            int accessibleProfilesCount = 0;
+            for (int i = 0; i < userIds.size(); ++i) {
+                // The received user id list contains all users present on the device,
+                // the headerItemList will contain header item or null at the same index as
+                // the user id in the received list
+                if (mState.canInteractWith(userIds.get(i))
+                        && !mRootListAllUsers.get(i).isEmpty()) {
+                    accessibleProfilesCount += 1;
+                    headerItemList.add(new HeaderItem(userIdToLabelMap.get(userIds.get(i))));
+                } else {
+                    headerItemList.add(null);
+                }
+            }
+            // Do not add header item if:
+            // 1. only the current profile is accessible
+            // 2. only one profile has non-empty root item list
+            if (accessibleProfilesCount == 1) {
+                for (int i = 0; i < userIds.size(); ++i) {
+                    if (headerItemList.get(i) == null) continue;
+                    result.addAll(mRootListAllUsers.get(i));
+                    break;
+                }
+            } else {
+                for (int i = 0; i < userIds.size(); ++i) {
+                    // Since the header item and the corresponding accessible user id share the same
+                    // index we add the user id along with its non-null header to the result.
+                    if (headerItemList.get(i) == null) continue;
+                    result.add(headerItemList.get(i));
+                    result.addAll(mRootListAllUsers.get(i));
+                }
+            }
+        } else {
+            result.addAll(mRootListAllUsers.get(userIds.indexOf(mCurrentUser)));
         }
         return result;
     }

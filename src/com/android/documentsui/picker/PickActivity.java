@@ -65,6 +65,7 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import com.android.documentsui.util.CrossProfileUtils;
+import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 
 import java.util.Collection;
@@ -85,8 +86,15 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     }
 
     // make these methods visible in this package to work around compiler bug http://b/62218600
-    @Override protected boolean focusSidebar() { return super.focusSidebar(); }
-    @Override protected boolean popDir() { return super.popDir(); }
+    @Override
+    protected boolean focusSidebar() {
+        return super.focusSidebar();
+    }
+
+    @Override
+    protected boolean popDir() {
+        return super.popDir();
+    }
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -99,7 +107,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 new MessageBuilder(this),
                 DialogController.create(features, this),
                 DocumentsApplication.getFileTypeLookup(this),
-                (Collection<RootInfo> roots) -> {});
+                (Collection<RootInfo> roots) -> {
+                });
 
         super.onCreate(icicle);
 
@@ -138,15 +147,13 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mSearchManager,
                 ProviderExecutor::forAuthority,
                 mInjector,
-                LastAccessedStorage.create(),
-                mUserIdManager);
+                LastAccessedStorage.create());
 
         mInjector.searchManager = mSearchManager;
 
         Intent intent = getIntent();
 
-        mAppsRowManager = new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                mUserIdManager);
+        mAppsRowManager = getAppsRowManager();
         mInjector.appsRowManager = mAppsRowManager;
 
         mSharedInputHandler =
@@ -161,6 +168,14 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         setupLayout(intent);
         mInjector.actions.initLocation(intent);
         Metrics.logPickerLaunchedFrom(Shared.getCallingPackageName(this));
+    }
+
+    private AppsRowManager getAppsRowManager() {
+        return FeatureFlagUtils.isPrivateSpaceEnabled()
+                ? new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
+                mUserManagerState)
+                : new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
+                        mUserIdManager);
     }
 
     @Override
@@ -203,7 +218,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
             final String title = intent.getStringExtra(Intent.EXTRA_TITLE);
             SaveFragment.show(getSupportFragmentManager(), mimeType, title);
         } else if (mState.action == ACTION_OPEN_TREE ||
-                   mState.action == ACTION_PICK_COPY_DESTINATION) {
+                mState.action == ACTION_PICK_COPY_DESTINATION) {
             PickFragment.show(getSupportFragmentManager());
         } else {
             // If PickFragment or SaveFragment does not show,
@@ -215,10 +230,14 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         final Intent moreApps = new Intent(intent);
         moreApps.setComponent(null);
         moreApps.setPackage(null);
-        if (mState.supportsCrossProfile()
-                && CrossProfileUtils.getCrossProfileResolveInfo(
-                        getPackageManager(), moreApps) != null) {
-            mState.canShareAcrossProfile = true;
+        if (mState.supportsCrossProfile) {
+            if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                mState.canForwardToProfileIdMap = mUserManagerState.getCanForwardToProfileIdMap(
+                        moreApps);
+            } else if (CrossProfileUtils.getCrossProfileResolveInfo(UserId.CURRENT_USER,
+                    getPackageManager(), moreApps, getApplicationContext()) != null) {
+                mState.canShareAcrossProfile = true;
+            }
         }
 
         if (mState.action == ACTION_GET_CONTENT
@@ -345,8 +364,8 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                     MimeTypes.VISUAL_MIMES, mState.acceptMimes);
             mState.derivedMode = visualMimes ? State.MODE_GRID : State.MODE_LIST;
         } else {
-                // Normal boring directory
-                DirectoryFragment.showDirectory(fm, root, cwd, anim);
+            // Normal boring directory
+            DirectoryFragment.showDirectory(fm, root, cwd, anim);
         }
 
         // Forget any replacement target
@@ -358,7 +377,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         }
 
         if (mState.action == ACTION_OPEN_TREE ||
-            mState.action == ACTION_PICK_COPY_DESTINATION) {
+                mState.action == ACTION_PICK_COPY_DESTINATION) {
             final PickFragment pick = PickFragment.get(fm);
             if (pick != null) {
                 pick.setPickTarget(mState.action,
@@ -369,7 +388,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
     @Override
     protected void onDirectoryCreated(DocumentInfo doc) {
-        assert(doc.isDirectory());
+        assert (doc.isDirectory());
         mInjector.actions.openContainerDocument(doc);
     }
 
