@@ -117,7 +117,8 @@ public class TestEnv {
     private void registerProviders() {
         for (RootInfo root : providers.getRootsBlocking()) {
             if (!mockProviders.containsKey(root.authority)) {
-                TestDocumentsProvider provider = new TestDocumentsProvider(root.authority);
+                Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+                TestDocumentsProvider provider = new TestDocumentsProvider(context, root.authority);
                 contentResolver.addProvider(root.authority, provider);
                 mockProviders.put(root.authority, provider);
             }

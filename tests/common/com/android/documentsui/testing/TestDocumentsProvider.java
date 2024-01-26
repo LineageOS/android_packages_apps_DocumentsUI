@@ -17,6 +17,7 @@
 package com.android.documentsui.testing;
 
 import android.annotation.NonNull;
+import android.content.Context;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -51,10 +52,10 @@ public class TestDocumentsProvider extends DocumentsProvider {
     private Cursor mNextChildDocuments;
     private Cursor mNextRecentDocuments;
 
-    public TestDocumentsProvider(String authority) {
+    public TestDocumentsProvider(Context context, String authority) {
         ProviderInfo info = new ProviderInfo();
         info.authority = authority;
-        attachInfoForTesting(null, info);
+        attachInfoForTesting(context, info);
     }
 
     @Override
