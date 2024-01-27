@@ -48,6 +48,7 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.sorting.SortModel;
+import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,8 +130,7 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             if (mSearchMode) {
                 queryArgs.putAll(mQueryArgs);
                 if (shouldSearchAcrossProfile()) {
-                    for (UserId userId : DocumentsApplication.getUserIdManager(
-                            getContext()).getUserIds()) {
+                    for (UserId userId : getUserIds()) {
                         if (mState.canInteractWith(userId)) {
                             userIds.add(userId);
                         }
@@ -329,5 +329,12 @@ public class DirectoryLoader extends AsyncTaskLoader<DirectoryResult> {
             return true;
         }
         return false;
+    }
+
+    private List<UserId> getUserIds() {
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            return DocumentsApplication.getUserManagerState(getContext()).getUserIds();
+        }
+        return DocumentsApplication.getUserIdManager(getContext()).getUserIds();
     }
 }

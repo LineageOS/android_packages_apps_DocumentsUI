@@ -23,6 +23,7 @@ import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
 
 import android.app.admin.DevicePolicyManager;
 import android.os.Build;
+import android.os.UserManager;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,13 +33,16 @@ import androidx.annotation.RequiresApi;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.base.Objects;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A manager class to control UI on a {@link TabLayout} for cross-profile purpose.
@@ -51,7 +55,10 @@ public class ProfileTabs implements ProfileTabsAddons {
     private final State mState;
     private final NavigationViewManager.Environment mEnv;
     private final AbstractActionHandler.CommonAddons mCommonAddons;
+    @Nullable
     private final UserIdManager mUserIdManager;
+    @Nullable
+    private final UserManagerState mUserManagerState;
     private List<UserId> mUserIds;
     @Nullable
     private Listener mListener;
@@ -61,12 +68,30 @@ public class ProfileTabs implements ProfileTabsAddons {
     public ProfileTabs(View tabLayoutContainer, State state, UserIdManager userIdManager,
             NavigationViewManager.Environment env,
             AbstractActionHandler.CommonAddons commonAddons) {
+        this(tabLayoutContainer, state, userIdManager, null, env, commonAddons);
+    }
+
+    public ProfileTabs(View tabLayoutContainer, State state, UserManagerState userManagerState,
+            NavigationViewManager.Environment env,
+            AbstractActionHandler.CommonAddons commonAddons) {
+        this(tabLayoutContainer, state, null, userManagerState, env, commonAddons);
+    }
+
+    public ProfileTabs(View tabLayoutContainer, State state, @Nullable UserIdManager userIdManager,
+            @Nullable UserManagerState userManagerState, NavigationViewManager.Environment env,
+            AbstractActionHandler.CommonAddons commonAddons) {
         mTabsContainer = checkNotNull(tabLayoutContainer);
         mTabs = tabLayoutContainer.findViewById(R.id.tabs);
         mState = checkNotNull(state);
         mEnv = checkNotNull(env);
         mCommonAddons = checkNotNull(commonAddons);
-        mUserIdManager = checkNotNull(userIdManager);
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            mUserIdManager = userIdManager;
+            mUserManagerState = checkNotNull(userManagerState);
+        } else {
+            mUserIdManager = checkNotNull(userIdManager);
+            mUserManagerState = userManagerState;
+        }
         mTabs.removeAllTabs();
         mUserIds = Collections.singletonList(UserId.CURRENT_USER);
         mTabSeparator = tabLayoutContainer.findViewById(R.id.tab_separator);
@@ -92,7 +117,7 @@ public class ProfileTabs implements ProfileTabsAddons {
     }
 
     /**
-     * Update the tab layout based on conditions.
+     * Update the tab layout based on status of availability of the hidden profile.
      */
     public void updateView() {
         updateTabsIfNeeded();
@@ -102,21 +127,26 @@ public class ProfileTabs implements ProfileTabsAddons {
             // Update the layout according to the current root if necessary.
             // Make sure we do not invoke callback. Otherwise, it is likely to cause infinite loop.
             mTabs.removeOnTabSelectedListener(mOnTabSelectedListener);
-            mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
-            mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
+            if (!mUserIds.contains(currentRoot.userId)) {
+                mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
+                mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(UserId.CURRENT_USER)));
+            } else {
+                mTabs.selectTab(mTabs.getTabAt(mUserIds.indexOf(currentRoot.userId)));
+                mTabs.addOnTabSelectedListener(mOnTabSelectedListener);
+            }
         }
         mTabsContainer.setVisibility(shouldShow() ? View.VISIBLE : View.GONE);
 
         // Material next changes apply only for version S or greater
         if (SdkLevel.isAtLeastS()) {
             mTabSeparator.setVisibility(View.GONE);
-            int tabContainerHeightInDp = (int)mTabsContainer.getContext().getResources().
-                getDimension(R.dimen.tab_container_height);
+            int tabContainerHeightInDp = (int) mTabsContainer.getContext().getResources()
+                    .getDimension(R.dimen.tab_container_height);
             mTabsContainer.getLayoutParams().height = tabContainerHeightInDp;
             ViewGroup.MarginLayoutParams tabContainerMarginLayoutParams =
-                (ViewGroup.MarginLayoutParams) mTabsContainer.getLayoutParams();
-            int tabContainerMarginTop = (int)mTabsContainer.getContext().getResources().
-                getDimension(R.dimen.profile_tab_margin_top);
+                    (ViewGroup.MarginLayoutParams) mTabsContainer.getLayoutParams();
+            int tabContainerMarginTop = (int) mTabsContainer.getContext().getResources()
+                    .getDimension(R.dimen.profile_tab_margin_top);
             tabContainerMarginLayoutParams.setMargins(0, tabContainerMarginTop, 0, 0);
             mTabsContainer.requestLayout();
             for (int i = 0; i < mTabs.getTabCount(); i++) {
@@ -127,11 +157,11 @@ public class ProfileTabs implements ProfileTabsAddons {
                 // Get individual tab to set the style
                 ViewGroup.MarginLayoutParams marginLayoutParams =
                         (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-                int tabMarginSide = (int)mTabsContainer.getContext().getResources().
-                    getDimension(R.dimen.profile_tab_margin_side);
+                int tabMarginSide = (int) mTabsContainer.getContext().getResources()
+                        .getDimension(R.dimen.profile_tab_margin_side);
                 marginLayoutParams.setMargins(tabMarginSide, 0, tabMarginSide, 0);
-                int tabHeightInDp = (int)mTabsContainer.getContext().getResources().
-                    getDimension(R.dimen.tab_height);
+                int tabHeightInDp = (int) mTabsContainer.getContext().getResources()
+                        .getDimension(R.dimen.tab_height);
                 tab.getLayoutParams().height = tabHeightInDp;
                 tab.requestLayout();
                 tab.setBackgroundResource(R.drawable.tab_border_rounded);
@@ -145,23 +175,53 @@ public class ProfileTabs implements ProfileTabsAddons {
     }
 
     private void updateTabsIfNeeded() {
-        List<UserId> userIds = mUserIdManager.getUserIds();
+        List<UserId> userIds = getUserIds();
         // Add tabs if the userIds is not equals to cached mUserIds.
         // Given that mUserIds was initialized with only the current user, if getUserIds()
         // returns just the current user, we don't need to do anything on the tab layout.
         if (!userIds.equals(mUserIds)) {
-            mUserIds = userIds;
+            mUserIds = new ArrayList<>();
+            mUserIds.addAll(userIds);
             mTabs.removeAllTabs();
             if (mUserIds.size() > 1) {
-                // set setSelected to false otherwise it will trigger callback.
-                mTabs.addTab(createTab(
-                        getEnterpriseString(PERSONAL_TAB, R.string.personal_tab),
-                        mUserIdManager.getSystemUser()), /* setSelected= */false);
-                mTabs.addTab(createTab(
-                        getEnterpriseString(WORK_TAB, R.string.work_tab),
-                        mUserIdManager.getManagedUser()), /* setSelected= */false);
+                if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                    addTabsPrivateSpaceEnabled();
+                } else {
+                    addTabsPrivateSpaceDisabled();
+                }
             }
         }
+    }
+
+    private List<UserId> getUserIds() {
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            assert mUserManagerState != null;
+            return mUserManagerState.getUserIds();
+        }
+        assert mUserIdManager != null;
+        return mUserIdManager.getUserIds();
+    }
+
+    private void addTabsPrivateSpaceEnabled() {
+        // set setSelected to false otherwise it will trigger callback.
+        assert mUserManagerState != null;
+        Map<UserId, String> userIdToLabelMap = mUserManagerState.getUserIdToLabelMap();
+        UserManager userManager = mTabsContainer.getContext().getSystemService(UserManager.class);
+        assert userManager != null;
+        for (UserId userId : mUserIds) {
+            mTabs.addTab(createTab(userIdToLabelMap.get(userId), userId), /* setSelected= */false);
+        }
+    }
+
+    private void addTabsPrivateSpaceDisabled() {
+        // set setSelected to false otherwise it will trigger callback.
+        assert mUserIdManager != null;
+        mTabs.addTab(createTab(
+                getEnterpriseString(PERSONAL_TAB, R.string.personal_tab),
+                mUserIdManager.getSystemUser()), /* setSelected= */false);
+        mTabs.addTab(createTab(
+                getEnterpriseString(WORK_TAB, R.string.work_tab),
+                mUserIdManager.getManagedUser()), /* setSelected= */false);
     }
 
     private String getEnterpriseString(String updatableStringId, int defaultStringId) {

@@ -69,7 +69,6 @@ public interface DocumentsAccess {
     public final class RuntimeDocumentAccess implements DocumentsAccess {
 
         private static final String TAG = "DocumentAccess";
-
         private final Context mContext;
         private final State mState;
 
