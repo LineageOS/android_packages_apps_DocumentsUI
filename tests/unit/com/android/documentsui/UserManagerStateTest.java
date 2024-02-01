@@ -30,11 +30,11 @@ import android.content.pm.UserProperties;
 import android.os.UserHandle;
 import android.os.UserManager;
 
+import androidx.test.filters.SdkSuppress;
 import androidx.test.filters.SmallTest;
 
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.UserManagers;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
 
@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 @SmallTest
+@SdkSuppress(minSdkVersion = 31, codeName = "S")
 public class UserManagerStateTest {
 
     private final UserHandle mSystemUser = UserHandle.SYSTEM;
@@ -128,7 +129,6 @@ public class UserManagerStateTest {
         when(mMockContext.getPackageManager()).thenReturn(mMockPackageManager);
         when(mMockContext.getSystemServiceName(UserManager.class)).thenReturn("mMockUserManager");
         when(mMockContext.getSystemService(UserManager.class)).thenReturn(mMockUserManager);
-
     }
 
     @Test
@@ -353,7 +353,7 @@ public class UserManagerStateTest {
     public void testGetCanForwardToProfileIdMap_systemUserCanForwardToAll() {
         UserId currentUser = UserId.of(mSystemUser);
         final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             initializeUserManagerState(currentUser,
                     Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
             when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
@@ -369,7 +369,7 @@ public class UserManagerStateTest {
         Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
         expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
         expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
         }
 
@@ -383,7 +383,7 @@ public class UserManagerStateTest {
         UserId currentUser = UserId.of(mSystemUser);
         initializeUserManagerState(currentUser, Lists.newArrayList(mSystemUser, mManagedUser));
         final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
                     PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
                     mMockResolveInfoList);
@@ -403,7 +403,7 @@ public class UserManagerStateTest {
 
     @Test
     public void testGetCanForwardToProfileIdMap_systemUserCanAlwaysForwardToPrivate() {
-        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mSystemUser);
         initializeUserManagerState(currentUser, Lists.newArrayList(mSystemUser, mPrivateUser));
 
@@ -420,7 +420,7 @@ public class UserManagerStateTest {
     public void testGetCanForwardToProfileIdMap_systemUserCanNotForwardToManagedUser() {
         UserId currentUser = UserId.of(mSystemUser);
         final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo2, mMockInfo3);
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             initializeUserManagerState(currentUser,
                     Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
             when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
@@ -436,7 +436,7 @@ public class UserManagerStateTest {
         Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
         expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
         expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), false);
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
         }
 
@@ -449,7 +449,7 @@ public class UserManagerStateTest {
     public void testGetCanForwardToProfileIdMap_managedCanForwardToAll() {
         UserId currentUser = UserId.of(mManagedUser);
         final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             initializeUserManagerState(currentUser,
                     Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
             when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
@@ -465,7 +465,7 @@ public class UserManagerStateTest {
         Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
         expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), true);
         expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), true);
         }
 
@@ -479,7 +479,7 @@ public class UserManagerStateTest {
         UserId currentUser = UserId.of(mManagedUser);
         final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo2, mMockInfo3);
 
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             initializeUserManagerState(currentUser,
                     Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
             when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
@@ -495,7 +495,7 @@ public class UserManagerStateTest {
         Map<UserId, Boolean> expectedCanForwardToProfileIdMap = new HashMap<>();
         expectedCanForwardToProfileIdMap.put(UserId.of(mSystemUser), false);
         expectedCanForwardToProfileIdMap.put(UserId.of(mManagedUser), true);
-        if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastV()) {
             expectedCanForwardToProfileIdMap.put(UserId.of(mPrivateUser), false);
         }
 
@@ -506,7 +506,7 @@ public class UserManagerStateTest {
 
     @Test
     public void testGetCanForwardToProfileIdMap_privateCanForwardToAll() {
-        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mPrivateUser);
         initializeUserManagerState(currentUser,
                 Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
@@ -526,7 +526,7 @@ public class UserManagerStateTest {
 
     @Test
     public void testGetCanForwardToProfileIdMap_privateCanNotForwardToManagedUser() {
-        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mPrivateUser);
         initializeUserManagerState(currentUser,
                 Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
@@ -546,7 +546,7 @@ public class UserManagerStateTest {
 
     @Test
     public void testGetCanForwardToProfileIdMap_privateCanAlwaysForwardToSystemUser() {
-        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mPrivateUser);
         initializeUserManagerState(currentUser, Lists.newArrayList(mSystemUser, mPrivateUser));
 
@@ -585,7 +585,7 @@ public class UserManagerStateTest {
 
     @Test
     public void testOnProfileStatusChange_actionProfileUnavailableOnPrivateProfile() {
-        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mSystemUser);
         UserId managedUser = UserId.of(mManagedUser);
         UserId privateUser = UserId.of(mPrivateUser);
@@ -628,7 +628,7 @@ public class UserManagerStateTest {
 
     @Test
     public void testOnProfileStatusChange_actionProfileAvailableOnPrivateProfile() {
-        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV()) return;
         UserId currentUser = UserId.of(mSystemUser);
         UserId managedUser = UserId.of(mManagedUser);
         UserId privateUser = UserId.of(mPrivateUser);
@@ -673,7 +673,9 @@ public class UserManagerStateTest {
 
     private void initializeUserManagerState(UserId current, List<UserHandle> usersOnDevice) {
         when(mMockUserManager.getUserProfiles()).thenReturn(usersOnDevice);
+        TestConfigStore testConfigStore = new TestConfigStore();
+        testConfigStore.enablePrivateSpaceInPhotoPicker();
         mUserManagerState = new UserManagerState.RuntimeUserManagerState(mMockContext, current,
-                true);
+                true, testConfigStore);
     }
 }

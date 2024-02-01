@@ -27,22 +27,23 @@ import android.view.MotionEvent;
 import android.view.MotionEvent.PointerCoords;
 import android.view.MotionEvent.PointerProperties;
 
-import androidx.test.filters.SmallTest;
 import androidx.test.filters.Suppress;
 
 import com.android.documentsui.R;
+import com.android.documentsui.TestConfigStore;
 
-@SmallTest
 public class DocumentHolderTest extends AndroidTestCase {
 
     DocumentHolder mHolder;
     TestListener mListener;
+    TestConfigStore mTestConfigStore = new TestConfigStore();
 
     @Override
     public void setUp() throws Exception {
         Context context = getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        mHolder = new DocumentHolder(getContext(), inflater.inflate(R.layout.item_doc_list, null)) {
+        mHolder = new DocumentHolder(getContext(), inflater.inflate(R.layout.item_doc_list, null),
+                mTestConfigStore) {
             @Override
             public void bind(Cursor cursor, String modelId) {
             }

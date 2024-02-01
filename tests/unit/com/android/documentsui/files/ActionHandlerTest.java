@@ -47,12 +47,12 @@ import android.view.DragEvent;
 import androidx.core.util.Preconditions;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.filters.MediumTest;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.AbstractActionHandler;
 import com.android.documentsui.ModelId;
 import com.android.documentsui.R;
 import com.android.documentsui.TestActionModeAddons;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.archives.ArchivesProvider;
 import com.android.documentsui.base.DebugFlags;
 import com.android.documentsui.base.DocumentInfo;
@@ -72,16 +72,22 @@ import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
 import com.android.documentsui.ui.TestDialogController;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
+
+import com.google.common.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(Parameterized.class)
 @MediumTest
 public class ActionHandlerTest {
 
@@ -93,7 +99,20 @@ public class ActionHandlerTest {
     private TestDocumentClipper mClipper;
     private TestDragAndDropManager mDragAndDropManager;
     private TestFeatures mFeatures;
+    private TestConfigStore mTestConfigStore;
     private boolean refreshAnswer = false;
+
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
 
     @Before
     public void setUp() {
@@ -105,6 +124,14 @@ public class ActionHandlerTest {
         mDialogs = new TestDialogController();
         mClipper = new TestDocumentClipper();
         mDragAndDropManager = new TestDragAndDropManager();
+        mTestConfigStore = new TestConfigStore();
+        mEnv.state.configStore = mTestConfigStore;
+
+        isPrivateSpaceEnabled &= SdkLevel.isAtLeastS();
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+        }
 
         mEnv.providers.configurePm(mActivity.packageMgr);
         ((TestActivityConfig) mEnv.injector.config).nextDocumentEnabled = true;

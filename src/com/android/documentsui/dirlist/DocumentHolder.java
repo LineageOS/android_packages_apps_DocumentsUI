@@ -36,13 +36,13 @@ import androidx.annotation.RequiresApi;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.UserManagerState;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import java.util.function.Function;
@@ -62,27 +62,25 @@ public abstract class DocumentHolder
     protected @Nullable String mModelId;
 
     protected @State.ActionType int mAction;
+    protected final ConfigStore mConfigStore;
 
     // See #addKeyEventListener for details on the need for this field.
     private KeyboardEventListener<DocumentItemDetails> mKeyEventListener;
 
     private final DocumentItemDetails mDetails;
-    private UserManagerState mUserManagerState = null;
 
-    public DocumentHolder(Context context, ViewGroup parent, int layout) {
-        this(context, inflateLayout(context, parent, layout));
+    public DocumentHolder(Context context, ViewGroup parent, int layout, ConfigStore configStore) {
+        this(context, inflateLayout(context, parent, layout), configStore);
     }
 
-    public DocumentHolder(Context context, View item) {
+    public DocumentHolder(Context context, View item, ConfigStore configStore) {
         super(item);
 
         itemView.setOnKeyListener(this);
 
         mContext = context;
         mDetails = new DocumentItemDetails(this);
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
-            mUserManagerState = DocumentsApplication.getUserManagerState(mContext);
-        }
+        mConfigStore = configStore;
     }
 
     /**
@@ -204,8 +202,9 @@ public abstract class DocumentHolder
 
     protected String getPreviewIconContentDescription(boolean isNonPersonalProfile,
             String fileName, UserId userId) {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
-            String profileLabel = mUserManagerState.getUserIdToLabelMap().get(userId);
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
+            UserManagerState userManagerState = DocumentsApplication.getUserManagerState(mContext);
+            String profileLabel = userManagerState.getUserIdToLabelMap().get(userId);
             return isNonPersonalProfile
                     ? itemView.getResources().getString(R.string.preview_cross_profile_file,
                     profileLabel, fileName)

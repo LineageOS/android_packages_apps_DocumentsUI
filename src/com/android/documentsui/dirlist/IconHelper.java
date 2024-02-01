@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.ProviderExecutor;
@@ -48,7 +49,6 @@ import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.base.UserId;
-import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.function.BiConsumer;
 
@@ -70,27 +70,31 @@ public class IconHelper {
     @Nullable
     private final UserId mManagedUser;
     private final UserManagerState mUserManagerState;
+    private final ConfigStore mConfigStore;
 
     /**
      * @param mode MODE_GRID or MODE_LIST
      */
-    public IconHelper(Context context, int mode, boolean maybeShowBadge) {
+    public IconHelper(Context context, int mode, boolean maybeShowBadge, ConfigStore configStore) {
         this(context, mode, maybeShowBadge, DocumentsApplication.getThumbnailCache(context),
-                FeatureFlagUtils.isPrivateSpaceEnabled() ? null
+                configStore.isPrivateSpaceInDocsUIEnabled() ? null
                         : DocumentsApplication.getUserIdManager(context).getManagedUser(),
-                FeatureFlagUtils.isPrivateSpaceEnabled()
-                        ? DocumentsApplication.getUserManagerState(context) : null);
+                configStore.isPrivateSpaceInDocsUIEnabled()
+                        ? DocumentsApplication.getUserManagerState(context) : null,
+                configStore);
     }
 
     @VisibleForTesting
     IconHelper(Context context, int mode, boolean maybeShowBadge, ThumbnailCache thumbnailCache,
-            @Nullable UserId managedUser, @Nullable UserManagerState userManagerState) {
+            @Nullable UserId managedUser, @Nullable UserManagerState userManagerState,
+            ConfigStore configStore) {
         mContext = context;
         setViewMode(mode);
         mThumbnailCache = thumbnailCache;
         mManagedUser = managedUser;
         mMaybeShowBadge = maybeShowBadge;
         mUserManagerState = userManagerState;
+        mConfigStore = configStore;
     }
 
     /**
@@ -104,7 +108,7 @@ public class IconHelper {
     /**
      * Sets the current display mode. This affects the thumbnail sizes that are loaded.
      *
-     * @param mode See {@link State.MODE_LIST} and {@link State.MODE_GRID}.
+     * @param mode See {@link State#MODE_LIST} and {@link State#MODE_GRID}.
      */
     public void setViewMode(@ViewMode int mode) {
         mMode = mode;
@@ -267,7 +271,7 @@ public class IconHelper {
      * Returns true if we should show a briefcase icon for the given user.
      */
     public boolean shouldShowBadge(int userIdIdentifier) {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             return mMaybeShowBadge
                     && mUserManagerState.getUserIds().size() > 1
                     && ActivityManager.getCurrentUser() != userIdIdentifier;

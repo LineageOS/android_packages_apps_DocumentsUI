@@ -74,7 +74,6 @@ import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.util.FeatureFlagUtils;
 
 import com.google.android.material.appbar.AppBarLayout;
 
@@ -104,6 +103,7 @@ public abstract class BaseActivity
 
     protected NavigationViewManager mNavigator;
     protected SortController mSortController;
+    protected ConfigStore mConfigStore;
 
     private final List<EventListener> mEventListeners = new ArrayList<>();
     private final String mTag;
@@ -138,6 +138,16 @@ public abstract class BaseActivity
 
     public abstract Injector<?> getInjector();
 
+    @VisibleForTesting
+    protected void initConfigStore() {
+        mConfigStore = DocumentsApplication.getConfigStore(this);
+    }
+
+    @VisibleForTesting
+    public void setConfigStore(ConfigStore configStore) {
+        mConfigStore = configStore;
+    }
+
     @CallSuper
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -158,6 +168,8 @@ public abstract class BaseActivity
         setContentView(mLayoutId);
 
         setContainer();
+
+        initConfigStore();
 
         mInjector = getInjector();
         mState = getState(savedInstanceState);
@@ -347,12 +359,14 @@ public abstract class BaseActivity
 
     private NavigationViewManager getNavigationViewManager(Breadcrumb breadcrumb,
             View profileTabsContainer) {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             return new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
-                    profileTabsContainer, DocumentsApplication.getUserManagerState(this));
+                    profileTabsContainer, DocumentsApplication.getUserManagerState(this),
+                    mConfigStore);
         }
         return new NavigationViewManager(this, mDrawer, mState, this, breadcrumb,
-                profileTabsContainer, DocumentsApplication.getUserIdManager(this));
+                profileTabsContainer, DocumentsApplication.getUserIdManager(this),
+                mConfigStore);
     }
 
     public void onPreferenceChanged(String pref) {
@@ -413,6 +427,7 @@ public abstract class BaseActivity
         mPreferencesMonitor.stop();
         mSortController.destroy();
         DocumentsApplication.invalidateUserManagerState(this);
+        DocumentsApplication.invalidateConfigStore();
         super.onDestroy();
     }
 
@@ -438,6 +453,7 @@ public abstract class BaseActivity
                 getApplicationContext()
                         .getResources()
                         .getBoolean(R.bool.show_hidden_files_by_default));
+        state.configStore = mConfigStore;
 
         includeState(state);
 

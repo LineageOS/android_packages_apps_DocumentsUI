@@ -61,7 +61,6 @@ import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
-import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,11 +201,11 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     }
 
     private AppsRowManager getAppsRowManager() {
-        return FeatureFlagUtils.isPrivateSpaceEnabled()
+        return mConfigStore.isPrivateSpaceInDocsUIEnabled()
                 ? new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                mUserManagerState)
+                mUserManagerState, mConfigStore)
                 : new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                        mUserIdManager);
+                        mUserIdManager, mConfigStore);
     }
 
     // This is called in the intent contains label and icon resources.
@@ -301,6 +300,11 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public String getDrawerTitle() {
         Intent intent = getIntent();
         return (intent != null && intent.hasExtra(Intent.EXTRA_TITLE))
@@ -318,25 +322,20 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         DirectoryFragment dir;
-        switch (item.getItemId()) {
-            case R.id.option_menu_create_dir:
-                assert(canCreateDirectory());
-                mInjector.actions.showCreateDirectoryDialog();
-                break;
-            case R.id.option_menu_new_window:
-                mInjector.actions.openInNewWindow(mState.stack);
-                break;
-            case R.id.option_menu_settings:
-                mInjector.actions.openSettings(getCurrentRoot());
-                break;
-            case R.id.option_menu_select_all:
-                mInjector.actions.selectAllFiles();
-                break;
-            case R.id.option_menu_inspect:
-                mInjector.actions.showInspector(getCurrentDirectory());
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        final int id = item.getItemId();
+        if (id == R.id.option_menu_create_dir) {
+            assert (canCreateDirectory());
+            mInjector.actions.showCreateDirectoryDialog();
+        } else if (id == R.id.option_menu_new_window) {
+            mInjector.actions.openInNewWindow(mState.stack);
+        } else if (id == R.id.option_menu_settings) {
+            mInjector.actions.openSettings(getCurrentRoot());
+        } else if (id == R.id.option_menu_select_all) {
+            mInjector.actions.selectAllFiles();
+        } else if (id == R.id.option_menu_inspect) {
+            mInjector.actions.showInspector(getCurrentDirectory());
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         return true;
     }

@@ -78,7 +78,6 @@ import com.android.documentsui.roots.ProvidersAccess;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.roots.RootsLoader;
 import com.android.documentsui.util.CrossProfileUtils;
-import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -268,20 +267,26 @@ public class RootsFragment extends Fragment {
                 // For action which supports cross profile, update the policy value in state if
                 // necessary.
                 ResolveInfo crossProfileResolveInfo = null;
+                UserManagerState userManagerState = null;
                 if (state.supportsCrossProfile() && handlerAppIntent != null) {
-                    if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
-                        UserManagerState userManagerState =
-                                DocumentsApplication.getUserManagerState(getContext());
+                    if (state.configStore.isPrivateSpaceInDocsUIEnabled()) {
+                        userManagerState = DocumentsApplication.getUserManagerState(getContext());
                         Map<UserId, Boolean> canForwardToProfileIdMap =
                                 userManagerState.getCanForwardToProfileIdMap(handlerAppIntent);
                         updateCrossProfileMapStateAndMaybeRefresh(canForwardToProfileIdMap);
                     } else {
                         crossProfileResolveInfo = CrossProfileUtils.getCrossProfileResolveInfo(
                                 UserId.CURRENT_USER, getContext().getPackageManager(),
-                                handlerAppIntent, getContext());
+                                handlerAppIntent, getContext(),
+                                state.configStore.isPrivateSpaceInDocsUIEnabled());
                         updateCrossProfileStateAndMaybeRefresh(
                                 /* canShareAcrossProfile= */ crossProfileResolveInfo != null);
                     }
+                }
+
+                if (state.configStore.isPrivateSpaceInDocsUIEnabled()
+                        && userManagerState == null) {
+                    userManagerState = DocumentsApplication.getUserManagerState(getContext());
                 }
 
                 List<Item> sortedItems = sortLoadResult(
@@ -293,7 +298,8 @@ public class RootsFragment extends Fragment {
                         DocumentsApplication.getProvidersCache(getContext()),
                         getBaseActivity().getSelectedUser(),
                         getUserIds(),
-                        maybeShowBadge);
+                        maybeShowBadge,
+                        userManagerState);
 
                 // This will be removed when feature flag is removed.
                 if (crossProfileResolveInfo != null && !Features.CROSS_PROFILE_TABS) {
@@ -329,7 +335,7 @@ public class RootsFragment extends Fragment {
             }
 
             private List<UserId> getUserIds() {
-                if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                if (state.configStore.isPrivateSpaceInDocsUIEnabled()) {
                     return DocumentsApplication.getUserManagerState(getContext()).getUserIds();
                 }
                 return DocumentsApplication.getUserIdManager(getContext()).getUserIds();
@@ -386,7 +392,8 @@ public class RootsFragment extends Fragment {
             ProvidersAccess providersAccess,
             UserId selectedUser,
             List<UserId> userIds,
-            boolean maybeShowBadge) {
+            boolean maybeShowBadge,
+            UserManagerState userManagerState) {
         final List<Item> result = new ArrayList<>();
 
         final RootItemListBuilder librariesBuilder = new RootItemListBuilder(selectedUser, userIds);
@@ -445,7 +452,7 @@ public class RootsFragment extends Fragment {
             // Only add providers
             otherProviders.sort(comp);
             for (RootItem item : otherProviders) {
-                if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                if (state.configStore.isPrivateSpaceInDocsUIEnabled()) {
                     createRootListsPrivateSpaceEnabled(item, userIds, rootListAllUsers);
                 } else {
                     createRootListsPrivateSpaceDisabled(item, rootList, rootListOtherUser);
@@ -455,8 +462,9 @@ public class RootsFragment extends Fragment {
         }
 
         List<Item> presentableList =
-                FeatureFlagUtils.isPrivateSpaceEnabled() ? getPresentableListPrivateSpaceEnabled(
-                        context, state, rootListAllUsers, userIds) :
+                state.configStore.isPrivateSpaceInDocsUIEnabled()
+                        ? getPresentableListPrivateSpaceEnabled(
+                        context, state, rootListAllUsers, userIds, userManagerState) :
                         getPresentableListPrivateSpaceDisabled(context, state, rootList,
                                 rootListOtherUser);
         addListToResult(result, presentableList);
@@ -464,12 +472,12 @@ public class RootsFragment extends Fragment {
     }
 
     private List<Item> getPresentableListPrivateSpaceEnabled(Context context, State state,
-            List<List<Item>> rootListAllUsers, List<UserId> userIds) {
+            List<List<Item>> rootListAllUsers, List<UserId> userIds,
+            UserManagerState userManagerState) {
         return new UserItemsCombiner(context.getResources(),
                 context.getSystemService(DevicePolicyManager.class), state)
                 .setRootListForAllUsers(rootListAllUsers)
-                .createPresentableListForAllUsers(userIds,
-                        DocumentsApplication.getUserManagerState(context).getUserIdToLabelMap());
+                .createPresentableListForAllUsers(userIds, userManagerState.getUserIdToLabelMap());
     }
 
     private List<Item> getPresentableListPrivateSpaceDisabled(Context context, State state,
@@ -548,7 +556,7 @@ public class RootsFragment extends Fragment {
                 item = rootItem;
             }
 
-            if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            if (state.configStore.isPrivateSpaceInDocsUIEnabled()) {
                 createRootListsPrivateSpaceEnabled(item, userIds, rootListAllUsers);
             } else {
                 createRootListsPrivateSpaceDisabled(item, rootList, rootListOtherUser);
@@ -556,7 +564,7 @@ public class RootsFragment extends Fragment {
         }
 
         for (Item item : appItems.values()) {
-            if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            if (state.configStore.isPrivateSpaceInDocsUIEnabled()) {
                 createRootListsPrivateSpaceEnabled(item, userIds, rootListAllUsers);
             } else {
                 createRootListsPrivateSpaceDisabled(item, rootList, rootListOtherUser);
@@ -567,7 +575,7 @@ public class RootsFragment extends Fragment {
                 R.string.preferred_root_package, "");
         final ItemComparator comp = new ItemComparator(preferredRootPackage);
 
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (state.configStore.isPrivateSpaceInDocsUIEnabled()) {
             addToApplicationItemListPrivateSpaceEnabled(userIds, rootListAllUsers, comp, state);
         } else {
             addToApplicationItemListPrivateSpaceDisabled(rootList, rootListOtherUser, comp, state);
@@ -704,26 +712,25 @@ public class RootsFragment extends Fragment {
             return false;
         }
         final RootItem rootItem = (RootItem) mAdapter.getItem(adapterMenuInfo.position);
-        switch (item.getItemId()) {
-            case R.id.root_menu_eject_root:
-                final View ejectIcon = adapterMenuInfo.targetView.findViewById(R.id.action_icon);
-                ejectClicked(ejectIcon, rootItem.root, mActionHandler);
-                return true;
-            case R.id.root_menu_open_in_new_window:
-                mActionHandler.openInNewWindow(new DocumentStack(rootItem.root));
-                return true;
-            case R.id.root_menu_paste_into_folder:
-                mActionHandler.pasteIntoFolder(rootItem.root);
-                return true;
-            case R.id.root_menu_settings:
-                mActionHandler.openSettings(rootItem.root);
-                return true;
-            default:
-                if (DEBUG) {
-                    Log.d(TAG, "Unhandled menu item selected: " + item);
-                }
-                return false;
+        final int id = item.getItemId();
+        if (id == R.id.root_menu_eject_root) {
+            final View ejectIcon = adapterMenuInfo.targetView.findViewById(R.id.action_icon);
+            ejectClicked(ejectIcon, rootItem.root, mActionHandler);
+            return true;
+        } else if (id == R.id.root_menu_open_in_new_window) {
+            mActionHandler.openInNewWindow(new DocumentStack(rootItem.root));
+            return true;
+        } else if (id == R.id.root_menu_paste_into_folder) {
+            mActionHandler.pasteIntoFolder(rootItem.root);
+            return true;
+        } else if (id == R.id.root_menu_settings) {
+            mActionHandler.openSettings(rootItem.root);
+            return true;
         }
+        if (DEBUG) {
+            Log.d(TAG, "Unhandled menu item selected: " + item);
+        }
+        return false;
     }
 
     private void getRootDocument(RootItem rootItem, RootUpdater updater) {

@@ -35,13 +35,13 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.IconUtils;
 import com.android.documentsui.R;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.ui.Views;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import java.util.Map;
@@ -54,8 +54,8 @@ final class GridDirectoryHolder extends DocumentHolder {
     private final ImageView mIconBadge;
     private final View mIconLayout;
 
-    GridDirectoryHolder(Context context, ViewGroup parent) {
-        super(context, parent, R.layout.item_dir_grid);
+    GridDirectoryHolder(Context context, ViewGroup parent, ConfigStore configStore) {
+        super(context, parent, R.layout.item_dir_grid, configStore);
 
         mIconLayout = itemView.findViewById(R.id.icon);
         mTitle = (TextView) itemView.findViewById(android.R.id.title);
@@ -65,7 +65,7 @@ final class GridDirectoryHolder extends DocumentHolder {
         mIconMime.setImageDrawable(
                 IconUtils.loadMimeIcon(context, DocumentsContract.Document.MIME_TYPE_DIR));
 
-        if (SdkLevel.isAtLeastT() && !FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastT() && !mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             setUpdatableWorkProfileIcon(context);
         }
     }

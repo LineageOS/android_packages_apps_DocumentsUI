@@ -46,22 +46,29 @@ import com.android.documentsui.CrossProfileNoPermissionException;
 import com.android.documentsui.CrossProfileQuietModeException;
 import com.android.documentsui.Model;
 import com.android.documentsui.R;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
+
+import com.google.common.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SmallTest
+@RunWith(Parameterized.class)
 public final class MessageTest {
 
     private UserId mUserId = UserId.of(100);
@@ -72,6 +79,19 @@ public final class MessageTest {
     private UserManager mUserManager;
     private DevicePolicyManager mDevicePolicyManager;
     private TestActionHandler mTestActionHandler;
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
+
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
 
     @Before
     public void setUp() {
@@ -90,6 +110,8 @@ public final class MessageTest {
         DocumentsAdapter.Environment env =
                 new TestEnvironment(mContext, TestEnv.create(), mTestActionHandler);
         env.getDisplayState().action = State.ACTION_GET_CONTENT;
+
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
         if (SdkLevel.isAtLeastV()) {
             UserProperties userProperties = new UserProperties.Builder()
                     .setShowInQuietMode(UserProperties.SHOW_IN_QUIET_MODE_PAUSED)
@@ -97,16 +119,18 @@ public final class MessageTest {
             UserHandle userHandle = UserHandle.of(mUserId.getIdentifier());
             when(mUserManager.getUserProperties(userHandle)).thenReturn(userProperties);
         }
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
             String personalLabel = mContext.getString(R.string.personal_tab);
             String workLabel = mContext.getString(R.string.work_tab);
             Map<UserId, String> userIdToLabelMap = new HashMap<>();
             userIdToLabelMap.put(TestProvidersAccess.USER_ID, personalLabel);
             userIdToLabelMap.put(mUserId, workLabel);
             mInflateMessage = new Message.InflateMessage(env, mDefaultCallback,
-                    TestProvidersAccess.USER_ID, mUserId, userIdToLabelMap, mUserManager);
+                    TestProvidersAccess.USER_ID, mUserId, userIdToLabelMap, mUserManager,
+                    mTestConfigStore);
         } else {
-            mInflateMessage = new Message.InflateMessage(env, mDefaultCallback);
+            mInflateMessage = new Message.InflateMessage(env, mDefaultCallback, mTestConfigStore);
         }
     }
 
@@ -184,7 +208,7 @@ public final class MessageTest {
                 DevicePolicyResourcesManager.class);
         when(mDevicePolicyManager.getResources()).thenReturn(devicePolicyResourcesManager);
 
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
             Drawable icon = mContext.getDrawable(R.drawable.work_off);
             when(devicePolicyResourcesManager.getDrawable(eq(WORK_PROFILE_OFF_ICON), eq(OUTLINE),
                     any()))
@@ -202,9 +226,9 @@ public final class MessageTest {
         assertThat(mInflateMessage.getLayout())
                 .isEqualTo(InflateMessageDocumentHolder.LAYOUT_CROSS_PROFILE_ERROR);
 
-        if (!FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (!isPrivateSpaceEnabled) {
             assert mInflateMessage.getTitleString() != null;
-            assertThat(mInflateMessage.getTitleString().toString())
+            assertThat(mInflateMessage.getTitleString())
                     .isEqualTo(mContext.getString(R.string.quiet_mode_error_title));
             assert mInflateMessage.getButtonString() != null;
             assertThat(mInflateMessage.getButtonString().toString()).isEqualTo(

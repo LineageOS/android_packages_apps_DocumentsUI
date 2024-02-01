@@ -39,7 +39,6 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.AnimationView;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
 
@@ -69,6 +68,7 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
     private final ViewOutlineProvider mDefaultOutlineProvider;
     private final ViewOutlineProvider mSearchBarOutlineProvider;
     private final boolean mShowSearchBar;
+    private final ConfigStore mConfigStore;
 
     private boolean mIsActionModeActivated = false;
     private @ColorRes int mDefaultStatusBarColorResId;
@@ -80,8 +80,10 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
             NavigationViewManager.Environment env,
             Breadcrumb breadcrumb,
             View tabLayoutContainer,
-            UserIdManager userIdManager) {
-        this(activity, drawer, state, env, breadcrumb, tabLayoutContainer, userIdManager, null);
+            UserIdManager userIdManager,
+            ConfigStore configStore) {
+        this(activity, drawer, state, env, breadcrumb, tabLayoutContainer, userIdManager, null,
+                configStore);
     }
 
     public NavigationViewManager(
@@ -91,8 +93,10 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
             NavigationViewManager.Environment env,
             Breadcrumb breadcrumb,
             View tabLayoutContainer,
-            UserManagerState userManagerState) {
-        this(activity, drawer, state, env, breadcrumb, tabLayoutContainer, null, userManagerState);
+            UserManagerState userManagerState,
+            ConfigStore configStore) {
+        this(activity, drawer, state, env, breadcrumb, tabLayoutContainer, null, userManagerState,
+                configStore);
     }
 
     public NavigationViewManager(
@@ -103,7 +107,8 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
             Breadcrumb breadcrumb,
             View tabLayoutContainer,
             UserIdManager userIdManager,
-            UserManagerState userManagerState) {
+            UserManagerState userManagerState,
+            ConfigStore configStore) {
 
         mActivity = activity;
         mToolbar = activity.findViewById(R.id.toolbar);
@@ -113,6 +118,7 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
         mEnv = env;
         mBreadcrumb = breadcrumb;
         mBreadcrumb.setup(env, state, this::onNavigationItemSelected);
+        mConfigStore = configStore;
         mProfileTabs =
                 getProfileTabs(tabLayoutContainer, userIdManager, userManagerState, activity);
 
@@ -155,9 +161,11 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
 
     private ProfileTabs getProfileTabs(View tabLayoutContainer, UserIdManager userIdManager,
             UserManagerState userManagerState, BaseActivity activity) {
-        return FeatureFlagUtils.isPrivateSpaceEnabled()
-                ? new ProfileTabs(tabLayoutContainer, mState, userManagerState, mEnv, activity)
-                : new ProfileTabs(tabLayoutContainer, mState, userIdManager, mEnv, activity);
+        return mConfigStore.isPrivateSpaceInDocsUIEnabled()
+                ? new ProfileTabs(tabLayoutContainer, mState, userManagerState, mEnv, activity,
+                mConfigStore)
+                : new ProfileTabs(tabLayoutContainer, mState, userIdManager, mEnv, activity,
+                        mConfigStore);
     }
 
     @Override

@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.R;
 import com.android.documentsui.UserIdManager;
 import com.android.documentsui.UserManagerState;
@@ -35,7 +36,6 @@ import com.android.documentsui.dirlist.AppsRowItemData.RootData;
 import com.android.documentsui.sidebar.AppItem;
 import com.android.documentsui.sidebar.Item;
 import com.android.documentsui.sidebar.RootItem;
-import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,23 +52,26 @@ public class AppsRowManager {
     private final boolean mMaybeShowBadge;
     private final UserIdManager mUserIdManager;
     private final UserManagerState mUserManagerState;
+    private final ConfigStore mConfigStore;
 
     public AppsRowManager(ActionHandler handler, boolean maybeShowBadge,
-            UserIdManager userIdManager) {
+            UserIdManager userIdManager, ConfigStore configStore) {
         mDataList = new ArrayList<>();
         mActionHandler = handler;
         mMaybeShowBadge = maybeShowBadge;
         mUserIdManager = userIdManager;
         mUserManagerState = null;
+        mConfigStore = configStore;
     }
 
     public AppsRowManager(ActionHandler handler, boolean maybeShowBadge,
-            UserManagerState userManagerState) {
+            UserManagerState userManagerState, ConfigStore configStore) {
         mDataList = new ArrayList<>();
         mActionHandler = handler;
         mMaybeShowBadge = maybeShowBadge;
         mUserIdManager = null;
         mUserManagerState = userManagerState;
+        mConfigStore = configStore;
     }
 
     public List<AppsRowItemData> updateList(List<Item> itemList) {
@@ -148,7 +151,7 @@ public class AppsRowManager {
     }
 
     private List<UserId> getUserIds() {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             return mUserManagerState.getUserIds();
         }
         return mUserIdManager.getUserIds();

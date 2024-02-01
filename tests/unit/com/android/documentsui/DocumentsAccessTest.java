@@ -27,6 +27,7 @@ import androidx.test.filters.MediumTest;
 
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
 
@@ -34,22 +35,29 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
 @MediumTest
 public class DocumentsAccessTest {
 
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
     private TestActivity mActivity;
     private DocumentsAccess mDocumentsAccess;
     private TestEnv mEnv;
     private ContentProviderClient mMockContentProviderClient = mock(ContentProviderClient.class);
 
-    @Parameterized.Parameter(0)
+    @Parameter(0)
     public boolean isPrivateSpaceEnabled;
 
-    @Parameterized.Parameters(name = "privateSpaceEnabled={0}")
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
     public static Iterable<?> data() {
-        return com.google.android.collect.Lists.newArrayList(true, false);
+        return Lists.newArrayList(true, false);
     }
 
     @Before
@@ -58,6 +66,11 @@ public class DocumentsAccessTest {
         mEnv.reset();
         mActivity = TestActivity.create(mEnv);
         mDocumentsAccess = DocumentsAccess.create(mActivity, mEnv.state);
+        mEnv.state.configStore = mTestConfigStore;
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+        }
     }
 
     @Test

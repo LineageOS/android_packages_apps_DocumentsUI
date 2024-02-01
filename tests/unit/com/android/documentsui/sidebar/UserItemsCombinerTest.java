@@ -27,10 +27,10 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.R;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestProvidersAccess;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
@@ -85,6 +85,7 @@ public class UserItemsCombinerTest {
                     DevicePolicyManager.class);
     private final List<UserId> mUserIds = new ArrayList<>();
     private final Map<UserId, String> mUserIdToLabelMap = new HashMap<>();
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
     private UserItemsCombiner mCombiner;
 
     @Before
@@ -97,10 +98,13 @@ public class UserItemsCombinerTest {
         mUserIdToLabelMap.put(WORK_USER, "Work");
         mState.canForwardToProfileIdMap.put(PERSONAL_USER, true);
         mState.canForwardToProfileIdMap.put(WORK_USER, true);
+        mState.configStore = mTestConfigStore;
+
         if (SdkLevel.isAtLeastV()) {
             mUserIds.add(PRIVATE_USER);
             mUserIdToLabelMap.put(PRIVATE_USER, "Private");
             mState.canForwardToProfileIdMap.put(PRIVATE_USER, true);
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
         }
     }
 
@@ -417,7 +421,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableListForAllUsers_currentIsPersonal_cannotShareToWork() {
-        if (!FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV()) return;
         mState.canForwardToProfileIdMap.put(WORK_USER, false);
         final List<List<Item>> rootListAllUsers = new ArrayList<>();
         rootListAllUsers.add(PERSONAL_ITEMS);
@@ -444,7 +448,7 @@ public class UserItemsCombinerTest {
 
     @Test
     public void testCreatePresentableListForAllUsers_currentIsWork_AllItems_cannotSharePersonal() {
-        if (!FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV()) return;
         mState.canForwardToProfileIdMap.put(PERSONAL_USER, false);
         // In the current implementation of cross profile content sharing strategy work profile will
         // be able to share to all the child profiles of the parent/personal profile only if it is
