@@ -25,6 +25,7 @@ import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
@@ -219,7 +220,7 @@ public interface UserManagerState {
         }
 
         @Override
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         public void onProfileActionStatusChange(String action, UserId userId) {
             UserProperties userProperties = mUserManager.getUserProperties(
                     UserHandle.of(userId.getIdentifier()));
@@ -287,7 +288,7 @@ public interface UserManagerState {
             return result;
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private void getUserIdsInternalPostV(List<UserHandle> userProfiles, List<UserId> result) {
             for (UserHandle userHandle : userProfiles) {
                 if (userHandle.getIdentifier() == ActivityManager.getCurrentUser()) {
@@ -308,7 +309,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private boolean isProfileAllowed(UserHandle userHandle) {
             final UserProperties userProperties =
                     mUserManager.getUserProperties(userHandle);
@@ -353,7 +354,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private void getUserIdToLabelMapInternalPostV() {
             if (mUserManager == null) {
                 Log.e(TAG, "cannot obtain user manager");
@@ -388,7 +389,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private String getProfileLabel(UserId userId) {
             if (userId.getIdentifier() == ActivityManager.getCurrentUser()) {
                 return getEnterpriseString(PERSONAL_TAB, R.string.personal_tab);
@@ -436,7 +437,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private void getUserIdToBadgeMapInternalPostV() {
             if (mUserManager == null) {
                 Log.e(TAG, "cannot obtain user manager");
@@ -468,7 +469,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private Drawable getProfileBadge(UserId userId) {
             if (userId.getIdentifier() == ActivityManager.getCurrentUser()) {
                 return null;
@@ -573,7 +574,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private boolean isCrossProfileContentSharingStrategyDelegatedFromParent(
                 UserHandle userHandle) {
             if (mUserManager == null) {
