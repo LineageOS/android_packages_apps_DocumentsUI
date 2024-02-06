@@ -43,18 +43,13 @@ import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @SmallTest
 public class UserManagerStateTest {
-
-    private static final int SHOW_IN_SHARING_SURFACES_WITH_PARENT = 0;
-    private static final int SHOW_IN_SHARING_SURFACES_SEPARATE = 1;
-    private static final int SHOW_IN_SHARING_SURFACES_NO = 2;
-    private static final int CROSS_PROFILE_CONTENT_SHARING_NO_DELEGATION = 0;
-    private static final int CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT = 1;
 
     private final UserHandle mSystemUser = UserHandle.SYSTEM;
     private final UserHandle mManagedUser = UserHandle.of(100);
@@ -83,29 +78,31 @@ public class UserManagerStateTest {
 
         if (SdkLevel.isAtLeastV()) {
             UserProperties systemUserProperties = new UserProperties.Builder()
-                    .setShowInSharingSurfaces(SHOW_IN_SHARING_SURFACES_SEPARATE)
+                    .setShowInSharingSurfaces(UserProperties.SHOW_IN_SHARING_SURFACES_SEPARATE)
                     .setCrossProfileContentSharingStrategy(
-                            CROSS_PROFILE_CONTENT_SHARING_NO_DELEGATION)
+                            UserProperties.CROSS_PROFILE_CONTENT_SHARING_NO_DELEGATION)
                     .build();
             UserProperties managedUserProperties = new UserProperties.Builder()
-                    .setShowInSharingSurfaces(SHOW_IN_SHARING_SURFACES_SEPARATE)
+                    .setShowInSharingSurfaces(UserProperties.SHOW_IN_SHARING_SURFACES_SEPARATE)
                     .setCrossProfileContentSharingStrategy(
-                            CROSS_PROFILE_CONTENT_SHARING_NO_DELEGATION)
+                            UserProperties.CROSS_PROFILE_CONTENT_SHARING_NO_DELEGATION)
+                    .setShowInQuietMode(UserProperties.SHOW_IN_QUIET_MODE_PAUSED)
                     .build();
             UserProperties privateUserProperties = new UserProperties.Builder()
-                    .setShowInSharingSurfaces(SHOW_IN_SHARING_SURFACES_SEPARATE)
+                    .setShowInSharingSurfaces(UserProperties.SHOW_IN_SHARING_SURFACES_SEPARATE)
                     .setCrossProfileContentSharingStrategy(
-                            CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT)
+                            UserProperties.CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT)
+                    .setShowInQuietMode(UserProperties.SHOW_IN_QUIET_MODE_HIDDEN)
                     .build();
             UserProperties otherUserProperties = new UserProperties.Builder()
-                    .setShowInSharingSurfaces(SHOW_IN_SHARING_SURFACES_WITH_PARENT)
+                    .setShowInSharingSurfaces(UserProperties.SHOW_IN_SHARING_SURFACES_WITH_PARENT)
                     .setCrossProfileContentSharingStrategy(
-                            CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT)
+                            UserProperties.CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT)
                     .build();
             UserProperties normalUserProperties = new UserProperties.Builder()
-                    .setShowInSharingSurfaces(SHOW_IN_SHARING_SURFACES_NO)
+                    .setShowInSharingSurfaces(UserProperties.SHOW_IN_SHARING_SURFACES_NO)
                     .setCrossProfileContentSharingStrategy(
-                            CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT)
+                            UserProperties.CROSS_PROFILE_CONTENT_SHARING_DELEGATE_FROM_PARENT)
                     .build();
             when(mMockUserManager.getUserProperties(mSystemUser)).thenReturn(systemUserProperties);
             when(mMockUserManager.getUserProperties(mManagedUser)).thenReturn(
@@ -560,6 +557,118 @@ public class UserManagerStateTest {
         assertWithMessage("getCanForwardToProfileIdMap returns incorrect mappings")
                 .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent))
                 .isEqualTo(expectedCanForwardToProfileIdMap);
+    }
+
+    @Test
+    public void testOnProfileStatusChange_anyIntentActionOnManagedProfile() {
+        if (!SdkLevel.isAtLeastV()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+
+        // UserManagerState#mUserId and UserManagerState#mCanForwardToProfileIdMap will empty
+        // by default if the getters of these member variables have not been called
+        List<UserId> userIdsBeforeIntent = new ArrayList<>(mUserManagerState.getUserIds());
+        Map<UserId, Boolean> canForwardToProfileIdMapBeforeIntent = new HashMap<>(
+                mUserManagerState.getCanForwardToProfileIdMap(mMockIntent));
+
+        String action = "any_intent";
+        mUserManagerState.onProfileActionStatusChange(action, UserId.of(mManagedUser));
+
+        assertWithMessage("Unexpected changes to user id list on receiving intent: " + action)
+                .that(mUserManagerState.getUserIds()).isEqualTo(userIdsBeforeIntent);
+        assertWithMessage(
+                "Unexpected changes to canForwardToProfileIdMap on receiving intent: " + action)
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isEqualTo(
+                        canForwardToProfileIdMapBeforeIntent);
+    }
+
+    @Test
+    public void testOnProfileStatusChange_actionProfileUnavailableOnPrivateProfile() {
+        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        UserId managedUser = UserId.of(mManagedUser);
+        UserId privateUser = UserId.of(mPrivateUser);
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
+        when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
+                mMockResolveInfoList);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser));
+
+        // UserManagerState#mUserId and UserManagerState#mCanForwardToProfileIdMap will empty
+        // by default if the getters of these member variables have not been called
+        List<UserId> userIdsBeforeIntent = new ArrayList<>(mUserManagerState.getUserIds());
+        Map<UserId, Boolean> canForwardToProfileIdMapBeforeIntent = new HashMap<>(
+                mUserManagerState.getCanForwardToProfileIdMap(mMockIntent));
+
+        List<UserId> expectedUserIdsAfterIntent = Lists.newArrayList(currentUser, managedUser);
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMapAfterIntent = new HashMap<>();
+        expectedCanForwardToProfileIdMapAfterIntent.put(currentUser, true);
+        expectedCanForwardToProfileIdMapAfterIntent.put(managedUser, true);
+
+        String action = Intent.ACTION_PROFILE_UNAVAILABLE;
+        mUserManagerState.onProfileActionStatusChange(action, privateUser);
+
+        assertWithMessage(
+                "UserIds list should not be same before and after receiving intent: " + action)
+                .that(mUserManagerState.getUserIds()).isNotEqualTo(userIdsBeforeIntent);
+        assertWithMessage("Unexpected changes to user id list on receiving intent: " + action)
+                .that(mUserManagerState.getUserIds()).isEqualTo(expectedUserIdsAfterIntent);
+        assertWithMessage(
+                "CanForwardToLabelMap should not be same before and after receiving intent: "
+                        + action)
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isNotEqualTo(
+                        canForwardToProfileIdMapBeforeIntent);
+        assertWithMessage(
+                "Unexpected changes to canForwardToProfileIdMap on receiving intent: " + action)
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isEqualTo(
+                        expectedCanForwardToProfileIdMapAfterIntent);
+    }
+
+    @Test
+    public void testOnProfileStatusChange_actionProfileAvailableOnPrivateProfile() {
+        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        UserId currentUser = UserId.of(mSystemUser);
+        UserId managedUser = UserId.of(mManagedUser);
+        UserId privateUser = UserId.of(mPrivateUser);
+        final List<ResolveInfo> mMockResolveInfoList = Lists.newArrayList(mMockInfo1, mMockInfo2);
+        when(mMockPackageManager.queryIntentActivitiesAsUser(mMockIntent,
+                PackageManager.MATCH_DEFAULT_ONLY, mSystemUser)).thenReturn(
+                mMockResolveInfoList);
+        initializeUserManagerState(currentUser,
+                Lists.newArrayList(mSystemUser, mManagedUser));
+
+        // UserManagerState#mUserId and UserManagerState#mCanForwardToProfileIdMap will empty
+        // by default if the getters of these member variables have not been called
+        List<UserId> userIdsBeforeIntent = new ArrayList<>(mUserManagerState.getUserIds());
+        Map<UserId, Boolean> canForwardToProfileIdMapBeforeIntent = new HashMap<>(
+                mUserManagerState.getCanForwardToProfileIdMap(mMockIntent));
+
+        List<UserId> expectedUserIdsAfterIntent = Lists.newArrayList(currentUser, managedUser,
+                privateUser);
+        Map<UserId, Boolean> expectedCanForwardToProfileIdMapAfterIntent = new HashMap<>();
+        expectedCanForwardToProfileIdMapAfterIntent.put(currentUser, true);
+        expectedCanForwardToProfileIdMapAfterIntent.put(managedUser, true);
+        expectedCanForwardToProfileIdMapAfterIntent.put(privateUser, true);
+
+        String action = Intent.ACTION_PROFILE_AVAILABLE;
+        mUserManagerState.onProfileActionStatusChange(action, privateUser);
+
+        assertWithMessage(
+                "UserIds list should not be same before and after receiving intent: " + action)
+                .that(mUserManagerState.getUserIds()).isNotEqualTo(userIdsBeforeIntent);
+        assertWithMessage("Unexpected changes to user id list on receiving intent: " + action)
+                .that(mUserManagerState.getUserIds()).isEqualTo(expectedUserIdsAfterIntent);
+        assertWithMessage(
+                "CanForwardToLabelMap should not be same before and after receiving intent: "
+                        + action)
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isNotEqualTo(
+                        canForwardToProfileIdMapBeforeIntent);
+        assertWithMessage(
+                "Unexpected changes to canForwardToProfileIdMap on receiving intent: " + action)
+                .that(mUserManagerState.getCanForwardToProfileIdMap(mMockIntent)).isEqualTo(
+                        expectedCanForwardToProfileIdMapAfterIntent);
     }
 
     private void initializeUserManagerState(UserId current, List<UserHandle> usersOnDevice) {

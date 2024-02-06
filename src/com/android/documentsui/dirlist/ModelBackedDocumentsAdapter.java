@@ -35,6 +35,7 @@ import com.android.documentsui.base.EventListener;
 import com.android.documentsui.base.Lookup;
 import com.android.documentsui.base.State;
 import com.android.documentsui.roots.RootCursorWrapper;
+import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,14 +137,18 @@ final class ModelBackedDocumentsAdapter extends DocumentsAdapter {
         boolean enabled = mEnv.isDocumentEnabled(docMimeType, docFlags);
         boolean selected = mEnv.isSelected(modelId);
         if (!enabled) {
-            assert(!selected);
+            assert (!selected);
         }
         holder.setEnabled(enabled);
         holder.setSelected(mEnv.isSelected(modelId), false);
         holder.setAction(mEnv.getDisplayState().action);
         holder.bindPreviewIcon(mEnv.getDisplayState().shouldShowPreview() && enabled,
                 view -> mEnv.getActionHandler().previewItem(holder.getItemDetails()));
-        holder.bindBriefcaseIcon(mIconHelper.shouldShowBadge(userIdIdentifier));
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            holder.bindProfileIcon(mIconHelper.shouldShowBadge(userIdIdentifier), userIdIdentifier);
+        } else {
+            holder.bindBriefcaseIcon(mIconHelper.shouldShowBadge(userIdIdentifier));
+        }
 
         mEnv.onBindDocumentHolder(holder, cursor);
     }

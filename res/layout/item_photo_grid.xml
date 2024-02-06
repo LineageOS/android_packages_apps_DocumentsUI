@@ -104,7 +104,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/icon_briefcase"
+            android:id="@+id/icon_profile_badge"
             android:layout_width="@dimen/button_touch_size"
             android:layout_height="@dimen/button_touch_size"
             android:layout_alignParentBottom="true"

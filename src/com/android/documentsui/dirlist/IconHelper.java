@@ -20,6 +20,7 @@ import static com.android.documentsui.base.SharedMinimal.VERBOSE;
 import static com.android.documentsui.base.State.MODE_GRID;
 import static com.android.documentsui.base.State.MODE_LIST;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Point;
@@ -41,11 +42,13 @@ import com.android.documentsui.R;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.ThumbnailCache.Result;
 import com.android.documentsui.ThumbnailLoader;
+import com.android.documentsui.UserManagerState;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.State.ViewMode;
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.function.BiConsumer;
 
@@ -66,31 +69,33 @@ public class IconHelper {
     private final boolean mMaybeShowBadge;
     @Nullable
     private final UserId mManagedUser;
+    private final UserManagerState mUserManagerState;
 
     /**
-     * @param context
      * @param mode MODE_GRID or MODE_LIST
      */
     public IconHelper(Context context, int mode, boolean maybeShowBadge) {
         this(context, mode, maybeShowBadge, DocumentsApplication.getThumbnailCache(context),
-                DocumentsApplication.getUserIdManager(context).getManagedUser());
+                FeatureFlagUtils.isPrivateSpaceEnabled() ? null
+                        : DocumentsApplication.getUserIdManager(context).getManagedUser(),
+                FeatureFlagUtils.isPrivateSpaceEnabled()
+                        ? DocumentsApplication.getUserManagerState(context) : null);
     }
 
     @VisibleForTesting
     IconHelper(Context context, int mode, boolean maybeShowBadge, ThumbnailCache thumbnailCache,
-            @Nullable UserId managedUser) {
+            @Nullable UserId managedUser, @Nullable UserManagerState userManagerState) {
         mContext = context;
         setViewMode(mode);
         mThumbnailCache = thumbnailCache;
         mManagedUser = managedUser;
         mMaybeShowBadge = maybeShowBadge;
+        mUserManagerState = userManagerState;
     }
 
     /**
      * Enables or disables thumbnails. When thumbnails are disabled, mime icons (or custom icons, if
      * specified by the document) are used instead.
-     *
-     * @param enabled
      */
     public void setThumbnailsEnabled(boolean enabled) {
         mThumbnailsEnabled = enabled;
@@ -125,8 +130,6 @@ public class IconHelper {
 
     /**
      * Cancels any ongoing load operations associated with the given ImageView.
-     *
-     * @param icon
      */
     public void stopLoading(ImageView icon) {
         final ThumbnailLoader oldTask = (ThumbnailLoader) icon.getTag();
@@ -139,11 +142,10 @@ public class IconHelper {
     /**
      * Load thumbnails for a directory list item.
      *
-     * @param doc The document
-     * @param iconThumb The itemview's thumbnail icon.
-     * @param iconMime The itemview's mime icon. Hidden when iconThumb is shown.
+     * @param doc         The document
+     * @param iconThumb   The itemview's thumbnail icon.
+     * @param iconMime    The itemview's mime icon. Hidden when iconThumb is shown.
      * @param subIconMime The second itemview's mime icon. Always visible.
-     * @return
      */
     public void load(
             DocumentInfo doc,
@@ -157,15 +159,14 @@ public class IconHelper {
     /**
      * Load thumbnails for a directory list item.
      *
-     * @param uri The URI for the file being represented.
-     * @param mimeType The mime type of the file being represented.
-     * @param docFlags Flags for the file being represented.
-     * @param docIcon Custom icon (if any) for the file being requested.
+     * @param uri             The URI for the file being represented.
+     * @param mimeType        The mime type of the file being represented.
+     * @param docFlags        Flags for the file being represented.
+     * @param docIcon         Custom icon (if any) for the file being requested.
      * @param docLastModified the last modified value of the file being requested.
-     * @param iconThumb The itemview's thumbnail icon.
-     * @param iconMime The itemview's mime icon. Hidden when iconThumb is shown.
-     * @param subIconMime The second itemview's mime icon. Always visible.
-     * @return
+     * @param iconThumb       The itemview's thumbnail icon.
+     * @param iconMime        The itemview's mime icon. Hidden when iconThumb is shown.
+     * @param subIconMime     The second itemview's mime icon. Always visible.
      */
     public void load(Uri uri, UserId userId, String mimeType, int docFlags, int docIcon,
             long docLastModified, ImageView iconThumb, ImageView iconMime,
@@ -180,7 +181,7 @@ public class IconHelper {
         final boolean showThumbnail = supportsThumbnail && allowThumbnail && mThumbnailsEnabled;
         if (showThumbnail) {
             loadedThumbnail =
-                loadThumbnail(uri, userId, docAuthority, docLastModified, iconThumb, iconMime);
+                    loadThumbnail(uri, userId, docAuthority, docLastModified, iconThumb, iconMime);
         }
 
         final Drawable mimeIcon = getDocumentIcon(mContext, userId, docAuthority,
@@ -207,9 +208,11 @@ public class IconHelper {
             iconThumb.setImageBitmap(cachedThumbnail);
 
             boolean stale = (docLastModified > result.getLastModified());
-            if (VERBOSE) Log.v(TAG,
-                    String.format("Load thumbnail for %s, got result %d and stale %b.",
-                            uri.toString(), result.getStatus(), stale));
+            if (VERBOSE) {
+                Log.v(TAG,
+                        String.format("Load thumbnail for %s, got result %d and stale %b.",
+                                uri.toString(), result.getStatus(), stale));
+            }
             if (!result.isExactHit() || stale) {
                 final BiConsumer<View, View> animator =
                         (cachedThumbnail == null ? ThumbnailLoader.ANIM_FADE_IN :
@@ -264,6 +267,11 @@ public class IconHelper {
      * Returns true if we should show a briefcase icon for the given user.
      */
     public boolean shouldShowBadge(int userIdIdentifier) {
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            return mMaybeShowBadge
+                    && mUserManagerState.getUserIds().size() > 1
+                    && ActivityManager.getCurrentUser() != userIdIdentifier;
+        }
         return mMaybeShowBadge && mManagedUser != null
                 && mManagedUser.getIdentifier() == userIdIdentifier;
     }

@@ -45,7 +45,7 @@ final class HeaderMessageDocumentHolder extends MessageHolder {
     private final Button mActionButton;
     private Message mMessage;
 
-    public HeaderMessageDocumentHolder(Context context, ViewGroup parent) {
+    HeaderMessageDocumentHolder(Context context, ViewGroup parent) {
         super(context, parent, R.layout.item_doc_header_message);
 
         mRoot = itemView.findViewById(R.id.item_root);
