@@ -25,6 +25,7 @@ import static com.android.documentsui.DevicePolicyResources.Strings.WORK_TAB;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
@@ -83,6 +84,16 @@ public interface UserManagerState {
      * the {@link UserId}.CURRENT_USER can forward {@link Intent} to that {@link UserId}
      */
     Map<UserId, Boolean> getCanForwardToProfileIdMap(Intent intent);
+
+    /**
+     * Updates the state of the list of userIds and all the associated maps according the intent
+     * received in broadcast
+     *
+     * @param userId {@link UserId} for the profile for which the availability status changed
+     * @param action {@link Intent}.ACTION_PROFILE_UNAVAILABLE or
+     *               {@link Intent}.ACTION_PROFILE_AVAILABLE
+     */
+    void onProfileActionStatusChange(String action, UserId userId);
 
     /**
      * Creates an implementation of {@link UserManagerState}.
@@ -171,6 +182,7 @@ public interface UserManagerState {
         public List<UserId> getUserIds() {
             synchronized (mUserIds) {
                 if (mUserIds.isEmpty()) {
+                    Log.d("profileAction", "user ids empty");
                     mUserIds.addAll(getUserIdsInternal());
                 }
                 return mUserIds;
@@ -207,6 +219,47 @@ public interface UserManagerState {
             }
         }
 
+        @Override
+        @SuppressLint("NewApi")
+        public void onProfileActionStatusChange(String action, UserId userId) {
+            UserProperties userProperties = mUserManager.getUserProperties(
+                    UserHandle.of(userId.getIdentifier()));
+            if (userProperties.getShowInQuietMode() != UserProperties.SHOW_IN_QUIET_MODE_HIDDEN) {
+                return;
+            }
+            if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
+                synchronized (mUserIds) {
+                    mUserIds.remove(userId);
+                }
+                synchronized (mUserIdToLabelMap) {
+                    mUserIdToLabelMap.remove(userId);
+                }
+                synchronized (mUserIdToBadgeMap) {
+                    mUserIdToBadgeMap.remove(userId);
+                }
+                synchronized (mCanFrowardToProfileIdMap) {
+                    mCanFrowardToProfileIdMap.remove(userId);
+                }
+            } else if (Intent.ACTION_PROFILE_AVAILABLE.equals(action)) {
+                synchronized (mUserIds) {
+                    if (!mUserIds.contains(userId)) {
+                        mUserIds.add(userId);
+                    }
+                }
+                synchronized (mUserIdToLabelMap) {
+                    mUserIdToLabelMap.put(userId, getProfileLabel(userId));
+                }
+                synchronized (mUserIdToBadgeMap) {
+                    mUserIdToBadgeMap.put(userId, getProfileBadge(userId));
+                }
+                synchronized (mCanFrowardToProfileIdMap) {
+                    mCanFrowardToProfileIdMap.put(userId, true);
+                }
+            } else {
+                Log.e(TAG, "Unexpected action received: " + action);
+            }
+        }
+
         private List<UserId> getUserIdsInternal() {
             final List<UserId> result = new ArrayList<>();
 
@@ -235,7 +288,7 @@ public interface UserManagerState {
             return result;
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private void getUserIdsInternalPostV(List<UserHandle> userProfiles, List<UserId> result) {
             for (UserHandle userHandle : userProfiles) {
                 if (userHandle.getIdentifier() == ActivityManager.getCurrentUser()) {
@@ -256,7 +309,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private boolean isProfileAllowed(UserHandle userHandle) {
             final UserProperties userProperties =
                     mUserManager.getUserProperties(userHandle);
@@ -301,7 +354,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private void getUserIdToLabelMapInternalPostV() {
             if (mUserManager == null) {
                 Log.e(TAG, "cannot obtain user manager");
@@ -336,7 +389,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private String getProfileLabel(UserId userId) {
             if (userId.getIdentifier() == ActivityManager.getCurrentUser()) {
                 return getEnterpriseString(PERSONAL_TAB, R.string.personal_tab);
@@ -384,7 +437,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private void getUserIdToBadgeMapInternalPostV() {
             if (mUserManager == null) {
                 Log.e(TAG, "cannot obtain user manager");
@@ -416,7 +469,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private Drawable getProfileBadge(UserId userId) {
             if (userId.getIdentifier() == ActivityManager.getCurrentUser()) {
                 return null;
@@ -487,11 +540,11 @@ public interface UserManagerState {
              * 2. current user does not delegate check to the parent and the target user is the
              *    parent profile
              */
-            UserId needToCheck;
+            UserId needToCheck = null;
             if (parentOrDelegatedFromParent.contains(mCurrentUser)
                     && !noDelegation.isEmpty()) {
                 needToCheck = noDelegation.get(0);
-            } else {
+            } else if (mCurrentUser.getIdentifier() != ActivityManager.getCurrentUser()) {
                 final UserHandle parentProfile = mUserManager.getProfileParent(
                         UserHandle.of(mCurrentUser.getIdentifier()));
                 needToCheck = UserId.of(parentProfile);
@@ -521,7 +574,7 @@ public interface UserManagerState {
             }
         }
 
-        @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+        @SuppressLint("NewApi")
         private boolean isCrossProfileContentSharingStrategyDelegatedFromParent(
                 UserHandle userHandle) {
             if (mUserManager == null) {

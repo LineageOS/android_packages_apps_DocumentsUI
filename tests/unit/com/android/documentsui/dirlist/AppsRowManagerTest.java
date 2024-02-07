@@ -36,6 +36,7 @@ import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
 import com.android.documentsui.TestUserIdManager;
+import com.android.documentsui.TestUserManagerState;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.sidebar.AppItem;
@@ -44,16 +45,22 @@ import com.android.documentsui.sidebar.RootItem;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
+import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@RunWith(Parameterized.class)
 public class AppsRowManagerTest {
 
     private AppsRowManager mAppsRowManager;
@@ -62,17 +69,31 @@ public class AppsRowManagerTest {
     private boolean mMaybeShowBadge;
     private BaseActivity mActivity;
     private TestUserIdManager mTestUserIdManager;
+    private TestUserManagerState mTestUserManagerState;
     private State mState;
 
     private View mAppsRow;
     private LinearLayout mAppsGroup;
 
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return com.google.android.collect.Lists.newArrayList(true, false);
+    }
+
     @Before
     public void setUp() {
         mActionHandler = new TestActionHandler();
         mTestUserIdManager = new TestUserIdManager();
+        mTestUserManagerState = new TestUserManagerState();
 
-        mAppsRowManager = new AppsRowManager(mActionHandler, mMaybeShowBadge, mTestUserIdManager);
+        mAppsRowManager = getAppsRowManager();
 
         Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -86,9 +107,20 @@ public class AppsRowManagerTest {
         when(mActivity.findViewById(R.id.apps_row)).thenReturn(mAppsRow);
         when(mActivity.findViewById(R.id.apps_group)).thenReturn(mAppsGroup);
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.USER_ID);
+    }
 
+    private AppsRowManager getAppsRowManager() {
+        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            mTestUserManagerState = new TestUserManagerState();
+            mTestUserManagerState.userIds =
+                    Lists.newArrayList(UserId.DEFAULT_USER, TestProvidersAccess.OtherUser.USER_ID,
+                            TestProvidersAccess.AnotherUser.USER_ID);
+            return new AppsRowManager(mActionHandler, mMaybeShowBadge, mTestUserManagerState);
+        }
+        mTestUserIdManager = new TestUserIdManager();
         mTestUserIdManager.userIds =
                 Lists.newArrayList(UserId.DEFAULT_USER, TestProvidersAccess.OtherUser.USER_ID);
+        return new AppsRowManager(mActionHandler, mMaybeShowBadge, mTestUserIdManager);
     }
 
     @Test
@@ -105,9 +137,9 @@ public class AppsRowManagerTest {
 
         assertEquals(chipDataList.size(), rootList.size());
         assertEquals(TestProvidersAccess.INSPECTOR.title, chipDataList.get(0).getTitle());
-        assertEquals(null, chipDataList.get(0).getSummary());
+        assertNull(chipDataList.get(0).getSummary());
         assertEquals(TestProvidersAccess.PICKLES.title, chipDataList.get(1).getTitle());
-        assertEquals(null, chipDataList.get(1).getSummary());
+        assertNull(chipDataList.get(1).getSummary());
         assertEquals(TestProvidersAccess.PICKLES.summary, chipDataList.get(2).getSummary());
         assertEquals(TestProvidersAccess.PICKLES.summary, chipDataList.get(3).getSummary());
     }

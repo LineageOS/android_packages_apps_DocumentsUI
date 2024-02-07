@@ -37,14 +37,17 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
+import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
+import java.util.Map;
 import java.util.function.Function;
 
 final class GridDocumentHolder extends DocumentHolder {
@@ -56,7 +59,7 @@ final class GridDocumentHolder extends DocumentHolder {
     final ImageView mIconMimeSm;
     final ImageView mIconThumb;
     final ImageView mIconCheck;
-    final ImageView mIconBriefcase;
+    final ImageView mIconBadge;
     final IconHelper mIconHelper;
     final View mIconLayout;
     final View mPreviewIcon;
@@ -64,7 +67,7 @@ final class GridDocumentHolder extends DocumentHolder {
     // This is used in as a convenience in our bind method.
     private final DocumentInfo mDoc = new DocumentInfo();
 
-    public GridDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper) {
+    GridDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper) {
         super(context, parent, R.layout.item_doc_grid);
 
         mIconLayout = itemView.findViewById(R.id.icon);
@@ -75,12 +78,12 @@ final class GridDocumentHolder extends DocumentHolder {
         mIconMimeSm = (ImageView) itemView.findViewById(R.id.icon_mime_sm);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
         mIconCheck = (ImageView) itemView.findViewById(R.id.icon_check);
-        mIconBriefcase = (ImageView) itemView.findViewById(R.id.icon_briefcase);
+        mIconBadge = (ImageView) itemView.findViewById(R.id.icon_profile_badge);
         mPreviewIcon = itemView.findViewById(R.id.preview_icon);
 
         mIconHelper = iconHelper;
 
-        if (SdkLevel.isAtLeastT()) {
+        if (SdkLevel.isAtLeastT() && !FeatureFlagUtils.isPrivateSpaceEnabled()) {
             setUpdatableWorkProfileIcon(context);
         }
     }
@@ -90,7 +93,7 @@ final class GridDocumentHolder extends DocumentHolder {
         DevicePolicyManager dpm = context.getSystemService(DevicePolicyManager.class);
         Drawable drawable = dpm.getResources().getDrawable(WORK_PROFILE_ICON, SOLID_COLORED, () ->
                 context.getDrawable(R.drawable.ic_briefcase));
-        mIconBriefcase.setImageDrawable(drawable);
+        mIconBadge.setImageDrawable(drawable);
     }
 
     @Override
@@ -108,7 +111,7 @@ final class GridDocumentHolder extends DocumentHolder {
 
         // But it should be an error to be set to selected && be disabled.
         if (!itemView.isEnabled()) {
-            assert(!selected);
+            assert (!selected);
         }
 
         super.setSelected(selected, animate);
@@ -138,19 +141,28 @@ final class GridDocumentHolder extends DocumentHolder {
             mPreviewIcon.setContentDescription(
                     getPreviewIconContentDescription(
                             mIconHelper.shouldShowBadge(mDoc.userId.getIdentifier()),
-                            mDoc.displayName));
+                            mDoc.displayName, mDoc.userId));
             mPreviewIcon.setAccessibilityDelegate(new PreviewAccessibilityDelegate(clickCallback));
         }
     }
 
     @Override
     public void bindBriefcaseIcon(boolean show) {
-        mIconBriefcase.setVisibility(show ? View.VISIBLE : View.GONE);
+        mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void bindProfileIcon(boolean show, int userIdIdentifier) {
+        Map<UserId, Drawable> userIdToBadgeMap = DocumentsApplication.getUserManagerState(
+                mContext).getUserIdToBadgeMap();
+        Drawable drawable = userIdToBadgeMap.get(UserId.of(userIdIdentifier));
+        mIconBadge.setImageDrawable(drawable);
+        mIconBadge.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public boolean inDragRegion(MotionEvent event) {
-     // Entire grid box should be draggable
+        // Entire grid box should be draggable
         return true;
     }
 
@@ -166,12 +178,13 @@ final class GridDocumentHolder extends DocumentHolder {
 
     /**
      * Bind this view to the given document for display.
-     * @param cursor Pointing to the item to be bound.
+     *
+     * @param cursor  Pointing to the item to be bound.
      * @param modelId The model ID of the item.
      */
     @Override
     public void bind(Cursor cursor, String modelId) {
-        assert(cursor != null);
+        assert (cursor != null);
 
         mModelId = modelId;
 

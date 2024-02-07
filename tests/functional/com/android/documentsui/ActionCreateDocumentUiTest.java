@@ -93,8 +93,8 @@ public class ActionCreateDocumentUiTest extends DocumentsUiTestBase {
         assertThat(uri.getPath()).contains(fileName);
 
         assertThat(resultData.getFlags()).isEqualTo(FLAG_GRANT_READ_URI_PERMISSION
-                        | FLAG_GRANT_WRITE_URI_PERMISSION
-                        | FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                | FLAG_GRANT_WRITE_URI_PERMISSION
+                | FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 
         final boolean deletedSuccessfully =
                 DocumentsContract.deleteDocument(context.getContentResolver(), uri);
