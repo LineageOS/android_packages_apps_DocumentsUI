@@ -40,6 +40,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -49,7 +50,6 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import java.util.ArrayList;
@@ -80,8 +80,8 @@ final class ListDocumentHolder extends DocumentHolder {
     private final DocumentInfo mDoc;
 
     public ListDocumentHolder(Context context, ViewGroup parent, IconHelper iconHelper,
-            Lookup<String, String> fileTypeLookup) {
-        super(context, parent, R.layout.item_doc_list);
+            Lookup<String, String> fileTypeLookup, ConfigStore configStore) {
+        super(context, parent, R.layout.item_doc_list, configStore);
 
         mIconLayout = itemView.findViewById(R.id.icon);
         mIconMime = (ImageView) itemView.findViewById(R.id.icon_mime);
@@ -101,7 +101,7 @@ final class ListDocumentHolder extends DocumentHolder {
         mFileTypeLookup = fileTypeLookup;
         mDoc = new DocumentInfo();
 
-        if (SdkLevel.isAtLeastT() && !FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastT() && !mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             setUpdatableWorkProfileIcon(context);
         }
     }

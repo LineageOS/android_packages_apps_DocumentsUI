@@ -31,6 +31,7 @@ import android.os.RemoteException;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.documentsui.base.Lookup;
@@ -41,13 +42,14 @@ import com.android.documentsui.clipping.DocumentClipper;
 import com.android.documentsui.queries.SearchHistoryManager;
 import com.android.documentsui.roots.ProvidersCache;
 import com.android.documentsui.theme.ThemeOverlayManager;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.Objects;
+
+import javax.annotation.concurrent.GuardedBy;
 
 public class DocumentsApplication extends Application {
     private static final String TAG = "DocumentsApplication";
@@ -66,6 +68,10 @@ public class DocumentsApplication extends Application {
             Intent.ACTION_MANAGED_PROFILE_UNLOCKED,
             Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE
     );
+
+    @GuardedBy("DocumentsApplication.class")
+    @Nullable
+    private static volatile ConfigStore sConfigStore;
 
     private ProvidersCache mProviders;
     private ThumbnailCache mThumbnailCache;
@@ -127,11 +133,31 @@ public class DocumentsApplication extends Application {
     }
 
     /**
-     * Set mUserManagerState as null onDestroy of BaseActivity so that new session uses new instance
-     * of mUserManagerState
+     * Set {@link #mUserManagerState} as null onDestroy of BaseActivity so that new session uses new
+     * instance of {@link #mUserManagerState}
      */
     public static void invalidateUserManagerState(Context context) {
         ((DocumentsApplication) context.getApplicationContext()).mUserManagerState = null;
+    }
+
+    /**
+     * Retrieve {@link ConfigStore} instance to access feature flags in production code.
+     */
+    public static synchronized ConfigStore getConfigStore(Context context) {
+        if (sConfigStore == null) {
+            sConfigStore = new ConfigStore.ConfigStoreImpl();
+        }
+        return sConfigStore;
+    }
+
+    /**
+     * Set {@link #sConfigStore} as null onDestroy of BaseActivity so that new session uses new
+     * instance of {@link #sConfigStore}
+     */
+    public static void invalidateConfigStore() {
+        synchronized (DocumentsApplication.class) {
+            sConfigStore = null;
+        }
     }
 
     private void onApplyOverlayFinish(boolean result) {
@@ -142,6 +168,11 @@ public class DocumentsApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        synchronized (DocumentsApplication.class) {
+            if (sConfigStore == null) {
+                sConfigStore = new ConfigStore.ConfigStoreImpl();
+            }
+        }
 
         final ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         final OverlayManager om = getSystemService(OverlayManager.class);
@@ -154,14 +185,18 @@ public class DocumentsApplication extends Application {
             Log.w(TAG, "Can't obtain OverlayManager from System Service!");
         }
 
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (getConfigStore(this).isPrivateSpaceInDocsUIEnabled()) {
             mUserManagerState = UserManagerState.create(this);
             mUserIdManager = null;
-            mProviders = new ProvidersCache(this, mUserManagerState);
+            synchronized (DocumentsApplication.class) {
+                mProviders = new ProvidersCache(this, mUserManagerState, sConfigStore);
+            }
         } else {
             mUserManagerState = null;
             mUserIdManager = UserIdManager.create(this);
-            mProviders = new ProvidersCache(this, mUserIdManager);
+            synchronized (DocumentsApplication.class) {
+                mProviders = new ProvidersCache(this, mUserIdManager, sConfigStore);
+            }
         }
 
         mProviders.updateAsync(/* forceRefreshAll= */ false, /* callback= */  null);

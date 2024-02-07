@@ -25,6 +25,7 @@ import android.widget.Space;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.testing.TestRecyclerView;
 import com.android.documentsui.testing.Views;
 
@@ -61,12 +62,36 @@ public class AccessibilityTest extends AndroidTestCase {
         assertTrue(info.isSelected());
     }
 
-    public void testNullItemDetails_NoActionClick() throws Exception {
+    public void testNullItemDetails_NoActionClick_PrivateSpaceEnabled() throws Exception {
         View item = Views.createTestView(true);
         AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
 
         List<RecyclerView.ViewHolder> holders = new ArrayList<>();
-        holders.add(new MessageHolder(mView.getContext(), new Space(mView.getContext())) {
+        TestConfigStore testConfigStore = new TestConfigStore();
+        testConfigStore.enablePrivateSpaceInPhotoPicker();
+        holders.add(new MessageHolder(mView.getContext(), new Space(mView.getContext()),
+                testConfigStore) {
+            @Override
+            public void bind(Cursor cursor, String modelId) {
+
+            }
+        });
+
+        mView.setHolders(holders);
+
+        mAccessibilityDelegate.getItemDelegate().onInitializeAccessibilityNodeInfo(item, info);
+        assertFalse(info.isClickable());
+    }
+
+    public void testNullItemDetails_NoActionClick_PrivateSpaceDisabled() throws Exception {
+        View item = Views.createTestView(true);
+        AccessibilityNodeInfoCompat info = AccessibilityNodeInfoCompat.obtain();
+
+        List<RecyclerView.ViewHolder> holders = new ArrayList<>();
+        TestConfigStore testConfigStore = new TestConfigStore();
+        testConfigStore.disablePrivateSpaceInPhotoPicker();
+        holders.add(new MessageHolder(mView.getContext(), new Space(mView.getContext()),
+                testConfigStore) {
             @Override
             public void bind(Cursor cursor, String modelId) {
 

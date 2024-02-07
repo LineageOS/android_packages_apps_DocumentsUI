@@ -36,11 +36,11 @@ import android.provider.DocumentsContract.Path;
 import androidx.fragment.app.FragmentActivity;
 import androidx.test.filters.MediumTest;
 import androidx.test.filters.SdkSuppress;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android.documentsui.DocumentsAccess;
 import com.android.documentsui.Injector;
 import com.android.documentsui.R;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.Lookup;
@@ -56,29 +56,48 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestLastAccessedStorage;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
+
+import com.google.common.collect.Lists;
 
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
 import java.util.concurrent.Executor;
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(Parameterized.class)
 @MediumTest
 public class ActionHandlerTest {
 
     private static final String EXTRA_INTENT = "EXTRA_INTENT";
     private static final String EXTRA_USER = "EXTRA_USER";
 
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
+
     private TestEnv mEnv;
     private TestActivity mActivity;
     private TestableActionHandler<TestActivity> mHandler;
     private TestLastAccessedStorage mLastAccessed;
     private PickCountRecordStorage mPickCountRecord;
+
+    @Parameter(0)
+    public boolean isPrivateSpaceEnabled;
+
+    /**
+     * Parametrize values for {@code isPrivateSpaceEnabled} to run all the tests twice once with
+     * private space flag enabled and once with it disabled.
+     */
+    @Parameters(name = "privateSpaceEnabled={0}")
+    public static Iterable<?> data() {
+        return Lists.newArrayList(true, false);
+    }
 
     @Before
     public void setUp() {
@@ -88,6 +107,13 @@ public class ActionHandlerTest {
         mEnv.injector.pickResult = new PickResult();
         mLastAccessed = new TestLastAccessedStorage();
         mPickCountRecord = mock(PickCountRecordStorage.class);
+        mEnv.state.configStore = mTestConfigStore;
+
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+        }
 
         mHandler = new TestableActionHandler<>(
                 mActivity,
@@ -101,9 +127,6 @@ public class ActionHandlerTest {
                 mPickCountRecord
         );
 
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
-            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
-        }
 
         mEnv.selectionMgr.select("1");
 
@@ -538,7 +561,7 @@ public class ActionHandlerTest {
     @Test
     public void testOpenAppRoot_otherUser() throws Exception {
         ResolveInfo info = TestResolveInfo.create();
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
             mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
         } else {
             mEnv.state.canShareAcrossProfile = true;

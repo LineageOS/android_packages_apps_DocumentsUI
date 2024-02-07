@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2024 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,54 +16,80 @@
 
 package com.android.documentsui.dirlist;
 
+import static org.mockito.Mockito.when;
+
 import android.content.Context;
+import android.content.pm.UserProperties;
 import android.os.Bundle;
+import android.os.UserHandle;
+import android.os.UserManager;
 import android.provider.DocumentsContract;
 import android.test.AndroidTestCase;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.test.filters.MediumTest;
+import androidx.test.filters.SdkSuppress;
 
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.ModelId;
 import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.State;
+import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestFileTypeLookup;
 import com.android.documentsui.testing.TestProvidersAccess;
+import com.android.documentsui.testing.UserManagers;
 import com.android.documentsui.util.VersionUtils;
 
-@MediumTest
-public class DirectoryAddonsAdapterTest extends AndroidTestCase {
+import java.util.HashMap;
+import java.util.Map;
+
+@SdkSuppress(minSdkVersion = 35, codeName = "V")
+public class DirectoryAddonsAdapterPrivateSpaceTest extends AndroidTestCase {
 
     private static final String AUTHORITY = "test_authority";
+    private static final UserId CURRENT_USER = TestProvidersAccess.USER_ID;
+    private static final UserId SELECTED_USER = TestProvidersAccess.OtherUser.USER_ID;
 
     private TestEnv mEnv;
     private DirectoryAddonsAdapter mAdapter;
     private ActionHandler mActionHandler;
     private TestConfigStore mTestConfigStore;
+    private UserManager mUserManager;
 
+    /**
+     * set up for the test assuming that private space is enabled.
+     */
     public void setUp() {
 
         mEnv = TestEnv.create(AUTHORITY);
         mActionHandler = new TestActionHandler();
         mEnv.clear();
         mTestConfigStore = new TestConfigStore();
+        mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+        mUserManager = UserManagers.create();
+
+        UserProperties selectedUserProperties = new UserProperties.Builder().setShowInQuietMode(
+                UserProperties.SHOW_IN_QUIET_MODE_HIDDEN).build();
+        when(mUserManager.getUserProperties(
+                UserHandle.of(SELECTED_USER.getIdentifier()))).thenReturn(selectedUserProperties);
 
         final Context testContext = TestContext.createStorageTestContext(getContext(), AUTHORITY);
         DocumentsAdapter.Environment env = new TestEnvironment(testContext, mEnv, mActionHandler);
+        Map<UserId, String> userIdToLabelMap = new HashMap<>();
+        userIdToLabelMap.put(CURRENT_USER, "Personal");
+        userIdToLabelMap.put(SELECTED_USER, "Profile");
 
         mAdapter = new DirectoryAddonsAdapter(
                 env,
                 new ModelBackedDocumentsAdapter(
                         env,
                         new IconHelper(testContext, State.MODE_GRID, /* maybeShowBadge= */ false,
-                                null, TestProvidersAccess.OtherUser.USER_ID, null,
                                 mTestConfigStore),
-                        new TestFileTypeLookup(), mTestConfigStore), mTestConfigStore);
+                        new TestFileTypeLookup(), mTestConfigStore),
+                CURRENT_USER, SELECTED_USER, userIdToLabelMap, mUserManager, mTestConfigStore);
 
         mEnv.model.addUpdateListener(mAdapter.getModelUpdateListener());
     }

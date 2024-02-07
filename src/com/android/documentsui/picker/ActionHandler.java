@@ -82,8 +82,8 @@ class ActionHandler<T extends FragmentActivity & Addons> extends AbstractActionH
     private static final String TAG = "PickerActionHandler";
 
     /**
-     * Used to prevent applications from using {@link Intent.ACTION_OPEN_DOCUMENT_TREE} and
-     * the {@link Intent.ACTION_OPEN_DOCUMENT} actions to request that the user select individual
+     * Used to prevent applications from using {@link Intent#ACTION_OPEN_DOCUMENT_TREE} and
+     * the {@link Intent#ACTION_OPEN_DOCUMENT} actions to request that the user select individual
      * files from "/Android/data", "/Android/obb", "/Android/sandbox" directories and all their
      * subdirectories (on the external storage), in accordance with the SAF privacy restrictions
      * introduced in Android 11 (R).

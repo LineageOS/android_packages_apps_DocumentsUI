@@ -29,12 +29,14 @@ import android.content.pm.ResolveInfo;
 import androidx.test.filters.MediumTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.android.documentsui.TestConfigStore;
+import com.android.documentsui.TestUserManagerState;
 import com.android.documentsui.base.RootInfo;
-import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
+import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
-import com.android.documentsui.util.FeatureFlagUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.collect.Lists;
 
@@ -59,6 +61,9 @@ public class RootsFragmentTest {
     private Context mContext;
     private DevicePolicyManager mDevicePolicyManager;
     private RootsFragment mRootsFragment;
+    private TestEnv mEnv;
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
+    private final TestUserManagerState mTestUserManagerState = new TestUserManagerState();
 
     private static final String[] EXPECTED_SORTED_RESULT = {
             TestProvidersAccess.RECENTS.title,
@@ -88,27 +93,36 @@ public class RootsFragmentTest {
 
     @Before
     public void setUp() {
+        mEnv = TestEnv.create();
+        mEnv.state.configStore = mTestConfigStore;
+
         mContext = mock(Context.class);
         mDevicePolicyManager = mock(DevicePolicyManager.class);
         when(mContext.getResources()).thenReturn(
                 InstrumentationRegistry.getInstrumentation().getTargetContext().getResources());
         when(mContext.getSystemService(Context.DEVICE_POLICY_SERVICE))
                 .thenReturn(mDevicePolicyManager);
+        when(mContext.getApplicationContext()).thenReturn(
+                InstrumentationRegistry.getInstrumentation().getTargetContext());
 
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mTestUserManagerState.canFrowardToProfileIdMap.put(UserId.DEFAULT_USER, true);
+        }
         mRootsFragment = new RootsFragment();
     }
 
     @Test
     public void testSortLoadResult_WithCorrectOrder() {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) return;
         List<Item> items = mRootsFragment.sortLoadResult(
                 mContext,
-                new State(),
+                mEnv.state,
                 createFakeRootInfoList(),
                 null /* excludePackage */, null /* handlerAppIntent */, new TestProvidersAccess(),
                 UserId.DEFAULT_USER,
                 Collections.singletonList(UserId.DEFAULT_USER),
-                /* maybeShowBadge */ false);
+                /* maybeShowBadge */ false, mTestUserManagerState);
         assertTrue(assertSortedResult(items));
     }
 

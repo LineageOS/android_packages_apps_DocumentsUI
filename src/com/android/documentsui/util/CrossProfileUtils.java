@@ -62,8 +62,9 @@ public class CrossProfileUtils {
      */
     @Nullable
     public static ResolveInfo getCrossProfileResolveInfo(UserId currentUser,
-            PackageManager packageManager, Intent intent, Context context) {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled() && SdkLevel.isAtLeastV()) {
+            PackageManager packageManager, Intent intent, Context context,
+            boolean isPrivateSpaceEnabled) {
+        if (isPrivateSpaceEnabled && SdkLevel.isAtLeastV()) {
             return getCrossProfileResolveInfoPostV(currentUser, packageManager,
                     intent, context);
         }

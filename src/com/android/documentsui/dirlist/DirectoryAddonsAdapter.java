@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.Model;
 import com.android.documentsui.Model.Update;
 import com.android.documentsui.base.EventListener;
@@ -30,7 +31,6 @@ import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.Message.HeaderMessage;
 import com.android.documentsui.dirlist.Message.InflateMessage;
-import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -52,24 +52,29 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
     // now.
     private final Message mHeaderMessage;
     private final Message mInflateMessage;
+    private final ConfigStore mConfigStore;
 
-    DirectoryAddonsAdapter(Environment environment, DocumentsAdapter delegate) {
-        this(environment, delegate, null, null, null, null);
+    DirectoryAddonsAdapter(Environment environment, DocumentsAdapter delegate,
+            ConfigStore configStore) {
+        this(environment, delegate, null, null, null, null, configStore);
     }
 
     DirectoryAddonsAdapter(Environment environment, DocumentsAdapter delegate,
             @Nullable UserId sourceUserId, @Nullable UserId selectedUserId,
-            @Nullable Map<UserId, String> userIdLabelMap, UserManager userManager) {
+            @Nullable Map<UserId, String> userIdLabelMap, @Nullable UserManager userManager,
+            ConfigStore configStore) {
         mEnv = environment;
         mDelegate = delegate;
+        mConfigStore = configStore;
         // TODO: We should not instantiate the messages here, but rather instantiate them
         // when we get an update event.
-        mHeaderMessage = new HeaderMessage(environment, this::onDismissHeaderMessage);
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        mHeaderMessage = new HeaderMessage(environment, this::onDismissHeaderMessage, mConfigStore);
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             mInflateMessage = new InflateMessage(environment, this::onDismissHeaderMessage,
-                    sourceUserId, selectedUserId, userIdLabelMap, userManager);
+                    sourceUserId, selectedUserId, userIdLabelMap, userManager, mConfigStore);
         } else {
-            mInflateMessage = new InflateMessage(environment, this::onDismissHeaderMessage);
+            mInflateMessage = new InflateMessage(environment, this::onDismissHeaderMessage,
+                    mConfigStore);
         }
 
         // Relay events published by our delegate to our listeners (presumably RecyclerView)
@@ -114,15 +119,15 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
         DocumentHolder holder = null;
         switch (viewType) {
             case ITEM_TYPE_SECTION_BREAK:
-                holder = new TransparentDividerDocumentHolder(mEnv.getContext());
+                holder = new TransparentDividerDocumentHolder(mEnv.getContext(), mConfigStore);
                 mEnv.initDocumentHolder(holder);
                 break;
             case ITEM_TYPE_HEADER_MESSAGE:
-                holder = new HeaderMessageDocumentHolder(mEnv.getContext(), parent);
+                holder = new HeaderMessageDocumentHolder(mEnv.getContext(), parent, mConfigStore);
                 mEnv.initDocumentHolder(holder);
                 break;
             case ITEM_TYPE_INFLATED_MESSAGE:
-                holder = new InflateMessageDocumentHolder(mEnv.getContext(), parent);
+                holder = new InflateMessageDocumentHolder(mEnv.getContext(), parent, mConfigStore);
                 mEnv.initDocumentHolder(holder);
                 break;
             default:

@@ -65,7 +65,6 @@ import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
 import com.android.documentsui.util.CrossProfileUtils;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 
 import java.util.Collection;
@@ -171,11 +170,11 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
     }
 
     private AppsRowManager getAppsRowManager() {
-        return FeatureFlagUtils.isPrivateSpaceEnabled()
+        return mConfigStore.isPrivateSpaceInDocsUIEnabled()
                 ? new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                mUserManagerState)
+                mUserManagerState, mConfigStore)
                 : new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                        mUserIdManager);
+                        mUserIdManager, mConfigStore);
     }
 
     @Override
@@ -231,11 +230,12 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
         moreApps.setComponent(null);
         moreApps.setPackage(null);
         if (mState.supportsCrossProfile) {
-            if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
                 mState.canForwardToProfileIdMap = mUserManagerState.getCanForwardToProfileIdMap(
                         moreApps);
             } else if (CrossProfileUtils.getCrossProfileResolveInfo(UserId.CURRENT_USER,
-                    getPackageManager(), moreApps, getApplicationContext()) != null) {
+                    getPackageManager(), moreApps, getApplicationContext(),
+                    mConfigStore.isPrivateSpaceInDocsUIEnabled()) != null) {
                 mState.canShareAcrossProfile = true;
             }
         }
