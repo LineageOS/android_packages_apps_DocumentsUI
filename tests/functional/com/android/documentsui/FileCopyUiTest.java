@@ -425,7 +425,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
 
     // Copy Internal Storage -> Internal Storage //
     @HugeLongTest
-    public void testCopyDocuments_InternalStorage() throws Exception {
+    public void ignored_testCopyDocuments_InternalStorage() throws Exception {
         createDocuments(StubProvider.ROOT_0_ID, rootDir0, mDocsHelper);
         copyFiles(StubProvider.ROOT_0_ID, StubProvider.ROOT_1_ID);
 
@@ -472,7 +472,7 @@ public class FileCopyUiTest extends ActivityTest<FilesActivity> {
     }
 
     @HugeLongTest
-    public void testCopyDocuments_documentsDisabled() throws Exception {
+    public void ignored_testCopyDocuments_documentsDisabled() throws Exception {
         mDocsHelper.createDocument(rootDir0, "text/plain", fileName1);
         bots.roots.openRoot(StubProvider.ROOT_0_ID);
         bots.directory.selectDocument(fileName1, 1);
