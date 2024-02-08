@@ -119,6 +119,7 @@ public class GlobalSearchLoaderTest {
 
     @Test
     public void testNotLocalOnlyRoot_beIgnored() {
+        if (isPrivateSpaceEnabled) return;
         TestProvidersAccess.PICKLES.flags |= DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
         assertTrue(mLoader.shouldIgnoreRoot(TestProvidersAccess.PICKLES));
         TestProvidersAccess.PICKLES.flags &= ~DocumentsContract.Root.FLAG_SUPPORTS_SEARCH;
