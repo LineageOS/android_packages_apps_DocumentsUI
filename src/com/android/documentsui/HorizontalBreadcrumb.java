@@ -67,7 +67,6 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
         mLayoutManager = new HorizontalBreadcrumbLinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new BreadcrumbAdapter(state, env, this::onKey);
-        mAdapter.setHasStableIds(true);
         // Since we are using GestureDetector to detect click events, a11y services don't know which
         // views are clickable because we aren't using View.OnClickListener. Thus, we need to use a
         // custom accessibility delegate to route click events correctly.
