@@ -32,13 +32,13 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import com.android.documentsui.CrossProfileQuietModeException;
 import com.android.documentsui.Model;
 import com.android.documentsui.R;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
@@ -63,6 +63,7 @@ public final class InflateMessageDocumentHolderTest {
     private Message mInflateMessage;
     private TestActionHandler mTestActionHandler = new TestActionHandler();
     private InflateMessageDocumentHolder mHolder;
+    private TestConfigStore mTestConfigStore = new TestConfigStore();
 
     @Parameter(0)
     public boolean isPrivateSpaceEnabled;
@@ -86,7 +87,9 @@ public final class InflateMessageDocumentHolderTest {
         mContext.setTheme(R.style.DocumentsTheme);
         mContext.getTheme().applyStyle(R.style.DocumentsDefaultTheme,  /* force= */false);
 
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
             Map<UserId, String> userIdToLabelMap = new HashMap<>();
             userIdToLabelMap.put(TestProvidersAccess.USER_ID, "Personal");
             userIdToLabelMap.put(TestProvidersAccess.OtherUser.USER_ID, "Work");
@@ -112,12 +115,13 @@ public final class InflateMessageDocumentHolderTest {
 
             mInflateMessage = new Message.InflateMessage(env, mDefaultCallback,
                     TestProvidersAccess.USER_ID,
-                    TestProvidersAccess.OtherUser.USER_ID, userIdToLabelMap, userManager);
+                    TestProvidersAccess.OtherUser.USER_ID, userIdToLabelMap, userManager,
+                    mTestConfigStore);
         } else {
-            mInflateMessage = new Message.InflateMessage(env, mDefaultCallback);
+            mInflateMessage = new Message.InflateMessage(env, mDefaultCallback, mTestConfigStore);
             env.getDisplayState().canShareAcrossProfile = true;
         }
-        mHolder = new InflateMessageDocumentHolder(mContext, /* parent= */null);
+        mHolder = new InflateMessageDocumentHolder(mContext, /* parent= */null, mTestConfigStore);
     }
 
     @Test

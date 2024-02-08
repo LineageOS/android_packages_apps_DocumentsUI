@@ -61,7 +61,6 @@ import com.android.documentsui.services.FileOperationService;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.ui.DialogController;
 import com.android.documentsui.ui.MessageBuilder;
-import com.android.documentsui.util.FeatureFlagUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,11 +201,11 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
     }
 
     private AppsRowManager getAppsRowManager() {
-        return FeatureFlagUtils.isPrivateSpaceEnabled()
+        return mConfigStore.isPrivateSpaceInDocsUIEnabled()
                 ? new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                mUserManagerState)
+                mUserManagerState, mConfigStore)
                 : new AppsRowManager(mInjector.actions, mState.supportsCrossProfile(),
-                        mUserIdManager);
+                        mUserIdManager, mConfigStore);
     }
 
     // This is called in the intent contains label and icon resources.
@@ -298,6 +297,11 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         if (mProviders.getRootBlocking(root.userId, root.authority, root.rootId) == null) {
             finish();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
     @Override

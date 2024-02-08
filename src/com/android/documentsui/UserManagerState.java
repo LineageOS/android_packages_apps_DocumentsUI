@@ -47,7 +47,6 @@ import androidx.annotation.VisibleForTesting;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.util.CrossProfileUtils;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
 
@@ -113,6 +112,7 @@ public interface UserManagerState {
         private final UserId mCurrentUser;
         private final boolean mIsDeviceSupported;
         private final UserManager mUserManager;
+        private final ConfigStore mConfigStore;
         /**
          * List of all the {@link UserId} that have the {@link UserProperties.ShowInSharingSurfaces}
          * set as `SHOW_IN_SHARING_SURFACES_SEPARATE` OR it is a system/personal user
@@ -158,20 +158,23 @@ public interface UserManagerState {
 
         private RuntimeUserManagerState(Context context) {
             this(context, UserId.CURRENT_USER,
-                    Features.CROSS_PROFILE_TABS && isDeviceSupported(context));
+                    Features.CROSS_PROFILE_TABS && isDeviceSupported(context),
+                    DocumentsApplication.getConfigStore(context));
         }
 
         @VisibleForTesting
-        RuntimeUserManagerState(Context context, UserId currentUser, boolean isDeviceSupported) {
+        RuntimeUserManagerState(Context context, UserId currentUser, boolean isDeviceSupported,
+                ConfigStore configStore) {
             mContext = context.getApplicationContext();
             mCurrentUser = checkNotNull(currentUser);
             mIsDeviceSupported = isDeviceSupported;
             mUserManager = mContext.getSystemService(UserManager.class);
+            mConfigStore = configStore;
 
             IntentFilter filter = new IntentFilter();
             filter.addAction(Intent.ACTION_MANAGED_PROFILE_ADDED);
             filter.addAction(Intent.ACTION_MANAGED_PROFILE_REMOVED);
-            if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            if (SdkLevel.isAtLeastV() && mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
                 filter.addAction(Intent.ACTION_PROFILE_ADDED);
                 filter.addAction(Intent.ACTION_PROFILE_REMOVED);
             }
@@ -551,7 +554,8 @@ public interface UserManagerState {
             }
 
             if (needToCheck != null && CrossProfileUtils.getCrossProfileResolveInfo(mCurrentUser,
-                    mContext.getPackageManager(), intent, mContext) != null) {
+                    mContext.getPackageManager(), intent, mContext,
+                    mConfigStore.isPrivateSpaceInDocsUIEnabled()) != null) {
                 if (parentOrDelegatedFromParent.contains(needToCheck)) {
                     canForwardToProfileIds.addAll(parentOrDelegatedFromParent);
                 } else {
@@ -602,7 +606,7 @@ public interface UserManagerState {
                         mCanFrowardToProfileIdMap.put(userId,
                                 CrossProfileUtils.getCrossProfileResolveInfo(
                                         mCurrentUser, mContext.getPackageManager(), intent,
-                                        mContext)
+                                        mContext, mConfigStore.isPrivateSpaceInDocsUIEnabled())
                                         != null);
                     }
                 }

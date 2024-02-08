@@ -19,6 +19,7 @@ package com.android.documentsui.testing;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.dirlist.IconHelper;
 
@@ -28,8 +29,8 @@ public class TestIconHelper extends IconHelper {
 
     public Drawable nextDocumentIcon;
 
-    private TestIconHelper() {
-        super(null, 0, false);
+    private TestIconHelper(ConfigStore configStore) {
+        super(null, 0, false, configStore);
     }
 
     @Override

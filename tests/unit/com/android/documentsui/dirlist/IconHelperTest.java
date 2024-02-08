@@ -24,11 +24,11 @@ import android.os.UserHandle;
 import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.TestUserManagerState;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
@@ -50,6 +50,7 @@ public final class IconHelperTest {
     private IconHelper mIconHelper;
     private ThumbnailCache mThumbnailCache = new ThumbnailCache(1000);
     private final TestUserManagerState mTestUserManagerState = new TestUserManagerState();
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
 
     @Parameter(0)
     public boolean isPrivateSpaceEnabled;
@@ -66,12 +67,15 @@ public final class IconHelperTest {
     @Before
     public void setUp() {
         mContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        mIconHelper = FeatureFlagUtils.isPrivateSpaceEnabled()
+
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        mIconHelper = isPrivateSpaceEnabled
                 ? new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ true,
-                mThumbnailCache, null, mTestUserManagerState)
+                mThumbnailCache, null, mTestUserManagerState, mTestConfigStore)
                 : new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ true,
-                        mThumbnailCache, mManagedUser, null);
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                        mThumbnailCache, mManagedUser, null, mTestConfigStore);
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
             mTestUserManagerState.userIds = SdkLevel.isAtLeastV()
                     ? Lists.newArrayList(mSystemUser, mManagedUser, mPrivateUser)
                     : Lists.newArrayList(mSystemUser, mManagedUser);
@@ -90,54 +94,49 @@ public final class IconHelperTest {
 
     @Test
     public void testShouldShowBadge_returnTrue_onPrivateUser() {
-        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV() || !isPrivateSpaceEnabled) return;
         assertThat(mIconHelper.shouldShowBadge(mPrivateUser.getIdentifier())).isTrue();
     }
 
     @Test
-    public void testShouldShowBadge_returnFalseOnManagedUser_doNotShowBadge() {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
-            mTestUserManagerState.userIds = Lists.newArrayList(mSystemUser, mManagedUser);
-            mIconHelper = new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ false,
-                    mThumbnailCache, null, mTestUserManagerState);
-        } else {
-            mIconHelper = new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ false,
-                    mThumbnailCache, mManagedUser, null);
-        }
+    public void testShouldShowBadge_returnFalse_onManagedUser_doNotShowBadge() {
+        if (isPrivateSpaceEnabled) return;
+        mIconHelper = new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ false,
+                mThumbnailCache, mManagedUser, null, mTestConfigStore);
         assertThat(mIconHelper.shouldShowBadge(mManagedUser.getIdentifier())).isFalse();
     }
 
     @Test
     public void testShouldShowBadge_returnFalseOnPrivateUser_doNotShowBadge() {
-        if (!FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!isPrivateSpaceEnabled) return;
         mIconHelper = new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ false,
-                mThumbnailCache, null, mTestUserManagerState);
+                mThumbnailCache, null, mTestUserManagerState, mTestConfigStore);
         assertThat(mIconHelper.shouldShowBadge(mPrivateUser.getIdentifier())).isFalse();
     }
 
     @Test
     public void testShouldShowBadge_returnFalseOnManagedUser_withoutManagedUser() {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (isPrivateSpaceEnabled) return;
         mIconHelper = new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ true,
-                mThumbnailCache, /* mManagedUser= */ null, null);
+                mThumbnailCache, /* mManagedUser= */ null, null, mTestConfigStore);
         assertThat(mIconHelper.shouldShowBadge(mManagedUser.getIdentifier())).isFalse();
     }
 
     @Test
     public void testShouldShowBadge_returnFalseOnManagedUser_withoutMultipleUsers() {
-        if (!FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!isPrivateSpaceEnabled) return;
         mTestUserManagerState.userIds = Lists.newArrayList(mManagedUser);
         mIconHelper = new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ true,
-                mThumbnailCache, /* mManagedUser= */ null, mTestUserManagerState);
+                mThumbnailCache, /* mManagedUser= */ null, mTestUserManagerState, mTestConfigStore);
         assertThat(mIconHelper.shouldShowBadge(mManagedUser.getIdentifier())).isFalse();
     }
 
     @Test
     public void testShouldShowBadge_returnFalseOnPrivateUser_withoutMultipleUsers() {
-        if (!SdkLevel.isAtLeastV() || !FeatureFlagUtils.isPrivateSpaceEnabled()) return;
+        if (!SdkLevel.isAtLeastV() || !isPrivateSpaceEnabled) return;
         mTestUserManagerState.userIds = Lists.newArrayList(mPrivateUser);
         mIconHelper = new IconHelper(mContext, State.MODE_LIST, /* maybeShowBadge= */ true,
-                mThumbnailCache, /* mManagedUser= */ null, mTestUserManagerState);
+                mThumbnailCache, /* mManagedUser= */ null, mTestUserManagerState, mTestConfigStore);
         assertThat(mIconHelper.shouldShowBadge(mPrivateUser.getIdentifier())).isFalse();
     }
 }

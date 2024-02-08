@@ -113,7 +113,6 @@ import com.android.documentsui.services.FileOperationService.OpType;
 import com.android.documentsui.services.FileOperations;
 import com.android.documentsui.sorting.SortDimension;
 import com.android.documentsui.sorting.SortModel;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
 import com.android.modules.utils.build.SdkLevel;
 
@@ -242,7 +241,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            if (SdkLevel.isAtLeastV()
+                    && mState.configStore.isPrivateSpaceInDocsUIEnabled()) {
                 profileStatusReceiverPostV(intent, action);
             } else {
                 profileStatusReceiverPreV(intent, action);
@@ -516,7 +516,8 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             mLocalState.mSelectionId = Integer.toHexString(System.identityHashCode(mRecView));
         }
 
-        mIconHelper = new IconHelper(mActivity, MODE_GRID, mState.supportsCrossProfile());
+        mIconHelper = new IconHelper(mActivity, MODE_GRID, mState.supportsCrossProfile(),
+                mState.configStore);
 
         mAdapter = getModelBackedDocumentsAdapter();
 
@@ -654,18 +655,19 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private DocumentsAdapter getModelBackedDocumentsAdapter() {
-        return FeatureFlagUtils.isPrivateSpaceEnabled()
+        return mState.configStore.isPrivateSpaceInDocsUIEnabled()
                 ? new DirectoryAddonsAdapter(
                 mAdapterEnv, new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper,
-                mInjector.fileTypeLookup),
+                mInjector.fileTypeLookup, mState.configStore),
                 UserId.CURRENT_USER,
                 mActivity.getSelectedUser(),
                 DocumentsApplication.getUserManagerState(getContext()).getUserIdToLabelMap(),
-                getContext().getSystemService(UserManager.class))
+                getContext().getSystemService(UserManager.class), mState.configStore)
                 : new DirectoryAddonsAdapter(
                         mAdapterEnv,
                         new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper,
-                                mInjector.fileTypeLookup));
+                                mInjector.fileTypeLookup, mState.configStore),
+                        mState.configStore);
     }
 
     @Override

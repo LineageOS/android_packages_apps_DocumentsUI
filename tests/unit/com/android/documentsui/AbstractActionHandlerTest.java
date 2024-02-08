@@ -47,7 +47,7 @@ import com.android.documentsui.testing.TestEnv;
 import com.android.documentsui.testing.TestEventHandler;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
-import com.android.documentsui.util.FeatureFlagUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.collect.Lists;
 
@@ -69,6 +69,7 @@ import java.util.concurrent.TimeUnit;
 @MediumTest
 public class AbstractActionHandlerTest {
 
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
     private TestActivity mActivity;
     private TestEnv mEnv;
     private AbstractActionHandler<TestActivity> mHandler;
@@ -90,7 +91,11 @@ public class AbstractActionHandlerTest {
         mEnv = TestEnv.create();
         mActivity = TestActivity.create(mEnv);
         mActivity.userManager = UserManagers.create();
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        mEnv.state.configStore = mTestConfigStore;
+
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
             mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
         }
         mHandler = new AbstractActionHandler<TestActivity>(
@@ -301,7 +306,7 @@ public class AbstractActionHandlerTest {
     @Test
     public void testCrossProfileDocuments_success() throws Exception {
         mEnv.state.action = State.ACTION_GET_CONTENT;
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
             mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
         } else {
             mEnv.state.canShareAcrossProfile = true;
@@ -332,7 +337,7 @@ public class AbstractActionHandlerTest {
     @Test
     public void testLoadCrossProfileDoc_failsWithQuietModeException() throws Exception {
         mEnv.state.action = State.ACTION_GET_CONTENT;
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
             mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
         } else {
             mEnv.state.canShareAcrossProfile = true;
@@ -417,7 +422,7 @@ public class AbstractActionHandlerTest {
                 .setNextChildDocumentsReturns(TestEnv.OtherUser.FILE_PNG);
 
         // Disallow sharing across profile
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
             mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, false);
         } else {
             mEnv.state.canShareAcrossProfile = false;
@@ -436,7 +441,7 @@ public class AbstractActionHandlerTest {
                 .isInstanceOf(CrossProfileNoPermissionException.class);
 
         // Allow sharing across profile.
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
             mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
         } else {
             mEnv.state.canShareAcrossProfile = true;

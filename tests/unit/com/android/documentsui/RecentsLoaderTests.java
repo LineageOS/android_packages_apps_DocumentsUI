@@ -40,7 +40,7 @@ import com.android.documentsui.testing.TestFileTypeLookup;
 import com.android.documentsui.testing.TestImmediateExecutor;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.UserManagers;
-import com.android.documentsui.util.FeatureFlagUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
 
@@ -61,6 +61,7 @@ public class RecentsLoaderTests {
     private TestEnv mEnv;
     private TestActivity mActivity;
     private RecentsLoader mLoader;
+    private TestConfigStore mTestConfigStore;
 
     @Parameter(0)
     public boolean isPrivateSpaceEnabled;
@@ -80,11 +81,15 @@ public class RecentsLoaderTests {
         mActivity = TestActivity.create(mEnv);
         mActivity.activityManager = ActivityManagers.create(false);
         mActivity.userManager = UserManagers.create();
+        mTestConfigStore = new TestConfigStore();
+        mEnv.state.configStore = mTestConfigStore;
 
         mEnv.state.action = State.ACTION_BROWSE;
         mEnv.state.acceptMimes = new String[]{"*/*"};
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
-            mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.USER_ID, true);
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+            mEnv.state.canForwardToProfileIdMap.put(UserId.DEFAULT_USER, true);
             mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, true);
         } else {
             mEnv.state.canShareAcrossProfile = true;
@@ -92,7 +97,7 @@ public class RecentsLoaderTests {
 
         mLoader = new RecentsLoader(mActivity, mEnv.providers, mEnv.state,
                 TestImmediateExecutor.createLookup(), new TestFileTypeLookup(),
-                UserId.DEFAULT_USER);
+                TestProvidersAccess.USER_ID);
     }
 
     @Test
@@ -194,7 +199,7 @@ public class RecentsLoaderTests {
 
     @Test
     public void testLoaderOnUserWithoutPermission() {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
             mEnv.state.canForwardToProfileIdMap.put(TestProvidersAccess.OtherUser.USER_ID, false);
         } else {
             mEnv.state.canShareAcrossProfile = false;

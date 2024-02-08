@@ -36,6 +36,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.base.DocumentInfo;
@@ -43,7 +44,6 @@ import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.roots.RootCursorWrapper;
 import com.android.documentsui.ui.Views;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import java.util.Map;
@@ -61,8 +61,9 @@ final class GridPhotoHolder extends DocumentHolder {
     // This is used in as a convenience in our bind method.
     private final DocumentInfo mDoc = new DocumentInfo();
 
-    GridPhotoHolder(Context context, ViewGroup parent, IconHelper iconHelper) {
-        super(context, parent, R.layout.item_photo_grid);
+    GridPhotoHolder(Context context, ViewGroup parent, IconHelper iconHelper,
+            ConfigStore configStore) {
+        super(context, parent, R.layout.item_photo_grid, configStore);
 
         mIconMimeLg = (ImageView) itemView.findViewById(R.id.icon_mime_lg);
         mIconThumb = (ImageView) itemView.findViewById(R.id.icon_thumb);
@@ -72,7 +73,7 @@ final class GridPhotoHolder extends DocumentHolder {
 
         mIconHelper = iconHelper;
 
-        if (SdkLevel.isAtLeastT() && !FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (SdkLevel.isAtLeastT() && !mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             setUpdatableWorkProfileIcon(context);
         }
     }

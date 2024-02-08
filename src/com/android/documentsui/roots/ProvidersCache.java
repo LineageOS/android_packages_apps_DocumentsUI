@@ -49,6 +49,7 @@ import androidx.annotation.GuardedBy;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.DocumentsApplication;
 import com.android.documentsui.R;
 import com.android.documentsui.UserIdManager;
@@ -60,7 +61,6 @@ import com.android.documentsui.base.Providers;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
-import com.android.documentsui.util.FeatureFlagUtils;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -125,17 +125,21 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
 
     private final UserIdManager mUserIdManager;
     private final UserManagerState mUserManagerState;
+    private final ConfigStore mConfigStore;
 
-    public ProvidersCache(Context context, UserIdManager userIdManager) {
+    public ProvidersCache(Context context, UserIdManager userIdManager, ConfigStore configStore) {
         mContext = context;
         mUserIdManager = userIdManager;
         mUserManagerState = null;
+        mConfigStore = configStore;
     }
 
-    public ProvidersCache(Context context, UserManagerState userManagerState) {
+    public ProvidersCache(Context context, UserManagerState userManagerState,
+            ConfigStore configStore) {
         mContext = context;
         mUserIdManager = null;
         mUserManagerState = userManagerState;
+        mConfigStore = configStore;
     }
 
     /**
@@ -719,7 +723,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     }
 
     private List<UserId> getUserIds() {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             return mUserManagerState.getUserIds();
         }
         return mUserIdManager.getUserIds();

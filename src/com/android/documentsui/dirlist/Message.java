@@ -46,6 +46,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.android.documentsui.ConfigStore;
 import com.android.documentsui.CrossProfileException;
 import com.android.documentsui.CrossProfileNoPermissionException;
 import com.android.documentsui.CrossProfileQuietModeException;
@@ -57,7 +58,6 @@ import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
 import com.android.documentsui.dirlist.DocumentsAdapter.Environment;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import java.util.HashMap;
@@ -84,10 +84,12 @@ abstract class Message {
     private boolean mShouldShow = false;
     protected boolean mShouldKeep = false;
     protected int mLayout;
+    protected ConfigStore mConfigStore;
 
-    Message(Environment env, Runnable defaultCallback) {
+    Message(Environment env, Runnable defaultCallback, ConfigStore configStore) {
         mEnv = env;
         mDefaultCallback = defaultCallback;
+        mConfigStore = configStore;
     }
 
     abstract void update(Update event);
@@ -156,8 +158,8 @@ abstract class Message {
 
         private static final String TAG = "HeaderMessage";
 
-        HeaderMessage(Environment env, Runnable callback) {
-            super(env, callback);
+        HeaderMessage(Environment env, Runnable callback, ConfigStore configStore) {
+            super(env, callback, configStore);
         }
 
         @Override
@@ -219,8 +221,8 @@ abstract class Message {
         private final boolean mCanModifyQuietMode;
         private UserManager mUserManager = null;
 
-        InflateMessage(Environment env, Runnable callback) {
-            super(env, callback);
+        InflateMessage(Environment env, Runnable callback, ConfigStore configStore) {
+            super(env, callback, configStore);
             mCanModifyQuietMode =
                     mEnv.getContext().checkSelfPermission(Manifest.permission.MODIFY_QUIET_MODE)
                             == PackageManager.PERMISSION_GRANTED;
@@ -228,8 +230,8 @@ abstract class Message {
 
         InflateMessage(Environment env, Runnable callback, UserId sourceUserId,
                 UserId selectedUserId, Map<UserId, String> userIdToLabelMap,
-                UserManager userManager) {
-            super(env, callback);
+                UserManager userManager, ConfigStore configStore) {
+            super(env, callback, configStore);
             mSourceUserId = sourceUserId;
             mSelectedUserId = selectedUserId;
             mUserIdToLabelMap = userIdToLabelMap;
@@ -239,7 +241,7 @@ abstract class Message {
         }
 
         private boolean setCanModifyQuietMode() {
-            if (SdkLevel.isAtLeastV() && FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            if (SdkLevel.isAtLeastV() && mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
                 if (mUserManager == null) {
                     Log.e(TAG, "can not obtain user manager class");
                     return false;
@@ -286,13 +288,13 @@ abstract class Message {
             String buttonText = null;
             Resources res = null;
             String selectedProfile = null;
-            if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+            if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
                 res = mEnv.getContext().getResources();
                 assert mUserIdToLabelMap != null;
                 selectedProfile = mUserIdToLabelMap.get(userId);
             }
             if (mCanModifyQuietMode) {
-                buttonText = FeatureFlagUtils.isPrivateSpaceEnabled()
+                buttonText = mConfigStore.isPrivateSpaceInDocsUIEnabled()
                         ? res.getString(R.string.profile_quiet_mode_button,
                         selectedProfile.toLowerCase(Locale.getDefault()))
                         : getEnterpriseString(
@@ -301,7 +303,7 @@ abstract class Message {
                         mEnv.getDisplayState().stack.getRoot(), userId);
             }
 
-            update(FeatureFlagUtils.isPrivateSpaceEnabled()
+            update(mConfigStore.isPrivateSpaceInDocsUIEnabled()
                             ? res.getString(R.string.profile_quiet_mode_error_title,
                             selectedProfile)
                             : getEnterpriseString(
@@ -324,11 +326,11 @@ abstract class Message {
                 case State.ACTION_GET_CONTENT:
                 case State.ACTION_OPEN:
                 case State.ACTION_OPEN_TREE:
-                    return FeatureFlagUtils.isPrivateSpaceEnabled()
+                    return mConfigStore.isPrivateSpaceInDocsUIEnabled()
                             ? getErrorTitlePrivateSpaceEnabled(ACCESS_CROSS_PROFILE_FILES)
                             : getErrorTitlePrivateSpaceDisabled(ACCESS_CROSS_PROFILE_FILES);
                 case State.ACTION_CREATE:
-                    return FeatureFlagUtils.isPrivateSpaceEnabled()
+                    return mConfigStore.isPrivateSpaceInDocsUIEnabled()
                             ? getErrorTitlePrivateSpaceEnabled(State.ACTION_CREATE)
                             : getErrorTitlePrivateSpaceDisabled(State.ACTION_CREATE);
             }
@@ -378,11 +380,11 @@ abstract class Message {
                 case State.ACTION_GET_CONTENT:
                 case State.ACTION_OPEN:
                 case State.ACTION_OPEN_TREE:
-                    return FeatureFlagUtils.isPrivateSpaceEnabled()
+                    return mConfigStore.isPrivateSpaceInDocsUIEnabled()
                             ? getErrorMessagePrivateSpaceEnabled(ACCESS_CROSS_PROFILE_FILES)
                             : getErrorMessagePrivateSpaceDisabled(ACCESS_CROSS_PROFILE_FILES);
                 case State.ACTION_CREATE:
-                    return FeatureFlagUtils.isPrivateSpaceEnabled()
+                    return mConfigStore.isPrivateSpaceInDocsUIEnabled()
                             ? getErrorMessagePrivateSpaceEnabled(State.ACTION_CREATE)
                             : getErrorMessagePrivateSpaceDisabled(State.ACTION_CREATE);
 

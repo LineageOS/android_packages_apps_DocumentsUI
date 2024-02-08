@@ -33,7 +33,6 @@ import androidx.annotation.RequiresApi;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.State;
 import com.android.documentsui.base.UserId;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.modules.utils.build.SdkLevel;
 
 import com.google.android.material.tabs.TabLayout;
@@ -59,6 +58,7 @@ public class ProfileTabs implements ProfileTabsAddons {
     private final UserIdManager mUserIdManager;
     @Nullable
     private final UserManagerState mUserManagerState;
+    private final ConfigStore mConfigStore;
     private List<UserId> mUserIds;
     @Nullable
     private Listener mListener;
@@ -67,25 +67,26 @@ public class ProfileTabs implements ProfileTabsAddons {
 
     public ProfileTabs(View tabLayoutContainer, State state, UserIdManager userIdManager,
             NavigationViewManager.Environment env,
-            AbstractActionHandler.CommonAddons commonAddons) {
-        this(tabLayoutContainer, state, userIdManager, null, env, commonAddons);
+            AbstractActionHandler.CommonAddons commonAddons, ConfigStore configStore) {
+        this(tabLayoutContainer, state, userIdManager, null, env, commonAddons, configStore);
     }
 
     public ProfileTabs(View tabLayoutContainer, State state, UserManagerState userManagerState,
             NavigationViewManager.Environment env,
-            AbstractActionHandler.CommonAddons commonAddons) {
-        this(tabLayoutContainer, state, null, userManagerState, env, commonAddons);
+            AbstractActionHandler.CommonAddons commonAddons, ConfigStore configStore) {
+        this(tabLayoutContainer, state, null, userManagerState, env, commonAddons, configStore);
     }
 
     public ProfileTabs(View tabLayoutContainer, State state, @Nullable UserIdManager userIdManager,
             @Nullable UserManagerState userManagerState, NavigationViewManager.Environment env,
-            AbstractActionHandler.CommonAddons commonAddons) {
+            AbstractActionHandler.CommonAddons commonAddons, ConfigStore configStore) {
         mTabsContainer = checkNotNull(tabLayoutContainer);
         mTabs = tabLayoutContainer.findViewById(R.id.tabs);
         mState = checkNotNull(state);
         mEnv = checkNotNull(env);
         mCommonAddons = checkNotNull(commonAddons);
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        mConfigStore = configStore;
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             mUserIdManager = userIdManager;
             mUserManagerState = checkNotNull(userManagerState);
         } else {
@@ -184,7 +185,7 @@ public class ProfileTabs implements ProfileTabsAddons {
             mUserIds.addAll(userIds);
             mTabs.removeAllTabs();
             if (mUserIds.size() > 1) {
-                if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+                if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
                     addTabsPrivateSpaceEnabled();
                 } else {
                     addTabsPrivateSpaceDisabled();
@@ -194,7 +195,7 @@ public class ProfileTabs implements ProfileTabsAddons {
     }
 
     private List<UserId> getUserIds() {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (mConfigStore.isPrivateSpaceInDocsUIEnabled()) {
             assert mUserManagerState != null;
             return mUserManagerState.getUserIds();
         }

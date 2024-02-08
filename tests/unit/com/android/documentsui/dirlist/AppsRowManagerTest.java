@@ -35,6 +35,7 @@ import androidx.test.InstrumentationRegistry;
 import com.android.documentsui.ActionHandler;
 import com.android.documentsui.BaseActivity;
 import com.android.documentsui.R;
+import com.android.documentsui.TestConfigStore;
 import com.android.documentsui.TestUserIdManager;
 import com.android.documentsui.TestUserManagerState;
 import com.android.documentsui.base.State;
@@ -45,8 +46,8 @@ import com.android.documentsui.sidebar.RootItem;
 import com.android.documentsui.testing.TestActionHandler;
 import com.android.documentsui.testing.TestProvidersAccess;
 import com.android.documentsui.testing.TestResolveInfo;
-import com.android.documentsui.util.FeatureFlagUtils;
 import com.android.documentsui.util.VersionUtils;
+import com.android.modules.utils.build.SdkLevel;
 
 import com.google.common.collect.Lists;
 
@@ -74,6 +75,7 @@ public class AppsRowManagerTest {
 
     private View mAppsRow;
     private LinearLayout mAppsGroup;
+    private final TestConfigStore mTestConfigStore = new TestConfigStore();
 
     @Parameter(0)
     public boolean isPrivateSpaceEnabled;
@@ -102,29 +104,39 @@ public class AppsRowManagerTest {
         mAppsRow = layoutInflater.inflate(R.layout.apps_row, null);
         mAppsGroup = mAppsRow.findViewById(R.id.apps_row);
 
+        mState.configStore = mTestConfigStore;
+
         when(mActivity.getLayoutInflater()).thenReturn(layoutInflater);
         when(mActivity.getDisplayState()).thenReturn(mState);
         when(mActivity.findViewById(R.id.apps_row)).thenReturn(mAppsRow);
         when(mActivity.findViewById(R.id.apps_group)).thenReturn(mAppsGroup);
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.USER_ID);
+
+        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        if (isPrivateSpaceEnabled) {
+            mTestConfigStore.enablePrivateSpaceInPhotoPicker();
+        }
     }
 
     private AppsRowManager getAppsRowManager() {
-        if (FeatureFlagUtils.isPrivateSpaceEnabled()) {
+        if (isPrivateSpaceEnabled) {
             mTestUserManagerState = new TestUserManagerState();
             mTestUserManagerState.userIds =
                     Lists.newArrayList(UserId.DEFAULT_USER, TestProvidersAccess.OtherUser.USER_ID,
                             TestProvidersAccess.AnotherUser.USER_ID);
-            return new AppsRowManager(mActionHandler, mMaybeShowBadge, mTestUserManagerState);
+            return new AppsRowManager(mActionHandler, mMaybeShowBadge, mTestUserManagerState,
+                    mTestConfigStore);
         }
         mTestUserIdManager = new TestUserIdManager();
         mTestUserIdManager.userIds =
                 Lists.newArrayList(UserId.DEFAULT_USER, TestProvidersAccess.OtherUser.USER_ID);
-        return new AppsRowManager(mActionHandler, mMaybeShowBadge, mTestUserIdManager);
+        return new AppsRowManager(mActionHandler, mMaybeShowBadge, mTestUserIdManager,
+                mTestConfigStore);
     }
 
     @Test
     public void testUpdateList_byRootItem() {
+        mActivity.setConfigStore(mTestConfigStore);
         final List<Item> rootList = new ArrayList<>();
         rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
         rootList.add(new RootItem(TestProvidersAccess.PICKLES, mActionHandler, mMaybeShowBadge));
@@ -146,6 +158,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateList_byHybridItem() {
+        mActivity.setConfigStore(mTestConfigStore);
         final String testPackageName = "com.test1";
         final ResolveInfo info = TestResolveInfo.create();
         info.activityInfo.packageName = testPackageName;
@@ -168,6 +181,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_matchedState_showRow() {
+        mActivity.setConfigStore(mTestConfigStore);
         mState.action = State.ACTION_BROWSE;
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
         final List<Item> rootList = new ArrayList<>();
@@ -182,6 +196,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_showSelectedUserItems() {
+        mActivity.setConfigStore(mTestConfigStore);
         mState.action = State.ACTION_GET_CONTENT;
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
         final List<Item> rootList = new ArrayList<>();
@@ -205,6 +220,7 @@ public class AppsRowManagerTest {
         if (!VersionUtils.isAtLeastR()) {
             return;
         }
+        mActivity.setConfigStore(mTestConfigStore);
         mState.action = State.ACTION_GET_CONTENT;
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.OtherUser.USER_ID);
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
@@ -226,6 +242,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_notInRecent_hideRow() {
+        mActivity.setConfigStore(mTestConfigStore);
         mState.action = State.ACTION_BROWSE;
         final List<Item> rootList = new ArrayList<>();
         rootList.add(new RootItem(TestProvidersAccess.INSPECTOR, mActionHandler, mMaybeShowBadge));
@@ -240,6 +257,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_notHandledAction_hideRow() {
+        mActivity.setConfigStore(mTestConfigStore);
         mState.action = State.ACTION_OPEN_TREE;
 
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
@@ -254,6 +272,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_noItems_hideRow() {
+        mActivity.setConfigStore(mTestConfigStore);
         mState.action = State.ACTION_BROWSE;
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
 
@@ -267,6 +286,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_crossProfileSearch_hideRow() {
+        mActivity.setConfigStore(mTestConfigStore);
         mState.supportsCrossProfile = true;
         when(mActivity.isSearchExpanded()).thenReturn(true);
 
@@ -288,6 +308,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_notCrossProfileSearch_showRow() {
+        mActivity.setConfigStore(mTestConfigStore);
         mState.supportsCrossProfile = true;
         when(mActivity.isSearchExpanded()).thenReturn(false);
 
@@ -309,6 +330,7 @@ public class AppsRowManagerTest {
 
     @Test
     public void testUpdateView_noItemsOnSelectedUser_hideRow() {
+        mActivity.setConfigStore(mTestConfigStore);
         mState.supportsCrossProfile = true;
         mState.stack.changeRoot(TestProvidersAccess.RECENTS);
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.OtherUser.USER_ID);
