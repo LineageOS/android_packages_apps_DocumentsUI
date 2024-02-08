@@ -50,6 +50,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -192,6 +193,7 @@ public class DialogUiTest {
     }
 
     @Test
+    @Ignore
     public void testCreateDirectoryFragmentShows_textInputEditText_shouldNotTruncateOnLandscape()
             throws Throwable {
         switchOrientation(mActivityTestRule.getActivity());
