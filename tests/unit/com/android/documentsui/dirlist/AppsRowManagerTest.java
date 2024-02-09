@@ -112,14 +112,14 @@ public class AppsRowManagerTest {
         when(mActivity.findViewById(R.id.apps_group)).thenReturn(mAppsGroup);
         when(mActivity.getSelectedUser()).thenReturn(TestProvidersAccess.USER_ID);
 
-        isPrivateSpaceEnabled = SdkLevel.isAtLeastS() && isPrivateSpaceEnabled;
+        isPrivateSpaceEnabled &= SdkLevel.isAtLeastS();
         if (isPrivateSpaceEnabled) {
             mTestConfigStore.enablePrivateSpaceInPhotoPicker();
         }
     }
 
     private AppsRowManager getAppsRowManager() {
-        if (isPrivateSpaceEnabled) {
+        if (isPrivateSpaceEnabled && SdkLevel.isAtLeastS()) {
             mTestUserManagerState = new TestUserManagerState();
             mTestUserManagerState.userIds =
                     Lists.newArrayList(UserId.DEFAULT_USER, TestProvidersAccess.OtherUser.USER_ID,
