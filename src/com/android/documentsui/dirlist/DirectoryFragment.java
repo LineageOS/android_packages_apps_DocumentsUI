@@ -246,7 +246,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             } else {
                 profileStatusReceiverPreV(intent, action);
             }
-
         }
 
         private void profileStatusReceiverPostV(Intent intent, String action) {
@@ -310,16 +309,17 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
     private void onHiddenProfileStatusChange(String action, UserId userId) {
         if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
-            mActivity.setHasProfileBecomeUnavailable(true);
             if (mProviderTestRunnable != null) {
                 mHandler.removeCallbacks(mProviderTestRunnable);
                 mProviderTestRunnable = null;
             }
-            while (mState.stack.size() > 0) {
-                mState.stack.pop();
+            if (!mActivity.isSearchExpanded()) {
+                if (mActivity.getLastSelectedUser() != null
+                        && mActivity.getLastSelectedUser().equals(userId)) {
+                    mState.stack.reset(mActivity.getInitialStack());
+                }
+                mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_NONE);
             }
-            mActivity.updateNavigator();
-            mActivity.setHasProfileBecomeUnavailable(false);
         } else {
             checkUriAndScheduleCheckIfNeeded(userId);
         }

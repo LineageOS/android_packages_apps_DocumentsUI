@@ -352,6 +352,8 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
         final RootInfo root = getCurrentRoot();
         final DocumentInfo cwd = getCurrentDirectory();
 
+        setInitialStack(mState.stack);
+
         assert (!mSearchManager.isSearching());
 
         if (mState.stack.isRecents()) {

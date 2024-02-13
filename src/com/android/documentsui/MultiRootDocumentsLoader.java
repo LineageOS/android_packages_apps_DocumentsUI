@@ -59,7 +59,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-/*
+/**
  * The abstract class to query multiple roots from {@link android.provider.DocumentsProvider}
  * and return the combined result.
  */
@@ -88,7 +88,7 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
     private LockingContentObserver mObserver;
 
     @GuardedBy("mTasks")
-    /** A authority -> QueryTask map */
+    /* A authority -> QueryTask map */
     private final Map<String, QueryTask> mTasks = new HashMap<>();
 
     private CountDownLatch mFirstPassLatch;
@@ -96,7 +96,7 @@ public abstract class MultiRootDocumentsLoader extends AsyncTaskLoader<Directory
 
     private DirectoryResult mResult;
 
-    /*
+    /**
      * Create the loader to query roots from {@link android.provider.DocumentsProvider}.
      *
      * @param context the context

@@ -71,7 +71,8 @@ public class NavigationViewManager implements AppBarLayout.OnOffsetChangedListen
     private final ConfigStore mConfigStore;
 
     private boolean mIsActionModeActivated = false;
-    private @ColorRes int mDefaultStatusBarColorResId;
+    @ColorRes
+    private int mDefaultStatusBarColorResId;
 
     public NavigationViewManager(
             BaseActivity activity,

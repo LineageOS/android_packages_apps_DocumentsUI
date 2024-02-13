@@ -262,13 +262,15 @@ public class DocumentsApplication extends Application {
                 final String packageName = data.getSchemeSpecificPart();
                 mProviders.updatePackageAsync(UserId.DEFAULT_USER, packageName);
             } else if (PROFILE_FILTER_ACTIONS.contains(action)) {
-                // After we have reloaded roots. Resend the broadcast locally so the other
-                // components can reload properly after roots are updated.
+                // Make the changes to UserManagerState object before calling providers updateAsync
+                // so that providers for all the users are loaded
                 if (getConfigStore().isPrivateSpaceInDocsUIEnabled()) {
                     UserHandle userHandle = intent.getParcelableExtra(Intent.EXTRA_USER);
                     UserId userId = UserId.of(userHandle);
                     getUserManagerState(context).onProfileActionStatusChange(action, userId);
                 }
+                // After we have reloaded roots. Resend the broadcast locally so the other
+                // components can reload properly after roots are updated.
                 mProviders.updateAsync(/* forceRefreshAll= */ true,
                         () -> LocalBroadcastManager.getInstance(context).sendBroadcast(intent));
             } else {

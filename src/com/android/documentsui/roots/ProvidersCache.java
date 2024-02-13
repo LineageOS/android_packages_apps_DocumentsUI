@@ -127,7 +127,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
     /**
      * Generates recent root for the provided user id
      */
-    public RootInfo generateRecentsRoot(UserId rootUserId) {
+    private RootInfo generateRecentsRoot(UserId rootUserId) {
         return new RootInfo() {{
             // Special root for recents
             userId = rootUserId;
@@ -537,7 +537,7 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
 
             final long start = SystemClock.elapsedRealtime();
 
-            List<UserId> userIds = getUserIds();
+            List<UserId> userIds = new ArrayList<>(getUserIds());
             for (UserId userId : userIds) {
                 final RootInfo recents = createOrGetRecentsRoot(userId);
                 synchronized (mLock) {

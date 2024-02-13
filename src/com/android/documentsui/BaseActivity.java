@@ -54,6 +54,7 @@ import com.android.documentsui.AbstractActionHandler.CommonAddons;
 import com.android.documentsui.Injector.Injected;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.base.DocumentInfo;
+import com.android.documentsui.base.DocumentStack;
 import com.android.documentsui.base.EventHandler;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
@@ -87,6 +88,7 @@ public abstract class BaseActivity
         extends AppCompatActivity implements CommonAddons, NavigationViewManager.Environment {
 
     private static final String BENCHMARK_TESTING_PACKAGE = "com.android.documentsui.appperftests";
+    private static final String TAG = "BaseActivity";
 
     protected SearchViewManager mSearchManager;
     protected AppsRowManager mAppsRowManager;
@@ -118,10 +120,25 @@ public abstract class BaseActivity
 
     private PreferencesMonitor mPreferencesMonitor;
 
-    private boolean mHasProfileBecomeUnavailable = false;
+    private final DocumentStack mInitialStack = new DocumentStack();
+    private UserId mLastSelectedUser = null;
 
-    public void setHasProfileBecomeUnavailable(boolean hasProfileBecomeUnavailable) {
-        mHasProfileBecomeUnavailable = hasProfileBecomeUnavailable;
+    protected void setInitialStack(DocumentStack stack) {
+        if (mInitialStack.isInitialized()) {
+            if (DEBUG) {
+                Log.d(TAG, "Initial stack already initialised. " + mInitialStack.isInitialized());
+            }
+            return;
+        }
+        mInitialStack.reset(stack);
+    }
+
+    public DocumentStack getInitialStack() {
+        return mInitialStack;
+    }
+
+    public UserId getLastSelectedUser() {
+        return mLastSelectedUser;
     }
 
     public BaseActivity(@LayoutRes int layoutId, String tag) {
@@ -345,9 +362,7 @@ public abstract class BaseActivity
                 // When a profile with user property SHOW_IN_QUIET_MODE_HIDDEN is currently
                 // selected, and it becomes unavailable, we reset the roots to recents.
                 // We do not reset it to recents when pick activity is due to ACTION_CREATE_DOCUMENT
-                mInjector.actions.loadCrossProfileRoot(
-                        (mHasProfileBecomeUnavailable && mState.action != State.ACTION_CREATE)
-                                ? getRecentsRoot() : getCurrentRoot(), userId);
+                mInjector.actions.loadCrossProfileRoot(getCurrentRoot(), userId);
             }
         });
 
@@ -395,6 +410,12 @@ public abstract class BaseActivity
                 mSearchManager,
                 mInjector.actionModeController::finishActionMode);
         mRootsMonitor.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLastSelectedUser = getSelectedUser();
     }
 
     @Override
@@ -900,10 +921,6 @@ public abstract class BaseActivity
         } else {
             return mProviders.getRecentsRoot(getSelectedUser());
         }
-    }
-
-    public RootInfo getRecentsRoot() {
-        return mProviders.generateRecentsRoot(getSelectedUser());
     }
 
     @Override
