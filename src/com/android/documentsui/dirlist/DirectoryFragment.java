@@ -91,7 +91,6 @@ import com.android.documentsui.ProfileTabsController;
 import com.android.documentsui.R;
 import com.android.documentsui.ThumbnailCache;
 import com.android.documentsui.TimeoutTask;
-import com.android.documentsui.UserManagerState;
 import com.android.documentsui.base.DocumentFilters;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.DocumentStack;
@@ -310,8 +309,6 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private void onHiddenProfileStatusChange(String action, UserId userId) {
-        UserManagerState userManagerState = DocumentsApplication.getUserManagerState(mActivity);
-        userManagerState.onProfileActionStatusChange(action, userId);
         if (Intent.ACTION_PROFILE_UNAVAILABLE.equals(action)) {
             mActivity.setHasProfileBecomeUnavailable(true);
             if (mProviderTestRunnable != null) {
