@@ -98,6 +98,7 @@
               android:layout_marginEnd="@dimen/briefcase_icon_margin"
               android:layout_gravity="center_vertical"
               android:src="@drawable/ic_briefcase"
+              android:tint="?android:attr/colorAccent"
               android:contentDescription="@string/a11y_work" />
 
           <TextView

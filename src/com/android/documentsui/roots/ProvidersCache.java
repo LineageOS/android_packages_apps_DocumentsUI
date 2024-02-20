@@ -142,6 +142,10 @@ public class ProvidersCache implements ProvidersAccess, LookupApplicationName {
         mConfigStore = configStore;
     }
 
+    public boolean isProvidersCacheUsingUserManagerState() {
+        return mUserManagerState != null;
+    }
+
     /**
      * Generates recent root for the provided user id
      */

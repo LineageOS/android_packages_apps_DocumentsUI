@@ -28,6 +28,7 @@ import android.content.IntentFilter;
 import android.content.om.OverlayManager;
 import android.net.Uri;
 import android.os.RemoteException;
+import android.os.UserHandle;
 import android.text.format.DateUtils;
 import android.util.Log;
 
@@ -47,7 +48,6 @@ import com.android.modules.utils.build.SdkLevel;
 import com.google.common.collect.Lists;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.concurrent.GuardedBy;
 
@@ -83,7 +83,20 @@ public class DocumentsApplication extends Application {
     private Lookup<String, String> mFileTypeLookup;
 
     public static ProvidersCache getProvidersCache(Context context) {
-        return ((DocumentsApplication) context.getApplicationContext()).mProviders;
+        ProvidersCache providers =
+                ((DocumentsApplication) context.getApplicationContext()).mProviders;
+        final ConfigStore configStore = getConfigStore(context);
+        // When private space in DocsUI is enabled then ProvidersCache should use UserManagerState
+        // else it should use UserIdManager. The following if-check will ensure the construction of
+        // a new ProvidersCache instance whenever there is a mismatch in this.
+        if (configStore.isPrivateSpaceInDocsUIEnabled()
+                != providers.isProvidersCacheUsingUserManagerState()) {
+            providers = configStore.isPrivateSpaceInDocsUIEnabled()
+                    ? new ProvidersCache(context, getUserManagerState(context), configStore)
+                    : new ProvidersCache(context, getUserIdManager(context), configStore);
+            ((DocumentsApplication) context.getApplicationContext()).mProviders = providers;
+        }
+        return providers;
     }
 
     public static ThumbnailCache getThumbnailCache(Context context) {
@@ -111,7 +124,13 @@ public class DocumentsApplication extends Application {
     }
 
     public static UserIdManager getUserIdManager(Context context) {
-        return ((DocumentsApplication) context.getApplicationContext()).mUserIdManager;
+        UserIdManager userIdManager =
+                ((DocumentsApplication) context.getApplicationContext()).mUserIdManager;
+        if (userIdManager == null) {
+            userIdManager = UserIdManager.create(context);
+            ((DocumentsApplication) context.getApplicationContext()).mUserIdManager = userIdManager;
+        }
+        return userIdManager;
     }
 
     /**
@@ -119,9 +138,14 @@ public class DocumentsApplication extends Application {
      * cross profile access, label and badge associated with these userIds.
      */
     public static UserManagerState getUserManagerState(Context context) {
-        return Objects.requireNonNullElseGet(
-                ((DocumentsApplication) context.getApplicationContext()).mUserManagerState,
-                () -> UserManagerState.create(context));
+        UserManagerState userManagerState =
+                ((DocumentsApplication) context.getApplicationContext()).mUserManagerState;
+        if (userManagerState == null && getConfigStore(context).isPrivateSpaceInDocsUIEnabled()) {
+            userManagerState = UserManagerState.create(context);
+            ((DocumentsApplication) context.getApplicationContext()).mUserManagerState =
+                    userManagerState;
+        }
+        return userManagerState;
     }
 
     public static DragAndDropManager getDragAndDropManager(Context context) {
@@ -133,14 +157,6 @@ public class DocumentsApplication extends Application {
     }
 
     /**
-     * Set {@link #mUserManagerState} as null onDestroy of BaseActivity so that new session uses new
-     * instance of {@link #mUserManagerState}
-     */
-    public static void invalidateUserManagerState(Context context) {
-        ((DocumentsApplication) context.getApplicationContext()).mUserManagerState = null;
-    }
-
-    /**
      * Retrieve {@link ConfigStore} instance to access feature flags in production code.
      */
     public static synchronized ConfigStore getConfigStore(Context context) {
@@ -148,6 +164,22 @@ public class DocumentsApplication extends Application {
             sConfigStore = new ConfigStore.ConfigStoreImpl();
         }
         return sConfigStore;
+    }
+
+    /**
+     * Set {@link #mProviders} as null onDestroy of BaseActivity so that new session uses new
+     * instance of {@link #mProviders}
+     */
+    public static void invalidateProvidersCache(Context context) {
+        ((DocumentsApplication) context.getApplicationContext()).mProviders = null;
+    }
+
+    /**
+     * Set {@link #mUserManagerState} as null onDestroy of BaseActivity so that new session uses new
+     * instance of {@link #mUserManagerState}
+     */
+    public static void invalidateUserManagerState(Context context) {
+        ((DocumentsApplication) context.getApplicationContext()).mUserManagerState = null;
     }
 
     /**
@@ -189,13 +221,13 @@ public class DocumentsApplication extends Application {
             mUserManagerState = UserManagerState.create(this);
             mUserIdManager = null;
             synchronized (DocumentsApplication.class) {
-                mProviders = new ProvidersCache(this, mUserManagerState, sConfigStore);
+                mProviders = new ProvidersCache(this, mUserManagerState, getConfigStore(this));
             }
         } else {
             mUserManagerState = null;
             mUserIdManager = UserIdManager.create(this);
             synchronized (DocumentsApplication.class) {
-                mProviders = new ProvidersCache(this, mUserIdManager, sConfigStore);
+                mProviders = new ProvidersCache(this, mUserIdManager, getConfigStore(this));
             }
         }
 
@@ -258,6 +290,11 @@ public class DocumentsApplication extends Application {
             } else if (PROFILE_FILTER_ACTIONS.contains(action)) {
                 // After we have reloaded roots. Resend the broadcast locally so the other
                 // components can reload properly after roots are updated.
+                if (getConfigStore(context).isPrivateSpaceInDocsUIEnabled()) {
+                    UserHandle userHandle = intent.getParcelableExtra(Intent.EXTRA_USER);
+                    UserId userId = UserId.of(userHandle);
+                    getUserManagerState(context).onProfileActionStatusChange(action, userId);
+                }
                 mProviders.updateAsync(/* forceRefreshAll= */ true,
                         () -> LocalBroadcastManager.getInstance(context).sendBroadcast(intent));
             } else {
